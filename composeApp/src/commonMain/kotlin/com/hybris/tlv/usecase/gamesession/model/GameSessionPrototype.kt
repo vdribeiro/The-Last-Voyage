@@ -1,0 +1,32 @@
+package com.hybris.tlv.usecase.gamesession.model
+
+internal data class GameSessionPrototype(
+    val assignedPoints: Int,
+    val sensorRange: Int,
+    val materials: Int,
+    val fuel: Int,
+    val cryopods: Int,
+    val habitableZoneWeight: Double,
+    val planetRadiusWeight: Double,
+    val planetMassWeight: Double,
+    val planetTelluricityWeight: Double,
+    val planetEccentricityWeight: Double,
+    val planetTemperatureWeight: Double,
+    val planetObliquityWeight: Double,
+    val planetEsiWeight: Double,
+    val stellarSpectralTypeWeight: Double,
+    val stellarMassWeight: Double,
+    val stellarAgeWeight: Double,
+    val stellarActivityWeight: Double,
+    val stellarRotationalPeriodWeight: Double,
+    val stellarGravityWeight: Double,
+    val stellarMetallicityWeight: Double,
+    val stellarEffectiveTemperatureWeight: Double,
+    val planetProtectionWeight: Double,
+    val planetTidalLockingWeight: Double,
+    val planetMassLowerLimit: Double,
+    val planetMassUpperLimit: Double,
+    val planetRadiusLowerLimit: Double,
+    val planetRadiusUpperLimit: Double,
+    val stellarHostEffectiveTemperatureMaxDeviation: Double
+)

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "engsoneca",
+    "link": "https://www.patreon.com/c/engsoneca",
+    "type": "CREATOR"
+  },
+  {
+    "id": "You",
+    "link": null,
+    "type": "SUPPORTER"
+  },
+  {
+    "id": "NASA Exoplanet Archive DOIs 10.26133/NEA13 and 10.26133/NEA40",
+    "link": "https://exoplanetarchive.ipac.caltech.edu/",
+    "type": "SOURCE"
+  },
+  {
+    "id": "OpenGameArt",
+    "link": "https://opengameart.org/",
+    "type": "MUSIC"
+  }
+]

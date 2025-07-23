@@ -1,0 +1,49 @@
+CREATE TABLE IF NOT EXISTS StellarHost (
+    id TEXT NOT NULL PRIMARY KEY,
+    systemName TEXT NOT NULL,
+    name TEXT NOT NULL,
+    spectralType TEXT,
+    effectiveTemperature REAL,
+    radius REAL,
+    mass REAL,
+    metallicity REAL,
+    luminosity REAL,
+    gravity REAL,
+    age REAL,
+    density REAL,
+    rotationalVelocity REAL,
+    rotationalPeriod REAL,
+    distance REAL,
+    ra REAL,
+    dec REAL
+);
+
+isStellarHostEmpty:
+SELECT StellarHost.id FROM StellarHost LIMIT 1;
+
+truncateStellarHost:
+DELETE FROM StellarHost;
+
+upsertStellarHost:
+INSERT OR REPLACE INTO StellarHost VALUES ?;
+
+getStellarHosts:
+SELECT
+    StellarHost.id,
+    StellarHost.systemName,
+    StellarHost.name,
+    StellarHost.spectralType,
+    StellarHost.effectiveTemperature,
+    StellarHost.radius,
+    StellarHost.mass,
+    StellarHost.metallicity,
+    StellarHost.luminosity,
+    StellarHost.gravity,
+    StellarHost.age,
+    StellarHost.density,
+    StellarHost.rotationalVelocity,
+    StellarHost.rotationalPeriod,
+    StellarHost.distance,
+    StellarHost.ra,
+    StellarHost.dec
+FROM StellarHost;

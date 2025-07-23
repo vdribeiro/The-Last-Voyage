@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS Catastrophe (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL
+);
+
+isCatastropheEmpty:
+SELECT Catastrophe.id FROM Catastrophe LIMIT 1;
+
+truncateCatastrophe:
+DELETE FROM Catastrophe;
+
+upsertCatastrophe:
+INSERT OR REPLACE INTO Catastrophe VALUES ?;
+
+getCatastrophes:
+SELECT
+    Catastrophe.id,
+    Catastrophe.name,
+    Catastrophe.description
+FROM Catastrophe;

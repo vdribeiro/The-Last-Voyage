@@ -1,0 +1,27 @@
+import kotlin.Boolean;
+
+CREATE TABLE IF NOT EXISTS Achievement (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    preconditions TEXT NOT NULL,
+    status INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+isAchievementEmpty:
+SELECT Achievement.id FROM Achievement LIMIT 1;
+
+truncateAchievement:
+DELETE FROM Achievement;
+
+upsertAchievement:
+INSERT OR REPLACE INTO Achievement VALUES ?;
+
+getAchievements:
+SELECT
+    Achievement.id,
+    Achievement.name,
+    Achievement.description,
+    Achievement.preconditions,
+    Achievement.status
+FROM Achievement;

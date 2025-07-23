@@ -1,0 +1,47 @@
+import com.hybris.tlv.usecase.space.model.PlanetStatus;
+
+CREATE TABLE IF NOT EXISTS Planet (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    stellarHostId TEXT NOT NULL,
+    status TEXT AS PlanetStatus NOT NULL,
+    orbitalPeriod REAL,
+    orbitAxis REAL,
+    radius REAL,
+    mass REAL,
+    density REAL,
+    eccentricity REAL,
+    insolationFlux REAL,
+    equilibriumTemperature REAL,
+    occultationDepth REAL,
+    inclination REAL,
+    obliquity REAL
+);
+
+isPlanetEmpty:
+SELECT Planet.id FROM Planet LIMIT 1;
+
+truncatePlanet:
+DELETE FROM Planet;
+
+upsertPlanet:
+INSERT OR REPLACE INTO Planet VALUES ?;
+
+getPlanets:
+SELECT
+    Planet.id,
+    Planet.name,
+    Planet.stellarHostId,
+    Planet.status,
+    Planet.orbitalPeriod,
+    Planet.orbitAxis,
+    Planet.radius,
+    Planet.mass,
+    Planet.density,
+    Planet.eccentricity,
+    Planet.insolationFlux,
+    Planet.equilibriumTemperature,
+    Planet.occultationDepth,
+    Planet.inclination,
+    Planet.obliquity
+FROM Planet;
