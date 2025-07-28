@@ -24,9 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,16 +41,8 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
     val storeState by store.stateFlow.collectAsState()
 
-    // number of attributes * max points per attribute
-    val totalPoints = 40
-
-    var sensorRange by remember { mutableIntStateOf(value = storeState.selectedShip.sensorRange) }
-    var materials by remember { mutableIntStateOf(value = storeState.selectedShip.materials) }
-    var fuel by remember { mutableIntStateOf(value = storeState.selectedShip.fuel) }
-    var cryopods by remember { mutableIntStateOf(value = storeState.selectedShip.cryopods) }
-
-    val assignedPoints = sensorRange + (materials / 100) + (fuel / 100) + (cryopods / 100)
-    val remainingPoints = totalPoints - assignedPoints
+    val shipState = remember { storeState.shipState }
+    val remainingPoints = shipState.remainingPoints
 
     Column(
         modifier = Modifier
@@ -76,45 +66,45 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
             item {
                 AttributeRow(
                     name = getTranslation(key = "ship_sensor"),
-                    minPoints = 1,
-                    maxPoints = 10,
-                    points = sensorRange,
+                    minPoints = shipState.sensorRange.min,
+                    maxPoints = shipState.sensorRange.max,
+                    points = shipState.sensorRange.value,
                     canIncrement = canIncrement,
-                    onIncrement = { sensorRange++ },
-                    onDecrement = { sensorRange-- }
+                    onIncrement = { shipState.sensorRange.increment() },
+                    onDecrement = { shipState.sensorRange.decrement() }
                 )
             }
             item {
                 AttributeRow(
                     name = getTranslation(key = "ship_fuel"),
-                    minPoints = 100,
-                    maxPoints = 1000,
-                    points = fuel,
+                    minPoints = shipState.fuel.min,
+                    maxPoints = shipState.fuel.max,
+                    points = shipState.fuel.value,
                     canIncrement = canIncrement,
-                    onIncrement = { fuel += 100 },
-                    onDecrement = { fuel -= 100 }
+                    onIncrement = { shipState.fuel.increment() },
+                    onDecrement = { shipState.fuel.decrement() }
                 )
             }
             item {
                 AttributeRow(
                     name = getTranslation(key = "ship_materials"),
-                    minPoints = 100,
-                    maxPoints = 1000,
-                    points = materials,
+                    minPoints = shipState.materials.min,
+                    maxPoints = shipState.materials.max,
+                    points = shipState.materials.value,
                     canIncrement = canIncrement,
-                    onIncrement = { materials += 100 },
-                    onDecrement = { materials -= 100 }
+                    onIncrement = { shipState.materials.increment() },
+                    onDecrement = { shipState.materials.decrement() }
                 )
             }
             item {
                 AttributeRow(
                     name = getTranslation(key = "ship_cryopods"),
-                    minPoints = 100,
-                    maxPoints = 1000,
-                    points = cryopods,
+                    minPoints = shipState.cryopods.min,
+                    maxPoints = shipState.cryopods.max,
+                    points = shipState.cryopods.value,
                     canIncrement = canIncrement,
-                    onIncrement = { cryopods += 100 },
-                    onDecrement = { cryopods -= 100 }
+                    onIncrement = { shipState.cryopods.increment() },
+                    onDecrement = { shipState.cryopods.decrement() }
                 )
             }
         }
@@ -129,13 +119,6 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
         //    onClick = {
         //        store.send(
         //            action = NewGameAction.SelectShip(
-        //                ShipPrototype(
-        //                    assignedPoints = assignedPoints,
-        //                    sensorRange = sensorRange,
-        //                    materials = materials,
-        //                    fuel = fuel,
-        //                    cryopods = cryopods
-        //                )
         //            )
         //        )
         //        store.send(action = NewGameAction.Advanced)
@@ -153,11 +136,11 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
                 store.send(
                     action = NewGameAction.SelectShip(
                         ShipPrototype(
-                            assignedPoints = assignedPoints,
-                            sensorRange = sensorRange,
-                            materials = materials,
-                            fuel = fuel,
-                            cryopods = cryopods
+                            assignedPoints = shipState.assignedPoints,
+                            sensorRange = shipState.sensorRange.value,
+                            fuel = shipState.fuel.value,
+                            materials = shipState.materials.value,
+                            cryopods = shipState.cryopods.value,
                         )
                     )
                 )

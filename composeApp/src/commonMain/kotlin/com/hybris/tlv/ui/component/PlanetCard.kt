@@ -28,7 +28,10 @@ import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
-import thelastvoyage.composeapp.generated.resources.ic_launcher_foreground
+import thelastvoyage.composeapp.generated.resources.planet01
+import thelastvoyage.composeapp.generated.resources.planet02
+import thelastvoyage.composeapp.generated.resources.planet03
+import thelastvoyage.composeapp.generated.resources.planet04
 
 @Composable
 internal fun PlanetCard(
@@ -123,6 +126,9 @@ internal fun PlanetCard(
 
 private fun getImageResourceOfPlanet(): DrawableResource {
     return listOf(
-        Res.drawable.ic_launcher_foreground
+        Res.drawable.planet01,
+        Res.drawable.planet02,
+        Res.drawable.planet03,
+        Res.drawable.planet04,
     ).random()
 }

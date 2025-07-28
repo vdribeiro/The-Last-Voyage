@@ -1,7 +1,10 @@
 package com.hybris.tlv.ui.screen.newgame
 
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.screen.newgame.state.ShipState
+import com.hybris.tlv.ui.screen.newgame.state.ShipState.Point
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.earth.EarthUseCases
 import com.hybris.tlv.usecase.earth.model.Catastrophe
@@ -24,12 +27,12 @@ internal data class NewGameState(
     val currentContent: Content? = null,
     val catastrophes: List<Catastrophe> = emptyList(),
     val selectedCatastrophe: Catastrophe? = null,
-    val selectedShip: ShipPrototype = ShipPrototype(
-        assignedPoints = 4,
-        sensorRange = 1,
-        materials = 100,
-        fuel = 100,
-        cryopods = 100
+    val selectedShip: ShipPrototype? = null,
+    val shipState: ShipState = ShipState(
+        sensorRange = Point(max = 10, min = 1, interval = 1, initialValue = 3),
+        materials = Point(max = 1000, min = 0, interval = 100, initialValue = 100),
+        fuel = Point(max = 1000, min = 0, interval = 100, initialValue = 100),
+        cryopods = Point(max = 1000, min = 0, interval = 100, initialValue = 100),
     ),
     val math: Params.Math = Params.Math(),
 )
@@ -67,13 +70,20 @@ internal class NewGameStore(
     }
 
     private fun startGame(state: NewGameState) = launchInPipeline {
+        val selectedShip = state.selectedShip
+        if (selectedShip == null) {
+            Logger.error(tag = TAG, message = "Invalid state: missing ship prototype")
+            navigate(screen = Navigation.Screen.ERROR)
+            return@launchInPipeline
+        }
+
         gameSessionUseCases.startGame(
             GameSessionPrototype(
-                assignedPoints = state.selectedShip.assignedPoints,
-                sensorRange = state.selectedShip.sensorRange,
-                materials = state.selectedShip.materials,
-                fuel = state.selectedShip.fuel,
-                cryopods = state.selectedShip.cryopods,
+                assignedPoints = selectedShip.assignedPoints,
+                sensorRange = selectedShip.sensorRange,
+                materials = selectedShip.materials,
+                fuel = selectedShip.fuel,
+                cryopods = selectedShip.cryopods,
                 habitableZoneWeight = state.math.habitableZoneWeight,
                 planetRadiusWeight = state.math.planetRadiusWeight,
                 planetMassWeight = state.math.planetMassWeight,
