@@ -29,7 +29,6 @@ import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.Score
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.space.mapper.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -62,44 +61,31 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                 ) {
                     items(items = storeState.scores, key = { it.id }) { score ->
                         val isExpanded = expandedItems.contains(element = score.id)
-                        ScoreItem(
-                            score = score,
-                            isExpanded = isExpanded,
-                            onClick = { if (isExpanded) expandedItems.remove(element = score.id) else expandedItems.add(element = score.id) }
-                        )
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .clickable(onClick = { if (isExpanded) expandedItems.remove(element = score.id) else expandedItems.add(element = score.id) })
+                                    .padding(all = 16.dp)
+                            ) {
+                                Score(
+                                    isExpanded = isExpanded,
+                                    score = (score.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
+                                    utc = score.utc,
+                                    yearsTraveled = score.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
+                                    sensorRange = score.sensorRange.toString(),
+                                    integrity = score.integrity.toString(),
+                                    materials = score.materials.toString(),
+                                    fuel = score.fuel.toString(),
+                                    cryopods = score.cryopods.toString()
+                                )
+                            }
+                        }
                     }
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun ScoreItem(
-    score: GameSession,
-    isExpanded: Boolean,
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .clickable(onClick = onClick)
-                .padding(all = 16.dp)
-        ) {
-            Score(
-                isExpanded = isExpanded,
-                score = (score.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
-                utc = score.utc,
-                yearsTraveled = score.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
-                sensorRange = score.sensorRange.toString(),
-                integrity = score.integrity.toString(),
-                materials = score.materials.toString(),
-                fuel = score.fuel.toString(),
-                cryopods = score.cryopods.toString()
-            )
         }
     }
 }

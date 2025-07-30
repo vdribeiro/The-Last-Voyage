@@ -1,11 +1,8 @@
 package com.hybris.tlv.ui.screen.credits
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,11 +17,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.platform.UriHandler
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.component.CreditsText
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.credits.model.Credits
 import com.hybris.tlv.usecase.credits.model.CreditsType
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -84,25 +79,5 @@ internal fun CreditsScreen(store: Store<CreditsAction, CreditsState>) {
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun CreditsText(uriHandler: UriHandler, credits: Credits) {
-    Spacer(modifier = Modifier.height(height = 8.dp))
-    when {
-        credits.link.isNullOrBlank() -> Text(
-            text = credits.id,
-            style = MaterialTheme.typography.bodyLarge
-        )
-
-        else -> Text(
-            modifier = Modifier.clickable { uriHandler.openUri(uri = credits.link) },
-            text = credits.id,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                color = MaterialTheme.colorScheme.primary,
-                textDecoration = TextDecoration.Underline
-            )
-        )
     }
 }

@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun StatusBar(
+internal fun StatusBar(
     modifier: Modifier = Modifier,
     hull: String,
     fuel: String,
