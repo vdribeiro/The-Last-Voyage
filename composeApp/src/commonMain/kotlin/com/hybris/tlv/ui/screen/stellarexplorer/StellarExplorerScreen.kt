@@ -30,33 +30,76 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
         topBar = {
             ControlPanel(
                 onSearch = { store.send(action = StellarExplorerAction.Search(search = it)) },
-                view = getTranslation(
-                    when (storeState.currentContent) {
-                        Content.LIST_HOSTS -> ""
-                        Content.LIST_PLANETS -> ""
-                        Content.DETAIL_HOSTS -> ""
-                        Content.DETAIL_PLANETS -> ""
-                        null -> ""
-                    }
+                viewName = getTranslation(
+                    key =
+                        when (storeState.currentContent) {
+                            Content.LIST_HOSTS -> "hosts"
+                            Content.LIST_PLANETS -> "planets"
+                            Content.DETAIL_HOST -> "hosts_detail"
+                            Content.DETAIL_PLANET -> "planets_detail"
+                            null -> ""
+                        }
                 ),
-                onChangeView = { store.send(action = StellarExplorerAction.ChangeView(view = it)) },
-                properties =,
-                selectedProperty =,
-                ascending =,
-                onSortChange =,
-                sortDirection =,
-                onSortDirectionChange =,
-                visibleProperties =,
-                onVisibilityChange =
+                onChangeView = { },
+                properties = storeState.properties.map {
+                    getTranslation(key = key = it)
+                },
+                selectedProperty = getTranslation(key = key = storeState.visibleProperties.first().displayName),
+                ascending = true,
+                onSortChange = {},
+                onSortDirectionChange = {},
+                visibleProperties = storeState.visibleProperties.map {
+                    getTranslation(key = key = it.displayName)
+                },
+                onVisibilityChange = {}
             )
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (storeState.currentContent) {
                 null -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-                Content.LIST -> StellarHostListContent(store = store)
-                Content.DETAIL -> StellarHostDetailContent(store = store)
+                Content.LIST_HOSTS -> StellarHostListContent(store = store)
+                Content.DETAIL_PLANET -> StellarHostDetailContent(store = store)
+                else -> {}
             }
         }
     }
+}
+
+private val stellarHostProperties by lazy {
+    listOf(
+        getTranslation(key = "stellar_host_system_name"),
+        getTranslation(key = "stellar_host_spectral_type"),
+        getTranslation(key = "stellar_host_temperature"),
+        getTranslation(key = "stellar_host_spectral_radius"),
+        getTranslation(key = "stellar_host_spectral_mass"),
+        getTranslation(key = "stellar_host_spectral_metallicity"),
+        getTranslation(key = "stellar_host_spectral_luminosity"),
+        getTranslation(key = "stellar_host_spectral_gravity"),
+        getTranslation(key = "stellar_host_spectral_age"),
+        getTranslation(key = "stellar_host_spectral_density"),
+        getTranslation(key = "stellar_host_spectral_rotational_velocity"),
+        getTranslation(key = "stellar_host_spectral_rotational_period"),
+        getTranslation(key = "stellar_host_distance"),
+        getTranslation(key = "stellar_host_spectral_ra"),
+        getTranslation(key = "stellar_host_spectral_dec")
+    )
+}
+
+private val planetProperties by lazy {
+    listOf(
+        getTranslation(key = "planet_status"),
+        getTranslation(key = "planet_habitability"),
+        getTranslation(key = "planet_orbital_period"),
+        getTranslation(key = "planet_orbit_axis"),
+        getTranslation(key = "planet_radius"),
+        getTranslation(key = "planet_mass"),
+        getTranslation(key = "planet_density"),
+        getTranslation(key = "planet_eccentricity"),
+        getTranslation(key = "planet_insolation_flux"),
+        getTranslation(key = "planet_temperature"),
+        getTranslation(key = "planet_occultation_depth"),
+        getTranslation(key = "planet_inclination"),
+        getTranslation(key = "planet_obliquity")
+    )
 }

@@ -36,15 +36,14 @@ import androidx.compose.ui.unit.dp
 @Composable
 internal fun ControlPanel(
     onSearch: (String) -> Unit,
-    view: String,
+    viewName: String,
     onChangeView: () -> Unit,
-    properties: Set<String>,
+    properties: List<String>,
     selectedProperty: String,
     ascending: Boolean,
     onSortChange: (String) -> Unit,
-    sortDirection: String,
     onSortDirectionChange: () -> Unit,
-    visibleProperties: Set<String>,
+    visibleProperties: List<String>,
     onVisibilityChange: (String) -> Unit
 ) {
     var searchQuery by remember { mutableStateOf(value = "") }
@@ -76,7 +75,7 @@ internal fun ControlPanel(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 TextButton(onClick = { onChangeView() }) {
-                    Text(text = view)
+                    Text(text = viewName)
                 }
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -85,7 +84,6 @@ internal fun ControlPanel(
                         selectedProperty = selectedProperty,
                         ascending = ascending,
                         onSortChange = onSortChange,
-                        sortDirection = sortDirection,
                         onSortDirectionChange = onSortDirectionChange
 
                     )
@@ -102,14 +100,14 @@ internal fun ControlPanel(
 
 @Composable
 private fun SortMenu(
-    properties: Set<String>,
+    properties: List<String>,
     selectedProperty: String,
     ascending: Boolean,
     onSortChange: (String) -> Unit,
-    sortDirection: String,
     onSortDirectionChange: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val sortDirectionIcon = if (ascending) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward
     Box {
         IconButton(onClick = { expanded = true }) {
             Icon(
@@ -128,17 +126,20 @@ private fun SortMenu(
                     trailingIcon = {
                         if (selectedProperty == property) {
                             Icon(
-                                imageVector = if (ascending) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward,
+                                imageVector = sortDirectionIcon,
                                 contentDescription = "Sort Direction"
                             )
                         }
                     }
                 )
             }
-            HorizontalDivider()
-            DropdownMenuItem(
-                text = { Text(text = sortDirection) },
-                onClick = { onSortDirectionChange() }
+        }
+    }
+    Box {
+        IconButton(onClick = { onSortDirectionChange() }) {
+            Icon(
+                imageVector = sortDirectionIcon,
+                contentDescription = "Sort Directions"
             )
         }
     }
@@ -146,8 +147,8 @@ private fun SortMenu(
 
 @Composable
 private fun VisibilityMenu(
-    properties: Set<String>,
-    visibleProperties: Set<String>,
+    properties: List<String>,
+    visibleProperties: List<String>,
     onVisibilityChange: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }

@@ -10,9 +10,7 @@ internal sealed interface ErrorAction {
     data class SendFeedback(val message: String): ErrorAction
 }
 
-internal data class ErrorState(
-    val something: String? = null
-)
+internal class ErrorState()
 
 internal class ErrorStore(
     dispatcher: Dispatcher,

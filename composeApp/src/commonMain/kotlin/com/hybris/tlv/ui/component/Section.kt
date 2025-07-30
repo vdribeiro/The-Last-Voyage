@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.usecase.translation.getTranslation
 
 internal data class Section(
     val title: String,
@@ -30,20 +29,20 @@ internal fun Section(title: String, sections: List<Section>) {
     ) {
         item {
             Text(
-                text = getTranslation(key = title),
+                text =  title,
                 style = MaterialTheme.typography.headlineLarge,
             )
         }
         items(items = sections, key = { it.title }) { section ->
             Text(
-                text = getTranslation(key = section.title),
+                text = section.title,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             )
             Spacer(Modifier.height(height = 8.dp))
             Text(
-                text = getTranslation(key = section.description),
+                text =  section.description,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
