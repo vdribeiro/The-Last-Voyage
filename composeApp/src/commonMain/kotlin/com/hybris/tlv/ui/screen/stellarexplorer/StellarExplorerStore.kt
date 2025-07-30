@@ -12,9 +12,13 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal sealed interface StellarExplorerAction {
     data object Back: StellarExplorerAction
+    data object ChangeView: StellarExplorerAction
     data class SaveIndex(val index: LazyListIndex): StellarExplorerAction
     data class Open(val stellarHost: StellarHost): StellarExplorerAction
     data class Search(val search: String): StellarExplorerAction
+    data class Sort(val sort: String): StellarExplorerAction
+    data object ChangeSortDirection: StellarExplorerAction
+    data class ChangeVisibility(val property: String): StellarExplorerAction)
 }
 
 internal data class StellarExplorerState(
@@ -25,15 +29,18 @@ internal data class StellarExplorerState(
     val filteredStellarHosts: List<StellarHost> = emptyList(),
     val selectedStellarHost: StellarHost? = null,
     val selectedPlanet: Planet? = null,
+    val properties: List<String> = emptyList(),
+    val selectedProperty: String = "",
+    val visibleProperties: List<String> = emptyList(),
     val sortBy: String = "",
     val sortAscending: Boolean = true,
 )
 
 internal enum class Content {
     LIST_HOSTS,
+    DETAIL_PLANET,
     LIST_PLANETS,
     DETAIL_HOST,
-    DETAIL_PLANET
 }
 
 internal class StellarExplorerStore(
@@ -103,21 +110,38 @@ internal class StellarExplorerStore(
 
     override fun reducer(state: StellarExplorerState, action: StellarExplorerAction) {
         when (action) {
-            StellarExplorerAction.Back -> navigate(screen = Navigation.Screen.EXPLORE)
-            //    when (state.currentContent) {
-            //    null, Content.LIST -> navigate(screen = Navigation.Screen.EXPLORE)
-            //    Content.DETAIL -> updateState {
-            //        it.copy(
-            //            currentContent = Content.LIST,
-            //            selectedStellarHost = null
-            //        )
-            //    }
-            //
-            //    Content.LIST_HOSTS -> TODO()
-            //    Content.LIST_PLANETS -> TODO()
-            //    Content.DETAIL_HOSTS -> TODO()
-            //    Content.DETAIL_PLANETS -> TODO()
-            //}
+            StellarExplorerAction.Back -> when (state.currentContent) {
+                null,
+                Content.LIST_HOSTS,
+                Content.LIST_PLANETS -> navigate(screen = Navigation.Screen.EXPLORE)
+
+                Content.DETAIL_PLANET -> updateState {
+                    it.copy(
+                        currentContent = Content.LIST_HOSTS,
+                        selectedStellarHost = null
+                    )
+                }
+
+                Content.DETAIL_HOST -> updateState {
+                    it.copy(
+                        currentContent = Content.LIST_PLANETS,
+                        selectedPlanet = null
+                    )
+                }
+            }
+
+            StellarExplorerAction.ChangeView -> when (state.currentContent) {
+                null,
+                Content.LIST_HOSTS,
+                Content.DETAIL_PLANET -> updateState {
+                    it.copy(currentContent = Content.LIST_PLANETS)
+                }
+
+                Content.LIST_PLANETS,
+                Content.DETAIL_HOST -> updateState {
+                    it.copy(currentContent = Content.LIST_HOSTS)
+                }
+            }
 
             is StellarExplorerAction.SaveIndex -> updateState {
                 it.copy(listIndex = action.index)
@@ -169,6 +193,11 @@ internal class StellarExplorerStore(
                     )
                 }
             }
+
+            is StellarExplorerAction.Sort -> TODO()
+
+            StellarExplorerAction.ChangeSortDirection -> TODO()
+            is StellarExplorerAction.ChangeVisibility -> TODO()
         }
     }
 }

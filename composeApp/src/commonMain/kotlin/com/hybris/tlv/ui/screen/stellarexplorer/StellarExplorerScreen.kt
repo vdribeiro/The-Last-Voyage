@@ -34,24 +34,20 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
                     key =
                         when (storeState.currentContent) {
                             Content.LIST_HOSTS -> "hosts"
+                            Content.DETAIL_PLANET -> "planets_detail"
                             Content.LIST_PLANETS -> "planets"
                             Content.DETAIL_HOST -> "hosts_detail"
-                            Content.DETAIL_PLANET -> "planets_detail"
                             null -> ""
                         }
                 ),
-                onChangeView = { },
-                properties = storeState.properties.map {
-                    getTranslation(key = key = it)
-                },
-                selectedProperty = getTranslation(key = key = storeState.visibleProperties.first().displayName),
-                ascending = true,
-                onSortChange = {},
-                onSortDirectionChange = {},
-                visibleProperties = storeState.visibleProperties.map {
-                    getTranslation(key = key = it.displayName)
-                },
-                onVisibilityChange = {}
+                onChangeView = { store.send(action = StellarExplorerAction.ChangeView) },
+                properties = storeState.properties,
+                selectedProperty = storeState.selectedProperty,
+                ascending = storeState.sortAscending,
+                onSortChange = { store.send(action = StellarExplorerAction.Sort(sort = it)) },
+                onSortDirectionChange = { store.send(action = StellarExplorerAction.ChangeSortDirection) },
+                visibleProperties = storeState.visibleProperties,
+                onVisibilityChange = { store.send(action = StellarExplorerAction.ChangeVisibility(property = it)) }
             )
         }
     ) { innerPadding ->
@@ -60,7 +56,8 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
                 null -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
                 Content.LIST_HOSTS -> StellarHostListContent(store = store)
                 Content.DETAIL_PLANET -> StellarHostDetailContent(store = store)
-                else -> {}
+                Content.LIST_PLANETS -> TODO()
+                Content.DETAIL_HOST -> TODO()
             }
         }
     }
