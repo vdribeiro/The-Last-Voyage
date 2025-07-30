@@ -33,16 +33,20 @@ import com.hybris.tlv.ui.screen.gameover.Content as GameOverContent
 import com.hybris.tlv.ui.screen.newgame.Content as NewGameContent
 import com.hybris.tlv.ui.screen.stellarexplorer.Content as StellarExplorerContent
 
+@Composable
+private fun navigation() =
+    MockCore(
+        driver = AndroidSqliteDriver(
+            context = LocalContext.current,
+            schema = AppDatabase.Schema
+        )
+    ).navigation
+
 @Preview
 @Composable
 private fun ErrorScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.ErrorScreen(
+        navigation().ErrorScreen(
             state = ErrorState()
         )
     }
@@ -52,12 +56,7 @@ private fun ErrorScreenPreview() {
 @Composable
 private fun SplashScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.SplashScreen(
+        navigation().SplashScreen(
             state = SplashState()
         )
     }
@@ -67,12 +66,7 @@ private fun SplashScreenPreview() {
 @Composable
 private fun MainMenuScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.MainMenuScreen(
+        navigation().MainMenuScreen(
             state = MainMenuState(
                 ongoingGameSession = false
             )
@@ -84,12 +78,7 @@ private fun MainMenuScreenPreview() {
 @Composable
 private fun MainMenuContinueScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.MainMenuScreen(
+        navigation().MainMenuScreen(
             state = MainMenuState(
                 ongoingGameSession = true
             )
@@ -101,12 +90,7 @@ private fun MainMenuContinueScreenPreview() {
 @Composable
 private fun NewGameShipScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.NewGameScreen(
+        navigation().NewGameScreen(
             state = NewGameState(
                 currentContent = NewGameContent.SHIP,
             )
@@ -118,12 +102,7 @@ private fun NewGameShipScreenPreview() {
 @Composable
 private fun NewGameAdvancedScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.NewGameScreen(
+        navigation().NewGameScreen(
             state = NewGameState(
                 currentContent = NewGameContent.ADVANCED
             )
@@ -135,12 +114,7 @@ private fun NewGameAdvancedScreenPreview() {
 @Composable
 private fun NewGameStartScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.NewGameScreen(
+        navigation().NewGameScreen(
             state = NewGameState(
                 currentContent = NewGameContent.START,
                 selectedCatastrophe = catastrophes.random()
@@ -153,12 +127,7 @@ private fun NewGameStartScreenPreview() {
 @Composable
 private fun GameTravelScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.GameScreen(
+        navigation().GameScreen(
             state = GameState(
                 gameSession = gameSession,
                 currentContent = GameContent.TRAVEL,
@@ -172,12 +141,7 @@ private fun GameTravelScreenPreview() {
 @Composable
 private fun GameSystemScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.GameScreen(
+        navigation().GameScreen(
             state = GameState(
                 gameSession = gameSession,
                 currentContent = GameContent.SYSTEM,
@@ -198,12 +162,7 @@ private fun GameSystemScreenPreview() {
 @Composable
 private fun GameShipScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.GameScreen(
+        navigation().GameScreen(
             state = GameState(
                 gameSession = gameSession,
                 currentContent = GameContent.SHIP,
@@ -216,12 +175,7 @@ private fun GameShipScreenPreview() {
 @Composable
 private fun EventScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.EventScreen(
+        navigation().EventScreen(
             state = EventState(
                 event = events.random()
             )
@@ -233,12 +187,7 @@ private fun EventScreenPreview() {
 @Composable
 private fun GameOverMessageScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.GameOverScreen(
+        navigation().GameOverScreen(
             state = GameOverState(
                 currentContent = GameOverContent.MESSAGE,
                 gameSession = gameSession,
@@ -252,12 +201,7 @@ private fun GameOverMessageScreenPreview() {
 @Composable
 private fun GameOverScoreScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.GameOverScreen(
+        navigation().GameOverScreen(
             state = GameOverState(
                 currentContent = GameOverContent.SCORE,
                 gameSession = gameSession,
@@ -270,12 +214,7 @@ private fun GameOverScoreScreenPreview() {
 @Composable
 private fun ExploreScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.ExploreScreen(
+        navigation().ExploreScreen(
             state = ExploreState(
                 currentContent = ExploreContent.MENU,
             )
@@ -287,12 +226,7 @@ private fun ExploreScreenPreview() {
 @Composable
 private fun ExploreMechanicsScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.ExploreScreen(
+        navigation().ExploreScreen(
             state = ExploreState(
                 currentContent = ExploreContent.MECHANICS,
             )
@@ -304,12 +238,7 @@ private fun ExploreMechanicsScreenPreview() {
 @Composable
 private fun ExploreHabitabilityScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.ExploreScreen(
+        navigation().ExploreScreen(
             state = ExploreState(
                 currentContent = ExploreContent.HABITABILITY,
             )
@@ -321,14 +250,9 @@ private fun ExploreHabitabilityScreenPreview() {
 @Composable
 private fun StellarExplorerScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.StellarExplorerScreen(
+        navigation().StellarExplorerScreen(
             state = StellarExplorerState(
-                currentContent = StellarExplorerContent.LIST,
+                currentContent = StellarExplorerContent.LIST_HOSTS,
                 stellarHosts = stellarHosts
             )
         )
@@ -339,14 +263,9 @@ private fun StellarExplorerScreenPreview() {
 @Composable
 private fun StellarExplorerDetailScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.StellarExplorerScreen(
+        navigation().StellarExplorerScreen(
             state = StellarExplorerState(
-                currentContent = StellarExplorerContent.DETAIL,
+                currentContent = StellarExplorerContent.DETAIL_PLANETS,
                 selectedStellarHost = stellarHosts.first().apply {
                     planets.addAll(elements = planets.filter { it.stellarHostId == id })
                 }
@@ -359,12 +278,7 @@ private fun StellarExplorerDetailScreenPreview() {
 @Composable
 private fun ScoreScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.ScoreScreen(
+        navigation().ScoreScreen(
             state = ScoreState(
                 scores = listOf(
                     gameSession.copy(id = generateUuid(), score = 100.0),
@@ -381,12 +295,7 @@ private fun ScoreScreenPreview() {
 @Composable
 private fun AchievementScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.AchievementScreen(
+        navigation().AchievementScreen(
             state = AchievementState(
                 achievements = achievements
             )
@@ -398,12 +307,7 @@ private fun AchievementScreenPreview() {
 @Composable
 private fun CreditsScreenPreview() {
     AppTheme {
-        MockCore(
-            driver = AndroidSqliteDriver(
-                context = LocalContext.current,
-                schema = AppDatabase.Schema
-            )
-        ).navigation.CreditsScreen(
+        navigation().CreditsScreen(
             state = CreditsState(
                 credits = credits
             )

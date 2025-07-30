@@ -1,27 +1,18 @@
 package com.hybris.tlv.ui.screen.explore
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.component.Section
 import com.hybris.tlv.ui.screen.explore.content.MenuContent
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.translation.getTranslation
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -131,39 +122,3 @@ private val habitabilities = listOf(
         description = "explore_screen__habitability_star_effective_temperature_description"
     ),
 )
-
-private data class Section(
-    val title: String,
-    val description: String
-)
-
-@Composable
-private fun Section(title: String, sections: List<Section>) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 24.dp),
-    ) {
-        item {
-            Text(
-                text = getTranslation(key = title),
-                style = MaterialTheme.typography.headlineLarge,
-            )
-        }
-        items(items = sections, key = { it.title }) { section ->
-            Text(
-                text = getTranslation(key = section.title),
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(Modifier.height(height = 8.dp))
-            Text(
-                text = getTranslation(key = section.description),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-    }
-}

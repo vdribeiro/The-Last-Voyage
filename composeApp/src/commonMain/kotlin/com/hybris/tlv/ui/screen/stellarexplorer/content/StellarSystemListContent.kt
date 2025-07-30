@@ -33,65 +33,40 @@ internal fun StellarHostListContent(store: Store<StellarExplorerAction, StellarE
         initialFirstVisibleItemIndex = storeState.listIndex,
         initialFirstVisibleItemScrollOffset = storeState.listScrollOffset
     )
-    var searchQuery by remember { mutableStateOf(value = storeState.search) }
-
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(all = 16.dp),
+            .padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+        state = listState
     ) {
-        OutlinedTextField(
-            value = searchQuery,
-            onValueChange = {
-                searchQuery = it
-                store.send(action = StellarExplorerAction.Search(search = it))
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp, bottom = 8.dp),
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search Icon"
-                )
-            },
-            singleLine = true
-        )
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(space = 8.dp),
-            state = listState
-        ) {
-            items(items = storeState.filteredStellarHosts, key = { it.id }) { stellarHost ->
-                StellarHostCard(
-                    name = stellarHost.name,
-                    systemName = stellarHost.systemName,
-                    planetCount = stellarHost.planets.size,
-                    spectralType = stellarHost.spectralType,
-                    effectiveTemperature = stellarHost.effectiveTemperature,
-                    radius = stellarHost.radius,
-                    mass = stellarHost.mass,
-                    metallicity = stellarHost.metallicity,
-                    luminosity = stellarHost.luminosity,
-                    gravity = stellarHost.gravity,
-                    age = stellarHost.age,
-                    density = stellarHost.density,
-                    rotationalVelocity = stellarHost.rotationalVelocity,
-                    rotationalPeriod = stellarHost.rotationalPeriod,
-                    distance = stellarHost.distance,
-                    ra = stellarHost.ra,
-                    dec = stellarHost.dec,
-                ) {
-                    store.send(
-                        action = StellarExplorerAction.SaveIndex(
-                            index = listState.firstVisibleItemIndex,
-                            scrollOffset = listState.firstVisibleItemScrollOffset
-                        )
+        items(items = storeState.filteredStellarHosts, key = { it.id }) { stellarHost ->
+            StellarHostCard(
+                name = stellarHost.name,
+                systemName = stellarHost.systemName,
+                planetCount = stellarHost.planets.size,
+                spectralType = stellarHost.spectralType,
+                effectiveTemperature = stellarHost.effectiveTemperature,
+                radius = stellarHost.radius,
+                mass = stellarHost.mass,
+                metallicity = stellarHost.metallicity,
+                luminosity = stellarHost.luminosity,
+                gravity = stellarHost.gravity,
+                age = stellarHost.age,
+                density = stellarHost.density,
+                rotationalVelocity = stellarHost.rotationalVelocity,
+                rotationalPeriod = stellarHost.rotationalPeriod,
+                distance = stellarHost.distance,
+                ra = stellarHost.ra,
+                dec = stellarHost.dec,
+            ) {
+                store.send(
+                    action = StellarExplorerAction.SaveIndex(
+                        index = listState.firstVisibleItemIndex,
+                        scrollOffset = listState.firstVisibleItemScrollOffset
                     )
-                    store.send(action = StellarExplorerAction.Open(stellarHost = stellarHost))
-                }
+                )
+                store.send(action = StellarExplorerAction.Open(stellarHost = stellarHost))
             }
         }
     }

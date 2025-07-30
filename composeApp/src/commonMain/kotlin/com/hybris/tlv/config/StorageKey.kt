@@ -1,6 +1,6 @@
 package com.hybris.tlv.config
 
-sealed class StorageKey(val key: String, val defaultValue: Any) {
+internal sealed class StorageKey(val key: String, val defaultValue: Any) {
     // Versioning
     data object TranslationsVersion: StorageKey(key = "translations_version", defaultValue = 1L)
     data object CatastrophesVersion: StorageKey(key = "catastrophes_version", defaultValue = 1L)

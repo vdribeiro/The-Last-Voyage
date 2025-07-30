@@ -17,17 +17,59 @@ internal sealed interface StellarExplorerAction {
 
 internal data class StellarExplorerState(
     val currentContent: Content? = null,
+    val stellarHosts: List<StellarHost> = emptyList(),
     val listIndex: Int = 0,
     val listScrollOffset: Int = 0,
     val search: String = "",
-    val stellarHosts: List<StellarHost> = emptyList(),
     val filteredStellarHosts: List<StellarHost> = emptyList(),
-    val selectedStellarHost: StellarHost? = null
+    val selectedStellarHost: StellarHost? = null,
+    val sortBy: Property = Property.STELLAR_HOST_DISTANCE,
+    val sortDirection: SortDirection = SortDirection.ASC,
+    val visibleProperties: Set<Property> = Property.entries.toSet()
 )
 
 internal enum class Content {
-    LIST,
-    DETAIL
+    LIST_HOSTS,
+    LIST_PLANETS,
+    DETAIL_HOSTS,
+    DETAIL_PLANETS
+}
+
+internal enum class SortDirection { ASC, DESC }
+
+internal enum class Property(val displayName: String) {
+    STELLAR_HOST_SYSTEM_NAME("stellar_host_system_name"),
+    STELLAR_HOST_PLANET_COUNT("stellar_host_planet_count"),
+    STELLAR_HOST_SPECTRAL_TYPE("stellar_host_spectral_type"),
+    STELLAR_HOST_TEMPERATURE("stellar_host_temperature"),
+    STELLAR_HOST_RADIUS("stellar_host_spectral_radius"),
+    STELLAR_HOST_MASS("stellar_host_spectral_mass"),
+    STELLAR_HOST_METALLICITY("stellar_host_spectral_metallicity"),
+    STELLAR_HOST_LUMINOSITY("stellar_host_spectral_luminosity"),
+    STELLAR_HOST_GRAVITY("stellar_host_spectral_gravity"),
+    STELLAR_HOST_AGE("stellar_host_spectral_age"),
+    STELLAR_HOST_DENSITY("stellar_host_spectral_density"),
+    STELLAR_HOST_ROTATIONAL_VELOCITY("stellar_host_spectral_rotational_velocity"),
+    STELLAR_HOST_ROTATIONAL_PERIOD("stellar_host_spectral_rotational_period"),
+    STELLAR_HOST_DISTANCE("stellar_host_distance"),
+    STELLAR_HOST_RA("stellar_host_spectral_ra"),
+    STELLAR_HOST_DEC("stellar_host_spectral_dec"),
+    PLANET_STATUS("planet_status"),
+    PLANET_STATUS_CONFIRMED("planet_status_confirmed"),
+    PLANET_STATUS_CANDIDATE("planet_status_candidate"),
+    PLANET_STATUS_FALSE("planet_status_false"),
+    PLANET_HABITABILITY("planet_habitability"),
+    PLANET_ORBITAL_PERIOD("planet_orbital_period"),
+    PLANET_ORBIT_AXIS("planet_orbit_axis"),
+    PLANET_RADIUS("planet_radius"),
+    PLANET_MASS("planet_mass"),
+    PLANET_DENSITY("planet_density"),
+    PLANET_ECCENTRICITY("planet_eccentricity"),
+    PLANET_INSOLATION_FLUX("planet_insolation_flux"),
+    PLANET_TEMPERATURE("planet_temperature"),
+    PLANET_OCCULTATION_DEPTH("planet_occultation_depth"),
+    PLANET_INCLINATION("planet_inclination"),
+    PLANET_OBLIQUITY("planet_obliquity");
 }
 
 internal class StellarExplorerStore(

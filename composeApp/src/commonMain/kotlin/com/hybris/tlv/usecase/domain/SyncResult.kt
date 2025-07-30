@@ -1,9 +1,9 @@
 package com.hybris.tlv.usecase.domain
 
-internal sealed class SyncResult {
-    data object Success: SyncResult()
-    data class Loading(val progress: Float, val total: Float): SyncResult()
-    data class Error(val error: String): SyncResult()
+internal sealed interface SyncResult {
+    data object Success: SyncResult
+    data class Loading(val progress: Float, val total: Float): SyncResult
+    data class Error(val error: String): SyncResult
 }
 
 internal fun Array<SyncResult>.combine(): SyncResult {
