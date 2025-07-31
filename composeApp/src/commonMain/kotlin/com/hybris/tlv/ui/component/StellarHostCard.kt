@@ -85,37 +85,70 @@ internal fun StellarHostCard(
                 Text(text = name, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(height = 4.dp))
                 systemName?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_system_name"), value = it)
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_system_name"),
+                        value = it
+                    )
                 }
                 planetCount?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_planet_count"), value = it)
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_planet_count"),
+                        value = it
+                    )
                 }
                 spectralType?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_spectral_type"), value = it)
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_spectral_type"),
+                        value = it
+                    )
                 }
                 effectiveTemperature?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_temperature"), value = "${it.roundTo(decimalPlaces = 1)} K")
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_temperature"),
+                        value = "${it.roundTo(decimalPlaces = 1)} K"
+                    )
                 }
                 radius?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_spectral_radius"), value = "${it.roundTo(decimalPlaces = 2)} R☉")
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_spectral_radius"),
+                        value = "${it.roundTo(decimalPlaces = 2)} R☉"
+                    )
                 }
                 mass?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_spectral_mass"), value = "${it.roundTo(decimalPlaces = 2)} M☉")
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_spectral_mass"),
+                        value = "${it.roundTo(decimalPlaces = 2)} M☉"
+                    )
                 }
                 metallicity?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_spectral_metallicity"), value = "${it.roundTo(decimalPlaces = 2)} dex")
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_spectral_metallicity"),
+                        value = "${it.roundTo(decimalPlaces = 2)} dex"
+                    )
                 }
                 luminosity?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_spectral_luminosity"), value = "${it.roundTo(decimalPlaces = 3)} L☉")
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_spectral_luminosity"),
+                        value = "${it.roundTo(decimalPlaces = 3)} L☉"
+                    )
                 }
                 gravity?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_spectral_gravity"), value = "${it.roundTo(decimalPlaces = 2)} G☉")
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_spectral_gravity"),
+                        value = "${it.roundTo(decimalPlaces = 2)} G☉"
+                    )
                 }
                 age?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_spectral_age"), value = "${it.roundTo(decimalPlaces = 2)} Gyr")
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_spectral_age"),
+                        value = "${it.roundTo(decimalPlaces = 2)} Gyr"
+                    )
                 }
                 density?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_spectral_density"), value = "${it.roundTo(decimalPlaces = 3)} g/cm^3")
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_spectral_density"),
+                        value = "${it.roundTo(decimalPlaces = 3)} g/cm^3"
+                    )
                 }
                 rotationalVelocity?.let {
                     InfoRow(
@@ -130,13 +163,22 @@ internal fun StellarHostCard(
                     )
                 }
                 ra?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_spectral_ra"), value = "${it.roundTo(decimalPlaces = 6)}º")
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_spectral_ra"),
+                        value = "${it.roundTo(decimalPlaces = 6)}º"
+                    )
                 }
                 dec?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_spectral_dec"), value = "${it.roundTo(decimalPlaces = 6)}º")
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_spectral_dec"),
+                        value = "${it.roundTo(decimalPlaces = 6)}º"
+                    )
                 }
                 distance?.let {
-                    InfoRow(label = getTranslation(key = "stellar_host_distance"), value = "${it.roundTo(decimalPlaces = 2)} ly")
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_distance"),
+                        value = "${it.roundTo(decimalPlaces = 2)} ly"
+                    )
                 }
             }
         }

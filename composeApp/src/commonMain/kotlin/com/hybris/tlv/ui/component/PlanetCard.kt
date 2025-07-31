@@ -78,10 +78,16 @@ internal fun PlanetCard(
                 Text(text = name, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(height = 4.dp))
                 status?.displayName?.let {
-                    InfoRow(label = getTranslation(key = "planet_status"), value = getTranslation(key = it))
+                    InfoRow(
+                        label = getTranslation(key = "planet_status"),
+                        value = getTranslation(key = it)
+                    )
                 }
                 habitability?.let {
-                    InfoRow(label = getTranslation(key = "planet_habitability"), value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%")
+                    InfoRow(
+                        label = getTranslation(key = "planet_habitability"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
                 }
                 orbitalPeriod?.let {
                     InfoRow(
@@ -90,34 +96,64 @@ internal fun PlanetCard(
                     )
                 }
                 orbitAxis?.let {
-                    InfoRow(label = getTranslation(key = "planet_orbit_axis"), value = "${it.roundTo(decimalPlaces = 4)} au")
+                    InfoRow(
+                        label = getTranslation(key = "planet_orbit_axis"),
+                        value = "${it.roundTo(decimalPlaces = 4)} au"
+                    )
                 }
                 radius?.let {
-                    InfoRow(label = getTranslation(key = "planet_radius"), value = "${it.roundTo(decimalPlaces = 2)} R⊕")
+                    InfoRow(
+                        label = getTranslation(key = "planet_radius"),
+                        value = "${it.roundTo(decimalPlaces = 2)} R⊕"
+                    )
                 }
                 mass?.let {
-                    InfoRow(label = getTranslation(key = "planet_mass"), value = "${it.roundTo(decimalPlaces = 2)} M⊕")
+                    InfoRow(
+                        label = getTranslation(key = "planet_mass"),
+                        value = "${it.roundTo(decimalPlaces = 2)} M⊕"
+                    )
                 }
                 density?.let {
-                    InfoRow(label = getTranslation(key = "planet_density"), value = "${it.roundTo(decimalPlaces = 2)} g/cm^3")
+                    InfoRow(
+                        label = getTranslation(key = "planet_density"),
+                        value = "${it.roundTo(decimalPlaces = 2)} g/cm^3"
+                    )
                 }
                 eccentricity?.let {
-                    InfoRow(label = getTranslation(key = "planet_eccentricity"), value = "${it.roundTo(decimalPlaces = 2)} e")
+                    InfoRow(
+                        label = getTranslation(key = "planet_eccentricity"),
+                        value = "${it.roundTo(decimalPlaces = 2)} e"
+                    )
                 }
                 insolationFlux?.let {
-                    InfoRow(label = getTranslation(key = "planet_insolation_flux"), value = "${it.roundTo(decimalPlaces = 2)} F")
+                    InfoRow(
+                        label = getTranslation(key = "planet_insolation_flux"),
+                        value = "${it.roundTo(decimalPlaces = 2)} F"
+                    )
                 }
                 equilibriumTemperature?.let {
-                    InfoRow(label = getTranslation(key = "planet_temperature"), value = "${it.roundTo(decimalPlaces = 1)} K")
+                    InfoRow(
+                        label = getTranslation(key = "planet_temperature"),
+                        value = "${it.roundTo(decimalPlaces = 1)} K"
+                    )
                 }
                 occultationDepth?.let {
-                    InfoRow(label = getTranslation(key = "planet_occultation_depth"), value = "${it.roundTo(decimalPlaces = 2)} %")
+                    InfoRow(
+                        label = getTranslation(key = "planet_occultation_depth"),
+                        value = "${it.roundTo(decimalPlaces = 2)} %"
+                    )
                 }
                 inclination?.let {
-                    InfoRow(label = getTranslation(key = "planet_inclination"), value = "${it.roundTo(decimalPlaces = 2)}º")
+                    InfoRow(
+                        label = getTranslation(key = "planet_inclination"),
+                        value = "${it.roundTo(decimalPlaces = 2)}º"
+                    )
                 }
                 obliquity?.let {
-                    InfoRow(label = getTranslation(key = "planet_obliquity"), value = "${it.roundTo(decimalPlaces = 1)} ε")
+                    InfoRow(
+                        label = getTranslation(key = "planet_obliquity"),
+                        value = "${it.roundTo(decimalPlaces = 1)} ε"
+                    )
                 }
             }
         }

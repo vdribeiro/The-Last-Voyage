@@ -517,9 +517,19 @@ internal class StellarExplorerStore(
                 }
             }
 
-            is StellarExplorerAction.ChangeStellarHostsVisibility -> TODO()
+            is StellarExplorerAction.ChangeStellarHostsVisibility -> launchInPipeline {
+                val visibleStellarHostProperties = if (state.visibleStellarHostProperties.contains(element = action.property)) {
+                    state.visibleStellarHostProperties.minus(element = action.property)
+                } else state.visibleStellarHostProperties.plus(element = action.property)
+                updateState { it.copy(visibleStellarHostProperties = visibleStellarHostProperties) }
+            }
 
-            is StellarExplorerAction.ChangePlanetVisibility -> TODO()
+            is StellarExplorerAction.ChangePlanetVisibility -> launchInPipeline {
+                val visiblePlanetProperties = if (state.visiblePlanetProperties.contains(element = action.property)) {
+                    state.visiblePlanetProperties.minus(element = action.property)
+                } else state.visiblePlanetProperties.plus(element = action.property)
+                updateState { it.copy(visiblePlanetProperties = visiblePlanetProperties) }
+            }
         }
     }
 }
