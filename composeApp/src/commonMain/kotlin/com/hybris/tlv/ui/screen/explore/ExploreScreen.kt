@@ -27,8 +27,8 @@ internal fun ExploreScreen(store: Store<ExploreAction, ExploreState>) {
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (currentContent) {
                 Content.MENU -> MenuContent(store = store)
-                Content.MECHANICS -> Section(title = "explore_screen__mechanics", sections = mechanics)
-                Content.HABITABILITY -> Section(title = "explore_screen__habitability", sections = habitabilities)
+                Content.MECHANICS -> Section(title = getTranslation(key ="explore_screen__mechanics"), sections = mechanics)
+                Content.HABITABILITY -> Section(title = getTranslation(key ="explore_screen__habitability"), sections = habitabilities)
             }
         }
     }
