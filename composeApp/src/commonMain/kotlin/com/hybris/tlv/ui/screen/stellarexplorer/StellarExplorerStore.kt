@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.mock.planets
 import com.hybris.tlv.ui.component.LazyListIndex
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.store.Store
@@ -420,6 +421,7 @@ internal class StellarExplorerStore(
                     it.copy(
                         currentContent = Content.LIST_PLANETS,
                         listIndex = LazyListIndex(),
+                        filteredPlanets = state.planets
                     )
                 }
 
@@ -428,6 +430,7 @@ internal class StellarExplorerStore(
                     it.copy(
                         currentContent = Content.LIST_HOSTS,
                         listIndex = LazyListIndex(),
+                        filteredStellarHosts = state.stellarHosts
                     )
                 }
             }
@@ -469,7 +472,8 @@ internal class StellarExplorerStore(
                 updateState {
                     it.copy(
                         currentContent = Content.DETAIL_HOSTS,
-                        selectedStellarHost = action.stellarHost
+                        selectedStellarHost = action.stellarHost,
+                        filteredPlanets = action.stellarHost.planets
                     )
                 }
             }
@@ -479,7 +483,10 @@ internal class StellarExplorerStore(
                 updateState {
                     it.copy(
                         currentContent = Content.DETAIL_PLANETS,
-                        selectedPlanet = action.planet
+                        selectedPlanet = action.planet,
+                        filteredStellarHosts = state.stellarHosts.filter { stellarHost ->
+                            stellarHost.id == action.planet.stellarHostId
+                        }
                     )
                 }
             }

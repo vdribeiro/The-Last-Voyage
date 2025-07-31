@@ -34,7 +34,7 @@ internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerSt
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         state = listState
     ) {
-        if (currentContent == Content.DETAIL_PLANETS && stellarHost != null) {
+        if (currentContent == Content.DETAIL_HOSTS && stellarHost != null) {
             item(key = stellarHost.id) {
                 StellarHostCard(
                     name = stellarHost.name,
