@@ -110,7 +110,9 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
 
 private val stellarHostProperties by lazy {
     mapOf(
-        StellarHostProperty.NAME to getTranslation(key = "stellar_host_system_name"),
+        StellarHostProperty.NAME to getTranslation(key = "stellar_host_name"),
+        StellarHostProperty.SYSTEM_NAME to getTranslation(key = "stellar_host_system_name"),
+        StellarHostProperty.PLANET_COUNT to getTranslation(key = "stellar_host_planet_count"),
         StellarHostProperty.SPECTRAL_TYPE to getTranslation(key = "stellar_host_spectral_type"),
         StellarHostProperty.TEMPERATURE to getTranslation(key = "stellar_host_temperature"),
         StellarHostProperty.RADIUS to getTranslation(key = "stellar_host_spectral_radius"),
@@ -130,6 +132,7 @@ private val stellarHostProperties by lazy {
 
 private val planetProperties by lazy {
     mapOf(
+        PlanetProperty.NAME to getTranslation(key = "planet_name"),
         PlanetProperty.STATUS to getTranslation(key = "planet_status"),
         PlanetProperty.HABITABILITY to getTranslation(key = "planet_habitability"),
         PlanetProperty.ORBITAL_PERIOD to getTranslation(key = "planet_orbital_period"),

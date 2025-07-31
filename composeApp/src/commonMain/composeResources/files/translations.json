@@ -6,6 +6,11 @@
   },
   {
     "languageIso": "en",
+    "key": "stellar_host_name",
+    "value": "Name"
+  },
+  {
+    "languageIso": "en",
     "key": "stellar_host_system_name",
     "value": "System name"
   },
@@ -83,6 +88,11 @@
     "languageIso": "en",
     "key": "stellar_host_spectral_dec",
     "value": "Declination"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_name",
+    "value": "Name"
   },
   {
     "languageIso": "en",

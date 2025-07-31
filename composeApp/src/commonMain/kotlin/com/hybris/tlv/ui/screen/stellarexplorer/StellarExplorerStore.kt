@@ -229,40 +229,162 @@ internal class StellarExplorerStore(
         )
 
     private fun getStellarHostComparator(sort: StellarHostProperty, ascending: Boolean): Comparator<StellarHost> = when (sort) {
-        StellarHostProperty.NAME -> compare(ascending = ascending, comparator = nullsLast()) { it.name }
-        StellarHostProperty.SYSTEM_NAME -> compare(ascending = ascending, comparator = nullsLast()) { it.systemName }
-        StellarHostProperty.PLANET_COUNT -> compare(ascending = ascending, comparator = nullsLast()) { it.planets.size }
-        StellarHostProperty.SPECTRAL_TYPE -> compare(ascending = ascending, comparator = nullsLast()) { it.spectralType }
-        StellarHostProperty.TEMPERATURE -> compare(ascending = ascending, comparator = nullsLast()) { it.effectiveTemperature }
-        StellarHostProperty.RADIUS -> compare(ascending = ascending, comparator = nullsLast()) { it.radius }
-        StellarHostProperty.MASS -> compare(ascending = ascending, comparator = nullsLast()) { it.mass }
-        StellarHostProperty.METALLICITY -> compare(ascending = ascending, comparator = nullsLast()) { it.metallicity }
-        StellarHostProperty.LUMINOSITY -> compare(ascending = ascending, comparator = nullsLast()) { it.luminosity }
-        StellarHostProperty.GRAVITY -> compare(ascending = ascending, comparator = nullsLast()) { it.gravity }
-        StellarHostProperty.AGE -> compare(ascending = ascending, comparator = nullsLast()) { it.age }
-        StellarHostProperty.DENSITY -> compare(ascending = ascending, comparator = nullsLast()) { it.density }
-        StellarHostProperty.ROTATIONAL_VELOCITY -> compare(ascending = ascending, comparator = nullsLast()) { it.rotationalVelocity }
-        StellarHostProperty.ROTATIONAL_PERIOD -> compare(ascending = ascending, comparator = nullsLast()) { it.rotationalPeriod }
-        StellarHostProperty.DISTANCE -> compare(ascending = ascending, comparator = nullsLast()) { it.distance }
-        StellarHostProperty.RA -> compare(ascending = ascending, comparator = nullsLast()) { it.ra }
-        StellarHostProperty.DEC -> compare(ascending = ascending, comparator = nullsLast()) { it.dec }
+        StellarHostProperty.NAME -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.name }
+
+        StellarHostProperty.SYSTEM_NAME -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.systemName }
+
+        StellarHostProperty.PLANET_COUNT -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.planets.size }
+
+        StellarHostProperty.SPECTRAL_TYPE -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.spectralType }
+
+        StellarHostProperty.TEMPERATURE -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.effectiveTemperature }
+
+        StellarHostProperty.RADIUS -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.radius }
+
+        StellarHostProperty.MASS -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.mass }
+
+        StellarHostProperty.METALLICITY -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.metallicity }
+
+        StellarHostProperty.LUMINOSITY -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.luminosity }
+
+        StellarHostProperty.GRAVITY -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.gravity }
+
+        StellarHostProperty.AGE -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.age }
+
+        StellarHostProperty.DENSITY -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.density }
+
+        StellarHostProperty.ROTATIONAL_VELOCITY -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.rotationalVelocity }
+
+        StellarHostProperty.ROTATIONAL_PERIOD -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.rotationalPeriod }
+
+        StellarHostProperty.DISTANCE -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.distance }
+
+        StellarHostProperty.RA -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.ra }
+
+        StellarHostProperty.DEC -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.dec }
     }
 
     private fun getPlanetsComparator(sort: PlanetProperty, ascending: Boolean): Comparator<Planet> = when (sort) {
-        PlanetProperty.NAME -> compare(ascending = ascending, comparator = nullsLast()) { it.name }
-        PlanetProperty.STATUS -> compare(ascending = ascending, comparator = nullsLast()) { it.status.displayName }
-        PlanetProperty.HABITABILITY -> compare(ascending = ascending, comparator = nullsLast()) { it.habitability?.habitabilityScore }
-        PlanetProperty.ORBITAL_PERIOD -> compare(ascending = ascending, comparator = nullsLast()) { it.orbitalPeriod }
-        PlanetProperty.ORBIT_AXIS -> compare(ascending = ascending, comparator = nullsLast()) { it.orbitAxis }
-        PlanetProperty.RADIUS -> compare(ascending = ascending, comparator = nullsLast()) { it.radius }
-        PlanetProperty.MASS -> compare(ascending = ascending, comparator = nullsLast()) { it.mass }
-        PlanetProperty.DENSITY -> compare(ascending = ascending, comparator = nullsLast()) { it.density }
-        PlanetProperty.ECCENTRICITY -> compare(ascending = ascending, comparator = nullsLast()) { it.eccentricity }
-        PlanetProperty.INSOLATION_FLUX -> compare(ascending = ascending, comparator = nullsLast()) { it.insolationFlux }
-        PlanetProperty.TEMPERATURE -> compare(ascending = ascending, comparator = nullsLast()) { it.equilibriumTemperature }
-        PlanetProperty.OCCULTATION_DEPTH -> compare(ascending = ascending, comparator = nullsLast()) { it.occultationDepth }
-        PlanetProperty.INCLINATION -> compare(ascending = ascending, comparator = nullsLast()) { it.inclination }
-        PlanetProperty.OBLIQUITY -> compare(ascending = ascending, comparator = nullsLast()) { it.obliquity }
+        PlanetProperty.NAME -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.name }
+
+        PlanetProperty.STATUS -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.status.displayName }
+
+        PlanetProperty.HABITABILITY -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.habitability?.habitabilityScore }
+
+        PlanetProperty.ORBITAL_PERIOD -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.orbitalPeriod }
+
+        PlanetProperty.ORBIT_AXIS -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.orbitAxis }
+
+        PlanetProperty.RADIUS -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.radius }
+
+        PlanetProperty.MASS -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.mass }
+
+        PlanetProperty.DENSITY -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.density }
+
+        PlanetProperty.ECCENTRICITY -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.eccentricity }
+
+        PlanetProperty.INSOLATION_FLUX -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.insolationFlux }
+
+        PlanetProperty.TEMPERATURE -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.equilibriumTemperature }
+
+        PlanetProperty.OCCULTATION_DEPTH -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.occultationDepth }
+
+        PlanetProperty.INCLINATION -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.inclination }
+
+        PlanetProperty.OBLIQUITY -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.obliquity }
     }
 
     override fun reducer(state: StellarExplorerState, action: StellarExplorerAction) {
@@ -362,7 +484,7 @@ internal class StellarExplorerStore(
                 }
             }
 
-            is StellarExplorerAction.SortStellarHosts -> {
+            is StellarExplorerAction.SortStellarHosts -> launchInPipeline {
                 val filteredStellarHosts = with(receiver = state.filteredStellarHosts) {
                     sortedWith(comparator = getStellarHostComparator(sort = action.sort, ascending = state.sortAscending).thenBy { it.id })
                 }
@@ -374,7 +496,7 @@ internal class StellarExplorerStore(
                 }
             }
 
-            is StellarExplorerAction.SortPlanets -> {
+            is StellarExplorerAction.SortPlanets -> launchInPipeline {
                 val filteredPlanets = with(receiver = state.filteredPlanets) {
                     sortedWith(comparator = getPlanetsComparator(sort = action.sort, ascending = state.sortAscending).thenBy { it.id })
                 }
@@ -386,14 +508,13 @@ internal class StellarExplorerStore(
                 }
             }
 
-            StellarExplorerAction.ChangeSortDirection -> updateState {
-                val state = it.copy(sortAscending = !it.sortAscending)
+            StellarExplorerAction.ChangeSortDirection -> launchInPipeline {
+                updateState { it.copy(sortAscending = !it.sortAscending) }.join()
                 when (state.currentContent) {
                     Content.LIST_HOSTS -> send(action = StellarExplorerAction.SortStellarHosts(sort = state.sortStellarHostProperty))
                     Content.LIST_PLANETS -> send(action = StellarExplorerAction.SortPlanets(sort = state.sortPlanetProperty))
                     null, Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
                 }
-                state
             }
 
             is StellarExplorerAction.ChangeStellarHostsVisibility -> TODO()
