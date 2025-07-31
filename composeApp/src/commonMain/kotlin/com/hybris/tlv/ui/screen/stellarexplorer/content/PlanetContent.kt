@@ -5,14 +5,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.component.LazyListIndex
 import com.hybris.tlv.ui.component.PlanetCard
 import com.hybris.tlv.ui.component.StellarHostCard
+import com.hybris.tlv.ui.screen.stellarexplorer.Content
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerAction
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
 import com.hybris.tlv.ui.store.Store
@@ -20,37 +23,42 @@ import com.hybris.tlv.ui.store.Store
 @Composable
 internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerState>) {
     val storeState by store.stateFlow.collectAsState()
-    val stellarHost = storeState.selectedStellarHost ?: return
+    val currentContent = storeState.currentContent
+    val stellarHost = storeState.selectedStellarHost
 
+    val listState = if (currentContent == Content.LIST_PLANETS) storeState.listIndex.getState() else rememberLazyListState()
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+        state = listState
     ) {
-        item(key = stellarHost.id) {
-            StellarHostCard(
-                name = stellarHost.name,
-                systemName = stellarHost.systemName,
-                planetCount = stellarHost.planets.size,
-                spectralType = stellarHost.spectralType,
-                effectiveTemperature = stellarHost.effectiveTemperature,
-                radius = stellarHost.radius,
-                mass = stellarHost.mass,
-                metallicity = stellarHost.metallicity,
-                luminosity = stellarHost.luminosity,
-                gravity = stellarHost.gravity,
-                age = stellarHost.age,
-                density = stellarHost.density,
-                rotationalVelocity = stellarHost.rotationalVelocity,
-                rotationalPeriod = stellarHost.rotationalPeriod,
-                distance = stellarHost.distance,
-                ra = stellarHost.ra,
-                dec = stellarHost.dec,
-            )
+        if (currentContent == Content.DETAIL_PLANETS && stellarHost != null) {
+            item(key = stellarHost.id) {
+                StellarHostCard(
+                    name = stellarHost.name,
+                    systemName = stellarHost.systemName,
+                    planetCount = stellarHost.planets.size,
+                    spectralType = stellarHost.spectralType,
+                    effectiveTemperature = stellarHost.effectiveTemperature,
+                    radius = stellarHost.radius,
+                    mass = stellarHost.mass,
+                    metallicity = stellarHost.metallicity,
+                    luminosity = stellarHost.luminosity,
+                    gravity = stellarHost.gravity,
+                    age = stellarHost.age,
+                    density = stellarHost.density,
+                    rotationalVelocity = stellarHost.rotationalVelocity,
+                    rotationalPeriod = stellarHost.rotationalPeriod,
+                    distance = stellarHost.distance,
+                    ra = stellarHost.ra,
+                    dec = stellarHost.dec,
+                )
+            }
+            item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
         }
-        item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
-        items(items = stellarHost.planets, key = { it.id }) { planet ->
+        items(items = storeState.filteredPlanets, key = { it.id }) { planet ->
             PlanetCard(
                 name = planet.name,
                 status = planet.status,
@@ -66,7 +74,17 @@ internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerSt
                 inclination = planet.inclination,
                 obliquity = planet.obliquity,
                 habitability = planet.habitability?.habitabilityScore,
-            )
+            ) {
+                store.send(
+                    action = StellarExplorerAction.SaveIndex(
+                        index = LazyListIndex(
+                            index = listState.firstVisibleItemIndex,
+                            scrollOffset = listState.firstVisibleItemScrollOffset
+                        )
+                    )
+                )
+                store.send(action = StellarExplorerAction.OpenPlanet(planet = planet))
+            }
         }
     }
 }

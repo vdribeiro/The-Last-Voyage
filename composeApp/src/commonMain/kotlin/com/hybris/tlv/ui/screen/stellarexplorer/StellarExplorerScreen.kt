@@ -1,9 +1,13 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -12,7 +16,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.ControlPanel
+import com.hybris.tlv.ui.component.LazyListIndex
+import com.hybris.tlv.ui.component.StellarHostCard
 import com.hybris.tlv.ui.screen.stellarexplorer.content.PlanetContent
 import com.hybris.tlv.ui.screen.stellarexplorer.content.StellarHostContent
 import com.hybris.tlv.ui.store.Store
@@ -28,21 +35,30 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
+            val enabled = when (storeState.currentContent) {
+                Content.LIST_HOSTS, Content.LIST_PLANETS -> true
+                null, Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> false
+            }
+            val viewName = getTranslation(
+                key = when (storeState.currentContent) {
+                    Content.LIST_HOSTS, Content.DETAIL_PLANETS -> "stellar_explorer_screen__host_list"
+                    Content.LIST_PLANETS, Content.DETAIL_HOSTS -> "stellar_explorer_screen__planet_list"
+                    null -> ""
+                }
+            )
+            val properties = when (storeState.currentContent) {
+                Content.LIST_HOSTS -> stellarHostProperties
+                Content.LIST_PLANETS -> planetProperties
+                null, Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> emptyList()
+            }
+            val selectedProperty = "TODO"
             ControlPanel(
+                enabled = enabled,
                 onSearch = { store.send(action = StellarExplorerAction.Search(search = it)) },
-                viewName = getTranslation(
-                    key =
-                        when (storeState.currentContent) {
-                            Content.LIST_HOSTS -> "hosts"
-                            Content.DETAIL_PLANET -> "planets_detail"
-                            Content.LIST_PLANETS -> "planets"
-                            Content.DETAIL_HOST -> "hosts_detail"
-                            null -> ""
-                        }
-                ),
+                viewName = viewName,
                 onChangeView = { store.send(action = StellarExplorerAction.ChangeView) },
-                properties = storeState.properties,
-                selectedProperty = storeState.selectedProperty,
+                properties = properties,
+                selectedProperty = selectedProperty,
                 ascending = storeState.sortAscending,
                 onSortChange = { store.send(action = StellarExplorerAction.Sort(sort = it)) },
                 onSortDirectionChange = { store.send(action = StellarExplorerAction.ChangeSortDirection) },
@@ -54,8 +70,8 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (storeState.currentContent) {
                 null -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-                Content.LIST_HOSTS, Content.DETAIL_HOST -> StellarHostContent(store = store)
-                Content.LIST_PLANETS, Content.DETAIL_PLANET -> PlanetContent(store = store)
+                Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostContent(store = store)
+                Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetContent(store = store)
             }
         }
     }

@@ -4,7 +4,12 @@ import com.hybris.tlv.Core
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.SyncResult
+import com.hybris.tlv.usecase.collectProgress
+import com.hybris.tlv.usecase.combine
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.last
 
 internal sealed interface SplashAction {
@@ -30,13 +35,20 @@ internal class SplashStore(
     }
 
     private fun setup() = launch {
-        core.setup()
-        core.prepopulate()
+        combine(
+            flows = listOf(
+                core.setup(),
+                core.prepopulate()
+            )
+        ) { it.combine() }.collectProgress { progress ->
+            updateState { it.copy(progress = progress) }
+        }
 
         launchAndForget {
             // Uncomment to rewrite all data
             //core.rewrite().last()
-            core.sync().last()
+            // TODO
+            //core.sync().last()
         }
 
         updateState { it.copy(progress = 1f) }

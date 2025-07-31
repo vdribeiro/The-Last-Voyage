@@ -2151,6 +2151,16 @@
   },
   {
     "languageIso": "en",
+    "key": "stellar_explorer_screen__host_list",
+    "value": "Stellar Hosts"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_explorer_screen__planet_list",
+    "value": "Planets"
+  },
+  {
+    "languageIso": "en",
     "key": "credits_screen__creators",
     "value": "Creator"
   },

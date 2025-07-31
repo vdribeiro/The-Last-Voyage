@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -35,6 +34,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun ControlPanel(
+    enabled: Boolean,
     onSearch: (String) -> Unit,
     viewName: String,
     onChangeView: () -> Unit,
@@ -54,6 +54,7 @@ internal fun ControlPanel(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
+                enabled = enabled,
                 value = searchQuery,
                 onValueChange = {
                     searchQuery = it
@@ -74,12 +75,16 @@ internal fun ControlPanel(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                TextButton(onClick = { onChangeView() }) {
+                TextButton(
+                    enabled = enabled,
+                    onClick = { onChangeView() }
+                ) {
                     Text(text = viewName)
                 }
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     SortMenu(
+                        enabled = enabled,
                         properties = properties,
                         selectedProperty = selectedProperty,
                         ascending = ascending,
@@ -88,9 +93,10 @@ internal fun ControlPanel(
 
                     )
                     VisibilityMenu(
+                        enabled = enabled,
                         properties = properties,
                         visibleProperties = visibleProperties,
-                        onVisibilityChange =onVisibilityChange
+                        onVisibilityChange = onVisibilityChange
                     )
                 }
             }
@@ -100,6 +106,7 @@ internal fun ControlPanel(
 
 @Composable
 private fun SortMenu(
+    enabled: Boolean,
     properties: List<String>,
     selectedProperty: String,
     ascending: Boolean,
@@ -109,15 +116,22 @@ private fun SortMenu(
     var expanded by remember { mutableStateOf(false) }
     val sortDirectionIcon = if (ascending) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward
     Box {
-        IconButton(onClick = { expanded = true }) {
+        IconButton(
+            enabled = enabled,
+            onClick = { expanded = true }
+        ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.Sort,
                 contentDescription = "Sort Options"
             )
         }
-        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
             properties.forEach { property ->
                 DropdownMenuItem(
+                    enabled = enabled,
                     text = { Text(text = property) },
                     onClick = {
                         onSortChange(property)
@@ -136,7 +150,10 @@ private fun SortMenu(
         }
     }
     Box {
-        IconButton(onClick = { onSortDirectionChange() }) {
+        IconButton(
+            enabled = enabled,
+            onClick = { onSortDirectionChange() }
+        ) {
             Icon(
                 imageVector = sortDirectionIcon,
                 contentDescription = "Sort Directions"
@@ -147,21 +164,29 @@ private fun SortMenu(
 
 @Composable
 private fun VisibilityMenu(
+    enabled: Boolean,
     properties: List<String>,
     visibleProperties: List<String>,
     onVisibilityChange: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     Box {
-        IconButton(onClick = { expanded = true }) {
+        IconButton(
+            enabled = enabled,
+            onClick = { expanded = true }
+        ) {
             Icon(
                 imageVector = Icons.Default.Visibility,
                 contentDescription = "Visibility Options"
             )
         }
-        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
             properties.forEach { property ->
                 DropdownMenuItem(
+                    enabled = enabled,
                     text = { Text(text = property) },
                     onClick = { onVisibilityChange(property) },
                     leadingIcon = {

@@ -265,7 +265,7 @@ private fun StellarExplorerDetailScreenPreview() {
     AppTheme {
         navigation().StellarExplorerScreen(
             state = StellarExplorerState(
-                currentContent = StellarExplorerContent.DETAIL_PLANET,
+                currentContent = StellarExplorerContent.DETAIL_HOSTS,
                 selectedStellarHost = stellarHosts.first().apply {
                     planets.addAll(elements = planets.filter { it.stellarHostId == id })
                 }
