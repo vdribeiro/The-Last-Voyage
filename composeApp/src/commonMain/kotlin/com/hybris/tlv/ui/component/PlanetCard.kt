@@ -35,7 +35,7 @@ import thelastvoyage.composeapp.generated.resources.planet04
 
 @Composable
 internal fun PlanetCard(
-    name: String,
+    name: String? = null,
     status: PlanetStatus? = null,
     orbitalPeriod: Double? = null,
     orbitAxis: Double? = null,
@@ -75,8 +75,10 @@ internal fun PlanetCard(
             )
             Spacer(modifier = Modifier.width(width = 16.dp))
             Column(modifier = Modifier.weight(weight = 1f)) {
-                Text(text = name, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.height(height = 4.dp))
+                name?.let {
+                    Text(text = it, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(height = 4.dp))
+                }
                 status?.displayName?.let {
                     InfoRow(
                         label = getTranslation(key = "planet_status"),

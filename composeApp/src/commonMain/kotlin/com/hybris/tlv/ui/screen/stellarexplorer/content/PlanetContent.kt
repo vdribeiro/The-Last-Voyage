@@ -16,8 +16,10 @@ import com.hybris.tlv.ui.component.LazyListIndex
 import com.hybris.tlv.ui.component.PlanetCard
 import com.hybris.tlv.ui.component.StellarHostCard
 import com.hybris.tlv.ui.screen.stellarexplorer.Content
+import com.hybris.tlv.ui.screen.stellarexplorer.PlanetProperty
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerAction
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
+import com.hybris.tlv.ui.screen.stellarexplorer.StellarHostProperty
 import com.hybris.tlv.ui.store.Store
 
 @Composable
@@ -25,6 +27,8 @@ internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerSt
     val storeState by store.stateFlow.collectAsState()
     val currentContent = storeState.currentContent
     val stellarHost = storeState.selectedStellarHost
+    val visibleStellarHostProperties = storeState.visibleStellarHostProperties
+    val visiblePlanetProperties = storeState.visiblePlanetProperties
 
     val listState = if (currentContent == Content.LIST_PLANETS) storeState.listIndex.getState() else rememberLazyListState()
     LazyColumn(
@@ -37,43 +41,43 @@ internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerSt
         if (currentContent == Content.DETAIL_HOSTS && stellarHost != null) {
             item(key = stellarHost.id) {
                 StellarHostCard(
-                    name = stellarHost.name,
-                    systemName = stellarHost.systemName,
-                    planetCount = stellarHost.planets.size,
-                    spectralType = stellarHost.spectralType,
-                    effectiveTemperature = stellarHost.effectiveTemperature,
-                    radius = stellarHost.radius,
-                    mass = stellarHost.mass,
-                    metallicity = stellarHost.metallicity,
-                    luminosity = stellarHost.luminosity,
-                    gravity = stellarHost.gravity,
-                    age = stellarHost.age,
-                    density = stellarHost.density,
-                    rotationalVelocity = stellarHost.rotationalVelocity,
-                    rotationalPeriod = stellarHost.rotationalPeriod,
-                    distance = stellarHost.distance,
-                    ra = stellarHost.ra,
-                    dec = stellarHost.dec,
+                    name = if (visibleStellarHostProperties.contains(element = StellarHostProperty.NAME)) stellarHost.name else null,
+                    systemName = if (visibleStellarHostProperties.contains(element = StellarHostProperty.SYSTEM_NAME)) stellarHost.systemName else null,
+                    planetCount = if (visibleStellarHostProperties.contains(element = StellarHostProperty.PLANET_COUNT)) stellarHost.planets.size else null,
+                    spectralType = if (visibleStellarHostProperties.contains(element = StellarHostProperty.SPECTRAL_TYPE)) stellarHost.spectralType else null,
+                    effectiveTemperature = if (visibleStellarHostProperties.contains(element = StellarHostProperty.TEMPERATURE)) stellarHost.effectiveTemperature else null,
+                    radius = if (visibleStellarHostProperties.contains(element = StellarHostProperty.RADIUS)) stellarHost.radius else null,
+                    mass = if (visibleStellarHostProperties.contains(element = StellarHostProperty.MASS)) stellarHost.mass else null,
+                    metallicity = if (visibleStellarHostProperties.contains(element = StellarHostProperty.METALLICITY)) stellarHost.metallicity else null,
+                    luminosity = if (visibleStellarHostProperties.contains(element = StellarHostProperty.LUMINOSITY)) stellarHost.luminosity else null,
+                    gravity = if (visibleStellarHostProperties.contains(element = StellarHostProperty.GRAVITY)) stellarHost.gravity else null,
+                    age = if (visibleStellarHostProperties.contains(element = StellarHostProperty.AGE)) stellarHost.age else null,
+                    density = if (visibleStellarHostProperties.contains(element = StellarHostProperty.DENSITY)) stellarHost.density else null,
+                    rotationalVelocity = if (visibleStellarHostProperties.contains(element = StellarHostProperty.ROTATIONAL_VELOCITY)) stellarHost.rotationalVelocity else null,
+                    rotationalPeriod = if (visibleStellarHostProperties.contains(element = StellarHostProperty.ROTATIONAL_PERIOD)) stellarHost.rotationalPeriod else null,
+                    distance = if (visibleStellarHostProperties.contains(element = StellarHostProperty.DISTANCE)) stellarHost.distance else null,
+                    ra = if (visibleStellarHostProperties.contains(element = StellarHostProperty.RA)) stellarHost.ra else null,
+                    dec = if (visibleStellarHostProperties.contains(element = StellarHostProperty.DEC)) stellarHost.dec else null,
                 )
             }
             item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
         }
         items(items = storeState.filteredPlanets, key = { it.id }) { planet ->
             PlanetCard(
-                name = planet.name,
-                status = planet.status,
-                orbitalPeriod = planet.orbitalPeriod,
-                orbitAxis = planet.orbitAxis,
-                radius = planet.radius,
-                mass = planet.mass,
-                density = planet.density,
-                eccentricity = planet.eccentricity,
-                insolationFlux = planet.insolationFlux,
-                equilibriumTemperature = planet.equilibriumTemperature,
-                occultationDepth = planet.occultationDepth,
-                inclination = planet.inclination,
-                obliquity = planet.obliquity,
-                habitability = planet.habitability?.habitabilityScore,
+                name = if (visiblePlanetProperties.contains(element = PlanetProperty.NAME)) planet.name else null,
+                status = if (visiblePlanetProperties.contains(element = PlanetProperty.STATUS)) planet.status else null,
+                orbitalPeriod = if (visiblePlanetProperties.contains(element = PlanetProperty.ORBITAL_PERIOD)) planet.orbitalPeriod else null,
+                orbitAxis = if (visiblePlanetProperties.contains(element = PlanetProperty.ORBIT_AXIS)) planet.orbitAxis else null,
+                radius = if (visiblePlanetProperties.contains(element = PlanetProperty.RADIUS)) planet.radius else null,
+                mass = if (visiblePlanetProperties.contains(element = PlanetProperty.MASS)) planet.mass else null,
+                density = if (visiblePlanetProperties.contains(element = PlanetProperty.DENSITY)) planet.density else null,
+                eccentricity = if (visiblePlanetProperties.contains(element = PlanetProperty.ECCENTRICITY)) planet.eccentricity else null,
+                insolationFlux = if (visiblePlanetProperties.contains(element = PlanetProperty.INSOLATION_FLUX)) planet.insolationFlux else null,
+                equilibriumTemperature = if (visiblePlanetProperties.contains(element = PlanetProperty.TEMPERATURE)) planet.equilibriumTemperature else null,
+                occultationDepth = if (visiblePlanetProperties.contains(element = PlanetProperty.OCCULTATION_DEPTH)) planet.occultationDepth else null,
+                inclination = if (visiblePlanetProperties.contains(element = PlanetProperty.INCLINATION)) planet.inclination else null,
+                obliquity = if (visiblePlanetProperties.contains(element = PlanetProperty.OBLIQUITY)) planet.obliquity else null,
+                habitability = if (visiblePlanetProperties.contains(element = PlanetProperty.HABITABILITY)) planet.habitability?.habitabilityScore else null,
             ) {
                 store.send(
                     action = StellarExplorerAction.SaveIndex(

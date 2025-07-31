@@ -39,7 +39,7 @@ import thelastvoyage.composeapp.generated.resources.W
 
 @Composable
 internal fun StellarHostCard(
-    name: String,
+    name: String? = null,
     systemName: String? = null,
     planetCount: Int? = null,
     spectralType: String? = null,
@@ -82,8 +82,10 @@ internal fun StellarHostCard(
             )
             Spacer(modifier = Modifier.width(width = 16.dp))
             Column(modifier = Modifier.weight(weight = 1f)) {
-                Text(text = name, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.height(height = 4.dp))
+                name?.let {
+                    Text(text = it, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(height = 4.dp))
+                }
                 systemName?.let {
                     InfoRow(
                         label = getTranslation(key = "stellar_host_system_name"),

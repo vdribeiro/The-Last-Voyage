@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.mock.planets
 import com.hybris.tlv.ui.component.LazyListIndex
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.store.Store
@@ -117,6 +116,7 @@ internal class StellarExplorerStore(
             }
         }
         val planets = stellarHosts.map { it.planets }.flatten()
+            .sortedWith(comparator = compareBy(comparator = nullsLast()) { it.name })
         updateState {
             it.copy(
                 currentContent = Content.LIST_HOSTS,
@@ -414,24 +414,31 @@ internal class StellarExplorerStore(
                 it.copy(listIndex = action.index)
             }
 
-            StellarExplorerAction.ChangeView -> when (state.currentContent) {
-                null,
-                Content.LIST_HOSTS,
-                Content.DETAIL_HOSTS -> updateState {
-                    it.copy(
-                        currentContent = Content.LIST_PLANETS,
-                        listIndex = LazyListIndex(),
-                        filteredPlanets = state.planets
-                    )
-                }
+            StellarExplorerAction.ChangeView -> launchInPipeline {
+                when (state.currentContent) {
+                    Content.LIST_HOSTS -> {
+                        updateState {
+                            it.copy(
+                                currentContent = Content.LIST_PLANETS,
+                                listIndex = LazyListIndex(),
+                                filteredPlanets = state.planets
+                            )
+                        }.join()
+                        send(action = StellarExplorerAction.SortStellarHosts(sort = state.sortStellarHostProperty))
+                    }
 
-                Content.LIST_PLANETS,
-                Content.DETAIL_PLANETS -> updateState {
-                    it.copy(
-                        currentContent = Content.LIST_HOSTS,
-                        listIndex = LazyListIndex(),
-                        filteredStellarHosts = state.stellarHosts
-                    )
+                    Content.LIST_PLANETS -> {
+                        updateState {
+                            it.copy(
+                                currentContent = Content.LIST_HOSTS,
+                                listIndex = LazyListIndex(),
+                                filteredStellarHosts = state.stellarHosts
+                            )
+                        }.join()
+                        send(action = StellarExplorerAction.SortPlanets(sort = state.sortPlanetProperty))
+                    }
+
+                    null, Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
                 }
             }
 
