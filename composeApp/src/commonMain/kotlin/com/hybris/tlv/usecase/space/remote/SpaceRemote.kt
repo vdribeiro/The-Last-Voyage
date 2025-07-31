@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.space.remote
 
 import com.hybris.tlv.http.request.QueryMap
-import com.hybris.tlv.usecase.domain.Result
-import com.hybris.tlv.usecase.domain.SyncResult
+import com.hybris.tlv.usecase.Result
+import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.remote.result.ExoplanetsResult

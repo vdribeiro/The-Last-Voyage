@@ -8,8 +8,8 @@ import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.usecase.credits.mapper.toCredits
 import com.hybris.tlv.usecase.credits.mapper.toCreditsMap
 import com.hybris.tlv.usecase.credits.model.Credits
-import com.hybris.tlv.usecase.domain.Result
-import com.hybris.tlv.usecase.domain.SyncResult
+import com.hybris.tlv.usecase.Result
+import com.hybris.tlv.usecase.SyncResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.last

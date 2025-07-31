@@ -4,7 +4,7 @@ import com.hybris.tlv.config.LocalConfig
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.usecase.UseCases
-import com.hybris.tlv.usecase.domain.SyncResult
+import com.hybris.tlv.usecase.SyncResult
 import kotlinx.coroutines.flow.Flow
 
 internal interface Core {
@@ -20,7 +20,7 @@ internal interface Core {
     /**
      * Warms up the core.
      */
-    suspend fun setup()
+    suspend fun setup(): Flow<SyncResult>
 
     /**
      * Rewrites all local and remote data.
@@ -30,7 +30,7 @@ internal interface Core {
     /**
      * Prepopulates all local data.
      */
-    suspend fun prepopulate()
+    suspend fun prepopulate(): Flow<SyncResult>
 
     /**
      * Syncs all the remote data to local.

@@ -8,8 +8,8 @@ import com.hybris.tlv.http.client.json
 import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.http.request.Request
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.usecase.domain.Result
-import com.hybris.tlv.usecase.domain.SyncResult
+import com.hybris.tlv.usecase.Result
+import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.space.mapper.toPlanet
 import com.hybris.tlv.usecase.space.mapper.toPlanetMap
 import com.hybris.tlv.usecase.space.mapper.toStellarHost

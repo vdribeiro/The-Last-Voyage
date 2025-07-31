@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.event
 
-import com.hybris.tlv.usecase.domain.SyncResult
+import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.event.model.Event
 import kotlinx.coroutines.flow.Flow
 

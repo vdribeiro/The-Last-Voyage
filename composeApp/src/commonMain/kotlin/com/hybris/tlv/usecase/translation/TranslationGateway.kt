@@ -4,8 +4,8 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.http.client.json
 import com.hybris.tlv.http.request.QueryMap
-import com.hybris.tlv.usecase.domain.Result
-import com.hybris.tlv.usecase.domain.SyncResult
+import com.hybris.tlv.usecase.Result
+import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.translation.local.TranslationLocal
 import com.hybris.tlv.usecase.translation.mapper.toTranslationCacheMap
 import com.hybris.tlv.usecase.translation.model.domain.Translation

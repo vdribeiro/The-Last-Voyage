@@ -8,10 +8,11 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.usecase.UseCases
-import com.hybris.tlv.usecase.domain.SyncResult
-import com.hybris.tlv.usecase.domain.combine
+import com.hybris.tlv.usecase.SyncResult
+import com.hybris.tlv.usecase.combine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 internal class AppCore(
@@ -22,7 +23,8 @@ internal class AppCore(
     override val useCases: UseCases
 ): Core {
 
-    override suspend fun setup() {
+    override suspend fun setup(): Flow<SyncResult> = flow {
+        emit(value = SyncResult.Loading(progress = 0f, total = 1f))
         Logger.setup()
 
         val configs = listOf(
@@ -43,6 +45,8 @@ internal class AppCore(
             .settings(settings = configSetting)
             .setDefaults(defaults = configs)
             .fetchAndActivate()
+
+        emit(value = SyncResult.Success)
     }
 
     override suspend fun rewrite(): Flow<SyncResult> =
@@ -58,16 +62,27 @@ internal class AppCore(
             )
         ) { it.combine() }
 
-    override suspend fun prepopulate() {
+    override suspend fun prepopulate(): Flow<SyncResult> = flow {
+        val totalOperations = 9f
+        emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
         useCases.translation.prepopulateTranslations()
+        emit(value = SyncResult.Loading(progress = 1f, total = totalOperations))
         useCases.earth.prepopulateCatastrophes()
+        emit(value = SyncResult.Loading(progress = 2f, total = totalOperations))
         useCases.ship.prepopulateEngines()
+        emit(value = SyncResult.Loading(progress = 3f, total = totalOperations))
         useCases.space.prepopulateStellarHosts()
+        emit(value = SyncResult.Loading(progress = 4f, total = totalOperations))
         useCases.space.prepopulatePlanets()
+        emit(value = SyncResult.Loading(progress = 5f, total = totalOperations))
         useCases.event.prepopulateEvents()
+        emit(value = SyncResult.Loading(progress = 6f, total = totalOperations))
         useCases.achievement.prepopulateAchievements()
+        emit(value = SyncResult.Loading(progress = 7f, total = totalOperations))
         useCases.credits.prepopulateCredits()
+        emit(value = SyncResult.Loading(progress = 8f, total = totalOperations))
         useCases.translation.loadTranslationsToCache(languageIso = locale.getLanguage())
+        emit(value = SyncResult.Success)
     }
 
     override suspend fun sync(): Flow<SyncResult> =

@@ -18,7 +18,7 @@ internal sealed interface StellarExplorerAction {
     data class Search(val search: String): StellarExplorerAction
     data class Sort(val sort: String): StellarExplorerAction
     data object ChangeSortDirection: StellarExplorerAction
-    data class ChangeVisibility(val property: String): StellarExplorerAction)
+    data class ChangeVisibility(val property: String): StellarExplorerAction
 }
 
 internal data class StellarExplorerState(

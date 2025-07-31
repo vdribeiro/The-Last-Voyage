@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.space
 
-import com.hybris.tlv.usecase.domain.SyncResult
+import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import kotlinx.coroutines.flow.Flow

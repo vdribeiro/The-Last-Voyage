@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.translation
 
-import com.hybris.tlv.usecase.domain.SyncResult
+import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.translation.model.domain.Translation
 import kotlinx.coroutines.flow.Flow
 

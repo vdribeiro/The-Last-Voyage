@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.ship
 
-import com.hybris.tlv.usecase.domain.SyncResult
+import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.ship.model.Engine
 import kotlinx.coroutines.flow.Flow
 

@@ -2,8 +2,8 @@ package com.hybris.tlv.usecase.ship
 
 import com.hybris.tlv.http.client.json
 import com.hybris.tlv.http.request.QueryMap
-import com.hybris.tlv.usecase.domain.Result
-import com.hybris.tlv.usecase.domain.SyncResult
+import com.hybris.tlv.usecase.Result
+import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.ship.local.ShipLocal
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.remote.ShipRemote

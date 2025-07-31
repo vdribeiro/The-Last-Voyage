@@ -5,6 +5,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.last
 
 internal sealed interface SplashAction {
     data object Start: SplashAction
@@ -30,19 +31,13 @@ internal class SplashStore(
 
     private fun setup() = launch {
         core.setup()
-
-        // Uncomment to rewrite all data
-        //core.rewrite().last()
-
-        //core.sync().collect { result ->
-        //    val progress = when (result) {
-        //        is SyncResult.Error, SyncResult.Success -> 1f
-        //        is SyncResult.Loading -> if (result.total > 0f) result.progress / result.total else 1f
-        //    }
-        //    updateState { it.copy(progress = progress) }
-        //}
-
         core.prepopulate()
+
+        launchAndForget {
+            // Uncomment to rewrite all data
+            //core.rewrite().last()
+            core.sync().last()
+        }
 
         updateState { it.copy(progress = 1f) }
         delay(timeMillis = 1000)

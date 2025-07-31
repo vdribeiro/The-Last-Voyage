@@ -2,8 +2,8 @@ package com.hybris.tlv.usecase.earth
 
 import com.hybris.tlv.http.client.json
 import com.hybris.tlv.http.request.QueryMap
-import com.hybris.tlv.usecase.domain.Result
-import com.hybris.tlv.usecase.domain.SyncResult
+import com.hybris.tlv.usecase.Result
+import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.earth.local.EarthLocal
 import com.hybris.tlv.usecase.earth.model.Catastrophe
 import com.hybris.tlv.usecase.earth.remote.EarthRemote

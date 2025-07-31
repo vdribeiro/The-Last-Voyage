@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.achievement
 
 import com.hybris.tlv.usecase.achievement.model.Achievement
-import com.hybris.tlv.usecase.domain.SyncResult
+import com.hybris.tlv.usecase.SyncResult
 import kotlinx.coroutines.flow.Flow
 
 internal interface AchievementUseCases {

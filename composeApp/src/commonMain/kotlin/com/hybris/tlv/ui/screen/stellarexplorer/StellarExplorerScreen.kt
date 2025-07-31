@@ -13,8 +13,8 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import com.hybris.tlv.ui.component.ControlPanel
-import com.hybris.tlv.ui.screen.stellarexplorer.content.StellarHostDetailContent
-import com.hybris.tlv.ui.screen.stellarexplorer.content.StellarHostListContent
+import com.hybris.tlv.ui.screen.stellarexplorer.content.PlanetContent
+import com.hybris.tlv.ui.screen.stellarexplorer.content.StellarHostContent
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -54,10 +54,8 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (storeState.currentContent) {
                 null -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-                Content.LIST_HOSTS -> StellarHostListContent(store = store)
-                Content.DETAIL_PLANET -> StellarHostDetailContent(store = store)
-                Content.LIST_PLANETS -> TODO()
-                Content.DETAIL_HOST -> TODO()
+                Content.LIST_HOSTS, Content.DETAIL_HOST -> StellarHostContent(store = store)
+                Content.LIST_PLANETS, Content.DETAIL_PLANET -> PlanetContent(store = store)
             }
         }
     }

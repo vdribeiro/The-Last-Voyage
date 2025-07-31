@@ -5,8 +5,8 @@ import com.hybris.tlv.firestore.result.FirestoreReadResult
 import com.hybris.tlv.firestore.result.FirestoreWriteResult
 import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.usecase.domain.Result
-import com.hybris.tlv.usecase.domain.SyncResult
+import com.hybris.tlv.usecase.Result
+import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.earth.mapper.toCatastrophe
 import com.hybris.tlv.usecase.earth.mapper.toCatastropheMap
 import com.hybris.tlv.usecase.earth.model.Catastrophe
