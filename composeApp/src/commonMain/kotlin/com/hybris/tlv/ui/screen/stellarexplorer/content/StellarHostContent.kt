@@ -19,7 +19,6 @@ import com.hybris.tlv.ui.screen.stellarexplorer.Content
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerAction
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun StellarHostContent(store: Store<StellarExplorerAction, StellarExplorerState>) {

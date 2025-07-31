@@ -29,7 +29,7 @@ internal fun Section(title: String, sections: List<Section>) {
     ) {
         item {
             Text(
-                text =  title,
+                text = title,
                 style = MaterialTheme.typography.headlineLarge,
             )
         }
@@ -42,7 +42,7 @@ internal fun Section(title: String, sections: List<Section>) {
             )
             Spacer(Modifier.height(height = 8.dp))
             Text(
-                text =  section.description,
+                text = section.description,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

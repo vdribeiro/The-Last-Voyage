@@ -58,12 +58,12 @@ internal fun Score(
         ) {
             HorizontalDivider()
             Spacer(Modifier.height(height = 8.dp))
-            Text(text = "${getTranslation(key = "ship_years_traveled")}: $yearsTraveled")
-            Text(text = "${getTranslation(key = "ship_sensor")}: $sensorRange")
-            Text(text = "${getTranslation(key = "ship_integrity")}: $integrity")
-            Text(text = "${getTranslation(key = "ship_materials")}: $materials")
-            Text(text = "${getTranslation(key = "ship_fuel")}: $fuel")
-            Text(text = "${getTranslation(key = "ship_cryopods")}: $cryopods")
+            InfoRow(label = getTranslation(key = "ship_years_traveled"), value = yearsTraveled)
+            InfoRow(label = getTranslation(key = "ship_sensor"), value = sensorRange)
+            InfoRow(label = getTranslation(key = "ship_integrity"), value = integrity)
+            InfoRow(label = getTranslation(key = "ship_materials"), value = materials)
+            InfoRow(label = getTranslation(key = "ship_fuel"), value = fuel)
+            InfoRow(label = getTranslation(key = "ship_cryopods"), value = cryopods)
         }
     }
 }

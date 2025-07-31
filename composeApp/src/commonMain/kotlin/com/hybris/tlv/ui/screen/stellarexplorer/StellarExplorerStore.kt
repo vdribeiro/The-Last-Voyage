@@ -12,19 +12,24 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal sealed interface StellarExplorerAction {
     data object Back: StellarExplorerAction
-    data object ChangeView: StellarExplorerAction
     data class SaveIndex(val index: LazyListIndex): StellarExplorerAction
+
+    data object ChangeView: StellarExplorerAction
+    data class Search(val search: String): StellarExplorerAction
+
     data class OpenStellarHost(val stellarHost: StellarHost): StellarExplorerAction
     data class OpenPlanet(val planet: Planet): StellarExplorerAction
-    data class Search(val search: String): StellarExplorerAction
-    data class Sort(val sort: String): StellarExplorerAction
+    data class SortStellarHosts(val sort: StellarHostProperty): StellarExplorerAction
+    data class SortPlanets(val sort: PlanetProperty): StellarExplorerAction
     data object ChangeSortDirection: StellarExplorerAction
-    data class ChangeVisibility(val property: String): StellarExplorerAction
+    data class ChangeStellarHostsVisibility(val property: StellarHostProperty): StellarExplorerAction
+    data class ChangePlanetVisibility(val property: PlanetProperty): StellarExplorerAction
 }
 
 internal data class StellarExplorerState(
     val currentContent: Content? = null,
     val stellarHosts: List<StellarHost> = emptyList(),
+    val planets: List<Planet> = emptyList(),
     val listIndex: LazyListIndex = LazyListIndex(),
     val search: String = "",
     val filteredStellarHosts: List<StellarHost> = emptyList(),
@@ -36,7 +41,8 @@ internal data class StellarExplorerState(
     val sortStellarHostProperty: StellarHostProperty = StellarHostProperty.DISTANCE,
     val sortPlanetProperty: PlanetProperty = PlanetProperty.NAME,
     val sortAscending: Boolean = true,
-    val visibleProperties: List<String> = emptyList(),
+    val visibleStellarHostProperties: List<StellarHostProperty> = StellarHostProperty.entries,
+    val visiblePlanetProperties: List<PlanetProperty> = PlanetProperty.entries
 )
 
 internal enum class Content {
@@ -102,35 +108,9 @@ internal class StellarExplorerStore(
         val stellarHosts = spaceUseCases.getExoplanets().apply {
             forEach { stellarHost ->
                 stellarHost.planets.forEach { planet ->
-                    planet.habitability = exoplanetUseCases.calculateHabitability(
-                        Params(
-                            stellarHost = Params.StellarHost(
-                                spectralType = stellarHost.spectralType,
-                                effectiveTemperature = stellarHost.effectiveTemperature,
-                                radius = stellarHost.radius,
-                                mass = stellarHost.mass,
-                                metallicity = stellarHost.metallicity,
-                                luminosity = stellarHost.luminosity,
-                                gravity = stellarHost.gravity,
-                                age = stellarHost.age,
-                                density = stellarHost.density,
-                                rotationalVelocity = stellarHost.rotationalVelocity,
-                                rotationalPeriod = stellarHost.rotationalPeriod
-                            ),
-                            planet = Params.Planet(
-                                orbitalPeriod = planet.orbitalPeriod,
-                                orbitAxis = planet.orbitAxis,
-                                radius = planet.radius,
-                                mass = planet.mass,
-                                density = planet.density,
-                                eccentricity = planet.eccentricity,
-                                insolationFlux = planet.insolationFlux,
-                                equilibriumTemperature = planet.equilibriumTemperature,
-                                occultationDepth = planet.occultationDepth,
-                                inclination = planet.inclination,
-                                obliquity = planet.obliquity
-                            )
-                        )
+                    planet.habitability = calculateHabitability(
+                        stellarHost = stellarHost,
+                        planet = planet
                     )
                 }
             }
@@ -140,10 +120,149 @@ internal class StellarExplorerStore(
             it.copy(
                 currentContent = Content.LIST_HOSTS,
                 stellarHosts = stellarHosts,
+                planets = planets,
                 filteredStellarHosts = stellarHosts,
                 filteredPlanets = planets
             )
         }
+    }
+
+    private fun calculateHabitability(stellarHost: StellarHost, planet: Planet) =
+        exoplanetUseCases.calculateHabitability(
+            Params(
+                stellarHost = Params.StellarHost(
+                    spectralType = stellarHost.spectralType,
+                    effectiveTemperature = stellarHost.effectiveTemperature,
+                    radius = stellarHost.radius,
+                    mass = stellarHost.mass,
+                    metallicity = stellarHost.metallicity,
+                    luminosity = stellarHost.luminosity,
+                    gravity = stellarHost.gravity,
+                    age = stellarHost.age,
+                    density = stellarHost.density,
+                    rotationalVelocity = stellarHost.rotationalVelocity,
+                    rotationalPeriod = stellarHost.rotationalPeriod
+                ),
+                planet = Params.Planet(
+                    orbitalPeriod = planet.orbitalPeriod,
+                    orbitAxis = planet.orbitAxis,
+                    radius = planet.radius,
+                    mass = planet.mass,
+                    density = planet.density,
+                    eccentricity = planet.eccentricity,
+                    insolationFlux = planet.insolationFlux,
+                    equilibriumTemperature = planet.equilibriumTemperature,
+                    occultationDepth = planet.occultationDepth,
+                    inclination = planet.inclination,
+                    obliquity = planet.obliquity
+                )
+            )
+        )
+
+    private fun searchStellarHosts(search: String, stellarHosts: List<StellarHost>): List<StellarHost> =
+        if (search.isNotBlank()) {
+            val searchLowercase = search.lowercase()
+            stellarHosts.filter { stellarHost ->
+                with(receiver = stellarHost) {
+                    listOfNotNull(
+                        id,
+                        systemName,
+                        name,
+                        spectralType,
+                        effectiveTemperature?.toString(),
+                        radius?.toString(),
+                        mass?.toString(),
+                        metallicity?.toString(),
+                        luminosity?.toString(),
+                        gravity?.toString(),
+                        age?.toString(),
+                        density?.toString(),
+                        rotationalVelocity?.toString(),
+                        rotationalPeriod?.toString(),
+                        distance?.toString(),
+                        ra?.toString(),
+                        dec?.toString(),
+                        planets.size.toString()
+                    )
+                }.any { it.lowercase().contains(other = searchLowercase) }
+            }
+        } else stellarHosts
+
+    private fun searchPlanets(search: String, planets: List<Planet>): List<Planet> =
+        if (search.isNotBlank()) {
+            val searchLowercase = search.lowercase()
+            planets.filter { stellarHost ->
+                with(receiver = stellarHost) {
+                    listOfNotNull(
+                        id,
+                        name,
+                        stellarHostId,
+                        status.displayName,
+                        orbitalPeriod?.toString(),
+                        orbitAxis?.toString(),
+                        radius?.toString(),
+                        mass?.toString(),
+                        density?.toString(),
+                        eccentricity?.toString(),
+                        insolationFlux?.toString(),
+                        equilibriumTemperature?.toString(),
+                        occultationDepth?.toString(),
+                        inclination?.toString(),
+                        obliquity?.toString(),
+                        habitability?.habitabilityScore?.toString()
+                    )
+                }.any { it.lowercase().contains(other = searchLowercase) }
+            }
+        } else planets
+
+    private inline fun <T, K> compare(
+        ascending: Boolean,
+        comparator: Comparator<in K>,
+        crossinline selector: (T) -> K
+    ): Comparator<T> =
+        if (ascending) compareBy(
+            comparator = comparator,
+            selector = selector
+        ) else compareByDescending(
+            comparator = comparator,
+            selector = selector
+        )
+
+    private fun getStellarHostComparator(sort: StellarHostProperty, ascending: Boolean): Comparator<StellarHost> = when (sort) {
+        StellarHostProperty.NAME -> compare(ascending = ascending, comparator = nullsLast()) { it.name }
+        StellarHostProperty.SYSTEM_NAME -> compare(ascending = ascending, comparator = nullsLast()) { it.systemName }
+        StellarHostProperty.PLANET_COUNT -> compare(ascending = ascending, comparator = nullsLast()) { it.planets.size }
+        StellarHostProperty.SPECTRAL_TYPE -> compare(ascending = ascending, comparator = nullsLast()) { it.spectralType }
+        StellarHostProperty.TEMPERATURE -> compare(ascending = ascending, comparator = nullsLast()) { it.effectiveTemperature }
+        StellarHostProperty.RADIUS -> compare(ascending = ascending, comparator = nullsLast()) { it.radius }
+        StellarHostProperty.MASS -> compare(ascending = ascending, comparator = nullsLast()) { it.mass }
+        StellarHostProperty.METALLICITY -> compare(ascending = ascending, comparator = nullsLast()) { it.metallicity }
+        StellarHostProperty.LUMINOSITY -> compare(ascending = ascending, comparator = nullsLast()) { it.luminosity }
+        StellarHostProperty.GRAVITY -> compare(ascending = ascending, comparator = nullsLast()) { it.gravity }
+        StellarHostProperty.AGE -> compare(ascending = ascending, comparator = nullsLast()) { it.age }
+        StellarHostProperty.DENSITY -> compare(ascending = ascending, comparator = nullsLast()) { it.density }
+        StellarHostProperty.ROTATIONAL_VELOCITY -> compare(ascending = ascending, comparator = nullsLast()) { it.rotationalVelocity }
+        StellarHostProperty.ROTATIONAL_PERIOD -> compare(ascending = ascending, comparator = nullsLast()) { it.rotationalPeriod }
+        StellarHostProperty.DISTANCE -> compare(ascending = ascending, comparator = nullsLast()) { it.distance }
+        StellarHostProperty.RA -> compare(ascending = ascending, comparator = nullsLast()) { it.ra }
+        StellarHostProperty.DEC -> compare(ascending = ascending, comparator = nullsLast()) { it.dec }
+    }
+
+    private fun getPlanetsComparator(sort: PlanetProperty, ascending: Boolean): Comparator<Planet> = when (sort) {
+        PlanetProperty.NAME -> compare(ascending = ascending, comparator = nullsLast()) { it.name }
+        PlanetProperty.STATUS -> compare(ascending = ascending, comparator = nullsLast()) { it.status.displayName }
+        PlanetProperty.HABITABILITY -> compare(ascending = ascending, comparator = nullsLast()) { it.habitability?.habitabilityScore }
+        PlanetProperty.ORBITAL_PERIOD -> compare(ascending = ascending, comparator = nullsLast()) { it.orbitalPeriod }
+        PlanetProperty.ORBIT_AXIS -> compare(ascending = ascending, comparator = nullsLast()) { it.orbitAxis }
+        PlanetProperty.RADIUS -> compare(ascending = ascending, comparator = nullsLast()) { it.radius }
+        PlanetProperty.MASS -> compare(ascending = ascending, comparator = nullsLast()) { it.mass }
+        PlanetProperty.DENSITY -> compare(ascending = ascending, comparator = nullsLast()) { it.density }
+        PlanetProperty.ECCENTRICITY -> compare(ascending = ascending, comparator = nullsLast()) { it.eccentricity }
+        PlanetProperty.INSOLATION_FLUX -> compare(ascending = ascending, comparator = nullsLast()) { it.insolationFlux }
+        PlanetProperty.TEMPERATURE -> compare(ascending = ascending, comparator = nullsLast()) { it.equilibriumTemperature }
+        PlanetProperty.OCCULTATION_DEPTH -> compare(ascending = ascending, comparator = nullsLast()) { it.occultationDepth }
+        PlanetProperty.INCLINATION -> compare(ascending = ascending, comparator = nullsLast()) { it.inclination }
+        PlanetProperty.OBLIQUITY -> compare(ascending = ascending, comparator = nullsLast()) { it.obliquity }
     }
 
     override fun reducer(state: StellarExplorerState, action: StellarExplorerAction) {
@@ -168,13 +287,17 @@ internal class StellarExplorerStore(
                 }
             }
 
+            is StellarExplorerAction.SaveIndex -> updateState {
+                it.copy(listIndex = action.index)
+            }
+
             StellarExplorerAction.ChangeView -> when (state.currentContent) {
                 null,
                 Content.LIST_HOSTS,
                 Content.DETAIL_HOSTS -> updateState {
                     it.copy(
                         currentContent = Content.LIST_PLANETS,
-                        listIndex = LazyListIndex()
+                        listIndex = LazyListIndex(),
                     )
                 }
 
@@ -182,13 +305,41 @@ internal class StellarExplorerStore(
                 Content.DETAIL_PLANETS -> updateState {
                     it.copy(
                         currentContent = Content.LIST_HOSTS,
-                        listIndex = LazyListIndex()
+                        listIndex = LazyListIndex(),
                     )
                 }
             }
 
-            is StellarExplorerAction.SaveIndex -> updateState {
-                it.copy(listIndex = action.index)
+            is StellarExplorerAction.Search -> launch {
+                when (state.currentContent) {
+                    Content.LIST_HOSTS -> {
+                        val filteredStellarHosts = searchStellarHosts(
+                            search = action.search,
+                            stellarHosts = state.stellarHosts
+                        )
+                        updateState {
+                            it.copy(
+                                search = action.search,
+                                filteredStellarHosts = filteredStellarHosts,
+                            )
+                        }
+                    }
+
+                    Content.LIST_PLANETS -> {
+                        val filteredPlanets = searchPlanets(
+                            search = action.search,
+                            planets = state.planets
+                        )
+                        updateState {
+                            it.copy(
+                                search = action.search,
+                                filteredPlanets = filteredPlanets,
+                            )
+                        }
+                    }
+
+                    null, Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
+                }
             }
 
             is StellarExplorerAction.OpenStellarHost -> {
@@ -211,64 +362,43 @@ internal class StellarExplorerStore(
                 }
             }
 
-            is StellarExplorerAction.Search -> launch {
-                when (state.currentContent) {
-                    Content.LIST_HOSTS -> {
-                        val filteredStellarHosts = if (action.search.isNotBlank()) {
-                            val searchLowercase = action.search.lowercase()
-                            state.stellarHosts.filter { stellarHost ->
-                                with(receiver = stellarHost) {
-                                    listOfNotNull(
-                                        id,
-                                        name,
-                                        spectralType,
-                                        effectiveTemperature?.toString(),
-                                        radius?.toString(),
-                                        mass?.toString(),
-                                        metallicity?.toString(),
-                                        luminosity?.toString(),
-                                        gravity?.toString(),
-                                        age?.toString(),
-                                        density?.toString(),
-                                        rotationalVelocity?.toString(),
-                                        rotationalPeriod?.toString(),
-                                        distance?.toString(),
-                                        ra?.toString(),
-                                        dec?.toString()
-                                    )
-                                }.any { it.lowercase().contains(other = searchLowercase) }
-                            }
-                        } else state.stellarHosts
-                        updateState {
-                            it.copy(
-                                search = action.search,
-                                filteredStellarHosts = filteredStellarHosts
-                            )
-                        }
-                    }
-                    Content.DETAIL_HOSTS -> TODO()
-                    Content.LIST_PLANETS -> TODO()
-                    Content.DETAIL_PLANETS -> TODO()
-                    null -> TODO()
+            is StellarExplorerAction.SortStellarHosts -> {
+                val filteredStellarHosts = with(receiver = state.filteredStellarHosts) {
+                    sortedWith(comparator = getStellarHostComparator(sort = action.sort, ascending = state.sortAscending).thenBy { it.id })
+                }
+                updateState {
+                    it.copy(
+                        filteredStellarHosts = filteredStellarHosts,
+                        sortStellarHostProperty = action.sort
+                    )
                 }
             }
 
-            is StellarExplorerAction.Sort -> launch {
-                //val filteredStellarHosts = with(receiver = state.filteredStellarHosts) {
-                //    when (action.sort) {
-                //        "id" -> sortedWith(comparator = compareBy<StellarHost, Any?>(comparator = nullsLast()) { it.id })
-                //        "name" -> sortedWith(comparator = compareBy<StellarHost, Any?>(comparator = nullsLast()) { it.id })
-                //    }.thenBy { it.id })
-                //}
-                //updateState {
-                //    it.copy(
-                //        filteredStellarHosts = filteredStellarHosts
-                //    )
-                //}
+            is StellarExplorerAction.SortPlanets -> {
+                val filteredPlanets = with(receiver = state.filteredPlanets) {
+                    sortedWith(comparator = getPlanetsComparator(sort = action.sort, ascending = state.sortAscending).thenBy { it.id })
+                }
+                updateState {
+                    it.copy(
+                        filteredPlanets = filteredPlanets,
+                        sortPlanetProperty = action.sort
+                    )
+                }
             }
 
-            StellarExplorerAction.ChangeSortDirection -> TODO()
-            is StellarExplorerAction.ChangeVisibility -> TODO()
+            StellarExplorerAction.ChangeSortDirection -> updateState {
+                val state = it.copy(sortAscending = !it.sortAscending)
+                when (state.currentContent) {
+                    Content.LIST_HOSTS -> send(action = StellarExplorerAction.SortStellarHosts(sort = state.sortStellarHostProperty))
+                    Content.LIST_PLANETS -> send(action = StellarExplorerAction.SortPlanets(sort = state.sortPlanetProperty))
+                    null, Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
+                }
+                state
+            }
+
+            is StellarExplorerAction.ChangeStellarHostsVisibility -> TODO()
+
+            is StellarExplorerAction.ChangePlanetVisibility -> TODO()
         }
     }
 }

@@ -2,11 +2,11 @@ package com.hybris.tlv.usecase.credits
 
 import com.hybris.tlv.http.client.json
 import com.hybris.tlv.http.request.QueryMap
+import com.hybris.tlv.usecase.Result
+import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.credits.local.CreditsLocal
 import com.hybris.tlv.usecase.credits.model.Credits
 import com.hybris.tlv.usecase.credits.remote.CreditsRemote
-import com.hybris.tlv.usecase.Result
-import com.hybris.tlv.usecase.SyncResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import thelastvoyage.composeapp.generated.resources.Res

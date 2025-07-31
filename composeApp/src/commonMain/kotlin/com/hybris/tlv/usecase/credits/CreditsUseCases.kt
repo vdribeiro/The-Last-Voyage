@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.credits
 
-import com.hybris.tlv.usecase.credits.model.Credits
 import com.hybris.tlv.usecase.SyncResult
+import com.hybris.tlv.usecase.credits.model.Credits
 import kotlinx.coroutines.flow.Flow
 
 internal interface CreditsUseCases {

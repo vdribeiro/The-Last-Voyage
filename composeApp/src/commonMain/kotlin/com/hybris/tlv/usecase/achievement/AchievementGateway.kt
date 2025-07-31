@@ -2,11 +2,11 @@ package com.hybris.tlv.usecase.achievement
 
 import com.hybris.tlv.http.client.json
 import com.hybris.tlv.http.request.QueryMap
+import com.hybris.tlv.usecase.Result
+import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.achievement.local.AchievementLocal
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.remote.AchievementRemote
-import com.hybris.tlv.usecase.Result
-import com.hybris.tlv.usecase.SyncResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import thelastvoyage.composeapp.generated.resources.Res

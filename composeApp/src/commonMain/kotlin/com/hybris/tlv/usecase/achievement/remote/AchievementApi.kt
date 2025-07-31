@@ -5,11 +5,11 @@ import com.hybris.tlv.firestore.result.FirestoreReadResult
 import com.hybris.tlv.firestore.result.FirestoreWriteResult
 import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.usecase.Result
+import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.achievement.mapper.toAchievement
 import com.hybris.tlv.usecase.achievement.mapper.toAchievementMap
 import com.hybris.tlv.usecase.achievement.model.Achievement
-import com.hybris.tlv.usecase.Result
-import com.hybris.tlv.usecase.SyncResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.last

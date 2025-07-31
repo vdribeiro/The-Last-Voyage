@@ -4,13 +4,10 @@ import com.hybris.tlv.Core
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.collectProgress
 import com.hybris.tlv.usecase.combine
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.last
 
 internal sealed interface SplashAction {
     data object Start: SplashAction
