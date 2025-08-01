@@ -171,31 +171,9 @@ internal fun PlanetCard(
 }
 
 private fun getImageResourceOfPlanet(planetType: PlanetType?): DrawableResource =
-    when (planetType) {
-        PlanetType.TERRESTRIAL -> Res.drawable.planet01
-        PlanetType.ICE_PLANET -> Res.drawable.planet01
-        PlanetType.GAS_GIANT -> Res.drawable.planet01
-        PlanetType.ICE_GIANT -> Res.drawable.planet01
-        PlanetType.SUB_EARTH -> Res.drawable.planet01
-        PlanetType.SUPER_EARTH -> Res.drawable.planet01
-        PlanetType.MEGA_EARTH -> Res.drawable.planet01
-        PlanetType.MINI_NEPTUNE -> Res.drawable.planet01
-        PlanetType.HOT_JUPITER -> Res.drawable.planet01
-        PlanetType.ULTRA_HOT_JUPITER -> Res.drawable.planet01
-        PlanetType.SUPER_JUPITER -> Res.drawable.planet01
-        PlanetType.HOT_NEPTUNE -> Res.drawable.planet01
-        PlanetType.LAVA_PLANET -> Res.drawable.planet01
-        PlanetType.IRON_PLANET -> Res.drawable.planet01
-        PlanetType.CHTHONIAN_PLANET -> Res.drawable.planet01
-        PlanetType.PUFFY_PLANET -> Res.drawable.planet01
-        PlanetType.ULTRA_SHORT_PERIOD_PLANET -> Res.drawable.planet01
-        PlanetType.EYEBALL_PLANET -> Res.drawable.planet01
-        PlanetType.PROTOPLANET -> Res.drawable.planet01
-        PlanetType.EARTH_LIKE_PLANET -> Res.drawable.planet01
-        PlanetType.EARTH_ANALOG -> Res.drawable.planet01
-        PlanetType.SUPER_HABITABLE -> Res.drawable.planet01
-        PlanetType.HABITABLE_CANDIDATE -> Res.drawable.planet01
-        PlanetType.OCEAN_PLANET -> Res.drawable.planet01
-        PlanetType.DISRUPTED_PLANET -> Res.drawable.planet01
-        null -> Res.drawable.planet01
-    }
+    listOf(
+        Res.drawable.planet01,
+        Res.drawable.planet02,
+        Res.drawable.planet03,
+        Res.drawable.planet04,
+    ).random()

@@ -96,36 +96,6 @@
   },
   {
     "languageIso": "en",
-    "key": "planet_status",
-    "value": "Status"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_status_confirmed",
-    "value": "Confirmed"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_status_candidate",
-    "value": "Candidate"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_status_false",
-    "value": "Refuted / False Positive"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_habitability",
-    "value": "Habitability"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type",
-    "value": "Type"
-  },
-  {
-    "languageIso": "en",
     "key": "planet_orbital_period",
     "value": "Orbital Period"
   },
@@ -183,6 +153,386 @@
     "languageIso": "en",
     "key": "period_unit",
     "value": "days"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_status",
+    "value": "Status"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_status_confirmed",
+    "value": "Confirmed"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_status_candidate",
+    "value": "Candidate"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_status_false",
+    "value": "Refuted / False Positive"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_habitability",
+    "value": "Habitability"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type",
+    "value": "Type"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_alkali_metal_clouds_gas_giant",
+    "value": "Alkali Metal Clouds Gas Giant"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ammonia_clouds_gas_giant",
+    "value": "Ammonia Clouds Gas Giant"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ammonia_planet",
+    "value": "Ammonia Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_barren_planet",
+    "value": "Barren Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_brown_dwarf",
+    "value": "Brown Dwarf"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_carbon_planet",
+    "value": "Carbon Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_chlorine_planet",
+    "value": "Chlorine Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_chthonian_planet",
+    "value": "Chthonian Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_cloudless_gas_giant",
+    "value": "Cloudless Gas Giant"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_cold_eyeball_planet",
+    "value": "Cold Eyeball Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_coreless_planet",
+    "value": "Coreless Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_crater_planet",
+    "value": "Crater Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_desert_planet",
+    "value": "Desert Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_disrupted_planet",
+    "value": "Disrupted Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_dwarf_planet",
+    "value": "Dwarf Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_earth_analog_planet",
+    "value": "Earth Analog Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_earth_like_planet",
+    "value": "Earth Like Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ecumenopolis_planet",
+    "value": "Ecumenopolis Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ellipsoid_planet",
+    "value": "Ellipsoid Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_exoplanet",
+    "value": "Exoplanet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_eyeball_planet",
+    "value": "Eyeball Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_fluorine_planet",
+    "value": "Fluorine Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_forest_planet",
+    "value": "Forest Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_gas_giant",
+    "value": "Gas Giant"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_giant_planet",
+    "value": "Giant Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_habitable_planet",
+    "value": "Habitable Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_helium_planet",
+    "value": "Helium Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_hot_eyeball_planet",
+    "value": "Hot Eyeball Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_hot_jupiter",
+    "value": "Hot Jupiter"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_hot_neptune",
+    "value": "Hot Neptune"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_hycean_planet",
+    "value": "Hycean Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ice_giant",
+    "value": "Ice Giant"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ice_planet",
+    "value": "Ice Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_iron_planet",
+    "value": "Iron Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_jungle_planet",
+    "value": "Jungle Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_lava_planet",
+    "value": "Lava Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_mega_earth",
+    "value": "Mega Earth"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_mesoplanet",
+    "value": "Mesoplanet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_methane_planet",
+    "value": "Methane Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_mini_jupiter",
+    "value": "Mini Jupiter"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_mini_neptune",
+    "value": "Mini Neptune"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_mountain_planet",
+    "value": "Mountain Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ocean_planet",
+    "value": "Ocean Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_phosphorus_planet",
+    "value": "Phosphorus Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_planetesimal",
+    "value": "Planetesimal"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_protoplanet",
+    "value": "Protoplanet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_puffy_planet",
+    "value": "Puffy Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ringed_planet",
+    "value": "Ringed Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_rogue_planet",
+    "value": "Rogue Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_silicate_clouds_gas_giant",
+    "value": "Silicate Clouds Gas Giant"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_silicate_planet",
+    "value": "Silicate Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_sub_brown_dwarf",
+    "value": "Sub Brown Dwarf"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_sub_earth",
+    "value": "Sub Earth"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_sub_neptune",
+    "value": "Sub Neptune"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_subsurface_ocean_planet",
+    "value": "Subsurface Ocean Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_sulfur_planet",
+    "value": "Sulfur Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_super_earth",
+    "value": "Super Earth"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_super_jupiter",
+    "value": "Super Jupiter"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_super_neptune",
+    "value": "Super Neptune"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_super_puff_planet",
+    "value": "Super Puff Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_superhabitable_planet",
+    "value": "Superhabitable Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_supermassive_terrestrial_planet",
+    "value": "Supermassive Terrestrial Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_swamp_planet",
+    "value": "Swamp Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_terrestrial_planet",
+    "value": "Terrestrial Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_toroidal_planet",
+    "value": "Toroidal Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ultra_cool_dwarf",
+    "value": "Ultra Cool Dwarf"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ultra_hot_jupiter",
+    "value": "Ultra Hot Jupiter"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ultra_hot_neptune",
+    "value": "Ultra Hot Neptune"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ultra_short_period_planet",
+    "value": "Ultra Short Period Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_water_clouds_gas_giant",
+    "value": "Water Clouds Gas Giant"
   },
   {
     "languageIso": "en",
