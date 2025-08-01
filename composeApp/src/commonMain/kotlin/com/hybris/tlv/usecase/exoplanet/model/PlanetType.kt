@@ -24,7 +24,6 @@ enum class PlanetType(val displayName: String) {
     SUPER_PUFF_PLANET(displayName = "planet_type_super_puff_planet"),
     OCEAN_PLANET(displayName = "planet_type_ocean_planet"),
     SUBSURFACE_OCEAN_PLANET(displayName = "planet_type_subsurface_ocean_planet"),
-    HELIUM_PLANET(displayName = "planet_type_helium_planet"),
     HYCEAN_PLANET(displayName = "planet_type_hycean_planet"),
 
     // Temperature/Orbit Based

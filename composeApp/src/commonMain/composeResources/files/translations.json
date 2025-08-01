@@ -376,16 +376,6 @@
   },
   {
     "languageIso": "en",
-    "key": "planet_type_helium_planet",
-    "value": "Helium Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_helium_planet_description",
-    "value": "A planet with a helium-dominated atmosphere."
-  },
-  {
-    "languageIso": "en",
     "key": "planet_type_hycean_planet",
     "value": "Hycean Planet"
   },
@@ -402,7 +392,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_lava_planet_description",
-    "value": "A terrestrial planet with a surface of molten lava and an equilibrium temperature greater tha 1200 K."
+    "value": "A terrestrial planet with a surface of molten lava and an equilibrium temperature greater than 1200 K."
   },
   {
     "languageIso": "en",
@@ -2422,7 +2412,7 @@
   {
     "languageIso": "en",
     "key": "explore_screen__mechanics_goal_title",
-    "value": "The Goal"
+    "value": "Goal"
   },
   {
     "languageIso": "en",
@@ -2482,7 +2472,7 @@
   {
     "languageIso": "en",
     "key": "explore_screen__habitability_description",
-    "value": "The assessment of a planet's potential to host life is a complex field, and as a result, several different models and indices are usually used to focus on different aspects of habitability. A truly universal formula is elusive because we only have one example of a planet that can sustain life: Earth.\nIn this game, the habitability score used is a weighted average of dozens of planetary and stellar characteristics based on real data and real models.\nThe individual scores range from 0.0 to 1.0. Keep in mind that data availability is not constant which is another pain to handle. This approach tries to derive missing data when possible, otherwise it handles null scores gracefully by simply omitting them from the final average.\nSo, to try and calculate a fair score, I used the following hypothesis."
+    "value": "The assessment of a planet's potential to host life is a complex field, and as a result, several different models and indices are usually used to focus on different aspects of habitability. A truly universal formula is elusive because we only have one example of a planet that can sustain life: Earth.\nIn this game, the habitability score used is a weighted average of dozens of planetary and stellar characteristics based on real data and real models.\nThe individual scores range from 0.0 to 1.0. Because data availability is not constant across all celestial objects, this approach tries to derive missing data when possible, otherwise it handles null scores gracefully by simply omitting them from the final average.\nSo, to try and calculate a fair score, I used the hypothesis explained below."
   },
   {
     "languageIso": "en",
@@ -2492,7 +2482,7 @@
   {
     "languageIso": "en",
     "key": "explore_screen__habitability_roche_description",
-    "value": "The Roche limit is the minimum distance a planet can orbit its star before being torn apart by its star's gravity.\nI used the simplified formula for a rigid satellite based on the star's radius and density and planet orbit axis and density.\nA rigid satellite is an idealized object that is held together only by its own gravity and doesn't deform or stretch as it gets closer to the star.\nThe Roche limit is directly proportional to the star's radius. A bigger star naturally has a larger danger zone around it. Conversely, if the planet is very dense compared to the star, it's held together more tightly, and it can survive closer to the star, whereas if the planet is fluffy (has low density) compared to the star, it's easier to tear apart."
+    "value": "The Roche limit is the minimum distance a planet can orbit its star before being torn apart by its gravity.\nI used the simplified formula for a rigid satellite based on the star's radius and density and planet orbit axis and density. A rigid satellite is an idealized object that is held together only by its own gravity and doesn't deform or stretch as it gets closer to the star.\nThe Roche limit is directly proportional to the star's radius. A bigger star naturally has a larger danger zone around it. Conversely, if the planet is very dense compared to the star, it's held together more tightly, and it can survive closer to the star, whereas if the planet is fluffy (has low density) compared to the star, it's easier to tear apart."
   },
   {
     "languageIso": "en",
@@ -2512,7 +2502,7 @@
   {
     "languageIso": "en",
     "key": "explore_screen__habitability_planet_density_radius_description",
-    "value": "A small planet is unlikely to have enough mass to sustain the geological activity and atmospheric pressure needed for surface liquid water, whilst a large planet is very likely to be a mini-Neptune, possessing a thick, crushing gas envelope that makes them uninhabitable on the surface.\nThe radius must be within 0.5 to 1.5 Earth radii to be considered rocky.\nOn the other hand, rocky planets are typically above 3g/cm^3 (Earth's density is ~5.51 g/cm^3), so the telluricity is also factored in."
+    "value": "A small planet is unlikely to have enough mass to sustain the geological activity and atmospheric pressure needed for surface liquid water, whilst a large planet is very likely to be a mini-Neptune, possessing a thick, crushing gas envelope that makes them uninhabitable on the surface.\nThe radius must be within 0.5 to 1.5 Earth radii to be considered rocky. Rocky planets are typically above 3 g/cm^3 (Earth's density is ~5.51 g/cm^3), so the telluricity is also factored in."
   },
   {
     "languageIso": "en",
@@ -2542,7 +2532,7 @@
   {
     "languageIso": "en",
     "key": "explore_screen__habitability_planet_temperature_description",
-    "value": "The planet's temperature must fall within a range that can support liquid water with a plausible atmosphere. Two ranges are used: the ideal from 230 to 280 Kelvin without penalization, and the optimistic from 180 to 330 Kelvin with scorepenalization.\nWhen the planet's equilibrium temperature is unavailable, the temperature is calculated by the measured day-side temperature in Kelvin from occultation depth (the depth of the secondary eclipse) assuming the occultation was measured in the infrared where the planet's thermal emission is dominant."
+    "value": "The planet's temperature must fall within a range that can support liquid water with a plausible atmosphere. Two ranges are used: the ideal from 230 to 280 Kelvin without penalization, and the optimistic from 180 to 330 Kelvin with score penalization.\nWhen the planet's equilibrium temperature is unavailable, the temperature is calculated by the measured day-side temperature in Kelvin from occultation depth (the depth of the secondary eclipse) assuming the occultation was measured in the infrared where the planet's thermal emission is dominant."
   },
   {
     "languageIso": "en",
@@ -2577,12 +2567,12 @@
   {
     "languageIso": "en",
     "key": "explore_screen__habitability_planet_esi_title",
-    "value": "What is the planet's Earth Similarity Index?\n"
+    "value": "What is the planet's Earth Similarity Index?"
   },
   {
     "languageIso": "en",
     "key": "explore_screen__habitability_planet_esi_description",
-    "value": "The Earth Similarity Index (ESI) is a scale used to quantify how similar a planet is to Earth based on physical properties like radius, density, escape velocity and surface temperature. Escape velocity can be calculated with mass and radius but the surface temperature might be hard to get. In this scenario, the equilibrium temperature or temperature calculated through occultation depth or insolation flux can be used as a proxy for surface temperature.\nA high ESI indicates an Earth-sized, rocky world with a similar temperature. It is however, a 'bonus' factor as the previous calculations cover much of this metric. It also has smaller weight because this model is highly sensitive to temperature and does not consider other factors like the host star's activity or atmospheric composition."
+    "value": "The Earth Similarity Index (ESI) is a scale used to quantify how similar a planet is to Earth based on physical properties like radius, density, escape velocity and surface temperature. Escape velocity can be calculated with mass and radius but the surface temperature might be hard to get. In this scenario, the equilibrium temperature or temperature calculated through occultation depth or insolation flux is used as a proxy for surface temperature.\nA high ESI indicates an Earth-sized, rocky world with a similar temperature. It is however, a 'bonus' factor as the previous calculations cover much of this metric. It also has a smaller weight because this model is highly sensitive to temperature and does not consider other factors like the host star's activity or atmospheric composition."
   },
   {
     "languageIso": "en",
@@ -2592,7 +2582,7 @@
   {
     "languageIso": "en",
     "key": "explore_screen__habitability_star_spectral_type_description",
-    "value": "The primary determinant of a star's lifetime and stability is spectral type and mass. If the star is too massive, it has a short lifespan, conversely a lighter star is very long-lived, but has also other issues.\nThe system used for spectral type classification it the Harvard spectral type with Morgan-Keenan luminosity class, (e.g. G2III):\n• G ideal, like the Sun\n• K long-lived and stable with less UV radiation\n• F good candidates, but with more UV radiation than the Sun\n• M very long-lived, but prone to flaring\n• A short-lived and with significant UV radiation\n• B very short-lived and with high UV radiation\n• O extremely short-lived and with high UV radiation\n• L, T and Y are brown dwarfs with an unstable HZ\n• D are white dwarfs like remnant cores with harsh radiation\n• C and S carbon or S-type stars which are evolved, unstable giants\n• W, Q and P are catastrophically hostile or unstable stars\nI then apply a small penalty for lower luminosity and subtypes farther away from 5 for the most habitable classes as stars in the middle of the range are often considered more stable than those at the extremes."
+    "value": "The primary determinant of a star's lifetime and stability is spectral type and mass. If the star is too massive, it has a short lifespan. Conversely, a lighter star is very long-lived, but has also its issues.\nThe system used for spectral type classification is the Harvard spectral type with Morgan-Keenan luminosity class, (e.g. G2III):\n• G ideal, like the Sun\n• K long-lived and stable with less UV radiation\n• F good candidates, but with more UV radiation than the Sun\n• M very long-lived, but prone to flaring\n• A short-lived and with significant UV radiation\n• B very short-lived and with high UV radiation\n• O extremely short-lived and with high UV radiation\n• L, T and Y are brown dwarfs with an unstable HZ\n• D are white dwarfs like remnant cores with harsh radiation\n• C and S carbon or S-type stars are evolved, unstable giants\n• W, Q and P are catastrophically hostile or unstable stars\nI then apply a small penalty for lower luminosity and subtypes farther away from 5 for the most habitable classes as stars in the middle of the range are often considered more stable than those at the extremes."
   },
   {
     "languageIso": "en",
