@@ -16,6 +16,7 @@ internal data class GameSession(
     val settledPlanetId: String?,
     val finalHabitability: Double?,
     val score: Double?,
+    val rocheWeight: Double,
     val habitableZoneWeight: Double,
     val planetRadiusWeight: Double,
     val planetMassWeight: Double,

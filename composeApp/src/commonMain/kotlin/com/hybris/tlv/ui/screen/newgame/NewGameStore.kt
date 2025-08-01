@@ -84,6 +84,7 @@ internal class NewGameStore(
                 materials = selectedShip.materials,
                 fuel = selectedShip.fuel,
                 cryopods = selectedShip.cryopods,
+                rocheWeight = state.math.rocheWeight,
                 habitableZoneWeight = state.math.habitableZoneWeight,
                 planetRadiusWeight = state.math.planetRadiusWeight,
                 planetMassWeight = state.math.planetMassWeight,

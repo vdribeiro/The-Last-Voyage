@@ -6,6 +6,7 @@ internal data class GameSessionPrototype(
     val materials: Int,
     val fuel: Int,
     val cryopods: Int,
+    val rocheWeight: Double,
     val habitableZoneWeight: Double,
     val planetRadiusWeight: Double,
     val planetMassWeight: Double,

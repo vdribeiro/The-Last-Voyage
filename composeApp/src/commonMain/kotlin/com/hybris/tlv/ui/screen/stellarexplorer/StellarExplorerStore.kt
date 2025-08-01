@@ -211,7 +211,8 @@ internal class StellarExplorerStore(
                         occultationDepth?.toString(),
                         inclination?.toString(),
                         obliquity?.toString(),
-                        habitability?.habitabilityScore?.toString()
+                        habitability?.habitabilityScore?.toString(),
+                        habitability?.planetTypes?.joinToString(separator = "\n")
                     )
                 }.any { it.lowercase().contains(other = searchLowercase) }
             }
@@ -336,7 +337,7 @@ internal class StellarExplorerStore(
         PlanetProperty.TYPE -> compare(
             ascending = ascending,
             comparator = if (ascending) nullsLast() else nullsFirst()
-        ) { it.habitability?.planetType }
+        ) { it.habitability?.planetTypes?.joinToString(separator = "\n") }
 
         PlanetProperty.ORBITAL_PERIOD -> compare(
             ascending = ascending,

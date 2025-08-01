@@ -2486,6 +2486,16 @@
   },
   {
     "languageIso": "en",
+    "key": "explore_screen__habitability_roche_title",
+    "value": "Is the planet safely outside the star's Roche Limit?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_roche_description",
+    "value": "The Roche limit is the minimum distance a planet can orbit its star before being torn apart by its star's gravity.\nI used the simplified formula for a rigid satellite based on the star's radius and density and planet orbit axis and density.\nA rigid satellite is an idealized object that is held together only by its own gravity and doesn't deform or stretch as it gets closer to the star.\nThe Roche limit is directly proportional to the star's radius. A bigger star naturally has a larger danger zone around it. Conversely, if the planet is very dense compared to the star, it's held together more tightly, and it can survive closer to the star, whereas if the planet is fluffy (has low density) compared to the star, it's easier to tear apart."
+  },
+  {
+    "languageIso": "en",
     "key": "explore_screen__habitability_hz_title",
     "value": "Is the planet in the right place for liquid water?"
   },

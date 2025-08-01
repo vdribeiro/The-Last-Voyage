@@ -23,5 +23,5 @@ internal data class Score(
     val stellarEffectiveTemperatureScore: Double?,
     val planetProtectionScore: Double?,
     val planetTidalLockingScore: Double?,
-    val planetType: PlanetType?
+    val planetTypes: Set<PlanetType>
 )

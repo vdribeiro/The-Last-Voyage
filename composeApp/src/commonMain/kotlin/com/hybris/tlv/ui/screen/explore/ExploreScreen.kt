@@ -66,6 +66,10 @@ private val habitabilities by lazy {
             description = getTranslation(key = "explore_screen__habitability_description")
         ),
         Section(
+            title = getTranslation(key = "explore_screen__habitability_roche_title"),
+            description = getTranslation(key = "explore_screen__habitability_roche_description")
+        ),
+        Section(
             title = getTranslation(key = "explore_screen__habitability_hz_title"),
             description = getTranslation(key = "explore_screen__habitability_hz_description")
         ),

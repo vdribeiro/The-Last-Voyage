@@ -21,6 +21,7 @@ import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.PLANET_RADIUS
 import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.PLANET_TELLURICITY_WEIGHT
 import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.PLANET_TEMPERATURE_WEIGHT
 import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.PLANET_TIDAL_LOCKING_WEIGHT
+import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.ROCHE_WEIGHT
 import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.STELLAR_ACTIVITY_WEIGHT
 import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.STELLAR_AGE_WEIGHT
 import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.STELLAR_EFFECTIVE_TEMPERATURE_WEIGHT
@@ -426,6 +427,7 @@ internal val gameSession = GameSession(
     settledPlanetId = null,
     finalHabitability = null,
     score = null,
+    rocheWeight = ROCHE_WEIGHT,
     habitableZoneWeight = HABITABLE_ZONE_WEIGHT,
     planetRadiusWeight = PLANET_RADIUS_WEIGHT,
     planetMassWeight = PLANET_MASS_WEIGHT,

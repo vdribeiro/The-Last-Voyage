@@ -50,7 +50,7 @@ internal fun PlanetCard(
     inclination: Double? = null,
     obliquity: Double? = null,
     habitability: Double? = null,
-    type: PlanetType? = null,
+    types: Set<PlanetType> = emptySet(),
     onClick: () -> Unit = {}
 ) {
     Card(
@@ -71,7 +71,7 @@ internal fun PlanetCard(
                     .size(size = 72.dp)
                     .clip(shape = RoundedCornerShape(size = 8.dp))
                     .align(alignment = Alignment.Top),
-                painter = painterResource(resource = getImageResourceOfPlanet(planetType = type)),
+                painter = painterResource(resource = getImageResourceOfPlanet(types = types)),
                 contentDescription = name,
                 contentScale = ContentScale.Crop,
             )
@@ -93,10 +93,10 @@ internal fun PlanetCard(
                         value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
                     )
                 }
-                type?.displayName?.let {
+                if (types.isNotEmpty()) {
                     InfoRow(
                         label = getTranslation(key = "planet_type"),
-                        value = getTranslation(key = it)
+                        value = getTranslation(key = types.joinToString(separator = "\n"))
                     )
                 }
                 orbitalPeriod?.let {
@@ -170,7 +170,7 @@ internal fun PlanetCard(
     }
 }
 
-private fun getImageResourceOfPlanet(planetType: PlanetType?): DrawableResource =
+private fun getImageResourceOfPlanet(types: Set<PlanetType>): DrawableResource =
     listOf(
         Res.drawable.planet01,
         Res.drawable.planet02,

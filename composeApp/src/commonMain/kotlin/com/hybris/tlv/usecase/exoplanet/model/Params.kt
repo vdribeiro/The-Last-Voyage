@@ -14,6 +14,7 @@ import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.PLANET_RADIUS
 import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.PLANET_TELLURICITY_WEIGHT
 import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.PLANET_TEMPERATURE_WEIGHT
 import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.PLANET_TIDAL_LOCKING_WEIGHT
+import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.ROCHE_WEIGHT
 import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.STELLAR_ACTIVITY_WEIGHT
 import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.STELLAR_AGE_WEIGHT
 import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway.Companion.STELLAR_EFFECTIVE_TEMPERATURE_WEIGHT
@@ -58,6 +59,7 @@ internal data class Params(
     )
 
     data class Math(
+        val rocheWeight: Double = ROCHE_WEIGHT,
         val habitableZoneWeight: Double = HABITABLE_ZONE_WEIGHT,
         val planetRadiusWeight: Double = PLANET_RADIUS_WEIGHT,
         val planetMassWeight: Double = PLANET_MASS_WEIGHT,

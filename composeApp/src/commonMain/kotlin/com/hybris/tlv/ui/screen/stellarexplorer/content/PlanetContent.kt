@@ -78,7 +78,7 @@ internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerSt
                 inclination = if (visiblePlanetProperties.contains(element = PlanetProperty.INCLINATION)) planet.inclination else null,
                 obliquity = if (visiblePlanetProperties.contains(element = PlanetProperty.OBLIQUITY)) planet.obliquity else null,
                 habitability = if (visiblePlanetProperties.contains(element = PlanetProperty.HABITABILITY)) planet.habitability?.habitabilityScore else null,
-                type = if (visiblePlanetProperties.contains(element = PlanetProperty.TYPE)) planet.habitability?.planetType else null
+                types = if (visiblePlanetProperties.contains(element = PlanetProperty.TYPE)) planet.habitability?.planetTypes.orEmpty() else emptySet()
             ) {
                 store.send(
                     action = StellarExplorerAction.SaveIndex(
