@@ -28,14 +28,22 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.A
 import thelastvoyage.composeapp.generated.resources.B
+import thelastvoyage.composeapp.generated.resources.C
+import thelastvoyage.composeapp.generated.resources.D
 import thelastvoyage.composeapp.generated.resources.F
 import thelastvoyage.composeapp.generated.resources.G
 import thelastvoyage.composeapp.generated.resources.K
+import thelastvoyage.composeapp.generated.resources.L
 import thelastvoyage.composeapp.generated.resources.M
 import thelastvoyage.composeapp.generated.resources.O
+import thelastvoyage.composeapp.generated.resources.P
+import thelastvoyage.composeapp.generated.resources.Q
 import thelastvoyage.composeapp.generated.resources.Res
+import thelastvoyage.composeapp.generated.resources.S
 import thelastvoyage.composeapp.generated.resources.T
 import thelastvoyage.composeapp.generated.resources.W
+import thelastvoyage.composeapp.generated.resources.Y
+import thelastvoyage.composeapp.generated.resources.blackhole
 
 @Composable
 internal fun StellarHostCard(
@@ -189,51 +197,22 @@ internal fun StellarHostCard(
 
 private fun getImageResourceOfStellarHost(spectralType: String?): DrawableResource {
     return when (spectralType?.firstOrNull()?.uppercase()) {
-        "O" -> spectralTypesO.random()
-        "B" -> spectralTypesB.random()
-        "A" -> spectralTypesA.random()
-        "F" -> spectralTypesF.random()
-        "G" -> spectralTypesG.random()
-        "K" -> spectralTypesK.random()
-        "M" -> spectralTypesM.random()
-        "W" -> spectralTypesW.random()
-        "T" -> spectralTypesT.random()
-        else -> spectralTypesG.random()
+        "O" -> Res.drawable.O
+        "B" -> Res.drawable.B
+        "A" -> Res.drawable.A
+        "F" -> Res.drawable.F
+        "G" -> Res.drawable.G
+        "K" -> Res.drawable.K
+        "M" -> Res.drawable.M
+        "W" -> Res.drawable.W
+        "Q" -> Res.drawable.Q
+        "P" -> Res.drawable.P
+        "L" -> Res.drawable.L
+        "T" -> Res.drawable.T
+        "Y" -> Res.drawable.Y
+        "C" -> Res.drawable.C
+        "S" -> Res.drawable.S
+        "D" -> Res.drawable.D
+        else -> Res.drawable.blackhole
     }
 }
-
-private val spectralTypesO = listOf(
-    Res.drawable.O,
-)
-
-private val spectralTypesB = listOf(
-    Res.drawable.B,
-)
-
-private val spectralTypesA = listOf(
-    Res.drawable.A,
-)
-
-private val spectralTypesF = listOf(
-    Res.drawable.F,
-)
-
-private val spectralTypesG = listOf(
-    Res.drawable.G,
-)
-
-private val spectralTypesK = listOf(
-    Res.drawable.K,
-)
-
-private val spectralTypesM = listOf(
-    Res.drawable.M,
-)
-
-private val spectralTypesW = listOf(
-    Res.drawable.W,
-)
-
-private val spectralTypesT = listOf(
-    Res.drawable.T,
-)
