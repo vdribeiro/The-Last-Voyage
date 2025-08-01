@@ -16,6 +16,9 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
         private const val SUN_EFFECTIVE_TEMPERATURE = 5780.0
         // Radius of the Sun in Earth radii in meters
         private const val SUN_RADIUS_IN_EARTH_RADII = 109.2
+        // Sun's radius in Astronomical Units
+        private const val SUN_RADIUS_IN_AU = 0.00465
+
         // Inner and outer boundaries of the habitable zone
         private const val SUN_INNER_BOUNDARY = 0.95
         private const val SUN_OUTER_BOUNDARY = 1.37
@@ -211,10 +214,6 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
             planetTidalLockingScore = planetTidalLockingScore,
             planetType = planetType
         )
-    }
-
-    private fun calculatePlanetType(): PlanetType? {
-        return null
     }
 
     /**
@@ -736,4 +735,140 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
             stellarHostRotationalPeriod < 25.0 -> 0.8   // Moderately fast rotation
             else -> 1.0                                 // Slower rotation, possibly more stability
         }
+
+    /**
+     * Calculates a score based on whether the planet is safely outside the star's Roche Limit.
+     * A score of 0.0 means the planet would be tidally destroyed.
+     */
+    private fun calculateRocheScore(
+        stellarHostRadius: Double?,
+        stellarHostDensity: Double?,
+        planetDensity: Double?,
+        planetOrbitAxis: Double?
+    ): Double? {
+        if (stellarHostRadius == null || stellarHostDensity == null || planetDensity == null || planetOrbitAxis == null) return null
+        val rocheLimitInStellarRadii = (2 * stellarHostDensity / planetDensity).pow(x = 1.0 / 3.0)
+        val planetOrbitInStellarRadii = planetOrbitAxis / (stellarHostRadius * SUN_RADIUS_IN_AU)
+        return when {
+            planetOrbitInStellarRadii < rocheLimitInStellarRadii -> 0.0 // Planet would be destroyed
+            else -> 1.0                                                 // Planet is structurally stable
+        }
+    }
+
+    private fun calculatePlanetType(
+        stellarHost: Params.StellarHost,
+        planet: Params.Planet,
+        habitabilityScore: Double
+    ): Set<PlanetType> {
+
+        val types = mutableSetOf<PlanetType>()
+
+        // --- Fundamental Classification: Gaseous vs. Terrestrial ---
+        val isTerrestrial = (planet.density ?: 0.0) > 2.5
+        val isGaseous = (planet.density ?: 5.0) < 2.5 && (planet.radius ?: 0.0) > 1.75
+
+        if (isTerrestrial) {
+            types.add(PlanetType.TERRESTRIAL_PLANET)
+            types.add(PlanetType.SILICATE_PLANET) // Silicate is a synonym for rocky terrestrial
+
+            // Size/Mass Sub-types
+            if ((planet.mass ?: 1.0) < 1.0 && (planet.radius ?: 1.0) < 1.0) types.add(PlanetType.SUB_EARTH)
+            if ((planet.mass ?: 0.0) > 1.0 && (planet.mass ?: 100.0) < 10.0) types.add(PlanetType.SUPER_EARTH)
+            if ((planet.mass ?: 0.0) >= 10.0) {
+                types.add(PlanetType.MEGA_EARTH)
+                types.add(PlanetType.SUPERMASSIVE_TERRESTRIAL_PLANET)
+            }
+            if ((planet.mass ?: 10.0) < 0.1) types.add(PlanetType.CRATER_PLANET)
+
+            // Temperature Sub-types
+            if ((planet.equilibriumTemperature ?: 0.0) > 1200.0) types.add(PlanetType.LAVA_PLANET)
+            if ((planet.equilibriumTemperature ?: 300.0) < 200.0) types.add(PlanetType.ICE_PLANET)
+        }
+
+        if (isGaseous) {
+            types.add(PlanetType.GIANT_PLANET)
+
+            // Sudarsky Gas Giant Classification (based on temperature)
+            when (planet.equilibriumTemperature ?: 0.0) {
+                in 0.0..150.0 -> {
+                    types.add(PlanetType.GAS_GIANT)
+                    types.add(PlanetType.AMMONIA_CLOUDS_GAS_GIANT) // Class I
+                }
+
+                in 151.0..250.0 -> {
+                    types.add(PlanetType.GAS_GIANT)
+                    types.add(PlanetType.WATER_CLOUDS_GAS_GIANT) // Class II
+                }
+
+                in 251.0..800.0 -> {
+                    types.add(PlanetType.GAS_GIANT)
+                    types.add(PlanetType.CLOUDLESS_GAS_GIANT) // Class III
+                }
+
+                in 801.0..1400.0 -> {
+                    types.add(PlanetType.GAS_GIANT)
+                    types.add(PlanetType.ALKALI_METAL_CLOUDS_GAS_GIANT) // Class IV
+                }
+
+                else -> { // > 1400K
+                    types.add(PlanetType.GAS_GIANT)
+                    types.add(PlanetType.SILICATE_CLOUDS_GAS_GIANT) // Class V
+                }
+            }
+
+            // Size/Mass Sub-types
+            if ((planet.mass ?: 0.0) > 318.0) types.add(PlanetType.SUPER_JUPITER)
+            if ((planet.mass ?: 0.0) in 20.0..80.0) types.add(PlanetType.SUPER_NEPTUNE)
+            if ((planet.radius ?: 0.0) in 1.75..4.0) {
+                types.add(PlanetType.MINI_NEPTUNE)
+                types.add(PlanetType.SUB_NEPTUNE)
+            }
+            if ((planet.mass ?: 0.0) in 10.0..50.0 && (planet.radius ?: 0.0) in 3.0..6.0) types.add(PlanetType.ICE_GIANT)
+
+            // Density Sub-types
+            if ((planet.density ?: 1.0) < 0.1) types.add(PlanetType.SUPER_PUFF_PLANET)
+            else if ((planet.density ?: 1.0) < 0.5) types.add(PlanetType.PUFFY_PLANET)
+        }
+
+        // --- Orbital & Special Classifications ---
+        if ((planet.orbitalPeriod ?: 100.0) < 1.0) types.add(PlanetType.ULTRA_SHORT_PERIOD_PLANET)
+        if (isGaseous && (planet.orbitalPeriod ?: 100.0) < 10.0) {
+            types.add(PlanetType.HOT_JUPITER)
+            if ((planet.equilibriumTemperature ?: 0.0) > 2200.0) types.add(PlanetType.ULTRA_HOT_JUPITER)
+        }
+        if ((planet.radius ?: 0.0) in 1.75..6.0 && (planet.orbitalPeriod ?: 100.0) < 10.0) {
+            types.add(PlanetType.HOT_NEPTUNE)
+            if ((planet.equilibriumTemperature ?: 0.0) > 2000.0) types.add(PlanetType.ULTRA_HOT_NEPTUNE)
+        }
+
+        if (calculatePlanetTidalLockingScore(stellarHost, planet) ?: 1.0 < 0.2) {
+            types.add(PlanetType.EYEBALL_PLANET)
+            if ((planet.equilibriumTemperature ?: 0.0) > 350.0) types.add(PlanetType.HOT_EYEBALL_PLANET)
+            if ((planet.equilibriumTemperature ?: 300.0) < 200.0) types.add(PlanetType.COLD_EYEBALL_PLANET)
+        }
+
+        if ((planet.density ?: 0.0) > 8.0) types.add(PlanetType.IRON_PLANET)
+        if ((planet.density ?: 0.0) > 7.0 && (planet.orbitAxis ?: 1.0) < 0.1) types.add(PlanetType.CHTHONIAN_PLANET)
+        if (calculateRocheScore(stellarHost, planet) == 0.0) types.add(PlanetType.DISRUPTED_PLANET)
+        if ((stellarHost.age ?: 1.0) < 0.01) types.add(PlanetType.PROTOPLANET)
+        if ((planet.radius ?: 0.0) in 1.7..2.6 && (planet.equilibriumTemperature ?: 0.0) in 300.0..500.0) types.add(PlanetType.HYCEAN_PLANET)
+
+        // --- Habitability-Based Classifications ---
+        if (habitabilityScore > 0.7) {
+            types.add(PlanetType.HABITABLE_PLANET)
+            if (isTerrestrial && calculateHabitableZoneScore(stellarHost, planet) ?: 0.0 > 0.5) {
+                types.add(PlanetType.EARTH_LIKE_PLANET)
+            }
+            if (habitabilityScore > 0.9) {
+                types.add(PlanetType.EARTH_ANALOG_PLANET)
+                if (stellarHost.spectralType?.startsWith("K") == true) {
+                    types.add(PlanetType.SUPERHABITABLE_PLANET)
+                }
+            }
+        } else if (isTerrestrial && habitabilityScore < 0.2) {
+            types.add(PlanetType.BARREN_PLANET)
+        }
+
+        return types
+    }
 }
