@@ -306,16 +306,6 @@
   },
   {
     "languageIso": "en",
-    "key": "planet_type_mini_jupiter",
-    "value": "Mini Jupiter"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_mini_jupiter_description",
-    "value": "A small planet with a hydrogen/helium envelope, falling between Earth and Neptune in size."
-  },
-  {
-    "languageIso": "en",
     "key": "planet_type_super_jupiter",
     "value": "Super Jupiter"
   },
@@ -323,16 +313,6 @@
     "languageIso": "en",
     "key": "planet_type_super_jupiter_description",
     "value": "A gas giant more massive than Jupiter, with a mass greater than 318 Earth masses."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_dwarf_planet",
-    "value": "Dwarf Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_dwarf_planet_description",
-    "value": "A planetary-mass object substantially smaller and less massive than Earth."
   },
   {
     "languageIso": "en",
@@ -353,26 +333,6 @@
     "languageIso": "en",
     "key": "planet_type_iron_planet_description",
     "value": "A planet consisting primarily of an iron-rich core with little mantle and a very high density greater than 8 g/cm^3."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_carbon_planet",
-    "value": "Carbon Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_carbon_planet_description",
-    "value": "A planet containing more carbon than oxygen."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_coreless_planet",
-    "value": "Coreless Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_coreless_planet_description",
-    "value": "A planet without a metallic core."
   },
   {
     "languageIso": "en",
@@ -402,7 +362,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_ocean_planet_description",
-    "value": "A planet with a substantial amount of water. Can be inferred for planets with a density between 1 and 3 g/cm^3, but with a very low confidence."
+    "value": "A planet with a substantial amount of water. Can be inferred for planets with a density between 1 and 3 g/cm^3, but with low confidence."
   },
   {
     "languageIso": "en",
@@ -412,7 +372,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_subsurface_ocean_planet_description",
-    "value": "A planet with a liquid ocean beneath a solid crust of ice or rock."
+    "value": "An icy world that may have a liquid ocean beneath its frozen crust. Can be inferred for an Ice Planet located within or near the habitable zone."
   },
   {
     "languageIso": "en",
@@ -432,67 +392,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_hycean_planet_description",
-    "value": "A hot, water-covered world with a hydrogen-rich atmosphere. Can be inferred for planets with a Earth radii between 1.7 and 2.6, Earth masses less than 10, and temperature up to 500K."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_ammonia_planet",
-    "value": "Ammonia Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_ammonia_planet_description",
-    "value": "A planet with ammonia as its primary solvent instead of water."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_methane_planet",
-    "value": "Methane Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_methane_planet_description",
-    "value": "A planet with lakes or oceans of methane."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_chlorine_planet",
-    "value": "Chlorine Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_chlorine_planet_description",
-    "value": "A planet with a chlorine-based chemistry."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_sulfur_planet",
-    "value": "Sulfur Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_sulfur_planet_description",
-    "value": "A planet with a sulfuric acid-based chemistry."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_phosphorus_planet",
-    "value": "Phosphorus Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_phosphorus_planet_description",
-    "value": "A planet with a phosphoric acid-based chemistry."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_fluorine_planet",
-    "value": "Fluorine Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_fluorine_planet_description",
-    "value": "A hypothetical planet with a fluorine-rich environment. Cannot be classified."
+    "value": "A hot, water-covered world with a hydrogen-rich atmosphere. Can be inferred for planets with a Earth radii between 1.7 and 2.6, Earth masses less than 10, and temperature up to 500 K."
   },
   {
     "languageIso": "en",
@@ -502,7 +402,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_lava_planet_description",
-    "value": "A terrestrial planet with a surface of molten lava, classified by a terrestrial composition and an equilibrium temperature > 1200 K."
+    "value": "A terrestrial planet with a surface of molten lava and an equilibrium temperature greater tha 1200 K."
   },
   {
     "languageIso": "en",
@@ -512,7 +412,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_desert_planet_description",
-    "value": "A terrestrial planet with a dry, arid surface. Can be inferred for hot, rocky planets on the inner edge of the habitable zone, but this is low confidence."
+    "value": "A terrestrial planet with a dry, arid surface. Can be inferred for hot, rocky planets on the inner edge of the habitable zone with low confidence."
   },
   {
     "languageIso": "en",
@@ -522,7 +422,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_ice_planet_description",
-    "value": "A planet with a global frozen surface, classified by a terrestrial composition and an equilibrium temperature < 200 K."
+    "value": "A planet with a global frozen surface, with a terrestrial composition and an equilibrium temperature less than 200 K."
   },
   {
     "languageIso": "en",
@@ -532,7 +432,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_hot_jupiter_description",
-    "value": "A gas giant with a very short orbital period, classified by its gaseous nature and an orbital period < 10 days."
+    "value": "A gas giant with a very short orbital period, classified by its gaseous nature and an orbital period of less than 10 days."
   },
   {
     "languageIso": "en",
@@ -542,7 +442,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_ultra_hot_jupiter_description",
-    "value": "An extremely hot Hot Jupiter, classified by an equilibrium temperature > 2200 K."
+    "value": "An extremely hot Jupiter, with an equilibrium temperature greater than 2200 K."
   },
   {
     "languageIso": "en",
@@ -552,7 +452,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_hot_neptune_description",
-    "value": "A Neptune-sized planet orbiting very close to its star, classified by its size and an orbital period < 10 days."
+    "value": "A Neptune-sized planet orbiting very close to its star, with an orbital period of less than 10 days."
   },
   {
     "languageIso": "en",
@@ -562,7 +462,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_ultra_hot_neptune_description",
-    "value": "An extremely hot Hot Neptune, classified by an equilibrium temperature > 2000 K."
+    "value": "An extremely hot Neptune, with an equilibrium temperature greater than 2000 K."
   },
   {
     "languageIso": "en",
@@ -572,7 +472,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_ultra_short_period_planet_description",
-    "value": "A planet that orbits its star in less than one day, classified by an orbital period < 1.0."
+    "value": "A planet that orbits its star in less than 1 day."
   },
   {
     "languageIso": "en",
@@ -582,7 +482,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_eyeball_planet_description",
-    "value": "A tidally locked planet with distinct temperature zones, classified by a very low tidal locking score (< 0.2)."
+    "value": "A tidally locked planet with distinct temperature zones, classified by a very low tidal locking score of less than 0.2."
   },
   {
     "languageIso": "en",
@@ -592,7 +492,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_hot_eyeball_planet_description",
-    "value": "An Eyeball Planet with a high temperature, classified by an equilibrium temperature > 350 K."
+    "value": "An Eyeball Planet with a high equilibrium temperature greater than 350 K."
   },
   {
     "languageIso": "en",
@@ -602,7 +502,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_cold_eyeball_planet_description",
-    "value": "An Eyeball Planet with a low temperature, classified by an equilibrium temperature < 200 K."
+    "value": "An Eyeball Planet with a low equilibrium temperature of less than 200 K."
   },
   {
     "languageIso": "en",
@@ -612,7 +512,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_ammonia_clouds_gas_giant_description",
-    "value": "A Class I (Sudarsky) cold gas giant where ammonia clouds dominate, classified by a gas giant composition and an equilibrium temperature <= 150 K."
+    "value": "A Sudarsky Class I cold gas giant where ammonia clouds dominate, with an equilibrium temperature of less than 150 K."
   },
   {
     "languageIso": "en",
@@ -622,7 +522,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_water_clouds_gas_giant_description",
-    "value": "A Class II (Sudarsky) gas giant where water vapor clouds dominate, classified by a gas giant composition and an equilibrium temperature between 151 K and 250 K."
+    "value": "A Sudarsky Class II gas giant where water vapor clouds dominate, with an equilibrium temperature between 150 K and 250 K."
   },
   {
     "languageIso": "en",
@@ -632,7 +532,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_cloudless_gas_giant_description",
-    "value": "A Class III (Sudarsky) gas giant with a clear atmosphere, classified by a gas giant composition and an equilibrium temperature between 251 K and 800 K."
+    "value": "A Sudarsky Class III gas giant with a clear atmosphere and an equilibrium temperature between 250 K and 800 K."
   },
   {
     "languageIso": "en",
@@ -642,7 +542,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_alkali_metal_clouds_gas_giant_description",
-    "value": "A Class IV (Sudarsky) hot gas giant with alkali metal clouds, classified by a gas giant composition and an equilibrium temperature between 801 K and 1400 K."
+    "value": "A Sudarsky Class IV hot gas giant with alkali metal clouds and an equilibrium temperature between 800 K and 1400 K."
   },
   {
     "languageIso": "en",
@@ -652,7 +552,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_silicate_clouds_gas_giant_description",
-    "value": "A Class V (Sudarsky) very hot gas giant with silicate clouds, classified by a gas giant composition and an equilibrium temperature > 1400 K."
+    "value": "A Sudarsky Class V very hot gas giant with silicate clouds and an equilibrium temperature greater than 1400 K."
   },
   {
     "languageIso": "en",
@@ -662,7 +562,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_barren_planet_description",
-    "value": "A rocky world with little to no atmosphere or vegetation, inferred for a terrestrial planet with a very low habitability score (< 0.2)."
+    "value": "A rocky world with little to no atmosphere or vegetation, inferred for a terrestrial planet with a very low habitability score of less than 0.2."
   },
   {
     "languageIso": "en",
@@ -672,7 +572,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_habitable_planet_description",
-    "value": "A planet with conditions suitable for life, classified by a high habitability score (> 0.7)."
+    "value": "A planet with conditions suitable for life, classified by a high habitability score greater than 0.7."
   },
   {
     "languageIso": "en",
@@ -682,7 +582,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_earth_like_planet_description",
-    "value": "A terrestrial planet within the habitable zone, classified by a terrestrial composition, a habitable zone score > 0.5, and a high habitability score."
+    "value": "A terrestrial planet within the habitable zone, classified by a terrestrial composition, a habitable zone score greater than 0.5, and a high habitability score."
   },
   {
     "languageIso": "en",
@@ -692,7 +592,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_earth_analog_planet_description",
-    "value": "A planet with a very high similarity to Earth, classified by a habitability score > 0.9."
+    "value": "A planet with a very high similarity to Earth, classified by a habitability score greater than 0.9."
   },
   {
     "languageIso": "en",
@@ -702,7 +602,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_superhabitable_planet_description",
-    "value": "A theoretical planet with conditions even more suitable for life than Earth, inferred from a habitability score > 0.9 and orbiting a K-type star."
+    "value": "A planet with conditions even more suitable for life than Earth, inferred from a habitability score greater than 0.9 and orbiting a K-type star."
   },
   {
     "languageIso": "en",
@@ -712,17 +612,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_protoplanet_description",
-    "value": "A planetary embryo still in formation, inferred if its host star is extremely young (age < 0.01 Gyr)."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_planetesimal",
-    "value": "Planetesimal"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_planetesimal_description",
-    "value": "A solid object that acts as a building block for planets. Not a classification for a fully formed planet."
+    "value": "A planetary embryo still in formation, inferred if its host star is extremely young with an age less than 0.01 Gyr."
   },
   {
     "languageIso": "en",
@@ -732,7 +622,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_disrupted_planet_description",
-    "value": "A planet being torn apart by its star's tidal forces, classified if its Roche score is 0.0."
+    "value": "A planet being torn apart by its star's tidal forces, classified if its Roche score is 0."
   },
   {
     "languageIso": "en",
@@ -742,17 +632,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_chthonian_planet_description",
-    "value": "The remnant core of a stripped gas giant, classified by a high density (> 7.0 g/cm³) and a very small orbital axis (< 0.1 AU)."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_rogue_planet",
-    "value": "Rogue Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_rogue_planet_description",
-    "value": "A planet not gravitationally bound to any star. Cannot be classified within this data model."
+    "value": "The remnant core of a stripped gas giant, with a high density greater than 7.0 g/cm^3 and a very small orbital axis of less than 0.1 AU."
   },
   {
     "languageIso": "en",
@@ -762,57 +642,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_crater_planet_description",
-    "value": "A geologically dead world with a heavily cratered surface, inferred for very small terrestrial planets (mass < 0.1)."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_ringed_planet",
-    "value": "Ringed Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_ringed_planet_description",
-    "value": "A planet with a system of rings. Cannot be classified as it requires specific observational data."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_forest_planet",
-    "value": "Forest Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_forest_planet_description",
-    "value": "A theoretical planet covered in forests. Cannot be classified as it requires biological and surface data."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_jungle_planet",
-    "value": "Jungle Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_jungle_planet_description",
-    "value": "A theoretical planet covered in jungles. Cannot be classified as it requires biological and surface data."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_swamp_planet",
-    "value": "Swamp Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_swamp_planet_description",
-    "value": "A speculative planet covered in swamps. Cannot be classified as it requires surface and climate data."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_mountain_planet",
-    "value": "Mountain Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_mountain_planet_description",
-    "value": "A theoretical planet with extensive mountain ranges. Cannot be classified as it requires topographical data."
+    "value": "A geologically dead world with a heavily cratered surface, inferred for very small terrestrial planets with a Earth mass less than 0.1."
   },
   {
     "languageIso": "en",
@@ -822,57 +652,7 @@
   {
     "languageIso": "en",
     "key": "planet_type_ellipsoid_planet_description",
-    "value": "A planet deformed into an oval shape by strong tidal forces. Can be inferred for Hot Jupiters in extremely close orbits (orbital axis < 0.02 AU)."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_toroidal_planet",
-    "value": "Toroidal Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_toroidal_planet_description",
-    "value": "A hypothetical, physically unstable donut-shaped planet. Cannot be classified."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_ecumenopolis_planet",
-    "value": "Ecumenopolis Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_ecumenopolis_planet_description",
-    "value": "A hypothetical planet-wide city. Cannot be classified."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_brown_dwarf",
-    "value": "Brown Dwarf"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_brown_dwarf_description",
-    "value": "A sub-stellar object more massive than a planet but not a star. Not a planet classification; identified from the host star's spectral type (L, T, Y)."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_sub_brown_dwarf",
-    "value": "Sub Brown Dwarf"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_sub_brown_dwarf_description",
-    "value": "An object with a planetary mass that formed like a star. Not a standard planet classification."
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_ultra_cool_dwarf",
-    "value": "Ultra Cool Dwarf"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_ultra_cool_dwarf_description",
-    "value": "A very low-mass M-dwarf star or brown dwarf. This is a stellar, not a planetary, classification."
+    "value": "A planet deformed into an oval shape by strong tidal forces. Can be inferred for Hot Jupiters in extremely close orbits with orbital axis of less than 0.02 AU."
   },
   {
     "languageIso": "en",
