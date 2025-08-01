@@ -121,6 +121,11 @@
   },
   {
     "languageIso": "en",
+    "key": "planet_type",
+    "value": "Type"
+  },
+  {
+    "languageIso": "en",
     "key": "planet_orbital_period",
     "value": "Orbital Period"
   },

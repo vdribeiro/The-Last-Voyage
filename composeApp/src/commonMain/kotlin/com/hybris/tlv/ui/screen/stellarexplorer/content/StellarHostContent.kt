@@ -55,6 +55,7 @@ internal fun StellarHostContent(store: Store<StellarExplorerAction, StellarExplo
                     inclination = if (visiblePlanetProperties.contains(element = PlanetProperty.INCLINATION)) planet.inclination else null,
                     obliquity = if (visiblePlanetProperties.contains(element = PlanetProperty.OBLIQUITY)) planet.obliquity else null,
                     habitability = if (visiblePlanetProperties.contains(element = PlanetProperty.HABITABILITY)) planet.habitability?.habitabilityScore else null,
+                    type = if (visiblePlanetProperties.contains(element = PlanetProperty.TYPE)) planet.habitability?.planetType else null
                 )
             }
             item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }

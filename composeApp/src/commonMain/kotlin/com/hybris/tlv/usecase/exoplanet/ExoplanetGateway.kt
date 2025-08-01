@@ -1,6 +1,7 @@
 package com.hybris.tlv.usecase.exoplanet
 
 import com.hybris.tlv.usecase.exoplanet.model.Params
+import com.hybris.tlv.usecase.exoplanet.model.PlanetType
 import com.hybris.tlv.usecase.exoplanet.model.Score
 import kotlin.math.abs
 import kotlin.math.pow
@@ -185,6 +186,9 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
         val totalWeight = weightedScores.sumOf { it.second }
         val habitabilityScore = if (totalWeight == 0.0) 0.0 else totalScore / totalWeight
 
+        // Extra: Planet Type
+        val planetType = calculatePlanetType()
+
         return Score(
             habitabilityScore = habitabilityScore,
             habitableZoneScore = habitableZoneScore,
@@ -204,8 +208,13 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
             stellarMetallicityScore = stellarMetallicityScore,
             stellarEffectiveTemperatureScore = stellarEffectiveTemperatureScore,
             planetProtectionScore = planetProtectionScore,
-            planetTidalLockingScore = planetTidalLockingScore
+            planetTidalLockingScore = planetTidalLockingScore,
+            planetType = planetType
         )
+    }
+
+    private fun calculatePlanetType(): PlanetType? {
+        return null
     }
 
     /**

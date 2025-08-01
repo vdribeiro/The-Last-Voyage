@@ -76,6 +76,7 @@ internal enum class PlanetProperty {
     NAME,
     STATUS,
     HABITABILITY,
+    TYPE,
     ORBITAL_PERIOD,
     ORBIT_AXIS,
     RADIUS,
@@ -331,6 +332,11 @@ internal class StellarExplorerStore(
             ascending = ascending,
             comparator = if (ascending) nullsLast() else nullsFirst()
         ) { it.habitability?.habitabilityScore }
+
+        PlanetProperty.TYPE -> compare(
+            ascending = ascending,
+            comparator = if (ascending) nullsLast() else nullsFirst()
+        ) { it.habitability?.planetType }
 
         PlanetProperty.ORBITAL_PERIOD -> compare(
             ascending = ascending,

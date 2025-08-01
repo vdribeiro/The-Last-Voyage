@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.usecase.exoplanet.model.PlanetType
 import com.hybris.tlv.usecase.space.mapper.roundTo
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -49,6 +50,7 @@ internal fun PlanetCard(
     inclination: Double? = null,
     obliquity: Double? = null,
     habitability: Double? = null,
+    type: PlanetType? = null,
     onClick: () -> Unit = {}
 ) {
     Card(
@@ -69,7 +71,7 @@ internal fun PlanetCard(
                     .size(size = 72.dp)
                     .clip(shape = RoundedCornerShape(size = 8.dp))
                     .align(alignment = Alignment.Top),
-                painter = painterResource(resource = getImageResourceOfPlanet()),
+                painter = painterResource(resource = getImageResourceOfPlanet(planetType = type)),
                 contentDescription = name,
                 contentScale = ContentScale.Crop,
             )
@@ -89,6 +91,12 @@ internal fun PlanetCard(
                     InfoRow(
                         label = getTranslation(key = "planet_habitability"),
                         value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                type?.displayName?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_type"),
+                        value = getTranslation(key = it)
                     )
                 }
                 orbitalPeriod?.let {
@@ -162,11 +170,32 @@ internal fun PlanetCard(
     }
 }
 
-private fun getImageResourceOfPlanet(): DrawableResource {
-    return listOf(
-        Res.drawable.planet01,
-        Res.drawable.planet02,
-        Res.drawable.planet03,
-        Res.drawable.planet04,
-    ).random()
-}
+private fun getImageResourceOfPlanet(planetType: PlanetType?): DrawableResource =
+    when (planetType) {
+        PlanetType.TERRESTRIAL -> Res.drawable.planet01
+        PlanetType.ICE_PLANET -> Res.drawable.planet01
+        PlanetType.GAS_GIANT -> Res.drawable.planet01
+        PlanetType.ICE_GIANT -> Res.drawable.planet01
+        PlanetType.SUB_EARTH -> Res.drawable.planet01
+        PlanetType.SUPER_EARTH -> Res.drawable.planet01
+        PlanetType.MEGA_EARTH -> Res.drawable.planet01
+        PlanetType.MINI_NEPTUNE -> Res.drawable.planet01
+        PlanetType.HOT_JUPITER -> Res.drawable.planet01
+        PlanetType.ULTRA_HOT_JUPITER -> Res.drawable.planet01
+        PlanetType.SUPER_JUPITER -> Res.drawable.planet01
+        PlanetType.HOT_NEPTUNE -> Res.drawable.planet01
+        PlanetType.LAVA_PLANET -> Res.drawable.planet01
+        PlanetType.IRON_PLANET -> Res.drawable.planet01
+        PlanetType.CHTHONIAN_PLANET -> Res.drawable.planet01
+        PlanetType.PUFFY_PLANET -> Res.drawable.planet01
+        PlanetType.ULTRA_SHORT_PERIOD_PLANET -> Res.drawable.planet01
+        PlanetType.EYEBALL_PLANET -> Res.drawable.planet01
+        PlanetType.PROTOPLANET -> Res.drawable.planet01
+        PlanetType.EARTH_LIKE_PLANET -> Res.drawable.planet01
+        PlanetType.EARTH_ANALOG -> Res.drawable.planet01
+        PlanetType.SUPER_HABITABLE -> Res.drawable.planet01
+        PlanetType.HABITABLE_CANDIDATE -> Res.drawable.planet01
+        PlanetType.OCEAN_PLANET -> Res.drawable.planet01
+        PlanetType.DISRUPTED_PLANET -> Res.drawable.planet01
+        null -> Res.drawable.planet01
+    }

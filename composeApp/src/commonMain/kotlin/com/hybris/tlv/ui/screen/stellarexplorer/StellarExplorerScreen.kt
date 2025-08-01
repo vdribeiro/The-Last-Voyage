@@ -135,6 +135,7 @@ private val planetProperties by lazy {
         PlanetProperty.NAME to getTranslation(key = "planet_name"),
         PlanetProperty.STATUS to getTranslation(key = "planet_status"),
         PlanetProperty.HABITABILITY to getTranslation(key = "planet_habitability"),
+        PlanetProperty.TYPE to getTranslation(key = "planet_type"),
         PlanetProperty.ORBITAL_PERIOD to getTranslation(key = "planet_orbital_period"),
         PlanetProperty.ORBIT_AXIS to getTranslation(key = "planet_orbit_axis"),
         PlanetProperty.RADIUS to getTranslation(key = "planet_radius"),

@@ -44,6 +44,7 @@ import thelastvoyage.composeapp.generated.resources.T
 import thelastvoyage.composeapp.generated.resources.W
 import thelastvoyage.composeapp.generated.resources.Y
 import thelastvoyage.composeapp.generated.resources.blackhole
+import thelastvoyage.composeapp.generated.resources.unknown
 
 @Composable
 internal fun StellarHostCard(
@@ -195,8 +196,8 @@ internal fun StellarHostCard(
     }
 }
 
-private fun getImageResourceOfStellarHost(spectralType: String?): DrawableResource {
-    return when (spectralType?.firstOrNull()?.uppercase()) {
+private fun getImageResourceOfStellarHost(spectralType: String?): DrawableResource =
+    when (spectralType?.firstOrNull()?.uppercase()) {
         "O" -> Res.drawable.O
         "B" -> Res.drawable.B
         "A" -> Res.drawable.A
@@ -213,6 +214,5 @@ private fun getImageResourceOfStellarHost(spectralType: String?): DrawableResour
         "C" -> Res.drawable.C
         "S" -> Res.drawable.S
         "D" -> Res.drawable.D
-        else -> Res.drawable.blackhole
+        else -> Res.drawable.unknown
     }
-}

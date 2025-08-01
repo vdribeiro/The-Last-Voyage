@@ -65,6 +65,7 @@ internal fun SystemContent(store: Store<GameAction, GameState>) {
                 inclination = planet.inclination,
                 obliquity = planet.obliquity,
                 habitability = planet.habitability?.habitabilityScore,
+                type = planet.habitability?.planetType
             ) { store.send(action = GameAction.Settle(planet = planet)) }
         }
     }
