@@ -920,7 +920,7 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
         }
 
         // Specific states for Ice Giants
-        if (planetEquilibriumTemperature != null && (foundationalType == PlanetType.ICE_GIANT || foundationalType == PlanetType.MINI_NEPTUNE)) {
+        if ((foundationalType == PlanetType.ICE_GIANT || foundationalType == PlanetType.MINI_NEPTUNE) && planetEquilibriumTemperature != null) {
             if (planetEquilibriumTemperature > 1200) return PlanetType.ULTRA_HOT_NEPTUNE
             if (planetEquilibriumTemperature > 1000) return PlanetType.HOT_NEPTUNE
         }
@@ -938,8 +938,8 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
             // General thermal states if not tidally locked
             when {
                 planetEquilibriumTemperature > 1800.0 -> return PlanetType.LAVA_PLANET
-                planetEquilibriumTemperature < 200.0 -> return PlanetType.ICE_PLANET
                 planetEquilibriumTemperature in 350.0..500.0 -> return PlanetType.DESERT_PLANET
+                planetEquilibriumTemperature < 200.0 -> return PlanetType.ICE_PLANET
             }
         }
 
@@ -960,6 +960,7 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
             }
         }
 
+        // Orbit based
         if (planetOrbitalPeriod != null && planetOrbitalPeriod < 1.0) return PlanetType.ULTRA_SHORT_PERIOD_PLANET
 
         // Size subtypes

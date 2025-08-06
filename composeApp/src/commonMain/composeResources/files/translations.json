@@ -196,16 +196,6 @@
   },
   {
     "languageIso": "en",
-    "key": "planet_type_giant_planet",
-    "value": "Giant Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "planet_type_giant_planet_description",
-    "value": "A planet much larger than Earth, typically composed of volatiles rather than rock."
-  },
-  {
-    "languageIso": "en",
     "key": "planet_type_terrestrial_planet",
     "value": "Terrestrial Planet"
   },

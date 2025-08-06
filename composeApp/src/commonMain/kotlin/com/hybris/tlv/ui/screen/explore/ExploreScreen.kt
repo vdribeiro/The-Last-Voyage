@@ -156,6 +156,18 @@ private val planetTypes by lazy {
             description = getTranslation(key = "planet_type_mega_earth_description")
         ),
         Section(
+            title = getTranslation(key = "planet_type_earth_like_planet"),
+            description = getTranslation(key = "planet_type_earth_like_planet_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_earth_analog_planet"),
+            description = getTranslation(key = "planet_type_earth_analog_planet_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_superhabitable_planet"),
+            description = getTranslation(key = "planet_type_superhabitable_planet_description")
+        ),
+        Section(
             title = getTranslation(key = "planet_type_lava_planet"),
             description = getTranslation(key = "planet_type_lava_planet_description")
         ),
@@ -176,60 +188,8 @@ private val planetTypes by lazy {
             description = getTranslation(key = "planet_type_ocean_planet_description")
         ),
         Section(
-            title = getTranslation(key = "planet_type_mini_neptune"),
-            description = getTranslation(key = "planet_type_mini_neptune_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_super_neptune"),
-            description = getTranslation(key = "planet_type_super_neptune_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_giant_planet"),
-            description = getTranslation(key = "planet_type_giant_planet_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_gas_giant"),
-            description = getTranslation(key = "planet_type_gas_giant_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_ice_giant"),
-            description = getTranslation(key = "planet_type_ice_giant_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_super_jupiter"),
-            description = getTranslation(key = "planet_type_super_jupiter_description")
-        ),
-        Section(
             title = getTranslation(key = "planet_type_iron_planet"),
             description = getTranslation(key = "planet_type_iron_planet_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_puffy_planet"),
-            description = getTranslation(key = "planet_type_puffy_planet_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_super_puff_planet"),
-            description = getTranslation(key = "planet_type_super_puff_planet_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_hot_jupiter"),
-            description = getTranslation(key = "planet_type_hot_jupiter_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_ultra_hot_jupiter"),
-            description = getTranslation(key = "planet_type_ultra_hot_jupiter_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_hot_neptune"),
-            description = getTranslation(key = "planet_type_hot_neptune_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_ultra_hot_neptune"),
-            description = getTranslation(key = "planet_type_ultra_hot_neptune_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_ultra_short_period_planet"),
-            description = getTranslation(key = "planet_type_ultra_short_period_planet_description")
         ),
         Section(
             title = getTranslation(key = "planet_type_eyeball_planet"),
@@ -242,6 +202,54 @@ private val planetTypes by lazy {
         Section(
             title = getTranslation(key = "planet_type_cold_eyeball_planet"),
             description = getTranslation(key = "planet_type_cold_eyeball_planet_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_barren_planet"),
+            description = getTranslation(key = "planet_type_barren_planet_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_crater_planet"),
+            description = getTranslation(key = "planet_type_crater_planet_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_chthonian_planet"),
+            description = getTranslation(key = "planet_type_chthonian_planet_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_mini_neptune"),
+            description = getTranslation(key = "planet_type_mini_neptune_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_hot_neptune"),
+            description = getTranslation(key = "planet_type_hot_neptune_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_ultra_hot_neptune"),
+            description = getTranslation(key = "planet_type_ultra_hot_neptune_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_super_neptune"),
+            description = getTranslation(key = "planet_type_super_neptune_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_ice_giant"),
+            description = getTranslation(key = "planet_type_ice_giant_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_gas_giant"),
+            description = getTranslation(key = "planet_type_gas_giant_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_super_jupiter"),
+            description = getTranslation(key = "planet_type_super_jupiter_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_hot_jupiter"),
+            description = getTranslation(key = "planet_type_hot_jupiter_description")
+        ),
+        Section(
+            title = getTranslation(key = "planet_type_ultra_hot_jupiter"),
+            description = getTranslation(key = "planet_type_ultra_hot_jupiter_description")
         ),
         Section(
             title = getTranslation(key = "planet_type_ammonia_clouds_gas_giant"),
@@ -264,40 +272,28 @@ private val planetTypes by lazy {
             description = getTranslation(key = "planet_type_silicate_clouds_gas_giant_description")
         ),
         Section(
-            title = getTranslation(key = "planet_type_barren_planet"),
-            description = getTranslation(key = "planet_type_barren_planet_description")
+            title = getTranslation(key = "planet_type_puffy_planet"),
+            description = getTranslation(key = "planet_type_puffy_planet_description")
         ),
         Section(
-            title = getTranslation(key = "planet_type_earth_like_planet"),
-            description = getTranslation(key = "planet_type_earth_like_planet_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_earth_analog_planet"),
-            description = getTranslation(key = "planet_type_earth_analog_planet_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_superhabitable_planet"),
-            description = getTranslation(key = "planet_type_superhabitable_planet_description")
+            title = getTranslation(key = "planet_type_super_puff_planet"),
+            description = getTranslation(key = "planet_type_super_puff_planet_description")
         ),
         Section(
             title = getTranslation(key = "planet_type_protoplanet"),
             description = getTranslation(key = "planet_type_protoplanet_description")
         ),
         Section(
+            title = getTranslation(key = "planet_type_ultra_short_period_planet"),
+            description = getTranslation(key = "planet_type_ultra_short_period_planet_description")
+        ),
+        Section(
             title = getTranslation(key = "planet_type_disrupted_planet"),
             description = getTranslation(key = "planet_type_disrupted_planet_description")
         ),
         Section(
-            title = getTranslation(key = "planet_type_chthonian_planet"),
-            description = getTranslation(key = "planet_type_chthonian_planet_description")
-        ),
-        Section(
-            title = getTranslation(key = "planet_type_crater_planet"),
-            description = getTranslation(key = "planet_type_crater_planet_description")
-        ),
-        Section(
             title = getTranslation(key = "planet_type_ellipsoid_planet"),
             description = getTranslation(key = "planet_type_ellipsoid_planet_description")
-        )
+        ),
     )
 }
