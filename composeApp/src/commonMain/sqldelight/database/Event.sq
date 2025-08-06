@@ -1,0 +1,50 @@
+CREATE TABLE IF NOT EXISTS Event (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    parentId TEXT,
+    outcome TEXT
+);
+
+isEventEmpty:
+SELECT Event.id FROM Event LIMIT 1;
+
+truncateEvent:
+DELETE FROM Event;
+
+upsertEvent:
+INSERT OR REPLACE INTO Event VALUES ?;
+
+getEvents:
+SELECT
+    Event.id,
+    Event.name,
+    Event.description,
+    Event.parentId,
+    Event.outcome
+FROM Event;
+
+getRandomEvent:
+SELECT
+    Event.id,
+    Event.name,
+    Event.description,
+    Event.parentId,
+    Event.outcome
+FROM Event
+WHERE Event.id = (
+    SELECT Event.id
+    FROM Event
+    WHERE Event.parentId IS NULL AND Event.id NOT IN :ids
+    ORDER BY RANDOM() LIMIT 1
+);
+
+getChildEvents:
+SELECT
+    Event.id,
+    Event.name,
+    Event.description,
+    Event.parentId,
+    Event.outcome
+FROM Event
+WHERE Event.parentId = :parentId;

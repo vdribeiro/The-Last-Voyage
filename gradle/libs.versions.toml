@@ -1,0 +1,91 @@
+[versions]
+
+applicationId = "com.hybris.tlv"
+agp = "8.11.1"
+google-services = "4.4.3"
+kotlin = "2.2.0"
+kotlinx-serialization = "1.9.0"
+kotlinx-datetime = "0.7.1"
+kotlinx-coroutines = "1.10.2"
+kotlin-ktor = "3.2.1"
+compose-multiplatform = "1.8.2"
+sqldelight = "2.1.0"
+firebase = "33.16.0"
+crashlytics = "3.0.4"
+compose-backhandler = "1.8.2"
+android-minSdk = "26"
+android-targetSdk = "35"
+android-compileSdk = "35"
+androidx-activity-compose = "1.10.1"
+androidx-exoplayer = "1.7.1"
+javafx = "24.0.2"
+
+[plugins]
+googleServices = { id = "com.google.gms.google-services", version.ref = "google-services" }
+crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+
+[libraries]
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlin-ktor = { group = "io.ktor", name = "ktor-client-core", version.ref = "kotlin-ktor" }
+kotlin-ktor-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "kotlin-ktor" }
+kotlin-ktor-android = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "kotlin-ktor" }
+kotlin-ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "kotlin-ktor" }
+kotlin-ktor-content = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "kotlin-ktor" }
+kotlin-ktor-encoding = { group = "io.ktor", name = "ktor-client-encoding", version.ref = "kotlin-ktor" }
+kotlin-ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "kotlin-ktor" }
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
+sqldelight-jvm = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
+sqldelight-primitives = { group = "app.cash.sqldelight", name = "primitive-adapters", version.ref = "sqldelight" }
+sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
+firebase-analytics-ktx = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-crashlytics-ktx = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-config-ktx = { group = "com.google.firebase", name = "firebase-config-ktx" }
+firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
+compose-backhandler = { group = "org.jetbrains.compose.ui", name = "ui-backhandler", version.ref = "compose-backhandler" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
+androidx-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "androidx-exoplayer" }
+javafx-media = { group = "org.openjfx", name = "javafx-media", version.ref = "javafx" }
+javafx-swing = { group = "org.openjfx", name = "javafx-swing", version.ref = "javafx" }
+
+[bundles]
+common = [
+    "sqldelight-primitives",
+    "sqldelight-coroutines",
+    "kotlinx-serialization",
+    "kotlinx-datetime",
+    "kotlin-ktor",
+    "kotlin-ktor-mock",
+    "kotlin-ktor-content",
+    "kotlin-ktor-serialization",
+    "kotlin-ktor-encoding",
+    "kotlin-ktor-logging",
+    "compose-backhandler"
+]
+common-test = [
+    "kotlin-test"
+]
+android = [
+    "kotlin-ktor-android",
+    "androidx-activity-compose",
+    "androidx-exoplayer",
+    "sqldelight-android",
+    "firebase-analytics-ktx",
+    "firebase-crashlytics-ktx",
+    "firebase-config-ktx",
+    "firebase-firestore-ktx",
+]
+desktop = [
+    "sqldelight-jvm",
+    "kotlinx-coroutines-swing"
+]

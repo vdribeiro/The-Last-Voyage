@@ -1,0 +1,242 @@
+[
+  {
+    "id": "wormhole_generator",
+    "name": "engine__wormhole_generator",
+    "description": "engine__wormhole_generator_description",
+    "velocity": 2.99E8
+  },
+  {
+    "id": "alcubierre_drive",
+    "name": "engine__alcubierre_drive",
+    "description": "engine__alcubierre_drive_description",
+    "velocity": 1.0
+  },
+  {
+    "id": "em_drive",
+    "name": "engine__em_drive",
+    "description": "engine__em_drive_description",
+    "velocity": 0.66
+  },
+  {
+    "id": "bussard_ramjet",
+    "name": "engine__bussard_ramjet",
+    "description": "engine__bussard_ramjet_description",
+    "velocity": 0.5
+  },
+  {
+    "id": "laser_propulsion",
+    "name": "engine__laser_propulsion",
+    "description": "engine__laser_propulsion_description",
+    "velocity": 0.5
+  },
+  {
+    "id": "magsail_in_interstellar_medium",
+    "name": "engine__magsail_in_interstellar_medium",
+    "description": "engine__magsail_in_interstellar_medium_description",
+    "velocity": 0.5
+  },
+  {
+    "id": "solar_sail",
+    "name": "engine__solar_sail",
+    "description": "engine__solar_sail_description",
+    "velocity": 0.5
+  },
+  {
+    "id": "fission_fragment_rocket",
+    "name": "engine__fission_fragment_rocket",
+    "description": "engine__fission_fragment_rocket_description",
+    "velocity": 0.050035
+  },
+  {
+    "id": "fission_sail",
+    "name": "engine__fission_sail",
+    "description": "engine__fission_sail_description",
+    "velocity": 0.050035
+  },
+  {
+    "id": "fusion_propulsion",
+    "name": "engine__fusion_propulsion",
+    "description": "engine__fusion_propulsion_description",
+    "velocity": 0.00333564
+  },
+  {
+    "id": "project_orion",
+    "name": "engine__project_orion",
+    "description": "engine__project_orion_description",
+    "velocity": 0.0033356
+  },
+  {
+    "id": "antimatter_catalyzed_nuclear_pulse_propulsion",
+    "name": "engine__antimatter_catalyzed_nuclear_pulse_propulsion",
+    "description": "engine__antimatter_catalyzed_nuclear_pulse_propulsion_description",
+    "velocity": 0.0013342
+  },
+  {
+    "id": "nuclear_photonic_rocket",
+    "name": "engine__nuclear_photonic_rocket",
+    "description": "engine__nuclear_photonic_rocket_description",
+    "velocity": 0.001000692
+  },
+  {
+    "id": "variable_specific_impulse_magnetoplasma_rocket",
+    "name": "engine__variable_specific_impulse_magnetoplasma_rocket",
+    "description": "engine__variable_specific_impulse_magnetoplasma_rocket_description",
+    "velocity": 0.001000692
+  },
+  {
+    "id": "ion_thruster",
+    "name": "engine__ion_thruster",
+    "description": "engine__ion_thruster_description",
+    "velocity": 7.00485E-4
+  },
+  {
+    "id": "field_emission_electric_propulsion",
+    "name": "engine__field_emission_electric_propulsion",
+    "description": "engine__field_emission_electric_propulsion_description",
+    "velocity": 4.33634E-4
+  },
+  {
+    "id": "magnetoplasmadynamic_thruster",
+    "name": "engine__magnetoplasmadynamic_thruster",
+    "description": "engine__magnetoplasmadynamic_thruster_description",
+    "velocity": 3.33564E-4
+  },
+  {
+    "id": "nuclear_electric_propulsion",
+    "name": "engine__nuclear_electric_propulsion",
+    "description": "engine__nuclear_electric_propulsion_description",
+    "velocity": 3.33564E-4
+  },
+  {
+    "id": "pulsed_inductive_thruster",
+    "name": "engine__pulsed_inductive_thruster",
+    "description": "engine__pulsed_inductive_thruster_description",
+    "velocity": 3.33564E-4
+  },
+  {
+    "id": "magnetoplasma_sail_in_solar_wind",
+    "name": "engine__magnetoplasma_sail_in_solar_wind",
+    "description": "engine__magnetoplasma_sail_in_solar_wind_description",
+    "velocity": 2.20154E-4
+  },
+  {
+    "id": "magsail_in_solar_wind",
+    "name": "engine__magsail_in_solar_wind",
+    "description": "engine__magsail_in_solar_wind_description",
+    "velocity": 2.20154E-4
+  },
+  {
+    "id": "nuclear_salt_water_rocket",
+    "name": "engine__nuclear_salt_water_rocket",
+    "description": "engine__nuclear_salt_water_rocket_description",
+    "velocity": 2.20154E-4
+  },
+  {
+    "id": "photon_rocket",
+    "name": "engine__photon_rocket",
+    "description": "engine__photon_rocket_description",
+    "velocity": 2.00138E-4
+  },
+  {
+    "id": "electric_sail",
+    "name": "engine__electric_sail",
+    "description": "engine__electric_sail_description",
+    "velocity": 1.66781E-4
+  },
+  {
+    "id": "gas_core_reactor_rocket",
+    "name": "engine__gas_core_reactor_rocket",
+    "description": "engine__gas_core_reactor_rocket_description",
+    "velocity": 1.66781E-4
+  },
+  {
+    "id": "hall_effect_thruster",
+    "name": "engine__hall_effect_thruster",
+    "description": "engine__hall_effect_thruster_description",
+    "velocity": 1.66781E-4
+  },
+  {
+    "id": "nuclear_thermal_rocket",
+    "name": "engine__nuclear_thermal_rocket",
+    "description": "engine__nuclear_thermal_rocket_description",
+    "velocity": 1.66781E-4
+  },
+  {
+    "id": "propulsive_mass_driver",
+    "name": "engine__propulsive_mass_driver",
+    "description": "engine__propulsive_mass_driver_description",
+    "velocity": 1.00069E-4
+  },
+  {
+    "id": "pulsed_plasma_thruster",
+    "name": "engine__pulsed_plasma_thruster",
+    "description": "engine__pulsed_plasma_thruster_description",
+    "velocity": 6.6712E-5
+  },
+  {
+    "id": "arcjet",
+    "name": "engine__arcjet",
+    "description": "engine__arcjet_description",
+    "velocity": 5.337E-5
+  },
+  {
+    "id": "colloid_thruster",
+    "name": "engine__colloid_thruster",
+    "description": "engine__colloid_thruster_description",
+    "velocity": 5.0035E-5
+  },
+  {
+    "id": "solar_thermal_rocket",
+    "name": "engine__solar_thermal_rocket",
+    "description": "engine__solar_thermal_rocket_description",
+    "velocity": 4.0028E-5
+  },
+  {
+    "id": "radioisotope_rocket",
+    "name": "engine__radioisotope_rocket",
+    "description": "engine__radioisotope_rocket_description",
+    "velocity": 2.6684E-5
+  },
+  {
+    "id": "resistojet",
+    "name": "engine__resistojet",
+    "description": "engine__resistojet_description",
+    "velocity": 2.0014E-5
+  },
+  {
+    "id": "tripropellant_rocket",
+    "name": "engine__tripropellant_rocket",
+    "description": "engine__tripropellant_rocket_description",
+    "velocity": 1.7679E-5
+  },
+  {
+    "id": "liquid_fuel_rocket",
+    "name": "engine__liquid_fuel_rocket",
+    "description": "engine__liquid_fuel_rocket_description",
+    "velocity": 1.4677E-5
+  },
+  {
+    "id": "hybrid_rocket",
+    "name": "engine__hybrid_rocket",
+    "description": "engine__hybrid_rocket_description",
+    "velocity": 1.3342E-5
+  },
+  {
+    "id": "monopropellant_rocket",
+    "name": "engine__monopropellant_rocket",
+    "description": "engine__monopropellant_rocket_description",
+    "velocity": 1.0007E-5
+  },
+  {
+    "id": "solid_rocket_motor",
+    "name": "engine__solid_rocket_motor",
+    "description": "engine__solid_rocket_motor_description",
+    "velocity": 8.3385E-6
+  },
+  {
+    "id": "steam_thruster",
+    "name": "engine__steam_thruster",
+    "description": "engine__steam_thruster_description",
+    "velocity": 5.6705E-6
+  }
+]

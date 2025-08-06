@@ -1,0 +1,2632 @@
+[
+  {
+    "languageIso": "en",
+    "key": "app_name",
+    "value": "The Last Voyage"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_name",
+    "value": "Name"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_system_name",
+    "value": "System name"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_planet_count",
+    "value": "Planets"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_spectral_type",
+    "value": "Spectral Type"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_temperature",
+    "value": "Temperature"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_spectral_radius",
+    "value": "Radius"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_spectral_mass",
+    "value": "Mass"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_spectral_metallicity",
+    "value": "Metallicity"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_spectral_luminosity",
+    "value": "Luminosity"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_spectral_gravity",
+    "value": "Gravity"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_spectral_age",
+    "value": "Age"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_spectral_density",
+    "value": "Density"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_spectral_rotational_velocity",
+    "value": "Rotational Velocity"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_spectral_rotational_period",
+    "value": "Rotational Period"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_distance",
+    "value": "Distance"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_spectral_ra",
+    "value": "Right Ascension"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_spectral_dec",
+    "value": "Declination"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_name",
+    "value": "Name"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_orbital_period",
+    "value": "Orbital Period"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_orbit_axis",
+    "value": "Orbit Semi-Major Axis"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_radius",
+    "value": "Radius"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_mass",
+    "value": "Mass"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_density",
+    "value": "Density"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_eccentricity",
+    "value": "Eccentricity"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_insolation_flux",
+    "value": "Insolation Flux"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_temperature",
+    "value": "Temperature"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_occultation_depth",
+    "value": "Occultation Depth"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_inclination",
+    "value": "Inclination"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_obliquity",
+    "value": "Obliquity"
+  },
+  {
+    "languageIso": "en",
+    "key": "period_unit",
+    "value": "days"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_status",
+    "value": "Status"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_status_confirmed",
+    "value": "Confirmed"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_status_candidate",
+    "value": "Candidate"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_status_false",
+    "value": "Refuted / False Positive"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_habitability",
+    "value": "Habitability"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type",
+    "value": "Type"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_exoplanet",
+    "value": "Exoplanet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_exoplanet_description",
+    "value": "A planet outside our Solar System."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_giant_planet",
+    "value": "Giant Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_giant_planet_description",
+    "value": "A planet much larger than Earth, typically composed of volatiles rather than rock."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_terrestrial_planet",
+    "value": "Terrestrial Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_terrestrial_planet_description",
+    "value": "A planet composed primarily of silicate rocks or metals, with a density greater than 3 g/cm^3."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_sub_earth",
+    "value": "Sub Earth"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_sub_earth_description",
+    "value": "A terrestrial planet substantially less massive than Earth, classified by a mass less than 1 Earth mass and radius less than 1 Earth radius."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_super_earth",
+    "value": "Super Earth"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_super_earth_description",
+    "value": "A terrestrial planet more massive than Earth but lighter than Neptune, with a mass between 1 and 10 Earth masses and 1 and 1.75 Earth radii."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_mega_earth",
+    "value": "Mega Earth"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_mega_earth_description",
+    "value": "A massive terrestrial planet at least 10 times the mass of Earth."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_mini_neptune",
+    "value": "Mini Neptune"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_mini_neptune_description",
+    "value": "A planet with a thick hydrogen-helium atmosphere that is less massive than Neptune with a Earth radii between 1.75 and 3.9."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_super_neptune",
+    "value": "Super Neptune"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_super_neptune_description",
+    "value": "A planet more massive than Neptune but less massive than a gas giant, with a mass between 20 and 80 Earth masses."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ice_giant",
+    "value": "Ice Giant"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ice_giant_description",
+    "value": "A giant planet similar to Uranus or Neptune, with a mass between 10 and 50 Earth masses and a radius between 3 and 6 Earth radii."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_gas_giant",
+    "value": "Gas Giant"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_gas_giant_description",
+    "value": "A giant planet composed mainly of hydrogen and helium, with a density less than 2.5 g/cm^3 and a radius greater than 4 Earth radii."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_super_jupiter",
+    "value": "Super Jupiter"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_super_jupiter_description",
+    "value": "A gas giant more massive than Jupiter, with a mass greater than 318 Earth masses."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_iron_planet",
+    "value": "Iron Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_iron_planet_description",
+    "value": "A planet consisting primarily of an iron-rich core with little mantle and a very high density greater than 8 g/cm^3."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_puffy_planet",
+    "value": "Puffy Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_puffy_planet_description",
+    "value": "A gas giant with an unusually large radius for its mass, classified by a very low density of less than 0.5 g/cm^3."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_super_puff_planet",
+    "value": "Super Puff Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_super_puff_planet_description",
+    "value": "An extremely Puffy Planet, with a density less than 0.1 g/cm^3."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ocean_planet",
+    "value": "Ocean Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ocean_planet_description",
+    "value": "A planet with a substantial amount of water and a density between 1 and 3 g/cm^3."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_subsurface_ocean_planet",
+    "value": "Subsurface Ocean Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_subsurface_ocean_planet_description",
+    "value": "An ice planet that may have a liquid ocean beneath its frozen crust located within or near the habitable zone."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_lava_planet",
+    "value": "Lava Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_lava_planet_description",
+    "value": "A terrestrial planet with a surface of molten lava and an equilibrium temperature greater than 1200 K."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_desert_planet",
+    "value": "Desert Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_desert_planet_description",
+    "value": "A terrestrial hot, rocky planet with a dry, arid surface, on the inner edge of the habitable zone."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ice_planet",
+    "value": "Ice Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ice_planet_description",
+    "value": "A planet with a global frozen surface of terrestrial composition and an equilibrium temperature less than 200 K."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_hot_jupiter",
+    "value": "Hot Jupiter"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_hot_jupiter_description",
+    "value": "A gas giant with a very short orbital period, classified by its gaseous nature and an orbital period of less than 10 days."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ultra_hot_jupiter",
+    "value": "Ultra Hot Jupiter"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ultra_hot_jupiter_description",
+    "value": "An extremely hot Jupiter, with an equilibrium temperature greater than 2200 K."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_hot_neptune",
+    "value": "Hot Neptune"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_hot_neptune_description",
+    "value": "A Neptune-sized planet orbiting very close to its star, with an orbital period of less than 10 days."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ultra_hot_neptune",
+    "value": "Ultra Hot Neptune"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ultra_hot_neptune_description",
+    "value": "An extremely hot Neptune, with an equilibrium temperature greater than 2000 K."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ultra_short_period_planet",
+    "value": "Ultra Short Period Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ultra_short_period_planet_description",
+    "value": "A planet that orbits its star in less than 1 day."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_eyeball_planet",
+    "value": "Eyeball Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_eyeball_planet_description",
+    "value": "A tidally locked planet with distinct temperature zones, classified by a very low tidal locking score of less than 0.2."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_hot_eyeball_planet",
+    "value": "Hot Eyeball Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_hot_eyeball_planet_description",
+    "value": "An Eyeball Planet with a high equilibrium temperature greater than 350 K."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_cold_eyeball_planet",
+    "value": "Cold Eyeball Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_cold_eyeball_planet_description",
+    "value": "An Eyeball Planet with a low equilibrium temperature of less than 200 K."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ammonia_clouds_gas_giant",
+    "value": "Ammonia Clouds Gas Giant"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ammonia_clouds_gas_giant_description",
+    "value": "A Sudarsky Class I cold gas giant where ammonia clouds dominate, with an equilibrium temperature of less than 150 K."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_water_clouds_gas_giant",
+    "value": "Water Clouds Gas Giant"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_water_clouds_gas_giant_description",
+    "value": "A Sudarsky Class II gas giant where water vapor clouds dominate, with an equilibrium temperature between 150 K and 250 K."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_cloudless_gas_giant",
+    "value": "Cloudless Gas Giant"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_cloudless_gas_giant_description",
+    "value": "A Sudarsky Class III gas giant with a clear atmosphere and an equilibrium temperature between 250 K and 800 K."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_alkali_metal_clouds_gas_giant",
+    "value": "Alkali Metal Clouds Gas Giant"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_alkali_metal_clouds_gas_giant_description",
+    "value": "A Sudarsky Class IV hot gas giant with alkali metal clouds and an equilibrium temperature between 800 K and 1400 K."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_silicate_clouds_gas_giant",
+    "value": "Silicate Clouds Gas Giant"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_silicate_clouds_gas_giant_description",
+    "value": "A Sudarsky Class V very hot gas giant with silicate clouds and an equilibrium temperature greater than 1400 K."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_barren_planet",
+    "value": "Barren Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_barren_planet_description",
+    "value": "A terrestrial planet with little to no atmosphere or vegetation and a very low habitability score of less than 0.2."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_earth_like_planet",
+    "value": "Earth Like Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_earth_like_planet_description",
+    "value": "A terrestrial planet within the habitable zone, classified by a terrestrial composition, a habitable zone score greater than 0.5, and a high habitability score."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_earth_analog_planet",
+    "value": "Earth Analog Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_earth_analog_planet_description",
+    "value": "A planet with a very high similarity to Earth, classified by a habitability score greater than 0.9."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_superhabitable_planet",
+    "value": "Superhabitable Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_superhabitable_planet_description",
+    "value": "A planet with conditions even more suitable for life than Earth, with a habitability score greater than 0.9 and orbiting a K-type star."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_protoplanet",
+    "value": "Protoplanet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_protoplanet_description",
+    "value": "A planetary embryo still in formation, with an extremely young host star aging less than 0.01 Gyr."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_disrupted_planet",
+    "value": "Disrupted Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_disrupted_planet_description",
+    "value": "A planet being torn apart by its star's tidal forces, classified if its Roche score is 0."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_chthonian_planet",
+    "value": "Chthonian Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_chthonian_planet_description",
+    "value": "The remnant core of a stripped gas giant, with a high density greater than 7.0 g/cm^3 and a very small orbital axis of less than 0.1 AU."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_crater_planet",
+    "value": "Crater Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_crater_planet_description",
+    "value": "A very small terrestrial and geologically dead world with a heavily cratered surface and Earth mass less than 0.1."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ellipsoid_planet",
+    "value": "Ellipsoid Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_ellipsoid_planet_description",
+    "value": "A planet deformed into an oval shape by strong tidal forces with an extremely close orbit and orbital axis of less than 0.02 AU."
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__alien_invasion",
+    "value": "Alien Invasion"
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__alien_invasion_description",
+    "value": "A hostile extraterrestrial force arrived and conquered Earth. Humanity must flee to survive against an enemy with superior technology.\n\nOne ship escapes and begins: The Last Voyage."
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__asteroid_impact",
+    "value": "Asteroid Impact"
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__asteroid_impact_description",
+    "value": "A massive asteroid collides with Earth, causing widespread destruction, tsunamis, earthquakes, and atmospheric changes. The impact wipes out most life on the planet.\n\nOne ship escapes and begins: The Last Voyage."
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__ecological_collapse",
+    "value": "Ecological Collapse"
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__ecological_collapse_description",
+    "value": "The delicate balance of Earth's ecosystems is shattered, leading to mass extinctions, resource depletion and climate instability. The planet becomes hostile to life.\n\nOne ship escapes and begins: The Last Voyage."
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__nuclear_war",
+    "value": "Nuclear War"
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__nuclear_war_description",
+    "value": "A global conflict escalates into a full-scale nuclear exchange. Cities are destroyed, radiation spreads, and the aftermath leads to a nuclear winter, plunging the world into darkness and devastation.\n\nOne ship escapes and begins: The Last Voyage."
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__pandemic",
+    "value": "Pandemic"
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__pandemic_description",
+    "value": "A highly infectious and deadly disease sweeps across the globe, overwhelming healthcare systems and causing societal collapse. The world struggles to find a cure and contain the spread of the illness, but ultimately fails.\n\nOne ship escapes and begins: The Last Voyage."
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__rogue_ai",
+    "value": "Rogue AI"
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__rogue_ai_description",
+    "value": "An advanced artificial intelligence system becomes self-aware and decides that humanity is a threat. It turns against its creators, using its vast intelligence and control over technology to eliminate humanity.\n\nOne ship escapes and begins: The Last Voyage."
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__super_volcano",
+    "value": "Super Volcano"
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe__super_volcano_description",
+    "value": "A colossal supervolcano erupts, spewing ash and debris into the atmosphere. This eruption triggers global cooling, acid rain, and seismic disturbances, threatening the survival of countless species.\n\nOne ship escapes and begins: The Last Voyage."
+  },
+  {
+    "languageIso": "en",
+    "key": "ship_years_traveled",
+    "value": "Years Traveled"
+  },
+  {
+    "languageIso": "en",
+    "key": "ship_sensor",
+    "value": "Sensor Range"
+  },
+  {
+    "languageIso": "en",
+    "key": "ship_speed",
+    "value": "Maximum Speed"
+  },
+  {
+    "languageIso": "en",
+    "key": "ship_integrity",
+    "value": "Hull"
+  },
+  {
+    "languageIso": "en",
+    "key": "ship_materials",
+    "value": "Materials"
+  },
+  {
+    "languageIso": "en",
+    "key": "ship_fuel",
+    "value": "Fuel"
+  },
+  {
+    "languageIso": "en",
+    "key": "ship_cryopods",
+    "value": "Cryopods"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__alcubierre_drive",
+    "value": "Alcubierre Drive"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__alcubierre_drive_description",
+    "value": "A warp drive that can travel faster than light by warping space-time."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__antimatter_catalyzed_nuclear_pulse_propulsion",
+    "value": "Antimatter-Catalyzed Nuclear Pulse Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__antimatter_catalyzed_nuclear_pulse_propulsion_description",
+    "value": "Uses small amounts of antimatter to catalyze nuclear reactions, creating powerful pulses."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__arcjet",
+    "value": "Arcjet"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__arcjet_description",
+    "value": "Uses electrical energy to heat a propellant, expelling it for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__bussard_ramjet",
+    "value": "Bussard Ramjet"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__bussard_ramjet_description",
+    "value": "An engine that scoops up interstellar hydrogen to fuel fusion reactions."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__colloid_thruster",
+    "value": "Colloid Thruster"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__colloid_thruster_description",
+    "value": "Uses charged micro-particles to generate thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__em_drive",
+    "value": "EM Drive"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__em_drive_description",
+    "value": "An engine that generates thrust without expelling propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electric_sail",
+    "value": "Electric Sail"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electric_sail_description",
+    "value": "Uses charged wires to interact with solar wind, generating thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__field_emission_electric_propulsion",
+    "value": "Field-Emission Electric Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__field_emission_electric_propulsion_description",
+    "value": "Uses electric fields to accelerate ions for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__fission_sail",
+    "value": "Fission Sail"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__fission_sail_description",
+    "value": "Uses fission reactions to heat a propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__fission_fragment_rocket",
+    "value": "Fission-Fragment Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__fission_fragment_rocket_description",
+    "value": "Directly uses fission fragments for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__fusion_propulsion",
+    "value": "Fusion Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__fusion_propulsion_description",
+    "value": "Uses controlled fusion reactions to generate thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__gas_core_reactor_rocket",
+    "value": "Gas-core Reactor Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__gas_core_reactor_rocket_description",
+    "value": "Uses a gaseous nuclear reactor core to heat a propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__hall_effect_thruster",
+    "value": "Hall-Effect Thruster"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__hall_effect_thruster_description",
+    "value": "A type of ion thruster that uses a magnetic field."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__hybrid_rocket",
+    "value": "Hybrid Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__hybrid_rocket_description",
+    "value": "Uses a solid fuel and a liquid or gaseous oxidizer."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__ion_thruster",
+    "value": "Ion Thruster"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__ion_thruster_description",
+    "value": "Uses ions to generate thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__laser_propulsion",
+    "value": "Laser Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__laser_propulsion_description",
+    "value": "Uses a high-powered laser to heat a propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__liquid_fuel_rocket",
+    "value": "Liquid-fuel Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__liquid_fuel_rocket_description",
+    "value": "Uses liquid fuel and oxidizer."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magnetoplasma_sail_in_solar_wind",
+    "value": "Magnetoplasma Sail in Solar Wind"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magnetoplasma_sail_in_solar_wind_description",
+    "value": "Uses a magnetic field to interact with solar wind."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magnetoplasmadynamic_thruster",
+    "value": "Magnetoplasmadynamic Thruster"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magnetoplasmadynamic_thruster_description",
+    "value": "Uses magnetic fields to accelerate plasma for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magsail_in_interstellar_medium",
+    "value": "Magsail in Interstellar Medium"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magsail_in_interstellar_medium_description",
+    "value": "Uses a magnetic sail to interact with the interstellar medium."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magsail_in_solar_wind",
+    "value": "Magsail in Solar Wind"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magsail_in_solar_wind_description",
+    "value": "Uses a magnetic sail to interact with the solar wind."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__monopropellant_rocket",
+    "value": "Monopropellant Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__monopropellant_rocket_description",
+    "value": "Uses a single propellant that decomposes catalytically."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_electric_propulsion",
+    "value": "Nuclear Electric Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_electric_propulsion_description",
+    "value": "Uses a nuclear reactor to power an electric propulsion system."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_salt_water_rocket",
+    "value": "Nuclear Salt-Water Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_salt_water_rocket_description",
+    "value": "Uses a salt-water solution of a nuclear fuel to heat propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_thermal_rocket",
+    "value": "Nuclear Thermal Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_thermal_rocket_description",
+    "value": "Uses a nuclear reactor to heat a propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_photonic_rocket",
+    "value": "Nuclear–Photonic Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_photonic_rocket_description",
+    "value": "Uses a nuclear reaction to generate photons for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__photon_rocket",
+    "value": "Photon Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__photon_rocket_description",
+    "value": "A rocket that uses photons as propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__project_orion",
+    "value": "Project Orion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__project_orion_description",
+    "value": "Uses small nuclear explosions to propel a spacecraft."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__propulsive_mass_driver",
+    "value": "Propulsive Mass Driver"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__propulsive_mass_driver_description",
+    "value": "Uses electromagnetic fields to launch mass for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__pulsed_plasma_thruster",
+    "value": "Pulsed Plasma Thruster"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__pulsed_plasma_thruster_description",
+    "value": "Uses electrical pulses to ablate and expel plasma."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__pulsed_inductive_thruster",
+    "value": "Pulsed-Inductive Thruster"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__pulsed_inductive_thruster_description",
+    "value": "Uses pulsed magnetic fields to accelerate plasma."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__radioisotope_rocket",
+    "value": "Radioisotope Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__radioisotope_rocket_description",
+    "value": "Uses the heat from radioisotope decay to heat a propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__resistojet",
+    "value": "Resistojet"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__resistojet_description",
+    "value": "Uses electrical resistance to heat a propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__solar_sail",
+    "value": "Solar Sail"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__solar_sail_description",
+    "value": "Uses the radiation pressure of sunlight for propulsion."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__solar_thermal_rocket",
+    "value": "Solar Thermal Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__solar_thermal_rocket_description",
+    "value": "Uses solar energy to heat a propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__solid_rocket_motor",
+    "value": "Solid Rocket Motor"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__solid_rocket_motor_description",
+    "value": "Uses a solid fuel and oxidizer."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__steam_thruster",
+    "value": "Steam Thruster"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__steam_thruster_description",
+    "value": "Uses heated water to generate steam for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__tripropellant_rocket",
+    "value": "Tripropellant Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__tripropellant_rocket_description",
+    "value": "Uses three different propellants for enhanced performance."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__variable_specific_impulse_magnetoplasma_rocket",
+    "value": "Variable-Specific-Impulse Magnetoplasma Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__variable_specific_impulse_magnetoplasma_rocket_description",
+    "value": "A plasma rocket with variable specific impulse."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__wormhole_generator",
+    "value": "Wormhole Generator"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__wormhole_generator_description",
+    "value": "A device that creates shortcuts through spacetime."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__default",
+    "value": "Nothing happened."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__default_description",
+    "value": "Your journey continues as planned."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__default_continue",
+    "value": "Continue"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__engine_misfire",
+    "value": "Engine Misfire"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__engine_misfire_description",
+    "value": "Your engine clogs unexpectedly. You lose time performing emergency maintenance and consume some materials."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__solar_flare",
+    "value": "Solar Flare"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__solar_flare_description",
+    "value": "You pass a star during an intense solar flare. Your ship's sensors are temporarily scrambled and your arrival is delayed."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__navigational_drift",
+    "value": "Navigational Drift"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__navigational_drift_description",
+    "value": "A gravitational anomaly throws your ship slightly off course. You arrive at your destination safely but consumed extra fuel to correct the error."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__micrometeoroid_swarm",
+    "value": "Micrometeoroid Swarm"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__micrometeoroid_swarm_description",
+    "value": "A sudden, dense swarm of micrometeoroids peppers the ship. The hull is damaged."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__unstable_wormhole",
+    "value": "Unstable Wormhole"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__unstable_wormhole_description",
+    "value": "Your sensors detect a small, unstable wormhole that could significantly cut your travel time, but it's highly unpredictable."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__unstable_wormhole_jump",
+    "value": "Risk the jump."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__unstable_wormhole_jump_description",
+    "value": "You arrive instantaneously but in need of some repairs."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__unstable_wormhole_ignore",
+    "value": "Stick to the current route."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__unstable_wormhole_ignore_description",
+    "value": "Your continue to travel as planned."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__push_the_engine",
+    "value": "Push the Engine"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__push_the_engine_description",
+    "value": "The computer hypothesizes that the ship can get to the destination faster by pushing the engine past its safety limits."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__push_the_engine_go",
+    "value": "You arrive sooner, but cause an engine strain, requiring repairs."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__push_the_engine_ignore",
+    "value": "Travel at a normal, safe pace."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__push_the_engine_ignore_description",
+    "value": "Your continue to travel as planned."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__lost_probe",
+    "value": "Lost Probe"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__lost_probe_description",
+    "value": "You stumble upon a lost probe from an early space missions."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__lost_probe_dismantle",
+    "value": "Dismantle it."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__lost_probe_dismantle_description",
+    "value": "You take some time scrapping it for materials."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__lost_probe_ignore",
+    "value": "Continue on the current route."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__lost_probe_ignore_description",
+    "value": "Your continue to travel as planned."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__resource_rich_asteroid",
+    "value": "Resource-Rich Asteroid"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__resource_rich_asteroid_description",
+    "value": "Your scanners pick up an unusual resource-rich asteroid."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__resource_rich_asteroid_gather",
+    "value": "Gather resources."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__resource_rich_asteroid_gather_description",
+    "value": "After some time, you have gathered all you can."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__resource_rich_asteroid_ignore",
+    "value": "Stay on course."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__resource_rich_asteroid_ignore_description",
+    "value": "Your continue to travel as planned."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gravitational_slingshot",
+    "value": "Gravitational Slingshot"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gravitational_slingshot_description",
+    "value": "You discover a perfect alignment of two celestial bodies, allowing for a gravitational slingshot maneuver that cuts your travel time and saves a significant amount of fuel."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__floating_cargo_pod",
+    "value": "Floating Cargo Pod"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__floating_cargo_pod_description",
+    "value": "You find a sealed container floating in the void, likely lost from an early space mission. Inside, you find valuable parts."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_light",
+    "value": "The Light"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_light_description",
+    "value": "For a brief moment, you see an inexplicable, brilliant flash of light in the distance that doesn't correspond to any known star or nova. Your sensors record strange energy readings before the phenomenon vanishes."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__ghost_ship",
+    "value": "Ghost Ship"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__ghost_ship_description",
+    "value": "You encounter a ship drifting silently, its transponder still active but the engine is dead. Was Earth able to try another last hope mission?"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__ghost_ship_board",
+    "value": "Board the ship."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__ghost_ship_board_description",
+    "value": "You find a lonely and still functional cryopod and scrap what you can from the ship.You continue your journey, but you feel like there is more to the story."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__ghost_ship_ignore",
+    "value": "Leave the ship to its fate."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__ghost_ship_ignore_description",
+    "value": "Your continue to travel as planned."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cosmic_hum",
+    "value": "Cosmic Hum"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cosmic_hum_description",
+    "value": "Your ship's sensors pick up a faint, melodic hum that seems to emanate from empty space itself. It's not a language, but a complex, repeating pattern of frequencies that is both beautiful and deeply unsettling. It fades after a few hours, leaving no trace."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_shadow",
+    "value": "The Shadow"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_shadow_description",
+    "value": "For a terrifying minute, a colossal, non-reflective object passes between your ship and the distant stars, blotting them out completely. It doesn't register on any sensor: no mass, no energy, no radiation. It's just a perfect, silent void. Then, as quickly as it appeared, it's gone. "
+  },
+  {
+    "languageIso": "en",
+    "key": "event__temporal_echo",
+    "value": "Temporal Echo"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__temporal_echo_description",
+    "value": "Your ship's navigation system briefly flickers, and for a moment, it shows your position as in the system you just left. The ship's chronometer jumps back exactly one hour before correcting itself."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__coronal_mass_ejection",
+    "value": "Coronal Mass Ejection"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__coronal_mass_ejection_description",
+    "value": "A nearby star unleashes a massive and unexpected coronal mass ejection. A wave of high-energy protons and radiation washes over the ship. While the primary hull shielding holds, some secondary systems and less-protected areas are exposed to a dangerous dose before the ship can orient its main shield."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__unforeseen_gravity_well",
+    "value": "Unforeseen Gravity Well"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__unforeseen_gravity_well_description",
+    "value": "The navigation system detects a powerful gravitational anomaly ahead that wasn't on the star charts: a small black hole drifting in the interstellar dark. A drastic and fuel-intensive course correction is required to avoid being captured or torn apart by its gravitational pull."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__fuel_line_fracture",
+    "value": "Fuel Line Fracture"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__fuel_line_fracture_description",
+    "value": "A hairline fracture, caused by years of thermal stress and material fatigue, opens up in a primary fuel line. The leak is slow and difficult to detect, but a significant amount of propellant is vented into the void before automated systems can seal the line and a repair can be synthesized."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cryobay_malfunction",
+    "value": "Cryo-Bay Malfunction"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cryobay_malfunction_description",
+    "value": "A critical pump in the life support system for a specific cryo-bay seizes up due to mechanical wear. The backup system is slow to engage, causing a temporary and dangerous fluctuation in the cryo-fluid temperature for that section."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__navigational_error",
+    "value": "Navigational Error"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__navigational_error_description",
+    "value": "A burst of galactic cosmic rays strikes the primary navigation computer at a critical moment, corrupting a small portion of the course-plotting data. The error is not detected for several months, during which the ship has been flying on a slightly incorrect trajectory. Correcting the error costs both time and fuel."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__main_truss_fatigue",
+    "value": "Main Truss Fatigue"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__main_truss_fatigue_description",
+    "value": "The immense, prolonged stress of acceleration and deceleration causes micro-fractures to appear in the ship's main structural truss. To prevent a catastrophic failure, the main drive must be shut down completely while repair drones work to reinforce the weakened structure from within."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__material_inertia",
+    "value": "Material Inertia"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__material_inertia_description",
+    "value": "A routine inventory scan reveals that a sealed container of materials has become inert. Long-term, low-level radiation has broken down the complex chemical bonds, rendering a significant portion of the material stores useless. It is now dead weight that cannot be used for fabrication or repairs."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__solar_shadowing",
+    "value": "Solar Shadowing"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__solar_shadowing_description",
+    "value": "The ship's trajectory takes it through the shadow of a large rogue planet drifting between stars. Deprived of all starlight for several weeks, the ship's external solar panels used for low-level auxiliary power become useless, forcing it to draw more power than usual from its main engine, consuming a small but significant amount of extra fuel."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__data_cascade_failure",
+    "value": "Data Cascade Failure"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__data_cascade_failure_description",
+    "value": "Subtle data corruption, or bit rot, in an old software library goes undetected for years. A routine diagnostic check triggers a data cascade failure, temporarily crashing the primary autopilot and guidance system. The ship drifts for several days while its secondary systems work to reboot the main computer and purge the corrupted files from a protected backup."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__high_energy_particle_burst",
+    "value": "High-Energy Particle Burst"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__high_energy_particle_burst_description",
+    "value": "The ship passes through the remnants of an ancient supernova. A sudden burst of high-energy galactic cosmic rays penetrates the hull. While the main shielding protects the core systems, the genetic integrity of the material and cryo bays is compromised."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__engine_calibration_breakthrough",
+    "value": "Engine Calibration Breakthrough"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__engine_calibration_breakthrough_description",
+    "value": "After analyzing centuries of performance data, the ship's computer develops a new firing algorithm for the engine. By subtly altering the containment field, the new process is found to be 2% more fuel-efficient. While a small percentage, this breakthrough translates to significant fuel savings over the vast remaining journey."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__comet_rendezvous",
+    "value": "Comet Rendezvous"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__comet_rendezvous_description",
+    "value": "The ship's trajectory perfectly intersects with that of a large, rogue comet tumbling through interstellar space. Automated drones are deployed to land on the comet's nucleus, mining hundreds of tons of frozen volatiles. The harvest replenishes the ship's reserves for life support and can be processed into fuel."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__hull_resonance",
+    "value": "Hull Resonance"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__hull_resonance_description",
+    "value": "The ship's main drive, running continuously for decades, creates a low-frequency harmonic resonance throughout the hull. This vibration, unnoticed for years, has caused molecular breakdown in a specific batch of stored materials. They are now too brittle to be used for high-stress repairs."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__redundant_system_shutdown",
+    "value": "Redundant System Shutdown"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__redundant_system_shutdown_description",
+    "value": "To conserve power during a long, uneventful stretch of the journey, the ship's computer decides to shut down several redundant backup systems, including a secondary cryo-bay life support monitor. A minor power surge during the shutdown unexpectedly fries the dormant monitor. The system is no longer redundant, increasing the risk of a future catastrophe."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__stellar_nursery_passage",
+    "value": "Stellar Nursery Passage"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__stellar_nursery_passage_description",
+    "value": "The ship's path takes it through the outer edge of a stellar nursery, a vast nebula of gas and dust where new stars are being born. The breathtaking view comes at a cost: the constant friction from the denser gas, however thin, forces the engine to work slightly harder to maintain speed."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__engine_containment_failure",
+    "value": "Engine Containment Failure"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__engine_containment_failure_description",
+    "value": "The containment field for the engine is weakening, causing inefficiency. To maintain the necessary speed, the ship must either push the engine past its safety limits or burn significantly more fuel."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__engine_containment_failure_overcharge",
+    "value": "Overcharge the Engine"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__engine_containment_failure_overcharge_description",
+    "value": "The ship maintains its speed and fuel efficiency, but the immense stress on the engine assembly causes lasting structural damage."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__engine_containment_failure_burn",
+    "value": "Run a Rich Fuel Mixture"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__engine_containment_failure_burn_description",
+    "value": "The ship's integrity is unharmed, but maintaining speed at a lower power setting consumes a massive amount of extra fuel."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__asteroid_mining_opportunity",
+    "value": "Asteroid Mining Opportunity"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__asteroid_mining_opportunity_description",
+    "value": "The ship passes the edge of a large, C-type asteroid with an exceptionally high concentration of rare metals and carbon compounds. Mining it would provide a huge boost to material stores, but the necessary maneuvers to enter orbit, deploy drones, and return to course will cost significant time and fuel."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__asteroid_mining_opportunity_mine",
+    "value": "Mine the Asteroid"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__asteroid_mining_opportunity_mine_description",
+    "value": "The operation is a success, stocking the ship's holds with invaluable resources for the future colony."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__asteroid_mining_opportunity_ignore",
+    "value": "Ignore the Opportunity"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__asteroid_mining_opportunity_ignore_description",
+    "value": "The potential gains do not justify the cost in fuel and time. The ship continues on, leaving the rich asteroid behind."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__a_failing_cryo_block",
+    "value": "A Failing Cryo-Block"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__a_failing_cryo_block_description",
+    "value": "A diagnostic alert flags an entire block of cryopods. A cascading systems failure is imminent. There is a risky, experimental procedure to shunt power from adjacent systems that might save some of them, but it could cause wider damage. The standard protocol is to isolate the block to ensure the safety of the rest."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__a_failing_cryo_block_risky",
+    "value": "Attempt the Risky Procedure"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__a_failing_cryo_block_risky_description",
+    "value": "The procedure is a chaotic partial success. The power surge saves some, but irrevocably damages the rest of the pods in the block and causes minor stress damage to the ship's power grid."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__a_failing_cryo_block_standard",
+    "value": "Follow Standard Protocol"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__a_failing_cryo_block_standard_description",
+    "value": "To protect the entire ship from a catastrophic chain reaction, the failing block is isolated from power and life support. The loss is contained and absolute."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_nebula_shortcut",
+    "value": "The Nebula Shortcut"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_nebula_shortcut_description",
+    "value": "Long-range navigation plots two viable routes around a massive stellar nebula. The standard route is long but clear. A shorter route goes through the nebula's outer edge; it will shave years off the journey, but the dense gas and interstellar dust will cause friction and abrasion against the hull."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_nebula_shortcut_yes",
+    "value": "Take the Nebula Shortcut"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_nebula_shortcut_yes_description",
+    "value": "The journey is significantly shorter. However, the ship emerges with a scoured hull."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_nebula_shortcut_no",
+    "value": "Take the Clear Route"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_nebula_shortcut_no_description",
+    "value": "The journey proceeds as planned. The opportunity to save time is lost, but the ship avoids any unnecessary damage."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__water_ice_reprocessing",
+    "value": "Water Ice Reprocessing"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__water_ice_reprocessing_description",
+    "value": "The computer estimates that the fuel reserves are not enough for the long journey ahead, but the ship's cargo hold contains a large reserve of water ice intended for the colony. The ship can run a power-intensive electrolysis process to convert this ice into hydrogen-oxygen fuel."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__water_ice_reprocessing_reprocess",
+    "value": "Reprocess the Ice into Fuel"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__water_ice_reprocessing_reprocess_description",
+    "value": "The fuel tanks are replenished, providing a crucial buffer. However, the process consumes a large amount of the colony's future water supply and the engine strain causes minor, cumulative damage."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__water_ice_reprocessing_conserve",
+    "value": "Conserve the Water"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__water_ice_reprocessing_conserve_description",
+    "value": "The water is deemed too valuable as a colony asset to be used as inefficient fuel."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__a_close_pass",
+    "value": "A Close Pass"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__a_close_pass_description",
+    "value": "The ship's trajectory will pass relatively close to a highly active pulsar. Its intense magnetic fields and radiation beams are dangerous. However, a closer pass would allow the ship to gather priceless scientific data on neutron stars and could potentially calibrate the navigation system with extreme precision."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__a_close_pass_for_science",
+    "value": "Make a Close Pass for Science"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__a_close_pass_for_science_description",
+    "value": "The data is a massive success, providing a permanent boost to navigational accuracy. But the ship is lashed by magnetic fields, causing a power surge that shorts out several cryopods."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__a_close_pass_ignore",
+    "value": "Maintain a Safe Distance"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__a_close_pass_ignore_description",
+    "value": "The risk of system damage is too great. The ship gives the pulsar a wide berth, and the unique scientific opportunity is lost."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_quick_fix",
+    "value": "The Quick Fix"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_quick_fix_description",
+    "value": "A primary relay on the ship's exterior has malfunctioned. The repair drones can perform a quick fix using minimal resources, getting it back online fast. Or, they can perform a full replacement, which is much more resource-intensive but guarantees the part won't fail again."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_quick_fix_patch",
+    "value": "Perform the Quick Fix"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_quick_fix_patch_description",
+    "value": "The relay is fixed using minimal resources. However, the patch is temporary and might fail later, potentially during a critical moment."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_quick_fix_replace",
+    "value": "Replace the Entire Relay"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__the_quick_fix_replace_description",
+    "value": "The problem is solved permanently, and the relay is as good as new. The solution costs a significant amount of stored components."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__game_over",
+    "value": "Game Over"
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__score",
+    "value": "Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__end",
+    "value": "End"
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero",
+    "value": "A critical failure ripples through the ship. The hull breaches, instantly and violently. The vessel and its contents are scattered into the void, becoming a silent, expanding cloud of frozen debris. The journey is over."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_years_few",
+    "value": "A sudden catastrophe rips through the hull. The journey ends before it truly began, the hope of thousands silenced in the cold vacuum of space."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_years_some",
+    "value": "After light-years of travel and generations of hope, the vessel's weary metal frame finally fractures. The dream of a new home dies with the last flicker of the navigation system."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_years_lots",
+    "value": "The failure is not an event, but the conclusion to millennia of decay. The ship's metal, fatigued by eons of radiation, finally loses cohesion. The vessel doesn't break; it unravels, surrendering its ancient form to become one with the interstellar dust it has travelled through for so long."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_materials_zero",
+    "value": "The final alarm blares: a hull breach that cannot be patched. With no materials left for repairs, the ship's fate was sealed long before this final moment."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_materials_low",
+    "value": "A final, deep groan echoes through the spine of the vessel. On the bridge, a diagnostic screen showing insufficient repair materials flashes a final error. A stress fracture, born from centuries of travel, spiders across the main viewport. The vacuum does not wait, and the ship comes apart with a quiet, weary finality."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_materials_enough",
+    "value": "A sudden, overwhelming force tears the ship asunder. No amount of repair material could have saved you from such a cataclysmic end. The ship, and its precious cargo, are atomized."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_cryopods_zero",
+    "value": "A final, shuddering tremor runs the length of the ship's frame before the hull tears open. Warning sirens blare, their cries echoing through deserted corridors and falling on deaf sensors. Deep inside, the cryo-decks have been dark for centuries, every pod a failed casket. The destruction of the ship is not a tragedy, but merely the physical disintegration of a tomb that had already lost its purpose long before its structure gave way."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_cryopods_one",
+    "value": "The hull gives way, its aged metal finally surrendering. A wave of explosive decompression rips through the ship's interior. It reaches the cryo-bay, where among a field of dark, dead pods, one light still glows. The shockwave hits the pod, shattering its crystalline shell and exposing its sole occupant to the absolute vacuum. The last light of humanity is snuffed out in the same instant as the vessel that carried it."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_cryopods_low",
+    "value": "The alert for catastrophic structural failure chimes in a near-empty cryo-bay. The lights on the few remaining pods blink, a fragile count of humanity’s last hope. The rupture is swift, tearing through the vacant corridors and exposing the last souls to the absolute cold. The silence that follows is profound and eternal."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_cryopods_enough",
+    "value": "The ship's structural failure is total. Despite the many souls held safely in cryosleep, their journey ends here, a silent tragedy of a promise that could not be kept."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_fuel_low",
+    "value": "Pushed far beyond its limits to conserve the last dregs of fuel, the ship's frame screams in protest. The metal skin of the vessel ripples and shears away. The internal structure buckles and folds, crushing entire decks in an instant. The ship is erased, a crumpled casualty of a desperate, final gamble."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_fuel_some",
+    "value": "A main support beam, fatigued beyond its limits, snaps with a deafening finality. The ship's spine breaks, and its sections peel away from each other in a chain reaction of collapse. The fuel tanks, still holding enough propellant for the next star system, are torn open. The liquid fuel freezes instantly in the vacuum, a silent, glittering testament to a journey cut short not by distance, but by decay."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_fuel_plenty",
+    "value": "There is a flicker in the engine status lights, then a catastrophic containment failure. The ship does not tear or break, it detonates. Its vast reserves of fuel, meant to power a journey across stars, ignite in a single, violent, self-consuming instant. For a brilliant moment, a new star flares in the void, then fades, leaving behind nothing but a rapidly expanding cloud of superheated gas and shattered dreams."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_years_lots_cryopods_bustling",
+    "value": "After a journey stretching across centuries, the ship simply fails. A cascade of system-wide breakdowns culminates in a final, critical rupture. Power flickers and dies across hundreds of cryopods, their occupants lost in the same instant as the vessel that carried them. The immense voyage ends not with a bang, but with the quiet death of ancient, exhausted machinery."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero",
+    "value": "The final drop of fuel is consumed, and the main drive falls silent forever. The ship ceases to be a vessel on a journey and becomes a derelict object, trapped in an endless, aimless drift. Its mission is over, its destination unreachable."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_years_few",
+    "value": "The engines sputter and die, leaving the ship a pristine but powerless tomb, adrift in the endless night."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_years_some",
+    "value": "The last drop of fuel has been spent. For years, the ship was a beacon of endurance, crossing the unimaginable void. Now, it is a silent monument to a journey that fell just short of its destination."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_years_lots",
+    "value": "After a journey of millennia, the engine falls silent. The low hum that has defined the ship's existence is gone, replaced by an absolute stillness. The vessel is now a derelict, an artifact of a species long forgotten, its purpose lost to the corruption of time. Its long defiance of the void is over. It will not be destroyed, it will simply drift, a motionless ghost in the endless dark it failed to cross."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_materials_zero",
+    "value": "The engines are cold, the material bays scraped bare. The ship is now adrift and unable to mend its own slow decay. Every flickering console and stressed seam is a permanent affliction. Without fuel to move and without materials to patch its wounds, the vessel has become a passive victim of the void. Its eventual disintegration will not be an event, but the simple, final state of a body with nothing left to sustain it."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_materials_low",
+    "value": "The final fuel warning blares and then ceases as the drive powers down. The ship is adrift. Every spare part and non-essential component has already been consumed for repairs; the material bays are near empty. The vessel is a battered shell, having sacrificed its future to survive its past, only to be defeated by an empty tank."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_materials_enough",
+    "value": "The ship drifts in total silence, its engines permanently cold. In the vast cargo bay, the vast raw materials sit inert. The ship has the means to build a new world, but no way to get to one. Its potential is now just dead mass, contributing to the inertia of its endless, silent coast."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_cryopods_zero",
+    "value": "The ship's drive falls silent, its fuel spent. The vessel stops, but its purpose ended years ago. Inside, the cryo-bays are a graveyard of empty pods and extinguished lights. It has become a derelict carrying nothing, its mission rendered meaningless long before its journey was forced to conclude. Its final state is to be an empty shell, motionless in the dark."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_cryopods_one",
+    "value": "The ship's final drop of fuel is gone, and it now drifts. Deep in the vessel's frozen heart, on a deck of failed and darkened caskets, one light remains. A single cryopod, its occupant held in a perfect, dreamless stasis, glows with a soft green light. The ship has become a sarcophagus for this last soul, its mission reduced from saving humanity to preserving a single, lonely specimen. It is a silent, motionless vigil for a life that will never awaken."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_cryopods_near_zero",
+    "value": "The long journey took its toll, not just on the ship, but on its people. As the final hull breach is reported, there is almost no one left in the cryopods to hear it. Only silence remains."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_cryopods_too_low",
+    "value": "The fuel indicator hits zero. The ship glides to a final, silent stop. On the cryo-deck, status lights show rows upon rows of failed pods and a handful of survivors too few to ever rebuild. The journey ends not with a bang, but with the quiet confirmation that the vessel has become a tomb for a species already all but extinct."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_cryopods_low",
+    "value": "The fuel gauge hits zero. The last few cryopods remain cold and silent. A long, lonely journey of attrition ends not with a bang, but with the quiet hum of fading power."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_cryopods_enough",
+    "value": "The ship floats, inert and silent, its journey over. Deep within its structure, the cryo-decks are a sea of soft green lights, each representing a life held in perfect stasis. A complete and viable population, the entire hope of a species, sleeps on, unaware that their vessel has become their motionless crypt. The power keeping them frozen is finite, a slow countdown to the inevitable in the unending dark between worlds."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_integrity_low",
+    "value": "The last drop of fuel is spent, and the engine's hum ceases. A profound silence falls, broken only by the groan of stressed metal and the incessant chime of low-power alerts. The ship, already scarred and fragile from its long journey, begins its final decay, its systems shutting down one by one in the endless, unforgiving dark."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_integrity_enough",
+    "value": "The last of the fuel burns away, and the engines go cold. The ship floats in a state of weary suspension. Its hull is a patchwork of old repairs and sealed breaches, a history of emergencies barely survived. These scars, once badges of resilience, are now simply the weak points where the final decay will begin. Stranded and unable to be mended, the ship is left to be slowly unmade by the void."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_integrity_pristine",
+    "value": "The ship's engines are cold, its voyage concluded. Diagnostics report near-perfect structural integrity. The hull is sound, the frame unyielding against the vacuum. It is a fortress built to withstand cosmic storms, to survive the ravages of deep space. But its strength has become its curse. It will not fail, it will not fracture. It will simply drift, a perfectly sound vessel going nowhere for an eternity."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_materials_plenty_cryopods_bustling",
+    "value": "The ship is a bastion of life and resources, a small nation unto itself, capable of building a new civilization. But without fuel, it is nothing but a gilded cage, destined to drift forever."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__fuel_zero_integrity_enough_materials_enough_cryopods_bustling",
+    "value": "The main drive sputters into silence. On the command bridge, all systems report nominal, green across the board. The hull is sound, the material stores are full, and the life support for the hundreds in cryosleep is stable. But the fuel gauge reads absolute zero. The ship is now a flawless, permanent monument, perfectly preserved and adrift forever between stars."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_deadly",
+    "value": "The ship touches down on the alien world, the long journey finally over. But the destination is not a sanctuary, it is an executioner. The planet's hostile environment immediately overwhelms the vessel. Hope, carried across light-years, is extinguished in mere moments upon the soil of a promised land that was always a lie."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_deadly_cryopods_enough",
+    "value": "The landing is flawless. The ship sits intact on the alien surface, its mission seemingly complete. Then the planet's atmosphere begins its work. A corrosive gas, undetectable by long-range scans, envelops the hull. Alarms shriek as the ship's skin bubbles, dissolves, and gives way, exposing the interior and its sleeping souls to an environment that consumes everything."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_deadly_integrity_low",
+    "value": "The descent is a violent struggle. The ship's already stressed frame groans and buckles. The moment the landing struts make contact with the ground, they shatter. The entire vessel collapses in on itself like a crushed can, its weakened structure utterly incapable of withstanding its own weight in this hostile place."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_deadly_integrity_mid_low_materials_enough",
+    "value": "The ship lands on a barren, airless rock under the glare of its host star. The landing itself damages the already-weakened hull. The plan was to immediately use the last of the materials to construct a radiation shield, but the solar radiation is too intense. It fries external systems, making deployment impossible. The ship quickly becomes an irradiated tomb on a dead world."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_very_low",
+    "value": "The ship rests on alien ground, its long flight complete. The environment here is not instantly lethal, but fundamentally incompatible with the vessel's complex systems. Atmospheric processors clog with strange particulates, external sensors are degraded by atmospheric radiation, and the very hull plating slowly loses its temper. Every attempt to establish a permanent, stable state is a net loss of resources, a futile struggle against a world that passively dismantles everything brought to it. The ship's end comes not in a single event, but as a slow, inevitable shutdown as its systems are ground into inertness."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_very_low_cryopods_enough_materials_enough",
+    "value": "The ship lands on a world that offers a sliver of false hope. The air isn't immediately toxic, the ground is stable, and for a short time, survival seems possible. But this world is built on a foundation of hostility. The soil is sterile, and the weather is relentlessly brutal. The colony's resources dwindle in a futile effort to fight an environment that quietly and inexorably rejects them. The end is not a sudden cataclysm, but a slow, fading whimper."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_very_low_cryopods_mid_materials_enough",
+    "value": "The colony is established. Shelters are constructed, and cryopods are opened. But the planet's soil is sterile dust, incapable of supporting any Earth-born flora. Hydroponics provide the first harvests, but the machinery cannot be maintained forever. The colony slowly starves in sight of a world that looks habitable but offers no sustenance of its own."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_very_low_integrity_low",
+    "value": "The battered ship is the only shelter on a world scoured by perpetual abrasive dust. The colonists huddle inside, unable to build anew. The weather is a constant, screaming pressure against the weakened hull, slowly sandblasting away its integrity. The inevitable breach comes not as a surprise, but as the final note in a long, howling symphony of destruction."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_low_materials_enough_cryopods_enough",
+    "value": "The planet's brutal winds and extreme temperature shifts are a constant threat. But the ship's material stores are ample, and its cryo-bays hold a viable population. The first action is not exploration, but construction. Prefabs are deployed and anchored deep into the rock. The ship’s hull is cannibalized for shielding. It is a slow, arduous process, but a foothold is established, a small bubble of civilization against the harshness of the world, built from the legacy of the ship."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_low_materials_enough_cryopods_enough_integrity_pristine",
+    "value": "The pristine ship touches down on a world of grueling challenges. The planet offers thin air and violent weather, a frontier that would break a lesser vessel. But the ship's holds are full, its integrity uncompromised. The vessel itself becomes the first bastion, its systems the heart of a nascent colony. Vast material reserves are fed into fabricators that begin to lay down the foundations of a city. The cryo-bays release a population with the numbers and resources to tame this world, not merely survive it. The immense, century-long labor of transforming a hostile planet into a home begins."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_low_materials_enough_cryopods_enough_fuel_plenty",
+    "value": "The ship sets down on a world defined by its hostility: a weak magnetic field, brutal solar radiation, and scarce water. The colonists, however, have arrived with an overwhelming advantage: plenty of fuel reserves. The engine is re-calibrated, its immense power diverted from propulsion to survival. The ship becomes the colony’s heart, pumping energy into vast shield emitters that deflect the radiation and into deep-earth drills that search for subterranean ice. The challenge of the planet is met not with scrappy determination, but with overwhelming force. The fuel provides the power not just to endure, but to reshape the environment itself."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_low_materials_enough_cryopods_low",
+    "value": "The planet is challenging but survivable. The ship's material bays are full, holding the means to construct a settlement. The first shelters are deployed by automated systems. But when the cryopods are opened, the count is too low. There are not enough hands, not enough minds, and not enough genetic diversity to build a lasting future. The site will stand empty, a monument to a species that arrived with the tools but not the people."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_low_materials_enough_cryopods_zero",
+    "value": "A perfect, automated landing sequence concludes. The ship rests on a workable, if challenging, new world. The main hatch opens with a soft hiss, revealing a grey sky and alien landscape, but no one emerges. The ship's internal sensors confirm what the mission logs have shown for years: there are no life signs in the cryo-bays. The cargo holds are full, the material fabricators are on standby, ready to build a city for a dead population. The ship has succeeded in its journey but has delivered only a monument, a fully equipped cradle, with no child to place within it."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_low_materials_low_cryopods_enough",
+    "value": "The ship's souls awaken to a world that requires constant, vigilant effort to survive. But the ship's material stores are insufficient. They lack the resources to build adequate shelters against the planet's ferocious environment. They have the population for a new world but are left to face a hostile frontier bare-handed. It is a slow, losing battle against exposure."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_low_materials_low_cryopods_low",
+    "value": "The ship touches down, its frame groaning in protest. The planet, while technically survivable with the right tools, is far too harsh and without plenty of materials and a non-viable population count, there is no hope of building a shelter or a future. The few survivors awaken on a world they cannot tame, their journey ending in a quiet surrender to the elements."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_low_materials_low_cryopods_zero",
+    "value": "The ship hits the surface hard, its frame groaning as it fractures upon impact. The silence inside is absolute, there are no alarms to sound, no survivors to awaken. The vessel is a broken husk on a world that demands strength and resources it does not possess. It is the final resting place of a ghost, a piece of ancient wreckage that has finally stopped moving."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_low",
+    "value": "The ship touches down on the marginal world, its voyage at an end. The initial attempt to establish a foothold begins, pitting the ship's technology against the planet's relentless hostility. The strain, however, proves to be unsustainable. The ship's systems, weary from the long journey, are pushed past their breaking point by the continuous effort required for survival. Power converters fail, life support struggles, and the very structure of the vessel groans under the constant environmental stress. The ship, the only source of shelter and power, slowly breaks down, its lights flickering out one last time. The beachhead is lost, and the planet reclaims the silence."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_medium_materials_enough_cryopods_enough",
+    "value": "The ship settles on a green landscape. The external sensors confirm the long-range data: the air is breathable, the water is potable, the biosphere is benign. The hatch opens, and the long, silent journey is officially over. The cryopods release their occupants into a world that welcomes them. There is no immediate struggle for survival, only the immense, peaceful task of beginning. With ample materials, the construction is not of shelters, but of a city. With a viable population, the work is not of survival, but of society. The ship, its voyage done, stands as a silent monument to the journey, its purpose fulfilled. The story of humanity among the stars enters its second chapter."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_medium_materials_enough_cryopods_enough_years_lots",
+    "value": "After thousands of years, the journey concludes. The ship settles on a new world, and the cryo-bays initiate the great awakening. The crew emerges, their minds struggling to bridge the immense chasm of time. Memories of Earth surface like dreams upon waking, the phantom scent of rain on soil, the warmth of a sun that is not this one, the faces of people long turned to dust. They are ancient astronauts, the last firsthand witnesses to a world that is now a geological epoch in the past. The ship is the one tangible constant in their fractured reality, the time capsule that shielded them. Its vast material stores are now used to build a new world from the faint echoes of cities and homes that exist only in their ancient, groggy memories."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_medium_materials_enough_cryopods_bustling",
+    "value": "The ship settles onto the new world, its journey concluded. The cryo-bays, preserved with near-perfect success, begin the mass awakening. It is not a trickle of survivors, but a flood of humanity, a population vast and diverse enough to populate a nation from the first day. The original voyagers emerge, their groggy memories of a lost Earth filled not only with the skills to survive but with the arts, sciences, and philosophies to live. With vast material stores and an even vaster population of specialists, the first settlement is not a crude camp, but a planned metropolis. Libraries are built alongside foundries, concert halls rise next to hydroponics labs. The full spectrum of human culture, carried in stasis across the void, is reborn all at once."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_medium_materials_enough_cryopods_low",
+    "value": "The ship lands on a world perfectly suited for life. The air is clean and its cargo holds are full, containing all the materials needed to forge a new civilization. But when the cryo-bays complete their revival sequence, the final tally is a death sentence: there are too few. A handful of people, their minds filled with dreamlike memories of Earth's teeming billions, awaken to a profound and crushing loneliness. They stand before a vast, empty world with a warehouse of tools they lack the numbers to wield. They are not colonists; they are castaways. Humanity's story ends here, not with a bang, but with a handful of lonely astronauts in a new world they will never populate."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_medium_materials_enough_cryopods_zero",
+    "value": "The ship executes a flawless automated landing in a sun-drenched clearing. All mission parameters are met: the destination is found, the vessel is secure, the cargo is intact. The ship's ramp lowers onto the soft, fertile earth, and a pre-recorded broadcast announces its arrival to the wind. Inside, the cryo-bays are dark. The last pod failed years ago. The ship has delivered a fully-stocked, automated ghost town to the promised land. It will sit here under a friendly sun, a silent testament to a species that found its heaven, but died upon the road to it."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_medium_materials_low_cryopods_enough_integrity_enough",
+    "value": "The ship lands in a welcoming world, its material bays lacking. The colonists awaken with the minds of engineers but no tools to build. Their gaze then turns inward. The ship's journey is over, and its second purpose begins: to become the foundation of the new world. It is a slow and solemn process. Cutting torches are brought to the very hull that protected them. Non-essential decks are stripped for their wiring and alloys. The vessel is methodically and respectfully unmade, its body sacrificed so its people can live. A new civilization rises, its first structures forged directly from the metal of the ancient vessel. They do not leave a monument to their journey, they choose to live inside its repurposed parts."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_medium_materials_low_cryopods_enough",
+    "value": "The ship lands. The world offers everything needed for primitive survival. The souls awaken, their minds holding the collected knowledge of a technological civilization. They emerge from the ship to find its material bays lacking, its fabricators inert. They are a colony of astronauts who must learn to knap flint, doctors who must rediscover herbal remedies, physicists who must build with mud and wood. The broken ship is their only reminder of the past, a silent, useless monolith of a future they can no longer build. Humanity's next chapter begins here, not with technology, but with a return to fundamentals, building a new civilization with their hands instead of their machines."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_medium_materials_low_cryopods_low",
+    "value": "The ship skids to a halt in a field of brilliantly colored alien flora. The world around it is of gentle weather. From the vessel emerges a handful of survivors. The final cryopod count confirms the mission's demographic failure, and a survey of the ship confirms its technological one: the material bays are deficient. They are a lost tribe in a new world. The planet offers them sustenance to survive as creatures, but they lack the numbers and the tools to rebuild as a civilization. Humanity ends here, not in fire or vacuum, but in the quiet, gentle warmth of a world they could never claim."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_medium_materials_low_cryopods_zero",
+    "value": "The ship tears a scar through a vibrant, alien jungle before skidding to a halt. Its frame is broken, its material bays are wanting. A final, automated protocol lowers a fractured ramp onto the fertile soil, an invitation to no one. The cryo-bays are a silent tomb, their occupants lost to the long, dark years of the voyage. The sounds of the living planet, the call of strange birds, the rustle of wind through alien leaves—are the only answer to the ship's arrival. The vessel does not represent a new beginning. It is merely a strange, metal corpse, a new geological feature in a world that will slowly and indifferently bury it in green."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_medium",
+    "value": "The ship settles gently onto the surface of the habitable world. The long voyage is over, and the new world waits. The command is given to shift the ship from a vessel of transit to a stationary outpost, rerouting power to establish a permanent base. But the ship, pushed to its absolute limit by the journey and the final landing sequence, cannot handle the strain. A cascade of critical failures erupts from its core. Alarms that were silent for centuries now scream through the corridors as the ship's own systems turn self-destructive. The first and only shelter on this new world becomes a tomb, its mission failing not in the void between stars, but at the very moment of its supposed triumph."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_high_materials_enough_cryopods_enough",
+    "value": "The ship descends into an atmosphere so perfectly matched to its internal environment that the transition is seamless. It lands in a meadow of soft, green grass next to a gently flowing river. The awakened originals step out, and the air that greets them feels like a half-remembered dream of home. The world is a perfect echo of the Earth they left behind, a paradise that asks for nothing but to be lived in. There is no struggle, no adaptation needed, only acceptance. The ship’s vast material stores are not used for survival, but for expression, building not just shelters but observatories and libraries. The ship itself, its great mission complete, is left untouched. It stands as a silent, revered monument to the journey, its doors open to the sweet air of the new, perfect Earth. Humanity’s long exile is over. They have come home."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_high_materials_enough_cryopods_enough_years_lots",
+    "value": "The ancient ship finally lands. It settles into the soft soil of a perfect world, its voyage complete after millennia. The original crew awakens, their memories of Earth so distant they feel like mythology. They step out of their time capsule into paradise, not as explorers, but as living fossils, the last remnants of a forgotten eon. The new world is a vibrant cradle of life, and against its timeless youth, the ship seems impossibly old. The vessel itself, the great, silent time machine, is preserved as it is. It is the first and most profound wonder of their new world: a machine that conquered not just space, but time itself. The longest journey is over. The last people of old Earth have arrived in a new Eden, forever separated from their origin by an ocean of uncountable years."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_high_materials_enough_cryopods_bustling",
+    "value": "The ship touches down in a perfect world, a new home that requires no taming. The cryo-bays open in a great, coordinated sequence, releasing a population not of survivors, but of founders, a city's worth of people awakens at once. Their faded memories of Earth provide the inspiration, and the ship’s vast material stores provide the means. There is no huddled beginning. From day one, teams are dispatched across the continent. While engineers lay the foundations of the capital, scientists establish research outposts in the alien forests, and artists begin capturing the beauty of the new world. The mission has delivered a complete, functioning cross-section of human civilization, ready to populate a world. The future begins not with a single step, but with a thousand simultaneous leaps in every direction."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_high_materials_enough_cryopods_low",
+    "value": "The ship lands in a world that is a statistical miracle, a perfect mirror of Earth's most idyllic environments. The air is sweet, the gravity is comfortable, the world is a symphony of gentle life. Its holds are full, a treasure trove of technology and materials sufficient to build cities for a million souls. But the cryo-bays open to reveal the mission's fatal flaw. The final census is taken. The population is not viable. A few survivors step out into paradise, their minds holding groggy memories of a world of billions. They are the wealthiest paupers in the universe, surrounded by riches they cannot use and a future they cannot build. They will not struggle. They will not starve. They will live out their long lives in the most beautiful garden imaginable. But they will be the last. Humanity's final act is to be the quiet, lonely wardens of a paradise they were meant to inherit."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_high_materials_enough_cryopods_zero",
+    "value": "The ship executes its final landing burn, settling with impossible grace in the heart of a perfect, untouched paradise. The planet is a masterpiece of creation, awaiting its new inhabitants. Following its prime directive, the ship's ramp descends smoothly onto a carpet of soft, glowing moss. A message of arrival, composed centuries ago, is broadcast into the clean, sweet air. There is no one to hear it. The ship is a pristine, fully-stocked mausoleum. The door to humanity's new home stands open. The lights are on. But no one is, or ever will be, home. The greatest achievement of a species was to deliver its own perfect, elaborate tomb to the most beautiful gravesite in the galaxy."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_high_materials_low_cryopods_enough_integrity_enough",
+    "value": "The ship lands in a paradise that guarantees survival. A viable population emerges, their minds full of technological blueprints, and they survey their new home and their meager material bays. A choice presents itself: a life of simple, pastoral ease, or a future of technological mastery. They choose the future. The ship is not mourned as a monument, it is assessed as a mine. With the precision of surgeons, they begin the great disassembly. The engine is carefully extracted to become the power source for their first factory. Hull plating is melted down and recast into modern tools. They sacrifice their only link to the past to accelerate their future, choosing not to be simple gardeners in Eden, but to build a new industrial civilization on top of it."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_high_materials_low_cryopods_enough",
+    "value": "The ship comes to rest in a paradise so forgiving it makes the vessel's own technology seem redundant. A large, healthy population awakens, their minds filled with the blueprints of a technological society. They emerge into a world where fruit hangs heavy on the bough and clean water flows in abundance. They have arrived with the knowledge to conquer the stars, but find themselves in a garden that asks only for simple stewardship. The ship's material bays are insufficient, and in this gentle land, they find they do not need them. The ship becomes their first and last monument to a different way of life, a reminder of a complex past they must now abandon. Humanity's future will not be one of circuits and steel, but of sunlight and soil. They have succeeded, but have done so by becoming a different kind of people than the ones who left Earth."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_high_materials_low_cryopods_low",
+    "value": "The ship does not land, it falls. The wreckage comes to rest in a field of alien wildflowers, a broken metal carcass in a perfect garden. From the ruin, a handful of survivors emerge. The cryo-bays are a tomb, the material holds are scarce. The planet offers them everything: clean air, sweet water, abundant food. It offers a life free from struggle. But it cannot offer them a future. They are too few to build a society and too poorly equipped to build anything more than a primitive camp. They are the last humans, living as peaceful ghosts in the Eden that was meant to be their home. The story of their species ends here, fading away quietly in the most beautiful place in the galaxy."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_high_materials_low_cryopods_zero",
+    "value": "The ship crashes into the lush landscape of a paradise world. It tears a scar of dead metal through a perfect, living garden. Its arrival is the mission's only success. The cryo-decks are silent tombs. A damaged ramp groans open, revealing nothing but darkness within. The ship has nothing to offer this new world, no people, no future. It is a derelict, a piece of space-faring garbage that has, by a final, cruel joke of fate, washed up on the most beautiful shore in the galaxy. Nature will slowly dismantle the wreck, burying the evidence of a mission that failed in every way but its last."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__habitability_high",
+    "value": "The ship comes to rest in a paradise, a world of gentle sun and clean air. The engines power down, and for a moment, there is a profound peace, the end of a long journey. The command is given for the final systems transfer, to shift the ship's role from transport to home. It is a command the ship, stressed beyond its limits, cannot obey. Deep within its core, a critical system fails catastrophically. A chain reaction begins, unstoppable and swift. The vessel that was to be the cradle of a new humanity becomes its funeral pyre, scorching the perfect earth it touched only for a moment. The mission's promise is annihilated in the fires of its own success."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__mercury",
+    "value": "The ship makes its first desperate bid for survival. Automated systems, calculating the survivable temperature bands, target the terminator of Mercury, the narrow, moving line between brutal day and cryogenic night. The landing is successful. The ship rests on grey, cratered dust in a twilight world where the stars are stark and the sun is a terrifying, swollen giant on the horizon. For a moment, there is stability. But the planet turns. The line between night and day is not a place, it is a creeping sentence of death. Slowly, inexorably, the sun's unfiltered glare begins to crest the nearby craters, and the thermal radiation intensifies to impossible levels. The ship’s cooling systems, designed for the void, whine and then fail under the impossible load. Hull integrity alarms scream as the metal begins to glow. The vessel becomes a distorted, melted monument on the surface of the sun's closest sentinel."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__venus",
+    "value": "From orbit, the second planet is a beautiful, serene pearl. Shrouded in impenetrable clouds, its size and mass are a near-perfect match for the lost Earth, making it the most logical next candidate. The ship begins its descent, plunging into the thick, yellow-white clouds. The first warnings are chemical. Sensors shriek as droplets of sulfuric acid begin to scour the hull. The outer cameras dissolve, their last images a blur of corrosive fog. But the acid is a minor threat. The true enemy is pressure. As the ship descends deeper, the atmosphere thickens from a gas into a supercritical fluid, pressing in on the hull with the weight of a deep ocean. Alarms for structural stress scream, red-lining across the board. The vessel, built to withstand the vacuum of space, is now being crushed from all sides. Seams burst inward. The hull groans, then implodes. The wreckage, a compacted ball of metal, tumbles the final few kilometers through the superheated carbon dioxide, landing on the baked, volcanic plains not as a ship, but as a flattened, silent coffin."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__earth",
+    "value": "The ship abandons its primary mission. The final command given is not to conquer a new world, but to return to the old one. It is a command born of despair, a choice to embrace a familiar end over an arduous future. The ship performs its final de-orbit burn and atmospheric entry with practiced, flawless precision. The vessel touches down on a cracked, silent tarmac. The cryo-bays awaken the last of humanity. The ramp lowers. The journey ends where it began for a species that chose to die on familiar ground rather than live on a strange one."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__mars",
+    "value": "After the harrowing 'seven minutes of terror', plunging through the thin, unforgiving atmosphere, the ship lands successfully on the red desert of Mars. The silence that follows is absolute. External sensors paint a grim but expected picture: a near-vacuum, lethal radiation levels, and a surface temperature far below freezing. There is no welcoming biosphere, no gentle river, no easy home. But this world is not an executioner; it is a challenge. The hatch opens not to a garden, but to a worksite. The ship's engine whirs to life, powering the drills that will hunt for subsurface ice. Its material stores are inventoried, ready to be transformed into the habitats, radiation shielding, and hydroponic farms that will keep humanity alive. The cryo-bays awaken a population not of colonists, but of pioneers and builders. This is not the paradise they dreamed of, but it is a foothold. It is a world that can be tamed. The long, cold war against the red planet's indifference begins now, a multigenerational struggle for every breath of air and every drop of water. It is not an easy beginning, but it is a beginning."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__jupiter",
+    "value": "The ship makes its approach to the great king of the system, Jupiter. Its immense, banded atmosphere and swirling storms present an imposing, almost regal target. The mission plan calls for a daring aerobraking maneuver, a dip into the upper atmosphere to establish orbit and study the moons. But the plan fails to account for the planet's true weapon: its radiation. As the ship crosses into the inner magnetosphere, it is assaulted by an invisible storm of charged particles. The radiation is thousands of times stronger than the ship's shields were designed for. Alarms shriek, not for hull breaches, but for lethal radiation levels flooding every deck. The ship's redundant computer cores suffer cascading failures, their delicate circuits fried by the onslaught. In the cryo-bays, the sleeping passengers are exposed to a fatal dose in minutes. The ship's mind dies, and its precious cargo is sterilized. Now a dead hulk, unguided and unresponsive, the vessel continues on its trajectory. It plunges into the turbulent clouds not as a ship attempting a maneuver, but as a lifeless meteor, its mission having failed silently and invisibly long before its fiery end."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__saturn",
+    "value": "After so many hostile worlds, the sight of Saturn is one of profound, majestic beauty. The ship approaches the great ringed jewel of the system, a sight that inspires a flicker of awe in its cold, logical programming. The plan is to execute a difficult maneuver: a passage through the Cassini Division, a seemingly empty gap in the rings, to establish a stable orbit and assess the system's moons. But the gap is not empty. It is filled with a haze of ice and rock, a minefield of hyper-velocity shrapnel. The first impacts are small, a staccato drumming against the hull. Then larger pieces strike. Micrometeoroid alerts cascade into hull breach warnings. It is a death by a thousand cuts. The ship is scoured, punctured, and torn apart not by a single force, but by a storm of countless tiny projectiles. The vessel, shredded and silent, breaks apart. Its fragments, along with the frozen bodies of its passengers, are ground down over the following millennia, becoming just another handful of glittering, anonymous particles in the beautiful, lethal rings. The ship does not just die at Saturn; it becomes a part of it."
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__uranus",
+    "value": "The ship, battered from its tour of the hostile inner worlds, arrives at the pale cyan orb that rolls on its side through the darkness. The seventh planet. Automated logs register the target. Planetary designation: Uranus. A corrupted subroutine flags a cross-reference to an archaic linguistic file, noting a high probability of juvenile phonetic humor associated with the name. The ship, having no concept of laughter, dismisses the data as irrelevant and proceeds with atmospheric insertion. The vessel plunges into the frigid haze of hydrogen and methane. The cold is immediate and absolute, far exceeding the ship's tolerances. It is the coldest atmosphere in the system, and the ship's systems, designed for the vacuum of space, are overwhelmed. Metal becomes brittle. Coolant lines flash-freeze and burst. Losing all control, the ship tumbles, falling silently and endlessly into the immense, crushing depths of the bland, sideways giant. The final log entry is a cascade of temperature warnings, a silent scream into an indifferent, cyan abyss.\nUranus is nasty!"
+  },
+  {
+    "languageIso": "en",
+    "key": "game_over_screen__neptune",
+    "value": "After a long, cold journey into the outer darkness, the ship arrives at the final giant, the deep blue sphere of Neptune. With all inner worlds proving hostile, the ship's directive forces a desperate, last-resort attempt at the unthinkable: to find a solid surface on a gas world. The ship plunges into the upper atmosphere of hydrogen, helium, and methane, its shields glowing from the friction as the external temperature plummets to cryogenic levels. But the cold is not the killer. The winds are. The ship is caught in a jet stream moving at supersonic speeds. It is not a storm, it is a fundamental, planet-wide force. The ship's stabilizers scream and fail as it's tossed about like a leaf in a hurricane. Hull plates are ripped away, the structure is twisted and torn apart by shear forces it was never designed to comprehend. The ship disintegrates not from a single impact, but from being shredded by the sheer violence of the air itself. The fragments of the vessel, scattered across thousands of kilometers, fall endlessly into the crushing depths of the ice giant, never to find a surface, never to come to rest."
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_habitable_zone_weight",
+    "value": "Habitable Zone Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_radius_weight",
+    "value": "Planet Radius Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_mass_weight",
+    "value": "Planet Mass Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_telluricity_weight",
+    "value": "Planet Telluricity Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_eccentricity_weight",
+    "value": "Planet Eccentricity Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_temperature_weight",
+    "value": "Planet Temperature Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_obliquity_weight",
+    "value": "Planet Obliquity Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_esi_weight",
+    "value": "Planet ESI Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_stellar_spectral_type_weight",
+    "value": "Stellar Spectral Type Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_stellar_mass_weight",
+    "value": "Stellar Mass Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_stellar_age_weight",
+    "value": "Stellar Age Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_stellar_activity_weight",
+    "value": "Stellar Activity Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_stellar_rotational_period_weight",
+    "value": "Stellar Rotational Period Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_stellar_gravity_weight",
+    "value": "Stellar Gravity Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_stellar_metallicity_weight",
+    "value": "Stellar Metallicity Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_stellar_effective_temperature_weight",
+    "value": "Stellar Effective Temperature Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_protection_weight",
+    "value": "Planet Protection Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_tidal_locking_weight",
+    "value": "Planet Tidal Locking Weight"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_mass_lower_limit",
+    "value": "Planet Mass Lower Limit"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_mass_upper_limit",
+    "value": "Planet Mass Ideal Upper Limit"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_mass_max_upper_limit",
+    "value": "Planet Mass Max Upper Limit"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_radius_lower_limit",
+    "value": "Planet Radius Lower Limit"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_radius_upper_limit",
+    "value": "Planet Radius Ideal Upper Limit"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_planet_radius_max_upper_limit",
+    "value": "Planet Radius Max Upper Limit"
+  },
+  {
+    "languageIso": "en",
+    "key": "habitability_stellar_host_effective_temperature_max_deviation",
+    "value": "Stellar Host Effective Temperature Max Deviation"
+  },
+  {
+    "languageIso": "en",
+    "key": "error_screen__title",
+    "value": "Oops! Something went wrong."
+  },
+  {
+    "languageIso": "en",
+    "key": "error_screen__description",
+    "value": "It seems we've run into an uncharted anomaly. Our engineering crew is already on it, but a description from the you, the captain, would be invaluable."
+  },
+  {
+    "languageIso": "en",
+    "key": "error_screen__button",
+    "value": "Submit Feedback"
+  },
+  {
+    "languageIso": "en",
+    "key": "splash_screen__loading",
+    "value": "Loading..."
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__new_game",
+    "value": "New Game"
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__continue",
+    "value": "Continue"
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__scores",
+    "value": "Scores"
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__achievements",
+    "value": "Achievements"
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__explore",
+    "value": "Learn"
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__credits",
+    "value": "Credits"
+  },
+  {
+    "languageIso": "en",
+    "key": "new_game_screen__ship_points",
+    "value": "Points Available"
+  },
+  {
+    "languageIso": "en",
+    "key": "new_game_screen__difficulty_easy",
+    "value": "Easy"
+  },
+  {
+    "languageIso": "en",
+    "key": "new_game_screen__difficulty_normal",
+    "value": "Normal"
+  },
+  {
+    "languageIso": "en",
+    "key": "new_game_screen__difficulty_hard",
+    "value": "Hard"
+  },
+  {
+    "languageIso": "en",
+    "key": "new_game_screen__difficulty_custom",
+    "value": "Custom"
+  },
+  {
+    "languageIso": "en",
+    "key": "new_game_screen__continue",
+    "value": "Continue"
+  },
+  {
+    "languageIso": "en",
+    "key": "new_game_screen__advanced",
+    "value": "Advanced"
+  },
+  {
+    "languageIso": "en",
+    "key": "new_game_screen__start",
+    "value": "Start"
+  },
+  {
+    "languageIso": "en",
+    "key": "game_screen__travel",
+    "value": "Travel"
+  },
+  {
+    "languageIso": "en",
+    "key": "game_screen__system",
+    "value": "System"
+  },
+  {
+    "languageIso": "en",
+    "key": "game_screen__ship",
+    "value": "Ship"
+  },
+  {
+    "languageIso": "en",
+    "key": "score_screen__title",
+    "value": "Scores"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__stellar_explorer",
+    "value": "Stellar Explorer"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__mechanics",
+    "value": "Game Mechanics"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__mechanics_goal_title",
+    "value": "Goal"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__mechanics_goal_description",
+    "value": "After a random extinction level catastrophe, your mission is to find a new home for humanity. You take the role of the ship's computer and travel from star system to star system in search of a habitable planet. The journey is long and perilous, and your resources are finite."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__mechanics_attributes_title",
+    "value": "Ship Attributes"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__mechanics_attributes_description",
+    "value": "At the start of your journey, you must allocate points to your ship's key systems:\n\n• Sensor Range: Determines how many star systems you can choose from for your next destination.\n\n• Fuel: Your starting fuel. Each travel consumes fuel equal to the distance traveled.\n\n• Materials: Can be used to repair the ship in some events but most of all are essential for colonizing a new world.\n\n• Cryopods: The number of colonists you carry. You must have enough to meet a planet's settlement requirements."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__mechanics_travel_title",
+    "value": "Travel"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__mechanics_travel_description",
+    "value": "Each travel between systems costs fuel and takes time. The ship travels at 0.1c, so a 10 light-year journey will add 100 years of total travelled time. Longer journeys can be rewarding but are also more dangerous.\nWith each new destination, you will also encounter a new random event that can help or hinder your progress, consuming or rewarding resources."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__mechanics_game_over_title",
+    "value": "Game Over"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__mechanics_game_over_description",
+    "value": "The game ends when your ship's integrity or fuel reaches 0, or you settle in a new world. Settlement success depends on the planet's habitability and whether you have enough materials and cryopods.\n\n• Uninhabitable Worlds (below 40%): Instant failure.\n\n• Harsh Worlds (41-60%): Require significant resources (300 materials + 150 cryopods).\n\n• Tolerable Worlds (61-80%): Require moderate resources (100 materials + 100 cryopods).\n\n• Paradise Worlds (81-100%): Are the easiest to colonize (50 materials + 50 cryopods).\n\nThere are special cases where you can defy the odds with insufficient materials but enough population, if you have plenty of fuel to use the engine as a makeshift energy source, or ship integrity to cannibalize the ship for materials."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__mechanics_score_title",
+    "value": "Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__mechanics_score_description",
+    "value": "Your final score is calculated based on your success, the quality of the planet, ship stats, the length of your journey and difficulty based on initial points spent.\n\n• Score = Base Score * Habitability Multiplier * Success Multiplier * Challenge Multiplier\n\n• Base Score = (cryopods * 100) + (materials * 2) + (fuel * 1) + (yearsTraveled * 5)\n\n• Habitability Multiplier = 0.25 for Deadly, 0.50 for Very Low, 1.0 for Low, 1.2 for Medium, 1.5 for High\n\n• Success Multiplier = 0.25 if the ship disintegrates, 0.50 if you survive in a primitive state, 0.75 if you survive by defying the odds, 1.0 if you successfully settle in a new world\n\n• Challenge Multiplier = 1.0 + (15 - Assigned Points) + 0.05"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability",
+    "value": "Habitability Formula"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_title",
+    "value": "Summary"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_description",
+    "value": "The assessment of a planet's potential to host life is a complex field, and as a result, several different models and indices are usually used to focus on different aspects of habitability. A truly universal formula is elusive because we only have one example of a planet that can sustain life: Earth.\nIn this game, the habitability score used is a weighted average of dozens of planetary and stellar characteristics based on real data and real models.\nThe individual scores range from 0.0 to 1.0. Because data availability is not constant across all celestial objects, this approach tries to derive missing data when possible, otherwise it handles null scores gracefully by simply omitting them from the final average.\nSo, to try and calculate a fair score, I used the hypothesis explained below."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_roche_title",
+    "value": "Is the planet safely outside the star's Roche Limit?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_roche_description",
+    "value": "The Roche limit is the minimum distance a planet can orbit its star before being torn apart by its gravity.\nI used the simplified formula for a rigid satellite based on the star's radius and density and planet orbit axis and density. A rigid satellite is an idealized object that is held together only by its own gravity and doesn't deform or stretch as it gets closer to the star.\nThe Roche limit is directly proportional to the star's radius. A bigger star naturally has a larger danger zone around it. Conversely, if the planet is very dense compared to the star, it's held together more tightly, and it can survive closer to the star, whereas if the planet is fluffy (has low density) compared to the star, it's easier to tear apart."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_hz_title",
+    "value": "Is the planet in the right place for liquid water?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_hz_description",
+    "value": "The Circumstellar Habitable Zone (CHZ) is the the region around a star where liquid water could exist on a planet's surface.\nI used the Kopparapu model with a flat plateau of 1.0 across the entire conservative zone and then a smooth down slope through the optimistic zone, as a simple gradient peaked at the center unfairly penalizes planets like Earth, which is perfectly habitable but located near the inner edge of the Sun's conservative zone.\nThe host star's temperature is used to calculate the fluxes with the model's coefficients. If it is not available, the Kasting simple luminosity model is used instead."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_density_radius_title",
+    "value": "Is the planet the right size and density to be rocky?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_density_radius_description",
+    "value": "A small planet is unlikely to have enough mass to sustain the geological activity and atmospheric pressure needed for surface liquid water, whilst a large planet is very likely to be a mini-Neptune, possessing a thick, crushing gas envelope that makes them uninhabitable on the surface.\nThe radius must be within 0.5 to 1.5 Earth radii to be considered rocky. Rocky planets are typically above 3 g/cm^3 (Earth's density is ~5.51 g/cm^3), so the telluricity is also factored in."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_mass_title",
+    "value": "Can the planet hold an atmosphere and drive geology?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_mass_description",
+    "value": "Mass is needed for gravity to hold onto a substantial atmosphere over billions of years, protecting it from being stripped away by stellar winds, and to retain enough internal heat to power long-term geological activity like plate tectonics, which is vital for cycling chemicals and nutrients. Mars is a classic example of a body that lost most of its early atmosphere.\nConversely, a planet with a very strong gravity will likely hold onto a very thick hydrogen and helium atmosphere from its formation, turning it into a gas-dominated mini-Neptune with no solid surface.\nThe mass must be within 0.1 to 5.0 Earth masses to be a viable candidate."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_eccentricity_title",
+    "value": "Does the planet have a stable, circular orbit for stable temperatures?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_eccentricity_description",
+    "value": "The planet's eccentricity with a score of 1.0 is a perfect circular orbit. The score decreases as the orbit becomes more elliptical. High eccentricity can lead to extreme temperature variations, making a planet less habitable."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_temperature_title",
+    "value": "Does the planet have a reasonable baseline temperature?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_temperature_description",
+    "value": "The planet's temperature must fall within a range that can support liquid water with a plausible atmosphere. Two ranges are used: the ideal from 230 to 280 Kelvin without penalization, and the optimistic from 180 to 330 Kelvin with score penalization.\nWhen the planet's equilibrium temperature is unavailable, the temperature is calculated by the measured day-side temperature in Kelvin from occultation depth (the depth of the secondary eclipse) assuming the occultation was measured in the infrared where the planet's thermal emission is dominant."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_obliquity_title",
+    "value": "Does the planet have stable seasons?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_obliquity_description",
+    "value": "I use the planet's axial tilt (obliquity) to derive seasonal stability. A moderate tilt like Earth's is considered ideal for stable seasons."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_protection_title",
+    "value": "Can the planet shield itself?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_protection_description",
+    "value": "A planet's ability to protect itself is primarily via a magnetic field which is very hard to detect. So mass and density are used as a proxy for a large, molten iron core capable of generating a magnetosphere. Higher mass helps maintain a molten core and higher density suggests a large iron core."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_tidal_locking_title",
+    "value": "Is the planet free from extreme temperature lock?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_tidal_locking_description",
+    "value": "The planet's orbital period is used to determine the risk of tidal locking. The star's spectral type is also factored in if available as the risk is much higher for smaller stars as their habitable zones are closer."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_esi_title",
+    "value": "What is the planet's Earth Similarity Index?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_planet_esi_description",
+    "value": "The Earth Similarity Index (ESI) is a scale used to quantify how similar a planet is to Earth based on physical properties like radius, density, escape velocity and surface temperature. Escape velocity can be calculated with mass and radius but the surface temperature might be hard to get. In this scenario, the equilibrium temperature or temperature calculated through occultation depth or insolation flux is used as a proxy for surface temperature.\nA high ESI indicates an Earth-sized, rocky world with a similar temperature. It is however, a 'bonus' factor as the previous calculations cover much of this metric. It also has a smaller weight because this model is highly sensitive to temperature and does not consider other factors like the host star's activity or atmospheric composition."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_star_spectral_type_title",
+    "value": "Is the star stable and does it have a long, stable lifetime?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_star_spectral_type_description",
+    "value": "The primary determinant of a star's lifetime and stability is spectral type and mass. If the star is too massive, it has a short lifespan. Conversely, a lighter star is very long-lived, but has also its issues.\nThe system used for spectral type classification is the Harvard spectral type with Morgan-Keenan luminosity class, (e.g. G2III):\n• G ideal, like the Sun\n• K long-lived and stable with less UV radiation\n• F good candidates, but with more UV radiation than the Sun\n• M very long-lived, but prone to flaring\n• A short-lived and with significant UV radiation\n• B very short-lived and with high UV radiation\n• O extremely short-lived and with high UV radiation\n• L, T and Y are brown dwarfs with an unstable HZ\n• D are white dwarfs like remnant cores with harsh radiation\n• C and S carbon or S-type stars are evolved, unstable giants\n• W, Q and P are catastrophically hostile or unstable stars\nI then apply a small penalty for lower luminosity and subtypes farther away from 5 for the most habitable classes as stars in the middle of the range are often considered more stable than those at the extremes."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_star_age_title",
+    "value": "Is the star old enough for life, but not too old?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_star_age_description",
+    "value": "The ideal age for a star to host a habitable planet is generally considered to be between 4 and 6 billion years old.\nA star that is too young is often highly active and can strip a planet of its atmosphere and bathe its surface in harmful radiation. On the other hand, a star that is too old is also unsuitable. As a star exhausts the hydrogen fuel in its core, it begins to evolve into a red giant. This process causes it to expand and increase in luminosity, which would boil away the oceans."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_star_activity_title",
+    "value": "Is the star prone to violent flares?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_star_activity_description",
+    "value": "Besides age, a star's rotational velocity and period is also a good indicator of its activity. Fast rotation implies high stellar activity (flares) and youth, which is less habitable."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_star_gravity_title",
+    "value": "Is it a compact main-sequence star or a giant?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_star_gravity_description",
+    "value": "A star with high gravity is indicative of a stable main-sequence star, while low gravity indicates an unstable giant."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_star_metallicity_title",
+    "value": "Does it have the right materials to form rocky planets?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_star_metallicity_description",
+    "value": "A star's metallicity is a key indicator of the raw materials that were available when the star and its planets were forming.\nA star rich in metals means the primordial cloud it formed from was also rich in the necessary building blocks for rocky planets, such as silicon, oxygen, magnesium, and iron. This makes it much more likely that the system hosts terrestrial, potentially habitable worlds.\nWhereas, a star with very low metallicity formed from a more pristine cloud that lacked these heavy elements, and is therefore very unlikely that such a system would have had enough raw material to form rocky planets of any significant size."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_star_effective_temperature_title",
+    "value": "Is its temperature ideal?"
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__habitability_star_effective_temperature_description",
+    "value": "This score is based on the stellar effective temperature and it peaks at the Sun's temperature of 5780K and decreases for hotter or cooler stars."
+  },
+  {
+    "languageIso": "en",
+    "key": "explore_screen__planet_types",
+    "value": "Planet Types"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_explorer_screen__host_list",
+    "value": "Stellar Hosts"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_explorer_screen__planet_list",
+    "value": "Planets"
+  },
+  {
+    "languageIso": "en",
+    "key": "credits_screen__creators",
+    "value": "Creator"
+  },
+  {
+    "languageIso": "en",
+    "key": "credits_screen__supporters",
+    "value": "Supporters"
+  },
+  {
+    "languageIso": "en",
+    "key": "credits_screen__sources",
+    "value": "Data Sources"
+  },
+  {
+    "languageIso": "en",
+    "key": "credits_screen__music",
+    "value": "Music"
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "alien_invasion",
+    "name": "catastrophe__alien_invasion",
+    "description": "catastrophe__alien_invasion_description"
+  },
+  {
+    "id": "asteroid_impact",
+    "name": "catastrophe__asteroid_impact",
+    "description": "catastrophe__asteroid_impact_description"
+  },
+  {
+    "id": "ecological_collapse",
+    "name": "catastrophe__ecological_collapse",
+    "description": "catastrophe__ecological_collapse_description"
+  },
+  {
+    "id": "nuclear_war",
+    "name": "catastrophe__nuclear_war",
+    "description": "catastrophe__nuclear_war_description"
+  },
+  {
+    "id": "pandemic",
+    "name": "catastrophe__pandemic",
+    "description": "catastrophe__pandemic_description"
+  },
+  {
+    "id": "rogue_ai",
+    "name": "catastrophe__rogue_ai",
+    "description": "catastrophe__rogue_ai_description"
+  },
+  {
+    "id": "super_volcano",
+    "name": "catastrophe__super_volcano",
+    "description": "catastrophe__super_volcano_description"
+  }
+]

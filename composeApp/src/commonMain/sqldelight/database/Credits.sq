@@ -1,0 +1,23 @@
+import com.hybris.tlv.usecase.credits.model.CreditsType;
+
+CREATE TABLE IF NOT EXISTS Credits (
+    id TEXT NOT NULL PRIMARY KEY,
+    link TEXT,
+    type TEXT AS CreditsType NOT NULL
+);
+
+isCreditsEmpty:
+SELECT Credits.id FROM Credits LIMIT 1;
+
+truncateCredits:
+DELETE FROM Credits;
+
+upsertCredits:
+INSERT OR REPLACE INTO Credits VALUES ?;
+
+getCredits:
+SELECT
+    Credits.id,
+    Credits.link,
+    Credits.type
+FROM Credits;

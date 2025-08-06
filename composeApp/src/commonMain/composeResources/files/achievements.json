@@ -1,0 +1,9 @@
+[
+  {
+    "id": "engsoneca",
+    "name": "Earth",
+    "description": "Settle on Earth",
+    "preconditions": {},
+    "status": false
+  }
+]
