@@ -2422,7 +2422,7 @@
   {
     "languageIso": "en",
     "key": "explore_screen__habitability_description",
-    "value": "The assessment of a planet's potential to host life is a complex field, and as a result, several different models and indices are usually used to focus on different aspects of habitability. A truly universal formula is elusive because we only have one example of a planet that can sustain life: Earth.\nIn this game, the habitability score used is a weighted average of dozens of planetary and stellar characteristics based on real data and real models.\nThe individual scores range from 0.0 to 1.0. Because data availability is not constant across all celestial objects, this approach tries to derive missing data when possible, otherwise it handles null scores gracefully by simply omitting them from the final average.\nSo, to try and calculate a fair score, I used the hypothesis explained below."
+    "value": "The assessment of a planet's potential to host life is a complex field, and as a result, several different models and indices are usually used to focus on different aspects of habitability. A truly universal formula is elusive because we only have one example of a planet that can sustain life: Earth.\nIn this game, the habitability score used is a weighted average of dozens of planetary and stellar characteristics based on real data and real models.\nThe individual scores range from 0.0 to 1.0. Because data availability is not constant across all celestial objects, this approach tries to derive missing data when possible, and null scores have a penalty, otherwise planets with missing data could outscore a well-rounded planet.\nSo, to try and calculate a fair score, I used the hypothesis explained below."
   },
   {
     "languageIso": "en",
