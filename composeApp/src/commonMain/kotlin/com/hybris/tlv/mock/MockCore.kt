@@ -1,5 +1,6 @@
 package com.hybris.tlv.mock
 
+import androidx.compose.runtime.Composable
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.AppCore
 import com.hybris.tlv.Core
@@ -15,6 +16,7 @@ import com.hybris.tlv.http.client.HttpClientFactory
 import com.hybris.tlv.locale.CommonLocale
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.Navigation.Screen
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
 import io.ktor.client.HttpClient
@@ -39,5 +41,14 @@ internal class MockCore(driver: SqlDriver) {
         remoteConfig = remoteConfig,
         useCases = useCases,
     )
-    val navigation = Navigation(core = core)
+    private val navigation = Navigation(core = core)
+
+    @Composable
+    fun Screen(
+        screen: Screen,
+        state: Any?
+    ) = navigation.Screen(
+        screen = screen,
+        state = state
+    )
 }

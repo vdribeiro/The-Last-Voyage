@@ -70,7 +70,26 @@ internal class Navigation(private val core: Core) {
     }
 
     @Composable
-    fun ErrorScreen(state: Any?) = com.hybris.tlv.ui.screen.error.ErrorScreen(
+    fun Screen(
+        screen: Screen,
+        state: Any?
+    ) = when (screen) {
+        Screen.ERROR -> ErrorScreen(state = state)
+        Screen.SPLASH -> SplashScreen(state = state)
+        Screen.MAIN_MENU -> MainMenuScreen(state = state)
+        Screen.NEW_GAME -> NewGameScreen(state = state)
+        Screen.GAME -> GameScreen(state = state)
+        Screen.EVENT -> EventScreen(state = state)
+        Screen.GAME_OVER -> GameOverScreen(state = state)
+        Screen.EXPLORE -> ExploreScreen(state = state)
+        Screen.STELLAR_EXPLORER -> StellarExplorerScreen(state = state)
+        Screen.SCORES -> ScoreScreen(state = state)
+        Screen.ACHIEVEMENTS -> AchievementScreen(state = state)
+        Screen.CREDITS -> CreditsScreen(state = state)
+    }
+
+    @Composable
+    private fun ErrorScreen(state: Any?) = com.hybris.tlv.ui.screen.error.ErrorScreen(
         store = ErrorStore(
             dispatcher = core.dispatcher,
             navigation = this,
@@ -79,7 +98,7 @@ internal class Navigation(private val core: Core) {
     )
 
     @Composable
-    fun SplashScreen(state: Any?) = com.hybris.tlv.ui.screen.splash.SplashScreen(
+    private fun SplashScreen(state: Any?) = com.hybris.tlv.ui.screen.splash.SplashScreen(
         store = SplashStore(
             dispatcher = core.dispatcher,
             navigation = this,
@@ -89,7 +108,7 @@ internal class Navigation(private val core: Core) {
     )
 
     @Composable
-    fun MainMenuScreen(state: Any?) = com.hybris.tlv.ui.screen.mainmenu.MainMenuScreen(
+    private fun MainMenuScreen(state: Any?) = com.hybris.tlv.ui.screen.mainmenu.MainMenuScreen(
         store = MainMenuStore(
             dispatcher = core.dispatcher,
             navigation = this,
@@ -99,7 +118,7 @@ internal class Navigation(private val core: Core) {
     )
 
     @Composable
-    fun NewGameScreen(state: Any?) = com.hybris.tlv.ui.screen.newgame.NewGameScreen(
+    private fun NewGameScreen(state: Any?) = com.hybris.tlv.ui.screen.newgame.NewGameScreen(
         store = NewGameStore(
             dispatcher = core.dispatcher,
             navigation = this,
@@ -110,7 +129,7 @@ internal class Navigation(private val core: Core) {
     )
 
     @Composable
-    fun GameScreen(state: Any?) = com.hybris.tlv.ui.screen.game.GameScreen(
+    private fun GameScreen(state: Any?) = com.hybris.tlv.ui.screen.game.GameScreen(
         store = GameStore(
             dispatcher = core.dispatcher,
             navigation = this,
@@ -122,7 +141,7 @@ internal class Navigation(private val core: Core) {
     )
 
     @Composable
-    fun EventScreen(state: Any?) = com.hybris.tlv.ui.screen.event.EventScreen(
+    private fun EventScreen(state: Any?) = com.hybris.tlv.ui.screen.event.EventScreen(
         store = EventStore(
             dispatcher = core.dispatcher,
             navigation = this,
@@ -133,7 +152,7 @@ internal class Navigation(private val core: Core) {
     )
 
     @Composable
-    fun GameOverScreen(state: Any?) = com.hybris.tlv.ui.screen.gameover.GameOverScreen(
+    private fun GameOverScreen(state: Any?) = com.hybris.tlv.ui.screen.gameover.GameOverScreen(
         store = GameOverStore(
             dispatcher = core.dispatcher,
             navigation = this,
@@ -144,7 +163,7 @@ internal class Navigation(private val core: Core) {
     )
 
     @Composable
-    fun ExploreScreen(state: Any?) = com.hybris.tlv.ui.screen.explore.ExploreScreen(
+    private fun ExploreScreen(state: Any?) = com.hybris.tlv.ui.screen.explore.ExploreScreen(
         store = ExploreStore(
             dispatcher = core.dispatcher,
             navigation = this,
@@ -153,7 +172,7 @@ internal class Navigation(private val core: Core) {
     )
 
     @Composable
-    fun StellarExplorerScreen(state: Any?) = com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerScreen(
+    private fun StellarExplorerScreen(state: Any?) = com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerScreen(
         store = StellarExplorerStore(
             dispatcher = core.dispatcher,
             navigation = this,
@@ -164,7 +183,7 @@ internal class Navigation(private val core: Core) {
     )
 
     @Composable
-    fun ScoreScreen(state: Any?) = com.hybris.tlv.ui.screen.score.ScoreScreen(
+    private fun ScoreScreen(state: Any?) = com.hybris.tlv.ui.screen.score.ScoreScreen(
         store = ScoreStore(
             dispatcher = core.dispatcher,
             navigation = this,
@@ -175,7 +194,7 @@ internal class Navigation(private val core: Core) {
     )
 
     @Composable
-    fun AchievementScreen(state: Any?) = com.hybris.tlv.ui.screen.achievement.AchievementScreen(
+    private fun AchievementScreen(state: Any?) = com.hybris.tlv.ui.screen.achievement.AchievementScreen(
         store = AchievementStore(
             dispatcher = core.dispatcher,
             navigation = this,
@@ -185,7 +204,7 @@ internal class Navigation(private val core: Core) {
     )
 
     @Composable
-    fun CreditsScreen(state: Any?) = com.hybris.tlv.ui.screen.credits.CreditsScreen(
+    private fun CreditsScreen(state: Any?) = com.hybris.tlv.ui.screen.credits.CreditsScreen(
         store = CreditsStore(
             dispatcher = core.dispatcher,
             navigation = this,

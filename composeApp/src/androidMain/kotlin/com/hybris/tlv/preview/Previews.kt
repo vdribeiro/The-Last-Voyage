@@ -11,6 +11,7 @@ import com.hybris.tlv.mock.events
 import com.hybris.tlv.mock.gameSession
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.security.generateUuid
+import com.hybris.tlv.ui.navigation.Navigation.Screen
 import com.hybris.tlv.ui.screen.achievement.AchievementState
 import com.hybris.tlv.ui.screen.credits.CreditsState
 import com.hybris.tlv.ui.screen.error.ErrorState
@@ -34,19 +35,26 @@ import com.hybris.tlv.ui.screen.newgame.Content as NewGameContent
 import com.hybris.tlv.ui.screen.stellarexplorer.Content as StellarExplorerContent
 
 @Composable
-private fun navigation() =
+private fun Screen(
+    screen: Screen,
+    state: Any?
+) =
     MockCore(
         driver = AndroidSqliteDriver(
             context = LocalContext.current,
             schema = AppDatabase.Schema
         )
-    ).navigation
+    ).Screen(
+        screen = screen,
+        state = state
+    )
 
 @Preview
 @Composable
 private fun ErrorScreenPreview() {
     AppTheme {
-        navigation().ErrorScreen(
+        Screen(
+            screen = Screen.ERROR,
             state = ErrorState()
         )
     }
@@ -56,7 +64,8 @@ private fun ErrorScreenPreview() {
 @Composable
 private fun SplashScreenPreview() {
     AppTheme {
-        navigation().SplashScreen(
+        Screen(
+            screen = Screen.SPLASH,
             state = SplashState()
         )
     }
@@ -66,7 +75,8 @@ private fun SplashScreenPreview() {
 @Composable
 private fun MainMenuScreenPreview() {
     AppTheme {
-        navigation().MainMenuScreen(
+        Screen(
+            screen = Screen.MAIN_MENU,
             state = MainMenuState(
                 ongoingGameSession = false
             )
@@ -78,7 +88,8 @@ private fun MainMenuScreenPreview() {
 @Composable
 private fun MainMenuContinueScreenPreview() {
     AppTheme {
-        navigation().MainMenuScreen(
+        Screen(
+            screen = Screen.MAIN_MENU,
             state = MainMenuState(
                 ongoingGameSession = true
             )
@@ -90,7 +101,8 @@ private fun MainMenuContinueScreenPreview() {
 @Composable
 private fun NewGameShipScreenPreview() {
     AppTheme {
-        navigation().NewGameScreen(
+        Screen(
+            screen = Screen.NEW_GAME,
             state = NewGameState(
                 currentContent = NewGameContent.SHIP,
             )
@@ -102,7 +114,8 @@ private fun NewGameShipScreenPreview() {
 @Composable
 private fun NewGameAdvancedScreenPreview() {
     AppTheme {
-        navigation().NewGameScreen(
+        Screen(
+            screen = Screen.NEW_GAME,
             state = NewGameState(
                 currentContent = NewGameContent.ADVANCED
             )
@@ -114,7 +127,8 @@ private fun NewGameAdvancedScreenPreview() {
 @Composable
 private fun NewGameStartScreenPreview() {
     AppTheme {
-        navigation().NewGameScreen(
+        Screen(
+            screen = Screen.NEW_GAME,
             state = NewGameState(
                 currentContent = NewGameContent.START,
                 selectedCatastrophe = catastrophes.random()
@@ -127,7 +141,8 @@ private fun NewGameStartScreenPreview() {
 @Composable
 private fun GameTravelScreenPreview() {
     AppTheme {
-        navigation().GameScreen(
+        Screen(
+            screen = Screen.GAME,
             state = GameState(
                 gameSession = gameSession,
                 currentContent = GameContent.TRAVEL,
@@ -141,7 +156,8 @@ private fun GameTravelScreenPreview() {
 @Composable
 private fun GameSystemScreenPreview() {
     AppTheme {
-        navigation().GameScreen(
+        Screen(
+            screen = Screen.GAME,
             state = GameState(
                 gameSession = gameSession,
                 currentContent = GameContent.SYSTEM,
@@ -162,7 +178,8 @@ private fun GameSystemScreenPreview() {
 @Composable
 private fun GameShipScreenPreview() {
     AppTheme {
-        navigation().GameScreen(
+        Screen(
+            screen = Screen.GAME,
             state = GameState(
                 gameSession = gameSession,
                 currentContent = GameContent.SHIP,
@@ -175,7 +192,8 @@ private fun GameShipScreenPreview() {
 @Composable
 private fun EventScreenPreview() {
     AppTheme {
-        navigation().EventScreen(
+        Screen(
+            screen = Screen.EVENT,
             state = EventState(
                 event = events.random()
             )
@@ -187,7 +205,8 @@ private fun EventScreenPreview() {
 @Composable
 private fun GameOverMessageScreenPreview() {
     AppTheme {
-        navigation().GameOverScreen(
+        Screen(
+            screen = Screen.GAME_OVER,
             state = GameOverState(
                 currentContent = GameOverContent.MESSAGE,
                 gameSession = gameSession,
@@ -201,7 +220,8 @@ private fun GameOverMessageScreenPreview() {
 @Composable
 private fun GameOverScoreScreenPreview() {
     AppTheme {
-        navigation().GameOverScreen(
+        Screen(
+            screen = Screen.GAME_OVER,
             state = GameOverState(
                 currentContent = GameOverContent.SCORE,
                 gameSession = gameSession,
@@ -214,7 +234,8 @@ private fun GameOverScoreScreenPreview() {
 @Composable
 private fun ExploreScreenPreview() {
     AppTheme {
-        navigation().ExploreScreen(
+        Screen(
+            screen = Screen.EXPLORE,
             state = ExploreState(
                 currentContent = ExploreContent.MENU,
             )
@@ -226,7 +247,8 @@ private fun ExploreScreenPreview() {
 @Composable
 private fun ExploreMechanicsScreenPreview() {
     AppTheme {
-        navigation().ExploreScreen(
+        Screen(
+            screen = Screen.EXPLORE,
             state = ExploreState(
                 currentContent = ExploreContent.MECHANICS,
             )
@@ -238,7 +260,8 @@ private fun ExploreMechanicsScreenPreview() {
 @Composable
 private fun ExploreHabitabilityScreenPreview() {
     AppTheme {
-        navigation().ExploreScreen(
+        Screen(
+            screen = Screen.EXPLORE,
             state = ExploreState(
                 currentContent = ExploreContent.HABITABILITY,
             )
@@ -250,7 +273,8 @@ private fun ExploreHabitabilityScreenPreview() {
 @Composable
 private fun StellarExplorerScreenPreview() {
     AppTheme {
-        navigation().StellarExplorerScreen(
+        Screen(
+            screen = Screen.STELLAR_EXPLORER,
             state = StellarExplorerState(
                 currentContent = StellarExplorerContent.LIST_HOSTS,
                 stellarHosts = stellarHosts
@@ -263,7 +287,8 @@ private fun StellarExplorerScreenPreview() {
 @Composable
 private fun StellarExplorerDetailScreenPreview() {
     AppTheme {
-        navigation().StellarExplorerScreen(
+        Screen(
+            screen = Screen.STELLAR_EXPLORER,
             state = StellarExplorerState(
                 currentContent = StellarExplorerContent.DETAIL_HOSTS,
                 selectedStellarHost = stellarHosts.first().apply {
@@ -278,7 +303,8 @@ private fun StellarExplorerDetailScreenPreview() {
 @Composable
 private fun ScoreScreenPreview() {
     AppTheme {
-        navigation().ScoreScreen(
+        Screen(
+            screen = Screen.SCORES,
             state = ScoreState(
                 scores = listOf(
                     gameSession.copy(id = generateUuid(), score = 100.0),
@@ -295,7 +321,8 @@ private fun ScoreScreenPreview() {
 @Composable
 private fun AchievementScreenPreview() {
     AppTheme {
-        navigation().AchievementScreen(
+        Screen(
+            screen = Screen.ACHIEVEMENTS,
             state = AchievementState(
                 achievements = achievements
             )
@@ -307,7 +334,8 @@ private fun AchievementScreenPreview() {
 @Composable
 private fun CreditsScreenPreview() {
     AppTheme {
-        navigation().CreditsScreen(
+        Screen(
+            screen = Screen.ACHIEVEMENTS,
             state = CreditsState(
                 credits = credits
             )
