@@ -72,19 +72,8 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-                val os = System.getProperty("os.name").lowercase()
-                val arch = System.getProperty("os.arch").lowercase()
-                val classifier = when {
-                    os.contains(other = "win") -> "win"
-                    os.contains(other = "mac") && arch == "aarch64" -> "mac-aarch64"
-                    os.contains(other = "mac") -> "mac"
-                    else -> "linux"
-                }
-
                 implementation(dependencyNotation = compose.desktop.currentOs)
                 implementation(dependencyNotation = libs.bundles.desktop)
-                implementation(dependencyNotation = "${libs.javafx.media.get().group}:${libs.javafx.media.get().name}:${libs.javafx.media.get().version}:${classifier}")
-                implementation(dependencyNotation = "${libs.javafx.swing.get().group}:${libs.javafx.swing.get().name}:${libs.javafx.swing.get().version}:${classifier}")
             }
         }
     }
