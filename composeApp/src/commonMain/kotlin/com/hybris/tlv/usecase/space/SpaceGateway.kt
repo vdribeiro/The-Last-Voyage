@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase.space
 
 import com.hybris.tlv.http.client.json
 import com.hybris.tlv.http.request.QueryMap
-import com.hybris.tlv.logger.benchmark
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.combine
@@ -55,40 +54,34 @@ internal class SpaceGateway(
         val stellarHosts = loadHostsFromJson().toMutableList()
         val planets = loadPlanetsFromJson().toMutableList()
 
-        benchmark(message = "stellarHostsArchiveTime") {
-            when (val stellarHostsArchiveResult = getArchive { spaceApi.getStellarHostsArchive(queryMap = it) }) {
-                is ExoplanetsResult.Error -> return stellarHostsArchiveResult
-                is ExoplanetsResult.Success -> {
-                    stellarHosts.addAll(elements = stellarHostsArchiveResult.stellarHosts)
-                }
+        when (val stellarHostsArchiveResult = getArchive { spaceApi.getStellarHostsArchive(queryMap = it) }) {
+            is ExoplanetsResult.Error -> return stellarHostsArchiveResult
+            is ExoplanetsResult.Success -> {
+                stellarHosts.addAll(elements = stellarHostsArchiveResult.stellarHosts)
             }
         }
 
-        benchmark(message = "exoplanetsArchiveTime") {
-            when (val exoplanetsArchiveResult = getArchive { spaceApi.getExoplanetsArchive(queryMap = it) }) {
-                is ExoplanetsResult.Error -> return exoplanetsArchiveResult
-                is ExoplanetsResult.Success -> {
-                    val stellarHostIds = stellarHosts.map { it.id }
-                    val filteredStellarHosts = exoplanetsArchiveResult.stellarHosts.filter { it.id !in stellarHostIds }
-                    stellarHosts.addAll(elements = filteredStellarHosts)
+        when (val exoplanetsArchiveResult = getArchive { spaceApi.getExoplanetsArchive(queryMap = it) }) {
+            is ExoplanetsResult.Error -> return exoplanetsArchiveResult
+            is ExoplanetsResult.Success -> {
+                val stellarHostIds = stellarHosts.map { it.id }
+                val filteredStellarHosts = exoplanetsArchiveResult.stellarHosts.filter { it.id !in stellarHostIds }
+                stellarHosts.addAll(elements = filteredStellarHosts)
 
-                    planets.addAll(elements = exoplanetsArchiveResult.planets)
-                }
+                planets.addAll(elements = exoplanetsArchiveResult.planets)
             }
         }
 
-        benchmark(message = "k2ExoplanetsArchiveTime") {
-            when (val k2ExoplanetsArchiveResult = getArchive { spaceApi.getK2ExoplanetsArchive(queryMap = it) }) {
-                is ExoplanetsResult.Error -> return k2ExoplanetsArchiveResult
-                is ExoplanetsResult.Success -> {
-                    val stellarHostIds = stellarHosts.map { it.id }
-                    val filteredStellarHosts = k2ExoplanetsArchiveResult.stellarHosts.filter { it.id !in stellarHostIds }
-                    stellarHosts.addAll(elements = filteredStellarHosts)
+        when (val k2ExoplanetsArchiveResult = getArchive { spaceApi.getK2ExoplanetsArchive(queryMap = it) }) {
+            is ExoplanetsResult.Error -> return k2ExoplanetsArchiveResult
+            is ExoplanetsResult.Success -> {
+                val stellarHostIds = stellarHosts.map { it.id }
+                val filteredStellarHosts = k2ExoplanetsArchiveResult.stellarHosts.filter { it.id !in stellarHostIds }
+                stellarHosts.addAll(elements = filteredStellarHosts)
 
-                    val planetIds = planets.map { it.id }
-                    val filteredPlanets = k2ExoplanetsArchiveResult.planets.filter { it.id !in planetIds }
-                    planets.addAll(elements = filteredPlanets)
-                }
+                val planetIds = planets.map { it.id }
+                val filteredPlanets = k2ExoplanetsArchiveResult.planets.filter { it.id !in planetIds }
+                planets.addAll(elements = filteredPlanets)
             }
         }
 

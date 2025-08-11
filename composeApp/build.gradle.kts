@@ -36,7 +36,12 @@ kotlin {
         }
     }
 
-    jvm(name = "desktop")
+    jvm(name = "desktop") {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -50,7 +55,6 @@ kotlin {
                 implementation(dependencyNotation = compose.materialIconsExtended)
                 implementation(dependencyNotation = libs.bundles.common)
             }
-            resources.srcDirs("src/commonMain/resources")
         }
 
         val commonTest by getting {

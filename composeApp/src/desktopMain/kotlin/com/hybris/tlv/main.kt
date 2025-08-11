@@ -43,7 +43,6 @@ fun main() = application {
     val httpClient: HttpClient = HttpClientFactory.getExoplanetHttpClient()
     val useCases: UseCases = Gateways(
         dispatcher = dispatcher,
-        localConfig = localConfig,
         firestore = firestore,
         databaseDriver = databaseDriver,
         httpClient = httpClient
