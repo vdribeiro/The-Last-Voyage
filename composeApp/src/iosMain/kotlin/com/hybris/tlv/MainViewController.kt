@@ -19,30 +19,48 @@ import com.hybris.tlv.usecase.UseCases
 import database.AppDatabase
 import io.ktor.client.HttpClient
 
-fun MainViewController() = ComposeUIViewController {
-    val dispatcher: Dispatcher = Dispatchers()
-    val locale: Locale = IosLocale()
-    val localConfig: LocalConfig = IosLocalConfig()
-    val remoteConfig: RemoteConfig = IosRemoteConfig()
-    val firestore: Firestore = IosFirestore()
-    val databaseDriver: SqlDriver = NativeSqliteDriver(
+private val dispatcher: Dispatcher by lazy {
+    Dispatchers()
+}
+private val locale: Locale by lazy {
+    IosLocale()
+}
+private val localConfig: LocalConfig by lazy {
+    IosLocalConfig()
+}
+private val remoteConfig: RemoteConfig by lazy {
+    IosRemoteConfig()
+}
+private val firestore: Firestore by lazy {
+    IosFirestore()
+}
+private val databaseDriver: SqlDriver by lazy {
+    NativeSqliteDriver(
         schema = AppDatabase.Schema,
         name = Database.NAME
     )
-    val httpClient: HttpClient = HttpClientFactory.getExoplanetHttpClient()
-    val useCases: UseCases = Gateways(
+}
+private val httpClient: HttpClient by lazy {
+    HttpClientFactory.getExoplanetHttpClient()
+}
+private val useCases: UseCases by lazy {
+    Gateways(
         dispatcher = dispatcher,
         firestore = firestore,
         databaseDriver = databaseDriver,
         httpClient = httpClient
     )
-    val core: Core = AppCore(
+}
+private val core: Core by lazy {
+    AppCore(
         dispatcher = dispatcher,
         locale = locale,
         localConfig = localConfig,
         remoteConfig = remoteConfig,
         useCases = useCases
     )
+}
 
+fun MainViewController() = ComposeUIViewController {
     App(core = core)
 }

@@ -37,7 +37,6 @@ internal class IosLocalConfig(): LocalConfig {
     override fun put(key: StorageKey, value: Boolean?) =
         if (value != null) userDefaults.setBool(value = value, forKey = key.key) else userDefaults.removeObjectForKey(defaultName = key.key)
 
-
     override fun put(key: StorageKey, value: Long?) =
         if (value != null) userDefaults.setInteger(value = value, forKey = key.key) else userDefaults.removeObjectForKey(defaultName = key.key)
 

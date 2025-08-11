@@ -25,34 +25,51 @@ import io.ktor.client.HttpClient
 
 class MainActivity: ComponentActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val dispatcher: Dispatcher = Dispatchers()
-        val locale: Locale = AndroidLocale(context = this)
-        val localConfig: LocalConfig = AndroidLocalConfig(context = this)
-        val remoteConfig: RemoteConfig = AndroidRemoteConfig()
-        val firestore: Firestore = AndroidFirestore()
-        val databaseDriver: SqlDriver = AndroidSqliteDriver(
+    private val dispatcher: Dispatcher by lazy {
+        Dispatchers()
+    }
+    private val locale: Locale by lazy {
+        AndroidLocale(context = this)
+    }
+    private val localConfig: LocalConfig by lazy {
+        AndroidLocalConfig(context = this)
+    }
+    private val remoteConfig: RemoteConfig by lazy {
+        AndroidRemoteConfig()
+    }
+    private val firestore: Firestore by lazy {
+        AndroidFirestore()
+    }
+    private val databaseDriver: SqlDriver by lazy {
+        AndroidSqliteDriver(
             context = this,
             schema = AppDatabase.Schema,
             name = Database.NAME
         )
-        val httpClient: HttpClient = HttpClientFactory.getExoplanetHttpClient()
-        val useCases: UseCases = Gateways(
+    }
+    private val httpClient: HttpClient by lazy {
+        HttpClientFactory.getExoplanetHttpClient()
+    }
+    private val useCases: UseCases by lazy {
+        Gateways(
             dispatcher = dispatcher,
             firestore = firestore,
             databaseDriver = databaseDriver,
             httpClient = httpClient
         )
-        val core: Core = AppCore(
+    }
+    private val core: Core by lazy {
+        AppCore(
             dispatcher = dispatcher,
             locale = locale,
             localConfig = localConfig,
             remoteConfig = remoteConfig,
             useCases = useCases
         )
+    }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent { App(core = core) }
     }

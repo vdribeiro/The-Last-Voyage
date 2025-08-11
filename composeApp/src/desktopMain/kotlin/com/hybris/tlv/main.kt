@@ -27,34 +27,52 @@ import database.AppDatabase
 import io.ktor.client.HttpClient
 import java.util.Properties
 
-val LocalWindowState = staticCompositionLocalOf<WindowState?> { null }
-
-fun main() = application {
-    val dispatcher: Dispatcher = Dispatchers()
-    val locale: Locale = DesktopLocale()
-    val localConfig: LocalConfig = DesktopLocalConfig()
-    val remoteConfig: RemoteConfig = DesktopRemoteConfig()
-    val firestore: Firestore = DesktopFirestore()
-    val databaseDriver: SqlDriver = JdbcSqliteDriver(
+private val dispatcher: Dispatcher by lazy {
+    Dispatchers()
+}
+private val locale: Locale by lazy {
+    DesktopLocale()
+}
+private val localConfig: LocalConfig by lazy {
+    DesktopLocalConfig()
+}
+private val remoteConfig: RemoteConfig by lazy {
+    DesktopRemoteConfig()
+}
+private val firestore: Firestore by lazy {
+    DesktopFirestore()
+}
+private val databaseDriver: SqlDriver by lazy {
+    JdbcSqliteDriver(
         url = "jdbc:sqlite:${Database.NAME}",
         properties = Properties(),
         schema = AppDatabase.Schema,
     )
-    val httpClient: HttpClient = HttpClientFactory.getExoplanetHttpClient()
-    val useCases: UseCases = Gateways(
+}
+private val httpClient: HttpClient by lazy {
+    HttpClientFactory.getExoplanetHttpClient()
+}
+private val useCases: UseCases by lazy {
+    Gateways(
         dispatcher = dispatcher,
         firestore = firestore,
         databaseDriver = databaseDriver,
         httpClient = httpClient
     )
-    val core: Core = AppCore(
+}
+private val core: Core by lazy {
+    AppCore(
         dispatcher = dispatcher,
         locale = locale,
         localConfig = localConfig,
         remoteConfig = remoteConfig,
         useCases = useCases
     )
+}
 
+val LocalWindowState = staticCompositionLocalOf<WindowState?> { null }
+
+fun main() = application {
     val windowState = rememberWindowState()
     CompositionLocalProvider(value = LocalWindowState provides windowState) {
         Window(
