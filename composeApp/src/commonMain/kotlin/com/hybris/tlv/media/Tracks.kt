@@ -7,19 +7,19 @@ internal val ambientTracks = arrayOf(
 internal val gameTracks = arrayOf(
     "tracks/blind_shift.mp3",
     "tracks/deep_sea.mp3",
-    "tracks/deep_space_flight.ogg",
-    "tracks/doubts.flac",
+    "tracks/deep_space_flight.mp3",
+    "tracks/doubts.mp3",
     "tracks/fields_theme.mp3",
-    "tracks/graduality.flac",
-    "tracks/led_twlight.flac",
-    "tracks/my_very_own_dead_ship.ogg",
-    "tracks/neon_sky.flac",
-    "tracks/observing_the_star.ogg",
-    "tracks/out_there.ogg",
-    "tracks/rain_in_space.wav",
-    "tracks/space_gras.flac",
+    "tracks/graduality.mp3",
+    "tracks/led_twlight.mp3",
+    "tracks/my_very_own_dead_ship.mp3",
+    "tracks/neon_sky.mp3",
+    "tracks/observing_the_star.mp3",
+    "tracks/out_there.mp3",
+    "tracks/rain_in_space.mp3",
+    "tracks/space_gras.mp3",
 )
 
 internal val gameOverTracks = arrayOf(
-    "tracks/space.flac",
+    "tracks/space.mp3",
 )
