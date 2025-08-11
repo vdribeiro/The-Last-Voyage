@@ -15,7 +15,9 @@ internal sealed class Config(val key: String, val defaultValue: Any) {
     data object CreditsVersion: Config(key = "credits_version", defaultValue = 1L)
 
     // Weblinks
-    data object DeveloperCorner: Config(key = "developer_corner", defaultValue = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb")
+    data object DeveloperCorner:
+        Config(key = "developer_corner", defaultValue = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb")
+
     data object Tip: Config(key = "tip", defaultValue = "https://ko-fi.com/engsoneca")
 }
 

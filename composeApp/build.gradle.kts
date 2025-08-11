@@ -120,9 +120,26 @@ compose.desktop {
         mainClass = libs.versions.applicationId.get() + ".MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = libs.versions.applicationId.get()
+            packageName = "The Last Voyage"
             packageVersion = "1.0.0"
+            description = "A Compose Multiplatform adventure."
+            vendor = libs.versions.applicationId.get()
+
+            targetFormats(
+                TargetFormat.Dmg,
+                TargetFormat.Msi,
+                TargetFormat.Deb
+            )
+
+            macOS {
+                iconFile.set(project.file("src/commonMain/composeResources/ic_launcher_round.icns"))
+            }
+            windows {
+                iconFile.set(project.file("src/commonMain/composeResources/ic_launcher_round.ico"))
+            }
+            linux {
+                iconFile.set(project.file("src/commonMain/composeResources/ic_launcher_round.png"))
+            }
         }
     }
 }

@@ -1,9 +1,9 @@
 package com.hybris.tlv
 
+import com.hybris.tlv.config.Config
 import com.hybris.tlv.config.LocalConfig
 import com.hybris.tlv.config.RemoteConfig
 import com.hybris.tlv.config.RemoteConfigSettings
-import com.hybris.tlv.config.Config
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.logger.Logger
