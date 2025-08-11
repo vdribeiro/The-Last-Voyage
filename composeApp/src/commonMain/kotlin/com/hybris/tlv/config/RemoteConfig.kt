@@ -10,7 +10,7 @@ internal interface RemoteConfig {
     /**
      * Set the [defaults] keys.
      */
-    suspend fun setDefaults(defaults: List<StorageKey>): RemoteConfig
+    suspend fun setDefaults(defaults: List<Config>): RemoteConfig
 
     /**
      * Fetch and then activate the fetched configs.
@@ -25,19 +25,19 @@ internal interface RemoteConfig {
     /**
      * Retrieve a boolean given the config [key].
      */
-    fun getBoolean(key: StorageKey): Boolean
+    fun getBoolean(key: Config): Boolean
     /**
      * Retrieve a string given the config [key].
      */
-    fun getString(key: StorageKey): String
+    fun getString(key: Config): String
     /**
      * Retrieve a long given the config [key].
      */
-    fun getLong(key: StorageKey): Long
+    fun getLong(key: Config): Long
     /**
      * Retrieve a float given the config [key].
      */
-    fun getDouble(key: StorageKey): Double
+    fun getDouble(key: Config): Double
 }
 
 internal data class RemoteConfigSettings(

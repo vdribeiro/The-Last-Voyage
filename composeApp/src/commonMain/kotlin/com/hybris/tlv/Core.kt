@@ -1,6 +1,7 @@
 package com.hybris.tlv
 
 import com.hybris.tlv.config.LocalConfig
+import com.hybris.tlv.config.RemoteConfig
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.usecase.SyncResult
@@ -10,11 +11,9 @@ import kotlinx.coroutines.flow.Flow
 internal interface Core {
 
     val dispatcher: Dispatcher
-
     val locale: Locale
-
     val localConfig: LocalConfig
-
+    val remoteConfig: RemoteConfig
     val useCases: UseCases
 
     /**

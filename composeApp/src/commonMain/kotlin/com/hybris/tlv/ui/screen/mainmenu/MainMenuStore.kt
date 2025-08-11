@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
+import com.hybris.tlv.config.Config
+import com.hybris.tlv.config.RemoteConfig
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.store.Store
@@ -16,13 +18,16 @@ internal sealed interface MainMenuAction {
 }
 
 internal data class MainMenuState(
-    val ongoingGameSession: Boolean? = null
+    val ongoingGameSession: Boolean? = null,
+    val developerCorner: String? = null,
+    val tip: String? = null
 )
 
 internal class MainMenuStore(
     dispatcher: Dispatcher,
     navigation: Navigation,
     initialState: MainMenuState,
+    private val remoteConfig: RemoteConfig,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<MainMenuAction, MainMenuState>(
     dispatcher = dispatcher,
@@ -40,7 +45,15 @@ internal class MainMenuStore(
                 gameSession.finalHabitability == null &&
                 gameSession.integrity > 0 &&
                 gameSession.fuel > 0
-        updateState { it.copy(ongoingGameSession = ongoingGameSession) }
+        val developerCorner = remoteConfig.getString(key = Config.DeveloperCorner)
+        val tip = remoteConfig.getString(key = Config.Tip)
+        updateState {
+            it.copy(
+                ongoingGameSession = ongoingGameSession,
+                developerCorner = developerCorner,
+                tip = tip
+            )
+        }
     }
 
     override fun reducer(state: MainMenuState, action: MainMenuAction) {

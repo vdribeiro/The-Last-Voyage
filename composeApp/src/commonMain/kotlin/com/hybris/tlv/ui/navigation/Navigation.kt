@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.navigation
 
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.Core
-import com.hybris.tlv.config.StorageKey
+import com.hybris.tlv.config.Config
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.ui.screen.achievement.AchievementState
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
@@ -56,7 +56,7 @@ internal class Navigation(private val core: Core) {
     }
 
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(
-        value = State(music = core.localConfig.getBoolean(key = StorageKey.Music))
+        value = State(music = core.localConfig.getBoolean(key = Config.Music))
     )
     val stateFlow: StateFlow<State> get() = _stateFlow
 
@@ -65,7 +65,7 @@ internal class Navigation(private val core: Core) {
     }
 
     fun setMusic(enabled: Boolean) {
-        core.localConfig.put(key = StorageKey.Music, value = enabled)
+        core.localConfig.put(key = Config.Music, value = enabled)
         core.dispatcher.main.launch { _stateFlow.update { it.copy(music = enabled) } }
     }
 
@@ -113,6 +113,7 @@ internal class Navigation(private val core: Core) {
             dispatcher = core.dispatcher,
             navigation = this,
             initialState = state as? MainMenuState ?: MainMenuState(),
+            remoteConfig = core.remoteConfig,
             gameSessionUseCases = core.useCases.gameSession
         )
     )

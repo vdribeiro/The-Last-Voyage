@@ -19,25 +19,25 @@ internal class AndroidRemoteConfig: RemoteConfig {
         ).tryAwait()
     }
 
-    override suspend fun setDefaults(defaults: List<StorageKey>): RemoteConfig = apply {
+    override suspend fun setDefaults(defaults: List<Config>): RemoteConfig = apply {
         remoteConfig.setDefaultsAsync(defaults.associate { it.key to it.defaultValue }).tryAwait()
     }
 
     override suspend fun fetchAndActivate(): Boolean = remoteConfig.fetchAndActivate().tryAwait()
 
-    override fun getBoolean(key: StorageKey): Boolean = runCatching {
+    override fun getBoolean(key: Config): Boolean = runCatching {
         remoteConfig.getValue(key.key).asBoolean()
     }.getOrDefault(defaultValue = key.defaultValue.asBoolean())
 
-    override fun getString(key: StorageKey): String = runCatching {
+    override fun getString(key: Config): String = runCatching {
         remoteConfig.getValue(key.key).asString()
     }.getOrDefault(defaultValue = key.defaultValue.asString())
 
-    override fun getLong(key: StorageKey): Long = runCatching {
+    override fun getLong(key: Config): Long = runCatching {
         remoteConfig.getValue(key.key).asLong()
     }.getOrDefault(defaultValue = key.defaultValue.asLong())
 
-    override fun getDouble(key: StorageKey): Double = runCatching {
+    override fun getDouble(key: Config): Double = runCatching {
         remoteConfig.getValue(key.key).asDouble()
     }.getOrDefault(defaultValue = key.defaultValue.asDouble())
 }

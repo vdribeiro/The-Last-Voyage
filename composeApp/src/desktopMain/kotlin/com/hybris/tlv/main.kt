@@ -3,6 +3,7 @@ package com.hybris.tlv
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
@@ -78,7 +79,8 @@ private val navigation: Navigation by lazy {
 val LocalWindowState = staticCompositionLocalOf<WindowState?> { null }
 
 fun main() = application {
-    val windowState = rememberWindowState()
+    val windowState = rememberWindowState(placement = WindowPlacement.Maximized)
+
     CompositionLocalProvider(value = LocalWindowState provides windowState) {
         Window(
             onCloseRequest = ::exitApplication,

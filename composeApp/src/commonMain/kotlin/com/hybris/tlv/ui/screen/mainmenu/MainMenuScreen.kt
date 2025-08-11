@@ -1,17 +1,21 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.Option
 import com.hybris.tlv.ui.store.Store
@@ -29,13 +34,43 @@ import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.ic_launcher_foreground
+import thelastvoyage.composeapp.generated.resources.support_me_on_kofi_badge_beige
 
 @Composable
 internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
     val storeState by store.stateFlow.collectAsState()
     val ongoingGameSession = storeState.ongoingGameSession ?: return
+    val uriHandler = LocalUriHandler.current
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                storeState.developerCorner?.let {
+                    Image(
+                        modifier = Modifier.size(size = 120.dp).clickable { uriHandler.openUri(uri = it) },
+                        painter = painterResource(resource = Res.drawable.support_me_on_kofi_badge_beige),
+                        contentDescription = "Tip",
+                        contentScale = ContentScale.Fit,
+                    )
+                }
+                storeState.tip?.let {
+                    Image(
+                        modifier = Modifier.size(size = 120.dp).clickable { uriHandler.openUri(uri = it) },
+                        painter = painterResource(resource = Res.drawable.support_me_on_kofi_badge_beige),
+                        contentDescription = "Tip",
+                        contentScale = ContentScale.Fit,
+                    )
+                }
+            }
+        }
+    ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             Column(
                 modifier = Modifier

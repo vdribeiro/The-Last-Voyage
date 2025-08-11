@@ -3,7 +3,7 @@ package com.hybris.tlv
 import com.hybris.tlv.config.LocalConfig
 import com.hybris.tlv.config.RemoteConfig
 import com.hybris.tlv.config.RemoteConfigSettings
-import com.hybris.tlv.config.StorageKey
+import com.hybris.tlv.config.Config
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.logger.Logger
@@ -19,7 +19,7 @@ internal class AppCore(
     override val dispatcher: Dispatcher,
     override val locale: Locale,
     override val localConfig: LocalConfig,
-    private val remoteConfig: RemoteConfig,
+    override val remoteConfig: RemoteConfig,
     override val useCases: UseCases
 ): Core {
 
@@ -28,14 +28,16 @@ internal class AppCore(
         Logger.setup()
 
         val configs = listOf(
-            StorageKey.TranslationsVersion,
-            StorageKey.CatastrophesVersion,
-            StorageKey.EnginesVersion,
-            StorageKey.StellarHostsVersion,
-            StorageKey.PlanetsVersion,
-            StorageKey.EventsVersion,
-            StorageKey.AchievementsVersion,
-            StorageKey.CreditsVersion
+            Config.TranslationsVersion,
+            Config.CatastrophesVersion,
+            Config.EnginesVersion,
+            Config.StellarHostsVersion,
+            Config.PlanetsVersion,
+            Config.EventsVersion,
+            Config.AchievementsVersion,
+            Config.CreditsVersion,
+            Config.DeveloperCorner,
+            Config.Tip
         )
         val configSetting = RemoteConfigSettings(
             minimumFetchIntervalInSeconds = 3600,
@@ -88,35 +90,35 @@ internal class AppCore(
     override suspend fun sync(): Flow<SyncResult> =
         combine(
             flows = listOf(
-                update(key = StorageKey.TranslationsVersion) { useCases.translation.syncTranslations() },
-                update(key = StorageKey.CatastrophesVersion) { useCases.earth.syncCatastrophes() },
-                update(key = StorageKey.EnginesVersion) { useCases.ship.syncEngines() },
-                update(key = StorageKey.StellarHostsVersion) { useCases.space.syncStellarHosts() },
-                update(key = StorageKey.PlanetsVersion) { useCases.space.syncPlanets() },
-                update(key = StorageKey.EventsVersion) { useCases.event.syncEvents() },
-                update(key = StorageKey.AchievementsVersion) { useCases.achievement.syncAchievements() },
-                update(key = StorageKey.CreditsVersion) { useCases.credits.syncCredits() }
+                update(key = Config.TranslationsVersion) { useCases.translation.syncTranslations() },
+                update(key = Config.CatastrophesVersion) { useCases.earth.syncCatastrophes() },
+                update(key = Config.EnginesVersion) { useCases.ship.syncEngines() },
+                update(key = Config.StellarHostsVersion) { useCases.space.syncStellarHosts() },
+                update(key = Config.PlanetsVersion) { useCases.space.syncPlanets() },
+                update(key = Config.EventsVersion) { useCases.event.syncEvents() },
+                update(key = Config.AchievementsVersion) { useCases.achievement.syncAchievements() },
+                update(key = Config.CreditsVersion) { useCases.credits.syncCredits() }
             )
         ) { result ->
-            result.getOrNull(index = 0)?.let { update(key = StorageKey.TranslationsVersion, syncResult = it) }
-            result.getOrNull(index = 1)?.let { update(key = StorageKey.CatastrophesVersion, syncResult = it) }
-            result.getOrNull(index = 2)?.let { update(key = StorageKey.EnginesVersion, syncResult = it) }
-            result.getOrNull(index = 3)?.let { update(key = StorageKey.StellarHostsVersion, syncResult = it) }
-            result.getOrNull(index = 4)?.let { update(key = StorageKey.PlanetsVersion, syncResult = it) }
-            result.getOrNull(index = 5)?.let { update(key = StorageKey.EventsVersion, syncResult = it) }
-            result.getOrNull(index = 6)?.let { update(key = StorageKey.AchievementsVersion, syncResult = it) }
-            result.getOrNull(index = 7)?.let { update(key = StorageKey.CreditsVersion, syncResult = it) }
+            result.getOrNull(index = 0)?.let { update(key = Config.TranslationsVersion, syncResult = it) }
+            result.getOrNull(index = 1)?.let { update(key = Config.CatastrophesVersion, syncResult = it) }
+            result.getOrNull(index = 2)?.let { update(key = Config.EnginesVersion, syncResult = it) }
+            result.getOrNull(index = 3)?.let { update(key = Config.StellarHostsVersion, syncResult = it) }
+            result.getOrNull(index = 4)?.let { update(key = Config.PlanetsVersion, syncResult = it) }
+            result.getOrNull(index = 5)?.let { update(key = Config.EventsVersion, syncResult = it) }
+            result.getOrNull(index = 6)?.let { update(key = Config.AchievementsVersion, syncResult = it) }
+            result.getOrNull(index = 7)?.let { update(key = Config.CreditsVersion, syncResult = it) }
             result.combine()
         }
 
-    private suspend fun update(key: StorageKey, sync: suspend () -> Flow<SyncResult>): Flow<SyncResult> {
+    private suspend fun update(key: Config, sync: suspend () -> Flow<SyncResult>): Flow<SyncResult> {
         val remoteValue = remoteConfig.getLong(key = key)
         val localValue = localConfig.getLong(key = key)
         Logger.info(tag = TAG, message = "${key.key}: remote: $remoteValue - local: $localValue")
         return if (remoteValue > localValue) sync() else flowOf(value = SyncResult.Success)
     }
 
-    private fun update(key: StorageKey, syncResult: SyncResult) {
+    private fun update(key: Config, syncResult: SyncResult) {
         if (syncResult is SyncResult.Success) localConfig.put(key = key, value = remoteConfig.getLong(key = key))
     }
 
