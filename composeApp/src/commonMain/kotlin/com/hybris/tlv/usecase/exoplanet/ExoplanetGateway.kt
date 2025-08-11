@@ -119,7 +119,6 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
 
     /**
      * This score is a weighted average of dozens of planetary and stellar characteristics.
-     * This approach handles null scores gracefully by simply omitting them from the final average.
      */
     override fun calculateHabitability(params: Params): Score {
         val weightedScores = mutableListOf<Pair<Double, Double>>()

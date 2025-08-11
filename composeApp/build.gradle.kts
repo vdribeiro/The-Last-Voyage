@@ -132,13 +132,13 @@ compose.desktop {
             )
 
             macOS {
-                iconFile.set(project.file("src/commonMain/composeResources/ic_launcher_round.icns"))
+                iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns"))
             }
             windows {
-                iconFile.set(project.file("src/commonMain/composeResources/ic_launcher_round.ico"))
+                iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.ico"))
             }
             linux {
-                iconFile.set(project.file("src/commonMain/composeResources/ic_launcher_round.png"))
+                iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png"))
             }
         }
     }
