@@ -191,7 +191,7 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
             planetObliquity = params.planet.obliquity
         ).also { weightedScores.add((it ?: 0.1) to params.math.planetObliquityWeight) }
 
-        // Overall Earth Similarity as a minor bonus factor.
+        // Overall Earth Similarity as a minor bonus factor
         val planetEsiScore = calculatePlanetEsiScore(
             planetRadius = params.planet.radius,
             planetDensity = planetDensity,
@@ -431,128 +431,6 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
     }
 
     /**
-     * Calculates the Earth Similarity Index (ESI) score.
-     * The ESI is a scale used to quantify how similar a planet is to Earth.
-     */
-    private fun calculatePlanetEsiScore(
-        planetRadius: Double?,
-        planetDensity: Double?,
-        planetMass: Double?,
-        planetTemperature: Double?,
-        planetInsolationFlux: Double?
-    ): Double? {
-        var parameterCount = 0
-
-        val esiRadius = if (planetRadius != null) {
-            parameterCount++
-            calculateEsiComponent(
-                value = planetRadius,
-                reference = EARTH_RADIUS_REFERENCE,
-                weight = EARTH_RADIUS_WEIGHT
-            )
-        } else 1.0
-
-        val esiDensity = if (planetDensity != null) {
-            parameterCount++
-            calculateEsiComponent(
-                value = planetDensity / EARTH_AVERAGE_DENSITY, // density in Earth units
-                reference = EARTH_DENSITY_REFERENCE,
-                weight = EARTH_DENSITY_WEIGHT
-            )
-        } else 1.0
-
-        val esiEscapeVelocity = if (planetMass != null && planetRadius != null) {
-            parameterCount++
-            calculateEsiComponent(
-                value = sqrt(x = planetMass / planetRadius), // v_esc = sqrt(2GM/R), relative to Earth, this becomes sqrt(mass/radius)
-                reference = EARTH_ESCAPE_VELOCITY_REFERENCE,
-                weight = EARTH_ESCAPE_VELOCITY_WEIGHT
-            )
-        } else 1.0
-
-        // Equilibrium temperature is used as a proxy for surface temperature
-        val esiTemperature = if (planetTemperature != null) {
-            parameterCount++
-            calculateEsiComponent(
-                value = planetTemperature,
-                reference = EARTH_SURFACE_TEMPERATURE_REFERENCE,
-                weight = EARTH_SURFACE_TEMPERATURE_WEIGHT
-            )
-        } else if (planetInsolationFlux != null) {
-            // Otherwise insolation flux is used as a proxy for surface temperature
-            parameterCount++
-            calculateEsiComponent(
-                value = planetInsolationFlux,
-                reference = EARTH_INSOLATION_REFERENCE,
-                weight = EARTH_INSOLATION_WEIGHT
-            )
-        } else 1.0
-
-        return if (parameterCount == 0) null
-        else (esiRadius * esiDensity * esiEscapeVelocity * esiTemperature).pow(x = 1.0 / parameterCount)
-    }
-
-    private fun calculateEsiComponent(value: Double, reference: Double, weight: Double): Double =
-        (1.0 - abs(x = (value - reference) / (value + reference))).pow(x = weight)
-
-    /**
-     * Calculates a score based on the risk of tidal locking, factoring in the star's spectral type.
-     * The risk is much higher for smaller stars as their habitable zones are closer.
-     */
-    private fun calculatePlanetTidalLockingScore(
-        stellarHostSpectralType: String?,
-        planetOrbitalPeriod: Double?,
-    ): Double? {
-        if (planetOrbitalPeriod == null) return null
-
-        return when (stellarHostSpectralType?.firstOrNull()) {
-            // We use a more general approach for stars with no spectral type.
-            null -> when {
-                planetOrbitalPeriod > 100 -> 1.0 // Very low risk of being tidally locked
-                planetOrbitalPeriod > 50 -> 0.9  // Low risk
-                planetOrbitalPeriod > 25 -> 0.6  // Moderate risk, especially for smaller stars
-                planetOrbitalPeriod > 10 -> 0.3  // High risk, very likely tidally locked
-                else -> 0.1                      // Almost certainly tidally locked, severe penalty
-            }
-            // White Dwarfs - The HZ is so close, locking is almost guaranteed.
-            'D' -> {
-                when {
-                    planetOrbitalPeriod > 5 -> 0.05 // Any period over a few days is impossible in the HZ.
-                    else -> 0.0                     // Locked.
-                }
-            }
-            // Brown Dwarfs: Extreme tidal locking risk is almost a certainty.
-            'L', 'T', 'Y' -> {
-                when {
-                    planetOrbitalPeriod > 10 -> 0.1 // Any long period is still extremely likely to be locked.
-                    else -> 0.05                    // Essentially guaranteed to be tidally locked.
-                }
-            }
-            // M-dwarfs: Very high risk. Planets in the HZ are almost always locked.
-            'M' -> when {
-                planetOrbitalPeriod > 80 -> 1.0 // Low risk, although unlikely to be in the HZ
-                planetOrbitalPeriod > 40 -> 0.5 // Moderate-to-high risk
-                planetOrbitalPeriod > 20 -> 0.2 // Very high risk
-                else -> 0.1                     // Almost certainly tidally locked
-            }
-            // K-dwarfs: High risk, but less severe than for M-dwarfs.
-            'K' -> when {
-                planetOrbitalPeriod > 100 -> 1.0 // Low risk
-                planetOrbitalPeriod > 50 -> 0.7  // Moderate risk
-                planetOrbitalPeriod > 25 -> 0.4  // High risk
-                else -> 0.2                      // Probably tidally locked
-            }
-            // G, F, A, B, O, C, S, W etc. - The HZ is far out, low risk.
-            else -> when {
-                planetOrbitalPeriod > 150 -> 1.0 // Low risk
-                planetOrbitalPeriod > 75 -> 0.9  // Very low risk
-                planetOrbitalPeriod > 30 -> 0.5  // Increasing risk, and also likely too hot
-                else -> 0.3                      // Probably tidally locked
-            }
-        }
-    }
-
-    /**
      * Calculates a score based on the radius of the planet with a graded falloff.
      * The radius is closely tied to the lower mass limit. A small planet is unlikely to have enough mass to sustain the geological activity
      * and atmospheric pressure needed for surface liquid water, whilst a large planet is very likely to be a mini-Neptune, possessing a thick,
@@ -658,31 +536,69 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
         }
 
     /**
-     * Calculates a score of a planet's ability to protect itself, primarily via a magnetic field from 0.0 (unprotected) to 1.0 (well-protected).
+     * Calculates the Earth Similarity Index (ESI) score.
+     * The ESI is a scale used to quantify how similar a planet is to Earth.
      */
-    private fun calculatePlanetProtectionScore(
+    private fun calculatePlanetEsiScore(
+        planetRadius: Double?,
+        planetDensity: Double?,
         planetMass: Double?,
-        planetDensity: Double?
+        planetTemperature: Double?,
+        planetInsolationFlux: Double?
     ): Double? {
-        // Mass and density are used as a proxy for a large, molten iron core capable of generating a magnetosphere.
-        if (planetMass == null || planetDensity == null) return null
+        var parameterCount = 0
 
-        // Score based on mass (higher mass helps maintain a molten core)
-        val massScore = when {
-            planetMass < 0.5 -> 0.2
-            planetMass < 1.0 -> 0.8
-            else -> 1.0
-        }
+        val esiRadius = if (planetRadius != null) {
+            parameterCount++
+            calculateEsiComponent(
+                value = planetRadius,
+                reference = EARTH_RADIUS_REFERENCE,
+                weight = EARTH_RADIUS_WEIGHT
+            )
+        } else 1.0
 
-        // Score based on density (higher density suggests a large iron core)
-        val densityScore = when {
-            planetDensity < 3.0 -> 0.1 // Likely not rocky or a small core
-            planetDensity < 5.0 -> 0.8 // Good indication of a significant core
-            else -> 1.0                // Very dense, strong indication of a large iron core
-        }
+        val esiDensity = if (planetDensity != null) {
+            parameterCount++
+            calculateEsiComponent(
+                value = planetDensity / EARTH_AVERAGE_DENSITY, // density in Earth units
+                reference = EARTH_DENSITY_REFERENCE,
+                weight = EARTH_DENSITY_WEIGHT
+            )
+        } else 1.0
 
-        return (massScore + densityScore) / 2.0
+        val esiEscapeVelocity = if (planetMass != null && planetRadius != null) {
+            parameterCount++
+            calculateEsiComponent(
+                value = sqrt(x = planetMass / planetRadius), // v_esc = sqrt(2GM/R), relative to Earth, this becomes sqrt(mass/radius)
+                reference = EARTH_ESCAPE_VELOCITY_REFERENCE,
+                weight = EARTH_ESCAPE_VELOCITY_WEIGHT
+            )
+        } else 1.0
+
+        // Equilibrium temperature is used as a proxy for surface temperature
+        val esiTemperature = if (planetTemperature != null) {
+            parameterCount++
+            calculateEsiComponent(
+                value = planetTemperature,
+                reference = EARTH_SURFACE_TEMPERATURE_REFERENCE,
+                weight = EARTH_SURFACE_TEMPERATURE_WEIGHT
+            )
+        } else if (planetInsolationFlux != null) {
+            // Otherwise insolation flux is used as a proxy for surface temperature
+            parameterCount++
+            calculateEsiComponent(
+                value = planetInsolationFlux,
+                reference = EARTH_INSOLATION_REFERENCE,
+                weight = EARTH_INSOLATION_WEIGHT
+            )
+        } else 1.0
+
+        return if (parameterCount == 0) null
+        else (esiRadius * esiDensity * esiEscapeVelocity * esiTemperature).pow(x = 1.0 / parameterCount)
     }
+
+    private fun calculateEsiComponent(value: Double, reference: Double, weight: Double): Double =
+        (1.0 - abs(x = (value - reference) / (value + reference))).pow(x = weight)
 
     /**
      * Calculates a score based on the stellar spectral type.
@@ -725,21 +641,6 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
     }
 
     /**
-     * Calculates a score based on the stellar effective temperature.
-     * The score peaks at the Sun's temperature and decreases for hotter or cooler stars.
-     */
-    private fun calculateStellarEffectiveTemperatureScore(
-        stellarHostEffectiveTemperature: Double?,
-        stellarHostEffectiveTemperatureMaxDeviation: Double
-    ): Double? {
-        if (stellarHostEffectiveTemperature == null) return null // Unknown temperature
-        val idealTemperature = 5780.0
-        val difference = abs(x = stellarHostEffectiveTemperature - idealTemperature)
-        val score = 1.0 - (difference / stellarHostEffectiveTemperatureMaxDeviation)
-        return score.coerceIn(minimumValue = 0.1, maximumValue = 1.0)
-    }
-
-    /**
      * Calculates a score based on stellar mass, which is the primary
      * determinant of a star's lifetime and stability.
      */
@@ -751,29 +652,6 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
             stellarHostMass in 0.8..1.4 -> 1.0 // Ideal mass range for lifetime and stability.
             stellarHostMass in 0.5..<0.8 -> 0.9   // Excellent long lifetime.
             else -> 0.4                              // Very long-lived, but corresponds to M-dwarfs with other issues.
-        }
-
-    /**
-     * Calculates a score based on the metallicity.
-     */
-    private fun calculateStellarMetallicityScore(stellarHostMetallicity: Double?): Double? =
-        when {
-            stellarHostMetallicity == null -> null // Unknown metallicity
-            stellarHostMetallicity >= 0.0 -> 1.0   // Metal-rich, good for planet formation
-            stellarHostMetallicity < -0.5 -> 0.3   // Very metal-poor, less likely to form rocky planets
-            else -> 0.8                            // Metal-poor, but acceptable
-        }
-
-    /**
-     * Calculates a score based on stellar surface gravity.
-     * High gravity indicates a stable main-sequence star, while low gravity indicates an unstable giant.
-     */
-    private fun calculateStellarGravityScore(stellarHostGravity: Double?): Double? =
-        when {
-            stellarHostGravity == null -> null // Unknown gravity
-            stellarHostGravity >= 4.0 -> 1.0   // Indicates a compact, stable main-sequence star.
-            stellarHostGravity > 3.5 -> 0.4    // Borderline, likely an unstable sub-giant.
-            else -> 0.1                        // Low gravity, indicates an evolved giant. Unsuitable host.
         }
 
     /**
@@ -814,6 +692,128 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
             stellarHostRotationalPeriod < 25.0 -> 0.8   // Moderately fast rotation
             else -> 1.0                                 // Slower rotation, possibly more stability
         }
+
+    /**
+     * Calculates a score based on stellar surface gravity.
+     * High gravity indicates a stable main-sequence star, while low gravity indicates an unstable giant.
+     */
+    private fun calculateStellarGravityScore(stellarHostGravity: Double?): Double? =
+        when {
+            stellarHostGravity == null -> null // Unknown gravity
+            stellarHostGravity >= 4.0 -> 1.0   // Indicates a compact, stable main-sequence star.
+            stellarHostGravity > 3.5 -> 0.4    // Borderline, likely an unstable sub-giant.
+            else -> 0.1                        // Low gravity, indicates an evolved giant. Unsuitable host.
+        }
+
+    /**
+     * Calculates a score based on the metallicity.
+     */
+    private fun calculateStellarMetallicityScore(stellarHostMetallicity: Double?): Double? =
+        when {
+            stellarHostMetallicity == null -> null // Unknown metallicity
+            stellarHostMetallicity >= 0.0 -> 1.0   // Metal-rich, good for planet formation
+            stellarHostMetallicity < -0.5 -> 0.3   // Very metal-poor, less likely to form rocky planets
+            else -> 0.8                            // Metal-poor, but acceptable
+        }
+
+    /**
+     * Calculates a score based on the stellar effective temperature.
+     * The score peaks at the Sun's temperature and decreases for hotter or cooler stars.
+     */
+    private fun calculateStellarEffectiveTemperatureScore(
+        stellarHostEffectiveTemperature: Double?,
+        stellarHostEffectiveTemperatureMaxDeviation: Double
+    ): Double? {
+        if (stellarHostEffectiveTemperature == null) return null // Unknown temperature
+        val idealTemperature = 5780.0
+        val difference = abs(x = stellarHostEffectiveTemperature - idealTemperature)
+        val score = 1.0 - (difference / stellarHostEffectiveTemperatureMaxDeviation)
+        return score.coerceIn(minimumValue = 0.1, maximumValue = 1.0)
+    }
+
+    /**
+     * Calculates a score of a planet's ability to protect itself, primarily via a magnetic field from 0.0 (unprotected) to 1.0 (well-protected).
+     */
+    private fun calculatePlanetProtectionScore(
+        planetMass: Double?,
+        planetDensity: Double?
+    ): Double? {
+        // Mass and density are used as a proxy for a large, molten iron core capable of generating a magnetosphere.
+        if (planetMass == null || planetDensity == null) return null
+
+        // Score based on mass (higher mass helps maintain a molten core)
+        val massScore = when {
+            planetMass < 0.5 -> 0.2
+            planetMass < 1.0 -> 0.8
+            else -> 1.0
+        }
+
+        // Score based on density (higher density suggests a large iron core)
+        val densityScore = when {
+            planetDensity < 3.0 -> 0.1 // Likely not rocky or a small core
+            planetDensity < 5.0 -> 0.8 // Good indication of a significant core
+            else -> 1.0                // Very dense, strong indication of a large iron core
+        }
+
+        return (massScore + densityScore) / 2.0
+    }
+
+    /**
+     * Calculates a score based on the risk of tidal locking, factoring in the star's spectral type.
+     * The risk is much higher for smaller stars as their habitable zones are closer.
+     */
+    private fun calculatePlanetTidalLockingScore(
+        stellarHostSpectralType: String?,
+        planetOrbitalPeriod: Double?,
+    ): Double? {
+        if (planetOrbitalPeriod == null) return null
+
+        return when (stellarHostSpectralType?.firstOrNull()) {
+            // We use a more general approach for stars with no spectral type.
+            null -> when {
+                planetOrbitalPeriod > 100 -> 1.0 // Very low risk of being tidally locked
+                planetOrbitalPeriod > 50 -> 0.9  // Low risk
+                planetOrbitalPeriod > 25 -> 0.6  // Moderate risk, especially for smaller stars
+                planetOrbitalPeriod > 10 -> 0.3  // High risk, very likely tidally locked
+                else -> 0.1                      // Almost certainly tidally locked, severe penalty
+            }
+            // White Dwarfs - The HZ is so close, locking is almost guaranteed.
+            'D' -> {
+                when {
+                    planetOrbitalPeriod > 5 -> 0.05 // Any period over a few days is impossible in the HZ.
+                    else -> 0.0                     // Locked.
+                }
+            }
+            // Brown Dwarfs: Extreme tidal locking risk is almost a certainty.
+            'L', 'T', 'Y' -> {
+                when {
+                    planetOrbitalPeriod > 10 -> 0.1 // Any long period is still extremely likely to be locked.
+                    else -> 0.05                    // Essentially guaranteed to be tidally locked.
+                }
+            }
+            // M-dwarfs: Very high risk. Planets in the HZ are almost always locked.
+            'M' -> when {
+                planetOrbitalPeriod > 80 -> 1.0 // Low risk, although unlikely to be in the HZ
+                planetOrbitalPeriod > 40 -> 0.5 // Moderate-to-high risk
+                planetOrbitalPeriod > 20 -> 0.2 // Very high risk
+                else -> 0.1                     // Almost certainly tidally locked
+            }
+            // K-dwarfs: High risk, but less severe than for M-dwarfs.
+            'K' -> when {
+                planetOrbitalPeriod > 100 -> 1.0 // Low risk
+                planetOrbitalPeriod > 50 -> 0.7  // Moderate risk
+                planetOrbitalPeriod > 25 -> 0.4  // High risk
+                else -> 0.2                      // Probably tidally locked
+            }
+            // G, F, A, B, O, C, S, W etc. - The HZ is far out, low risk.
+            else -> when {
+                planetOrbitalPeriod > 150 -> 1.0 // Low risk
+                planetOrbitalPeriod > 75 -> 0.9  // Very low risk
+                planetOrbitalPeriod > 30 -> 0.5  // Increasing risk, and also likely too hot
+                else -> 0.3                      // Probably tidally locked
+            }
+        }
+    }
 
     /**
      * Calculate the possible planet type.
