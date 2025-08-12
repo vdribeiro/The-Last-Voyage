@@ -1,302 +1,55 @@
-package com.hybris.tlv.usecase.space
+package com.hybris.tlv.usecase.space.formula
 
+import com.hybris.tlv.usecase.space.formula.Constants.A_EM
+import com.hybris.tlv.usecase.space.formula.Constants.A_MG
+import com.hybris.tlv.usecase.space.formula.Constants.A_RG
+import com.hybris.tlv.usecase.space.formula.Constants.A_RV
+import com.hybris.tlv.usecase.space.formula.Constants.B_EM
+import com.hybris.tlv.usecase.space.formula.Constants.B_MG
+import com.hybris.tlv.usecase.space.formula.Constants.B_RG
+import com.hybris.tlv.usecase.space.formula.Constants.B_RV
+import com.hybris.tlv.usecase.space.formula.Constants.C_EM
+import com.hybris.tlv.usecase.space.formula.Constants.C_MG
+import com.hybris.tlv.usecase.space.formula.Constants.C_RG
+import com.hybris.tlv.usecase.space.formula.Constants.C_RV
+import com.hybris.tlv.usecase.space.formula.Constants.D_EM
+import com.hybris.tlv.usecase.space.formula.Constants.D_MG
+import com.hybris.tlv.usecase.space.formula.Constants.D_RG
+import com.hybris.tlv.usecase.space.formula.Constants.D_RV
+import com.hybris.tlv.usecase.space.formula.Constants.EARTH_AVERAGE_DENSITY
+import com.hybris.tlv.usecase.space.formula.Constants.EARTH_DENSITY_REFERENCE
+import com.hybris.tlv.usecase.space.formula.Constants.EARTH_DENSITY_WEIGHT
+import com.hybris.tlv.usecase.space.formula.Constants.EARTH_ESCAPE_VELOCITY_REFERENCE
+import com.hybris.tlv.usecase.space.formula.Constants.EARTH_ESCAPE_VELOCITY_WEIGHT
+import com.hybris.tlv.usecase.space.formula.Constants.EARTH_INSOLATION_REFERENCE
+import com.hybris.tlv.usecase.space.formula.Constants.EARTH_INSOLATION_WEIGHT
+import com.hybris.tlv.usecase.space.formula.Constants.EARTH_RADIUS_REFERENCE
+import com.hybris.tlv.usecase.space.formula.Constants.EARTH_RADIUS_WEIGHT
+import com.hybris.tlv.usecase.space.formula.Constants.EARTH_SURFACE_TEMPERATURE_REFERENCE
+import com.hybris.tlv.usecase.space.formula.Constants.EARTH_SURFACE_TEMPERATURE_WEIGHT
+import com.hybris.tlv.usecase.space.formula.Constants.JUPITER_MASS_IN_EARTHS
+import com.hybris.tlv.usecase.space.formula.Constants.SUN_EFFECTIVE_TEMPERATURE
+import com.hybris.tlv.usecase.space.formula.Constants.SUN_INNER_BOUNDARY
+import com.hybris.tlv.usecase.space.formula.Constants.SUN_OUTER_BOUNDARY
+import com.hybris.tlv.usecase.space.formula.Constants.SUN_RADIUS_IN_AU
+import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_EM
+import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_MG
+import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_RG
+import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_RV
 import com.hybris.tlv.usecase.space.model.Math
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetType
 import com.hybris.tlv.usecase.space.model.Score
 import com.hybris.tlv.usecase.space.model.StellarHost
-import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 internal object Formula {
-
-    //region Foundational Astronomical Constants
-    private const val GRAVITATIONAL_CONSTANT = 6.67430e-11 // m^3 kg^-1 s^-2
-
-    // Effective temperature of the Sun in Kelvin
-    private const val SUN_EFFECTIVE_TEMPERATURE = 5780.0
-    // Effective temperature of the Sun at 1AU
-    private const val SUN_EFFECTIVE_TEMPERATURE_1AU = 278.5
-    // Radius of the Sun in Earth radii in meters
-    private const val SUN_RADIUS_IN_EARTH_RADII = 109.2
-    // Sun's radius in Astronomical Units
-    private const val SUN_RADIUS_IN_AU = 0.00465
-    // Solar radius in meters
-    private const val SUN_RADIUS_IN_METERS = 6.957e8
-    // Solar mass in kilograms
-    private const val SUN_MASS_IN_KG = 1.98847e30
-    // Inner and outer boundaries of the habitable zone
-    private const val SUN_INNER_BOUNDARY = 0.95
-    private const val SUN_OUTER_BOUNDARY = 1.37
-
-    // Jupiter mass
-    private const val JUPITER_MASS_IN_EARTHS = 317.8
-
-    // Earth's average density in g/cm^3
-    private const val EARTH_AVERAGE_DENSITY = 5.51
-    // Earth's radius in solar radius
-    private const val EARTH_RADIUS_IN_SUNS = 109.2
-    // Days in a year
-    private const val EARTH_ORBITAL_PERIOD_IN_DAYS = 365.25
-    // Seconds in a day
-    private const val EARTH_DAY_IN_SECONDS = 86400
-    // Approximate average Bond albedo of Earth
-    private const val EARTH_BOND_ALBEDO = 0.3
-
-    //endregion
-
-    //region Ranges and Limits
-    // Planet mass limits in Earth masses for a terrestrial planet
-    const val PLANET_MASS_LOWER_LIMIT = 0.1
-    const val PLANET_MASS_IDEAL_UPPER_LIMIT = 5.0
-    const val PLANET_MASS_MAX_UPPER_LIMIT = 10.0 // Beyond this, likely a gas giant.
-
-    // Planet radius limits in Earth radii
-    const val PLANET_RADIUS_LOWER_LIMIT = 0.5
-    const val PLANET_RADIUS_IDEAL_UPPER_LIMIT = 1.5
-    const val PLANET_RADIUS_MAX_UPPER_LIMIT = 2.0 // "Radius Valley" transition to mini-Neptunes
-
-    // Deviation for stellar temperature scoring
-    const val STELLAR_HOST_EFFECTIVE_TEMPERATURE_MAX_DEVIATION = 4000.0
-    //endregion
-
-    //region Coefficients for the HZ boundaries from the 2013 erratum (ApJ, 771, 82).
-    // Runaway Greenhouse Limit
-    private const val S_EFF_SUN_RG = 1.1066
-    private const val A_RG = 1.3323e-4
-    private const val B_RG = 1.5796e-8
-    private const val C_RG = -8.3079e-12
-    private const val D_RG = -1.9310e-15
-
-    // Maximum Greenhouse Limit
-    private const val S_EFF_SUN_MG = 0.3562
-    private const val A_MG = 6.1706e-5
-    private const val B_MG = 1.6980e-9
-    private const val C_MG = -3.1979e-12
-    private const val D_MG = -5.6372e-16
-
-    // Recent Venus Limit
-    private const val S_EFF_SUN_RV = 1.7753
-    private const val A_RV = 1.4316e-4
-    private const val B_RV = 2.9875e-9
-    private const val C_RV = -7.5702e-12
-    private const val D_RV = -1.1635e-15
-
-    // Early Mars Limit
-    private const val S_EFF_SUN_EM = 0.3204
-    private const val A_EM = 5.5471e-5
-    private const val B_EM = 1.5258e-9
-    private const val C_EM = -2.8735e-12
-    private const val D_EM = -5.0782e-16
-    //endregion
-
-    //region Earth Similarity Index (ESI) constants from the Planetary Habitability Laboratory (PHL)
-    private const val EARTH_RADIUS_REFERENCE = 1.0
-    private const val EARTH_RADIUS_WEIGHT = 0.57
-    private const val EARTH_DENSITY_REFERENCE = 1.0
-    private const val EARTH_DENSITY_WEIGHT = 1.07
-    private const val EARTH_ESCAPE_VELOCITY_REFERENCE = 1.0
-    private const val EARTH_ESCAPE_VELOCITY_WEIGHT = 0.70
-    private const val EARTH_SURFACE_TEMPERATURE_REFERENCE = 288.0 // 15°C
-    private const val EARTH_SURFACE_TEMPERATURE_WEIGHT = 5.58
-    private const val EARTH_INSOLATION_REFERENCE = 1.0
-    private const val EARTH_INSOLATION_WEIGHT = 5.58
-    //endregion
-
-    //region Scoring Weights -> subjective but used to reflect the relative importance of each factor
-    // Tier 1: Is the planet in a stable orbit in the right location?
-    const val ROCHE_WEIGHT = 100.0 // Critical factor: planet must exist
-    const val HABITABLE_ZONE_WEIGHT = 30.0
-
-    // Tier 2: Does the planet have the right intrinsic properties?
-    const val PLANET_RADIUS_WEIGHT = 6.0
-    const val PLANET_MASS_WEIGHT = 6.0
-    const val PLANET_TELLURICITY_WEIGHT = 18.0
-    const val PLANET_ECCENTRICITY_WEIGHT = 6.0
-    const val PLANET_TEMPERATURE_WEIGHT = 1.0
-    const val PLANET_OBLIQUITY_WEIGHT = 2.0
-    const val PLANET_ESI_WEIGHT = 1.0
-
-    // Tier 3: Is the host star a good sun?
-    const val STELLAR_SPECTRAL_TYPE_WEIGHT = 8.0
-    const val STELLAR_MASS_WEIGHT = 5.0
-    const val STELLAR_AGE_WEIGHT = 6.0
-    const val STELLAR_ACTIVITY_WEIGHT = 15.0
-    const val STELLAR_ROTATIONAL_PERIOD_WEIGHT = 7.0
-    const val STELLAR_GRAVITY_WEIGHT = 3.0
-    const val STELLAR_METALLICITY_WEIGHT = 4.0
-    const val STELLAR_EFFECTIVE_TEMPERATURE_WEIGHT = 1.0
-
-    // Tier 4: Can the planet protect itself?
-    const val PLANET_PROTECTION_WEIGHT = 20.0
-    const val PLANET_TIDAL_LOCKING_WEIGHT = 1.0
-    //endregion
-
     private fun Double?.sanitize(): Double? = when {
         this == null -> null
         isNaN() || isInfinite() || this == Double.NEGATIVE_INFINITY || this == Double.POSITIVE_INFINITY || this == Double.NaN -> null
         else -> this
-    }
-
-    /**
-     * Calculates the star's average density in g/cm³ assuming the volume of a sphere.
-     */
-    private fun calculateStellarHostDensity(
-        stellarHostMass: Double?,
-        stellarHostRadius: Double?
-    ): Double? {
-        if (stellarHostMass == null || stellarHostRadius == null) return null
-        val massKg = stellarHostMass * SUN_MASS_IN_KG
-        val radiusM = stellarHostRadius * SUN_RADIUS_IN_METERS
-        val volumeM3 = (4.0 / 3.0) * PI * radiusM.pow(n = 3)
-        val densityKgM3 = massKg / volumeM3
-        return densityKgM3 * 0.001
-    }
-
-    /**
-     * Calculates the star's luminosity in Solar luminosities using the Stefan-Boltzmann Law.
-     */
-    private fun calculateStellarHostLuminosity(
-        stellarHostRadius: Double?,
-        stellarHostEffectiveTemperature: Double?
-    ): Double? {
-        if (stellarHostRadius == null || stellarHostEffectiveTemperature == null) return null
-        return stellarHostRadius.pow(n = 2) * (stellarHostEffectiveTemperature / SUN_EFFECTIVE_TEMPERATURE).pow(n = 4)
-    }
-
-    /**
-     * Calculates the star's surface gravity as log(g) in cgs units (cm/s²).
-     */
-    private fun calculateStellarHostSurfaceGravity(
-        stellarHostMass: Double?,
-        stellarHostRadius: Double?
-    ): Double? {
-        if (stellarHostMass == null || stellarHostRadius == null) return null
-        val massKg = stellarHostMass * SUN_MASS_IN_KG
-        val radiusM = stellarHostRadius * SUN_RADIUS_IN_METERS
-        return (GRAVITATIONAL_CONSTANT * massKg) / radiusM.pow(n = 2)
-    }
-
-    /**
-     * Calculates the star's equatorial rotational velocity in km/s.
-     */
-    fun calculateStellarHostRotationalVelocity(
-        stellarHostRadius: Double?,
-        stellarHostRotationalPeriod: Double?
-    ): Double? {
-        if (stellarHostRadius == null || stellarHostRotationalPeriod == null) return null
-        val radiusM = stellarHostRadius * SUN_RADIUS_IN_METERS
-        val periodSeconds = stellarHostRotationalPeriod * EARTH_DAY_IN_SECONDS
-        val circumferenceM = 2 * PI * radiusM
-        val velocityMps = circumferenceM / periodSeconds
-        return velocityMps / 1000.0
-    }
-
-    /**
-     * Calculates the star's rotational period in Earth days.
-     */
-    fun calculateStellarHostRotationalPeriod(
-        stellarHostRadius: Double?,
-        stellarHostRotationalVelocity: Double?,
-    ): Double? {
-        if (stellarHostRadius == null || stellarHostRotationalVelocity == null) return null
-        val radiusM = stellarHostRadius * SUN_RADIUS_IN_METERS
-        val velocityMps = stellarHostRotationalVelocity * 1000.0
-        val circumferenceM = 2 * PI * radiusM
-        val periodSeconds = circumferenceM / velocityMps
-        return periodSeconds / EARTH_DAY_IN_SECONDS
-    }
-
-    /**
-     * Calculates the planet's radius in Earth radii based on transit data.
-     */
-    private fun calculatePlanetRadiusFromTransit(
-        stellarHostRadius: Double?,
-        planetOccultationDepth: Double?
-    ): Double? {
-        if (stellarHostRadius == null || planetOccultationDepth == null) return null
-        return stellarHostRadius * sqrt(x = planetOccultationDepth) * EARTH_RADIUS_IN_SUNS
-    }
-
-    /**
-     * Calculates the planet's approximate density in g/cm^3 from mass and radius assuming the volume of a sphere.
-     */
-    private fun calculatePlanetDensity(planetMass: Double?, planetRadius: Double?): Double? {
-        if (planetMass == null || planetRadius == null) return null
-        val volumeInEarths = (4.0 / 3.0) * PI * planetRadius.pow(n = 3)
-        return (planetMass / volumeInEarths) * EARTH_AVERAGE_DENSITY
-    }
-
-    /**
-     * Calculate a planet's measured day-side temperature in Kelvin from occultation depth (the depth of the secondary eclipse).
-     * This is done by measuring the drop in brightness when the planet passes behind its star and assumes the occultation was measured
-     * in the infrared where the planet's thermal emission is dominant.
-     * This calculation is based on the Stefan-Boltzmann Law, which states that the total energy radiated by a black body is proportional
-     * to the fourth power of its temperature.
-     * If occultation data is unavailable, it falls back to a calculation based on the planet semi-major axis, and if that also fails,
-     * it uses stellar luminosity.
-     */
-    private fun calculatePlanetTemperature(
-        stellarHostEffectiveTemperature: Double?,
-        stellarHostRadius: Double?,
-        stellarHostLuminosity: Double?,
-        planetOrbitAxis: Double?,
-        planetOccultationDepth: Double?,
-        planetRadius: Double?,
-    ): Double? {
-        if (stellarHostEffectiveTemperature != null && stellarHostRadius != null && planetOccultationDepth != null && planetRadius != null) {
-            val radiusRatio = planetRadius / (stellarHostRadius * SUN_RADIUS_IN_EARTH_RADII)
-            val radiusRatioSq = radiusRatio.pow(n = 2)
-            val ratio = planetOccultationDepth / radiusRatioSq
-            return stellarHostEffectiveTemperature * ratio.pow(x = 0.25)
-        }
-
-        if (stellarHostEffectiveTemperature != null && stellarHostRadius != null && planetOrbitAxis != null) {
-            val stellarRadiusInAu = stellarHostRadius * SUN_RADIUS_IN_AU
-            val radiusRatioFactor = sqrt(x = stellarRadiusInAu / (2 * planetOrbitAxis))
-            val albedoFactor = (1 - EARTH_BOND_ALBEDO).pow(x = 0.25)
-            return stellarHostEffectiveTemperature * radiusRatioFactor * albedoFactor
-        }
-
-        if (stellarHostLuminosity == null || planetOrbitAxis == null) return null
-        return SUN_EFFECTIVE_TEMPERATURE_1AU * (((1 - EARTH_BOND_ALBEDO) * stellarHostLuminosity).pow(x = 0.25) / sqrt(x = planetOrbitAxis))
-    }
-
-    /**
-     * Calculate the planet's insolation flux relative to Earth.
-     */
-    private fun calculatePlanetInsolationFlux(
-        stellarHostLuminosity: Double?,
-        planetOrbitAxis: Double?
-    ): Double? {
-        if (stellarHostLuminosity == null || planetOrbitAxis == null) return null
-        return stellarHostLuminosity / planetOrbitAxis.pow(n = 2)
-    }
-
-    /**
-     * Calculates the planet's semi-major axis in AU using Kepler's Third Law.
-     */
-    private fun calculatePlanetOrbitAxis(
-        stellarHostMass: Double?,
-        planetOrbitalPeriod: Double?
-    ): Double? {
-        if (stellarHostMass == null || planetOrbitalPeriod == null) return null
-        val periodInYears = planetOrbitalPeriod / EARTH_ORBITAL_PERIOD_IN_DAYS
-        return (periodInYears.pow(n = 2) * stellarHostMass).pow(x = 1.0 / 3.0)
-    }
-
-    /**
-     * Calculate the planet's orbital period in Earth days using Kepler's Third Law.
-     */
-    private fun calculatePlanetOrbitalPeriod(
-        stellarHostMass: Double?,
-        planetOrbitAxis: Double?,
-    ): Double? {
-        if (stellarHostMass == null || planetOrbitAxis == null) return null
-        val periodInYears = sqrt(x = planetOrbitAxis.pow(n = 3) / stellarHostMass)
-        return periodInYears * EARTH_ORBITAL_PERIOD_IN_DAYS
     }
 
     /**
@@ -331,79 +84,20 @@ internal object Formula {
         ).sum()
         val weightedScores = mutableListOf<Pair<Double, Double>>()
 
-        // Derive missing data
-        val stellarHostRadius = stellarHost.radius
-        val stellarHostMass = stellarHost.mass
-        val stellarHostDensity = stellarHost.density ?: calculateStellarHostDensity(
-            stellarHostMass = stellarHost.mass,
-            stellarHostRadius = stellarHost.radius
-        )
-        val stellarHostSpectralType = stellarHost.spectralType
-        val stellarHostEffectiveTemperature = stellarHost.effectiveTemperature
-        val stellarHostLuminosity = stellarHost.luminosity ?: calculateStellarHostLuminosity(
-            stellarHostRadius = stellarHost.radius,
-            stellarHostEffectiveTemperature = stellarHost.effectiveTemperature
-        )
-        val stellarHostGravity = stellarHost.gravity ?: calculateStellarHostSurfaceGravity(
-            stellarHostMass = stellarHost.mass,
-            stellarHostRadius = stellarHost.radius
-        )
-        val stellarHostMetallicity = stellarHost.metallicity
-        val stellarHostAge = stellarHost.age
-        val stellarHostRotationalVelocity = stellarHost.rotationalVelocity ?: calculateStellarHostRotationalVelocity(
-            stellarHostRadius = stellarHost.radius,
-            stellarHostRotationalPeriod = stellarHost.rotationalPeriod
-        )
-        val stellarHostRotationalPeriod = stellarHost.rotationalPeriod ?: calculateStellarHostRotationalPeriod(
-            stellarHostRadius = stellarHost.radius,
-            stellarHostRotationalVelocity = stellarHost.rotationalVelocity
-        )
-        val planetMass = planet.mass
-        val planetRadius = planet.radius ?: calculatePlanetRadiusFromTransit(
-            stellarHostRadius = stellarHost.radius,
-            planetOccultationDepth = planet.occultationDepth
-        )
-        val planetDensity = planet.density ?: calculatePlanetDensity(
-            planetMass = planet.mass,
-            planetRadius = planet.radius
-        )
-        val planetEccentricity = planet.eccentricity
-        val planetObliquity = planet.obliquity
-        val planetTemperature = planet.equilibriumTemperature ?: calculatePlanetTemperature(
-            stellarHostEffectiveTemperature = stellarHost.effectiveTemperature,
-            stellarHostRadius = stellarHost.radius,
-            stellarHostLuminosity = stellarHost.luminosity,
-            planetOrbitAxis = planet.orbitAxis,
-            planetOccultationDepth = planet.occultationDepth,
-            planetRadius = planet.radius,
-        )
-        val planetInsolationFlux = planet.insolationFlux ?: calculatePlanetInsolationFlux(
-            stellarHostLuminosity = stellarHost.luminosity,
-            planetOrbitAxis = planet.orbitAxis
-        )
-        val planetOrbitAxis = planet.orbitAxis ?: calculatePlanetOrbitAxis(
-            stellarHostMass = stellarHost.mass,
-            planetOrbitalPeriod = planet.orbitalPeriod
-        )
-        val planetOrbitalPeriod = planet.orbitalPeriod ?: calculatePlanetOrbitalPeriod(
-            stellarHostMass = stellarHost.mass,
-            planetOrbitAxis = planet.orbitAxis
-        )
-
         // Tier 1: Location
         // Is the planet safely outside the star's Roche Limit?
         val rocheScore = calculateRocheScore(
-            stellarHostRadius = stellarHostRadius,
-            stellarHostDensity = stellarHostDensity,
-            planetDensity = planetDensity,
-            planetOrbitAxis = planetOrbitAxis
+            stellarHostRadius = stellarHost.radius,
+            stellarHostDensity = stellarHost.density,
+            planetDensity = planet.density,
+            planetOrbitAxis = planet.orbitAxis
         )?.also { weightedScores.add(it to math.rocheWeight) }
         // Is the planet in the right place for liquid water?
         val habitableZoneScore = calculateHabitableZoneScore(
-            stellarHostLuminosity = stellarHostLuminosity,
-            stellarHostEffectiveTemperature = stellarHostEffectiveTemperature,
-            planetOrbitAxis = planetOrbitAxis,
-            planetMass = planetMass,
+            stellarHostLuminosity = stellarHost.luminosity,
+            stellarHostEffectiveTemperature = stellarHost.effectiveTemperature,
+            planetOrbitAxis = planet.orbitAxis,
+            planetMass = planet.mass,
             planetMassLowerLimit = math.planetMassLowerLimit,
             planetMassUpperLimit = math.planetMassIdealUpperLimit
         )?.also { weightedScores.add(it to math.habitableZoneWeight) }
@@ -411,7 +105,7 @@ internal object Formula {
         // Tier 2: Planet's Intrinsic Properties (Composition & Climate)
         // Is the planet the right size to be rocky?
         val planetRadiusScore = calculatePlanetRadiusScore(
-            planetRadius = planetRadius,
+            planetRadius = planet.radius,
             planetRadiusLowerLimit = math.planetRadiusLowerLimit,
             planetRadiusIdealUpperLimit = math.planetRadiusIdealUpperLimit,
             planetRadiusMaxUpperLimit = math.planetRadiusMaxUpperLimit
@@ -419,7 +113,7 @@ internal object Formula {
 
         // Can it hold an atmosphere and drive geology?
         val planetMassScore = calculatePlanetMassScore(
-            planetMass = planetMass,
+            planetMass = planet.mass,
             planetMassLowerLimit = math.planetMassLowerLimit,
             planetMassIdealUpperLimit = math.planetMassIdealUpperLimit,
             planetMassMaxUpperLimit = math.planetMassMaxUpperLimit
@@ -427,84 +121,84 @@ internal object Formula {
 
         // Is it rocky based on density?
         val planetTelluricityScore = calculatePlanetTelluricityScore(
-            planetDensity = planetDensity
+            planetDensity = planet.density
         )?.also { weightedScores.add(it to math.planetTelluricityWeight) }
 
         // Does it have a stable, circular orbit for stable temperatures?
         val planetEccentricityScore = calculatePlanetEccentricityScore(
-            planetEccentricity = planetEccentricity
+            planetEccentricity = planet.eccentricity
         )?.also { weightedScores.add(it to math.planetEccentricityWeight) }
 
         // Does it have a reasonable baseline temperature?
         val planetTemperatureScore = calculatePlanetTemperatureScore(
-            planetTemperature = planetTemperature
+            planetTemperature = planet.equilibriumTemperature
         )?.also { weightedScores.add(it to math.planetTemperatureWeight) }
 
         // Does it have stable seasons?
         val planetObliquityScore = calculatePlanetObliquityScore(
-            planetObliquity = planetObliquity
+            planetObliquity = planet.obliquity
         )?.also { weightedScores.add(it to math.planetObliquityWeight) }
 
         // Overall Earth Similarity
         val planetEsiScore = calculatePlanetEsiScore(
-            planetRadius = planetRadius,
-            planetDensity = planetDensity,
-            planetMass = planetMass,
-            planetTemperature = planetTemperature,
-            planetInsolationFlux = planetInsolationFlux
+            planetRadius = planet.radius,
+            planetDensity = planet.density,
+            planetMass = planet.mass,
+            planetTemperature = planet.equilibriumTemperature,
+            planetInsolationFlux = planet.insolationFlux
         )?.also { weightedScores.add(it to math.planetEsiWeight) }
 
         // Tier 3: Host Star Quality
         // Is the star stable?
         val stellarSpectralTypeScore = calculateStellarSpectralTypeScore(
-            stellarHostSpectralType = stellarHostSpectralType
+            stellarHostSpectralType = stellarHost.spectralType
         )?.also { weightedScores.add(it to math.stellarSpectralTypeWeight) }
 
         // Does the star have a long, stable lifetime?
         val stellarMassScore = calculateStellarMassScore(
-            stellarHostMass = stellarHostMass
+            stellarHostMass = stellarHost.mass
         )?.also { weightedScores.add(it to math.stellarMassWeight) }
 
         // Is the star old enough for life, but not too old?
         val stellarAgeScore = calculateStellarAgeScore(
-            stellarHostAge = stellarHostAge
+            stellarHostAge = stellarHost.age
         )?.also { weightedScores.add(it to math.stellarAgeWeight) }
 
         // Is the star prone to violent flares?
         val stellarActivityScore = calculateStellarActivityScore(
-            stellarHostRotationalVelocity = stellarHostRotationalVelocity,
+            stellarHostRotationalVelocity = stellarHost.rotationalVelocity,
         )?.also { weightedScores.add(it to math.stellarActivityWeight) }
         val stellarRotationalPeriodScore = calculateStellarRotationalPeriodScore(
-            stellarHostRotationalPeriod = stellarHostRotationalPeriod
+            stellarHostRotationalPeriod = stellarHost.rotationalPeriod
         )?.also { if (stellarActivityScore == null) weightedScores.add(it to math.stellarRotationalPeriodWeight) }
 
         // Is it a compact main-sequence star or a giant?
         val stellarGravityScore = calculateStellarGravityScore(
-            stellarHostGravity = stellarHostGravity
+            stellarHostGravity = stellarHost.gravity
         )?.also { weightedScores.add(it to math.stellarGravityWeight) }
 
         // Does it have the right materials to form rocky planets?
         val stellarMetallicityScore = calculateStellarMetallicityScore(
-            stellarHostMetallicity = stellarHostMetallicity
+            stellarHostMetallicity = stellarHost.metallicity
         )?.also { weightedScores.add(it to math.stellarMetallicityWeight) }
 
         // Is its temperature ideal?
         val stellarEffectiveTemperatureScore = calculateStellarEffectiveTemperatureScore(
-            stellarHostEffectiveTemperature = stellarHostEffectiveTemperature,
+            stellarHostEffectiveTemperature = stellarHost.effectiveTemperature,
             stellarHostEffectiveTemperatureMaxDeviation = math.stellarHostEffectiveTemperatureMaxDeviation
         )?.also { weightedScores.add(it to math.stellarEffectiveTemperatureWeight) }
 
         // Tier 4: Planetary Protection
         // Can the planet shield itself?
         val planetProtectionScore = calculatePlanetProtectionScore(
-            planetMass = planetMass,
-            planetDensity = planetDensity
+            planetMass = planet.mass,
+            planetDensity = planet.density
         )?.also { weightedScores.add(it to math.planetProtectionWeight) }
 
         // Is the planet free from extreme temperature lock?
         val planetTidalLockingScore = calculatePlanetTidalLockingScore(
-            stellarHostSpectralType = stellarHostSpectralType,
-            planetOrbitalPeriod = planetOrbitalPeriod
+            stellarHostSpectralType = stellarHost.spectralType,
+            planetOrbitalPeriod = planet.orbitalPeriod
         )?.also { weightedScores.add(it to math.planetTidalLockingWeight) }
 
         val parsedWeightedScores = weightedScores.mapNotNull {
@@ -521,14 +215,14 @@ internal object Formula {
 
         // Planet Type
         val planetType = calculatePlanetType(
-            stellarHostSpectralType = stellarHostSpectralType,
-            stellarHostAge = stellarHostAge,
-            planetMass = planetMass,
-            planetRadius = planetRadius,
-            planetDensity = planetDensity,
-            planetOrbitalPeriod = planetOrbitalPeriod,
-            planetOrbitAxis = planetOrbitAxis,
-            planetEquilibriumTemperature = planetTemperature,
+            stellarHostSpectralType = stellarHost.spectralType,
+            stellarHostAge = stellarHost.age,
+            planetMass = planet.mass,
+            planetRadius = planet.radius,
+            planetDensity = planet.density,
+            planetOrbitalPeriod = planet.orbitalPeriod,
+            planetOrbitAxis = planet.orbitAxis,
+            planetEquilibriumTemperature = planet.equilibriumTemperature,
             planetTidalLockingScore = planetTidalLockingScore,
             rocheScore = rocheScore,
             habitableZoneScore = habitableZoneScore,

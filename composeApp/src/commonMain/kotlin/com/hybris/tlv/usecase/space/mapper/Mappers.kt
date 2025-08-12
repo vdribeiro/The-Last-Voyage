@@ -4,6 +4,8 @@ import com.hybris.tlv.database.PlanetSchema
 import com.hybris.tlv.database.StellarHostSchema
 import com.hybris.tlv.http.getDouble
 import com.hybris.tlv.http.getString
+import com.hybris.tlv.usecase.space.formula.Constants.PARSEC
+import com.hybris.tlv.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY
 import com.hybris.tlv.usecase.space.model.CartesianPoint
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
@@ -49,15 +51,26 @@ import kotlin.math.pow
 import kotlin.math.round
 import kotlin.math.sin
 
-// Sun's approximate surface gravity in cm/s^2
-private const val SUN_SURFACE_GRAVITY = 4.4378
-// A Parsec in light-years
-private const val PARSEC = 3.26156
-
 private fun Double.stellarHostGravityToSunGravity(): Double = 10.0.pow(x = this - SUN_SURFACE_GRAVITY)
 private fun Double.sunGravityToStellarHostGravity(): Double = log10(x = this) + SUN_SURFACE_GRAVITY
 private fun Double.parsecsToLightYears(): Double = this * PARSEC
 private fun Double.lightYearsToParsecs(): Double = this / PARSEC
+
+internal fun StellarHost.toCartesian(): CartesianPoint? {
+    if (ra == null || dec == null || distance == null) return null
+    val raRad = ra * PI / 180.0
+    val decRad = dec * PI / 180.0
+    return CartesianPoint(
+        x = distance * cos(x = decRad) * cos(x = raRad),
+        y = distance * cos(x = decRad) * sin(x = raRad),
+        z = distance * sin(x = decRad)
+    )
+}
+
+internal fun Double.roundTo(decimalPlaces: Int): Double {
+    val factor = 10.0.pow(n = decimalPlaces)
+    return round(x = this * factor) / factor
+}
 
 internal fun StellarHostJson.toStellarHost(): StellarHost =
     StellarHost(
@@ -366,19 +379,3 @@ internal fun PlanetSchema.toPlanet(): Planet =
         inclination = inclination,
         obliquity = obliquity,
     )
-
-internal fun StellarHost.toCartesian(): CartesianPoint? {
-    if (ra == null || dec == null || distance == null) return null
-    val raRad = ra * PI / 180.0
-    val decRad = dec * PI / 180.0
-    return CartesianPoint(
-        x = distance * cos(x = decRad) * cos(x = raRad),
-        y = distance * cos(x = decRad) * sin(x = raRad),
-        z = distance * sin(x = decRad)
-    )
-}
-
-internal fun Double.roundTo(decimalPlaces: Int): Double {
-    val factor = 10.0.pow(n = decimalPlaces)
-    return round(x = this * factor) / factor
-}

@@ -4,7 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.component.LazyListIndex
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.space.Formula
+import com.hybris.tlv.usecase.space.formula.Formula
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.model.Math
 import com.hybris.tlv.usecase.space.model.Planet

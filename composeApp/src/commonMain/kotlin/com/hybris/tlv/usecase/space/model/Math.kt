@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.space.model
 
-import com.hybris.tlv.usecase.space.Formula
+import com.hybris.tlv.usecase.space.formula.Formula
 
 /**
  * Holds the mathematical weights and limits used in scoring to allow for easy tuning of the model.
