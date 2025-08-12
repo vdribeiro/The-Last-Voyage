@@ -5,6 +5,7 @@ import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.combine
+import com.hybris.tlv.usecase.space.formula.DerivedData
 import com.hybris.tlv.usecase.space.local.SpaceLocal
 import com.hybris.tlv.usecase.space.mapper.mergePlanets
 import com.hybris.tlv.usecase.space.mapper.mergeStellarHosts
@@ -42,11 +43,14 @@ internal class SpaceGateway(
             is ExoplanetsResult.Success -> result
         }
 
-        spaceDao.rewriteStellarHosts(stellarHosts = result.stellarHosts)
-        spaceDao.rewritePlanets(planets = result.planets)
+        val stellarHosts = result.stellarHosts.map { DerivedData.deriveStellarHost(stellarHost = it) }
+        val planets = result.planets.map { DerivedData.derivePlanet(planet = it) }
 
-        val stellarHostsFlow = spaceApi.rewriteStellarHosts(stellarHosts = result.stellarHosts)
-        val planetsFlow = spaceApi.rewritePlanets(planets = result.planets)
+        spaceDao.rewriteStellarHosts(stellarHosts = stellarHosts)
+        spaceDao.rewritePlanets(planets = planets)
+
+        val stellarHostsFlow = spaceApi.rewriteStellarHosts(stellarHosts = stellarHosts)
+        val planetsFlow = spaceApi.rewritePlanets(planets = planets)
         return combine(flows = listOf(stellarHostsFlow, planetsFlow)) { it.combine() }
     }
 

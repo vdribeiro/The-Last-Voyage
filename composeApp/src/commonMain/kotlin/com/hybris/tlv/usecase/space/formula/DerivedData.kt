@@ -20,12 +20,94 @@ import kotlin.math.sqrt
 
 internal object DerivedData {
 
+    /**
+     * Iteratively runs all derivation functions until no new data can be found.
+     */
     fun deriveStellarHost(stellarHost: StellarHost): StellarHost {
+        var dataWasDerived: Boolean
+        var derivedStellarHost = stellarHost
 
+        do {
+            dataWasDerived = false
+
+            if (derivedStellarHost.density == null) {
+                calculateStellarHostDensity(
+                    stellarHostMass = derivedStellarHost.mass,
+                    stellarHostRadius = derivedStellarHost.radius
+                )?.let {
+                    derivedStellarHost = derivedStellarHost.copy(density = it)
+                    dataWasDerived = true
+                }
+            }
+
+            if (derivedStellarHost.luminosity == null) {
+                calculateStellarHostLuminosity(
+                    stellarHostRadius = derivedStellarHost.radius,
+                    stellarHostEffectiveTemperature = derivedStellarHost.effectiveTemperature
+                )?.let {
+                    derivedStellarHost = derivedStellarHost.copy(luminosity = it)
+                    dataWasDerived = true
+                }
+            }
+
+            if (derivedStellarHost.gravity == null) {
+                calculateStellarHostSurfaceGravity(
+                    stellarHostMass = derivedStellarHost.mass,
+                    stellarHostRadius = derivedStellarHost.radius
+                )?.let {
+                    derivedStellarHost = derivedStellarHost.copy(gravity = it)
+                    dataWasDerived = true
+                }
+            }
+
+            if (derivedStellarHost.rotationalVelocity == null) {
+                calculateStellarHostRotationalVelocity(
+                    stellarHostRadius = derivedStellarHost.radius,
+                    stellarHostRotationalPeriod = derivedStellarHost.rotationalPeriod
+                )?.let {
+                    derivedStellarHost = derivedStellarHost.copy(rotationalVelocity = it)
+                    dataWasDerived = true
+                }
+            }
+
+            if (derivedStellarHost.rotationalPeriod == null) {
+                calculateStellarHostRotationalPeriod(
+                    stellarHostRadius = derivedStellarHost.radius,
+                    stellarHostRotationalVelocity = derivedStellarHost.rotationalVelocity
+                )?.let {
+                    derivedStellarHost = derivedStellarHost.copy(rotationalPeriod = it)
+                    dataWasDerived = true
+                }
+            }
+        } while (dataWasDerived)
+
+        return derivedStellarHost
     }
 
+    /**
+     * Iteratively runs all derivation functions until no new data can be found.
+     */
     fun derivePlanet(planet: Planet): Planet {
+        var dataWasDerived: Boolean
+        var derivedPlanet = planet
 
+        do {
+            dataWasDerived = false
+
+            // TODO
+            //if (derivedPlanet.radius == null) {
+            //    calculatePlanetRadiusFromTransit(
+            //        stellarHostRadius = derivedPlanet.stellarHost?.radius,
+            //        planetOccultationDepth = derivedPlanet.occultationDepth
+            //    )?.let { newRadius ->
+            //        derivedPlanet = derivedPlanet.copy(radius = newRadius)
+            //        dataWasDerived = true
+            //    }
+            //}
+
+        } while (dataWasDerived)
+
+        return derivedPlanet
     }
 
     /**
