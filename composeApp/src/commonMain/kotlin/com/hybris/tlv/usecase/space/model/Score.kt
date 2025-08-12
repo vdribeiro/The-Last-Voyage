@@ -1,10 +1,11 @@
-package com.hybris.tlv.usecase.exoplanet.model
+package com.hybris.tlv.usecase.space.model
 
 import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class Score(
     val habitabilityScore: Double,
+    val confidenceScore: Double,
     val rocheScore: Double?,
     val habitableZoneScore: Double?,
     val planetRadiusScore: Double?,

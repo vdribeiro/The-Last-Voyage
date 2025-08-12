@@ -4,9 +4,9 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.component.LazyListIndex
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.exoplanet.ExoplanetUseCases
-import com.hybris.tlv.usecase.exoplanet.model.Params
+import com.hybris.tlv.usecase.space.Formula
 import com.hybris.tlv.usecase.space.SpaceUseCases
+import com.hybris.tlv.usecase.space.model.Math
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
@@ -95,7 +95,6 @@ internal class StellarExplorerStore(
     navigation: Navigation,
     initialState: StellarExplorerState,
     private val spaceUseCases: SpaceUseCases,
-    private val exoplanetUseCases: ExoplanetUseCases
 ): Store<StellarExplorerAction, StellarExplorerState>(
     dispatcher = dispatcher,
     navigation = navigation,
@@ -109,9 +108,10 @@ internal class StellarExplorerStore(
         val stellarHosts = spaceUseCases.getExoplanets().apply {
             forEach { stellarHost ->
                 stellarHost.planets.forEach { planet ->
-                    planet.habitability = calculateHabitability(
+                    planet.habitability = Formula.calculateHabitability(
                         stellarHost = stellarHost,
-                        planet = planet
+                        planet = planet,
+                        math = Math()
                     )
                 }
             }
@@ -128,37 +128,6 @@ internal class StellarExplorerStore(
             )
         }
     }
-
-    private fun calculateHabitability(stellarHost: StellarHost, planet: Planet) =
-        exoplanetUseCases.calculateHabitability(
-            Params(
-                stellarHost = Params.StellarHost(
-                    spectralType = stellarHost.spectralType,
-                    effectiveTemperature = stellarHost.effectiveTemperature,
-                    radius = stellarHost.radius,
-                    mass = stellarHost.mass,
-                    metallicity = stellarHost.metallicity,
-                    luminosity = stellarHost.luminosity,
-                    gravity = stellarHost.gravity,
-                    age = stellarHost.age,
-                    density = stellarHost.density,
-                    rotationalVelocity = stellarHost.rotationalVelocity,
-                    rotationalPeriod = stellarHost.rotationalPeriod
-                ),
-                planet = Params.Planet(
-                    orbitalPeriod = planet.orbitalPeriod,
-                    orbitAxis = planet.orbitAxis,
-                    radius = planet.radius,
-                    mass = planet.mass,
-                    density = planet.density,
-                    eccentricity = planet.eccentricity,
-                    insolationFlux = planet.insolationFlux,
-                    equilibriumTemperature = planet.equilibriumTemperature,
-                    occultationDepth = planet.occultationDepth,
-                    obliquity = planet.obliquity
-                )
-            )
-        )
 
     private fun searchStellarHosts(search: String, stellarHosts: List<StellarHost>): List<StellarHost> =
         if (search.isNotBlank()) {

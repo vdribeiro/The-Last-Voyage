@@ -4,12 +4,12 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.exoplanet.ExoplanetUseCases
-import com.hybris.tlv.usecase.exoplanet.model.Params
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.model.Engine
+import com.hybris.tlv.usecase.space.Formula
 import com.hybris.tlv.usecase.space.SpaceUseCases
+import com.hybris.tlv.usecase.space.model.Math
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import kotlin.math.abs
@@ -43,7 +43,6 @@ internal class GameStore(
     navigation: Navigation,
     initialState: GameState,
     private val spaceUseCases: SpaceUseCases,
-    private val exoplanetUseCases: ExoplanetUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameAction, GameState>(
     dispatcher = dispatcher,
@@ -108,60 +107,35 @@ internal class GameStore(
         }
 
         currentStellarHost.planets.forEach { planet ->
-            planet.habitability = exoplanetUseCases.calculateHabitability(
-                Params(
-                    stellarHost = Params.StellarHost(
-                        spectralType = currentStellarHost.spectralType,
-                        effectiveTemperature = currentStellarHost.effectiveTemperature,
-                        radius = currentStellarHost.radius,
-                        mass = currentStellarHost.mass,
-                        metallicity = currentStellarHost.metallicity,
-                        luminosity = currentStellarHost.luminosity,
-                        gravity = currentStellarHost.gravity,
-                        age = currentStellarHost.age,
-                        density = currentStellarHost.density,
-                        rotationalVelocity = currentStellarHost.rotationalVelocity,
-                        rotationalPeriod = currentStellarHost.rotationalPeriod
-                    ),
-                    planet = Params.Planet(
-                        orbitalPeriod = planet.orbitalPeriod,
-                        orbitAxis = planet.orbitAxis,
-                        radius = planet.radius,
-                        mass = planet.mass,
-                        density = planet.density,
-                        eccentricity = planet.eccentricity,
-                        insolationFlux = planet.insolationFlux,
-                        equilibriumTemperature = planet.equilibriumTemperature,
-                        occultationDepth = planet.occultationDepth,
-                        obliquity = planet.obliquity
-                    ),
-                    math = Params.Math(
-                        habitableZoneWeight = gameSession.habitableZoneWeight,
-                        planetRadiusWeight = gameSession.planetRadiusWeight,
-                        planetMassWeight = gameSession.planetMassWeight,
-                        planetTelluricityWeight = gameSession.planetTelluricityWeight,
-                        planetEccentricityWeight = gameSession.planetEccentricityWeight,
-                        planetTemperatureWeight = gameSession.planetTemperatureWeight,
-                        planetObliquityWeight = gameSession.planetObliquityWeight,
-                        planetEsiWeight = gameSession.planetEsiWeight,
-                        stellarSpectralTypeWeight = gameSession.stellarSpectralTypeWeight,
-                        stellarMassWeight = gameSession.stellarMassWeight,
-                        stellarAgeWeight = gameSession.stellarAgeWeight,
-                        stellarActivityWeight = gameSession.stellarActivityWeight,
-                        stellarRotationalPeriodWeight = gameSession.stellarRotationalPeriodWeight,
-                        stellarGravityWeight = gameSession.stellarGravityWeight,
-                        stellarMetallicityWeight = gameSession.stellarMetallicityWeight,
-                        stellarEffectiveTemperatureWeight = gameSession.stellarEffectiveTemperatureWeight,
-                        planetProtectionWeight = gameSession.planetProtectionWeight,
-                        planetTidalLockingWeight = gameSession.planetTidalLockingWeight,
-                        planetMassLowerLimit = gameSession.planetMassLowerLimit,
-                        planetMassIdealUpperLimit = gameSession.planetMassIdealUpperLimit,
-                        planetMassMaxUpperLimit = gameSession.planetMassMaxUpperLimit,
-                        planetRadiusLowerLimit = gameSession.planetRadiusLowerLimit,
-                        planetRadiusIdealUpperLimit = gameSession.planetRadiusIdealUpperLimit,
-                        planetRadiusMaxUpperLimit = gameSession.planetRadiusMaxUpperLimit,
-                        stellarHostEffectiveTemperatureMaxDeviation = gameSession.stellarHostEffectiveTemperatureMaxDeviation
-                    )
+            planet.habitability = Formula.calculateHabitability(
+                stellarHost = currentStellarHost,
+                planet = planet,
+                math = Math(
+                    habitableZoneWeight = gameSession.habitableZoneWeight,
+                    planetRadiusWeight = gameSession.planetRadiusWeight,
+                    planetMassWeight = gameSession.planetMassWeight,
+                    planetTelluricityWeight = gameSession.planetTelluricityWeight,
+                    planetEccentricityWeight = gameSession.planetEccentricityWeight,
+                    planetTemperatureWeight = gameSession.planetTemperatureWeight,
+                    planetObliquityWeight = gameSession.planetObliquityWeight,
+                    planetEsiWeight = gameSession.planetEsiWeight,
+                    stellarSpectralTypeWeight = gameSession.stellarSpectralTypeWeight,
+                    stellarMassWeight = gameSession.stellarMassWeight,
+                    stellarAgeWeight = gameSession.stellarAgeWeight,
+                    stellarActivityWeight = gameSession.stellarActivityWeight,
+                    stellarRotationalPeriodWeight = gameSession.stellarRotationalPeriodWeight,
+                    stellarGravityWeight = gameSession.stellarGravityWeight,
+                    stellarMetallicityWeight = gameSession.stellarMetallicityWeight,
+                    stellarEffectiveTemperatureWeight = gameSession.stellarEffectiveTemperatureWeight,
+                    planetProtectionWeight = gameSession.planetProtectionWeight,
+                    planetTidalLockingWeight = gameSession.planetTidalLockingWeight,
+                    planetMassLowerLimit = gameSession.planetMassLowerLimit,
+                    planetMassIdealUpperLimit = gameSession.planetMassIdealUpperLimit,
+                    planetMassMaxUpperLimit = gameSession.planetMassMaxUpperLimit,
+                    planetRadiusLowerLimit = gameSession.planetRadiusLowerLimit,
+                    planetRadiusIdealUpperLimit = gameSession.planetRadiusIdealUpperLimit,
+                    planetRadiusMaxUpperLimit = gameSession.planetRadiusMaxUpperLimit,
+                    stellarHostEffectiveTemperatureMaxDeviation = gameSession.stellarHostEffectiveTemperatureMaxDeviation
                 )
             )
         }

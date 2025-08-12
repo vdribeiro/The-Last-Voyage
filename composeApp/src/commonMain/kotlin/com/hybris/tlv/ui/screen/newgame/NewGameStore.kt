@@ -8,15 +8,15 @@ import com.hybris.tlv.ui.screen.newgame.state.ShipState.Point
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.earth.EarthUseCases
 import com.hybris.tlv.usecase.earth.model.Catastrophe
-import com.hybris.tlv.usecase.exoplanet.model.Params
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
+import com.hybris.tlv.usecase.space.model.Math
 
 internal sealed interface NewGameAction {
     data object Back: NewGameAction
     data class SelectShip(val ship: ShipPrototype): NewGameAction
-    data class SelectMath(val math: Params.Math): NewGameAction
+    data class SelectMath(val math: Math): NewGameAction
     data object Ship: NewGameAction
     data object Advanced: NewGameAction
     data object Start: NewGameAction
@@ -34,7 +34,7 @@ internal data class NewGameState(
         fuel = Point(max = 1000, min = 0, interval = 100, initialValue = 100),
         cryopods = Point(max = 1000, min = 0, interval = 100, initialValue = 100),
     ),
-    val math: Params.Math = Params.Math(),
+    val math: Math = Math(),
 )
 
 internal enum class Content {

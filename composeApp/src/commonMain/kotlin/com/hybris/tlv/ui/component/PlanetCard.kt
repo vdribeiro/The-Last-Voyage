@@ -22,9 +22,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.usecase.exoplanet.model.PlanetType
 import com.hybris.tlv.usecase.space.mapper.roundTo
 import com.hybris.tlv.usecase.space.model.PlanetStatus
+import com.hybris.tlv.usecase.space.model.PlanetType
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource

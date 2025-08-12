@@ -1,4 +1,4 @@
-package com.hybris.tlv.usecase.exoplanet.model
+package com.hybris.tlv.usecase.space.model
 
 enum class PlanetType(val displayName: String) {
     // Size/Mass Based

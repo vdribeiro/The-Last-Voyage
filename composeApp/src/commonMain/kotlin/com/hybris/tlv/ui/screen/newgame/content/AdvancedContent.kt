@@ -22,7 +22,7 @@ import com.hybris.tlv.ui.component.LabeledTextField
 import com.hybris.tlv.ui.screen.newgame.NewGameAction
 import com.hybris.tlv.ui.screen.newgame.NewGameState
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.exoplanet.model.Params
+import com.hybris.tlv.usecase.space.model.Math
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -351,7 +351,7 @@ internal fun AdvancedContent(store: Store<NewGameAction, NewGameState>) {
             onClick = {
                 store.send(
                     action = NewGameAction.SelectMath(
-                        math = Params.Math(
+                        math = Math(
                             habitableZoneWeight = habitableZoneWeight.toDouble(),
                             planetRadiusWeight = planetRadiusWeight.toDouble(),
                             planetMassWeight = planetMassWeight.toDouble(),

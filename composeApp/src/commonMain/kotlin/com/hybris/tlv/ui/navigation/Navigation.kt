@@ -136,7 +136,6 @@ internal class Navigation(private val core: Core) {
             navigation = this,
             initialState = state as? GameState ?: GameState(),
             spaceUseCases = core.useCases.space,
-            exoplanetUseCases = core.useCases.exoplanet,
             gameSessionUseCases = core.useCases.gameSession
         )
     )
@@ -179,7 +178,6 @@ internal class Navigation(private val core: Core) {
             navigation = this,
             initialState = state as? StellarExplorerState ?: StellarExplorerState(),
             spaceUseCases = core.useCases.space,
-            exoplanetUseCases = core.useCases.exoplanet
         )
     )
 

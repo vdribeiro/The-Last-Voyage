@@ -29,8 +29,6 @@ import com.hybris.tlv.usecase.event.local.EventDao
 import com.hybris.tlv.usecase.event.local.EventLocal
 import com.hybris.tlv.usecase.event.remote.EventApi
 import com.hybris.tlv.usecase.event.remote.EventRemote
-import com.hybris.tlv.usecase.exoplanet.ExoplanetGateway
-import com.hybris.tlv.usecase.exoplanet.ExoplanetUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionGateway
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.local.GameSessionDao
@@ -167,10 +165,6 @@ internal class Gateways(
             eventApi = eventApi,
             eventDao = eventDao
         )
-    }
-
-    override val exoplanet: ExoplanetUseCases by lazy {
-        ExoplanetGateway()
     }
 
     override val gameSession: GameSessionUseCases by lazy {

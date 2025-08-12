@@ -1,139 +1,138 @@
-package com.hybris.tlv.usecase.exoplanet
+package com.hybris.tlv.usecase.space
 
-import com.hybris.tlv.usecase.exoplanet.model.Params
-import com.hybris.tlv.usecase.exoplanet.model.PlanetType
-import com.hybris.tlv.usecase.exoplanet.model.Score
+import com.hybris.tlv.usecase.space.model.Math
+import com.hybris.tlv.usecase.space.model.Planet
+import com.hybris.tlv.usecase.space.model.PlanetType
+import com.hybris.tlv.usecase.space.model.Score
+import com.hybris.tlv.usecase.space.model.StellarHost
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-internal class ExoplanetGateway(): ExoplanetUseCases {
+internal object Formula {
 
-    companion object Companion {
-        //region Foundational Astronomical Constants
-        private const val GRAVITATIONAL_CONSTANT = 6.67430e-11 // m^3 kg^-1 s^-2
-        private const val AU_IN_METERS = 1.495978707e11
+    //region Foundational Astronomical Constants
+    private const val GRAVITATIONAL_CONSTANT = 6.67430e-11 // m^3 kg^-1 s^-2
 
-        // Effective temperature of the Sun in Kelvin
-        private const val SUN_EFFECTIVE_TEMPERATURE = 5780.0
-        // Effective temperature of the Sun at 1AU
-        private const val SUN_EFFECTIVE_TEMPERATURE_1AU = 278.5
-        // Radius of the Sun in Earth radii in meters
-        private const val SUN_RADIUS_IN_EARTH_RADII = 109.2
-        // Sun's radius in Astronomical Units
-        private const val SUN_RADIUS_IN_AU = 0.00465
-        // Solar radius in meters
-        private const val SUN_RADIUS_IN_METERS = 6.957e8
-        // Solar mass in kilograms
-        private const val SUN_MASS_IN_KG = 1.98847e30
-        // Inner and outer boundaries of the habitable zone
-        private const val SUN_INNER_BOUNDARY = 0.95
-        private const val SUN_OUTER_BOUNDARY = 1.37
+    // Effective temperature of the Sun in Kelvin
+    private const val SUN_EFFECTIVE_TEMPERATURE = 5780.0
+    // Effective temperature of the Sun at 1AU
+    private const val SUN_EFFECTIVE_TEMPERATURE_1AU = 278.5
+    // Radius of the Sun in Earth radii in meters
+    private const val SUN_RADIUS_IN_EARTH_RADII = 109.2
+    // Sun's radius in Astronomical Units
+    private const val SUN_RADIUS_IN_AU = 0.00465
+    // Solar radius in meters
+    private const val SUN_RADIUS_IN_METERS = 6.957e8
+    // Solar mass in kilograms
+    private const val SUN_MASS_IN_KG = 1.98847e30
+    // Inner and outer boundaries of the habitable zone
+    private const val SUN_INNER_BOUNDARY = 0.95
+    private const val SUN_OUTER_BOUNDARY = 1.37
 
-        // Jupiter mass
-        private const val JUPITER_MASS_IN_EARTHS = 317.8
+    // Jupiter mass
+    private const val JUPITER_MASS_IN_EARTHS = 317.8
 
-        // Earth's average density in g/cm^3
-        private const val EARTH_AVERAGE_DENSITY = 5.51
-        // Earth's radius in solar radius
-        private const val EARTH_RADIUS_IN_SUNS = 109.2
-        // Days in a year
-        private const val EARTH_ORBITAL_PERIOD_IN_DAYS = 365.25
-        // Seconds in a day
-        private const val EARTH_DAY_IN_SECONDS = 86400
-        // Approximate average Bond albedo of Earth
-        private const val EARTH_BOND_ALBEDO = 0.3
+    // Earth's average density in g/cm^3
+    private const val EARTH_AVERAGE_DENSITY = 5.51
+    // Earth's radius in solar radius
+    private const val EARTH_RADIUS_IN_SUNS = 109.2
+    // Days in a year
+    private const val EARTH_ORBITAL_PERIOD_IN_DAYS = 365.25
+    // Seconds in a day
+    private const val EARTH_DAY_IN_SECONDS = 86400
+    // Approximate average Bond albedo of Earth
+    private const val EARTH_BOND_ALBEDO = 0.3
 
-        //endregion
+    //endregion
 
-        //region Ranges and Limits
-        // Planet mass limits in Earth masses for a terrestrial planet
-        const val PLANET_MASS_LOWER_LIMIT = 0.1
-        const val PLANET_MASS_IDEAL_UPPER_LIMIT = 5.0
-        const val PLANET_MASS_MAX_UPPER_LIMIT = 10.0 // Beyond this, likely a gas giant.
+    //region Ranges and Limits
+    // Planet mass limits in Earth masses for a terrestrial planet
+    const val PLANET_MASS_LOWER_LIMIT = 0.1
+    const val PLANET_MASS_IDEAL_UPPER_LIMIT = 5.0
+    const val PLANET_MASS_MAX_UPPER_LIMIT = 10.0 // Beyond this, likely a gas giant.
 
-        // Planet radius limits in Earth radii
-        const val PLANET_RADIUS_LOWER_LIMIT = 0.5
-        const val PLANET_RADIUS_IDEAL_UPPER_LIMIT = 1.5
-        const val PLANET_RADIUS_MAX_UPPER_LIMIT = 2.0 // "Radius Valley" transition to mini-Neptunes
+    // Planet radius limits in Earth radii
+    const val PLANET_RADIUS_LOWER_LIMIT = 0.5
+    const val PLANET_RADIUS_IDEAL_UPPER_LIMIT = 1.5
+    const val PLANET_RADIUS_MAX_UPPER_LIMIT = 2.0 // "Radius Valley" transition to mini-Neptunes
 
-        // Deviation for stellar temperature scoring
-        const val STELLAR_HOST_EFFECTIVE_TEMPERATURE_MAX_DEVIATION = 4000.0
-        //endregion
+    // Deviation for stellar temperature scoring
+    const val STELLAR_HOST_EFFECTIVE_TEMPERATURE_MAX_DEVIATION = 4000.0
+    //endregion
 
-        //region Coefficients for the HZ boundaries from the 2013 erratum (ApJ, 771, 82).
-        // Runaway Greenhouse Limit
-        private const val S_EFF_SUN_RG = 1.1066
-        private const val A_RG = 1.3323e-4
-        private const val B_RG = 1.5796e-8
-        private const val C_RG = -8.3079e-12
-        private const val D_RG = -1.9310e-15
+    //region Coefficients for the HZ boundaries from the 2013 erratum (ApJ, 771, 82).
+    // Runaway Greenhouse Limit
+    private const val S_EFF_SUN_RG = 1.1066
+    private const val A_RG = 1.3323e-4
+    private const val B_RG = 1.5796e-8
+    private const val C_RG = -8.3079e-12
+    private const val D_RG = -1.9310e-15
 
-        // Maximum Greenhouse Limit
-        private const val S_EFF_SUN_MG = 0.3562
-        private const val A_MG = 6.1706e-5
-        private const val B_MG = 1.6980e-9
-        private const val C_MG = -3.1979e-12
-        private const val D_MG = -5.6372e-16
+    // Maximum Greenhouse Limit
+    private const val S_EFF_SUN_MG = 0.3562
+    private const val A_MG = 6.1706e-5
+    private const val B_MG = 1.6980e-9
+    private const val C_MG = -3.1979e-12
+    private const val D_MG = -5.6372e-16
 
-        // Recent Venus Limit
-        private const val S_EFF_SUN_RV = 1.7753
-        private const val A_RV = 1.4316e-4
-        private const val B_RV = 2.9875e-9
-        private const val C_RV = -7.5702e-12
-        private const val D_RV = -1.1635e-15
+    // Recent Venus Limit
+    private const val S_EFF_SUN_RV = 1.7753
+    private const val A_RV = 1.4316e-4
+    private const val B_RV = 2.9875e-9
+    private const val C_RV = -7.5702e-12
+    private const val D_RV = -1.1635e-15
 
-        // Early Mars Limit
-        private const val S_EFF_SUN_EM = 0.3204
-        private const val A_EM = 5.5471e-5
-        private const val B_EM = 1.5258e-9
-        private const val C_EM = -2.8735e-12
-        private const val D_EM = -5.0782e-16
-        //endregion
+    // Early Mars Limit
+    private const val S_EFF_SUN_EM = 0.3204
+    private const val A_EM = 5.5471e-5
+    private const val B_EM = 1.5258e-9
+    private const val C_EM = -2.8735e-12
+    private const val D_EM = -5.0782e-16
+    //endregion
 
-        //region Earth Similarity Index (ESI) constants from the Planetary Habitability Laboratory (PHL)
-        private const val EARTH_RADIUS_REFERENCE = 1.0
-        private const val EARTH_RADIUS_WEIGHT = 0.57
-        private const val EARTH_DENSITY_REFERENCE = 1.0
-        private const val EARTH_DENSITY_WEIGHT = 1.07
-        private const val EARTH_ESCAPE_VELOCITY_REFERENCE = 1.0
-        private const val EARTH_ESCAPE_VELOCITY_WEIGHT = 0.70
-        private const val EARTH_SURFACE_TEMPERATURE_REFERENCE = 288.0 // 15°C
-        private const val EARTH_SURFACE_TEMPERATURE_WEIGHT = 5.58
-        private const val EARTH_INSOLATION_REFERENCE = 1.0
-        private const val EARTH_INSOLATION_WEIGHT = 5.58
-        //endregion
+    //region Earth Similarity Index (ESI) constants from the Planetary Habitability Laboratory (PHL)
+    private const val EARTH_RADIUS_REFERENCE = 1.0
+    private const val EARTH_RADIUS_WEIGHT = 0.57
+    private const val EARTH_DENSITY_REFERENCE = 1.0
+    private const val EARTH_DENSITY_WEIGHT = 1.07
+    private const val EARTH_ESCAPE_VELOCITY_REFERENCE = 1.0
+    private const val EARTH_ESCAPE_VELOCITY_WEIGHT = 0.70
+    private const val EARTH_SURFACE_TEMPERATURE_REFERENCE = 288.0 // 15°C
+    private const val EARTH_SURFACE_TEMPERATURE_WEIGHT = 5.58
+    private const val EARTH_INSOLATION_REFERENCE = 1.0
+    private const val EARTH_INSOLATION_WEIGHT = 5.58
+    //endregion
 
-        //region Scoring Weights -> subjective but used to reflect the relative importance of each factor
-        // Tier 1: Is the planet in a stable orbit in the right location?
-        const val ROCHE_WEIGHT = 100.0 // Critical factor: planet must exist
-        const val HABITABLE_ZONE_WEIGHT = 30.0
+    //region Scoring Weights -> subjective but used to reflect the relative importance of each factor
+    // Tier 1: Is the planet in a stable orbit in the right location?
+    const val ROCHE_WEIGHT = 100.0 // Critical factor: planet must exist
+    const val HABITABLE_ZONE_WEIGHT = 30.0
 
-        // Tier 2: Does the planet have the right intrinsic properties?
-        const val PLANET_RADIUS_WEIGHT = 6.0
-        const val PLANET_MASS_WEIGHT = 6.0
-        const val PLANET_TELLURICITY_WEIGHT = 18.0
-        const val PLANET_ECCENTRICITY_WEIGHT = 6.0
-        const val PLANET_TEMPERATURE_WEIGHT = 1.0
-        const val PLANET_OBLIQUITY_WEIGHT = 2.0
-        const val PLANET_ESI_WEIGHT = 1.0
+    // Tier 2: Does the planet have the right intrinsic properties?
+    const val PLANET_RADIUS_WEIGHT = 6.0
+    const val PLANET_MASS_WEIGHT = 6.0
+    const val PLANET_TELLURICITY_WEIGHT = 18.0
+    const val PLANET_ECCENTRICITY_WEIGHT = 6.0
+    const val PLANET_TEMPERATURE_WEIGHT = 1.0
+    const val PLANET_OBLIQUITY_WEIGHT = 2.0
+    const val PLANET_ESI_WEIGHT = 1.0
 
-        // Tier 3: Is the host star a good sun?
-        const val STELLAR_SPECTRAL_TYPE_WEIGHT = 8.0
-        const val STELLAR_MASS_WEIGHT = 5.0
-        const val STELLAR_AGE_WEIGHT = 6.0
-        const val STELLAR_ACTIVITY_WEIGHT = 15.0
-        const val STELLAR_ROTATIONAL_PERIOD_WEIGHT = 7.0
-        const val STELLAR_GRAVITY_WEIGHT = 3.0
-        const val STELLAR_METALLICITY_WEIGHT = 4.0
-        const val STELLAR_EFFECTIVE_TEMPERATURE_WEIGHT = 1.0
+    // Tier 3: Is the host star a good sun?
+    const val STELLAR_SPECTRAL_TYPE_WEIGHT = 8.0
+    const val STELLAR_MASS_WEIGHT = 5.0
+    const val STELLAR_AGE_WEIGHT = 6.0
+    const val STELLAR_ACTIVITY_WEIGHT = 15.0
+    const val STELLAR_ROTATIONAL_PERIOD_WEIGHT = 7.0
+    const val STELLAR_GRAVITY_WEIGHT = 3.0
+    const val STELLAR_METALLICITY_WEIGHT = 4.0
+    const val STELLAR_EFFECTIVE_TEMPERATURE_WEIGHT = 1.0
 
-        // Tier 4: Can the planet protect itself?
-        const val PLANET_PROTECTION_WEIGHT = 20.0
-        const val PLANET_TIDAL_LOCKING_WEIGHT = 1.0
-        //endregion
-    }
+    // Tier 4: Can the planet protect itself?
+    const val PLANET_PROTECTION_WEIGHT = 20.0
+    const val PLANET_TIDAL_LOCKING_WEIGHT = 1.0
+    //endregion
 
     private fun Double?.sanitize(): Double? = when {
         this == null -> null
@@ -301,90 +300,94 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
     }
 
     /**
+     * Calculates the habitability score for a given planet in a stellarHost.
      * This score is a weighted average of dozens of planetary and stellar characteristics.
      */
-    override fun calculateHabitability(params: Params): Score {
+    fun calculateHabitability(
+        stellarHost: StellarHost,
+        planet: Planet,
+        math: Math
+    ): Score {
         val totalPossibleWeight = listOf(
-            params.math.rocheWeight,
-            params.math.habitableZoneWeight,
-            params.math.planetRadiusWeight,
-            params.math.planetMassWeight,
-            params.math.planetTelluricityWeight,
-            params.math.planetEccentricityWeight,
-            params.math.planetTemperatureWeight,
-            params.math.planetObliquityWeight,
-            params.math.planetEsiWeight,
-            params.math.stellarSpectralTypeWeight,
-            params.math.stellarMassWeight,
-            params.math.stellarAgeWeight,
-            params.math.stellarActivityWeight,
-            params.math.stellarRotationalPeriodWeight,
-            params.math.stellarGravityWeight,
-            params.math.stellarMetallicityWeight,
-            params.math.stellarEffectiveTemperatureWeight,
-            params.math.planetProtectionWeight,
-            params.math.planetTidalLockingWeight
+            math.rocheWeight,
+            math.habitableZoneWeight,
+            math.planetRadiusWeight,
+            math.planetMassWeight,
+            math.planetTelluricityWeight,
+            math.planetEccentricityWeight,
+            math.planetTemperatureWeight,
+            math.planetObliquityWeight,
+            math.planetEsiWeight,
+            math.stellarSpectralTypeWeight,
+            math.stellarMassWeight,
+            math.stellarAgeWeight,
+            math.stellarActivityWeight,
+            math.stellarRotationalPeriodWeight,
+            math.stellarGravityWeight,
+            math.stellarMetallicityWeight,
+            math.stellarEffectiveTemperatureWeight,
+            math.planetProtectionWeight,
+            math.planetTidalLockingWeight
         ).sum()
         val weightedScores = mutableListOf<Pair<Double, Double>>()
 
         // Derive missing data
-        val stellarHostRadius = params.stellarHost.radius
-        val stellarHostMass = params.stellarHost.mass
-        val stellarHostDensity = params.stellarHost.density ?: calculateStellarHostDensity(
-            stellarHostMass = params.stellarHost.mass,
-            stellarHostRadius = params.stellarHost.radius
+        val stellarHostRadius = stellarHost.radius
+        val stellarHostMass = stellarHost.mass
+        val stellarHostDensity = stellarHost.density ?: calculateStellarHostDensity(
+            stellarHostMass = stellarHost.mass,
+            stellarHostRadius = stellarHost.radius
         )
-        val stellarHostSpectralType = params.stellarHost.spectralType
-        val stellarHostEffectiveTemperature = params.stellarHost.effectiveTemperature
-        val stellarHostLuminosity = params.stellarHost.luminosity ?: calculateStellarHostLuminosity(
-            stellarHostRadius = params.stellarHost.radius,
-            stellarHostEffectiveTemperature = params.stellarHost.effectiveTemperature
+        val stellarHostSpectralType = stellarHost.spectralType
+        val stellarHostEffectiveTemperature = stellarHost.effectiveTemperature
+        val stellarHostLuminosity = stellarHost.luminosity ?: calculateStellarHostLuminosity(
+            stellarHostRadius = stellarHost.radius,
+            stellarHostEffectiveTemperature = stellarHost.effectiveTemperature
         )
-        val stellarHostGravity = params.stellarHost.gravity ?: calculateStellarHostSurfaceGravity(
-            stellarHostMass = params.stellarHost.mass,
-            stellarHostRadius = params.stellarHost.radius
+        val stellarHostGravity = stellarHost.gravity ?: calculateStellarHostSurfaceGravity(
+            stellarHostMass = stellarHost.mass,
+            stellarHostRadius = stellarHost.radius
         )
-        val stellarHostMetallicity = params.stellarHost.metallicity
-        val stellarHostAge = params.stellarHost.age
-        val stellarHostRotationalVelocity = params.stellarHost.rotationalVelocity ?: calculateStellarHostRotationalVelocity(
-            stellarHostRadius = params.stellarHost.radius,
-            stellarHostRotationalPeriod = params.stellarHost.rotationalPeriod
+        val stellarHostMetallicity = stellarHost.metallicity
+        val stellarHostAge = stellarHost.age
+        val stellarHostRotationalVelocity = stellarHost.rotationalVelocity ?: calculateStellarHostRotationalVelocity(
+            stellarHostRadius = stellarHost.radius,
+            stellarHostRotationalPeriod = stellarHost.rotationalPeriod
         )
-        val stellarHostRotationalPeriod = params.stellarHost.rotationalPeriod ?: calculateStellarHostRotationalPeriod(
-            stellarHostRadius = params.stellarHost.radius,
-            stellarHostRotationalVelocity = params.stellarHost.rotationalVelocity
+        val stellarHostRotationalPeriod = stellarHost.rotationalPeriod ?: calculateStellarHostRotationalPeriod(
+            stellarHostRadius = stellarHost.radius,
+            stellarHostRotationalVelocity = stellarHost.rotationalVelocity
         )
-        val planetMass = params.planet.mass
-        val planetRadius = params.planet.radius ?: calculatePlanetRadiusFromTransit(
-            stellarHostRadius = params.stellarHost.radius,
-            planetOccultationDepth = params.planet.occultationDepth
+        val planetMass = planet.mass
+        val planetRadius = planet.radius ?: calculatePlanetRadiusFromTransit(
+            stellarHostRadius = stellarHost.radius,
+            planetOccultationDepth = planet.occultationDepth
         )
-        val planetDensity = params.planet.density ?: calculatePlanetDensity(
-            planetMass = params.planet.mass,
-            planetRadius = params.planet.radius
+        val planetDensity = planet.density ?: calculatePlanetDensity(
+            planetMass = planet.mass,
+            planetRadius = planet.radius
         )
-        val planetEccentricity = params.planet.eccentricity
-        val planetObliquity = params.planet.obliquity
-        params.planet.occultationDepth
-        val planetTemperature = params.planet.equilibriumTemperature ?: calculatePlanetTemperature(
-            stellarHostEffectiveTemperature = params.stellarHost.effectiveTemperature,
-            stellarHostRadius = params.stellarHost.radius,
-            stellarHostLuminosity = params.stellarHost.luminosity,
-            planetOrbitAxis = params.planet.orbitAxis,
-            planetOccultationDepth = params.planet.occultationDepth,
-            planetRadius = params.planet.radius,
+        val planetEccentricity = planet.eccentricity
+        val planetObliquity = planet.obliquity
+        val planetTemperature = planet.equilibriumTemperature ?: calculatePlanetTemperature(
+            stellarHostEffectiveTemperature = stellarHost.effectiveTemperature,
+            stellarHostRadius = stellarHost.radius,
+            stellarHostLuminosity = stellarHost.luminosity,
+            planetOrbitAxis = planet.orbitAxis,
+            planetOccultationDepth = planet.occultationDepth,
+            planetRadius = planet.radius,
         )
-        val planetInsolationFlux = params.planet.insolationFlux ?: calculatePlanetInsolationFlux(
-            stellarHostLuminosity = params.stellarHost.luminosity,
-            planetOrbitAxis = params.planet.orbitAxis
+        val planetInsolationFlux = planet.insolationFlux ?: calculatePlanetInsolationFlux(
+            stellarHostLuminosity = stellarHost.luminosity,
+            planetOrbitAxis = planet.orbitAxis
         )
-        val planetOrbitAxis = params.planet.orbitAxis ?: calculatePlanetOrbitAxis(
-            stellarHostMass = params.stellarHost.mass,
-            planetOrbitalPeriod = params.planet.orbitalPeriod
+        val planetOrbitAxis = planet.orbitAxis ?: calculatePlanetOrbitAxis(
+            stellarHostMass = stellarHost.mass,
+            planetOrbitalPeriod = planet.orbitalPeriod
         )
-        val planetOrbitalPeriod = params.planet.orbitalPeriod ?: calculatePlanetOrbitalPeriod(
-            stellarHostMass = params.stellarHost.mass,
-            planetOrbitAxis = params.planet.orbitAxis
+        val planetOrbitalPeriod = planet.orbitalPeriod ?: calculatePlanetOrbitalPeriod(
+            stellarHostMass = stellarHost.mass,
+            planetOrbitAxis = planet.orbitAxis
         )
 
         // Tier 1: Location
@@ -394,53 +397,53 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
             stellarHostDensity = stellarHostDensity,
             planetDensity = planetDensity,
             planetOrbitAxis = planetOrbitAxis
-        )?.also { weightedScores.add(it to params.math.rocheWeight) }
+        )?.also { weightedScores.add(it to math.rocheWeight) }
         // Is the planet in the right place for liquid water?
         val habitableZoneScore = calculateHabitableZoneScore(
             stellarHostLuminosity = stellarHostLuminosity,
             stellarHostEffectiveTemperature = stellarHostEffectiveTemperature,
             planetOrbitAxis = planetOrbitAxis,
             planetMass = planetMass,
-            planetMassLowerLimit = params.math.planetMassLowerLimit,
-            planetMassUpperLimit = params.math.planetMassIdealUpperLimit
-        )?.also { weightedScores.add(it to params.math.habitableZoneWeight) }
+            planetMassLowerLimit = math.planetMassLowerLimit,
+            planetMassUpperLimit = math.planetMassIdealUpperLimit
+        )?.also { weightedScores.add(it to math.habitableZoneWeight) }
 
         // Tier 2: Planet's Intrinsic Properties (Composition & Climate)
         // Is the planet the right size to be rocky?
         val planetRadiusScore = calculatePlanetRadiusScore(
             planetRadius = planetRadius,
-            planetRadiusLowerLimit = params.math.planetRadiusLowerLimit,
-            planetRadiusIdealUpperLimit = params.math.planetRadiusIdealUpperLimit,
-            planetRadiusMaxUpperLimit = params.math.planetRadiusMaxUpperLimit
-        )?.also { weightedScores.add(it to params.math.planetRadiusWeight) }
+            planetRadiusLowerLimit = math.planetRadiusLowerLimit,
+            planetRadiusIdealUpperLimit = math.planetRadiusIdealUpperLimit,
+            planetRadiusMaxUpperLimit = math.planetRadiusMaxUpperLimit
+        )?.also { weightedScores.add(it to math.planetRadiusWeight) }
 
         // Can it hold an atmosphere and drive geology?
         val planetMassScore = calculatePlanetMassScore(
             planetMass = planetMass,
-            planetMassLowerLimit = params.math.planetMassLowerLimit,
-            planetMassIdealUpperLimit = params.math.planetMassIdealUpperLimit,
-            planetMassMaxUpperLimit = params.math.planetMassMaxUpperLimit
-        )?.also { weightedScores.add(it to params.math.planetMassWeight) }
+            planetMassLowerLimit = math.planetMassLowerLimit,
+            planetMassIdealUpperLimit = math.planetMassIdealUpperLimit,
+            planetMassMaxUpperLimit = math.planetMassMaxUpperLimit
+        )?.also { weightedScores.add(it to math.planetMassWeight) }
 
         // Is it rocky based on density?
         val planetTelluricityScore = calculatePlanetTelluricityScore(
             planetDensity = planetDensity
-        )?.also { weightedScores.add(it to params.math.planetTelluricityWeight) }
+        )?.also { weightedScores.add(it to math.planetTelluricityWeight) }
 
         // Does it have a stable, circular orbit for stable temperatures?
         val planetEccentricityScore = calculatePlanetEccentricityScore(
             planetEccentricity = planetEccentricity
-        )?.also { weightedScores.add(it to params.math.planetEccentricityWeight) }
+        )?.also { weightedScores.add(it to math.planetEccentricityWeight) }
 
         // Does it have a reasonable baseline temperature?
         val planetTemperatureScore = calculatePlanetTemperatureScore(
             planetTemperature = planetTemperature
-        )?.also { weightedScores.add(it to params.math.planetTemperatureWeight) }
+        )?.also { weightedScores.add(it to math.planetTemperatureWeight) }
 
         // Does it have stable seasons?
         val planetObliquityScore = calculatePlanetObliquityScore(
             planetObliquity = planetObliquity
-        )?.also { weightedScores.add(it to params.math.planetObliquityWeight) }
+        )?.also { weightedScores.add(it to math.planetObliquityWeight) }
 
         // Overall Earth Similarity
         val planetEsiScore = calculatePlanetEsiScore(
@@ -449,60 +452,60 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
             planetMass = planetMass,
             planetTemperature = planetTemperature,
             planetInsolationFlux = planetInsolationFlux
-        )?.also { weightedScores.add(it to params.math.planetEsiWeight) }
+        )?.also { weightedScores.add(it to math.planetEsiWeight) }
 
         // Tier 3: Host Star Quality
         // Is the star stable?
         val stellarSpectralTypeScore = calculateStellarSpectralTypeScore(
             stellarHostSpectralType = stellarHostSpectralType
-        )?.also { weightedScores.add(it to params.math.stellarSpectralTypeWeight) }
+        )?.also { weightedScores.add(it to math.stellarSpectralTypeWeight) }
 
         // Does the star have a long, stable lifetime?
         val stellarMassScore = calculateStellarMassScore(
             stellarHostMass = stellarHostMass
-        )?.also { weightedScores.add(it to params.math.stellarMassWeight) }
+        )?.also { weightedScores.add(it to math.stellarMassWeight) }
 
         // Is the star old enough for life, but not too old?
         val stellarAgeScore = calculateStellarAgeScore(
             stellarHostAge = stellarHostAge
-        )?.also { weightedScores.add(it to params.math.stellarAgeWeight) }
+        )?.also { weightedScores.add(it to math.stellarAgeWeight) }
 
         // Is the star prone to violent flares?
         val stellarActivityScore = calculateStellarActivityScore(
             stellarHostRotationalVelocity = stellarHostRotationalVelocity,
-        )?.also { weightedScores.add(it to params.math.stellarActivityWeight) }
+        )?.also { weightedScores.add(it to math.stellarActivityWeight) }
         val stellarRotationalPeriodScore = calculateStellarRotationalPeriodScore(
             stellarHostRotationalPeriod = stellarHostRotationalPeriod
-        )?.also { if (stellarActivityScore == null) weightedScores.add(it to params.math.stellarRotationalPeriodWeight) }
+        )?.also { if (stellarActivityScore == null) weightedScores.add(it to math.stellarRotationalPeriodWeight) }
 
         // Is it a compact main-sequence star or a giant?
         val stellarGravityScore = calculateStellarGravityScore(
             stellarHostGravity = stellarHostGravity
-        )?.also { weightedScores.add(it to params.math.stellarGravityWeight) }
+        )?.also { weightedScores.add(it to math.stellarGravityWeight) }
 
         // Does it have the right materials to form rocky planets?
         val stellarMetallicityScore = calculateStellarMetallicityScore(
             stellarHostMetallicity = stellarHostMetallicity
-        )?.also { weightedScores.add(it to params.math.stellarMetallicityWeight) }
+        )?.also { weightedScores.add(it to math.stellarMetallicityWeight) }
 
         // Is its temperature ideal?
         val stellarEffectiveTemperatureScore = calculateStellarEffectiveTemperatureScore(
             stellarHostEffectiveTemperature = stellarHostEffectiveTemperature,
-            stellarHostEffectiveTemperatureMaxDeviation = params.math.stellarHostEffectiveTemperatureMaxDeviation
-        )?.also { weightedScores.add(it to params.math.stellarEffectiveTemperatureWeight) }
+            stellarHostEffectiveTemperatureMaxDeviation = math.stellarHostEffectiveTemperatureMaxDeviation
+        )?.also { weightedScores.add(it to math.stellarEffectiveTemperatureWeight) }
 
         // Tier 4: Planetary Protection
         // Can the planet shield itself?
         val planetProtectionScore = calculatePlanetProtectionScore(
             planetMass = planetMass,
             planetDensity = planetDensity
-        )?.also { weightedScores.add(it to params.math.planetProtectionWeight) }
+        )?.also { weightedScores.add(it to math.planetProtectionWeight) }
 
         // Is the planet free from extreme temperature lock?
         val planetTidalLockingScore = calculatePlanetTidalLockingScore(
             stellarHostSpectralType = stellarHostSpectralType,
             planetOrbitalPeriod = planetOrbitalPeriod
-        )?.also { weightedScores.add(it to params.math.planetTidalLockingWeight) }
+        )?.also { weightedScores.add(it to math.planetTidalLockingWeight) }
 
         val parsedWeightedScores = weightedScores.mapNotNull {
             val key = it.first.sanitize()
@@ -514,7 +517,7 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
         val totalScore = parsedWeightedScores.sumOf { it.first * it.second }
         val totalWeight = parsedWeightedScores.sumOf { it.second }
         val habitabilityScore = if (totalWeight == 0.0) 0.0 else totalScore / totalWeight
-        if (totalPossibleWeight == 0.0) 0.0 else totalWeight / totalPossibleWeight
+        val confidenceScore = if (totalPossibleWeight == 0.0) 0.0 else totalWeight / totalPossibleWeight
 
         // Planet Type
         val planetType = calculatePlanetType(
@@ -534,6 +537,7 @@ internal class ExoplanetGateway(): ExoplanetUseCases {
 
         return Score(
             habitabilityScore = habitabilityScore,
+            confidenceScore = confidenceScore,
             rocheScore = rocheScore,
             habitableZoneScore = habitableZoneScore,
             planetRadiusScore = planetRadiusScore,
