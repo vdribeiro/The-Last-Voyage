@@ -24,12 +24,11 @@ internal object DerivedData {
     /**
      * Derive missing data.
      */
-    fun derive(stellarHosts: List<StellarHost>): List<StellarHost> = stellarHosts.map {
-        deriveStellarHost(stellarHost = it).apply {
-            planets.addAll(elements = it.planets.map { planet ->
-                derivePlanet(stellarHost = this, planet = planet)
-            })
-        }
+    fun derive(stellarHosts: List<StellarHost>): List<StellarHost> = stellarHosts.map { stellarHost ->
+        val planets = stellarHost.planets.map { it.copy() }
+        val derivedStellarHost = deriveStellarHost(stellarHost = stellarHost)
+        val derivedPlanets = planets.map { derivePlanet(stellarHost = derivedStellarHost, planet = it) }
+        derivedStellarHost.apply { this.planets.addAll(elements = derivedPlanets) }
     }
 
     /**

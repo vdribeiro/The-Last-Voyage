@@ -14,7 +14,7 @@ actual fun saveFile(fileName: String, content: String): Boolean = runCatching {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
             val contentValues = ContentValues().apply {
                 put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
-                put(MediaStore.MediaColumns.MIME_TYPE, "text/plain")
+                put(MediaStore.MediaColumns.MIME_TYPE, "application/json")
                 put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
             }
             val contentResolver = applicationContext.contentResolver

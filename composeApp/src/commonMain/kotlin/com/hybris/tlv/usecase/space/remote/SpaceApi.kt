@@ -95,6 +95,7 @@ internal class SpaceApi(
                 "${ExoplanetJson.PLANET_ECCENTRICITY}," +
                 "${ExoplanetJson.PLANET_INSOLATION_FLUX}," +
                 "${ExoplanetJson.PLANET_EQUILIBRIUM_TEMPERATURE}," +
+                "${ExoplanetJson.PLANET_OCCULTATION_DEPTH}," +
                 "${ExoplanetJson.PLANET_INCLINATION}," +
                 "${ExoplanetJson.PLANET_OBLIQUITY}," +
                 ExoplanetJson.PLANET_PROJECTED_OBLIQUITY +
@@ -145,6 +146,7 @@ internal class SpaceApi(
                 "${ExoplanetJson.PLANET_ECCENTRICITY}," +
                 "${ExoplanetJson.PLANET_INSOLATION_FLUX}," +
                 "${ExoplanetJson.PLANET_EQUILIBRIUM_TEMPERATURE}," +
+                "${ExoplanetJson.PLANET_OCCULTATION_DEPTH}," +
                 "${ExoplanetJson.PLANET_INCLINATION}," +
                 "${ExoplanetJson.PLANET_OBLIQUITY}," +
                 ExoplanetJson.PLANET_PROJECTED_OBLIQUITY +
