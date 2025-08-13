@@ -210,7 +210,7 @@ internal object Habitability {
         val score = totalScore / totalWeight
         val confidenceScore = totalWeight / totalPossibleWeight
 
-        // Apply Bayesian Adjustment with confidence score
+        // Apply Bayesian adjustment with confidence score
         val prior = 0.5
         val habitabilityScore = ((score * confidenceScore) + (prior * (1 - confidenceScore))).sanitize() ?: 0.0
 
@@ -230,8 +230,11 @@ internal object Habitability {
             habitabilityScore = habitabilityScore,
         )
 
+        // Apply planet type adjustment score
+        val adjustedHabitabilityScore = habitabilityScore * calculatePlanetTypeScore(planetType = planetType)
+
         return Score(
-            habitabilityScore = habitabilityScore,
+            habitabilityScore = adjustedHabitabilityScore,
             confidenceScore = confidenceScore,
             rocheScore = rocheScore,
             habitableZoneScore = habitableZoneScore,
@@ -923,5 +926,57 @@ internal object Habitability {
         }
 
         return foundationalType
+    }
+
+    fun calculatePlanetTypeScore(planetType: PlanetType?): Double = when (planetType) {
+        PlanetType.EARTH_LIKE_PLANET,
+        PlanetType.EARTH_ANALOG_PLANET,
+        PlanetType.SUPERHABITABLE_PLANET -> 1.0
+
+        PlanetType.TERRESTRIAL_PLANET -> 0.9
+        PlanetType.SUPER_EARTH,
+        PlanetType.OCEAN_PLANET -> 0.8
+
+        PlanetType.SUBSURFACE_OCEAN_PLANET -> 0.7
+
+        PlanetType.MEGA_EARTH,
+        PlanetType.ICE_PLANET,
+        PlanetType.COLD_EYEBALL_PLANET -> 0.6
+
+        PlanetType.SUB_EARTH,
+        PlanetType.DESERT_PLANET,
+        PlanetType.EYEBALL_PLANET -> 0.5
+
+        PlanetType.MINI_NEPTUNE,
+        PlanetType.SUPER_NEPTUNE,
+        PlanetType.ICE_GIANT,
+        PlanetType.GAS_GIANT,
+        PlanetType.SUPER_JUPITER,
+        PlanetType.PUFFY_PLANET,
+        PlanetType.SUPER_PUFF_PLANET,
+        PlanetType.IRON_PLANET,
+        PlanetType.HOT_EYEBALL_PLANET,
+        PlanetType.AMMONIA_CLOUDS_GAS_GIANT,
+        PlanetType.WATER_CLOUDS_GAS_GIANT,
+        PlanetType.CLOUDLESS_GAS_GIANT,
+        PlanetType.CHTHONIAN_PLANET,
+        PlanetType.CRATER_PLANET -> 0.4
+
+        PlanetType.LAVA_PLANET,
+
+        PlanetType.ULTRA_SHORT_PERIOD_PLANET,
+        PlanetType.ALKALI_METAL_CLOUDS_GAS_GIANT,
+        PlanetType.SILICATE_CLOUDS_GAS_GIANT,
+        PlanetType.BARREN_PLANET,
+        PlanetType.ELLIPSOID_PLANET -> 0.3
+
+        PlanetType.HOT_JUPITER,
+        PlanetType.ULTRA_HOT_JUPITER,
+        PlanetType.HOT_NEPTUNE,
+        PlanetType.ULTRA_HOT_NEPTUNE,
+        PlanetType.PROTOPLANET,
+        PlanetType.DISRUPTED_PLANET -> 0.2
+
+        null -> 0.1
     }
 }
