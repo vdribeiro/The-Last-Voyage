@@ -9,10 +9,10 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import com.hybris.tlv.config.DesktopLocalConfig
-import com.hybris.tlv.config.DesktopRemoteConfig
-import com.hybris.tlv.config.LocalConfig
-import com.hybris.tlv.config.RemoteConfig
+import com.hybris.tlv.storage.DesktopLocalConfig
+import com.hybris.tlv.storage.DesktopRemoteConfig
+import com.hybris.tlv.storage.LocalConfig
+import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.database.Database
 import com.hybris.tlv.firestore.DesktopFirestore
 import com.hybris.tlv.firestore.Firestore

@@ -15,10 +15,11 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import com.hybris.tlv.usecase.space.remote.SpaceRemote
 import com.hybris.tlv.usecase.space.remote.result.ExoplanetsResult
+import kotlin.collections.orEmpty
 import kotlin.math.ceil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import thelastvoyage.composeapp.generated.resources.Res
 
@@ -37,50 +38,48 @@ internal class SpaceGateway(
         json.decodeFromString<List<Planet>>(string = jsonString)
     }.getOrDefault(defaultValue = emptyList())
 
-    override suspend fun setup(): Flow<SyncResult> {
-        val result = when (val result = getArchive()) {
-            is ExoplanetsResult.Error -> return flowOf(value = SyncResult.Error(error = result.error))
-            is ExoplanetsResult.Success -> result
-        }
-
-        val planetMap = result.planets.groupBy { it.stellarHostId }
-        val stellarHosts = DerivedData.derive(stellarHosts = result.stellarHosts.apply {
-            forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) }
-        })
-        val planets = stellarHosts.map { it.planets }.flatten()
-
+    override suspend fun rewrite(): Flow<SyncResult> {
+        val stellarHosts = loadHostsFromJson()
+        val planets = loadPlanetsFromJson()
         spaceDao.rewriteStellarHosts(stellarHosts = stellarHosts)
         spaceDao.rewritePlanets(planets = planets)
-
         val stellarHostsFlow = spaceApi.rewriteStellarHosts(stellarHosts = stellarHosts)
         val planetsFlow = spaceApi.rewritePlanets(planets = planets)
         return combine(flows = listOf(stellarHostsFlow, planetsFlow)) { it.combine() }
     }
 
-    private suspend fun getArchive(): ExoplanetsResult {
-        val stellarHosts = loadHostsFromJson().toMutableList()
-        val planets = loadPlanetsFromJson().toMutableList()
+    override suspend fun getArchive(): Flow<SyncResult> = flow {
+        val totalOperations = 5f
+        emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
+        val stellarHosts = runCatching {
+            val jsonString = Res.readBytes(path = "files/solarsystem.json").decodeToString()
+            json.decodeFromString<List<StellarHost>>(string = jsonString)
+        }.getOrDefault(defaultValue = emptyList()).toMutableList()
+        val planets = runCatching {
+            val jsonString = Res.readBytes(path = "files/solarplanets.json").decodeToString()
+            json.decodeFromString<List<Planet>>(string = jsonString)
+        }.getOrDefault(defaultValue = emptyList()).toMutableList()
 
+        emit(value = SyncResult.Loading(progress = 1f, total = totalOperations))
         when (val stellarHostsArchiveResult = getArchive { spaceApi.getStellarHostsArchive(queryMap = it) }) {
-            is ExoplanetsResult.Error -> return stellarHostsArchiveResult
-            is ExoplanetsResult.Success -> {
-                stellarHosts.addAll(elements = stellarHostsArchiveResult.stellarHosts)
-            }
+            is ExoplanetsResult.Error -> emit(value = SyncResult.Error(error = stellarHostsArchiveResult.error))
+            is ExoplanetsResult.Success -> stellarHosts.addAll(elements = stellarHostsArchiveResult.stellarHosts)
         }
 
+        emit(value = SyncResult.Loading(progress = 2f, total = totalOperations))
         when (val exoplanetsArchiveResult = getArchive { spaceApi.getExoplanetsArchive(queryMap = it) }) {
-            is ExoplanetsResult.Error -> return exoplanetsArchiveResult
+            is ExoplanetsResult.Error -> emit(value = SyncResult.Error(error = exoplanetsArchiveResult.error))
             is ExoplanetsResult.Success -> {
                 val stellarHostIds = stellarHosts.map { it.id }
                 val filteredStellarHosts = exoplanetsArchiveResult.stellarHosts.filter { it.id !in stellarHostIds }
                 stellarHosts.addAll(elements = filteredStellarHosts)
-
                 planets.addAll(elements = exoplanetsArchiveResult.planets)
             }
         }
 
+        emit(value = SyncResult.Loading(progress = 3f, total = totalOperations))
         when (val k2ExoplanetsArchiveResult = getArchive { spaceApi.getK2ExoplanetsArchive(queryMap = it) }) {
-            is ExoplanetsResult.Error -> return k2ExoplanetsArchiveResult
+            is ExoplanetsResult.Error -> emit(value = SyncResult.Error(error = k2ExoplanetsArchiveResult.error))
             is ExoplanetsResult.Success -> {
                 val stellarHostIds = stellarHosts.map { it.id }
                 val filteredStellarHosts = k2ExoplanetsArchiveResult.stellarHosts.filter { it.id !in stellarHostIds }
@@ -92,7 +91,15 @@ internal class SpaceGateway(
             }
         }
 
-        return ExoplanetsResult.Success(stellarHosts = stellarHosts.mergeStellarHosts(), planets = planets.mergePlanets())
+        emit(value = SyncResult.Loading(progress = 4f, total = totalOperations))
+        val planetMap = planets.mergePlanets().groupBy { it.stellarHostId }
+        val mergedStellarHosts = stellarHosts.mergeStellarHosts().apply {
+            forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) }
+        }
+        val derivedStellarHosts = DerivedData.derive(stellarHosts = mergedStellarHosts)
+        val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
+
+        emit(value = SyncResult.Success)
     }
 
     private suspend fun getArchive(apiCall: suspend (QueryMap) -> ExoplanetsResult): ExoplanetsResult {

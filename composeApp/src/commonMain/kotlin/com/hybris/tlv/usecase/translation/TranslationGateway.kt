@@ -25,7 +25,7 @@ internal class TranslationGateway(
         json.decodeFromString<List<Translation>>(string = jsonString)
     }.getOrDefault(defaultValue = emptyList())
 
-    override suspend fun setup(): Flow<SyncResult> {
+    override suspend fun rewrite(): Flow<SyncResult> {
         val translations = loadTranslationsFromJson()
         translationDao.rewriteTranslations(translations = translations)
         return translationApi.rewriteTranslations(translations = translations)

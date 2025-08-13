@@ -1,4 +1,4 @@
-package com.hybris.tlv.config
+package com.hybris.tlv.storage
 
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig

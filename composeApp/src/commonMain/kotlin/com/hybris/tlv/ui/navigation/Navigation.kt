@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.navigation
 
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.Core
-import com.hybris.tlv.config.Config
+import com.hybris.tlv.storage.Config
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.ui.screen.achievement.AchievementState
 import com.hybris.tlv.ui.screen.achievement.AchievementStore

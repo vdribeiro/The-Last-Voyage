@@ -9,7 +9,7 @@ internal interface EarthUseCases {
     /**
      * Rewrites the local and remote [Catastrophe] data.
      */
-    suspend fun setup(): Flow<SyncResult>
+    suspend fun rewrite(): Flow<SyncResult>
 
     /**
      * Syncs the remote [Catastrophe] data to local.

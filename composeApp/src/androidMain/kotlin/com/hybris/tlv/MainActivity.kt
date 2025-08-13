@@ -6,10 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
-import com.hybris.tlv.config.AndroidLocalConfig
-import com.hybris.tlv.config.AndroidRemoteConfig
-import com.hybris.tlv.config.LocalConfig
-import com.hybris.tlv.config.RemoteConfig
+import com.hybris.tlv.storage.AndroidLocalConfig
+import com.hybris.tlv.storage.AndroidRemoteConfig
+import com.hybris.tlv.storage.LocalConfig
+import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.database.Database
 import com.hybris.tlv.firestore.AndroidFirestore
 import com.hybris.tlv.firestore.Firestore

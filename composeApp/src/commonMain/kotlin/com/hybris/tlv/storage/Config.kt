@@ -1,4 +1,4 @@
-package com.hybris.tlv.config
+package com.hybris.tlv.storage
 
 internal sealed class Config(val key: String, val defaultValue: Any) {
     // Music

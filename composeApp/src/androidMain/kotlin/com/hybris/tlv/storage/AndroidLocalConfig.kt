@@ -1,4 +1,4 @@
-package com.hybris.tlv.config
+package com.hybris.tlv.storage
 
 import android.content.Context
 import android.content.SharedPreferences

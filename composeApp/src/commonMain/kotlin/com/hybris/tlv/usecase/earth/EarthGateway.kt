@@ -21,7 +21,7 @@ internal class EarthGateway(
         json.decodeFromString<List<Catastrophe>>(string = jsonString)
     }.getOrDefault(defaultValue = emptyList())
 
-    override suspend fun setup(): Flow<SyncResult> {
+    override suspend fun rewrite(): Flow<SyncResult> {
         val catastrophes = loadCatastrophesFromJson()
         earthDao.rewriteCatastrophes(catastrophes = catastrophes)
         return earthApi.rewriteCatastrophes(catastrophes = catastrophes)

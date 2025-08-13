@@ -21,7 +21,7 @@ internal class CreditsGateway(
         json.decodeFromString<List<Credits>>(string = jsonString)
     }.getOrDefault(defaultValue = emptyList())
 
-    override suspend fun setup(): Flow<SyncResult> {
+    override suspend fun rewrite(): Flow<SyncResult> {
         val credits = loadCreditsFromJson()
         creditsDao.rewriteCredits(credits = credits)
         return creditsApi.rewriteCredits(credits = credits)

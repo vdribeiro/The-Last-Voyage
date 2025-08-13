@@ -10,7 +10,12 @@ internal interface SpaceUseCases {
     /**
      * Rewrites the local and remote [StellarHost] and [Planet] data.
      */
-    suspend fun setup(): Flow<SyncResult>
+    suspend fun rewrite(): Flow<SyncResult>
+
+    /**
+     * Get exoplanet data from the NASA archive.
+     */
+    suspend fun getArchive(): Flow<SyncResult>
 
     /**
      * Syncs the remote [StellarHost] data to local.

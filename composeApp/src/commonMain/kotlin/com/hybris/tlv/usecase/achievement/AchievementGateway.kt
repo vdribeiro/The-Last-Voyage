@@ -21,7 +21,7 @@ internal class AchievementGateway(
         json.decodeFromString<List<Achievement>>(string = jsonString)
     }.getOrDefault(defaultValue = emptyList())
 
-    override suspend fun setup(): Flow<SyncResult> {
+    override suspend fun rewrite(): Flow<SyncResult> {
         val achievements = loadAchievementsFromJson()
         achievementDao.rewriteAchievements(achievements = achievements)
         return achievementApi.rewriteAchievements(achievements = achievements)

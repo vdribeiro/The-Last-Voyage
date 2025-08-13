@@ -1,7 +1,6 @@
-package com.hybris.tlv.config
+package com.hybris.tlv.storage
 
-// TODO - Firebase RemoteConfig
-internal class DesktopRemoteConfig: RemoteConfig {
+internal class CommonRemoteConfig: RemoteConfig {
 
     private val map = mutableMapOf<Config, Any>()
 

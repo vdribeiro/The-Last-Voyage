@@ -1,7 +1,7 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
-import com.hybris.tlv.config.Config
-import com.hybris.tlv.config.RemoteConfig
+import com.hybris.tlv.storage.Config
+import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.store.Store

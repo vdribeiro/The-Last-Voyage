@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.AppCore
 import com.hybris.tlv.Core
-import com.hybris.tlv.config.CommonLocalConfig
-import com.hybris.tlv.config.CommonRemoteConfig
-import com.hybris.tlv.config.LocalConfig
-import com.hybris.tlv.config.RemoteConfig
+import com.hybris.tlv.storage.CommonLocalConfig
+import com.hybris.tlv.storage.CommonRemoteConfig
+import com.hybris.tlv.storage.LocalConfig
+import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.firestore.CommonFirestore
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.CommonDispatchers

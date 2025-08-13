@@ -21,7 +21,7 @@ internal class ShipGateway(
         json.decodeFromString<List<Engine>>(string = jsonString)
     }.getOrDefault(defaultValue = emptyList())
 
-    override suspend fun setup(): Flow<SyncResult> {
+    override suspend fun rewrite(): Flow<SyncResult> {
         val engines = loadEnginesFromJson()
         shipDao.rewriteEngines(engines = engines)
         return shipApi.rewriteEngines(engines = engines)

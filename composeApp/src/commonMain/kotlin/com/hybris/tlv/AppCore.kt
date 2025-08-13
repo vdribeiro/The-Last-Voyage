@@ -1,9 +1,9 @@
 package com.hybris.tlv
 
-import com.hybris.tlv.config.Config
-import com.hybris.tlv.config.LocalConfig
-import com.hybris.tlv.config.RemoteConfig
-import com.hybris.tlv.config.RemoteConfigSettings
+import com.hybris.tlv.storage.Config
+import com.hybris.tlv.storage.LocalConfig
+import com.hybris.tlv.storage.RemoteConfig
+import com.hybris.tlv.storage.RemoteConfigSettings
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.logger.Logger
@@ -54,13 +54,13 @@ internal class AppCore(
     override suspend fun rewrite(): Flow<SyncResult> =
         combine(
             flows = listOf(
-                useCases.translation.setup(),
-                useCases.earth.setup(),
-                useCases.ship.setup(),
-                useCases.space.setup(),
-                useCases.event.setup(),
-                useCases.achievement.setup(),
-                useCases.credits.setup()
+                useCases.translation.rewrite(),
+                useCases.earth.rewrite(),
+                useCases.ship.rewrite(),
+                useCases.space.rewrite(),
+                useCases.event.rewrite(),
+                useCases.achievement.rewrite(),
+                useCases.credits.rewrite()
             )
         ) { it.combine() }
 

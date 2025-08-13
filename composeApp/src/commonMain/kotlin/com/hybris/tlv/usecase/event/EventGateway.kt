@@ -21,7 +21,7 @@ internal class EventGateway(
         json.decodeFromString<List<Event>>(string = jsonString)
     }.getOrDefault(defaultValue = emptyList())
 
-    override suspend fun setup(): Flow<SyncResult> {
+    override suspend fun rewrite(): Flow<SyncResult> {
         val events = loadEventsFromJson()
         eventDao.rewriteEvents(events = events)
         return eventApi.rewriteEvents(events = events)

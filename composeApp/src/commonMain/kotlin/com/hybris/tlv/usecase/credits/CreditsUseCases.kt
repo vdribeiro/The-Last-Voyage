@@ -9,7 +9,7 @@ internal interface CreditsUseCases {
     /**
      * Rewrites the local and remote [Credits] data.
      */
-    suspend fun setup(): Flow<SyncResult>
+    suspend fun rewrite(): Flow<SyncResult>
 
     /**
      * Syncs the remote [Credits] data to local.
