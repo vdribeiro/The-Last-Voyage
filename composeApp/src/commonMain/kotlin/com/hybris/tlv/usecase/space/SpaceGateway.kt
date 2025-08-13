@@ -2,6 +2,7 @@ package com.hybris.tlv.usecase.space
 
 import com.hybris.tlv.http.client.json
 import com.hybris.tlv.http.request.QueryMap
+import com.hybris.tlv.storage.saveFile
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.combine
@@ -49,7 +50,7 @@ internal class SpaceGateway(
     }
 
     override suspend fun getArchive(): Flow<SyncResult> = flow {
-        val totalOperations = 5f
+        val totalOperations = 6f
         emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
         val stellarHosts = runCatching {
             val jsonString = Res.readBytes(path = "files/solarsystem.json").decodeToString()
@@ -98,6 +99,10 @@ internal class SpaceGateway(
         }
         val derivedStellarHosts = DerivedData.derive(stellarHosts = mergedStellarHosts)
         val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
+
+        emit(value = SyncResult.Loading(progress = 5f, total = totalOperations))
+        saveFile(fileName = "hosts.json", content = json.encodeToString(value = derivedStellarHosts.map { it.copy() }))
+        saveFile(fileName = "planets.json", content = json.encodeToString(value = derivedPlanets.map { it.copy() }))
 
         emit(value = SyncResult.Success)
     }

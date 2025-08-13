@@ -27,12 +27,17 @@ internal interface Core {
     suspend fun rewrite(): Flow<SyncResult>
 
     /**
-     * Prepopulates all local data.
+     * Get exoplanet data from the NASA archive.
      */
-    suspend fun prepopulate(): Flow<SyncResult>
+    suspend fun getArchive(): Flow<SyncResult>
 
     /**
      * Syncs all the remote data to local.
      */
     suspend fun sync(): Flow<SyncResult>
+
+    /**
+     * Prepopulates all local data.
+     */
+    suspend fun prepopulate(): Flow<SyncResult>
 }

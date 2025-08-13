@@ -64,28 +64,7 @@ internal class AppCore(
             )
         ) { it.combine() }
 
-    override suspend fun prepopulate(): Flow<SyncResult> = flow {
-        val totalOperations = 9f
-        emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
-        useCases.translation.prepopulateTranslations()
-        emit(value = SyncResult.Loading(progress = 1f, total = totalOperations))
-        useCases.earth.prepopulateCatastrophes()
-        emit(value = SyncResult.Loading(progress = 2f, total = totalOperations))
-        useCases.ship.prepopulateEngines()
-        emit(value = SyncResult.Loading(progress = 3f, total = totalOperations))
-        useCases.space.prepopulateStellarHosts()
-        emit(value = SyncResult.Loading(progress = 4f, total = totalOperations))
-        useCases.space.prepopulatePlanets()
-        emit(value = SyncResult.Loading(progress = 5f, total = totalOperations))
-        useCases.event.prepopulateEvents()
-        emit(value = SyncResult.Loading(progress = 6f, total = totalOperations))
-        useCases.achievement.prepopulateAchievements()
-        emit(value = SyncResult.Loading(progress = 7f, total = totalOperations))
-        useCases.credits.prepopulateCredits()
-        emit(value = SyncResult.Loading(progress = 8f, total = totalOperations))
-        useCases.translation.loadTranslationsToCache(languageIso = locale.getLanguage())
-        emit(value = SyncResult.Success)
-    }
+    override suspend fun getArchive(): Flow<SyncResult> = useCases.space.getArchive()
 
     override suspend fun sync(): Flow<SyncResult> =
         combine(
@@ -120,6 +99,29 @@ internal class AppCore(
 
     private fun update(key: Config, syncResult: SyncResult) {
         if (syncResult is SyncResult.Success) localConfig.put(key = key, value = remoteConfig.getLong(key = key))
+    }
+
+    override suspend fun prepopulate(): Flow<SyncResult> = flow {
+        val totalOperations = 9f
+        emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
+        useCases.translation.prepopulateTranslations()
+        emit(value = SyncResult.Loading(progress = 1f, total = totalOperations))
+        useCases.earth.prepopulateCatastrophes()
+        emit(value = SyncResult.Loading(progress = 2f, total = totalOperations))
+        useCases.ship.prepopulateEngines()
+        emit(value = SyncResult.Loading(progress = 3f, total = totalOperations))
+        useCases.space.prepopulateStellarHosts()
+        emit(value = SyncResult.Loading(progress = 4f, total = totalOperations))
+        useCases.space.prepopulatePlanets()
+        emit(value = SyncResult.Loading(progress = 5f, total = totalOperations))
+        useCases.event.prepopulateEvents()
+        emit(value = SyncResult.Loading(progress = 6f, total = totalOperations))
+        useCases.achievement.prepopulateAchievements()
+        emit(value = SyncResult.Loading(progress = 7f, total = totalOperations))
+        useCases.credits.prepopulateCredits()
+        emit(value = SyncResult.Loading(progress = 8f, total = totalOperations))
+        useCases.translation.loadTranslationsToCache(languageIso = locale.getLanguage())
+        emit(value = SyncResult.Success)
     }
 
     companion object {
