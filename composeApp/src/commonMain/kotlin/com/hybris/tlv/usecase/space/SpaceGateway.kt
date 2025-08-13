@@ -43,8 +43,11 @@ internal class SpaceGateway(
             is ExoplanetsResult.Success -> result
         }
 
-        val stellarHosts = result.stellarHosts.map { DerivedData.deriveStellarHost(stellarHost = it) }
-        val planets = result.planets.map { DerivedData.derivePlanet(planet = it) }
+        val planetMap = result.planets.groupBy { it.stellarHostId }
+        val stellarHosts = DerivedData.derive(stellarHosts = result.stellarHosts.apply {
+            forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) }
+        })
+        val planets = stellarHosts.map { it.planets }.flatten()
 
         spaceDao.rewriteStellarHosts(stellarHosts = stellarHosts)
         spaceDao.rewritePlanets(planets = planets)

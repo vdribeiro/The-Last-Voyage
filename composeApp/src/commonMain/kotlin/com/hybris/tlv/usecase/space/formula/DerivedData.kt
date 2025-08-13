@@ -21,11 +21,22 @@ import kotlin.math.sqrt
 internal object DerivedData {
 
     /**
+     * Derive missing data.
+     */
+    fun derive(stellarHosts: List<StellarHost>): List<StellarHost> = stellarHosts.map {
+        deriveStellarHost(stellarHost = it).apply {
+            planets.addAll(elements = it.planets.map { planet ->
+                derivePlanet(stellarHost = this, planet = planet)
+            })
+        }
+    }
+
+    /**
      * Iteratively runs all derivation functions until no new data can be found.
      */
-    fun deriveStellarHost(stellarHost: StellarHost): StellarHost {
+    private fun deriveStellarHost(stellarHost: StellarHost): StellarHost {
         var dataWasDerived: Boolean
-        var derivedStellarHost = stellarHost
+        var derivedStellarHost = stellarHost.copy()
 
         do {
             dataWasDerived = false
@@ -87,24 +98,76 @@ internal object DerivedData {
     /**
      * Iteratively runs all derivation functions until no new data can be found.
      */
-    fun derivePlanet(planet: Planet): Planet {
+    fun derivePlanet(stellarHost: StellarHost, planet: Planet): Planet {
         var dataWasDerived: Boolean
-        var derivedPlanet = planet
+        var derivedPlanet = planet.copy()
 
         do {
             dataWasDerived = false
 
-            // TODO
-            //if (derivedPlanet.radius == null) {
-            //    calculatePlanetRadiusFromTransit(
-            //        stellarHostRadius = derivedPlanet.stellarHost?.radius,
-            //        planetOccultationDepth = derivedPlanet.occultationDepth
-            //    )?.let { newRadius ->
-            //        derivedPlanet = derivedPlanet.copy(radius = newRadius)
-            //        dataWasDerived = true
-            //    }
-            //}
+            if (derivedPlanet.radius == null) {
+                calculatePlanetRadius(
+                    stellarHostRadius = stellarHost.radius,
+                    planetOccultationDepth = derivedPlanet.occultationDepth
+                )?.let {
+                    derivedPlanet = derivedPlanet.copy(radius = it)
+                    dataWasDerived = true
+                }
+            }
 
+            if (derivedPlanet.density == null) {
+                calculatePlanetDensity(
+                    planetMass = derivedPlanet.mass,
+                    planetRadius = derivedPlanet.radius
+                )?.let {
+                    derivedPlanet = derivedPlanet.copy(density = it)
+                    dataWasDerived = true
+                }
+            }
+
+            if (derivedPlanet.equilibriumTemperature == null) {
+                calculatePlanetTemperature(
+                    stellarHostEffectiveTemperature = stellarHost.effectiveTemperature,
+                    stellarHostRadius = stellarHost.radius,
+                    stellarHostLuminosity = stellarHost.luminosity,
+                    planetOrbitAxis = derivedPlanet.orbitAxis,
+                    planetOccultationDepth = derivedPlanet.occultationDepth,
+                    planetRadius = derivedPlanet.radius
+                )?.let {
+                    derivedPlanet = derivedPlanet.copy(equilibriumTemperature = it)
+                    dataWasDerived = true
+                }
+            }
+
+            if (derivedPlanet.insolationFlux == null) {
+                calculatePlanetInsolationFlux(
+                    stellarHostLuminosity = stellarHost.luminosity,
+                    planetOrbitAxis = derivedPlanet.orbitAxis
+                )?.let {
+                    derivedPlanet = derivedPlanet.copy(insolationFlux = it)
+                    dataWasDerived = true
+                }
+            }
+
+            if (derivedPlanet.orbitAxis == null) {
+                calculatePlanetOrbitAxis(
+                    stellarHostMass = stellarHost.mass,
+                    planetOrbitalPeriod = derivedPlanet.orbitalPeriod
+                )?.let {
+                    derivedPlanet = derivedPlanet.copy(orbitAxis = it)
+                    dataWasDerived = true
+                }
+            }
+
+            if (derivedPlanet.orbitalPeriod == null) {
+                calculatePlanetOrbitalPeriod(
+                    stellarHostMass = stellarHost.mass,
+                    planetOrbitAxis = derivedPlanet.orbitAxis
+                )?.let {
+                    derivedPlanet = derivedPlanet.copy(orbitalPeriod = it)
+                    dataWasDerived = true
+                }
+            }
         } while (dataWasDerived)
 
         return derivedPlanet
@@ -182,7 +245,7 @@ internal object DerivedData {
     /**
      * Calculates the planet's radius in Earth radii based on transit data.
      */
-    private fun calculatePlanetRadiusFromTransit(
+    private fun calculatePlanetRadius(
         stellarHostRadius: Double?,
         planetOccultationDepth: Double?
     ): Double? {

@@ -120,7 +120,7 @@ private val allAbbreviations = (greekAbbreviations + latinAbbreviations).mapKeys
 private val allAbbreviationsPattern =
     "\\b(${allAbbreviations.keys.joinToString(separator = "|")})\\b".toRegex(option = RegexOption.IGNORE_CASE)
 
-internal fun String.toExpandedName() = allAbbreviationsPattern.replace(input = replace("_", " ")) { matchResult ->
+internal fun String.toExpandedName() = allAbbreviationsPattern.replace(input = replace(oldValue = "_", newValue = " ")) { matchResult ->
     val key = matchResult.value.lowercase()
     allAbbreviations[key] ?: matchResult.value
 }
