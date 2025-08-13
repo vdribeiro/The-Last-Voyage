@@ -16,7 +16,6 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import com.hybris.tlv.usecase.space.remote.SpaceRemote
 import com.hybris.tlv.usecase.space.remote.result.ExoplanetsResult
-import kotlin.collections.orEmpty
 import kotlin.math.ceil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

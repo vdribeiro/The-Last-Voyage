@@ -8,7 +8,6 @@ import com.hybris.tlv.usecase.collectProgress
 import com.hybris.tlv.usecase.combine
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.last
 
 internal sealed interface SplashAction {
     data object Start: SplashAction
