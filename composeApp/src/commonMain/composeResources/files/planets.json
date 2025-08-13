@@ -136,6 +136,23 @@
     "obliquity": 28.3
   },
   {
+    "id": "alf_cen_b_b",
+    "name": "Alpha Centauri B b",
+    "stellarHostId": "alf_cen_b",
+    "status": "FALSE",
+    "orbitalPeriod": 3.2357,
+    "orbitAxis": null,
+    "radius": null,
+    "mass": 1.13,
+    "density": null,
+    "eccentricity": 0.0,
+    "insolationFlux": null,
+    "equilibriumTemperature": null,
+    "occultationDepth": null,
+    "inclination": null,
+    "obliquity": null
+  },
+  {
     "id": "11_com_b",
     "name": "11 Comae Berenices b",
     "stellarHostId": "11_com",
