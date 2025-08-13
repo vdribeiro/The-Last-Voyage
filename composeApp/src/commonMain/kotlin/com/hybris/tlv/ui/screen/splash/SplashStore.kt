@@ -37,7 +37,7 @@ internal class SplashStore(
             // Uncomment to rewrite all data
             //core.rewrite().last()
             // Uncomment to get archive
-            core.getArchive().last()
+            //core.getArchive().last()
             // TODO - enable sync with remote config
             //core.sync().last()
         }

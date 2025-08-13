@@ -12,6 +12,7 @@ import com.hybris.tlv.usecase.space.formula.Constants.SUN_MASS_IN_KG
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_RADIUS_IN_AU
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_RADIUS_IN_EARTH_RADII
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_RADIUS_IN_METERS
+import com.hybris.tlv.usecase.space.mapper.sanitize
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import kotlin.math.PI
@@ -45,7 +46,7 @@ internal object DerivedData {
                 calculateStellarHostDensity(
                     stellarHostMass = derivedStellarHost.mass,
                     stellarHostRadius = derivedStellarHost.radius
-                )?.let {
+                ).sanitize()?.let {
                     derivedStellarHost = derivedStellarHost.copy(density = it)
                     dataWasDerived = true
                 }
@@ -55,7 +56,7 @@ internal object DerivedData {
                 calculateStellarHostLuminosity(
                     stellarHostRadius = derivedStellarHost.radius,
                     stellarHostEffectiveTemperature = derivedStellarHost.effectiveTemperature
-                )?.let {
+                ).sanitize()?.let {
                     derivedStellarHost = derivedStellarHost.copy(luminosity = it)
                     dataWasDerived = true
                 }
@@ -65,7 +66,7 @@ internal object DerivedData {
                 calculateStellarHostSurfaceGravity(
                     stellarHostMass = derivedStellarHost.mass,
                     stellarHostRadius = derivedStellarHost.radius
-                )?.let {
+                ).sanitize()?.let {
                     derivedStellarHost = derivedStellarHost.copy(gravity = it)
                     dataWasDerived = true
                 }
@@ -75,7 +76,7 @@ internal object DerivedData {
                 calculateStellarHostRotationalVelocity(
                     stellarHostRadius = derivedStellarHost.radius,
                     stellarHostRotationalPeriod = derivedStellarHost.rotationalPeriod
-                )?.let {
+                ).sanitize()?.let {
                     derivedStellarHost = derivedStellarHost.copy(rotationalVelocity = it)
                     dataWasDerived = true
                 }
@@ -85,7 +86,7 @@ internal object DerivedData {
                 calculateStellarHostRotationalPeriod(
                     stellarHostRadius = derivedStellarHost.radius,
                     stellarHostRotationalVelocity = derivedStellarHost.rotationalVelocity
-                )?.let {
+                ).sanitize()?.let {
                     derivedStellarHost = derivedStellarHost.copy(rotationalPeriod = it)
                     dataWasDerived = true
                 }
@@ -109,7 +110,7 @@ internal object DerivedData {
                 calculatePlanetRadius(
                     stellarHostRadius = stellarHost.radius,
                     planetOccultationDepth = derivedPlanet.occultationDepth
-                )?.let {
+                ).sanitize()?.let {
                     derivedPlanet = derivedPlanet.copy(radius = it)
                     dataWasDerived = true
                 }
@@ -119,7 +120,7 @@ internal object DerivedData {
                 calculatePlanetDensity(
                     planetMass = derivedPlanet.mass,
                     planetRadius = derivedPlanet.radius
-                )?.let {
+                ).sanitize()?.let {
                     derivedPlanet = derivedPlanet.copy(density = it)
                     dataWasDerived = true
                 }
@@ -133,7 +134,7 @@ internal object DerivedData {
                     planetOrbitAxis = derivedPlanet.orbitAxis,
                     planetOccultationDepth = derivedPlanet.occultationDepth,
                     planetRadius = derivedPlanet.radius
-                )?.let {
+                ).sanitize()?.let {
                     derivedPlanet = derivedPlanet.copy(equilibriumTemperature = it)
                     dataWasDerived = true
                 }
@@ -143,7 +144,7 @@ internal object DerivedData {
                 calculatePlanetInsolationFlux(
                     stellarHostLuminosity = stellarHost.luminosity,
                     planetOrbitAxis = derivedPlanet.orbitAxis
-                )?.let {
+                ).sanitize()?.let {
                     derivedPlanet = derivedPlanet.copy(insolationFlux = it)
                     dataWasDerived = true
                 }
@@ -153,7 +154,7 @@ internal object DerivedData {
                 calculatePlanetOrbitAxis(
                     stellarHostMass = stellarHost.mass,
                     planetOrbitalPeriod = derivedPlanet.orbitalPeriod
-                )?.let {
+                ).sanitize()?.let {
                     derivedPlanet = derivedPlanet.copy(orbitAxis = it)
                     dataWasDerived = true
                 }
@@ -163,7 +164,7 @@ internal object DerivedData {
                 calculatePlanetOrbitalPeriod(
                     stellarHostMass = stellarHost.mass,
                     planetOrbitAxis = derivedPlanet.orbitAxis
-                )?.let {
+                ).sanitize()?.let {
                     derivedPlanet = derivedPlanet.copy(orbitalPeriod = it)
                     dataWasDerived = true
                 }

@@ -13,11 +13,14 @@ import platform.Foundation.writeToURL
 
 @OptIn(ExperimentalForeignApi::class)
 actual fun saveFile(fileName: String, content: String): Boolean = runCatching {
-    val documentsDirectory = NSFileManager.defaultManager.URLsForDirectory(
+    val fileManager = NSFileManager.defaultManager
+    val documentsURL = fileManager.URLsForDirectory(
         directory = NSDocumentDirectory,
         inDomains = NSUserDomainMask
     ).firstOrNull() as? NSURL ?: return false
-    val fileURL = documentsDirectory.URLByAppendingPathComponent(pathComponent = fileName) ?: return false
+    val downloadsURL = documentsURL.URLByAppendingPathComponent(pathComponent = "Downloads") ?: return false
+    fileManager.createDirectoryAtURL(url = downloadsURL, withIntermediateDirectories = true, attributes = null, error = null)
+    val fileURL = downloadsURL.URLByAppendingPathComponent(pathComponent = fileName) ?: return false
     val bytes = content.encodeToByteArray()
     val data = bytes.usePinned { NSData.dataWithBytes(bytes = it.addressOf(index = 0), length = bytes.size.toULong()) }
     data.writeToURL(url = fileURL, atomically = true)
