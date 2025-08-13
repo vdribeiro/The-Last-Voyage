@@ -36,6 +36,7 @@ import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_EM
 import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_MG
 import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_RG
 import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_RV
+import com.hybris.tlv.usecase.space.mapper.sanitize
 import com.hybris.tlv.usecase.space.model.Math
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetType
@@ -45,12 +46,7 @@ import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-internal object Formula {
-    private fun Double?.sanitize(): Double? = when {
-        this == null -> null
-        isNaN() || isInfinite() || this == Double.NEGATIVE_INFINITY || this == Double.POSITIVE_INFINITY || this == Double.NaN -> null
-        else -> this
-    }
+internal object Habitability {
 
     /**
      * Calculates the habitability score for a given planet in a stellarHost.
@@ -61,27 +57,6 @@ internal object Formula {
         planet: Planet,
         math: Math
     ): Score {
-        val totalPossibleWeight = listOf(
-            math.rocheWeight,
-            math.habitableZoneWeight,
-            math.planetRadiusWeight,
-            math.planetMassWeight,
-            math.planetTelluricityWeight,
-            math.planetEccentricityWeight,
-            math.planetTemperatureWeight,
-            math.planetObliquityWeight,
-            math.planetEsiWeight,
-            math.stellarSpectralTypeWeight,
-            math.stellarMassWeight,
-            math.stellarAgeWeight,
-            math.stellarActivityWeight,
-            math.stellarRotationalPeriodWeight,
-            math.stellarGravityWeight,
-            math.stellarMetallicityWeight,
-            math.stellarEffectiveTemperatureWeight,
-            math.planetProtectionWeight,
-            math.planetTidalLockingWeight
-        ).sum()
         val weightedScores = mutableListOf<Pair<Double, Double>>()
 
         // Tier 1: Location
@@ -201,6 +176,7 @@ internal object Formula {
             planetOrbitalPeriod = planet.orbitalPeriod
         )?.also { weightedScores.add(it to math.planetTidalLockingWeight) }
 
+        // Score
         val parsedWeightedScores = weightedScores.mapNotNull {
             val key = it.first.sanitize()
             if (key == null) return@mapNotNull null
@@ -208,10 +184,35 @@ internal object Formula {
             if (value == null) return@mapNotNull null
             key to value
         }
+        val totalPossibleWeight = listOf(
+            math.rocheWeight,
+            math.habitableZoneWeight,
+            math.planetRadiusWeight,
+            math.planetMassWeight,
+            math.planetTelluricityWeight,
+            math.planetEccentricityWeight,
+            math.planetTemperatureWeight,
+            math.planetObliquityWeight,
+            math.planetEsiWeight,
+            math.stellarSpectralTypeWeight,
+            math.stellarMassWeight,
+            math.stellarAgeWeight,
+            math.stellarActivityWeight,
+            math.stellarRotationalPeriodWeight,
+            math.stellarGravityWeight,
+            math.stellarMetallicityWeight,
+            math.stellarEffectiveTemperatureWeight,
+            math.planetProtectionWeight,
+            math.planetTidalLockingWeight
+        ).sum()
         val totalScore = parsedWeightedScores.sumOf { it.first * it.second }
         val totalWeight = parsedWeightedScores.sumOf { it.second }
-        val habitabilityScore = if (totalWeight == 0.0) 0.0 else totalScore / totalWeight
-        val confidenceScore = if (totalPossibleWeight == 0.0) 0.0 else totalWeight / totalPossibleWeight
+        val score = totalScore / totalWeight
+        val confidenceScore = totalWeight / totalPossibleWeight
+
+        // Apply Bayesian Adjustment with confidence score
+        val prior = 0.5
+        val habitabilityScore = ((score * confidenceScore) + (prior * (1 - confidenceScore))).sanitize() ?: 0.0
 
         // Planet Type
         val planetType = calculatePlanetType(
@@ -789,31 +790,39 @@ internal object Formula {
         habitableZoneScore: Double?,
         habitabilityScore: Double,
     ): PlanetType? {
-        val foundationalType = calculatePlanetFoundationalType(
-            planetMass = planetMass,
-            planetRadius = planetRadius,
-            planetDensity = planetDensity
-        )
-
-        // Transient or evolutionary states
+        // Non-habitable
+        if (rocheScore == 0.0) return PlanetType.DISRUPTED_PLANET
+        if (planetOrbitAxis != null && planetOrbitAxis < 0.02) return PlanetType.ELLIPSOID_PLANET
         if (stellarHostAge != null && stellarHostAge < 0.01) return PlanetType.PROTOPLANET
-        if (foundationalType == PlanetType.TERRESTRIAL_PLANET && planetDensity != null && planetDensity > 7.0 && planetEquilibriumTemperature != null && planetEquilibriumTemperature > 1500.0) {
-            return PlanetType.CHTHONIAN_PLANET
-        }
+        if (planetOrbitalPeriod != null && planetOrbitalPeriod < 1.0) return PlanetType.ULTRA_SHORT_PERIOD_PLANET
 
-        // Habitability assessment
-        if (foundationalType == PlanetType.TERRESTRIAL_PLANET && habitableZoneScore != null && habitableZoneScore > 0.5) {
-            when {
-                planetMass != null && planetMass in 1.5..3.0 && planetRadius != null && planetRadius in 1.2..1.5 &&
-                        habitabilityScore > 0.9 && habitableZoneScore > 0.7 && stellarHostSpectralType?.startsWith(prefix = "K") == true &&
-                        stellarHostAge != null && stellarHostAge in 5.0..8.0 -> return PlanetType.SUPERHABITABLE_PLANET
-
-                planetMass != null && planetMass in 0.8..1.2 && planetRadius != null && planetRadius in 0.9..1.1 &&
-                        habitabilityScore > 0.8 && habitableZoneScore > 0.6 && stellarHostSpectralType?.startsWith(prefix = "G") == true -> return PlanetType.EARTH_ANALOG_PLANET
-
-                habitabilityScore > 0.7 && habitableZoneScore > 0.5 -> return PlanetType.EARTH_LIKE_PLANET
-                habitabilityScore < 0.2 -> return PlanetType.BARREN_PLANET
+        val foundationalType = when {
+            // Gas Giants are the most massive planets, where runaway gas accretion has occurred.
+            // This requires high mass (>80 M_Earth), large radius (>7 R_Earth), and low density.
+            planetMass != null && planetMass > 80.0 && planetRadius != null && planetRadius > 7.0 && planetDensity != null && planetDensity < 2.0 -> {
+                PlanetType.GAS_GIANT
             }
+
+            // Ice Giants are compositionally distinct, less massive than Gas Giants but still large.
+            // Defined by a mass of 10-80 M_Earth, a radius of 3.9-7 R_Earth, and higher density than Gas Giants.
+            planetMass != null && planetMass in 10.0..80.0 && planetRadius != null && planetRadius in 3.8..7.0 && planetDensity != null && planetDensity >= 1.0 -> {
+                PlanetType.ICE_GIANT
+            }
+
+            // Mini-Neptunes (Gas Dwarfs) have a significant gas envelope, defining them by their radius.
+            // The "radius valley" (~1.7 R_Earth) separates them from rocky Super-Earths.
+            // They have radii of 1.7-3.9 R_Earth and are not massive enough to be true giants (<20 M_Earth).
+            planetMass != null && planetMass in 1.0..20.0 && planetRadius != null && planetRadius in 1.7..3.9 -> {
+                PlanetType.MINI_NEPTUNE
+            }
+
+            // If a planet doesn't have a vast gas envelope, it's terrestrial.
+            // This is defined by a high density, which indicates a rocky/iron composition even if the planet is massive.
+            (planetRadius != null && planetRadius < 1.7 && planetDensity != null && planetDensity >= 1.5) || planetDensity != null && planetDensity > 3.0 -> {
+                PlanetType.TERRESTRIAL_PLANET
+            }
+
+            else -> null
         }
 
         // Specific states for Gas Giants
@@ -836,20 +845,45 @@ internal object Formula {
         }
 
         // Specific states for Terrestrial Planets
-        if (foundationalType == PlanetType.TERRESTRIAL_PLANET && planetEquilibriumTemperature != null) {
-            // Tidally locked states are more specific than general thermal states
-            if (planetTidalLockingScore != null && planetTidalLockingScore < 0.2) {
-                return when {
-                    planetEquilibriumTemperature > 350.0 -> PlanetType.HOT_EYEBALL_PLANET
-                    planetEquilibriumTemperature < 200.0 -> PlanetType.COLD_EYEBALL_PLANET
-                    else -> PlanetType.EYEBALL_PLANET
+        if (foundationalType == PlanetType.TERRESTRIAL_PLANET) {
+            // Transient states
+            if (planetDensity != null && planetDensity > 7.0 && planetEquilibriumTemperature != null && planetEquilibriumTemperature > 1500.0) {
+                return PlanetType.CHTHONIAN_PLANET
+            }
+
+            // Habitability assessment
+            if (habitableZoneScore != null && habitableZoneScore > 0.5) {
+                when {
+                    planetMass != null && planetMass in 1.5..3.0 && planetRadius != null && planetRadius in 1.2..1.5 &&
+                            habitabilityScore > 0.9 && habitableZoneScore > 0.7 &&
+                            stellarHostSpectralType?.startsWith(prefix = "K") == true &&
+                            stellarHostAge != null && stellarHostAge in 5.0..8.0 -> return PlanetType.SUPERHABITABLE_PLANET
+
+                    planetMass != null && planetMass in 0.8..1.2 && planetRadius != null && planetRadius in 0.9..1.1 &&
+                            habitabilityScore > 0.8 && habitableZoneScore > 0.6 &&
+                            stellarHostSpectralType?.startsWith(prefix = "G") == true -> return PlanetType.EARTH_ANALOG_PLANET
+
+                    habitabilityScore > 0.7 && habitableZoneScore > 0.5 -> return PlanetType.EARTH_LIKE_PLANET
+                    habitabilityScore < 0.2 -> return PlanetType.BARREN_PLANET
                 }
             }
-            // General thermal states if not tidally locked
-            when {
-                planetEquilibriumTemperature > 1800.0 -> return PlanetType.LAVA_PLANET
-                planetEquilibriumTemperature in 350.0..500.0 -> return PlanetType.DESERT_PLANET
-                planetEquilibriumTemperature < 200.0 -> return PlanetType.ICE_PLANET
+
+            // Thermal based
+            if (planetEquilibriumTemperature != null) {
+                // Tidally locked states are more specific than general thermal states
+                if (planetTidalLockingScore != null && planetTidalLockingScore < 0.2) {
+                    return when {
+                        planetEquilibriumTemperature > 350.0 -> PlanetType.HOT_EYEBALL_PLANET
+                        planetEquilibriumTemperature < 200.0 -> PlanetType.COLD_EYEBALL_PLANET
+                        else -> PlanetType.EYEBALL_PLANET
+                    }
+                }
+                // General thermal states if not tidally locked
+                when {
+                    planetEquilibriumTemperature > 1800.0 -> return PlanetType.LAVA_PLANET
+                    planetEquilibriumTemperature in 350.0..500.0 -> return PlanetType.DESERT_PLANET
+                    planetEquilibriumTemperature < 200.0 -> return PlanetType.ICE_PLANET
+                }
             }
         }
 
@@ -870,9 +904,6 @@ internal object Formula {
             }
         }
 
-        // Orbit based
-        if (planetOrbitalPeriod != null && planetOrbitalPeriod < 1.0) return PlanetType.ULTRA_SHORT_PERIOD_PLANET
-
         // Size subtypes
         if (planetMass != null) {
             when (foundationalType) {
@@ -891,46 +922,6 @@ internal object Formula {
             }
         }
 
-        // Non-habitable planets
-        if (rocheScore == 0.0) return PlanetType.DISRUPTED_PLANET
-        if (planetOrbitAxis != null && planetOrbitAxis < 0.02) return PlanetType.ELLIPSOID_PLANET
-
         return foundationalType
-    }
-
-    /**
-     * Calculate the foundational planet type.
-     */
-    private fun calculatePlanetFoundationalType(
-        planetMass: Double?,
-        planetRadius: Double?,
-        planetDensity: Double?,
-    ): PlanetType? = when {
-        // Gas Giants are the most massive planets, where runaway gas accretion has occurred.
-        // This requires high mass (>80 M_Earth), large radius (>7 R_Earth), and low density.
-        planetMass != null && planetMass > 80.0 && planetRadius != null && planetRadius > 7.0 && planetDensity != null && planetDensity < 2.0 -> {
-            PlanetType.GAS_GIANT
-        }
-
-        // Ice Giants are compositionally distinct, less massive than Gas Giants but still large.
-        // Defined by a mass of 10-80 M_Earth, a radius of 3.9-7 R_Earth, and higher density than Gas Giants.
-        planetMass != null && planetMass in 10.0..80.0 && planetRadius != null && planetRadius in 3.8..7.0 && planetDensity != null && planetDensity >= 1.0 -> {
-            PlanetType.ICE_GIANT
-        }
-
-        // Mini-Neptunes (Gas Dwarfs) have a significant gas envelope, defining them by their radius.
-        // The "radius valley" (~1.7 R_Earth) separates them from rocky Super-Earths.
-        // They have radii of 1.7-3.9 R_Earth and are not massive enough to be true giants (<20 M_Earth).
-        planetMass != null && planetMass in 1.0..20.0 && planetRadius != null && planetRadius in 1.7..3.9 -> {
-            PlanetType.MINI_NEPTUNE
-        }
-
-        // If a planet doesn't have a vast gas envelope, it's terrestrial.
-        // This is defined by a high density, which indicates a rocky/iron composition even if the planet is massive.
-        (planetRadius != null && planetRadius < 1.7 && planetDensity != null && planetDensity >= 1.5) || planetDensity != null && planetDensity > 3.0 -> {
-            PlanetType.TERRESTRIAL_PLANET
-        }
-
-        else -> null
     }
 }

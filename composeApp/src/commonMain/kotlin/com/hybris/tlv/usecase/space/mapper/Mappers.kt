@@ -72,6 +72,12 @@ internal fun Double.roundTo(decimalPlaces: Int): Double {
     return round(x = this * factor) / factor
 }
 
+internal fun Double?.sanitize(): Double? = when {
+    this == null -> null
+    isNaN() || isInfinite() || this == Double.NEGATIVE_INFINITY || this == Double.POSITIVE_INFINITY || this == Double.NaN -> null
+    else -> this
+}
+
 internal fun StellarHostJson.toStellarHost(): StellarHost =
     StellarHost(
         id = stellarHostName.toSnakeCase(),
