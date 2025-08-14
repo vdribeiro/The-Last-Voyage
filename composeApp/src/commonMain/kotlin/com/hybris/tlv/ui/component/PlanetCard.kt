@@ -29,10 +29,23 @@ import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
-import thelastvoyage.composeapp.generated.resources.planet01
-import thelastvoyage.composeapp.generated.resources.planet02
-import thelastvoyage.composeapp.generated.resources.planet03
-import thelastvoyage.composeapp.generated.resources.planet04
+import thelastvoyage.composeapp.generated.resources.alkali_metal_clouds_gas_giant
+import thelastvoyage.composeapp.generated.resources.ammonia_clouds_gas_giant
+import thelastvoyage.composeapp.generated.resources.barren_planet
+import thelastvoyage.composeapp.generated.resources.chthonian_planet
+import thelastvoyage.composeapp.generated.resources.cold_eyeball_planet
+import thelastvoyage.composeapp.generated.resources.crater_planet
+import thelastvoyage.composeapp.generated.resources.desert_planet
+import thelastvoyage.composeapp.generated.resources.disrupted_planet
+import thelastvoyage.composeapp.generated.resources.earth_analog_planet
+import thelastvoyage.composeapp.generated.resources.earth_like_planet
+import thelastvoyage.composeapp.generated.resources.ellipsoid_planet
+import thelastvoyage.composeapp.generated.resources.eyeball_planet
+import thelastvoyage.composeapp.generated.resources.gas_giant
+import thelastvoyage.composeapp.generated.resources.hot_eyebal_planet
+import thelastvoyage.composeapp.generated.resources.hot_jupiter
+import thelastvoyage.composeapp.generated.resources.hot_neptune
+import thelastvoyage.composeapp.generated.resources.ice_giant
 
 @Composable
 internal fun PlanetCard(
@@ -170,10 +183,45 @@ internal fun PlanetCard(
     }
 }
 
-private fun getImageResourceOfPlanet(type: PlanetType?): DrawableResource =
-    listOf(
-        Res.drawable.planet01,
-        Res.drawable.planet02,
-        Res.drawable.planet03,
-        Res.drawable.planet04,
-    ).random()
+private fun getImageResourceOfPlanet(type: PlanetType?): DrawableResource = when (type) {
+    PlanetType.SUB_EARTH -> Res.drawable.barren_planet
+    PlanetType.SUPER_EARTH -> Res.drawable.barren_planet
+    PlanetType.MEGA_EARTH -> Res.drawable.barren_planet
+    PlanetType.MINI_NEPTUNE -> Res.drawable.barren_planet
+    PlanetType.SUPER_NEPTUNE -> Res.drawable.barren_planet
+    PlanetType.ICE_GIANT -> Res.drawable.ice_giant
+    PlanetType.GAS_GIANT -> Res.drawable.gas_giant
+    PlanetType.SUPER_JUPITER -> Res.drawable.barren_planet
+    PlanetType.TERRESTRIAL_PLANET -> Res.drawable.barren_planet
+    PlanetType.IRON_PLANET -> Res.drawable.barren_planet
+    PlanetType.PUFFY_PLANET -> Res.drawable.barren_planet
+    PlanetType.SUPER_PUFF_PLANET -> Res.drawable.barren_planet
+    PlanetType.OCEAN_PLANET -> Res.drawable.barren_planet
+    PlanetType.SUBSURFACE_OCEAN_PLANET -> Res.drawable.barren_planet
+    PlanetType.LAVA_PLANET -> Res.drawable.barren_planet
+    PlanetType.DESERT_PLANET -> Res.drawable.desert_planet
+    PlanetType.ICE_PLANET -> Res.drawable.barren_planet
+    PlanetType.HOT_JUPITER -> Res.drawable.hot_jupiter
+    PlanetType.ULTRA_HOT_JUPITER -> Res.drawable.barren_planet
+    PlanetType.HOT_NEPTUNE -> Res.drawable.hot_neptune
+    PlanetType.ULTRA_HOT_NEPTUNE -> Res.drawable.barren_planet
+    PlanetType.ULTRA_SHORT_PERIOD_PLANET -> Res.drawable.barren_planet
+    PlanetType.EYEBALL_PLANET -> Res.drawable.eyeball_planet
+    PlanetType.HOT_EYEBALL_PLANET -> Res.drawable.hot_eyebal_planet
+    PlanetType.COLD_EYEBALL_PLANET -> Res.drawable.cold_eyeball_planet
+    PlanetType.AMMONIA_CLOUDS_GAS_GIANT -> Res.drawable.ammonia_clouds_gas_giant
+    PlanetType.WATER_CLOUDS_GAS_GIANT -> Res.drawable.barren_planet
+    PlanetType.CLOUDLESS_GAS_GIANT -> Res.drawable.barren_planet
+    PlanetType.ALKALI_METAL_CLOUDS_GAS_GIANT -> Res.drawable.alkali_metal_clouds_gas_giant
+    PlanetType.SILICATE_CLOUDS_GAS_GIANT -> Res.drawable.barren_planet
+    PlanetType.BARREN_PLANET -> Res.drawable.barren_planet
+    PlanetType.EARTH_LIKE_PLANET -> Res.drawable.earth_like_planet
+    PlanetType.EARTH_ANALOG_PLANET -> Res.drawable.earth_analog_planet
+    PlanetType.SUPERHABITABLE_PLANET -> Res.drawable.barren_planet
+    PlanetType.PROTOPLANET -> Res.drawable.barren_planet
+    PlanetType.DISRUPTED_PLANET -> Res.drawable.disrupted_planet
+    PlanetType.CHTHONIAN_PLANET -> Res.drawable.chthonian_planet
+    PlanetType.CRATER_PLANET -> Res.drawable.crater_planet
+    PlanetType.ELLIPSOID_PLANET -> Res.drawable.ellipsoid_planet
+    null -> Res.drawable.barren_planet
+}

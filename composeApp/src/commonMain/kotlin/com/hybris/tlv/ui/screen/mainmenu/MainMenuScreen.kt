@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -33,7 +34,6 @@ import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.ic_launcher_foreground
-import thelastvoyage.composeapp.generated.resources.notion
 import thelastvoyage.composeapp.generated.resources.support_me_on_kofi_badge_beige
 
 @Composable
@@ -53,16 +53,20 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 storeState.developerCorner?.let {
-                    Image(
-                        modifier = Modifier.size(size = 100.dp).clickable { uriHandler.openUri(uri = it) },
-                        painter = painterResource(resource = Res.drawable.notion),
-                        contentDescription = "Tip",
-                        contentScale = ContentScale.Fit,
+                    Text(
+                        modifier = Modifier
+                            .size(size = 100.dp)
+                            .wrapContentHeight(align = Alignment.CenterVertically)
+                            .clickable { uriHandler.openUri(uri = it) },
+                        text = "Developer's Corner",
+                        style = MaterialTheme.typography.titleSmall,
                     )
                 }
                 storeState.tip?.let {
                     Image(
-                        modifier = Modifier.size(size = 100.dp).clickable { uriHandler.openUri(uri = it) },
+                        modifier = Modifier
+                            .size(size = 100.dp)
+                            .clickable { uriHandler.openUri(uri = it) },
                         painter = painterResource(resource = Res.drawable.support_me_on_kofi_badge_beige),
                         contentDescription = "Tip",
                         contentScale = ContentScale.Fit,
