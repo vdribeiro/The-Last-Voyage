@@ -46,6 +46,15 @@ import thelastvoyage.composeapp.generated.resources.hot_eyebal_planet
 import thelastvoyage.composeapp.generated.resources.hot_jupiter
 import thelastvoyage.composeapp.generated.resources.hot_neptune
 import thelastvoyage.composeapp.generated.resources.ice_giant
+import thelastvoyage.composeapp.generated.resources.ice_planet
+import thelastvoyage.composeapp.generated.resources.iron_planet
+import thelastvoyage.composeapp.generated.resources.lava_planet
+import thelastvoyage.composeapp.generated.resources.mega_earth
+import thelastvoyage.composeapp.generated.resources.mini_neptune
+import thelastvoyage.composeapp.generated.resources.ocean_planet
+import thelastvoyage.composeapp.generated.resources.protoplanet
+import thelastvoyage.composeapp.generated.resources.puffy_planet
+import thelastvoyage.composeapp.generated.resources.silicate_clouds_gas_giant
 
 @Composable
 internal fun PlanetCard(
@@ -186,21 +195,21 @@ internal fun PlanetCard(
 private fun getImageResourceOfPlanet(type: PlanetType?): DrawableResource = when (type) {
     PlanetType.SUB_EARTH -> Res.drawable.barren_planet
     PlanetType.SUPER_EARTH -> Res.drawable.barren_planet
-    PlanetType.MEGA_EARTH -> Res.drawable.barren_planet
-    PlanetType.MINI_NEPTUNE -> Res.drawable.barren_planet
+    PlanetType.MEGA_EARTH -> Res.drawable.mega_earth
+    PlanetType.MINI_NEPTUNE -> Res.drawable.mini_neptune
     PlanetType.SUPER_NEPTUNE -> Res.drawable.barren_planet
     PlanetType.ICE_GIANT -> Res.drawable.ice_giant
     PlanetType.GAS_GIANT -> Res.drawable.gas_giant
     PlanetType.SUPER_JUPITER -> Res.drawable.barren_planet
     PlanetType.TERRESTRIAL_PLANET -> Res.drawable.barren_planet
-    PlanetType.IRON_PLANET -> Res.drawable.barren_planet
-    PlanetType.PUFFY_PLANET -> Res.drawable.barren_planet
+    PlanetType.IRON_PLANET -> Res.drawable.iron_planet
+    PlanetType.PUFFY_PLANET -> Res.drawable.puffy_planet
     PlanetType.SUPER_PUFF_PLANET -> Res.drawable.barren_planet
-    PlanetType.OCEAN_PLANET -> Res.drawable.barren_planet
+    PlanetType.OCEAN_PLANET -> Res.drawable.ocean_planet
     PlanetType.SUBSURFACE_OCEAN_PLANET -> Res.drawable.barren_planet
-    PlanetType.LAVA_PLANET -> Res.drawable.barren_planet
+    PlanetType.LAVA_PLANET -> Res.drawable.lava_planet
     PlanetType.DESERT_PLANET -> Res.drawable.desert_planet
-    PlanetType.ICE_PLANET -> Res.drawable.barren_planet
+    PlanetType.ICE_PLANET -> Res.drawable.ice_planet
     PlanetType.HOT_JUPITER -> Res.drawable.hot_jupiter
     PlanetType.ULTRA_HOT_JUPITER -> Res.drawable.barren_planet
     PlanetType.HOT_NEPTUNE -> Res.drawable.hot_neptune
@@ -213,12 +222,12 @@ private fun getImageResourceOfPlanet(type: PlanetType?): DrawableResource = when
     PlanetType.WATER_CLOUDS_GAS_GIANT -> Res.drawable.barren_planet
     PlanetType.CLOUDLESS_GAS_GIANT -> Res.drawable.barren_planet
     PlanetType.ALKALI_METAL_CLOUDS_GAS_GIANT -> Res.drawable.alkali_metal_clouds_gas_giant
-    PlanetType.SILICATE_CLOUDS_GAS_GIANT -> Res.drawable.barren_planet
+    PlanetType.SILICATE_CLOUDS_GAS_GIANT -> Res.drawable.silicate_clouds_gas_giant
     PlanetType.BARREN_PLANET -> Res.drawable.barren_planet
     PlanetType.EARTH_LIKE_PLANET -> Res.drawable.earth_like_planet
     PlanetType.EARTH_ANALOG_PLANET -> Res.drawable.earth_analog_planet
     PlanetType.SUPERHABITABLE_PLANET -> Res.drawable.barren_planet
-    PlanetType.PROTOPLANET -> Res.drawable.barren_planet
+    PlanetType.PROTOPLANET -> Res.drawable.protoplanet
     PlanetType.DISRUPTED_PLANET -> Res.drawable.disrupted_planet
     PlanetType.CHTHONIAN_PLANET -> Res.drawable.chthonian_planet
     PlanetType.CRATER_PLANET -> Res.drawable.crater_planet
