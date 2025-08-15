@@ -33,6 +33,7 @@ import thelastvoyage.composeapp.generated.resources.alkali_metal_clouds_gas_gian
 import thelastvoyage.composeapp.generated.resources.ammonia_clouds_gas_giant
 import thelastvoyage.composeapp.generated.resources.barren_planet
 import thelastvoyage.composeapp.generated.resources.chthonian_planet
+import thelastvoyage.composeapp.generated.resources.cloudless_gas_giant
 import thelastvoyage.composeapp.generated.resources.cold_eyeball_planet
 import thelastvoyage.composeapp.generated.resources.crater_planet
 import thelastvoyage.composeapp.generated.resources.desert_planet
@@ -55,6 +56,18 @@ import thelastvoyage.composeapp.generated.resources.ocean_planet
 import thelastvoyage.composeapp.generated.resources.protoplanet
 import thelastvoyage.composeapp.generated.resources.puffy_planet
 import thelastvoyage.composeapp.generated.resources.silicate_clouds_gas_giant
+import thelastvoyage.composeapp.generated.resources.sub_earth
+import thelastvoyage.composeapp.generated.resources.subsurface_ocean_planet
+import thelastvoyage.composeapp.generated.resources.super_earth
+import thelastvoyage.composeapp.generated.resources.super_habitable_planet
+import thelastvoyage.composeapp.generated.resources.super_jupiter
+import thelastvoyage.composeapp.generated.resources.super_neptune
+import thelastvoyage.composeapp.generated.resources.super_puff_planet
+import thelastvoyage.composeapp.generated.resources.terrestrial_planet
+import thelastvoyage.composeapp.generated.resources.ultra_hot_jupiter
+import thelastvoyage.composeapp.generated.resources.ultra_hot_neptune
+import thelastvoyage.composeapp.generated.resources.ultra_short_period_planet
+import thelastvoyage.composeapp.generated.resources.water_clouds_gas_giant
 
 @Composable
 internal fun PlanetCard(
@@ -193,40 +206,40 @@ internal fun PlanetCard(
 }
 
 private fun getImageResourceOfPlanet(type: PlanetType?): DrawableResource = when (type) {
-    PlanetType.SUB_EARTH -> Res.drawable.barren_planet
-    PlanetType.SUPER_EARTH -> Res.drawable.barren_planet
+    PlanetType.SUB_EARTH -> Res.drawable.sub_earth
+    PlanetType.SUPER_EARTH -> Res.drawable.super_earth
     PlanetType.MEGA_EARTH -> Res.drawable.mega_earth
     PlanetType.MINI_NEPTUNE -> Res.drawable.mini_neptune
-    PlanetType.SUPER_NEPTUNE -> Res.drawable.barren_planet
+    PlanetType.SUPER_NEPTUNE -> Res.drawable.super_neptune
     PlanetType.ICE_GIANT -> Res.drawable.ice_giant
     PlanetType.GAS_GIANT -> Res.drawable.gas_giant
-    PlanetType.SUPER_JUPITER -> Res.drawable.barren_planet
-    PlanetType.TERRESTRIAL_PLANET -> Res.drawable.barren_planet
+    PlanetType.SUPER_JUPITER -> Res.drawable.super_jupiter
+    PlanetType.TERRESTRIAL_PLANET -> Res.drawable.terrestrial_planet
     PlanetType.IRON_PLANET -> Res.drawable.iron_planet
     PlanetType.PUFFY_PLANET -> Res.drawable.puffy_planet
-    PlanetType.SUPER_PUFF_PLANET -> Res.drawable.barren_planet
+    PlanetType.SUPER_PUFF_PLANET -> Res.drawable.super_puff_planet
     PlanetType.OCEAN_PLANET -> Res.drawable.ocean_planet
-    PlanetType.SUBSURFACE_OCEAN_PLANET -> Res.drawable.barren_planet
+    PlanetType.SUBSURFACE_OCEAN_PLANET -> Res.drawable.subsurface_ocean_planet
     PlanetType.LAVA_PLANET -> Res.drawable.lava_planet
     PlanetType.DESERT_PLANET -> Res.drawable.desert_planet
     PlanetType.ICE_PLANET -> Res.drawable.ice_planet
     PlanetType.HOT_JUPITER -> Res.drawable.hot_jupiter
-    PlanetType.ULTRA_HOT_JUPITER -> Res.drawable.barren_planet
+    PlanetType.ULTRA_HOT_JUPITER -> Res.drawable.ultra_hot_jupiter
     PlanetType.HOT_NEPTUNE -> Res.drawable.hot_neptune
-    PlanetType.ULTRA_HOT_NEPTUNE -> Res.drawable.barren_planet
-    PlanetType.ULTRA_SHORT_PERIOD_PLANET -> Res.drawable.barren_planet
+    PlanetType.ULTRA_HOT_NEPTUNE -> Res.drawable.ultra_hot_neptune
+    PlanetType.ULTRA_SHORT_PERIOD_PLANET -> Res.drawable.ultra_short_period_planet
     PlanetType.EYEBALL_PLANET -> Res.drawable.eyeball_planet
     PlanetType.HOT_EYEBALL_PLANET -> Res.drawable.hot_eyebal_planet
     PlanetType.COLD_EYEBALL_PLANET -> Res.drawable.cold_eyeball_planet
     PlanetType.AMMONIA_CLOUDS_GAS_GIANT -> Res.drawable.ammonia_clouds_gas_giant
-    PlanetType.WATER_CLOUDS_GAS_GIANT -> Res.drawable.barren_planet
-    PlanetType.CLOUDLESS_GAS_GIANT -> Res.drawable.barren_planet
+    PlanetType.WATER_CLOUDS_GAS_GIANT -> Res.drawable.water_clouds_gas_giant
+    PlanetType.CLOUDLESS_GAS_GIANT -> Res.drawable.cloudless_gas_giant
     PlanetType.ALKALI_METAL_CLOUDS_GAS_GIANT -> Res.drawable.alkali_metal_clouds_gas_giant
     PlanetType.SILICATE_CLOUDS_GAS_GIANT -> Res.drawable.silicate_clouds_gas_giant
     PlanetType.BARREN_PLANET -> Res.drawable.barren_planet
     PlanetType.EARTH_LIKE_PLANET -> Res.drawable.earth_like_planet
     PlanetType.EARTH_ANALOG_PLANET -> Res.drawable.earth_analog_planet
-    PlanetType.SUPERHABITABLE_PLANET -> Res.drawable.barren_planet
+    PlanetType.SUPERHABITABLE_PLANET -> Res.drawable.super_habitable_planet
     PlanetType.PROTOPLANET -> Res.drawable.protoplanet
     PlanetType.DISRUPTED_PLANET -> Res.drawable.disrupted_planet
     PlanetType.CHTHONIAN_PLANET -> Res.drawable.chthonian_planet
