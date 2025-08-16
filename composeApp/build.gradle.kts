@@ -70,24 +70,30 @@ kotlin {
 
         val desktopTest by getting
 
-        val appleMain by creating {
-            dependsOn(other = commonMain)
-        }
-        listOf(
+        val appleList = listOf(
             iosX64(),
             iosArm64(),
             iosSimulatorArm64()
-        ).forEach { iosTarget ->
+        )
+        val appleMain by creating {
+            dependsOn(other = commonMain)
+            dependencies {
+                implementation(dependencyNotation = libs.bundles.ios)
+            }
+        }
+        appleList.forEach { iosTarget ->
             iosTarget.binaries.framework {
                 baseName = "TLV"
                 isStatic = true
             }
             sourceSets.getByName("${iosTarget.name}Main").dependsOn(other = appleMain)
         }
-        sourceSets.getByName("appleMain") {
-            dependencies {
-                implementation(dependencyNotation = libs.bundles.ios)
-            }
+
+        val appleTest by creating {
+            dependsOn(commonTest)
+        }
+        appleList.forEach { iosTarget ->
+            sourceSets.getByName("${iosTarget.name}Test").dependsOn(appleTest)
         }
     }
 }
