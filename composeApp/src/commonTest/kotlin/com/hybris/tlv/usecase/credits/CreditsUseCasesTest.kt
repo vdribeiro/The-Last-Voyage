@@ -1,13 +1,18 @@
 package com.hybris.tlv.usecase.credits
 
-import com.hybris.tlv.Tester
+import com.hybris.tlv.mock.Mock
 import kotlin.test.Test
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
-internal class CreditsUseCasesTest: Tester() {
+internal class CreditsUseCasesTest {
+
+    private val mock = Mock()
 
     @Test
     fun rewrite() = runBlocking {
+        mock.useCases.space.rewrite().last()
+        Unit
     }
 
     ///**

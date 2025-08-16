@@ -9,7 +9,12 @@ import com.hybris.tlv.firestore.CommonFirestore
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.CommonDispatchers
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.http.client.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.client.HttpClientFactory
+import com.hybris.tlv.http.client.setContentValidator
+import com.hybris.tlv.http.client.setRequestUrl
+import com.hybris.tlv.http.json.json
+import com.hybris.tlv.http.json.loadFromJson
 import com.hybris.tlv.locale.CommonLocale
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.storage.CommonLocalConfig
@@ -20,35 +25,71 @@ import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.Navigation.Screen
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
+import com.hybris.tlv.usecase.achievement.model.Achievement
+import com.hybris.tlv.usecase.credits.model.Credits
+import com.hybris.tlv.usecase.earth.model.Catastrophe
+import com.hybris.tlv.usecase.event.model.Event
+import com.hybris.tlv.usecase.ship.model.Engine
+import com.hybris.tlv.usecase.space.mapper.toExoplanetJson
+import com.hybris.tlv.usecase.space.model.Planet
+import com.hybris.tlv.usecase.space.model.StellarHost
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.engine.mock.respond
+import io.ktor.client.engine.mock.respondError
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.headersOf
 import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.runBlocking
 
 internal class Mock {
 
-    private val dispatcher: Dispatcher by lazy {
+    val stellarHosts: List<StellarHost> by lazy {
+        runBlocking { loadFromJson(path = "files/hosts.json") }
+    }
+    val planets: List<Planet> by lazy {
+        runBlocking { loadFromJson(path = "files/planets.json") }
+    }
+    val catastrophes: List<Catastrophe> by lazy {
+        runBlocking { loadFromJson(path = "files/catastrophes.json") }
+    }
+    val engines: List<Engine> by lazy {
+        runBlocking { loadFromJson(path = "files/engines.json") }
+    }
+    val events: List<Event> by lazy {
+        runBlocking { loadFromJson(path = "files/events.json") }
+    }
+    val achievements: List<Achievement> by lazy {
+        runBlocking { loadFromJson(path = "files/achievements.json") }
+    }
+    val credits: List<Credits> by lazy {
+        runBlocking { loadFromJson(path = "files/credits.json") }
+    }
+
+    val dispatcher: Dispatcher by lazy {
         CommonDispatchers()
     }
-    private val locale: Locale by lazy {
+    val locale: Locale by lazy {
         CommonLocale()
     }
-    private val localConfig: LocalConfig by lazy {
+    val localConfig: LocalConfig by lazy {
         CommonLocalConfig()
     }
-    private val remoteConfig: RemoteConfig by lazy {
+    val remoteConfig: RemoteConfig by lazy {
         CommonRemoteConfig()
     }
-    private val firestore: Firestore by lazy {
+    val firestore: Firestore by lazy {
         CommonFirestore()
     }
-
-    private val databaseDriver: SqlDriver by lazy {
+    val databaseDriver: SqlDriver by lazy {
         SqlDriverFactory.build()
     }
-
-    private val httpClient: HttpClient by lazy {
+    val httpClient: HttpClient by lazy {
         HttpClientFactory.buildExoplanetHttpClient()
     }
-    private val useCases: UseCases by lazy {
+    val useCases: UseCases by lazy {
         Gateways(
             dispatcher = dispatcher,
             firestore = firestore,
@@ -56,7 +97,7 @@ internal class Mock {
             httpClient = httpClient,
         )
     }
-    private val core: Core by lazy {
+    val core: Core by lazy {
         AppCore(
             dispatcher = dispatcher,
             locale = locale,
@@ -65,7 +106,7 @@ internal class Mock {
             useCases = useCases,
         )
     }
-    private val navigation by lazy {
+    val navigation by lazy {
         Navigation(core = core)
     }
 
@@ -78,5 +119,29 @@ internal class Mock {
         state = state
     )
 
-    suspend fun prepopulateDatabase() = core.prepopulate().last()
+    init {
+        runBlocking {
+            core.prepopulate().last()
+        }
+    }
+
+    fun buildExoplanetHttpClient(): HttpClient {
+        val mockEngine = MockEngine { request ->
+            if (request.method == HttpMethod.Get && request.url.encodedPath.startsWith(prefix = "/sync")) {
+                val stellarHostsMap = stellarHosts.associateBy { it.id }
+                respond(
+                    headers = headersOf(name = HttpHeaders.ContentType, value = "application/json"),
+                    content = json.encodeToString(value = planets.mapNotNull {
+                        val stellarHost = stellarHostsMap[it.stellarHostId] ?: return@mapNotNull null
+                        it.toExoplanetJson(stellarHost = stellarHost)
+                    }),
+                )
+            } else respondError(status = HttpStatusCode.NotFound, content = "Resource not found for path: ${request.url.encodedPath}")
+        }
+
+        return HttpClient(engine = mockEngine) {
+            setRequestUrl(url = EXOPLANET_ARCHIVE_URL)
+            setContentValidator()
+        }
+    }
 }
