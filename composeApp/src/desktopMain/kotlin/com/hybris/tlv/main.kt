@@ -8,8 +8,7 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import app.cash.sqldelight.db.SqlDriver
-import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import com.hybris.tlv.database.Database
+import com.hybris.tlv.database.SqlDriverFactory
 import com.hybris.tlv.firestore.DesktopFirestore
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.Dispatcher
@@ -25,9 +24,7 @@ import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.translation.getTranslation
-import database.AppDatabase
 import io.ktor.client.HttpClient
-import java.util.Properties
 
 private val dispatcher: Dispatcher by lazy {
     Dispatchers()
@@ -45,11 +42,7 @@ private val firestore: Firestore by lazy {
     DesktopFirestore()
 }
 private val databaseDriver: SqlDriver by lazy {
-    JdbcSqliteDriver(
-        url = "jdbc:sqlite:${Database.NAME}",
-        properties = Properties(),
-        schema = AppDatabase.Schema,
-    )
+    SqlDriverFactory.build()
 }
 private val httpClient: HttpClient by lazy {
     HttpClientFactory.buildExoplanetHttpClient()

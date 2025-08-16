@@ -59,6 +59,8 @@ kotlin {
             }
         }
 
+        val androidUnitTest by getting
+
         val desktopMain by getting {
             dependencies {
                 implementation(dependencyNotation = compose.desktop.currentOs)
@@ -66,10 +68,11 @@ kotlin {
             }
         }
 
+        val desktopTest by getting
+
         val appleMain by creating {
             dependsOn(other = commonMain)
         }
-
         listOf(
             iosX64(),
             iosArm64(),
@@ -79,9 +82,8 @@ kotlin {
                 baseName = "TLV"
                 isStatic = true
             }
-            sourceSets.getByName(/* name = */ "${iosTarget.name}Main").dependsOn(other = appleMain)
+            sourceSets.getByName("${iosTarget.name}Main").dependsOn(other = appleMain)
         }
-
         sourceSets.getByName("appleMain") {
             dependencies {
                 implementation(dependencyNotation = libs.bundles.ios)
@@ -159,7 +161,7 @@ sqldelight {
     databases {
         create("AppDatabase") {
             packageName.set("database")
-            schemaOutputDirectory.set(file(path ="${project.projectDir}/src/commonMain/sqldelight/schema"))
+            schemaOutputDirectory.set(file(path = "${project.projectDir}/src/commonMain/sqldelight/schema"))
         }
     }
 }

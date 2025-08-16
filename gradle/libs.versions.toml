@@ -93,6 +93,7 @@ common-test = [
 android = [
     "kotlin-ktor-okhttp",
     "sqldelight-android",
+    "sqldelight-jvm",
     "androidx-startup",
     "androidx-activity-compose",
     "androidx-exoplayer",
