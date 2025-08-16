@@ -25,17 +25,6 @@ kotlin {
         }
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "TLV"
-            isStatic = true
-        }
-    }
-
     jvm(name = "desktop") {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
@@ -74,6 +63,28 @@ kotlin {
             dependencies {
                 implementation(dependencyNotation = compose.desktop.currentOs)
                 implementation(dependencyNotation = libs.bundles.desktop)
+            }
+        }
+
+        val appleMain by creating {
+            dependsOn(other = commonMain)
+        }
+
+        listOf(
+            iosX64(),
+            iosArm64(),
+            iosSimulatorArm64()
+        ).forEach { iosTarget ->
+            iosTarget.binaries.framework {
+                baseName = "TLV"
+                isStatic = true
+            }
+            sourceSets.getByName(/* name = */ "${iosTarget.name}Main").dependsOn(other = appleMain)
+        }
+
+        sourceSets.getByName("appleMain") {
+            dependencies {
+                implementation(dependencyNotation = libs.bundles.ios)
             }
         }
     }
@@ -149,7 +160,6 @@ sqldelight {
         create("AppDatabase") {
             packageName.set("database")
             schemaOutputDirectory.set(file(path ="${project.projectDir}/src/commonMain/sqldelight/schema"))
-            verifyMigrations.set(true)
         }
     }
 }

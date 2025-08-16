@@ -476,11 +476,6 @@ internal val credits = listOf(
         type = CreditsType.CREATOR,
     ),
     Credits(
-        id = "You",
-        link = null,
-        type = CreditsType.SUPPORTER,
-    ),
-    Credits(
         id = "NASA Exoplanet Archive DOIs 10.26133/NEA13 and 10.26133/NEA40",
         link = "https://exoplanetarchive.ipac.caltech.edu/",
         type = CreditsType.SOURCE,
@@ -489,5 +484,10 @@ internal val credits = listOf(
         id = "OpenGameArt",
         link = "https://opengameart.org/",
         type = CreditsType.MUSIC,
+    ),
+    Credits(
+        id = "You",
+        link = null,
+        type = CreditsType.SUPPORTER,
     ),
 )

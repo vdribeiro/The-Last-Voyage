@@ -66,9 +66,9 @@ internal fun CreditsScreen(store: Store<CreditsAction, CreditsState>) {
                     items(items = creators, key = { it.id }) { credits ->
                         Spacer(modifier = Modifier.height(height = 8.dp))
                         Text(
-                            modifier = Modifier.apply { credits.link?.let { clickable { uriHandler.openUri(uri = it) } } },
+                            modifier = Modifier.clickable { credits.link?.let { uriHandler.openUri(uri = it) } },
                             text = credits.id,
-                            style = MaterialTheme.typography.bodyMedium.copy(
+                            style = MaterialTheme.typography.bodyLarge.copy(
                                 color = MaterialTheme.colorScheme.primary,
                                 textDecoration = TextDecoration.Underline
                             ),
@@ -89,9 +89,9 @@ internal fun CreditsScreen(store: Store<CreditsAction, CreditsState>) {
                     items(items = sources, key = { it.id }) { credits ->
                         Spacer(modifier = Modifier.height(height = 8.dp))
                         Text(
-                            modifier = Modifier.apply { credits.link?.let { clickable { uriHandler.openUri(uri = it) } } },
+                            modifier = Modifier.clickable { credits.link?.let { uriHandler.openUri(uri = it) } },
                             text = credits.id,
-                            style = MaterialTheme.typography.bodyMedium.copy(
+                            style = MaterialTheme.typography.bodyLarge.copy(
                                 color = MaterialTheme.colorScheme.primary,
                                 textDecoration = TextDecoration.Underline
                             ),
@@ -112,9 +112,9 @@ internal fun CreditsScreen(store: Store<CreditsAction, CreditsState>) {
                     items(items = musics, key = { it.id }) { credits ->
                         Spacer(modifier = Modifier.height(height = 8.dp))
                         Text(
-                            modifier = Modifier.apply { credits.link?.let { clickable { uriHandler.openUri(uri = it) } } },
+                            modifier = Modifier.clickable { credits.link?.let { uriHandler.openUri(uri = it) } },
                             text = credits.id,
-                            style = MaterialTheme.typography.bodyMedium.copy(
+                            style = MaterialTheme.typography.bodyLarge.copy(
                                 color = MaterialTheme.colorScheme.primary,
                                 textDecoration = TextDecoration.Underline
                             ),
@@ -144,10 +144,10 @@ internal fun CreditsScreen(store: Store<CreditsAction, CreditsState>) {
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(all = 16.dp)
-                                            .apply { credits.link?.let { clickable { uriHandler.openUri(uri = it) } } },
+                                            .clickable { credits.link?.let { uriHandler.openUri(uri = it) } },
                                         text = credits.id,
                                         textAlign = TextAlign.Center,
-                                        style = MaterialTheme.typography.bodyMedium.copy(
+                                        style = MaterialTheme.typography.bodyLarge.copy(
                                             color = MaterialTheme.colorScheme.primary,
                                             textDecoration = TextDecoration.Underline
                                         )
