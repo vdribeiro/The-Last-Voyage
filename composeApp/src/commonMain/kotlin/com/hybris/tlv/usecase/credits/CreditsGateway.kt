@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.credits
 
-import com.hybris.tlv.http.client.json
+import com.hybris.tlv.http.json.loadFromJson
 import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
@@ -9,20 +9,14 @@ import com.hybris.tlv.usecase.credits.model.Credits
 import com.hybris.tlv.usecase.credits.remote.CreditsRemote
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import thelastvoyage.composeapp.generated.resources.Res
 
 internal class CreditsGateway(
     private val creditsApi: CreditsRemote,
     private val creditsDao: CreditsLocal
 ): CreditsUseCases {
 
-    private suspend fun loadCreditsFromJson(): List<Credits> = runCatching {
-        val jsonString = Res.readBytes(path = "files/credits.json").decodeToString()
-        json.decodeFromString<List<Credits>>(string = jsonString)
-    }.getOrDefault(defaultValue = emptyList())
-
     override suspend fun rewrite(): Flow<SyncResult> {
-        val credits = loadCreditsFromJson()
+        val credits: List<Credits> = loadFromJson(path = "files/credits.json")
         creditsDao.rewriteCredits(credits = credits)
         return creditsApi.rewriteCredits(credits = credits)
     }
@@ -52,7 +46,7 @@ internal class CreditsGateway(
 
     override suspend fun prepopulateCredits() {
         if (creditsDao.isCreditsEmpty()) {
-            val credits = loadCreditsFromJson()
+            val credits: List<Credits> = loadFromJson(path = "files/credits.json")
             creditsDao.rewriteCredits(credits = credits)
             true
         }

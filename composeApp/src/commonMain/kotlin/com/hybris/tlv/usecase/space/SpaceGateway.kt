@@ -1,6 +1,7 @@
 package com.hybris.tlv.usecase.space
 
-import com.hybris.tlv.http.client.json
+import com.hybris.tlv.http.json.json
+import com.hybris.tlv.http.json.loadFromJson
 import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.storage.saveFile
 import com.hybris.tlv.usecase.Result
@@ -21,26 +22,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import thelastvoyage.composeapp.generated.resources.Res
 
 internal class SpaceGateway(
     private val spaceApi: SpaceRemote,
     private val spaceDao: SpaceLocal,
 ): SpaceUseCases {
 
-    private suspend fun loadHostsFromJson(): List<StellarHost> = runCatching {
-        val jsonString = Res.readBytes(path = "files/hosts.json").decodeToString()
-        json.decodeFromString<List<StellarHost>>(string = jsonString)
-    }.getOrDefault(defaultValue = emptyList())
-
-    private suspend fun loadPlanetsFromJson(): List<Planet> = runCatching {
-        val jsonString = Res.readBytes(path = "files/planets.json").decodeToString()
-        json.decodeFromString<List<Planet>>(string = jsonString)
-    }.getOrDefault(defaultValue = emptyList())
-
     override suspend fun rewrite(): Flow<SyncResult> {
-        val stellarHosts = loadHostsFromJson()
-        val planets = loadPlanetsFromJson()
+        val stellarHosts: List<StellarHost> = loadFromJson(path = "files/hosts.json")
+        val planets: List<Planet> = loadFromJson(path = "files/planets.json")
         spaceDao.rewriteStellarHosts(stellarHosts = stellarHosts)
         spaceDao.rewritePlanets(planets = planets)
         val stellarHostsFlow = spaceApi.rewriteStellarHosts(stellarHosts = stellarHosts)
@@ -51,14 +41,8 @@ internal class SpaceGateway(
     override suspend fun getArchive(): Flow<SyncResult> = flow {
         val totalOperations = 6f
         emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
-        val stellarHosts = runCatching {
-            val jsonString = Res.readBytes(path = "files/solarsystem.json").decodeToString()
-            json.decodeFromString<List<StellarHost>>(string = jsonString)
-        }.getOrDefault(defaultValue = emptyList()).toMutableList()
-        val planets = runCatching {
-            val jsonString = Res.readBytes(path = "files/solarplanets.json").decodeToString()
-            json.decodeFromString<List<Planet>>(string = jsonString)
-        }.getOrDefault(defaultValue = emptyList()).toMutableList()
+        val stellarHosts = loadFromJson<StellarHost>(path = "files/solarsystem.json").toMutableList()
+        val planets = loadFromJson<Planet>(path = "files/solarplanets.json").toMutableList()
 
         emit(value = SyncResult.Loading(progress = 1f, total = totalOperations))
         when (val stellarHostsArchiveResult = getArchive { spaceApi.getStellarHostsArchive(queryMap = it) }) {
@@ -176,14 +160,14 @@ internal class SpaceGateway(
 
     override suspend fun prepopulateStellarHosts() {
         if (spaceDao.isStellarHostEmpty()) {
-            val stellarHosts = loadHostsFromJson()
+            val stellarHosts: List<StellarHost> = loadFromJson(path = "files/hosts.json")
             spaceDao.rewriteStellarHosts(stellarHosts = stellarHosts)
         }
     }
 
     override suspend fun prepopulatePlanets() {
         if (spaceDao.isPlanetEmpty()) {
-            val planets = loadPlanetsFromJson()
+            val planets: List<Planet> = loadFromJson(path = "files/planets.json")
             spaceDao.rewritePlanets(planets = planets)
         }
     }

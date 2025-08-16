@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.event
 
-import com.hybris.tlv.http.client.json
+import com.hybris.tlv.http.json.loadFromJson
 import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
@@ -9,20 +9,14 @@ import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.event.remote.EventRemote
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import thelastvoyage.composeapp.generated.resources.Res
 
 internal class EventGateway(
     private val eventApi: EventRemote,
     private val eventDao: EventLocal
 ): EventUseCases {
 
-    private suspend fun loadEventsFromJson(): List<Event> = runCatching {
-        val jsonString = Res.readBytes(path = "files/events.json").decodeToString()
-        json.decodeFromString<List<Event>>(string = jsonString)
-    }.getOrDefault(defaultValue = emptyList())
-
     override suspend fun rewrite(): Flow<SyncResult> {
-        val events = loadEventsFromJson()
+        val events: List<Event> = loadFromJson(path = "files/events.json")
         eventDao.rewriteEvents(events = events)
         return eventApi.rewriteEvents(events = events)
     }
@@ -52,7 +46,7 @@ internal class EventGateway(
 
     override suspend fun prepopulateEvents() {
         if (eventDao.isEventEmpty()) {
-            val events = loadEventsFromJson()
+            val events: List<Event> = loadFromJson(path = "files/events.json")
             eventDao.rewriteEvents(events = events)
         }
     }

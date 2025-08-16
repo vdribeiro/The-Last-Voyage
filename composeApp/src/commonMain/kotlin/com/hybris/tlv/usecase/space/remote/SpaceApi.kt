@@ -4,7 +4,7 @@ import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.firestore.result.FirestoreReadResult
 import com.hybris.tlv.firestore.result.FirestoreWriteResult
 import com.hybris.tlv.http.client.HttpClient
-import com.hybris.tlv.http.client.json
+import com.hybris.tlv.http.json.json
 import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.http.request.Request
 import com.hybris.tlv.logger.Logger

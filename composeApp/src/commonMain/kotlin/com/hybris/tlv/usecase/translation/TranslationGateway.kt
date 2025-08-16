@@ -2,7 +2,7 @@ package com.hybris.tlv.usecase.translation
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
-import com.hybris.tlv.http.client.json
+import com.hybris.tlv.http.json.loadFromJson
 import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
@@ -12,7 +12,6 @@ import com.hybris.tlv.usecase.translation.model.domain.Translation
 import com.hybris.tlv.usecase.translation.remote.TranslationRemote
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import thelastvoyage.composeapp.generated.resources.Res
 
 internal class TranslationGateway(
     private val dispatcher: Dispatcher,
@@ -20,13 +19,8 @@ internal class TranslationGateway(
     private val translationDao: TranslationLocal
 ): TranslationUseCases {
 
-    private suspend fun loadTranslationsFromJson(): List<Translation> = runCatching {
-        val jsonString = Res.readBytes(path = "files/translations.json").decodeToString()
-        json.decodeFromString<List<Translation>>(string = jsonString)
-    }.getOrDefault(defaultValue = emptyList())
-
     override suspend fun rewrite(): Flow<SyncResult> {
-        val translations = loadTranslationsFromJson()
+        val translations: List<Translation> = loadFromJson(path = "files/translations.json")
         translationDao.rewriteTranslations(translations = translations)
         return translationApi.rewriteTranslations(translations = translations)
     }
@@ -58,7 +52,7 @@ internal class TranslationGateway(
 
     override suspend fun prepopulateTranslations() {
         if (translationDao.isTranslationEmpty()) {
-            val translations = loadTranslationsFromJson()
+            val translations: List<Translation> = loadFromJson(path = "files/translations.json")
             translationDao.rewriteTranslations(translations = translations)
         }
     }

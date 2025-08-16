@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.achievement
 
-import com.hybris.tlv.http.client.json
+import com.hybris.tlv.http.json.loadFromJson
 import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
@@ -9,20 +9,14 @@ import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.remote.AchievementRemote
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import thelastvoyage.composeapp.generated.resources.Res
 
 internal class AchievementGateway(
     private val achievementApi: AchievementRemote,
     private val achievementDao: AchievementLocal
 ): AchievementUseCases {
 
-    private suspend fun loadAchievementsFromJson(): List<Achievement> = runCatching {
-        val jsonString = Res.readBytes(path = "files/achievements.json").decodeToString()
-        json.decodeFromString<List<Achievement>>(string = jsonString)
-    }.getOrDefault(defaultValue = emptyList())
-
     override suspend fun rewrite(): Flow<SyncResult> {
-        val achievements = loadAchievementsFromJson()
+        val achievements: List<Achievement> = loadFromJson(path = "files/achievements.json")
         achievementDao.rewriteAchievements(achievements = achievements)
         return achievementApi.rewriteAchievements(achievements = achievements)
     }
@@ -52,7 +46,7 @@ internal class AchievementGateway(
 
     override suspend fun prepopulateAchievements() {
         if (achievementDao.isAchievementEmpty()) {
-            val achievements = loadAchievementsFromJson()
+            val achievements: List<Achievement> = loadFromJson(path = "files/achievements.json")
             achievementDao.rewriteAchievements(achievements = achievements)
             true
         }

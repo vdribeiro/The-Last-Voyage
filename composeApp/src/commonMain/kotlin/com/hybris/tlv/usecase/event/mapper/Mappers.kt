@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.event.mapper
 
 import com.hybris.tlv.database.EventSchema
-import com.hybris.tlv.http.client.json
 import com.hybris.tlv.http.getString
+import com.hybris.tlv.http.json.json
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.event.remote.EventApi.Companion.EVENT_DESCRIPTION
 import com.hybris.tlv.usecase.event.remote.EventApi.Companion.EVENT_ID

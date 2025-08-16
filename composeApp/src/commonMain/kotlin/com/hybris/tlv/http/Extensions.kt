@@ -11,3 +11,4 @@ internal fun Map<String, Any>.getDouble(key: String): Double? =
 
 internal fun Map<String, Any>.getBoolean(key: String): Boolean? =
     getString(key = key)?.toBooleanStrictOrNull()
+

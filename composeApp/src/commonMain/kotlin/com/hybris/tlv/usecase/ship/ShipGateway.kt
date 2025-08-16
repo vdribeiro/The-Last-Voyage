@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.ship
 
-import com.hybris.tlv.http.client.json
+import com.hybris.tlv.http.json.loadFromJson
 import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
@@ -9,20 +9,14 @@ import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.remote.ShipRemote
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import thelastvoyage.composeapp.generated.resources.Res
 
 internal class ShipGateway(
     private val shipApi: ShipRemote,
     private val shipDao: ShipLocal
 ): ShipUseCases {
 
-    private suspend fun loadEnginesFromJson(): List<Engine> = runCatching {
-        val jsonString = Res.readBytes(path = "files/engines.json").decodeToString()
-        json.decodeFromString<List<Engine>>(string = jsonString)
-    }.getOrDefault(defaultValue = emptyList())
-
     override suspend fun rewrite(): Flow<SyncResult> {
-        val engines = loadEnginesFromJson()
+        val engines: List<Engine> = loadFromJson(path = "files/engines.json")
         shipDao.rewriteEngines(engines = engines)
         return shipApi.rewriteEngines(engines = engines)
     }
@@ -52,7 +46,7 @@ internal class ShipGateway(
 
     override suspend fun prepopulateEngines() {
         if (shipDao.isEngineEmpty()) {
-            val engines = loadEnginesFromJson()
+            val engines: List<Engine> = loadFromJson(path = "files/engines.json")
             shipDao.rewriteEngines(engines = engines)
         }
     }
