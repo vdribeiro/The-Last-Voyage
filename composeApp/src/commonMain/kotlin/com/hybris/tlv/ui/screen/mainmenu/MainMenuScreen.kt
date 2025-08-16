@@ -28,7 +28,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.component.Option
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
@@ -96,36 +95,49 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                     text = getTranslation(key = "app_name"),
                     style = MaterialTheme.typography.headlineLarge,
                 )
-                Spacer(modifier = Modifier.height(height = 48.dp))
-                Option(
+                Spacer(modifier = Modifier.height(height = 64.dp))
+                Text(
+                    modifier = Modifier.clickable { store.send(action = MainMenuAction.NewGame) },
                     text = getTranslation(key = "main_menu_screen__new_game"),
-                    onClick = { store.send(action = MainMenuAction.NewGame) }
+                    style = MaterialTheme.typography.headlineMedium,
                 )
                 if (ongoingGameSession) {
-                    Option(
+                    Spacer(modifier = Modifier.height(height = 16.dp))
+                    Text(
+                        modifier = Modifier.clickable { store.send(action = MainMenuAction.Continue) },
                         text = getTranslation(key = "main_menu_screen__continue"),
-                        onClick = { store.send(action = MainMenuAction.Continue) }
+                        style = MaterialTheme.typography.headlineMedium,
                     )
                 }
-                Option(
+                Spacer(modifier = Modifier.height(height = 16.dp))
+                Text(
+                    modifier = Modifier.clickable { store.send(action = MainMenuAction.StellarExplorer) },
                     text = getTranslation(key = "explore_screen__stellar_explorer"),
-                    onClick = { store.send(action = MainMenuAction.StellarExplorer) }
+                    style = MaterialTheme.typography.headlineMedium,
                 )
-                Option(
+                Spacer(modifier = Modifier.height(height = 16.dp))
+                Text(
+                    modifier = Modifier.clickable { store.send(action = MainMenuAction.Explore) },
                     text = getTranslation(key = "main_menu_screen__explore"),
-                    onClick = { store.send(action = MainMenuAction.Explore) }
+                    style = MaterialTheme.typography.headlineMedium,
                 )
-                Option(
+                Spacer(modifier = Modifier.height(height = 16.dp))
+                Text(
+                    modifier = Modifier.clickable { store.send(action = MainMenuAction.Scores) },
                     text = getTranslation(key = "main_menu_screen__scores"),
-                    onClick = { store.send(action = MainMenuAction.Scores) }
+                    style = MaterialTheme.typography.headlineMedium,
                 )
-                //Option(
-                //    text = getTranslation(key = "main_menu_screen__achievements"),
-                //    onClick = { store.send(action = MainMenuAction.Achievements) }
-                //)
-                Option(
+                Spacer(modifier = Modifier.height(height = 16.dp))
+                Text(
+                    modifier = Modifier.clickable { store.send(action = MainMenuAction.Achievements) },
+                    text = getTranslation(key = "main_menu_screen__achievements"),
+                    style = MaterialTheme.typography.headlineMedium,
+                )
+                Spacer(modifier = Modifier.height(height = 16.dp))
+                Text(
+                    modifier = Modifier.clickable { store.send(action = MainMenuAction.Credits) },
                     text = getTranslation(key = "main_menu_screen__credits"),
-                    onClick = { store.send(action = MainMenuAction.Credits) }
+                    style = MaterialTheme.typography.headlineMedium,
                 )
             }
         }

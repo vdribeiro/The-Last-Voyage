@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -46,12 +45,10 @@ internal fun PlanetCard(
     habitability: Double? = null,
     type: String? = null,
     typeDrawable: DrawableResource? = null,
-    onClick: () -> Unit = {}
 ) {
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = RoundedCornerShape(size = 8.dp)
     ) {

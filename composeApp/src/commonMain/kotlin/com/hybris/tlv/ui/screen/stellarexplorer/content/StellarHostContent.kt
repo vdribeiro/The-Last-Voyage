@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer.content
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -65,6 +66,17 @@ internal fun StellarHostContent(store: Store<StellarExplorerAction, StellarExplo
         }
         items(items = storeState.filteredStellarHosts, key = { it.id }) { stellarHost ->
             StellarHostCard(
+                modifier = Modifier.clickable {
+                    store.send(
+                        action = StellarExplorerAction.SaveIndex(
+                            index = LazyListIndex(
+                                index = listState.firstVisibleItemIndex,
+                                scrollOffset = listState.firstVisibleItemScrollOffset
+                            )
+                        )
+                    )
+                    store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHost))
+                },
                 name = if (visibleStellarHostProperties.contains(element = StellarHostProperty.NAME)) stellarHost.name else null,
                 systemName = if (visibleStellarHostProperties.contains(element = StellarHostProperty.SYSTEM_NAME)) stellarHost.systemName else null,
                 planetCount = if (visibleStellarHostProperties.contains(element = StellarHostProperty.PLANET_COUNT)) stellarHost.planets.size else null,
@@ -83,17 +95,7 @@ internal fun StellarHostContent(store: Store<StellarExplorerAction, StellarExplo
                 distance = if (visibleStellarHostProperties.contains(element = StellarHostProperty.DISTANCE)) stellarHost.distance else null,
                 ra = if (visibleStellarHostProperties.contains(element = StellarHostProperty.RA)) stellarHost.ra else null,
                 dec = if (visibleStellarHostProperties.contains(element = StellarHostProperty.DEC)) stellarHost.dec else null,
-            ) {
-                store.send(
-                    action = StellarExplorerAction.SaveIndex(
-                        index = LazyListIndex(
-                            index = listState.firstVisibleItemIndex,
-                            scrollOffset = listState.firstVisibleItemScrollOffset
-                        )
-                    )
-                )
-                store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHost))
-            }
+            )
         }
     }
 }

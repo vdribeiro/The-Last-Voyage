@@ -1,16 +1,18 @@
 package com.hybris.tlv.ui.screen.explore.content
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.component.Option
 import com.hybris.tlv.ui.screen.explore.ExploreAction
 import com.hybris.tlv.ui.screen.explore.ExploreState
 import com.hybris.tlv.ui.store.Store
@@ -25,18 +27,23 @@ internal fun MenuContent(store: Store<ExploreAction, ExploreState>) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(height = 48.dp))
-        Option(
+        Spacer(modifier = Modifier.height(height = 64.dp))
+        Text(
+            modifier = Modifier.clickable { store.send(action = ExploreAction.Mechanics) },
             text = getTranslation(key = "explore_screen__mechanics"),
-            onClick = { store.send(action = ExploreAction.Mechanics) }
+            style = MaterialTheme.typography.headlineMedium,
         )
-        Option(
+        Spacer(modifier = Modifier.height(height = 16.dp))
+        Text(
+            modifier = Modifier.clickable { store.send(action = ExploreAction.Habitability) },
             text = getTranslation(key = "explore_screen__habitability"),
-            onClick = { store.send(action = ExploreAction.Habitability) }
+            style = MaterialTheme.typography.headlineMedium,
         )
-        Option(
+        Spacer(modifier = Modifier.height(height = 16.dp))
+        Text(
+            modifier = Modifier.clickable { store.send(action = ExploreAction.PlanetTypes) },
             text = getTranslation(key = "explore_screen__planet_types"),
-            onClick = { store.send(action = ExploreAction.PlanetTypes) }
+            style = MaterialTheme.typography.headlineMedium,
         )
     }
 }

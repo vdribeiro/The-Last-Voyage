@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer.content
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -67,6 +68,17 @@ internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerSt
         }
         items(items = storeState.filteredPlanets, key = { it.id }) { planet ->
             PlanetCard(
+                modifier = Modifier.clickable {
+                    store.send(
+                        action = StellarExplorerAction.SaveIndex(
+                            index = LazyListIndex(
+                                index = listState.firstVisibleItemIndex,
+                                scrollOffset = listState.firstVisibleItemScrollOffset
+                            )
+                        )
+                    )
+                    store.send(action = StellarExplorerAction.OpenPlanet(planet = planet))
+                },
                 name = if (visiblePlanetProperties.contains(element = PlanetProperty.NAME)) planet.name else null,
                 status = if (visiblePlanetProperties.contains(element = PlanetProperty.STATUS)) planet.status.displayName else null,
                 orbitalPeriod = if (visiblePlanetProperties.contains(element = PlanetProperty.ORBITAL_PERIOD)) planet.orbitalPeriod else null,
@@ -83,17 +95,7 @@ internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerSt
                 habitability = if (visiblePlanetProperties.contains(element = PlanetProperty.HABITABILITY)) planet.habitability?.habitabilityScore else null,
                 type = if (visiblePlanetProperties.contains(element = PlanetProperty.TYPE)) planet.habitability?.planetType?.displayName else null,
                 typeDrawable = if (visiblePlanetProperties.contains(element = PlanetProperty.TYPE)) planet.habitability?.planetType.toDrawable() else null,
-            ) {
-                store.send(
-                    action = StellarExplorerAction.SaveIndex(
-                        index = LazyListIndex(
-                            index = listState.firstVisibleItemIndex,
-                            scrollOffset = listState.firstVisibleItemScrollOffset
-                        )
-                    )
-                )
-                store.send(action = StellarExplorerAction.OpenPlanet(planet = planet))
-            }
+            )
         }
     }
 }
