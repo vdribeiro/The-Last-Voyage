@@ -6,9 +6,9 @@ import database.AppDatabase
 import java.util.Properties
 
 internal actual object SqlDriverFactory {
-    actual fun build(): SqlDriver =
+    actual fun build(inMemory: Boolean): SqlDriver =
         JdbcSqliteDriver(
-            url = "jdbc:sqlite:${Database.NAME}",
+            url = if (inMemory) JdbcSqliteDriver.IN_MEMORY else "jdbc:sqlite:${Database.NAME}",
             properties = Properties(),
             schema = AppDatabase.Schema,
         )

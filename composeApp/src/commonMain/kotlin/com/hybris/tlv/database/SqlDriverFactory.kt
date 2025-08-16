@@ -4,5 +4,5 @@ import app.cash.sqldelight.db.SqlDriver
 
 internal expect object SqlDriverFactory {
 
-    fun build(): SqlDriver
+    fun build(inMemory: Boolean = false): SqlDriver
 }

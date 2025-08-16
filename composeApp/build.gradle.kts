@@ -59,16 +59,12 @@ kotlin {
             }
         }
 
-        val androidUnitTest by getting
-
         val desktopMain by getting {
             dependencies {
                 implementation(dependencyNotation = compose.desktop.currentOs)
                 implementation(dependencyNotation = libs.bundles.desktop)
             }
         }
-
-        val desktopTest by getting
 
         val appleList = listOf(
             iosX64(),
@@ -87,13 +83,6 @@ kotlin {
                 isStatic = true
             }
             sourceSets.getByName("${iosTarget.name}Main").dependsOn(other = appleMain)
-        }
-
-        val appleTest by creating {
-            dependsOn(commonTest)
-        }
-        appleList.forEach { iosTarget ->
-            sourceSets.getByName("${iosTarget.name}Test").dependsOn(appleTest)
         }
     }
 }
@@ -134,9 +123,14 @@ dependencies {
     debugImplementation(compose.uiTooling)
 }
 
+tasks.withType<Test> {
+    jvmArgs("--enable-native-access=ALL-UNNAMED")
+}
+
 compose.desktop {
     application {
         mainClass = libs.versions.applicationId.get() + ".MainKt"
+        jvmArgs += "--enable-native-access=ALL-UNNAMED"
 
         nativeDistributions {
             packageName = "The Last Voyage"

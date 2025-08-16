@@ -10,7 +10,6 @@ import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.CommonDispatchers
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.client.EXOPLANET_ARCHIVE_URL
-import com.hybris.tlv.http.client.HttpClientFactory
 import com.hybris.tlv.http.client.setContentValidator
 import com.hybris.tlv.http.client.setRequestUrl
 import com.hybris.tlv.http.json.json
@@ -46,17 +45,17 @@ import kotlinx.coroutines.runBlocking
 
 internal class Mock {
 
-    val stellarHosts: List<StellarHost> by lazy {
-        runBlocking { loadFromJson(path = "files/hosts.json") }
-    }
-    val planets: List<Planet> by lazy {
-        runBlocking { loadFromJson(path = "files/planets.json") }
-    }
     val catastrophes: List<Catastrophe> by lazy {
         runBlocking { loadFromJson(path = "files/catastrophes.json") }
     }
     val engines: List<Engine> by lazy {
         runBlocking { loadFromJson(path = "files/engines.json") }
+    }
+    val stellarHosts: List<StellarHost> by lazy {
+        runBlocking { loadFromJson(path = "files/hosts.json") }
+    }
+    val planets: List<Planet> by lazy {
+        runBlocking { loadFromJson(path = "files/planets.json") }
     }
     val events: List<Event> by lazy {
         runBlocking { loadFromJson(path = "files/events.json") }
@@ -84,10 +83,10 @@ internal class Mock {
         CommonFirestore()
     }
     val databaseDriver: SqlDriver by lazy {
-        SqlDriverFactory.build()
+        SqlDriverFactory.build(inMemory = true)
     }
     val httpClient: HttpClient by lazy {
-        HttpClientFactory.buildExoplanetHttpClient()
+        buildExoplanetHttpClient()
     }
     val useCases: UseCases by lazy {
         Gateways(
