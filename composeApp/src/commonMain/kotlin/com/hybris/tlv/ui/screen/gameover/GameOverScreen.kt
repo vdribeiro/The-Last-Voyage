@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -66,23 +64,17 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
                             text = getTranslation(key = storeState.gameOverMessage.orEmpty())
                         )
 
-                        Content.SCORE -> Column(
-                            modifier = Modifier.verticalScroll(state = rememberScrollState()),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(space = 8.dp),
-                        ) {
-                            Score(
-                                isExpanded = null,
-                                score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
-                                utc = gameSession.utc,
-                                yearsTraveled = gameSession.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
-                                sensorRange = gameSession.sensorRange.toString(),
-                                integrity = gameSession.integrity.toString(),
-                                materials = gameSession.materials.toString(),
-                                fuel = gameSession.fuel.toString(),
-                                cryopods = gameSession.cryopods.toString()
-                            )
-                        }
+                        Content.SCORE -> Score(
+                            isExpanded = null,
+                            score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
+                            utc = gameSession.utc,
+                            yearsTraveled = gameSession.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
+                            sensorRange = gameSession.sensorRange.toString(),
+                            integrity = gameSession.integrity.toString(),
+                            materials = gameSession.materials.toString(),
+                            fuel = gameSession.fuel.toString(),
+                            cryopods = gameSession.cryopods.toString()
+                        )
                     }
                 }
 

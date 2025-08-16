@@ -21,12 +21,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.usecase.achievement.model.Achievement
 
 @Composable
-internal fun AchievementItem(achievement: Achievement) {
+internal fun AchievementItem(
+    modifier: Modifier = Modifier,
+    name: String,
+    description: String,
+) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(size = 12.dp)
     ) {
@@ -44,7 +47,7 @@ internal fun AchievementItem(achievement: Achievement) {
             //)
             Icon(
                 imageVector = Icons.Outlined.AcUnit,
-                contentDescription = achievement.name,
+                contentDescription = name,
                 modifier = Modifier.size(size = 40.dp),
                 tint = MaterialTheme.colorScheme.primary
             )
@@ -53,13 +56,13 @@ internal fun AchievementItem(achievement: Achievement) {
 
             Column(modifier = Modifier.weight(weight = 1f)) {
                 Text(
-                    text = achievement.name,
+                    text = name,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(Modifier.height(height = 4.dp))
                 Text(
-                    text = achievement.description,
+                    text = description,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

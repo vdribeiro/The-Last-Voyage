@@ -26,31 +26,15 @@ import com.hybris.tlv.usecase.space.mapper.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import thelastvoyage.composeapp.generated.resources.A
-import thelastvoyage.composeapp.generated.resources.B
-import thelastvoyage.composeapp.generated.resources.C
-import thelastvoyage.composeapp.generated.resources.D
-import thelastvoyage.composeapp.generated.resources.F
-import thelastvoyage.composeapp.generated.resources.G
-import thelastvoyage.composeapp.generated.resources.K
-import thelastvoyage.composeapp.generated.resources.L
-import thelastvoyage.composeapp.generated.resources.M
-import thelastvoyage.composeapp.generated.resources.O
-import thelastvoyage.composeapp.generated.resources.P
-import thelastvoyage.composeapp.generated.resources.Q
-import thelastvoyage.composeapp.generated.resources.Res
-import thelastvoyage.composeapp.generated.resources.S
-import thelastvoyage.composeapp.generated.resources.T
-import thelastvoyage.composeapp.generated.resources.W
-import thelastvoyage.composeapp.generated.resources.Y
-import thelastvoyage.composeapp.generated.resources.unknown
 
 @Composable
 internal fun StellarHostCard(
+    modifier: Modifier = Modifier,
     name: String? = null,
     systemName: String? = null,
     planetCount: Int? = null,
     spectralType: String? = null,
+    spectralTypeDrawable: DrawableResource? = null,
     effectiveTemperature: Double? = null,
     radius: Double? = null,
     mass: Double? = null,
@@ -67,7 +51,7 @@ internal fun StellarHostCard(
     onClick: () -> Unit = {}
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -79,16 +63,18 @@ internal fun StellarHostCard(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                modifier = Modifier
-                    .size(size = 72.dp)
-                    .clip(shape = RoundedCornerShape(size = 8.dp))
-                    .align(alignment = Alignment.Top),
-                painter = painterResource(resource = getImageResourceOfStellarHost(spectralType = spectralType)),
-                contentDescription = name,
-                contentScale = ContentScale.Crop,
-            )
-            Spacer(modifier = Modifier.width(width = 16.dp))
+            spectralTypeDrawable?.let {
+                Image(
+                    modifier = Modifier
+                        .size(size = 72.dp)
+                        .clip(shape = RoundedCornerShape(size = 8.dp))
+                        .align(alignment = Alignment.Top),
+                    painter = painterResource(resource = it),
+                    contentDescription = name,
+                    contentScale = ContentScale.Crop,
+                )
+                Spacer(modifier = Modifier.width(width = 16.dp))
+            }
             Column(modifier = Modifier.weight(weight = 1f)) {
                 name?.let {
                     Text(text = it, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
@@ -194,24 +180,3 @@ internal fun StellarHostCard(
         }
     }
 }
-
-private fun getImageResourceOfStellarHost(spectralType: String?): DrawableResource =
-    when (spectralType?.firstOrNull()?.uppercase()) {
-        "O" -> Res.drawable.O
-        "B" -> Res.drawable.B
-        "A" -> Res.drawable.A
-        "F" -> Res.drawable.F
-        "G" -> Res.drawable.G
-        "K" -> Res.drawable.K
-        "M" -> Res.drawable.M
-        "W" -> Res.drawable.W
-        "Q" -> Res.drawable.Q
-        "P" -> Res.drawable.P
-        "L" -> Res.drawable.L
-        "T" -> Res.drawable.T
-        "Y" -> Res.drawable.Y
-        "C" -> Res.drawable.C
-        "S" -> Res.drawable.S
-        "D" -> Res.drawable.D
-        else -> Res.drawable.unknown
-    }

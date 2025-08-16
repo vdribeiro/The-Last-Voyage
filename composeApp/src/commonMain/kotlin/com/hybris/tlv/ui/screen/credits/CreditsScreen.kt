@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.CreditsText
 import com.hybris.tlv.ui.store.Store
@@ -27,7 +26,6 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun CreditsScreen(store: Store<CreditsAction, CreditsState>) {
     val storeState by store.stateFlow.collectAsState()
-    val uriHandler = LocalUriHandler.current
 
     BackHandler(enabled = true) { store.send(action = CreditsAction.Back) }
 
@@ -44,38 +42,50 @@ internal fun CreditsScreen(store: Store<CreditsAction, CreditsState>) {
                 item(key = CreditsType.CREATOR) {
                     Text(
                         text = getTranslation(key = "credits_screen__creators"),
-                        style = MaterialTheme.typography.headlineMedium,
+                        style = MaterialTheme.typography.titleLarge,
                     )
                 }
                 items(items = creditsMap[CreditsType.CREATOR].orEmpty(), key = { it.id }) { credits ->
-                    CreditsText(uriHandler = uriHandler, credits = credits)
-                }
-                item(key = CreditsType.SUPPORTER) {
-                    Text(
-                        text = getTranslation(key = "credits_screen__supporters"),
-                        style = MaterialTheme.typography.headlineMedium,
+                    CreditsText(
+                        name = credits.id,
+                        link = credits.link
                     )
-                }
-                items(items = creditsMap[CreditsType.SUPPORTER].orEmpty(), key = { it.id }) { credits ->
-                    CreditsText(uriHandler = uriHandler, credits = credits)
                 }
                 item(key = CreditsType.SOURCE) {
                     Text(
                         text = getTranslation(key = "credits_screen__sources"),
-                        style = MaterialTheme.typography.headlineMedium,
+                        style = MaterialTheme.typography.titleLarge,
                     )
                 }
                 items(items = creditsMap[CreditsType.SOURCE].orEmpty(), key = { it.id }) { credits ->
-                    CreditsText(uriHandler = uriHandler, credits = credits)
+                    CreditsText(
+                        name = credits.id,
+                        link = credits.link
+                    )
                 }
                 item(key = CreditsType.MUSIC) {
                     Text(
                         text = getTranslation(key = "credits_screen__music"),
-                        style = MaterialTheme.typography.headlineMedium,
+                        style = MaterialTheme.typography.titleLarge,
                     )
                 }
                 items(items = creditsMap[CreditsType.MUSIC].orEmpty(), key = { it.id }) { credits ->
-                    CreditsText(uriHandler = uriHandler, credits = credits)
+                    CreditsText(
+                        name = credits.id,
+                        link = credits.link
+                    )
+                }
+                item(key = CreditsType.SUPPORTER) {
+                    Text(
+                        text = getTranslation(key = "credits_screen__supporters"),
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                }
+                items(items = creditsMap[CreditsType.SUPPORTER].orEmpty(), key = { it.id }) { credits ->
+                    CreditsText(
+                        name = credits.id,
+                        link = credits.link
+                    )
                 }
             }
         }

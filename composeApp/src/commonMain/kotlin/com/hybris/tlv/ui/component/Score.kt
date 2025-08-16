@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,6 +31,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun Score(
+    modifier: Modifier = Modifier,
     isExpanded: Boolean?,
     score: String,
     utc: String,
@@ -39,31 +42,42 @@ internal fun Score(
     fuel: String,
     cryopods: String
 ) {
-    ScoreHeader(
-        utc = utc,
-        totalScore = score,
-        isExpanded = isExpanded
-    )
-
-    AnimatedVisibility(
-        visible = isExpanded != false,
-        enter = fadeIn(),
-        exit = fadeOut(),
+    Card(
+        modifier = modifier,
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(space = 4.dp)
+                .padding(all = 16.dp)
         ) {
-            HorizontalDivider()
-            Spacer(Modifier.height(height = 8.dp))
-            InfoRow(label = getTranslation(key = "ship_years_traveled"), value = yearsTraveled)
-            InfoRow(label = getTranslation(key = "ship_sensor"), value = sensorRange)
-            InfoRow(label = getTranslation(key = "ship_integrity"), value = integrity)
-            InfoRow(label = getTranslation(key = "ship_materials"), value = materials)
-            InfoRow(label = getTranslation(key = "ship_fuel"), value = fuel)
-            InfoRow(label = getTranslation(key = "ship_cryopods"), value = cryopods)
+            ScoreHeader(
+                utc = utc,
+                totalScore = score,
+                isExpanded = isExpanded
+            )
+
+            AnimatedVisibility(
+                visible = isExpanded != false,
+                enter = fadeIn(),
+                exit = fadeOut(),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(space = 4.dp)
+                ) {
+                    HorizontalDivider()
+                    Spacer(Modifier.height(height = 8.dp))
+                    InfoRow(label = getTranslation(key = "ship_years_traveled"), value = yearsTraveled)
+                    InfoRow(label = getTranslation(key = "ship_sensor"), value = sensorRange)
+                    InfoRow(label = getTranslation(key = "ship_integrity"), value = integrity)
+                    InfoRow(label = getTranslation(key = "ship_materials"), value = materials)
+                    InfoRow(label = getTranslation(key = "ship_fuel"), value = fuel)
+                    InfoRow(label = getTranslation(key = "ship_cryopods"), value = cryopods)
+                }
+            }
         }
     }
 }

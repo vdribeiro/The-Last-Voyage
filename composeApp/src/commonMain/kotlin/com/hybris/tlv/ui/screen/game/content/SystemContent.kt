@@ -16,6 +16,8 @@ import com.hybris.tlv.ui.component.StellarHostCard
 import com.hybris.tlv.ui.screen.game.GameAction
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.space.mapper.spectralTypeToDrawable
+import com.hybris.tlv.usecase.space.mapper.toDrawable
 
 @Composable
 internal fun SystemContent(store: Store<GameAction, GameState>) {
@@ -34,6 +36,7 @@ internal fun SystemContent(store: Store<GameAction, GameState>) {
                 systemName = stellarHost.systemName,
                 planetCount = stellarHost.planets.size,
                 spectralType = stellarHost.spectralType,
+                spectralTypeDrawable = stellarHost.spectralType.spectralTypeToDrawable(),
                 effectiveTemperature = stellarHost.effectiveTemperature,
                 radius = stellarHost.radius,
                 mass = stellarHost.mass,
@@ -65,7 +68,8 @@ internal fun SystemContent(store: Store<GameAction, GameState>) {
                 inclination = planet.inclination,
                 obliquity = planet.obliquity,
                 habitability = planet.habitability?.habitabilityScore,
-                type = planet.habitability?.planetType
+                type = planet.habitability?.planetType?.displayName,
+                typeDrawable = planet.habitability?.planetType.toDrawable()
             ) { store.send(action = GameAction.Settle(planet = planet)) }
         }
     }

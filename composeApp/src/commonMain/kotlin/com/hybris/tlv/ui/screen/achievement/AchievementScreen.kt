@@ -35,7 +35,10 @@ internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>
                 verticalArrangement = Arrangement.spacedBy(space = 12.dp)
             ) {
                 items(items = storeState.achievements, key = { it.id }) { achievement ->
-                    AchievementItem(achievement = achievement)
+                    AchievementItem(
+                        name = achievement.name,
+                        description = achievement.description
+                    )
                 }
             }
         }

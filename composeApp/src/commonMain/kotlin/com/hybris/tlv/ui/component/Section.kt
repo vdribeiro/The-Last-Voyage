@@ -20,9 +20,13 @@ internal data class Section(
 )
 
 @Composable
-internal fun Section(title: String, sections: List<Section>) {
+internal fun Section(
+    modifier: Modifier = Modifier,
+    title: String,
+    sections: List<Section>
+) {
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 24.dp),

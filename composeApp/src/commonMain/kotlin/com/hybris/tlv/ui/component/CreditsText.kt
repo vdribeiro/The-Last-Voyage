@@ -7,24 +7,30 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.UriHandler
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.usecase.credits.model.Credits
 
 @Composable
-internal fun CreditsText(uriHandler: UriHandler, credits: Credits) {
+internal fun CreditsText(
+    modifier: Modifier = Modifier,
+    name: String,
+    link: String?,
+) {
+    val uriHandler = LocalUriHandler.current
+
     Spacer(modifier = Modifier.height(height = 8.dp))
     when {
-        credits.link.isNullOrBlank() -> Text(
-            text = credits.id,
-            style = MaterialTheme.typography.bodyLarge
+        link.isNullOrBlank() -> Text(
+            modifier = modifier,
+            text = name,
+            style = MaterialTheme.typography.bodyMedium
         )
 
         else -> Text(
-            modifier = Modifier.clickable { uriHandler.openUri(uri = credits.link) },
-            text = credits.id,
-            style = MaterialTheme.typography.bodyLarge.copy(
+            modifier = modifier.clickable { uriHandler.openUri(uri = link) },
+            text = name,
+            style = MaterialTheme.typography.bodyMedium.copy(
                 color = MaterialTheme.colorScheme.primary,
                 textDecoration = TextDecoration.Underline
             )

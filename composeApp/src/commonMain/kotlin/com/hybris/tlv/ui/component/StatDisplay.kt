@@ -22,12 +22,13 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 internal fun StatDisplay(
+    modifier: Modifier = Modifier,
     icon: ImageVector,
     label: String,
     value: String,
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(

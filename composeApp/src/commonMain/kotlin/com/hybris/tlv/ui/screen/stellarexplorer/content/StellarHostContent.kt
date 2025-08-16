@@ -21,6 +21,8 @@ import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerAction
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarHostProperty
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.space.mapper.spectralTypeToDrawable
+import com.hybris.tlv.usecase.space.mapper.toDrawable
 
 @Composable
 internal fun StellarHostContent(store: Store<StellarExplorerAction, StellarExplorerState>) {
@@ -42,7 +44,7 @@ internal fun StellarHostContent(store: Store<StellarExplorerAction, StellarExplo
             item(key = planet.id) {
                 PlanetCard(
                     name = if (visiblePlanetProperties.contains(element = PlanetProperty.NAME)) planet.name else null,
-                    status = if (visiblePlanetProperties.contains(element = PlanetProperty.STATUS)) planet.status else null,
+                    status = if (visiblePlanetProperties.contains(element = PlanetProperty.STATUS)) planet.status.displayName else null,
                     orbitalPeriod = if (visiblePlanetProperties.contains(element = PlanetProperty.ORBITAL_PERIOD)) planet.orbitalPeriod else null,
                     orbitAxis = if (visiblePlanetProperties.contains(element = PlanetProperty.ORBIT_AXIS)) planet.orbitAxis else null,
                     radius = if (visiblePlanetProperties.contains(element = PlanetProperty.RADIUS)) planet.radius else null,
@@ -55,7 +57,8 @@ internal fun StellarHostContent(store: Store<StellarExplorerAction, StellarExplo
                     inclination = if (visiblePlanetProperties.contains(element = PlanetProperty.INCLINATION)) planet.inclination else null,
                     obliquity = if (visiblePlanetProperties.contains(element = PlanetProperty.OBLIQUITY)) planet.obliquity else null,
                     habitability = if (visiblePlanetProperties.contains(element = PlanetProperty.HABITABILITY)) planet.habitability?.habitabilityScore else null,
-                    type = if (visiblePlanetProperties.contains(element = PlanetProperty.TYPE)) planet.habitability?.planetType else null
+                    type = if (visiblePlanetProperties.contains(element = PlanetProperty.TYPE)) planet.habitability?.planetType?.displayName else null,
+                    typeDrawable = if (visiblePlanetProperties.contains(element = PlanetProperty.TYPE)) planet.habitability?.planetType.toDrawable() else null,
                 )
             }
             item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
@@ -66,6 +69,7 @@ internal fun StellarHostContent(store: Store<StellarExplorerAction, StellarExplo
                 systemName = if (visibleStellarHostProperties.contains(element = StellarHostProperty.SYSTEM_NAME)) stellarHost.systemName else null,
                 planetCount = if (visibleStellarHostProperties.contains(element = StellarHostProperty.PLANET_COUNT)) stellarHost.planets.size else null,
                 spectralType = if (visibleStellarHostProperties.contains(element = StellarHostProperty.SPECTRAL_TYPE)) stellarHost.spectralType else null,
+                spectralTypeDrawable = if (visibleStellarHostProperties.contains(element = StellarHostProperty.SPECTRAL_TYPE)) stellarHost.spectralType.spectralTypeToDrawable() else null,
                 effectiveTemperature = if (visibleStellarHostProperties.contains(element = StellarHostProperty.TEMPERATURE)) stellarHost.effectiveTemperature else null,
                 radius = if (visibleStellarHostProperties.contains(element = StellarHostProperty.RADIUS)) stellarHost.radius else null,
                 mass = if (visibleStellarHostProperties.contains(element = StellarHostProperty.MASS)) stellarHost.mass else null,
