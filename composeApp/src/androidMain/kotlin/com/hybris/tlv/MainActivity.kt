@@ -46,8 +46,9 @@ private val databaseDriver: SqlDriver by lazy {
         name = Database.NAME
     )
 }
+
 private val httpClient: HttpClient by lazy {
-    HttpClientFactory.getExoplanetHttpClient()
+    HttpClientFactory.buildExoplanetHttpClient()
 }
 private val useCases: UseCases by lazy {
     Gateways(

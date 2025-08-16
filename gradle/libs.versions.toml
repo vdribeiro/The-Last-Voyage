@@ -50,11 +50,12 @@ kotlin-ktor-content = { group = "io.ktor", name = "ktor-client-content-negotiati
 kotlin-ktor-encoding = { group = "io.ktor", name = "ktor-client-encoding", version.ref = "kotlin-ktor" }
 kotlin-ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "kotlin-ktor" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+sqldelight-runtime = { group = "app.cash.sqldelight", name = "runtime", version.ref = "sqldelight" }
+sqldelight-primitives = { group = "app.cash.sqldelight", name = "primitive-adapters", version.ref = "sqldelight" }
+sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
 sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
 sqldelight-native = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqldelight" }
 sqldelight-jvm = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
-sqldelight-primitives = { group = "app.cash.sqldelight", name = "primitive-adapters", version.ref = "sqldelight" }
-sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
 sqldelight-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "sqldelight-jdbc" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
 firebase-analytics-ktx = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
@@ -73,17 +74,18 @@ logging = { group = "org.slf4j", name = "slf4j-simple", version.ref = "logging" 
 
 [bundles]
 common = [
-    "sqldelight-primitives",
-    "sqldelight-coroutines",
-    "kotlinx-serialization",
-    "kotlinx-datetime",
     "kotlin-ktor",
     "kotlin-ktor-mock",
     "kotlin-ktor-content",
     "kotlin-ktor-serialization",
     "kotlin-ktor-encoding",
     "kotlin-ktor-logging",
-    "compose-backhandler"
+    "sqldelight-runtime",
+    "sqldelight-primitives",
+    "sqldelight-coroutines",
+    "kotlinx-serialization",
+    "kotlinx-datetime",
+    "compose-backhandler",
 ]
 common-test = [
     "kotlin-test"
@@ -101,7 +103,7 @@ android = [
 ]
 ios = [
     "kotlin-ktor-darwin",
-    "sqldelight-native"
+    "sqldelight-native",
 ]
 desktop = [
     "kotlin-ktor-cio",
