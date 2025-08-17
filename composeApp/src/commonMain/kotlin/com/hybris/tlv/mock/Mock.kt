@@ -2,8 +2,6 @@ package com.hybris.tlv.mock
 
 import androidx.compose.runtime.Composable
 import app.cash.sqldelight.db.SqlDriver
-import com.hybris.tlv.usecase.sync.SyncGateway
-import com.hybris.tlv.usecase.sync.SyncUseCases
 import com.hybris.tlv.database.SqlDriverFactory
 import com.hybris.tlv.firestore.CommonFirestore
 import com.hybris.tlv.firestore.Firestore
@@ -77,18 +75,20 @@ internal class Mock {
     val httpClient: HttpClient = buildExoplanetHttpClient()
     val useCases: UseCases = Gateways(
         dispatcher = dispatcher,
+        locale = locale,
+        localConfig = localConfig,
+        remoteConfig = remoteConfig,
         firestore = firestore,
         databaseDriver = databaseDriver,
         httpClient = httpClient,
     )
-    val core: SyncUseCases = SyncGateway(
+    val navigation: NavigationManager = Navigation(
         dispatcher = dispatcher,
         locale = locale,
         localConfig = localConfig,
         remoteConfig = remoteConfig,
-        useCases = useCases,
+        useCases = useCases
     )
-    val navigation: NavigationManager = Navigation(core = core)
 
     @Composable
     fun Screen(

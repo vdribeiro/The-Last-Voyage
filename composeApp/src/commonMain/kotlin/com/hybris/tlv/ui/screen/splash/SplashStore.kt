@@ -1,12 +1,12 @@
 package com.hybris.tlv.ui.screen.splash
 
-import com.hybris.tlv.usecase.sync.SyncUseCases
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.collectProgress
 import com.hybris.tlv.usecase.combine
+import com.hybris.tlv.usecase.sync.SyncUseCases
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
 

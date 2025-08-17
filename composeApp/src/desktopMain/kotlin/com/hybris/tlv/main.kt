@@ -24,8 +24,6 @@ import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
-import com.hybris.tlv.usecase.sync.SyncGateway
-import com.hybris.tlv.usecase.sync.SyncUseCases
 import com.hybris.tlv.usecase.translation.getTranslation
 import io.ktor.client.HttpClient
 
