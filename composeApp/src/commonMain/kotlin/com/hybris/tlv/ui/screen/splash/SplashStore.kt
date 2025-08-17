@@ -1,6 +1,6 @@
 package com.hybris.tlv.ui.screen.splash
 
-import com.hybris.tlv.Core
+import com.hybris.tlv.usecase.sync.SyncUseCases
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
@@ -22,7 +22,7 @@ internal class SplashStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: SplashState,
-    private val core: Core,
+    private val syncUseCases: SyncUseCases,
 ): Store<SplashAction, SplashState>(
     dispatcher = dispatcher,
     navigation = navigation,
@@ -35,17 +35,17 @@ internal class SplashStore(
     private fun setup() {
         launchAndForget {
             // Uncomment to rewrite all data
-            //core.rewrite().last()
+            //syncUseCases.rewrite().last()
             // Uncomment to get archive
-            //core.getArchive().last()
+            //syncUseCases.getArchive().last()
             // TODO - enable sync with remote config
-            //core.sync().last()
+            //syncUseCases.sync().last()
         }
         launch {
             combine(
                 flows = listOf(
-                    core.setup(),
-                    core.prepopulate()
+                    syncUseCases.setup(),
+                    syncUseCases.prepopulate()
                 )
             ) { it.combine() }.collectProgress { progress ->
                 updateState { it.copy(progress = progress) }

@@ -24,6 +24,8 @@ import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
+import com.hybris.tlv.usecase.sync.SyncGateway
+import com.hybris.tlv.usecase.sync.SyncUseCases
 import com.hybris.tlv.usecase.translation.getTranslation
 import io.ktor.client.HttpClient
 
@@ -51,23 +53,23 @@ private val httpClient: HttpClient by lazy {
 private val useCases: UseCases by lazy {
     Gateways(
         dispatcher = dispatcher,
+        locale = locale,
+        localConfig = localConfig,
+        remoteConfig = remoteConfig,
         firestore = firestore,
         databaseDriver = databaseDriver,
         httpClient = httpClient
     )
 }
-private val core: Core by lazy {
-    AppCore(
+
+private val navigation: NavigationManager by lazy {
+    Navigation(
         dispatcher = dispatcher,
         locale = locale,
         localConfig = localConfig,
         remoteConfig = remoteConfig,
         useCases = useCases
     )
-}
-
-private val navigation: NavigationManager by lazy {
-    Navigation(core = core)
 }
 
 val LocalWindowState = staticCompositionLocalOf<WindowState?> { null }

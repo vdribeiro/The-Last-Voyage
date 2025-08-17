@@ -7,10 +7,12 @@ import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
+import com.hybris.tlv.usecase.sync.SyncUseCases
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 
 internal interface UseCases {
 
+    val sync: SyncUseCases
     val translation: TranslationUseCases
     val earth: EarthUseCases
     val ship: ShipUseCases

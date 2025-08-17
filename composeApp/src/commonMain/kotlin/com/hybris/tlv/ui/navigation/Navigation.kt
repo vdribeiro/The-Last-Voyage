@@ -99,7 +99,7 @@ internal class Navigation(
             dispatcher = dispatcher,
             navigation = this,
             initialState = state as? SplashState ?: SplashState(),
-            core = core
+            syncUseCases = useCases.sync
         )
     )
 

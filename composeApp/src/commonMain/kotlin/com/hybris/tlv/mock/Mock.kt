@@ -2,8 +2,8 @@ package com.hybris.tlv.mock
 
 import androidx.compose.runtime.Composable
 import app.cash.sqldelight.db.SqlDriver
-import com.hybris.tlv.AppCore
-import com.hybris.tlv.Core
+import com.hybris.tlv.usecase.sync.SyncGateway
+import com.hybris.tlv.usecase.sync.SyncUseCases
 import com.hybris.tlv.database.SqlDriverFactory
 import com.hybris.tlv.firestore.CommonFirestore
 import com.hybris.tlv.firestore.Firestore
@@ -81,7 +81,7 @@ internal class Mock {
         databaseDriver = databaseDriver,
         httpClient = httpClient,
     )
-    val core: Core = AppCore(
+    val core: SyncUseCases = SyncGateway(
         dispatcher = dispatcher,
         locale = locale,
         localConfig = localConfig,

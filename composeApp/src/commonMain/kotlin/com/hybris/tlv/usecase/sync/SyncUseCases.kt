@@ -1,20 +1,9 @@
-package com.hybris.tlv
+package com.hybris.tlv.usecase.sync
 
-import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.locale.Locale
-import com.hybris.tlv.storage.LocalConfig
-import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.usecase.SyncResult
-import com.hybris.tlv.usecase.UseCases
 import kotlinx.coroutines.flow.Flow
 
-internal interface Core {
-
-    val dispatcher: Dispatcher
-    val locale: Locale
-    val localConfig: LocalConfig
-    val remoteConfig: RemoteConfig
-    val useCases: UseCases
+internal interface SyncUseCases {
 
     /**
      * Warms up the core.

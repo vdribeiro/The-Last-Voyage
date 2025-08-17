@@ -1,4 +1,4 @@
-package com.hybris.tlv
+package com.hybris.tlv.usecase.sync
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.Locale
@@ -9,19 +9,31 @@ import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.storage.RemoteConfigSettings
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.UseCases
+import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.combine
+import com.hybris.tlv.usecase.credits.CreditsUseCases
+import com.hybris.tlv.usecase.earth.EarthUseCases
+import com.hybris.tlv.usecase.event.EventUseCases
+import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
+import com.hybris.tlv.usecase.ship.ShipUseCases
+import com.hybris.tlv.usecase.space.SpaceUseCases
+import com.hybris.tlv.usecase.translation.TranslationUseCases
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
-internal class AppCore(
-    override val dispatcher: Dispatcher,
-    override val locale: Locale,
-    override val localConfig: LocalConfig,
-    override val remoteConfig: RemoteConfig,
-    override val useCases: UseCases
-): Core {
+internal class SyncGateway(
+    private val locale: Locale,
+    private val localConfig: LocalConfig,
+    private val remoteConfig: RemoteConfig,
+    private val translation: TranslationUseCases,
+    private val earth: EarthUseCases,
+    private val ship: ShipUseCases,
+    private val space: SpaceUseCases,
+    private val event: EventUseCases,
+    private val achievement: AchievementUseCases,
+    private val credits: CreditsUseCases,
+): SyncUseCases {
 
     override suspend fun setup(): Flow<SyncResult> = flow {
         emit(value = SyncResult.Loading(progress = 0f, total = 1f))
@@ -52,31 +64,31 @@ internal class AppCore(
     }
 
     override suspend fun rewrite(): Flow<SyncResult> =
-        combine(
+        kotlinx.coroutines.flow.combine(
             flows = listOf(
-                useCases.translation.rewrite(),
-                useCases.earth.rewrite(),
-                useCases.ship.rewrite(),
-                useCases.space.rewrite(),
-                useCases.event.rewrite(),
-                useCases.achievement.rewrite(),
-                useCases.credits.rewrite()
+                translation.rewrite(),
+                earth.rewrite(),
+                ship.rewrite(),
+                space.rewrite(),
+                event.rewrite(),
+                achievement.rewrite(),
+                credits.rewrite()
             )
         ) { it.combine() }
 
-    override suspend fun getArchive(): Flow<SyncResult> = useCases.space.getArchive()
+    override suspend fun getArchive(): Flow<SyncResult> = space.getArchive()
 
     override suspend fun sync(): Flow<SyncResult> =
-        combine(
+        kotlinx.coroutines.flow.combine(
             flows = listOf(
-                update(key = Config.TranslationsVersion) { useCases.translation.syncTranslations() },
-                update(key = Config.CatastrophesVersion) { useCases.earth.syncCatastrophes() },
-                update(key = Config.EnginesVersion) { useCases.ship.syncEngines() },
-                update(key = Config.StellarHostsVersion) { useCases.space.syncStellarHosts() },
-                update(key = Config.PlanetsVersion) { useCases.space.syncPlanets() },
-                update(key = Config.EventsVersion) { useCases.event.syncEvents() },
-                update(key = Config.AchievementsVersion) { useCases.achievement.syncAchievements() },
-                update(key = Config.CreditsVersion) { useCases.credits.syncCredits() }
+                update(key = Config.TranslationsVersion) { translation.syncTranslations() },
+                update(key = Config.CatastrophesVersion) { earth.syncCatastrophes() },
+                update(key = Config.EnginesVersion) { ship.syncEngines() },
+                update(key = Config.StellarHostsVersion) { space.syncStellarHosts() },
+                update(key = Config.PlanetsVersion) { space.syncPlanets() },
+                update(key = Config.EventsVersion) { event.syncEvents() },
+                update(key = Config.AchievementsVersion) { achievement.syncAchievements() },
+                update(key = Config.CreditsVersion) { credits.syncCredits() }
             )
         ) { result ->
             result.getOrNull(index = 0)?.let { update(key = Config.TranslationsVersion, syncResult = it) }
@@ -104,27 +116,27 @@ internal class AppCore(
     override suspend fun prepopulate(): Flow<SyncResult> = flow {
         val totalOperations = 9f
         emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
-        useCases.translation.prepopulateTranslations()
+        translation.prepopulateTranslations()
         emit(value = SyncResult.Loading(progress = 1f, total = totalOperations))
-        useCases.earth.prepopulateCatastrophes()
+        earth.prepopulateCatastrophes()
         emit(value = SyncResult.Loading(progress = 2f, total = totalOperations))
-        useCases.ship.prepopulateEngines()
+        ship.prepopulateEngines()
         emit(value = SyncResult.Loading(progress = 3f, total = totalOperations))
-        useCases.space.prepopulateStellarHosts()
+        space.prepopulateStellarHosts()
         emit(value = SyncResult.Loading(progress = 4f, total = totalOperations))
-        useCases.space.prepopulatePlanets()
+        space.prepopulatePlanets()
         emit(value = SyncResult.Loading(progress = 5f, total = totalOperations))
-        useCases.event.prepopulateEvents()
+        event.prepopulateEvents()
         emit(value = SyncResult.Loading(progress = 6f, total = totalOperations))
-        useCases.achievement.prepopulateAchievements()
+        achievement.prepopulateAchievements()
         emit(value = SyncResult.Loading(progress = 7f, total = totalOperations))
-        useCases.credits.prepopulateCredits()
+        credits.prepopulateCredits()
         emit(value = SyncResult.Loading(progress = 8f, total = totalOperations))
-        useCases.translation.loadTranslationsToCache(languageIso = locale.getLanguage())
+        translation.loadTranslationsToCache(languageIso = locale.getLanguage())
         emit(value = SyncResult.Success)
     }
 
-    companion object {
+    companion object Companion {
         private const val TAG = "AppCore"
     }
 }

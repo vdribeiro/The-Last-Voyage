@@ -5,6 +5,9 @@ import com.hybris.tlv.database.Database
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.client.ExoPlanetClient
+import com.hybris.tlv.locale.Locale
+import com.hybris.tlv.storage.LocalConfig
+import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.usecase.achievement.AchievementGateway
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.achievement.local.AchievementDao
@@ -45,6 +48,8 @@ import com.hybris.tlv.usecase.space.local.SpaceDao
 import com.hybris.tlv.usecase.space.local.SpaceLocal
 import com.hybris.tlv.usecase.space.remote.SpaceApi
 import com.hybris.tlv.usecase.space.remote.SpaceRemote
+import com.hybris.tlv.usecase.sync.SyncGateway
+import com.hybris.tlv.usecase.sync.SyncUseCases
 import com.hybris.tlv.usecase.translation.TranslationGateway
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 import com.hybris.tlv.usecase.translation.local.TranslationDao
@@ -55,6 +60,9 @@ import io.ktor.client.HttpClient
 
 internal class Gateways(
     dispatcher: Dispatcher,
+    locale: Locale,
+    localConfig: LocalConfig,
+    remoteConfig: RemoteConfig,
     firestore: Firestore,
     databaseDriver: SqlDriver,
     httpClient: HttpClient,
@@ -184,6 +192,21 @@ internal class Gateways(
         CreditsGateway(
             creditsApi = creditsApi,
             creditsDao = creditsDao
+        )
+    }
+
+    override val sync: SyncUseCases by lazy {
+        SyncGateway(
+            locale = locale,
+            localConfig = localConfig,
+            remoteConfig = remoteConfig,
+            translation = translation,
+            earth = earth,
+            ship = ship,
+            space = space,
+            event = event,
+            achievement = achievement,
+            credits = credits,
         )
     }
 }
