@@ -1,7 +1,6 @@
 package com.hybris.tlv.usecase.earth
 
 import com.hybris.tlv.mock.Mock
-import com.hybris.tlv.mock.catastrophes
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.flow.last
@@ -16,7 +15,6 @@ internal class EarthUseCasesTest {
     @BeforeTest
     fun setup() = runBlocking {
     }
-
 
     @Test
     fun rewrite() = runBlocking {

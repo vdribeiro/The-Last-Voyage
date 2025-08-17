@@ -35,7 +35,7 @@ import com.hybris.tlv.usecase.translation.remote.TranslationApi
 import com.hybris.tlv.usecase.translation.remote.TranslationRemote
 
 internal abstract class Tester {
-    
+
     protected val mock = Mock()
 
     protected val database by lazy {

@@ -1,7 +1,6 @@
 package com.hybris.tlv.usecase.event.local
 
 import com.hybris.tlv.Tester
-import com.hybris.tlv.mock.credits
 import com.hybris.tlv.mock.events
 import kotlin.test.Test
 import kotlin.test.assertEquals

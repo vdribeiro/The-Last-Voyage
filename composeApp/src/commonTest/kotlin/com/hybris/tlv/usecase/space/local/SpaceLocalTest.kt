@@ -1,9 +1,6 @@
 package com.hybris.tlv.usecase.space.local
 
 import com.hybris.tlv.Tester
-import com.hybris.tlv.mock.credits
-import com.hybris.tlv.mock.engines
-import com.hybris.tlv.mock.events
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import kotlin.test.Test

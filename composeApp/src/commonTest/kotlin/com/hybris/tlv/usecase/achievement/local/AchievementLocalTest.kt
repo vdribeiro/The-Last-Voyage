@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase.achievement.local
 
 import com.hybris.tlv.Tester
 import com.hybris.tlv.mock.achievements
-import com.hybris.tlv.mock.catastrophes
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

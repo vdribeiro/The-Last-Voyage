@@ -1,9 +1,6 @@
 package com.hybris.tlv.usecase.translation.local
 
 import com.hybris.tlv.Tester
-import com.hybris.tlv.mock.credits
-import com.hybris.tlv.mock.engines
-import com.hybris.tlv.mock.events
 import com.hybris.tlv.mock.translations
 import kotlin.test.Test
 import kotlin.test.assertEquals
