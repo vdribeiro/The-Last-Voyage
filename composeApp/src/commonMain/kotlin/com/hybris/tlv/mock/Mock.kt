@@ -18,8 +18,6 @@ import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.runBlocking
 
 internal class Mock(
     val dispatcher: Dispatcher = CommonDispatchers(),
@@ -46,10 +44,4 @@ internal class Mock(
         remoteConfig = remoteConfig,
         useCases = useCases
     )
-
-    init {
-        runBlocking {
-            useCases.sync.prepopulate().last()
-        }
-    }
 }

@@ -459,7 +459,7 @@ internal val gameSession = GameSession(
 
 internal val achievements = listOf(
     Achievement(
-        id = "engsoneca",
+        id = "earth",
         name = "Earth",
         description = "Settle on Earth",
         preconditions = Precondition(
@@ -472,7 +472,7 @@ internal val achievements = listOf(
 internal val credits = listOf(
     Credits(
         id = "engsoneca",
-        link = "https://www.patreon.com/c/engsoneca",
+        link = "https://ko-fi.com/engsoneca",
         type = CreditsType.CREATOR,
     ),
     Credits(
