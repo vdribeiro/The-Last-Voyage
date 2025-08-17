@@ -101,7 +101,7 @@ internal class Mock {
 
     init {
         runBlocking {
-            core.prepopulate().last()
+            useCases.sync.prepopulate().last()
         }
     }
 

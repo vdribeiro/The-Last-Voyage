@@ -62,12 +62,7 @@ private val mock = Mock()
 private fun Screen(
     screen: Screen,
     state: Any?
-) = Mock(
-    databaseDriver = AndroidSqliteDriver(
-        context = LocalContext.current,
-        schema = AppDatabase.Schema
-    )
-).Screen(
+) = Mock().Screen(
     screen = screen,
     state = state
 )
