@@ -7,12 +7,13 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import app.cash.sqldelight.db.SqlDriver
+import com.hybris.tlv.database.DesktopSqlDriverFactory
 import com.hybris.tlv.database.SqlDriverFactory
 import com.hybris.tlv.firestore.DesktopFirestore
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.Dispatchers
+import com.hybris.tlv.http.client.DesktopHttpClientFactory
 import com.hybris.tlv.http.client.HttpClientFactory
 import com.hybris.tlv.locale.DesktopLocale
 import com.hybris.tlv.locale.Locale
@@ -25,7 +26,6 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.translation.getTranslation
-import io.ktor.client.HttpClient
 
 private val dispatcher: Dispatcher by lazy {
     Dispatchers()
@@ -42,11 +42,11 @@ private val remoteConfig: RemoteConfig by lazy {
 private val firestore: Firestore by lazy {
     DesktopFirestore()
 }
-private val databaseDriver: SqlDriver by lazy {
-    SqlDriverFactory.build()
+private val sqlDriverFactory: SqlDriverFactory by lazy {
+    DesktopSqlDriverFactory()
 }
-private val httpClient: HttpClient by lazy {
-    HttpClientFactory.buildExoplanetHttpClient()
+private val httpClientFactory: HttpClientFactory by lazy {
+    DesktopHttpClientFactory()
 }
 private val useCases: UseCases by lazy {
     Gateways(
@@ -55,8 +55,8 @@ private val useCases: UseCases by lazy {
         localConfig = localConfig,
         remoteConfig = remoteConfig,
         firestore = firestore,
-        databaseDriver = databaseDriver,
-        httpClient = httpClient
+        sqlDriverFactory = sqlDriverFactory,
+        httpClientFactory = httpClientFactory
     )
 }
 

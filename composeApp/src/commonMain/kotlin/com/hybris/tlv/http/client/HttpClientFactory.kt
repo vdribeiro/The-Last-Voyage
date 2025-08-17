@@ -2,6 +2,6 @@ package com.hybris.tlv.http.client
 
 import io.ktor.client.HttpClient
 
-internal expect object HttpClientFactory {
+internal interface HttpClientFactory {
     fun buildExoplanetHttpClient(): HttpClient
 }

@@ -1,10 +1,13 @@
 package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.hybris.tlv.datetime.now
 import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.mock.achievements
+import com.hybris.tlv.mock.catastrophes
+import com.hybris.tlv.mock.credits
+import com.hybris.tlv.mock.events
+import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.achievement.AchievementState
@@ -48,7 +51,6 @@ import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_METALLICITY_WEIGHT
 import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_ROTATIONAL_PERIOD_WEIGHT
 import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_SPECTRAL_TYPE_WEIGHT
 import com.hybris.tlv.usecase.space.model.TravelOutcome
-import database.AppDatabase
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.ui.screen.explore.Content as ExploreContent
 import com.hybris.tlv.ui.screen.game.Content as GameContent
@@ -56,13 +58,15 @@ import com.hybris.tlv.ui.screen.gameover.Content as GameOverContent
 import com.hybris.tlv.ui.screen.newgame.Content as NewGameContent
 import com.hybris.tlv.ui.screen.stellarexplorer.Content as StellarExplorerContent
 
-private val mock = Mock()
+private val mock by lazy {
+    Mock()
+}
 
 @Composable
 private fun Screen(
     screen: Screen,
     state: Any?
-) = Mock().Screen(
+) = mock.Screen(
     screen = screen,
     state = state
 )
@@ -77,7 +81,7 @@ private val gameSession = GameSession(
     fuel = 100,
     materials = 90,
     cryopods = 150,
-    currentStellarHostId = mock.stellarHosts.first().id,
+    currentStellarHostId = stellarHosts.first().id,
     visitedStellarHosts = emptySet(),
     launchedEvents = emptySet(),
     settledPlanetId = null,
@@ -115,7 +119,7 @@ private val gameSession = GameSession(
 @Composable
 private fun ErrorScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.ERROR,
             state = ErrorState()
         )
@@ -126,7 +130,7 @@ private fun ErrorScreenPreview() {
 @Composable
 private fun SplashScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.SPLASH,
             state = SplashState()
         )
@@ -137,7 +141,7 @@ private fun SplashScreenPreview() {
 @Composable
 private fun MainMenuScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.MAIN_MENU,
             state = MainMenuState(
                 ongoingGameSession = false
@@ -150,7 +154,7 @@ private fun MainMenuScreenPreview() {
 @Composable
 private fun MainMenuContinueScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.MAIN_MENU,
             state = MainMenuState(
                 ongoingGameSession = true
@@ -163,7 +167,7 @@ private fun MainMenuContinueScreenPreview() {
 @Composable
 private fun NewGameShipScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.NEW_GAME,
             state = NewGameState(
                 currentContent = NewGameContent.SHIP,
@@ -176,7 +180,7 @@ private fun NewGameShipScreenPreview() {
 @Composable
 private fun NewGameAdvancedScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.NEW_GAME,
             state = NewGameState(
                 currentContent = NewGameContent.ADVANCED
@@ -189,11 +193,11 @@ private fun NewGameAdvancedScreenPreview() {
 @Composable
 private fun NewGameStartScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.NEW_GAME,
             state = NewGameState(
                 currentContent = NewGameContent.START,
-                selectedCatastrophe = mock.catastrophes.random()
+                selectedCatastrophe = catastrophes.random()
             )
         )
     }
@@ -203,12 +207,12 @@ private fun NewGameStartScreenPreview() {
 @Composable
 private fun GameTravelScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.GAME,
             state = GameState(
                 gameSession = gameSession,
                 currentContent = GameContent.TRAVEL,
-                nearStellarHosts = mock.stellarHosts,
+                nearStellarHosts = stellarHosts,
             )
         )
     }
@@ -218,14 +222,14 @@ private fun GameTravelScreenPreview() {
 @Composable
 private fun GameSystemScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.GAME,
             state = GameState(
                 gameSession = gameSession,
                 currentContent = GameContent.SYSTEM,
-                stellarHosts = mock.stellarHosts,
-                currentStellarHost = mock.stellarHosts.first().apply {
-                    planets.addAll(elements = mock.planets.filter { it.stellarHostId == id })
+                stellarHosts = stellarHosts,
+                currentStellarHost = stellarHosts.first().apply {
+                    planets.addAll(elements = planets.filter { it.stellarHostId == id })
                     travelOutcome = TravelOutcome(
                         integrity = 5,
                         fuel = 10
@@ -240,7 +244,7 @@ private fun GameSystemScreenPreview() {
 @Composable
 private fun GameShipScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.GAME,
             state = GameState(
                 gameSession = gameSession,
@@ -254,10 +258,10 @@ private fun GameShipScreenPreview() {
 @Composable
 private fun EventScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.EVENT,
             state = EventState(
-                event = mock.events.random()
+                event = events.random()
             )
         )
     }
@@ -267,7 +271,7 @@ private fun EventScreenPreview() {
 @Composable
 private fun GameOverMessageScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.GAME_OVER,
             state = GameOverState(
                 currentContent = GameOverContent.MESSAGE,
@@ -282,7 +286,7 @@ private fun GameOverMessageScreenPreview() {
 @Composable
 private fun GameOverScoreScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.GAME_OVER,
             state = GameOverState(
                 currentContent = GameOverContent.SCORE,
@@ -296,7 +300,7 @@ private fun GameOverScoreScreenPreview() {
 @Composable
 private fun ExploreScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.EXPLORE,
             state = ExploreState(
                 currentContent = ExploreContent.MENU,
@@ -309,7 +313,7 @@ private fun ExploreScreenPreview() {
 @Composable
 private fun ExploreMechanicsScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.EXPLORE,
             state = ExploreState(
                 currentContent = ExploreContent.MECHANICS,
@@ -322,7 +326,7 @@ private fun ExploreMechanicsScreenPreview() {
 @Composable
 private fun ExploreHabitabilityScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.EXPLORE,
             state = ExploreState(
                 currentContent = ExploreContent.HABITABILITY,
@@ -335,11 +339,11 @@ private fun ExploreHabitabilityScreenPreview() {
 @Composable
 private fun StellarExplorerScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.STELLAR_EXPLORER,
             state = StellarExplorerState(
                 currentContent = StellarExplorerContent.LIST_HOSTS,
-                stellarHosts = mock.stellarHosts
+                stellarHosts = stellarHosts
             )
         )
     }
@@ -349,12 +353,12 @@ private fun StellarExplorerScreenPreview() {
 @Composable
 private fun StellarExplorerDetailScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.STELLAR_EXPLORER,
             state = StellarExplorerState(
                 currentContent = StellarExplorerContent.DETAIL_HOSTS,
-                selectedStellarHost = mock.stellarHosts.first().apply {
-                    planets.addAll(elements = mock.planets.filter { it.stellarHostId == id })
+                selectedStellarHost = stellarHosts.first().apply {
+                    planets.addAll(elements = planets.filter { it.stellarHostId == id })
                 }
             )
         )
@@ -365,7 +369,7 @@ private fun StellarExplorerDetailScreenPreview() {
 @Composable
 private fun ScoreScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.SCORES,
             state = ScoreState(
                 scores = listOf(
@@ -383,10 +387,10 @@ private fun ScoreScreenPreview() {
 @Composable
 private fun AchievementScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.ACHIEVEMENTS,
             state = AchievementState(
-                achievements = mock.achievements
+                achievements = achievements
             )
         )
     }
@@ -396,10 +400,10 @@ private fun AchievementScreenPreview() {
 @Composable
 private fun CreditsScreenPreview() {
     AppTheme {
-        mock.Screen(
+        Screen(
             screen = Screen.ACHIEVEMENTS,
             state = CreditsState(
-                credits = mock.credits
+                credits = credits
             )
         )
     }

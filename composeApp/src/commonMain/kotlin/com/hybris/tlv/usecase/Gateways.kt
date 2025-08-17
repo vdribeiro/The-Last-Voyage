@@ -1,10 +1,11 @@
 package com.hybris.tlv.usecase
 
-import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.database.Database
+import com.hybris.tlv.database.SqlDriverFactory
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.client.ExoPlanetClient
+import com.hybris.tlv.http.client.HttpClientFactory
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.storage.LocalConfig
 import com.hybris.tlv.storage.RemoteConfig
@@ -56,7 +57,6 @@ import com.hybris.tlv.usecase.translation.local.TranslationDao
 import com.hybris.tlv.usecase.translation.local.TranslationLocal
 import com.hybris.tlv.usecase.translation.remote.TranslationApi
 import com.hybris.tlv.usecase.translation.remote.TranslationRemote
-import io.ktor.client.HttpClient
 
 internal class Gateways(
     dispatcher: Dispatcher,
@@ -64,12 +64,20 @@ internal class Gateways(
     localConfig: LocalConfig,
     remoteConfig: RemoteConfig,
     firestore: Firestore,
-    databaseDriver: SqlDriver,
-    httpClient: HttpClient,
+    sqlDriverFactory: SqlDriverFactory,
+    httpClientFactory: HttpClientFactory,
 ): UseCases {
 
+    private val sqlDriver by lazy {
+        sqlDriverFactory.build()
+    }
+
     private val database by lazy {
-        Database(driver = databaseDriver).database
+        Database(driver = sqlDriver).database
+    }
+
+    private val httpClient by lazy {
+        httpClientFactory.buildExoplanetHttpClient()
     }
 
     private val exoplanetHttpClient by lazy {

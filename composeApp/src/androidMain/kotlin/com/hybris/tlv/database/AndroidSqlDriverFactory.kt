@@ -1,15 +1,16 @@
 package com.hybris.tlv.database
 
+import android.content.Context
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
-import com.hybris.tlv.applicationContext
 import database.AppDatabase
 
-internal actual object SqlDriverFactory {
-    actual fun build(inMemory: Boolean): SqlDriver =
+internal class AndroidSqlDriverFactory(private val context: Context): SqlDriverFactory {
+
+    override fun build(): SqlDriver =
         AndroidSqliteDriver(
-            context = applicationContext,
+            context = context,
             schema = AppDatabase.Schema,
-            name = if (inMemory) null else Database.NAME
+            name = Database.NAME
         )
 }

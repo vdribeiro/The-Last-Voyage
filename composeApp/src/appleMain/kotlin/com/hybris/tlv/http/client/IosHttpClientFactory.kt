@@ -1,11 +1,12 @@
 package com.hybris.tlv.http.client
 
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.darwin.Darwin
 
-internal actual object HttpClientFactory {
-    actual fun buildExoplanetHttpClient(): HttpClient =
-        HttpClient(engineFactory = CIO) {
+internal class IosHttpClientFactory: HttpClientFactory {
+
+    override fun buildExoplanetHttpClient(): HttpClient =
+        HttpClient(engineFactory = Darwin) {
             setLogging()
             setTimeout(timeout = 60_000L * 5)
             setCache()
