@@ -7,8 +7,8 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.hybris.tlv.database.DesktopSqlDriverFactory
-import com.hybris.tlv.database.SqlDriverFactory
+import app.cash.sqldelight.db.SqlDriver
+import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.firestore.DesktopFirestore
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.Dispatcher
@@ -42,8 +42,8 @@ private val remoteConfig: RemoteConfig by lazy {
 private val firestore: Firestore by lazy {
     DesktopFirestore()
 }
-private val sqlDriverFactory: SqlDriverFactory by lazy {
-    DesktopSqlDriverFactory()
+private val sqlDriver: SqlDriver by lazy {
+    createSqlDriver()
 }
 private val httpClientFactory: HttpClientFactory by lazy {
     DesktopHttpClientFactory()
@@ -55,7 +55,7 @@ private val useCases: UseCases by lazy {
         localConfig = localConfig,
         remoteConfig = remoteConfig,
         firestore = firestore,
-        sqlDriverFactory = sqlDriverFactory,
+        sqlDriver = sqlDriver,
         httpClientFactory = httpClientFactory
     )
 }

@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase
 
+import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.database.Database
-import com.hybris.tlv.database.SqlDriverFactory
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.client.ExoPlanetClient
@@ -64,13 +64,9 @@ internal class Gateways(
     localConfig: LocalConfig,
     remoteConfig: RemoteConfig,
     firestore: Firestore,
-    sqlDriverFactory: SqlDriverFactory,
+    sqlDriver: SqlDriver,
     httpClientFactory: HttpClientFactory,
 ): UseCases {
-
-    private val sqlDriver by lazy {
-        sqlDriverFactory.build()
-    }
 
     private val database by lazy {
         Database(driver = sqlDriver).database

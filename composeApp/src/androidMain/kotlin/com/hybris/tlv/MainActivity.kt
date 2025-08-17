@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.hybris.tlv.database.AndroidSqlDriverFactory
-import com.hybris.tlv.database.SqlDriverFactory
+import app.cash.sqldelight.db.SqlDriver
+import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.firestore.AndroidFirestore
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.Dispatcher
@@ -38,8 +38,8 @@ private val remoteConfig: RemoteConfig by lazy {
 private val firestore: Firestore by lazy {
     AndroidFirestore()
 }
-private val sqlDriverFactory: SqlDriverFactory by lazy {
-    AndroidSqlDriverFactory(applicationContext)
+private val sqlDriver: SqlDriver by lazy {
+    createSqlDriver()
 }
 
 private val httpClientFactory: HttpClientFactory by lazy {
@@ -52,7 +52,7 @@ private val useCases: UseCases by lazy {
         localConfig = localConfig,
         remoteConfig = remoteConfig,
         firestore = firestore,
-        sqlDriverFactory = sqlDriverFactory,
+        sqlDriver = sqlDriver,
         httpClientFactory = httpClientFactory
     )
 }

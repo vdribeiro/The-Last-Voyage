@@ -2,7 +2,4 @@ package com.hybris.tlv.database
 
 import app.cash.sqldelight.db.SqlDriver
 
-internal interface SqlDriverFactory {
-
-    fun build(): SqlDriver
-}
+internal expect fun createSqlDriver(inMemory: Boolean = false): SqlDriver
