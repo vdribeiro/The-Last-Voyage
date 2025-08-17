@@ -2,7 +2,8 @@ package com.hybris.tlv.ui.screen.game
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
@@ -40,7 +41,7 @@ internal enum class Content {
 
 internal class GameStore(
     dispatcher: Dispatcher,
-    navigation: Navigation,
+    navigation: NavigationManager,
     initialState: GameState,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
@@ -57,7 +58,7 @@ internal class GameStore(
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
-            navigate(screen = Navigation.Screen.ERROR)
+            navigate(screen = Screen.ERROR)
             return@launchInPipeline
         }
 
@@ -65,7 +66,7 @@ internal class GameStore(
         gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
 
         if (updatedGameSession.integrity <= 0 || updatedGameSession.fuel <= 0) {
-            navigate(screen = Navigation.Screen.GAME_OVER)
+            navigate(screen = Screen.GAME_OVER)
             return@launchInPipeline
         }
 
@@ -75,7 +76,7 @@ internal class GameStore(
         } else stellarHosts.find { it.id == updatedGameSession.currentStellarHostId }
         if (currentStellarHost == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing stellar host")
-            navigate(screen = Navigation.Screen.ERROR)
+            navigate(screen = Screen.ERROR)
             return@launchInPipeline
         }
 
@@ -84,7 +85,7 @@ internal class GameStore(
         }
         if (visited.isEmpty()) {
             Logger.error(tag = TAG, message = "Invalid state: empty visited")
-            navigate(screen = Navigation.Screen.ERROR)
+            navigate(screen = Screen.ERROR)
             return@launchInPipeline
         }
 
@@ -189,7 +190,7 @@ internal class GameStore(
         val stellarHost = state.stellarHosts.find { it.id == action.stellarHost.id }
         if (state.gameSession == null || stellarHost == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session or current stellar host")
-            navigate(screen = Navigation.Screen.ERROR)
+            navigate(screen = Screen.ERROR)
             return@launchInPipeline
         }
 
@@ -211,13 +212,13 @@ internal class GameStore(
         )
 
         // Hidden Cheat: If you go to the main menu in the event screen, you will circumvent the event
-        navigate(screen = Navigation.Screen.EVENT)
+        navigate(screen = Screen.EVENT)
     }
 
     private fun settle(state: GameState, action: GameAction.Settle) = launchInPipeline {
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
-            navigate(screen = Navigation.Screen.ERROR)
+            navigate(screen = Screen.ERROR)
             return@launchInPipeline
         }
 
@@ -227,12 +228,12 @@ internal class GameStore(
                 finalHabitability = action.planet.habitability?.habitabilityScore?.times(other = 100.0)
             )
         )
-        navigate(screen = Navigation.Screen.GAME_OVER)
+        navigate(screen = Screen.GAME_OVER)
     }
 
     override fun reducer(state: GameState, action: GameAction) {
         when (action) {
-            GameAction.Back -> navigate(screen = Navigation.Screen.MAIN_MENU)
+            GameAction.Back -> navigate(screen = Screen.MAIN_MENU)
 
             is GameAction.ChangeContent -> updateState {
                 it.copy(currentContent = action.content)

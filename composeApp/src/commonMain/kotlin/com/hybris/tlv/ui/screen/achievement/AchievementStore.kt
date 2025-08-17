@@ -1,7 +1,8 @@
 package com.hybris.tlv.ui.screen.achievement
 
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.achievement.model.Achievement
@@ -16,7 +17,7 @@ internal data class AchievementState(
 
 internal class AchievementStore(
     dispatcher: Dispatcher,
-    navigation: Navigation,
+    navigation: NavigationManager,
     initialState: AchievementState,
     private val achievementUseCases: AchievementUseCases
 ): Store<AchievementAction, AchievementState>(
@@ -35,7 +36,7 @@ internal class AchievementStore(
 
     override fun reducer(state: AchievementState, action: AchievementAction) {
         when (action) {
-            AchievementAction.Back -> navigate(screen = Navigation.Screen.MAIN_MENU)
+            AchievementAction.Back -> navigate(screen = Screen.MAIN_MENU)
         }
     }
 }

@@ -3,7 +3,8 @@ package com.hybris.tlv.ui.screen.mainmenu
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.storage.Config
 import com.hybris.tlv.storage.RemoteConfig
-import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
@@ -25,7 +26,7 @@ internal data class MainMenuState(
 
 internal class MainMenuStore(
     dispatcher: Dispatcher,
-    navigation: Navigation,
+    navigation: NavigationManager,
     initialState: MainMenuState,
     private val remoteConfig: RemoteConfig,
     private val gameSessionUseCases: GameSessionUseCases
@@ -58,13 +59,13 @@ internal class MainMenuStore(
 
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
-            MainMenuAction.NewGame -> navigate(screen = Navigation.Screen.NEW_GAME)
-            MainMenuAction.Continue -> navigate(screen = Navigation.Screen.GAME)
-            MainMenuAction.Explore -> navigate(screen = Navigation.Screen.EXPLORE)
-            MainMenuAction.StellarExplorer -> navigate(screen = Navigation.Screen.STELLAR_EXPLORER)
-            MainMenuAction.Scores -> navigate(screen = Navigation.Screen.SCORES)
-            MainMenuAction.Achievements -> navigate(screen = Navigation.Screen.ACHIEVEMENTS)
-            MainMenuAction.Credits -> navigate(screen = Navigation.Screen.CREDITS)
+            MainMenuAction.NewGame -> navigate(screen = Screen.NEW_GAME)
+            MainMenuAction.Continue -> navigate(screen = Screen.GAME)
+            MainMenuAction.Explore -> navigate(screen = Screen.EXPLORE)
+            MainMenuAction.StellarExplorer -> navigate(screen = Screen.STELLAR_EXPLORER)
+            MainMenuAction.Scores -> navigate(screen = Screen.SCORES)
+            MainMenuAction.Achievements -> navigate(screen = Screen.ACHIEVEMENTS)
+            MainMenuAction.Credits -> navigate(screen = Screen.CREDITS)
         }
     }
 }

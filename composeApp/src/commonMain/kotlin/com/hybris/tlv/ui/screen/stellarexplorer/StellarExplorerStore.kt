@@ -2,7 +2,8 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.component.LazyListIndex
-import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
@@ -92,7 +93,7 @@ internal enum class PlanetProperty {
 
 internal class StellarExplorerStore(
     dispatcher: Dispatcher,
-    navigation: Navigation,
+    navigation: NavigationManager,
     initialState: StellarExplorerState,
     private val spaceUseCases: SpaceUseCases,
 ): Store<StellarExplorerAction, StellarExplorerState>(
@@ -368,7 +369,7 @@ internal class StellarExplorerStore(
             StellarExplorerAction.Back -> when (state.currentContent) {
                 null,
                 Content.LIST_HOSTS,
-                Content.LIST_PLANETS -> navigate(screen = Navigation.Screen.MAIN_MENU)
+                Content.LIST_PLANETS -> navigate(screen = Screen.MAIN_MENU)
 
                 Content.DETAIL_HOSTS -> updateState {
                     it.copy(

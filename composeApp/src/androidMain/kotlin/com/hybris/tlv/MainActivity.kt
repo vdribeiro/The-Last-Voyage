@@ -18,6 +18,7 @@ import com.hybris.tlv.storage.AndroidRemoteConfig
 import com.hybris.tlv.storage.LocalConfig
 import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
 import io.ktor.client.HttpClient
@@ -61,8 +62,14 @@ private val core: Core by lazy {
         useCases = useCases
     )
 }
-private val navigation: Navigation by lazy {
-    Navigation(core = core)
+private val navigation: NavigationManager by lazy {
+    Navigation(
+        dispatcher = dispatcher,
+        locale = locale,
+        localConfig = localConfig,
+        remoteConfig = remoteConfig,
+        useCases = useCases
+    )
 }
 
 class MainActivity: ComponentActivity() {

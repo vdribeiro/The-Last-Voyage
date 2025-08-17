@@ -2,7 +2,8 @@ package com.hybris.tlv.ui.screen.score
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.Locale
-import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
@@ -17,7 +18,7 @@ internal data class ScoreState(
 
 internal class ScoreStore(
     dispatcher: Dispatcher,
-    navigation: Navigation,
+    navigation: NavigationManager,
     initialState: ScoreState,
     private val locale: Locale,
     private val gameSessionUseCases: GameSessionUseCases
@@ -40,7 +41,7 @@ internal class ScoreStore(
 
     override fun reducer(state: ScoreState, action: ScoreAction) {
         when (action) {
-            ScoreAction.Back -> navigate(screen = Navigation.Screen.MAIN_MENU)
+            ScoreAction.Back -> navigate(screen = Screen.MAIN_MENU)
         }
     }
 }

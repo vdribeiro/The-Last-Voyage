@@ -2,7 +2,8 @@ package com.hybris.tlv.ui.screen.event
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
@@ -23,7 +24,7 @@ internal data class EventState(
 
 internal class EventStore(
     dispatcher: Dispatcher,
-    navigation: Navigation,
+    navigation: NavigationManager,
     initialState: EventState,
     private val eventUseCases: EventUseCases,
     private val gameSessionUseCases: GameSessionUseCases
@@ -40,7 +41,7 @@ internal class EventStore(
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
-            navigate(screen = Navigation.Screen.ERROR)
+            navigate(screen = Screen.ERROR)
             return@launchInPipeline
         }
 
@@ -59,7 +60,7 @@ internal class EventStore(
         val event = events.find { it.parentId == null }
         if (event == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing parent event")
-            navigate(screen = Navigation.Screen.ERROR)
+            navigate(screen = Screen.ERROR)
             return@launchInPipeline
         }
 
@@ -97,16 +98,16 @@ internal class EventStore(
 
     override fun reducer(state: EventState, action: EventAction) {
         when (action) {
-            EventAction.Back -> navigate(screen = Navigation.Screen.MAIN_MENU)
+            EventAction.Back -> navigate(screen = Screen.MAIN_MENU)
             is EventAction.Select -> launchInPipeline {
                 if (state.gameSession == null) {
                     Logger.error(tag = TAG, message = "Invalid state: missing game session")
-                    navigate(screen = Navigation.Screen.ERROR)
+                    navigate(screen = Screen.ERROR)
                     return@launchInPipeline
                 }
 
                 if (action.event == null) {
-                    navigate(screen = Navigation.Screen.GAME)
+                    navigate(screen = Screen.GAME)
                     return@launchInPipeline
                 }
 

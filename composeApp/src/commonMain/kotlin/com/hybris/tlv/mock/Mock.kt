@@ -21,7 +21,8 @@ import com.hybris.tlv.storage.CommonRemoteConfig
 import com.hybris.tlv.storage.LocalConfig
 import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.ui.navigation.Navigation
-import com.hybris.tlv.ui.navigation.Navigation.Screen
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.achievement.model.Achievement
@@ -87,7 +88,7 @@ internal class Mock {
         remoteConfig = remoteConfig,
         useCases = useCases,
     )
-    val navigation = Navigation(core = core)
+    val navigation: NavigationManager = Navigation(core = core)
 
     @Composable
     fun Screen(

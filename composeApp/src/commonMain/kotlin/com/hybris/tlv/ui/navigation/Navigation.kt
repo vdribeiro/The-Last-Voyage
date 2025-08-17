@@ -1,9 +1,13 @@
 package com.hybris.tlv.ui.navigation
 
 import androidx.compose.runtime.Composable
-import com.hybris.tlv.Core
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
+import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.storage.Config
+import com.hybris.tlv.storage.LocalConfig
+import com.hybris.tlv.storage.RemoteConfig
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.achievement.AchievementState
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.credits.CreditsState
@@ -28,11 +32,18 @@ import com.hybris.tlv.ui.screen.splash.SplashState
 import com.hybris.tlv.ui.screen.splash.SplashStore
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
+import com.hybris.tlv.usecase.UseCases
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-internal class Navigation(val core: Core) {
+internal class Navigation(
+    val dispatcher: Dispatcher,
+    val locale: Locale,
+    val localConfig: LocalConfig,
+    val remoteConfig: RemoteConfig,
+    val useCases: UseCases
+): NavigationManager {
 
     data class State(
         val music: Boolean = true,
@@ -40,37 +51,22 @@ internal class Navigation(val core: Core) {
         val state: Any? = null
     )
 
-    enum class Screen {
-        ERROR,
-        SPLASH,
-        MAIN_MENU,
-        NEW_GAME,
-        GAME,
-        EVENT,
-        GAME_OVER,
-        EXPLORE,
-        STELLAR_EXPLORER,
-        SCORES,
-        ACHIEVEMENTS,
-        CREDITS,
-    }
-
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(
-        value = State(music = core.localConfig.getBoolean(key = Config.Music))
+        value = State(music = localConfig.getBoolean(key = Config.Music))
     )
-    val stateFlow: StateFlow<State> get() = _stateFlow
+    override val stateFlow: StateFlow<State> get() = _stateFlow
 
-    fun navigate(screen: Screen, state: Any? = null) {
-        core.dispatcher.main.launch { _stateFlow.update { it.copy(screen = screen, state = state) } }
+    override fun navigate(screen: Screen, state: Any?) {
+        dispatcher.main.launch { _stateFlow.update { it.copy(screen = screen, state = state) } }
     }
 
-    fun setMusic(enabled: Boolean) {
-        core.localConfig.put(key = Config.Music, value = enabled)
-        core.dispatcher.main.launch { _stateFlow.update { it.copy(music = enabled) } }
+    override fun setMusic(enabled: Boolean) {
+        localConfig.put(key = Config.Music, value = enabled)
+        dispatcher.main.launch { _stateFlow.update { it.copy(music = enabled) } }
     }
 
     @Composable
-    fun Screen(
+    override fun Screen(
         screen: Screen,
         state: Any?
     ) = when (screen) {
@@ -91,7 +87,7 @@ internal class Navigation(val core: Core) {
     @Composable
     private fun ErrorScreen(state: Any?) = com.hybris.tlv.ui.screen.error.ErrorScreen(
         store = ErrorStore(
-            dispatcher = core.dispatcher,
+            dispatcher = dispatcher,
             navigation = this,
             initialState = state as? ErrorState ?: ErrorState()
         )
@@ -100,7 +96,7 @@ internal class Navigation(val core: Core) {
     @Composable
     private fun SplashScreen(state: Any?) = com.hybris.tlv.ui.screen.splash.SplashScreen(
         store = SplashStore(
-            dispatcher = core.dispatcher,
+            dispatcher = dispatcher,
             navigation = this,
             initialState = state as? SplashState ?: SplashState(),
             core = core
@@ -110,62 +106,62 @@ internal class Navigation(val core: Core) {
     @Composable
     private fun MainMenuScreen(state: Any?) = com.hybris.tlv.ui.screen.mainmenu.MainMenuScreen(
         store = MainMenuStore(
-            dispatcher = core.dispatcher,
+            dispatcher = dispatcher,
             navigation = this,
             initialState = state as? MainMenuState ?: MainMenuState(),
-            remoteConfig = core.remoteConfig,
-            gameSessionUseCases = core.useCases.gameSession
+            remoteConfig = remoteConfig,
+            gameSessionUseCases = useCases.gameSession
         )
     )
 
     @Composable
     private fun NewGameScreen(state: Any?) = com.hybris.tlv.ui.screen.newgame.NewGameScreen(
         store = NewGameStore(
-            dispatcher = core.dispatcher,
+            dispatcher = dispatcher,
             navigation = this,
             initialState = state as? NewGameState ?: NewGameState(),
-            earthUseCases = core.useCases.earth,
-            gameSessionUseCases = core.useCases.gameSession
+            earthUseCases = useCases.earth,
+            gameSessionUseCases = useCases.gameSession
         )
     )
 
     @Composable
     private fun GameScreen(state: Any?) = com.hybris.tlv.ui.screen.game.GameScreen(
         store = GameStore(
-            dispatcher = core.dispatcher,
+            dispatcher = dispatcher,
             navigation = this,
             initialState = state as? GameState ?: GameState(),
-            spaceUseCases = core.useCases.space,
-            gameSessionUseCases = core.useCases.gameSession
+            spaceUseCases = useCases.space,
+            gameSessionUseCases = useCases.gameSession
         )
     )
 
     @Composable
     private fun EventScreen(state: Any?) = com.hybris.tlv.ui.screen.event.EventScreen(
         store = EventStore(
-            dispatcher = core.dispatcher,
+            dispatcher = dispatcher,
             navigation = this,
             initialState = state as? EventState ?: EventState(),
-            eventUseCases = core.useCases.event,
-            gameSessionUseCases = core.useCases.gameSession
+            eventUseCases = useCases.event,
+            gameSessionUseCases = useCases.gameSession
         )
     )
 
     @Composable
     private fun GameOverScreen(state: Any?) = com.hybris.tlv.ui.screen.gameover.GameOverScreen(
         store = GameOverStore(
-            dispatcher = core.dispatcher,
+            dispatcher = dispatcher,
             navigation = this,
             initialState = state as? GameOverState ?: GameOverState(),
-            locale = core.locale,
-            gameSessionUseCases = core.useCases.gameSession
+            locale = locale,
+            gameSessionUseCases = useCases.gameSession
         )
     )
 
     @Composable
     private fun ExploreScreen(state: Any?) = com.hybris.tlv.ui.screen.explore.ExploreScreen(
         store = ExploreStore(
-            dispatcher = core.dispatcher,
+            dispatcher = dispatcher,
             navigation = this,
             initialState = state as? ExploreState ?: ExploreState(),
         )
@@ -174,41 +170,41 @@ internal class Navigation(val core: Core) {
     @Composable
     private fun StellarExplorerScreen(state: Any?) = com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerScreen(
         store = StellarExplorerStore(
-            dispatcher = core.dispatcher,
+            dispatcher = dispatcher,
             navigation = this,
             initialState = state as? StellarExplorerState ?: StellarExplorerState(),
-            spaceUseCases = core.useCases.space,
+            spaceUseCases = useCases.space,
         )
     )
 
     @Composable
     private fun ScoreScreen(state: Any?) = com.hybris.tlv.ui.screen.score.ScoreScreen(
         store = ScoreStore(
-            dispatcher = core.dispatcher,
+            dispatcher = dispatcher,
             navigation = this,
             initialState = state as? ScoreState ?: ScoreState(),
-            locale = core.locale,
-            gameSessionUseCases = core.useCases.gameSession
+            locale = locale,
+            gameSessionUseCases = useCases.gameSession
         )
     )
 
     @Composable
     private fun AchievementScreen(state: Any?) = com.hybris.tlv.ui.screen.achievement.AchievementScreen(
         store = AchievementStore(
-            dispatcher = core.dispatcher,
+            dispatcher = dispatcher,
             navigation = this,
             initialState = state as? AchievementState ?: AchievementState(),
-            achievementUseCases = core.useCases.achievement
+            achievementUseCases = useCases.achievement
         )
     )
 
     @Composable
     private fun CreditsScreen(state: Any?) = com.hybris.tlv.ui.screen.credits.CreditsScreen(
         store = CreditsStore(
-            dispatcher = core.dispatcher,
+            dispatcher = dispatcher,
             navigation = this,
             initialState = state as? CreditsState ?: CreditsState(),
-            creditsUseCases = core.useCases.credits
+            creditsUseCases = useCases.credits
         )
     )
 }

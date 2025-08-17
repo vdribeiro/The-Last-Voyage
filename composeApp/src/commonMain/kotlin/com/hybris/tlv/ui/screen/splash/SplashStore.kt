@@ -2,7 +2,8 @@ package com.hybris.tlv.ui.screen.splash
 
 import com.hybris.tlv.Core
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.collectProgress
 import com.hybris.tlv.usecase.combine
@@ -19,7 +20,7 @@ internal data class SplashState(
 
 internal class SplashStore(
     dispatcher: Dispatcher,
-    navigation: Navigation,
+    navigation: NavigationManager,
     initialState: SplashState,
     private val core: Core,
 ): Store<SplashAction, SplashState>(
@@ -58,7 +59,7 @@ internal class SplashStore(
 
     override fun reducer(state: SplashState, action: SplashAction) {
         when (action) {
-            SplashAction.Start -> navigate(screen = Navigation.Screen.MAIN_MENU)
+            SplashAction.Start -> navigate(screen = Screen.MAIN_MENU)
         }
     }
 }

@@ -21,6 +21,7 @@ import com.hybris.tlv.storage.DesktopRemoteConfig
 import com.hybris.tlv.storage.LocalConfig
 import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -65,7 +66,7 @@ private val core: Core by lazy {
     )
 }
 
-private val navigation: Navigation by lazy {
+private val navigation: NavigationManager by lazy {
     Navigation(core = core)
 }
 

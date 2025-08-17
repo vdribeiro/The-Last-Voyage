@@ -15,6 +15,7 @@ import com.hybris.tlv.storage.IosRemoteConfig
 import com.hybris.tlv.storage.LocalConfig
 import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
 import io.ktor.client.HttpClient
@@ -58,7 +59,7 @@ private val core: Core by lazy {
     )
 }
 
-private val navigation: Navigation by lazy {
+private val navigation: NavigationManager by lazy {
     Navigation(core = core)
 }
 

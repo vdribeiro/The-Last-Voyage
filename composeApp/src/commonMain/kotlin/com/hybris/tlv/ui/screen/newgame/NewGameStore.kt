@@ -2,7 +2,8 @@ package com.hybris.tlv.ui.screen.newgame
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.newgame.state.ShipState
 import com.hybris.tlv.ui.screen.newgame.state.ShipState.Point
 import com.hybris.tlv.ui.store.Store
@@ -45,7 +46,7 @@ internal enum class Content {
 
 internal class NewGameStore(
     dispatcher: Dispatcher,
-    navigation: Navigation,
+    navigation: NavigationManager,
     initialState: NewGameState,
     private val earthUseCases: EarthUseCases,
     private val gameSessionUseCases: GameSessionUseCases
@@ -73,7 +74,7 @@ internal class NewGameStore(
         val selectedShip = state.selectedShip
         if (selectedShip == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing ship prototype")
-            navigate(screen = Navigation.Screen.ERROR)
+            navigate(screen = Screen.ERROR)
             return@launchInPipeline
         }
 
@@ -112,7 +113,7 @@ internal class NewGameStore(
                 stellarHostEffectiveTemperatureMaxDeviation = state.math.stellarHostEffectiveTemperatureMaxDeviation
             )
         )
-        navigate(screen = Navigation.Screen.GAME)
+        navigate(screen = Screen.GAME)
     }
 
     override fun reducer(state: NewGameState, action: NewGameAction) {
@@ -122,7 +123,7 @@ internal class NewGameStore(
                     null,
                     Content.SHIP,
                     Content.ADVANCED,
-                    Content.START -> navigate(screen = Navigation.Screen.MAIN_MENU)
+                    Content.START -> navigate(screen = Screen.MAIN_MENU)
                 }
             }
 

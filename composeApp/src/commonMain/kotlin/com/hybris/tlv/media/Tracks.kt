@@ -1,6 +1,6 @@
 package com.hybris.tlv.media
 
-import com.hybris.tlv.ui.navigation.Navigation.Screen
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 
 internal fun getTracks(screen: Screen) = when (screen) {
     Screen.SPLASH,

@@ -1,7 +1,8 @@
 package com.hybris.tlv.ui.screen.explore
 
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 
 internal sealed interface ExploreAction {
@@ -24,7 +25,7 @@ internal enum class Content {
 
 internal class ExploreStore(
     dispatcher: Dispatcher,
-    navigation: Navigation,
+    navigation: NavigationManager,
     initialState: ExploreState,
 ): Store<ExploreAction, ExploreState>(
     dispatcher = dispatcher,
@@ -42,7 +43,7 @@ internal class ExploreStore(
     override fun reducer(state: ExploreState, action: ExploreAction) {
         when (action) {
             ExploreAction.Back -> when (state.currentContent) {
-                null, Content.MENU -> navigate(screen = Navigation.Screen.MAIN_MENU)
+                null, Content.MENU -> navigate(screen = Screen.MAIN_MENU)
                 Content.MECHANICS, Content.HABITABILITY, Content.PLANET_TYPES -> updateState { it.copy(currentContent = Content.MENU) }
             }
 

@@ -1,10 +1,12 @@
 package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.hybris.tlv.datetime.now
 import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.security.generateUuid
-import com.hybris.tlv.ui.navigation.Navigation.Screen
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.achievement.AchievementState
 import com.hybris.tlv.ui.screen.credits.CreditsState
 import com.hybris.tlv.ui.screen.error.ErrorState
@@ -46,6 +48,7 @@ import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_METALLICITY_WEIGHT
 import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_ROTATIONAL_PERIOD_WEIGHT
 import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_SPECTRAL_TYPE_WEIGHT
 import com.hybris.tlv.usecase.space.model.TravelOutcome
+import database.AppDatabase
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.ui.screen.explore.Content as ExploreContent
 import com.hybris.tlv.ui.screen.game.Content as GameContent
@@ -54,6 +57,21 @@ import com.hybris.tlv.ui.screen.newgame.Content as NewGameContent
 import com.hybris.tlv.ui.screen.stellarexplorer.Content as StellarExplorerContent
 
 private val mock = Mock()
+
+@Composable
+private fun Screen(
+    screen: Screen,
+    state: Any?
+) = Mock(
+    databaseDriver = AndroidSqliteDriver(
+        context = LocalContext.current,
+        schema = AppDatabase.Schema
+    )
+).Screen(
+    screen = screen,
+    state = state
+)
+
 private val gameSession = GameSession(
     id = "1",
     utc = now(),

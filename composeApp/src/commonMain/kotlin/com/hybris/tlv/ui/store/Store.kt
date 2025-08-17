@@ -2,7 +2,8 @@ package com.hybris.tlv.ui.store
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
-import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +20,7 @@ import kotlinx.coroutines.sync.withLock
  */
 internal abstract class Store<Action, State>(
     private val dispatcher: Dispatcher,
-    private val navigation: Navigation,
+    private val navigation: NavigationManager,
     initialState: State
 ) {
     /**
@@ -76,7 +77,7 @@ internal abstract class Store<Action, State>(
     /**
      * Navigates to a new [screen] given an optional [state].
      */
-    protected fun navigate(screen: Navigation.Screen, state: Any? = null) {
+    protected fun navigate(screen: Screen, state: Any? = null) {
         jobs.forEach { it.cancel() }
         navigation.navigate(screen = screen, state = state)
     }

@@ -1,7 +1,8 @@
 package com.hybris.tlv.ui.screen.credits
 
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.credits.CreditsUseCases
 import com.hybris.tlv.usecase.credits.model.Credits
@@ -16,7 +17,7 @@ internal data class CreditsState(
 
 internal class CreditsStore(
     dispatcher: Dispatcher,
-    navigation: Navigation,
+    navigation: NavigationManager,
     initialState: CreditsState,
     private val creditsUseCases: CreditsUseCases
 ): Store<CreditsAction, CreditsState>(
@@ -35,7 +36,7 @@ internal class CreditsStore(
 
     override fun reducer(state: CreditsState, action: CreditsAction) {
         when (action) {
-            CreditsAction.Back -> navigate(screen = Navigation.Screen.MAIN_MENU)
+            CreditsAction.Back -> navigate(screen = Screen.MAIN_MENU)
         }
     }
 }

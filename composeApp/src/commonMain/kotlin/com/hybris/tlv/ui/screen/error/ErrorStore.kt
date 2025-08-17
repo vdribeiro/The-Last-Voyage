@@ -2,7 +2,8 @@ package com.hybris.tlv.ui.screen.error
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 
 internal sealed interface ErrorAction {
@@ -14,7 +15,7 @@ internal class ErrorState()
 
 internal class ErrorStore(
     dispatcher: Dispatcher,
-    navigation: Navigation,
+    navigation: NavigationManager,
     initialState: ErrorState,
 ): Store<ErrorAction, ErrorState>(
     dispatcher = dispatcher,
@@ -23,7 +24,7 @@ internal class ErrorStore(
 ) {
     override fun reducer(state: ErrorState, action: ErrorAction) {
         when (action) {
-            ErrorAction.Back -> navigate(screen = Navigation.Screen.MAIN_MENU)
+            ErrorAction.Back -> navigate(screen = Screen.MAIN_MENU)
             is ErrorAction.SendFeedback -> Logger.error(message = action.message) // TODO: Send feedback to server
         }
     }
