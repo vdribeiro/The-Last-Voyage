@@ -67,47 +67,27 @@ internal class Mock {
         runBlocking { loadFromJson(path = "files/credits.json") }
     }
 
-    val dispatcher: Dispatcher by lazy {
-        CommonDispatchers()
-    }
-    val locale: Locale by lazy {
-        CommonLocale()
-    }
-    val localConfig: LocalConfig by lazy {
-        CommonLocalConfig()
-    }
-    val remoteConfig: RemoteConfig by lazy {
-        CommonRemoteConfig()
-    }
-    val firestore: Firestore by lazy {
-        CommonFirestore()
-    }
-    val databaseDriver: SqlDriver by lazy {
-        SqlDriverFactory.build(inMemory = true)
-    }
-    val httpClient: HttpClient by lazy {
-        buildExoplanetHttpClient()
-    }
-    val useCases: UseCases by lazy {
-        Gateways(
-            dispatcher = dispatcher,
-            firestore = firestore,
-            databaseDriver = databaseDriver,
-            httpClient = httpClient,
-        )
-    }
-    val core: Core by lazy {
-        AppCore(
-            dispatcher = dispatcher,
-            locale = locale,
-            localConfig = localConfig,
-            remoteConfig = remoteConfig,
-            useCases = useCases,
-        )
-    }
-    val navigation by lazy {
-        Navigation(core = core)
-    }
+    val dispatcher: Dispatcher = CommonDispatchers()
+    val locale: Locale = CommonLocale()
+    val localConfig: LocalConfig = CommonLocalConfig()
+    val remoteConfig: RemoteConfig = CommonRemoteConfig()
+    val firestore: Firestore = CommonFirestore()
+    val databaseDriver: SqlDriver = SqlDriverFactory.build(inMemory = true)
+    val httpClient: HttpClient = buildExoplanetHttpClient()
+    val useCases: UseCases = Gateways(
+        dispatcher = dispatcher,
+        firestore = firestore,
+        databaseDriver = databaseDriver,
+        httpClient = httpClient,
+    )
+    val core: Core = AppCore(
+        dispatcher = dispatcher,
+        locale = locale,
+        localConfig = localConfig,
+        remoteConfig = remoteConfig,
+        useCases = useCases,
+    )
+    val navigation = Navigation(core = core)
 
     @Composable
     fun Screen(
@@ -123,6 +103,8 @@ internal class Mock {
             core.prepopulate().last()
         }
     }
+
+    fun setup() {}
 
     fun buildExoplanetHttpClient(): HttpClient {
         val mockEngine = MockEngine { request ->

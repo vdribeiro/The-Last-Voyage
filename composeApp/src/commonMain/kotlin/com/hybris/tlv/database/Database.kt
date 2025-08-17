@@ -17,39 +17,31 @@ import database.Translation
 
 internal class Database(val driver: SqlDriver) {
 
-    private val creditsAdapter by lazy {
-        Credits.Adapter(
-            typeAdapter = EnumColumnAdapter()
-        )
-    }
+    private val creditsAdapter = Credits.Adapter(
+        typeAdapter = EnumColumnAdapter()
+    )
 
-    private val gameSessionAdapter by lazy {
-        GameSession.Adapter(
-            assignedPointsAdapter = IntColumnAdapter,
-            sensorRangeAdapter = IntColumnAdapter,
-            integrityAdapter = IntColumnAdapter,
-            fuelAdapter = IntColumnAdapter,
-            materialsAdapter = IntColumnAdapter,
-            cryopodsAdapter = IntColumnAdapter,
-            visitedStellarHostsAdapter = SetColumnAdapter,
-            launchedEventsAdapter = SetColumnAdapter
-        )
-    }
+    private val gameSessionAdapter = GameSession.Adapter(
+        assignedPointsAdapter = IntColumnAdapter,
+        sensorRangeAdapter = IntColumnAdapter,
+        integrityAdapter = IntColumnAdapter,
+        fuelAdapter = IntColumnAdapter,
+        materialsAdapter = IntColumnAdapter,
+        cryopodsAdapter = IntColumnAdapter,
+        visitedStellarHostsAdapter = SetColumnAdapter,
+        launchedEventsAdapter = SetColumnAdapter
+    )
 
-    private val planetAdapter by lazy {
-        Planet.Adapter(
-            statusAdapter = EnumColumnAdapter()
-        )
-    }
+    private val planetAdapter = Planet.Adapter(
+        statusAdapter = EnumColumnAdapter()
+    )
 
-    val database: AppDatabase by lazy {
-        AppDatabase(
-            driver = driver,
-            CreditsAdapter = creditsAdapter,
-            GameSessionAdapter = gameSessionAdapter,
-            PlanetAdapter = planetAdapter,
-        )
-    }
+    val database: AppDatabase = AppDatabase(
+        driver = driver,
+        CreditsAdapter = creditsAdapter,
+        GameSessionAdapter = gameSessionAdapter,
+        PlanetAdapter = planetAdapter,
+    )
 
     companion object {
         const val NAME = "TLVDatabase.db"

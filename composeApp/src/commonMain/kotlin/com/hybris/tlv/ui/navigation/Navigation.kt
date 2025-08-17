@@ -32,7 +32,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-internal class Navigation(private val core: Core) {
+internal class Navigation(val core: Core) {
 
     data class State(
         val music: Boolean = true,
