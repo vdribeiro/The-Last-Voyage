@@ -39,6 +39,105 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
+import com.hybris.tlv.usecase.translation.model.domain.Translation
+
+internal val translations = listOf(
+    Translation(
+        languageIso = "en",
+        key = "app_name",
+        value = "The Last Voyage"
+    ),
+    Translation(
+        languageIso = "en",
+        key = "catastrophe__asteroid_impact",
+        value = "Asteroid Impact"
+    ),
+    Translation(
+        languageIso = "en",
+        key = "catastrophe__asteroid_impact_description",
+        value = "A massive asteroid collides with Earth, causing widespread destruction, tsunamis, earthquakes, and atmospheric changes. The impact wipes out most life on the planet.\n\nOne ship escapes and begins: The Last Voyage."
+    ),
+    Translation(
+        languageIso = "en",
+        key = "catastrophe__nuclear_war",
+        value = "Nuclear War"
+    ),
+    Translation(
+        languageIso = "en",
+        key = "catastrophe__nuclear_war_description",
+        value = "A global conflict escalates into a full-scale nuclear exchange. Cities are destroyed, radiation spreads, and the aftermath leads to a nuclear winter, plunging the world into darkness and devastation.\n\nOne ship escapes and begins: The Last Voyage."
+    ),
+    Translation(
+        languageIso = "en",
+        key = "engine__alcubierre_drive",
+        value = "Alcubierre Drive"
+    ),
+    Translation(
+        languageIso = "en",
+        key = "engine__alcubierre_drive_description",
+        value = "A warp drive that can travel faster than light by warping space-time."
+    ),
+    Translation(
+        languageIso = "en",
+        key = "engine__liquid_fuel_rocket",
+        value = "Liquid-fuel Rocket"
+    ),
+    Translation(
+        languageIso = "en",
+        key = "engine__liquid_fuel_rocket_description",
+        value = "Uses liquid fuel and oxidizer."
+    ),
+    Translation(
+        languageIso = "en",
+        key = "event__engine_misfire",
+        value = "Engine Misfire"
+    ),
+    Translation(
+        languageIso = "en",
+        key = "event__engine_misfire_description",
+        value = "Your engine clogs unexpectedly. You lose time performing emergency maintenance and consume some materials."
+    ),
+    Translation(
+        languageIso = "en",
+        key = "event__solar_flare",
+        value = "Solar Flare"
+    ),
+    Translation(
+        languageIso = "en",
+        key = "event__solar_flare_description",
+        value = "You pass a star during an intense solar flare. Your ship's sensors are temporarily scrambled and your arrival is delayed."
+    ),
+    Translation(
+        languageIso = "en",
+        key = "event__a_close_pass",
+        value = "A Close Pass"
+    ),
+    Translation(
+        languageIso = "en",
+        key = "event__a_close_pass_description",
+        value = "The ship's trajectory will pass relatively close to a highly active pulsar. Its intense magnetic fields and radiation beams are dangerous. However, a closer pass would allow the ship to gather priceless scientific data on neutron stars and could potentially calibrate the navigation system with extreme precision."
+    ),
+    Translation(
+        languageIso = "en",
+        key = "event__a_close_pass_for_science",
+        value = "Make a Close Pass for Science"
+    ),
+    Translation(
+        languageIso = "en",
+        key = "event__a_close_pass_for_science_description",
+        value = "The data is a massive success, providing a permanent boost to navigational accuracy. But the ship is lashed by magnetic fields, causing a power surge that shorts out several cryopods."
+    ),
+    Translation(
+        languageIso = "en",
+        key = "event__a_close_pass_ignore",
+        value = "Maintain a Safe Distance"
+    ),
+    Translation(
+        languageIso = "en",
+        key = "event__a_close_pass_ignore_description",
+        value = "The risk of system damage is too great. The ship gives the pulsar a wide berth, and the unique scientific opportunity is lost."
+    ),
+)
 
 internal val catastrophes = listOf(
     Catastrophe(
