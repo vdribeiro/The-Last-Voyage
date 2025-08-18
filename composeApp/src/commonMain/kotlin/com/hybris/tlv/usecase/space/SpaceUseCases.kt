@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.Flow
 internal interface SpaceUseCases {
 
     /**
-     * Rewrites the local and remote [StellarHost] and [Planet] data.
-     */
-    suspend fun rewrite(): Flow<SyncResult>
-
-    /**
      * Get exoplanet data from the NASA archive.
      */
     suspend fun getArchive(): Flow<SyncResult>
+
+    /**
+     * Rewrites the local and remote [StellarHost] and [Planet] data.
+     */
+    suspend fun rewrite(): Flow<SyncResult>
 
     /**
      * Syncs the remote [StellarHost] data to local.

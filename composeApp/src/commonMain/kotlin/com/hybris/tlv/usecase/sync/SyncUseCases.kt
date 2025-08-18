@@ -11,14 +11,14 @@ internal interface SyncUseCases {
     suspend fun setup(): Flow<SyncResult>
 
     /**
-     * Rewrites all local and remote data.
-     */
-    suspend fun rewrite(): Flow<SyncResult>
-
-    /**
      * Get exoplanet data from the NASA archive.
      */
     suspend fun getArchive(): Flow<SyncResult>
+
+    /**
+     * Rewrites all local and remote data.
+     */
+    suspend fun rewrite(): Flow<SyncResult>
 
     /**
      * Syncs all the remote data to local.

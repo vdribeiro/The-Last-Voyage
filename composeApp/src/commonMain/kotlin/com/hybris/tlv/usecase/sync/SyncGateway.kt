@@ -60,6 +60,8 @@ internal class SyncGateway(
         emit(value = SyncResult.Success)
     }
 
+    override suspend fun getArchive(): Flow<SyncResult> = space.getArchive()
+
     override suspend fun rewrite(): Flow<SyncResult> =
         kotlinx.coroutines.flow.combine(
             flows = listOf(
@@ -72,8 +74,6 @@ internal class SyncGateway(
                 credits.rewrite()
             )
         ) { it.combine() }
-
-    override suspend fun getArchive(): Flow<SyncResult> = space.getArchive()
 
     override suspend fun sync(): Flow<SyncResult> =
         kotlinx.coroutines.flow.combine(
