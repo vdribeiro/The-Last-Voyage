@@ -1,18 +1,20 @@
 package com.hybris.tlv.usecase.ship.local
 
-import com.hybris.tlv.Tester
+import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.engines
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
-internal class ShipLocalTest: Tester() {
+internal class ShipLocalTest {
+
+    private val mock = Mock()
 
     @Test
     fun `write and get engines`() = runBlocking {
-        assertTrue(actual = shipDao.isEngineEmpty())
-        shipDao.rewriteEngines(engines = engines)
-        assertEquals(expected = engines, actual = shipDao.getEngines())
+        assertTrue(actual = mock.shipDao.isEngineEmpty())
+        mock.shipDao.rewriteEngines(engines = engines)
+        assertEquals(expected = engines, actual = mock.shipDao.getEngines())
     }
 }

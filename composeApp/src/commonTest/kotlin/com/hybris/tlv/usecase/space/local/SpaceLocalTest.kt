@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.space.local
 
-import com.hybris.tlv.Tester
+import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import kotlin.test.Test
@@ -8,19 +8,21 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
-internal class SpaceLocalTest: Tester() {
+internal class SpaceLocalTest {
+
+    private val mock = Mock()
 
     @Test
     fun `write and get stellar hosts`() = runBlocking {
-        assertTrue(actual = spaceDao.isStellarHostEmpty())
-        spaceDao.rewriteStellarHosts(stellarHosts = stellarHosts)
-        assertEquals(expected = stellarHosts, actual = spaceDao.getStellarHosts())
+        assertTrue(actual = mock.spaceDao.isStellarHostEmpty())
+        mock.spaceDao.rewriteStellarHosts(stellarHosts = stellarHosts)
+        assertEquals(expected = stellarHosts, actual = mock.spaceDao.getStellarHosts())
     }
 
     @Test
     fun `write and get planets`() = runBlocking {
-        assertTrue(actual = spaceDao.isPlanetEmpty())
-        spaceDao.rewritePlanets(planets = planets)
-        assertEquals(expected = planets, actual = spaceDao.getPlanets())
+        assertTrue(actual = mock.spaceDao.isPlanetEmpty())
+        mock.spaceDao.rewritePlanets(planets = planets)
+        assertEquals(expected = planets, actual = mock.spaceDao.getPlanets())
     }
 }

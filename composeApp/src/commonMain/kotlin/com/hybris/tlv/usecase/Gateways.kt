@@ -86,7 +86,7 @@ internal class Gateways(
     localConfig: LocalConfig = CommonLocalConfig(),
     remoteConfig: RemoteConfig = CommonRemoteConfig(),
     firestore: Firestore = CommonFirestore(),
-    sqlDriver: SqlDriver = createSqlDriver(),
+    sqlDriver: SqlDriver = createSqlDriver(inMemory = true),
     httpClientFactory: HttpClientFactory = CommonHttpClientFactory(),
     database: AppDatabase = Database(driver = sqlDriver).database,
     httpClient: KtorHttpClient = httpClientFactory.buildExoplanetHttpClient(),
