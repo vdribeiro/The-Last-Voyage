@@ -7,14 +7,20 @@ import com.hybris.tlv.storage.LocalConfig
 import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.storage.RemoteConfigSettings
 import com.hybris.tlv.usecase.SyncResult
+import com.hybris.tlv.usecase.achievement.AchievementInternalUseCases
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.combine
+import com.hybris.tlv.usecase.credits.CreditsInternalUseCases
 import com.hybris.tlv.usecase.credits.CreditsUseCases
+import com.hybris.tlv.usecase.earth.EarthInternalUseCases
 import com.hybris.tlv.usecase.earth.EarthUseCases
+import com.hybris.tlv.usecase.event.EventInternalUseCases
 import com.hybris.tlv.usecase.event.EventUseCases
+import com.hybris.tlv.usecase.ship.ShipInternalUseCases
 import com.hybris.tlv.usecase.ship.ShipUseCases
+import com.hybris.tlv.usecase.space.SpaceInternalUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
-import com.hybris.tlv.usecase.translation.TranslationUseCases
+import com.hybris.tlv.usecase.translation.TranslationInternalUseCases
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -23,13 +29,13 @@ internal class SyncGateway(
     private val locale: Locale,
     private val localConfig: LocalConfig,
     private val remoteConfig: RemoteConfig,
-    private val translation: TranslationUseCases,
-    private val earth: EarthUseCases,
-    private val ship: ShipUseCases,
-    private val space: SpaceUseCases,
-    private val event: EventUseCases,
-    private val achievement: AchievementUseCases,
-    private val credits: CreditsUseCases,
+    private val internalTranslation: TranslationInternalUseCases,
+    private val internalEarth: EarthInternalUseCases,
+    private val internalShip: ShipInternalUseCases,
+    private val internalSpace: SpaceInternalUseCases,
+    private val internalEvent: EventInternalUseCases,
+    private val internalAchievement: AchievementInternalUseCases,
+    private val internalCredits: CreditsInternalUseCases,
 ): SyncUseCases {
 
     override suspend fun setup(): Flow<SyncResult> = flow {
@@ -60,32 +66,32 @@ internal class SyncGateway(
         emit(value = SyncResult.Success)
     }
 
-    override suspend fun getArchive(): Flow<SyncResult> = space.getArchive()
+    override suspend fun getArchive(): Flow<SyncResult> = internalSpace.getArchive()
 
     override suspend fun rewrite(): Flow<SyncResult> =
         kotlinx.coroutines.flow.combine(
             flows = listOf(
-                translation.rewrite(),
-                earth.rewrite(),
-                ship.rewrite(),
-                space.rewrite(),
-                event.rewrite(),
-                achievement.rewrite(),
-                credits.rewrite()
+                internalTranslation.rewrite(),
+                internalEarth.rewrite(),
+                internalShip.rewrite(),
+                internalSpace.rewrite(),
+                internalEvent.rewrite(),
+                internalAchievement.rewrite(),
+                internalCredits.rewrite()
             )
         ) { it.combine() }
 
     override suspend fun sync(): Flow<SyncResult> =
         kotlinx.coroutines.flow.combine(
             flows = listOf(
-                update(key = Config.TranslationsVersion) { translation.syncTranslations() },
-                update(key = Config.CatastrophesVersion) { earth.syncCatastrophes() },
-                update(key = Config.EnginesVersion) { ship.syncEngines() },
-                update(key = Config.StellarHostsVersion) { space.syncStellarHosts() },
-                update(key = Config.PlanetsVersion) { space.syncPlanets() },
-                update(key = Config.EventsVersion) { event.syncEvents() },
-                update(key = Config.AchievementsVersion) { achievement.syncAchievements() },
-                update(key = Config.CreditsVersion) { credits.syncCredits() }
+                update(key = Config.TranslationsVersion) { internalTranslation.syncTranslations() },
+                update(key = Config.CatastrophesVersion) { internalEarth.syncCatastrophes() },
+                update(key = Config.EnginesVersion) { internalShip.syncEngines() },
+                update(key = Config.StellarHostsVersion) { internalSpace.syncStellarHosts() },
+                update(key = Config.PlanetsVersion) { internalSpace.syncPlanets() },
+                update(key = Config.EventsVersion) { internalEvent.syncEvents() },
+                update(key = Config.AchievementsVersion) { internalAchievement.syncAchievements() },
+                update(key = Config.CreditsVersion) { internalCredits.syncCredits() }
             )
         ) { result ->
             result.getOrNull(index = 0)?.let { update(key = Config.TranslationsVersion, syncResult = it) }
@@ -113,23 +119,23 @@ internal class SyncGateway(
     override suspend fun prepopulate(): Flow<SyncResult> = flow {
         val totalOperations = 9f
         emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
-        translation.prepopulateTranslations()
+        internalTranslation.prepopulateTranslations()
         emit(value = SyncResult.Loading(progress = 1f, total = totalOperations))
-        earth.prepopulateCatastrophes()
+        internalEarth.prepopulateCatastrophes()
         emit(value = SyncResult.Loading(progress = 2f, total = totalOperations))
-        ship.prepopulateEngines()
+        internalShip.prepopulateEngines()
         emit(value = SyncResult.Loading(progress = 3f, total = totalOperations))
-        space.prepopulateStellarHosts()
+        internalSpace.prepopulateStellarHosts()
         emit(value = SyncResult.Loading(progress = 4f, total = totalOperations))
-        space.prepopulatePlanets()
+        internalSpace.prepopulatePlanets()
         emit(value = SyncResult.Loading(progress = 5f, total = totalOperations))
-        event.prepopulateEvents()
+        internalEvent.prepopulateEvents()
         emit(value = SyncResult.Loading(progress = 6f, total = totalOperations))
-        achievement.prepopulateAchievements()
+        internalAchievement.prepopulateAchievements()
         emit(value = SyncResult.Loading(progress = 7f, total = totalOperations))
-        credits.prepopulateCredits()
+        internalCredits.prepopulateCredits()
         emit(value = SyncResult.Loading(progress = 8f, total = totalOperations))
-        translation.loadTranslationsToCache(languageIso = locale.getLanguage())
+        internalTranslation.loadTranslationsToCache(languageIso = locale.getLanguage())
         emit(value = SyncResult.Success)
     }
 

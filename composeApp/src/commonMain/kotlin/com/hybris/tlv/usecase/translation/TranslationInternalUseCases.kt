@@ -4,7 +4,7 @@ import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.translation.model.domain.Translation
 import kotlinx.coroutines.flow.Flow
 
-internal interface TranslationUseCases {
+internal interface TranslationInternalUseCases {
 
     /**
      * Rewrites the local and remote [Translation] data.

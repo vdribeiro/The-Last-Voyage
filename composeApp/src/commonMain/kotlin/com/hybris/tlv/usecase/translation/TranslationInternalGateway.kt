@@ -13,11 +13,11 @@ import com.hybris.tlv.usecase.translation.remote.TranslationRemote
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-internal class TranslationGateway(
+internal class TranslationInternalGateway(
     private val dispatcher: Dispatcher,
     private val translationApi: TranslationRemote,
     private val translationDao: TranslationLocal
-): TranslationUseCases {
+): TranslationInternalUseCases {
 
     override suspend fun rewrite(): Flow<SyncResult> {
         val translations: List<Translation> = loadFromJson(path = "files/translations.json")

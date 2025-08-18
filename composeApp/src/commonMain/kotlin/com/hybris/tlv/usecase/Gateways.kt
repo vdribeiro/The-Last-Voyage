@@ -2,32 +2,48 @@ package com.hybris.tlv.usecase
 
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.database.Database
+import com.hybris.tlv.database.createSqlDriver
+import com.hybris.tlv.firestore.CommonFirestore
 import com.hybris.tlv.firestore.Firestore
+import com.hybris.tlv.flow.CommonDispatchers
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.http.client.CommonHttpClientFactory
 import com.hybris.tlv.http.client.ExoPlanetClient
+import com.hybris.tlv.http.client.HttpClient
 import com.hybris.tlv.http.client.HttpClientFactory
+import com.hybris.tlv.locale.CommonLocale
 import com.hybris.tlv.locale.Locale
+import com.hybris.tlv.storage.CommonLocalConfig
+import com.hybris.tlv.storage.CommonRemoteConfig
 import com.hybris.tlv.storage.LocalConfig
 import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.usecase.achievement.AchievementGateway
+import com.hybris.tlv.usecase.achievement.AchievementInternalGateway
+import com.hybris.tlv.usecase.achievement.AchievementInternalUseCases
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.achievement.local.AchievementDao
 import com.hybris.tlv.usecase.achievement.local.AchievementLocal
 import com.hybris.tlv.usecase.achievement.remote.AchievementApi
 import com.hybris.tlv.usecase.achievement.remote.AchievementRemote
 import com.hybris.tlv.usecase.credits.CreditsGateway
+import com.hybris.tlv.usecase.credits.CreditsInternalGateway
+import com.hybris.tlv.usecase.credits.CreditsInternalUseCases
 import com.hybris.tlv.usecase.credits.CreditsUseCases
 import com.hybris.tlv.usecase.credits.local.CreditsDao
 import com.hybris.tlv.usecase.credits.local.CreditsLocal
 import com.hybris.tlv.usecase.credits.remote.CreditsApi
 import com.hybris.tlv.usecase.credits.remote.CreditsRemote
 import com.hybris.tlv.usecase.earth.EarthGateway
+import com.hybris.tlv.usecase.earth.EarthInternalGateway
+import com.hybris.tlv.usecase.earth.EarthInternalUseCases
 import com.hybris.tlv.usecase.earth.EarthUseCases
 import com.hybris.tlv.usecase.earth.local.EarthDao
 import com.hybris.tlv.usecase.earth.local.EarthLocal
 import com.hybris.tlv.usecase.earth.remote.EarthApi
 import com.hybris.tlv.usecase.earth.remote.EarthRemote
 import com.hybris.tlv.usecase.event.EventGateway
+import com.hybris.tlv.usecase.event.EventInternalGateway
+import com.hybris.tlv.usecase.event.EventInternalUseCases
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.local.EventDao
 import com.hybris.tlv.usecase.event.local.EventLocal
@@ -38,12 +54,16 @@ import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.local.GameSessionDao
 import com.hybris.tlv.usecase.gamesession.local.GameSessionLocal
 import com.hybris.tlv.usecase.ship.ShipGateway
+import com.hybris.tlv.usecase.ship.ShipInternalGateway
+import com.hybris.tlv.usecase.ship.ShipInternalUseCases
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.ship.local.ShipDao
 import com.hybris.tlv.usecase.ship.local.ShipLocal
 import com.hybris.tlv.usecase.ship.remote.ShipApi
 import com.hybris.tlv.usecase.ship.remote.ShipRemote
 import com.hybris.tlv.usecase.space.SpaceGateway
+import com.hybris.tlv.usecase.space.SpaceInternalGateway
+import com.hybris.tlv.usecase.space.SpaceInternalUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.local.SpaceDao
 import com.hybris.tlv.usecase.space.local.SpaceLocal
@@ -51,130 +71,95 @@ import com.hybris.tlv.usecase.space.remote.SpaceApi
 import com.hybris.tlv.usecase.space.remote.SpaceRemote
 import com.hybris.tlv.usecase.sync.SyncGateway
 import com.hybris.tlv.usecase.sync.SyncUseCases
-import com.hybris.tlv.usecase.translation.TranslationGateway
-import com.hybris.tlv.usecase.translation.TranslationUseCases
+import com.hybris.tlv.usecase.translation.TranslationInternalGateway
+import com.hybris.tlv.usecase.translation.TranslationInternalUseCases
 import com.hybris.tlv.usecase.translation.local.TranslationDao
 import com.hybris.tlv.usecase.translation.local.TranslationLocal
 import com.hybris.tlv.usecase.translation.remote.TranslationApi
 import com.hybris.tlv.usecase.translation.remote.TranslationRemote
+import database.AppDatabase
+import io.ktor.client.HttpClient as KtorHttpClient
 
 internal class Gateways(
-    dispatcher: Dispatcher,
-    locale: Locale,
-    localConfig: LocalConfig,
-    remoteConfig: RemoteConfig,
-    firestore: Firestore,
-    sqlDriver: SqlDriver,
-    httpClientFactory: HttpClientFactory,
+    dispatcher: Dispatcher = CommonDispatchers(),
+    locale: Locale = CommonLocale(),
+    localConfig: LocalConfig = CommonLocalConfig(),
+    remoteConfig: RemoteConfig = CommonRemoteConfig(),
+    firestore: Firestore = CommonFirestore(),
+    sqlDriver: SqlDriver = createSqlDriver(),
+    httpClientFactory: HttpClientFactory = CommonHttpClientFactory(),
+    database: AppDatabase = Database(driver = sqlDriver).database,
+    httpClient: KtorHttpClient = httpClientFactory.buildExoplanetHttpClient(),
+    exoplanetHttpClient: HttpClient = ExoPlanetClient(httpClient = httpClient),
+    translationDao: TranslationLocal = TranslationDao(database = database),
+    earthDao: EarthLocal = EarthDao(database = database),
+    shipDao: ShipLocal = ShipDao(database = database),
+    spaceDao: SpaceLocal = SpaceDao(database = database),
+    eventDao: EventLocal = EventDao(database = database),
+    gameSessionDao: GameSessionLocal = GameSessionDao(database = database),
+    achievementDao: AchievementLocal = AchievementDao(database = database),
+    creditsDao: CreditsLocal = CreditsDao(database = database),
+    translationApi: TranslationRemote = TranslationApi(firestore = firestore),
+    earthApi: EarthRemote = EarthApi(firestore = firestore),
+    shipApi: ShipRemote = ShipApi(firestore = firestore),
+    spaceApi: SpaceRemote = SpaceApi(
+        exoplanetHttpClient = exoplanetHttpClient,
+        firestore = firestore
+    ),
+    eventApi: EventRemote = EventApi(firestore = firestore),
+    achievementApi: AchievementRemote = AchievementApi(firestore = firestore),
+    creditsApi: CreditsRemote = CreditsApi(firestore = firestore),
+    internalTranslation: TranslationInternalUseCases = TranslationInternalGateway(
+        dispatcher = dispatcher,
+        translationApi = translationApi,
+        translationDao = translationDao
+    ),
+    internalEarth: EarthInternalUseCases = EarthInternalGateway(
+        earthApi = earthApi,
+        earthDao = earthDao
+    ),
+    internalShip: ShipInternalUseCases = ShipInternalGateway(
+        shipApi = shipApi,
+        shipDao = shipDao
+    ),
+    internalSpace: SpaceInternalUseCases = SpaceInternalGateway(
+        spaceApi = spaceApi,
+        spaceDao = spaceDao
+    ),
+    internalEvent: EventInternalUseCases = EventInternalGateway(
+        eventApi = eventApi,
+        eventDao = eventDao
+    ),
+    internalAchievement: AchievementInternalUseCases = AchievementInternalGateway(
+        achievementApi = achievementApi,
+        achievementDao = achievementDao
+    ),
+    internalCredits: CreditsInternalUseCases = CreditsInternalGateway(
+        creditsApi = creditsApi,
+        creditsDao = creditsDao
+    ),
 ): UseCases {
-
-    private val database by lazy {
-        Database(driver = sqlDriver).database
-    }
-
-    private val httpClient by lazy {
-        httpClientFactory.buildExoplanetHttpClient()
-    }
-
-    private val exoplanetHttpClient by lazy {
-        ExoPlanetClient(httpClient = httpClient)
-    }
-
-    private val translationDao: TranslationLocal by lazy {
-        TranslationDao(database = database)
-    }
-
-    private val earthDao: EarthLocal by lazy {
-        EarthDao(database = database)
-    }
-
-    private val shipDao: ShipLocal by lazy {
-        ShipDao(database = database)
-    }
-
-    private val spaceDao: SpaceLocal by lazy {
-        SpaceDao(database = database)
-    }
-
-    private val eventDao: EventLocal by lazy {
-        EventDao(database = database)
-    }
-
-    private val gameSessionDao: GameSessionLocal by lazy {
-        GameSessionDao(database = database)
-    }
-
-    private val achievementDao: AchievementLocal by lazy {
-        AchievementDao(database = database)
-    }
-
-    private val creditsDao: CreditsLocal by lazy {
-        CreditsDao(database = database)
-    }
-
-    private val translationApi: TranslationRemote by lazy {
-        TranslationApi(firestore = firestore)
-    }
-
-    private val earthApi: EarthRemote by lazy {
-        EarthApi(firestore = firestore)
-    }
-
-    private val shipApi: ShipRemote by lazy {
-        ShipApi(firestore = firestore)
-    }
-
-    private val spaceApi: SpaceRemote by lazy {
-        SpaceApi(
-            exoplanetHttpClient = exoplanetHttpClient,
-            firestore = firestore
-        )
-    }
-
-    private val eventApi: EventRemote by lazy {
-        EventApi(firestore = firestore)
-    }
-
-    private val achievementApi: AchievementRemote by lazy {
-        AchievementApi(firestore = firestore)
-    }
-
-    private val creditsApi: CreditsRemote by lazy {
-        CreditsApi(firestore = firestore)
-    }
-
-    override val translation: TranslationUseCases by lazy {
-        TranslationGateway(
-            dispatcher = dispatcher,
-            translationApi = translationApi,
-            translationDao = translationDao
-        )
-    }
 
     override val earth: EarthUseCases by lazy {
         EarthGateway(
-            earthApi = earthApi,
             earthDao = earthDao
         )
     }
 
     override val ship: ShipUseCases by lazy {
         ShipGateway(
-            shipApi = shipApi,
             shipDao = shipDao
         )
     }
 
     override val space: SpaceUseCases by lazy {
         SpaceGateway(
-            spaceApi = spaceApi,
             spaceDao = spaceDao,
         )
     }
 
     override val event: EventUseCases by lazy {
         EventGateway(
-            eventApi = eventApi,
             eventDao = eventDao
         )
     }
@@ -187,14 +172,12 @@ internal class Gateways(
 
     override val achievement: AchievementUseCases by lazy {
         AchievementGateway(
-            achievementApi = achievementApi,
             achievementDao = achievementDao
         )
     }
 
     override val credits: CreditsUseCases by lazy {
         CreditsGateway(
-            creditsApi = creditsApi,
             creditsDao = creditsDao
         )
     }
@@ -204,13 +187,13 @@ internal class Gateways(
             locale = locale,
             localConfig = localConfig,
             remoteConfig = remoteConfig,
-            translation = translation,
-            earth = earth,
-            ship = ship,
-            space = space,
-            event = event,
-            achievement = achievement,
-            credits = credits,
+            internalTranslation = internalTranslation,
+            internalEarth = internalEarth,
+            internalShip = internalShip,
+            internalSpace = internalSpace,
+            internalEvent = internalEvent,
+            internalAchievement = internalAchievement,
+            internalCredits = internalCredits
         )
     }
 }
