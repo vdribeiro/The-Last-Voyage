@@ -16,10 +16,13 @@ internal class EventLocalTest {
         assertTrue(actual = mock.eventDao.isEventEmpty())
         mock.eventDao.rewriteEvents(events = events)
         assertEquals(expected = events, actual = mock.eventDao.getEvents())
-    }
 
-    @Test
-    fun `get a random event`() = runBlocking {
-
+        assertTrue(actual = mock.eventDao.getRandomEvent(ids = emptySet()).isNotEmpty())
+        val ids = events.map { it.id }.toSet()
+        assertTrue(actual = mock.eventDao.getRandomEvent(ids = ids).isEmpty())
+        assertEquals(
+            expected = listOf(events.first()),
+            actual = mock.eventDao.getRandomEvent(ids = ids - events.first().id)
+        )
     }
 }

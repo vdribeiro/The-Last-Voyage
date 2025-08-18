@@ -5,6 +5,7 @@ import com.hybris.tlv.firestore.result.FirestoreWriteResult
 import com.hybris.tlv.http.request.QueryMap
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 internal class CommonFirestore: Firestore {
 
@@ -14,14 +15,9 @@ internal class CommonFirestore: Firestore {
 
     override suspend fun enableNetwork(): Boolean = true
 
-    override suspend fun getCollection(collection: String, queryMap: QueryMap): Flow<FirestoreReadResult> = flow {
-        val documents = map[collection]
-        if (documents == null) {
-            emit(value = FirestoreReadResult.Error(error = "Error getting documents"))
-            return@flow
-        }
-        emit(value = FirestoreReadResult.Success(documents = documents))
-    }
+    override suspend fun getCollection(collection: String, queryMap: QueryMap): Flow<FirestoreReadResult> = flowOf(
+        value = FirestoreReadResult.Success(documents = map[collection].orEmpty())
+    )
 
     override suspend fun getDocument(collection: String, documentName: String): Map<String, Any>? =
         map[collection]?.find { it["id"] == documentName }
@@ -62,6 +58,6 @@ internal class CommonFirestore: Firestore {
     }
 
     companion object {
-        const val BATCH_SIZE = 10
+        const val BATCH_SIZE = 5
     }
 }
