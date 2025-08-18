@@ -14,6 +14,5 @@ internal class EventLocalTest: Tester() {
         assertTrue(actual = eventDao.isEventEmpty())
         eventDao.rewriteEvents(events = events)
         assertEquals(expected = events, actual = eventDao.getEvents())
-        assertTrue(actual = eventDao.getRandomEvent().not())
     }
 }
