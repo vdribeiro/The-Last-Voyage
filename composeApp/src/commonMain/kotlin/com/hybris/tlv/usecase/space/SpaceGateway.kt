@@ -28,16 +28,6 @@ internal class SpaceGateway(
     private val spaceDao: SpaceLocal,
 ): SpaceUseCases {
 
-    override suspend fun rewrite(): Flow<SyncResult> {
-        val stellarHosts: List<StellarHost> = loadFromJson(path = "files/hosts.json")
-        val planets: List<Planet> = loadFromJson(path = "files/planets.json")
-        spaceDao.rewriteStellarHosts(stellarHosts = stellarHosts)
-        spaceDao.rewritePlanets(planets = planets)
-        val stellarHostsFlow = spaceApi.rewriteStellarHosts(stellarHosts = stellarHosts)
-        val planetsFlow = spaceApi.rewritePlanets(planets = planets)
-        return combine(flows = listOf(stellarHostsFlow, planetsFlow)) { it.combine() }
-    }
-
     override suspend fun getArchive(): Flow<SyncResult> = flow {
         val totalOperations = 6f
         emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
@@ -110,6 +100,16 @@ internal class SpaceGateway(
             }
         } while (hasMore)
         return ExoplanetsResult.Success(stellarHosts = stellarHosts, planets = planets)
+    }
+
+    override suspend fun rewrite(): Flow<SyncResult> {
+        val stellarHosts: List<StellarHost> = loadFromJson(path = "files/hosts.json")
+        val planets: List<Planet> = loadFromJson(path = "files/planets.json")
+        spaceDao.rewriteStellarHosts(stellarHosts = stellarHosts)
+        spaceDao.rewritePlanets(planets = planets)
+        val stellarHostsFlow = spaceApi.rewriteStellarHosts(stellarHosts = stellarHosts)
+        val planetsFlow = spaceApi.rewritePlanets(planets = planets)
+        return combine(flows = listOf(stellarHostsFlow, planetsFlow)) { it.combine() }
     }
 
     override suspend fun syncStellarHosts(): Flow<SyncResult> =
