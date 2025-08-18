@@ -3,6 +3,7 @@ package com.hybris.tlv.usecase.space.local
 import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -11,6 +12,11 @@ import kotlinx.coroutines.runBlocking
 internal class SpaceLocalTest {
 
     private val mock = Mock()
+
+    @BeforeTest
+    fun setup() {
+        mock.reset()
+    }
 
     @Test
     fun `write and get stellar hosts`() = runBlocking {

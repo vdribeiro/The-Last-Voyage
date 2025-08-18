@@ -2,6 +2,7 @@ package com.hybris.tlv.usecase.earth.local
 
 import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.catastrophes
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -10,6 +11,11 @@ import kotlinx.coroutines.runBlocking
 internal class EarthLocalTest {
 
     private val mock = Mock()
+
+    @BeforeTest
+    fun setup() {
+        mock.reset()
+    }
 
     @Test
     fun `write and get catastrophes`() = runBlocking {

@@ -208,8 +208,8 @@ internal fun ExoplanetJson.toPlanet(): Planet =
 
 internal fun StellarHost.toStellarHostJson(): StellarHostJson =
     StellarHostJson(
-        stellarHostSystemName = systemName,
         stellarHostName = name,
+        stellarHostSystemName = systemName,
         stellarHostSpectralType = spectralType,
         stellarHostEffectiveTemperature = effectiveTemperature,
         stellarHostRadius = radius,
