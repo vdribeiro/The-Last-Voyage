@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS StellarHost (
     id TEXT NOT NULL PRIMARY KEY,
-    systemName TEXT NOT NULL,
     name TEXT NOT NULL,
+    systemName TEXT,
     spectralType TEXT,
     effectiveTemperature REAL,
     radius REAL,
@@ -30,8 +30,8 @@ INSERT OR REPLACE INTO StellarHost VALUES ?;
 getStellarHosts:
 SELECT
     StellarHost.id,
-    StellarHost.systemName,
     StellarHost.name,
+    StellarHost.systemName,
     StellarHost.spectralType,
     StellarHost.effectiveTemperature,
     StellarHost.radius,

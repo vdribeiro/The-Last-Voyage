@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class StellarHostJson(
-    @SerialName(value = STELLAR_HOST_SYSTEM_NAME) val stellarHostSystemName: String,
     @SerialName(value = STELLAR_HOST_NAME) val stellarHostName: String,
+    @SerialName(value = STELLAR_HOST_SYSTEM_NAME) val stellarHostSystemName: String?,
     @SerialName(value = STELLAR_HOST_SPECTRAL_TYPE) val stellarHostSpectralType: String?,
     @SerialName(value = STELLAR_HOST_TEMPERATURE) val stellarHostEffectiveTemperature: Double?,
     @SerialName(value = STELLAR_HOST_RADIUS) val stellarHostRadius: Double?,
@@ -23,8 +23,8 @@ internal data class StellarHostJson(
     @SerialName(value = STELLAR_HOST_DEC) val stellarHostDec: Double?
 ) {
     companion object {
-        const val STELLAR_HOST_SYSTEM_NAME = "sy_name"
         const val STELLAR_HOST_NAME = "hostname"
+        const val STELLAR_HOST_SYSTEM_NAME = "sy_name"
         const val STELLAR_HOST_SPECTRAL_TYPE = "st_spectype"
         const val STELLAR_HOST_TEMPERATURE = "st_teff"
         const val STELLAR_HOST_RADIUS = "st_rad"

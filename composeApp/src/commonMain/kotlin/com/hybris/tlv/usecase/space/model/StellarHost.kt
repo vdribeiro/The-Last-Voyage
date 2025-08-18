@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class StellarHost(
     val id: String,
-    val systemName: String,
+    val systemName: String?,
     val name: String,
     val spectralType: String?,         // Harvard spectral type with Morgan-Keenan luminosity class
     val effectiveTemperature: Double?, // Kelvin

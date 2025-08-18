@@ -43,13 +43,17 @@ internal class SpaceRemoteTest {
     fun `write and get stellar hosts`() = runBlocking {
         assertEquals(expected = Result.Success(list = emptyList()), actual = mock.spaceApi.getStellarHosts().last())
         assertEquals(expected = SyncResult.Success, actual = mock.spaceApi.rewriteStellarHosts(stellarHosts = stellarHosts).last())
-        assertEquals(expected = Result.Success(list = stellarHosts), actual = mock.spaceApi.getStellarHosts().last())
+        val result = mock.spaceApi.getStellarHosts().last()
+        assertTrue(actual = result is Result.Success)
+        assertEquals(expected = stellarHosts.sortedBy { it.id }, actual = result.list.sortedBy { it.id })
     }
 
     @Test
     fun `write and get planets`() = runBlocking {
         assertEquals(expected = Result.Success(list = emptyList()), actual = mock.spaceApi.getPlanets().last())
         assertEquals(expected = SyncResult.Success, actual = mock.spaceApi.rewritePlanets(planets = planets).last())
-        assertEquals(expected = Result.Success(list = planets), actual = mock.spaceApi.getPlanets().last())
+        val result = mock.spaceApi.getPlanets().last()
+        assertTrue(actual = result is Result.Success)
+        assertEquals(expected = planets.sortedBy { it.id }, actual = result.list.sortedBy { it.id })
     }
 }

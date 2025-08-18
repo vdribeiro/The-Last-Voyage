@@ -140,7 +140,7 @@ internal fun Double?.sanitize(): Double? = when {
 internal fun StellarHostJson.toStellarHost(): StellarHost =
     StellarHost(
         id = stellarHostName.toSnakeCase(),
-        systemName = stellarHostSystemName.toExpandedName(),
+        systemName = stellarHostSystemName?.toExpandedName(),
         name = stellarHostName.toExpandedName(),
         spectralType = stellarHostSpectralType
             ?.replace(regex = "\\s".toRegex(), replacement = "")
@@ -163,7 +163,7 @@ internal fun StellarHostJson.toStellarHost(): StellarHost =
 internal fun ExoplanetJson.toStellarHost(): StellarHost =
     StellarHost(
         id = stellarHostName.toSnakeCase(),
-        systemName = stellarHostName.toExpandedName(), // Should be fetched from Stellar Hosts
+        systemName = null, // Should be fetched from Stellar Hosts
         name = stellarHostName.toExpandedName(),
         spectralType = stellarHostSpectralType
             ?.replace(regex = "\\s".toRegex(), replacement = "")
@@ -308,8 +308,8 @@ internal fun List<Planet>.mergePlanets(): List<Planet> =
 internal fun StellarHost.toStellarHostMap(): Map<String, Any> =
     buildMap {
         put(key = STELLAR_HOST_HOST_ID, value = id)
-        put(key = STELLAR_HOST_SYSTEM_NAME, value = systemName)
         put(key = STELLAR_HOST_HOST_NAME, value = name)
+        systemName?.let { put(key = STELLAR_HOST_SYSTEM_NAME, value = it) }
         spectralType?.let { put(key = STELLAR_HOST_SPECTRAL_TYPE, value = it) }
         effectiveTemperature?.let { put(key = STELLAR_HOST_TEMPERATURE, value = it) }
         radius?.let { put(key = STELLAR_HOST_RADIUS, value = it) }
@@ -348,8 +348,8 @@ internal fun Planet.toPlanetMap(): Map<String, Any> =
 internal fun Map<String, Any>.toStellarHost(): StellarHost =
     StellarHost(
         id = getString(key = STELLAR_HOST_HOST_ID)!!,
-        systemName = getString(key = STELLAR_HOST_HOST_NAME)!!,
         name = getString(key = STELLAR_HOST_HOST_NAME)!!,
+        systemName = getString(key = STELLAR_HOST_HOST_NAME)!!,
         spectralType = getString(key = STELLAR_HOST_SPECTRAL_TYPE),
         effectiveTemperature = getDouble(key = STELLAR_HOST_TEMPERATURE),
         radius = getDouble(key = STELLAR_HOST_RADIUS),
@@ -388,8 +388,8 @@ internal fun Map<String, Any>.toPlanet(): Planet =
 internal fun StellarHost.toStellarHostSchema(): StellarHostSchema =
     StellarHostSchema(
         id = id,
-        systemName = systemName,
         name = name,
+        systemName = systemName,
         spectralType = spectralType,
         effectiveTemperature = effectiveTemperature,
         radius = radius,
@@ -428,8 +428,8 @@ internal fun Planet.toPlanetSchema(): PlanetSchema =
 internal fun StellarHostSchema.toStellarHost(): StellarHost =
     StellarHost(
         id = id,
-        systemName = systemName,
         name = name,
+        systemName = systemName,
         spectralType = spectralType,
         effectiveTemperature = effectiveTemperature,
         radius = radius,

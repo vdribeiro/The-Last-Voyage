@@ -33,8 +33,8 @@ internal class SpaceApi(
         val offset = queryMap.offset ?: 0
         val limit = queryMap.limit ?: Long.MAX_VALUE
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
-                "${StellarHostJson.STELLAR_HOST_SYSTEM_NAME}," +
                 "${StellarHostJson.STELLAR_HOST_NAME}," +
+                "${StellarHostJson.STELLAR_HOST_SYSTEM_NAME}," +
                 "${StellarHostJson.STELLAR_HOST_SPECTRAL_TYPE}," +
                 "${StellarHostJson.STELLAR_HOST_TEMPERATURE}," +
                 "${StellarHostJson.STELLAR_HOST_RADIUS}," +
@@ -243,8 +243,9 @@ internal class SpaceApi(
 
         private const val HOSTS = "hosts"
         const val STELLAR_HOST_HOST_ID = "id"
-        const val STELLAR_HOST_SYSTEM_NAME = "system_name"
         const val STELLAR_HOST_HOST_NAME = "host_name"
+        const val STELLAR_HOST_SYSTEM_NAME = "system_name"
+
         const val STELLAR_HOST_SPECTRAL_TYPE = "spectral_type"
         const val STELLAR_HOST_TEMPERATURE = "effective_temperature"
         const val STELLAR_HOST_RADIUS = "radius"
