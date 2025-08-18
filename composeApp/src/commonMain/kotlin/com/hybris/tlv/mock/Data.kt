@@ -260,7 +260,7 @@ internal val stellarHosts = listOf(
 
 internal val planets = listOf(
     Planet(
-        id = "1mercury",
+        id = "mercury",
         name = "Mercury",
         stellarHostId = "sol",
         status = PlanetStatus.CONFIRMED,
@@ -277,7 +277,7 @@ internal val planets = listOf(
         obliquity = 0.034,
     ),
     Planet(
-        id = "2venus",
+        id = "venus",
         name = "Venus",
         stellarHostId = "sol",
         status = PlanetStatus.CONFIRMED,
@@ -294,7 +294,7 @@ internal val planets = listOf(
         obliquity = 177.4,
     ),
     Planet(
-        id = "3earth",
+        id = "earth",
         name = "Earth",
         stellarHostId = "sol",
         status = PlanetStatus.CONFIRMED,
@@ -311,7 +311,7 @@ internal val planets = listOf(
         obliquity = 23.4,
     ),
     Planet(
-        id = "4mars",
+        id = "mars",
         name = "Mars",
         stellarHostId = "sol",
         status = PlanetStatus.CONFIRMED,
@@ -328,7 +328,7 @@ internal val planets = listOf(
         obliquity = 25.2,
     ),
     Planet(
-        id = "5jupiter",
+        id = "jupiter",
         name = "Jupiter",
         stellarHostId = "sol",
         status = PlanetStatus.CONFIRMED,
@@ -345,7 +345,7 @@ internal val planets = listOf(
         obliquity = 3.1,
     ),
     Planet(
-        id = "6saturn",
+        id = "saturn",
         name = "Saturn",
         stellarHostId = "sol",
         status = PlanetStatus.CONFIRMED,
@@ -362,7 +362,7 @@ internal val planets = listOf(
         obliquity = 26.7,
     ),
     Planet(
-        id = "7uranus",
+        id = "uranus",
         name = "Uranus",
         stellarHostId = "sol",
         status = PlanetStatus.CONFIRMED,
@@ -379,7 +379,7 @@ internal val planets = listOf(
         obliquity = 97.8,
     ),
     Planet(
-        id = "8neptune",
+        id = "neptune",
         name = "Neptune",
         stellarHostId = "sol",
         status = PlanetStatus.CONFIRMED,
@@ -396,9 +396,9 @@ internal val planets = listOf(
         obliquity = 28.3,
     ),
     Planet(
-        id = "proxima_cen_b",
+        id = "proxima_centauri_b",
         name = "Proxima Centauri b",
-        stellarHostId = "proxima_cen",
+        stellarHostId = "proxima_centauri",
         status = PlanetStatus.CONFIRMED,
         orbitalPeriod = 11.1868,
         orbitAxis = 0.04856,
@@ -413,9 +413,9 @@ internal val planets = listOf(
         obliquity = null,
     ),
     Planet(
-        id = "proxima_cen_c",
+        id = "proxima_centauri_c",
         name = "Proxima Centauri c",
-        stellarHostId = "proxima_cen",
+        stellarHostId = "proxima_centauri",
         status = PlanetStatus.CANDIDATE,
         orbitalPeriod = 1900.0,
         orbitAxis = 1.48,
@@ -430,9 +430,9 @@ internal val planets = listOf(
         obliquity = null,
     ),
     Planet(
-        id = "proxima_cen_d",
+        id = "proxima_centauri_d",
         name = "Proxima Centauri d",
-        stellarHostId = "proxima_cen",
+        stellarHostId = "proxima_centauri",
         status = PlanetStatus.CANDIDATE,
         orbitalPeriod = 5.122,
         orbitAxis = 0.02885,
@@ -447,9 +447,9 @@ internal val planets = listOf(
         obliquity = null,
     ),
     Planet(
-        id = "alf_cen_b_b",
+        id = "alpha_centauri_b_b",
         name = "Alpha Centauri B b",
-        stellarHostId = "alf_cen_b",
+        stellarHostId = "alpha_centauri_b",
         status = PlanetStatus.FALSE,
         orbitalPeriod = 3.2357,
         orbitAxis = null,

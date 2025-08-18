@@ -5,6 +5,7 @@ import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
+import com.hybris.tlv.usecase.space.mapper.mergeStellarHosts
 import com.hybris.tlv.usecase.space.remote.result.ExoplanetsResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -20,23 +21,27 @@ internal class SpaceRemoteTest {
     fun `get stellar hosts archive`() = runBlocking {
         val result = mock.spaceApi.getStellarHostsArchive()
         assertTrue(actual = result is ExoplanetsResult.Success)
-        assertEquals(expected = stellarHosts.sortedBy { it.id }, actual = result.stellarHosts.sortedBy { it.id })
+        assertEquals(expected = stellarHosts, actual = result.stellarHosts)
     }
 
     @Test
     fun `get exoplanets archive`() = runBlocking {
         val result = mock.spaceApi.getExoplanetsArchive()
         assertTrue(actual = result is ExoplanetsResult.Success)
-        assertEquals(expected = stellarHosts.sortedBy { it.id }, actual = result.stellarHosts.sortedBy { it.id })
-        assertEquals(expected = planets.sortedBy { it.id }, actual = result.planets.sortedBy { it.id })
+        assertEquals(expected = planets, actual = result.planets)
+        val ids = planets.map { it.stellarHostId }
+        val exoplanetHosts = stellarHosts.mapNotNull { if (it.id in ids) it.copy(systemName = null) else null }
+        assertEquals(expected = exoplanetHosts, actual = result.stellarHosts.toSet().toList())
     }
 
     @Test
     fun `get K2 exoplanets archive`() = runBlocking {
         val result = mock.spaceApi.getK2ExoplanetsArchive()
         assertTrue(actual = result is ExoplanetsResult.Success)
-        assertEquals(expected = stellarHosts.sortedBy { it.id }, actual = result.stellarHosts.sortedBy { it.id })
-        assertEquals(expected = planets.sortedBy { it.id }, actual = result.planets.sortedBy { it.id })
+        assertEquals(expected = planets, actual = result.planets)
+        val ids = planets.map { it.stellarHostId }
+        val exoplanetHosts = stellarHosts.mapNotNull { if (it.id in ids) it.copy(systemName = null) else null }
+        assertEquals(expected = exoplanetHosts, actual = result.stellarHosts.toSet().toList())
     }
 
     @Test
@@ -45,7 +50,7 @@ internal class SpaceRemoteTest {
         assertEquals(expected = SyncResult.Success, actual = mock.spaceApi.rewriteStellarHosts(stellarHosts = stellarHosts).last())
         val result = mock.spaceApi.getStellarHosts().last()
         assertTrue(actual = result is Result.Success)
-        assertEquals(expected = stellarHosts.sortedBy { it.id }, actual = result.list.sortedBy { it.id })
+        assertEquals(expected = stellarHosts, actual = result.list)
     }
 
     @Test
@@ -54,6 +59,6 @@ internal class SpaceRemoteTest {
         assertEquals(expected = SyncResult.Success, actual = mock.spaceApi.rewritePlanets(planets = planets).last())
         val result = mock.spaceApi.getPlanets().last()
         assertTrue(actual = result is Result.Success)
-        assertEquals(expected = planets.sortedBy { it.id }, actual = result.list.sortedBy { it.id })
+        assertEquals(expected = planets, actual = result.list)
     }
 }
