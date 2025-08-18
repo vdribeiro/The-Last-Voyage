@@ -140,8 +140,8 @@ internal fun Double?.sanitize(): Double? = when {
 internal fun StellarHostJson.toStellarHost(): StellarHost =
     StellarHost(
         id = stellarHostName.toSnakeCase(),
-        systemName = stellarHostSystemName?.toExpandedName(),
         name = stellarHostName.toExpandedName(),
+        systemName = stellarHostSystemName?.toExpandedName(),
         spectralType = stellarHostSpectralType
             ?.replace(regex = "\\s".toRegex(), replacement = "")
             ?.uppercase(),
@@ -163,8 +163,8 @@ internal fun StellarHostJson.toStellarHost(): StellarHost =
 internal fun ExoplanetJson.toStellarHost(): StellarHost =
     StellarHost(
         id = stellarHostName.toSnakeCase(),
-        systemName = null, // Should be fetched from Stellar Hosts
         name = stellarHostName.toExpandedName(),
+        systemName = null, // Should be fetched from Stellar Hosts
         spectralType = stellarHostSpectralType
             ?.replace(regex = "\\s".toRegex(), replacement = "")
             ?.uppercase(),
@@ -263,8 +263,8 @@ internal fun List<StellarHost>.mergeStellarHosts(): List<StellarHost> =
     groupBy { it.id }.mapNotNull { (id, group) ->
         StellarHost(
             id = id,
-            systemName = group.map { it.systemName }.firstOrNull().orEmpty(),
             name = group.map { it.name }.firstOrNull().orEmpty(),
+            systemName = group.mapNotNull { it.systemName }.ifEmpty { null }?.firstOrNull(),
             spectralType = group.mapNotNull { it.spectralType }.ifEmpty { null }?.firstOrNull(),
             effectiveTemperature = group.mapNotNull { it.effectiveTemperature }.ifEmpty { null }?.average(),
             radius = group.mapNotNull { it.radius }.ifEmpty { null }?.average(),

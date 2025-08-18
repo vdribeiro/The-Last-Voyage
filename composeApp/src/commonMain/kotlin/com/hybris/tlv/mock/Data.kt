@@ -182,8 +182,8 @@ internal val engines = listOf(
 internal val stellarHosts = listOf(
     StellarHost(
         id = "sol",
-        systemName = "Sol",
         name = "Sol",
+        systemName = "Sol",
         spectralType = "G2V",
         effectiveTemperature = 5778.0,
         radius = 1.0,
@@ -201,8 +201,8 @@ internal val stellarHosts = listOf(
     ),
     StellarHost(
         id = "proxima_centauri",
-        systemName = "Alpha Centauri",
         name = "Proxima Centauri",
+        systemName = "Alpha Centauri",
         spectralType = "M5.5V",
         effectiveTemperature = 2900.0,
         radius = 0.141,
@@ -220,8 +220,8 @@ internal val stellarHosts = listOf(
     ),
     StellarHost(
         id = "alpha_centauri_b",
-        systemName = "Alpha Centauri",
         name = "Alpha Centauri B",
+        systemName = "Alpha Centauri",
         spectralType = "K0V",
         effectiveTemperature = 5178.0,
         radius = 0.88,
@@ -239,8 +239,8 @@ internal val stellarHosts = listOf(
     ),
     StellarHost(
         id = "alpha_centauri_a",
-        systemName = "Alpha Centauri",
         name = "Alpha Centauri A",
+        systemName = "Alpha Centauri",
         spectralType = "G2.0V",
         effectiveTemperature = 5801.0,
         radius = 1.25,
