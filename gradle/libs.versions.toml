@@ -3,7 +3,8 @@
 applicationId = "com.hybris.tlv"
 agp = "8.12.0"
 google-services = "4.4.3"
-kotlin = "2.2.0"
+kover = "0.9.1"
+kotlin = "2.2.10"
 kotlinx-serialization = "1.9.0"
 kotlinx-datetime = "0.7.1"
 kotlinx-coroutines = "1.10.2"
@@ -26,6 +27,7 @@ javafx = "24.0.2"
 logging = "2.0.17"
 
 [plugins]
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "google-services" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

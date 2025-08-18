@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(notation = libs.plugins.kotlinMultiplatform)
+    alias(notation = libs.plugins.kover)
     alias(notation = libs.plugins.androidApplication)
     alias(notation = libs.plugins.composeMultiplatform)
     alias(notation = libs.plugins.composeCompiler)

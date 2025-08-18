@@ -8,7 +8,7 @@ import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.CommonDispatchers
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.client.CommonHttpClientFactory
-import com.hybris.tlv.http.client.ExoPlanetClient
+import com.hybris.tlv.http.client.ExoPlanetHttpClient
 import com.hybris.tlv.http.client.HttpClient
 import com.hybris.tlv.http.client.HttpClientFactory
 import com.hybris.tlv.locale.CommonLocale
@@ -78,7 +78,7 @@ internal class Mock(
     val httpClientFactory: HttpClientFactory = CommonHttpClientFactory(),
     val database: AppDatabase = Database(driver = sqlDriver).database,
     val httpClient: KtorHttpClient = httpClientFactory.buildExoplanetHttpClient(),
-    val exoplanetHttpClient: HttpClient = ExoPlanetClient(httpClient = httpClient),
+    val exoplanetHttpClient: HttpClient = ExoPlanetHttpClient(httpClient = httpClient),
     val translationDao: TranslationLocal = TranslationDao(database = database),
     val earthDao: EarthLocal = EarthDao(database = database),
     val shipDao: ShipLocal = ShipDao(database = database),

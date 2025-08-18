@@ -110,8 +110,8 @@ import thelastvoyage.composeapp.generated.resources.ultra_short_period_planet
 import thelastvoyage.composeapp.generated.resources.unknown
 import thelastvoyage.composeapp.generated.resources.water_clouds_gas_giant
 
-private fun Double.stellarHostGravityToSunGravity(): Double = 10.0.pow(x = this - SUN_SURFACE_GRAVITY)
-private fun Double.sunGravityToStellarHostGravity(): Double = log10(x = this) + SUN_SURFACE_GRAVITY
+private fun Double.stellarHostGravityToSunGravity(): Double = 10.0.pow(x = this - SUN_SURFACE_GRAVITY).roundTo(decimalPlaces = 7)
+private fun Double.sunGravityToStellarHostGravity(): Double = (log10(x = this) + SUN_SURFACE_GRAVITY).roundTo(decimalPlaces = 7)
 private fun Double.parsecsToLightYears(): Double = this * PARSEC
 private fun Double.lightYearsToParsecs(): Double = this / PARSEC
 
@@ -204,6 +204,26 @@ internal fun ExoplanetJson.toPlanet(): Planet =
         occultationDepth = planetOccultationDepth,
         inclination = planetInclination,
         obliquity = planetObliquity ?: planetProjectedObliquity,
+    )
+
+internal fun StellarHost.toStellarHostJson(): StellarHostJson =
+    StellarHostJson(
+        stellarHostSystemName = systemName,
+        stellarHostName = name,
+        stellarHostSpectralType = spectralType,
+        stellarHostEffectiveTemperature = effectiveTemperature,
+        stellarHostRadius = radius,
+        stellarHostMass = mass,
+        stellarHostMetallicity = metallicity,
+        stellarHostLuminosity = luminosity,
+        stellarHostGravity = gravity?.sunGravityToStellarHostGravity(),
+        stellarHostAge = age,
+        stellarHostDensity = density,
+        stellarHostRotationalVelocity = rotationalVelocity,
+        stellarHostRotationalPeriod = rotationalPeriod,
+        stellarHostDistance = distance?.lightYearsToParsecs(),
+        stellarHostRa = ra,
+        stellarHostDec = dec
     )
 
 internal fun Planet.toExoplanetJson(stellarHost: StellarHost): ExoplanetJson? =

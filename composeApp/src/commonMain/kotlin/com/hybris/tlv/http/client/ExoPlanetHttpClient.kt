@@ -12,7 +12,7 @@ import io.ktor.http.encodeURLPath
 import io.ktor.util.flattenEntries
 import io.ktor.client.HttpClient as KtorHttpClient
 
-internal class ExoPlanetClient(
+internal class ExoPlanetHttpClient(
     private val httpClient: KtorHttpClient,
 ): HttpClient {
 
@@ -34,11 +34,11 @@ internal class ExoPlanetClient(
     }
 
     @Throws(Throwable::class)
-    override suspend fun <T> post(request: Request): Response<T> = throw Throwable("This client is for GET requests only")
+    override suspend fun <T> post(request: Request): Response<T> = throw Throwable(message = "This client is for GET requests only")
 
     @Throws(Throwable::class)
-    override suspend fun <T> patch(request: Request): Response<T> = throw Throwable("This client is for GET requests only")
+    override suspend fun <T> patch(request: Request): Response<T> = throw Throwable(message = "This client is for GET requests only")
 
     @Throws(Throwable::class)
-    override suspend fun <T> delete(request: Request): Response<T> = throw Throwable("This client is for GET requests only")
+    override suspend fun <T> delete(request: Request): Response<T> = throw Throwable(message = "This client is for GET requests only")
 }

@@ -53,7 +53,7 @@ internal class SpaceApi(
                 "+order+by+${StellarHostJson.STELLAR_HOST_NAME}+asc" +
                 "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
         val request = Request(
-            path = "sync",
+            path = "TAP/sync",
             queryMap = QueryMap().apply {
                 set(key = "query", value = query)
                 set(key = "format", value = "json")
@@ -103,7 +103,7 @@ internal class SpaceApi(
                 "+order+by+${ExoplanetJson.PLANET_NAME}+asc" +
                 "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
         val request = Request(
-            path = "sync",
+            path = "TAP/sync",
             queryMap = QueryMap().apply {
                 set(key = "query", value = query)
                 set(key = "format", value = "json")
@@ -154,7 +154,7 @@ internal class SpaceApi(
                 "+order+by+${ExoplanetJson.PLANET_NAME}+asc" +
                 "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
         val request = Request(
-            path = "sync",
+            path = "TAP/sync",
             queryMap = QueryMap().apply {
                 set(key = "query", value = query)
                 set(key = "format", value = "json")

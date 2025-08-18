@@ -15,7 +15,7 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 
-internal const val EXOPLANET_ARCHIVE_URL = "exoplanetarchive.ipac.caltech.edu/TAP"
+internal const val EXOPLANET_ARCHIVE_URL = "exoplanetarchive.ipac.caltech.edu"
 internal fun <T: HttpClientEngineConfig> HttpClientConfig<T>.setLogging() {
     install(plugin = Logging) {
         logger = object: io.ktor.client.plugins.logging.Logger {

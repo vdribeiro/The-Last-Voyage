@@ -200,10 +200,10 @@ internal val stellarHosts = listOf(
         dec = 0.0
     ),
     StellarHost(
-        id = "proxima_cen",
+        id = "proxima_centauri",
         systemName = "Alpha Centauri",
         name = "Proxima Centauri",
-        spectralType = "M5.5 V",
+        spectralType = "M5.5V",
         effectiveTemperature = 2900.0,
         radius = 0.141,
         mass = 0.1221,
@@ -219,7 +219,7 @@ internal val stellarHosts = listOf(
         dec = -62.6761821
     ),
     StellarHost(
-        id = "alf_cen_b",
+        id = "alpha_centauri_b",
         systemName = "Alpha Centauri",
         name = "Alpha Centauri B",
         spectralType = "K0V",
@@ -238,7 +238,7 @@ internal val stellarHosts = listOf(
         dec = -60.8394714
     ),
     StellarHost(
-        id = "alf_cen_a",
+        id = "alpha_centauri_a",
         systemName = "Alpha Centauri",
         name = "Alpha Centauri A",
         spectralType = "G2.0V",

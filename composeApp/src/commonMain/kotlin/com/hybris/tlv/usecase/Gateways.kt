@@ -8,7 +8,7 @@ import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.CommonDispatchers
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.client.CommonHttpClientFactory
-import com.hybris.tlv.http.client.ExoPlanetClient
+import com.hybris.tlv.http.client.ExoPlanetHttpClient
 import com.hybris.tlv.http.client.HttpClient
 import com.hybris.tlv.http.client.HttpClientFactory
 import com.hybris.tlv.locale.CommonLocale
@@ -90,7 +90,7 @@ internal class Gateways(
     httpClientFactory: HttpClientFactory = CommonHttpClientFactory(),
     database: AppDatabase = Database(driver = sqlDriver).database,
     httpClient: KtorHttpClient = httpClientFactory.buildExoplanetHttpClient(),
-    exoplanetHttpClient: HttpClient = ExoPlanetClient(httpClient = httpClient),
+    exoplanetHttpClient: HttpClient = ExoPlanetHttpClient(httpClient = httpClient),
     translationDao: TranslationLocal = TranslationDao(database = database),
     earthDao: EarthLocal = EarthDao(database = database),
     shipDao: ShipLocal = ShipDao(database = database),
