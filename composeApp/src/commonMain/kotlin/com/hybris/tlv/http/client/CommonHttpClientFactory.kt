@@ -30,8 +30,8 @@ internal class CommonHttpClientFactory: HttpClientFactory {
                                     content = json.encodeToString(value = stellarHosts.map { it.toStellarHostJson() }),
                                 )
                             }
-                            parameters.contains(other = "from pscomppars") ||
-                            parameters.contains(other = "from k2pandc") -> {
+
+                            parameters.contains(other = "from pscomppars") || parameters.contains(other = "from k2pandc") -> {
                                 val stellarHostsMap = stellarHosts.associateBy { it.id }
                                 val exoplanets = planets.mapNotNull {
                                     val stellarHost = stellarHostsMap[it.stellarHostId] ?: return@mapNotNull null
@@ -42,6 +42,7 @@ internal class CommonHttpClientFactory: HttpClientFactory {
                                     content = json.encodeToString(value = exoplanets),
                                 )
                             }
+
                             else -> respondError(
                                 status = HttpStatusCode.BadRequest,
                                 content = "Resource query incorrect: ${request.url.encodedPath}"

@@ -20,7 +20,23 @@ internal class SpaceRemoteTest {
     fun `get stellar hosts archive`() = runBlocking {
         val result = mock.spaceApi.getStellarHostsArchive()
         assertTrue(actual = result is ExoplanetsResult.Success)
-        assertEquals(expected = stellarHosts, actual = result.stellarHosts)
+        assertEquals(expected = stellarHosts.sortedBy { it.id }, actual = result.stellarHosts.sortedBy { it.id })
+    }
+
+    @Test
+    fun `get exoplanets archive`() = runBlocking {
+        val result = mock.spaceApi.getExoplanetsArchive()
+        assertTrue(actual = result is ExoplanetsResult.Success)
+        assertEquals(expected = stellarHosts.sortedBy { it.id }, actual = result.stellarHosts.sortedBy { it.id })
+        assertEquals(expected = planets.sortedBy { it.id }, actual = result.planets.sortedBy { it.id })
+    }
+
+    @Test
+    fun `get K2 exoplanets archive`() = runBlocking {
+        val result = mock.spaceApi.getK2ExoplanetsArchive()
+        assertTrue(actual = result is ExoplanetsResult.Success)
+        assertEquals(expected = stellarHosts.sortedBy { it.id }, actual = result.stellarHosts.sortedBy { it.id })
+        assertEquals(expected = planets.sortedBy { it.id }, actual = result.planets.sortedBy { it.id })
     }
 
     @Test
