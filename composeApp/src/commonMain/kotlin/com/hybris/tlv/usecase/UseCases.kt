@@ -8,7 +8,6 @@ import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.sync.SyncUseCases
-import com.hybris.tlv.usecase.translation.TranslationInternalUseCases
 
 internal interface UseCases {
 
