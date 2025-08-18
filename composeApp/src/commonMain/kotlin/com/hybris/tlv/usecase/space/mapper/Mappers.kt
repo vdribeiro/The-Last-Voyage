@@ -349,7 +349,7 @@ internal fun Map<String, Any>.toStellarHost(): StellarHost =
     StellarHost(
         id = getString(key = STELLAR_HOST_HOST_ID)!!,
         name = getString(key = STELLAR_HOST_HOST_NAME)!!,
-        systemName = getString(key = STELLAR_HOST_HOST_NAME)!!,
+        systemName = getString(key = STELLAR_HOST_SYSTEM_NAME),
         spectralType = getString(key = STELLAR_HOST_SPECTRAL_TYPE),
         effectiveTemperature = getDouble(key = STELLAR_HOST_TEMPERATURE),
         radius = getDouble(key = STELLAR_HOST_RADIUS),
