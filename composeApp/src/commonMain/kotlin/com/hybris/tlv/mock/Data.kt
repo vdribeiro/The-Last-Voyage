@@ -8,6 +8,7 @@ import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.earth.model.Catastrophe
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.model.GameSession
+import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.space.formula.Constants.HABITABLE_ZONE_WEIGHT
 import com.hybris.tlv.usecase.space.formula.Constants.PLANET_ECCENTRICITY_WEIGHT
@@ -505,6 +506,40 @@ internal val events = listOf(
         parentId = "a_close_pass",
         outcome = null
     )
+)
+
+internal val gameSessionPrototype = GameSessionPrototype(
+    assignedPoints = 10,
+    sensorRange = 5,
+    fuel = 100,
+    materials = 90,
+    cryopods = 150,
+    rocheWeight = ROCHE_WEIGHT,
+    habitableZoneWeight = HABITABLE_ZONE_WEIGHT,
+    planetRadiusWeight = PLANET_RADIUS_WEIGHT,
+    planetMassWeight = PLANET_MASS_WEIGHT,
+    planetTelluricityWeight = PLANET_TELLURICITY_WEIGHT,
+    planetEccentricityWeight = PLANET_ECCENTRICITY_WEIGHT,
+    planetTemperatureWeight = PLANET_TEMPERATURE_WEIGHT,
+    planetObliquityWeight = PLANET_OBLIQUITY_WEIGHT,
+    planetEsiWeight = PLANET_ESI_WEIGHT,
+    stellarSpectralTypeWeight = STELLAR_SPECTRAL_TYPE_WEIGHT,
+    stellarMassWeight = STELLAR_MASS_WEIGHT,
+    stellarAgeWeight = STELLAR_AGE_WEIGHT,
+    stellarActivityWeight = STELLAR_ACTIVITY_WEIGHT,
+    stellarRotationalPeriodWeight = STELLAR_ROTATIONAL_PERIOD_WEIGHT,
+    stellarGravityWeight = STELLAR_GRAVITY_WEIGHT,
+    stellarMetallicityWeight = STELLAR_METALLICITY_WEIGHT,
+    stellarEffectiveTemperatureWeight = STELLAR_EFFECTIVE_TEMPERATURE_WEIGHT,
+    planetProtectionWeight = PLANET_PROTECTION_WEIGHT,
+    planetTidalLockingWeight = PLANET_TIDAL_LOCKING_WEIGHT,
+    planetMassLowerLimit = PLANET_MASS_LOWER_LIMIT,
+    planetMassIdealUpperLimit = PLANET_MASS_IDEAL_UPPER_LIMIT,
+    planetMassMaxUpperLimit = PLANET_MASS_MAX_UPPER_LIMIT,
+    planetRadiusLowerLimit = PLANET_RADIUS_LOWER_LIMIT,
+    planetRadiusIdealUpperLimit = PLANET_RADIUS_IDEAL_UPPER_LIMIT,
+    planetRadiusMaxUpperLimit = PLANET_RADIUS_MAX_UPPER_LIMIT,
+    stellarHostEffectiveTemperatureMaxDeviation = STELLAR_HOST_EFFECTIVE_TEMPERATURE_MAX_DEVIATION
 )
 
 internal val gameSession = GameSession(
