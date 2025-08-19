@@ -7,6 +7,7 @@ import com.hybris.tlv.mock.engines
 import com.hybris.tlv.mock.events
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
+import com.hybris.tlv.mock.translations
 import kotlinx.serialization.json.Json
 
 val json = Json {
@@ -18,6 +19,7 @@ val json = Json {
 @Suppress("UNCHECKED_CAST")
 internal suspend fun <T> loadFromJson(path: String): List<T> =
     when (path) {
+        "files/translations.json" -> translations
         "files/catastrophes.json" -> catastrophes
         "files/engines.json" -> engines
         "files/hosts.json" -> stellarHosts
