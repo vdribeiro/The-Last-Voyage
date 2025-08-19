@@ -24,7 +24,7 @@ internal class SpaceUseCasesTest {
         assertTrue(actual = stellarHosts.isNotEmpty())
         stellarHosts.forEach { assertTrue(actual = it.planets.isEmpty()) }
         mock.internalSpace.prepopulatePlanets()
-        stellarHosts.forEach { assertTrue(actual = it.planets.isNotEmpty()) }
+        assertTrue(actual = mock.useCases.space.getExoplanets().map { it.planets }.flatten().isNotEmpty())
     }
 
     @Test
@@ -35,7 +35,7 @@ internal class SpaceUseCasesTest {
         assertTrue(actual = stellarHosts.isNotEmpty())
         stellarHosts.forEach { assertTrue(actual = it.planets.isEmpty()) }
         mock.internalSpace.rewritePlanets().last()
-        stellarHosts.forEach { assertTrue(actual = it.planets.isNotEmpty()) }
+        assertTrue(actual = mock.useCases.space.getExoplanets().map { it.planets }.flatten().isNotEmpty())
         mock.clearDatabase()
         assertTrue(actual = mock.useCases.space.getExoplanets().isEmpty())
         mock.internalSpace.syncStellarHosts().last()
@@ -43,6 +43,6 @@ internal class SpaceUseCasesTest {
         assertTrue(actual = moreStellarHosts.isNotEmpty())
         moreStellarHosts.forEach { assertTrue(actual = it.planets.isEmpty()) }
         mock.internalSpace.syncPlanets().last()
-        stellarHosts.forEach { assertTrue(actual = it.planets.isNotEmpty()) }
+        assertTrue(actual = mock.useCases.space.getExoplanets().map { it.planets }.flatten().isNotEmpty())
     }
 }
