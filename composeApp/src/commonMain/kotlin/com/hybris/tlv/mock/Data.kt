@@ -45,6 +45,11 @@ import com.hybris.tlv.usecase.translation.model.domain.Translation
 internal val translations = listOf(
     Translation(
         languageIso = "en",
+        key = "app_name",
+        value = "The Last Voyage"
+    ),
+    Translation(
+        languageIso = "en",
         key = "catastrophe__asteroid_impact",
         value = "Asteroid Impact"
     ),
