@@ -15,7 +15,7 @@ internal class AchievementInternalGateway(
     private val achievementDao: AchievementLocal
 ): AchievementInternalUseCases {
 
-    override suspend fun rewrite(): Flow<SyncResult> {
+    override suspend fun rewriteAchievements(): Flow<SyncResult> {
         val achievements: List<Achievement> = loadFromJson(path = "files/achievements.json")
         achievementDao.rewriteAchievements(achievements = achievements)
         return achievementApi.rewriteAchievements(achievements = achievements)

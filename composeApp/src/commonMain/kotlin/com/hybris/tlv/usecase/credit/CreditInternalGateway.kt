@@ -15,7 +15,7 @@ internal class CreditInternalGateway(
     private val creditDao: CreditLocal
 ): CreditInternalUseCases {
 
-    override suspend fun rewrite(): Flow<SyncResult> {
+    override suspend fun rewriteCredits(): Flow<SyncResult> {
         val credits: List<Credit> = loadFromJson(path = "files/credits.json")
         creditDao.rewriteCredits(credits = credits)
         return creditApi.rewriteCredits(credits = credits)

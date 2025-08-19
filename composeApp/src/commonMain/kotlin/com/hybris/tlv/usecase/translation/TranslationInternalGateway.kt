@@ -19,7 +19,7 @@ internal class TranslationInternalGateway(
     private val translationDao: TranslationLocal
 ): TranslationInternalUseCases {
 
-    override suspend fun rewrite(): Flow<SyncResult> {
+    override suspend fun rewriteTranslations(): Flow<SyncResult> {
         val translations: List<Translation> = loadFromJson(path = "files/translations.json")
         translationDao.rewriteTranslations(translations = translations)
         return translationApi.rewriteTranslations(translations = translations)

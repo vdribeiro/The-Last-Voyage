@@ -6,7 +6,6 @@ import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.storage.saveFile
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
-import com.hybris.tlv.usecase.combine
 import com.hybris.tlv.usecase.space.formula.DerivedData
 import com.hybris.tlv.usecase.space.local.SpaceLocal
 import com.hybris.tlv.usecase.space.mapper.mergePlanets
@@ -16,7 +15,6 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.remote.SpaceRemote
 import com.hybris.tlv.usecase.space.remote.result.ExoplanetsResult
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
@@ -99,14 +97,16 @@ internal class SpaceInternalGateway(
         return ExoplanetsResult.Success(stellarHosts = stellarHosts, planets = planets)
     }
 
-    override suspend fun rewrite(): Flow<SyncResult> {
+    override suspend fun rewriteStellarHosts(): Flow<SyncResult> {
         val stellarHosts: List<StellarHost> = loadFromJson(path = "files/hosts.json")
-        val planets: List<Planet> = loadFromJson(path = "files/planets.json")
         spaceDao.rewriteStellarHosts(stellarHosts = stellarHosts)
+        return spaceApi.rewriteStellarHosts(stellarHosts = stellarHosts)
+    }
+
+    override suspend fun rewritePlanets(): Flow<SyncResult> {
+        val planets: List<Planet> = loadFromJson(path = "files/planets.json")
         spaceDao.rewritePlanets(planets = planets)
-        val stellarHostsFlow = spaceApi.rewriteStellarHosts(stellarHosts = stellarHosts)
-        val planetsFlow = spaceApi.rewritePlanets(planets = planets)
-        return combine(flows = listOf(stellarHostsFlow, planetsFlow)) { it.combine() }
+        return spaceApi.rewritePlanets(planets = planets)
     }
 
     override suspend fun syncStellarHosts(): Flow<SyncResult> =

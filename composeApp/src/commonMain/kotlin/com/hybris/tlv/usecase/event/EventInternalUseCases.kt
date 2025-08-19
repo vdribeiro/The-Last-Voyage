@@ -9,7 +9,7 @@ internal interface EventInternalUseCases {
     /**
      * Rewrites the local and remote [Event] data.
      */
-    suspend fun rewrite(): Flow<SyncResult>
+    suspend fun rewriteEvents(): Flow<SyncResult>
 
     /**
      * Syncs the remote [Event] data to local.

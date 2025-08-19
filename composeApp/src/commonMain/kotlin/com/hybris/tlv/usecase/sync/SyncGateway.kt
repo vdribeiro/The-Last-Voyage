@@ -16,6 +16,7 @@ import com.hybris.tlv.usecase.ship.ShipInternalUseCases
 import com.hybris.tlv.usecase.space.SpaceInternalUseCases
 import com.hybris.tlv.usecase.translation.TranslationInternalUseCases
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -63,20 +64,21 @@ internal class SyncGateway(
     override suspend fun getArchive(): Flow<SyncResult> = internalSpace.getArchive()
 
     override suspend fun rewrite(): Flow<SyncResult> =
-        kotlinx.coroutines.flow.combine(
+        combine(
             flows = listOf(
-                internalTranslation.rewrite(),
-                internalEarth.rewrite(),
-                internalShip.rewrite(),
-                internalSpace.rewrite(),
-                internalEvent.rewrite(),
-                internalAchievement.rewrite(),
-                internalCredit.rewrite()
+                internalTranslation.rewriteTranslations(),
+                internalEarth.rewriteCatastrophes(),
+                internalShip.rewriteEngines(),
+                internalSpace.rewriteStellarHosts(),
+                internalSpace.rewritePlanets(),
+                internalEvent.rewriteEvents(),
+                internalAchievement.rewriteAchievements(),
+                internalCredit.rewriteCredits()
             )
         ) { it.combine() }
 
     override suspend fun sync(): Flow<SyncResult> =
-        kotlinx.coroutines.flow.combine(
+        combine(
             flows = listOf(
                 update(key = Config.TranslationsVersion) { internalTranslation.syncTranslations() },
                 update(key = Config.CatastrophesVersion) { internalEarth.syncCatastrophes() },

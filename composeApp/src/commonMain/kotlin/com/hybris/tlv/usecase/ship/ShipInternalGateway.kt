@@ -15,7 +15,7 @@ internal class ShipInternalGateway(
     private val shipDao: ShipLocal
 ): ShipInternalUseCases {
 
-    override suspend fun rewrite(): Flow<SyncResult> {
+    override suspend fun rewriteEngines(): Flow<SyncResult> {
         val engines: List<Engine> = loadFromJson(path = "files/engines.json")
         shipDao.rewriteEngines(engines = engines)
         return shipApi.rewriteEngines(engines = engines)

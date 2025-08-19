@@ -26,7 +26,7 @@ internal class AchievementUseCasesTest {
     @Test
     fun `rewrite and sync achievements`() = runBlocking {
         assertTrue(actual = mock.useCases.achievement.getAchievements().isEmpty())
-        mock.internalAchievement.rewrite().last()
+        mock.internalAchievement.rewriteAchievements().last()
         assertTrue(actual = mock.useCases.achievement.getAchievements().isNotEmpty())
         mock.clearDatabase()
         assertTrue(actual = mock.useCases.achievement.getAchievements().isEmpty())

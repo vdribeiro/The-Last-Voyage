@@ -13,9 +13,14 @@ internal interface SpaceInternalUseCases {
     suspend fun getArchive(): Flow<SyncResult>
 
     /**
-     * Rewrites the local and remote [StellarHost] and [Planet] data.
+     * Rewrites the local and remote [StellarHost] data.
      */
-    suspend fun rewrite(): Flow<SyncResult>
+    suspend fun rewriteStellarHosts(): Flow<SyncResult>
+
+    /**
+     * Rewrites the local and remote [Planet] data.
+     */
+    suspend fun rewritePlanets(): Flow<SyncResult>
 
     /**
      * Syncs the remote [StellarHost] data to local.

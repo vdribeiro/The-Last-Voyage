@@ -9,7 +9,7 @@ internal interface AchievementInternalUseCases {
     /**
      * Rewrites the local and remote [Achievement] data.
      */
-    suspend fun rewrite(): Flow<SyncResult>
+    suspend fun rewriteAchievements(): Flow<SyncResult>
 
     /**
      * Syncs the remote [Achievement] data to local.

@@ -15,7 +15,7 @@ internal class EarthInternalGateway(
     private val earthDao: EarthLocal
 ): EarthInternalUseCases {
 
-    override suspend fun rewrite(): Flow<SyncResult> {
+    override suspend fun rewriteCatastrophes(): Flow<SyncResult> {
         val catastrophes: List<Catastrophe> = loadFromJson(path = "files/catastrophes.json")
         earthDao.rewriteCatastrophes(catastrophes = catastrophes)
         return earthApi.rewriteCatastrophes(catastrophes = catastrophes)

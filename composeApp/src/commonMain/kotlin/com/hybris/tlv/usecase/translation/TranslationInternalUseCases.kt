@@ -9,7 +9,7 @@ internal interface TranslationInternalUseCases {
     /**
      * Rewrites the local and remote [Translation] data.
      */
-    suspend fun rewrite(): Flow<SyncResult>
+    suspend fun rewriteTranslations(): Flow<SyncResult>
 
     /**
      * Syncs the remote [Translation] data to local.

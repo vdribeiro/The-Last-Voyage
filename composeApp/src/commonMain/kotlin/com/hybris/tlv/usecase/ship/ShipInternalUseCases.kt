@@ -9,7 +9,7 @@ internal interface ShipInternalUseCases {
     /**
      * Rewrites the local and remote [Engine] data.
      */
-    suspend fun rewrite(): Flow<SyncResult>
+    suspend fun rewriteEngines(): Flow<SyncResult>
 
     /**
      * Syncs the remote [Engine] data to local.

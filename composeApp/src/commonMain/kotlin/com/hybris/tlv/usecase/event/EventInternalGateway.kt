@@ -15,7 +15,7 @@ internal class EventInternalGateway(
     private val eventDao: EventLocal
 ): EventInternalUseCases {
 
-    override suspend fun rewrite(): Flow<SyncResult> {
+    override suspend fun rewriteEvents(): Flow<SyncResult> {
         val events: List<Event> = loadFromJson(path = "files/events.json")
         eventDao.rewriteEvents(events = events)
         return eventApi.rewriteEvents(events = events)
