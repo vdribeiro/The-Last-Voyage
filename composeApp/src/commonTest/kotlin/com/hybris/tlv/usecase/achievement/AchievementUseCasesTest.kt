@@ -7,7 +7,7 @@ import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
-internal class AchievementsUseCasesTest {
+internal class AchievementUseCasesTest {
 
     private val mock = Mock()
 

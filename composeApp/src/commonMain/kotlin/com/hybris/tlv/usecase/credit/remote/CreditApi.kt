@@ -1,4 +1,4 @@
-package com.hybris.tlv.usecase.credits.remote
+package com.hybris.tlv.usecase.credit.remote
 
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.firestore.result.FirestoreReadResult
@@ -7,21 +7,21 @@ import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
-import com.hybris.tlv.usecase.credits.mapper.toCredits
-import com.hybris.tlv.usecase.credits.mapper.toCreditsMap
-import com.hybris.tlv.usecase.credits.model.Credits
+import com.hybris.tlv.usecase.credit.mapper.toCredit
+import com.hybris.tlv.usecase.credit.mapper.toCreditMap
+import com.hybris.tlv.usecase.credit.model.Credit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 
-internal class CreditsApi(
+internal class CreditApi(
     private val firestore: Firestore
-): CreditsRemote {
+): CreditRemote {
 
-    override suspend fun rewriteCredits(credits: List<Credits>): Flow<SyncResult> = runCatching {
+    override suspend fun rewriteCredits(credits: List<Credit>): Flow<SyncResult> = runCatching {
         firestore.removeCollection(collection = CREDITS).last()
-        firestore.setCollection(collection = CREDITS, documents = credits.map { it.toCreditsMap() }).map { result ->
+        firestore.setCollection(collection = CREDITS, documents = credits.map { it.toCreditMap() }).map { result ->
             when (result) {
                 is FirestoreWriteResult.Error -> SyncResult.Error(error = result.error)
                 is FirestoreWriteResult.PartialSuccess -> SyncResult.Loading(
@@ -37,16 +37,16 @@ internal class CreditsApi(
         flowOf(value = SyncResult.Error(error = it.message.orEmpty()))
     }
 
-    override suspend fun getCredits(queryMap: QueryMap): Flow<Result<Credits>> = runCatching {
+    override suspend fun getCredits(queryMap: QueryMap): Flow<Result<Credit>> = runCatching {
         firestore.getCollection(collection = CREDITS, queryMap = queryMap).map { result ->
             when (result) {
                 is FirestoreReadResult.Error -> Result.Error(error = result.error)
                 is FirestoreReadResult.PartialSuccess -> Result.PartialSuccess(
-                    list = result.documents.map { it.toCredits() },
+                    list = result.documents.map { it.toCredit() },
                     total = result.totalDocuments
                 )
 
-                is FirestoreReadResult.Success -> Result.Success(list = result.documents.map { it.toCredits() })
+                is FirestoreReadResult.Success -> Result.Success(list = result.documents.map { it.toCredit() })
             }
         }
     }.getOrElse {
@@ -54,8 +54,8 @@ internal class CreditsApi(
         flowOf(value = Result.Error(error = it.message.orEmpty()))
     }
 
-    companion object {
-        private const val TAG = "CreditsApi"
+    companion object Companion {
+        private const val TAG = "CreditApi"
         private const val CREDITS = "credits"
         const val CREDITS_ID = "id"
         const val CREDITS_LINK = "link"

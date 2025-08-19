@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.credits
+package com.hybris.tlv.ui.screen.credit
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,17 +31,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.credits.model.CreditsType
+import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun CreditsScreen(store: Store<CreditsAction, CreditsState>) {
+internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
     val storeState by store.stateFlow.collectAsState()
 
     val uriHandler = LocalUriHandler.current
 
-    BackHandler(enabled = true) { store.send(action = CreditsAction.Back) }
+    BackHandler(enabled = true) { store.send(action = CreditAction.Back) }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
@@ -54,20 +54,20 @@ internal fun CreditsScreen(store: Store<CreditsAction, CreditsState>) {
             ) {
                 val creditsMap = storeState.credits.groupBy { it.type }
 
-                val creators = creditsMap[CreditsType.CREATOR].orEmpty()
+                val creators = creditsMap[CreditType.CREATOR].orEmpty()
                 if (creators.isNotEmpty()) {
-                    item(key = CreditsType.CREATOR) {
+                    item(key = CreditType.CREATOR) {
                         Text(
-                            text = getTranslation(key = "credits_screen__creators"),
+                            text = getTranslation(key = "credit_screen__creators"),
                             style = MaterialTheme.typography.titleLarge,
                             textAlign = TextAlign.Center,
                         )
                     }
-                    items(items = creators, key = { it.id }) { credits ->
+                    items(items = creators, key = { it.id }) { credit ->
                         Spacer(modifier = Modifier.height(height = 8.dp))
                         Text(
-                            modifier = Modifier.clickable { credits.link?.let { uriHandler.openUri(uri = it) } },
-                            text = credits.id,
+                            modifier = Modifier.clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                            text = credit.id,
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 color = MaterialTheme.colorScheme.primary,
                                 textDecoration = TextDecoration.Underline
@@ -77,20 +77,20 @@ internal fun CreditsScreen(store: Store<CreditsAction, CreditsState>) {
                     }
                 }
 
-                val sources = creditsMap[CreditsType.SOURCE].orEmpty()
+                val sources = creditsMap[CreditType.SOURCE].orEmpty()
                 if (sources.isNotEmpty()) {
-                    item(key = CreditsType.SOURCE) {
+                    item(key = CreditType.SOURCE) {
                         Text(
-                            text = getTranslation(key = "credits_screen__sources"),
+                            text = getTranslation(key = "credit_screen__sources"),
                             style = MaterialTheme.typography.titleLarge,
                             textAlign = TextAlign.Center,
                         )
                     }
-                    items(items = sources, key = { it.id }) { credits ->
+                    items(items = sources, key = { it.id }) { credit ->
                         Spacer(modifier = Modifier.height(height = 8.dp))
                         Text(
-                            modifier = Modifier.clickable { credits.link?.let { uriHandler.openUri(uri = it) } },
-                            text = credits.id,
+                            modifier = Modifier.clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                            text = credit.id,
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 color = MaterialTheme.colorScheme.primary,
                                 textDecoration = TextDecoration.Underline
@@ -100,20 +100,20 @@ internal fun CreditsScreen(store: Store<CreditsAction, CreditsState>) {
                     }
                 }
 
-                val musics = creditsMap[CreditsType.MUSIC].orEmpty()
+                val musics = creditsMap[CreditType.MUSIC].orEmpty()
                 if (musics.isNotEmpty()) {
-                    item(key = CreditsType.MUSIC) {
+                    item(key = CreditType.MUSIC) {
                         Text(
-                            text = getTranslation(key = "credits_screen__music"),
+                            text = getTranslation(key = "credit_screen__music"),
                             style = MaterialTheme.typography.titleLarge,
                             textAlign = TextAlign.Center,
                         )
                     }
-                    items(items = musics, key = { it.id }) { credits ->
+                    items(items = musics, key = { it.id }) { credit ->
                         Spacer(modifier = Modifier.height(height = 8.dp))
                         Text(
-                            modifier = Modifier.clickable { credits.link?.let { uriHandler.openUri(uri = it) } },
-                            text = credits.id,
+                            modifier = Modifier.clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                            text = credit.id,
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 color = MaterialTheme.colorScheme.primary,
                                 textDecoration = TextDecoration.Underline
@@ -123,11 +123,11 @@ internal fun CreditsScreen(store: Store<CreditsAction, CreditsState>) {
                     }
                 }
 
-                val supporters = creditsMap[CreditsType.SUPPORTER].orEmpty()
+                val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
                 if (supporters.isNotEmpty()) {
-                    item(key = CreditsType.SUPPORTER) {
+                    item(key = CreditType.SUPPORTER) {
                         Text(
-                            text = getTranslation(key = "credits_screen__supporters"),
+                            text = getTranslation(key = "credit_screen__supporters"),
                             style = MaterialTheme.typography.titleLarge,
                             textAlign = TextAlign.Center,
                         )
@@ -138,14 +138,14 @@ internal fun CreditsScreen(store: Store<CreditsAction, CreditsState>) {
                             horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
                             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
                         ) {
-                            items(items = supporters) { credits ->
+                            items(items = supporters) { credit ->
                                 Card(elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
                                     Text(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(all = 16.dp)
-                                            .clickable { credits.link?.let { uriHandler.openUri(uri = it) } },
-                                        text = credits.id,
+                                            .clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                                        text = credit.id,
                                         textAlign = TextAlign.Center,
                                         style = MaterialTheme.typography.bodyLarge.copy(
                                             color = MaterialTheme.colorScheme.primary,

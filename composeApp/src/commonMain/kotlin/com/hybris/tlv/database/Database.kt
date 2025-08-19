@@ -7,7 +7,7 @@ import com.hybris.tlv.database.adapter.SetColumnAdapter
 import database.Achievement
 import database.AppDatabase
 import database.Catastrophe
-import database.Credits
+import database.Credit
 import database.Engine
 import database.Event
 import database.GameSession
@@ -17,7 +17,7 @@ import database.Translation
 
 internal class Database(val driver: SqlDriver) {
 
-    private val creditsAdapter = Credits.Adapter(
+    private val creditAdapter = Credit.Adapter(
         typeAdapter = EnumColumnAdapter()
     )
 
@@ -38,7 +38,7 @@ internal class Database(val driver: SqlDriver) {
 
     val database: AppDatabase = AppDatabase(
         driver = driver,
-        CreditsAdapter = creditsAdapter,
+        CreditAdapter = creditAdapter,
         GameSessionAdapter = gameSessionAdapter,
         PlanetAdapter = planetAdapter,
     )
@@ -56,4 +56,4 @@ typealias EngineSchema = Engine
 typealias GameSessionSchema = GameSession
 typealias EventSchema = Event
 typealias AchievementSchema = Achievement
-typealias CreditsSchema = Credits
+typealias CreditSchema = Credit

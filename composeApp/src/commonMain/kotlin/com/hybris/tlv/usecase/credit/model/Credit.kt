@@ -1,10 +1,10 @@
-package com.hybris.tlv.usecase.credits.model
+package com.hybris.tlv.usecase.credit.model
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class Credits(
+internal data class Credit(
     val id: String,
     val link: String?,
-    val type: CreditsType
+    val type: CreditType
 )

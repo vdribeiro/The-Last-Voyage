@@ -25,14 +25,14 @@ import com.hybris.tlv.usecase.achievement.local.AchievementDao
 import com.hybris.tlv.usecase.achievement.local.AchievementLocal
 import com.hybris.tlv.usecase.achievement.remote.AchievementApi
 import com.hybris.tlv.usecase.achievement.remote.AchievementRemote
-import com.hybris.tlv.usecase.credits.CreditsGateway
-import com.hybris.tlv.usecase.credits.CreditsInternalGateway
-import com.hybris.tlv.usecase.credits.CreditsInternalUseCases
-import com.hybris.tlv.usecase.credits.CreditsUseCases
-import com.hybris.tlv.usecase.credits.local.CreditsDao
-import com.hybris.tlv.usecase.credits.local.CreditsLocal
-import com.hybris.tlv.usecase.credits.remote.CreditsApi
-import com.hybris.tlv.usecase.credits.remote.CreditsRemote
+import com.hybris.tlv.usecase.credit.CreditGateway
+import com.hybris.tlv.usecase.credit.CreditInternalGateway
+import com.hybris.tlv.usecase.credit.CreditInternalUseCases
+import com.hybris.tlv.usecase.credit.CreditUseCases
+import com.hybris.tlv.usecase.credit.local.CreditDao
+import com.hybris.tlv.usecase.credit.local.CreditLocal
+import com.hybris.tlv.usecase.credit.remote.CreditApi
+import com.hybris.tlv.usecase.credit.remote.CreditRemote
 import com.hybris.tlv.usecase.earth.EarthGateway
 import com.hybris.tlv.usecase.earth.EarthInternalGateway
 import com.hybris.tlv.usecase.earth.EarthInternalUseCases
@@ -98,7 +98,7 @@ internal class Gateways(
     eventDao: EventLocal = EventDao(database = database),
     gameSessionDao: GameSessionLocal = GameSessionDao(database = database),
     achievementDao: AchievementLocal = AchievementDao(database = database),
-    creditsDao: CreditsLocal = CreditsDao(database = database),
+    creditDao: CreditLocal = CreditDao(database = database),
     translationApi: TranslationRemote = TranslationApi(firestore = firestore),
     earthApi: EarthRemote = EarthApi(firestore = firestore),
     shipApi: ShipRemote = ShipApi(firestore = firestore),
@@ -108,7 +108,7 @@ internal class Gateways(
     ),
     eventApi: EventRemote = EventApi(firestore = firestore),
     achievementApi: AchievementRemote = AchievementApi(firestore = firestore),
-    creditsApi: CreditsRemote = CreditsApi(firestore = firestore),
+    creditApi: CreditRemote = CreditApi(firestore = firestore),
     internalTranslation: TranslationInternalUseCases = TranslationInternalGateway(
         dispatcher = dispatcher,
         translationApi = translationApi,
@@ -134,9 +134,9 @@ internal class Gateways(
         achievementApi = achievementApi,
         achievementDao = achievementDao
     ),
-    internalCredits: CreditsInternalUseCases = CreditsInternalGateway(
-        creditsApi = creditsApi,
-        creditsDao = creditsDao
+    internalCredit: CreditInternalUseCases = CreditInternalGateway(
+        creditApi = creditApi,
+        creditDao = creditDao
     ),
 ): UseCases {
 
@@ -176,9 +176,9 @@ internal class Gateways(
         )
     }
 
-    override val credits: CreditsUseCases by lazy {
-        CreditsGateway(
-            creditsDao = creditsDao
+    override val credit: CreditUseCases by lazy {
+        CreditGateway(
+            creditDao = creditDao
         )
     }
 
@@ -193,7 +193,7 @@ internal class Gateways(
             internalSpace = internalSpace,
             internalEvent = internalEvent,
             internalAchievement = internalAchievement,
-            internalCredits = internalCredits
+            internalCredit = internalCredit
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.hybris.tlv.usecase.credits.local
+package com.hybris.tlv.usecase.credit.local
 
 import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.credits
@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
-internal class CreditsLocalTest {
+internal class CreditLocalTest {
 
     private val mock = Mock()
 
@@ -19,8 +19,8 @@ internal class CreditsLocalTest {
 
     @Test
     fun `write and get credits`() = runBlocking {
-        assertTrue(actual = mock.creditsDao.isCreditsEmpty())
-        mock.creditsDao.rewriteCredits(credits = credits)
-        assertEquals(expected = credits, actual = mock.creditsDao.getCredits())
+        assertTrue(actual = mock.creditDao.isCreditEmpty())
+        mock.creditDao.rewriteCredits(credits = credits)
+        assertEquals(expected = credits, actual = mock.creditDao.getCredits())
     }
 }

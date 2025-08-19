@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase
 
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
-import com.hybris.tlv.usecase.credits.CreditsUseCases
+import com.hybris.tlv.usecase.credit.CreditUseCases
 import com.hybris.tlv.usecase.earth.EarthUseCases
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
@@ -18,5 +18,5 @@ internal interface UseCases {
     val event: EventUseCases
     val gameSession: GameSessionUseCases
     val achievement: AchievementUseCases
-    val credits: CreditsUseCases
+    val credit: CreditUseCases
 }

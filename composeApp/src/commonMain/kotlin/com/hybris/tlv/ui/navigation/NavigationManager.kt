@@ -16,9 +16,9 @@ internal interface NavigationManager {
         GAME_OVER,
         EXPLORE,
         STELLAR_EXPLORER,
-        SCORES,
-        ACHIEVEMENTS,
-        CREDITS,
+        SCORE,
+        ACHIEVEMENT,
+        CREDIT,
     }
 
     val stateFlow: StateFlow<State>

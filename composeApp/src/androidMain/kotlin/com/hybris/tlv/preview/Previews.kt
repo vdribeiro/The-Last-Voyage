@@ -13,7 +13,7 @@ import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.achievement.AchievementState
-import com.hybris.tlv.ui.screen.credits.CreditsState
+import com.hybris.tlv.ui.screen.credit.CreditState
 import com.hybris.tlv.ui.screen.error.ErrorState
 import com.hybris.tlv.ui.screen.event.EventState
 import com.hybris.tlv.ui.screen.explore.ExploreState
@@ -374,7 +374,7 @@ private fun StellarExplorerDetailScreenPreview() {
 private fun ScoreScreenPreview() {
     AppTheme {
         Screen(
-            screen = Screen.SCORES,
+            screen = Screen.SCORE,
             state = ScoreState(
                 scores = listOf(
                     gameSession.copy(id = generateUuid(), score = 100.0),
@@ -392,7 +392,7 @@ private fun ScoreScreenPreview() {
 private fun AchievementScreenPreview() {
     AppTheme {
         Screen(
-            screen = Screen.ACHIEVEMENTS,
+            screen = Screen.ACHIEVEMENT,
             state = AchievementState(
                 achievements = achievements
             )
@@ -402,11 +402,11 @@ private fun AchievementScreenPreview() {
 
 @Preview
 @Composable
-private fun CreditsScreenPreview() {
+private fun CreditScreenPreview() {
     AppTheme {
         Screen(
-            screen = Screen.ACHIEVEMENTS,
-            state = CreditsState(
+            screen = Screen.ACHIEVEMENT,
+            state = CreditState(
                 credits = credits
             )
         )

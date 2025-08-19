@@ -1,9 +1,9 @@
-package com.hybris.tlv.usecase.credits
+package com.hybris.tlv.usecase.credit
 
 import com.hybris.tlv.mock.Mock
 import kotlin.test.BeforeTest
 
-internal class CreditsUseCasesTest {
+internal class CreditUseCasesTest {
 
     private val mock = Mock()
 

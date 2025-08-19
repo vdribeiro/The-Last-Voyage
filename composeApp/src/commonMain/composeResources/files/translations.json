@@ -2601,22 +2601,22 @@
   },
   {
     "languageIso": "en",
-    "key": "credits_screen__creators",
+    "key": "credit_screen__creators",
     "value": "Creator"
   },
   {
     "languageIso": "en",
-    "key": "credits_screen__supporters",
+    "key": "credit_screen__supporters",
     "value": "Supporters"
   },
   {
     "languageIso": "en",
-    "key": "credits_screen__sources",
+    "key": "credit_screen__sources",
     "value": "Data Sources"
   },
   {
     "languageIso": "en",
-    "key": "credits_screen__music",
+    "key": "credit_screen__music",
     "value": "Music"
   }
 ]

@@ -9,7 +9,7 @@ import com.hybris.tlv.storage.RemoteConfigSettings
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.achievement.AchievementInternalUseCases
 import com.hybris.tlv.usecase.combine
-import com.hybris.tlv.usecase.credits.CreditsInternalUseCases
+import com.hybris.tlv.usecase.credit.CreditInternalUseCases
 import com.hybris.tlv.usecase.earth.EarthInternalUseCases
 import com.hybris.tlv.usecase.event.EventInternalUseCases
 import com.hybris.tlv.usecase.ship.ShipInternalUseCases
@@ -29,7 +29,7 @@ internal class SyncGateway(
     private val internalSpace: SpaceInternalUseCases,
     private val internalEvent: EventInternalUseCases,
     private val internalAchievement: AchievementInternalUseCases,
-    private val internalCredits: CreditsInternalUseCases,
+    private val internalCredit: CreditInternalUseCases,
 ): SyncUseCases {
 
     override suspend fun setup(): Flow<SyncResult> = flow {
@@ -71,7 +71,7 @@ internal class SyncGateway(
                 internalSpace.rewrite(),
                 internalEvent.rewrite(),
                 internalAchievement.rewrite(),
-                internalCredits.rewrite()
+                internalCredit.rewrite()
             )
         ) { it.combine() }
 
@@ -85,7 +85,7 @@ internal class SyncGateway(
                 update(key = Config.PlanetsVersion) { internalSpace.syncPlanets() },
                 update(key = Config.EventsVersion) { internalEvent.syncEvents() },
                 update(key = Config.AchievementsVersion) { internalAchievement.syncAchievements() },
-                update(key = Config.CreditsVersion) { internalCredits.syncCredits() }
+                update(key = Config.CreditsVersion) { internalCredit.syncCredits() }
             )
         ) { result ->
             result.getOrNull(index = 0)?.let { update(key = Config.TranslationsVersion, syncResult = it) }
@@ -127,7 +127,7 @@ internal class SyncGateway(
         emit(value = SyncResult.Loading(progress = 6f, total = totalOperations))
         internalAchievement.prepopulateAchievements()
         emit(value = SyncResult.Loading(progress = 7f, total = totalOperations))
-        internalCredits.prepopulateCredits()
+        internalCredit.prepopulateCredits()
         emit(value = SyncResult.Loading(progress = 8f, total = totalOperations))
         internalTranslation.loadTranslationsToCache(languageIso = locale.getLanguage())
         emit(value = SyncResult.Success)

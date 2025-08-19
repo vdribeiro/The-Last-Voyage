@@ -10,8 +10,8 @@ import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.achievement.AchievementState
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
-import com.hybris.tlv.ui.screen.credits.CreditsState
-import com.hybris.tlv.ui.screen.credits.CreditsStore
+import com.hybris.tlv.ui.screen.credit.CreditState
+import com.hybris.tlv.ui.screen.credit.CreditStore
 import com.hybris.tlv.ui.screen.error.ErrorState
 import com.hybris.tlv.ui.screen.error.ErrorStore
 import com.hybris.tlv.ui.screen.event.EventState
@@ -79,9 +79,9 @@ internal class Navigation(
         Screen.GAME_OVER -> GameOverScreen(state = state)
         Screen.EXPLORE -> ExploreScreen(state = state)
         Screen.STELLAR_EXPLORER -> StellarExplorerScreen(state = state)
-        Screen.SCORES -> ScoreScreen(state = state)
-        Screen.ACHIEVEMENTS -> AchievementScreen(state = state)
-        Screen.CREDITS -> CreditsScreen(state = state)
+        Screen.SCORE -> ScoreScreen(state = state)
+        Screen.ACHIEVEMENT -> AchievementScreen(state = state)
+        Screen.CREDIT -> CreditScreen(state = state)
     }
 
     @Composable
@@ -199,12 +199,12 @@ internal class Navigation(
     )
 
     @Composable
-    private fun CreditsScreen(state: Any?) = com.hybris.tlv.ui.screen.credits.CreditsScreen(
-        store = CreditsStore(
+    private fun CreditScreen(state: Any?) = com.hybris.tlv.ui.screen.credit.CreditScreen(
+        store = CreditStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? CreditsState ?: CreditsState(),
-            creditsUseCases = useCases.credits
+            initialState = state as? CreditState ?: CreditState(),
+            creditUseCases = useCases.credit
         )
     )
 }

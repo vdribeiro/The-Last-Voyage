@@ -3,8 +3,8 @@ package com.hybris.tlv.mock
 import com.hybris.tlv.datetime.now
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
-import com.hybris.tlv.usecase.credits.model.Credits
-import com.hybris.tlv.usecase.credits.model.CreditsType
+import com.hybris.tlv.usecase.credit.model.Credit
+import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.earth.model.Catastrophe
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.model.GameSession
@@ -569,24 +569,24 @@ internal val achievements = listOf(
 )
 
 internal val credits = listOf(
-    Credits(
+    Credit(
         id = "engsoneca",
         link = "https://ko-fi.com/engsoneca",
-        type = CreditsType.CREATOR,
+        type = CreditType.CREATOR,
     ),
-    Credits(
+    Credit(
         id = "NASA Exoplanet Archive DOIs 10.26133/NEA13 and 10.26133/NEA40",
         link = "https://exoplanetarchive.ipac.caltech.edu/",
-        type = CreditsType.SOURCE,
+        type = CreditType.SOURCE,
     ),
-    Credits(
+    Credit(
         id = "OpenGameArt",
         link = "https://opengameart.org/",
-        type = CreditsType.MUSIC,
+        type = CreditType.MUSIC,
     ),
-    Credits(
+    Credit(
         id = "You",
         link = null,
-        type = CreditsType.SUPPORTER,
+        type = CreditType.SUPPORTER,
     ),
 )

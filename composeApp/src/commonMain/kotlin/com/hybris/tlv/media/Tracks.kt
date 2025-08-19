@@ -8,9 +8,9 @@ internal fun getTracks(screen: Screen) = when (screen) {
     Screen.NEW_GAME,
     Screen.EXPLORE,
     Screen.STELLAR_EXPLORER,
-    Screen.SCORES,
-    Screen.ACHIEVEMENTS,
-    Screen.CREDITS -> arrayOf(
+    Screen.SCORE,
+    Screen.ACHIEVEMENT,
+    Screen.CREDIT -> arrayOf(
         "tracks/ville_seppanen-1_g.mp3",
     )
 

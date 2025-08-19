@@ -1,28 +1,28 @@
-package com.hybris.tlv.usecase.credits
+package com.hybris.tlv.usecase.credit
 
 import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
-import com.hybris.tlv.usecase.credits.local.CreditsLocal
-import com.hybris.tlv.usecase.credits.model.Credits
-import com.hybris.tlv.usecase.credits.remote.CreditsRemote
+import com.hybris.tlv.usecase.credit.local.CreditLocal
+import com.hybris.tlv.usecase.credit.model.Credit
+import com.hybris.tlv.usecase.credit.remote.CreditRemote
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-internal class CreditsInternalGateway(
-    private val creditsApi: CreditsRemote,
-    private val creditsDao: CreditsLocal
-): CreditsInternalUseCases {
+internal class CreditInternalGateway(
+    private val creditApi: CreditRemote,
+    private val creditDao: CreditLocal
+): CreditInternalUseCases {
 
     override suspend fun rewrite(): Flow<SyncResult> {
-        val credits: List<Credits> = loadFromJson(path = "files/credits.json")
-        creditsDao.rewriteCredits(credits = credits)
-        return creditsApi.rewriteCredits(credits = credits)
+        val credits: List<Credit> = loadFromJson(path = "files/credits.json")
+        creditDao.rewriteCredits(credits = credits)
+        return creditApi.rewriteCredits(credits = credits)
     }
 
     override suspend fun syncCredits(): Flow<SyncResult> =
-        creditsApi.getCredits(queryMap = QueryMap().apply {
+        creditApi.getCredits(queryMap = QueryMap().apply {
             paginate = true
             limit = 1000
         }).map { result ->
@@ -38,16 +38,16 @@ internal class CreditsInternalGateway(
                 )
 
                 is Result.Success -> {
-                    creditsDao.rewriteCredits(credits = result.list)
+                    creditDao.rewriteCredits(credits = result.list)
                     SyncResult.Success
                 }
             }
         }
 
     override suspend fun prepopulateCredits() {
-        if (creditsDao.isCreditsEmpty()) {
-            val credits: List<Credits> = loadFromJson(path = "files/credits.json")
-            creditsDao.rewriteCredits(credits = credits)
+        if (creditDao.isCreditEmpty()) {
+            val credits: List<Credit> = loadFromJson(path = "files/credits.json")
+            creditDao.rewriteCredits(credits = credits)
             true
         }
     }

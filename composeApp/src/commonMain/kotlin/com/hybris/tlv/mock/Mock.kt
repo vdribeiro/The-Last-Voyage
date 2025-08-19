@@ -28,12 +28,12 @@ import com.hybris.tlv.usecase.achievement.local.AchievementDao
 import com.hybris.tlv.usecase.achievement.local.AchievementLocal
 import com.hybris.tlv.usecase.achievement.remote.AchievementApi
 import com.hybris.tlv.usecase.achievement.remote.AchievementRemote
-import com.hybris.tlv.usecase.credits.CreditsInternalGateway
-import com.hybris.tlv.usecase.credits.CreditsInternalUseCases
-import com.hybris.tlv.usecase.credits.local.CreditsDao
-import com.hybris.tlv.usecase.credits.local.CreditsLocal
-import com.hybris.tlv.usecase.credits.remote.CreditsApi
-import com.hybris.tlv.usecase.credits.remote.CreditsRemote
+import com.hybris.tlv.usecase.credit.CreditInternalGateway
+import com.hybris.tlv.usecase.credit.CreditInternalUseCases
+import com.hybris.tlv.usecase.credit.local.CreditDao
+import com.hybris.tlv.usecase.credit.local.CreditLocal
+import com.hybris.tlv.usecase.credit.remote.CreditApi
+import com.hybris.tlv.usecase.credit.remote.CreditRemote
 import com.hybris.tlv.usecase.earth.EarthInternalGateway
 import com.hybris.tlv.usecase.earth.EarthInternalUseCases
 import com.hybris.tlv.usecase.earth.local.EarthDao
@@ -87,7 +87,7 @@ internal class Mock(
     val eventDao: EventLocal = EventDao(database = database),
     val gameSessionDao: GameSessionLocal = GameSessionDao(database = database),
     val achievementDao: AchievementLocal = AchievementDao(database = database),
-    val creditsDao: CreditsLocal = CreditsDao(database = database),
+    val creditDao: CreditLocal = CreditDao(database = database),
     val translationApi: TranslationRemote = TranslationApi(firestore = firestore),
     val earthApi: EarthRemote = EarthApi(firestore = firestore),
     val shipApi: ShipRemote = ShipApi(firestore = firestore),
@@ -97,7 +97,7 @@ internal class Mock(
     ),
     val eventApi: EventRemote = EventApi(firestore = firestore),
     val achievementApi: AchievementRemote = AchievementApi(firestore = firestore),
-    val creditsApi: CreditsRemote = CreditsApi(firestore = firestore),
+    val creditApi: CreditRemote = CreditApi(firestore = firestore),
     val internalTranslation: TranslationInternalUseCases = TranslationInternalGateway(
         dispatcher = dispatcher,
         translationApi = translationApi,
@@ -123,9 +123,9 @@ internal class Mock(
         achievementApi = achievementApi,
         achievementDao = achievementDao
     ),
-    val internalCredits: CreditsInternalUseCases = CreditsInternalGateway(
-        creditsApi = creditsApi,
-        creditsDao = creditsDao
+    val internalCredit: CreditInternalUseCases = CreditInternalGateway(
+        creditApi = creditApi,
+        creditDao = creditDao
     ),
 ) {
     val useCases: UseCases = Gateways(
@@ -146,21 +146,21 @@ internal class Mock(
         eventDao = eventDao,
         gameSessionDao = gameSessionDao,
         achievementDao = achievementDao,
-        creditsDao = creditsDao,
+        creditDao = creditDao,
         translationApi = translationApi,
         earthApi = earthApi,
         shipApi = shipApi,
         spaceApi = spaceApi,
         eventApi = eventApi,
         achievementApi = achievementApi,
-        creditsApi = creditsApi,
+        creditApi = creditApi,
         internalTranslation = internalTranslation,
         internalEarth = internalEarth,
         internalShip = internalShip,
         internalSpace = internalSpace,
         internalEvent = internalEvent,
         internalAchievement = internalAchievement,
-        internalCredits = internalCredits,
+        internalCredit = internalCredit,
     )
     val navigation: NavigationManager = Navigation(
         dispatcher = dispatcher,

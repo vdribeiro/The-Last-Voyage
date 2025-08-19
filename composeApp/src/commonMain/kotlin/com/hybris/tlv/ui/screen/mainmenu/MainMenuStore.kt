@@ -63,9 +63,9 @@ internal class MainMenuStore(
             MainMenuAction.Continue -> navigate(screen = Screen.GAME)
             MainMenuAction.Explore -> navigate(screen = Screen.EXPLORE)
             MainMenuAction.StellarExplorer -> navigate(screen = Screen.STELLAR_EXPLORER)
-            MainMenuAction.Scores -> navigate(screen = Screen.SCORES)
-            MainMenuAction.Achievements -> navigate(screen = Screen.ACHIEVEMENTS)
-            MainMenuAction.Credits -> navigate(screen = Screen.CREDITS)
+            MainMenuAction.Scores -> navigate(screen = Screen.SCORE)
+            MainMenuAction.Achievements -> navigate(screen = Screen.ACHIEVEMENT)
+            MainMenuAction.Credits -> navigate(screen = Screen.CREDIT)
         }
     }
 }
