@@ -170,8 +170,7 @@ internal class Mock(
         useCases = useCases
     )
 
-    fun reset() {
-        // Clear database
+    fun clearDatabase() {
         val query = "SELECT name FROM sqlite_master WHERE type='table' " +
                 "AND name!='sqlite_sequence' AND name!='android_metadata'"
         sqlDriver.executeQuery(

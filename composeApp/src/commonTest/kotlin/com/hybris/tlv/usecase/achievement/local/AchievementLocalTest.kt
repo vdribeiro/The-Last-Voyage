@@ -14,7 +14,7 @@ internal class AchievementLocalTest {
 
     @BeforeTest
     fun setup() {
-        mock.reset()
+        mock.clearDatabase()
     }
 
     @Test

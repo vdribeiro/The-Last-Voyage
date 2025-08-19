@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.ship
 
-import com.hybris.tlv.http.json.loadFromJson
 import com.hybris.tlv.http.request.QueryMap
+import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.ship.local.ShipLocal

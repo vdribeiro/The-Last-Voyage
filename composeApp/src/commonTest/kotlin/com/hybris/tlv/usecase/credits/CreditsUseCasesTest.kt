@@ -9,6 +9,6 @@ internal class CreditsUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        mock.reset()
+        mock.clearDatabase()
     }
 }

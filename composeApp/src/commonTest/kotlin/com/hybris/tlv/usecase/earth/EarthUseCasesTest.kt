@@ -9,6 +9,6 @@ internal class EarthUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        mock.reset()
+        mock.clearDatabase()
     }
 }

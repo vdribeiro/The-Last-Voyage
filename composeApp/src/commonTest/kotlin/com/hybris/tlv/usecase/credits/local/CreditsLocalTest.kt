@@ -14,7 +14,7 @@ internal class CreditsLocalTest {
 
     @BeforeTest
     fun setup() {
-        mock.reset()
+        mock.clearDatabase()
     }
 
     @Test

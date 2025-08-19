@@ -1,7 +1,7 @@
 package com.hybris.tlv.http.client
 
-import com.hybris.tlv.http.json.json
 import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.serializer.json
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.plugins.DefaultRequest

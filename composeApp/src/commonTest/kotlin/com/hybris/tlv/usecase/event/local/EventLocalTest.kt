@@ -14,7 +14,7 @@ internal class EventLocalTest {
 
     @BeforeTest
     fun setup() {
-        mock.reset()
+        mock.clearDatabase()
     }
 
     @Test
