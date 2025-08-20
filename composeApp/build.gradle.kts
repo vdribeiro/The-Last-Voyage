@@ -43,6 +43,7 @@ kotlin {
                 implementation(dependencyNotation = compose.components.resources)
                 implementation(dependencyNotation = compose.components.uiToolingPreview)
                 implementation(dependencyNotation = compose.materialIconsExtended)
+                implementation(dependencyNotation = project.dependencies.platform(libs.supabase.bom))
                 implementation(dependencyNotation = libs.bundles.common)
             }
         }
@@ -182,11 +183,11 @@ kover {
 
             verify {
                 onCheck = true
-                //rule {
-                //    bound {
-                //        minValue = 80
-                //    }
-                //}
+                rule {
+                    bound {
+                        minValue = 80
+                    }
+                }
             }
 
             filters {
