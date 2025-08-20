@@ -3,7 +3,7 @@ package com.hybris.tlv.usecase.credit.remote
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.firestore.result.FirestoreReadResult
 import com.hybris.tlv.firestore.result.FirestoreWriteResult
-import com.hybris.tlv.http.request.QueryMap
+import com.hybris.tlv.http.QueryMap
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult

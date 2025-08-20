@@ -7,10 +7,7 @@ import com.hybris.tlv.firestore.CommonFirestore
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.CommonDispatchers
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.client.CommonHttpClientFactory
-import com.hybris.tlv.http.client.ExoPlanetHttpClient
-import com.hybris.tlv.http.client.HttpClient
-import com.hybris.tlv.http.client.HttpClientFactory
+import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.locale.CommonLocale
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.storage.CommonLocalConfig
@@ -78,7 +75,7 @@ import com.hybris.tlv.usecase.translation.local.TranslationLocal
 import com.hybris.tlv.usecase.translation.remote.TranslationApi
 import com.hybris.tlv.usecase.translation.remote.TranslationRemote
 import database.AppDatabase
-import io.ktor.client.HttpClient as KtorHttpClient
+import io.ktor.client.HttpClient
 
 internal class Gateways(
     dispatcher: Dispatcher = CommonDispatchers(),
@@ -87,10 +84,8 @@ internal class Gateways(
     remoteConfig: RemoteConfig = CommonRemoteConfig(),
     firestore: Firestore = CommonFirestore(),
     sqlDriver: SqlDriver = createSqlDriver(inMemory = true),
-    httpClientFactory: HttpClientFactory = CommonHttpClientFactory(),
     database: AppDatabase = Database(driver = sqlDriver).database,
-    httpClient: KtorHttpClient = httpClientFactory.buildExoplanetHttpClient(),
-    exoplanetHttpClient: HttpClient = ExoPlanetHttpClient(httpClient = httpClient),
+    httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
     translationDao: TranslationLocal = TranslationDao(database = database),
     earthDao: EarthLocal = EarthDao(database = database),
     shipDao: ShipLocal = ShipDao(database = database),
@@ -103,7 +98,7 @@ internal class Gateways(
     earthApi: EarthRemote = EarthApi(firestore = firestore),
     shipApi: ShipRemote = ShipApi(firestore = firestore),
     spaceApi: SpaceRemote = SpaceApi(
-        exoplanetHttpClient = exoplanetHttpClient,
+        httpClient = httpClient,
         firestore = firestore
     ),
     eventApi: EventRemote = EventApi(firestore = firestore),

@@ -1,4 +1,4 @@
-package com.hybris.tlv.http.client
+package com.hybris.tlv.http
 
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
@@ -14,16 +14,16 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 
-internal class CommonHttpClientFactory: HttpClientFactory {
+internal object HttpClientFactory {
 
-    override fun buildExoplanetHttpClient(): HttpClient {
-        val mockEngine = MockEngine { request ->
+    fun buildHttpClient(): HttpClient {
+        val mockEngine = MockEngine.Companion { request ->
             when {
-                request.method == HttpMethod.Get -> {
+                request.method == HttpMethod.Companion.Get -> {
                     val path = request.url.encodedPath
                     val parameters = request.url.parameters.toString()
-                    when {
-                        path.startsWith(prefix = "/TAP/sync") -> when {
+                    when (path) {
+                        EXOPLANET_ARCHIVE_URL -> when {
                             parameters.contains(other = "from stellarhosts") -> {
                                 respond(
                                     headers = headersOf(name = HttpHeaders.ContentType, value = "application/json"),
@@ -44,21 +44,23 @@ internal class CommonHttpClientFactory: HttpClientFactory {
                             }
 
                             else -> respondError(
-                                status = HttpStatusCode.BadRequest,
+                                status = HttpStatusCode.Companion.BadRequest,
                                 content = "Resource query incorrect: ${request.url.encodedPath}"
                             )
                         }
 
-                        else -> respondError(status = HttpStatusCode.NotFound, content = "Resource not found for path: ${request.url.encodedPath}")
+                        else -> respondError(
+                            status = HttpStatusCode.Companion.NotFound,
+                            content = "Resource not found for path: ${request.url.encodedPath}"
+                        )
                     }
                 }
 
-                else -> respondError(status = HttpStatusCode.BadRequest, content = "Method not found: ${request.method}")
+                else -> respondError(status = HttpStatusCode.Companion.BadRequest, content = "Method not found: ${request.method}")
             }
         }
 
         return HttpClient(engine = mockEngine) {
-            setRequestUrl(url = EXOPLANET_ARCHIVE_URL)
             setContentValidator()
         }
     }

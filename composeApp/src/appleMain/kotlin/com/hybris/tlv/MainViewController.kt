@@ -7,8 +7,6 @@ import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.firestore.IosFirestore
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.Dispatchers
-import com.hybris.tlv.http.client.HttpClientFactory
-import com.hybris.tlv.http.client.IosHttpClientFactory
 import com.hybris.tlv.locale.IosLocale
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.storage.IosLocalConfig
@@ -38,9 +36,6 @@ private val firestore: Firestore by lazy {
 private val sqlDriver: SqlDriver by lazy {
     createSqlDriver()
 }
-private val httpClientFactory: HttpClientFactory by lazy {
-    IosHttpClientFactory()
-}
 private val useCases: UseCases by lazy {
     Gateways(
         dispatcher = dispatcher,
@@ -49,7 +44,6 @@ private val useCases: UseCases by lazy {
         remoteConfig = remoteConfig,
         firestore = firestore,
         sqlDriver = sqlDriver,
-        httpClientFactory = httpClientFactory
     )
 }
 

@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.earth.remote
 
-import com.hybris.tlv.http.request.QueryMap
+import com.hybris.tlv.http.QueryMap
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.earth.model.Catastrophe

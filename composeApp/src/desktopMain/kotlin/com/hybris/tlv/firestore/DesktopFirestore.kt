@@ -2,7 +2,7 @@ package com.hybris.tlv.firestore
 
 import com.hybris.tlv.firestore.result.FirestoreReadResult
 import com.hybris.tlv.firestore.result.FirestoreWriteResult
-import com.hybris.tlv.http.request.QueryMap
+import com.hybris.tlv.http.QueryMap
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

@@ -1,10 +1,9 @@
-package com.hybris.tlv.http.client
+package com.hybris.tlv.http
 
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.serializer.json
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
-import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.HttpTimeoutConfig
 import io.ktor.client.plugins.cache.HttpCache
@@ -12,10 +11,9 @@ import io.ktor.client.plugins.compression.ContentEncoding
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 
-internal const val EXOPLANET_ARCHIVE_URL = "exoplanetarchive.ipac.caltech.edu"
+internal const val EXOPLANET_ARCHIVE_URL = "exoplanetarchive.ipac.caltech.edu/TAP/sync"
 internal fun <T: HttpClientEngineConfig> HttpClientConfig<T>.setLogging() {
     install(plugin = Logging) {
         logger = object: io.ktor.client.plugins.logging.Logger {
@@ -24,15 +22,6 @@ internal fun <T: HttpClientEngineConfig> HttpClientConfig<T>.setLogging() {
             }
         }
         level = LogLevel.INFO
-    }
-}
-
-internal fun <T: HttpClientEngineConfig> HttpClientConfig<T>.setRequestUrl(url: String) {
-    install(plugin = DefaultRequest) {
-        url {
-            protocol = URLProtocol.HTTPS
-            host = url
-        }
     }
 }
 

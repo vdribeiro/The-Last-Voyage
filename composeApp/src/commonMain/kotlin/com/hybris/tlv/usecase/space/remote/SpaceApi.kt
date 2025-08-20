@@ -3,8 +3,8 @@ package com.hybris.tlv.usecase.space.remote
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.firestore.result.FirestoreReadResult
 import com.hybris.tlv.firestore.result.FirestoreWriteResult
-import com.hybris.tlv.http.client.HttpClient
-import com.hybris.tlv.http.request.QueryMap
+import com.hybris.tlv.http.EXOPLANET_ARCHIVE_URL
+import com.hybris.tlv.http.QueryMap
 import com.hybris.tlv.http.request.Request
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.serializer.json
@@ -19,13 +19,20 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.remote.json.ExoplanetJson
 import com.hybris.tlv.usecase.space.remote.json.StellarHostJson
 import com.hybris.tlv.usecase.space.remote.result.ExoplanetsResult
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.client.request.url
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
+import io.ktor.http.encodeURLPath
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 
 internal class SpaceApi(
-    private val exoplanetHttpClient: HttpClient,
+    private val httpClient: HttpClient,
     private val firestore: Firestore
 ): SpaceRemote {
 
@@ -52,15 +59,17 @@ internal class SpaceApi(
                 "+from+stellarhosts" +
                 "+order+by+${StellarHostJson.STELLAR_HOST_NAME}+asc" +
                 "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
-        val request = Request(
-            path = "TAP/sync",
-            queryMap = QueryMap().apply {
-                set(key = "query", value = query)
-                set(key = "format", value = "json")
-            }
-        )
-        val response = exoplanetHttpClient.get<String>(request = request)
-        val json = json.decodeFromString<List<StellarHostJson>>(string = response.body)
+        val queryMap = QueryMap().apply {
+            set(key = "query", value = query)
+            set(key = "format", value = "json")
+        }
+        val response = httpClient.get {
+            url(path = EXOPLANET_ARCHIVE_URL.encodeURLPath())
+            contentType(type = ContentType.Application.Json)
+            queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
+        }.call.body<String>()
+
+        val json = json.decodeFromString<List<StellarHostJson>>(string = response)
         ExoplanetsResult.Success(stellarHosts = json.map { it.toStellarHost() }, planets = emptyList())
     }.getOrElse {
         Logger.error(tag = TAG, message = it.message.orEmpty())
@@ -102,15 +111,16 @@ internal class SpaceApi(
                 "+from+pscomppars" +
                 "+order+by+${ExoplanetJson.PLANET_NAME}+asc" +
                 "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
-        val request = Request(
-            path = "TAP/sync",
-            queryMap = QueryMap().apply {
-                set(key = "query", value = query)
-                set(key = "format", value = "json")
-            }
-        )
-        val response = exoplanetHttpClient.get<String>(request = request)
-        val json = json.decodeFromString<List<ExoplanetJson>>(string = response.body)
+        val queryMap = QueryMap().apply {
+            set(key = "query", value = query)
+            set(key = "format", value = "json")
+        }
+        val response = httpClient.get {
+            url(path = EXOPLANET_ARCHIVE_URL.encodeURLPath())
+            contentType(type = ContentType.Application.Json)
+            queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
+        }.call.body<String>()
+        val json = json.decodeFromString<List<ExoplanetJson>>(string = response)
         ExoplanetsResult.Success(stellarHosts = json.map { it.toStellarHost() }, planets = json.map { it.toPlanet() })
     }.getOrElse {
         Logger.error(tag = TAG, message = it.message.orEmpty())
@@ -153,15 +163,16 @@ internal class SpaceApi(
                 "+from+k2pandc" +
                 "+order+by+${ExoplanetJson.PLANET_NAME}+asc" +
                 "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
-        val request = Request(
-            path = "TAP/sync",
-            queryMap = QueryMap().apply {
-                set(key = "query", value = query)
-                set(key = "format", value = "json")
-            }
-        )
-        val response = exoplanetHttpClient.get<String>(request = request)
-        val json = json.decodeFromString<List<ExoplanetJson>>(string = response.body)
+        val queryMap = QueryMap().apply {
+            set(key = "query", value = query)
+            set(key = "format", value = "json")
+        }
+        val response = httpClient.get {
+            url(path = EXOPLANET_ARCHIVE_URL.encodeURLPath())
+            contentType(type = ContentType.Application.Json)
+            queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
+        }.call.body<String>()
+        val json = json.decodeFromString<List<ExoplanetJson>>(string = response)
         ExoplanetsResult.Success(stellarHosts = json.map { it.toStellarHost() }, planets = json.map { it.toPlanet() })
     }.getOrElse {
         Logger.error(tag = TAG, message = it.message.orEmpty())

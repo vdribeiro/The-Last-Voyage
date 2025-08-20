@@ -8,10 +8,7 @@ import com.hybris.tlv.firestore.CommonFirestore
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.CommonDispatchers
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.client.CommonHttpClientFactory
-import com.hybris.tlv.http.client.ExoPlanetHttpClient
-import com.hybris.tlv.http.client.HttpClient
-import com.hybris.tlv.http.client.HttpClientFactory
+import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.locale.CommonLocale
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.storage.CommonLocalConfig
@@ -67,7 +64,7 @@ import com.hybris.tlv.usecase.translation.local.TranslationLocal
 import com.hybris.tlv.usecase.translation.remote.TranslationApi
 import com.hybris.tlv.usecase.translation.remote.TranslationRemote
 import database.AppDatabase
-import io.ktor.client.HttpClient as KtorHttpClient
+import io.ktor.client.HttpClient
 
 internal class Mock(
     val dispatcher: Dispatcher = CommonDispatchers(),
@@ -76,10 +73,8 @@ internal class Mock(
     val remoteConfig: RemoteConfig = CommonRemoteConfig(),
     val firestore: Firestore = CommonFirestore(),
     val sqlDriver: SqlDriver = createSqlDriver(inMemory = true),
-    val httpClientFactory: HttpClientFactory = CommonHttpClientFactory(),
     val database: AppDatabase = Database(driver = sqlDriver).database,
-    val httpClient: KtorHttpClient = httpClientFactory.buildExoplanetHttpClient(),
-    val exoplanetHttpClient: HttpClient = ExoPlanetHttpClient(httpClient = httpClient),
+    val httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
     val translationDao: TranslationLocal = TranslationDao(database = database),
     val earthDao: EarthLocal = EarthDao(database = database),
     val shipDao: ShipLocal = ShipDao(database = database),
@@ -92,7 +87,7 @@ internal class Mock(
     val earthApi: EarthRemote = EarthApi(firestore = firestore),
     val shipApi: ShipRemote = ShipApi(firestore = firestore),
     val spaceApi: SpaceRemote = SpaceApi(
-        exoplanetHttpClient = exoplanetHttpClient,
+        httpClient = httpClient,
         firestore = firestore
     ),
     val eventApi: EventRemote = EventApi(firestore = firestore),
@@ -135,10 +130,8 @@ internal class Mock(
         remoteConfig = remoteConfig,
         firestore = firestore,
         sqlDriver = sqlDriver,
-        httpClientFactory = httpClientFactory,
         database = database,
         httpClient = httpClient,
-        exoplanetHttpClient = exoplanetHttpClient,
         translationDao = translationDao,
         earthDao = earthDao,
         shipDao = shipDao,

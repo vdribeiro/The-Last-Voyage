@@ -13,8 +13,6 @@ import com.hybris.tlv.firestore.DesktopFirestore
 import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.Dispatchers
-import com.hybris.tlv.http.client.DesktopHttpClientFactory
-import com.hybris.tlv.http.client.HttpClientFactory
 import com.hybris.tlv.locale.DesktopLocale
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.storage.DesktopLocalConfig
@@ -45,9 +43,6 @@ private val firestore: Firestore by lazy {
 private val sqlDriver: SqlDriver by lazy {
     createSqlDriver()
 }
-private val httpClientFactory: HttpClientFactory by lazy {
-    DesktopHttpClientFactory()
-}
 private val useCases: UseCases by lazy {
     Gateways(
         dispatcher = dispatcher,
@@ -56,7 +51,6 @@ private val useCases: UseCases by lazy {
         remoteConfig = remoteConfig,
         firestore = firestore,
         sqlDriver = sqlDriver,
-        httpClientFactory = httpClientFactory
     )
 }
 
