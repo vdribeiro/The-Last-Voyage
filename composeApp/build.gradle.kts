@@ -88,12 +88,14 @@ kotlin {
     }
 }
 
+val appId: String = libs.versions.applicationId.get()
+
 android {
-    namespace = libs.versions.applicationId.get()
+    namespace = appId
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = libs.versions.applicationId.get()
+        applicationId = appId
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -130,14 +132,14 @@ tasks.withType<Test> {
 
 compose.desktop {
     application {
-        mainClass = libs.versions.applicationId.get() + ".MainKt"
+        mainClass = "$appId.MainKt"
         jvmArgs += "--enable-native-access=ALL-UNNAMED"
 
         nativeDistributions {
             packageName = "The Last Voyage"
             packageVersion = "1.0.0"
             description = "A Compose Multiplatform adventure."
-            vendor = libs.versions.applicationId.get()
+            vendor = appId
 
             targetFormats(
                 TargetFormat.Dmg,
@@ -163,6 +165,35 @@ sqldelight {
         create("AppDatabase") {
             packageName.set("database")
             schemaOutputDirectory.set(file(path = "${project.projectDir}/src/commonMain/sqldelight/schema"))
+        }
+    }
+}
+
+kover {
+    reports {
+        total {
+            html {
+                onCheck = true
+            }
+
+            log {
+                onCheck = true
+            }
+
+            verify {
+                onCheck = true
+                //rule {
+                //    bound {
+                //        minValue = 80
+                //    }
+                //}
+            }
+
+            filters {
+                excludes {
+                    annotatedBy("kotlinx.serialization.Serializable")
+                }
+            }
         }
     }
 }

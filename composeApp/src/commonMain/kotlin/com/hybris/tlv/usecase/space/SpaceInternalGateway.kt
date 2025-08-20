@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.space
 
 import com.hybris.tlv.http.request.QueryMap
-import com.hybris.tlv.serializer.json
+import com.hybris.tlv.serializer.JsonSerializer.json
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.storage.saveFile
 import com.hybris.tlv.usecase.Result

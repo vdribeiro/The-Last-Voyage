@@ -29,6 +29,7 @@ internal class GameSessionUseCasesTest {
         assertNotNull(actual = latestGameSession)
         val gameSessionFromPrototype = gameSession.copy(
             id = latestGameSession.id,
+            utc = latestGameSession.utc,
             yearsTraveled = 0.0,
             integrity = 100,
             currentStellarHostId = null
