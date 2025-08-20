@@ -7,7 +7,7 @@ import com.hybris.tlv.http.client.HttpClient
 import com.hybris.tlv.http.request.QueryMap
 import com.hybris.tlv.http.request.Request
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.serializer.JsonSerializer.json
+import com.hybris.tlv.serializer.json
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.space.mapper.toPlanet

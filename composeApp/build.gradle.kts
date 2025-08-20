@@ -1,9 +1,6 @@
-import java.util.Properties
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.io.File
 
 plugins {
     alias(notation = libs.plugins.kotlinMultiplatform)
@@ -19,64 +16,11 @@ plugins {
 
 val appId: String = libs.versions.applicationId.get()
 
-val localPropertiesFile = rootProject.file("local.properties")
-val localPropertiesDir = layout.buildDirectory.dir("generated/secrets")
-
-tasks.register("generateLocalProperties") {
-    group = "build"
-
-    inputs.file(localPropertiesFile).optional()
-    inputs.property("appId", appId)
-
-    outputs.dir(localPropertiesDir)
-
-    doLast {
-        val currentAppId = inputs.properties["appId"] as String
-        val packageName = "$currentAppId.config"
-
-        val properties = Properties()
-        val inputFile = inputs.files.asFileTree.singleOrNull()
-        if (inputFile != null && inputFile.exists()) {
-            inputFile.inputStream().use { input ->
-                properties.load(input)
-            }
-        }
-
-        val supabaseUrl = properties.getProperty("SUPABASE_URL", "")
-        val supabaseKey = properties.getProperty("SUPABASE_KEY", "")
-
-        val outputDir = outputs.files.single()
-        val packageDir = File(outputDir, "kotlin/${packageName.replace(oldChar = '.', newChar = '/')}")
-        packageDir.mkdirs()
-
-        File(packageDir, "Config.kt").writeText(
-            """
-            package $packageName
-
-            internal object Config {
-                const val SUPABASE_URL: String = "$supabaseUrl"
-                const val SUPABASE_KEY: String = "$supabaseKey"
-            }
-            """.trimIndent()
-        )
-    }
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-    dependsOn("generateLocalProperties")
-}
-
 tasks.withType<Test> {
     jvmArgs("--enable-native-access=ALL-UNNAMED")
 }
 
 kotlin {
-    val appleList = listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    )
-
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
     }
@@ -97,7 +41,6 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {
-            kotlin.srcDir(localPropertiesDir.map { it.asFile.resolve(relative = "kotlin") })
             dependencies {
                 implementation(dependencyNotation = compose.runtime)
                 implementation(dependencyNotation = compose.foundation)
@@ -106,7 +49,6 @@ kotlin {
                 implementation(dependencyNotation = compose.components.resources)
                 implementation(dependencyNotation = compose.components.uiToolingPreview)
                 implementation(dependencyNotation = compose.materialIconsExtended)
-                implementation(dependencyNotation = project.dependencies.platform(libs.supabase.bom))
                 implementation(dependencyNotation = libs.bundles.common)
             }
         }
@@ -137,6 +79,11 @@ kotlin {
                 implementation(dependencyNotation = libs.bundles.ios)
             }
         }
+        val appleList = listOf(
+            iosX64(),
+            iosArm64(),
+            iosSimulatorArm64()
+        )
         appleList.forEach { iosTarget ->
             iosTarget.binaries.framework {
                 baseName = "TLV"

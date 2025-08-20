@@ -3,7 +3,7 @@ package com.hybris.tlv.usecase.achievement.mapper
 import com.hybris.tlv.database.AchievementSchema
 import com.hybris.tlv.http.getBoolean
 import com.hybris.tlv.http.getString
-import com.hybris.tlv.serializer.JsonSerializer.json
+import com.hybris.tlv.serializer.json
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
 import com.hybris.tlv.usecase.achievement.remote.AchievementApi.Companion.ACHIEVEMENTS_DESCRIPTION

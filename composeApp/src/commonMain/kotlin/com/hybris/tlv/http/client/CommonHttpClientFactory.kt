@@ -2,7 +2,7 @@ package com.hybris.tlv.http.client
 
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
-import com.hybris.tlv.serializer.JsonSerializer.json
+import com.hybris.tlv.serializer.json
 import com.hybris.tlv.usecase.space.mapper.toExoplanetJson
 import com.hybris.tlv.usecase.space.mapper.toStellarHostJson
 import io.ktor.client.HttpClient

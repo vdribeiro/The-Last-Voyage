@@ -17,7 +17,7 @@ val json = Json {
 }
 
 @Suppress("UNCHECKED_CAST")
-internal suspend fun <T> loadFromJson(path: String): List<T> =
+internal suspend inline fun <reified T> loadFromJson(path: String): List<T> =
     when (path) {
         "files/translations.json" -> translations
         "files/catastrophes.json" -> catastrophes
