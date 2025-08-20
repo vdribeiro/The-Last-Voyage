@@ -3,6 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.File
 
 plugins {
     alias(notation = libs.plugins.kotlinMultiplatform)
@@ -18,25 +19,37 @@ plugins {
 
 val appId: String = libs.versions.applicationId.get()
 
-val localProperties: Properties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
-if (localPropertiesFile.exists()) localPropertiesFile.inputStream().use { input -> localProperties.load(input) }
 val localPropertiesDir = layout.buildDirectory.dir("generated/secrets")
 
 tasks.register("generateLocalProperties") {
     group = "build"
 
+    inputs.file(localPropertiesFile).optional()
+    inputs.property("appId", appId)
+
     outputs.dir(localPropertiesDir)
 
     doLast {
-        val packageName = "$appId.config"
-        val packageDir = file(path = "$localPropertiesDir/kotlin/${packageName.replace(oldChar = '.', newChar = '/')}")
+        val currentAppId = inputs.properties["appId"] as String
+        val packageName = "$currentAppId.config"
+
+        val properties = Properties()
+        val inputFile = inputs.files.asFileTree.singleOrNull()
+        if (inputFile != null && inputFile.exists()) {
+            inputFile.inputStream().use { input ->
+                properties.load(input)
+            }
+        }
+
+        val supabaseUrl = properties.getProperty("SUPABASE_URL", "")
+        val supabaseKey = properties.getProperty("SUPABASE_KEY", "")
+
+        val outputDir = outputs.files.single()
+        val packageDir = File(outputDir, "kotlin/${packageName.replace(oldChar = '.', newChar = '/')}")
         packageDir.mkdirs()
 
-        val supabaseUrl = localProperties.getProperty("SUPABASE_URL")
-        val supabaseKey = localProperties.getProperty("SUPABASE_KEY")
-
-        file("$packageDir/Config.kt").writeText(
+        File(packageDir, "Config.kt").writeText(
             """
             package $packageName
 
