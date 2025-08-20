@@ -27,7 +27,6 @@ internal class TranslationInternalGateway(
 
     override suspend fun syncTranslations(): Flow<SyncResult> =
         translationApi.getTranslations(queryMap = QueryMap().apply {
-            paginate = true
             limit = 1000
         }).map { result ->
             when (result) {

@@ -23,7 +23,6 @@ internal class EventInternalGateway(
 
     override suspend fun syncEvents(): Flow<SyncResult> =
         eventApi.getEvents(queryMap = QueryMap().apply {
-            paginate = true
             limit = 1000
         }).map { result ->
             when (result) {

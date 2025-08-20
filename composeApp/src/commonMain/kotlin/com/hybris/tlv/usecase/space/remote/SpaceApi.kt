@@ -5,7 +5,6 @@ import com.hybris.tlv.firestore.result.FirestoreReadResult
 import com.hybris.tlv.firestore.result.FirestoreWriteResult
 import com.hybris.tlv.http.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.QueryMap
-import com.hybris.tlv.http.request.Request
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.usecase.Result

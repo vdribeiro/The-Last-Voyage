@@ -23,7 +23,6 @@ internal class AchievementInternalGateway(
 
     override suspend fun syncAchievements(): Flow<SyncResult> =
         achievementApi.getAchievements(queryMap = QueryMap().apply {
-            paginate = true
             limit = 1000
         }).map { result ->
             when (result) {

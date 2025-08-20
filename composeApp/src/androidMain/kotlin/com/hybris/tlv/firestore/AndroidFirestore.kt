@@ -7,8 +7,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.hybris.tlv.firestore.result.FirestoreReadResult
 import com.hybris.tlv.firestore.result.FirestoreWriteResult
-import com.hybris.tlv.http.getString
 import com.hybris.tlv.http.QueryMap
+import com.hybris.tlv.http.getString
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -36,7 +36,7 @@ internal class AndroidFirestore: Firestore {
 
         val allDocuments = mutableListOf<Map<String, Any>>()
         var lastVisibleDocument: DocumentSnapshot? = null
-        var paginate = queryMap.paginate == true
+        var paginate: Boolean
         val limit = queryMap.limit ?: Long.MAX_VALUE
         var query: Query = firestore.collection(collection).apply {
             orderBy(FieldPath.documentId())
@@ -57,7 +57,7 @@ internal class AndroidFirestore: Firestore {
             allDocuments.addAll(elements = documentsInBatch)
             lastVisibleDocument = documents.lastOrNull()
 
-            if (paginate) paginate = documents.size >= limit
+            paginate = documents.size >= limit
             if (paginate) emit(FirestoreReadResult.PartialSuccess(documents = documentsInBatch, totalDocuments = totalDocuments))
             else emit(value = FirestoreReadResult.Success(documents = allDocuments))
         } while (paginate)

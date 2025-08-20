@@ -23,7 +23,6 @@ internal class CreditInternalGateway(
 
     override suspend fun syncCredits(): Flow<SyncResult> =
         creditApi.getCredits(queryMap = QueryMap().apply {
-            paginate = true
             limit = 1000
         }).map { result ->
             when (result) {

@@ -23,7 +23,6 @@ internal class EarthInternalGateway(
 
     override suspend fun syncCatastrophes(): Flow<SyncResult> =
         earthApi.getCatastrophes(queryMap = QueryMap().apply {
-            paginate = true
             limit = 1000
         }).map { result ->
             when (result) {

@@ -111,7 +111,6 @@ internal class SpaceInternalGateway(
 
     override suspend fun syncStellarHosts(): Flow<SyncResult> =
         spaceApi.getStellarHosts(queryMap = QueryMap().apply {
-            paginate = true
             limit = 1000
         }).map { result ->
             when (result) {
@@ -134,7 +133,6 @@ internal class SpaceInternalGateway(
 
     override suspend fun syncPlanets(): Flow<SyncResult> =
         spaceApi.getPlanets(queryMap = QueryMap().apply {
-            paginate = true
             limit = 1000
         }).map { result ->
             when (result) {

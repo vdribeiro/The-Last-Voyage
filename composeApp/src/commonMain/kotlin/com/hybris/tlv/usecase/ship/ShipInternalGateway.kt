@@ -23,7 +23,6 @@ internal class ShipInternalGateway(
 
     override suspend fun syncEngines(): Flow<SyncResult> =
         shipApi.getEngines(queryMap = QueryMap().apply {
-            paginate = true
             limit = 1000
         }).map { result ->
             when (result) {
