@@ -21,7 +21,7 @@ internal class GameSessionUseCasesTest {
     }
 
     @Test
-    fun  `write and get game sessions`() = runBlocking {
+    fun `write and get game sessions`() = runBlocking {
         assertNull(actual = mock.useCases.gameSession.getLatestGameSession())
         assertTrue(actual = mock.useCases.gameSession.getGameSessions().isEmpty())
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)

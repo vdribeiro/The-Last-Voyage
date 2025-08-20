@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase.translation
 
 import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.translations
-import com.hybris.tlv.usecase.translation.TranslationCache.DEFAULT_LANGUAGE
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
