@@ -8,6 +8,7 @@ import com.hybris.tlv.mock.events
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.mock.translations
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 
 val json = Json {
@@ -17,7 +18,7 @@ val json = Json {
 }
 
 @Suppress("UNCHECKED_CAST")
-internal suspend inline fun <reified T> loadFromJson(path: String): List<T> =
+private suspend fun <T> loadFromJsonShadowing(path: String, serializer: KSerializer<List<T>>): List<T> =
     when (path) {
         "files/translations.json" -> translations
         "files/catastrophes.json" -> catastrophes
