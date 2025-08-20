@@ -1,6 +1,8 @@
+import java.util.Properties
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(notation = libs.plugins.kotlinMultiplatform)
@@ -14,7 +16,54 @@ plugins {
     alias(notation = libs.plugins.crashlytics)
 }
 
+val appId: String = libs.versions.applicationId.get()
+
+val localProperties: Properties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) localPropertiesFile.inputStream().use { input -> localProperties.load(input) }
+val localPropertiesDir = layout.buildDirectory.dir("generated/secrets")
+
+tasks.register("generateLocalProperties") {
+    group = "build"
+
+    outputs.dir(localPropertiesDir)
+
+    doLast {
+        val packageName = "$appId.config"
+        val packageDir = file(path = "$localPropertiesDir/kotlin/${packageName.replace(oldChar = '.', newChar = '/')}")
+        packageDir.mkdirs()
+
+        val supabaseUrl = localProperties.getProperty("SUPABASE_URL")
+        val supabaseKey = localProperties.getProperty("SUPABASE_KEY")
+
+        file("$packageDir/Config.kt").writeText(
+            """
+            package $packageName
+
+            internal object Config {
+                const val SUPABASE_URL: String = "$supabaseUrl"
+                const val SUPABASE_KEY: String = "$supabaseKey"
+            }
+            """.trimIndent()
+        )
+    }
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    dependsOn("generateLocalProperties")
+}
+
+tasks.withType<Test> {
+    jvmArgs("--enable-native-access=ALL-UNNAMED")
+}
+
 kotlin {
+    val appleList = listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    )
+
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
     }
@@ -35,6 +84,7 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {
+            kotlin.srcDir(localPropertiesDir.map { it.asFile.resolve(relative = "kotlin") })
             dependencies {
                 implementation(dependencyNotation = compose.runtime)
                 implementation(dependencyNotation = compose.foundation)
@@ -68,11 +118,6 @@ kotlin {
             }
         }
 
-        val appleList = listOf(
-            iosX64(),
-            iosArm64(),
-            iosSimulatorArm64()
-        )
         val appleMain by creating {
             dependsOn(other = commonMain)
             dependencies {
@@ -89,7 +134,9 @@ kotlin {
     }
 }
 
-val appId: String = libs.versions.applicationId.get()
+dependencies {
+    debugImplementation(compose.uiTooling)
+}
 
 android {
     namespace = appId
@@ -121,14 +168,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-}
-
-dependencies {
-    debugImplementation(compose.uiTooling)
-}
-
-tasks.withType<Test> {
-    jvmArgs("--enable-native-access=ALL-UNNAMED")
 }
 
 compose.desktop {

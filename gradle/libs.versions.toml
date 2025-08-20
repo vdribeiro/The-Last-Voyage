@@ -66,7 +66,6 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
 supabase-bom = { group = "io.github.jan-tennert.supabase", name = "bom", version.ref = "supabase" }
-supabase-auth = { group = "io.github.jan-tennert.supabase", name = "auth-kt" }
 supabase-postgrest = { group = "io.github.jan-tennert.supabase", name = "postgrest-kt" }
 compose-backhandler = { group = "org.jetbrains.compose.ui", name = "ui-backhandler", version.ref = "compose-backhandler" }
 androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "android-startup" }
@@ -89,7 +88,6 @@ common = [
     "sqldelight-runtime",
     "sqldelight-primitives",
     "sqldelight-coroutines",
-    "supabase-auth",
     "supabase-postgrest",
     "kotlinx-serialization",
     "kotlinx-datetime",
