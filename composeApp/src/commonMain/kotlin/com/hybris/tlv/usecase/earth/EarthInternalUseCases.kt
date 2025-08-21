@@ -7,14 +7,9 @@ import kotlinx.coroutines.flow.Flow
 internal interface EarthInternalUseCases {
 
     /**
-     * Rewrites the local and remote [Catastrophe] data.
-     */
-    suspend fun rewriteCatastrophes(): Flow<SyncResult>
-
-    /**
      * Syncs the remote [Catastrophe] data to local.
      */
-    suspend fun syncCatastrophes(): Flow<SyncResult>
+    suspend fun syncCatastrophes(): SyncResult
 
     /**
      * Prepopulate local [Catastrophe].

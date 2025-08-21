@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 internal sealed interface SyncResult {
     data object Success: SyncResult
+    data class Loading(val progress: Float, val total: Float): SyncResult
     data class Error(val error: String): SyncResult
 }
 

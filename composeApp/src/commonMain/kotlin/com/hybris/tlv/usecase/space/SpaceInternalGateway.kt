@@ -97,59 +97,29 @@ internal class SpaceInternalGateway(
         return ExoplanetsResult.Success(stellarHosts = stellarHosts, planets = planets)
     }
 
-    override suspend fun rewriteStellarHosts(): Flow<SyncResult> {
-        val stellarHosts: List<StellarHost> = loadFromJson(path = "files/hosts.json")
-        spaceDao.rewriteStellarHosts(stellarHosts = stellarHosts)
-        return spaceApi.rewriteStellarHosts(stellarHosts = stellarHosts)
-    }
+    override suspend fun syncStellarHosts(): SyncResult =
+        when (val result = spaceApi.getStellarHosts()) {
+            is Result.Error -> {
+                prepopulateStellarHosts()
+                SyncResult.Error(error = result.error)
+            }
 
-    override suspend fun rewritePlanets(): Flow<SyncResult> {
-        val planets: List<Planet> = loadFromJson(path = "files/planets.json")
-        spaceDao.rewritePlanets(planets = planets)
-        return spaceApi.rewritePlanets(planets = planets)
-    }
-
-    override suspend fun syncStellarHosts(): Flow<SyncResult> =
-        spaceApi.getStellarHosts(queryMap = QueryMap().apply {
-            limit = 1000
-        }).map { result ->
-            when (result) {
-                is Result.Error -> {
-                    prepopulateStellarHosts()
-                    SyncResult.Error(error = result.error)
-                }
-
-                is Result.PartialSuccess -> SyncResult.Loading(
-                    progress = result.list.size.toFloat(),
-                    total = result.total.toFloat()
-                )
-
-                is Result.Success -> {
-                    spaceDao.rewriteStellarHosts(stellarHosts = result.list)
-                    SyncResult.Success
-                }
+            is Result.Success -> {
+                spaceDao.rewriteStellarHosts(stellarHosts = result.list)
+                SyncResult.Success
             }
         }
 
-    override suspend fun syncPlanets(): Flow<SyncResult> =
-        spaceApi.getPlanets(queryMap = QueryMap().apply {
-            limit = 1000
-        }).map { result ->
-            when (result) {
-                is Result.Error -> {
-                    prepopulatePlanets()
-                    SyncResult.Error(error = result.error)
-                }
+    override suspend fun syncPlanets(): SyncResult =
+        when (val result = spaceApi.getPlanets()) {
+            is Result.Error -> {
+                prepopulatePlanets()
+                SyncResult.Error(error = result.error)
+            }
 
-                is Result.PartialSuccess -> SyncResult.Loading(
-                    progress = result.list.size.toFloat(),
-                    total = result.total.toFloat()
-                )
-
-                is Result.Success -> {
-                    spaceDao.rewritePlanets(planets = result.list)
-                    SyncResult.Success
-                }
+            is Result.Success -> {
+                spaceDao.rewritePlanets(planets = result.list)
+                SyncResult.Success
             }
         }
 

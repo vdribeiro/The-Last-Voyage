@@ -16,11 +16,6 @@ internal interface SyncUseCases {
     suspend fun getArchive(): Flow<SyncResult>
 
     /**
-     * Rewrites all local and remote data.
-     */
-    suspend fun rewrite(): Flow<SyncResult>
-
-    /**
      * Syncs all the remote data to local.
      */
     suspend fun sync(): Flow<SyncResult>

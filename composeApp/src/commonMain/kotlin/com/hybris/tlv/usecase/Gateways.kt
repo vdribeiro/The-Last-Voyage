@@ -91,16 +91,13 @@ internal class Gateways(
     gameSessionDao: GameSessionLocal = GameSessionDao(database = database),
     achievementDao: AchievementLocal = AchievementDao(database = database),
     creditDao: CreditLocal = CreditDao(database = database),
-    translationApi: TranslationRemote = TranslationApi(firestore = firestore),
-    earthApi: EarthRemote = EarthApi(firestore = firestore),
-    shipApi: ShipRemote = ShipApi(firestore = firestore),
-    spaceApi: SpaceRemote = SpaceApi(
-        httpClient = httpClient,
-        firestore = firestore
-    ),
-    eventApi: EventRemote = EventApi(firestore = firestore),
-    achievementApi: AchievementRemote = AchievementApi(firestore = firestore),
-    creditApi: CreditRemote = CreditApi(firestore = firestore),
+    translationApi: TranslationRemote = TranslationApi(httpClient = httpClient),
+    earthApi: EarthRemote = EarthApi(httpClient = httpClient),
+    shipApi: ShipRemote = ShipApi(httpClient = httpClient),
+    spaceApi: SpaceRemote = SpaceApi(httpClient = httpClient),
+    eventApi: EventRemote = EventApi(httpClient = httpClient),
+    achievementApi: AchievementRemote = AchievementApi(httpClient = httpClient),
+    creditApi: CreditRemote = CreditApi(httpClient = httpClient),
     internalTranslation: TranslationInternalUseCases = TranslationInternalGateway(
         dispatcher = dispatcher,
         translationApi = translationApi,
