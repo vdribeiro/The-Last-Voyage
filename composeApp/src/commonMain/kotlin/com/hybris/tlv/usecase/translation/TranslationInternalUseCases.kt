@@ -2,19 +2,13 @@ package com.hybris.tlv.usecase.translation
 
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.translation.model.domain.Translation
-import kotlinx.coroutines.flow.Flow
 
 internal interface TranslationInternalUseCases {
 
     /**
-     * Rewrites the local and remote [Translation] data.
-     */
-    suspend fun rewriteTranslations(): Flow<SyncResult>
-
-    /**
      * Syncs the remote [Translation] data to local.
      */
-    suspend fun syncTranslations(): Flow<SyncResult>
+    suspend fun syncTranslations(): SyncResult
 
     /**
      * Prepopulate local [Translation].

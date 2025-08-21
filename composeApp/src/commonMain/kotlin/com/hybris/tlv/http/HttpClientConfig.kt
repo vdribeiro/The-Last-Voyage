@@ -14,6 +14,23 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 
 internal const val EXOPLANET_ARCHIVE_URL = "exoplanetarchive.ipac.caltech.edu/TAP/sync"
+internal const val TRANSLATIONS_URL =
+    "https://gist.githubusercontent.com/vdribeiro/ee90422f18613d8702a975719b9dee6f/raw/a95b799477d051021fb212d37f1eef108ffb30d4/translations.json"
+internal const val CATASTROPHES_URL =
+    "https://gist.githubusercontent.com/vdribeiro/27258c022708a20066f793996031d884/raw/551592f492ed0d1726e8e570232e2771e6011fa4/catastrophes.json"
+internal const val ENGINES_URL =
+    "https://gist.githubusercontent.com/vdribeiro/4168f14c15569dd6dd4a57af4ee37a99/raw/c43fea2cd4bbfcbbd42daa247d4d844671439622/engines.json"
+internal const val STELLAR_HOSTS_URL =
+    "https://gist.githubusercontent.com/vdribeiro/7e0ccc933aa6826bf1f427aa036f5793/raw/09df3493670cb24bfade6ae4a440afe61f62b68c/hosts.json"
+internal const val PLANETS_URL =
+    "https://gist.githubusercontent.com/vdribeiro/95146e01cd2b5c322a5e49ee4b9e3261/raw/7b57429663f891d8434197b34f49525e35faf4e5/planets.json"
+internal const val EVENTS_URL =
+    "https://gist.githubusercontent.com/vdribeiro/c2cf6a30e9be34c512f77ceea583bc71/raw/1df8ea3140695bcd47150739ae0bae47adee60c4/events.json"
+internal const val ACHIEVEMENTS_URL =
+    "https://gist.githubusercontent.com/vdribeiro/bf676c0c196c64ed40a7a1e7635035ea/raw/10a9fce6f794c7b6f81f1c85be00fdb3e718b8dc/achievements.json"
+internal const val CREDITS_URL =
+    "https://gist.githubusercontent.com/vdribeiro/a0dd7e6766e8bb40d1028a62d4d8f941/raw/0f0d1b6426d9c62f116b55d0e3d00e984d501fc1/credits.json"
+
 internal fun <T: HttpClientEngineConfig> HttpClientConfig<T>.setLogging() {
     install(plugin = Logging) {
         logger = object: io.ktor.client.plugins.logging.Logger {

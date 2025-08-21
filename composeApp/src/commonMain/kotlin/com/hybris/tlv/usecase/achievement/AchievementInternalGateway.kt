@@ -1,45 +1,27 @@
 package com.hybris.tlv.usecase.achievement
 
-import com.hybris.tlv.http.QueryMap
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.achievement.local.AchievementLocal
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.remote.AchievementRemote
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 internal class AchievementInternalGateway(
     private val achievementApi: AchievementRemote,
     private val achievementDao: AchievementLocal
 ): AchievementInternalUseCases {
 
-    override suspend fun rewriteAchievements(): Flow<SyncResult> {
-        val achievements: List<Achievement> = loadFromJson(path = "files/achievements.json")
-        achievementDao.rewriteAchievements(achievements = achievements)
-        return achievementApi.rewriteAchievements(achievements = achievements)
-    }
+    override suspend fun syncAchievements(): SyncResult =
+        when (val result = achievementApi.getAchievements()) {
+            is Result.Error -> {
+                prepopulateAchievements()
+                SyncResult.Error(error = result.error)
+            }
 
-    override suspend fun syncAchievements(): Flow<SyncResult> =
-        achievementApi.getAchievements(queryMap = QueryMap().apply {
-            limit = 1000
-        }).map { result ->
-            when (result) {
-                is Result.Error -> {
-                    prepopulateAchievements()
-                    SyncResult.Error(error = result.error)
-                }
-
-                is Result.PartialSuccess -> SyncResult.Loading(
-                    progress = result.list.size.toFloat(),
-                    total = result.total.toFloat()
-                )
-
-                is Result.Success -> {
-                    achievementDao.rewriteAchievements(achievements = result.list)
-                    SyncResult.Success
-                }
+            is Result.Success -> {
+                achievementDao.rewriteAchievements(achievements = result.list)
+                SyncResult.Success
             }
         }
 

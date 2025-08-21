@@ -1,45 +1,27 @@
 package com.hybris.tlv.usecase.event
 
-import com.hybris.tlv.http.QueryMap
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.event.local.EventLocal
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.event.remote.EventRemote
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 internal class EventInternalGateway(
     private val eventApi: EventRemote,
     private val eventDao: EventLocal
 ): EventInternalUseCases {
 
-    override suspend fun rewriteEvents(): Flow<SyncResult> {
-        val events: List<Event> = loadFromJson(path = "files/events.json")
-        eventDao.rewriteEvents(events = events)
-        return eventApi.rewriteEvents(events = events)
-    }
+    override suspend fun syncEvents(): SyncResult =
+        when (val result = eventApi.getEvents()) {
+            is Result.Error -> {
+                prepopulateEvents()
+                SyncResult.Error(error = result.error)
+            }
 
-    override suspend fun syncEvents(): Flow<SyncResult> =
-        eventApi.getEvents(queryMap = QueryMap().apply {
-            limit = 1000
-        }).map { result ->
-            when (result) {
-                is Result.Error -> {
-                    prepopulateEvents()
-                    SyncResult.Error(error = result.error)
-                }
-
-                is Result.PartialSuccess -> SyncResult.Loading(
-                    progress = result.list.size.toFloat(),
-                    total = result.total.toFloat()
-                )
-
-                is Result.Success -> {
-                    eventDao.rewriteEvents(events = result.list)
-                    SyncResult.Success
-                }
+            is Result.Success -> {
+                eventDao.rewriteEvents(events = result.list)
+                SyncResult.Success
             }
         }
 

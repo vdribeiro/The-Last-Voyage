@@ -1,45 +1,27 @@
 package com.hybris.tlv.usecase.ship
 
-import com.hybris.tlv.http.QueryMap
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.ship.local.ShipLocal
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.remote.ShipRemote
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 internal class ShipInternalGateway(
     private val shipApi: ShipRemote,
     private val shipDao: ShipLocal
 ): ShipInternalUseCases {
 
-    override suspend fun rewriteEngines(): Flow<SyncResult> {
-        val engines: List<Engine> = loadFromJson(path = "files/engines.json")
-        shipDao.rewriteEngines(engines = engines)
-        return shipApi.rewriteEngines(engines = engines)
-    }
+    override suspend fun syncEngines(): SyncResult =
+        when (val result = shipApi.getEngines()) {
+            is Result.Error -> {
+                prepopulateEngines()
+                SyncResult.Error(error = result.error)
+            }
 
-    override suspend fun syncEngines(): Flow<SyncResult> =
-        shipApi.getEngines(queryMap = QueryMap().apply {
-            limit = 1000
-        }).map { result ->
-            when (result) {
-                is Result.Error -> {
-                    prepopulateEngines()
-                    SyncResult.Error(error = result.error)
-                }
-
-                is Result.PartialSuccess -> SyncResult.Loading(
-                    progress = result.list.size.toFloat(),
-                    total = result.total.toFloat()
-                )
-
-                is Result.Success -> {
-                    shipDao.rewriteEngines(engines = result.list)
-                    SyncResult.Success
-                }
+            is Result.Success -> {
+                shipDao.rewriteEngines(engines = result.list)
+                SyncResult.Success
             }
         }
 
