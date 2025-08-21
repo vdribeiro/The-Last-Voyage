@@ -3,8 +3,6 @@ package com.hybris.tlv.usecase
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.database.Database
 import com.hybris.tlv.database.createSqlDriver
-import com.hybris.tlv.firestore.CommonFirestore
-import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.CommonDispatchers
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory
@@ -82,7 +80,6 @@ internal class Gateways(
     locale: Locale = CommonLocale(),
     localConfig: LocalConfig = CommonLocalConfig(),
     remoteConfig: RemoteConfig = CommonRemoteConfig(),
-    firestore: Firestore = CommonFirestore(),
     sqlDriver: SqlDriver = createSqlDriver(inMemory = true),
     database: AppDatabase = Database(driver = sqlDriver).database,
     httpClient: HttpClient = HttpClientFactory.buildHttpClient(),

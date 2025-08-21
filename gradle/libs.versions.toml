@@ -63,7 +63,6 @@ firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.r
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx" }
-firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
 compose-backhandler = { group = "org.jetbrains.compose.ui", name = "ui-backhandler", version.ref = "compose-backhandler" }
 androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "android-startup" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
@@ -102,7 +101,6 @@ android = [
     "firebase-analytics",
     "firebase-crashlytics",
     "firebase-config",
-    "firebase-firestore",
 ]
 ios = [
     "kotlin-ktor-darwin",

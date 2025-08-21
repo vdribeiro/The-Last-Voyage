@@ -4,8 +4,6 @@ import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.database.Database
 import com.hybris.tlv.database.createSqlDriver
-import com.hybris.tlv.firestore.CommonFirestore
-import com.hybris.tlv.firestore.Firestore
 import com.hybris.tlv.flow.CommonDispatchers
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory
@@ -71,7 +69,6 @@ internal class Mock(
     val locale: Locale = CommonLocale(),
     val localConfig: LocalConfig = CommonLocalConfig(),
     val remoteConfig: RemoteConfig = CommonRemoteConfig(),
-    val firestore: Firestore = CommonFirestore(),
     val sqlDriver: SqlDriver = createSqlDriver(inMemory = true),
     val database: AppDatabase = Database(driver = sqlDriver).database,
     val httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
