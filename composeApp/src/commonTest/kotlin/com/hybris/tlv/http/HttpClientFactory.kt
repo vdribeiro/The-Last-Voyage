@@ -17,13 +17,13 @@ import io.ktor.http.headersOf
 internal object HttpClientFactory {
 
     fun buildHttpClient(): HttpClient {
-        val mockEngine = MockEngine.Companion { request ->
+        val mockEngine = MockEngine { request ->
             when {
-                request.method == HttpMethod.Companion.Get -> {
-                    val path = request.url.encodedPath
+                request.method == HttpMethod.Get -> {
+                    val path = request.url.encodedPath.drop(n = 1)
                     val parameters = request.url.parameters.toString()
-                    when (path) {
-                        EXOPLANET_ARCHIVE_URL -> when {
+                    when {
+                        path.startsWith(prefix = EXOPLANET_ARCHIVE_URL) -> when {
                             parameters.contains(other = "from stellarhosts") -> {
                                 respond(
                                     headers = headersOf(name = HttpHeaders.ContentType, value = "application/json"),
@@ -44,19 +44,19 @@ internal object HttpClientFactory {
                             }
 
                             else -> respondError(
-                                status = HttpStatusCode.Companion.BadRequest,
+                                status = HttpStatusCode.BadRequest,
                                 content = "Resource query incorrect: ${request.url.encodedPath}"
                             )
                         }
 
                         else -> respondError(
-                            status = HttpStatusCode.Companion.NotFound,
+                            status = HttpStatusCode.NotFound,
                             content = "Resource not found for path: ${request.url.encodedPath}"
                         )
                     }
                 }
 
-                else -> respondError(status = HttpStatusCode.Companion.BadRequest, content = "Method not found: ${request.method}")
+                else -> respondError(status = HttpStatusCode.BadRequest, content = "Method not found: ${request.method}")
             }
         }
 
