@@ -2,8 +2,6 @@ package com.hybris.tlv.usecase.space.mapper
 
 import com.hybris.tlv.database.PlanetSchema
 import com.hybris.tlv.database.StellarHostSchema
-import com.hybris.tlv.http.getDouble
-import com.hybris.tlv.http.getString
 import com.hybris.tlv.usecase.space.formula.Constants.PARSEC
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY
 import com.hybris.tlv.usecase.space.model.CartesianPoint
@@ -11,39 +9,7 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.PlanetType
 import com.hybris.tlv.usecase.space.model.StellarHost
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_DENSITY
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_ECCENTRICITY
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_EQUILIBRIUM_TEMPERATURE
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_HOST_ID
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_ID
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_INCLINATION
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_INSOLATION_FLUX
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_MASS
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_NAME
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_OBLIQUITY
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_ORBITAL_PERIOD
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_ORBIT_AXIS
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_RADIUS
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.PLANET_STATUS
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_AGE
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_DEC
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_DENSITY
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_DISTANCE
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_GRAVITY
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_HOST_ID
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_HOST_NAME
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_LUMINOSITY
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_MASS
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_METALLICITY
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_RA
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_RADIUS
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_ROTATIONAL_PERIOD
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_ROTATIONAL_VELOCITY
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_SPECTRAL_TYPE
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_SYSTEM_NAME
-import com.hybris.tlv.usecase.space.remote.SpaceApi.Companion.STELLAR_HOST_TEMPERATURE
 import com.hybris.tlv.usecase.space.remote.json.ExoplanetJson
-import com.hybris.tlv.usecase.space.remote.json.ExoplanetJson.Companion.PLANET_OCCULTATION_DEPTH
 import com.hybris.tlv.usecase.space.remote.json.StellarHostJson
 import kotlin.math.PI
 import kotlin.math.cos
@@ -304,86 +270,6 @@ internal fun List<Planet>.mergePlanets(): List<Planet> =
             obliquity = group.mapNotNull { it.obliquity }.ifEmpty { null }?.average(),
         )
     }
-
-internal fun StellarHost.toStellarHostMap(): Map<String, Any> =
-    buildMap {
-        put(key = STELLAR_HOST_HOST_ID, value = id)
-        put(key = STELLAR_HOST_HOST_NAME, value = name)
-        systemName?.let { put(key = STELLAR_HOST_SYSTEM_NAME, value = it) }
-        spectralType?.let { put(key = STELLAR_HOST_SPECTRAL_TYPE, value = it) }
-        effectiveTemperature?.let { put(key = STELLAR_HOST_TEMPERATURE, value = it) }
-        radius?.let { put(key = STELLAR_HOST_RADIUS, value = it) }
-        mass?.let { put(key = STELLAR_HOST_MASS, value = it) }
-        metallicity?.let { put(key = STELLAR_HOST_METALLICITY, value = it) }
-        luminosity?.let { put(key = STELLAR_HOST_LUMINOSITY, value = it) }
-        gravity?.let { put(key = STELLAR_HOST_GRAVITY, value = it) }
-        age?.let { put(key = STELLAR_HOST_AGE, value = it) }
-        density?.let { put(key = STELLAR_HOST_DENSITY, value = it) }
-        rotationalVelocity?.let { put(key = STELLAR_HOST_ROTATIONAL_VELOCITY, value = it) }
-        rotationalPeriod?.let { put(key = STELLAR_HOST_ROTATIONAL_PERIOD, value = it) }
-        distance?.let { put(key = STELLAR_HOST_DISTANCE, value = it) }
-        ra?.let { put(key = STELLAR_HOST_RA, value = it) }
-        dec?.let { put(key = STELLAR_HOST_DEC, value = it) }
-    }
-
-internal fun Planet.toPlanetMap(): Map<String, Any> =
-    buildMap {
-        put(key = PLANET_ID, value = id)
-        put(key = PLANET_NAME, value = name)
-        put(key = PLANET_HOST_ID, value = stellarHostId)
-        put(key = PLANET_STATUS, value = status.name)
-        orbitalPeriod?.let { put(key = PLANET_ORBITAL_PERIOD, value = it) }
-        orbitAxis?.let { put(key = PLANET_ORBIT_AXIS, value = it) }
-        radius?.let { put(key = PLANET_RADIUS, value = it) }
-        mass?.let { put(key = PLANET_MASS, value = it) }
-        density?.let { put(key = PLANET_DENSITY, value = it) }
-        eccentricity?.let { put(key = PLANET_ECCENTRICITY, value = it) }
-        insolationFlux?.let { put(key = PLANET_INSOLATION_FLUX, value = it) }
-        equilibriumTemperature?.let { put(key = PLANET_EQUILIBRIUM_TEMPERATURE, value = it) }
-        occultationDepth?.let { put(key = PLANET_OCCULTATION_DEPTH, value = it) }
-        inclination?.let { put(key = PLANET_INCLINATION, value = it) }
-        obliquity?.let { put(key = PLANET_OBLIQUITY, value = it) }
-    }
-
-internal fun Map<String, Any>.toStellarHost(): StellarHost =
-    StellarHost(
-        id = getString(key = STELLAR_HOST_HOST_ID)!!,
-        name = getString(key = STELLAR_HOST_HOST_NAME)!!,
-        systemName = getString(key = STELLAR_HOST_SYSTEM_NAME),
-        spectralType = getString(key = STELLAR_HOST_SPECTRAL_TYPE),
-        effectiveTemperature = getDouble(key = STELLAR_HOST_TEMPERATURE),
-        radius = getDouble(key = STELLAR_HOST_RADIUS),
-        mass = getDouble(key = STELLAR_HOST_MASS),
-        metallicity = getDouble(key = STELLAR_HOST_METALLICITY),
-        luminosity = getDouble(key = STELLAR_HOST_LUMINOSITY),
-        gravity = getDouble(key = STELLAR_HOST_GRAVITY),
-        age = getDouble(key = STELLAR_HOST_AGE),
-        density = getDouble(key = STELLAR_HOST_DENSITY),
-        rotationalVelocity = getDouble(key = STELLAR_HOST_ROTATIONAL_VELOCITY),
-        rotationalPeriod = getDouble(key = STELLAR_HOST_ROTATIONAL_PERIOD),
-        distance = getDouble(key = STELLAR_HOST_DISTANCE),
-        ra = getDouble(key = STELLAR_HOST_RA),
-        dec = getDouble(key = STELLAR_HOST_DEC)
-    )
-
-internal fun Map<String, Any>.toPlanet(): Planet =
-    Planet(
-        id = getString(key = PLANET_ID)!!,
-        name = getString(key = PLANET_NAME)!!,
-        stellarHostId = getString(key = PLANET_HOST_ID)!!,
-        status = getString(key = PLANET_STATUS)?.let { PlanetStatus.valueOf(value = it) } ?: PlanetStatus.FALSE,
-        orbitalPeriod = getDouble(key = PLANET_ORBITAL_PERIOD),
-        orbitAxis = getDouble(key = PLANET_ORBIT_AXIS),
-        radius = getDouble(key = PLANET_RADIUS),
-        mass = getDouble(key = PLANET_MASS),
-        density = getDouble(key = PLANET_DENSITY),
-        eccentricity = getDouble(key = PLANET_ECCENTRICITY),
-        insolationFlux = getDouble(key = PLANET_INSOLATION_FLUX),
-        equilibriumTemperature = getDouble(key = PLANET_EQUILIBRIUM_TEMPERATURE),
-        occultationDepth = getDouble(key = PLANET_OCCULTATION_DEPTH),
-        inclination = getDouble(key = PLANET_INCLINATION),
-        obliquity = getDouble(key = PLANET_OBLIQUITY),
-    )
 
 internal fun StellarHost.toStellarHostSchema(): StellarHostSchema =
     StellarHostSchema(

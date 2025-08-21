@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.translation.remote
 
-import com.hybris.tlv.usecase.Result
+import com.hybris.tlv.http.Result
 import com.hybris.tlv.usecase.translation.model.domain.Translation
 
 internal interface TranslationRemote {

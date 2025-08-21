@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.earth
 
 import com.hybris.tlv.http.QueryMap
+import com.hybris.tlv.http.Result
 import com.hybris.tlv.serializer.loadFromJson
-import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.earth.local.EarthLocal
 import com.hybris.tlv.usecase.earth.model.Catastrophe

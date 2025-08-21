@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.event
 
+import com.hybris.tlv.http.Result
 import com.hybris.tlv.serializer.loadFromJson
-import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.event.local.EventLocal
 import com.hybris.tlv.usecase.event.model.Event

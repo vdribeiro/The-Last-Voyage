@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.event.remote
 
+import com.hybris.tlv.http.Result
 import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.events
-import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
 import kotlin.test.Test
 import kotlin.test.assertEquals

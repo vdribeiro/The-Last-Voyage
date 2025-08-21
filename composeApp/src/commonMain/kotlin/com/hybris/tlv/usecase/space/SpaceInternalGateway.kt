@@ -1,10 +1,10 @@
 package com.hybris.tlv.usecase.space
 
 import com.hybris.tlv.http.QueryMap
+import com.hybris.tlv.http.Result
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.storage.saveFile
-import com.hybris.tlv.usecase.Result
 import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.space.formula.DerivedData
 import com.hybris.tlv.usecase.space.local.SpaceLocal

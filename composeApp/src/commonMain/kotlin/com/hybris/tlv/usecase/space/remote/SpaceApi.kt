@@ -1,18 +1,14 @@
 package com.hybris.tlv.usecase.space.remote
 
-import com.hybris.tlv.firestore.Firestore
-import com.hybris.tlv.firestore.result.FirestoreReadResult
-import com.hybris.tlv.firestore.result.FirestoreWriteResult
 import com.hybris.tlv.http.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.QueryMap
+import com.hybris.tlv.http.Result
+import com.hybris.tlv.http.STELLAR_HOSTS_URL
+import com.hybris.tlv.http.getStream
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.serializer.json
-import com.hybris.tlv.usecase.Result
-import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.space.mapper.toPlanet
-import com.hybris.tlv.usecase.space.mapper.toPlanetMap
 import com.hybris.tlv.usecase.space.mapper.toStellarHost
-import com.hybris.tlv.usecase.space.mapper.toStellarHostMap
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.remote.json.ExoplanetJson
@@ -22,17 +18,10 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.url
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
 import io.ktor.http.encodeURLPath
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.map
 
 internal class SpaceApi(
     private val httpClient: HttpClient,
-    private val firestore: Firestore
 ): SpaceRemote {
 
     override suspend fun getStellarHostsArchive(queryMap: QueryMap): ExoplanetsResult = runCatching {
@@ -64,7 +53,6 @@ internal class SpaceApi(
         }
         val response = httpClient.get {
             url(path = EXOPLANET_ARCHIVE_URL.encodeURLPath())
-            contentType(type = ContentType.Application.Json)
             queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
         }.call.body<String>()
 
@@ -116,7 +104,6 @@ internal class SpaceApi(
         }
         val response = httpClient.get {
             url(path = EXOPLANET_ARCHIVE_URL.encodeURLPath())
-            contentType(type = ContentType.Application.Json)
             queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
         }.call.body<String>()
         val json = json.decodeFromString<List<ExoplanetJson>>(string = response)
@@ -168,7 +155,6 @@ internal class SpaceApi(
         }
         val response = httpClient.get {
             url(path = EXOPLANET_ARCHIVE_URL.encodeURLPath())
-            contentType(type = ContentType.Application.Json)
             queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
         }.call.body<String>()
         val json = json.decodeFromString<List<ExoplanetJson>>(string = response)
@@ -178,113 +164,13 @@ internal class SpaceApi(
         ExoplanetsResult.Error(error = it.message.orEmpty())
     }
 
-    override suspend fun rewriteStellarHosts(stellarHosts: List<StellarHost>): Flow<SyncResult> = runCatching {
-        firestore.removeCollection(collection = HOSTS).last()
-        firestore.setCollection(collection = HOSTS, documents = stellarHosts.map { it.toStellarHostMap() }).map { result ->
-            when (result) {
-                is FirestoreWriteResult.Error -> SyncResult.Error(error = result.error)
-                is FirestoreWriteResult.PartialSuccess -> SyncResult.Loading(
-                    progress = result.documents.size.toFloat(),
-                    total = result.totalDocuments.toFloat()
-                )
+    override suspend fun getStellarHosts(): Result<StellarHost> =
+        httpClient.getStream(url = STELLAR_HOSTS_URL)
 
-                is FirestoreWriteResult.Success -> SyncResult.Success
-            }
-        }
-    }.getOrElse {
-        Logger.error(tag = TAG, message = it.message.orEmpty())
-        flowOf(value = SyncResult.Error(error = it.message.orEmpty()))
-    }
-
-    override suspend fun rewritePlanets(planets: List<Planet>): Flow<SyncResult> = runCatching {
-        firestore.removeCollection(collection = PLANETS).last()
-        firestore.setCollection(collection = PLANETS, documents = planets.map { it.toPlanetMap() }).map { result ->
-            when (result) {
-                is FirestoreWriteResult.Error -> SyncResult.Error(error = result.error)
-                is FirestoreWriteResult.PartialSuccess -> SyncResult.Loading(
-                    progress = result.documents.size.toFloat(),
-                    total = result.totalDocuments.toFloat()
-                )
-
-                is FirestoreWriteResult.Success -> SyncResult.Success
-            }
-        }
-    }.getOrElse {
-        Logger.error(tag = TAG, message = it.message.orEmpty())
-        flowOf(value = SyncResult.Error(error = it.message.orEmpty()))
-    }
-
-    override suspend fun getStellarHosts(queryMap: QueryMap): Flow<Result<StellarHost>> = runCatching {
-        firestore.getCollection(collection = HOSTS, queryMap = queryMap).map { result ->
-            when (result) {
-                is FirestoreReadResult.Error -> Result.Error(error = result.error)
-                is FirestoreReadResult.PartialSuccess -> Result.PartialSuccess(
-                    list = result.documents.map { it.toStellarHost() },
-                    total = result.totalDocuments
-                )
-
-                is FirestoreReadResult.Success -> Result.Success(list = result.documents.map { it.toStellarHost() })
-            }
-        }
-    }.getOrElse {
-        Logger.error(tag = TAG, message = it.message.orEmpty())
-        flowOf(value = Result.Error(error = it.message.orEmpty()))
-    }
-
-    override suspend fun getPlanets(queryMap: QueryMap): Flow<Result<Planet>> = runCatching {
-        firestore.getCollection(collection = PLANETS, queryMap = queryMap).map { result ->
-            when (result) {
-                is FirestoreReadResult.Error -> Result.Error(error = result.error)
-                is FirestoreReadResult.PartialSuccess -> Result.PartialSuccess(
-                    list = result.documents.map { it.toPlanet() },
-                    total = result.totalDocuments
-                )
-
-                is FirestoreReadResult.Success -> Result.Success(list = result.documents.map { it.toPlanet() })
-            }
-        }
-    }.getOrElse {
-        Logger.error(tag = TAG, message = it.message.orEmpty())
-        flowOf(value = Result.Error(error = it.message.orEmpty()))
-    }
+    override suspend fun getPlanets(): Result<Planet> =
+        httpClient.getStream(url = STELLAR_HOSTS_URL)
 
     companion object {
         private const val TAG = "SpaceApi"
-
-        private const val HOSTS = "hosts"
-        const val STELLAR_HOST_HOST_ID = "id"
-        const val STELLAR_HOST_HOST_NAME = "host_name"
-        const val STELLAR_HOST_SYSTEM_NAME = "system_name"
-
-        const val STELLAR_HOST_SPECTRAL_TYPE = "spectral_type"
-        const val STELLAR_HOST_TEMPERATURE = "effective_temperature"
-        const val STELLAR_HOST_RADIUS = "radius"
-        const val STELLAR_HOST_MASS = "mass"
-        const val STELLAR_HOST_METALLICITY = "metallicity"
-        const val STELLAR_HOST_LUMINOSITY = "luminosity"
-        const val STELLAR_HOST_GRAVITY = "gravity"
-        const val STELLAR_HOST_AGE = "age"
-        const val STELLAR_HOST_DENSITY = "density"
-        const val STELLAR_HOST_ROTATIONAL_VELOCITY = "rotational_velocity"
-        const val STELLAR_HOST_ROTATIONAL_PERIOD = "rotational_period"
-        const val STELLAR_HOST_DISTANCE = "distance"
-        const val STELLAR_HOST_RA = "ra"
-        const val STELLAR_HOST_DEC = "dec"
-
-        private const val PLANETS = "planets"
-        const val PLANET_ID = "id"
-        const val PLANET_NAME = "name"
-        const val PLANET_HOST_ID = "stellar_host_id"
-        const val PLANET_STATUS = "status"
-        const val PLANET_ORBITAL_PERIOD = "orbital_period"
-        const val PLANET_ORBIT_AXIS = "orbit_axis"
-        const val PLANET_RADIUS = "radius"
-        const val PLANET_MASS = "mass"
-        const val PLANET_DENSITY = "density"
-        const val PLANET_ECCENTRICITY = "eccentricity"
-        const val PLANET_INSOLATION_FLUX = "insolation_flux"
-        const val PLANET_EQUILIBRIUM_TEMPERATURE = "equilibrium_temperature"
-        const val PLANET_INCLINATION = "inclination"
-        const val PLANET_OBLIQUITY = "obliquity"
     }
 }
