@@ -11,11 +11,6 @@ internal interface SyncUseCases {
     suspend fun setup()
 
     /**
-     * Get exoplanet data from the NASA archive.
-     */
-    suspend fun getArchive(): Flow<SyncResult>
-
-    /**
      * Prepopulates all local data.
      */
     suspend fun prepopulate(): Flow<SyncResult>
@@ -24,4 +19,9 @@ internal interface SyncUseCases {
      * Syncs all the remote data to local.
      */
     suspend fun sync(): Flow<SyncResult>
+
+    /**
+     * Get exoplanet data from the NASA archive.
+     */
+    suspend fun getArchive(): Flow<SyncResult>
 }

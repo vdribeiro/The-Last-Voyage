@@ -55,8 +55,6 @@ internal class SyncGateway(
             .fetchAndActivate()
     }
 
-    override suspend fun getArchive(): Flow<SyncResult> = internalSpace.getArchive()
-
     override suspend fun prepopulate(): Flow<SyncResult> = flow {
         val totalOperations = 8f
         emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
@@ -110,6 +108,8 @@ internal class SyncGateway(
             is SyncResult.Loading -> {}
         }
     }
+
+    override suspend fun getArchive(): Flow<SyncResult> = internalSpace.getArchive()
 
     companion object Companion {
         private const val TAG = "AppCore"

@@ -5,7 +5,7 @@ import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 
@@ -20,10 +20,21 @@ internal class SyncUseCasesTest {
     }
 
     @Test
-    fun `run setup`() = runBlocking {
-        val results = mock.useCases.sync.setup().toList()
-        assertTrue(actual = results[0] is SyncResult.Loading)
-        assertTrue(actual = results[1] is SyncResult.Success)
+    fun `prepopulate and sync`() = runBlocking {
+        mock.useCases.sync.setup()
+        val totalOperations = 8f
+
+        val prepopulate = mock.useCases.sync.prepopulate().toList()
+        for (i in 0..totalOperations.toInt() - 1) {
+            assertEquals(expected = SyncResult.Loading(progress = i.toFloat(), total = totalOperations), actual = prepopulate[i])
+        }
+        assertEquals(expected = SyncResult.Success, actual = prepopulate.last())
+
+        val sync = mock.useCases.sync.sync().toList()
+        for (i in 0..totalOperations.toInt() - 1) {
+            assertEquals(expected = SyncResult.Loading(progress = i.toFloat(), total = totalOperations), actual = sync[i])
+        }
+        assertEquals(expected = SyncResult.Success, actual = sync.last())
     }
 
     @Test

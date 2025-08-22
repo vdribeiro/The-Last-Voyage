@@ -38,7 +38,7 @@ internal fun <T: HttpClientEngineConfig> HttpClientConfig<T>.setLogging() {
                 Logger.debug(tag = "Ktor", message = message)
             }
         }
-        level = LogLevel.INFO
+        level = LogLevel.ALL
     }
 }
 
