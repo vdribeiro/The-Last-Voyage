@@ -1,11 +1,7 @@
 package com.hybris.tlv.ui.screen.explore
 
 import com.hybris.tlv.mock.Mock
-import com.hybris.tlv.mock.achievements
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.screen.achievement.AchievementAction
-import com.hybris.tlv.ui.screen.achievement.AchievementState
-import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,31 +11,47 @@ internal class ExploreStoreTest {
 
     private val mock = Mock()
     private val store
-        get() = AchievementStore(
+        get() = ExploreStore(
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
-            initialState = AchievementState(),
-            achievementUseCases = mock.useCases.achievement
+            initialState = ExploreState(),
         )
 
     @BeforeTest
     fun setup() = runBlocking {
         mock.clearDatabase()
-        mock.internalAchievement.syncAchievements().let { }
-        mock.navigation.navigate(screen = NavigationManager.Screen.ACHIEVEMENT)
+        mock.navigation.navigate(screen = NavigationManager.Screen.EXPLORE)
     }
 
     @Test
     fun `init`() = runBlocking {
-        val achievementStore = store
-        assertEquals(actual = achievements, expected = achievementStore.stateFlow.value.achievements)
+        val exploreStore = store
+        assertEquals(actual = Content.MENU, expected = exploreStore.stateFlow.value.currentContent)
     }
 
     @Test
-    fun `send action back`() = runBlocking {
-        val achievementStore = store
-        assertEquals(actual = NavigationManager.Screen.ACHIEVEMENT, expected = mock.navigation.stateFlow.value.screen)
-        achievementStore.send(action = AchievementAction.Back)
+    fun navigate() = runBlocking {
+        assertEquals(actual = NavigationManager.Screen.EXPLORE, expected = mock.navigation.stateFlow.value.screen)
+        val exploreStore = store
+        assertEquals(actual = Content.MENU, expected = exploreStore.stateFlow.value.currentContent)
+
+        exploreStore.send(action = ExploreAction.Mechanics)
+        assertEquals(actual = Content.MECHANICS, expected = exploreStore.stateFlow.value.currentContent)
+        exploreStore.send(action = ExploreAction.Back)
+        assertEquals(actual = Content.MENU, expected = exploreStore.stateFlow.value.currentContent)
+
+        exploreStore.send(action = ExploreAction.Habitability)
+        assertEquals(actual = Content.HABITABILITY, expected = exploreStore.stateFlow.value.currentContent)
+        exploreStore.send(action = ExploreAction.Back)
+        assertEquals(actual = Content.MENU, expected = exploreStore.stateFlow.value.currentContent)
+
+        exploreStore.send(action = ExploreAction.PlanetTypes)
+        assertEquals(actual = Content.PLANET_TYPES, expected = exploreStore.stateFlow.value.currentContent)
+        exploreStore.send(action = ExploreAction.Back)
+        assertEquals(actual = Content.MENU, expected = exploreStore.stateFlow.value.currentContent)
+
+        exploreStore.send(action = ExploreAction.Back)
+        assertEquals(actual = Content.MENU, expected = exploreStore.stateFlow.value.currentContent)
         assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
     }
 }

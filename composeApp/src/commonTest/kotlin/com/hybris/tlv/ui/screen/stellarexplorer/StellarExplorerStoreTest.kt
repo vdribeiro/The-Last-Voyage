@@ -1,11 +1,8 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import com.hybris.tlv.mock.Mock
-import com.hybris.tlv.mock.achievements
+import com.hybris.tlv.mock.stellarExplorers
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.screen.achievement.AchievementAction
-import com.hybris.tlv.ui.screen.achievement.AchievementState
-import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,31 +12,30 @@ internal class StellarExplorerStoreTest {
 
     private val mock = Mock()
     private val store
-        get() = AchievementStore(
+        get() = StellarExplorerStore(
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
-            initialState = AchievementState(),
-            achievementUseCases = mock.useCases.achievement
+            initialState = StellarExplorerState(),
+            stellarExplorerUseCases = mock.useCases.stellarExplorer
         )
 
     @BeforeTest
     fun setup() = runBlocking {
         mock.clearDatabase()
-        mock.internalAchievement.syncAchievements().let { }
-        mock.navigation.navigate(screen = NavigationManager.Screen.ACHIEVEMENT)
+        mock.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
     }
 
     @Test
     fun `init`() = runBlocking {
-        val achievementStore = store
-        assertEquals(actual = achievements, expected = achievementStore.stateFlow.value.achievements)
+        val stellarExplorerStore = store
+        assertEquals(actual = stellarExplorers, expected = stellarExplorerStore.stateFlow.value.stellarExplorers)
     }
 
     @Test
     fun `send action back`() = runBlocking {
-        val achievementStore = store
-        assertEquals(actual = NavigationManager.Screen.ACHIEVEMENT, expected = mock.navigation.stateFlow.value.screen)
-        achievementStore.send(action = AchievementAction.Back)
+        val stellarExplorerStore = store
+        assertEquals(actual = NavigationManager.Screen.STELLAR_EXPLORER, expected = mock.navigation.stateFlow.value.screen)
+        stellarExplorerStore.send(action = StellarExplorerAction.Back)
         assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
     }
 }
