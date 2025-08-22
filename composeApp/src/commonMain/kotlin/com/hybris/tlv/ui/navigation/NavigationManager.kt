@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.navigation
 
 import androidx.compose.runtime.Composable
-import com.hybris.tlv.ui.navigation.Navigation.State
 import kotlinx.coroutines.flow.StateFlow
 
 internal interface NavigationManager {
@@ -20,6 +19,12 @@ internal interface NavigationManager {
         ACHIEVEMENT,
         CREDIT,
     }
+
+    data class State(
+        val music: Boolean = true,
+        val screen: Screen = Screen.SPLASH,
+        val state: Any? = null
+    )
 
     val stateFlow: StateFlow<State>
 

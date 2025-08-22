@@ -36,6 +36,7 @@ import com.hybris.tlv.usecase.UseCases
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import com.hybris.tlv.ui.navigation.NavigationManager.State
 
 internal class Navigation(
     val dispatcher: Dispatcher,
@@ -44,12 +45,6 @@ internal class Navigation(
     val remoteConfig: RemoteConfig,
     val useCases: UseCases
 ): NavigationManager {
-
-    data class State(
-        val music: Boolean = true,
-        val screen: Screen = Screen.SPLASH,
-        val state: Any? = null
-    )
 
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(
         value = State(music = localConfig.getBoolean(key = Config.Music))

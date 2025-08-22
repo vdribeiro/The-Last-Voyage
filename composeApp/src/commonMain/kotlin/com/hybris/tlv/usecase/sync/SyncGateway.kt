@@ -105,7 +105,7 @@ internal class SyncGateway(
         when (val result = if (remoteValue > localValue) sync() else SyncResult.Success) {
             SyncResult.Success -> localConfig.put(key = key, value = remoteConfig.getLong(key = key))
             is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
-            is SyncResult.Loading -> {}
+            is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
         }
     }
 
