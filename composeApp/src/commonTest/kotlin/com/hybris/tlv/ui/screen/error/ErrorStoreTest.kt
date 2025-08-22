@@ -1,0 +1,39 @@
+package com.hybris.tlv.ui.screen.error
+
+import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.ui.navigation.NavigationManager
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlinx.coroutines.runBlocking
+
+internal class ErrorStoreTest {
+
+    private val mock = Mock()
+    private val store
+        get() = ErrorStore(
+            dispatcher = mock.dispatcher,
+            navigation = mock.navigation,
+            initialState = ErrorState(),
+        )
+
+    @BeforeTest
+    fun setup() = runBlocking {
+        mock.clearDatabase()
+        mock.navigation.navigate(screen = NavigationManager.Screen.ERROR)
+    }
+
+    @Test
+    fun `send action back`() = runBlocking {
+        val errorStore = store
+        assertEquals(actual = NavigationManager.Screen.ERROR, expected = mock.navigation.stateFlow.value.screen)
+        errorStore.send(action = ErrorAction.Back)
+        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
+    }
+
+    @Test
+    fun `send action send feedback`() = runBlocking {
+        val errorStore = store
+        errorStore.send(action = ErrorAction.SendFeedback(message = "Feedback"))
+    }
+}

@@ -4,6 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.screen.error.ErrorState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
@@ -41,7 +42,13 @@ internal class EventStore(
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
-            navigate(screen = Screen.ERROR)
+            navigate(
+                screen = Screen.ERROR, state = ErrorState(
+                    screen = Screen.EVENT,
+                    throwable = IllegalStateException("Invalid state: missing game session"),
+                    identifier = "EventStore:setup"
+                )
+            )
             return@launchInPipeline
         }
 
@@ -60,7 +67,13 @@ internal class EventStore(
         val event = events.find { it.parentId == null }
         if (event == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing parent event")
-            navigate(screen = Screen.ERROR)
+            navigate(
+                screen = Screen.ERROR, state = ErrorState(
+                    screen = Screen.EVENT,
+                    throwable = IllegalStateException("Invalid state: missing parent event"),
+                    identifier = "EventStore:setup"
+                )
+            )
             return@launchInPipeline
         }
 
@@ -102,7 +115,13 @@ internal class EventStore(
             is EventAction.Select -> launchInPipeline {
                 if (state.gameSession == null) {
                     Logger.error(tag = TAG, message = "Invalid state: missing game session")
-                    navigate(screen = Screen.ERROR)
+                    navigate(
+                        screen = Screen.ERROR, state = ErrorState(
+                            screen = Screen.EVENT,
+                            throwable = IllegalStateException("Invalid state: missing game session"),
+                            identifier = "EventStore:reducer:Select"
+                        )
+                    )
                     return@launchInPipeline
                 }
 

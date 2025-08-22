@@ -8,6 +8,7 @@ import com.hybris.tlv.storage.Config
 import com.hybris.tlv.storage.LocalConfig
 import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.navigation.NavigationManager.State
 import com.hybris.tlv.ui.screen.achievement.AchievementState
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.credit.CreditState
@@ -36,7 +37,6 @@ import com.hybris.tlv.usecase.UseCases
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import com.hybris.tlv.ui.navigation.NavigationManager.State
 
 internal class Navigation(
     val dispatcher: Dispatcher,

@@ -195,7 +195,9 @@ kover {
                     packages(
                         "${appId}.flow",
                         "${appId}.http",
+                        "${appId}.preview",
                     )
+                    classes("*ScreenKt")
                 }
             }
         }
