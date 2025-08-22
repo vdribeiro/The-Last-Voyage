@@ -15,10 +15,8 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.respondError
-import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
-import io.ktor.http.headersOf
 
 internal object HttpClientFactory {
 
@@ -31,7 +29,7 @@ internal object HttpClientFactory {
                     when {
                         path.startsWith(prefix = EXOPLANET_ARCHIVE_URL) -> when {
                             parameters.contains(other = "from stellarhosts") -> {
-                                respond(content = json.encodeToString(value = stellarHosts.map { it.toStellarHostJson() }),)
+                                respond(content = json.encodeToString(value = stellarHosts.map { it.toStellarHostJson() }))
                             }
 
                             parameters.contains(other = "from pscomppars") || parameters.contains(other = "from k2pandc") -> {
@@ -40,7 +38,7 @@ internal object HttpClientFactory {
                                     val stellarHost = stellarHostsMap[it.stellarHostId] ?: return@mapNotNull null
                                     it.toExoplanetJson(stellarHost = stellarHost)
                                 }
-                                respond(content = json.encodeToString(value = exoplanets),)
+                                respond(content = json.encodeToString(value = exoplanets))
                             }
 
                             else -> respondError(
@@ -48,6 +46,7 @@ internal object HttpClientFactory {
                                 content = "Resource query incorrect: ${request.url.encodedPath}"
                             )
                         }
+
                         path.startsWith(prefix = TRANSLATIONS_URL) -> respond(content = json.encodeToString(value = translations))
                         path.startsWith(prefix = CATASTROPHES_URL) -> respond(content = json.encodeToString(value = catastrophes))
                         path.startsWith(prefix = ENGINES_URL) -> respond(content = json.encodeToString(value = engines))
@@ -56,6 +55,7 @@ internal object HttpClientFactory {
                         path.startsWith(prefix = EVENTS_URL) -> respond(content = json.encodeToString(value = events))
                         path.startsWith(prefix = ACHIEVEMENTS_URL) -> respond(content = json.encodeToString(value = achievements))
                         path.startsWith(prefix = CREDITS_URL) -> respond(content = json.encodeToString(value = credits))
+
                         else -> respondError(
                             status = HttpStatusCode.NotFound,
                             content = "Resource not found for path: ${request.url.encodedPath}"
