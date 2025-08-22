@@ -11,13 +11,16 @@ import kotlinx.coroutines.runBlocking
 
 internal class AchievementRemoteTest {
 
+    private val mock = Mock()
+    private val errorMock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
+
     @Test
     fun `get achievements`() = runBlocking {
-        assertEquals(expected = Result.Success(list = achievements), actual = Mock().achievementApi.getAchievements())
+        assertEquals(expected = Result.Success(list = achievements), actual = mock.achievementApi.getAchievements())
     }
 
     @Test
     fun `get error`() = runBlocking {
-        assertTrue(actual = Mock(httpClient = HttpClientFactory.buildErrorHttpClient()).achievementApi.getAchievements() is Result.Error)
+        assertTrue(actual = errorMock.achievementApi.getAchievements() is Result.Error)
     }
 }

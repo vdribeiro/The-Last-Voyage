@@ -11,13 +11,16 @@ import kotlinx.coroutines.runBlocking
 
 internal class ShipRemoteTest {
 
+    private val mock = Mock()
+    private val errorMock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
+
     @Test
     fun `get engines`() = runBlocking {
-        assertEquals(expected = Result.Success(list = engines), actual = Mock().shipApi.getEngines())
+        assertEquals(expected = Result.Success(list = engines), actual = mock.shipApi.getEngines())
     }
 
     @Test
     fun `get error`() = runBlocking {
-        assertTrue(actual = Mock(httpClient = HttpClientFactory.buildErrorHttpClient()).shipApi.getEngines() is Result.Error)
+        assertTrue(actual = errorMock.shipApi.getEngines() is Result.Error)
     }
 }

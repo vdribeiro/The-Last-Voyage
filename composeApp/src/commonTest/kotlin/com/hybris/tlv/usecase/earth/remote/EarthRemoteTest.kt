@@ -11,13 +11,16 @@ import kotlinx.coroutines.runBlocking
 
 internal class EarthRemoteTest {
 
+    private val mock = Mock()
+    private val errorMock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
+
     @Test
     fun `get catastrophes`() = runBlocking {
-        assertEquals(expected = Result.Success(list = catastrophes), actual = Mock().earthApi.getCatastrophes())
+        assertEquals(expected = Result.Success(list = catastrophes), actual = mock.earthApi.getCatastrophes())
     }
 
     @Test
     fun `get error`() = runBlocking {
-        assertTrue(actual = Mock(httpClient = HttpClientFactory.buildErrorHttpClient()).earthApi.getCatastrophes() is Result.Error)
+        assertTrue(actual = errorMock.earthApi.getCatastrophes() is Result.Error)
     }
 }

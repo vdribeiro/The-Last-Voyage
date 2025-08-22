@@ -1,7 +1,9 @@
 package com.hybris.tlv.usecase.translation
 
+import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.translations
+import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
@@ -10,6 +12,7 @@ import kotlinx.coroutines.runBlocking
 internal class TranslationUseCasesTest {
 
     private val mock = Mock()
+    private val errorMock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
 
     @BeforeTest
     fun setup() {
@@ -28,7 +31,12 @@ internal class TranslationUseCasesTest {
     fun `prepopulate and sync translations`() = runBlocking {
         val languageIso = translations.first().languageIso
         assertTrue(actual = mock.internalTranslation.loadTranslationsToCache(languageIso = languageIso).isEmpty())
-        mock.internalTranslation.syncTranslations()
+        assertTrue(actual = mock.internalTranslation.syncTranslations() is SyncResult.Success)
         assertTrue(actual = mock.internalTranslation.loadTranslationsToCache(languageIso = languageIso).isNotEmpty())
+    }
+
+    @Test
+    fun `get error`() = runBlocking {
+        assertTrue(actual = errorMock.internalTranslation.syncTranslations() is SyncResult.Error)
     }
 }

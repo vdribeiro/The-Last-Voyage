@@ -11,13 +11,16 @@ import kotlinx.coroutines.runBlocking
 
 internal class TranslationRemoteTest {
 
+    private val mock = Mock()
+    private val errorMock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
+
     @Test
     fun `get translations`() = runBlocking {
-        assertEquals(expected = Result.Success(list = translations), actual = Mock().translationApi.getTranslations())
+        assertEquals(expected = Result.Success(list = translations), actual = mock.translationApi.getTranslations())
     }
 
     @Test
     fun `get error`() = runBlocking {
-        assertTrue(actual = Mock(httpClient = HttpClientFactory.buildErrorHttpClient()).translationApi.getTranslations() is Result.Error)
+        assertTrue(actual = errorMock.translationApi.getTranslations() is Result.Error)
     }
 }

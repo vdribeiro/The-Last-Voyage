@@ -11,13 +11,16 @@ import kotlinx.coroutines.runBlocking
 
 internal class EventRemoteTest {
 
+    private val mock = Mock()
+    private val errorMock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
+
     @Test
     fun `get events`() = runBlocking {
-        assertEquals(expected = Result.Success(list = events), actual = Mock().eventApi.getEvents())
+        assertEquals(expected = Result.Success(list = events), actual = mock.eventApi.getEvents())
     }
 
     @Test
     fun `get error`() = runBlocking {
-        assertTrue(actual = Mock(httpClient = HttpClientFactory.buildErrorHttpClient()).eventApi.getEvents() is Result.Error)
+        assertTrue(actual = errorMock.eventApi.getEvents() is Result.Error)
     }
 }

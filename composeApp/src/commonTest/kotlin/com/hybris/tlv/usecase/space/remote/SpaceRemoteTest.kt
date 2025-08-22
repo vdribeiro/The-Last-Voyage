@@ -14,6 +14,7 @@ import kotlinx.coroutines.runBlocking
 internal class SpaceRemoteTest {
 
     private val mock = Mock()
+    private val errorMock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
 
     @Test
     fun `get stellar hosts archive`() = runBlocking {
@@ -54,7 +55,7 @@ internal class SpaceRemoteTest {
 
     @Test
     fun `get error`() = runBlocking {
-        val mock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
+        val mock = errorMock
         assertTrue(actual = mock.spaceApi.getStellarHosts() is Result.Error)
         assertTrue(actual = mock.spaceApi.getPlanets() is Result.Error)
     }

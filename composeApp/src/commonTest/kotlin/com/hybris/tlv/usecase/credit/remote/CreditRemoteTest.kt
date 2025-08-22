@@ -11,13 +11,16 @@ import kotlinx.coroutines.runBlocking
 
 internal class CreditRemoteTest {
 
+    private val mock = Mock()
+    private val errorMock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
+
     @Test
     fun `get credits`() = runBlocking {
-        assertEquals(expected = Result.Success(list = credits), actual = Mock().creditApi.getCredits())
+        assertEquals(expected = Result.Success(list = credits), actual = mock.creditApi.getCredits())
     }
 
     @Test
     fun `get error`() = runBlocking {
-        assertTrue(actual = Mock(httpClient = HttpClientFactory.buildErrorHttpClient()).creditApi.getCredits() is Result.Error)
+        assertTrue(actual = errorMock.creditApi.getCredits() is Result.Error)
     }
 }

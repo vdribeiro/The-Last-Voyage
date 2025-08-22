@@ -1,6 +1,8 @@
 package com.hybris.tlv.usecase.achievement
 
+import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
@@ -9,6 +11,7 @@ import kotlinx.coroutines.runBlocking
 internal class AchievementUseCasesTest {
 
     private val mock = Mock()
+    private val errorMock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
 
     @BeforeTest
     fun setup() {
@@ -25,7 +28,12 @@ internal class AchievementUseCasesTest {
     @Test
     fun `prepopulate and sync achievements`() = runBlocking {
         assertTrue(actual = mock.useCases.achievement.getAchievements().isEmpty())
-        mock.internalAchievement.syncAchievements()
+        assertTrue(actual = mock.internalAchievement.syncAchievements() is SyncResult.Success)
         assertTrue(actual = mock.useCases.achievement.getAchievements().isNotEmpty())
+    }
+
+    @Test
+    fun `get error`() = runBlocking {
+        assertTrue(actual = errorMock.internalAchievement.syncAchievements() is SyncResult.Error)
     }
 }
