@@ -71,4 +71,8 @@ internal object HttpClientFactory {
             setContentValidator()
         }
     }
+
+    fun buildErrorHttpClient(): HttpClient = HttpClient(engine = MockEngine {
+        respondError(status = HttpStatusCode.InternalServerError)
+    })
 }

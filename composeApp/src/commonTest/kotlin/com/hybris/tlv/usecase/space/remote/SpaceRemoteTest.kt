@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.space.remote
 
+import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.planets
@@ -42,12 +43,19 @@ internal class SpaceRemoteTest {
     }
 
     @Test
-    fun `write and get stellar hosts`() = runBlocking {
+    fun `get stellar hosts`() = runBlocking {
         assertEquals(expected = Result.Success(list = stellarHosts), actual = mock.spaceApi.getStellarHosts())
     }
 
     @Test
-    fun `write and get planets`() = runBlocking {
+    fun `get planets`() = runBlocking {
         assertEquals(expected = Result.Success(list = planets), actual = mock.spaceApi.getPlanets())
+    }
+
+    @Test
+    fun `get error`() = runBlocking {
+        val mock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
+        assertTrue(actual = mock.spaceApi.getStellarHosts() is Result.Error)
+        assertTrue(actual = mock.spaceApi.getPlanets() is Result.Error)
     }
 }
