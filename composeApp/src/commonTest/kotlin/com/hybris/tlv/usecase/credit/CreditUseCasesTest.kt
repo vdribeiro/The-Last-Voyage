@@ -4,7 +4,6 @@ import com.hybris.tlv.mock.Mock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class CreditUseCasesTest {
@@ -24,13 +23,9 @@ internal class CreditUseCasesTest {
     }
 
     @Test
-    fun `rewrite and sync credits`() = runBlocking {
+    fun `prepopulate and sync credits`() = runBlocking {
         assertTrue(actual = mock.useCases.credit.getCredits().isEmpty())
-        mock.internalCredit.rewriteCredits().last()
-        assertTrue(actual = mock.useCases.credit.getCredits().isNotEmpty())
-        mock.clearDatabase()
-        assertTrue(actual = mock.useCases.credit.getCredits().isEmpty())
-        mock.internalCredit.syncCredits().last()
+        mock.internalCredit.syncCredits()
         assertTrue(actual = mock.useCases.credit.getCredits().isNotEmpty())
     }
 }

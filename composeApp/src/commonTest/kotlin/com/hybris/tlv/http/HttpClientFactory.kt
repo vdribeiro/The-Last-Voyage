@@ -1,7 +1,13 @@
 package com.hybris.tlv.http
 
+import com.hybris.tlv.mock.achievements
+import com.hybris.tlv.mock.catastrophes
+import com.hybris.tlv.mock.credits
+import com.hybris.tlv.mock.engines
+import com.hybris.tlv.mock.events
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
+import com.hybris.tlv.mock.translations
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.usecase.space.mapper.toExoplanetJson
 import com.hybris.tlv.usecase.space.mapper.toStellarHostJson
@@ -25,10 +31,7 @@ internal object HttpClientFactory {
                     when {
                         path.startsWith(prefix = EXOPLANET_ARCHIVE_URL) -> when {
                             parameters.contains(other = "from stellarhosts") -> {
-                                respond(
-                                    headers = headersOf(name = HttpHeaders.ContentType, value = "application/json"),
-                                    content = json.encodeToString(value = stellarHosts.map { it.toStellarHostJson() }),
-                                )
+                                respond(content = json.encodeToString(value = stellarHosts.map { it.toStellarHostJson() }),)
                             }
 
                             parameters.contains(other = "from pscomppars") || parameters.contains(other = "from k2pandc") -> {
@@ -37,10 +40,7 @@ internal object HttpClientFactory {
                                     val stellarHost = stellarHostsMap[it.stellarHostId] ?: return@mapNotNull null
                                     it.toExoplanetJson(stellarHost = stellarHost)
                                 }
-                                respond(
-                                    headers = headersOf(name = HttpHeaders.ContentType, value = "application/json"),
-                                    content = json.encodeToString(value = exoplanets),
-                                )
+                                respond(content = json.encodeToString(value = exoplanets),)
                             }
 
                             else -> respondError(
@@ -48,7 +48,14 @@ internal object HttpClientFactory {
                                 content = "Resource query incorrect: ${request.url.encodedPath}"
                             )
                         }
-
+                        path.startsWith(prefix = TRANSLATIONS_URL) -> respond(content = json.encodeToString(value = translations))
+                        path.startsWith(prefix = CATASTROPHES_URL) -> respond(content = json.encodeToString(value = catastrophes))
+                        path.startsWith(prefix = ENGINES_URL) -> respond(content = json.encodeToString(value = engines))
+                        path.startsWith(prefix = STELLAR_HOSTS_URL) -> respond(content = json.encodeToString(value = stellarHosts))
+                        path.startsWith(prefix = PLANETS_URL) -> respond(content = json.encodeToString(value = planets))
+                        path.startsWith(prefix = EVENTS_URL) -> respond(content = json.encodeToString(value = events))
+                        path.startsWith(prefix = ACHIEVEMENTS_URL) -> respond(content = json.encodeToString(value = achievements))
+                        path.startsWith(prefix = CREDITS_URL) -> respond(content = json.encodeToString(value = credits))
                         else -> respondError(
                             status = HttpStatusCode.NotFound,
                             content = "Resource not found for path: ${request.url.encodedPath}"

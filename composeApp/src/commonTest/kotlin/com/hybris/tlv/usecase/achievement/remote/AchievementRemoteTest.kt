@@ -3,10 +3,8 @@ package com.hybris.tlv.usecase.achievement.remote
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.achievements
-import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class AchievementRemoteTest {
@@ -15,8 +13,6 @@ internal class AchievementRemoteTest {
 
     @Test
     fun `write and get achievements`() = runBlocking {
-        assertEquals(expected = Result.Success(list = emptyList()), actual = mock.achievementApi.getAchievements().last())
-        assertEquals(expected = SyncResult.Success, actual = mock.achievementApi.rewriteAchievements(achievements = achievements).last())
-        assertEquals(expected = Result.Success(list = achievements), actual = mock.achievementApi.getAchievements().last())
+        assertEquals(expected = Result.Success(list = achievements), actual = mock.achievementApi.getAchievements())
     }
 }

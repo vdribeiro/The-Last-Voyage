@@ -5,7 +5,6 @@ import com.hybris.tlv.mock.translations
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class TranslationUseCasesTest {
@@ -26,14 +25,10 @@ internal class TranslationUseCasesTest {
     }
 
     @Test
-    fun `rewrite and sync translations`() = runBlocking {
+    fun `prepopulate and sync translations`() = runBlocking {
         val languageIso = translations.first().languageIso
         assertTrue(actual = mock.internalTranslation.loadTranslationsToCache(languageIso = languageIso).isEmpty())
-        mock.internalTranslation.rewriteTranslations().last()
-        assertTrue(actual = mock.internalTranslation.loadTranslationsToCache(languageIso = languageIso).isNotEmpty())
-        mock.clearDatabase()
-        assertTrue(actual = mock.internalTranslation.loadTranslationsToCache(languageIso = languageIso).isEmpty())
-        mock.internalTranslation.syncTranslations().last()
+        mock.internalTranslation.syncTranslations()
         assertTrue(actual = mock.internalTranslation.loadTranslationsToCache(languageIso = languageIso).isNotEmpty())
     }
 }

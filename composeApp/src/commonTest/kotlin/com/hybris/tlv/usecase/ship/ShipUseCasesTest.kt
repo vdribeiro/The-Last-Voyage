@@ -4,7 +4,6 @@ import com.hybris.tlv.mock.Mock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class ShipUseCasesTest {
@@ -24,13 +23,9 @@ internal class ShipUseCasesTest {
     }
 
     @Test
-    fun `rewrite and sync engines`() = runBlocking {
+    fun `prepopulate and sync engines`() = runBlocking {
         assertTrue(actual = mock.useCases.ship.getEngines().isEmpty())
-        mock.internalShip.rewriteEngines().last()
-        assertTrue(actual = mock.useCases.ship.getEngines().isNotEmpty())
-        mock.clearDatabase()
-        assertTrue(actual = mock.useCases.ship.getEngines().isEmpty())
-        mock.internalShip.syncEngines().last()
+        mock.internalShip.syncEngines()
         assertTrue(actual = mock.useCases.ship.getEngines().isNotEmpty())
     }
 }

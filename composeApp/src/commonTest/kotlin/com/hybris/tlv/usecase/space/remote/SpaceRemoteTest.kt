@@ -5,11 +5,9 @@ import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.usecase.space.remote.result.ExoplanetsResult
-import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class SpaceRemoteTest {
@@ -45,19 +43,11 @@ internal class SpaceRemoteTest {
 
     @Test
     fun `write and get stellar hosts`() = runBlocking {
-        assertEquals(expected = Result.Success(list = emptyList()), actual = mock.spaceApi.getStellarHosts().last())
-        assertEquals(expected = SyncResult.Success, actual = mock.spaceApi.rewriteStellarHosts(stellarHosts = stellarHosts).last())
-        val result = mock.spaceApi.getStellarHosts().last()
-        assertTrue(actual = result is Result.Success)
-        assertEquals(expected = stellarHosts, actual = result.list)
+        assertEquals(expected = Result.Success(list = stellarHosts), actual = mock.spaceApi.getStellarHosts())
     }
 
     @Test
     fun `write and get planets`() = runBlocking {
-        assertEquals(expected = Result.Success(list = emptyList()), actual = mock.spaceApi.getPlanets().last())
-        assertEquals(expected = SyncResult.Success, actual = mock.spaceApi.rewritePlanets(planets = planets).last())
-        val result = mock.spaceApi.getPlanets().last()
-        assertTrue(actual = result is Result.Success)
-        assertEquals(expected = planets, actual = result.list)
+        assertEquals(expected = Result.Success(list = planets), actual = mock.spaceApi.getPlanets())
     }
 }

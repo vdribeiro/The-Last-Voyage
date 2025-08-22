@@ -4,7 +4,6 @@ import com.hybris.tlv.mock.Mock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class AchievementUseCasesTest {
@@ -24,13 +23,9 @@ internal class AchievementUseCasesTest {
     }
 
     @Test
-    fun `rewrite and sync achievements`() = runBlocking {
+    fun `prepopulate and sync achievements`() = runBlocking {
         assertTrue(actual = mock.useCases.achievement.getAchievements().isEmpty())
-        mock.internalAchievement.rewriteAchievements().last()
-        assertTrue(actual = mock.useCases.achievement.getAchievements().isNotEmpty())
-        mock.clearDatabase()
-        assertTrue(actual = mock.useCases.achievement.getAchievements().isEmpty())
-        mock.internalAchievement.syncAchievements().last()
+        mock.internalAchievement.syncAchievements()
         assertTrue(actual = mock.useCases.achievement.getAchievements().isNotEmpty())
     }
 }

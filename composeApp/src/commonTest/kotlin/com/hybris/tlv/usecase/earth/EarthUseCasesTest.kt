@@ -4,7 +4,6 @@ import com.hybris.tlv.mock.Mock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class EarthUseCasesTest {
@@ -24,13 +23,9 @@ internal class EarthUseCasesTest {
     }
 
     @Test
-    fun `rewrite and sync catastrophes`() = runBlocking {
+    fun `prepopulate and sync catastrophes`() = runBlocking {
         assertTrue(actual = mock.useCases.earth.getCatastrophes().isEmpty())
-        mock.internalEarth.rewriteCatastrophes().last()
-        assertTrue(actual = mock.useCases.earth.getCatastrophes().isNotEmpty())
-        mock.clearDatabase()
-        assertTrue(actual = mock.useCases.earth.getCatastrophes().isEmpty())
-        mock.internalEarth.syncCatastrophes().last()
+        mock.internalEarth.syncCatastrophes()
         assertTrue(actual = mock.useCases.earth.getCatastrophes().isNotEmpty())
     }
 }

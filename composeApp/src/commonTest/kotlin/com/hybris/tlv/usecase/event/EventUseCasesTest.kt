@@ -6,7 +6,6 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class EventUseCasesTest {
@@ -34,13 +33,9 @@ internal class EventUseCasesTest {
     }
 
     @Test
-    fun `rewrite and sync events`() = runBlocking {
+    fun `prepopulate and sync events`() = runBlocking {
         assertTrue(actual = mock.useCases.event.getEvents().isEmpty())
-        mock.internalEvent.rewriteEvents().last()
-        assertTrue(actual = mock.useCases.event.getEvents().isNotEmpty())
-        mock.clearDatabase()
-        assertTrue(actual = mock.useCases.event.getEvents().isEmpty())
-        mock.internalEvent.syncEvents().last()
+        mock.internalEvent.syncEvents()
         assertTrue(actual = mock.useCases.event.getEvents().isNotEmpty())
     }
 }

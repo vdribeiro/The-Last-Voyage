@@ -9,7 +9,7 @@ import io.ktor.http.encodeURLPath
 import io.ktor.http.isSuccess
 import io.ktor.utils.io.toByteArray
 
-internal suspend fun <T> HttpClient.getStream(path: String, queryMap: QueryMap = QueryMap()): Result<T> = runCatching {
+internal suspend inline fun <reified T> HttpClient.getStream(path: String, queryMap: QueryMap = QueryMap()): Result<T> = runCatching {
     prepareGet {
         url(path = path.encodeURLPath())
         queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
