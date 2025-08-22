@@ -14,15 +14,8 @@ internal class EventInternalGateway(
 
     override suspend fun syncEvents(): SyncResult =
         when (val result = eventApi.getEvents()) {
-            is Result.Error -> {
-                prepopulateEvents()
-                SyncResult.Error(error = result.error)
-            }
-
-            is Result.Success -> {
-                eventDao.rewriteEvents(events = result.list)
-                SyncResult.Success
-            }
+            is Result.Error -> SyncResult.Error(error = result.error)
+            is Result.Success -> eventDao.rewriteEvents(events = result.list).let { SyncResult.Success }
         }
 
     override suspend fun prepopulateEvents() {

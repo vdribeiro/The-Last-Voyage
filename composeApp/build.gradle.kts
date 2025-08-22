@@ -192,6 +192,10 @@ kover {
             filters {
                 excludes {
                     annotatedBy("kotlinx.serialization.Serializable")
+                    packages(
+                        "${appId}.http",
+                        "${appId}.flow"
+                    )
                 }
             }
         }

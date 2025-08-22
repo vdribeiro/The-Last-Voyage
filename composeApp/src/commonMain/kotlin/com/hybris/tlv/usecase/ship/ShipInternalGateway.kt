@@ -14,15 +14,8 @@ internal class ShipInternalGateway(
 
     override suspend fun syncEngines(): SyncResult =
         when (val result = shipApi.getEngines()) {
-            is Result.Error -> {
-                prepopulateEngines()
-                SyncResult.Error(error = result.error)
-            }
-
-            is Result.Success -> {
-                shipDao.rewriteEngines(engines = result.list)
-                SyncResult.Success
-            }
+            is Result.Error -> SyncResult.Error(error = result.error)
+            is Result.Success -> shipDao.rewriteEngines(engines = result.list).let { SyncResult.Success }
         }
 
     override suspend fun prepopulateEngines() {

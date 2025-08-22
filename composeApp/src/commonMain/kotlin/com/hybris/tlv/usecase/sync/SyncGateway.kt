@@ -30,8 +30,7 @@ internal class SyncGateway(
     private val internalCredit: CreditInternalUseCases,
 ): SyncUseCases {
 
-    override suspend fun setup(): Flow<SyncResult> = flow {
-        emit(value = SyncResult.Loading(progress = 0f, total = 1f))
+    override suspend fun setup() {
         Logger.setup()
 
         val configs = listOf(
@@ -54,33 +53,9 @@ internal class SyncGateway(
             .settings(settings = configSetting)
             .setDefaults(defaults = configs)
             .fetchAndActivate()
-
-        emit(value = SyncResult.Success)
     }
 
     override suspend fun getArchive(): Flow<SyncResult> = internalSpace.getArchive()
-
-    override suspend fun sync(): Flow<SyncResult> = flow {
-        update(key = Config.TranslationsVersion) { internalTranslation.syncTranslations() }
-        update(key = Config.CatastrophesVersion) { internalEarth.syncCatastrophes() }
-        update(key = Config.EnginesVersion) { internalShip.syncEngines() }
-        update(key = Config.StellarHostsVersion) { internalSpace.syncStellarHosts() }
-        update(key = Config.PlanetsVersion) { internalSpace.syncPlanets() }
-        update(key = Config.EventsVersion) { internalEvent.syncEvents() }
-        update(key = Config.AchievementsVersion) { internalAchievement.syncAchievements() }
-        update(key = Config.CreditsVersion) { internalCredit.syncCredits() }
-    }
-
-    private suspend fun update(key: Config, sync: suspend () -> SyncResult) {
-        val remoteValue = remoteConfig.getLong(key = key)
-        val localValue = localConfig.getLong(key = key)
-        Logger.info(tag = TAG, message = "${key.key}: remote: $remoteValue - local: $localValue")
-        when (val result = if (remoteValue > localValue) sync() else SyncResult.Success) {
-            SyncResult.Success -> localConfig.put(key = key, value = remoteConfig.getLong(key = key))
-            is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
-            is SyncResult.Loading -> {}
-        }
-    }
 
     override suspend fun prepopulate(): Flow<SyncResult> = flow {
         val totalOperations = 8f
@@ -102,6 +77,38 @@ internal class SyncGateway(
         emit(value = SyncResult.Loading(progress = 7f, total = totalOperations))
         internalCredit.prepopulateCredits()
         emit(value = SyncResult.Success)
+    }
+
+    override suspend fun sync(): Flow<SyncResult> = flow {
+        val totalOperations = 8f
+        emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
+        update(key = Config.TranslationsVersion) { internalTranslation.syncTranslations() }
+        emit(value = SyncResult.Loading(progress = 1f, total = totalOperations))
+        update(key = Config.CatastrophesVersion) { internalEarth.syncCatastrophes() }
+        emit(value = SyncResult.Loading(progress = 2f, total = totalOperations))
+        update(key = Config.EnginesVersion) { internalShip.syncEngines() }
+        emit(value = SyncResult.Loading(progress = 3f, total = totalOperations))
+        update(key = Config.StellarHostsVersion) { internalSpace.syncStellarHosts() }
+        emit(value = SyncResult.Loading(progress = 4f, total = totalOperations))
+        update(key = Config.PlanetsVersion) { internalSpace.syncPlanets() }
+        emit(value = SyncResult.Loading(progress = 5f, total = totalOperations))
+        update(key = Config.EventsVersion) { internalEvent.syncEvents() }
+        emit(value = SyncResult.Loading(progress = 6f, total = totalOperations))
+        update(key = Config.AchievementsVersion) { internalAchievement.syncAchievements() }
+        emit(value = SyncResult.Loading(progress = 7f, total = totalOperations))
+        update(key = Config.CreditsVersion) { internalCredit.syncCredits() }
+        emit(value = SyncResult.Success)
+    }
+
+    private suspend fun update(key: Config, sync: suspend () -> SyncResult) {
+        val remoteValue = remoteConfig.getLong(key = key)
+        val localValue = localConfig.getLong(key = key)
+        Logger.info(tag = TAG, message = "${key.key}: remote: $remoteValue - local: $localValue")
+        when (val result = if (remoteValue > localValue) sync() else SyncResult.Success) {
+            SyncResult.Success -> localConfig.put(key = key, value = remoteConfig.getLong(key = key))
+            is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
+            is SyncResult.Loading -> {}
+        }
     }
 
     companion object Companion {

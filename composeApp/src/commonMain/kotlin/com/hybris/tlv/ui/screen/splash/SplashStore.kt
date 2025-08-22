@@ -36,14 +36,13 @@ internal class SplashStore(
         launchAndForget {
             // Uncomment to get archive
             //syncUseCases.getArchive().last()
-            // TODO - enable sync with remote config
-            //syncUseCases.sync().last()
         }
         launch {
+            syncUseCases.setup()
             combine(
                 flows = listOf(
-                    syncUseCases.setup(),
-                    syncUseCases.prepopulate()
+                    syncUseCases.prepopulate(),
+                    syncUseCases.sync()
                 )
             ) { it.combine() }.collectProgress { progress ->
                 updateState { it.copy(progress = progress) }

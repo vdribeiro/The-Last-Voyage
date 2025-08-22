@@ -98,28 +98,14 @@ internal class SpaceInternalGateway(
 
     override suspend fun syncStellarHosts(): SyncResult =
         when (val result = spaceApi.getStellarHosts()) {
-            is Result.Error -> {
-                prepopulateStellarHosts()
-                SyncResult.Error(error = result.error)
-            }
-
-            is Result.Success -> {
-                spaceDao.rewriteStellarHosts(stellarHosts = result.list)
-                SyncResult.Success
-            }
+            is Result.Error -> SyncResult.Error(error = result.error)
+            is Result.Success -> spaceDao.rewriteStellarHosts(stellarHosts = result.list).let { SyncResult.Success }
         }
 
     override suspend fun syncPlanets(): SyncResult =
         when (val result = spaceApi.getPlanets()) {
-            is Result.Error -> {
-                prepopulatePlanets()
-                SyncResult.Error(error = result.error)
-            }
-
-            is Result.Success -> {
-                spaceDao.rewritePlanets(planets = result.list)
-                SyncResult.Success
-            }
+            is Result.Error -> SyncResult.Error(error = result.error)
+            is Result.Success -> spaceDao.rewritePlanets(planets = result.list).let { SyncResult.Success }
         }
 
     override suspend fun prepopulateStellarHosts() {

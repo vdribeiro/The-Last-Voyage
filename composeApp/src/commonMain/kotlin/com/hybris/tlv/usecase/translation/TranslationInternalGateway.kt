@@ -18,11 +18,7 @@ internal class TranslationInternalGateway(
 
     override suspend fun syncTranslations(): SyncResult =
         when (val result = translationApi.getTranslations()) {
-            is Result.Error -> {
-                prepopulateTranslations()
-                SyncResult.Error(error = result.error)
-            }
-
+            is Result.Error -> SyncResult.Error(error = result.error)
             is Result.Success -> {
                 translationDao.rewriteTranslations(translations = result.list)
                 val translationsMap = result.list.toTranslationCacheMap()

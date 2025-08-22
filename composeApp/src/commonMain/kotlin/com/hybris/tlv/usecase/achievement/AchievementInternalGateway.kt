@@ -14,22 +14,14 @@ internal class AchievementInternalGateway(
 
     override suspend fun syncAchievements(): SyncResult =
         when (val result = achievementApi.getAchievements()) {
-            is Result.Error -> {
-                prepopulateAchievements()
-                SyncResult.Error(error = result.error)
-            }
-
-            is Result.Success -> {
-                achievementDao.rewriteAchievements(achievements = result.list)
-                SyncResult.Success
-            }
+            is Result.Error -> SyncResult.Error(error = result.error)
+            is Result.Success -> achievementDao.rewriteAchievements(achievements = result.list).let { SyncResult.Success }
         }
 
     override suspend fun prepopulateAchievements() {
         if (achievementDao.isAchievementEmpty()) {
             val achievements: List<Achievement> = loadFromJson(path = "files/achievements.json")
             achievementDao.rewriteAchievements(achievements = achievements)
-            true
         }
     }
 }

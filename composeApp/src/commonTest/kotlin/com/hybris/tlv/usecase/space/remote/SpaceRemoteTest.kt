@@ -55,8 +55,10 @@ internal class SpaceRemoteTest {
 
     @Test
     fun `get error`() = runBlocking {
-        val mock = errorMock
-        assertTrue(actual = mock.spaceApi.getStellarHosts() is Result.Error)
-        assertTrue(actual = mock.spaceApi.getPlanets() is Result.Error)
+        assertTrue(actual = errorMock.spaceApi.getStellarHostsArchive() is ExoplanetsResult.Error)
+        assertTrue(actual = errorMock.spaceApi.getExoplanetsArchive() is ExoplanetsResult.Error)
+        assertTrue(actual = errorMock.spaceApi.getK2ExoplanetsArchive() is ExoplanetsResult.Error)
+        assertTrue(actual = errorMock.spaceApi.getStellarHosts() is Result.Error)
+        assertTrue(actual = errorMock.spaceApi.getPlanets() is Result.Error)
     }
 }

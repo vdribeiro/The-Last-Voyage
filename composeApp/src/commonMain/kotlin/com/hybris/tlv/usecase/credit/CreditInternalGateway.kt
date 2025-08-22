@@ -14,22 +14,14 @@ internal class CreditInternalGateway(
 
     override suspend fun syncCredits(): SyncResult =
         when (val result = creditApi.getCredits()) {
-            is Result.Error -> {
-                prepopulateCredits()
-                SyncResult.Error(error = result.error)
-            }
-
-            is Result.Success -> {
-                creditDao.rewriteCredits(credits = result.list)
-                SyncResult.Success
-            }
+            is Result.Error -> SyncResult.Error(error = result.error)
+            is Result.Success -> creditDao.rewriteCredits(credits = result.list).let { SyncResult.Success }
         }
 
     override suspend fun prepopulateCredits() {
         if (creditDao.isCreditEmpty()) {
             val credits: List<Credit> = loadFromJson(path = "files/credits.json")
             creditDao.rewriteCredits(credits = credits)
-            true
         }
     }
 }

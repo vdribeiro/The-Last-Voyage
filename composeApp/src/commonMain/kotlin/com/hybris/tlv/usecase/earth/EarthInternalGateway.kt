@@ -14,22 +14,14 @@ internal class EarthInternalGateway(
 
     override suspend fun syncCatastrophes(): SyncResult =
         when (val result = earthApi.getCatastrophes()) {
-            is Result.Error -> {
-                prepopulateCatastrophes()
-                SyncResult.Error(error = result.error)
-            }
-
-            is Result.Success -> {
-                earthDao.rewriteCatastrophes(catastrophes = result.list)
-                SyncResult.Success
-            }
+            is Result.Error -> SyncResult.Error(error = result.error)
+            is Result.Success -> earthDao.rewriteCatastrophes(catastrophes = result.list).let { SyncResult.Success }
         }
 
     override suspend fun prepopulateCatastrophes() {
         if (earthDao.isCatastropheEmpty()) {
             val catastrophes: List<Catastrophe> = loadFromJson(path = "files/catastrophes.json")
             earthDao.rewriteCatastrophes(catastrophes = catastrophes)
-            true
         }
     }
 }
