@@ -19,6 +19,11 @@ internal class SpaceUseCasesTest {
     }
 
     @Test
+    fun `get archive`() = runBlocking {
+
+    }
+
+    @Test
     fun `prepopulate and get exoplanets`() = runBlocking {
         assertTrue(actual = mock.useCases.space.getExoplanets().isEmpty())
         mock.internalSpace.prepopulateStellarHosts()

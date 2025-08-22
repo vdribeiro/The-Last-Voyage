@@ -6,6 +6,7 @@ import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 
@@ -39,6 +40,11 @@ internal class SyncUseCasesTest {
 
     @Test
     fun `get archive`() = runBlocking {
-
+        val totalOperations = 6f
+        val archive = mock.useCases.sync.getArchive().toList()
+        for (i in 0..totalOperations.toInt() - 1) {
+            assertEquals(expected = SyncResult.Loading(progress = i.toFloat(), total = totalOperations), actual = archive[i])
+        }
+        assertEquals(expected = SyncResult.Success, actual = archive.last())
     }
 }

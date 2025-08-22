@@ -24,7 +24,7 @@ internal object HttpClientFactory {
         val mockEngine = MockEngine { request ->
             when {
                 request.method == HttpMethod.Get -> {
-                    val path = request.url.encodedPath.drop(n = 1)
+                    val path = request.url.toString()
                     val parameters = request.url.parameters.toString()
                     when {
                         path.startsWith(prefix = EXOPLANET_ARCHIVE_URL) -> when {
