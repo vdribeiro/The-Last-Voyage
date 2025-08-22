@@ -2,10 +2,10 @@ package com.hybris.tlv.usecase.achievement
 
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.serializer.loadFromJson
-import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.achievement.local.AchievementLocal
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.remote.AchievementRemote
+import com.hybris.tlv.usecase.sync.model.SyncResult
 
 internal class AchievementInternalGateway(
     private val achievementApi: AchievementRemote,

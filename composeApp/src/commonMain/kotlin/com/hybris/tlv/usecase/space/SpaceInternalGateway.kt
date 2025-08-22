@@ -5,7 +5,6 @@ import com.hybris.tlv.http.Result
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.storage.saveFile
-import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.space.formula.DerivedData
 import com.hybris.tlv.usecase.space.local.SpaceLocal
 import com.hybris.tlv.usecase.space.mapper.mergePlanets
@@ -14,9 +13,9 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.remote.SpaceRemote
 import com.hybris.tlv.usecase.space.remote.result.ExoplanetsResult
+import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 
 internal class SpaceInternalGateway(
     private val spaceApi: SpaceRemote,

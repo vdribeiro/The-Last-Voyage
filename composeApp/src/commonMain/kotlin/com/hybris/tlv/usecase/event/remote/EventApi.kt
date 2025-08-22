@@ -11,5 +11,5 @@ internal class EventApi(
 ): EventRemote {
 
     override suspend fun getEvents(): Result<Event> =
-        httpClient.getStream(url = EVENTS_URL)
+        httpClient.getStream(path = EVENTS_URL)
 }

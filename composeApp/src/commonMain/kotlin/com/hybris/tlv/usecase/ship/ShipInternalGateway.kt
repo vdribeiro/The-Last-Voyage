@@ -2,10 +2,10 @@ package com.hybris.tlv.usecase.ship
 
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.serializer.loadFromJson
-import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.ship.local.ShipLocal
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.remote.ShipRemote
+import com.hybris.tlv.usecase.sync.model.SyncResult
 
 internal class ShipInternalGateway(
     private val shipApi: ShipRemote,

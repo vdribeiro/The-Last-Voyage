@@ -1,10 +1,11 @@
 package com.hybris.tlv.storage
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.hybris.tlv.firestore.tryAwait
+import kotlinx.coroutines.tasks.await
 
 internal class AndroidRemoteConfig: RemoteConfig {
 
@@ -40,4 +41,13 @@ internal class AndroidRemoteConfig: RemoteConfig {
     override fun getDouble(key: Config): Double = runCatching {
         remoteConfig.getValue(key.key).asDouble()
     }.getOrDefault(defaultValue = key.defaultValue.asDouble())
+
+    /**
+     * Awaits the completion of the task without blocking a thread.
+     * If the Job of the current coroutine is cancelled it returns false.
+     */
+    private suspend fun <T> Task<T>.tryAwait(): Boolean = runCatching {
+        await()
+        true
+    }.getOrDefault(defaultValue = false)
 }

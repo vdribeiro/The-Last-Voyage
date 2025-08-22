@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.ship
 
-import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.ship.model.Engine
+import com.hybris.tlv.usecase.sync.model.SyncResult
 
 internal interface ShipInternalUseCases {
 

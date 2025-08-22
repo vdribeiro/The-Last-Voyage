@@ -11,5 +11,5 @@ internal class ShipApi(
 ): ShipRemote {
 
     override suspend fun getEngines(): Result<Engine> =
-        httpClient.getStream(url = ENGINES_URL)
+        httpClient.getStream(path = ENGINES_URL)
 }

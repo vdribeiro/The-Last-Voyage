@@ -2,10 +2,10 @@ package com.hybris.tlv.usecase.credit
 
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.serializer.loadFromJson
-import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.credit.local.CreditLocal
 import com.hybris.tlv.usecase.credit.model.Credit
 import com.hybris.tlv.usecase.credit.remote.CreditRemote
+import com.hybris.tlv.usecase.sync.model.SyncResult
 
 internal class CreditInternalGateway(
     private val creditApi: CreditRemote,

@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.sync
 
-import com.hybris.tlv.usecase.SyncResult
+import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlinx.coroutines.flow.Flow
 
 internal interface SyncUseCases {

@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.translation
 
-import com.hybris.tlv.usecase.SyncResult
+import com.hybris.tlv.usecase.sync.model.SyncResult
 import com.hybris.tlv.usecase.translation.model.domain.Translation
 
 internal interface TranslationInternalUseCases {

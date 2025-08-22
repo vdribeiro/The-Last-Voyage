@@ -11,5 +11,5 @@ internal class EarthApi(
 ): EarthRemote {
 
     override suspend fun getCatastrophes(): Result<Catastrophe> =
-        httpClient.getStream(url = CATASTROPHES_URL)
+        httpClient.getStream(path = CATASTROPHES_URL)
 }

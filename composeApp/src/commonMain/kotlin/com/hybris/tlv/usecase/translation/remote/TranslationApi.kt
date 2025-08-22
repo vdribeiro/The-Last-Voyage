@@ -11,5 +11,5 @@ internal class TranslationApi(
 ): TranslationRemote {
 
     override suspend fun getTranslations(): Result<Translation> =
-        httpClient.getStream(url = TRANSLATIONS_URL)
+        httpClient.getStream(path = TRANSLATIONS_URL)
 }

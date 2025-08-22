@@ -6,13 +6,13 @@ import com.hybris.tlv.storage.Config
 import com.hybris.tlv.storage.LocalConfig
 import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.storage.RemoteConfigSettings
-import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.achievement.AchievementInternalUseCases
 import com.hybris.tlv.usecase.credit.CreditInternalUseCases
 import com.hybris.tlv.usecase.earth.EarthInternalUseCases
 import com.hybris.tlv.usecase.event.EventInternalUseCases
 import com.hybris.tlv.usecase.ship.ShipInternalUseCases
 import com.hybris.tlv.usecase.space.SpaceInternalUseCases
+import com.hybris.tlv.usecase.sync.model.SyncResult
 import com.hybris.tlv.usecase.translation.TranslationInternalUseCases
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -75,8 +75,11 @@ internal class SyncGateway(
         val remoteValue = remoteConfig.getLong(key = key)
         val localValue = localConfig.getLong(key = key)
         Logger.info(tag = TAG, message = "${key.key}: remote: $remoteValue - local: $localValue")
-        val result = if (remoteValue > localValue) sync() else SyncResult.Success
-        if (result == SyncResult.Success) localConfig.put(key = key, value = remoteConfig.getLong(key = key))
+        when (val result = if (remoteValue > localValue) sync() else SyncResult.Success) {
+            SyncResult.Success -> localConfig.put(key = key, value = remoteConfig.getLong(key = key))
+            is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
+            is SyncResult.Loading -> {}
+        }
     }
 
     override suspend fun prepopulate(): Flow<SyncResult> = flow {

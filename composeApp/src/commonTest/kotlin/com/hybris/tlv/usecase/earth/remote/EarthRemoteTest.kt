@@ -3,7 +3,7 @@ package com.hybris.tlv.usecase.earth.remote
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.catastrophes
-import com.hybris.tlv.usecase.SyncResult
+import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.last

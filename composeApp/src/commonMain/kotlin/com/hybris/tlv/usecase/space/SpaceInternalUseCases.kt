@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.space
 
-import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
+import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlinx.coroutines.flow.Flow
 
 internal interface SpaceInternalUseCases {

@@ -11,5 +11,5 @@ internal class CreditApi(
 ): CreditRemote {
 
     override suspend fun getCredits(): Result<Credit> =
-        httpClient.getStream(url = CREDITS_URL)
+        httpClient.getStream(path = CREDITS_URL)
 }

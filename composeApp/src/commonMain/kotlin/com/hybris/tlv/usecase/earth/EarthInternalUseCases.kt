@@ -1,8 +1,7 @@
 package com.hybris.tlv.usecase.earth
 
-import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.earth.model.Catastrophe
-import kotlinx.coroutines.flow.Flow
+import com.hybris.tlv.usecase.sync.model.SyncResult
 
 internal interface EarthInternalUseCases {
 

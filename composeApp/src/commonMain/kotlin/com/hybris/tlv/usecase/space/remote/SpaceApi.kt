@@ -1,12 +1,11 @@
 package com.hybris.tlv.usecase.space.remote
 
 import com.hybris.tlv.http.EXOPLANET_ARCHIVE_URL
+import com.hybris.tlv.http.PLANETS_URL
 import com.hybris.tlv.http.QueryMap
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.STELLAR_HOSTS_URL
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.serializer.json
 import com.hybris.tlv.usecase.space.mapper.toPlanet
 import com.hybris.tlv.usecase.space.mapper.toStellarHost
 import com.hybris.tlv.usecase.space.model.Planet
@@ -15,16 +14,12 @@ import com.hybris.tlv.usecase.space.remote.json.ExoplanetJson
 import com.hybris.tlv.usecase.space.remote.json.StellarHostJson
 import com.hybris.tlv.usecase.space.remote.result.ExoplanetsResult
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
-import io.ktor.client.request.url
-import io.ktor.http.encodeURLPath
 
 internal class SpaceApi(
     private val httpClient: HttpClient,
 ): SpaceRemote {
 
-    override suspend fun getStellarHostsArchive(queryMap: QueryMap): ExoplanetsResult = runCatching {
+    override suspend fun getStellarHostsArchive(queryMap: QueryMap): ExoplanetsResult {
         val offset = queryMap.offset ?: 0
         val limit = queryMap.limit ?: Long.MAX_VALUE
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
@@ -51,19 +46,16 @@ internal class SpaceApi(
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }
-        val response = httpClient.get {
-            url(path = EXOPLANET_ARCHIVE_URL.encodeURLPath())
-            queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
-        }.call.body<String>()
-
-        val json = json.decodeFromString<List<StellarHostJson>>(string = response)
-        ExoplanetsResult.Success(stellarHosts = json.map { it.toStellarHost() }, planets = emptyList())
-    }.getOrElse {
-        Logger.error(tag = TAG, message = it.message.orEmpty())
-        ExoplanetsResult.Error(error = it.message.orEmpty())
+        return when (val response = httpClient.getStream<StellarHostJson>(path = EXOPLANET_ARCHIVE_URL, queryMap = queryMap)) {
+            is Result.Error<StellarHostJson> -> ExoplanetsResult.Error(error = response.error)
+            is Result.Success<StellarHostJson> -> ExoplanetsResult.Success(
+                stellarHosts = response.list.map { it.toStellarHost() },
+                planets = emptyList()
+            )
+        }
     }
 
-    override suspend fun getExoplanetsArchive(queryMap: QueryMap): ExoplanetsResult = runCatching {
+    override suspend fun getExoplanetsArchive(queryMap: QueryMap): ExoplanetsResult {
         val offset = queryMap.offset ?: 0
         val limit = queryMap.limit ?: Long.MAX_VALUE
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
@@ -102,18 +94,16 @@ internal class SpaceApi(
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }
-        val response = httpClient.get {
-            url(path = EXOPLANET_ARCHIVE_URL.encodeURLPath())
-            queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
-        }.call.body<String>()
-        val json = json.decodeFromString<List<ExoplanetJson>>(string = response)
-        ExoplanetsResult.Success(stellarHosts = json.map { it.toStellarHost() }, planets = json.map { it.toPlanet() })
-    }.getOrElse {
-        Logger.error(tag = TAG, message = it.message.orEmpty())
-        ExoplanetsResult.Error(error = it.message.orEmpty())
+        return when (val response = httpClient.getStream<ExoplanetJson>(path = EXOPLANET_ARCHIVE_URL, queryMap = queryMap)) {
+            is Result.Error<ExoplanetJson> -> ExoplanetsResult.Error(error = response.error)
+            is Result.Success<ExoplanetJson> -> ExoplanetsResult.Success(
+                stellarHosts = response.list.map { it.toStellarHost() },
+                planets = response.list.map { it.toPlanet() }
+            )
+        }
     }
 
-    override suspend fun getK2ExoplanetsArchive(queryMap: QueryMap): ExoplanetsResult = runCatching {
+    override suspend fun getK2ExoplanetsArchive(queryMap: QueryMap): ExoplanetsResult {
         val offset = queryMap.offset ?: 0
         val limit = queryMap.limit ?: Long.MAX_VALUE
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
@@ -153,24 +143,18 @@ internal class SpaceApi(
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }
-        val response = httpClient.get {
-            url(path = EXOPLANET_ARCHIVE_URL.encodeURLPath())
-            queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
-        }.call.body<String>()
-        val json = json.decodeFromString<List<ExoplanetJson>>(string = response)
-        ExoplanetsResult.Success(stellarHosts = json.map { it.toStellarHost() }, planets = json.map { it.toPlanet() })
-    }.getOrElse {
-        Logger.error(tag = TAG, message = it.message.orEmpty())
-        ExoplanetsResult.Error(error = it.message.orEmpty())
+        return when (val response = httpClient.getStream<ExoplanetJson>(path = EXOPLANET_ARCHIVE_URL, queryMap = queryMap)) {
+            is Result.Error<ExoplanetJson> -> ExoplanetsResult.Error(error = response.error)
+            is Result.Success<ExoplanetJson> -> ExoplanetsResult.Success(
+                stellarHosts = response.list.map { it.toStellarHost() },
+                planets = response.list.map { it.toPlanet() }
+            )
+        }
     }
 
     override suspend fun getStellarHosts(): Result<StellarHost> =
-        httpClient.getStream(url = STELLAR_HOSTS_URL)
+        httpClient.getStream(path = STELLAR_HOSTS_URL)
 
     override suspend fun getPlanets(): Result<Planet> =
-        httpClient.getStream(url = STELLAR_HOSTS_URL)
-
-    companion object {
-        private const val TAG = "SpaceApi"
-    }
+        httpClient.getStream(path = PLANETS_URL)
 }

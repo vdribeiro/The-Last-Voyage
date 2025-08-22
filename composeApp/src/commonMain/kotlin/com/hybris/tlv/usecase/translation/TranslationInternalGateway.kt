@@ -4,7 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.serializer.loadFromJson
-import com.hybris.tlv.usecase.SyncResult
+import com.hybris.tlv.usecase.sync.model.SyncResult
 import com.hybris.tlv.usecase.translation.local.TranslationLocal
 import com.hybris.tlv.usecase.translation.mapper.toTranslationCacheMap
 import com.hybris.tlv.usecase.translation.model.domain.Translation

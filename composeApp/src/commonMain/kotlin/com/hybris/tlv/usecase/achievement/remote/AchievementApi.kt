@@ -11,5 +11,5 @@ internal class AchievementApi(
 ): AchievementRemote {
 
     override suspend fun getAchievements(): Result<Achievement> =
-        httpClient.getStream(url = ACHIEVEMENTS_URL)
+        httpClient.getStream(path = ACHIEVEMENTS_URL)
 }

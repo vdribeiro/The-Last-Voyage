@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.achievement
 
-import com.hybris.tlv.usecase.SyncResult
 import com.hybris.tlv.usecase.achievement.model.Achievement
+import com.hybris.tlv.usecase.sync.model.SyncResult
 
 internal interface AchievementInternalUseCases {
 
