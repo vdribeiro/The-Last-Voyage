@@ -1,9 +1,11 @@
 package com.hybris.tlv.usecase.space.local
 
+import com.hybris.tlv.usecase.space.mapper.toFormulaSchema
 import com.hybris.tlv.usecase.space.mapper.toPlanet
 import com.hybris.tlv.usecase.space.mapper.toPlanetSchema
 import com.hybris.tlv.usecase.space.mapper.toStellarHost
 import com.hybris.tlv.usecase.space.mapper.toStellarHostSchema
+import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import database.AppDatabase
@@ -14,6 +16,7 @@ internal class SpaceDao(
 
     private val stellarHostDao = database.stellarHostQueries
     private val planetDao = database.planetQueries
+    private val formulaDao = database.formulaQueries
 
     override fun isStellarHostEmpty(): Boolean =
         stellarHostDao.isStellarHostEmpty().executeAsList().isEmpty()
@@ -36,4 +39,8 @@ internal class SpaceDao(
 
     override fun getPlanets(): List<Planet> =
         planetDao.getPlanets().executeAsList().map { it.toPlanet() }
+
+    override fun upsertFormula(formula: Formula) {
+        formulaDao.upsertFormula(Formula = formula.toFormulaSchema())
+    }
 }

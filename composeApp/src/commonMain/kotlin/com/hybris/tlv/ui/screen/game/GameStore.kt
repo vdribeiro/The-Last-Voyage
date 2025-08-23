@@ -8,13 +8,12 @@ import com.hybris.tlv.ui.screen.error.ErrorState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
+import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
-import com.hybris.tlv.usecase.space.model.Math
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
-import kotlin.math.abs
 import kotlin.math.ceil
 
 internal sealed interface GameAction {
@@ -44,6 +43,7 @@ internal class GameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: GameState,
+    private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameAction, GameState>(
@@ -69,7 +69,8 @@ internal class GameStore(
             return@launchInPipeline
         }
 
-        val updatedGameSession = validateGameSession(gameSession = gameSession)
+        val ship = shipUseCases.repairShip(ship = gameSession.ship)
+        val updatedGameSession = gameSession.copy(ship = ship)
         gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
 
         if (gameSessionUseCases.isGameOver(gameSession = updatedGameSession)) {
@@ -111,7 +112,7 @@ internal class GameStore(
         var nearStellarHosts = spaceUseCases.getNearestStars(
             stellarHost = currentStellarHost,
             stellarHosts = stellarHosts,
-            n = updatedGameSession.sensorRange,
+            n = ship.sensorRange,
             visited = visited
         )
 
@@ -121,7 +122,7 @@ internal class GameStore(
             nearStellarHosts = spaceUseCases.getNearestStars(
                 stellarHost = currentStellarHost,
                 stellarHosts = stellarHosts,
-                n = updatedGameSession.sensorRange,
+                n = ship.sensorRange,
                 visited = visited
             )
         }
@@ -130,33 +131,7 @@ internal class GameStore(
             planet.habitability = Habitability.calculateHabitability(
                 stellarHost = currentStellarHost,
                 planet = planet,
-                math = Math(
-                    habitableZoneWeight = gameSession.habitableZoneWeight,
-                    planetRadiusWeight = gameSession.planetRadiusWeight,
-                    planetMassWeight = gameSession.planetMassWeight,
-                    planetTelluricityWeight = gameSession.planetTelluricityWeight,
-                    planetEccentricityWeight = gameSession.planetEccentricityWeight,
-                    planetTemperatureWeight = gameSession.planetTemperatureWeight,
-                    planetObliquityWeight = gameSession.planetObliquityWeight,
-                    planetEsiWeight = gameSession.planetEsiWeight,
-                    stellarSpectralTypeWeight = gameSession.stellarSpectralTypeWeight,
-                    stellarMassWeight = gameSession.stellarMassWeight,
-                    stellarAgeWeight = gameSession.stellarAgeWeight,
-                    stellarActivityWeight = gameSession.stellarActivityWeight,
-                    stellarRotationalPeriodWeight = gameSession.stellarRotationalPeriodWeight,
-                    stellarGravityWeight = gameSession.stellarGravityWeight,
-                    stellarMetallicityWeight = gameSession.stellarMetallicityWeight,
-                    stellarEffectiveTemperatureWeight = gameSession.stellarEffectiveTemperatureWeight,
-                    planetProtectionWeight = gameSession.planetProtectionWeight,
-                    planetTidalLockingWeight = gameSession.planetTidalLockingWeight,
-                    planetMassLowerLimit = gameSession.planetMassLowerLimit,
-                    planetMassIdealUpperLimit = gameSession.planetMassIdealUpperLimit,
-                    planetMassMaxUpperLimit = gameSession.planetMassMaxUpperLimit,
-                    planetRadiusLowerLimit = gameSession.planetRadiusLowerLimit,
-                    planetRadiusIdealUpperLimit = gameSession.planetRadiusIdealUpperLimit,
-                    planetRadiusMaxUpperLimit = gameSession.planetRadiusMaxUpperLimit,
-                    stellarHostEffectiveTemperatureMaxDeviation = gameSession.stellarHostEffectiveTemperatureMaxDeviation
-                )
+                formula = gameSession.formula
             )
         }
 
@@ -201,14 +176,16 @@ internal class GameStore(
 
         val distance = ceil(x = stellarHost.distance ?: 1.0).toInt()
         val speed = 0.1  // TODO - use engine speed - using 0.1c for now
-        val yearsTraveled = state.gameSession.yearsTraveled + (distance / speed)
+        val yearsTraveled = state.gameSession.ship.yearsTraveled + (distance / speed)
 
-        val fuel = state.gameSession.fuel - distance
+        val fuel = state.gameSession.ship.fuel - distance
 
         gameSessionUseCases.updateGameSession(
             gameSession = state.gameSession.copy(
-                yearsTraveled = yearsTraveled,
-                fuel = fuel,
+                ship = state.gameSession.ship.copy(
+                    yearsTraveled = yearsTraveled,
+                    fuel = fuel,
+                ),
                 currentStellarHostId = stellarHost.id,
                 visitedStellarHosts = visited
             )

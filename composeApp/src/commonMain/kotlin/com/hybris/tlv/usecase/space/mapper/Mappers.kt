@@ -1,10 +1,12 @@
 package com.hybris.tlv.usecase.space.mapper
 
+import com.hybris.tlv.database.FormulaSchema
 import com.hybris.tlv.database.PlanetSchema
 import com.hybris.tlv.database.StellarHostSchema
 import com.hybris.tlv.usecase.space.formula.Constants.PARSEC
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY
 import com.hybris.tlv.usecase.space.model.CartesianPoint
+import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.PlanetType
@@ -309,6 +311,37 @@ internal fun Planet.toPlanetSchema(): PlanetSchema =
         occultationDepth = occultationDepth,
         inclination = inclination,
         obliquity = obliquity,
+    )
+
+internal fun Formula.toFormulaSchema(): FormulaSchema=
+    FormulaSchema(
+        id = id,
+        rocheWeight = rocheWeight,
+        habitableZoneWeight = habitableZoneWeight,
+        planetRadiusWeight = planetRadiusWeight,
+        planetMassWeight = planetMassWeight,
+        planetTelluricityWeight = planetTelluricityWeight,
+        planetEccentricityWeight = planetEccentricityWeight,
+        planetTemperatureWeight = planetTemperatureWeight,
+        planetObliquityWeight = planetObliquityWeight,
+        planetEsiWeight = planetEsiWeight,
+        stellarSpectralTypeWeight = stellarSpectralTypeWeight,
+        stellarMassWeight = stellarMassWeight,
+        stellarAgeWeight = stellarAgeWeight,
+        stellarActivityWeight = stellarActivityWeight,
+        stellarRotationalPeriodWeight = stellarRotationalPeriodWeight,
+        stellarGravityWeight = stellarGravityWeight,
+        stellarMetallicityWeight = stellarMetallicityWeight,
+        stellarEffectiveTemperatureWeight = stellarEffectiveTemperatureWeight,
+        planetProtectionWeight = planetProtectionWeight,
+        planetTidalLockingWeight = planetTidalLockingWeight,
+        planetMassLowerLimit = planetMassLowerLimit,
+        planetMassIdealUpperLimit = planetMassIdealUpperLimit,
+        planetMassMaxUpperLimit = planetMassMaxUpperLimit,
+        planetRadiusLowerLimit = planetRadiusLowerLimit,
+        planetRadiusIdealUpperLimit = planetRadiusIdealUpperLimit,
+        planetRadiusMaxUpperLimit = planetRadiusMaxUpperLimit,
+        stellarHostEffectiveTemperatureMaxDeviation = stellarHostEffectiveTemperatureMaxDeviation
     )
 
 internal fun StellarHostSchema.toStellarHost(): StellarHost =

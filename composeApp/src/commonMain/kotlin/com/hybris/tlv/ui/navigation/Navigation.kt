@@ -126,6 +126,7 @@ internal class Navigation(
             dispatcher = dispatcher,
             navigation = this,
             initialState = state as? GameState ?: GameState(),
+            shipUseCases = useCases.ship,
             spaceUseCases = useCases.space,
             gameSessionUseCases = useCases.gameSession
         )

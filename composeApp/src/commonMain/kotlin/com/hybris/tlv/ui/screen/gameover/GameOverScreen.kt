@@ -34,6 +34,7 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
     val storeState by store.stateFlow.collectAsState()
     val currentContent = storeState.currentContent ?: return
     val gameSession = storeState.gameSession ?: return
+    val ship = gameSession.ship
 
     BackHandler(enabled = true) { store.send(action = GameOverAction.Back) }
 
@@ -67,12 +68,12 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
                             isExpanded = null,
                             score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
                             utc = gameSession.utc,
-                            yearsTraveled = gameSession.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
-                            sensorRange = gameSession.sensorRange.toString(),
-                            integrity = gameSession.integrity.toString(),
-                            materials = gameSession.materials.toString(),
-                            fuel = gameSession.fuel.toString(),
-                            cryopods = gameSession.cryopods.toString()
+                            yearsTraveled = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
+                            sensorRange = ship.sensorRange.toString(),
+                            integrity = ship.integrity.toString(),
+                            materials = ship.materials.toString(),
+                            fuel = ship.fuel.toString(),
+                            cryopods = ship.cryopods.toString()
                         )
                     }
                 }

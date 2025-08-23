@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.space.local
 
+import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
@@ -34,4 +35,9 @@ internal interface SpaceLocal {
      * Get [Planet]s from the database.
      */
     fun getPlanets(): List<Planet>
+
+    /**
+     * Upsert [Formula] in the database.
+     */
+    fun upsertFormula(formula: Formula)
 }

@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.gamesession.model
 
 import com.hybris.tlv.usecase.ship.model.Ship
-import com.hybris.tlv.usecase.space.model.Math
+import com.hybris.tlv.usecase.space.model.Formula
 
 internal data class GameSession(
     val id: String,
@@ -13,5 +13,5 @@ internal data class GameSession(
     val settledPlanetId: String?,
     val finalHabitability: Double?,
     val score: Double?,
-    val math: Math
+    val formula: Formula
 )

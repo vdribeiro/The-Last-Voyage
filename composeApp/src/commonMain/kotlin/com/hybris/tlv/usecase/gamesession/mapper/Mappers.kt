@@ -6,8 +6,6 @@ import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.mapper.toShip
-import com.hybris.tlv.usecase.ship.model.ShipPrototype
-import com.hybris.tlv.usecase.space.model.Math
 
 internal fun GameSessionPrototype.toGameSession(id: String = generateUuid()): GameSession =
     GameSession(
@@ -20,7 +18,7 @@ internal fun GameSessionPrototype.toGameSession(id: String = generateUuid()): Ga
         finalHabitability = null,
         score = null,
         ship = ship.toShip(id),
-        math = math
+        formula = formula
     )
 
 internal fun GameSession.toGameSessionSchema(): GameSessionSchema =

@@ -37,7 +37,7 @@ import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_MG
 import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_RG
 import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_RV
 import com.hybris.tlv.usecase.space.mapper.sanitize
-import com.hybris.tlv.usecase.space.model.Math
+import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetType
 import com.hybris.tlv.usecase.space.model.Score
@@ -55,7 +55,7 @@ internal object Habitability {
     fun calculateHabitability(
         stellarHost: StellarHost,
         planet: Planet,
-        math: Math
+        formula: Formula
     ): Score {
         val weightedScores = mutableListOf<Pair<Double, Double>>()
 
@@ -66,53 +66,53 @@ internal object Habitability {
             stellarHostDensity = stellarHost.density,
             planetDensity = planet.density,
             planetOrbitAxis = planet.orbitAxis
-        )?.also { weightedScores.add(it to math.rocheWeight) }
+        )?.also { weightedScores.add(it to formula.rocheWeight) }
         // Is the planet in the right place for liquid water?
         val habitableZoneScore = calculateHabitableZoneScore(
             stellarHostLuminosity = stellarHost.luminosity,
             stellarHostEffectiveTemperature = stellarHost.effectiveTemperature,
             planetOrbitAxis = planet.orbitAxis,
             planetMass = planet.mass,
-            planetMassLowerLimit = math.planetMassLowerLimit,
-            planetMassUpperLimit = math.planetMassIdealUpperLimit
-        )?.also { weightedScores.add(it to math.habitableZoneWeight) }
+            planetMassLowerLimit = formula.planetMassLowerLimit,
+            planetMassUpperLimit = formula.planetMassIdealUpperLimit
+        )?.also { weightedScores.add(it to formula.habitableZoneWeight) }
 
         // Tier 2: Planet's Intrinsic Properties (Composition & Climate)
         // Is the planet the right size to be rocky?
         val planetRadiusScore = calculatePlanetRadiusScore(
             planetRadius = planet.radius,
-            planetRadiusLowerLimit = math.planetRadiusLowerLimit,
-            planetRadiusIdealUpperLimit = math.planetRadiusIdealUpperLimit,
-            planetRadiusMaxUpperLimit = math.planetRadiusMaxUpperLimit
-        )?.also { weightedScores.add(it to math.planetRadiusWeight) }
+            planetRadiusLowerLimit = formula.planetRadiusLowerLimit,
+            planetRadiusIdealUpperLimit = formula.planetRadiusIdealUpperLimit,
+            planetRadiusMaxUpperLimit = formula.planetRadiusMaxUpperLimit
+        )?.also { weightedScores.add(it to formula.planetRadiusWeight) }
 
         // Can it hold an atmosphere and drive geology?
         val planetMassScore = calculatePlanetMassScore(
             planetMass = planet.mass,
-            planetMassLowerLimit = math.planetMassLowerLimit,
-            planetMassIdealUpperLimit = math.planetMassIdealUpperLimit,
-            planetMassMaxUpperLimit = math.planetMassMaxUpperLimit
-        )?.also { weightedScores.add(it to math.planetMassWeight) }
+            planetMassLowerLimit = formula.planetMassLowerLimit,
+            planetMassIdealUpperLimit = formula.planetMassIdealUpperLimit,
+            planetMassMaxUpperLimit = formula.planetMassMaxUpperLimit
+        )?.also { weightedScores.add(it to formula.planetMassWeight) }
 
         // Is it rocky based on density?
         val planetTelluricityScore = calculatePlanetTelluricityScore(
             planetDensity = planet.density
-        )?.also { weightedScores.add(it to math.planetTelluricityWeight) }
+        )?.also { weightedScores.add(it to formula.planetTelluricityWeight) }
 
         // Does it have a stable, circular orbit for stable temperatures?
         val planetEccentricityScore = calculatePlanetEccentricityScore(
             planetEccentricity = planet.eccentricity
-        )?.also { weightedScores.add(it to math.planetEccentricityWeight) }
+        )?.also { weightedScores.add(it to formula.planetEccentricityWeight) }
 
         // Does it have a reasonable baseline temperature?
         val planetTemperatureScore = calculatePlanetTemperatureScore(
             planetTemperature = planet.equilibriumTemperature
-        )?.also { weightedScores.add(it to math.planetTemperatureWeight) }
+        )?.also { weightedScores.add(it to formula.planetTemperatureWeight) }
 
         // Does it have stable seasons?
         val planetObliquityScore = calculatePlanetObliquityScore(
             planetObliquity = planet.obliquity
-        )?.also { weightedScores.add(it to math.planetObliquityWeight) }
+        )?.also { weightedScores.add(it to formula.planetObliquityWeight) }
 
         // Overall Earth Similarity
         val planetEsiScore = calculatePlanetEsiScore(
@@ -121,60 +121,60 @@ internal object Habitability {
             planetMass = planet.mass,
             planetTemperature = planet.equilibriumTemperature,
             planetInsolationFlux = planet.insolationFlux
-        )?.also { weightedScores.add(it to math.planetEsiWeight) }
+        )?.also { weightedScores.add(it to formula.planetEsiWeight) }
 
         // Tier 3: Host Star Quality
         // Is the star stable?
         val stellarSpectralTypeScore = calculateStellarSpectralTypeScore(
             stellarHostSpectralType = stellarHost.spectralType
-        )?.also { weightedScores.add(it to math.stellarSpectralTypeWeight) }
+        )?.also { weightedScores.add(it to formula.stellarSpectralTypeWeight) }
 
         // Does the star have a long, stable lifetime?
         val stellarMassScore = calculateStellarMassScore(
             stellarHostMass = stellarHost.mass
-        )?.also { weightedScores.add(it to math.stellarMassWeight) }
+        )?.also { weightedScores.add(it to formula.stellarMassWeight) }
 
         // Is the star old enough for life, but not too old?
         val stellarAgeScore = calculateStellarAgeScore(
             stellarHostAge = stellarHost.age
-        )?.also { weightedScores.add(it to math.stellarAgeWeight) }
+        )?.also { weightedScores.add(it to formula.stellarAgeWeight) }
 
         // Is the star prone to violent flares?
         val stellarActivityScore = calculateStellarActivityScore(
             stellarHostRotationalVelocity = stellarHost.rotationalVelocity,
-        )?.also { weightedScores.add(it to math.stellarActivityWeight) }
+        )?.also { weightedScores.add(it to formula.stellarActivityWeight) }
         val stellarRotationalPeriodScore = calculateStellarRotationalPeriodScore(
             stellarHostRotationalPeriod = stellarHost.rotationalPeriod
-        )?.also { if (stellarActivityScore == null) weightedScores.add(it to math.stellarRotationalPeriodWeight) }
+        )?.also { if (stellarActivityScore == null) weightedScores.add(it to formula.stellarRotationalPeriodWeight) }
 
         // Is it a compact main-sequence star or a giant?
         val stellarGravityScore = calculateStellarGravityScore(
             stellarHostGravity = stellarHost.gravity
-        )?.also { weightedScores.add(it to math.stellarGravityWeight) }
+        )?.also { weightedScores.add(it to formula.stellarGravityWeight) }
 
         // Does it have the right materials to form rocky planets?
         val stellarMetallicityScore = calculateStellarMetallicityScore(
             stellarHostMetallicity = stellarHost.metallicity
-        )?.also { weightedScores.add(it to math.stellarMetallicityWeight) }
+        )?.also { weightedScores.add(it to formula.stellarMetallicityWeight) }
 
         // Is its temperature ideal?
         val stellarEffectiveTemperatureScore = calculateStellarEffectiveTemperatureScore(
             stellarHostEffectiveTemperature = stellarHost.effectiveTemperature,
-            stellarHostEffectiveTemperatureMaxDeviation = math.stellarHostEffectiveTemperatureMaxDeviation
-        )?.also { weightedScores.add(it to math.stellarEffectiveTemperatureWeight) }
+            stellarHostEffectiveTemperatureMaxDeviation = formula.stellarHostEffectiveTemperatureMaxDeviation
+        )?.also { weightedScores.add(it to formula.stellarEffectiveTemperatureWeight) }
 
         // Tier 4: Planetary Protection
         // Can the planet shield itself?
         val planetProtectionScore = calculatePlanetProtectionScore(
             planetMass = planet.mass,
             planetDensity = planet.density
-        )?.also { weightedScores.add(it to math.planetProtectionWeight) }
+        )?.also { weightedScores.add(it to formula.planetProtectionWeight) }
 
         // Is the planet free from extreme temperature lock?
         val planetTidalLockingScore = calculatePlanetTidalLockingScore(
             stellarHostSpectralType = stellarHost.spectralType,
             planetOrbitalPeriod = planet.orbitalPeriod
-        )?.also { weightedScores.add(it to math.planetTidalLockingWeight) }
+        )?.also { weightedScores.add(it to formula.planetTidalLockingWeight) }
 
         // Score
         val parsedWeightedScores = weightedScores.mapNotNull {
@@ -185,25 +185,25 @@ internal object Habitability {
             key to value
         }
         val totalPossibleWeight = listOf(
-            math.rocheWeight,
-            math.habitableZoneWeight,
-            math.planetRadiusWeight,
-            math.planetMassWeight,
-            math.planetTelluricityWeight,
-            math.planetEccentricityWeight,
-            math.planetTemperatureWeight,
-            math.planetObliquityWeight,
-            math.planetEsiWeight,
-            math.stellarSpectralTypeWeight,
-            math.stellarMassWeight,
-            math.stellarAgeWeight,
-            math.stellarActivityWeight,
-            math.stellarRotationalPeriodWeight,
-            math.stellarGravityWeight,
-            math.stellarMetallicityWeight,
-            math.stellarEffectiveTemperatureWeight,
-            math.planetProtectionWeight,
-            math.planetTidalLockingWeight
+            formula.rocheWeight,
+            formula.habitableZoneWeight,
+            formula.planetRadiusWeight,
+            formula.planetMassWeight,
+            formula.planetTelluricityWeight,
+            formula.planetEccentricityWeight,
+            formula.planetTemperatureWeight,
+            formula.planetObliquityWeight,
+            formula.planetEsiWeight,
+            formula.stellarSpectralTypeWeight,
+            formula.stellarMassWeight,
+            formula.stellarAgeWeight,
+            formula.stellarActivityWeight,
+            formula.stellarRotationalPeriodWeight,
+            formula.stellarGravityWeight,
+            formula.stellarMetallicityWeight,
+            formula.stellarEffectiveTemperatureWeight,
+            formula.planetProtectionWeight,
+            formula.planetTidalLockingWeight
         ).sum()
         val totalScore = parsedWeightedScores.sumOf { it.first * it.second }
         val totalWeight = parsedWeightedScores.sumOf { it.second }

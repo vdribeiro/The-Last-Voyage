@@ -21,6 +21,7 @@ internal class GameStoreTest {
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = GameState(),
+            shipUseCases = mock.useCases.ship,
             spaceUseCases = mock.useCases.space,
             gameSessionUseCases = mock.useCases.gameSession
         )
@@ -58,21 +59,21 @@ internal class GameStoreTest {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        val latestGameSession = mock.useCases.gameSession.getLatestGameSession()
-        assertNotNull(actual = latestGameSession)
-        mock.gameSessionDao.updateGameSession(gameSession = latestGameSession.copy(integrity = 0))
+        val ship = mock.useCases.gameSession.getLatestGameSession()?.ship?.copy(integrity = 0)
+        assertNotNull(actual = ship)
+        mock.shipDao.upsertShip(ship = ship)
         val gameStore = store
-        assertEquals(expected = 1, actual = gameStore.stateFlow.value.gameSession?.integrity)
-        assertEquals(expected = 89, actual = gameStore.stateFlow.value.gameSession?.materials)
+        assertEquals(expected = 1, actual = gameStore.stateFlow.value.gameSession?.ship?.integrity)
+        assertEquals(expected = 89, actual = gameStore.stateFlow.value.gameSession?.ship?.materials)
     }
 
     @Test
     fun `game over by integrity`() = runBlocking {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        val latestGameSession = mock.useCases.gameSession.getLatestGameSession()
-        assertNotNull(actual = latestGameSession)
-        mock.gameSessionDao.updateGameSession(gameSession = latestGameSession.copy(integrity = 0, materials = 0))
+        val ship = mock.useCases.gameSession.getLatestGameSession()?.ship?.copy(integrity = 0, materials = 0)
+        assertNotNull(actual = ship)
+        mock.shipDao.upsertShip(ship = ship)
         store
         assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mock.navigation.stateFlow.value.screen)
     }
@@ -80,7 +81,7 @@ internal class GameStoreTest {
     @Test
     fun `game over by fuel`() = runBlocking {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
-        mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype.copy(fuel = 0))
+        mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype.copy(ship = gameSessionPrototype.ship.copy(fuel = 0)))
         store
         assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mock.navigation.stateFlow.value.screen)
     }

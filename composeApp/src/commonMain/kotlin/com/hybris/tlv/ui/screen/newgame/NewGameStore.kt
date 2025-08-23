@@ -13,12 +13,12 @@ import com.hybris.tlv.usecase.earth.model.Catastrophe
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
-import com.hybris.tlv.usecase.space.model.Math
+import com.hybris.tlv.usecase.space.model.Formula
 
 internal sealed interface NewGameAction {
     data object Back: NewGameAction
     data class SelectShip(val ship: ShipPrototype): NewGameAction
-    data class SelectMath(val math: Math): NewGameAction
+    data class SelectFormula(val formula: Formula): NewGameAction
     data object Ship: NewGameAction
     data object Advanced: NewGameAction
     data object Start: NewGameAction
@@ -36,7 +36,7 @@ internal data class NewGameState(
         fuel = Point(max = 1000, min = 0, interval = 100, initialValue = 100),
         cryopods = Point(max = 1000, min = 0, interval = 100, initialValue = 100),
     ),
-    val math: Math = Math(),
+    val formula: Formula = Formula(),
 )
 
 internal enum class Content {
@@ -72,8 +72,7 @@ internal class NewGameStore(
     }
 
     private fun startGame(state: NewGameState) = launchInPipeline {
-        val selectedShip = state.selectedShip
-        if (selectedShip == null) {
+        if (state.selectedShip == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing ship prototype")
             navigate(
                 screen = Screen.ERROR, state = ErrorState(
@@ -87,35 +86,8 @@ internal class NewGameStore(
 
         gameSessionUseCases.startGame(
             GameSessionPrototype(
-                ship = selectedShip,
-                math = Math(
-                    rocheWeight = state.math.rocheWeight,
-                    habitableZoneWeight = state.math.habitableZoneWeight,
-                    planetRadiusWeight = state.math.planetRadiusWeight,
-                    planetMassWeight = state.math.planetMassWeight,
-                    planetTelluricityWeight = state.math.planetTelluricityWeight,
-                    planetEccentricityWeight = state.math.planetEccentricityWeight,
-                    planetTemperatureWeight = state.math.planetTemperatureWeight,
-                    planetObliquityWeight = state.math.planetObliquityWeight,
-                    planetEsiWeight = state.math.planetEsiWeight,
-                    stellarSpectralTypeWeight = state.math.stellarSpectralTypeWeight,
-                    stellarMassWeight = state.math.stellarMassWeight,
-                    stellarAgeWeight = state.math.stellarAgeWeight,
-                    stellarActivityWeight = state.math.stellarActivityWeight,
-                    stellarRotationalPeriodWeight = state.math.stellarRotationalPeriodWeight,
-                    stellarGravityWeight = state.math.stellarGravityWeight,
-                    stellarMetallicityWeight = state.math.stellarMetallicityWeight,
-                    stellarEffectiveTemperatureWeight = state.math.stellarEffectiveTemperatureWeight,
-                    planetProtectionWeight = state.math.planetProtectionWeight,
-                    planetTidalLockingWeight = state.math.planetTidalLockingWeight,
-                    planetMassLowerLimit = state.math.planetMassLowerLimit,
-                    planetMassIdealUpperLimit = state.math.planetMassIdealUpperLimit,
-                    planetMassMaxUpperLimit = state.math.planetMassMaxUpperLimit,
-                    planetRadiusLowerLimit = state.math.planetRadiusLowerLimit,
-                    planetRadiusIdealUpperLimit = state.math.planetRadiusIdealUpperLimit,
-                    planetRadiusMaxUpperLimit = state.math.planetRadiusMaxUpperLimit,
-                    stellarHostEffectiveTemperatureMaxDeviation = state.math.stellarHostEffectiveTemperatureMaxDeviation
-                )
+                ship = state.selectedShip,
+                formula = state.formula
             )
         )
         navigate(screen = Screen.GAME)
@@ -136,8 +108,8 @@ internal class NewGameStore(
                 it.copy(selectedShip = action.ship)
             }
 
-            is NewGameAction.SelectMath -> updateState {
-                it.copy(math = action.math)
+            is NewGameAction.SelectFormula -> updateState {
+                it.copy(formula = action.formula)
             }
 
             NewGameAction.Ship -> updateState {

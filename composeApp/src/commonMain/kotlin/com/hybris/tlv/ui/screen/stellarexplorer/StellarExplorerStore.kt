@@ -7,7 +7,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
-import com.hybris.tlv.usecase.space.model.Math
+import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
@@ -112,7 +112,7 @@ internal class StellarExplorerStore(
                     planet.habitability = Habitability.calculateHabitability(
                         stellarHost = stellarHost,
                         planet = planet,
-                        math = Math()
+                        formula = Formula()
                     )
                 }
             }

@@ -4,7 +4,7 @@ import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.catastrophes
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
-import com.hybris.tlv.usecase.space.model.Math
+import com.hybris.tlv.usecase.space.model.Formula
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -81,12 +81,12 @@ internal class NewGameStoreTest {
     }
 
     @Test
-    fun `send action select math`() = runBlocking {
+    fun `send action select formula`() = runBlocking {
         mock.internalEarth.syncCatastrophes()
         val newGameStore = store
-        val math = Math()
-        newGameStore.send(action = NewGameAction.SelectMath(math = math))
-        assertEquals(expected = math, actual = newGameStore.stateFlow.value.math)
+        val formula = Formula()
+        newGameStore.send(action = NewGameAction.SelectFormula(formula = formula))
+        assertEquals(expected = formula, actual = newGameStore.stateFlow.value.formula)
     }
 
     @Test

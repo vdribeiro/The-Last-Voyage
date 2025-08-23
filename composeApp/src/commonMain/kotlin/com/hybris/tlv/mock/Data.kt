@@ -12,33 +12,7 @@ import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
-import com.hybris.tlv.usecase.space.formula.Constants.HABITABLE_ZONE_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_ECCENTRICITY_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_ESI_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_MASS_IDEAL_UPPER_LIMIT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_MASS_LOWER_LIMIT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_MASS_MAX_UPPER_LIMIT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_MASS_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_OBLIQUITY_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_PROTECTION_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_RADIUS_IDEAL_UPPER_LIMIT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_RADIUS_LOWER_LIMIT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_RADIUS_MAX_UPPER_LIMIT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_RADIUS_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_TELLURICITY_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_TEMPERATURE_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.PLANET_TIDAL_LOCKING_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.ROCHE_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_ACTIVITY_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_AGE_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_EFFECTIVE_TEMPERATURE_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_GRAVITY_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_HOST_EFFECTIVE_TEMPERATURE_MAX_DEVIATION
-import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_MASS_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_METALLICITY_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_ROTATIONAL_PERIOD_WEIGHT
-import com.hybris.tlv.usecase.space.formula.Constants.STELLAR_SPECTRAL_TYPE_WEIGHT
-import com.hybris.tlv.usecase.space.model.Math
+import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
@@ -548,7 +522,7 @@ internal val shipPrototype by lazy {
 internal val gameSessionPrototype by lazy {
     GameSessionPrototype(
         ship = shipPrototype,
-        math = Math(id = "1")
+        formula = Formula(id = "1")
     )
 }
 
@@ -576,7 +550,7 @@ internal val gameSession by lazy {
         finalHabitability = null,
         score = null,
         ship = ship,
-        math = Math(id = "1")
+        formula = Formula(id = "1")
     )
 }
 

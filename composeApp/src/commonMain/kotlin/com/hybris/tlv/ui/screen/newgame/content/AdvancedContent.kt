@@ -22,38 +22,38 @@ import com.hybris.tlv.ui.component.LabeledTextField
 import com.hybris.tlv.ui.screen.newgame.NewGameAction
 import com.hybris.tlv.ui.screen.newgame.NewGameState
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.space.model.Math
+import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun AdvancedContent(store: Store<NewGameAction, NewGameState>) {
     val storeState by store.stateFlow.collectAsState()
 
-    var habitableZoneWeight by remember { mutableStateOf(value = storeState.math.habitableZoneWeight.toString()) }
-    var planetRadiusWeight by remember { mutableStateOf(value = storeState.math.planetRadiusWeight.toString()) }
-    var planetMassWeight by remember { mutableStateOf(value = storeState.math.planetMassWeight.toString()) }
-    var planetTelluricityWeight by remember { mutableStateOf(value = storeState.math.planetTelluricityWeight.toString()) }
-    var planetEccentricityWeight by remember { mutableStateOf(value = storeState.math.planetEccentricityWeight.toString()) }
-    var planetTemperatureWeight by remember { mutableStateOf(value = storeState.math.planetTemperatureWeight.toString()) }
-    var planetObliquityWeight by remember { mutableStateOf(value = storeState.math.planetObliquityWeight.toString()) }
-    var planetEsiWeight by remember { mutableStateOf(value = storeState.math.planetEsiWeight.toString()) }
-    var stellarSpectralTypeWeight by remember { mutableStateOf(value = storeState.math.stellarSpectralTypeWeight.toString()) }
-    var stellarMassWeight by remember { mutableStateOf(value = storeState.math.stellarMassWeight.toString()) }
-    var stellarAgeWeight by remember { mutableStateOf(value = storeState.math.stellarAgeWeight.toString()) }
-    var stellarActivityWeight by remember { mutableStateOf(value = storeState.math.stellarActivityWeight.toString()) }
-    var stellarRotationalPeriodWeight by remember { mutableStateOf(value = storeState.math.stellarRotationalPeriodWeight.toString()) }
-    var stellarGravityWeight by remember { mutableStateOf(value = storeState.math.stellarGravityWeight.toString()) }
-    var stellarMetallicityWeight by remember { mutableStateOf(value = storeState.math.stellarMetallicityWeight.toString()) }
-    var stellarEffectiveTemperatureWeight by remember { mutableStateOf(value = storeState.math.stellarEffectiveTemperatureWeight.toString()) }
-    var planetProtectionWeight by remember { mutableStateOf(value = storeState.math.planetProtectionWeight.toString()) }
-    var planetTidalLockingWeight by remember { mutableStateOf(value = storeState.math.planetTidalLockingWeight.toString()) }
-    var planetMassLowerLimit by remember { mutableStateOf(value = storeState.math.planetMassLowerLimit.toString()) }
-    var planetMassIdealUpperLimit by remember { mutableStateOf(value = storeState.math.planetMassIdealUpperLimit.toString()) }
-    var planetMassMaxUpperLimit by remember { mutableStateOf(value = storeState.math.planetMassMaxUpperLimit.toString()) }
-    var planetRadiusLowerLimit by remember { mutableStateOf(value = storeState.math.planetRadiusLowerLimit.toString()) }
-    var planetRadiusIdealUpperLimit by remember { mutableStateOf(value = storeState.math.planetRadiusIdealUpperLimit.toString()) }
-    var planetRadiusMaxUpperLimit by remember { mutableStateOf(value = storeState.math.planetRadiusMaxUpperLimit.toString()) }
-    var stellarHostEffectiveTemperatureMaxDeviation by remember { mutableStateOf(value = storeState.math.stellarHostEffectiveTemperatureMaxDeviation.toString()) }
+    var habitableZoneWeight by remember { mutableStateOf(value = storeState.formula.habitableZoneWeight.toString()) }
+    var planetRadiusWeight by remember { mutableStateOf(value = storeState.formula.planetRadiusWeight.toString()) }
+    var planetMassWeight by remember { mutableStateOf(value = storeState.formula.planetMassWeight.toString()) }
+    var planetTelluricityWeight by remember { mutableStateOf(value = storeState.formula.planetTelluricityWeight.toString()) }
+    var planetEccentricityWeight by remember { mutableStateOf(value = storeState.formula.planetEccentricityWeight.toString()) }
+    var planetTemperatureWeight by remember { mutableStateOf(value = storeState.formula.planetTemperatureWeight.toString()) }
+    var planetObliquityWeight by remember { mutableStateOf(value = storeState.formula.planetObliquityWeight.toString()) }
+    var planetEsiWeight by remember { mutableStateOf(value = storeState.formula.planetEsiWeight.toString()) }
+    var stellarSpectralTypeWeight by remember { mutableStateOf(value = storeState.formula.stellarSpectralTypeWeight.toString()) }
+    var stellarMassWeight by remember { mutableStateOf(value = storeState.formula.stellarMassWeight.toString()) }
+    var stellarAgeWeight by remember { mutableStateOf(value = storeState.formula.stellarAgeWeight.toString()) }
+    var stellarActivityWeight by remember { mutableStateOf(value = storeState.formula.stellarActivityWeight.toString()) }
+    var stellarRotationalPeriodWeight by remember { mutableStateOf(value = storeState.formula.stellarRotationalPeriodWeight.toString()) }
+    var stellarGravityWeight by remember { mutableStateOf(value = storeState.formula.stellarGravityWeight.toString()) }
+    var stellarMetallicityWeight by remember { mutableStateOf(value = storeState.formula.stellarMetallicityWeight.toString()) }
+    var stellarEffectiveTemperatureWeight by remember { mutableStateOf(value = storeState.formula.stellarEffectiveTemperatureWeight.toString()) }
+    var planetProtectionWeight by remember { mutableStateOf(value = storeState.formula.planetProtectionWeight.toString()) }
+    var planetTidalLockingWeight by remember { mutableStateOf(value = storeState.formula.planetTidalLockingWeight.toString()) }
+    var planetMassLowerLimit by remember { mutableStateOf(value = storeState.formula.planetMassLowerLimit.toString()) }
+    var planetMassIdealUpperLimit by remember { mutableStateOf(value = storeState.formula.planetMassIdealUpperLimit.toString()) }
+    var planetMassMaxUpperLimit by remember { mutableStateOf(value = storeState.formula.planetMassMaxUpperLimit.toString()) }
+    var planetRadiusLowerLimit by remember { mutableStateOf(value = storeState.formula.planetRadiusLowerLimit.toString()) }
+    var planetRadiusIdealUpperLimit by remember { mutableStateOf(value = storeState.formula.planetRadiusIdealUpperLimit.toString()) }
+    var planetRadiusMaxUpperLimit by remember { mutableStateOf(value = storeState.formula.planetRadiusMaxUpperLimit.toString()) }
+    var stellarHostEffectiveTemperatureMaxDeviation by remember { mutableStateOf(value = storeState.formula.stellarHostEffectiveTemperatureMaxDeviation.toString()) }
 
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
@@ -350,8 +350,8 @@ internal fun AdvancedContent(store: Store<NewGameAction, NewGameState>) {
             colors = ButtonDefaults.buttonColors(contentColor = Color.White),
             onClick = {
                 store.send(
-                    action = NewGameAction.SelectMath(
-                        math = Math(
+                    action = NewGameAction.SelectFormula(
+                        formula = Formula(
                             habitableZoneWeight = habitableZoneWeight.toDouble(),
                             planetRadiusWeight = planetRadiusWeight.toDouble(),
                             planetMassWeight = planetMassWeight.toDouble(),
