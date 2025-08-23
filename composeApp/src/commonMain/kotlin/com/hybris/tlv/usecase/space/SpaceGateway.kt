@@ -2,6 +2,7 @@ package com.hybris.tlv.usecase.space
 
 import com.hybris.tlv.usecase.space.local.SpaceLocal
 import com.hybris.tlv.usecase.space.mapper.toCartesian
+import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import kotlin.math.ceil
@@ -9,6 +10,10 @@ import kotlin.math.ceil
 internal class SpaceGateway(
     private val spaceDao: SpaceLocal,
 ): SpaceUseCases {
+
+    override suspend fun upsertFormula(formula: Formula) {
+        spaceDao.upsertFormula(formula = formula)
+    }
 
     override suspend fun getExoplanets(): List<StellarHost> {
         val planetMap = spaceDao.getPlanets().groupBy { it.stellarHostId }

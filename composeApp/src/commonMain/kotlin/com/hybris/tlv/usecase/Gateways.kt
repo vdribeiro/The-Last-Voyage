@@ -155,7 +155,9 @@ internal class Gateways(
 
     override val gameSession: GameSessionUseCases by lazy {
         GameSessionGateway(
-            gameSessionDao = gameSessionDao
+            gameSessionDao = gameSessionDao,
+            shipUseCases = ship,
+            spaceUseCases = space
         )
     }
 
