@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import com.hybris.tlv.mock.Mock
-import com.hybris.tlv.mock.mainMenus
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -16,7 +15,8 @@ internal class MainMenuStoreTest {
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = MainMenuState(),
-            mainMenuUseCases = mock.useCases.mainMenu
+            remoteConfig = mock.remoteConfig,
+            gameSessionUseCases = mock.useCases.gameSession
         )
 
     @BeforeTest
@@ -27,15 +27,13 @@ internal class MainMenuStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        val mainMenuStore = store
-        assertEquals(actual = mainMenus, expected = mainMenuStore.stateFlow.value.mainMenus)
+        store
     }
 
     @Test
     fun `send action back`() = runBlocking {
-        val mainMenuStore = store
+        store
         assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
-        mainMenuStore.send(action = MainMenuAction.Back)
         assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
     }
 }

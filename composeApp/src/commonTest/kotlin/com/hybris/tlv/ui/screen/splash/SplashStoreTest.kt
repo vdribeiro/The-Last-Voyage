@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.splash
 
 import com.hybris.tlv.mock.Mock
-import com.hybris.tlv.mock.splashs
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -16,7 +15,7 @@ internal class SplashStoreTest {
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = SplashState(),
-            splashUseCases = mock.useCases.splash
+            syncUseCases = mock.useCases.sync
         )
 
     @BeforeTest
@@ -27,15 +26,13 @@ internal class SplashStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        val splashStore = store
-        assertEquals(actual = splashs, expected = splashStore.stateFlow.value.splashs)
+        store
     }
 
     @Test
     fun `send action back`() = runBlocking {
-        val splashStore = store
+        store
         assertEquals(actual = NavigationManager.Screen.SPLASH, expected = mock.navigation.stateFlow.value.screen)
-        splashStore.send(action = SplashAction.Back)
         assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
     }
 }

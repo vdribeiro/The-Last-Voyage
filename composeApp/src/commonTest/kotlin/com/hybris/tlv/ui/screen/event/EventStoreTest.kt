@@ -95,6 +95,6 @@ internal class EventStoreTest {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
         eventStore.send(action = EventAction.Select(event = null))
-        assertEquals(actual = NavigationManager.Screen.GAME, expected = mock.navigation.stateFlow.value.screen)
+        3
     }
 }

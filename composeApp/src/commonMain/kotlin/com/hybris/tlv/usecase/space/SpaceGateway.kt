@@ -11,9 +11,9 @@ internal class SpaceGateway(
 ): SpaceUseCases {
 
     override suspend fun getExoplanets(): List<StellarHost> {
-        val planets = spaceDao.getPlanets().groupBy { it.stellarHostId }
+        val planetMap = spaceDao.getPlanets().groupBy { it.stellarHostId }
         return spaceDao.getStellarHosts().apply {
-            forEach { it.planets.addAll(elements = planets[it.id].orEmpty()) }
+            forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) }
         }.sortedWith(comparator = compareBy<StellarHost, Double?>(comparator = nullsLast()) { it.distance }.thenBy { it.id })
     }
 

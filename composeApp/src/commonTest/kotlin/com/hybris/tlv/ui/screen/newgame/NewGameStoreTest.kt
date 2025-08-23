@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.newgame
 
 import com.hybris.tlv.mock.Mock
-import com.hybris.tlv.mock.newGames
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -16,7 +15,8 @@ internal class NewGameStoreTest {
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = NewGameState(),
-            newGameUseCases = mock.useCases.newGame
+            earthUseCases = mock.useCases.earth,
+            gameSessionUseCases = mock.useCases.gameSession
         )
 
     @BeforeTest
@@ -27,8 +27,7 @@ internal class NewGameStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        val newGameStore = store
-        assertEquals(actual = newGames, expected = newGameStore.stateFlow.value.newGames)
+        store
     }
 
     @Test

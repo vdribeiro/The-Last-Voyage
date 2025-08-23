@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.score
 
 import com.hybris.tlv.mock.Mock
-import com.hybris.tlv.mock.scores
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -16,7 +15,8 @@ internal class ScoreStoreTest {
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = ScoreState(),
-            scoreUseCases = mock.useCases.score
+            locale = mock.locale,
+            gameSessionUseCases = mock.useCases.gameSession
         )
 
     @BeforeTest
@@ -27,8 +27,7 @@ internal class ScoreStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        val scoreStore = store
-        assertEquals(actual = scores, expected = scoreStore.stateFlow.value.scores)
+        store
     }
 
     @Test

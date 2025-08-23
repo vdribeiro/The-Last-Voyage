@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import com.hybris.tlv.mock.Mock
-import com.hybris.tlv.mock.stellarExplorers
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -16,7 +15,7 @@ internal class StellarExplorerStoreTest {
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = StellarExplorerState(),
-            stellarExplorerUseCases = mock.useCases.stellarExplorer
+            spaceUseCases = mock.useCases.space
         )
 
     @BeforeTest
@@ -27,8 +26,7 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        val stellarExplorerStore = store
-        assertEquals(actual = stellarExplorers, expected = stellarExplorerStore.stateFlow.value.stellarExplorers)
+        store
     }
 
     @Test

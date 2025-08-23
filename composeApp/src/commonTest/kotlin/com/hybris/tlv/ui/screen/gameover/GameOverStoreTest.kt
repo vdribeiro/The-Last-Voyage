@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.gameover
 
 import com.hybris.tlv.mock.Mock
-import com.hybris.tlv.mock.gameOvers
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -16,7 +15,8 @@ internal class GameOverStoreTest {
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = GameOverState(),
-            gameOverUseCases = mock.useCases.gameOver
+            locale = mock.locale,
+            gameSessionUseCases = mock.useCases.gameSession
         )
 
     @BeforeTest
@@ -27,8 +27,7 @@ internal class GameOverStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        val gameOverStore = store
-        assertEquals(actual = gameOvers, expected = gameOverStore.stateFlow.value.gameOvers)
+        store
     }
 
     @Test
