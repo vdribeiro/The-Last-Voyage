@@ -5,13 +5,14 @@ import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.screen.error.ErrorState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 
 internal sealed interface GameOverAction {
-    data object Continue: GameOverAction
     data object Back: GameOverAction
+    data object Continue: GameOverAction
 }
 
 internal data class GameOverState(
@@ -44,7 +45,13 @@ internal class GameOverStore(
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
-            navigate(screen = Screen.ERROR)
+            navigate(
+                screen = Screen.ERROR, state = ErrorState(
+                    screen = Screen.GAME_OVER,
+                    throwable = IllegalStateException("Invalid state: missing game session"),
+                    identifier = "GameOverStore:setup"
+                )
+            )
             return@launchInPipeline
         }
 
@@ -241,13 +248,19 @@ internal class GameOverStore(
 
     override fun reducer(state: GameOverState, action: GameOverAction) {
         when (action) {
+            GameOverAction.Back -> navigate(screen = Screen.MAIN_MENU)
+
             GameOverAction.Continue -> when (state.currentContent) {
                 Content.MESSAGE -> updateState { it.copy(currentContent = Content.SCORE) }
                 Content.SCORE -> navigate(screen = Screen.MAIN_MENU)
-                else -> navigate(screen = Screen.ERROR)
+                else -> navigate(
+                    screen = Screen.ERROR, state = ErrorState(
+                        screen = Screen.GAME_OVER,
+                        throwable = IllegalStateException("Invalid state: missing content"),
+                        identifier = "GameOverStore:reducer:Continue"
+                    )
+                )
             }
-
-            GameOverAction.Back -> navigate(screen = Screen.MAIN_MENU)
         }
     }
 

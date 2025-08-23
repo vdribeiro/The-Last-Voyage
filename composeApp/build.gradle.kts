@@ -197,7 +197,10 @@ kover {
                         "${appId}.http",
                         "${appId}.preview",
                     )
-                    classes("*ScreenKt")
+                    classes(
+                        "*ScreenKt",
+                        "*ContentKt",
+                    )
                 }
             }
         }

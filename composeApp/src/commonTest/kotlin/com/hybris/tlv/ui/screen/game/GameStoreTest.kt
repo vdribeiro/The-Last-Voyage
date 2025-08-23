@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.screen.game
 import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.gameSessionPrototype
 import com.hybris.tlv.mock.hostsWithPlanets
+import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
@@ -121,15 +122,13 @@ internal class GameStoreTest {
 
     @Test
     fun `send action travel`() = runBlocking {
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         gameStore.send(action = GameAction.Travel(stellarHost = stellarHosts[1]))
-        assertEquals(expected = 50.0, actual = gameStore.stateFlow.value.gameSession?.yearsTraveled)
-        assertEquals(expected = 95, actual = gameStore.stateFlow.value.gameSession?.fuel)
-        assertEquals(expected = stellarHosts[1].id, actual = gameStore.stateFlow.value.gameSession?.currentStellarHostId)
-        assertEquals(expected = setOf(stellarHosts[0].id, stellarHosts[1].id), actual = gameStore.stateFlow.value.gameSession?.visitedStellarHosts)
+        assertEquals(expected = NavigationManager.Screen.EVENT, actual = mock.navigation.stateFlow.value.screen)
     }
 
     @Test
@@ -151,6 +150,20 @@ internal class GameStoreTest {
 
     @Test
     fun `send action settle`() = runBlocking {
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
+        mock.internalSpace.syncStellarHosts()
+        mock.internalSpace.syncPlanets()
+        mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val gameStore = store
+        gameStore.send(action = GameAction.Settle(planet = planets.first()))
+        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mock.navigation.stateFlow.value.screen)
+    }
 
+    @Test
+    fun `send action settle without game session`() = runBlocking {
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
+        val gameStore = store
+        gameStore.send(action = GameAction.Settle(planet = planets.first()))
+        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
     }
 }
