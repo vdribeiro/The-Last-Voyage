@@ -10,8 +10,10 @@ import database.Catastrophe
 import database.Credit
 import database.Engine
 import database.Event
+import database.Formula
 import database.GameSession
 import database.Planet
+import database.Ship
 import database.StellarHost
 import database.Translation
 
@@ -22,12 +24,6 @@ internal class Database(val driver: SqlDriver) {
     )
 
     private val gameSessionAdapter = GameSession.Adapter(
-        assignedPointsAdapter = IntColumnAdapter,
-        sensorRangeAdapter = IntColumnAdapter,
-        integrityAdapter = IntColumnAdapter,
-        fuelAdapter = IntColumnAdapter,
-        materialsAdapter = IntColumnAdapter,
-        cryopodsAdapter = IntColumnAdapter,
         visitedStellarHostsAdapter = SetColumnAdapter,
         launchedEventsAdapter = SetColumnAdapter
     )
@@ -36,11 +32,21 @@ internal class Database(val driver: SqlDriver) {
         statusAdapter = EnumColumnAdapter()
     )
 
+    private val shipAdapter = Ship.Adapter(
+        assignedPointsAdapter = IntColumnAdapter,
+        sensorRangeAdapter = IntColumnAdapter,
+        integrityAdapter = IntColumnAdapter,
+        fuelAdapter = IntColumnAdapter,
+        materialsAdapter = IntColumnAdapter,
+        cryopodsAdapter = IntColumnAdapter
+    )
+
     val database: AppDatabase = AppDatabase(
         driver = driver,
         CreditAdapter = creditAdapter,
         GameSessionAdapter = gameSessionAdapter,
         PlanetAdapter = planetAdapter,
+        ShipAdapter = shipAdapter,
     )
 
     companion object {
@@ -51,8 +57,10 @@ internal class Database(val driver: SqlDriver) {
 typealias TranslationSchema = Translation
 typealias StellarHostSchema = StellarHost
 typealias PlanetSchema = Planet
+typealias FormulaSchema = Formula
 typealias CatastropheSchema = Catastrophe
 typealias EngineSchema = Engine
+typealias ShipSchema = Ship
 typealias GameSessionSchema = GameSession
 typealias EventSchema = Event
 typealias AchievementSchema = Achievement

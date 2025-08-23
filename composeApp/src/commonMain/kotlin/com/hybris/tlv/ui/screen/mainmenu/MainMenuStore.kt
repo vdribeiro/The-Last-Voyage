@@ -44,8 +44,8 @@ internal class MainMenuStore(
         val ongoingGameSession = gameSession != null &&
                 gameSession.settledPlanetId == null &&
                 gameSession.finalHabitability == null &&
-                gameSession.integrity > 0 &&
-                gameSession.fuel > 0
+                gameSession.ship.integrity > 0 &&
+                gameSession.ship.fuel > 0
         val developerCorner = remoteConfig.getString(key = Config.DeveloperCorner)
         val tip = remoteConfig.getString(key = Config.Tip)
         updateState {

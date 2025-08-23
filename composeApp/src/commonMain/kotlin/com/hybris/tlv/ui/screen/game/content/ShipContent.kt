@@ -27,7 +27,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun ShipContent(store: Store<GameAction, GameState>) {
     val storeState by store.stateFlow.collectAsState()
-    val gameSession = storeState.gameSession ?: return
+    val ship = storeState.gameSession?.ship ?: return
 
     LazyColumn(
         modifier = Modifier
@@ -39,14 +39,14 @@ internal fun ShipContent(store: Store<GameAction, GameState>) {
             StatDisplay(
                 icon = Icons.Outlined.Timer,
                 label = getTranslation(key = "ship_years_traveled"),
-                value = gameSession.yearsTraveled.roundTo(decimalPlaces = 2).toString()
+                value = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString()
             )
         }
         item {
             StatDisplay(
                 icon = Icons.Outlined.Radar,
                 label = getTranslation(key = "ship_sensor"),
-                value = gameSession.sensorRange.toString()
+                value = ship.sensorRange.toString()
             )
         }
         item {
@@ -60,28 +60,28 @@ internal fun ShipContent(store: Store<GameAction, GameState>) {
             StatDisplay(
                 icon = Icons.Outlined.Shield,
                 label = getTranslation(key = "ship_integrity"),
-                value = "${gameSession.integrity} / 100",
+                value = "${ship.integrity} / 100",
             )
         }
         item {
             StatDisplay(
                 icon = Icons.Outlined.LocalGasStation,
                 label = getTranslation(key = "ship_fuel"),
-                value = gameSession.fuel.toString()
+                value = ship.fuel.toString()
             )
         }
         item {
             StatDisplay(
                 icon = Icons.Outlined.Construction,
                 label = getTranslation(key = "ship_materials"),
-                value = gameSession.materials.toString()
+                value = ship.materials.toString()
             )
         }
         item {
             StatDisplay(
                 icon = Icons.Outlined.BedroomParent,
                 label = getTranslation(key = "ship_cryopods"),
-                value = gameSession.cryopods.toString()
+                value = ship.cryopods.toString()
             )
         }
     }

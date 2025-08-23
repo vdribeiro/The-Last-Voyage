@@ -24,4 +24,9 @@ internal interface GameSessionUseCases {
      * Update the given [gameSession].
      */
     suspend fun updateGameSession(gameSession: GameSession)
+
+    /**
+     * Checks if the given [gameSession] is in a game over state.
+     */
+    suspend fun isGameOver(gameSession: GameSession): Boolean
 }

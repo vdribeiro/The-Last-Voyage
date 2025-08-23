@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.gamesession.local
 
-import com.hybris.tlv.usecase.gamesession.mapper.toGameSession
 import com.hybris.tlv.usecase.gamesession.mapper.toGameSessionSchema
 import com.hybris.tlv.usecase.gamesession.model.GameSession
+import com.hybris.tlv.usecase.gamesession.model.gameSessionProjection
 import database.AppDatabase
 
 internal class GameSessionDao(
@@ -16,10 +16,10 @@ internal class GameSessionDao(
     }
 
     override fun getGameSessions(): List<GameSession> =
-        gameSessionDao.getGameSessions().executeAsList().map { it.toGameSession() }
+        gameSessionDao.getGameSessions(mapper = gameSessionProjection).executeAsList()
 
     override fun getLatestGameSession(): GameSession? =
-        gameSessionDao.getLatestGameSession().executeAsOneOrNull()?.toGameSession()
+        gameSessionDao.getLatestGameSession(mapper = gameSessionProjection).executeAsOneOrNull()
 
     override fun updateGameSession(gameSession: GameSession) {
         gameSessionDao.upsertGameSession(GameSession = gameSession.toGameSessionSchema())

@@ -6,6 +6,7 @@ import com.hybris.tlv.usecase.space.formula.Constants
  * Holds the mathematical weights and limits used in scoring to allow for easy tuning of the model.
  */
 internal data class Math(
+    val id: String,
     // Weights
     val rocheWeight: Double = Constants.ROCHE_WEIGHT,
     val habitableZoneWeight: Double = Constants.HABITABLE_ZONE_WEIGHT,

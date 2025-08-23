@@ -72,7 +72,7 @@ internal class GameStore(
         val updatedGameSession = validateGameSession(gameSession = gameSession)
         gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
 
-        if (updatedGameSession.integrity <= 0 || updatedGameSession.fuel <= 0) {
+        if (gameSessionUseCases.isGameOver(gameSession = updatedGameSession)) {
             navigate(screen = Screen.GAME_OVER)
             return@launchInPipeline
         }
@@ -172,39 +172,6 @@ internal class GameStore(
         }
     }
 
-    private fun validateGameSession(gameSession: GameSession): GameSession {
-        var integrity = gameSession.integrity
-        var materials = gameSession.materials
-        val fuel = if (gameSession.fuel < 0) 0 else gameSession.fuel
-        val cryopods = if (gameSession.cryopods < 0) 0 else gameSession.cryopods
-
-        if (integrity <= 0) {
-            // Attempt to repair the ship
-            val repairAmount = abs(n = integrity) + 1
-            if (materials >= repairAmount) {
-                integrity = 1
-                materials -= repairAmount
-            } else {
-                integrity = 0
-                materials = 0
-            }
-        }
-
-        if (materials < 0) {
-            // Equalize loss
-            val materialDeficit = abs(n = materials)
-            integrity = if (integrity > materialDeficit) integrity - materialDeficit else 0
-            materials = 0
-        }
-
-        return gameSession.copy(
-            integrity = integrity,
-            materials = materials,
-            fuel = fuel,
-            cryopods = cryopods
-        )
-    }
-
     private fun travel(state: GameState, action: GameAction.Travel) = launchInPipeline {
         val stellarHost = state.stellarHosts.find { it.id == action.stellarHost.id }
         if (state.gameSession == null) {
@@ -282,7 +249,6 @@ internal class GameStore(
             }
 
             is GameAction.Travel -> travel(state = state, action = action)
-
             is GameAction.Settle -> settle(state = state, action = action)
         }
     }

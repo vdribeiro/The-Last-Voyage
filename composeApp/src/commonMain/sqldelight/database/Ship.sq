@@ -1,0 +1,15 @@
+import kotlin.Int;
+
+CREATE TABLE IF NOT EXISTS Ship (
+    id TEXT NOT NULL PRIMARY KEY,
+    assignedPoints INTEGER AS Int NOT NULL,
+    yearsTraveled REAL NOT NULL,
+    sensorRange INTEGER AS Int NOT NULL,
+    integrity INTEGER AS Int NOT NULL,
+    fuel INTEGER AS Int NOT NULL,
+    materials INTEGER AS Int NOT NULL,
+    cryopods INTEGER AS Int NOT NULL
+);
+
+upsertShip:
+INSERT OR REPLACE INTO Ship VALUES ?;

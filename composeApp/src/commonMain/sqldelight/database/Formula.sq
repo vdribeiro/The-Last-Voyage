@@ -1,0 +1,32 @@
+CREATE TABLE IF NOT EXISTS Formula (
+    id TEXT NOT NULL PRIMARY KEY,
+    rocheWeight REAL NOT NULL,
+    habitableZoneWeight REAL NOT NULL,
+    planetRadiusWeight REAL NOT NULL,
+    planetMassWeight REAL NOT NULL,
+    planetTelluricityWeight REAL NOT NULL,
+    planetEccentricityWeight REAL NOT NULL,
+    planetTemperatureWeight REAL NOT NULL,
+    planetObliquityWeight REAL NOT NULL,
+    planetEsiWeight REAL NOT NULL,
+    stellarSpectralTypeWeight REAL NOT NULL,
+    stellarMassWeight REAL NOT NULL,
+    stellarAgeWeight REAL NOT NULL,
+    stellarActivityWeight REAL NOT NULL,
+    stellarRotationalPeriodWeight REAL NOT NULL,
+    stellarGravityWeight REAL NOT NULL,
+    stellarMetallicityWeight REAL NOT NULL,
+    stellarEffectiveTemperatureWeight REAL NOT NULL,
+    planetProtectionWeight REAL NOT NULL,
+    planetTidalLockingWeight REAL NOT NULL,
+    planetMassLowerLimit REAL NOT NULL,
+    planetMassIdealUpperLimit REAL NOT NULL,
+    planetMassMaxUpperLimit REAL NOT NULL,
+    planetRadiusLowerLimit REAL NOT NULL,
+    planetRadiusIdealUpperLimit REAL NOT NULL,
+    planetRadiusMaxUpperLimit REAL NOT NULL,
+    stellarHostEffectiveTemperatureMaxDeviation REAL NOT NULL
+);
+
+upsertFormula:
+INSERT OR REPLACE INTO Formula VALUES ?;

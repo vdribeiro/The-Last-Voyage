@@ -66,12 +66,12 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                             isExpanded = isExpanded,
                             score = (score.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
                             utc = score.utc,
-                            yearsTraveled = score.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
-                            sensorRange = score.sensorRange.toString(),
-                            integrity = score.integrity.toString(),
-                            materials = score.materials.toString(),
-                            fuel = score.fuel.toString(),
-                            cryopods = score.cryopods.toString()
+                            yearsTraveled = score.ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
+                            sensorRange = score.ship.sensorRange.toString(),
+                            integrity = score.ship.integrity.toString(),
+                            materials = score.ship.materials.toString(),
+                            fuel = score.ship.fuel.toString(),
+                            cryopods = score.ship.cryopods.toString()
                         )
                     }
                 }

@@ -1,35 +1,9 @@
 package com.hybris.tlv.usecase.gamesession.model
 
+import com.hybris.tlv.usecase.ship.model.ShipPrototype
+import com.hybris.tlv.usecase.space.model.Math
+
 internal data class GameSessionPrototype(
-    val assignedPoints: Int,
-    val sensorRange: Int,
-    val materials: Int,
-    val fuel: Int,
-    val cryopods: Int,
-    val rocheWeight: Double,
-    val habitableZoneWeight: Double,
-    val planetRadiusWeight: Double,
-    val planetMassWeight: Double,
-    val planetTelluricityWeight: Double,
-    val planetEccentricityWeight: Double,
-    val planetTemperatureWeight: Double,
-    val planetObliquityWeight: Double,
-    val planetEsiWeight: Double,
-    val stellarSpectralTypeWeight: Double,
-    val stellarMassWeight: Double,
-    val stellarAgeWeight: Double,
-    val stellarActivityWeight: Double,
-    val stellarRotationalPeriodWeight: Double,
-    val stellarGravityWeight: Double,
-    val stellarMetallicityWeight: Double,
-    val stellarEffectiveTemperatureWeight: Double,
-    val planetProtectionWeight: Double,
-    val planetTidalLockingWeight: Double,
-    val planetMassLowerLimit: Double,
-    val planetMassIdealUpperLimit: Double,
-    val planetMassMaxUpperLimit: Double,
-    val planetRadiusLowerLimit: Double,
-    val planetRadiusIdealUpperLimit: Double,
-    val planetRadiusMaxUpperLimit: Double,
-    val stellarHostEffectiveTemperatureMaxDeviation: Double
+    val ship: ShipPrototype,
+    val math: Math,
 )

@@ -35,6 +35,7 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
     val storeState by store.stateFlow.collectAsState()
     val event = storeState.event ?: return
     val children = storeState.children
+    val ship = storeState.gameSession?.ship
 
     BackHandler(enabled = true) { store.send(action = EventAction.Back) }
 
@@ -43,10 +44,10 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
         topBar = {
             StatusBar(
                 modifier = Modifier.statusBarsPadding(),
-                hull = storeState.gameSession?.integrity?.toString().orEmpty(),
-                fuel = storeState.gameSession?.fuel?.toString().orEmpty(),
-                materials = storeState.gameSession?.materials?.toString().orEmpty(),
-                cryopods = storeState.gameSession?.cryopods?.toString().orEmpty()
+                hull = ship?.integrity?.toString().orEmpty(),
+                fuel = ship?.fuel?.toString().orEmpty(),
+                materials = ship?.materials?.toString().orEmpty(),
+                cryopods = ship?.cryopods?.toString().orEmpty()
             )
         },
     ) { innerPadding ->

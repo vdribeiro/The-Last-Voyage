@@ -1,6 +1,7 @@
 package com.hybris.tlv.usecase.ship.local
 
 import com.hybris.tlv.usecase.ship.model.Engine
+import com.hybris.tlv.usecase.ship.model.Ship
 
 internal interface ShipLocal {
 
@@ -18,4 +19,9 @@ internal interface ShipLocal {
      * Get [Engine]s from the database.
      */
     fun getEngines(): List<Engine>
+
+    /**
+     * Upsert a [Ship] into the database.
+     */
+    fun upsertShip(ship: Ship)
 }

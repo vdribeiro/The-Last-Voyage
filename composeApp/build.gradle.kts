@@ -206,6 +206,11 @@ kover {
                     classes(
                         "*Screen*",
                         "*Content*",
+                        "${appId}.App*",
+                        "${appId}.Composable*",
+                        "${appId}.KInitializer*",
+                        "${appId}.Main*",
+                        "${appId}.App*",
                     )
                 }
             }

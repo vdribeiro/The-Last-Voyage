@@ -95,55 +95,59 @@ internal class EventStore(
     }
 
     private fun updateGameSession(gameSession: GameSession, event: Event): GameSession {
-        val integrity = gameSession.integrity + (event.outcome?.integrity ?: 0)
-        val materials = gameSession.materials + (event.outcome?.materials ?: 0)
-        val fuel = gameSession.fuel + (event.outcome?.fuel ?: 0)
-        val cryopods = gameSession.cryopods + (event.outcome?.cryopods ?: 0)
+        val integrity = gameSession.ship.integrity + (event.outcome?.integrity ?: 0)
+        val materials = gameSession.ship.materials + (event.outcome?.materials ?: 0)
+        val fuel = gameSession.ship.fuel + (event.outcome?.fuel ?: 0)
+        val cryopods = gameSession.ship.cryopods + (event.outcome?.cryopods ?: 0)
 
         return gameSession.copy(
-            integrity = integrity,
-            materials = materials,
-            fuel = fuel,
-            cryopods = cryopods,
+            ship = gameSession.ship.copy(
+                integrity = integrity,
+                materials = materials,
+                fuel = fuel,
+                cryopods = cryopods
+            ),
             launchedEvents = gameSession.launchedEvents + event.id
         )
+    }
+
+    private fun select(state: EventState, action: EventAction.Select) = launchInPipeline {
+        if (state.gameSession == null) {
+            Logger.error(tag = TAG, message = "Invalid state: missing game session")
+            navigate(
+                screen = Screen.ERROR, state = ErrorState(
+                    screen = Screen.EVENT,
+                    throwable = IllegalStateException("Invalid state: missing game session"),
+                    identifier = "EventStore:reducer:Select"
+                )
+            )
+            return@launchInPipeline
+        }
+
+        if (action.event == null) {
+            navigate(screen = Screen.GAME)
+            return@launchInPipeline
+        }
+
+        val children = state.events.filter { it.parentId == action.event.id }
+        val updatedGameSession = updateGameSession(
+            gameSession = state.gameSession,
+            event = action.event
+        )
+        gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
+        updateState {
+            it.copy(
+                gameSession = updatedGameSession,
+                event = action.event,
+                children = children
+            )
+        }
     }
 
     override fun reducer(state: EventState, action: EventAction) {
         when (action) {
             EventAction.Back -> navigate(screen = Screen.MAIN_MENU)
-            is EventAction.Select -> launchInPipeline {
-                if (state.gameSession == null) {
-                    Logger.error(tag = TAG, message = "Invalid state: missing game session")
-                    navigate(
-                        screen = Screen.ERROR, state = ErrorState(
-                            screen = Screen.EVENT,
-                            throwable = IllegalStateException("Invalid state: missing game session"),
-                            identifier = "EventStore:reducer:Select"
-                        )
-                    )
-                    return@launchInPipeline
-                }
-
-                if (action.event == null) {
-                    navigate(screen = Screen.GAME)
-                    return@launchInPipeline
-                }
-
-                val children = state.events.filter { it.parentId == action.event.id }
-                val updatedGameSession = updateGameSession(
-                    gameSession = state.gameSession,
-                    event = action.event
-                )
-                gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
-                updateState {
-                    it.copy(
-                        gameSession = updatedGameSession,
-                        event = action.event,
-                        children = children
-                    )
-                }
-            }
+            is EventAction.Select -> select(state = state, action = action)
         }
     }
 

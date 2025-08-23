@@ -21,4 +21,7 @@ internal class GameSessionGateway(
     override suspend fun updateGameSession(gameSession: GameSession) {
         gameSessionDao.updateGameSession(gameSession = gameSession)
     }
+
+    override suspend fun isGameOver(gameSession: GameSession): Boolean =
+        (gameSession.ship.integrity <= 0 || gameSession.ship.fuel <= 0)
 }

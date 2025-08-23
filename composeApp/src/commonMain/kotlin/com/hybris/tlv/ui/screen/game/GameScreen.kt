@@ -32,6 +32,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun GameScreen(store: Store<GameAction, GameState>) {
     val storeState by store.stateFlow.collectAsState()
+    val ship = storeState.gameSession?.ship
 
     BackHandler(enabled = true) { store.send(action = GameAction.Back) }
 
@@ -40,10 +41,10 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
         topBar = {
             StatusBar(
                 modifier = Modifier.statusBarsPadding(),
-                hull = storeState.gameSession?.integrity?.toString().orEmpty(),
-                fuel = storeState.gameSession?.fuel?.toString().orEmpty(),
-                materials = storeState.gameSession?.materials?.toString().orEmpty(),
-                cryopods = storeState.gameSession?.cryopods?.toString().orEmpty()
+                hull = ship?.integrity?.toString().orEmpty(),
+                fuel = ship?.fuel?.toString().orEmpty(),
+                materials = ship?.materials?.toString().orEmpty(),
+                cryopods = ship?.cryopods?.toString().orEmpty()
             )
         },
         bottomBar = {
