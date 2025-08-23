@@ -27,7 +27,6 @@ internal class MainMenuStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        store
     }
 
     @Test

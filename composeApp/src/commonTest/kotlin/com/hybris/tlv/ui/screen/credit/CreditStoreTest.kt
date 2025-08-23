@@ -29,15 +29,15 @@ internal class CreditStoreTest {
     fun `init`() = runBlocking {
         mock.internalCredit.syncCredits()
         val creditStore = store
-        assertEquals(actual = credits, expected = creditStore.stateFlow.value.credits)
+        assertEquals(expected = credits, actual = creditStore.stateFlow.value.credits)
     }
 
     @Test
     fun `send action back`() = runBlocking {
         mock.internalCredit.syncCredits()
         val creditStore = store
-        assertEquals(actual = NavigationManager.Screen.CREDIT, expected = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.CREDIT, actual = mock.navigation.stateFlow.value.screen)
         creditStore.send(action = CreditAction.Back)
-        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
     }
 }

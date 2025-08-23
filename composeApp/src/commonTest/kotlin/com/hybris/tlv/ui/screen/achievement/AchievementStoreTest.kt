@@ -29,15 +29,15 @@ internal class AchievementStoreTest {
     fun `init`() = runBlocking {
         mock.internalAchievement.syncAchievements()
         val achievementStore = store
-        assertEquals(actual = achievements, expected = achievementStore.stateFlow.value.achievements)
+        assertEquals(expected = achievements, actual = achievementStore.stateFlow.value.achievements)
     }
 
     @Test
     fun `send action back`() = runBlocking {
         mock.internalAchievement.syncAchievements()
         val achievementStore = store
-        assertEquals(actual = NavigationManager.Screen.ACHIEVEMENT, expected = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.ACHIEVEMENT, actual = mock.navigation.stateFlow.value.screen)
         achievementStore.send(action = AchievementAction.Back)
-        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
     }
 }

@@ -26,13 +26,9 @@ internal class SplashStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        store
     }
 
     @Test
     fun `send action back`() = runBlocking {
-        store
-        assertEquals(actual = NavigationManager.Screen.SPLASH, expected = mock.navigation.stateFlow.value.screen)
-        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
     }
 }

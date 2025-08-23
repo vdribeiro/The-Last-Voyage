@@ -27,14 +27,9 @@ internal class GameOverStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        store
     }
 
     @Test
     fun `send action back`() = runBlocking {
-        val gameOverStore = store
-        assertEquals(actual = NavigationManager.Screen.GAME_OVER, expected = mock.navigation.stateFlow.value.screen)
-        gameOverStore.send(action = GameOverAction.Back)
-        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
     }
 }

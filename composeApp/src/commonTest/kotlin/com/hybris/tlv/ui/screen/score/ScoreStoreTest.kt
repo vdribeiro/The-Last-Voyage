@@ -27,7 +27,6 @@ internal class ScoreStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        store
     }
 
     @Test

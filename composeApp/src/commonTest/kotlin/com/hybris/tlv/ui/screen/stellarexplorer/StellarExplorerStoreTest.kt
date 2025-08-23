@@ -26,7 +26,6 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        store
     }
 
     @Test

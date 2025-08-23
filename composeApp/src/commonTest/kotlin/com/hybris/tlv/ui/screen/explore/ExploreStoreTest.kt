@@ -26,32 +26,32 @@ internal class ExploreStoreTest {
     @Test
     fun `init`() = runBlocking {
         val exploreStore = store
-        assertEquals(actual = Content.MENU, expected = exploreStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.MENU, actual = exploreStore.stateFlow.value.currentContent)
     }
 
     @Test
-    fun navigate() = runBlocking {
-        assertEquals(actual = NavigationManager.Screen.EXPLORE, expected = mock.navigation.stateFlow.value.screen)
+    fun `send action change content`() = runBlocking {
+        assertEquals(expected = NavigationManager.Screen.EXPLORE, actual = mock.navigation.stateFlow.value.screen)
         val exploreStore = store
-        assertEquals(actual = Content.MENU, expected = exploreStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.MENU, actual = exploreStore.stateFlow.value.currentContent)
 
         exploreStore.send(action = ExploreAction.Mechanics)
-        assertEquals(actual = Content.MECHANICS, expected = exploreStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.MECHANICS, actual = exploreStore.stateFlow.value.currentContent)
         exploreStore.send(action = ExploreAction.Back)
-        assertEquals(actual = Content.MENU, expected = exploreStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.MENU, actual = exploreStore.stateFlow.value.currentContent)
 
         exploreStore.send(action = ExploreAction.Habitability)
-        assertEquals(actual = Content.HABITABILITY, expected = exploreStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.HABITABILITY, actual = exploreStore.stateFlow.value.currentContent)
         exploreStore.send(action = ExploreAction.Back)
-        assertEquals(actual = Content.MENU, expected = exploreStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.MENU, actual = exploreStore.stateFlow.value.currentContent)
 
         exploreStore.send(action = ExploreAction.PlanetTypes)
-        assertEquals(actual = Content.PLANET_TYPES, expected = exploreStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.PLANET_TYPES, actual = exploreStore.stateFlow.value.currentContent)
         exploreStore.send(action = ExploreAction.Back)
-        assertEquals(actual = Content.MENU, expected = exploreStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.MENU, actual = exploreStore.stateFlow.value.currentContent)
 
         exploreStore.send(action = ExploreAction.Back)
-        assertEquals(actual = Content.MENU, expected = exploreStore.stateFlow.value.currentContent)
-        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = Content.MENU, actual = exploreStore.stateFlow.value.currentContent)
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
     }
 }

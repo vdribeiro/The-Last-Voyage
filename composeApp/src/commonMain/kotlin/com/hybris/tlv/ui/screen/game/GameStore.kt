@@ -4,6 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.screen.error.ErrorState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
@@ -18,7 +19,7 @@ import kotlin.math.ceil
 
 internal sealed interface GameAction {
     data object Back: GameAction
-    data class ChangeContent(val content: Content): GameAction
+    data class ChangeTab(val content: Content): GameAction
     data class Travel(val stellarHost: StellarHost): GameAction
     data class Settle(val planet: Planet): GameAction
 }
@@ -58,7 +59,14 @@ internal class GameStore(
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
-            navigate(screen = Screen.ERROR)
+            navigate(
+                screen = Screen.ERROR,
+                state = ErrorState(
+                    screen = Screen.GAME,
+                    throwable = IllegalStateException("Invalid state: missing game session"),
+                    identifier = "GameStore:setup"
+                )
+            )
             return@launchInPipeline
         }
 
@@ -76,7 +84,13 @@ internal class GameStore(
         } else stellarHosts.find { it.id == updatedGameSession.currentStellarHostId }
         if (currentStellarHost == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing stellar host")
-            navigate(screen = Screen.ERROR)
+            navigate(
+                screen = Screen.ERROR, state = ErrorState(
+                    screen = Screen.GAME,
+                    throwable = IllegalStateException("Invalid state: missing stellar host"),
+                    identifier = "GameStore:setup"
+                )
+            )
             return@launchInPipeline
         }
 
@@ -85,7 +99,13 @@ internal class GameStore(
         }
         if (visited.isEmpty()) {
             Logger.error(tag = TAG, message = "Invalid state: empty visited")
-            navigate(screen = Screen.ERROR)
+            navigate(
+                screen = Screen.ERROR, state = ErrorState(
+                    screen = Screen.GAME,
+                    throwable = IllegalStateException("Invalid state: empty visited"),
+                    identifier = "GameStore:setup"
+                )
+            )
             return@launchInPipeline
         }
 
@@ -188,9 +208,26 @@ internal class GameStore(
 
     private fun travel(state: GameState, action: GameAction.Travel) = launchInPipeline {
         val stellarHost = state.stellarHosts.find { it.id == action.stellarHost.id }
-        if (state.gameSession == null || stellarHost == null) {
-            Logger.error(tag = TAG, message = "Invalid state: missing game session or current stellar host")
-            navigate(screen = Screen.ERROR)
+        if (state.gameSession == null) {
+            Logger.error(tag = TAG, message = "Invalid state: missing game session")
+            navigate(
+                screen = Screen.ERROR, state = ErrorState(
+                    screen = Screen.GAME,
+                    throwable = IllegalStateException("Invalid state: missing game session"),
+                    identifier = "GameStore:travel"
+                )
+            )
+            return@launchInPipeline
+        }
+        if (stellarHost == null) {
+            Logger.error(tag = TAG, message = "Invalid state: missing current stellar host")
+            navigate(
+                screen = Screen.ERROR, state = ErrorState(
+                    screen = Screen.GAME,
+                    throwable = IllegalStateException("Invalid state: missing current stellar host"),
+                    identifier = "GameStore:travel"
+                )
+            )
             return@launchInPipeline
         }
 
@@ -218,7 +255,13 @@ internal class GameStore(
     private fun settle(state: GameState, action: GameAction.Settle) = launchInPipeline {
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
-            navigate(screen = Screen.ERROR)
+            navigate(
+                screen = Screen.ERROR, state = ErrorState(
+                    screen = Screen.GAME,
+                    throwable = IllegalStateException("Invalid state: missing game session"),
+                    identifier = "GameStore:settle"
+                )
+            )
             return@launchInPipeline
         }
 
@@ -235,7 +278,7 @@ internal class GameStore(
         when (action) {
             GameAction.Back -> navigate(screen = Screen.MAIN_MENU)
 
-            is GameAction.ChangeContent -> updateState {
+            is GameAction.ChangeTab -> updateState {
                 it.copy(currentContent = action.content)
             }
 

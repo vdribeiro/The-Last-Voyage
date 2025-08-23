@@ -26,14 +26,15 @@ internal class ErrorStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         val errorStore = store
-        assertEquals(actual = NavigationManager.Screen.ERROR, expected = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
         errorStore.send(action = ErrorAction.Back)
-        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
     }
 
     @Test
     fun `send action send feedback`() = runBlocking {
         val errorStore = store
         errorStore.send(action = ErrorAction.SendFeedback(message = "Feedback"))
+        // TODO - implement feedback on store
     }
 }

@@ -52,19 +52,19 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
                     icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = getTranslation(key = "game_screen__travel")) },
                     label = { Text(text = getTranslation(key = "game_screen__travel")) },
                     selected = (storeState.currentContent == Content.TRAVEL),
-                    onClick = { store.send(action = GameAction.ChangeContent(content = Content.TRAVEL)) },
+                    onClick = { store.send(action = GameAction.ChangeTab(content = Content.TRAVEL)) },
                 )
                 NavigationBarItem(
                     icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = getTranslation(key = "game_screen__system")) },
                     label = { Text(text = getTranslation(key = "game_screen__system")) },
                     selected = (storeState.currentContent == Content.SYSTEM),
-                    onClick = { store.send(action = GameAction.ChangeContent(content = Content.SYSTEM)) },
+                    onClick = { store.send(action = GameAction.ChangeTab(content = Content.SYSTEM)) },
                 )
                 NavigationBarItem(
                     icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = getTranslation(key = "game_screen__ship")) },
                     label = { Text(text = getTranslation(key = "game_screen__ship")) },
                     selected = (storeState.currentContent == Content.SHIP),
-                    onClick = { store.send(action = GameAction.ChangeContent(content = Content.SHIP)) },
+                    onClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 )
             }
         }

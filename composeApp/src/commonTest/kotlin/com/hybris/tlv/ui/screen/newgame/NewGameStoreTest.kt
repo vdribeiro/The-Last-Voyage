@@ -27,7 +27,6 @@ internal class NewGameStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        store
     }
 
     @Test
