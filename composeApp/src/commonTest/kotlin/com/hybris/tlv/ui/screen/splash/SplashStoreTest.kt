@@ -29,4 +29,12 @@ internal class SplashStoreTest {
         val splashStore = store
         assertEquals(expected = 1f, actual = splashStore.stateFlow.value.progress)
     }
+
+    @Test
+    fun `send action start`() = runBlocking {
+        assertEquals(expected = NavigationManager.Screen.SPLASH, actual = mock.navigation.stateFlow.value.screen)
+        val gameStore = store
+        gameStore.send(action = SplashAction.Start)
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
+    }
 }

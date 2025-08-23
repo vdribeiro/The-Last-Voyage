@@ -193,13 +193,19 @@ kover {
                 excludes {
                     annotatedBy("kotlinx.serialization.Serializable")
                     packages(
+                        "*.generated*",
                         "${appId}.flow",
                         "${appId}.http",
+                        "${appId}.storage",
+                        "${appId}.media",
+                        "${appId}.locale",
                         "${appId}.preview",
+                        "${appId}.ui.theme",
+                        "${appId}.ui.component",
                     )
                     classes(
-                        "*ScreenKt",
-                        "*ContentKt",
+                        "*Screen*",
+                        "*Content*",
                     )
                 }
             }
