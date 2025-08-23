@@ -4,6 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.screen.error.ErrorState
 import com.hybris.tlv.ui.screen.newgame.state.ShipState
 import com.hybris.tlv.ui.screen.newgame.state.ShipState.Point
 import com.hybris.tlv.ui.store.Store
@@ -74,7 +75,13 @@ internal class NewGameStore(
         val selectedShip = state.selectedShip
         if (selectedShip == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing ship prototype")
-            navigate(screen = Screen.ERROR)
+            navigate(
+                screen = Screen.ERROR, state = ErrorState(
+                    screen = Screen.NEW_GAME,
+                    throwable = IllegalStateException("Invalid state: missing ship prototype"),
+                    identifier = "NewGameStore:startGame"
+                )
+            )
             return@launchInPipeline
         }
 

@@ -19,7 +19,7 @@ internal sealed interface MainMenuAction {
 }
 
 internal data class MainMenuState(
-    val ongoingGameSession: Boolean? = null,
+    val ongoingGameSession: Boolean = false,
     val developerCorner: String? = null,
     val tip: String? = null
 )

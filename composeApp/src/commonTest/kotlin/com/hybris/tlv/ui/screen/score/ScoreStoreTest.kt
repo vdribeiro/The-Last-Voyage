@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.score
 
 import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.mock.gameSessionPrototype
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -27,6 +28,11 @@ internal class ScoreStoreTest {
 
     @Test
     fun `init`() = runBlocking {
+        mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val latestGameSession = mock.useCases.gameSession.getLatestGameSession()!!
+        mock.useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
+        val scoreStore = store
+        assertEquals(actual = listOf(mock.useCases.gameSession.getLatestGameSession()), expected = scoreStore.stateFlow.value.scores)
     }
 
     @Test

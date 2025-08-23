@@ -4,6 +4,7 @@ import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
 
 internal class SplashStoreTest {
@@ -25,9 +26,7 @@ internal class SplashStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-    }
-
-    @Test
-    fun `send action back`() = runBlocking {
+        val splashStore = store
+        assertEquals(expected = 1f, actual = splashStore.stateFlow.value.progress)
     }
 }

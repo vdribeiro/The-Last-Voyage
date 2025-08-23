@@ -1,10 +1,13 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.mock.gameSessionPrototype
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
 internal class MainMenuStoreTest {
@@ -27,12 +30,41 @@ internal class MainMenuStoreTest {
 
     @Test
     fun `init`() = runBlocking {
+        mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val mainMenuStore = store
+        assertTrue(actual = mainMenuStore.stateFlow.value.ongoingGameSession)
     }
 
     @Test
-    fun `send action back`() = runBlocking {
-        store
-        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
-        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
+    fun `init without game session`() = runBlocking {
+        val mainMenuStore = store
+        assertFalse(actual = mainMenuStore.stateFlow.value.ongoingGameSession)
+    }
+
+    @Test
+    fun `send action change content`() = runBlocking {
+        val gameStore = store
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
+
+        gameStore.send(action = MainMenuAction.NewGame)
+        assertEquals(expected = NavigationManager.Screen.NEW_GAME, actual = mock.navigation.stateFlow.value.screen)
+
+        gameStore.send(action = MainMenuAction.Continue)
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
+
+        gameStore.send(action = MainMenuAction.Explore)
+        assertEquals(expected = NavigationManager.Screen.EXPLORE, actual = mock.navigation.stateFlow.value.screen)
+
+        gameStore.send(action = MainMenuAction.StellarExplorer)
+        assertEquals(expected = NavigationManager.Screen.STELLAR_EXPLORER, actual = mock.navigation.stateFlow.value.screen)
+
+        gameStore.send(action = MainMenuAction.Scores)
+        assertEquals(expected = NavigationManager.Screen.SCORE, actual = mock.navigation.stateFlow.value.screen)
+
+        gameStore.send(action = MainMenuAction.Achievements)
+        assertEquals(expected = NavigationManager.Screen.ACHIEVEMENT, actual = mock.navigation.stateFlow.value.screen)
+
+        gameStore.send(action = MainMenuAction.Credits)
+        assertEquals(expected = NavigationManager.Screen.CREDIT, actual = mock.navigation.stateFlow.value.screen)
     }
 }

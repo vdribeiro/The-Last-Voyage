@@ -38,7 +38,6 @@ import thelastvoyage.composeapp.generated.resources.support_me_on_kofi_badge_bei
 @Composable
 internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
     val storeState by store.stateFlow.collectAsState()
-    val ongoingGameSession = storeState.ongoingGameSession ?: return
     val uriHandler = LocalUriHandler.current
 
     Scaffold(
@@ -101,7 +100,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                     text = getTranslation(key = "main_menu_screen__new_game"),
                     style = MaterialTheme.typography.headlineMedium,
                 )
-                if (ongoingGameSession) {
+                if (storeState.ongoingGameSession) {
                     Spacer(modifier = Modifier.height(height = 16.dp))
                     Text(
                         modifier = Modifier.clickable { store.send(action = MainMenuAction.Continue) },

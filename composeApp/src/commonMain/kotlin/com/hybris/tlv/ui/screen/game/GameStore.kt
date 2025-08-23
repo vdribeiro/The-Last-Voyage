@@ -60,8 +60,7 @@ internal class GameStore(
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
             navigate(
-                screen = Screen.ERROR,
-                state = ErrorState(
+                screen = Screen.ERROR, state = ErrorState(
                     screen = Screen.GAME,
                     throwable = IllegalStateException("Invalid state: missing game session"),
                     identifier = "GameStore:setup"
