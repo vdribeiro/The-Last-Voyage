@@ -4,20 +4,20 @@ import com.hybris.tlv.usecase.gamesession.local.GameSessionLocal
 import com.hybris.tlv.usecase.gamesession.mapper.toGameSession
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
-import com.hybris.tlv.usecase.ship.ShipUseCases
-import com.hybris.tlv.usecase.space.SpaceUseCases
+import com.hybris.tlv.usecase.ship.ShipInternalUseCases
+import com.hybris.tlv.usecase.space.SpaceInternalUseCases
 
 internal class GameSessionGateway(
     private val gameSessionDao: GameSessionLocal,
-    private val shipUseCases: ShipUseCases,
-    private val spaceUseCases: SpaceUseCases
+    private val shipInternalUseCases: ShipInternalUseCases,
+    private val spaceInternalUseCases: SpaceInternalUseCases
 ): GameSessionUseCases {
 
     override suspend fun startGame(gameSessionPrototype: GameSessionPrototype) {
         val gameSession = gameSessionPrototype.toGameSession()
         gameSessionDao.startGame(gameSession = gameSession)
-        shipUseCases.upsertShip(ship = gameSession.ship)
-        spaceUseCases.upsertFormula(formula = gameSession.formula)
+        shipInternalUseCases.upsertShip(ship = gameSession.ship)
+        spaceInternalUseCases.upsertFormula(formula = gameSession.formula)
     }
 
     override suspend fun getGameSessions(): List<GameSession> =

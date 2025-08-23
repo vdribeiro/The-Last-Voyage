@@ -11,11 +11,6 @@ internal interface ShipUseCases {
     suspend fun getEngines(): List<Engine>
 
     /**
-     * Upsert a [Ship] into the database.
-     */
-    suspend fun upsertShip(ship: Ship)
-
-    /**
      * Repair ship.
      */
     suspend fun repairShip(ship: Ship): Ship

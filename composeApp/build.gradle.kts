@@ -194,6 +194,7 @@ kover {
                     annotatedBy("kotlinx.serialization.Serializable")
                     packages(
                         "*.generated*",
+                        "database",
                         "${appId}.flow",
                         "${appId}.http",
                         "${appId}.storage",

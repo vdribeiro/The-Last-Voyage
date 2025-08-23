@@ -313,7 +313,7 @@ internal fun Planet.toPlanetSchema(): PlanetSchema =
         obliquity = obliquity,
     )
 
-internal fun Formula.toFormulaSchema(): FormulaSchema=
+internal fun Formula.toFormulaSchema(): FormulaSchema =
     FormulaSchema(
         id = id,
         rocheWeight = rocheWeight,

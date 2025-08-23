@@ -1,14 +1,8 @@
 package com.hybris.tlv.usecase.space
 
-import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal interface SpaceUseCases {
-
-    /**
-     * Upsert [Formula] in the database.
-     */
-    suspend fun upsertFormula(formula: Formula)
 
     /**
      * Get exoplanets from the database ordered by ascending distance.

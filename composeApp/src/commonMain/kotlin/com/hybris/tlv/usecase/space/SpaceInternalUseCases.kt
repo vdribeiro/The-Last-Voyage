@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.space
 
+import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.sync.model.SyncResult
@@ -31,4 +32,9 @@ internal interface SpaceInternalUseCases {
      * Prepopulate local [Planet].
      */
     suspend fun prepopulatePlanets()
+
+    /**
+     * Upsert [Formula] in the database.
+     */
+    suspend fun upsertFormula(formula: Formula)
 }

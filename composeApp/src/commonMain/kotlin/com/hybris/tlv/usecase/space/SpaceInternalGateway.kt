@@ -9,6 +9,7 @@ import com.hybris.tlv.usecase.space.formula.DerivedData
 import com.hybris.tlv.usecase.space.local.SpaceLocal
 import com.hybris.tlv.usecase.space.mapper.mergePlanets
 import com.hybris.tlv.usecase.space.mapper.mergeStellarHosts
+import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.remote.SpaceRemote
@@ -121,4 +122,7 @@ internal class SpaceInternalGateway(
             spaceDao.rewritePlanets(planets = planets)
         }
     }
+
+    override suspend fun upsertFormula(formula: Formula) =
+        spaceDao.upsertFormula(formula = formula)
 }
