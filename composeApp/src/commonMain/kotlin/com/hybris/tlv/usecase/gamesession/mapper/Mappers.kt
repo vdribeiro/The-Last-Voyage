@@ -18,7 +18,7 @@ internal fun GameSessionPrototype.toGameSession(id: String = generateUuid()): Ga
         finalHabitability = null,
         score = null,
         ship = ship.toShip(id),
-        formula = formula
+        formula = formula.copy(id = id)
     )
 
 internal fun GameSession.toGameSessionSchema(): GameSessionSchema =

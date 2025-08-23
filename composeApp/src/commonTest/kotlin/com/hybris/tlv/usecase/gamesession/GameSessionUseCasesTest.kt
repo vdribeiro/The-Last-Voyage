@@ -30,11 +30,15 @@ internal class GameSessionUseCasesTest {
         val gameSessionFromPrototype = gameSession.copy(
             id = latestGameSession.id,
             utc = latestGameSession.utc,
+            currentStellarHostId = null,
             ship = gameSession.ship.copy(
+                id = latestGameSession.id,
                 yearsTraveled = 0.0,
                 integrity = 100,
             ),
-            currentStellarHostId = null
+            formula = gameSession.formula.copy(
+                id = latestGameSession.id,
+            )
         )
         assertEquals(expected = gameSessionFromPrototype, actual = mock.useCases.gameSession.getLatestGameSession())
         assertTrue(actual = mock.useCases.gameSession.getGameSessions().isNotEmpty())

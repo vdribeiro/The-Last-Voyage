@@ -2,6 +2,8 @@ package com.hybris.tlv.usecase.gamesession.local
 
 import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.gameSession
+import com.hybris.tlv.mock.ship
+import com.hybris.tlv.usecase.space.model.Formula
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -23,6 +25,8 @@ internal class GameSessionLocalTest {
         assertNull(actual = mock.gameSessionDao.getLatestGameSession())
         assertTrue(actual = mock.gameSessionDao.getGameSessions().isEmpty())
         mock.gameSessionDao.startGame(gameSession = gameSession)
+        mock.shipDao.upsertShip(ship = ship)
+        mock.spaceDao.upsertFormula(formula = Formula(id = "1"))
         assertEquals(expected = gameSession, actual = mock.gameSessionDao.getLatestGameSession())
         assertTrue(actual = mock.gameSessionDao.getGameSessions().isNotEmpty())
         val newGameSession = gameSession.copy(score = 9000.0)
