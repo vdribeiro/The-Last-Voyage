@@ -14,7 +14,6 @@ import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
-import kotlin.math.ceil
 
 internal sealed interface GameAction {
     data object Back: GameAction
@@ -172,24 +171,7 @@ internal class GameStore(
             return@launchInPipeline
         }
 
-        val visited = state.visitedStellarHosts + stellarHost.id
-
-        val distance = ceil(x = stellarHost.distance ?: 1.0).toInt()
-        val speed = 0.1  // TODO - use engine speed - using 0.1c for now
-        val yearsTraveled = state.gameSession.ship.yearsTraveled + (distance / speed)
-
-        val fuel = state.gameSession.ship.fuel - distance
-
-        gameSessionUseCases.updateGameSession(
-            gameSession = state.gameSession.copy(
-                ship = state.gameSession.ship.copy(
-                    yearsTraveled = yearsTraveled,
-                    fuel = fuel,
-                ),
-                currentStellarHostId = stellarHost.id,
-                visitedStellarHosts = visited
-            )
-        )
+        gameSessionUseCases.travel(gameSession = state.gameSession, stellarHost = stellarHost)
 
         // Hidden Cheat: If you go to the main menu in the event screen, you will circumvent the event
         navigate(screen = Screen.EVENT)
@@ -208,12 +190,7 @@ internal class GameStore(
             return@launchInPipeline
         }
 
-        gameSessionUseCases.updateGameSession(
-            gameSession = state.gameSession.copy(
-                settledPlanetId = action.planet.id,
-                finalHabitability = action.planet.habitability?.habitabilityScore?.times(other = 100.0)
-            )
-        )
+        gameSessionUseCases.settle(gameSession = state.gameSession, planet = action.planet)
         navigate(screen = Screen.GAME_OVER)
     }
 

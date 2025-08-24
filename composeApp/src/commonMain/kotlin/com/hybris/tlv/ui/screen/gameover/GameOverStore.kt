@@ -56,22 +56,7 @@ internal class GameOverStore(
         }
 
         val gameOver = getGameOver(gameSession = gameSession)
-        val ship = gameSession.ship
-
-        // Base Score = (Cryopod Score) + (Resource Score) + (Journey Score)
-        val cryopodScore = ship.cryopods * 100
-        val resourceScore = ship.materials * 2 + ship.fuel * 1
-        val journeyScore = ship.yearsTraveled * 5
-        val baseScore = cryopodScore + resourceScore + journeyScore
-
-        // Challenge Multiplier
-        val challengeMultiplier = (1.0 + (15 - ship.assignedPoints) + 0.05).coerceIn(minimumValue = 0.01, maximumValue = 10.0)
-
-        // Final Score = (Base Score) * Habitability Multiplier * Success Multiplier * Challenge Multiplier
-        val score = baseScore * gameOver.second * challengeMultiplier
-
-        val updatedGameSession = gameSession.copy(score = score)
-        gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
+        val updatedGameSession = gameSessionUseCases.score(gameSession = gameSession, gameOver = gameOver)
         updateState {
             it.copy(
                 currentContent = Content.MESSAGE,

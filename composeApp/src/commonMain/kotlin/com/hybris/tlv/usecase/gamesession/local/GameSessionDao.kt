@@ -11,17 +11,13 @@ internal class GameSessionDao(
 
     private val gameSessionDao = database.gameSessionQueries
 
-    override fun startGame(gameSession: GameSession) {
-        gameSessionDao.upsertGameSession(GameSession = gameSession.toGameSessionSchema())
-    }
-
     override fun getGameSessions(): List<GameSession> =
         gameSessionDao.getGameSessions(mapper = gameSessionProjection).executeAsList()
 
     override fun getLatestGameSession(): GameSession? =
         gameSessionDao.getLatestGameSession(mapper = gameSessionProjection).executeAsOneOrNull()
 
-    override fun updateGameSession(gameSession: GameSession) {
+    override fun upsertGameSession(gameSession: GameSession) {
         gameSessionDao.upsertGameSession(GameSession = gameSession.toGameSessionSchema())
     }
 }

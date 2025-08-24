@@ -40,12 +40,7 @@ internal class MainMenuStore(
     }
 
     private fun setup() = launchInPipeline {
-        val gameSession = gameSessionUseCases.getLatestGameSession()
-        val ongoingGameSession = gameSession != null &&
-                gameSession.settledPlanetId == null &&
-                gameSession.finalHabitability == null &&
-                gameSession.ship.integrity > 0 &&
-                gameSession.ship.fuel > 0
+        val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
         val developerCorner = remoteConfig.getString(key = Config.DeveloperCorner)
         val tip = remoteConfig.getString(key = Config.Tip)
         updateState {

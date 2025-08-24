@@ -24,13 +24,13 @@ internal class GameSessionLocalTest {
     fun `write and get game sessions`() = runBlocking {
         assertNull(actual = mock.gameSessionDao.getLatestGameSession())
         assertTrue(actual = mock.gameSessionDao.getGameSessions().isEmpty())
-        mock.gameSessionDao.startGame(gameSession = gameSession)
+        mock.gameSessionDao.upsertGameSession(gameSession = gameSession)
         mock.shipDao.upsertShip(ship = ship)
         mock.spaceDao.upsertFormula(formula = Formula(id = "1"))
         assertEquals(expected = gameSession, actual = mock.gameSessionDao.getLatestGameSession())
         assertTrue(actual = mock.gameSessionDao.getGameSessions().isNotEmpty())
         val newGameSession = gameSession.copy(score = 9000.0)
-        mock.gameSessionDao.updateGameSession(gameSession = newGameSession)
+        mock.gameSessionDao.upsertGameSession(gameSession = newGameSession)
         assertEquals(expected = newGameSession, actual = mock.gameSessionDao.getLatestGameSession())
     }
 }

@@ -78,12 +78,8 @@ internal class EventStore(
         }
 
         val children = events.filter { it.parentId == event.id }
-        val updatedGameSession = updateGameSession(
-            gameSession = gameSession,
-            event = event
-        )
+        val updatedGameSession = gameSessionUseCases.doEvent(gameSession = gameSession, event = event)
 
-        gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
         updateState {
             it.copy(
                 gameSession = updatedGameSession,
@@ -92,23 +88,6 @@ internal class EventStore(
                 children = children
             )
         }
-    }
-
-    private fun updateGameSession(gameSession: GameSession, event: Event): GameSession {
-        val integrity = gameSession.ship.integrity + (event.outcome?.integrity ?: 0)
-        val materials = gameSession.ship.materials + (event.outcome?.materials ?: 0)
-        val fuel = gameSession.ship.fuel + (event.outcome?.fuel ?: 0)
-        val cryopods = gameSession.ship.cryopods + (event.outcome?.cryopods ?: 0)
-
-        return gameSession.copy(
-            ship = gameSession.ship.copy(
-                integrity = integrity,
-                materials = materials,
-                fuel = fuel,
-                cryopods = cryopods
-            ),
-            launchedEvents = gameSession.launchedEvents + event.id
-        )
     }
 
     private fun select(state: EventState, action: EventAction.Select) = launchInPipeline {
@@ -130,11 +109,8 @@ internal class EventStore(
         }
 
         val children = state.events.filter { it.parentId == action.event.id }
-        val updatedGameSession = updateGameSession(
-            gameSession = state.gameSession,
-            event = action.event
-        )
-        gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
+        val updatedGameSession = gameSessionUseCases.doEvent(gameSession = state.gameSession, event = action.event)
+
         updateState {
             it.copy(
                 gameSession = updatedGameSession,

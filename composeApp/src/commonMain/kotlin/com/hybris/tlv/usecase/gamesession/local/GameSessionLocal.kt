@@ -5,11 +5,6 @@ import com.hybris.tlv.usecase.gamesession.model.GameSession
 internal interface GameSessionLocal {
 
     /**
-     * Upsert a [gameSession] and end the last ongoing game session.
-     */
-    fun startGame(gameSession: GameSession)
-
-    /**
      * Get all [GameSession]s ordered .
      */
     fun getGameSessions(): List<GameSession>
@@ -20,7 +15,7 @@ internal interface GameSessionLocal {
     fun getLatestGameSession(): GameSession?
 
     /**
-     * Update a [gameSession].
+     * Upserts a [gameSession].
      */
-    fun updateGameSession(gameSession: GameSession)
+    fun upsertGameSession(gameSession: GameSession)
 }
