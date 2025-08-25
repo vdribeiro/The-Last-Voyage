@@ -153,6 +153,7 @@ private val planetProperties by lazy {
         PlanetProperty.MASS to getTranslation(key = "planet_mass"),
         PlanetProperty.DENSITY to getTranslation(key = "planet_density"),
         PlanetProperty.ECCENTRICITY to getTranslation(key = "planet_eccentricity"),
+        PlanetProperty.INSOLATION_FLUX to getTranslation(key = "planet_insolation_flux"),
         PlanetProperty.INCLINATION to getTranslation(key = "planet_insolation_flux"),
         PlanetProperty.TEMPERATURE to getTranslation(key = "planet_temperature"),
         PlanetProperty.OCCULTATION_DEPTH to getTranslation(key = "planet_occultation_depth"),

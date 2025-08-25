@@ -7,8 +7,7 @@ import com.hybris.tlv.mock.hostsWithPlanets
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.usecase.gamesession.model.GameOver
-import com.hybris.tlv.usecase.space.formula.Habitability
-import com.hybris.tlv.usecase.space.model.Formula
+import com.hybris.tlv.usecase.space.formula.Formula
 import kotlin.math.ceil
 import kotlin.random.Random
 import kotlin.test.BeforeTest
@@ -73,10 +72,10 @@ internal class GameSessionUseCasesTest {
         val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val stellarHost = hostsWithPlanets.filter { it.planets.isNotEmpty() }.random()
         val planet = stellarHost.planets.random().apply {
-            score = Habitability.calculateHabitability(
+            score = Formula.calculateScores(
                 stellarHost = stellarHost,
                 planet = this,
-                formula = Formula()
+                formula = com.hybris.tlv.usecase.space.model.Formula()
             )
         }
 
