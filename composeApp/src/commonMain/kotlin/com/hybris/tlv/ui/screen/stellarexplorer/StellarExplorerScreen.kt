@@ -128,7 +128,15 @@ private val stellarHostProperties by lazy {
         StellarHostProperty.ROTATIONAL_PERIOD to getTranslation(key = "stellar_host_rotational_period"),
         StellarHostProperty.DISTANCE to getTranslation(key = "stellar_host_distance"),
         StellarHostProperty.RA to getTranslation(key = "stellar_host_ra"),
-        StellarHostProperty.DEC to getTranslation(key = "stellar_host_dec")
+        StellarHostProperty.DEC to getTranslation(key = "stellar_host_dec"),
+        StellarHostProperty.SPECTRAL_TYPE_SCORE to getTranslation(key = "stellar_host_spectral_type_score"),
+        StellarHostProperty.MASS_SCORE to getTranslation(key = "stellar_host_mass_score"),
+        StellarHostProperty.AGE_SCORE to getTranslation(key = "stellar_host_age_score"),
+        StellarHostProperty.ACTIVITY_SCORE to getTranslation(key = "stellar_host_activity_score"),
+        StellarHostProperty.ROTATIONAL_PERIOD_SCORE to getTranslation(key = "stellar_host_rotational_period_score"),
+        StellarHostProperty.GRAVITY_SCORE to getTranslation(key = "stellar_host_gravity_score"),
+        StellarHostProperty.METALLICITY_SCORE to getTranslation(key = "stellar_host_metallicity_score"),
+        StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE to getTranslation(key = "stellar_host_effective_temperature_score")
     )
 }
 
@@ -137,6 +145,7 @@ private val planetProperties by lazy {
         PlanetProperty.NAME to getTranslation(key = "planet_name"),
         PlanetProperty.STATUS to getTranslation(key = "planet_status"),
         PlanetProperty.HABITABILITY to getTranslation(key = "planet_habitability"),
+        PlanetProperty.CONFIDENCE to getTranslation(key = "planet_confidence"),
         PlanetProperty.TYPE to getTranslation(key = "planet_type"),
         PlanetProperty.ORBITAL_PERIOD to getTranslation(key = "planet_orbital_period"),
         PlanetProperty.ORBIT_AXIS to getTranslation(key = "planet_orbit_axis"),
@@ -148,6 +157,18 @@ private val planetProperties by lazy {
         PlanetProperty.TEMPERATURE to getTranslation(key = "planet_temperature"),
         PlanetProperty.OCCULTATION_DEPTH to getTranslation(key = "planet_occultation_depth"),
         PlanetProperty.INCLINATION to getTranslation(key = "planet_inclination"),
-        PlanetProperty.OBLIQUITY to getTranslation(key = "planet_obliquity")
+        PlanetProperty.OBLIQUITY to getTranslation(key = "planet_obliquity"),
+        PlanetProperty.ROCHE_SCORE to getTranslation(key = "planet_roche_score"),
+        PlanetProperty.HABITABLE_ZONE_KOPPARAPU_SCORE to getTranslation(key = "planet_habitable_zone_kopparapu_score"),
+        PlanetProperty.HABITABLE_ZONE_KASTING_SCORE to getTranslation(key = "planet_habitable_zone_kasting_score"),
+        PlanetProperty.RADIUS_SCORE to getTranslation(key = "planet_radius_score"),
+        PlanetProperty.MASS_SCORE to getTranslation(key = "planet_mass_score"),
+        PlanetProperty.TELLURICITY_SCORE to getTranslation(key = "planet_telluricity_score"),
+        PlanetProperty.ECCENTRICITY_SCORE to getTranslation(key = "planet_eccentricity_score"),
+        PlanetProperty.TEMPERATURE_SCORE to getTranslation(key = "planet_temperature_score"),
+        PlanetProperty.OBLIQUITY_SCORE to getTranslation(key = "planet_obliquity_score"),
+        PlanetProperty.ESI_SCORE to getTranslation(key = "planet_esi_score"),
+        PlanetProperty.PROTECTION_SCORE to getTranslation(key = "planet_protection_score"),
+        PlanetProperty.TIDAL_LOCKING_SCORE to getTranslation(key = "planet_tidal_locking_score")
     )
 }

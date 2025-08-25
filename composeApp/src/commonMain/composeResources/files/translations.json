@@ -251,6 +251,56 @@
   },
   {
     "languageIso": "en",
+    "key": "stellar_host_type_unknown",
+    "value": "Unknown"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_type_unknown_description",
+    "value": "A celestial body that can either be a previously undiscovered type of star, an object with a unique and exotic composition, or simply a mystery waiting to be solved."
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_spectral_type_score",
+    "value": "Spectral Type Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_mass_score",
+    "value": "Mass Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_age_score",
+    "value": "Age Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_activity_score",
+    "value": "Activity Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_rotational_period_score",
+    "value": "Rotational Period Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_gravity_score",
+    "value": "Gravity Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_metallicity_score",
+    "value": "Metallicity Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_effective_temperature_score",
+    "value": "Temperature Score"
+  },
+  {
+    "languageIso": "en",
     "key": "planet_name",
     "value": "Name"
   },
@@ -338,6 +388,71 @@
     "languageIso": "en",
     "key": "planet_habitability",
     "value": "Habitability"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_confidence",
+    "value": "Confidence"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_roche_score",
+    "value": "Roche Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_habitable_zone_kopparapu_score",
+    "value": "Kopparapu Habitable Zone Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_habitable_zone_kasting_score",
+    "value": "Kasting Habitable Zone Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_radius_score",
+    "value": "Radius Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_mass_score",
+    "value": "Mass Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_telluricity_score",
+    "value": "Telluricity Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_eccentricity_score",
+    "value": "Eccentricity Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_temperature_score",
+    "value": "Temperature Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_obliquity_score",
+    "value": "Obliquity Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_esi_score",
+    "value": "ESI Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_protection_score",
+    "value": "Protection Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_tidal_locking_score",
+    "value": "Tidal Locking Score"
   },
   {
     "languageIso": "en",

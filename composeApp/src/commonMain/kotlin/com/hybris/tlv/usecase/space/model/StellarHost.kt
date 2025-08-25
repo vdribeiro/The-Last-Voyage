@@ -24,4 +24,5 @@ internal data class StellarHost(
 ) {
     val planets: MutableList<Planet> = mutableListOf()
     var travelOutcome: TravelOutcome? = null
+    var score: Score? = null
 }

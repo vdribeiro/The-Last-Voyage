@@ -127,7 +127,7 @@ internal class GameStore(
         }
 
         currentStellarHost.planets.forEach { planet ->
-            planet.habitability = Habitability.calculateHabitability(
+            planet.score = Habitability.calculateHabitability(
                 stellarHost = currentStellarHost,
                 planet = planet,
                 formula = gameSession.formula

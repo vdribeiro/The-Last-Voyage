@@ -20,13 +20,22 @@ internal enum class StellarHostProperty {
     ROTATIONAL_PERIOD,
     DISTANCE,
     RA,
-    DEC
+    DEC,
+    SPECTRAL_TYPE_SCORE,
+    MASS_SCORE,
+    AGE_SCORE,
+    ACTIVITY_SCORE,
+    ROTATIONAL_PERIOD_SCORE,
+    GRAVITY_SCORE,
+    METALLICITY_SCORE,
+    EFFECTIVE_TEMPERATURE_SCORE
 }
 
 internal enum class PlanetProperty {
     NAME,
     STATUS,
     HABITABILITY,
+    CONFIDENCE,
     TYPE,
     ORBITAL_PERIOD,
     ORBIT_AXIS,
@@ -38,7 +47,19 @@ internal enum class PlanetProperty {
     TEMPERATURE,
     OCCULTATION_DEPTH,
     INCLINATION,
-    OBLIQUITY
+    OBLIQUITY,
+    ROCHE_SCORE,
+    HABITABLE_ZONE_KOPPARAPU_SCORE,
+    HABITABLE_ZONE_KASTING_SCORE,
+    RADIUS_SCORE,
+    MASS_SCORE,
+    TELLURICITY_SCORE,
+    ECCENTRICITY_SCORE,
+    TEMPERATURE_SCORE,
+    OBLIQUITY_SCORE,
+    ESI_SCORE,
+    PROTECTION_SCORE,
+    TIDAL_LOCKING_SCORE
 }
 
 internal fun getStellarHostComparator(sort: StellarHostProperty, ascending: Boolean): Comparator<StellarHost> = when (sort) {
@@ -126,6 +147,46 @@ internal fun getStellarHostComparator(sort: StellarHostProperty, ascending: Bool
         ascending = ascending,
         comparator = if (ascending) nullsLast() else nullsFirst()
     ) { it.dec }
+
+    StellarHostProperty.SPECTRAL_TYPE_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.stellarSpectralTypeScore }
+
+    StellarHostProperty.MASS_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.stellarMassScore }
+
+    StellarHostProperty.AGE_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.stellarAgeScore }
+
+    StellarHostProperty.ACTIVITY_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.stellarActivityScore }
+
+    StellarHostProperty.ROTATIONAL_PERIOD_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.stellarRotationalPeriodScore }
+
+    StellarHostProperty.GRAVITY_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.stellarGravityScore }
+
+    StellarHostProperty.METALLICITY_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.stellarMetallicityScore }
+
+    StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.stellarEffectiveTemperatureScore }
 }
 
 internal fun getPlanetsComparator(sort: PlanetProperty, ascending: Boolean): Comparator<Planet> = when (sort) {
@@ -142,12 +203,17 @@ internal fun getPlanetsComparator(sort: PlanetProperty, ascending: Boolean): Com
     PlanetProperty.HABITABILITY -> compare(
         ascending = ascending,
         comparator = if (ascending) nullsLast() else nullsFirst()
-    ) { it.habitability?.habitabilityScore }
+    ) { it.score?.habitabilityScore }
+
+    PlanetProperty.CONFIDENCE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.confidenceScore }
 
     PlanetProperty.TYPE -> compare(
         ascending = ascending,
         comparator = if (ascending) nullsLast() else nullsFirst()
-    ) { it.habitability?.planetType?.displayName }
+    ) { it.score?.planetType?.displayName }
 
     PlanetProperty.ORBITAL_PERIOD -> compare(
         ascending = ascending,
@@ -203,6 +269,66 @@ internal fun getPlanetsComparator(sort: PlanetProperty, ascending: Boolean): Com
         ascending = ascending,
         comparator = if (ascending) nullsLast() else nullsFirst()
     ) { it.obliquity }
+
+    PlanetProperty.ROCHE_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.rocheScore }
+
+    PlanetProperty.HABITABLE_ZONE_KOPPARAPU_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.habitableZoneKopparapuScore }
+
+    PlanetProperty.HABITABLE_ZONE_KASTING_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.habitableZoneKastingScore }
+
+    PlanetProperty.RADIUS_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.planetRadiusScore }
+
+    PlanetProperty.MASS_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.planetMassScore }
+
+    PlanetProperty.TELLURICITY_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.planetTelluricityScore }
+
+    PlanetProperty.ECCENTRICITY_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.planetEccentricityScore }
+
+    PlanetProperty.TEMPERATURE_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.planetTemperatureScore }
+
+    PlanetProperty.OBLIQUITY_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.planetObliquityScore }
+
+    PlanetProperty.ESI_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.planetEsiScore }
+
+    PlanetProperty.PROTECTION_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.planetProtectionScore }
+
+    PlanetProperty.TIDAL_LOCKING_SCORE -> compare(
+        ascending = ascending,
+        comparator = if (ascending) nullsLast() else nullsFirst()
+    ) { it.score?.planetTidalLockingScore }
 }
 
 private inline fun <T, K> compare(

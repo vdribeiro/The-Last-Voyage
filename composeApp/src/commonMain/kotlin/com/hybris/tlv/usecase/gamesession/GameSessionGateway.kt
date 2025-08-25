@@ -84,7 +84,7 @@ internal class GameSessionGateway(
     override suspend fun settle(gameSession: GameSession, planet: Planet): GameSession {
         val updatedGameSession = gameSession.copy(
             settledPlanetId = planet.id,
-            finalHabitability = planet.habitability?.habitabilityScore?.times(other = 100.0)
+            finalHabitability = planet.score?.habitabilityScore?.times(other = 100.0)
         )
         updateGameSession(gameSession = updatedGameSession)
         return updatedGameSession

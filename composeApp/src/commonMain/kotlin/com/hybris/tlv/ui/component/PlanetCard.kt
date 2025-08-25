@@ -44,8 +44,21 @@ internal fun PlanetCard(
     inclination: Double? = null,
     obliquity: Double? = null,
     habitability: Double? = null,
+    confidence: Double? = null,
     type: String? = null,
     typeDrawable: DrawableResource? = null,
+    rocheScore: Double? = null,
+    habitableZoneKopparapuScore: Double? = null,
+    habitableZoneKastingScore: Double? = null,
+    radiusScore: Double? = null,
+    massScore: Double? = null,
+    telluricityScore: Double? = null,
+    eccentricityScore: Double? = null,
+    temperatureScore: Double? = null,
+    obliquityScore: Double? = null,
+    esiScore: Double? = null,
+    protectionScore: Double? = null,
+    tidalLockingScore: Double? = null,
 ) {
     Card(
         modifier = modifier
@@ -88,6 +101,12 @@ internal fun PlanetCard(
                 habitability?.let {
                     InfoRow(
                         label = getTranslation(key = "planet_habitability"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                confidence?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_confidence"),
                         value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
                     )
                 }
@@ -161,6 +180,78 @@ internal fun PlanetCard(
                     InfoRow(
                         label = getTranslation(key = "planet_obliquity"),
                         value = "${it.roundTo(decimalPlaces = 1)} ε"
+                    )
+                }
+                rocheScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_roche_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                habitableZoneKopparapuScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_habitable_zone_kopparapu_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                habitableZoneKastingScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_habitable_zone_kasting_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                radiusScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_radius_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                massScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_mass_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                telluricityScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_telluricity_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                eccentricityScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_eccentricity_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                temperatureScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_temperature_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                obliquityScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_obliquity_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                esiScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_esi_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                protectionScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_protection_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                tidalLockingScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "planet_tidal_locking_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
                     )
                 }
             }

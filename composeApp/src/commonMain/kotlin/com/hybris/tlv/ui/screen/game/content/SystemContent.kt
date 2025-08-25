@@ -69,9 +69,9 @@ internal fun SystemContent(store: Store<GameAction, GameState>) {
                 occultationDepth = planet.occultationDepth,
                 inclination = planet.inclination,
                 obliquity = planet.obliquity,
-                habitability = planet.habitability?.habitabilityScore,
-                type = planet.habitability?.planetType?.displayName,
-                typeDrawable = planet.habitability?.planetType.toDrawable()
+                habitability = planet.score?.habitabilityScore,
+                type = planet.score?.planetType?.displayName,
+                typeDrawable = planet.score?.planetType.toDrawable()
             )
         }
     }

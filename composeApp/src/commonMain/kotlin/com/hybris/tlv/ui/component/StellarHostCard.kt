@@ -48,6 +48,14 @@ internal fun StellarHostCard(
     distance: Double? = null,
     ra: Double? = null,
     dec: Double? = null,
+    spectralTypeScore: Double? = null,
+    massScore: Double? = null,
+    ageScore: Double? = null,
+    activityScore: Double? = null,
+    rotationalPeriodScore: Double? = null,
+    gravityScore: Double? = null,
+    metallicityScore: Double? = null,
+    effectiveTemperatureScore: Double? = null
 ) {
     Card(
         modifier = modifier
@@ -175,6 +183,54 @@ internal fun StellarHostCard(
                     InfoRow(
                         label = getTranslation(key = "stellar_host_distance"),
                         value = "${it.roundTo(decimalPlaces = 2)} ly"
+                    )
+                }
+                spectralTypeScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_spectral_type_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                massScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_mass_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                ageScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_age_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                activityScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_activity_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                rotationalPeriodScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_rotational_period_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                gravityScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_gravity_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                metallicityScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_metallicity_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
+                    )
+                }
+                effectiveTemperatureScore?.let {
+                    InfoRow(
+                        label = getTranslation(key = "stellar_host_effective_temperature_score"),
+                        value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%"
                     )
                 }
             }

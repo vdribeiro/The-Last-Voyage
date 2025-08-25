@@ -20,5 +20,5 @@ internal data class Planet(
     val inclination: Double?,            // degrees
     val obliquity: Double?,              // degrees
 ) {
-    var habitability: Score? = null
+    var score: Score? = null
 }

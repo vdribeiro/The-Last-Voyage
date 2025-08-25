@@ -46,6 +46,8 @@ internal fun StellarHostContent(store: Store<StellarExplorerAction, StellarExplo
                 PlanetCard(
                     name = if (visiblePlanetProperties.contains(element = PlanetProperty.NAME)) planet.name else null,
                     status = if (visiblePlanetProperties.contains(element = PlanetProperty.STATUS)) planet.status.displayName else null,
+                    habitability = if (visiblePlanetProperties.contains(element = PlanetProperty.HABITABILITY)) planet.score?.habitabilityScore else null,
+                    confidence = if (visiblePlanetProperties.contains(element = PlanetProperty.CONFIDENCE)) planet.score?.confidenceScore else null,
                     orbitalPeriod = if (visiblePlanetProperties.contains(element = PlanetProperty.ORBITAL_PERIOD)) planet.orbitalPeriod else null,
                     orbitAxis = if (visiblePlanetProperties.contains(element = PlanetProperty.ORBIT_AXIS)) planet.orbitAxis else null,
                     radius = if (visiblePlanetProperties.contains(element = PlanetProperty.RADIUS)) planet.radius else null,
@@ -57,9 +59,20 @@ internal fun StellarHostContent(store: Store<StellarExplorerAction, StellarExplo
                     occultationDepth = if (visiblePlanetProperties.contains(element = PlanetProperty.OCCULTATION_DEPTH)) planet.occultationDepth else null,
                     inclination = if (visiblePlanetProperties.contains(element = PlanetProperty.INCLINATION)) planet.inclination else null,
                     obliquity = if (visiblePlanetProperties.contains(element = PlanetProperty.OBLIQUITY)) planet.obliquity else null,
-                    habitability = if (visiblePlanetProperties.contains(element = PlanetProperty.HABITABILITY)) planet.habitability?.habitabilityScore else null,
-                    type = if (visiblePlanetProperties.contains(element = PlanetProperty.TYPE)) planet.habitability?.planetType?.displayName else null,
-                    typeDrawable = if (visiblePlanetProperties.contains(element = PlanetProperty.TYPE)) planet.habitability?.planetType.toDrawable() else null,
+                    type = if (visiblePlanetProperties.contains(element = PlanetProperty.TYPE)) planet.score?.planetType?.displayName else null,
+                    typeDrawable = if (visiblePlanetProperties.contains(element = PlanetProperty.TYPE)) planet.score?.planetType.toDrawable() else null,
+                    rocheScore = if (visiblePlanetProperties.contains(element = PlanetProperty.ROCHE_SCORE)) planet.score?.rocheScore else null,
+                    habitableZoneKopparapuScore = if (visiblePlanetProperties.contains(element = PlanetProperty.HABITABLE_ZONE_KOPPARAPU_SCORE)) planet.score?.habitableZoneKopparapuScore else null,
+                    habitableZoneKastingScore = if (visiblePlanetProperties.contains(element = PlanetProperty.HABITABLE_ZONE_KASTING_SCORE)) planet.score?.habitableZoneKastingScore else null,
+                    radiusScore = if (visiblePlanetProperties.contains(element = PlanetProperty.RADIUS_SCORE)) planet.score?.planetRadiusScore else null,
+                    massScore = if (visiblePlanetProperties.contains(element = PlanetProperty.MASS_SCORE)) planet.score?.planetMassScore else null,
+                    telluricityScore = if (visiblePlanetProperties.contains(element = PlanetProperty.TELLURICITY_SCORE)) planet.score?.planetTelluricityScore else null,
+                    eccentricityScore = if (visiblePlanetProperties.contains(element = PlanetProperty.ECCENTRICITY_SCORE)) planet.score?.planetEccentricityScore else null,
+                    temperatureScore = if (visiblePlanetProperties.contains(element = PlanetProperty.TEMPERATURE_SCORE)) planet.score?.planetTemperatureScore else null,
+                    obliquityScore = if (visiblePlanetProperties.contains(element = PlanetProperty.OBLIQUITY_SCORE)) planet.score?.planetObliquityScore else null,
+                    esiScore = if (visiblePlanetProperties.contains(element = PlanetProperty.ESI_SCORE)) planet.score?.planetEsiScore else null,
+                    protectionScore = if (visiblePlanetProperties.contains(element = PlanetProperty.PROTECTION_SCORE)) planet.score?.planetProtectionScore else null,
+                    tidalLockingScore = if (visiblePlanetProperties.contains(element = PlanetProperty.TIDAL_LOCKING_SCORE)) planet.score?.planetTidalLockingScore else null
                 )
             }
             item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
@@ -95,6 +108,14 @@ internal fun StellarHostContent(store: Store<StellarExplorerAction, StellarExplo
                 distance = if (visibleStellarHostProperties.contains(element = StellarHostProperty.DISTANCE)) stellarHost.distance else null,
                 ra = if (visibleStellarHostProperties.contains(element = StellarHostProperty.RA)) stellarHost.ra else null,
                 dec = if (visibleStellarHostProperties.contains(element = StellarHostProperty.DEC)) stellarHost.dec else null,
+                spectralTypeScore = if (visibleStellarHostProperties.contains(element = StellarHostProperty.SPECTRAL_TYPE_SCORE)) stellarHost.score?.stellarSpectralTypeScore else null,
+                massScore = if (visibleStellarHostProperties.contains(element = StellarHostProperty.MASS_SCORE)) stellarHost.score?.stellarMassScore else null,
+                ageScore = if (visibleStellarHostProperties.contains(element = StellarHostProperty.AGE_SCORE)) stellarHost.score?.stellarAgeScore else null,
+                activityScore = if (visibleStellarHostProperties.contains(element = StellarHostProperty.ACTIVITY_SCORE)) stellarHost.score?.stellarActivityScore else null,
+                rotationalPeriodScore = if (visibleStellarHostProperties.contains(element = StellarHostProperty.ROTATIONAL_PERIOD_SCORE)) stellarHost.score?.stellarRotationalPeriodScore else null,
+                gravityScore = if (visibleStellarHostProperties.contains(element = StellarHostProperty.GRAVITY_SCORE)) stellarHost.score?.stellarGravityScore else null,
+                metallicityScore = if (visibleStellarHostProperties.contains(element = StellarHostProperty.METALLICITY_SCORE)) stellarHost.score?.stellarMetallicityScore else null,
+                effectiveTemperatureScore = if (visibleStellarHostProperties.contains(element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE)) stellarHost.score?.stellarEffectiveTemperatureScore else null
             )
         }
     }

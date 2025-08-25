@@ -73,7 +73,7 @@ internal class GameSessionUseCasesTest {
         val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val stellarHost = hostsWithPlanets.filter { it.planets.isNotEmpty() }.random()
         val planet = stellarHost.planets.random().apply {
-            habitability = Habitability.calculateHabitability(
+            score = Habitability.calculateHabitability(
                 stellarHost = stellarHost,
                 planet = this,
                 formula = Formula()
@@ -82,7 +82,7 @@ internal class GameSessionUseCasesTest {
 
         val newGameSession = mock.useCases.gameSession.settle(gameSession = gameSession, planet = planet)
         assertEquals(expected = planet.id, actual = newGameSession.settledPlanetId)
-        assertEquals(expected = planet.habitability?.habitabilityScore?.times(other = 100.0), actual = newGameSession.finalHabitability)
+        assertEquals(expected = planet.score?.habitabilityScore?.times(other = 100.0), actual = newGameSession.finalHabitability)
     }
 
     @Test

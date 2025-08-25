@@ -75,7 +75,7 @@ internal class StellarExplorerStore(
         val stellarHosts = spaceUseCases.getExoplanets().apply {
             forEach { stellarHost ->
                 stellarHost.planets.forEach { planet ->
-                    planet.habitability = Habitability.calculateHabitability(
+                    planet.score = Habitability.calculateHabitability(
                         stellarHost = stellarHost,
                         planet = planet,
                         formula = Formula()
@@ -146,8 +146,8 @@ internal class StellarExplorerStore(
                         occultationDepth?.toString(),
                         inclination?.toString(),
                         obliquity?.toString(),
-                        habitability?.habitabilityScore?.toString(),
-                        habitability?.planetType?.displayName
+                        score?.habitabilityScore?.toString(),
+                        score?.planetType?.displayName
                     )
                 }.any { it.lowercase().contains(other = searchLowercase) }
             }
