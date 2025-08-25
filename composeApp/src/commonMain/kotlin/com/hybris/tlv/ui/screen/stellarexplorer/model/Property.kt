@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.stellarexplorer
+package com.hybris.tlv.ui.screen.stellarexplorer.model
 
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost

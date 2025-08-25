@@ -4,6 +4,10 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.component.LazyListIndex
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.screen.stellarexplorer.model.PlanetProperty
+import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
+import com.hybris.tlv.ui.screen.stellarexplorer.model.getPlanetsComparator
+import com.hybris.tlv.ui.screen.stellarexplorer.model.getStellarHostComparator
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability

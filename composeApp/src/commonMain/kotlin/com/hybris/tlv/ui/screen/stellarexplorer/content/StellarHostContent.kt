@@ -17,10 +17,10 @@ import com.hybris.tlv.ui.component.LazyListIndex
 import com.hybris.tlv.ui.component.PlanetCard
 import com.hybris.tlv.ui.component.StellarHostCard
 import com.hybris.tlv.ui.screen.stellarexplorer.Content
-import com.hybris.tlv.ui.screen.stellarexplorer.PlanetProperty
+import com.hybris.tlv.ui.screen.stellarexplorer.model.PlanetProperty
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerAction
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
-import com.hybris.tlv.ui.screen.stellarexplorer.StellarHostProperty
+import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.mapper.spectralTypeToDrawable
 import com.hybris.tlv.usecase.space.mapper.toDrawable
