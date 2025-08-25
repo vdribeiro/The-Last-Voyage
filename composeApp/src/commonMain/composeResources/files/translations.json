@@ -97,7 +97,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_o_description",
-    "value": "The hottest, most massive, and most luminous stars. They shine with a brilliant blue-white light. Because they burn through their fuel so quickly, they have very short lifespans. Their spectra show lines from ionized helium."
+    "value": "The hottest, most massive, and most luminous stars, with a brilliant blue-white light. Because they burn through their fuel so quickly, they have extremely short lifespans and very high UV radiation. Their spectra show lines from ionized helium."
   },
   {
     "languageIso": "en",
@@ -107,7 +107,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_b_description",
-    "value": "Very hot and luminous, appearing blue-white. They are less massive and live longer than O-type stars. Their spectra are characterized by neutral helium lines."
+    "value": "Very hot, massive, luminous blue-white stars. They have very short lived lifespans and high UV radiation. Their spectra are characterized by neutral helium lines."
   },
   {
     "languageIso": "en",
@@ -117,7 +117,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_a_description",
-    "value": "These stars are white or bluish-white. They are known for having the strongest hydrogen absorption lines. Famous examples include Vega and Sirius."
+    "value": "White or bluish-white stars generally larger and more massive than the Sun. Short-lived and with significant UV radiation. They are known for having the strongest hydrogen absorption lines."
   },
   {
     "languageIso": "en",
@@ -127,7 +127,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_f_description",
-    "value": "These are yellow-white stars, slightly hotter and more massive than our Sun. Their hydrogen lines are weaker than A-type stars, but lines of metals begin to appear."
+    "value": "Yellow-white stars, slightly hotter and more massive than the Sun, with shorter lifespans and more UV radiation. Their hydrogen lines are weaker than A-type stars, but lines of metals begin to appear."
   },
   {
     "languageIso": "en",
@@ -137,7 +137,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_g_description",
-    "value": "Our Sun is a G-type star. They are yellow and have a perfect balance of temperature and longevity to potentially support life. Their spectra show many metal lines."
+    "value": "Yellow stars like our sun. They have a perfect balance of temperature and longevity to potentially support life. Their spectra show many metal lines."
   },
   {
     "languageIso": "en",
@@ -147,7 +147,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_k_description",
-    "value": "These are orange stars that are cooler, smaller, and live longer than our Sun. They are considered promising candidates for hosting planets with life."
+    "value": "Orange stars are long-lived, cooler, smaller and stable, with less UV radiation. They are considered promising candidates for hosting planets with life."
   },
   {
     "languageIso": "en",
@@ -157,7 +157,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_m_description",
-    "value": "The most common stars in the universe. They are cool, dim, low-mass stars known as red dwarfs. They have extremely long lifespans, potentially trillions of years. Their spectra show lines from molecules, not just atoms."
+    "value": "The most common stars in the universe. They are cool, dim, low-mass stars known as red dwarfs. They have extremely long lifespans, potentially trillions of years, but are more prone to flaring. Their spectra show lines from molecules, not just atoms."
   },
   {
     "languageIso": "en",
@@ -167,7 +167,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_w_description",
-    "value": "Wolf-Rayet stars. Extremely hot, massive, and evolved stars nearing the end of their lives. They have blown away their outer hydrogen layers, revealing a core that shows strong emission lines of helium, carbon, and nitrogen."
+    "value": "Wolf-Rayet are extremely hot, massive, and evolved stars nearing the end of their lives. They have blown away their outer hydrogen layers, revealing a core that shows strong emission lines of helium, carbon, and nitrogen."
   },
   {
     "languageIso": "en",
@@ -177,7 +177,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_q_description",
-    "value": "This classification is used for novae, which are not stable stars. A nova is a temporary and dramatic brightening of a white dwarf star that is pulling matter from a nearby companion star."
+    "value": "Novae are catastrophically hostile and unstable stars. A nova is a temporary and dramatic brightening of a white dwarf star that is pulling matter from a nearby companion star."
   },
   {
     "languageIso": "en",
@@ -187,7 +187,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_p_description",
-    "value": "This is not a star type itself, but the classification for the central star of a planetary nebula. It is the hot, exposed core of a dying star that is illuminating the gas it previously ejected."
+    "value": "The hot, exposed core of the central dying star of a planetary nebula that is illuminating the gas it previously ejected."
   },
   {
     "languageIso": "en",
@@ -197,7 +197,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_l_description",
-    "value": "A brown dwarf. Warmer than other brown dwarfs but cooler than M-type stars. They glow in a dark, dusky-red color and are primarily visible in infrared light. Their spectra feature metal hydrides."
+    "value": "Brown dwarfs warmer than other brown dwarfs but cooler than M-type stars. They glow in a dark, dusky-red color and are primarily visible in infrared light. Their spectra feature metal hydrides."
   },
   {
     "languageIso": "en",
@@ -207,7 +207,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_t_description",
-    "value": "A brown dwarf. Cooler than L-types, T-dwarfs are defined by the presence of methane in their atmospheres. They emit almost all their light in the infrared spectrum."
+    "value": "Brown dwarfs cooler than L-types, and defined by the presence of methane in their atmospheres. They emit almost all their light in the infrared spectrum."
   },
   {
     "languageIso": "en",
@@ -217,7 +217,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_y_description",
-    "value": "A brown dwarf. The coldest known class of brown dwarfs, with surface temperatures that can be as low as room temperature. They are only detectable in infrared."
+    "value": "The coldest known class of brown dwarfs, with surface temperatures that can be as low as room temperature. They are only detectable in infrared."
   },
   {
     "languageIso": "en",
@@ -227,7 +227,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_c_description",
-    "value": "Carbon stars. These are cool giant stars whose atmospheres contain more carbon than oxygen. The excess carbon forms molecules that absorb blue light, giving these stars a distinct ruby-red color."
+    "value": "Carbon stars. These are unstable cool giant stars whose atmospheres contain more carbon than oxygen. The excess carbon forms molecules that absorb blue light, giving these stars a distinct ruby-red color."
   },
   {
     "languageIso": "en",
@@ -237,7 +237,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_s_description",
-    "value": "A cool giant star that represents an intermediate stage between normal M-type giants and C-type Carbon stars. Its atmosphere has roughly equal amounts of carbon and oxygen."
+    "value": "Unstable cool giant stars that represent an intermediate stage between normal M-type giants and C-type Carbon stars. Their atmosphere has roughly equal amounts of carbon and oxygen."
   },
   {
     "languageIso": "en",
@@ -247,7 +247,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_d_description",
-    "value": "Degenerate / White Dwarf. The incredibly dense, hot remnant core of a star like our Sun after it has exhausted its nuclear fuel. It's essentially a stellar ember that slowly cools and fades over billions of years."
+    "value": "A White Dwarf is an incredibly dense, hot remnant core of a star like our Sun after it has exhausted its nuclear fuel. It's essentially a stellar ember with harsh radiation that slowly cools and fades over billions of years."
   },
   {
     "languageIso": "en",

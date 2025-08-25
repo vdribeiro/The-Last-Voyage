@@ -567,7 +567,7 @@ internal object Habitability {
             'L', 'T', 'Y' -> 0.1  // Brown Dwarfs: Unstable HZ
             'D' -> 0.1            // White Dwarfs: Remnant cores, harsh radiation
             'C', 'S' -> 0.2       // Carbon/S-type stars: Evolved, unstable giants
-            'W', 'Q', 'P' -> 0.05 // Catastrophically hostile or not stable stars
+            'W', 'Q', 'P' -> 0.05 // Catastrophically hostile or unstable stars
             else -> 0.3           // Other rare types
         }
 
