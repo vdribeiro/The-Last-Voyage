@@ -4,11 +4,13 @@ import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.mock.events
 import com.hybris.tlv.mock.gameSessionPrototype
 import com.hybris.tlv.mock.hostsWithPlanets
+import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
 import kotlin.math.ceil
+import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -102,11 +104,6 @@ internal class GameSessionUseCasesTest {
     }
 
     @Test
-    fun `get game over`() = runBlocking {
-        //TODO
-    }
-
-    @Test
     fun `is game over`() = runBlocking {
         val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         assertFalse(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSession))
@@ -114,6 +111,24 @@ internal class GameSessionUseCasesTest {
         val gameSessionNoIntegrity = gameSession.copy(ship = gameSession.ship.copy(integrity = 0))
         mock.useCases.gameSession.updateGameSession(gameSession = gameSessionNoIntegrity)
         assertTrue(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSessionNoIntegrity))
+        val gameOverNoIntegrity = listOf(
+            GameOver.INTEGRITY_ZERO,
+            GameOver.INTEGRITY_ZERO_YEARS_FEW,
+            GameOver.INTEGRITY_ZERO_YEARS_SOME,
+            GameOver.INTEGRITY_ZERO_YEARS_LOTS,
+            GameOver.INTEGRITY_ZERO_MATERIALS_ZERO,
+            GameOver.INTEGRITY_ZERO_MATERIALS_LOW,
+            GameOver.INTEGRITY_ZERO_MATERIALS_ENOUGH,
+            GameOver.INTEGRITY_ZERO_CRYOPODS_ZERO,
+            GameOver.INTEGRITY_ZERO_CRYOPODS_ONE,
+            GameOver.INTEGRITY_ZERO_CRYOPODS_LOW,
+            GameOver.INTEGRITY_ZERO_CRYOPODS_ENOUGH,
+            GameOver.INTEGRITY_ZERO_FUEL_LOW,
+            GameOver.INTEGRITY_ZERO_FUEL_SOME,
+            GameOver.INTEGRITY_ZERO_FUEL_PLENTY,
+            GameOver.INTEGRITY_ZERO_YEARS_LOTS_CRYOPODS_BUSTLING
+        )
+        assertTrue(actual = gameOverNoIntegrity.any { it == mock.useCases.gameSession.getGameOver(gameSession = gameSessionNoIntegrity) })
 
         mock.useCases.gameSession.updateGameSession(gameSession = gameSession)
         assertFalse(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSession))
@@ -121,5 +136,39 @@ internal class GameSessionUseCasesTest {
         val gameSessionNoFuel = gameSession.copy(ship = gameSession.ship.copy(fuel = 0))
         mock.useCases.gameSession.updateGameSession(gameSession = gameSessionNoFuel)
         assertTrue(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSessionNoFuel))
+        val gameOverNoFuel = listOf(
+            GameOver.FUEL_ZERO,
+            GameOver.FUEL_ZERO_YEARS_FEW,
+            GameOver.FUEL_ZERO_YEARS_SOME,
+            GameOver.FUEL_ZERO_YEARS_LOTS,
+            GameOver.FUEL_ZERO_MATERIALS_ZERO,
+            GameOver.FUEL_ZERO_MATERIALS_LOW,
+            GameOver.FUEL_ZERO_MATERIALS_ENOUGH,
+            GameOver.FUEL_ZERO_CRYOPODS_ZERO,
+            GameOver.FUEL_ZERO_CRYOPODS_ONE,
+            GameOver.FUEL_ZERO_CRYOPODS_NEAR_ZERO,
+            GameOver.FUEL_ZERO_CRYOPODS_TOO_LOW,
+            GameOver.FUEL_ZERO_CRYOPODS_LOW,
+            GameOver.FUEL_ZERO_CRYOPODS_ENOUGH,
+            GameOver.FUEL_ZERO_INTEGRITY_LOW,
+            GameOver.FUEL_ZERO_INTEGRITY_ENOUGH,
+            GameOver.FUEL_ZERO_INTEGRITY_PRISTINE,
+            GameOver.FUEL_ZERO_MATERIALS_PLENTY_CRYOPODS_BUSTLING,
+            GameOver.FUEL_ZERO_INTEGRITY_ENOUGH_MATERIALS_ENOUGH_CRYOPODS_BUSTLING
+        )
+        assertTrue(actual = gameOverNoFuel.any { it == mock.useCases.gameSession.getGameOver(gameSession = gameSessionNoFuel) })
+
+        mock.useCases.gameSession.updateGameSession(gameSession = gameSession)
+        assertFalse(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSession))
+
+        val gameSessionSettled = gameSession.copy(
+            settledPlanetId = planets.random().id,
+            finalHabitability = Random.nextDouble(until = 100.0)
+        )
+        mock.useCases.gameSession.updateGameSession(gameSession = gameSessionSettled)
+        assertTrue(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSessionSettled))
+        val gameOverSettled = GameOver.entries - (gameOverNoIntegrity + gameOverNoFuel)
+        mock.useCases.gameSession.getGameOver(gameSession = gameSessionSettled)
+        assertTrue(actual = gameOverSettled.any { it == mock.useCases.gameSession.getGameOver(gameSession = gameSessionSettled) })
     }
 }
