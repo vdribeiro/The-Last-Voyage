@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.explore.content
+package com.hybris.tlv.ui.screen.learn.content
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,13 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.screen.explore.ExploreAction
-import com.hybris.tlv.ui.screen.explore.ExploreState
+import com.hybris.tlv.ui.screen.learn.LearnAction
+import com.hybris.tlv.ui.screen.learn.LearnState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun MenuContent(store: Store<ExploreAction, ExploreState>) {
+internal fun MenuContent(store: Store<LearnAction, LearnState>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -29,20 +29,20 @@ internal fun MenuContent(store: Store<ExploreAction, ExploreState>) {
     ) {
         Spacer(modifier = Modifier.height(height = 64.dp))
         Text(
-            modifier = Modifier.clickable { store.send(action = ExploreAction.Mechanics) },
-            text = getTranslation(key = "explore_screen__mechanics"),
+            modifier = Modifier.clickable { store.send(action = LearnAction.Mechanics) },
+            text = getTranslation(key = "learn_screen__mechanics"),
             style = MaterialTheme.typography.headlineMedium,
         )
         Spacer(modifier = Modifier.height(height = 16.dp))
         Text(
-            modifier = Modifier.clickable { store.send(action = ExploreAction.Habitability) },
-            text = getTranslation(key = "explore_screen__habitability"),
+            modifier = Modifier.clickable { store.send(action = LearnAction.Habitability) },
+            text = getTranslation(key = "learn_screen__habitability"),
             style = MaterialTheme.typography.headlineMedium,
         )
         Spacer(modifier = Modifier.height(height = 16.dp))
         Text(
-            modifier = Modifier.clickable { store.send(action = ExploreAction.PlanetTypes) },
-            text = getTranslation(key = "explore_screen__planet_types"),
+            modifier = Modifier.clickable { store.send(action = LearnAction.PlanetTypes) },
+            text = getTranslation(key = "learn_screen__planet_types"),
             style = MaterialTheme.typography.headlineMedium,
         )
     }

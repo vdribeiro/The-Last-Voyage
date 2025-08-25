@@ -1,18 +1,18 @@
-package com.hybris.tlv.ui.screen.explore
+package com.hybris.tlv.ui.screen.learn
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 
-internal sealed interface ExploreAction {
-    data object Back: ExploreAction
-    data object Mechanics: ExploreAction
-    data object Habitability: ExploreAction
-    data object PlanetTypes: ExploreAction
+internal sealed interface LearnAction {
+    data object Back: LearnAction
+    data object Mechanics: LearnAction
+    data object Habitability: LearnAction
+    data object PlanetTypes: LearnAction
 }
 
-internal data class ExploreState(
+internal data class LearnState(
     val currentContent: Content? = null,
 )
 
@@ -23,11 +23,11 @@ internal enum class Content {
     PLANET_TYPES,
 }
 
-internal class ExploreStore(
+internal class LearnStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: ExploreState,
-): Store<ExploreAction, ExploreState>(
+    initialState: LearnState,
+): Store<LearnAction, LearnState>(
     dispatcher = dispatcher,
     navigation = navigation,
     initialState = initialState
@@ -40,22 +40,22 @@ internal class ExploreStore(
         updateState { it.copy(currentContent = Content.MENU) }
     }
 
-    override fun reducer(state: ExploreState, action: ExploreAction) {
+    override fun reducer(state: LearnState, action: LearnAction) {
         when (action) {
-            ExploreAction.Back -> when (state.currentContent) {
+            LearnAction.Back -> when (state.currentContent) {
                 null, Content.MENU -> navigate(screen = Screen.MAIN_MENU)
                 Content.MECHANICS, Content.HABITABILITY, Content.PLANET_TYPES -> updateState { it.copy(currentContent = Content.MENU) }
             }
 
-            ExploreAction.Mechanics -> updateState {
+            LearnAction.Mechanics -> updateState {
                 it.copy(currentContent = Content.MECHANICS)
             }
 
-            ExploreAction.Habitability -> updateState {
+            LearnAction.Habitability -> updateState {
                 it.copy(currentContent = Content.HABITABILITY)
             }
 
-            ExploreAction.PlanetTypes -> updateState {
+            LearnAction.PlanetTypes -> updateState {
                 it.copy(currentContent = Content.PLANET_TYPES)
             }
         }

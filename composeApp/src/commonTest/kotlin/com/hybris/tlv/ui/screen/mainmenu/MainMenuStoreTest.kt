@@ -52,8 +52,8 @@ internal class MainMenuStoreTest {
         gameStore.send(action = MainMenuAction.Continue)
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
 
-        gameStore.send(action = MainMenuAction.Explore)
-        assertEquals(expected = NavigationManager.Screen.EXPLORE, actual = mock.navigation.stateFlow.value.screen)
+        gameStore.send(action = MainMenuAction.Learn)
+        assertEquals(expected = NavigationManager.Screen.LEARN, actual = mock.navigation.stateFlow.value.screen)
 
         gameStore.send(action = MainMenuAction.StellarExplorer)
         assertEquals(expected = NavigationManager.Screen.STELLAR_EXPLORER, actual = mock.navigation.stateFlow.value.screen)

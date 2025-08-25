@@ -17,8 +17,8 @@ import com.hybris.tlv.ui.screen.error.ErrorState
 import com.hybris.tlv.ui.screen.error.ErrorStore
 import com.hybris.tlv.ui.screen.event.EventState
 import com.hybris.tlv.ui.screen.event.EventStore
-import com.hybris.tlv.ui.screen.explore.ExploreState
-import com.hybris.tlv.ui.screen.explore.ExploreStore
+import com.hybris.tlv.ui.screen.learn.LearnState
+import com.hybris.tlv.ui.screen.learn.LearnStore
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.screen.game.GameStore
 import com.hybris.tlv.ui.screen.gameover.GameOverState
@@ -72,7 +72,7 @@ internal class Navigation(
         Screen.GAME -> GameScreen(state = state)
         Screen.EVENT -> EventScreen(state = state)
         Screen.GAME_OVER -> GameOverScreen(state = state)
-        Screen.EXPLORE -> ExploreScreen(state = state)
+        Screen.LEARN -> LearnScreen(state = state)
         Screen.STELLAR_EXPLORER -> StellarExplorerScreen(state = state)
         Screen.SCORE -> ScoreScreen(state = state)
         Screen.ACHIEVEMENT -> AchievementScreen(state = state)
@@ -155,11 +155,11 @@ internal class Navigation(
     )
 
     @Composable
-    private fun ExploreScreen(state: Any?) = com.hybris.tlv.ui.screen.explore.ExploreScreen(
-        store = ExploreStore(
+    private fun LearnScreen(state: Any?) = com.hybris.tlv.ui.screen.learn.LearnScreen(
+        store = LearnStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? ExploreState ?: ExploreState(),
+            initialState = state as? LearnState ?: LearnState(),
         )
     )
 

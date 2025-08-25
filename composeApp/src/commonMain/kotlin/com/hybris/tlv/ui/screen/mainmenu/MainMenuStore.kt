@@ -11,8 +11,7 @@ import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 internal sealed interface MainMenuAction {
     data object NewGame: MainMenuAction
     data object Continue: MainMenuAction
-    data object StellarExplorer: MainMenuAction
-    data object Explore: MainMenuAction
+    data object Learn: MainMenuAction
     data object Scores: MainMenuAction
     data object Achievements: MainMenuAction
     data object Credits: MainMenuAction
@@ -56,8 +55,7 @@ internal class MainMenuStore(
         when (action) {
             MainMenuAction.NewGame -> navigate(screen = Screen.NEW_GAME)
             MainMenuAction.Continue -> navigate(screen = Screen.GAME)
-            MainMenuAction.Explore -> navigate(screen = Screen.EXPLORE)
-            MainMenuAction.StellarExplorer -> navigate(screen = Screen.STELLAR_EXPLORER)
+            MainMenuAction.Learn -> navigate(screen = Screen.LEARN)
             MainMenuAction.Scores -> navigate(screen = Screen.SCORE)
             MainMenuAction.Achievements -> navigate(screen = Screen.ACHIEVEMENT)
             MainMenuAction.Credits -> navigate(screen = Screen.CREDIT)

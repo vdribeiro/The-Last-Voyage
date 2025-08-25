@@ -6,7 +6,7 @@ internal fun getTracks(screen: Screen) = when (screen) {
     Screen.SPLASH,
     Screen.MAIN_MENU,
     Screen.NEW_GAME,
-    Screen.EXPLORE,
+    Screen.LEARN,
     Screen.STELLAR_EXPLORER,
     Screen.SCORE,
     Screen.ACHIEVEMENT,

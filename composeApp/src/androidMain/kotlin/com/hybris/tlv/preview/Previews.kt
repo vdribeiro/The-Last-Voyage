@@ -16,7 +16,7 @@ import com.hybris.tlv.ui.screen.achievement.AchievementState
 import com.hybris.tlv.ui.screen.credit.CreditState
 import com.hybris.tlv.ui.screen.error.ErrorState
 import com.hybris.tlv.ui.screen.event.EventState
-import com.hybris.tlv.ui.screen.explore.ExploreState
+import com.hybris.tlv.ui.screen.learn.LearnState
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.screen.gameover.GameOverState
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
@@ -28,7 +28,7 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import database.AppDatabase
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.ui.screen.explore.Content as ExploreContent
+import com.hybris.tlv.ui.screen.learn.Content as LearnContent
 import com.hybris.tlv.ui.screen.game.Content as GameContent
 import com.hybris.tlv.ui.screen.gameover.Content as GameOverContent
 import com.hybris.tlv.ui.screen.newgame.Content as NewGameContent
@@ -231,12 +231,12 @@ private fun GameOverScoreScreenPreview() {
 
 @Preview
 @Composable
-private fun ExploreScreenPreview() {
+private fun LearnScreenPreview() {
     AppTheme {
         Screen(
-            screen = Screen.EXPLORE,
-            state = ExploreState(
-                currentContent = ExploreContent.MENU,
+            screen = Screen.LEARN,
+            state = LearnState(
+                currentContent = LearnContent.MENU,
             )
         )
     }
@@ -244,12 +244,12 @@ private fun ExploreScreenPreview() {
 
 @Preview
 @Composable
-private fun ExploreMechanicsScreenPreview() {
+private fun LearnMechanicsScreenPreview() {
     AppTheme {
         Screen(
-            screen = Screen.EXPLORE,
-            state = ExploreState(
-                currentContent = ExploreContent.MECHANICS,
+            screen = Screen.LEARN,
+            state = LearnState(
+                currentContent = LearnContent.MECHANICS,
             )
         )
     }
@@ -257,12 +257,12 @@ private fun ExploreMechanicsScreenPreview() {
 
 @Preview
 @Composable
-private fun ExploreHabitabilityScreenPreview() {
+private fun LearnHabitabilityScreenPreview() {
     AppTheme {
         Screen(
-            screen = Screen.EXPLORE,
-            state = ExploreState(
-                currentContent = ExploreContent.HABITABILITY,
+            screen = Screen.LEARN,
+            state = LearnState(
+                currentContent = LearnContent.HABITABILITY,
             )
         )
     }

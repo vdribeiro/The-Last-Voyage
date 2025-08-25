@@ -110,14 +110,8 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                 }
                 Spacer(modifier = Modifier.height(height = 16.dp))
                 Text(
-                    modifier = Modifier.clickable { store.send(action = MainMenuAction.StellarExplorer) },
-                    text = getTranslation(key = "explore_screen__stellar_explorer"),
-                    style = MaterialTheme.typography.headlineMedium,
-                )
-                Spacer(modifier = Modifier.height(height = 16.dp))
-                Text(
-                    modifier = Modifier.clickable { store.send(action = MainMenuAction.Explore) },
-                    text = getTranslation(key = "main_menu_screen__explore"),
+                    modifier = Modifier.clickable { store.send(action = MainMenuAction.Learn) },
+                    text = getTranslation(key = "main_menu_screen__learn"),
                     style = MaterialTheme.typography.headlineMedium,
                 )
                 Spacer(modifier = Modifier.height(height = 16.dp))
@@ -126,12 +120,6 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                     text = getTranslation(key = "main_menu_screen__scores"),
                     style = MaterialTheme.typography.headlineMedium,
                 )
-                //Spacer(modifier = Modifier.height(height = 16.dp))
-                //Text(
-                //    modifier = Modifier.clickable { store.send(action = MainMenuAction.Achievements) },
-                //    text = getTranslation(key = "main_menu_screen__achievements"),
-                //    style = MaterialTheme.typography.headlineMedium,
-                //)
                 Spacer(modifier = Modifier.height(height = 16.dp))
                 Text(
                     modifier = Modifier.clickable { store.send(action = MainMenuAction.Credits) },
