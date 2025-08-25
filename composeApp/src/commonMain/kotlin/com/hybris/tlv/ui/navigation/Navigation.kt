@@ -17,12 +17,12 @@ import com.hybris.tlv.ui.screen.error.ErrorState
 import com.hybris.tlv.ui.screen.error.ErrorStore
 import com.hybris.tlv.ui.screen.event.EventState
 import com.hybris.tlv.ui.screen.event.EventStore
-import com.hybris.tlv.ui.screen.learn.LearnState
-import com.hybris.tlv.ui.screen.learn.LearnStore
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.screen.game.GameStore
 import com.hybris.tlv.ui.screen.gameover.GameOverState
 import com.hybris.tlv.ui.screen.gameover.GameOverStore
+import com.hybris.tlv.ui.screen.learn.LearnState
+import com.hybris.tlv.ui.screen.learn.LearnStore
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStore
 import com.hybris.tlv.ui.screen.newgame.NewGameState

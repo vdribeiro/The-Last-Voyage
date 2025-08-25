@@ -16,9 +16,9 @@ import com.hybris.tlv.ui.screen.achievement.AchievementState
 import com.hybris.tlv.ui.screen.credit.CreditState
 import com.hybris.tlv.ui.screen.error.ErrorState
 import com.hybris.tlv.ui.screen.event.EventState
-import com.hybris.tlv.ui.screen.learn.LearnState
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.screen.gameover.GameOverState
+import com.hybris.tlv.ui.screen.learn.LearnState
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.screen.newgame.NewGameState
 import com.hybris.tlv.ui.screen.score.ScoreState
@@ -28,9 +28,9 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import database.AppDatabase
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.ui.screen.learn.Content as LearnContent
 import com.hybris.tlv.ui.screen.game.Content as GameContent
 import com.hybris.tlv.ui.screen.gameover.Content as GameOverContent
+import com.hybris.tlv.ui.screen.learn.Content as LearnContent
 import com.hybris.tlv.ui.screen.newgame.Content as NewGameContent
 import com.hybris.tlv.ui.screen.stellarexplorer.Content as StellarExplorerContent
 

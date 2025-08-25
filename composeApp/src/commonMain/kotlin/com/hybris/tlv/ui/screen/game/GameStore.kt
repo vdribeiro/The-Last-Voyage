@@ -11,7 +11,7 @@ import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.space.SpaceUseCases
-import com.hybris.tlv.usecase.space.formula.Formula
+import com.hybris.tlv.usecase.space.formula.Calculation
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
@@ -127,7 +127,7 @@ internal class GameStore(
         }
 
         currentStellarHost.planets.forEach { planet ->
-            planet.score = Formula.calculateScores(
+            planet.score = Calculation.calculateScores(
                 stellarHost = currentStellarHost,
                 planet = planet,
                 formula = gameSession.formula
