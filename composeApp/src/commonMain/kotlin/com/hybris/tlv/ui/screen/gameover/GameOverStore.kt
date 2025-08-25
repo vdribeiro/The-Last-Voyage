@@ -8,6 +8,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.error.ErrorState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
+import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 
 internal sealed interface GameOverAction {
@@ -55,199 +56,117 @@ internal class GameOverStore(
             return@launchInPipeline
         }
 
-        val gameOver = getGameOver(gameSession = gameSession)
-        val ship = gameSession.ship
-
-        // Base Score = (Cryopod Score) + (Resource Score) + (Journey Score)
-        val cryopodScore = ship.cryopods * 100
-        val resourceScore = ship.materials * 2 + ship.fuel * 1
-        val journeyScore = ship.yearsTraveled * 5
-        val baseScore = cryopodScore + resourceScore + journeyScore
-
-        // Challenge Multiplier
-        val challengeMultiplier = (1.0 + (15 - ship.assignedPoints) + 0.05).coerceIn(minimumValue = 0.01, maximumValue = 10.0)
-
-        // Final Score = (Base Score) * Success Multiplier * Challenge Multiplier
-        val score = baseScore * gameOver.second * challengeMultiplier
-
-        val updatedGameSession = gameSession.copy(score = score)
-        gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
+        val gameOver = gameSessionUseCases.getGameOver(gameSession = gameSession)
+        val updatedGameSession = gameSessionUseCases.score(gameSession = gameSession, gameOver = gameOver)
 
         updateState {
             it.copy(
                 currentContent = Content.MESSAGE,
                 gameSession = updatedGameSession.copy(utc = locale.getLocalDateTime(utc = updatedGameSession.utc)),
-                gameOverMessage = gameOver.first
+                gameOverMessage = getGameOverMessage(gameOver = gameOver)
             )
         }
     }
 
-    private fun getGameOver(gameSession: GameSession): Pair<String, Double> {
-        val ship = gameSession.ship
-        var habitabilityMultiplier = 0.25
-        var successMultiplier = 0.25
-        val message = when {
-            gameSession.settledPlanetId == "1mercury" -> "game_over_screen__mercury"
-            gameSession.settledPlanetId == "2venus" -> "game_over_screen__venus"
-            gameSession.settledPlanetId == "3earth" -> "game_over_screen__earth"
-            gameSession.settledPlanetId == "4mars" -> "game_over_screen__mars"
-            gameSession.settledPlanetId == "5jupiter" -> "game_over_screen__jupiter"
-            gameSession.settledPlanetId == "6saturn" -> "game_over_screen__saturn"
-            gameSession.settledPlanetId == "7uranus" -> "game_over_screen__uranus"
-            gameSession.settledPlanetId == "8neptune" -> "game_over_screen__neptune"
+    private fun getGameOverMessage(gameOver: GameOver): String =
+        when (gameOver) {
+            // Ship is destroyed
+            GameOver.INTEGRITY_ZERO -> "game_over_screen__integrity_zero"
+            GameOver.INTEGRITY_ZERO_YEARS_FEW -> "game_over_screen__integrity_zero_years_few"
+            GameOver.INTEGRITY_ZERO_YEARS_SOME -> "game_over_screen__integrity_zero_years_some"
+            GameOver.INTEGRITY_ZERO_YEARS_LOTS -> "game_over_screen__integrity_zero_years_lots"
+            GameOver.INTEGRITY_ZERO_MATERIALS_ZERO -> "game_over_screen__integrity_zero_materials_zero"
+            GameOver.INTEGRITY_ZERO_MATERIALS_LOW -> "game_over_screen__integrity_zero_materials_low"
+            GameOver.INTEGRITY_ZERO_MATERIALS_ENOUGH -> "game_over_screen__integrity_zero_materials_enough"
+            GameOver.INTEGRITY_ZERO_CRYOPODS_ZERO -> "game_over_screen__integrity_zero_cryopods_zero"
+            GameOver.INTEGRITY_ZERO_CRYOPODS_ONE -> "game_over_screen__integrity_zero_cryopods_one"
+            GameOver.INTEGRITY_ZERO_CRYOPODS_LOW -> "game_over_screen__integrity_zero_cryopods_low"
+            GameOver.INTEGRITY_ZERO_CRYOPODS_ENOUGH -> "game_over_screen__integrity_zero_cryopods_enough"
+            GameOver.INTEGRITY_ZERO_FUEL_LOW -> "game_over_screen__integrity_zero_fuel_low"
+            GameOver.INTEGRITY_ZERO_FUEL_SOME -> "game_over_screen__integrity_zero_fuel_some"
+            GameOver.INTEGRITY_ZERO_FUEL_PLENTY -> "game_over_screen__integrity_zero_fuel_plenty"
+            GameOver.INTEGRITY_ZERO_YEARS_LOTS_CRYOPODS_BUSTLING -> "game_over_screen__integrity_zero_years_lots_cryopods_bustling"
 
-            gameSession.finalHabitability != null -> buildList {
-                when (gameSession.finalHabitability) {
-                    in 0.0..20.0 -> {
-                        habitabilityMultiplier = 0.25
-                        add("game_over_screen__habitability_deadly")
-                        if (ship.cryopods >= 50) add("game_over_screen__habitability_deadly_cryopods_enough")
-                        if (ship.integrity < 20) add("game_over_screen__habitability_deadly_integrity_low")
-                        if (ship.materials >= 50 && ship.integrity < 30) add("game_over_screen__habitability_deadly_integrity_mid_low_materials_enough")
-                    }
+            // Ship ran out of fuel
+            GameOver.FUEL_ZERO -> "game_over_screen__fuel_zero"
+            GameOver.FUEL_ZERO_YEARS_FEW -> "game_over_screen__fuel_zero_years_few"
+            GameOver.FUEL_ZERO_YEARS_SOME -> "game_over_screen__fuel_zero_years_some"
+            GameOver.FUEL_ZERO_YEARS_LOTS -> "game_over_screen__fuel_zero_years_lots"
+            GameOver.FUEL_ZERO_MATERIALS_ZERO -> "game_over_screen__fuel_zero_materials_zero"
+            GameOver.FUEL_ZERO_MATERIALS_LOW -> "game_over_screen__fuel_zero_materials_low"
+            GameOver.FUEL_ZERO_MATERIALS_ENOUGH -> "game_over_screen__fuel_zero_materials_enough"
+            GameOver.FUEL_ZERO_CRYOPODS_ZERO -> "game_over_screen__fuel_zero_cryopods_zero"
+            GameOver.FUEL_ZERO_CRYOPODS_ONE -> "game_over_screen__fuel_zero_cryopods_one"
+            GameOver.FUEL_ZERO_CRYOPODS_NEAR_ZERO -> "game_over_screen__fuel_zero_cryopods_near_zero"
+            GameOver.FUEL_ZERO_CRYOPODS_TOO_LOW -> "game_over_screen__fuel_zero_cryopods_too_low"
+            GameOver.FUEL_ZERO_CRYOPODS_LOW -> "game_over_screen__fuel_zero_cryopods_low"
+            GameOver.FUEL_ZERO_CRYOPODS_ENOUGH -> "game_over_screen__fuel_zero_cryopods_enough"
+            GameOver.FUEL_ZERO_INTEGRITY_LOW -> "game_over_screen__fuel_zero_integrity_low"
+            GameOver.FUEL_ZERO_INTEGRITY_ENOUGH -> "game_over_screen__fuel_zero_integrity_enough"
+            GameOver.FUEL_ZERO_INTEGRITY_PRISTINE -> "game_over_screen__fuel_zero_integrity_pristine"
+            GameOver.FUEL_ZERO_MATERIALS_PLENTY_CRYOPODS_BUSTLING -> "game_over_screen__fuel_zero_materials_plenty_cryopods_bustling"
+            GameOver.FUEL_ZERO_INTEGRITY_ENOUGH_MATERIALS_ENOUGH_CRYOPODS_BUSTLING -> "game_over_screen__fuel_zero_integrity_enough_materials_enough_cryopods_bustling"
 
-                    in 21.0..40.0 -> {
-                        habitabilityMultiplier = 0.50
-                        add("game_over_screen__habitability_very_low")
-                        if (ship.cryopods >= 50 && ship.materials >= 50) add("game_over_screen__habitability_very_low_cryopods_enough_materials_enough")
-                        if (ship.cryopods >= 100 && ship.materials >= 50) add("game_over_screen__habitability_very_low_cryopods_mid_materials_enough")
-                        if (ship.integrity < 20) add("game_over_screen__habitability_very_low_integrity_low")
-                    }
+            // Solar System Planets
+            GameOver.MERCURY -> "game_over_screen__mercury"
+            GameOver.VENUS -> "game_over_screen__venus"
+            GameOver.EARTH -> "game_over_screen__earth"
+            GameOver.MARS -> "game_over_screen__mars"
+            GameOver.JUPITER -> "game_over_screen__jupiter"
+            GameOver.SATURN -> "game_over_screen__saturn"
+            GameOver.URANUS -> "game_over_screen__uranus"
+            GameOver.NEPTUNE -> "game_over_screen__neptune"
 
-                    in 41.0..60.0 -> {
-                        habitabilityMultiplier = 1.0
-                        when {
-                            ship.materials >= 300 && ship.cryopods >= 150 -> {
-                                successMultiplier = 1.0
-                                add("game_over_screen__habitability_low_materials_enough_cryopods_enough")
-                                if (ship.integrity >= 90) add("game_over_screen__habitability_low_materials_enough_cryopods_enough_integrity_pristine")
-                                if (ship.fuel >= 50) add("game_over_screen__habitability_low_materials_enough_cryopods_enough_fuel_plenty")
-                            }
+            // Habitability: Deadly
+            GameOver.HABITABILITY_DEADLY -> "game_over_screen__habitability_deadly"
+            GameOver.HABITABILITY_DEADLY_CRYOPODS_ENOUGH -> "game_over_screen__habitability_deadly_cryopods_enough"
+            GameOver.HABITABILITY_DEADLY_INTEGRITY_LOW -> "game_over_screen__habitability_deadly_integrity_low"
+            GameOver.HABITABILITY_DEADLY_INTEGRITY_MID_LOW_MATERIALS_ENOUGH -> "game_over_screen__habitability_deadly_integrity_mid_low_materials_enough"
 
-                            ship.materials >= 300 && ship.cryopods in 1..149 -> add("game_over_screen__habitability_low_materials_enough_cryopods_low")
-                            ship.materials >= 300 && ship.cryopods < 1 -> add("game_over_screen__habitability_low_materials_enough_cryopods_zero")
-                            ship.materials < 300 && ship.cryopods >= 150 -> add("game_over_screen__habitability_low_materials_low_cryopods_enough")
-                            ship.materials < 300 && ship.cryopods in 1..149 -> add("game_over_screen__habitability_low_materials_low_cryopods_low")
-                            ship.materials < 300 && ship.cryopods < 1 -> add("game_over_screen__habitability_low_materials_low_cryopods_zero")
-                            else -> add("game_over_screen__habitability_low")
-                        }
-                    }
+            // Habitability: Very Low
+            GameOver.HABITABILITY_VERY_LOW -> "game_over_screen__habitability_very_low"
+            GameOver.HABITABILITY_VERY_LOW_CRYOPODS_ENOUGH_MATERIALS_ENOUGH -> "game_over_screen__habitability_very_low_cryopods_enough_materials_enough"
+            GameOver.HABITABILITY_VERY_LOW_CRYOPODS_MID_MATERIALS_ENOUGH -> "game_over_screen__habitability_very_low_cryopods_mid_materials_enough"
+            GameOver.HABITABILITY_VERY_LOW_INTEGRITY_LOW -> "game_over_screen__habitability_very_low_integrity_low"
 
-                    in 61.0..80.0 -> {
-                        habitabilityMultiplier = 1.2
-                        when {
-                            ship.materials >= 100 && ship.cryopods >= 100 -> {
-                                successMultiplier = 1.0
-                                add("game_over_screen__habitability_medium_materials_enough_cryopods_enough")
-                                if (ship.yearsTraveled > 5000.0) add("game_over_screen__habitability_medium_materials_enough_cryopods_enough_years_lots")
-                                if (ship.cryopods >= 300) add("game_over_screen__habitability_medium_materials_enough_cryopods_bustling")
-                            }
+            // Habitability: Low
+            GameOver.HABITABILITY_LOW -> "game_over_screen__habitability_low"
+            GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH -> "game_over_screen__habitability_low_materials_enough_cryopods_enough"
+            GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_INTEGRITY_PRISTINE -> "game_over_screen__habitability_low_materials_enough_cryopods_enough_integrity_pristine"
+            GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_FUEL_PLENTY -> "game_over_screen__habitability_low_materials_enough_cryopods_enough_fuel_plenty"
+            GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_LOW -> "game_over_screen__habitability_low_materials_enough_cryopods_low"
+            GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ZERO -> "game_over_screen__habitability_low_materials_enough_cryopods_zero"
+            GameOver.HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_ENOUGH -> "game_over_screen__habitability_low_materials_low_cryopods_enough"
+            GameOver.HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_LOW -> "game_over_screen__habitability_low_materials_low_cryopods_low"
+            GameOver.HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_ZERO -> "game_over_screen__habitability_low_materials_low_cryopods_zero"
 
-                            ship.materials >= 100 && ship.cryopods in 1..99 -> add("game_over_screen__habitability_medium_materials_enough_cryopods_low")
-                            ship.materials >= 100 && ship.cryopods < 1 -> add("game_over_screen__habitability_medium_materials_enough_cryopods_zero")
-                            ship.materials < 100 && ship.cryopods >= 100 -> when {
-                                ship.integrity >= 75 -> {
-                                    successMultiplier = 0.75
-                                    add("game_over_screen__habitability_medium_materials_low_cryopods_enough_integrity_enough")
-                                }
+            // Habitability: Medium
+            GameOver.HABITABILITY_MEDIUM -> "game_over_screen__habitability_medium"
+            GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH -> "game_over_screen__habitability_medium_materials_enough_cryopods_enough"
+            GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS -> "game_over_screen__habitability_medium_materials_enough_cryopods_enough_years_lots"
+            GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_BUSTLING -> "game_over_screen__habitability_medium_materials_enough_cryopods_bustling"
+            GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_LOW -> "game_over_screen__habitability_medium_materials_enough_cryopods_low"
+            GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ZERO -> "game_over_screen__habitability_medium_materials_enough_cryopods_zero"
+            GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ENOUGH_INTEGRITY_ENOUGH -> "game_over_screen__habitability_medium_materials_low_cryopods_enough_integrity_enough"
+            GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ENOUGH -> "game_over_screen__habitability_medium_materials_low_cryopods_enough"
+            GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_LOW -> "game_over_screen__habitability_medium_materials_low_cryopods_low"
+            GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ZERO -> "game_over_screen__habitability_medium_materials_low_cryopods_zero"
 
-                                else -> {
-                                    successMultiplier = 0.5
-                                    add("game_over_screen__habitability_medium_materials_low_cryopods_enough")
-                                }
-                            }
+            // Habitability: High
+            GameOver.HABITABILITY_HIGH -> "game_over_screen__habitability_high"
+            GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH -> "game_over_screen__habitability_high_materials_enough_cryopods_enough"
+            GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS -> "game_over_screen__habitability_high_materials_enough_cryopods_enough_years_lots"
+            GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_BUSTLING -> "game_over_screen__habitability_high_materials_enough_cryopods_bustling"
+            GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_LOW -> "game_over_screen__habitability_high_materials_enough_cryopods_low"
+            GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ZERO -> "game_over_screen__habitability_high_materials_enough_cryopods_zero"
+            GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ENOUGH_INTEGRITY_ENOUGH -> "game_over_screen__habitability_high_materials_low_cryopods_enough_integrity_enough"
+            GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ENOUGH -> "game_over_screen__habitability_high_materials_low_cryopods_enough"
+            GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_LOW -> "game_over_screen__habitability_high_materials_low_cryopods_low"
+            GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ZERO -> "game_over_screen__habitability_high_materials_low_cryopods_zero"
 
-                            ship.materials < 100 && ship.cryopods in 1..99 -> add("game_over_screen__habitability_medium_materials_low_cryopods_low")
-                            ship.materials < 100 && ship.cryopods < 1 -> add("game_over_screen__habitability_medium_materials_low_cryopods_zero")
-                            else -> add("game_over_screen__habitability_medium")
-                        }
-                    }
-
-                    else -> {
-                        habitabilityMultiplier = 1.5
-                        when {
-                            ship.materials >= 50 && ship.cryopods >= 50 -> {
-                                successMultiplier = 1.0
-                                add("game_over_screen__habitability_high_materials_enough_cryopods_enough")
-                                if (ship.yearsTraveled > 5000.0) add("game_over_screen__habitability_high_materials_enough_cryopods_enough_years_lots")
-                                if (ship.cryopods >= 300) add("game_over_screen__habitability_high_materials_enough_cryopods_bustling")
-                            }
-
-                            ship.materials >= 50 && ship.cryopods in 1..49 -> add("game_over_screen__habitability_high_materials_enough_cryopods_low")
-                            ship.materials >= 50 && ship.cryopods < 1 -> add("game_over_screen__habitability_high_materials_enough_cryopods_zero")
-                            ship.materials < 50 && ship.cryopods >= 50 -> when {
-                                ship.integrity >= 50 -> {
-                                    successMultiplier = 0.75
-                                    add("game_over_screen__habitability_high_materials_low_cryopods_enough_integrity_enough")
-                                }
-
-                                else -> {
-                                    successMultiplier = 0.5
-                                    add("game_over_screen__habitability_high_materials_low_cryopods_enough")
-                                }
-                            }
-
-                            ship.materials < 50 && ship.cryopods in 1..49 -> add("game_over_screen__habitability_high_materials_low_cryopods_low")
-                            ship.materials < 50 && ship.cryopods < 1 -> add("game_over_screen__habitability_high_materials_low_cryopods_zero")
-                            else -> add("game_over_screen__habitability_high")
-                        }
-                    }
-                }
-            }.random()
-
-            ship.integrity <= 0 -> buildList {
-                add("game_over_screen__integrity_zero")
-
-                if (ship.yearsTraveled < 1000.0) add("game_over_screen__integrity_zero_years_few")
-                if (ship.yearsTraveled in 1000.0..5000.0) add("game_over_screen__integrity_zero_years_some")
-                if (ship.yearsTraveled > 5000.0) add("game_over_screen__integrity_zero_years_lots")
-
-                if (ship.materials < 1) add("game_over_screen__integrity_zero_materials_zero")
-                if (ship.materials in 1..20) add("game_over_screen__integrity_zero_materials_low")
-                if (ship.materials > 20) add("game_over_screen__integrity_zero_materials_enough")
-
-                if (ship.cryopods < 1) add("game_over_screen__integrity_zero_cryopods_zero")
-                if (ship.cryopods == 1) add("game_over_screen__integrity_zero_cryopods_one")
-                if (ship.cryopods in 2..20) add("game_over_screen__integrity_zero_cryopods_low")
-                if (ship.cryopods > 20) add("game_over_screen__integrity_zero_cryopods_enough")
-
-                if (ship.fuel < 10) add("game_over_screen__integrity_zero_fuel_low")
-                if (ship.fuel in 10..90) add("game_over_screen__integrity_zero_fuel_some")
-                if (ship.fuel > 90) add("game_over_screen__integrity_zero_fuel_plenty")
-
-                if (ship.yearsTraveled >= 2000.0 && ship.cryopods >= 300) add("game_over_screen__integrity_zero_years_lots_cryopods_bustling")
-            }.random()
-
-            ship.fuel <= 0 -> buildList {
-                add("game_over_screen__fuel_zero")
-
-                if (ship.yearsTraveled < 1000.0) add("game_over_screen__fuel_zero_years_few")
-                if (ship.yearsTraveled in 1000.0..5000.0) add("game_over_screen__fuel_zero_years_some")
-                if (ship.yearsTraveled > 5000.0) add("game_over_screen__fuel_zero_years_lots")
-
-                if (ship.materials < 1) add("game_over_screen__fuel_zero_materials_zero")
-                if (ship.materials in 1..20) add("game_over_screen__fuel_zero_materials_low")
-                if (ship.materials >= 20) add("game_over_screen__fuel_zero_materials_enough")
-
-                if (ship.cryopods < 1) add("game_over_screen__fuel_zero_cryopods_zero")
-                if (ship.cryopods == 1) add("game_over_screen__fuel_zero_cryopods_one")
-                if (ship.cryopods in 2..10) add("game_over_screen__fuel_zero_cryopods_near_zero")
-                if (ship.cryopods in 11..20) add("game_over_screen__fuel_zero_cryopods_too_low")
-                if (ship.cryopods in 21..50) add("game_over_screen__fuel_zero_cryopods_low")
-                if (ship.cryopods > 50) add("game_over_screen__fuel_zero_cryopods_enough")
-
-                if (ship.integrity < 20) add("game_over_screen__fuel_zero_integrity_low")
-                if (ship.integrity in 20..90) add("game_over_screen__fuel_zero_integrity_enough")
-                if (ship.integrity > 90) add("game_over_screen__fuel_zero_integrity_pristine")
-
-                if (ship.materials >= 100 && ship.cryopods >= 300) add("game_over_screen__fuel_zero_materials_plenty_cryopods_bustling")
-                if (ship.integrity >= 90 && ship.materials >= 100 && ship.cryopods >= 300) add("game_over_screen__fuel_zero_integrity_enough_materials_enough_cryopods_bustling")
-            }.random()
-
-            else -> "game_over_screen__game_over"
+            // Default
+            GameOver.GAME_OVER -> "game_over_screen__game_over"
         }
-        return Pair(first = message, second = habitabilityMultiplier * successMultiplier)
-    }
 
     override fun reducer(state: GameOverState, action: GameOverAction) {
         when (action) {

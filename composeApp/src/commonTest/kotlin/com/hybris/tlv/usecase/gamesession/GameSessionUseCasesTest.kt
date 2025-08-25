@@ -90,17 +90,20 @@ internal class GameSessionUseCasesTest {
         val newGameSession = mock.useCases.gameSession.score(gameSession = gameSession, gameOver = gameOver)
 
         val ship = gameSession.ship
-        // Base Score = (Cryopod Score) + (Resource Score) + (Journey Score)
         val cryopodScore = ship.cryopods * 100
         val resourceScore = ship.materials * 2 + ship.fuel * 1
         val journeyScore = ship.yearsTraveled * 5
         val baseScore = cryopodScore + resourceScore + journeyScore
-        // Challenge Multiplier
         val challengeMultiplier = (1.0 + (15 - ship.assignedPoints) + 0.05).coerceIn(minimumValue = 0.01, maximumValue = 10.0)
-        // Final Score = (Base Score) * Habitability Multiplier * Success Multiplier * Challenge Multiplier
-        val score = baseScore * gameOver.multiplier * challengeMultiplier
+        val gameOverMultiplier = (mock.useCases.gameSession as GameSessionGateway).getGameOverMultiplier(gameOver = gameOver)
+        val score = baseScore * gameOverMultiplier * challengeMultiplier
 
         assertEquals(expected = score, actual = newGameSession.score)
+    }
+
+    @Test
+    fun `get game over`() = runBlocking {
+        //TODO
     }
 
     @Test
@@ -118,10 +121,5 @@ internal class GameSessionUseCasesTest {
         val gameSessionNoFuel = gameSession.copy(ship = gameSession.ship.copy(fuel = 0))
         mock.useCases.gameSession.updateGameSession(gameSession = gameSessionNoFuel)
         assertTrue(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSessionNoFuel))
-    }
-
-    @Test
-    fun `get game over`() = runBlocking {
-        //TODO
     }
 }

@@ -55,12 +55,12 @@ internal interface GameSessionUseCases {
     suspend fun score(gameSession: GameSession, gameOver: GameOver): GameSession
 
     /**
-     * Checks if the given [gameSession] is in a game over state.
-     */
-    suspend fun isGameOver(gameSession: GameSession): Boolean
-
-    /**
      * Get the [GameOver] for the given [gameSession].
      */
     suspend fun getGameOver(gameSession: GameSession): GameOver
+
+    /**
+     * Checks if the given [gameSession] is in a game over state.
+     */
+    suspend fun isGameOver(gameSession: GameSession): Boolean
 }
