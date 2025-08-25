@@ -317,7 +317,8 @@ internal fun Formula.toFormulaSchema(): FormulaSchema =
     FormulaSchema(
         id = id,
         rocheWeight = rocheWeight,
-        habitableZoneWeight = habitableZoneWeight,
+        habitableZoneKopparapuWeight = habitableZoneKopparapuWeight,
+        habitableZoneKastingWeight = habitableZoneKastingWeight,
         planetRadiusWeight = planetRadiusWeight,
         planetMassWeight = planetMassWeight,
         planetTelluricityWeight = planetTelluricityWeight,

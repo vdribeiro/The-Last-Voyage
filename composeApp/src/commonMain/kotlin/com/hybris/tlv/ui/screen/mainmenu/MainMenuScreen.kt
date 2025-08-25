@@ -120,6 +120,12 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                     text = getTranslation(key = "main_menu_screen__scores"),
                     style = MaterialTheme.typography.headlineMedium,
                 )
+                //Spacer(modifier = Modifier.height(height = 16.dp))
+                //Text(
+                //    modifier = Modifier.clickable { store.send(action = MainMenuAction.Achievements) },
+                //    text = getTranslation(key = "main_menu_screen__achievements"),
+                //    style = MaterialTheme.typography.headlineMedium,
+                //)
                 Spacer(modifier = Modifier.height(height = 16.dp))
                 Text(
                     modifier = Modifier.clickable { store.send(action = MainMenuAction.Credits) },

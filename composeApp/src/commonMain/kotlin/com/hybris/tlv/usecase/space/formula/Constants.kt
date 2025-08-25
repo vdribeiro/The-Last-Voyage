@@ -102,7 +102,8 @@ internal object Constants {
     //region Scoring Weights -> subjective but used to reflect the relative importance of each factor
     // Tier 1: Is the planet in a stable orbit in the right location?
     const val ROCHE_WEIGHT = 100.0 // Critical factor: planet must exist
-    const val HABITABLE_ZONE_WEIGHT = 30.0
+    const val HABITABLE_ZONE_KOPPARAPU_WEIGHT = 30.0
+    const val HABITABLE_ZONE_KASTING_WEIGHT = 20.0
 
     // Tier 2: Does the planet have the right intrinsic properties?
     const val PLANET_RADIUS_WEIGHT = 6.0

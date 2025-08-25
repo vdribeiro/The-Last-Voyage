@@ -30,6 +30,7 @@ import org.jetbrains.compose.resources.painterResource
 internal fun PlanetCard(
     modifier: Modifier = Modifier,
     name: String? = null,
+    description: String? = null,
     status: String? = null,
     orbitalPeriod: Double? = null,
     orbitAxis: Double? = null,
@@ -74,6 +75,9 @@ internal fun PlanetCard(
                 name?.let {
                     Text(text = it, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(height = 4.dp))
+                }
+                description?.let {
+                    Text(text = getTranslation(key = it), style = MaterialTheme.typography.bodyMedium)
                 }
                 status?.let {
                     InfoRow(

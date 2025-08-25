@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS Formula (
     id TEXT NOT NULL PRIMARY KEY,
     rocheWeight REAL NOT NULL,
-    habitableZoneWeight REAL NOT NULL,
+    habitableZoneKopparapuWeight REAL NOT NULL,
+    habitableZoneKastingWeight REAL NOT NULL,
     planetRadiusWeight REAL NOT NULL,
     planetMassWeight REAL NOT NULL,
     planetTelluricityWeight REAL NOT NULL,

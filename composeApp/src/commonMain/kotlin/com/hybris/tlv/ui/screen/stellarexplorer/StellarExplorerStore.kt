@@ -158,7 +158,7 @@ internal class StellarExplorerStore(
             StellarExplorerAction.Back -> when (state.currentContent) {
                 null,
                 Content.LIST_HOSTS,
-                Content.LIST_PLANETS -> navigate(screen = Screen.MAIN_MENU)
+                Content.LIST_PLANETS -> navigate(screen = Screen.LEARN)
 
                 Content.DETAIL_HOSTS -> updateState {
                     it.copy(

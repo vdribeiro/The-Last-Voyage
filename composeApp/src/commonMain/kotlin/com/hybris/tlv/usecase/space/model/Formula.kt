@@ -10,7 +10,8 @@ internal data class Formula(
     val id: String = generateUuid(),
     // Weights
     val rocheWeight: Double = Constants.ROCHE_WEIGHT,
-    val habitableZoneWeight: Double = Constants.HABITABLE_ZONE_WEIGHT,
+    val habitableZoneKopparapuWeight: Double = Constants.HABITABLE_ZONE_KOPPARAPU_WEIGHT,
+    val habitableZoneKastingWeight: Double = Constants.HABITABLE_ZONE_KASTING_WEIGHT,
     val planetRadiusWeight: Double = Constants.PLANET_RADIUS_WEIGHT,
     val planetMassWeight: Double = Constants.PLANET_MASS_WEIGHT,
     val planetTelluricityWeight: Double = Constants.PLANET_TELLURICITY_WEIGHT,

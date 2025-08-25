@@ -7,9 +7,13 @@ import com.hybris.tlv.ui.store.Store
 
 internal sealed interface LearnAction {
     data object Back: LearnAction
+    data object StellarExplorer: LearnAction
+    data object HostTypes: LearnAction
+
+    data object PlanetTypes: LearnAction
+
     data object Mechanics: LearnAction
     data object Habitability: LearnAction
-    data object PlanetTypes: LearnAction
 }
 
 internal data class LearnState(
@@ -18,9 +22,10 @@ internal data class LearnState(
 
 internal enum class Content {
     MENU,
+    HOST_TYPES,
+    PLANET_TYPES,
     MECHANICS,
     HABITABILITY,
-    PLANET_TYPES,
 }
 
 internal class LearnStore(
@@ -44,7 +49,20 @@ internal class LearnStore(
         when (action) {
             LearnAction.Back -> when (state.currentContent) {
                 null, Content.MENU -> navigate(screen = Screen.MAIN_MENU)
-                Content.MECHANICS, Content.HABITABILITY, Content.PLANET_TYPES -> updateState { it.copy(currentContent = Content.MENU) }
+                Content.HOST_TYPES,
+                Content.PLANET_TYPES,
+                Content.MECHANICS,
+                Content.HABITABILITY -> updateState { it.copy(currentContent = Content.MENU) }
+            }
+
+            LearnAction.StellarExplorer -> navigate(screen = Screen.STELLAR_EXPLORER)
+
+            LearnAction.HostTypes -> updateState {
+                it.copy(currentContent = Content.HOST_TYPES)
+            }
+
+            LearnAction.PlanetTypes -> updateState {
+                it.copy(currentContent = Content.PLANET_TYPES)
             }
 
             LearnAction.Mechanics -> updateState {
@@ -53,10 +71,6 @@ internal class LearnStore(
 
             LearnAction.Habitability -> updateState {
                 it.copy(currentContent = Content.HABITABILITY)
-            }
-
-            LearnAction.PlanetTypes -> updateState {
-                it.copy(currentContent = Content.PLANET_TYPES)
             }
         }
     }

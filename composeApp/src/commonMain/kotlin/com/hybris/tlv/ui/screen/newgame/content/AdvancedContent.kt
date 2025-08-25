@@ -29,7 +29,8 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun AdvancedContent(store: Store<NewGameAction, NewGameState>) {
     val storeState by store.stateFlow.collectAsState()
 
-    var habitableZoneWeight by remember { mutableStateOf(value = storeState.formula.habitableZoneWeight.toString()) }
+    var habitableZoneKopparapuWeight by remember { mutableStateOf(value = storeState.formula.habitableZoneKopparapuWeight.toString()) }
+    var habitableZoneKastingWeight by remember { mutableStateOf(value = storeState.formula.habitableZoneKastingWeight.toString()) }
     var planetRadiusWeight by remember { mutableStateOf(value = storeState.formula.planetRadiusWeight.toString()) }
     var planetMassWeight by remember { mutableStateOf(value = storeState.formula.planetMassWeight.toString()) }
     var planetTelluricityWeight by remember { mutableStateOf(value = storeState.formula.planetTelluricityWeight.toString()) }
@@ -65,10 +66,10 @@ internal fun AdvancedContent(store: Store<NewGameAction, NewGameState>) {
             item {
                 LabeledTextField(
                     label = getTranslation(key = "habitability_habitable_zone_weight"),
-                    value = habitableZoneWeight,
+                    value = habitableZoneKopparapuWeight,
                     onValueChange = { newValue ->
                         if (newValue.isEmpty() || newValue.toDoubleOrNull()?.let { it in 0.0..9999.0 } == true) {
-                            habitableZoneWeight = newValue
+                            habitableZoneKopparapuWeight = newValue
                         }
                     }
                 )
@@ -352,7 +353,8 @@ internal fun AdvancedContent(store: Store<NewGameAction, NewGameState>) {
                 store.send(
                     action = NewGameAction.SelectFormula(
                         formula = Formula(
-                            habitableZoneWeight = habitableZoneWeight.toDouble(),
+                            habitableZoneKopparapuWeight = habitableZoneKopparapuWeight.toDouble(),
+                            habitableZoneKastingWeight = habitableZoneKastingWeight.toDouble(),
                             planetRadiusWeight = planetRadiusWeight.toDouble(),
                             planetMassWeight = planetMassWeight.toDouble(),
                             planetTelluricityWeight = planetTelluricityWeight.toDouble(),

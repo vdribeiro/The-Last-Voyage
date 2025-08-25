@@ -115,20 +115,20 @@ private val stellarHostProperties by lazy {
         StellarHostProperty.NAME to getTranslation(key = "stellar_host_name"),
         StellarHostProperty.SYSTEM_NAME to getTranslation(key = "stellar_host_system_name"),
         StellarHostProperty.PLANET_COUNT to getTranslation(key = "stellar_host_planet_count"),
-        StellarHostProperty.SPECTRAL_TYPE to getTranslation(key = "stellar_host_spectral_type"),
+        StellarHostProperty.SPECTRAL_TYPE to getTranslation(key = "stellar_host_type"),
         StellarHostProperty.TEMPERATURE to getTranslation(key = "stellar_host_temperature"),
-        StellarHostProperty.RADIUS to getTranslation(key = "stellar_host_spectral_radius"),
-        StellarHostProperty.MASS to getTranslation(key = "stellar_host_spectral_mass"),
-        StellarHostProperty.METALLICITY to getTranslation(key = "stellar_host_spectral_metallicity"),
-        StellarHostProperty.LUMINOSITY to getTranslation(key = "stellar_host_spectral_luminosity"),
-        StellarHostProperty.GRAVITY to getTranslation(key = "stellar_host_spectral_gravity"),
-        StellarHostProperty.AGE to getTranslation(key = "stellar_host_spectral_age"),
-        StellarHostProperty.DENSITY to getTranslation(key = "stellar_host_spectral_density"),
-        StellarHostProperty.ROTATIONAL_VELOCITY to getTranslation(key = "stellar_host_spectral_rotational_velocity"),
-        StellarHostProperty.ROTATIONAL_PERIOD to getTranslation(key = "stellar_host_spectral_rotational_period"),
+        StellarHostProperty.RADIUS to getTranslation(key = "stellar_host_radius"),
+        StellarHostProperty.MASS to getTranslation(key = "stellar_host_mass"),
+        StellarHostProperty.METALLICITY to getTranslation(key = "stellar_host_metallicity"),
+        StellarHostProperty.LUMINOSITY to getTranslation(key = "stellar_host_luminosity"),
+        StellarHostProperty.GRAVITY to getTranslation(key = "stellar_host_gravity"),
+        StellarHostProperty.AGE to getTranslation(key = "stellar_host_age"),
+        StellarHostProperty.DENSITY to getTranslation(key = "stellar_host_density"),
+        StellarHostProperty.ROTATIONAL_VELOCITY to getTranslation(key = "stellar_host_rotational_velocity"),
+        StellarHostProperty.ROTATIONAL_PERIOD to getTranslation(key = "stellar_host_rotational_period"),
         StellarHostProperty.DISTANCE to getTranslation(key = "stellar_host_distance"),
-        StellarHostProperty.RA to getTranslation(key = "stellar_host_spectral_ra"),
-        StellarHostProperty.DEC to getTranslation(key = "stellar_host_spectral_dec")
+        StellarHostProperty.RA to getTranslation(key = "stellar_host_ra"),
+        StellarHostProperty.DEC to getTranslation(key = "stellar_host_dec")
     )
 }
 

@@ -68,14 +68,18 @@ internal object Habitability {
             planetOrbitAxis = planet.orbitAxis
         )?.also { weightedScores.add(it to formula.rocheWeight) }
         // Is the planet in the right place for liquid water?
-        val habitableZoneScore = calculateHabitableZoneScore(
+        val habitableZoneKopparapuScore = calculateHabitableZoneScoreKopparapu(
             stellarHostLuminosity = stellarHost.luminosity,
             stellarHostEffectiveTemperature = stellarHost.effectiveTemperature,
             planetOrbitAxis = planet.orbitAxis,
             planetMass = planet.mass,
             planetMassLowerLimit = formula.planetMassLowerLimit,
             planetMassUpperLimit = formula.planetMassIdealUpperLimit
-        )?.also { weightedScores.add(it to formula.habitableZoneWeight) }
+        )?.also { weightedScores.add(it to formula.habitableZoneKopparapuWeight) }
+        val habitableZoneKastingScore = calculateHabitableZoneScoreKasting(
+            stellarHostLuminosity = stellarHost.luminosity,
+            planetOrbitAxis = planet.orbitAxis
+        )?.also { if (habitableZoneKopparapuScore == null) weightedScores.add(it to formula.habitableZoneKastingWeight) }
 
         // Tier 2: Planet's Intrinsic Properties (Composition & Climate)
         // Is the planet the right size to be rocky?
@@ -186,7 +190,8 @@ internal object Habitability {
         }
         val totalPossibleWeight = listOf(
             formula.rocheWeight,
-            formula.habitableZoneWeight,
+            formula.habitableZoneKopparapuWeight,
+            formula.habitableZoneKastingWeight,
             formula.planetRadiusWeight,
             formula.planetMassWeight,
             formula.planetTelluricityWeight,
@@ -226,7 +231,7 @@ internal object Habitability {
             planetEquilibriumTemperature = planet.equilibriumTemperature,
             planetTidalLockingScore = planetTidalLockingScore,
             rocheScore = rocheScore,
-            habitableZoneScore = habitableZoneScore,
+            habitableZoneScore = habitableZoneKopparapuScore ?: habitableZoneKastingScore,
             habitabilityScore = habitabilityScore,
         )
 
@@ -237,7 +242,8 @@ internal object Habitability {
             habitabilityScore = adjustedHabitabilityScore,
             confidenceScore = confidenceScore,
             rocheScore = rocheScore,
-            habitableZoneScore = habitableZoneScore,
+            habitableZoneKopparapuScore = habitableZoneKopparapuScore,
+            habitableZoneKastingScore = habitableZoneKastingScore,
             planetRadiusScore = planetRadiusScore,
             planetMassScore = planetMassScore,
             planetTelluricityScore = planetTelluricityScore,
@@ -284,51 +290,26 @@ internal object Habitability {
     }
 
     /**
-     * Calculate the Circumstellar Habitable Zone (CHZ) score.
+     * Calculate the Circumstellar Habitable Zone (CHZ) score using the Kopparapu model (2013, 2014),
+     * from Kopparapu et al. 2013 (ApJ, 765, 131) and its erratum (2013, ApJ, 771, 82), and Kopparapu et al. 2014 (ApJ, 787, L29).
      * The CHZ is the the region around a star where liquid water could exist on a planet's surface.
-     * For the Kopparapu model, the score has a flat plateau of 1.0 across the entire conservative zone and then slopes down smoothly
+     * The score has a flat plateau of 1.0 across the entire conservative zone and then slopes down smoothly
      * through the optimistic zones, as a simple gradient peaked at the center unfairly penalizes planets like Earth,
      * which are perfectly habitable but located near the inner edge of the Sun's conservative zone.
-     * If the more sophisticated Kopparapu model cannot be applied, if falls back to the simpler Kasting model.
      */
-    private fun calculateHabitableZoneScore(
-        stellarHostLuminosity: Double?,
+    private fun calculateHabitableZoneScoreKopparapu(
         stellarHostEffectiveTemperature: Double?,
+        stellarHostLuminosity: Double?,
         planetOrbitAxis: Double?,
         planetMass: Double?,
         planetMassLowerLimit: Double,
         planetMassUpperLimit: Double
-    ): Double? =
-        when {
-            planetOrbitAxis != null && stellarHostLuminosity != null && stellarHostEffectiveTemperature != null -> calculateHabitableZoneScoreKopparapu(
-                stellarHostEffectiveTemperature = stellarHostEffectiveTemperature,
-                stellarHostLuminosity = stellarHostLuminosity,
-                planetOrbitAxis = planetOrbitAxis,
-                planetMass = planetMass,
-                planetMassLowerLimit = planetMassLowerLimit,
-                planetMassUpperLimit = planetMassUpperLimit
-            )
+    ): Double? {
+        if (planetOrbitAxis == null ||
+            stellarHostLuminosity == null ||
+            stellarHostEffectiveTemperature == null
+        ) return null
 
-            planetOrbitAxis != null && stellarHostLuminosity != null -> calculateHabitableZoneScoreKasting(
-                stellarHostLuminosity = stellarHostLuminosity,
-                planetOrbitAxis = planetOrbitAxis
-            )
-
-            else -> null
-        }
-
-    /**
-     * Calculates the Habitable Zone score using the Kopparapu model (2013, 2014),
-     * from Kopparapu et al. 2013 (ApJ, 765, 131) and its erratum (2013, ApJ, 771, 82), and Kopparapu et al. 2014 (ApJ, 787, L29).
-     */
-    private fun calculateHabitableZoneScoreKopparapu(
-        stellarHostEffectiveTemperature: Double,
-        stellarHostLuminosity: Double,
-        planetOrbitAxis: Double,
-        planetMass: Double?,
-        planetMassLowerLimit: Double,
-        planetMassUpperLimit: Double
-    ): Double {
         val tStar = stellarHostEffectiveTemperature - SUN_EFFECTIVE_TEMPERATURE
 
         // Calculate the stellar flux for each boundary condition
@@ -370,12 +351,16 @@ internal object Habitability {
     }
 
     /**
-     * Calculates the Habitable Zone score using the Kasting simple luminosity model (fallback).
+     * Calculates the Habitable Zone score using the Kasting simple luminosity model.
      */
     private fun calculateHabitableZoneScoreKasting(
-        stellarHostLuminosity: Double,
-        planetOrbitAxis: Double
-    ): Double {
+        stellarHostLuminosity: Double?,
+        planetOrbitAxis: Double?
+    ): Double? {
+        if (planetOrbitAxis == null ||
+            stellarHostLuminosity == null
+        ) return null
+
         val conservativeInnerAu = SUN_INNER_BOUNDARY * sqrt(x = stellarHostLuminosity)
         val conservativeOuterAu = SUN_OUTER_BOUNDARY * sqrt(x = stellarHostLuminosity)
         val center = (conservativeInnerAu + conservativeOuterAu) / 2
@@ -383,7 +368,7 @@ internal object Habitability {
         return when (planetOrbitAxis) {
             // Score is 1.0 at the center, decreasing to 0.0 at the edges
             in conservativeInnerAu..conservativeOuterAu -> {
-                1.0 - abs(planetOrbitAxis - center) / (center - conservativeInnerAu)
+                1.0 - abs(x = planetOrbitAxis - center) / (center - conservativeInnerAu)
             }
 
             // Outside the habitable zone
@@ -404,6 +389,7 @@ internal object Habitability {
         planetRadiusMaxUpperLimit: Double
     ): Double? {
         if (planetRadius == null) return null
+
         return when {
             planetRadius < planetRadiusLowerLimit -> 0.0
             planetRadius in planetRadiusLowerLimit..planetRadiusIdealUpperLimit -> 1.0
@@ -431,6 +417,7 @@ internal object Habitability {
         planetMassMaxUpperLimit: Double
     ): Double? {
         if (planetMass == null) return null
+
         return when {
             planetMass < planetMassLowerLimit -> 0.0
             planetMass in planetMassLowerLimit..planetMassIdealUpperLimit -> 1.0

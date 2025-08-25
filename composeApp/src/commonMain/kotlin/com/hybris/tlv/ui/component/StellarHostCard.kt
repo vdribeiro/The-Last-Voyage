@@ -30,6 +30,7 @@ import org.jetbrains.compose.resources.painterResource
 internal fun StellarHostCard(
     modifier: Modifier = Modifier,
     name: String? = null,
+    description: String? = null,
     systemName: String? = null,
     planetCount: Int? = null,
     spectralType: String? = null,
@@ -77,6 +78,9 @@ internal fun StellarHostCard(
                     Text(text = it, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(height = 4.dp))
                 }
+                description?.let {
+                    Text(text = getTranslation(key = it), style = MaterialTheme.typography.bodyMedium)
+                }
                 systemName?.let {
                     InfoRow(
                         label = getTranslation(key = "stellar_host_system_name"),
@@ -91,7 +95,7 @@ internal fun StellarHostCard(
                 }
                 spectralType?.let {
                     InfoRow(
-                        label = getTranslation(key = "stellar_host_spectral_type"),
+                        label = getTranslation(key = "stellar_host_type"),
                         value = it
                     )
                 }
@@ -103,67 +107,67 @@ internal fun StellarHostCard(
                 }
                 radius?.let {
                     InfoRow(
-                        label = getTranslation(key = "stellar_host_spectral_radius"),
+                        label = getTranslation(key = "stellar_host_radius"),
                         value = "${it.roundTo(decimalPlaces = 2)} R☉"
                     )
                 }
                 mass?.let {
                     InfoRow(
-                        label = getTranslation(key = "stellar_host_spectral_mass"),
+                        label = getTranslation(key = "stellar_host_mass"),
                         value = "${it.roundTo(decimalPlaces = 2)} M☉"
                     )
                 }
                 metallicity?.let {
                     InfoRow(
-                        label = getTranslation(key = "stellar_host_spectral_metallicity"),
+                        label = getTranslation(key = "stellar_host_metallicity"),
                         value = "${it.roundTo(decimalPlaces = 2)} dex"
                     )
                 }
                 luminosity?.let {
                     InfoRow(
-                        label = getTranslation(key = "stellar_host_spectral_luminosity"),
+                        label = getTranslation(key = "stellar_host_luminosity"),
                         value = "${it.roundTo(decimalPlaces = 3)} L☉"
                     )
                 }
                 gravity?.let {
                     InfoRow(
-                        label = getTranslation(key = "stellar_host_spectral_gravity"),
+                        label = getTranslation(key = "stellar_host_gravity"),
                         value = "${it.roundTo(decimalPlaces = 2)} G☉"
                     )
                 }
                 age?.let {
                     InfoRow(
-                        label = getTranslation(key = "stellar_host_spectral_age"),
+                        label = getTranslation(key = "stellar_host_age"),
                         value = "${it.roundTo(decimalPlaces = 2)} Gyr"
                     )
                 }
                 density?.let {
                     InfoRow(
-                        label = getTranslation(key = "stellar_host_spectral_density"),
+                        label = getTranslation(key = "stellar_host_density"),
                         value = "${it.roundTo(decimalPlaces = 3)} g/cm^3"
                     )
                 }
                 rotationalVelocity?.let {
                     InfoRow(
-                        label = getTranslation(key = "stellar_host_spectral_rotational_velocity"),
+                        label = getTranslation(key = "stellar_host_rotational_velocity"),
                         value = "${it.roundTo(decimalPlaces = 1)} km/s"
                     )
                 }
                 rotationalPeriod?.let {
                     InfoRow(
-                        label = getTranslation(key = "stellar_host_spectral_rotational_period"),
+                        label = getTranslation(key = "stellar_host_rotational_period"),
                         value = "${it.roundTo(decimalPlaces = 2)} ${getTranslation(key = "period_unit")}"
                     )
                 }
                 ra?.let {
                     InfoRow(
-                        label = getTranslation(key = "stellar_host_spectral_ra"),
+                        label = getTranslation(key = "stellar_host_ra"),
                         value = "${it.roundTo(decimalPlaces = 6)}º"
                     )
                 }
                 dec?.let {
                     InfoRow(
-                        label = getTranslation(key = "stellar_host_spectral_dec"),
+                        label = getTranslation(key = "stellar_host_dec"),
                         value = "${it.roundTo(decimalPlaces = 6)}º"
                     )
                 }

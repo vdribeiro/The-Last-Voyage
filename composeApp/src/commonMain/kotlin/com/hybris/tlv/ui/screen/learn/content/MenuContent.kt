@@ -29,6 +29,24 @@ internal fun MenuContent(store: Store<LearnAction, LearnState>) {
     ) {
         Spacer(modifier = Modifier.height(height = 64.dp))
         Text(
+            modifier = Modifier.clickable { store.send(action = LearnAction.StellarExplorer) },
+            text = getTranslation(key = "learn_screen__stellar_explorer"),
+            style = MaterialTheme.typography.headlineMedium,
+        )
+        Spacer(modifier = Modifier.height(height = 16.dp))
+        Text(
+            modifier = Modifier.clickable { store.send(action = LearnAction.HostTypes) },
+            text = getTranslation(key = "learn_screen__star_types"),
+            style = MaterialTheme.typography.headlineMedium,
+        )
+        Spacer(modifier = Modifier.height(height = 16.dp))
+        Text(
+            modifier = Modifier.clickable { store.send(action = LearnAction.PlanetTypes) },
+            text = getTranslation(key = "learn_screen__planet_types"),
+            style = MaterialTheme.typography.headlineMedium,
+        )
+        Spacer(modifier = Modifier.height(height = 16.dp))
+        Text(
             modifier = Modifier.clickable { store.send(action = LearnAction.Mechanics) },
             text = getTranslation(key = "learn_screen__mechanics"),
             style = MaterialTheme.typography.headlineMedium,
@@ -37,12 +55,6 @@ internal fun MenuContent(store: Store<LearnAction, LearnState>) {
         Text(
             modifier = Modifier.clickable { store.send(action = LearnAction.Habitability) },
             text = getTranslation(key = "learn_screen__habitability"),
-            style = MaterialTheme.typography.headlineMedium,
-        )
-        Spacer(modifier = Modifier.height(height = 16.dp))
-        Text(
-            modifier = Modifier.clickable { store.send(action = LearnAction.PlanetTypes) },
-            text = getTranslation(key = "learn_screen__planet_types"),
             style = MaterialTheme.typography.headlineMedium,
         )
     }
