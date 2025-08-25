@@ -1,88 +1,100 @@
 package com.hybris.tlv.usecase.gamesession.model
 
-import com.hybris.tlv.usecase.ship.model.Ship
+internal enum class GameOver {
+    // Ship is destroyed
+    INTEGRITY_ZERO,
+    INTEGRITY_ZERO_YEARS_FEW,
+    INTEGRITY_ZERO_YEARS_SOME,
+    INTEGRITY_ZERO_YEARS_LOTS,
+    INTEGRITY_ZERO_MATERIALS_ZERO,
+    INTEGRITY_ZERO_MATERIALS_LOW,
+    INTEGRITY_ZERO_MATERIALS_ENOUGH,
+    INTEGRITY_ZERO_CRYOPODS_ZERO,
+    INTEGRITY_ZERO_CRYOPODS_ONE,
+    INTEGRITY_ZERO_CRYOPODS_LOW,
+    INTEGRITY_ZERO_CRYOPODS_ENOUGH,
+    INTEGRITY_ZERO_FUEL_LOW,
+    INTEGRITY_ZERO_FUEL_SOME,
+    INTEGRITY_ZERO_FUEL_PLENTY,
+    INTEGRITY_ZERO_YEARS_LOTS_CRYOPODS_BUSTLING,
 
-internal sealed class GameOver(val multiplier: Double) {
+    // Ship ran out of fuel
+    FUEL_ZERO,
+    FUEL_ZERO_YEARS_FEW,
+    FUEL_ZERO_YEARS_SOME,
+    FUEL_ZERO_YEARS_LOTS,
+    FUEL_ZERO_MATERIALS_ZERO,
+    FUEL_ZERO_MATERIALS_LOW,
+    FUEL_ZERO_MATERIALS_ENOUGH,
+    FUEL_ZERO_CRYOPODS_ZERO,
+    FUEL_ZERO_CRYOPODS_ONE,
+    FUEL_ZERO_CRYOPODS_NEAR_ZERO,
+    FUEL_ZERO_CRYOPODS_TOO_LOW,
+    FUEL_ZERO_CRYOPODS_LOW,
+    FUEL_ZERO_CRYOPODS_ENOUGH,
+    FUEL_ZERO_INTEGRITY_LOW,
+    FUEL_ZERO_INTEGRITY_ENOUGH,
+    FUEL_ZERO_INTEGRITY_PRISTINE,
+    FUEL_ZERO_MATERIALS_PLENTY_CRYOPODS_BUSTLING,
+    FUEL_ZERO_INTEGRITY_ENOUGH_MATERIALS_ENOUGH_CRYOPODS_BUSTLING,
 
-    /**
-     * The ship is destroyed.
-     */
-    data class IntegrityFailure(val ship: Ship): GameOver(multiplier = 0.1)
+    // Settled Planets
+    MERCURY,
+    VENUS,
+    EARTH,
+    MARS,
+    JUPITER,
+    SATURN,
+    URANUS,
+    NEPTUNE,
 
-    /**
-     * The ship ran out of fuel.
-     */
-    data class FuelFailure(val ship: Ship): GameOver(multiplier = 0.1)
+    // Habitability: Deadly (0-20)
+    HABITABILITY_DEADLY,
+    HABITABILITY_DEADLY_CRYOPODS_ENOUGH,
+    HABITABILITY_DEADLY_INTEGRITY_LOW,
+    HABITABILITY_DEADLY_INTEGRITY_MID_LOW_MATERIALS_ENOUGH,
 
-    /**
-     * Settled on the solar system.
-     */
-    data class PlanetSettlement(val planetId: String): GameOver(multiplier = 0.5)
+    // Habitability: Very Low (21-40)
+    HABITABILITY_VERY_LOW,
+    HABITABILITY_VERY_LOW_CRYOPODS_ENOUGH_MATERIALS_ENOUGH,
+    HABITABILITY_VERY_LOW_CRYOPODS_MID_MATERIALS_ENOUGH,
+    HABITABILITY_VERY_LOW_INTEGRITY_LOW,
 
-    /**
-     * Settled on an exoplanet.
-     */
-    data class ExoplanetSettlement(
-        val habitability: Double,
-        val ship: Ship,
-        private val calculatedMultiplier: Double
-    ): GameOver(multiplier = calculatedMultiplier)
+    // Habitability: Low (41-60)
+    HABITABILITY_LOW,
+    HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH,
+    HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_INTEGRITY_PRISTINE,
+    HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_FUEL_PLENTY,
+    HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_LOW,
+    HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ZERO,
+    HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_ENOUGH,
+    HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_LOW,
+    HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_ZERO,
 
-    /**
-     * Fallback state.
-     */
-    object Generic: GameOver(multiplier = 0.0)
+    // Habitability: Medium (61-80)
+    HABITABILITY_MEDIUM,
+    HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH,
+    HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS,
+    HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_BUSTLING,
+    HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_LOW,
+    HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ZERO,
+    HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ENOUGH_INTEGRITY_ENOUGH,
+    HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ENOUGH,
+    HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_LOW,
+    HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ZERO,
 
-    companion object Companion {
-        private val SPECIAL_PLANETS = setOf(
-            "1mercury", "2venus", "3earth", "4mars",
-            "5jupiter", "6saturn", "7uranus", "8neptune"
-        )
+    // Habitability: High (81+)
+    HABITABILITY_HIGH,
+    HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH,
+    HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS,
+    HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_BUSTLING,
+    HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_LOW,
+    HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ZERO,
+    HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ENOUGH_INTEGRITY_ENOUGH,
+    HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ENOUGH,
+    HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_LOW,
+    HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ZERO,
 
-        fun from(gameSession: GameSession): GameOver =
-            when {
-                gameSession.ship.integrity <= 0 -> IntegrityFailure(ship = gameSession.ship)
-                gameSession.ship.fuel <= 0 -> FuelFailure(ship = gameSession.ship)
-                gameSession.settledPlanetId in SPECIAL_PLANETS -> PlanetSettlement(planetId = gameSession.settledPlanetId!!)
-                gameSession.finalHabitability != null -> createSettlementSuccess(
-                    habitability = gameSession.finalHabitability,
-                    ship = gameSession.ship
-                )
-
-                else -> Generic
-            }
-
-        private fun createSettlementSuccess(habitability: Double, ship: Ship): ExoplanetSettlement {
-            val habitabilityMultiplier = when (habitability) {
-                in 0.0..20.0 -> 0.25
-                in 21.0..40.0 -> 0.50
-                in 41.0..60.0 -> 1.0
-                in 61.0..80.0 -> 1.2
-                else -> 1.5
-            }
-
-            val successMultiplier = when {
-                habitability > 80.0 -> when {
-                    ship.materials >= 50 && ship.cryopods >= 50 -> 1.0
-                    ship.materials < 50 && ship.cryopods >= 50 && ship.integrity >= 50 -> 0.75
-                    ship.materials < 50 && ship.cryopods >= 50 -> 0.5
-                    else -> 0.25
-                }
-                habitability in 61.0..80.0 -> when {
-                    ship.materials >= 100 && ship.cryopods >= 100 -> 1.0
-                    ship.materials < 100 && ship.cryopods >= 100 && ship.integrity >= 75 -> 0.75
-                    ship.materials < 100 && ship.cryopods >= 100 -> 0.5
-                    else -> 0.25
-                }
-                habitability in 41.0..60.0 -> when {
-                    ship.materials >= 300 && ship.cryopods >= 150 -> 1.0
-                    else -> 0.25
-                }
-                else -> 0.25
-            }
-
-            val finalMultiplier = habitabilityMultiplier * successMultiplier
-            return ExoplanetSettlement(habitability = habitability, ship = ship, calculatedMultiplier = finalMultiplier)
-        }
-    }
+    // Default
+    GAME_OVER
 }
