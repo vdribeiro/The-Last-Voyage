@@ -8,6 +8,7 @@ import com.hybris.tlv.LocalWindowState
 import com.hybris.tlv.logger.Logger
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
+
 internal class DesktopAudioPlayer: AudioPlayer {
 
     private var currentPlayer: MediaPlayer? = null

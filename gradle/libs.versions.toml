@@ -7,7 +7,6 @@ kover = "0.9.1"
 kotlin = "2.2.10"
 kotlinx-serialization = "1.9.0"
 kotlinx-datetime = "0.7.1"
-kotlinx-coroutines = "1.10.2"
 kotlin-ktor = "3.2.3"
 compose-multiplatform = "1.8.2"
 sqldelight = "2.1.0"
@@ -19,12 +18,8 @@ android-minSdk = "26"
 android-targetSdk = "35"
 android-compileSdk = "35"
 android-startup = "1.2.0"
-androidx-activity-compose = "1.10.1"
-androidx-viewmodel = "2.9.2"
 androidx-exoplayer = "1.8.0"
-androidx-collection = "1.5.0"
 javafx = "21.0.2"
-logging = "2.0.17"
 
 [plugins]
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
@@ -51,7 +46,6 @@ kotlin-ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version
 kotlin-ktor-content = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "kotlin-ktor" }
 kotlin-ktor-encoding = { group = "io.ktor", name = "ktor-client-encoding", version.ref = "kotlin-ktor" }
 kotlin-ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "kotlin-ktor" }
-kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 sqldelight-runtime = { group = "app.cash.sqldelight", name = "runtime", version.ref = "sqldelight" }
 sqldelight-primitives = { group = "app.cash.sqldelight", name = "primitive-adapters", version.ref = "sqldelight" }
 sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
@@ -60,20 +54,15 @@ sqldelight-native = { group = "app.cash.sqldelight", name = "native-driver", ver
 sqldelight-jvm = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
 sqldelight-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "sqldelight-jdbc" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx" }
 compose-backhandler = { group = "org.jetbrains.compose.ui", name = "ui-backhandler", version.ref = "compose-backhandler" }
 androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "android-startup" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
-androidx-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-viewmodel" }
 androidx-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "androidx-exoplayer" }
-androidx-collection = { group = "androidx.collection", name = "collection", version.ref = "androidx-collection" }
 javafx-base = { group = "org.openjfx", name = "javafx-base", version.ref = "javafx" }
 javafx-graphics = { group = "org.openjfx", name = "javafx-graphics", version.ref = "javafx" }
 javafx-media = { group = "org.openjfx", name = "javafx-media", version.ref = "javafx" }
 javafx-swing = { group = "org.openjfx", name = "javafx-swing", version.ref = "javafx" }
-logging = { group = "org.slf4j", name = "slf4j-simple", version.ref = "logging" }
 
 [bundles]
 common = [
@@ -98,9 +87,7 @@ android = [
     "sqldelight-android",
     "sqldelight-jvm",
     "androidx-startup",
-    "androidx-activity-compose",
     "androidx-exoplayer",
-    "firebase-analytics",
     "firebase-crashlytics",
     "firebase-config",
 ]
@@ -112,8 +99,4 @@ desktop = [
     "kotlin-ktor-cio",
     "sqldelight-jvm",
     "sqldelight-jdbc",
-    "kotlinx-coroutines-swing",
-    "androidx-viewmodel",
-    "androidx-collection",
-    "logging",
 ]

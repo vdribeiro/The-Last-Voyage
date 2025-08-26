@@ -94,7 +94,8 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                     text = getTranslation(key = "app_name"),
                     style = MaterialTheme.typography.headlineLarge,
                 )
-                Spacer(modifier = Modifier.height(height = 64.dp))
+                Spacer(modifier = Modifier.height(height = 48.dp))
+
                 Text(
                     modifier = Modifier.clickable { store.send(action = MainMenuAction.NewGame) },
                     text = getTranslation(key = "main_menu_screen__new_game"),

@@ -35,10 +35,10 @@ internal fun <T: HttpClientEngineConfig> HttpClientConfig<T>.setLogging() {
     install(plugin = Logging) {
         logger = object: io.ktor.client.plugins.logging.Logger {
             override fun log(message: String) {
-                Logger.debug(tag = "Ktor", message = message)
+                Logger.info(tag = "Ktor", message = message)
             }
         }
-        level = LogLevel.ALL
+        level = LogLevel.INFO
     }
 }
 
