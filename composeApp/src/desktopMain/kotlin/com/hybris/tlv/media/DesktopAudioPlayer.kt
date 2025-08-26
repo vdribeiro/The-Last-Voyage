@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import com.hybris.tlv.LocalWindowState
 import com.hybris.tlv.logger.Logger
 import java.util.concurrent.atomic.AtomicBoolean
+import javafx.application.Platform
 import javafx.embed.swing.JFXPanel
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
@@ -21,7 +22,7 @@ internal class DesktopAudioPlayer: AudioPlayer {
     private var currentIndex = -1
 
     init {
-        if (!isJfxInitialized.getAndSet(true)) JFXPanel()
+        if (!isJfxInitialized.getAndSet(true)) Platform.startup {}
     }
 
     private fun playTrackAtIndex(index: Int) {
@@ -50,20 +51,21 @@ internal class DesktopAudioPlayer: AudioPlayer {
         playTrackAtIndex(nextIndex)
     }
 
-    override fun play(vararg playlist: String) = runCatching {
-        if (currentPlaylist.sorted() == playlist.toList().sorted()) {
-            resume()
-            return@runCatching
+    override fun play(vararg playlist: String) {
+        runCatching {
+            if (currentPlaylist.sorted() == playlist.toList().sorted()) {
+                resume()
+                return@runCatching
+            }
+
+            currentPlaylist.clear()
+            currentPlaylist.addAll(elements = playlist)
+
+            shuffledPlaylist = currentPlaylist.shuffled()
+            playTrackAtIndex(index = 0)
+        }.getOrElse {
+            Logger.error(tag = TAG, message = "Error playing media: ${it.message}")
         }
-
-        currentPlaylist.clear()
-        currentPlaylist.addAll(elements = playlist)
-
-        shuffledPlaylist = currentPlaylist.shuffled()
-        playTrackAtIndex(index = 0)
-
-    }.getOrElse {
-        Logger.error(tag = TAG, message = "Error playing media: ${it.message}")
     }
 
     override fun resume() {
@@ -82,13 +84,15 @@ internal class DesktopAudioPlayer: AudioPlayer {
         }
     }
 
-    override fun stop() = runCatching {
-        currentPlayer?.stop()
-        currentPlayer?.dispose()
-        currentPlayer = null
-        currentIndex = -1
-    }.getOrElse {
-        Logger.error(tag = TAG, message = "Error stopping media: ${it.message}")
+    override fun stop() {
+        runCatching {
+            currentPlayer?.stop()
+            currentPlayer?.dispose()
+            currentPlayer = null
+            currentIndex = -1
+        }.getOrElse {
+            Logger.error(tag = TAG, message = "Error stopping media: ${it.message}")
+        }
     }
 
     override fun release() {

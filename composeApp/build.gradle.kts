@@ -16,10 +16,6 @@ plugins {
 
 val appId: String = libs.versions.applicationId.get()
 
-tasks.withType<Test> {
-    jvmArgs("--enable-native-access=ALL-UNNAMED")
-}
-
 kotlin {
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
@@ -72,14 +68,27 @@ kotlin {
                 implementation(dependencyNotation = libs.bundles.desktop)
 
                 val osName = System.getProperty("os.name")
+                val osArch = System.getProperty("os.arch")
                 val currentOS = org.gradle.internal.os.OperatingSystem.current()
+
                 val jfxClassifier = when {
                     currentOS.isWindows -> "win"
                     currentOS.isLinux -> "linux"
-                    currentOS.isMacOsX -> "mac"
+                    currentOS.isMacOsX -> {
+                        when (osArch) {
+                            "aarch64" -> "mac-aarch64"
+                            else -> "mac"
+                        }
+                    }
                     else -> error("Unsupported OS: $osName")
                 }
 
+                implementation(dependency = libs.javafx.base.get()) {
+                    artifact { this.classifier = jfxClassifier }
+                }
+                implementation(dependency = libs.javafx.graphics.get()) {
+                    artifact { this.classifier = jfxClassifier }
+                }
                 implementation(dependency = libs.javafx.media.get()) {
                     artifact { this.classifier = jfxClassifier }
                 }
@@ -150,6 +159,11 @@ compose.desktop {
     application {
         mainClass = "$appId.MainKt"
         jvmArgs += "--enable-native-access=ALL-UNNAMED"
+        jvmArgs += "--add-modules=javafx.graphics,javafx.swing,javafx.media,javafx.base"
+        jvmArgs += "--add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED"
+        jvmArgs += "--add-exports=javafx.graphics/com.sun.javafx.embed=ALL-UNNAMED"
+        jvmArgs += "--add-exports=javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED"
+        jvmArgs += "--add-exports=javafx.base/com.sun.javafx.logging=ALL-UNNAMED"
 
         nativeDistributions {
             packageName = "The Last Voyage"
@@ -233,4 +247,8 @@ kover {
             }
         }
     }
+}
+
+tasks.withType<Test> {
+    jvmArgs("--enable-native-access=ALL-UNNAMED")
 }
