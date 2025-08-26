@@ -7,22 +7,21 @@ import androidx.compose.runtime.remember
 import com.hybris.tlv.LocalWindowState
 import com.hybris.tlv.logger.Logger
 import java.util.concurrent.atomic.AtomicBoolean
-
-//import javafx.embed.swing.JFXPanel
-//import javafx.scene.media.Media
-//import javafx.scene.media.MediaPlayer
+import javafx.embed.swing.JFXPanel
+import javafx.scene.media.Media
+import javafx.scene.media.MediaPlayer
 
 private val isJfxInitialized = AtomicBoolean(false)
 
 internal class DesktopAudioPlayer: AudioPlayer {
 
-    //private var currentPlayer: MediaPlayer? = null
+    private var currentPlayer: MediaPlayer? = null
     private var currentPlaylist = mutableListOf<String>()
     private var shuffledPlaylist = listOf<String>()
     private var currentIndex = -1
 
     init {
-        //if (!isJfxInitialized.getAndSet(true)) JFXPanel()
+        if (!isJfxInitialized.getAndSet(true)) JFXPanel()
     }
 
     private fun playTrackAtIndex(index: Int) {
@@ -34,12 +33,12 @@ internal class DesktopAudioPlayer: AudioPlayer {
         when (resourceUrl) {
             null -> Logger.error(tag = TAG, message = "Could not find audio resource: $trackPath")
             else -> {
-                //val media = Media(resourceUrl.toString())
-                //currentPlayer = MediaPlayer(media).apply {
-                //    setOnEndOfMedia { playNextTrack() }
-                //    setOnError { Logger.error(tag = TAG, message = "MediaPlayer error: $error") }
-                //    play()
-                //}
+                val media = Media(resourceUrl.toString())
+                currentPlayer = MediaPlayer(media).apply {
+                    setOnEndOfMedia { playNextTrack() }
+                    setOnError { Logger.error(tag = TAG, message = "MediaPlayer error: $error") }
+                    play()
+                }
                 currentIndex = index
             }
         }
@@ -69,7 +68,7 @@ internal class DesktopAudioPlayer: AudioPlayer {
 
     override fun resume() {
         runCatching {
-            //currentPlayer?.play()
+            currentPlayer?.play()
         }.getOrElse {
             Logger.error(tag = TAG, message = "Error resuming media: ${it.message}")
         }
@@ -77,16 +76,16 @@ internal class DesktopAudioPlayer: AudioPlayer {
 
     override fun pause() {
         runCatching {
-            //currentPlayer?.pause()
+            currentPlayer?.pause()
         }.getOrElse {
             Logger.error(tag = TAG, message = "Error pausing media: ${it.message}")
         }
     }
 
     override fun stop() = runCatching {
-        //currentPlayer?.stop()
-        //currentPlayer?.dispose()
-        //currentPlayer = null
+        currentPlayer?.stop()
+        currentPlayer?.dispose()
+        currentPlayer = null
         currentIndex = -1
     }.getOrElse {
         Logger.error(tag = TAG, message = "Error stopping media: ${it.message}")

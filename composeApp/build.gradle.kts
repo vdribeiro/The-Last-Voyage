@@ -70,6 +70,22 @@ kotlin {
             dependencies {
                 implementation(dependencyNotation = compose.desktop.currentOs)
                 implementation(dependencyNotation = libs.bundles.desktop)
+
+                val osName = System.getProperty("os.name")
+                val currentOS = org.gradle.internal.os.OperatingSystem.current()
+                val jfxClassifier = when {
+                    currentOS.isWindows -> "win"
+                    currentOS.isLinux -> "linux"
+                    currentOS.isMacOsX -> "mac"
+                    else -> error("Unsupported OS: $osName")
+                }
+
+                implementation(dependency = libs.javafx.media.get()) {
+                    artifact { this.classifier = jfxClassifier }
+                }
+                implementation(dependency = libs.javafx.swing.get()) {
+                    artifact { this.classifier = jfxClassifier }
+                }
             }
         }
 
