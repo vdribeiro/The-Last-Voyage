@@ -97,7 +97,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_o_description",
-    "value": "The hottest, most massive, and most luminous stars, with a brilliant blue-white light. Because they burn through their fuel so quickly, they have extremely short lifespans and very high UV radiation. Their spectra show lines from ionized helium."
+    "value": "The hottest, most massive, and most luminous stars, with a brilliant blue-white light. Because they burn through their fuel so quickly, they have extremely short lifespans."
   },
   {
     "languageIso": "en",
@@ -107,7 +107,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_b_description",
-    "value": "Very hot, massive, luminous blue-white stars. They have very short lived lifespans and high UV radiation. Their spectra are characterized by neutral helium lines."
+    "value": "Very hot, massive, luminous blue-white stars with very short lifespans."
   },
   {
     "languageIso": "en",
@@ -117,7 +117,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_a_description",
-    "value": "White or bluish-white stars generally larger and more massive than the Sun. Short-lived and with significant UV radiation. They are known for having the strongest hydrogen absorption lines."
+    "value": "White or bluish-white short-lived stars generally larger and more massive than the Sun."
   },
   {
     "languageIso": "en",
@@ -127,7 +127,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_f_description",
-    "value": "Yellow-white stars, slightly hotter and more massive than the Sun, with shorter lifespans and more UV radiation. Their hydrogen lines are weaker than A-type stars, but lines of metals begin to appear."
+    "value": "Yellow-white stars, slightly hotter and more massive than the Sun, with shorter lifespans."
   },
   {
     "languageIso": "en",
@@ -137,7 +137,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_g_description",
-    "value": "Yellow stars like our sun. They have a perfect balance of temperature and longevity to potentially support life. Their spectra show many metal lines."
+    "value": "Yellow stars like our Sun. They have a perfect balance of temperature and longevity to potentially support life."
   },
   {
     "languageIso": "en",
@@ -147,7 +147,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_k_description",
-    "value": "Orange stars are long-lived, cooler, smaller and stable, with less UV radiation. They are considered promising candidates for hosting planets with life."
+    "value": "Orange stars that are long-lived, cooler, smaller and stable. They are considered promising candidates for hosting planets with life."
   },
   {
     "languageIso": "en",
@@ -157,37 +157,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_m_description",
-    "value": "The most common stars in the universe. They are cool, dim, low-mass stars known as red dwarfs. They have extremely long lifespans, potentially trillions of years, but are more prone to flaring. Their spectra show lines from molecules, not just atoms."
-  },
-  {
-    "languageIso": "en",
-    "key": "stellar_host_type_w",
-    "value": "W"
-  },
-  {
-    "languageIso": "en",
-    "key": "stellar_host_type_w_description",
-    "value": "Wolf-Rayet are extremely hot, massive, and evolved stars nearing the end of their lives. They have blown away their outer hydrogen layers, revealing a core that shows strong emission lines of helium, carbon, and nitrogen."
-  },
-  {
-    "languageIso": "en",
-    "key": "stellar_host_type_q",
-    "value": "Q"
-  },
-  {
-    "languageIso": "en",
-    "key": "stellar_host_type_q_description",
-    "value": "Novae are catastrophically hostile and unstable stars. A nova is a temporary and dramatic brightening of a white dwarf star that is pulling matter from a nearby companion star."
-  },
-  {
-    "languageIso": "en",
-    "key": "stellar_host_type_p",
-    "value": "P"
-  },
-  {
-    "languageIso": "en",
-    "key": "stellar_host_type_p_description",
-    "value": "The hot, exposed core of the central dying star of a planetary nebula that is illuminating the gas it previously ejected."
+    "value": "The most common stars in the universe. They are cool, dim, low-mass stars known as red dwarfs. They have extremely long lifespans."
   },
   {
     "languageIso": "en",
@@ -197,7 +167,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_l_description",
-    "value": "Brown dwarfs warmer than other brown dwarfs but cooler than M-type stars. They glow in a dark, dusky-red color and are primarily visible in infrared light. Their spectra feature metal hydrides."
+    "value": "Brown dwarfs warmer than other brown dwarfs but cooler than M-type stars. They glow in a dark, dusky-red color and are primarily visible in infrared light."
   },
   {
     "languageIso": "en",
@@ -207,7 +177,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_t_description",
-    "value": "Brown dwarfs cooler than L-types, and defined by the presence of methane in their atmospheres. They emit almost all their light in the infrared spectrum."
+    "value": "Brown dwarfs cooler than L-types. They emit almost all their light in the infrared spectrum."
   },
   {
     "languageIso": "en",
@@ -227,7 +197,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_c_description",
-    "value": "Carbon stars. These are unstable cool giant stars whose atmospheres contain more carbon than oxygen. The excess carbon forms molecules that absorb blue light, giving these stars a distinct ruby-red color."
+    "value": "Carbon stars. These are unstable cool giant stars whose excess carbon forms molecules that absorb blue light, giving them a distinct ruby-red color."
   },
   {
     "languageIso": "en",
@@ -237,7 +207,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_s_description",
-    "value": "Unstable cool giant stars that represent an intermediate stage between normal M-type giants and C-type Carbon stars. Their atmosphere has roughly equal amounts of carbon and oxygen."
+    "value": "Unstable cool giant stars that represent an intermediate stage between normal M-type giants and C-type Carbon stars."
   },
   {
     "languageIso": "en",
@@ -247,7 +217,17 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_d_description",
-    "value": "A White Dwarf is an incredibly dense, hot remnant core of a star like our Sun after it has exhausted its nuclear fuel. It's essentially a stellar ember with harsh radiation that slowly cools and fades over billions of years."
+    "value": "A White Dwarf is an incredibly dense, hot remnant core of a star after it has exhausted its nuclear fuel."
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_type_w",
+    "value": "W"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_type_w_description",
+    "value": "Wolf-Rayet are extremely hot, massive, and evolved stars nearing the end of their lives as they have blown away their outer hydrogen layers."
   },
   {
     "languageIso": "en",
@@ -402,12 +382,12 @@
   {
     "languageIso": "en",
     "key": "planet_habitable_zone_kopparapu_score",
-    "value": "Kopparapu Habitable Zone Score"
+    "value": "Kopparapu HZ Score"
   },
   {
     "languageIso": "en",
     "key": "planet_habitable_zone_kasting_score",
-    "value": "Kasting Habitable Zone Score"
+    "value": "Kasting HZ Score"
   },
   {
     "languageIso": "en",
@@ -2631,6 +2611,31 @@
   },
   {
     "languageIso": "en",
+    "key": "learn_screen__properties",
+    "value": "Properties"
+  },
+  {
+    "languageIso": "en",
+    "key": "learn_screen__properties_stellar_host_title",
+    "value": "Stellar Host"
+  },
+  {
+    "languageIso": "en",
+    "key": "learn_screen__properties_stellar_host_description",
+    "value": "• Name: Astronomical Name\n• System Name: The system of stars it belong to\n• Spectral Type: Harvard spectral type with Morgan-Keenan luminosity class\n• Temperature: Stellar effective temperature in Kelvin (K) as modeled by a black body emitting the same total amount of electromagnetic radiation\n• Radius: Star’s radius relative to the radius of the Sun\n• Mass: Star’s mass relative to the mass of the Sun\n• Metallicity: Ratio of metal to hydrogen content in dex\n• Luminosity: Amount of energy emitted by a star in units of solar luminosities\n• Gravity: Gravitational acceleration in log10(cm/s2)\n• Age: The age of the star in Gigayears (Gyr)\n• Density: Amount of mass per unit of volume of the star in g/cm3\n• Rotational Velocity: The speed at which the star spins on its axis in km/s\n• Rotational Period: The time it takes the star to complete 1 full rotation on its axis in Earth days\n• Distance: Distance from the Sun to the planetary system in light-years\n• RA: Celestial equivalents of longitude, Right Ascension is the degrees from vernal equinox\n• Dec: Celestial equivalents of latitude, Declination is the degrees from celestial equator"
+  },
+  {
+    "languageIso": "en",
+    "key": "learn_screen__properties_planet_title",
+    "value": "Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "learn_screen__properties_planet_description",
+    "value": "• Name: Astronomical Name\nOrbitalPeriod • Status: Either Confirmed, Candidate or False Positive/Refuted\n• Orbital Period: The time the planet takes to make a complete orbit around the host star or system in Earth days\n• Orbit Semi-Major Axis: The longest radius in Astronomical Units (au) of the planet’s elliptic orbit\n• Radius: Planet’s radius relative to the radius of the Earth\n• Mass: Planet’s mass relative to the mass of the Earth\n• Density: Amount of mass per unit of volume of the planet in g/cm3)\n• Eccentricity: Amount by which the orbit of the planet deviates from a perfect circle\n• Insolation Flux: Amount of stellar radiation energy received in Earth units\n • Temperature: The equilibrium temperature of the planet in Kelvin (K) as modeled by a black body heated only by its host star\n• Inclination: Angle in degrees of the plane of the orbit relative to the plane perpendicular to the line-of-sight from Earth to the object\n• Obliquity: The tilt of the planet as it spins"
+  },
+  {
+    "languageIso": "en",
     "key": "learn_screen__mechanics",
     "value": "Game Mechanics"
   },
@@ -2717,7 +2722,7 @@
   {
     "languageIso": "en",
     "key": "learn_screen__habitability_hz_description",
-    "value": "The Circumstellar Habitable Zone (CHZ) is the the region around a star where liquid water could exist on a planet's surface.\nI used the Kopparapu model with a flat plateau of 1.0 across the entire conservative zone and then a smooth down slope through the optimistic zone, as a simple gradient peaked at the center unfairly penalizes planets like Earth, which is perfectly habitable but located near the inner edge of the Sun's conservative zone.\nThe host star's temperature is used to calculate the fluxes with the model's coefficients. If it is not available, the Kasting simple luminosity model is used instead."
+    "value": "The Circumstellar Habitable Zone (CHZ) is the the region around a star where liquid water could exist on a planet's surface.\nI used the Kopparapu model with a flat plateau of 1.0 across the entire conservative zone and then a smooth down slope through the optimistic zone, as a simple gradient peaked at the center unfairly penalizes planets like Earth, which is perfectly habitable but located near the inner edge of the Sun's conservative zone.\nThe host star's temperature is used to calculate the fluxes with the model's coefficients. If it is not available, the Kasting simple luminosity model is used instead but with a smaller weight."
   },
   {
     "languageIso": "en",
@@ -2807,7 +2812,7 @@
   {
     "languageIso": "en",
     "key": "learn_screen__habitability_star_spectral_type_description",
-    "value": "The primary determinant of a star's lifetime and stability is spectral type and mass. If the star is too massive, it has a short lifespan. Conversely, a lighter star is very long-lived, but has also its issues.\nThe system used for spectral type classification is the Harvard spectral type with Morgan-Keenan luminosity class, (e.g. G2III):\n• G ideal, like the Sun\n• K long-lived and stable with less UV radiation\n• F good candidates, but with more UV radiation than the Sun\n• M very long-lived, but prone to flaring\n• A short-lived and with significant UV radiation\n• B very short-lived and with high UV radiation\n• O extremely short-lived and with high UV radiation\n• L, T and Y are brown dwarfs with an unstable HZ\n• D are white dwarfs like remnant cores with harsh radiation\n• C and S carbon or S-type stars are evolved, unstable giants\n• W, Q and P are catastrophically hostile or unstable stars\nI then apply a small penalty for lower luminosity and subtypes farther away from 5 for the most habitable classes as stars in the middle of the range are often considered more stable than those at the extremes."
+    "value": "The primary determinant of a star's lifetime and stability is spectral type and mass. If the star is too massive, it has a short lifespan. Conversely, a lighter star is very long-lived, but has also its issues.\nThe system used for spectral type classification is the Harvard spectral type with Morgan-Keenan luminosity class."
   },
   {
     "languageIso": "en",

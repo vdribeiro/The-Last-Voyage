@@ -5,6 +5,7 @@ internal sealed class Config(val key: String, val defaultValue: Any) {
     data object Music: Config(key = "music", defaultValue = true)
 
     // Versioning
+    data object AppVersion: Config(key = "app_version", defaultValue = 1L)
     data object TranslationsVersion: Config(key = "translations_version", defaultValue = 1L)
     data object CatastrophesVersion: Config(key = "catastrophes_version", defaultValue = 1L)
     data object EnginesVersion: Config(key = "engines_version", defaultValue = 1L)

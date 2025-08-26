@@ -13,7 +13,7 @@ internal data class StellarHost(
     val mass: Double?,                 // Solar masses
     val metallicity: Double?,          // [Fe/H] dex
     val luminosity: Double?,           // Solar luminosities
-    val gravity: Double?,              // log(g) in cgs units
+    val gravity: Double?,              // log10(cm/s2)
     val age: Double?,                  // Gigayears
     val density: Double?,              // g/cm^3
     val rotationalVelocity: Double?,   // km/s

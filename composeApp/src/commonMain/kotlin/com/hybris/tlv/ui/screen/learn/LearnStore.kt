@@ -9,9 +9,8 @@ internal sealed interface LearnAction {
     data object Back: LearnAction
     data object StellarExplorer: LearnAction
     data object HostTypes: LearnAction
-
     data object PlanetTypes: LearnAction
-
+    data object Properties: LearnAction
     data object Mechanics: LearnAction
     data object Habitability: LearnAction
 }
@@ -24,6 +23,7 @@ internal enum class Content {
     MENU,
     HOST_TYPES,
     PLANET_TYPES,
+    PROPERTIES,
     MECHANICS,
     HABITABILITY,
 }
@@ -51,6 +51,7 @@ internal class LearnStore(
                 null, Content.MENU -> navigate(screen = Screen.MAIN_MENU)
                 Content.HOST_TYPES,
                 Content.PLANET_TYPES,
+                Content.PROPERTIES,
                 Content.MECHANICS,
                 Content.HABITABILITY -> updateState { it.copy(currentContent = Content.MENU) }
             }
@@ -63,6 +64,10 @@ internal class LearnStore(
 
             LearnAction.PlanetTypes -> updateState {
                 it.copy(currentContent = Content.PLANET_TYPES)
+            }
+
+            LearnAction.Properties -> updateState {
+                it.copy(currentContent = Content.PROPERTIES)
             }
 
             LearnAction.Mechanics -> updateState {

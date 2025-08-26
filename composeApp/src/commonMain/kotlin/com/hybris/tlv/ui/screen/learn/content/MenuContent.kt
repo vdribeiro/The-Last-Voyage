@@ -47,6 +47,12 @@ internal fun MenuContent(store: Store<LearnAction, LearnState>) {
         )
         Spacer(modifier = Modifier.height(height = 16.dp))
         Text(
+            modifier = Modifier.clickable { store.send(action = LearnAction.Properties) },
+            text = getTranslation(key = "learn_screen__properties"),
+            style = MaterialTheme.typography.headlineMedium,
+        )
+        Spacer(modifier = Modifier.height(height = 16.dp))
+        Text(
             modifier = Modifier.clickable { store.send(action = LearnAction.Mechanics) },
             text = getTranslation(key = "learn_screen__mechanics"),
             style = MaterialTheme.typography.headlineMedium,

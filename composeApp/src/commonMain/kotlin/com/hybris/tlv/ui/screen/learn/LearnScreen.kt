@@ -66,6 +66,7 @@ internal fun LearnScreen(store: Store<LearnAction, LearnState>) {
                     }
                 }
 
+                Content.PROPERTIES -> Section(title = getTranslation(key = "learn_screen__properties"), sections = properties)
                 Content.MECHANICS -> Section(title = getTranslation(key = "learn_screen__mechanics"), sections = mechanics)
                 Content.HABITABILITY -> Section(title = getTranslation(key = "learn_screen__habitability"), sections = habitability)
             }
@@ -371,6 +372,19 @@ private val planets by lazy {
             name = getTranslation(key = "planet_type_ellipsoid_planet"),
             description = getTranslation(key = "planet_type_ellipsoid_planet_description"),
             type = PlanetType.ELLIPSOID_PLANET
+        ),
+    )
+}
+
+private val properties by lazy {
+    listOf(
+        Section(
+            title = getTranslation(key = "learn_screen__properties_stellar_host_title"),
+            description = getTranslation(key = "learn_screen__properties_stellar_host_description")
+        ),
+        Section(
+            title = getTranslation(key = "learn_screen__properties_planet_title"),
+            description = getTranslation(key = "learn_screen__properties_planet_description")
         ),
     )
 }

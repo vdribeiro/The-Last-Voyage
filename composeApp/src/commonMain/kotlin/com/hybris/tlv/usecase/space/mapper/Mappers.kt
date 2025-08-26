@@ -30,8 +30,6 @@ import thelastvoyage.composeapp.generated.resources.K
 import thelastvoyage.composeapp.generated.resources.L
 import thelastvoyage.composeapp.generated.resources.M
 import thelastvoyage.composeapp.generated.resources.O
-import thelastvoyage.composeapp.generated.resources.P
-import thelastvoyage.composeapp.generated.resources.Q
 import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.S
 import thelastvoyage.composeapp.generated.resources.T
@@ -395,8 +393,6 @@ internal fun String?.spectralTypeToDrawable(): DrawableResource =
         "K" -> Res.drawable.K
         "M" -> Res.drawable.M
         "W" -> Res.drawable.W
-        "Q" -> Res.drawable.Q
-        "P" -> Res.drawable.P
         "L" -> Res.drawable.L
         "T" -> Res.drawable.T
         "Y" -> Res.drawable.Y

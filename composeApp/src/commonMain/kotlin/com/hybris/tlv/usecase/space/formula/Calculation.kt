@@ -564,11 +564,11 @@ internal object Calculation {
             'A' -> 0.4            // Short-lived and significant UV radiation
             'B' -> 0.2            // Very short-lived and high UV radiation
             'O' -> 0.1            // Extremely short-lived and high UV radiation
+            'C', 'S' -> 0.2       // Carbon, S-type stars: Evolved, unstable giants
             'L', 'T', 'Y' -> 0.1  // Brown Dwarfs: Unstable HZ
             'D' -> 0.1            // White Dwarfs: Remnant cores, harsh radiation
-            'C', 'S' -> 0.2       // Carbon/S-type stars: Evolved, unstable giants
-            'W', 'Q', 'P' -> 0.05 // Catastrophically hostile or unstable stars
-            else -> 0.3           // Other rare types
+            'W' -> 0.1            // Catastrophically hostile or unstable stars
+            else -> 0.1           // Other rare types
         }
 
         // A small penalty is applied for subtypes farther away from 5.
