@@ -20,7 +20,7 @@ internal sealed interface MainMenuAction {
 internal data class MainMenuState(
     val ongoingGameSession: Boolean = false,
     val developerCorner: String? = null,
-    val tip: String? = null
+    val tip: String? = null,
 )
 
 internal class MainMenuStore(
@@ -46,7 +46,7 @@ internal class MainMenuStore(
             it.copy(
                 ongoingGameSession = ongoingGameSession,
                 developerCorner = developerCorner,
-                tip = tip
+                tip = tip,
             )
         }
     }

@@ -77,7 +77,9 @@ private fun MainMenuScreenPreview() {
         Screen(
             screen = Screen.MAIN_MENU,
             state = MainMenuState(
-                ongoingGameSession = false
+                ongoingGameSession = false,
+                developerCorner = "link",
+                tip = "link",
             )
         )
     }
@@ -90,7 +92,7 @@ private fun MainMenuContinueScreenPreview() {
         Screen(
             screen = Screen.MAIN_MENU,
             state = MainMenuState(
-                ongoingGameSession = true
+                ongoingGameSession = true,
             )
         )
     }

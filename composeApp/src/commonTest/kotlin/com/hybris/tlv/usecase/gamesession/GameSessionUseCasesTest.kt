@@ -163,7 +163,7 @@ internal class GameSessionUseCasesTest {
 
         val gameSessionSettled = gameSession.copy(
             settledPlanetId = planets.random().id,
-            finalHabitability = 80.0
+            finalHabitability = Random.nextDouble(until = 100.0)
         )
         mock.useCases.gameSession.updateGameSession(gameSession = gameSessionSettled)
         assertTrue(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSessionSettled))
