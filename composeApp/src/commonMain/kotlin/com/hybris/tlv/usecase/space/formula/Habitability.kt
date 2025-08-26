@@ -46,7 +46,7 @@ import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-internal object Calculation {
+internal object Habitability {
 
     /**
      * Calculates the habitability score for a given planet in a stellarHost.

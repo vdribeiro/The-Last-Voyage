@@ -10,7 +10,7 @@ import com.hybris.tlv.ui.screen.stellarexplorer.model.getPlanetsComparator
 import com.hybris.tlv.ui.screen.stellarexplorer.model.getStellarHostComparator
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.SpaceUseCases
-import com.hybris.tlv.usecase.space.formula.Calculation
+import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
@@ -74,13 +74,13 @@ internal class StellarExplorerStore(
     private fun setup() = launchInPipeline {
         val stellarHosts = spaceUseCases.getExoplanets().apply {
             forEach { stellarHost ->
-                stellarHost.score = Calculation.calculateScores(
+                stellarHost.score = Habitability.calculateScores(
                     stellarHost = stellarHost,
                     planet = null,
                     formula = Formula()
                 )
                 stellarHost.planets.forEach { planet ->
-                    planet.score = Calculation.calculateScores(
+                    planet.score = Habitability.calculateScores(
                         stellarHost = stellarHost,
                         planet = planet,
                         formula = Formula()

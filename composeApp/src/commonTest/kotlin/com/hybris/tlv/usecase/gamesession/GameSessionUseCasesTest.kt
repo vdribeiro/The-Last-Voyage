@@ -7,7 +7,7 @@ import com.hybris.tlv.mock.hostsWithPlanets
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.usecase.gamesession.model.GameOver
-import com.hybris.tlv.usecase.space.formula.Calculation
+import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
 import kotlin.math.ceil
 import kotlin.random.Random
@@ -73,7 +73,7 @@ internal class GameSessionUseCasesTest {
         val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val stellarHost = hostsWithPlanets.filter { it.planets.isNotEmpty() }.random()
         val planet = stellarHost.planets.random().apply {
-            score = Calculation.calculateScores(
+            score = Habitability.calculateScores(
                 stellarHost = stellarHost,
                 planet = this,
                 formula = Formula()
@@ -163,7 +163,7 @@ internal class GameSessionUseCasesTest {
 
         val gameSessionSettled = gameSession.copy(
             settledPlanetId = planets.random().id,
-            finalHabitability = Random.nextDouble(until = 100.0)
+            finalHabitability = 80.0
         )
         mock.useCases.gameSession.updateGameSession(gameSession = gameSessionSettled)
         assertTrue(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSessionSettled))

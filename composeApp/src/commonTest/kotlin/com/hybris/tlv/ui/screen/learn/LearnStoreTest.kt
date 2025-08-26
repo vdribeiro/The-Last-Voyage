@@ -35,6 +35,21 @@ internal class LearnStoreTest {
         val learnStore = store
         assertEquals(expected = Content.MENU, actual = learnStore.stateFlow.value.currentContent)
 
+        learnStore.send(action = LearnAction.HostTypes)
+        assertEquals(expected = Content.HOST_TYPES, actual = learnStore.stateFlow.value.currentContent)
+        learnStore.send(action = LearnAction.Back)
+        assertEquals(expected = Content.MENU, actual = learnStore.stateFlow.value.currentContent)
+
+        learnStore.send(action = LearnAction.PlanetTypes)
+        assertEquals(expected = Content.PLANET_TYPES, actual = learnStore.stateFlow.value.currentContent)
+        learnStore.send(action = LearnAction.Back)
+        assertEquals(expected = Content.MENU, actual = learnStore.stateFlow.value.currentContent)
+
+        learnStore.send(action = LearnAction.Properties)
+        assertEquals(expected = Content.PROPERTIES, actual = learnStore.stateFlow.value.currentContent)
+        learnStore.send(action = LearnAction.Back)
+        assertEquals(expected = Content.MENU, actual = learnStore.stateFlow.value.currentContent)
+
         learnStore.send(action = LearnAction.Mechanics)
         assertEquals(expected = Content.MECHANICS, actual = learnStore.stateFlow.value.currentContent)
         learnStore.send(action = LearnAction.Back)
@@ -42,11 +57,6 @@ internal class LearnStoreTest {
 
         learnStore.send(action = LearnAction.Habitability)
         assertEquals(expected = Content.HABITABILITY, actual = learnStore.stateFlow.value.currentContent)
-        learnStore.send(action = LearnAction.Back)
-        assertEquals(expected = Content.MENU, actual = learnStore.stateFlow.value.currentContent)
-
-        learnStore.send(action = LearnAction.PlanetTypes)
-        assertEquals(expected = Content.PLANET_TYPES, actual = learnStore.stateFlow.value.currentContent)
         learnStore.send(action = LearnAction.Back)
         assertEquals(expected = Content.MENU, actual = learnStore.stateFlow.value.currentContent)
 
