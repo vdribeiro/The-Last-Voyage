@@ -22,6 +22,8 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.translation.getTranslation
+import java.util.concurrent.atomic.AtomicBoolean
+import javafx.application.Platform
 
 private val dispatcher: Dispatcher by lazy {
     Dispatchers()
@@ -58,10 +60,13 @@ private val navigation: NavigationManager by lazy {
     )
 }
 
+private val isJfxInitialized = AtomicBoolean(false)
+
 val LocalWindowState = staticCompositionLocalOf<WindowState?> { null }
 
 fun main() = application {
     val windowState = rememberWindowState(placement = WindowPlacement.Maximized)
+    if (!isJfxInitialized.getAndSet(true)) Platform.startup {}
 
     CompositionLocalProvider(value = LocalWindowState provides windowState) {
         Window(

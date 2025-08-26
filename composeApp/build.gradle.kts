@@ -168,7 +168,7 @@ compose.desktop {
         nativeDistributions {
             packageName = "The Last Voyage"
             packageVersion = "1.0.0"
-            description = "A Compose Multiplatform adventure."
+            description = "An Educational Space adventure."
             vendor = appId
 
             targetFormats(
