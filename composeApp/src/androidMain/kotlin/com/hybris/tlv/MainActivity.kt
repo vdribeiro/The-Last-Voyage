@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.backhandler.BackHandler
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.flow.Dispatcher
@@ -57,13 +55,9 @@ private val navigation: NavigationManager by lazy {
 
 class MainActivity: ComponentActivity() {
 
-    @OptIn(ExperimentalComposeUiApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            BackHandler(enabled = true) { navigation.back() }
-            App(navigation = navigation)
-        }
+        setContent { App(navigation = navigation) }
     }
 }

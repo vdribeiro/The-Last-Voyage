@@ -7,6 +7,7 @@ kover = "0.9.1"
 kotlin = "2.2.10"
 kotlinx-serialization = "1.9.0"
 kotlinx-datetime = "0.7.1"
+kotlinx-coroutines = "1.10.2"
 kotlin-ktor = "3.2.3"
 compose-multiplatform = "1.8.2"
 sqldelight = "2.1.0"
@@ -20,6 +21,7 @@ android-compileSdk = "35"
 android-startup = "1.2.0"
 androidx-exoplayer = "1.8.0"
 javafx = "21.0.2"
+logging = "2.0.17"
 
 [plugins]
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
@@ -46,6 +48,7 @@ kotlin-ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version
 kotlin-ktor-content = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "kotlin-ktor" }
 kotlin-ktor-encoding = { group = "io.ktor", name = "ktor-client-encoding", version.ref = "kotlin-ktor" }
 kotlin-ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "kotlin-ktor" }
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 sqldelight-runtime = { group = "app.cash.sqldelight", name = "runtime", version.ref = "sqldelight" }
 sqldelight-primitives = { group = "app.cash.sqldelight", name = "primitive-adapters", version.ref = "sqldelight" }
 sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
@@ -63,6 +66,7 @@ javafx-base = { group = "org.openjfx", name = "javafx-base", version.ref = "java
 javafx-graphics = { group = "org.openjfx", name = "javafx-graphics", version.ref = "javafx" }
 javafx-media = { group = "org.openjfx", name = "javafx-media", version.ref = "javafx" }
 javafx-swing = { group = "org.openjfx", name = "javafx-swing", version.ref = "javafx" }
+logging = { group = "org.slf4j", name = "slf4j-simple", version.ref = "logging" }
 
 [bundles]
 common = [
@@ -99,4 +103,6 @@ desktop = [
     "kotlin-ktor-cio",
     "sqldelight-jvm",
     "sqldelight-jdbc",
+    "kotlinx-coroutines-swing",
+    "logging",
 ]
