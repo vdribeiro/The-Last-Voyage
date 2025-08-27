@@ -21,12 +21,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.component.AppLogo
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.ic_launcher_background
-import thelastvoyage.composeapp.generated.resources.ic_launcher_foreground
 
 @Composable
 internal fun SplashScreen(store: Store<SplashAction, SplashState>) {
@@ -48,13 +48,9 @@ internal fun SplashScreen(store: Store<SplashAction, SplashState>) {
                 contentScale = ContentScale.Crop,
             )
 
-            Image(
-                modifier = Modifier
-                    .size(size = 200.dp)
-                    .clip(shape = CircleShape),
-                painter = painterResource(resource = Res.drawable.ic_launcher_foreground),
-                contentDescription = "Logo",
-                contentScale = ContentScale.Crop,
+            AppLogo(
+                size = 200,
+                showText = false
             )
 
             val animatedProgress by animateFloatAsState(
@@ -63,7 +59,7 @@ internal fun SplashScreen(store: Store<SplashAction, SplashState>) {
             )
             CircularProgressIndicator(
                 modifier = Modifier
-                    .size(160.dp),
+                    .size(size = 160.dp),
                 progress = { animatedProgress },
             )
 

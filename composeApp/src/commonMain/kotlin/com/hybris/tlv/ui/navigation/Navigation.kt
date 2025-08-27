@@ -21,8 +21,6 @@ import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.screen.game.GameStore
 import com.hybris.tlv.ui.screen.gameover.GameOverState
 import com.hybris.tlv.ui.screen.gameover.GameOverStore
-import com.hybris.tlv.ui.screen.learn.LearnState
-import com.hybris.tlv.ui.screen.learn.LearnStore
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStore
 import com.hybris.tlv.ui.screen.newgame.NewGameState
@@ -72,7 +70,6 @@ internal class Navigation(
         Screen.GAME -> GameScreen(state = state)
         Screen.EVENT -> EventScreen(state = state)
         Screen.GAME_OVER -> GameOverScreen(state = state)
-        Screen.LEARN -> LearnScreen(state = state)
         Screen.STELLAR_EXPLORER -> StellarExplorerScreen(state = state)
         Screen.SCORE -> ScoreScreen(state = state)
         Screen.ACHIEVEMENT -> AchievementScreen(state = state)
@@ -151,15 +148,6 @@ internal class Navigation(
             initialState = state as? GameOverState ?: GameOverState(),
             locale = locale,
             gameSessionUseCases = useCases.gameSession
-        )
-    )
-
-    @Composable
-    private fun LearnScreen(state: Any?) = com.hybris.tlv.ui.screen.learn.LearnScreen(
-        store = LearnStore(
-            dispatcher = dispatcher,
-            navigation = this,
-            initialState = state as? LearnState ?: LearnState(),
         )
     )
 

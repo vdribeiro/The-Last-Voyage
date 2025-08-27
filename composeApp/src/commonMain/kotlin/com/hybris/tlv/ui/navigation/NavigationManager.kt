@@ -13,7 +13,6 @@ internal interface NavigationManager {
         GAME,
         EVENT,
         GAME_OVER,
-        LEARN,
         STELLAR_EXPLORER,
         SCORE,
         ACHIEVEMENT,

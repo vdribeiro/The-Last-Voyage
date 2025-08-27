@@ -47,13 +47,13 @@ internal class StellarExplorerStoreTest {
         assertEquals(actual = NavigationManager.Screen.STELLAR_EXPLORER, expected = mock.navigation.stateFlow.value.screen)
         assertEquals(actual = Content.LIST_HOSTS, expected = stellarExplorerStore.stateFlow.value.currentContent)
         stellarExplorerStore.send(action = StellarExplorerAction.Back)
-        assertEquals(actual = NavigationManager.Screen.LEARN, expected = mock.navigation.stateFlow.value.screen)
+        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
 
         mock.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
         assertEquals(actual = Content.LIST_PLANETS, expected = stellarExplorerStore.stateFlow.value.currentContent)
         stellarExplorerStore.send(action = StellarExplorerAction.Back)
-        assertEquals(actual = NavigationManager.Screen.LEARN, expected = mock.navigation.stateFlow.value.screen)
+        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
 
         stellarExplorerStore.send(action = StellarExplorerAction.OpenPlanet(planet = planets.first()))
         assertEquals(actual = Content.DETAIL_PLANETS, expected = stellarExplorerStore.stateFlow.value.currentContent)

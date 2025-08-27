@@ -36,9 +36,6 @@ internal class NavigationManagerTest {
         mock.navigation.navigate(screen = NavigationManager.Screen.GAME_OVER)
         assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mock.navigation.stateFlow.value.screen)
 
-        mock.navigation.navigate(screen = NavigationManager.Screen.LEARN)
-        assertEquals(expected = NavigationManager.Screen.LEARN, actual = mock.navigation.stateFlow.value.screen)
-
         mock.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
         assertEquals(expected = NavigationManager.Screen.STELLAR_EXPLORER, actual = mock.navigation.stateFlow.value.screen)
 

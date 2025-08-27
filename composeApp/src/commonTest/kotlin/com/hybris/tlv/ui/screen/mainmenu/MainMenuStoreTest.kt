@@ -33,6 +33,7 @@ internal class MainMenuStoreTest {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val mainMenuStore = store
         assertTrue(actual = mainMenuStore.stateFlow.value.ongoingGameSession)
+        assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
     }
 
     @Test
@@ -43,25 +44,58 @@ internal class MainMenuStoreTest {
 
     @Test
     fun `send action change content`() = runBlocking {
-        val gameStore = store
+        val mainMenuStore = store
         assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
+        mainMenuStore.send(action = MainMenuAction.Back)
+        assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
-        gameStore.send(action = MainMenuAction.NewGame)
+        mainMenuStore.send(action = MainMenuAction.Learn)
+        assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
+        mainMenuStore.send(action = MainMenuAction.Back)
+        assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
+
+        mainMenuStore.send(action = MainMenuAction.HostTypes)
+        assertEquals(expected = Content.HOST_TYPES, actual = mainMenuStore.stateFlow.value.currentContent)
+        mainMenuStore.send(action = MainMenuAction.Back)
+        assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
+
+        mainMenuStore.send(action = MainMenuAction.PlanetTypes)
+        assertEquals(expected = Content.PLANET_TYPES, actual = mainMenuStore.stateFlow.value.currentContent)
+        mainMenuStore.send(action = MainMenuAction.Back)
+        assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
+
+        mainMenuStore.send(action = MainMenuAction.Properties)
+        assertEquals(expected = Content.PROPERTIES, actual = mainMenuStore.stateFlow.value.currentContent)
+        mainMenuStore.send(action = MainMenuAction.Back)
+        assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
+
+        mainMenuStore.send(action = MainMenuAction.Mechanics)
+        assertEquals(expected = Content.MECHANICS, actual = mainMenuStore.stateFlow.value.currentContent)
+        mainMenuStore.send(action = MainMenuAction.Back)
+        assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
+
+        mainMenuStore.send(action = MainMenuAction.Habitability)
+        assertEquals(expected = Content.HABITABILITY, actual = mainMenuStore.stateFlow.value.currentContent)
+        mainMenuStore.send(action = MainMenuAction.Back)
+        assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
+
+        mainMenuStore.send(action = MainMenuAction.Back)
+        assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
+
+        mainMenuStore.send(action = MainMenuAction.NewGame)
         assertEquals(expected = NavigationManager.Screen.NEW_GAME, actual = mock.navigation.stateFlow.value.screen)
 
-        gameStore.send(action = MainMenuAction.Continue)
+        mainMenuStore.send(action = MainMenuAction.Continue)
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
 
-        gameStore.send(action = MainMenuAction.Learn)
-        assertEquals(expected = NavigationManager.Screen.LEARN, actual = mock.navigation.stateFlow.value.screen)
-
-        gameStore.send(action = MainMenuAction.Scores)
+        mainMenuStore.send(action = MainMenuAction.Scores)
         assertEquals(expected = NavigationManager.Screen.SCORE, actual = mock.navigation.stateFlow.value.screen)
 
-        gameStore.send(action = MainMenuAction.Achievements)
+        mainMenuStore.send(action = MainMenuAction.Achievements)
         assertEquals(expected = NavigationManager.Screen.ACHIEVEMENT, actual = mock.navigation.stateFlow.value.screen)
 
-        gameStore.send(action = MainMenuAction.Credits)
+        mainMenuStore.send(action = MainMenuAction.Credits)
         assertEquals(expected = NavigationManager.Screen.CREDIT, actual = mock.navigation.stateFlow.value.screen)
     }
 }

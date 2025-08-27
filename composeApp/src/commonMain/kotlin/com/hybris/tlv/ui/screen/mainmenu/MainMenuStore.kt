@@ -9,19 +9,37 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal sealed interface MainMenuAction {
+    data object Back: MainMenuAction
     data object NewGame: MainMenuAction
     data object Continue: MainMenuAction
     data object Learn: MainMenuAction
     data object Scores: MainMenuAction
     data object Achievements: MainMenuAction
     data object Credits: MainMenuAction
+    data object StellarExplorer: MainMenuAction
+    data object HostTypes: MainMenuAction
+    data object PlanetTypes: MainMenuAction
+    data object Properties: MainMenuAction
+    data object Mechanics: MainMenuAction
+    data object Habitability: MainMenuAction
 }
 
 internal data class MainMenuState(
+    val currentContent: Content? = null,
     val ongoingGameSession: Boolean = false,
     val developerCorner: String? = null,
     val tip: String? = null,
 )
+
+internal enum class Content {
+    MAIN_MENU,
+    LEARN_MENU,
+    HOST_TYPES,
+    PLANET_TYPES,
+    PROPERTIES,
+    MECHANICS,
+    HABITABILITY,
+}
 
 internal class MainMenuStore(
     dispatcher: Dispatcher,
@@ -44,6 +62,7 @@ internal class MainMenuStore(
         val tip = remoteConfig.getString(key = Config.Tip)
         updateState {
             it.copy(
+                currentContent = Content.MAIN_MENU,
                 ongoingGameSession = ongoingGameSession,
                 developerCorner = developerCorner,
                 tip = tip,
@@ -53,12 +72,47 @@ internal class MainMenuStore(
 
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
+            MainMenuAction.Back -> when (state.currentContent) {
+                null, Content.MAIN_MENU, Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
+                Content.HOST_TYPES,
+                Content.PLANET_TYPES,
+                Content.PROPERTIES,
+                Content.MECHANICS,
+                Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
+            }
+
             MainMenuAction.NewGame -> navigate(screen = Screen.NEW_GAME)
             MainMenuAction.Continue -> navigate(screen = Screen.GAME)
-            MainMenuAction.Learn -> navigate(screen = Screen.LEARN)
+
+            MainMenuAction.Learn -> updateState {
+                it.copy(currentContent = Content.LEARN_MENU)
+            }
+
             MainMenuAction.Scores -> navigate(screen = Screen.SCORE)
             MainMenuAction.Achievements -> navigate(screen = Screen.ACHIEVEMENT)
             MainMenuAction.Credits -> navigate(screen = Screen.CREDIT)
+
+            MainMenuAction.StellarExplorer -> navigate(screen = Screen.STELLAR_EXPLORER)
+
+            MainMenuAction.HostTypes -> updateState {
+                it.copy(currentContent = Content.HOST_TYPES)
+            }
+
+            MainMenuAction.PlanetTypes -> updateState {
+                it.copy(currentContent = Content.PLANET_TYPES)
+            }
+
+            MainMenuAction.Properties -> updateState {
+                it.copy(currentContent = Content.PROPERTIES)
+            }
+
+            MainMenuAction.Mechanics -> updateState {
+                it.copy(currentContent = Content.MECHANICS)
+            }
+
+            MainMenuAction.Habitability -> updateState {
+                it.copy(currentContent = Content.HABITABILITY)
+            }
         }
     }
 }

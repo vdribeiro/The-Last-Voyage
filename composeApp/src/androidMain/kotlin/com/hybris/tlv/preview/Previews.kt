@@ -18,7 +18,6 @@ import com.hybris.tlv.ui.screen.error.ErrorState
 import com.hybris.tlv.ui.screen.event.EventState
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.screen.gameover.GameOverState
-import com.hybris.tlv.ui.screen.learn.LearnState
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.screen.newgame.NewGameState
 import com.hybris.tlv.ui.screen.score.ScoreState
@@ -30,7 +29,7 @@ import database.AppDatabase
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.ui.screen.game.Content as GameContent
 import com.hybris.tlv.ui.screen.gameover.Content as GameOverContent
-import com.hybris.tlv.ui.screen.learn.Content as LearnContent
+import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 import com.hybris.tlv.ui.screen.newgame.Content as NewGameContent
 import com.hybris.tlv.ui.screen.stellarexplorer.Content as StellarExplorerContent
 
@@ -77,6 +76,7 @@ private fun MainMenuScreenPreview() {
         Screen(
             screen = Screen.MAIN_MENU,
             state = MainMenuState(
+                currentContent = MainMenuContent.MAIN_MENU,
                 ongoingGameSession = false,
                 developerCorner = "link",
                 tip = "link",
@@ -92,7 +92,86 @@ private fun MainMenuContinueScreenPreview() {
         Screen(
             screen = Screen.MAIN_MENU,
             state = MainMenuState(
+                currentContent = MainMenuContent.MAIN_MENU,
                 ongoingGameSession = true,
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun MainMenuLearnScreenPreview() {
+    AppTheme {
+        Screen(
+            screen = Screen.MAIN_MENU,
+            state = MainMenuState(
+                currentContent = MainMenuContent.LEARN_MENU,
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun MainMenuHostsScreenPreview() {
+    AppTheme {
+        Screen(
+            screen = Screen.MAIN_MENU,
+            state = MainMenuState(
+                currentContent = MainMenuContent.HOST_TYPES,
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun MainMenuPlanetsScreenPreview() {
+    AppTheme {
+        Screen(
+            screen = Screen.MAIN_MENU,
+            state = MainMenuState(
+                currentContent = MainMenuContent.PLANET_TYPES,
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun MainMenuPropertiesScreenPreview() {
+    AppTheme {
+        Screen(
+            screen = Screen.MAIN_MENU,
+            state = MainMenuState(
+                currentContent = MainMenuContent.PROPERTIES,
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun MainMenuMechanicsScreenPreview() {
+    AppTheme {
+        Screen(
+            screen = Screen.MAIN_MENU,
+            state = MainMenuState(
+                currentContent = MainMenuContent.MECHANICS,
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun MainMenuHabitabilityScreenPreview() {
+    AppTheme {
+        Screen(
+            screen = Screen.MAIN_MENU,
+            state = MainMenuState(
+                currentContent = MainMenuContent.HABITABILITY,
             )
         )
     }
@@ -226,45 +305,6 @@ private fun GameOverScoreScreenPreview() {
             state = GameOverState(
                 currentContent = GameOverContent.SCORE,
                 gameSession = gameSession,
-            )
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun LearnScreenPreview() {
-    AppTheme {
-        Screen(
-            screen = Screen.LEARN,
-            state = LearnState(
-                currentContent = LearnContent.MENU,
-            )
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun LearnMechanicsScreenPreview() {
-    AppTheme {
-        Screen(
-            screen = Screen.LEARN,
-            state = LearnState(
-                currentContent = LearnContent.MECHANICS,
-            )
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun LearnHabitabilityScreenPreview() {
-    AppTheme {
-        Screen(
-            screen = Screen.LEARN,
-            state = LearnState(
-                currentContent = LearnContent.HABITABILITY,
             )
         )
     }
