@@ -100,16 +100,15 @@ internal class GameStoreTest {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        val gameStore = store
+        store
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
-        gameStore.send(action = GameAction.Back)
+        mock.navigation.back()
         assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
     }
 
     @Test
     fun `send action change tab`() = runBlocking {
         val gameStore = store
-        assertEquals(expected = null, actual = gameStore.stateFlow.value.currentContent)
 
         gameStore.send(action = GameAction.ChangeTab(Content.SYSTEM))
         assertEquals(expected = Content.SYSTEM, actual = gameStore.stateFlow.value.currentContent)

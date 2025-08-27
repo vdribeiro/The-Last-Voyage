@@ -48,12 +48,4 @@ internal class NavigationManagerTest {
         mock.navigation.navigate(screen = NavigationManager.Screen.CREDIT)
         assertEquals(expected = NavigationManager.Screen.CREDIT, actual = mock.navigation.stateFlow.value.screen)
     }
-
-    @Test
-    fun `set music`() = runBlocking {
-        mock.navigation.setMusic(enabled = true)
-        assertTrue(actual = mock.navigation.stateFlow.value.music)
-        mock.navigation.setMusic(enabled = false)
-        assertFalse(actual = mock.navigation.stateFlow.value.music)
-    }
 }

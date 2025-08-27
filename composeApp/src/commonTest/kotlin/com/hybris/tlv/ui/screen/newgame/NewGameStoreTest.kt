@@ -44,23 +44,23 @@ internal class NewGameStoreTest {
         val newGameStore = store
         assertEquals(actual = NavigationManager.Screen.NEW_GAME, expected = mock.navigation.stateFlow.value.screen)
         assertEquals(actual = Content.SHIP, expected = newGameStore.stateFlow.value.currentContent)
-        newGameStore.send(action = NewGameAction.Back)
+        mock.navigation.back()
         assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
 
         newGameStore.send(action = NewGameAction.Ship)
         assertEquals(actual = Content.SHIP, expected = newGameStore.stateFlow.value.currentContent)
-        newGameStore.send(action = NewGameAction.Back)
+        mock.navigation.back()
         assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
 
         newGameStore.send(action = NewGameAction.Advanced)
         assertEquals(actual = Content.ADVANCED, expected = newGameStore.stateFlow.value.currentContent)
-        newGameStore.send(action = NewGameAction.Back)
+        mock.navigation.back()
         assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
 
         newGameStore.send(action = NewGameAction.Start)
         assertEquals(actual = Content.START, expected = newGameStore.stateFlow.value.currentContent)
         assertNotNull(actual = newGameStore.stateFlow.value.selectedCatastrophe)
-        newGameStore.send(action = NewGameAction.Back)
+        mock.navigation.back()
         assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
     }
 

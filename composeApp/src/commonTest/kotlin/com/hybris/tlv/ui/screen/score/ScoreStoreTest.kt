@@ -37,9 +37,9 @@ internal class ScoreStoreTest {
 
     @Test
     fun `send action back`() = runBlocking {
-        val scoreStore = store
+        store
         assertEquals(actual = NavigationManager.Screen.SCORE, expected = mock.navigation.stateFlow.value.screen)
-        scoreStore.send(action = ScoreAction.Back)
+        mock.navigation.back()
         assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
     }
 }

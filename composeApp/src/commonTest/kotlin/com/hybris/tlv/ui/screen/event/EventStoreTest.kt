@@ -63,9 +63,9 @@ internal class EventStoreTest {
     fun `send action back`() = runBlocking {
         mock.internalEvent.syncEvents()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        val eventStore = store
+        store
         assertEquals(expected = NavigationManager.Screen.EVENT, actual = mock.navigation.stateFlow.value.screen)
-        eventStore.send(action = EventAction.Back)
+        mock.navigation.back()
         assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
     }
 
