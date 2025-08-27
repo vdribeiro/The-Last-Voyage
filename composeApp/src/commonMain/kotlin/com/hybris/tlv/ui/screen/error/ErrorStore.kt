@@ -7,7 +7,6 @@ import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 
 internal sealed interface ErrorAction {
-    data object Back: ErrorAction
     data class SendFeedback(val message: String): ErrorAction
 }
 
@@ -20,15 +19,18 @@ internal data class ErrorState(
 internal class ErrorStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: ErrorState,
+    initialState: ErrorState?,
 ): Store<ErrorAction, ErrorState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = initialState ?: ErrorState()
 ) {
+    override fun setBackNavigation(state: ErrorState): () -> Unit = {
+        navigate(screen = Screen.MAIN_MENU)
+    }
+
     override fun reducer(state: ErrorState, action: ErrorAction) {
         when (action) {
-            ErrorAction.Back -> navigate(screen = Screen.MAIN_MENU)
             is ErrorAction.SendFeedback -> Logger.error(message = action.message) // TODO: Send feedback to server
         }
     }

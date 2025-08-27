@@ -25,7 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -38,10 +37,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
     val storeState by store.stateFlow.collectAsState()
-
     val uriHandler = LocalUriHandler.current
-
-    BackHandler(enabled = true) { store.send(action = CreditAction.Back) }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {

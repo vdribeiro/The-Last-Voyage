@@ -4,8 +4,6 @@ import androidx.compose.runtime.Composable
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.locale.Locale
-import com.hybris.tlv.storage.Config
-import com.hybris.tlv.storage.LocalConfig
 import com.hybris.tlv.storage.RemoteConfig
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.navigation.NavigationManager.State
@@ -39,23 +37,17 @@ import kotlinx.coroutines.flow.update
 internal class Navigation(
     val dispatcher: Dispatcher,
     val locale: Locale,
-    val localConfig: LocalConfig,
     val remoteConfig: RemoteConfig,
     val useCases: UseCases
 ): NavigationManager {
 
-    private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(
-        value = State(music = localConfig.getBoolean(key = Config.Music))
-    )
+    private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = State())
     override val stateFlow: StateFlow<State> get() = _stateFlow
+
+    override var back: () -> Unit = {}
 
     override fun navigate(screen: Screen, state: Any?) {
         dispatcher.main.launch { _stateFlow.update { it.copy(screen = screen, state = state) } }
-    }
-
-    override fun setMusic(enabled: Boolean) {
-        localConfig.put(key = Config.Music, value = enabled)
-        dispatcher.main.launch { _stateFlow.update { it.copy(music = enabled) } }
     }
 
     @Composable
@@ -81,7 +73,7 @@ internal class Navigation(
         store = ErrorStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? ErrorState ?: ErrorState()
+            initialState = state as? ErrorState
         )
     )
 
@@ -90,7 +82,7 @@ internal class Navigation(
         store = SplashStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? SplashState ?: SplashState(),
+            initialState = state as? SplashState,
             syncUseCases = useCases.sync
         )
     )
@@ -100,7 +92,7 @@ internal class Navigation(
         store = MainMenuStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? MainMenuState ?: MainMenuState(),
+            initialState = state as? MainMenuState,
             remoteConfig = remoteConfig,
             gameSessionUseCases = useCases.gameSession
         )
@@ -111,7 +103,7 @@ internal class Navigation(
         store = NewGameStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? NewGameState ?: NewGameState(),
+            initialState = state as? NewGameState,
             earthUseCases = useCases.earth,
             gameSessionUseCases = useCases.gameSession
         )
@@ -122,7 +114,7 @@ internal class Navigation(
         store = GameStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? GameState ?: GameState(),
+            initialState = state as? GameState,
             shipUseCases = useCases.ship,
             spaceUseCases = useCases.space,
             gameSessionUseCases = useCases.gameSession
@@ -134,7 +126,7 @@ internal class Navigation(
         store = EventStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? EventState ?: EventState(),
+            initialState = state as? EventState,
             eventUseCases = useCases.event,
             gameSessionUseCases = useCases.gameSession
         )
@@ -145,7 +137,7 @@ internal class Navigation(
         store = GameOverStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? GameOverState ?: GameOverState(),
+            initialState = state as? GameOverState,
             locale = locale,
             gameSessionUseCases = useCases.gameSession
         )
@@ -156,7 +148,7 @@ internal class Navigation(
         store = StellarExplorerStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? StellarExplorerState ?: StellarExplorerState(),
+            initialState = state as? StellarExplorerState,
             spaceUseCases = useCases.space,
         )
     )
@@ -166,7 +158,7 @@ internal class Navigation(
         store = ScoreStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? ScoreState ?: ScoreState(),
+            initialState = state as? ScoreState,
             locale = locale,
             gameSessionUseCases = useCases.gameSession
         )
@@ -177,7 +169,7 @@ internal class Navigation(
         store = AchievementStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? AchievementState ?: AchievementState(),
+            initialState = state as? AchievementState,
             achievementUseCases = useCases.achievement
         )
     )
@@ -187,7 +179,7 @@ internal class Navigation(
         store = CreditStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? CreditState ?: CreditState(),
+            initialState = state as? CreditState,
             creditUseCases = useCases.credit
         )
     )

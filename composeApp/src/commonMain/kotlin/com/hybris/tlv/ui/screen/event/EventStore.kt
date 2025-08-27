@@ -12,7 +12,6 @@ import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 
 internal sealed interface EventAction {
-    data object Back: EventAction
     data class Select(val event: Event?): EventAction
 }
 
@@ -26,16 +25,16 @@ internal data class EventState(
 internal class EventStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: EventState,
+    initialState: EventState?,
     private val eventUseCases: EventUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<EventAction, EventState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = initialState ?: EventState()
 ) {
     init {
-        setup()
+        if (initialState == null) setup()
     }
 
     private fun setup() = launchInPipeline {
@@ -120,9 +119,12 @@ internal class EventStore(
         }
     }
 
+    override fun setBackNavigation(state: EventState): () -> Unit = {
+        navigate(screen = Screen.MAIN_MENU)
+    }
+
     override fun reducer(state: EventState, action: EventAction) {
         when (action) {
-            EventAction.Back -> navigate(screen = Screen.MAIN_MENU)
             is EventAction.Select -> select(state = state, action = action)
         }
     }

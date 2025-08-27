@@ -7,9 +7,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.achievement.model.Achievement
 
-internal sealed interface AchievementAction {
-    data object Back: AchievementAction
-}
+internal sealed interface AchievementAction
 
 internal data class AchievementState(
     val achievements: List<Achievement> = emptyList()
@@ -18,15 +16,15 @@ internal data class AchievementState(
 internal class AchievementStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: AchievementState,
+    initialState: AchievementState?,
     private val achievementUseCases: AchievementUseCases
 ): Store<AchievementAction, AchievementState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = initialState ?: AchievementState()
 ) {
     init {
-        setup()
+        if (initialState == null) setup()
     }
 
     private fun setup() = launchInPipeline {
@@ -34,9 +32,9 @@ internal class AchievementStore(
         updateState { it.copy(achievements = achievements) }
     }
 
-    override fun reducer(state: AchievementState, action: AchievementAction) {
-        when (action) {
-            AchievementAction.Back -> navigate(screen = Screen.MAIN_MENU)
-        }
+    override fun setBackNavigation(state: AchievementState): () -> Unit = {
+        navigate(screen = Screen.MAIN_MENU)
     }
+
+    override fun reducer(state: AchievementState, action: AchievementAction) {}
 }

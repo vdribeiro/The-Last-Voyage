@@ -1,5 +1,8 @@
 package com.hybris.tlv.storage
 
+/**
+ * Remote configurations.
+ */
 internal interface RemoteConfig {
 
     /**

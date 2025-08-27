@@ -16,7 +16,6 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal sealed interface StellarExplorerAction {
-    data object Back: StellarExplorerAction
     data class SaveIndex(val index: LazyListIndex): StellarExplorerAction
 
     data object ChangeView: StellarExplorerAction
@@ -32,7 +31,7 @@ internal sealed interface StellarExplorerAction {
 }
 
 internal data class StellarExplorerState(
-    val currentContent: Content? = null,
+    val currentContent: Content = Content.LIST_HOSTS,
     val stellarHosts: List<StellarHost> = emptyList(),
     val planets: List<Planet> = emptyList(),
     val listIndex: LazyListIndex = LazyListIndex(),
@@ -60,15 +59,15 @@ internal enum class Content {
 internal class StellarExplorerStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: StellarExplorerState,
+    initialState: StellarExplorerState?,
     private val spaceUseCases: SpaceUseCases,
 ): Store<StellarExplorerAction, StellarExplorerState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = initialState ?: StellarExplorerState()
 ) {
     init {
-        setup()
+        if (initialState == null) setup()
     }
 
     private fun setup() = launchInPipeline {
@@ -92,7 +91,6 @@ internal class StellarExplorerStore(
             .sortedWith(comparator = compareBy(comparator = nullsLast()) { it.name })
         updateState {
             it.copy(
-                currentContent = Content.LIST_HOSTS,
                 stellarHosts = stellarHosts,
                 planets = planets,
                 filteredStellarHosts = stellarHosts,
@@ -158,28 +156,29 @@ internal class StellarExplorerStore(
             }
         } else planets
 
-    override fun reducer(state: StellarExplorerState, action: StellarExplorerAction) {
-        when (action) {
-            StellarExplorerAction.Back -> when (state.currentContent) {
-                null,
-                Content.LIST_HOSTS,
-                Content.LIST_PLANETS -> navigate(screen = Screen.MAIN_MENU)
+    override fun setBackNavigation(state: StellarExplorerState): () -> Unit = {
+        when (state.currentContent) {
+            Content.LIST_HOSTS,
+            Content.LIST_PLANETS -> navigate(screen = Screen.MAIN_MENU)
 
-                Content.DETAIL_HOSTS -> updateState {
-                    it.copy(
-                        currentContent = Content.LIST_HOSTS,
-                        selectedStellarHost = null
-                    )
-                }
-
-                Content.DETAIL_PLANETS -> updateState {
-                    it.copy(
-                        currentContent = Content.LIST_PLANETS,
-                        selectedPlanet = null
-                    )
-                }
+            Content.DETAIL_HOSTS -> updateState {
+                it.copy(
+                    currentContent = Content.LIST_HOSTS,
+                    selectedStellarHost = null
+                )
             }
 
+            Content.DETAIL_PLANETS -> updateState {
+                it.copy(
+                    currentContent = Content.LIST_PLANETS,
+                    selectedPlanet = null
+                )
+            }
+        }
+    }
+
+    override fun reducer(state: StellarExplorerState, action: StellarExplorerAction) {
+        when (action) {
             is StellarExplorerAction.SaveIndex -> updateState {
                 it.copy(listIndex = action.index)
             }
@@ -208,7 +207,7 @@ internal class StellarExplorerStore(
                         send(action = StellarExplorerAction.SortPlanets(sort = state.sortPlanetProperty))
                     }
 
-                    null, Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
+                    Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
                 }
             }
 
@@ -240,7 +239,7 @@ internal class StellarExplorerStore(
                         }
                     }
 
-                    null, Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
+                    Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
                 }
             }
 
@@ -297,7 +296,7 @@ internal class StellarExplorerStore(
                 when (state.currentContent) {
                     Content.LIST_HOSTS -> send(action = StellarExplorerAction.SortStellarHosts(sort = state.sortStellarHostProperty))
                     Content.LIST_PLANETS -> send(action = StellarExplorerAction.SortPlanets(sort = state.sortPlanetProperty))
-                    null, Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
+                    Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
                 }
             }
 

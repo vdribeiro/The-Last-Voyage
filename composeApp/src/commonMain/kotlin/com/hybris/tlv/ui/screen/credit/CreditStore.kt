@@ -7,9 +7,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.credit.CreditUseCases
 import com.hybris.tlv.usecase.credit.model.Credit
 
-internal sealed interface CreditAction {
-    data object Back: CreditAction
-}
+internal sealed interface CreditAction
 
 internal data class CreditState(
     val credits: List<Credit> = emptyList(),
@@ -18,15 +16,15 @@ internal data class CreditState(
 internal class CreditStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: CreditState,
+    initialState: CreditState?,
     private val creditUseCases: CreditUseCases
 ): Store<CreditAction, CreditState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = initialState ?: CreditState()
 ) {
     init {
-        setup()
+        if (initialState == null) setup()
     }
 
     private fun setup() = launchInPipeline {
@@ -34,9 +32,9 @@ internal class CreditStore(
         updateState { it.copy(credits = credits) }
     }
 
-    override fun reducer(state: CreditState, action: CreditAction) {
-        when (action) {
-            CreditAction.Back -> navigate(screen = Screen.MAIN_MENU)
-        }
+    override fun setBackNavigation(state: CreditState): () -> Unit = {
+        navigate(screen = Screen.MAIN_MENU)
     }
+
+    override fun reducer(state: CreditState, action: CreditAction) {}
 }

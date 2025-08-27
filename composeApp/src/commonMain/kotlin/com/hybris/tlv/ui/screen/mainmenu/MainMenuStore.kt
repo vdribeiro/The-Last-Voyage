@@ -9,7 +9,6 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal sealed interface MainMenuAction {
-    data object Back: MainMenuAction
     data object NewGame: MainMenuAction
     data object Continue: MainMenuAction
     data object Learn: MainMenuAction
@@ -25,7 +24,7 @@ internal sealed interface MainMenuAction {
 }
 
 internal data class MainMenuState(
-    val currentContent: Content? = null,
+    val currentContent: Content = Content.MAIN_MENU,
     val ongoingGameSession: Boolean = false,
     val developerCorner: String? = null,
     val tip: String? = null,
@@ -44,16 +43,16 @@ internal enum class Content {
 internal class MainMenuStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: MainMenuState,
+    initialState: MainMenuState?,
     private val remoteConfig: RemoteConfig,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<MainMenuAction, MainMenuState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = initialState ?: MainMenuState()
 ) {
     init {
-        setup()
+        if (initialState == null) setup()
     }
 
     private fun setup() = launchInPipeline {
@@ -62,7 +61,6 @@ internal class MainMenuStore(
         val tip = remoteConfig.getString(key = Config.Tip)
         updateState {
             it.copy(
-                currentContent = Content.MAIN_MENU,
                 ongoingGameSession = ongoingGameSession,
                 developerCorner = developerCorner,
                 tip = tip,
@@ -70,17 +68,19 @@ internal class MainMenuStore(
         }
     }
 
+    override fun setBackNavigation(state: MainMenuState) = {
+        when (state.currentContent) {
+            Content.MAIN_MENU, Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
+            Content.HOST_TYPES,
+            Content.PLANET_TYPES,
+            Content.PROPERTIES,
+            Content.MECHANICS,
+            Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
+        }.let {}
+    }
+
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
-            MainMenuAction.Back -> when (state.currentContent) {
-                null, Content.MAIN_MENU, Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
-                Content.HOST_TYPES,
-                Content.PLANET_TYPES,
-                Content.PROPERTIES,
-                Content.MECHANICS,
-                Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
-            }
-
             MainMenuAction.NewGame -> navigate(screen = Screen.NEW_GAME)
             MainMenuAction.Continue -> navigate(screen = Screen.GAME)
 

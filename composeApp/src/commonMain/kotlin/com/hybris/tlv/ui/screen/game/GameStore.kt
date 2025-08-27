@@ -9,14 +9,12 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.ShipUseCases
-import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal sealed interface GameAction {
-    data object Back: GameAction
     data class ChangeTab(val content: Content): GameAction
     data class Travel(val stellarHost: StellarHost): GameAction
     data class Settle(val planet: Planet): GameAction
@@ -24,8 +22,7 @@ internal sealed interface GameAction {
 
 internal data class GameState(
     val gameSession: GameSession? = null,
-    val currentContent: Content? = null,
-    val engine: Engine? = null,
+    val currentContent: Content = Content.SYSTEM,
     val stellarHosts: List<StellarHost> = emptyList(),
     val currentStellarHost: StellarHost? = null,
     val nearStellarHosts: List<StellarHost> = emptyList(),
@@ -41,17 +38,17 @@ internal enum class Content {
 internal class GameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: GameState,
+    initialState: GameState?,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameAction, GameState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = initialState ?: GameState()
 ) {
     init {
-        setup()
+        if (initialState == null) setup()
     }
 
     private fun setup() = launchInPipeline {
@@ -137,7 +134,6 @@ internal class GameStore(
         updateState {
             it.copy(
                 gameSession = updatedGameSession,
-                currentContent = Content.SYSTEM,
                 stellarHosts = stellarHosts,
                 currentStellarHost = currentStellarHost,
                 nearStellarHosts = nearStellarHosts,
@@ -194,14 +190,13 @@ internal class GameStore(
         navigate(screen = Screen.GAME_OVER)
     }
 
+    override fun setBackNavigation(state: GameState): () -> Unit = {
+        navigate(screen = Screen.MAIN_MENU)
+    }
+
     override fun reducer(state: GameState, action: GameAction) {
         when (action) {
-            GameAction.Back -> navigate(screen = Screen.MAIN_MENU)
-
-            is GameAction.ChangeTab -> updateState {
-                it.copy(currentContent = action.content)
-            }
-
+            is GameAction.ChangeTab -> updateState { it.copy(currentContent = action.content) }
             is GameAction.Travel -> travel(state = state, action = action)
             is GameAction.Settle -> settle(state = state, action = action)
         }

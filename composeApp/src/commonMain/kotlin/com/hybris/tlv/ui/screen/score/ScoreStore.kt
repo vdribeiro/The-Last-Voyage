@@ -8,9 +8,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 
-internal sealed interface ScoreAction {
-    data object Back: ScoreAction
-}
+internal sealed interface ScoreAction
 
 internal data class ScoreState(
     val scores: List<GameSession> = emptyList(),
@@ -19,16 +17,16 @@ internal data class ScoreState(
 internal class ScoreStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: ScoreState,
+    initialState: ScoreState?,
     private val locale: Locale,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<ScoreAction, ScoreState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = initialState ?: ScoreState()
 ) {
     init {
-        setup()
+        if (initialState == null) setup()
     }
 
     private fun setup() = launchInPipeline {
@@ -39,9 +37,9 @@ internal class ScoreStore(
         updateState { it.copy(scores = scores) }
     }
 
-    override fun reducer(state: ScoreState, action: ScoreAction) {
-        when (action) {
-            ScoreAction.Back -> navigate(screen = Screen.MAIN_MENU)
-        }
+    override fun setBackNavigation(state: ScoreState): () -> Unit = {
+        navigate(screen = Screen.MAIN_MENU)
     }
+
+    override fun reducer(state: ScoreState, action: ScoreAction) {}
 }

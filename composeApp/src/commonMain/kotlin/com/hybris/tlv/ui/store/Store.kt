@@ -37,6 +37,15 @@ internal abstract class Store<Action, State>(
      */
     private val jobs = mutableListOf<Job>()
 
+    init {
+        navigation.back = setBackNavigation(_stateFlow.value)
+    }
+
+    /**
+     * Sets the back navigation based on the current [state].
+     */
+    protected abstract fun setBackNavigation(state: State): () -> Unit
+
     /**
      * Sends an [Action] to the Store.
      */
@@ -51,7 +60,7 @@ internal abstract class Store<Action, State>(
     /**
      * Updates the current [State].
      */
-    protected fun updateState(body: (State) -> State) =
+    protected fun updateState(body: (State) -> State): Job =
         dispatcher.main.launch { _stateFlow.update { body(_stateFlow.value) } }
 
     /**
@@ -78,6 +87,7 @@ internal abstract class Store<Action, State>(
      * Navigates to a new [screen] given an optional [state].
      */
     protected fun navigate(screen: Screen, state: Any? = null) {
+        navigation.back = {}
         jobs.forEach { it.cancel() }
         navigation.navigate(screen = screen, state = state)
     }

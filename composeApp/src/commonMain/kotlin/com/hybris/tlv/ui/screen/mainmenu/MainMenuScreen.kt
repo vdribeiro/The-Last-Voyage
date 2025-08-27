@@ -19,7 +19,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
@@ -40,10 +39,7 @@ import thelastvoyage.composeapp.generated.resources.support_me_on_kofi_badge_bei
 @Composable
 internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
     val storeState by store.stateFlow.collectAsState()
-    val currentContent = storeState.currentContent ?: return
     val uriHandler = LocalUriHandler.current
-
-    BackHandler(enabled = true) { store.send(action = MainMenuAction.Back) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -79,15 +75,11 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            when (currentContent) {
+            when (storeState.currentContent) {
                 Content.MAIN_MENU -> MainMenuContent(store = store)
-
                 Content.LEARN_MENU -> LearnContent(store = store)
-
                 Content.HOST_TYPES -> HostsContent(store = store)
-
                 Content.PLANET_TYPES -> PlanetsContent(store = store)
-
                 Content.PROPERTIES -> PropertiesContent(store = store)
                 Content.MECHANICS -> MechanicsContent(store = store)
                 Content.HABITABILITY -> HabitabilityContent(store = store)

@@ -54,7 +54,6 @@ private val navigation: NavigationManager by lazy {
     Navigation(
         dispatcher = dispatcher,
         locale = locale,
-        localConfig = localConfig,
         remoteConfig = remoteConfig,
         useCases = useCases
     )

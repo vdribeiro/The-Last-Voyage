@@ -16,7 +16,6 @@ import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 
 internal sealed interface NewGameAction {
-    data object Back: NewGameAction
     data class SelectShip(val ship: ShipPrototype): NewGameAction
     data class SelectFormula(val formula: Formula): NewGameAction
     data object Ship: NewGameAction
@@ -26,7 +25,7 @@ internal sealed interface NewGameAction {
 }
 
 internal data class NewGameState(
-    val currentContent: Content? = null,
+    val currentContent: Content = Content.SHIP,
     val catastrophes: List<Catastrophe> = emptyList(),
     val selectedCatastrophe: Catastrophe? = null,
     val selectedShip: ShipPrototype? = null,
@@ -48,27 +47,22 @@ internal enum class Content {
 internal class NewGameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: NewGameState,
+    initialState: NewGameState?,
     private val earthUseCases: EarthUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameAction, NewGameState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = initialState ?: NewGameState()
 ) {
 
     init {
-        setup()
+        if (initialState == null) setup()
     }
 
     private fun setup() = launchInPipeline {
         val catastrophes = earthUseCases.getCatastrophes()
-        updateState {
-            it.copy(
-                currentContent = Content.SHIP,
-                catastrophes = catastrophes,
-            )
-        }
+        updateState { it.copy(catastrophes = catastrophes) }
     }
 
     private fun startGame(state: NewGameState) = launchInPipeline {
@@ -93,17 +87,16 @@ internal class NewGameStore(
         navigate(screen = Screen.GAME)
     }
 
+    override fun setBackNavigation(state: NewGameState): () -> Unit = {
+        when (state.currentContent) {
+            Content.SHIP,
+            Content.ADVANCED,
+            Content.START -> navigate(screen = Screen.MAIN_MENU)
+        }
+    }
+
     override fun reducer(state: NewGameState, action: NewGameAction) {
         when (action) {
-            NewGameAction.Back -> {
-                when (state.currentContent) {
-                    null,
-                    Content.SHIP,
-                    Content.ADVANCED,
-                    Content.START -> navigate(screen = Screen.MAIN_MENU)
-                }
-            }
-
             is NewGameAction.SelectShip -> updateState {
                 it.copy(selectedShip = action.ship)
             }

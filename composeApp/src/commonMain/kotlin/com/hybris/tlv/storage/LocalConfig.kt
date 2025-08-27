@@ -1,5 +1,8 @@
 package com.hybris.tlv.storage
 
+/**
+ * Local configurations.
+ */
 internal interface LocalConfig {
 
     /**

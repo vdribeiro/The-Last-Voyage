@@ -3,7 +3,7 @@ package com.hybris.tlv.media
 import androidx.compose.runtime.Composable
 
 /**
- * Media player.
+ * Audio player.
  */
 internal interface AudioPlayer {
 

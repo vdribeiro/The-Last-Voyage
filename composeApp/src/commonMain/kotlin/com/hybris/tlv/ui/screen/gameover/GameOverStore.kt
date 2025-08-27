@@ -12,12 +12,11 @@ import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 
 internal sealed interface GameOverAction {
-    data object Back: GameOverAction
     data object Continue: GameOverAction
 }
 
 internal data class GameOverState(
-    val currentContent: Content? = null,
+    val currentContent: Content = Content.MESSAGE,
     val gameSession: GameSession? = null,
     val gameOverMessage: String? = null
 )
@@ -30,16 +29,16 @@ internal enum class Content {
 internal class GameOverStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: GameOverState,
+    initialState: GameOverState?,
     private val locale: Locale,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameOverAction, GameOverState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = initialState ?: GameOverState()
 ) {
     init {
-        setup()
+        if (initialState == null) setup()
     }
 
     private fun setup() = launchInPipeline {
@@ -61,7 +60,6 @@ internal class GameOverStore(
 
         updateState {
             it.copy(
-                currentContent = Content.MESSAGE,
                 gameSession = updatedGameSession.copy(utc = locale.getLocalDateTime(utc = updatedGameSession.utc)),
                 gameOverMessage = getGameOverMessage(gameOver = gameOver)
             )
@@ -168,20 +166,15 @@ internal class GameOverStore(
             GameOver.GAME_OVER -> "game_over_screen__game_over"
         }
 
+    override fun setBackNavigation(state: GameOverState): () -> Unit = {
+        navigate(screen = Screen.MAIN_MENU)
+    }
+
     override fun reducer(state: GameOverState, action: GameOverAction) {
         when (action) {
-            GameOverAction.Back -> navigate(screen = Screen.MAIN_MENU)
-
             GameOverAction.Continue -> when (state.currentContent) {
                 Content.MESSAGE -> updateState { it.copy(currentContent = Content.SCORE) }
                 Content.SCORE -> navigate(screen = Screen.MAIN_MENU)
-                else -> navigate(
-                    screen = Screen.ERROR, state = ErrorState(
-                        screen = Screen.GAME_OVER,
-                        throwable = IllegalStateException("Invalid state: missing content"),
-                        identifier = "GameOverStore:reducer:Continue"
-                    )
-                )
             }
         }
     }

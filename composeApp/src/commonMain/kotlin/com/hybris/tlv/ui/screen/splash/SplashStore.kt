@@ -21,15 +21,15 @@ internal data class SplashState(
 internal class SplashStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: SplashState,
+    initialState: SplashState?,
     private val syncUseCases: SyncUseCases,
 ): Store<SplashAction, SplashState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = initialState ?: SplashState()
 ) {
     init {
-        setup()
+        if (initialState == null) setup()
     }
 
     private fun setup() {
@@ -53,6 +53,8 @@ internal class SplashStore(
             send(action = SplashAction.Start)
         }
     }
+
+    override fun setBackNavigation(state: SplashState): () -> Unit = {}
 
     override fun reducer(state: SplashState, action: SplashAction) {
         when (action) {

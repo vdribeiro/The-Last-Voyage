@@ -151,7 +151,6 @@ internal class Mock(
     val navigation: NavigationManager = Navigation(
         dispatcher = dispatcher,
         locale = locale,
-        localConfig = localConfig,
         remoteConfig = remoteConfig,
         useCases = useCases
     )

@@ -22,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.Score
 import com.hybris.tlv.ui.store.Store
@@ -34,8 +33,6 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
     val storeState by store.stateFlow.collectAsState()
     val expandedItems = remember { mutableStateListOf<String>() }
-
-    BackHandler(enabled = true) { store.send(action = ScoreAction.Back) }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {

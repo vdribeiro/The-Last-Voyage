@@ -28,7 +28,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
@@ -38,8 +37,6 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun ErrorScreen(store: Store<ErrorAction, ErrorState>) {
     var feedbackText by remember { mutableStateOf(value = "") }
-
-    BackHandler(enabled = true) { store.send(action = ErrorAction.Back) }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {

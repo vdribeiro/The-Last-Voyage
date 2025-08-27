@@ -3,6 +3,9 @@ package com.hybris.tlv.ui.navigation
 import androidx.compose.runtime.Composable
 import kotlinx.coroutines.flow.StateFlow
 
+/**
+ * Navigation manager with the screens index.
+ */
 internal interface NavigationManager {
 
     enum class Screen {
@@ -20,16 +23,15 @@ internal interface NavigationManager {
     }
 
     data class State(
-        val music: Boolean = true,
         val screen: Screen = Screen.SPLASH,
         val state: Any? = null
     )
 
     val stateFlow: StateFlow<State>
 
-    fun navigate(screen: Screen, state: Any? = null)
+    var back: () -> Unit
 
-    fun setMusic(enabled: Boolean)
+    fun navigate(screen: Screen, state: Any? = null)
 
     @Composable
     fun Screen(
