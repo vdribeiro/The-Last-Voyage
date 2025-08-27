@@ -2,8 +2,8 @@ package com.hybris.tlv.usecase.sync
 
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.storage.StorageManager
 import com.hybris.tlv.storage.Config
-import com.hybris.tlv.storage.ConfigKey
 import com.hybris.tlv.usecase.achievement.AchievementInternalUseCases
 import com.hybris.tlv.usecase.credit.CreditInternalUseCases
 import com.hybris.tlv.usecase.earth.EarthInternalUseCases
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.flow
 
 internal class SyncGateway(
     private val locale: Locale,
-    private val config: Config,
+    private val storage: StorageManager,
     private val internalTranslation: TranslationInternalUseCases,
     private val internalEarth: EarthInternalUseCases,
     private val internalShip: ShipInternalUseCases,
@@ -51,31 +51,32 @@ internal class SyncGateway(
 
     override suspend fun sync(): Flow<SyncResult> = flow {
         val totalOperations = 8f
+
         emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
-        update(key = ConfigKey.TranslationsVersion) { internalTranslation.syncTranslations() }
+        update(key = Config.TranslationsVersion) { internalTranslation.syncTranslations() }
         emit(value = SyncResult.Loading(progress = 1f, total = totalOperations))
-        update(key = ConfigKey.CatastrophesVersion) { internalEarth.syncCatastrophes() }
+        update(key = Config.CatastrophesVersion) { internalEarth.syncCatastrophes() }
         emit(value = SyncResult.Loading(progress = 2f, total = totalOperations))
-        update(key = ConfigKey.EnginesVersion) { internalShip.syncEngines() }
+        update(key = Config.EnginesVersion) { internalShip.syncEngines() }
         emit(value = SyncResult.Loading(progress = 3f, total = totalOperations))
-        update(key = ConfigKey.StellarHostsVersion) { internalSpace.syncStellarHosts() }
+        update(key = Config.StellarHostsVersion) { internalSpace.syncStellarHosts() }
         emit(value = SyncResult.Loading(progress = 4f, total = totalOperations))
-        update(key = ConfigKey.PlanetsVersion) { internalSpace.syncPlanets() }
+        update(key = Config.PlanetsVersion) { internalSpace.syncPlanets() }
         emit(value = SyncResult.Loading(progress = 5f, total = totalOperations))
-        update(key = ConfigKey.EventsVersion) { internalEvent.syncEvents() }
+        update(key = Config.EventsVersion) { internalEvent.syncEvents() }
         emit(value = SyncResult.Loading(progress = 6f, total = totalOperations))
-        update(key = ConfigKey.AchievementsVersion) { internalAchievement.syncAchievements() }
+        update(key = Config.AchievementsVersion) { internalAchievement.syncAchievements() }
         emit(value = SyncResult.Loading(progress = 7f, total = totalOperations))
-        update(key = ConfigKey.CreditsVersion) { internalCredit.syncCredits() }
+        update(key = Config.CreditsVersion) { internalCredit.syncCredits() }
         emit(value = SyncResult.Success)
     }
 
-    private suspend fun update(key: ConfigKey, sync: suspend () -> SyncResult) {
+    private suspend fun update(key: Config, sync: suspend () -> SyncResult) {
         val remoteValue = remoteConfig.getLong(key = key)
-        val localValue = config.getLong(key = key)
+        val localValue = storage.getLong(key = key)
         Logger.info(tag = TAG, message = "${key.key}: remote: $remoteValue - local: $localValue")
         when (val result = if (remoteValue > localValue) sync() else SyncResult.Success) {
-            SyncResult.Success -> config.put(key = key, value = remoteConfig.getLong(key = key))
+            SyncResult.Success -> storage.put(key = key, value = remoteValue)
             is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
             is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
         }

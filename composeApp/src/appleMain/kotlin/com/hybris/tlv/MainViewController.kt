@@ -7,8 +7,8 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.Dispatchers
 import com.hybris.tlv.locale.IosLocale
 import com.hybris.tlv.locale.Locale
-import com.hybris.tlv.storage.Config
-import com.hybris.tlv.storage.IosConfig
+import com.hybris.tlv.storage.Storage
+import com.hybris.tlv.storage.StorageManager
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.Gateways
@@ -20,8 +20,8 @@ private val dispatcher: Dispatcher by lazy {
 private val locale: Locale by lazy {
     IosLocale()
 }
-private val config: Config by lazy {
-    IosConfig()
+private val storage: StorageManager by lazy {
+    Storage()
 }
 private val sqlDriver: SqlDriver by lazy {
     createSqlDriver()
@@ -30,7 +30,7 @@ private val useCases: UseCases by lazy {
     Gateways(
         dispatcher = dispatcher,
         locale = locale,
-        config = config,
+        storage = storage,
         sqlDriver = sqlDriver,
     )
 }
@@ -39,7 +39,7 @@ private val navigation: NavigationManager by lazy {
     Navigation(
         dispatcher = dispatcher,
         locale = locale,
-        config = config,
+        storage = storage,
         useCases = useCases
     )
 }

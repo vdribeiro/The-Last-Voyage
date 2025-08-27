@@ -1,28 +1,31 @@
 package com.hybris.tlv.storage
 
+import kotlin.getValue
 import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.cinterop.addressOf
-import kotlinx.cinterop.usePinned
-import platform.Foundation.NSData
 import platform.Foundation.NSDocumentDirectory
-import platform.Foundation.NSFileManager
-import platform.Foundation.NSURL
+import platform.Foundation.NSSearchPathForDirectoriesInDomains
+import platform.Foundation.NSString
+import platform.Foundation.NSUTF8StringEncoding
 import platform.Foundation.NSUserDomainMask
-import platform.Foundation.dataWithBytes
-import platform.Foundation.writeToURL
+import platform.Foundation.stringByAppendingPathComponent
+import platform.Foundation.stringWithContentsOfFile
+import platform.Foundation.writeToFile
+import platform.Foundation.toNSString
+
+private val appDataDir: NSString by lazy {
+    val paths = NSSearchPathForDirectoriesInDomains(directory = NSDocumentDirectory, domainMask = NSUserDomainMask, expandTilde = true)
+    paths.first() as NSString
+}
 
 @OptIn(ExperimentalForeignApi::class)
 actual fun saveFile(fileName: String, content: String): Boolean = runCatching {
-    val fileManager = NSFileManager.defaultManager
-    val documentsURL = fileManager.URLsForDirectory(
-        directory = NSDocumentDirectory,
-        inDomains = NSUserDomainMask
-    ).firstOrNull() as? NSURL ?: return false
-    val downloadsURL = documentsURL.URLByAppendingPathComponent(pathComponent = "Downloads") ?: return false
-    fileManager.createDirectoryAtURL(url = downloadsURL, withIntermediateDirectories = true, attributes = null, error = null)
-    val fileURL = downloadsURL.URLByAppendingPathComponent(pathComponent = fileName) ?: return false
-    val bytes = content.encodeToByteArray()
-    val data = bytes.usePinned { NSData.dataWithBytes(bytes = it.addressOf(index = 0), length = bytes.size.toULong()) }
-    data.writeToURL(url = fileURL, atomically = true)
+    val path = appDataDir.stringByAppendingPathComponent(str = fileName)
+    content.toNSString().writeToFile(path, atomically = true, encoding = NSUTF8StringEncoding, error = null)
     true
 }.getOrDefault(defaultValue = false)
+
+@OptIn(ExperimentalForeignApi::class)
+actual fun loadFile(fileName: String): String = runCatching {
+    val path = appDataDir.stringByAppendingPathComponent(str = fileName)
+    NSString.stringWithContentsOfFile(path, encoding = NSUTF8StringEncoding, error = null).orEmpty()
+}.getOrDefault(defaultValue = "")

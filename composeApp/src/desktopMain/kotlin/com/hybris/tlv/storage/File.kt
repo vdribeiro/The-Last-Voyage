@@ -2,11 +2,18 @@ package com.hybris.tlv.storage
 
 import java.io.File
 
+private val appDataDir: File by lazy {
+    val home = System.getProperty("user.home")
+    File(home, ".TheLastVoyage").apply { if (!exists()) mkdirs() }
+}
+
 actual fun saveFile(fileName: String, content: String): Boolean = runCatching {
-    val userHome = System.getProperty("user.home")
-    val downloadsDir = File(userHome, "Downloads")
-    if (!downloadsDir.exists()) downloadsDir.mkdir()
-    val file = File(downloadsDir, fileName)
-    file.writeText(text = content, charset = Charsets.UTF_8)
+    val file = File(appDataDir, fileName)
+    file.writeText(text = content)
     true
 }.getOrDefault(defaultValue = false)
+
+actual fun loadFile(fileName: String): String = runCatching {
+    val file = File(appDataDir, fileName)
+    file.readText()
+}.getOrDefault(defaultValue = "")

@@ -14,6 +14,8 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 
 internal const val EXOPLANET_ARCHIVE_URL = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
+internal const val CONFIGS_URL =
+    "https://gist.githubusercontent.com/vdribeiro/eb23013b329c47317622981187df3f23/raw/f2aef92a463df2b1ee13dd005a520a3fe840658c/configs.json"
 internal const val TRANSLATIONS_URL =
     "https://gist.githubusercontent.com/vdribeiro/ee90422f18613d8702a975719b9dee6f/raw/a95b799477d051021fb212d37f1eef108ffb30d4/translations.json"
 internal const val CATASTROPHES_URL =

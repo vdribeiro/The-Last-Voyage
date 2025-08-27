@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.locale.Locale
-import com.hybris.tlv.storage.Config
+import com.hybris.tlv.storage.StorageManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.navigation.NavigationManager.State
 import com.hybris.tlv.ui.screen.achievement.AchievementState
@@ -37,7 +37,7 @@ import kotlinx.coroutines.flow.update
 internal class Navigation(
     val dispatcher: Dispatcher,
     val locale: Locale,
-    val config: Config,
+    val storage: StorageManager,
     val useCases: UseCases
 ): NavigationManager {
 
@@ -93,7 +93,7 @@ internal class Navigation(
             dispatcher = dispatcher,
             navigation = this,
             initialState = state as? MainMenuState ?: MainMenuState(),
-            config = config,
+            storage = storage,
             gameSessionUseCases = useCases.gameSession
         )
     )
