@@ -26,14 +26,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.translation.getTranslation
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun ErrorScreen(store: Store<ErrorAction, ErrorState>) {
     var feedbackText by remember { mutableStateOf(value = "") }

@@ -8,7 +8,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.component.ControlPanel
 import com.hybris.tlv.ui.screen.stellarexplorer.content.PlanetContent
@@ -18,7 +17,6 @@ import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.translation.getTranslation
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarExplorerState>) {
     val storeState by store.stateFlow.collectAsState()

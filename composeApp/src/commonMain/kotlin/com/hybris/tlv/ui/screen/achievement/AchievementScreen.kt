@@ -11,13 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.AchievementItem
 import com.hybris.tlv.ui.store.Store
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>) {
     val storeState by store.stateFlow.collectAsState()

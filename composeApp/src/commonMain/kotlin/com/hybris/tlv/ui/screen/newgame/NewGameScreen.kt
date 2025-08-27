@@ -7,14 +7,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.screen.newgame.content.AdvancedContent
 import com.hybris.tlv.ui.screen.newgame.content.NewGameContent
 import com.hybris.tlv.ui.screen.newgame.content.StartContent
 import com.hybris.tlv.ui.store.Store
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun NewGameScreen(store: Store<NewGameAction, NewGameState>) {
     val storeState by store.stateFlow.collectAsState()

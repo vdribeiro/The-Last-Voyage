@@ -20,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.Score
@@ -28,7 +27,6 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.mapper.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
     val storeState by store.stateFlow.collectAsState()

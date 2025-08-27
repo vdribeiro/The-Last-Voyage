@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -28,7 +27,6 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.mapper.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
     val storeState by store.stateFlow.collectAsState()
