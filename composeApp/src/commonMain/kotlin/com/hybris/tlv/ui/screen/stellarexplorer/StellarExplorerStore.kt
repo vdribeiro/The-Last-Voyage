@@ -59,15 +59,15 @@ internal enum class Content {
 internal class StellarExplorerStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: StellarExplorerState?,
+    initialState: StellarExplorerState,
     private val spaceUseCases: SpaceUseCases,
 ): Store<StellarExplorerAction, StellarExplorerState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState ?: StellarExplorerState()
+    initialState = initialState
 ) {
     init {
-        if (initialState == null) setup()
+        setup()
     }
 
     private fun setup() = launchInPipeline {

@@ -35,47 +35,49 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         item { Spacer(modifier = Modifier.height(height = 16.dp)) }
         item { AppLogo() }
         item { Spacer(modifier = Modifier.height(height = 64.dp)) }
-        item {
-            Text(
-                modifier = Modifier.clickable { store.send(action = MainMenuAction.NewGame) },
-                text = getTranslation(key = "main_menu_screen__new_game"),
-                style = MaterialTheme.typography.headlineMedium,
-            )
-        }
-        if (storeState.ongoingGameSession) {
+        if (!storeState.loading) {
             item {
                 Text(
-                    modifier = Modifier.clickable { store.send(action = MainMenuAction.Continue) },
-                    text = getTranslation(key = "main_menu_screen__continue"),
+                    modifier = Modifier.clickable { store.send(action = MainMenuAction.NewGame) },
+                    text = getTranslation(key = "main_menu_screen__new_game"),
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }
-        }
-        item {
-            Text(
-                modifier = Modifier.clickable { store.send(action = MainMenuAction.Learn) },
-                text = getTranslation(key = "main_menu_screen__learn"),
-                style = MaterialTheme.typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier.clickable { store.send(action = MainMenuAction.Scores) },
-                text = getTranslation(key = "main_menu_screen__scores"),
-                style = MaterialTheme.typography.headlineMedium,
-            )
-        }
-        //Text(
-        //    modifier = Modifier.clickable { store.send(action = MainMenuAction.Achievements) },
-        //    text = getTranslation(key = "main_menu_screen__achievements"),
-        //    style = MaterialTheme.typography.headlineMedium,
-        //)
-        item {
-            Text(
-                modifier = Modifier.clickable { store.send(action = MainMenuAction.Credits) },
-                text = getTranslation(key = "main_menu_screen__credits"),
-                style = MaterialTheme.typography.headlineMedium,
-            )
+            if (storeState.ongoingGameSession) {
+                item {
+                    Text(
+                        modifier = Modifier.clickable { store.send(action = MainMenuAction.Continue) },
+                        text = getTranslation(key = "main_menu_screen__continue"),
+                        style = MaterialTheme.typography.headlineMedium,
+                    )
+                }
+            }
+            item {
+                Text(
+                    modifier = Modifier.clickable { store.send(action = MainMenuAction.Learn) },
+                    text = getTranslation(key = "main_menu_screen__learn"),
+                    style = MaterialTheme.typography.headlineMedium,
+                )
+            }
+            item {
+                Text(
+                    modifier = Modifier.clickable { store.send(action = MainMenuAction.Scores) },
+                    text = getTranslation(key = "main_menu_screen__scores"),
+                    style = MaterialTheme.typography.headlineMedium,
+                )
+            }
+            //Text(
+            //    modifier = Modifier.clickable { store.send(action = MainMenuAction.Achievements) },
+            //    text = getTranslation(key = "main_menu_screen__achievements"),
+            //    style = MaterialTheme.typography.headlineMedium,
+            //)
+            item {
+                Text(
+                    modifier = Modifier.clickable { store.send(action = MainMenuAction.Credits) },
+                    text = getTranslation(key = "main_menu_screen__credits"),
+                    style = MaterialTheme.typography.headlineMedium,
+                )
+            }
         }
     }
 }

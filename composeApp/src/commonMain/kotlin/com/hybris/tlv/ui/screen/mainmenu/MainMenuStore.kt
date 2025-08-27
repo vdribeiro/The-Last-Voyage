@@ -24,6 +24,7 @@ internal sealed interface MainMenuAction {
 }
 
 internal data class MainMenuState(
+    val loading: Boolean = true,
     val currentContent: Content = Content.MAIN_MENU,
     val ongoingGameSession: Boolean = false,
     val developerCorner: String? = null,
@@ -43,16 +44,16 @@ internal enum class Content {
 internal class MainMenuStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: MainMenuState?,
+    initialState: MainMenuState,
     private val remoteConfig: RemoteConfig,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<MainMenuAction, MainMenuState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState ?: MainMenuState()
+    initialState = initialState
 ) {
     init {
-        if (initialState == null) setup()
+        setup()
     }
 
     private fun setup() = launchInPipeline {
@@ -61,6 +62,7 @@ internal class MainMenuStore(
         val tip = remoteConfig.getString(key = Config.Tip)
         updateState {
             it.copy(
+                loading = false,
                 ongoingGameSession = ongoingGameSession,
                 developerCorner = developerCorner,
                 tip = tip,

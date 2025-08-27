@@ -16,15 +16,15 @@ internal data class CreditState(
 internal class CreditStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: CreditState?,
+    initialState: CreditState,
     private val creditUseCases: CreditUseCases
 ): Store<CreditAction, CreditState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState ?: CreditState()
+    initialState = initialState
 ) {
     init {
-        if (initialState == null) setup()
+        setup()
     }
 
     private fun setup() = launchInPipeline {

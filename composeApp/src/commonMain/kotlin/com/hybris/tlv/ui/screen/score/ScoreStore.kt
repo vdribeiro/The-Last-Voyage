@@ -17,16 +17,16 @@ internal data class ScoreState(
 internal class ScoreStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: ScoreState?,
+    initialState: ScoreState,
     private val locale: Locale,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<ScoreAction, ScoreState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState ?: ScoreState()
+    initialState = initialState
 ) {
     init {
-        if (initialState == null) setup()
+        setup()
     }
 
     private fun setup() = launchInPipeline {

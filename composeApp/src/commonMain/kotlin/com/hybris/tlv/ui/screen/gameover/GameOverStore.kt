@@ -29,16 +29,16 @@ internal enum class Content {
 internal class GameOverStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: GameOverState?,
+    initialState: GameOverState,
     private val locale: Locale,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameOverAction, GameOverState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState ?: GameOverState()
+    initialState = initialState
 ) {
     init {
-        if (initialState == null) setup()
+        setup()
     }
 
     private fun setup() = launchInPipeline {

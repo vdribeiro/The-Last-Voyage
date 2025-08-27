@@ -21,15 +21,15 @@ internal data class SplashState(
 internal class SplashStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: SplashState?,
+    initialState: SplashState,
     private val syncUseCases: SyncUseCases,
 ): Store<SplashAction, SplashState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState ?: SplashState()
+    initialState = initialState
 ) {
     init {
-        if (initialState == null) setup()
+        setup()
     }
 
     private fun setup() {

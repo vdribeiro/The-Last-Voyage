@@ -16,15 +16,15 @@ internal data class AchievementState(
 internal class AchievementStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: AchievementState?,
+    initialState: AchievementState,
     private val achievementUseCases: AchievementUseCases
 ): Store<AchievementAction, AchievementState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState ?: AchievementState()
+    initialState = initialState
 ) {
     init {
-        if (initialState == null) setup()
+        setup()
     }
 
     private fun setup() = launchInPipeline {

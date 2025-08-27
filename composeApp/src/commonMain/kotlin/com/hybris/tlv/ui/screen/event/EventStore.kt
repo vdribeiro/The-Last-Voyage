@@ -25,16 +25,16 @@ internal data class EventState(
 internal class EventStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: EventState?,
+    initialState: EventState,
     private val eventUseCases: EventUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<EventAction, EventState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState ?: EventState()
+    initialState = initialState
 ) {
     init {
-        if (initialState == null) setup()
+        setup()
     }
 
     private fun setup() = launchInPipeline {

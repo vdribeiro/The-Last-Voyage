@@ -3,8 +3,6 @@ package com.hybris.tlv.ui.navigation
 import com.hybris.tlv.mock.Mock
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
 internal class NavigationManagerTest {

@@ -73,7 +73,7 @@ internal class Navigation(
         store = ErrorStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? ErrorState
+            initialState = state as? ErrorState ?: ErrorState()
         )
     )
 
@@ -82,7 +82,7 @@ internal class Navigation(
         store = SplashStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? SplashState,
+            initialState = state as? SplashState ?: SplashState(),
             syncUseCases = useCases.sync
         )
     )
@@ -92,7 +92,7 @@ internal class Navigation(
         store = MainMenuStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? MainMenuState,
+            initialState = state as? MainMenuState ?: MainMenuState(),
             remoteConfig = remoteConfig,
             gameSessionUseCases = useCases.gameSession
         )
@@ -103,7 +103,7 @@ internal class Navigation(
         store = NewGameStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? NewGameState,
+            initialState = state as? NewGameState ?: NewGameState(),
             earthUseCases = useCases.earth,
             gameSessionUseCases = useCases.gameSession
         )
@@ -114,7 +114,7 @@ internal class Navigation(
         store = GameStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? GameState,
+            initialState = state as? GameState ?: GameState(),
             shipUseCases = useCases.ship,
             spaceUseCases = useCases.space,
             gameSessionUseCases = useCases.gameSession
@@ -126,7 +126,7 @@ internal class Navigation(
         store = EventStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? EventState,
+            initialState = state as? EventState ?: EventState(),
             eventUseCases = useCases.event,
             gameSessionUseCases = useCases.gameSession
         )
@@ -137,7 +137,7 @@ internal class Navigation(
         store = GameOverStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? GameOverState,
+            initialState = state as? GameOverState ?: GameOverState(),
             locale = locale,
             gameSessionUseCases = useCases.gameSession
         )
@@ -148,7 +148,7 @@ internal class Navigation(
         store = StellarExplorerStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? StellarExplorerState,
+            initialState = state as? StellarExplorerState ?: StellarExplorerState(),
             spaceUseCases = useCases.space,
         )
     )
@@ -158,7 +158,7 @@ internal class Navigation(
         store = ScoreStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? ScoreState,
+            initialState = state as? ScoreState ?: ScoreState(),
             locale = locale,
             gameSessionUseCases = useCases.gameSession
         )
@@ -169,7 +169,7 @@ internal class Navigation(
         store = AchievementStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? AchievementState,
+            initialState = state as? AchievementState ?: AchievementState(),
             achievementUseCases = useCases.achievement
         )
     )
@@ -179,7 +179,7 @@ internal class Navigation(
         store = CreditStore(
             dispatcher = dispatcher,
             navigation = this,
-            initialState = state as? CreditState,
+            initialState = state as? CreditState ?: CreditState(),
             creditUseCases = useCases.credit
         )
     )

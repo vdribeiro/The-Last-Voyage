@@ -47,17 +47,17 @@ internal enum class Content {
 internal class NewGameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: NewGameState?,
+    initialState: NewGameState,
     private val earthUseCases: EarthUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameAction, NewGameState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState ?: NewGameState()
+    initialState = initialState
 ) {
 
     init {
-        if (initialState == null) setup()
+        setup()
     }
 
     private fun setup() = launchInPipeline {

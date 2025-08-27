@@ -19,11 +19,11 @@ internal data class ErrorState(
 internal class ErrorStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: ErrorState?,
+    initialState: ErrorState,
 ): Store<ErrorAction, ErrorState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState ?: ErrorState()
+    initialState = initialState
 ) {
     override fun setBackNavigation(state: ErrorState): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
