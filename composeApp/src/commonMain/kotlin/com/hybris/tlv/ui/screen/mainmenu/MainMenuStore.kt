@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.screen.mainmenu
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.storage.Config
-import com.hybris.tlv.storage.RemoteConfig
+import com.hybris.tlv.storage.ConfigKey
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
@@ -45,7 +45,7 @@ internal class MainMenuStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: MainMenuState,
-    private val remoteConfig: RemoteConfig,
+    private val config: Config,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<MainMenuAction, MainMenuState>(
     dispatcher = dispatcher,
@@ -58,8 +58,8 @@ internal class MainMenuStore(
 
     private fun setup() = launchInPipeline {
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
-        val developerCorner = remoteConfig.getString(key = Config.DeveloperCorner)
-        val tip = remoteConfig.getString(key = Config.Tip)
+        val developerCorner = config.getString(key = ConfigKey.DeveloperCorner)
+        val tip = config.getString(key = ConfigKey.Tip)
         updateState {
             it.copy(
                 loading = false,

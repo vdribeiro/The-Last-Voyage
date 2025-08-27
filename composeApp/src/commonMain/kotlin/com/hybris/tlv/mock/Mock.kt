@@ -9,10 +9,8 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.locale.CommonLocale
 import com.hybris.tlv.locale.Locale
-import com.hybris.tlv.storage.CommonLocalConfig
-import com.hybris.tlv.storage.CommonRemoteConfig
-import com.hybris.tlv.storage.LocalConfig
-import com.hybris.tlv.storage.RemoteConfig
+import com.hybris.tlv.storage.CommonConfig
+import com.hybris.tlv.storage.Config
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.Gateways
@@ -67,8 +65,7 @@ import io.ktor.client.HttpClient
 internal class Mock(
     val dispatcher: Dispatcher = CommonDispatchers(),
     val locale: Locale = CommonLocale(),
-    val localConfig: LocalConfig = CommonLocalConfig(),
-    val remoteConfig: RemoteConfig = CommonRemoteConfig(),
+    val config: Config = CommonConfig(),
     val sqlDriver: SqlDriver = createSqlDriver(inMemory = true),
     val database: AppDatabase = Database(driver = sqlDriver).database,
     val httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
@@ -120,8 +117,7 @@ internal class Mock(
     val useCases: UseCases = Gateways(
         dispatcher = dispatcher,
         locale = locale,
-        localConfig = localConfig,
-        remoteConfig = remoteConfig,
+        config = config,
         sqlDriver = sqlDriver,
         database = database,
         httpClient = httpClient,
@@ -151,7 +147,7 @@ internal class Mock(
     val navigation: NavigationManager = Navigation(
         dispatcher = dispatcher,
         locale = locale,
-        remoteConfig = remoteConfig,
+        config = config,
         useCases = useCases
     )
 

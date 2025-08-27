@@ -6,11 +6,6 @@ import kotlinx.coroutines.flow.Flow
 internal interface SyncUseCases {
 
     /**
-     * Warms up the core.
-     */
-    suspend fun setup()
-
-    /**
      * Prepopulates all local data.
      */
     suspend fun prepopulate(): Flow<SyncResult>

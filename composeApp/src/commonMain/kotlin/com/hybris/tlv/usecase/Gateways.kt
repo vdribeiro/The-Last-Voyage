@@ -8,10 +8,8 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.locale.CommonLocale
 import com.hybris.tlv.locale.Locale
-import com.hybris.tlv.storage.CommonLocalConfig
-import com.hybris.tlv.storage.CommonRemoteConfig
-import com.hybris.tlv.storage.LocalConfig
-import com.hybris.tlv.storage.RemoteConfig
+import com.hybris.tlv.storage.CommonConfig
+import com.hybris.tlv.storage.Config
 import com.hybris.tlv.usecase.achievement.AchievementGateway
 import com.hybris.tlv.usecase.achievement.AchievementInternalGateway
 import com.hybris.tlv.usecase.achievement.AchievementInternalUseCases
@@ -78,8 +76,7 @@ import io.ktor.client.HttpClient
 internal class Gateways(
     dispatcher: Dispatcher = CommonDispatchers(),
     locale: Locale = CommonLocale(),
-    localConfig: LocalConfig = CommonLocalConfig(),
-    remoteConfig: RemoteConfig = CommonRemoteConfig(),
+    config: Config = CommonConfig(),
     sqlDriver: SqlDriver = createSqlDriver(inMemory = true),
     database: AppDatabase = Database(driver = sqlDriver).database,
     httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
@@ -176,8 +173,7 @@ internal class Gateways(
     override val sync: SyncUseCases by lazy {
         SyncGateway(
             locale = locale,
-            localConfig = localConfig,
-            remoteConfig = remoteConfig,
+            config = config,
             internalTranslation = internalTranslation,
             internalEarth = internalEarth,
             internalShip = internalShip,

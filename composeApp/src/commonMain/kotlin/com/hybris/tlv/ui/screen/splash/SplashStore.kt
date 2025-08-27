@@ -38,7 +38,6 @@ internal class SplashStore(
             //syncUseCases.getArchive().last()
         }
         launch {
-            syncUseCases.setup()
             combine(
                 flows = listOf(
                     syncUseCases.prepopulate(),

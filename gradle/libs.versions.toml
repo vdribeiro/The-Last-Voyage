@@ -12,8 +12,6 @@ kotlin-ktor = "3.2.3"
 compose-multiplatform = "1.8.2"
 sqldelight = "2.1.0"
 sqldelight-jdbc = "3.50.3.0"
-firebase = "33.16.0"
-crashlytics = "3.0.6"
 compose-backhandler = "1.8.2"
 android-minSdk = "26"
 android-targetSdk = "35"
@@ -26,7 +24,6 @@ logging = "2.0.17"
 [plugins]
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "google-services" }
-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
@@ -56,9 +53,6 @@ sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", v
 sqldelight-native = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqldelight" }
 sqldelight-jvm = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
 sqldelight-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "sqldelight-jdbc" }
-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
-firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx" }
 compose-backhandler = { group = "org.jetbrains.compose.ui", name = "ui-backhandler", version.ref = "compose-backhandler" }
 androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "android-startup" }
 androidx-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "androidx-exoplayer" }
@@ -92,8 +86,6 @@ android = [
     "sqldelight-jvm",
     "androidx-startup",
     "androidx-exoplayer",
-    "firebase-crashlytics",
-    "firebase-config",
 ]
 ios = [
     "kotlin-ktor-darwin",

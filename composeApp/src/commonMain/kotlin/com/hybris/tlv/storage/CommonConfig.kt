@@ -1,34 +1,34 @@
 package com.hybris.tlv.storage
 
-internal class CommonLocalConfig: LocalConfig {
+internal class CommonConfig: Config {
 
-    private val map = mutableMapOf<Config, Any>()
+    private val map = mutableMapOf<ConfigKey, Any>()
 
-    override fun getBoolean(key: Config): Boolean =
+    override fun getBoolean(key: ConfigKey): Boolean =
         map.getOrElse(key = key) { key.defaultValue }.asBoolean()
 
-    override fun getString(key: Config): String =
+    override fun getString(key: ConfigKey): String =
         map.getOrElse(key = key) { key.defaultValue }.asString()
 
-    override fun getLong(key: Config): Long =
+    override fun getLong(key: ConfigKey): Long =
         map.getOrElse(key = key) { key.defaultValue }.asLong()
 
-    override fun getDouble(key: Config): Double =
+    override fun getDouble(key: ConfigKey): Double =
         map.getOrElse(key = key) { key.defaultValue }.asDouble()
 
-    override fun put(key: Config, value: Boolean?) {
+    override fun put(key: ConfigKey, value: Boolean?) {
         if (value == null) map.remove(key = key) else map.put(key = key, value = value)
     }
 
-    override fun put(key: Config, value: String?) {
+    override fun put(key: ConfigKey, value: String?) {
         if (value == null) map.remove(key = key) else map.put(key = key, value = value)
     }
 
-    override fun put(key: Config, value: Long?) {
+    override fun put(key: ConfigKey, value: Long?) {
         if (value == null) map.remove(key = key) else map.put(key = key, value = value)
     }
 
-    override fun put(key: Config, value: Double?) {
+    override fun put(key: ConfigKey, value: Double?) {
         if (value == null) map.remove(key = key) else map.put(key = key, value = value)
     }
 }

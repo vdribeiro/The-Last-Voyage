@@ -11,7 +11,6 @@ plugins {
     alias(notation = libs.plugins.sqldelight)
     alias(notation = libs.plugins.kotlinSerialization)
     alias(notation = libs.plugins.googleServices)
-    alias(notation = libs.plugins.crashlytics)
 }
 
 val appId: String = libs.versions.applicationId.get()
@@ -57,7 +56,6 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(dependencyNotation = project.dependencies.platform(libs.firebase.bom))
                 implementation(dependencyNotation = libs.bundles.android)
             }
         }
@@ -80,21 +78,14 @@ kotlin {
                             else -> "mac"
                         }
                     }
+
                     else -> error("Unsupported OS: $osName")
                 }
 
-                implementation(dependency = libs.javafx.base.get()) {
-                    artifact { this.classifier = jfxClassifier }
-                }
-                implementation(dependency = libs.javafx.graphics.get()) {
-                    artifact { this.classifier = jfxClassifier }
-                }
-                implementation(dependency = libs.javafx.media.get()) {
-                    artifact { this.classifier = jfxClassifier }
-                }
-                implementation(dependency = libs.javafx.swing.get()) {
-                    artifact { this.classifier = jfxClassifier }
-                }
+                implementation(dependency = libs.javafx.base.get()) { artifact { this.classifier = jfxClassifier } }
+                implementation(dependency = libs.javafx.graphics.get()) { artifact { this.classifier = jfxClassifier } }
+                implementation(dependency = libs.javafx.media.get()) { artifact { this.classifier = jfxClassifier } }
+                implementation(dependency = libs.javafx.swing.get()) { artifact { this.classifier = jfxClassifier } }
             }
         }
 
