@@ -11,6 +11,7 @@ import com.hybris.tlv.usecase.gamesession.model.GameSession
 internal sealed interface ScoreAction
 
 internal data class ScoreState(
+    val loading: Boolean = true,
     val scores: List<GameSession> = emptyList(),
 )
 
@@ -34,7 +35,12 @@ internal class ScoreStore(
         val scores = gameSessions
             .filter { it.score != null }
             .map { it.copy(utc = locale.getLocalDateTime(utc = it.utc)) }
-        updateState { it.copy(scores = scores) }
+        updateState {
+            it.copy(
+                loading = false,
+                scores = scores
+            )
+        }
     }
 
     override fun setBackNavigation(state: ScoreState): () -> Unit = {

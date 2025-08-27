@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -40,22 +39,21 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
         topBar = {
             StatusBar(
                 modifier = Modifier.statusBarsPadding(),
-                hull = ship?.integrity?.toString().orEmpty(),
-                fuel = ship?.fuel?.toString().orEmpty(),
-                materials = ship?.materials?.toString().orEmpty(),
-                cryopods = ship?.cryopods?.toString().orEmpty()
+                hull = ship?.integrity?.toString() ?: "0",
+                fuel = ship?.fuel?.toString() ?: "0",
+                materials = ship?.materials?.toString() ?: "0",
+                cryopods = ship?.cryopods?.toString() ?: "0"
             )
         },
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            when (event) {
-                null -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-                else -> Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(all = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                if (event != null) {
                     Text(
                         text = getTranslation(key = event.name),
                         style = MaterialTheme.typography.titleLarge,
@@ -69,6 +67,7 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
                         text = getTranslation(key = event.description) +
                                 if (event.outcome != null) "\n\n${event.outcome.getTranslation()}" else ""
                     )
+
                     Column(
                         modifier = Modifier.padding(top = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,

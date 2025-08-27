@@ -33,6 +33,7 @@ internal sealed interface StellarExplorerAction {
 }
 
 internal data class StellarExplorerState(
+    val loading: Boolean = true,
     val currentContent: Content = Content.LIST_HOSTS,
     val stellarHosts: List<StellarHost> = emptyList(),
     val planets: List<Planet> = emptyList(),
@@ -93,6 +94,7 @@ internal class StellarExplorerStore(
             .sortedWith(comparator = compareBy(comparator = nullsLast()) { it.name })
         updateState {
             it.copy(
+                loading = false,
                 stellarHosts = stellarHosts,
                 planets = planets,
                 filteredStellarHosts = stellarHosts,

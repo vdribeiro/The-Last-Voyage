@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -35,60 +34,57 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            when {
-                gameSession == null || ship == null -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-                else -> Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(all = 16.dp),
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Column(
+                    modifier = Modifier.weight(weight = 1f),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Column(
-                        modifier = Modifier.weight(weight = 1f),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Text(
-                            text = getTranslation(key = "game_over_screen__game_over"),
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold
+                    Text(
+                        text = getTranslation(key = "game_over_screen__game_over"),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(height = 16.dp))
+                    when (storeState.currentContent) {
+                        Content.MESSAGE -> TypewriterText(
+                            modifier = Modifier
+                                .weight(weight = 1f)
+                                .fillMaxWidth(),
+                            text = getTranslation(key = storeState.gameOverMessage.orEmpty())
                         )
-                        Spacer(modifier = Modifier.height(height = 16.dp))
-                        when (storeState.currentContent) {
-                            Content.MESSAGE -> TypewriterText(
-                                modifier = Modifier
-                                    .weight(weight = 1f)
-                                    .fillMaxWidth(),
-                                text = getTranslation(key = storeState.gameOverMessage.orEmpty())
-                            )
 
-                            Content.SCORE -> Score(
-                                isExpanded = null,
-                                score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
-                                utc = gameSession.utc,
-                                yearsTraveled = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
-                                sensorRange = ship.sensorRange.toString(),
-                                integrity = ship.integrity.toString(),
-                                materials = ship.materials.toString(),
-                                fuel = ship.fuel.toString(),
-                                cryopods = ship.cryopods.toString()
-                            )
+                        Content.SCORE -> if (gameSession != null && ship != null) Score(
+                            isExpanded = null,
+                            score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
+                            utc = gameSession.utc,
+                            yearsTraveled = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
+                            sensorRange = ship.sensorRange.toString(),
+                            integrity = ship.integrity.toString(),
+                            materials = ship.materials.toString(),
+                            fuel = ship.fuel.toString(),
+                            cryopods = ship.cryopods.toString()
+                        )
+                    }
+                }
+
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp),
+                    colors = ButtonDefaults.buttonColors(contentColor = Color.White),
+                    onClick = { store.send(action = GameOverAction.Continue) }
+                ) {
+                    Text(
+                        text = when (storeState.currentContent) {
+                            Content.MESSAGE -> getTranslation(key = "game_over_screen__score")
+                            Content.SCORE -> getTranslation(key = "game_over_screen__end")
                         }
-                    }
-
-                    Button(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-                        onClick = { store.send(action = GameOverAction.Continue) }
-                    ) {
-                        Text(
-                            text = when (storeState.currentContent) {
-                                Content.MESSAGE -> getTranslation(key = "game_over_screen__score")
-                                Content.SCORE -> getTranslation(key = "game_over_screen__end")
-                            }
-                        )
-                    }
+                    )
                 }
             }
         }

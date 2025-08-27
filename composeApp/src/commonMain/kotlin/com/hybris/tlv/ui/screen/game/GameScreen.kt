@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.game
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
@@ -9,6 +10,7 @@ import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Rocket
 import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -27,17 +29,18 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun GameScreen(store: Store<GameAction, GameState>) {
     val storeState by store.stateFlow.collectAsState()
-    val ship = storeState.gameSession?.ship
+    val gameSession = storeState.gameSession
+    val ship = gameSession?.ship
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             StatusBar(
                 modifier = Modifier.statusBarsPadding(),
-                hull = ship?.integrity?.toString().orEmpty(),
-                fuel = ship?.fuel?.toString().orEmpty(),
-                materials = ship?.materials?.toString().orEmpty(),
-                cryopods = ship?.cryopods?.toString().orEmpty()
+                hull = ship?.integrity?.toString() ?: "0",
+                fuel = ship?.fuel?.toString() ?: "0",
+                materials = ship?.materials?.toString() ?: "0",
+                cryopods = ship?.cryopods?.toString() ?: "0"
             )
         },
         bottomBar = {
@@ -64,10 +67,13 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            when (storeState.currentContent) {
-                Content.TRAVEL -> TravelContent(store = store)
-                Content.SYSTEM -> SystemContent(store = store)
-                Content.SHIP -> ShipContent(store = store)
+            when (gameSession) {
+                null -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                else -> when (storeState.currentContent) {
+                    Content.TRAVEL -> TravelContent(store = store)
+                    Content.SYSTEM -> SystemContent(store = store)
+                    Content.SHIP -> ShipContent(store = store)
+                }
             }
         }
     }

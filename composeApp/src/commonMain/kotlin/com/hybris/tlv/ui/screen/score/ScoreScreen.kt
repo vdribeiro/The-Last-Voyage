@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -46,28 +48,31 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                     style = MaterialTheme.typography.headlineLarge,
                 )
                 Spacer(modifier = Modifier.height(height = 32.dp))
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(all = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(space = 12.dp)
-                ) {
-                    items(items = storeState.scores, key = { it.id }) { score ->
-                        val isExpanded = expandedItems.contains(element = score.id)
-                        Score(
-                            modifier = Modifier
-                                .clickable(onClick = {
-                                    if (isExpanded) expandedItems.remove(element = score.id) else expandedItems.add(element = score.id)
-                                }),
-                            isExpanded = isExpanded,
-                            score = (score.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
-                            utc = score.utc,
-                            yearsTraveled = score.ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
-                            sensorRange = score.ship.sensorRange.toString(),
-                            integrity = score.ship.integrity.toString(),
-                            materials = score.ship.materials.toString(),
-                            fuel = score.ship.fuel.toString(),
-                            cryopods = score.ship.cryopods.toString()
-                        )
+                when {
+                    storeState.loading -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                    else -> LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(all = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(space = 12.dp)
+                    ) {
+                        items(items = storeState.scores, key = { it.id }) { score ->
+                            val isExpanded = expandedItems.contains(element = score.id)
+                            Score(
+                                modifier = Modifier
+                                    .clickable(onClick = {
+                                        if (isExpanded) expandedItems.remove(element = score.id) else expandedItems.add(element = score.id)
+                                    }),
+                                isExpanded = isExpanded,
+                                score = (score.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
+                                utc = score.utc,
+                                yearsTraveled = score.ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
+                                sensorRange = score.ship.sensorRange.toString(),
+                                integrity = score.ship.integrity.toString(),
+                                materials = score.ship.materials.toString(),
+                                fuel = score.ship.fuel.toString(),
+                                cryopods = score.ship.cryopods.toString()
+                            )
+                        }
                     }
                 }
             }

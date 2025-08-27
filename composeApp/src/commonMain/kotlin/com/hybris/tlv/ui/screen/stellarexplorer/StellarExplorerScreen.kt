@@ -2,8 +2,10 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -93,9 +95,12 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            when (storeState.currentContent) {
-                Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostContent(store = store)
-                Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetContent(store = store)
+            when {
+                storeState.loading -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                else -> when (storeState.currentContent) {
+                    Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostContent(store = store)
+                    Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetContent(store = store)
+                }
             }
         }
     }

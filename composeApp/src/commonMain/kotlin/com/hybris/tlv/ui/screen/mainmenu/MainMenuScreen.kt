@@ -49,26 +49,22 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                storeState.developerCorner?.let {
-                    Text(
-                        modifier = Modifier
-                            .size(size = 100.dp)
-                            .wrapContentHeight(align = Alignment.CenterVertically)
-                            .clickable { uriHandler.openUri(uri = it) },
-                        text = getTranslation(key = "website"),
-                        style = MaterialTheme.typography.titleSmall,
-                    )
-                }
-                storeState.tip?.let {
-                    Image(
-                        modifier = Modifier
-                            .size(size = 100.dp)
-                            .clickable { uriHandler.openUri(uri = it) },
-                        painter = painterResource(resource = Res.drawable.support_me_on_kofi_badge_beige),
-                        contentDescription = "Tip",
-                        contentScale = ContentScale.Fit,
-                    )
-                }
+                Text(
+                    modifier = Modifier
+                        .size(size = 100.dp)
+                        .wrapContentHeight(align = Alignment.CenterVertically)
+                        .clickable { storeState.developerCorner?.let { uriHandler.openUri(uri = it) } },
+                    text = getTranslation(key = "website"),
+                    style = MaterialTheme.typography.titleSmall,
+                )
+                Image(
+                    modifier = Modifier
+                        .size(size = 100.dp)
+                        .clickable { storeState.tip?.let { uriHandler.openUri(uri = it) } },
+                    painter = painterResource(resource = Res.drawable.support_me_on_kofi_badge_beige),
+                    contentDescription = "Tip",
+                    contentScale = ContentScale.Fit,
+                )
             }
         }
     ) { innerPadding ->
