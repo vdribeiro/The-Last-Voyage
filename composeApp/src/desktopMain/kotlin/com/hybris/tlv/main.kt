@@ -84,7 +84,9 @@ fun main() = application {
             Box(
                 modifier = Modifier
                     .onPointerEvent(eventType = PointerEventType.Press) { pointerEvent ->
-                        if (pointerEvent.buttons.isSecondaryPressed || pointerEvent.buttons.isBackPressed) navigation.back()
+                        if (pointerEvent.buttons.isSecondaryPressed || pointerEvent.buttons.isBackPressed) {
+                            navigation.back()
+                        }
                     }
             ) {
                 App(navigation = navigation)

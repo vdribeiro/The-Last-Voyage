@@ -4,6 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.component.LazyListIndex
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.screen.stellarexplorer.model.PlanetProperty
 import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
 import com.hybris.tlv.ui.screen.stellarexplorer.model.getPlanetsComparator
@@ -14,6 +15,7 @@ import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
+import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
 internal sealed interface StellarExplorerAction {
     data class SaveIndex(val index: LazyListIndex): StellarExplorerAction
@@ -159,7 +161,10 @@ internal class StellarExplorerStore(
     override fun setBackNavigation(state: StellarExplorerState): () -> Unit = {
         when (state.currentContent) {
             Content.LIST_HOSTS,
-            Content.LIST_PLANETS -> navigate(screen = Screen.MAIN_MENU)
+            Content.LIST_PLANETS -> navigate(
+                screen = Screen.MAIN_MENU,
+                state = MainMenuState(currentContent = MainMenuContent.LEARN_MENU)
+            )
 
             Content.DETAIL_HOSTS -> updateState {
                 it.copy(
