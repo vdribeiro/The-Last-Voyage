@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.earth.local
 
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.catastrophes
+import com.hybris.tlv.mock.mock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

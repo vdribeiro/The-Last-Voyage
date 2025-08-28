@@ -1,6 +1,5 @@
 package com.hybris.tlv.usecase.translation
 
-import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.translations
 import com.hybris.tlv.usecase.translation.mapper.toTranslationCacheMap
 import kotlin.test.Test

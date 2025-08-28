@@ -1,6 +1,5 @@
 package com.hybris.tlv.usecase.translation.remote
 
-import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.mock.errorMock
 import com.hybris.tlv.mock.mock

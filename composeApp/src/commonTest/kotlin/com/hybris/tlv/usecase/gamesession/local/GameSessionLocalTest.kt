@@ -1,7 +1,8 @@
 package com.hybris.tlv.usecase.gamesession.local
 
-import com.hybris.tlv.mock.mock
+import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.mock.gameSession
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.ship
 import com.hybris.tlv.usecase.space.model.Formula
 import kotlin.test.BeforeTest
@@ -12,8 +13,6 @@ import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
 internal class GameSessionLocalTest {
-
-    private val mock = Mock()
 
     @BeforeTest
     fun setup() {

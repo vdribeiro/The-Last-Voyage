@@ -1,6 +1,7 @@
 package com.hybris.tlv.usecase.space
 
-import com.hybris.tlv.http.HttpClientFactory
+import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.mock.errorMock
 import com.hybris.tlv.mock.mock
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
@@ -9,9 +10,6 @@ import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
 internal class SpaceUseCasesTest {
-
-    private val mock = Mock()
-    private val errorMock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
 
     @BeforeTest
     fun setup() {

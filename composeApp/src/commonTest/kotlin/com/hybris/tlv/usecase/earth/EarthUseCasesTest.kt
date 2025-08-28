@@ -1,7 +1,6 @@
 package com.hybris.tlv.usecase.earth
 
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.mock.errorMock
 import com.hybris.tlv.mock.mock
 import com.hybris.tlv.usecase.sync.model.SyncResult

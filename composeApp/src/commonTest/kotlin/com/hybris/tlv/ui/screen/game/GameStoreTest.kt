@@ -1,9 +1,9 @@
 package com.hybris.tlv.ui.screen.game
 
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.gameSessionPrototype
 import com.hybris.tlv.mock.hostsWithPlanets
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.ui.navigation.NavigationManager

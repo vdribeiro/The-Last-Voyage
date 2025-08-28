@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
-import com.hybris.tlv.config.Config
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -72,12 +71,12 @@ internal class MainMenuStore(
 
     override fun setBackNavigation(state: MainMenuState) = {
         when (state.currentContent) {
-            Content.MAIN_MENU, Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
             Content.HOST_TYPES,
             Content.PLANET_TYPES,
             Content.PROPERTIES,
             Content.MECHANICS,
             Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
+            Content.MAIN_MENU, Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
         }.let {}
     }
 

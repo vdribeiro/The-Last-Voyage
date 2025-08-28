@@ -1,10 +1,9 @@
 package com.hybris.tlv.usecase.event
 
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.mock.errorMock
-import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.events
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test

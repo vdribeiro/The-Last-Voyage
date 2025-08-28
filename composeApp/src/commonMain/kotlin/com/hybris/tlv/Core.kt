@@ -1,7 +1,6 @@
 package com.hybris.tlv
 
 import androidx.annotation.VisibleForTesting
-import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.config.Config
 import com.hybris.tlv.config.ConfigManager

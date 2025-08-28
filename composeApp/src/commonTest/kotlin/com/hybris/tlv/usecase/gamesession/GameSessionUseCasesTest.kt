@@ -1,10 +1,10 @@
 package com.hybris.tlv.usecase.gamesession
 
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.events
 import com.hybris.tlv.mock.gameSessionPrototype
 import com.hybris.tlv.mock.hostsWithPlanets
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.usecase.gamesession.model.GameOver

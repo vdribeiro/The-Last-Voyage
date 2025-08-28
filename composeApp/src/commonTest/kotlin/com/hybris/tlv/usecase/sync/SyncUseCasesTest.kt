@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase.sync
 
 import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.mock.errorMock
 import com.hybris.tlv.mock.mock
 import com.hybris.tlv.usecase.sync.model.SyncResult
@@ -21,7 +20,6 @@ internal class SyncUseCasesTest {
 
     @Test
     fun `prepopulate and sync`() = runBlocking {
-        mock.useCases.sync.setup()
         val totalOperations = 8f
 
         val prepopulate = mock.useCases.sync.prepopulate().toList()
@@ -36,16 +34,7 @@ internal class SyncUseCasesTest {
         }
         assertEquals(expected = SyncResult.Success, actual = noSync.last())
 
-        mock.config.apply {
-            put(key = Configs.TranslationsVersion, value = 0L)
-            put(key = Configs.CatastrophesVersion, value = 0L)
-            put(key = Configs.EnginesVersion, value = 0L)
-            put(key = Configs.StellarHostsVersion, value = 0L)
-            put(key = Configs.PlanetsVersion, value = 0L)
-            put(key = Configs.EventsVersion, value = 0L)
-            put(key = Configs.AchievementsVersion, value = 0L)
-            put(key = Configs.CreditsVersion, value = 0L)
-        }
+
 
         val sync = mock.useCases.sync.sync().toList()
         for (i in 0..totalOperations.toInt() - 1) {
@@ -66,19 +55,7 @@ internal class SyncUseCasesTest {
 
     @Test
     fun `get error`() = runBlocking {
-        val totalOperations = 8f
-
-        errorMock.config.apply {
-            put(key = Configs.TranslationsVersion, value = 0L)
-            put(key = Configs.CatastrophesVersion, value = 0L)
-            put(key = Configs.EnginesVersion, value = 0L)
-            put(key = Configs.StellarHostsVersion, value = 0L)
-            put(key = Configs.PlanetsVersion, value = 0L)
-            put(key = Configs.EventsVersion, value = 0L)
-            put(key = Configs.AchievementsVersion, value = 0L)
-            put(key = Configs.CreditsVersion, value = 0L)
-        }
-
+        val totalOperations = 9f
         val errorSync = errorMock.useCases.sync.sync().toList()
         for (i in 0..totalOperations.toInt() - 1) {
             assertEquals(expected = SyncResult.Loading(progress = i.toFloat(), total = totalOperations), actual = errorSync[i])

@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.space.remote
 
-import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.http.Result
+import com.hybris.tlv.mock.errorMock
 import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
@@ -12,9 +12,6 @@ import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
 internal class SpaceRemoteTest {
-
-    private val mock = Mock()
-    private val errorMock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
 
     @Test
     fun `get stellar hosts archive`() = runBlocking {

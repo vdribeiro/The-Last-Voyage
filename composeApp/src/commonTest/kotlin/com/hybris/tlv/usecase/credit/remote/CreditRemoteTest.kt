@@ -1,10 +1,9 @@
 package com.hybris.tlv.usecase.credit.remote
 
-import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.http.Result
-import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.credits
 import com.hybris.tlv.mock.errorMock
+import com.hybris.tlv.mock.mock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
