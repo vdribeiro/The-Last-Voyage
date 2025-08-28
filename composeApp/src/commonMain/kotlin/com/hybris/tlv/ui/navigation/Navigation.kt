@@ -90,7 +90,6 @@ internal class Navigation(
             dispatcher = dispatcher,
             navigation = this,
             initialState = state as? MainMenuState ?: MainMenuState(),
-            storage = storage,
             gameSessionUseCases = useCases.gameSession
         )
     )
@@ -135,7 +134,6 @@ internal class Navigation(
             dispatcher = dispatcher,
             navigation = this,
             initialState = state as? GameOverState ?: GameOverState(),
-            locale = locale,
             gameSessionUseCases = useCases.gameSession
         )
     )
@@ -156,7 +154,6 @@ internal class Navigation(
             dispatcher = dispatcher,
             navigation = this,
             initialState = state as? ScoreState ?: ScoreState(),
-            locale = locale,
             gameSessionUseCases = useCases.gameSession
         )
     )

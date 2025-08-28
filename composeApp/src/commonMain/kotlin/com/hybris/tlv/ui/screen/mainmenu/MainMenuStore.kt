@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
@@ -44,7 +43,6 @@ internal class MainMenuStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: MainMenuState,
-    private val storage: ConfigManager,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<MainMenuAction, MainMenuState>(
     dispatcher = dispatcher,

@@ -73,7 +73,7 @@ import io.ktor.client.HttpClient
 
 internal class Gateways(
     dispatcher: Dispatcher = Dispatchers(),
-    sqlDriver: SqlDriver = createSqlDriver(inMemory = true),
+    sqlDriver: SqlDriver = createSqlDriver(),
     database: AppDatabase = Database(driver = sqlDriver).database,
     httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
     config: ConfigManager = Config(httpClient = httpClient),
