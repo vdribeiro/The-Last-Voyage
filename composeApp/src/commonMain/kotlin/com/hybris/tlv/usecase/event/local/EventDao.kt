@@ -19,9 +19,6 @@ internal class EventDao(
         events.forEach { eventDao.upsertEvent(Event = it.toEventSchema()) }
     }
 
-    override fun getEvents(): List<Event> =
-        eventDao.getEvents().executeAsList().map { it.toEvent() }
-
     override fun getRandomEvent(ids: Set<String>): List<Event> {
         val event = eventDao.getRandomEvent(ids = ids).executeAsOneOrNull()?.toEvent() ?: return emptyList()
         val treeNodes = mutableListOf(event)

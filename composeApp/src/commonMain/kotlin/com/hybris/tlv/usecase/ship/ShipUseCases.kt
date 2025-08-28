@@ -6,7 +6,7 @@ import com.hybris.tlv.usecase.ship.model.Ship
 internal interface ShipUseCases {
 
     /**
-     * Get [Engine]s from the database.
+     * Get all [Engine]s.
      */
     suspend fun getEngines(): List<Engine>
 

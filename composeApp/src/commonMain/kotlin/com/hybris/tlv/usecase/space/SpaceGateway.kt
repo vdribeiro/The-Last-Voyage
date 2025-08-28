@@ -10,6 +10,12 @@ internal class SpaceGateway(
     private val spaceDao: SpaceLocal,
 ): SpaceUseCases {
 
+
+    override suspend fun getStellarHost(id: String): StellarHost? {
+        val planets = spaceDao.getPlanetsByStellarHost(stellarHostId = id)
+        return spaceDao.getStellarHost(id = id)?.apply { this.planets.addAll(elements = planets) }
+    }
+
     override suspend fun getExoplanets(): List<StellarHost> {
         val planetMap = spaceDao.getPlanets().groupBy { it.stellarHostId }
         return spaceDao.getStellarHosts().apply {
@@ -19,12 +25,11 @@ internal class SpaceGateway(
 
     override suspend fun getNearestStars(
         stellarHost: StellarHost,
-        stellarHosts: List<StellarHost>,
         n: Int,
         visited: Set<String>
     ): List<StellarHost> {
         val stellarHostCP = stellarHost.toCartesian() ?: return emptyList()
-        return stellarHosts
+        return getExoplanets()
             .asSequence()
             .filter { it.id != stellarHost.id && it.id !in visited }
             .mapNotNull { other ->

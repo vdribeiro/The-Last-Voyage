@@ -45,3 +45,23 @@ SELECT
     Planet.inclination,
     Planet.obliquity
 FROM Planet;
+
+getPlanetsByStellarHost:
+SELECT
+    Planet.id,
+    Planet.name,
+    Planet.stellarHostId,
+    Planet.status,
+    Planet.orbitalPeriod,
+    Planet.orbitAxis,
+    Planet.radius,
+    Planet.mass,
+    Planet.density,
+    Planet.eccentricity,
+    Planet.insolationFlux,
+    Planet.equilibriumTemperature,
+    Planet.occultationDepth,
+    Planet.inclination,
+    Planet.obliquity
+FROM Planet
+WHERE Planet.stellarHostId = :stellarHostId;

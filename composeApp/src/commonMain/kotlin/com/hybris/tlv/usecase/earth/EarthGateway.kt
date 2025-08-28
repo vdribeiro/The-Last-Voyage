@@ -7,6 +7,6 @@ internal class EarthGateway(
     private val earthDao: EarthLocal
 ): EarthUseCases {
 
-    override suspend fun getCatastrophes(): List<Catastrophe> =
-        earthDao.getCatastrophes()
+    override suspend fun getRandomCatastrophe(): Catastrophe? =
+        earthDao.getRandomCatastrophe()
 }

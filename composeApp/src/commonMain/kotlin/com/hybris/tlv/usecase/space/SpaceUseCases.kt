@@ -5,16 +5,20 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 internal interface SpaceUseCases {
 
     /**
-     * Get exoplanets from the database ordered by ascending distance.
+     * Get a stellar host by [id].
+     */
+    suspend fun getStellarHost(id: String): StellarHost?
+
+    /**
+     * Get exoplanets ordered by ascending distance.
      */
     suspend fun getExoplanets(): List<StellarHost>
 
     /**
-     * Get the nearest [n] stellar hosts of the given [stellarHost] in the [stellarHosts] list and exclude the [visited].
+     * Get the nearest [n] stellar hosts of the [stellarHost] excluding the [visited].
      */
     suspend fun getNearestStars(
         stellarHost: StellarHost,
-        stellarHosts: List<StellarHost>,
         n: Int,
         visited: Set<String>
     ): List<StellarHost>

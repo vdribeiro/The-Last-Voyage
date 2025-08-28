@@ -47,3 +47,25 @@ SELECT
     StellarHost.ra,
     StellarHost.dec
 FROM StellarHost;
+
+getStellarHost:
+SELECT
+    StellarHost.id,
+    StellarHost.name,
+    StellarHost.systemName,
+    StellarHost.spectralType,
+    StellarHost.effectiveTemperature,
+    StellarHost.radius,
+    StellarHost.mass,
+    StellarHost.metallicity,
+    StellarHost.luminosity,
+    StellarHost.gravity,
+    StellarHost.age,
+    StellarHost.density,
+    StellarHost.rotationalVelocity,
+    StellarHost.rotationalPeriod,
+    StellarHost.distance,
+    StellarHost.ra,
+    StellarHost.dec
+FROM StellarHost
+WHERE StellarHost.id = :id;

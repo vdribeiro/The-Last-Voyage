@@ -15,15 +15,6 @@ DELETE FROM Event;
 upsertEvent:
 INSERT OR REPLACE INTO Event VALUES ?;
 
-getEvents:
-SELECT
-    Event.id,
-    Event.name,
-    Event.description,
-    Event.parentId,
-    Event.outcome
-FROM Event;
-
 getRandomEvent:
 SELECT
     Event.id,

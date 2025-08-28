@@ -5,7 +5,7 @@ import com.hybris.tlv.usecase.gamesession.model.GameSession
 internal interface GameSessionLocal {
 
     /**
-     * Get all [GameSession]s ordered .
+     * Get all [GameSession]s ordered by the most recent to the least recent.
      */
     fun getGameSessions(): List<GameSession>
 

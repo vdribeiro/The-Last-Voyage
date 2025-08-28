@@ -15,11 +15,6 @@ internal interface EventLocal {
     fun rewriteEvents(events: List<Event>)
 
     /**
-     * Get [Event]s from the database.
-     */
-    fun getEvents(): List<Event>
-
-    /**
      * Get a random [Event] and its children given an exclusion list of [ids].
      */
     fun getRandomEvent(ids: Set<String>): List<Event>

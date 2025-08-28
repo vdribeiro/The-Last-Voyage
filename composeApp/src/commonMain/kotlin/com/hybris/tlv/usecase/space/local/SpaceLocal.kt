@@ -32,9 +32,19 @@ internal interface SpaceLocal {
     fun getStellarHosts(): List<StellarHost>
 
     /**
+     * Get [StellarHost] by [id] from the database.
+     */
+    fun getStellarHost(id: String): StellarHost?
+
+    /**
      * Get [Planet]s from the database.
      */
     fun getPlanets(): List<Planet>
+
+    /**
+     * Get [Planet]s by [stellarHostId] from the database.
+     */
+    fun getPlanetsByStellarHost(stellarHostId: String): List<Planet>
 
     /**
      * Upsert [Formula] in the database.

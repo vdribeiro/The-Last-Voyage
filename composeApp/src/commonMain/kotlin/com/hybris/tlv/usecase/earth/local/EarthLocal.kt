@@ -15,7 +15,7 @@ internal interface EarthLocal {
     fun rewriteCatastrophes(catastrophes: List<Catastrophe>)
 
     /**
-     * Get [Catastrophe]s from the database.
+     * Get random [Catastrophe] from the database.
      */
-    fun getCatastrophes(): List<Catastrophe>
+    fun getRandomCatastrophe(): Catastrophe?
 }

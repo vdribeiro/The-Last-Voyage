@@ -37,8 +37,14 @@ internal class SpaceDao(
     override fun getStellarHosts(): List<StellarHost> =
         stellarHostDao.getStellarHosts().executeAsList().map { it.toStellarHost() }
 
+    override fun getStellarHost(id: String): StellarHost? =
+        stellarHostDao.getStellarHost(id = id).executeAsOneOrNull()?.toStellarHost()
+
     override fun getPlanets(): List<Planet> =
         planetDao.getPlanets().executeAsList().map { it.toPlanet() }
+
+    override fun getPlanetsByStellarHost(stellarHostId: String): List<Planet> =
+        planetDao.getPlanetsByStellarHost(stellarHostId = stellarHostId).executeAsList().map { it.toPlanet() }
 
     override fun upsertFormula(formula: Formula) {
         formulaDao.upsertFormula(Formula = formula.toFormulaSchema())

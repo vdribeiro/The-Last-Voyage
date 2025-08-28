@@ -26,7 +26,6 @@ internal sealed interface NewGameAction {
 
 internal data class NewGameState(
     val currentContent: Content = Content.SHIP,
-    val catastrophes: List<Catastrophe> = emptyList(),
     val selectedCatastrophe: Catastrophe? = null,
     val selectedShip: ShipPrototype? = null,
     val shipState: ShipState = ShipState(
@@ -56,13 +55,26 @@ internal class NewGameStore(
     initialState = initialState
 ) {
 
-    init {
-        setup()
-    }
+    private fun start() = launchInPipeline {
+        val catastrophe = earthUseCases.getRandomCatastrophe()
+        if (catastrophe == null) {
+            Logger.error(tag = TAG, message = "Invalid state: missing catastrophe")
+            navigate(
+                screen = Screen.ERROR, state = ErrorState(
+                    screen = Screen.NEW_GAME,
+                    throwable = IllegalStateException("Invalid state: missing catastrophe"),
+                    identifier = "NewGameStore:reducer:Start"
+                )
+            )
+            return@launchInPipeline
+        }
 
-    private fun setup() = launchInPipeline {
-        val catastrophes = earthUseCases.getCatastrophes()
-        updateState { it.copy(catastrophes = catastrophes) }
+        updateState {
+            it.copy(
+                currentContent = Content.START,
+                selectedCatastrophe = catastrophe,
+            )
+        }
     }
 
     private fun startGame(state: NewGameState) = launchInPipeline {
@@ -113,12 +125,7 @@ internal class NewGameStore(
                 it.copy(currentContent = Content.ADVANCED)
             }
 
-            NewGameAction.Start -> updateState {
-                it.copy(
-                    currentContent = Content.START,
-                    selectedCatastrophe = state.catastrophes.random(),
-                )
-            }
+            NewGameAction.Start -> start()
 
             NewGameAction.StartGame -> startGame(state = state)
         }

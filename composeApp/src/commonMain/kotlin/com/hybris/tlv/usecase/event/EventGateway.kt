@@ -7,9 +7,6 @@ internal class EventGateway(
     private val eventDao: EventLocal
 ): EventUseCases {
 
-    override suspend fun getEvents(): List<Event> =
-        eventDao.getEvents()
-
     override suspend fun getRandomEvent(ids: Set<String>): List<Event> =
         eventDao.getRandomEvent(ids = ids)
 }

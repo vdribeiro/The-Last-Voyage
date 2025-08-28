@@ -15,12 +15,12 @@ internal interface GameSessionUseCases {
     suspend fun startGame(gameSessionPrototype: GameSessionPrototype): GameSession
 
     /**
-     * Get all game sessions from the database.
+     * Get all game sessions.
      */
     suspend fun getGameSessions(): List<GameSession>
 
     /**
-     * Get latest game session from the database.
+     * Get latest game session.
      */
     suspend fun getLatestGameSession(): GameSession?
 

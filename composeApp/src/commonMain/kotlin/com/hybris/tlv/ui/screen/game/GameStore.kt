@@ -23,10 +23,8 @@ internal sealed interface GameAction {
 internal data class GameState(
     val gameSession: GameSession? = null,
     val currentContent: Content = Content.SYSTEM,
-    val stellarHosts: List<StellarHost> = emptyList(),
     val currentStellarHost: StellarHost? = null,
     val nearStellarHosts: List<StellarHost> = emptyList(),
-    val visitedStellarHosts: Set<String> = emptySet(),
 )
 
 internal enum class Content {
@@ -74,10 +72,8 @@ internal class GameStore(
             return@launchInPipeline
         }
 
-        val stellarHosts = spaceUseCases.getExoplanets()
-        val currentStellarHost = if (updatedGameSession.currentStellarHostId == null) {
-            stellarHosts.firstOrNull()
-        } else stellarHosts.find { it.id == updatedGameSession.currentStellarHostId }
+        val currentStellarHostId = updatedGameSession.currentStellarHostId ?: "sol"
+        val currentStellarHost = spaceUseCases.getStellarHost(id = currentStellarHostId)
         if (currentStellarHost == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing stellar host")
             navigate(
@@ -90,34 +86,18 @@ internal class GameStore(
             return@launchInPipeline
         }
 
-        var visited = updatedGameSession.visitedStellarHosts.ifEmpty {
-            stellarHosts.firstOrNull()?.let { setOf(it.id) }.orEmpty()
-        }
-        if (visited.isEmpty()) {
-            Logger.error(tag = TAG, message = "Invalid state: empty visited")
-            navigate(
-                screen = Screen.ERROR, state = ErrorState(
-                    screen = Screen.GAME,
-                    throwable = IllegalStateException("Invalid state: empty visited"),
-                    identifier = "GameStore:setup"
-                )
-            )
-            return@launchInPipeline
-        }
-
+        var visited = updatedGameSession.visitedStellarHosts.ifEmpty { setOf(currentStellarHostId) }
         var nearStellarHosts = spaceUseCases.getNearestStars(
             stellarHost = currentStellarHost,
-            stellarHosts = stellarHosts,
             n = ship.sensorRange,
             visited = visited
         )
-
         // Nowhere to go, clear visited and recalculate
         if (nearStellarHosts.isEmpty()) {
+            // TODO - achievement here!
             visited = setOf(currentStellarHost.id)
             nearStellarHosts = spaceUseCases.getNearestStars(
                 stellarHost = currentStellarHost,
-                stellarHosts = stellarHosts,
                 n = ship.sensorRange,
                 visited = visited
             )
@@ -131,19 +111,23 @@ internal class GameStore(
             )
         }
 
+        val finalUpdatedGameSession = updatedGameSession.copy(
+            currentStellarHostId = currentStellarHostId,
+            visitedStellarHosts = visited,
+        )
+        gameSessionUseCases.updateGameSession(gameSession = finalUpdatedGameSession)
+
         updateState {
             it.copy(
-                gameSession = updatedGameSession,
-                stellarHosts = stellarHosts,
+                gameSession = finalUpdatedGameSession,
                 currentStellarHost = currentStellarHost,
                 nearStellarHosts = nearStellarHosts,
-                visitedStellarHosts = visited
             )
         }
     }
 
     private fun travel(state: GameState, action: GameAction.Travel) = launchInPipeline {
-        val stellarHost = state.stellarHosts.find { it.id == action.stellarHost.id }
+        val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
             navigate(
