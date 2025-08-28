@@ -65,7 +65,6 @@ internal class Mock(
     val sqlDriver: SqlDriver = createSqlDriver(inMemory = true),
     val database: AppDatabase = Database(driver = sqlDriver).database,
     val httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
-    val config: ConfigManager = Config(httpClient = httpClient),
     val translationDao: TranslationLocal = TranslationDao(database = database),
     val earthDao: EarthLocal = EarthDao(database = database),
     val shipDao: ShipLocal = ShipDao(database = database),
@@ -110,7 +109,7 @@ internal class Mock(
         creditApi = creditApi,
         creditDao = creditDao
     ),
-) {
+    val config: ConfigManager = Config(httpClient = httpClient),
     val useCases: UseCases = Gateways(
         dispatcher = dispatcher,
         sqlDriver = sqlDriver,
@@ -139,12 +138,12 @@ internal class Mock(
         internalEvent = internalEvent,
         internalAchievement = internalAchievement,
         internalCredit = internalCredit,
-    )
+    ),
     val navigation: NavigationManager = Navigation(
         dispatcher = dispatcher,
         useCases = useCases
     )
-
+) {
     fun clearDatabase() {
         val query = "SELECT name FROM sqlite_master WHERE type='table' " +
                 "AND name!='sqlite_sequence' AND name!='android_metadata'"

@@ -90,6 +90,7 @@ internal class Navigation(
             dispatcher = dispatcher,
             navigation = this,
             initialState = state as? MainMenuState ?: MainMenuState(),
+            config = useCases.config,
             gameSessionUseCases = useCases.gameSession
         )
     )
