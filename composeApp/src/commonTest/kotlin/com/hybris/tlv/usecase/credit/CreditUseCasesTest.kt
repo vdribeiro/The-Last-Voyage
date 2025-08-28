@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.credit
 
+import com.hybris.tlv.Core
 import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.mock.Mock
 import com.hybris.tlv.usecase.sync.model.SyncResult
@@ -16,6 +17,9 @@ internal class CreditUseCasesTest {
     @BeforeTest
     fun setup() {
         mock.clearDatabase()
+
+        val core: Core = Core()
+        core.achievementDao
     }
 
     @Test

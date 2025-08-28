@@ -14,21 +14,9 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.hybris.tlv.ui.navigation.Navigation
-import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.usecase.Gateways
-import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.translation.getTranslation
 import java.util.concurrent.atomic.AtomicBoolean
 import javafx.application.Platform
-
-private val useCases: UseCases by lazy {
-    Gateways()
-}
-
-private val navigation: NavigationManager by lazy {
-    Navigation(useCases = useCases)
-}
 
 private val isJfxInitialized = AtomicBoolean(false)
 
@@ -49,11 +37,11 @@ fun main() = application {
                 modifier = Modifier
                     .onPointerEvent(eventType = PointerEventType.Press) { pointerEvent ->
                         if (pointerEvent.buttons.isSecondaryPressed || pointerEvent.buttons.isBackPressed) {
-                            navigation.back()
+                            core.navigation.back()
                         }
                     }
             ) {
-                App(navigation = navigation)
+                App(navigation = core.navigation)
             }
         }
     }

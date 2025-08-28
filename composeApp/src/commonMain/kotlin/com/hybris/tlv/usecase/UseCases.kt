@@ -1,6 +1,5 @@
 package com.hybris.tlv.usecase
 
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.credit.CreditUseCases
 import com.hybris.tlv.usecase.earth.EarthUseCases
@@ -12,7 +11,6 @@ import com.hybris.tlv.usecase.sync.SyncUseCases
 
 internal interface UseCases {
 
-    val config: ConfigManager
     val sync: SyncUseCases
     val earth: EarthUseCases
     val ship: ShipUseCases

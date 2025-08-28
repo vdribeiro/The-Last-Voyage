@@ -27,3 +27,7 @@ internal fun App(navigation: NavigationManager) {
         )
     }
 }
+
+internal val core: Core by lazy {
+    Core()
+}
