@@ -76,10 +76,10 @@ import io.ktor.client.HttpClient
 internal class Gateways(
     dispatcher: Dispatcher = CommonDispatchers(),
     locale: Locale = CommonLocale(),
-    storage: StorageManager = Storage(),
     sqlDriver: SqlDriver = createSqlDriver(inMemory = true),
     database: AppDatabase = Database(driver = sqlDriver).database,
     httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
+    storage: StorageManager = Storage(httpClient = httpClient),
     translationDao: TranslationLocal = TranslationDao(database = database),
     earthDao: EarthLocal = EarthDao(database = database),
     shipDao: ShipLocal = ShipDao(database = database),

@@ -110,7 +110,7 @@ internal class IosAudioPlayer: AudioPlayer {
     }
 
     companion object {
-        private const val TAG = "MediaPlayer"
+        private const val TAG = "AudioPlayer"
     }
 }
 

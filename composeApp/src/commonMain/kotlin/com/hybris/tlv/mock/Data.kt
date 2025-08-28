@@ -1,6 +1,6 @@
 package com.hybris.tlv.mock
 
-import com.hybris.tlv.datetime.now
+import com.hybris.tlv.locale.now
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
 import com.hybris.tlv.usecase.credit.model.Credit

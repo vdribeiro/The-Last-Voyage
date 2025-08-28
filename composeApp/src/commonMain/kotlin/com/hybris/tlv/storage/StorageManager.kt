@@ -3,12 +3,22 @@ package com.hybris.tlv.storage
 internal interface StorageManager {
 
     /**
-     * Retrieve config.
+     * Cached local config.
      */
-    fun get(): Config
+    val config: Config
 
     /**
-     * Set a string [value] into the config given its [key] or use null to delete it.
+     * Get local config.
      */
-    fun set(key: Config)
+    suspend fun getLocal(): Config?
+
+    /**
+     * Get remote config.
+     */
+    suspend fun getRemote(): Config?
+
+    /**
+     * Set local config.
+     */
+    suspend fun setLocal(config: Config)
 }

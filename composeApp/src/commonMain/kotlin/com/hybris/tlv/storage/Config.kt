@@ -14,6 +14,4 @@ internal data class Config(
     val creditsVersion: Long = 0,
     val developerCorner: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb",
     val tip: String = "https://ko-fi.com/engsoneca"
-) {
-
-}
+)

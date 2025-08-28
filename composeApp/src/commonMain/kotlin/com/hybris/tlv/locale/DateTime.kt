@@ -1,4 +1,4 @@
-package com.hybris.tlv.datetime
+package com.hybris.tlv.locale
 
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime

@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.gamesession.mapper
 
 import com.hybris.tlv.database.GameSessionSchema
-import com.hybris.tlv.datetime.now
+import com.hybris.tlv.locale.now
 import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype

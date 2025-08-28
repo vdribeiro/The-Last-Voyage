@@ -2,8 +2,8 @@ package com.hybris.tlv.usecase.sync
 
 import com.hybris.tlv.locale.Locale
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.storage.StorageManager
 import com.hybris.tlv.storage.Config
+import com.hybris.tlv.storage.StorageManager
 import com.hybris.tlv.usecase.achievement.AchievementInternalUseCases
 import com.hybris.tlv.usecase.credit.CreditInternalUseCases
 import com.hybris.tlv.usecase.earth.EarthInternalUseCases
@@ -85,6 +85,6 @@ internal class SyncGateway(
     override suspend fun getArchive(): Flow<SyncResult> = internalSpace.getArchive()
 
     companion object Companion {
-        private const val TAG = "AppCore"
+        private const val TAG = "Sync"
     }
 }

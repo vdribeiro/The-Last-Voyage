@@ -13,7 +13,7 @@ actual fun saveFile(fileName: String, content: String): Boolean = runCatching {
     true
 }.getOrDefault(defaultValue = false)
 
-actual fun loadFile(fileName: String): String = runCatching {
+actual fun loadFile(fileName: String): String? = runCatching {
     val file = File(appDataDir, fileName)
     file.readText()
-}.getOrDefault(defaultValue = "")
+}.getOrDefault(defaultValue = null)

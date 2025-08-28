@@ -23,9 +23,6 @@ private val dispatcher: Dispatcher by lazy {
 private val locale: Locale by lazy {
     AndroidLocale(context = applicationContext)
 }
-private val storage: StorageManager by lazy {
-    Storage()
-}
 private val sqlDriver: SqlDriver by lazy {
     createSqlDriver()
 }
