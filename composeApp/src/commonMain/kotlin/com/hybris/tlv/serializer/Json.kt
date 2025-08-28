@@ -13,13 +13,13 @@ val json = Json {
 
 internal suspend inline fun <reified T> loadFromJson(path: String): List<T> {
     val serializer = ListSerializer(elementSerializer = json.serializersModule.serializer<T>())
-    return loadFromJsonShadowing(path, serializer)
+    return loadFromJsonShadowing(path = path, serializer = serializer)
 }
 
 // The Json loading must be mocked in tests and 'inline' breaks shadowing, hence the shadowing function
 private suspend fun <T> loadFromJsonShadowing(path: String, serializer: KSerializer<List<T>>): List<T> {
     return runCatching {
         val stringContent = Res.readBytes(path).decodeToString()
-        json.decodeFromString(serializer, stringContent)
+        json.decodeFromString(deserializer = serializer, string = stringContent)
     }.getOrDefault(emptyList())
 }

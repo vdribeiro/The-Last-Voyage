@@ -2,9 +2,8 @@ package com.hybris.tlv.ui.navigation
 
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.flow.Dispatchers
 import com.hybris.tlv.flow.launch
-import com.hybris.tlv.locale.Locale
-import com.hybris.tlv.storage.StorageManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.navigation.NavigationManager.State
 import com.hybris.tlv.ui.screen.achievement.AchievementState
@@ -35,9 +34,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
 internal class Navigation(
-    val dispatcher: Dispatcher,
-    val locale: Locale,
-    val storage: StorageManager,
+    val dispatcher: Dispatcher = Dispatchers(),
     val useCases: UseCases
 ): NavigationManager {
 

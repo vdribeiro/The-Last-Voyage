@@ -1,15 +1,13 @@
 package com.hybris.tlv.usecase
 
 import app.cash.sqldelight.db.SqlDriver
+import com.hybris.tlv.config.Config
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.Database
 import com.hybris.tlv.database.createSqlDriver
-import com.hybris.tlv.flow.CommonDispatchers
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.flow.Dispatchers
 import com.hybris.tlv.http.HttpClientFactory
-import com.hybris.tlv.locale.CommonLocale
-import com.hybris.tlv.locale.Locale
-import com.hybris.tlv.storage.Storage
-import com.hybris.tlv.storage.StorageManager
 import com.hybris.tlv.usecase.achievement.AchievementGateway
 import com.hybris.tlv.usecase.achievement.AchievementInternalGateway
 import com.hybris.tlv.usecase.achievement.AchievementInternalUseCases
@@ -74,12 +72,11 @@ import database.AppDatabase
 import io.ktor.client.HttpClient
 
 internal class Gateways(
-    dispatcher: Dispatcher = CommonDispatchers(),
-    locale: Locale = CommonLocale(),
+    dispatcher: Dispatcher = Dispatchers(),
     sqlDriver: SqlDriver = createSqlDriver(inMemory = true),
     database: AppDatabase = Database(driver = sqlDriver).database,
     httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
-    storage: StorageManager = Storage(httpClient = httpClient),
+    config: ConfigManager = Config(httpClient = httpClient),
     translationDao: TranslationLocal = TranslationDao(database = database),
     earthDao: EarthLocal = EarthDao(database = database),
     shipDao: ShipLocal = ShipDao(database = database),
@@ -172,8 +169,7 @@ internal class Gateways(
 
     override val sync: SyncUseCases by lazy {
         SyncGateway(
-            locale = locale,
-            storage = storage,
+            storage = config,
             internalTranslation = internalTranslation,
             internalEarth = internalEarth,
             internalShip = internalShip,

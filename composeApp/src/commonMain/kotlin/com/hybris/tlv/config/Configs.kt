@@ -1,9 +1,9 @@
-package com.hybris.tlv.storage
+package com.hybris.tlv.config
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class Config(
+internal data class Configs(
     val translationsVersion: Long = 0,
     val catastrophesVersion: Long = 0,
     val enginesVersion: Long = 0,

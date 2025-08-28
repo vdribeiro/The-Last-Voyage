@@ -14,14 +14,6 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import app.cash.sqldelight.db.SqlDriver
-import com.hybris.tlv.database.createSqlDriver
-import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.flow.Dispatchers
-import com.hybris.tlv.locale.DesktopLocale
-import com.hybris.tlv.locale.Locale
-import com.hybris.tlv.storage.Storage
-import com.hybris.tlv.storage.StorageManager
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.Gateways
@@ -30,34 +22,12 @@ import com.hybris.tlv.usecase.translation.getTranslation
 import java.util.concurrent.atomic.AtomicBoolean
 import javafx.application.Platform
 
-private val dispatcher: Dispatcher by lazy {
-    Dispatchers()
-}
-private val locale: Locale by lazy {
-    DesktopLocale()
-}
-private val storage: StorageManager by lazy {
-    Storage()
-}
-private val sqlDriver: SqlDriver by lazy {
-    createSqlDriver()
-}
 private val useCases: UseCases by lazy {
-    Gateways(
-        dispatcher = dispatcher,
-        locale = locale,
-        storage = storage,
-        sqlDriver = sqlDriver,
-    )
+    Gateways()
 }
 
 private val navigation: NavigationManager by lazy {
-    Navigation(
-        dispatcher = dispatcher,
-        locale = locale,
-        storage = storage,
-        useCases = useCases
-    )
+    Navigation(useCases = useCases)
 }
 
 private val isJfxInitialized = AtomicBoolean(false)

@@ -2,15 +2,13 @@ package com.hybris.tlv.mock
 
 import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
+import com.hybris.tlv.config.Config
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.Database
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.flow.CommonDispatchers
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory
-import com.hybris.tlv.locale.CommonLocale
-import com.hybris.tlv.locale.Locale
-import com.hybris.tlv.storage.Storage
-import com.hybris.tlv.storage.StorageManager
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.Gateways
@@ -64,11 +62,10 @@ import io.ktor.client.HttpClient
 
 internal class Mock(
     val dispatcher: Dispatcher = CommonDispatchers(),
-    val locale: Locale = CommonLocale(),
-    val storage: StorageManager = Storage(),
     val sqlDriver: SqlDriver = createSqlDriver(inMemory = true),
     val database: AppDatabase = Database(driver = sqlDriver).database,
     val httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
+    val config: ConfigManager = Config(httpClient = httpClient),
     val translationDao: TranslationLocal = TranslationDao(database = database),
     val earthDao: EarthLocal = EarthDao(database = database),
     val shipDao: ShipLocal = ShipDao(database = database),
@@ -116,11 +113,10 @@ internal class Mock(
 ) {
     val useCases: UseCases = Gateways(
         dispatcher = dispatcher,
-        locale = locale,
-        storage = storage,
         sqlDriver = sqlDriver,
         database = database,
         httpClient = httpClient,
+        config = config,
         translationDao = translationDao,
         earthDao = earthDao,
         shipDao = shipDao,
@@ -146,8 +142,6 @@ internal class Mock(
     )
     val navigation: NavigationManager = Navigation(
         dispatcher = dispatcher,
-        locale = locale,
-        storage = storage,
         useCases = useCases
     )
 

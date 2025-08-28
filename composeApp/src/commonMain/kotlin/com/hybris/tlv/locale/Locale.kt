@@ -1,17 +1,11 @@
 package com.hybris.tlv.locale
 
 /**
- * Locale that defines the language and date time format.
+ * Get the ISO 639-1 language.
  */
-internal interface Locale {
+internal expect fun getLanguage(): String
 
-    /**
-     * Get the ISO 639-1 language.
-     */
-    fun getLanguage(): String
-
-    /**
-     * Get the date time in the local format.
-     */
-    fun getLocalDateTime(utc: String): String
-}
+/**
+ * Get the date time in the local format.
+ */
+internal expect fun getLocalDateTime(utc: String): String

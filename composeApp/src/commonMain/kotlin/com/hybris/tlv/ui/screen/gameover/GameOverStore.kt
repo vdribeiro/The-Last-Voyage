@@ -1,7 +1,7 @@
 package com.hybris.tlv.ui.screen.gameover
 
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.locale.Locale
+import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
@@ -30,7 +30,6 @@ internal class GameOverStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: GameOverState,
-    private val locale: Locale,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameOverAction, GameOverState>(
     dispatcher = dispatcher,
@@ -60,7 +59,7 @@ internal class GameOverStore(
 
         updateState {
             it.copy(
-                gameSession = updatedGameSession.copy(utc = locale.getLocalDateTime(utc = updatedGameSession.utc)),
+                gameSession = updatedGameSession.copy(utc = getLocalDateTime(utc = updatedGameSession.utc)),
                 gameOverMessage = getGameOverMessage(gameOver = gameOver)
             )
         }

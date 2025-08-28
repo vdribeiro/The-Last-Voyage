@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.sync
 
+import com.hybris.tlv.config.Configs
 import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.mock.Mock
-import com.hybris.tlv.storage.Config
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -37,15 +37,15 @@ internal class SyncUseCasesTest {
         }
         assertEquals(expected = SyncResult.Success, actual = noSync.last())
 
-        mock.storage.apply {
-            put(key = Config.TranslationsVersion, value = 0L)
-            put(key = Config.CatastrophesVersion, value = 0L)
-            put(key = Config.EnginesVersion, value = 0L)
-            put(key = Config.StellarHostsVersion, value = 0L)
-            put(key = Config.PlanetsVersion, value = 0L)
-            put(key = Config.EventsVersion, value = 0L)
-            put(key = Config.AchievementsVersion, value = 0L)
-            put(key = Config.CreditsVersion, value = 0L)
+        mock.config.apply {
+            put(key = Configs.TranslationsVersion, value = 0L)
+            put(key = Configs.CatastrophesVersion, value = 0L)
+            put(key = Configs.EnginesVersion, value = 0L)
+            put(key = Configs.StellarHostsVersion, value = 0L)
+            put(key = Configs.PlanetsVersion, value = 0L)
+            put(key = Configs.EventsVersion, value = 0L)
+            put(key = Configs.AchievementsVersion, value = 0L)
+            put(key = Configs.CreditsVersion, value = 0L)
         }
 
         val sync = mock.useCases.sync.sync().toList()
@@ -69,15 +69,15 @@ internal class SyncUseCasesTest {
     fun `get error`() = runBlocking {
         val totalOperations = 8f
 
-        errorMock.storage.apply {
-            put(key = Config.TranslationsVersion, value = 0L)
-            put(key = Config.CatastrophesVersion, value = 0L)
-            put(key = Config.EnginesVersion, value = 0L)
-            put(key = Config.StellarHostsVersion, value = 0L)
-            put(key = Config.PlanetsVersion, value = 0L)
-            put(key = Config.EventsVersion, value = 0L)
-            put(key = Config.AchievementsVersion, value = 0L)
-            put(key = Config.CreditsVersion, value = 0L)
+        errorMock.config.apply {
+            put(key = Configs.TranslationsVersion, value = 0L)
+            put(key = Configs.CatastrophesVersion, value = 0L)
+            put(key = Configs.EnginesVersion, value = 0L)
+            put(key = Configs.StellarHostsVersion, value = 0L)
+            put(key = Configs.PlanetsVersion, value = 0L)
+            put(key = Configs.EventsVersion, value = 0L)
+            put(key = Configs.AchievementsVersion, value = 0L)
+            put(key = Configs.CreditsVersion, value = 0L)
         }
 
         val errorSync = errorMock.useCases.sync.sync().toList()

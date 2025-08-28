@@ -1,7 +1,7 @@
 package com.hybris.tlv.ui.screen.score
 
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.locale.Locale
+import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
@@ -19,7 +19,6 @@ internal class ScoreStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: ScoreState,
-    private val locale: Locale,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<ScoreAction, ScoreState>(
     dispatcher = dispatcher,
@@ -34,7 +33,7 @@ internal class ScoreStore(
         val gameSessions = gameSessionUseCases.getGameSessions()
         val scores = gameSessions
             .filter { it.score != null }
-            .map { it.copy(utc = locale.getLocalDateTime(utc = it.utc)) }
+            .map { it.copy(utc = getLocalDateTime(utc = it.utc)) }
         updateState {
             it.copy(
                 loading = false,
