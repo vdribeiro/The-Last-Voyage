@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.gameover
 
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.gameSessionPrototype
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
@@ -12,19 +13,17 @@ import kotlinx.coroutines.runBlocking
 
 internal class GameOverStoreTest {
 
-    private val mock = Mock()
     private val store
         get() = GameOverStore(
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = GameOverState(),
-            locale = mock.locale,
             gameSessionUseCases = mock.useCases.gameSession
         )
 
     @BeforeTest
     fun setup() = runBlocking {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.GAME_OVER)
     }
 

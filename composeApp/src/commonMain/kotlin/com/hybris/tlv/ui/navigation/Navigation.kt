@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.navigation
 
 import androidx.compose.runtime.Composable
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.Dispatchers
 import com.hybris.tlv.flow.launch
@@ -34,8 +35,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
 internal class Navigation(
-    val dispatcher: Dispatcher = Dispatchers(),
-    val useCases: UseCases
+    private val dispatcher: Dispatcher,
+    private val config: ConfigManager,
+    private val useCases: UseCases
 ): NavigationManager {
 
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = State())
@@ -90,7 +92,7 @@ internal class Navigation(
             dispatcher = dispatcher,
             navigation = this,
             initialState = state as? MainMenuState ?: MainMenuState(),
-            config = useCases.config,
+            config = config,
             gameSessionUseCases = useCases.gameSession
         )
     )

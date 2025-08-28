@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.ship.local
 
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.engines
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -14,7 +14,7 @@ internal class ShipLocalTest {
 
     @BeforeTest
     fun setup() {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
     }
 
     @Test

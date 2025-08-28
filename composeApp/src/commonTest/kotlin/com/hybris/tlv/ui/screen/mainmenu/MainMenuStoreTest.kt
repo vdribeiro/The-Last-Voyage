@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.gameSessionPrototype
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
@@ -12,19 +13,18 @@ import kotlinx.coroutines.runBlocking
 
 internal class MainMenuStoreTest {
 
-    private val mock = Mock()
     private val store
         get() = MainMenuStore(
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = MainMenuState(),
-            remoteConfig = mock.remoteConfig,
+            config = mock.config,
             gameSessionUseCases = mock.useCases.gameSession
         )
 
     @BeforeTest
     fun setup() = runBlocking {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.MAIN_MENU)
     }
 

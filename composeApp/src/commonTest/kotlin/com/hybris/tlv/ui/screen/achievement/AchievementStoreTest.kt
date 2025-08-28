@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.achievement
 
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.achievements
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
@@ -10,7 +11,6 @@ import kotlinx.coroutines.runBlocking
 
 internal class AchievementStoreTest {
 
-    private val mock = Mock()
     private val store
         get() = AchievementStore(
             dispatcher = mock.dispatcher,
@@ -21,7 +21,7 @@ internal class AchievementStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.ACHIEVEMENT)
     }
 

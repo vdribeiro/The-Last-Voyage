@@ -17,7 +17,7 @@ import database.Ship
 import database.StellarHost
 import database.Translation
 
-internal class Database(val driver: SqlDriver) {
+internal class Database(driver: SqlDriver) {
 
     private val creditAdapter = Credit.Adapter(
         typeAdapter = EnumColumnAdapter()

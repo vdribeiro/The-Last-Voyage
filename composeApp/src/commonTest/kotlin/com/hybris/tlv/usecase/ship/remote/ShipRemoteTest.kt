@@ -2,17 +2,15 @@ package com.hybris.tlv.usecase.ship.remote
 
 import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.http.Result
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.engines
+import com.hybris.tlv.mock.errorMock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
 internal class ShipRemoteTest {
-
-    private val mock = Mock()
-    private val errorMock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
 
     @Test
     fun `get engines`() = runBlocking {

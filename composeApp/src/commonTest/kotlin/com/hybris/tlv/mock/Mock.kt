@@ -1,5 +1,9 @@
 package com.hybris.tlv.mock
 
+import com.hybris.tlv.Core
+import com.hybris.tlv.database.createSqlDriver
+import com.hybris.tlv.flow.TestDispatchers
+import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
@@ -18,6 +22,16 @@ import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import com.hybris.tlv.usecase.translation.model.domain.Translation
+
+internal val mock = Core(
+    dispatcher = TestDispatchers(),
+    sqlDriver = createSqlDriver(inMemory = true)
+)
+internal val errorMock = Core(
+    dispatcher = TestDispatchers(),
+    sqlDriver = createSqlDriver(inMemory = true),
+    httpClient = HttpClientFactory.buildErrorHttpClient()
+)
 
 internal val translations by lazy {
     listOf(
@@ -519,13 +533,6 @@ internal val shipPrototype by lazy {
     )
 }
 
-internal val gameSessionPrototype by lazy {
-    GameSessionPrototype(
-        ship = shipPrototype,
-        formula = Formula(id = "1")
-    )
-}
-
 internal val ship by lazy {
     Ship(
         id = "1",
@@ -536,6 +543,13 @@ internal val ship by lazy {
         fuel = 100,
         materials = 90,
         cryopods = 150,
+    )
+}
+
+internal val gameSessionPrototype by lazy {
+    GameSessionPrototype(
+        ship = shipPrototype,
+        formula = Formula(id = "1")
     )
 }
 

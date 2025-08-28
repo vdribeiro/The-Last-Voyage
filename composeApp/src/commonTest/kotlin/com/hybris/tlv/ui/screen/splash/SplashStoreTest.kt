@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.splash
 
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -9,7 +10,6 @@ import kotlinx.coroutines.runBlocking
 
 internal class SplashStoreTest {
 
-    private val mock = Mock()
     private val store
         get() = SplashStore(
             dispatcher = mock.dispatcher,
@@ -20,7 +20,7 @@ internal class SplashStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.SPLASH)
     }
 

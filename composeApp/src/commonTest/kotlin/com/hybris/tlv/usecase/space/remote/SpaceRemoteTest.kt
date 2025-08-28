@@ -2,7 +2,7 @@ package com.hybris.tlv.usecase.space.remote
 
 import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.http.Result
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.usecase.space.remote.result.ExoplanetsResult

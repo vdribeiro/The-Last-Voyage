@@ -1,7 +1,9 @@
 package com.hybris.tlv.usecase.achievement
 
+import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.http.HttpClientFactory
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.mock.errorMock
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -10,12 +12,9 @@ import kotlinx.coroutines.runBlocking
 
 internal class AchievementUseCasesTest {
 
-    private val mock = Mock()
-    private val errorMock = Mock(httpClient = HttpClientFactory.buildErrorHttpClient())
-
     @BeforeTest
     fun setup() {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
     }
 
     @Test

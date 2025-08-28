@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.ui.component.LazyListIndex
@@ -14,7 +15,6 @@ import kotlinx.coroutines.runBlocking
 
 internal class StellarExplorerStoreTest {
 
-    private val mock = Mock()
     private val store
         get() = StellarExplorerStore(
             dispatcher = mock.dispatcher,
@@ -25,7 +25,7 @@ internal class StellarExplorerStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
     }
 

@@ -1,6 +1,7 @@
 package com.hybris.tlv.usecase.event.local
 
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.events
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -10,11 +11,9 @@ import kotlinx.coroutines.runBlocking
 
 internal class EventLocalTest {
 
-    private val mock = Mock()
-
     @BeforeTest
     fun setup() {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
     }
 
     @Test

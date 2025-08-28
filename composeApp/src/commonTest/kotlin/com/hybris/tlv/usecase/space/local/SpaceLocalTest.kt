@@ -1,6 +1,7 @@
 package com.hybris.tlv.usecase.space.local
 
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import kotlin.test.BeforeTest
@@ -11,11 +12,9 @@ import kotlinx.coroutines.runBlocking
 
 internal class SpaceLocalTest {
 
-    private val mock = Mock()
-
     @BeforeTest
     fun setup() {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
     }
 
     @Test

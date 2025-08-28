@@ -1,9 +1,9 @@
 package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import app.cash.sqldelight.driver.android.AndroidSqliteDriver
-import com.hybris.tlv.mock.Mock
+//import androidx.compose.ui.platform.LocalContext
+//import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import com.hybris.tlv.Core
 import com.hybris.tlv.mock.achievements
 import com.hybris.tlv.mock.catastrophes
 import com.hybris.tlv.mock.credits
@@ -37,11 +37,11 @@ import com.hybris.tlv.ui.screen.stellarexplorer.Content as StellarExplorerConten
 private fun Screen(
     screen: Screen,
     state: Any?
-) = Mock(
-    sqlDriver = AndroidSqliteDriver(
-        context = LocalContext.current,
-        schema = AppDatabase.Schema,
-    )
+) = Core(
+    //sqlDriver = AndroidSqliteDriver(
+    //    context = LocalContext.current,
+    //    schema = AppDatabase.Schema,
+    //)
 ).navigation.Screen(
     screen = screen,
     state = state

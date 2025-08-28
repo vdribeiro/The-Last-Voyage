@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.game
 
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.gameSessionPrototype
 import com.hybris.tlv.mock.hostsWithPlanets
 import com.hybris.tlv.mock.planets
@@ -15,7 +16,6 @@ import kotlinx.coroutines.runBlocking
 
 internal class GameStoreTest {
 
-    private val mock = Mock()
     private val store
         get() = GameStore(
             dispatcher = mock.dispatcher,
@@ -28,7 +28,7 @@ internal class GameStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.GAME)
     }
 

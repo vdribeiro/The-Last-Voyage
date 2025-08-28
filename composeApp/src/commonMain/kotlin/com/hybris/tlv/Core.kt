@@ -62,56 +62,56 @@ import database.AppDatabase
 import io.ktor.client.HttpClient
 
 internal class Core(
-    @get:VisibleForTesting private val dispatcher: Dispatcher = Dispatchers(),
-    @get:VisibleForTesting private val sqlDriver: SqlDriver = createSqlDriver(),
-    @get:VisibleForTesting private val database: AppDatabase = Database(driver = sqlDriver).database,
-    @get:VisibleForTesting private val httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
-    @get:VisibleForTesting private val translationDao: TranslationLocal = TranslationDao(database = database),
-    @get:VisibleForTesting private val earthDao: EarthLocal = EarthDao(database = database),
-    @get:VisibleForTesting private val shipDao: ShipLocal = ShipDao(database = database),
-    @get:VisibleForTesting private val spaceDao: SpaceLocal = SpaceDao(database = database),
-    @get:VisibleForTesting private val eventDao: EventLocal = EventDao(database = database),
-    @get:VisibleForTesting private val gameSessionDao: GameSessionLocal = GameSessionDao(database = database),
+    @get:VisibleForTesting internal val dispatcher: Dispatcher = Dispatchers(),
+    @get:VisibleForTesting internal val sqlDriver: SqlDriver = createSqlDriver(),
+    @get:VisibleForTesting internal val database: AppDatabase = Database(driver = sqlDriver).database,
+    @get:VisibleForTesting internal val httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
+    @get:VisibleForTesting internal val translationDao: TranslationLocal = TranslationDao(database = database),
+    @get:VisibleForTesting internal val earthDao: EarthLocal = EarthDao(database = database),
+    @get:VisibleForTesting internal val shipDao: ShipLocal = ShipDao(database = database),
+    @get:VisibleForTesting internal val spaceDao: SpaceLocal = SpaceDao(database = database),
+    @get:VisibleForTesting internal val eventDao: EventLocal = EventDao(database = database),
+    @get:VisibleForTesting internal val gameSessionDao: GameSessionLocal = GameSessionDao(database = database),
     @get:VisibleForTesting internal val achievementDao: AchievementLocal = AchievementDao(database = database),
-    @get:VisibleForTesting private val creditDao: CreditLocal = CreditDao(database = database),
-    @get:VisibleForTesting private val translationApi: TranslationRemote = TranslationApi(httpClient = httpClient),
-    @get:VisibleForTesting private val earthApi: EarthRemote = EarthApi(httpClient = httpClient),
-    @get:VisibleForTesting private val shipApi: ShipRemote = ShipApi(httpClient = httpClient),
-    @get:VisibleForTesting private val spaceApi: SpaceRemote = SpaceApi(httpClient = httpClient),
-    @get:VisibleForTesting private val eventApi: EventRemote = EventApi(httpClient = httpClient),
-    @get:VisibleForTesting private val achievementApi: AchievementRemote = AchievementApi(httpClient = httpClient),
-    @get:VisibleForTesting private val creditApi: CreditRemote = CreditApi(httpClient = httpClient),
-    @get:VisibleForTesting private val internalTranslation: TranslationInternalUseCases = TranslationInternalGateway(
+    @get:VisibleForTesting internal val creditDao: CreditLocal = CreditDao(database = database),
+    @get:VisibleForTesting internal val translationApi: TranslationRemote = TranslationApi(httpClient = httpClient),
+    @get:VisibleForTesting internal val earthApi: EarthRemote = EarthApi(httpClient = httpClient),
+    @get:VisibleForTesting internal val shipApi: ShipRemote = ShipApi(httpClient = httpClient),
+    @get:VisibleForTesting internal val spaceApi: SpaceRemote = SpaceApi(httpClient = httpClient),
+    @get:VisibleForTesting internal val eventApi: EventRemote = EventApi(httpClient = httpClient),
+    @get:VisibleForTesting internal val achievementApi: AchievementRemote = AchievementApi(httpClient = httpClient),
+    @get:VisibleForTesting internal val creditApi: CreditRemote = CreditApi(httpClient = httpClient),
+    @get:VisibleForTesting internal val internalTranslation: TranslationInternalUseCases = TranslationInternalGateway(
         dispatcher = dispatcher,
         translationApi = translationApi,
         translationDao = translationDao
     ),
-    @get:VisibleForTesting private val internalEarth: EarthInternalUseCases = EarthInternalGateway(
+    @get:VisibleForTesting internal val internalEarth: EarthInternalUseCases = EarthInternalGateway(
         earthApi = earthApi,
         earthDao = earthDao
     ),
-    @get:VisibleForTesting private val internalShip: ShipInternalUseCases = ShipInternalGateway(
+    @get:VisibleForTesting internal val internalShip: ShipInternalUseCases = ShipInternalGateway(
         shipApi = shipApi,
         shipDao = shipDao
     ),
-    @get:VisibleForTesting private val internalSpace: SpaceInternalUseCases = SpaceInternalGateway(
+    @get:VisibleForTesting internal val internalSpace: SpaceInternalUseCases = SpaceInternalGateway(
         spaceApi = spaceApi,
         spaceDao = spaceDao
     ),
-    @get:VisibleForTesting private val internalEvent: EventInternalUseCases = EventInternalGateway(
+    @get:VisibleForTesting internal val internalEvent: EventInternalUseCases = EventInternalGateway(
         eventApi = eventApi,
         eventDao = eventDao
     ),
-    @get:VisibleForTesting private val internalAchievement: AchievementInternalUseCases = AchievementInternalGateway(
+    @get:VisibleForTesting internal val internalAchievement: AchievementInternalUseCases = AchievementInternalGateway(
         achievementApi = achievementApi,
         achievementDao = achievementDao
     ),
-    @get:VisibleForTesting private val internalCredit: CreditInternalUseCases = CreditInternalGateway(
+    @get:VisibleForTesting internal val internalCredit: CreditInternalUseCases = CreditInternalGateway(
         creditApi = creditApi,
         creditDao = creditDao
     ),
-    @get:VisibleForTesting private  val config: ConfigManager = Config(httpClient = httpClient),
-    @get:VisibleForTesting private val useCases: UseCases = Gateways(
+    @get:VisibleForTesting internal val config: ConfigManager = Config(httpClient = httpClient),
+    @get:VisibleForTesting internal val useCases: UseCases = Gateways(
         config = config,
         earthDao = earthDao,
         shipDao = shipDao,
@@ -128,5 +128,9 @@ internal class Core(
         internalAchievement = internalAchievement,
         internalCredit = internalCredit,
     ),
-    val navigation: NavigationManager = Navigation(useCases = useCases)
+    val navigation: NavigationManager = Navigation(
+        dispatcher = dispatcher,
+        config = config,
+        useCases = useCases
+    )
 )

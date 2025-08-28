@@ -1,6 +1,7 @@
 package com.hybris.tlv.usecase.gamesession
 
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.events
 import com.hybris.tlv.mock.gameSessionPrototype
 import com.hybris.tlv.mock.hostsWithPlanets
@@ -21,11 +22,9 @@ import kotlinx.coroutines.runBlocking
 
 internal class GameSessionUseCasesTest {
 
-    private val mock = Mock()
-
     @BeforeTest
     fun setup() {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
     }
 
     @Test

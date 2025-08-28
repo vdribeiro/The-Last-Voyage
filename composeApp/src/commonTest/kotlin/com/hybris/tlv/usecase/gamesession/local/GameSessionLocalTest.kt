@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.gamesession.local
 
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.gameSession
 import com.hybris.tlv.mock.ship
 import com.hybris.tlv.usecase.space.model.Formula
@@ -17,7 +17,7 @@ internal class GameSessionLocalTest {
 
     @BeforeTest
     fun setup() {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
     }
 
     @Test

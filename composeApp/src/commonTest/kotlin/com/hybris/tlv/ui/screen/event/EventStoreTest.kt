@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.event
 
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.events
 import com.hybris.tlv.mock.gameSessionPrototype
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -14,7 +15,6 @@ import kotlinx.coroutines.runBlocking
 
 internal class EventStoreTest {
 
-    private val mock = Mock()
     private val store
         get() = EventStore(
             dispatcher = mock.dispatcher,
@@ -26,7 +26,7 @@ internal class EventStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.EVENT)
     }
 

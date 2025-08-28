@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.space
 
 import com.hybris.tlv.http.HttpClientFactory
-import com.hybris.tlv.mock.Mock
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -15,7 +15,7 @@ internal class SpaceUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        mock.clearDatabase()
+        mock.sqlDriver.clearDatabase()
     }
 
     @Test
