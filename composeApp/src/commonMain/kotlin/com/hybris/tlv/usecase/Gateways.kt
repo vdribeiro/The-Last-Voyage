@@ -76,7 +76,6 @@ internal class Gateways(
     sqlDriver: SqlDriver = createSqlDriver(),
     database: AppDatabase = Database(driver = sqlDriver).database,
     httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
-    config: ConfigManager = Config(httpClient = httpClient),
     translationDao: TranslationLocal = TranslationDao(database = database),
     earthDao: EarthLocal = EarthDao(database = database),
     shipDao: ShipLocal = ShipDao(database = database),
@@ -121,62 +120,26 @@ internal class Gateways(
         creditApi = creditApi,
         creditDao = creditDao
     ),
-): UseCases {
-
-    override val earth: EarthUseCases by lazy {
-        EarthGateway(
-            earthDao = earthDao
-        )
-    }
-
-    override val ship: ShipUseCases by lazy {
-        ShipGateway(
-            shipDao = shipDao
-        )
-    }
-
-    override val space: SpaceUseCases by lazy {
-        SpaceGateway(
-            spaceDao = spaceDao,
-        )
-    }
-
-    override val event: EventUseCases by lazy {
-        EventGateway(
-            eventDao = eventDao
-        )
-    }
-
-    override val gameSession: GameSessionUseCases by lazy {
-        GameSessionGateway(
-            gameSessionDao = gameSessionDao,
-            shipInternalUseCases = internalShip,
-            spaceInternalUseCases = internalSpace
-        )
-    }
-
-    override val achievement: AchievementUseCases by lazy {
-        AchievementGateway(
-            achievementDao = achievementDao
-        )
-    }
-
-    override val credit: CreditUseCases by lazy {
-        CreditGateway(
-            creditDao = creditDao
-        )
-    }
-
-    override val sync: SyncUseCases by lazy {
-        SyncGateway(
-            storage = config,
-            internalTranslation = internalTranslation,
-            internalEarth = internalEarth,
-            internalShip = internalShip,
-            internalSpace = internalSpace,
-            internalEvent = internalEvent,
-            internalAchievement = internalAchievement,
-            internalCredit = internalCredit
-        )
-    }
-}
+    override val config: ConfigManager = Config(httpClient = httpClient),
+    override val earth: EarthUseCases = EarthGateway(earthDao = earthDao),
+    override val ship: ShipUseCases = ShipGateway(shipDao = shipDao),
+    override val space: SpaceUseCases = SpaceGateway(spaceDao = spaceDao),
+    override val event: EventUseCases = EventGateway(eventDao = eventDao),
+    override val gameSession: GameSessionUseCases = GameSessionGateway(
+        gameSessionDao = gameSessionDao,
+        shipInternalUseCases = internalShip,
+        spaceInternalUseCases = internalSpace
+    ),
+    override val achievement: AchievementUseCases = AchievementGateway(achievementDao = achievementDao),
+    override val credit: CreditUseCases = CreditGateway(creditDao = creditDao),
+    override val sync: SyncUseCases = SyncGateway(
+        storage = config,
+        internalTranslation = internalTranslation,
+        internalEarth = internalEarth,
+        internalShip = internalShip,
+        internalSpace = internalSpace,
+        internalEvent = internalEvent,
+        internalAchievement = internalAchievement,
+        internalCredit = internalCredit
+    ),
+): UseCases
