@@ -8,6 +8,8 @@ import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
@@ -20,9 +22,9 @@ internal class EventUseCasesTest {
 
     @Test
     fun `prepopulate and get events`() = runBlocking {
-        assertTrue(actual = mock.useCases.event.getEvents().isEmpty())
+        assertNull(actual = mock.useCases.event.getRandomEvent(ids = emptySet()))
         mock.internalEvent.prepopulateEvents()
-        assertTrue(actual = mock.useCases.event.getEvents().isNotEmpty())
+        assertNotNull(actual = mock.useCases.event.getRandomEvent(ids = emptySet()))
 
         assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
         val ids = events.map { it.id }.toSet()
@@ -35,9 +37,9 @@ internal class EventUseCasesTest {
 
     @Test
     fun `prepopulate and sync events`() = runBlocking {
-        assertTrue(actual = mock.useCases.event.getEvents().isEmpty())
+        assertNull(actual = mock.useCases.event.getRandomEvent(ids = emptySet()))
         assertTrue(actual = mock.internalEvent.syncEvents() is SyncResult.Success)
-        assertTrue(actual = mock.useCases.event.getEvents().isNotEmpty())
+        assertNotNull(actual = mock.useCases.event.getRandomEvent(ids = emptySet()))
     }
 
     @Test

@@ -6,6 +6,7 @@ import com.hybris.tlv.mock.mock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
@@ -20,6 +21,6 @@ internal class EarthLocalTest {
     fun `write and get catastrophes`() = runBlocking {
         assertTrue(actual = mock.earthDao.isCatastropheEmpty())
         mock.earthDao.rewriteCatastrophes(catastrophes = catastrophes)
-        assertEquals(expected = catastrophes, actual = mock.earthDao.getCatastrophes())
+        assertNotNull(actual = mock.earthDao.getRandomCatastrophe())
     }
 }

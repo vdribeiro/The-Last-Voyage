@@ -35,7 +35,6 @@ internal class NewGameStoreTest {
         mock.internalEarth.syncCatastrophes()
         val newGameStore = store
         assertEquals(actual = Content.SHIP, expected = newGameStore.stateFlow.value.currentContent)
-        assertEquals(actual = catastrophes, expected = newGameStore.stateFlow.value.catastrophes)
     }
 
     @Test

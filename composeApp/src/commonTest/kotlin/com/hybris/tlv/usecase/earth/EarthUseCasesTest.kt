@@ -6,6 +6,8 @@ import com.hybris.tlv.mock.mock
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
@@ -18,16 +20,16 @@ internal class EarthUseCasesTest {
 
     @Test
     fun `prepopulate and get catastrophes`() = runBlocking {
-        assertTrue(actual = mock.useCases.earth.getCatastrophes().isEmpty())
+        assertNull(actual = mock.useCases.earth.getRandomCatastrophe())
         mock.internalEarth.prepopulateCatastrophes()
-        assertTrue(actual = mock.useCases.earth.getCatastrophes().isNotEmpty())
+        assertNotNull(actual = mock.useCases.earth.getRandomCatastrophe())
     }
 
     @Test
     fun `prepopulate and sync catastrophes`() = runBlocking {
-        assertTrue(actual = mock.useCases.earth.getCatastrophes().isEmpty())
+        assertNull(actual = mock.useCases.earth.getRandomCatastrophe())
         assertTrue(actual = mock.internalEarth.syncCatastrophes() is SyncResult.Success)
-        assertTrue(actual = mock.useCases.earth.getCatastrophes().isNotEmpty())
+        assertNotNull(actual = mock.useCases.earth.getRandomCatastrophe())
     }
 
     @Test

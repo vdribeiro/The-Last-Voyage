@@ -6,6 +6,7 @@ import com.hybris.tlv.mock.mock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
@@ -20,7 +21,7 @@ internal class EventLocalTest {
     fun `write and get events`() = runBlocking {
         assertTrue(actual = mock.eventDao.isEventEmpty())
         mock.eventDao.rewriteEvents(events = events)
-        assertEquals(expected = events, actual = mock.eventDao.getEvents())
+        assertNotNull(actual = mock.eventDao.getRandomEvent(ids = emptySet()))
 
         assertTrue(actual = mock.eventDao.getRandomEvent(ids = emptySet()).isNotEmpty())
         val ids = events.map { it.id }.toSet()

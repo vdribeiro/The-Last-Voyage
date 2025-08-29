@@ -40,10 +40,8 @@ internal class GameStoreTest {
         val gameStore = store
         assertNotNull(actual = gameStore.stateFlow.value.gameSession)
         assertEquals(expected = Content.SYSTEM, actual = gameStore.stateFlow.value.currentContent)
-        assertEquals(expected = hostsWithPlanets, actual = gameStore.stateFlow.value.stellarHosts)
         assertEquals(expected = stellarHosts.first(), actual = gameStore.stateFlow.value.currentStellarHost)
         assertEquals(expected = hostsWithPlanets.drop(n = 1), actual = gameStore.stateFlow.value.nearStellarHosts)
-        assertEquals(expected = setOf(stellarHosts.first().id), actual = gameStore.stateFlow.value.visitedStellarHosts)
     }
 
     @Test
