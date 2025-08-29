@@ -9,7 +9,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class EventUseCasesTest {
 
@@ -19,7 +19,7 @@ internal class EventUseCasesTest {
     }
 
     @Test
-    fun `prepopulate and get events`() = runBlocking {
+    fun `prepopulate and get events`() = runTest {
         assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
         mock.internalEvent.prepopulateEvents()
         assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
@@ -34,14 +34,14 @@ internal class EventUseCasesTest {
     }
 
     @Test
-    fun `prepopulate and sync events`() = runBlocking {
+    fun `prepopulate and sync events`() = runTest {
         assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
         assertTrue(actual = mock.internalEvent.syncEvents() is SyncResult.Success)
         assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
     }
 
     @Test
-    fun `get error`() = runBlocking {
+    fun `get error`() = runTest {
         assertTrue(actual = errorMock.internalEvent.syncEvents() is SyncResult.Error)
     }
 }

@@ -6,7 +6,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class ErrorStoreTest {
 
@@ -18,13 +18,13 @@ internal class ErrorStoreTest {
         )
 
     @BeforeTest
-    fun setup() = runBlocking {
+    fun setup() = runTest {
         mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.ERROR)
     }
 
     @Test
-    fun `send action back`() = runBlocking {
+    fun `send action back`() = runTest {
         store
         assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
         mock.navigation.back()
@@ -32,7 +32,7 @@ internal class ErrorStoreTest {
     }
 
     @Test
-    fun `send action send feedback`() = runBlocking {
+    fun `send action send feedback`() = runTest {
         val errorStore = store
         errorStore.send(action = ErrorAction.SendFeedback(message = "Feedback"))
         // TODO - implement feedback on store

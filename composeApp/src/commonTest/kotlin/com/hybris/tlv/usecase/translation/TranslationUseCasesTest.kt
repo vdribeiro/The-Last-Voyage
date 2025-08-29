@@ -8,7 +8,7 @@ import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class TranslationUseCasesTest {
 
@@ -18,7 +18,7 @@ internal class TranslationUseCasesTest {
     }
 
     @Test
-    fun `prepopulate and get translations`() = runBlocking {
+    fun `prepopulate and get translations`() = runTest {
         val languageIso = translations.first().languageIso
         assertTrue(actual = mock.internalTranslation.loadTranslationsToCache(languageIso = languageIso).isEmpty())
         mock.internalTranslation.prepopulateTranslations()
@@ -26,7 +26,7 @@ internal class TranslationUseCasesTest {
     }
 
     @Test
-    fun `prepopulate and sync translations`() = runBlocking {
+    fun `prepopulate and sync translations`() = runTest {
         val languageIso = translations.first().languageIso
         assertTrue(actual = mock.internalTranslation.loadTranslationsToCache(languageIso = languageIso).isEmpty())
         assertTrue(actual = mock.internalTranslation.syncTranslations() is SyncResult.Success)
@@ -34,7 +34,7 @@ internal class TranslationUseCasesTest {
     }
 
     @Test
-    fun `get error`() = runBlocking {
+    fun `get error`() = runTest {
         assertTrue(actual = errorMock.internalTranslation.syncTranslations() is SyncResult.Error)
     }
 }

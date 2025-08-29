@@ -7,7 +7,7 @@ import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class SpaceUseCasesTest {
 
@@ -17,12 +17,12 @@ internal class SpaceUseCasesTest {
     }
 
     @Test
-    fun `get archive`() = runBlocking {
+    fun `get archive`() = runTest {
 
     }
 
     @Test
-    fun `prepopulate and get exoplanets`() = runBlocking {
+    fun `prepopulate and get exoplanets`() = runTest {
         assertTrue(actual = mock.useCases.space.getExoplanets().isEmpty())
         mock.internalSpace.prepopulateStellarHosts()
         val stellarHosts = mock.useCases.space.getExoplanets()
@@ -33,7 +33,7 @@ internal class SpaceUseCasesTest {
     }
 
     @Test
-    fun `prepopulate and sync exoplanets`() = runBlocking {
+    fun `prepopulate and sync exoplanets`() = runTest {
         assertTrue(actual = mock.useCases.space.getExoplanets().isEmpty())
         assertTrue(actual = mock.internalSpace.syncStellarHosts() is SyncResult.Success)
         val moreStellarHosts = mock.useCases.space.getExoplanets()
@@ -44,7 +44,7 @@ internal class SpaceUseCasesTest {
     }
 
     @Test
-    fun `get error`() = runBlocking {
+    fun `get error`() = runTest {
         assertTrue(actual = errorMock.internalSpace.syncStellarHosts() is SyncResult.Error)
         assertTrue(actual = errorMock.internalSpace.syncPlanets() is SyncResult.Error)
     }

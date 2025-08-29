@@ -7,7 +7,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class AchievementLocalTest {
 
@@ -17,7 +17,7 @@ internal class AchievementLocalTest {
     }
 
     @Test
-    fun `write and get achievements`() = runBlocking {
+    fun `write and get achievements`() = runTest {
         assertTrue(actual = mock.achievementDao.isAchievementEmpty())
         mock.achievementDao.rewriteAchievements(achievements = achievements)
         assertEquals(expected = achievements, actual = mock.achievementDao.getAchievements())

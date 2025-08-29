@@ -7,17 +7,17 @@ import com.hybris.tlv.mock.mock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class EarthRemoteTest {
 
     @Test
-    fun `get catastrophes`() = runBlocking {
+    fun `get catastrophes`() = runTest {
         assertEquals(expected = Result.Success(list = catastrophes), actual = mock.earthApi.getCatastrophes())
     }
 
     @Test
-    fun `get error`() = runBlocking {
+    fun `get error`() = runTest {
         assertTrue(actual = errorMock.earthApi.getCatastrophes() is Result.Error)
     }
 }

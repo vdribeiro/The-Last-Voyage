@@ -7,7 +7,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class ShipLocalTest {
 
@@ -17,7 +17,7 @@ internal class ShipLocalTest {
     }
 
     @Test
-    fun `write and get engines`() = runBlocking {
+    fun `write and get engines`() = runTest {
         assertTrue(actual = mock.shipDao.isEngineEmpty())
         mock.shipDao.rewriteEngines(engines = engines)
         assertEquals(expected = engines, actual = mock.shipDao.getEngines())

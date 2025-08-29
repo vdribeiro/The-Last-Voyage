@@ -9,7 +9,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class MainMenuStoreTest {
 
@@ -23,13 +23,13 @@ internal class MainMenuStoreTest {
         )
 
     @BeforeTest
-    fun setup() = runBlocking {
+    fun setup() = runTest {
         mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.MAIN_MENU)
     }
 
     @Test
-    fun `init`() = runBlocking {
+    fun `init`() = runTest {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val mainMenuStore = store
         assertTrue(actual = mainMenuStore.stateFlow.value.ongoingGameSession)
@@ -37,13 +37,13 @@ internal class MainMenuStoreTest {
     }
 
     @Test
-    fun `init without game session`() = runBlocking {
+    fun `init without game session`() = runTest {
         val mainMenuStore = store
         assertFalse(actual = mainMenuStore.stateFlow.value.ongoingGameSession)
     }
 
     @Test
-    fun `send action change content`() = runBlocking {
+    fun `send action change content`() = runTest {
         val mainMenuStore = store
         assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)

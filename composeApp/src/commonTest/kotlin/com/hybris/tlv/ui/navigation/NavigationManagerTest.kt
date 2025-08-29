@@ -3,12 +3,12 @@ package com.hybris.tlv.ui.navigation
 import com.hybris.tlv.mock.mock
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class NavigationManagerTest {
 
     @Test
-    fun navigate() = runBlocking {
+    fun navigate() = runTest {
         assertEquals(expected = NavigationManager.Screen.SPLASH, actual = mock.navigation.stateFlow.value.screen)
 
         mock.navigation.navigate(screen = NavigationManager.Screen.ERROR)

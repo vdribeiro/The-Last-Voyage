@@ -7,17 +7,17 @@ import com.hybris.tlv.mock.translations
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class TranslationRemoteTest {
 
     @Test
-    fun `get translations`() = runBlocking {
+    fun `get translations`() = runTest {
         assertEquals(expected = Result.Success(list = translations), actual = mock.translationApi.getTranslations())
     }
 
     @Test
-    fun `get error`() = runBlocking {
+    fun `get error`() = runTest {
         assertTrue(actual = errorMock.translationApi.getTranslations() is Result.Error)
     }
 }

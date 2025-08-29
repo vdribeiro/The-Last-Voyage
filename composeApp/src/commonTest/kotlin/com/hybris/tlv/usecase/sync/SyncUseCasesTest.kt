@@ -8,7 +8,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class SyncUseCasesTest {
 
@@ -18,7 +18,7 @@ internal class SyncUseCasesTest {
     }
 
     @Test
-    fun prepopulate() = runBlocking {
+    fun prepopulate() = runTest {
         val totalOperations = 8f
         val prepopulate = mock.useCases.sync.prepopulate().toList()
         for (i in 0..totalOperations.toInt() - 1) {
@@ -28,7 +28,7 @@ internal class SyncUseCasesTest {
     }
 
     @Test
-    fun sync() = runBlocking {
+    fun sync() = runTest {
         val totalOperations = 9f
         val sync = mock.useCases.sync.sync().toList()
         for (i in 0..totalOperations.toInt() - 1) {
@@ -38,7 +38,7 @@ internal class SyncUseCasesTest {
     }
 
     @Test
-    fun `get archive`() = runBlocking {
+    fun `get archive`() = runTest {
         val totalOperations = 6f
         val archive = mock.useCases.sync.getArchive().toList()
         for (i in 0..totalOperations.toInt() - 1) {
@@ -48,7 +48,7 @@ internal class SyncUseCasesTest {
     }
 
     @Test
-    fun `get error`() = runBlocking {
+    fun `get error`() = runTest {
         val totalOperations = 9f
         val errorSync = errorMock.useCases.sync.sync().toList()
         for (i in 0..totalOperations.toInt() - 1) {

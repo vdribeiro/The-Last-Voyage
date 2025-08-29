@@ -7,7 +7,7 @@ import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class AchievementUseCasesTest {
 
@@ -17,21 +17,21 @@ internal class AchievementUseCasesTest {
     }
 
     @Test
-    fun `prepopulate and get achievements`() = runBlocking {
+    fun `prepopulate and get achievements`() = runTest {
         assertTrue(actual = mock.useCases.achievement.getAchievements().isEmpty())
         mock.internalAchievement.prepopulateAchievements()
         assertTrue(actual = mock.useCases.achievement.getAchievements().isNotEmpty())
     }
 
     @Test
-    fun `prepopulate and sync achievements`() = runBlocking {
+    fun `prepopulate and sync achievements`() = runTest {
         assertTrue(actual = mock.useCases.achievement.getAchievements().isEmpty())
         assertTrue(actual = mock.internalAchievement.syncAchievements() is SyncResult.Success)
         assertTrue(actual = mock.useCases.achievement.getAchievements().isNotEmpty())
     }
 
     @Test
-    fun `get error`() = runBlocking {
+    fun `get error`() = runTest {
         assertTrue(actual = errorMock.internalAchievement.syncAchievements() is SyncResult.Error)
     }
 }

@@ -11,7 +11,7 @@ import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class StellarExplorerStoreTest {
 
@@ -24,13 +24,13 @@ internal class StellarExplorerStoreTest {
         )
 
     @BeforeTest
-    fun setup() = runBlocking {
+    fun setup() = runTest {
         mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
     }
 
     @Test
-    fun `init`() = runBlocking {
+    fun `init`() = runTest {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         val stellarExplorerStore = store
@@ -42,14 +42,11 @@ internal class StellarExplorerStoreTest {
     }
 
     @Test
-    fun `send action back`() = runBlocking {
+    fun `send action back`() = runTest {
         val stellarExplorerStore = store
-        assertEquals(expected = NavigationManager.Screen.STELLAR_EXPLORER, actual = mock.navigation.stateFlow.value.screen)
-        assertEquals(expected = Content.LIST_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-        mock.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
-
         mock.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
+
+        assertEquals(expected = Content.LIST_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
         assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         mock.navigation.back()
@@ -65,10 +62,15 @@ internal class StellarExplorerStoreTest {
         assertEquals(expected = Content.DETAIL_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         mock.navigation.back()
         assertEquals(expected = Content.LIST_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
+
+        assertEquals(expected = NavigationManager.Screen.STELLAR_EXPLORER, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = Content.LIST_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
+        mock.navigation.back()
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
     }
 
     @Test
-    fun `send action save index`() = runBlocking {
+    fun `send action save index`() = runTest {
         val stellarExplorerStore = store
         assertEquals(expected = LazyListIndex(), actual = stellarExplorerStore.stateFlow.value.listIndex)
         stellarExplorerStore.send(action = StellarExplorerAction.SaveIndex(index = LazyListIndex(index = 6, scrollOffset = 9)))
@@ -76,7 +78,7 @@ internal class StellarExplorerStoreTest {
     }
 
     @Test
-    fun `send action search`() = runBlocking {
+    fun `send action search`() = runTest {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         val stellarExplorerStore = store
@@ -90,7 +92,7 @@ internal class StellarExplorerStoreTest {
     }
 
     @Test
-    fun `send action sort`() = runBlocking {
+    fun `send action sort`() = runTest {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         val stellarExplorerStore = store
@@ -107,7 +109,7 @@ internal class StellarExplorerStoreTest {
     }
 
     @Test
-    fun `send action change visibility`() = runBlocking {
+    fun `send action change visibility`() = runTest {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         val stellarExplorerStore = store

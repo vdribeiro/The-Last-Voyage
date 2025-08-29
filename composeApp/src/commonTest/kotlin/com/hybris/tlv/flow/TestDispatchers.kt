@@ -1,10 +1,15 @@
 package com.hybris.tlv.flow
 
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 
-internal class TestDispatchers: Dispatcher {
-    override val main: CoroutineDispatcher get() = Dispatchers.Unconfined
-    override val default: CoroutineDispatcher get() = Dispatchers.Unconfined
-    override val io: CoroutineDispatcher get() = Dispatchers.Unconfined
+@OptIn(ExperimentalCoroutinesApi::class)
+internal class TestDispatchers(
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
+): Dispatcher {
+    override val main: CoroutineDispatcher get() = testDispatcher
+    override val default: CoroutineDispatcher get() = testDispatcher
+    override val io: CoroutineDispatcher get() = testDispatcher
 }

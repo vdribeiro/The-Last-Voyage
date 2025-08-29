@@ -10,7 +10,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class GameSessionLocalTest {
 
@@ -20,7 +20,7 @@ internal class GameSessionLocalTest {
     }
 
     @Test
-    fun `write and get game sessions`() = runBlocking {
+    fun `write and get game sessions`() = runTest {
         assertNull(actual = mock.gameSessionDao.getLatestGameSession())
         assertTrue(actual = mock.gameSessionDao.getGameSessions().isEmpty())
         mock.gameSessionDao.upsertGameSession(gameSession = gameSession)

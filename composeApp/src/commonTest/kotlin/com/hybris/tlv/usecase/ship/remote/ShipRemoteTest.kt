@@ -7,17 +7,17 @@ import com.hybris.tlv.mock.mock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class ShipRemoteTest {
 
     @Test
-    fun `get engines`() = runBlocking {
+    fun `get engines`() = runTest {
         assertEquals(expected = Result.Success(list = engines), actual = mock.shipApi.getEngines())
     }
 
     @Test
-    fun `get error`() = runBlocking {
+    fun `get error`() = runTest {
         assertTrue(actual = errorMock.shipApi.getEngines() is Result.Error)
     }
 }

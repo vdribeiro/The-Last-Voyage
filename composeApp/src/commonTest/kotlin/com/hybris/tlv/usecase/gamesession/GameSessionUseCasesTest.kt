@@ -18,7 +18,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class GameSessionUseCasesTest {
 
@@ -28,7 +28,7 @@ internal class GameSessionUseCasesTest {
     }
 
     @Test
-    fun `write and get game sessions`() = runBlocking {
+    fun `write and get game sessions`() = runTest {
         assertNull(actual = mock.useCases.gameSession.getLatestGameSession())
         assertTrue(actual = mock.useCases.gameSession.getGameSessions().isEmpty())
         assertFalse(actual = mock.useCases.gameSession.isGameSessionOngoing())
@@ -42,7 +42,7 @@ internal class GameSessionUseCasesTest {
     }
 
     @Test
-    fun `do event`() = runBlocking {
+    fun `do event`() = runTest {
         val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val event = events.find { it.outcome != null }!!
         event.outcome!!
@@ -54,7 +54,7 @@ internal class GameSessionUseCasesTest {
     }
 
     @Test
-    fun travel() = runBlocking {
+    fun travel() = runTest {
         val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val stellarHost = stellarHosts.random()
         val newGameSession = mock.useCases.gameSession.travel(gameSession = gameSession, stellarHost = stellarHost)
@@ -68,7 +68,7 @@ internal class GameSessionUseCasesTest {
     }
 
     @Test
-    fun settle() = runBlocking {
+    fun settle() = runTest {
         val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val stellarHost = hostsWithPlanets.filter { it.planets.isNotEmpty() }.random()
         val planet = stellarHost.planets.random().apply {
@@ -85,7 +85,7 @@ internal class GameSessionUseCasesTest {
     }
 
     @Test
-    fun score() = runBlocking {
+    fun score() = runTest {
         val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameOver = GameOver.entries.random()
         val newGameSession = mock.useCases.gameSession.score(gameSession = gameSession, gameOver = gameOver)
@@ -103,7 +103,7 @@ internal class GameSessionUseCasesTest {
     }
 
     @Test
-    fun `is game over`() = runBlocking {
+    fun `is game over`() = runTest {
         val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         assertFalse(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSession))
 

@@ -34,6 +34,7 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 
 [libraries]
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlin-ktor = { group = "io.ktor", name = "ktor-client-core", version.ref = "kotlin-ktor" }
@@ -78,7 +79,8 @@ common = [
     "compose-backhandler",
 ]
 common-test = [
-    "kotlin-test"
+    "kotlin-test",
+    "kotlin-coroutines-test"
 ]
 android = [
     "kotlin-ktor-okhttp",

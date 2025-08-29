@@ -12,7 +12,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class GameStoreTest {
 
@@ -27,13 +27,13 @@ internal class GameStoreTest {
         )
 
     @BeforeTest
-    fun setup() = runBlocking {
+    fun setup() = runTest {
         mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.GAME)
     }
 
     @Test
-    fun `init`() = runBlocking {
+    fun `init`() = runTest {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
@@ -48,7 +48,7 @@ internal class GameStoreTest {
     }
 
     @Test
-    fun `init without game session`() = runBlocking {
+    fun `init without game session`() = runTest {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         val gameStore = store
         assertNull(actual = gameStore.stateFlow.value.gameSession)
@@ -56,7 +56,7 @@ internal class GameStoreTest {
     }
 
     @Test
-    fun `ship is repaired`() = runBlocking {
+    fun `ship is repaired`() = runTest {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
@@ -69,7 +69,7 @@ internal class GameStoreTest {
     }
 
     @Test
-    fun `game over by integrity`() = runBlocking {
+    fun `game over by integrity`() = runTest {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val ship = mock.useCases.gameSession.getLatestGameSession()?.ship?.copy(integrity = 0, materials = 0)
@@ -80,7 +80,7 @@ internal class GameStoreTest {
     }
 
     @Test
-    fun `game over by fuel`() = runBlocking {
+    fun `game over by fuel`() = runTest {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype.copy(ship = gameSessionPrototype.ship.copy(fuel = 0)))
         store
@@ -88,7 +88,7 @@ internal class GameStoreTest {
     }
 
     @Test
-    fun `init without stellar host`() = runBlocking {
+    fun `init without stellar host`() = runTest {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
@@ -97,7 +97,7 @@ internal class GameStoreTest {
     }
 
     @Test
-    fun `send action back`() = runBlocking {
+    fun `send action back`() = runTest {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
@@ -108,7 +108,7 @@ internal class GameStoreTest {
     }
 
     @Test
-    fun `send action change tab`() = runBlocking {
+    fun `send action change tab`() = runTest {
         val gameStore = store
 
         gameStore.send(action = GameAction.ChangeTab(Content.SYSTEM))
@@ -122,7 +122,7 @@ internal class GameStoreTest {
     }
 
     @Test
-    fun `send action travel`() = runBlocking {
+    fun `send action travel`() = runTest {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
@@ -133,7 +133,7 @@ internal class GameStoreTest {
     }
 
     @Test
-    fun `send action travel without game session`() = runBlocking {
+    fun `send action travel without game session`() = runTest {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         val gameStore = store
         gameStore.send(action = GameAction.Travel(stellarHost = stellarHosts.first()))
@@ -141,7 +141,7 @@ internal class GameStoreTest {
     }
 
     @Test
-    fun `send action travel without stellar host`() = runBlocking {
+    fun `send action travel without stellar host`() = runTest {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
@@ -150,7 +150,7 @@ internal class GameStoreTest {
     }
 
     @Test
-    fun `send action settle`() = runBlocking {
+    fun `send action settle`() = runTest {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
@@ -161,7 +161,7 @@ internal class GameStoreTest {
     }
 
     @Test
-    fun `send action settle without game session`() = runBlocking {
+    fun `send action settle without game session`() = runTest {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         val gameStore = store
         gameStore.send(action = GameAction.Settle(planet = planets.first()))

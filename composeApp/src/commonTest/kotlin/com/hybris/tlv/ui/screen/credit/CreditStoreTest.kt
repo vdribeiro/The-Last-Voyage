@@ -7,7 +7,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class CreditStoreTest {
 
@@ -20,20 +20,20 @@ internal class CreditStoreTest {
         )
 
     @BeforeTest
-    fun setup() = runBlocking {
+    fun setup() = runTest {
         mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.CREDIT)
     }
 
     @Test
-    fun `init`() = runBlocking {
+    fun `init`() = runTest {
         mock.internalCredit.syncCredits()
         val creditStore = store
         assertEquals(expected = credits, actual = creditStore.stateFlow.value.credits)
     }
 
     @Test
-    fun `send action back`() = runBlocking {
+    fun `send action back`() = runTest {
         mock.internalCredit.syncCredits()
         store
         assertEquals(expected = NavigationManager.Screen.CREDIT, actual = mock.navigation.stateFlow.value.screen)

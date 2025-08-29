@@ -7,7 +7,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class TranslationLocalTest {
 
@@ -17,7 +17,7 @@ internal class TranslationLocalTest {
     }
 
     @Test
-    fun `write and get translations`() = runBlocking {
+    fun `write and get translations`() = runTest {
         assertTrue(actual = mock.translationDao.isTranslationEmpty())
         mock.translationDao.rewriteTranslations(translations = translations)
         assertEquals(expected = translations, actual = mock.translationDao.getTranslations())

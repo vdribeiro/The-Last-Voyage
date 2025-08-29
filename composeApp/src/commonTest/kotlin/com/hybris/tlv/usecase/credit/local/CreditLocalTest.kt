@@ -7,7 +7,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class CreditLocalTest {
 
@@ -17,7 +17,7 @@ internal class CreditLocalTest {
     }
 
     @Test
-    fun `write and get credits`() = runBlocking {
+    fun `write and get credits`() = runTest {
         assertTrue(actual = mock.creditDao.isCreditEmpty())
         mock.creditDao.rewriteCredits(credits = credits)
         assertEquals(expected = credits, actual = mock.creditDao.getCredits())

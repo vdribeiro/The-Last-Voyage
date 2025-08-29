@@ -10,7 +10,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 
 internal class NewGameStoreTest {
 
@@ -24,20 +24,20 @@ internal class NewGameStoreTest {
         )
 
     @BeforeTest
-    fun setup() = runBlocking {
+    fun setup() = runTest {
         mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.NEW_GAME)
     }
 
     @Test
-    fun `init`() = runBlocking {
+    fun `init`() = runTest {
         mock.internalEarth.syncCatastrophes()
         val newGameStore = store
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
     }
 
     @Test
-    fun `send action back`() = runBlocking {
+    fun `send action back`() = runTest {
         mock.internalEarth.syncCatastrophes()
         val newGameStore = store
         assertEquals(expected = NavigationManager.Screen.NEW_GAME, actual = mock.navigation.stateFlow.value.screen)
@@ -63,7 +63,7 @@ internal class NewGameStoreTest {
     }
 
     @Test
-    fun `send action select ship`() = runBlocking {
+    fun `send action select ship`() = runTest {
         mock.internalEarth.syncCatastrophes()
         val newGameStore = store
         assertNull(actual = newGameStore.stateFlow.value.selectedShip)
@@ -79,7 +79,7 @@ internal class NewGameStoreTest {
     }
 
     @Test
-    fun `send action select formula`() = runBlocking {
+    fun `send action select formula`() = runTest {
         mock.internalEarth.syncCatastrophes()
         val newGameStore = store
         val formula = Formula()
@@ -88,7 +88,7 @@ internal class NewGameStoreTest {
     }
 
     @Test
-    fun `send action start game`() = runBlocking {
+    fun `send action start game`() = runTest {
         assertEquals(expected = NavigationManager.Screen.NEW_GAME, actual = mock.navigation.stateFlow.value.screen)
         mock.internalEarth.syncCatastrophes()
         val newGameStore = store
@@ -105,7 +105,7 @@ internal class NewGameStoreTest {
     }
 
     @Test
-    fun `send action start game without selected ship`() = runBlocking {
+    fun `send action start game without selected ship`() = runTest {
         assertEquals(expected = NavigationManager.Screen.NEW_GAME, actual = mock.navigation.stateFlow.value.screen)
         val newGameStore = store
         newGameStore.send(action = NewGameAction.StartGame)
