@@ -29,7 +29,7 @@ internal class ScoreStore(
         setup()
     }
 
-    private fun setup() = launchInPipeline {
+    private fun setup() = launch {
         val gameSessions = gameSessionUseCases.getGameSessions()
         val scores = gameSessions
             .filter { it.score != null }

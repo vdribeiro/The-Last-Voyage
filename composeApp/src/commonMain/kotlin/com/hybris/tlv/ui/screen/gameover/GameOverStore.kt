@@ -40,7 +40,7 @@ internal class GameOverStore(
         setup()
     }
 
-    private fun setup() = launchInPipeline {
+    private fun setup() = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
@@ -51,7 +51,7 @@ internal class GameOverStore(
                     identifier = "GameOverStore:setup"
                 )
             )
-            return@launchInPipeline
+            return@launch
         }
 
         val gameOver = gameSessionUseCases.getGameOver(gameSession = gameSession)

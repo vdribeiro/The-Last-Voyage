@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -21,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.component.debouncedClickable
 import com.hybris.tlv.ui.screen.mainmenu.content.HabitabilityContent
 import com.hybris.tlv.ui.screen.mainmenu.content.HostsContent
 import com.hybris.tlv.ui.screen.mainmenu.content.LearnContent
@@ -53,14 +53,14 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                     modifier = Modifier
                         .size(size = 100.dp)
                         .wrapContentHeight(align = Alignment.CenterVertically)
-                        .clickable { storeState.developerCorner?.let { uriHandler.openUri(uri = it) } },
+                        .debouncedClickable { storeState.developerCorner?.let { uriHandler.openUri(uri = it) } },
                     text = getTranslation(key = "website"),
                     style = MaterialTheme.typography.titleSmall,
                 )
                 Image(
                     modifier = Modifier
                         .size(size = 100.dp)
-                        .clickable { storeState.tip?.let { uriHandler.openUri(uri = it) } },
+                        .debouncedClickable { storeState.tip?.let { uriHandler.openUri(uri = it) } },
                     painter = painterResource(resource = Res.drawable.support_me_on_kofi_badge_beige),
                     contentDescription = "Tip",
                     contentScale = ContentScale.Fit,

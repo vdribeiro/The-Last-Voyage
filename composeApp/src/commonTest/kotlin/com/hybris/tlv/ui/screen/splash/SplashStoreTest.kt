@@ -6,6 +6,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
 internal class SplashStoreTest {
@@ -27,6 +28,7 @@ internal class SplashStoreTest {
     @Test
     fun `init`() = runBlocking {
         val splashStore = store
+        delay(timeMillis = 1000L)
         assertEquals(expected = 1f, actual = splashStore.stateFlow.value.progress)
     }
 

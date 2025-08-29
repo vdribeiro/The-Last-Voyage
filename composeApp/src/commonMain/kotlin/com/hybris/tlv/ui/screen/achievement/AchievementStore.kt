@@ -27,7 +27,7 @@ internal class AchievementStore(
         setup()
     }
 
-    private fun setup() = launchInPipeline {
+    private fun setup() = launch {
         val achievements = achievementUseCases.getAchievements()
         updateState { it.copy(achievements = achievements) }
     }

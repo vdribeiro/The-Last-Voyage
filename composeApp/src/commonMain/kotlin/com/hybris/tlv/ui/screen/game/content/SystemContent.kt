@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.game.content
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.PlanetCard
 import com.hybris.tlv.ui.component.StellarHostCard
+import com.hybris.tlv.ui.component.debouncedClickable
 import com.hybris.tlv.ui.screen.game.GameAction
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.store.Store
@@ -56,7 +56,7 @@ internal fun SystemContent(store: Store<GameAction, GameState>) {
         item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
         items(items = stellarHost.planets, key = { it.id }) { planet ->
             PlanetCard(
-                modifier = Modifier.clickable { store.send(action = GameAction.Settle(planet = planet)) },
+                modifier = Modifier.debouncedClickable { store.send(action = GameAction.Settle(planet = planet)) },
                 name = planet.name,
                 orbitalPeriod = planet.orbitalPeriod,
                 orbitAxis = planet.orbitAxis,

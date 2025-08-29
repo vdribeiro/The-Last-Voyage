@@ -55,7 +55,7 @@ internal class NewGameStore(
     initialState = initialState
 ) {
 
-    private fun start() = launchInPipeline {
+    private fun start() = launch {
         val catastrophe = earthUseCases.getRandomCatastrophe()
         if (catastrophe == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing catastrophe")
@@ -66,7 +66,7 @@ internal class NewGameStore(
                     identifier = "NewGameStore:reducer:Start"
                 )
             )
-            return@launchInPipeline
+            return@launch
         }
 
         updateState {
@@ -77,7 +77,7 @@ internal class NewGameStore(
         }
     }
 
-    private fun startGame(state: NewGameState) = launchInPipeline {
+    private fun startGame(state: NewGameState) = launch {
         if (state.selectedShip == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing ship prototype")
             navigate(
@@ -87,7 +87,7 @@ internal class NewGameStore(
                     identifier = "NewGameStore:startGame"
                 )
             )
-            return@launchInPipeline
+            return@launch
         }
 
         gameSessionUseCases.startGame(

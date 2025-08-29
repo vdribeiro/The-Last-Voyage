@@ -49,7 +49,7 @@ internal class GameStore(
         setup()
     }
 
-    private fun setup() = launchInPipeline {
+    private fun setup() = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
@@ -60,7 +60,7 @@ internal class GameStore(
                     identifier = "GameStore:setup"
                 )
             )
-            return@launchInPipeline
+            return@launch
         }
 
         val ship = shipUseCases.repairShip(ship = gameSession.ship)
@@ -69,7 +69,7 @@ internal class GameStore(
 
         if (gameSessionUseCases.isGameOver(gameSession = updatedGameSession)) {
             navigate(screen = Screen.GAME_OVER)
-            return@launchInPipeline
+            return@launch
         }
 
         val currentStellarHostId = updatedGameSession.currentStellarHostId ?: "sol"
@@ -83,7 +83,7 @@ internal class GameStore(
                     identifier = "GameStore:setup"
                 )
             )
-            return@launchInPipeline
+            return@launch
         }
 
         var visited = updatedGameSession.visitedStellarHosts.ifEmpty { setOf(currentStellarHostId) }
@@ -126,7 +126,7 @@ internal class GameStore(
         }
     }
 
-    private fun travel(state: GameState, action: GameAction.Travel) = launchInPipeline {
+    private fun travel(state: GameState, action: GameAction.Travel) = launch {
         val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
@@ -137,7 +137,7 @@ internal class GameStore(
                     identifier = "GameStore:travel"
                 )
             )
-            return@launchInPipeline
+            return@launch
         }
         if (stellarHost == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing current stellar host")
@@ -148,7 +148,7 @@ internal class GameStore(
                     identifier = "GameStore:travel"
                 )
             )
-            return@launchInPipeline
+            return@launch
         }
 
         gameSessionUseCases.travel(gameSession = state.gameSession, stellarHost = stellarHost)
@@ -157,7 +157,7 @@ internal class GameStore(
         navigate(screen = Screen.EVENT)
     }
 
-    private fun settle(state: GameState, action: GameAction.Settle) = launchInPipeline {
+    private fun settle(state: GameState, action: GameAction.Settle) = launch {
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
             navigate(
@@ -167,7 +167,7 @@ internal class GameStore(
                     identifier = "GameStore:settle"
                 )
             )
-            return@launchInPipeline
+            return@launch
         }
 
         gameSessionUseCases.settle(gameSession = state.gameSession, planet = action.planet)

@@ -27,7 +27,7 @@ internal class CreditStore(
         setup()
     }
 
-    private fun setup() = launchInPipeline {
+    private fun setup() = launch {
         val credits = creditUseCases.getCredits()
         updateState { it.copy(credits = credits) }
     }

@@ -68,7 +68,7 @@ internal class StellarExplorerStore(
         setup()
     }
 
-    private fun setup() = launchInPipeline {
+    private fun setup() = launch {
         val stellarHosts = spaceUseCases.getExoplanets().apply {
             forEach { stellarHost ->
                 stellarHost.score = Habitability.calculateScores(
@@ -185,7 +185,7 @@ internal class StellarExplorerStore(
                 it.copy(listIndex = action.index)
             }
 
-            StellarExplorerAction.ChangeView -> launchInPipeline {
+            StellarExplorerAction.ChangeView -> launch {
                 when (state.currentContent) {
                     Content.LIST_HOSTS -> {
                         updateState {
@@ -259,7 +259,7 @@ internal class StellarExplorerStore(
                 }
             }
 
-            is StellarExplorerAction.SortStellarHosts -> launchInPipeline {
+            is StellarExplorerAction.SortStellarHosts -> launch {
                 val filteredStellarHosts = with(receiver = state.filteredStellarHosts) {
                     sortedWith(comparator = getStellarHostComparator(sort = action.sort, ascending = state.sortAscending).thenBy { it.id })
                 }
@@ -271,7 +271,7 @@ internal class StellarExplorerStore(
                 }
             }
 
-            is StellarExplorerAction.SortPlanets -> launchInPipeline {
+            is StellarExplorerAction.SortPlanets -> launch {
                 val filteredPlanets = with(receiver = state.filteredPlanets) {
                     sortedWith(comparator = getPlanetsComparator(sort = action.sort, ascending = state.sortAscending).thenBy { it.id })
                 }
@@ -283,7 +283,7 @@ internal class StellarExplorerStore(
                 }
             }
 
-            StellarExplorerAction.ChangeSortDirection -> launchInPipeline {
+            StellarExplorerAction.ChangeSortDirection -> launch {
                 updateState { it.copy(sortAscending = !it.sortAscending) }.join()
                 when (state.currentContent) {
                     Content.LIST_HOSTS -> send(action = StellarExplorerAction.SortStellarHosts(sort = state.sortStellarHostProperty))
@@ -292,14 +292,14 @@ internal class StellarExplorerStore(
                 }
             }
 
-            is StellarExplorerAction.ChangeStellarHostsVisibility -> launchInPipeline {
+            is StellarExplorerAction.ChangeStellarHostsVisibility -> launch {
                 val visibleStellarHostProperties = if (state.visibleStellarHostProperties.contains(element = action.property)) {
                     state.visibleStellarHostProperties.minus(element = action.property)
                 } else state.visibleStellarHostProperties.plus(element = action.property)
                 updateState { it.copy(visibleStellarHostProperties = visibleStellarHostProperties) }
             }
 
-            is StellarExplorerAction.ChangePlanetVisibility -> launchInPipeline {
+            is StellarExplorerAction.ChangePlanetVisibility -> launch {
                 val visiblePlanetProperties = if (state.visiblePlanetProperties.contains(element = action.property)) {
                     state.visiblePlanetProperties.minus(element = action.property)
                 } else state.visiblePlanetProperties.plus(element = action.property)

@@ -55,7 +55,7 @@ internal class MainMenuStore(
         setup()
     }
 
-    private fun setup() = launchInPipeline {
+    private fun setup() = launch {
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
         val developerCorner = config.configs.developerCorner
         val tip = config.configs.tip

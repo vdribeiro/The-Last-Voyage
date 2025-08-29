@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.mainmenu.content
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.AppLogo
+import com.hybris.tlv.ui.component.debouncedClickable
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
@@ -33,42 +33,42 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
         item { Spacer(modifier = Modifier.height(height = 64.dp)) }
         item {
             Text(
-                modifier = Modifier.clickable { store.send(action = MainMenuAction.StellarExplorer) },
+                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.StellarExplorer) },
                 text = getTranslation(key = "main_menu_screen__stellar_explorer"),
                 style = MaterialTheme.typography.headlineMedium,
             )
         }
         item {
             Text(
-                modifier = Modifier.clickable { store.send(action = MainMenuAction.HostTypes) },
+                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.HostTypes) },
                 text = getTranslation(key = "main_menu_screen__star_types"),
                 style = MaterialTheme.typography.headlineMedium,
             )
         }
         item {
             Text(
-                modifier = Modifier.clickable { store.send(action = MainMenuAction.PlanetTypes) },
+                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.PlanetTypes) },
                 text = getTranslation(key = "main_menu_screen__planet_types"),
                 style = MaterialTheme.typography.headlineMedium,
             )
         }
         item {
             Text(
-                modifier = Modifier.clickable { store.send(action = MainMenuAction.Properties) },
+                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Properties) },
                 text = getTranslation(key = "main_menu_screen__properties"),
                 style = MaterialTheme.typography.headlineMedium,
             )
         }
         item {
             Text(
-                modifier = Modifier.clickable { store.send(action = MainMenuAction.Mechanics) },
+                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
                 text = getTranslation(key = "main_menu_screen__mechanics"),
                 style = MaterialTheme.typography.headlineMedium,
             )
         }
         item {
             Text(
-                modifier = Modifier.clickable { store.send(action = MainMenuAction.Habitability) },
+                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Habitability) },
                 text = getTranslation(key = "main_menu_screen__habitability"),
                 style = MaterialTheme.typography.headlineMedium,
             )

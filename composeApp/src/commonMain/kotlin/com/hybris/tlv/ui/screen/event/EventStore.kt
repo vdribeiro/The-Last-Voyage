@@ -37,7 +37,7 @@ internal class EventStore(
         setup()
     }
 
-    private fun setup() = launchInPipeline {
+    private fun setup() = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
@@ -48,7 +48,7 @@ internal class EventStore(
                     identifier = "EventStore:setup"
                 )
             )
-            return@launchInPipeline
+            return@launch
         }
 
         // Guarantee at least 1 event
@@ -73,7 +73,7 @@ internal class EventStore(
                     identifier = "EventStore:setup"
                 )
             )
-            return@launchInPipeline
+            return@launch
         }
 
         val children = events.filter { it.parentId == event.id }
@@ -89,7 +89,7 @@ internal class EventStore(
         }
     }
 
-    private fun select(state: EventState, action: EventAction.Select) = launchInPipeline {
+    private fun select(state: EventState, action: EventAction.Select) = launch {
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
             navigate(
@@ -99,12 +99,12 @@ internal class EventStore(
                     identifier = "EventStore:reducer:Select"
                 )
             )
-            return@launchInPipeline
+            return@launch
         }
 
         if (action.event == null) {
             navigate(screen = Screen.GAME)
-            return@launchInPipeline
+            return@launch
         }
 
         val children = state.events.filter { it.parentId == action.event.id }

@@ -9,8 +9,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 
 /**
  * The central hub for a screen's [State]. It's the single source of truth for the UI.
@@ -28,10 +26,6 @@ internal abstract class Store<Action, State>(
      */
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = initialState)
     val stateFlow: StateFlow<State> get() = _stateFlow
-    /**
-     * Used for actions that must be pipelined.
-     */
-    private val pipeline = Mutex()
     /**
      * The list of jobs launched by the Store.
      */
@@ -68,12 +62,6 @@ internal abstract class Store<Action, State>(
      */
     protected fun launch(block: suspend CoroutineScope.() -> Unit): Job =
         dispatcher.io.launch { block() }.also { jobs.add(element = it) }
-
-    /**
-     * Launches a coroutine, adds it to the list of jobs and pipelines it.
-     */
-    protected fun launchInPipeline(block: suspend CoroutineScope.() -> Unit): Job =
-        dispatcher.io.launch { pipeline.withLock { block() } }.also { jobs.add(element = it) }
 
     /**
      * Launches a coroutine without adding it to the list of jobs.

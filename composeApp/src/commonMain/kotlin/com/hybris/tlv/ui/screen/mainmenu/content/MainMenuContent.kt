@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.mainmenu.content
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.AppLogo
+import com.hybris.tlv.ui.component.debouncedClickable
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
@@ -38,7 +38,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         if (!storeState.loading) {
             item {
                 Text(
-                    modifier = Modifier.clickable { store.send(action = MainMenuAction.NewGame) },
+                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.NewGame) },
                     text = getTranslation(key = "main_menu_screen__new_game"),
                     style = MaterialTheme.typography.headlineMedium,
                 )
@@ -46,7 +46,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
             if (storeState.ongoingGameSession) {
                 item {
                     Text(
-                        modifier = Modifier.clickable { store.send(action = MainMenuAction.Continue) },
+                        modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Continue) },
                         text = getTranslation(key = "main_menu_screen__continue"),
                         style = MaterialTheme.typography.headlineMedium,
                     )
@@ -54,26 +54,26 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
             }
             item {
                 Text(
-                    modifier = Modifier.clickable { store.send(action = MainMenuAction.Learn) },
+                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Learn) },
                     text = getTranslation(key = "main_menu_screen__learn"),
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }
             item {
                 Text(
-                    modifier = Modifier.clickable { store.send(action = MainMenuAction.Scores) },
+                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Scores) },
                     text = getTranslation(key = "main_menu_screen__scores"),
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }
             //Text(
-            //    modifier = Modifier.clickable { store.send(action = MainMenuAction.Achievements) },
+            //    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Achievements) },
             //    text = getTranslation(key = "main_menu_screen__achievements"),
             //    style = MaterialTheme.typography.headlineMedium,
             //)
             item {
                 Text(
-                    modifier = Modifier.clickable { store.send(action = MainMenuAction.Credits) },
+                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Credits) },
                     text = getTranslation(key = "main_menu_screen__credits"),
                     style = MaterialTheme.typography.headlineMedium,
                 )

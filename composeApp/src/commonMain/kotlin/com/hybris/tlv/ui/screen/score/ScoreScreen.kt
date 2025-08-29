@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.score
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.Score
+import com.hybris.tlv.ui.component.debouncedClickable
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.mapper.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -59,7 +59,7 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                             val isExpanded = expandedItems.contains(element = score.id)
                             Score(
                                 modifier = Modifier
-                                    .clickable(onClick = {
+                                    .debouncedClickable(onClick = {
                                         if (isExpanded) expandedItems.remove(element = score.id) else expandedItems.add(element = score.id)
                                     }),
                                 isExpanded = isExpanded,

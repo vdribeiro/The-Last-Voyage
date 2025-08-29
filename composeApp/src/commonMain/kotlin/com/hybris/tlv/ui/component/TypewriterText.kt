@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
@@ -35,7 +34,7 @@ internal fun TypewriterText(
     }
     Box(
         modifier = modifier
-            .clickable { isRevealed = true },
+            .debouncedClickable { isRevealed = true },
         contentAlignment = Alignment.TopCenter
     ) {
         Text(

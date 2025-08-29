@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.credit
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +27,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.component.debouncedClickable
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -60,7 +60,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     items(items = creators, key = { it.id }) { credit ->
                         Spacer(modifier = Modifier.height(height = 8.dp))
                         Text(
-                            modifier = Modifier.clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                            modifier = Modifier.debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                             text = credit.id,
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 color = MaterialTheme.colorScheme.primary,
@@ -83,7 +83,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     items(items = sources, key = { it.id }) { credit ->
                         Spacer(modifier = Modifier.height(height = 8.dp))
                         Text(
-                            modifier = Modifier.clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                            modifier = Modifier.debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                             text = credit.id,
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 color = MaterialTheme.colorScheme.primary,
@@ -106,7 +106,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     items(items = musics, key = { it.id }) { credit ->
                         Spacer(modifier = Modifier.height(height = 8.dp))
                         Text(
-                            modifier = Modifier.clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                            modifier = Modifier.debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                             text = credit.id,
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 color = MaterialTheme.colorScheme.primary,
@@ -138,7 +138,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(all = 16.dp)
-                                            .clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                                            .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                                         text = credit.id,
                                         textAlign = TextAlign.Center,
                                         style = MaterialTheme.typography.bodyLarge.copy(
