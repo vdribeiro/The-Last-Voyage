@@ -38,13 +38,13 @@ internal abstract class Store<Action, State>(
     private val jobs = mutableListOf<Job>()
 
     init {
-        navigation.back = setBackNavigation(_stateFlow.value)
+        navigation.back = setBackNavigation()
     }
 
     /**
-     * Sets the back navigation based on the current [state].
+     * Sets the back navigation.
      */
-    protected abstract fun setBackNavigation(state: State): () -> Unit
+    protected abstract fun setBackNavigation(): () -> Unit
 
     /**
      * Sends an [Action] to the Store.

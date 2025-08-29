@@ -25,7 +25,7 @@ internal class ErrorStore(
     navigation = navigation,
     initialState = initialState
 ) {
-    override fun setBackNavigation(state: ErrorState): () -> Unit = {
+    override fun setBackNavigation(): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
 

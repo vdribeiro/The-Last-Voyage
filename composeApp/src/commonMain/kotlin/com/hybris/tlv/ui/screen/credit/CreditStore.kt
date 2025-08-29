@@ -32,7 +32,7 @@ internal class CreditStore(
         updateState { it.copy(credits = credits) }
     }
 
-    override fun setBackNavigation(state: CreditState): () -> Unit = {
+    override fun setBackNavigation(): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
 

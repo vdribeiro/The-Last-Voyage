@@ -32,7 +32,7 @@ internal class AchievementStore(
         updateState { it.copy(achievements = achievements) }
     }
 
-    override fun setBackNavigation(state: AchievementState): () -> Unit = {
+    override fun setBackNavigation(): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
 

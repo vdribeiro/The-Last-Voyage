@@ -165,7 +165,7 @@ internal class GameOverStore(
             GameOver.GAME_OVER -> "game_over_screen__game_over"
         }
 
-    override fun setBackNavigation(state: GameOverState): () -> Unit = {
+    override fun setBackNavigation(): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
 

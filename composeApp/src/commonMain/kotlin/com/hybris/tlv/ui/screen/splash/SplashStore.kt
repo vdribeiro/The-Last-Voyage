@@ -53,7 +53,7 @@ internal class SplashStore(
         }
     }
 
-    override fun setBackNavigation(state: SplashState): () -> Unit = {}
+    override fun setBackNavigation(): () -> Unit = {}
 
     override fun reducer(state: SplashState, action: SplashAction) {
         when (action) {

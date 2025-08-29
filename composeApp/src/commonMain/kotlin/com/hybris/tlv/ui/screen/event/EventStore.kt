@@ -119,7 +119,7 @@ internal class EventStore(
         }
     }
 
-    override fun setBackNavigation(state: EventState): () -> Unit = {
+    override fun setBackNavigation(): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
 

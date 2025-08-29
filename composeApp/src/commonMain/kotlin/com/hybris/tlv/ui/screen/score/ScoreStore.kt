@@ -42,7 +42,7 @@ internal class ScoreStore(
         }
     }
 
-    override fun setBackNavigation(state: ScoreState): () -> Unit = {
+    override fun setBackNavigation(): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
 

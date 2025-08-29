@@ -174,7 +174,7 @@ internal class GameStore(
         navigate(screen = Screen.GAME_OVER)
     }
 
-    override fun setBackNavigation(state: GameState): () -> Unit = {
+    override fun setBackNavigation(): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
 

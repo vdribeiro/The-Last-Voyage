@@ -99,8 +99,8 @@ internal class NewGameStore(
         navigate(screen = Screen.GAME)
     }
 
-    override fun setBackNavigation(state: NewGameState): () -> Unit = {
-        when (state.currentContent) {
+    override fun setBackNavigation(): () -> Unit = {
+        when (stateFlow.value.currentContent) {
             Content.SHIP,
             Content.ADVANCED,
             Content.START -> navigate(screen = Screen.MAIN_MENU)

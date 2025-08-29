@@ -155,8 +155,8 @@ internal class StellarExplorerStore(
             }
         } else planets
 
-    override fun setBackNavigation(state: StellarExplorerState): () -> Unit = {
-        when (state.currentContent) {
+    override fun setBackNavigation(): () -> Unit = {
+        when (stateFlow.value.currentContent) {
             Content.LIST_HOSTS,
             Content.LIST_PLANETS -> navigate(
                 screen = Screen.MAIN_MENU,
