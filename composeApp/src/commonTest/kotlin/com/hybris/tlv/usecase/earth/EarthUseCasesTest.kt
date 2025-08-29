@@ -22,14 +22,14 @@ internal class EarthUseCasesTest {
     fun `prepopulate and get catastrophes`() = runBlocking {
         assertNull(actual = mock.useCases.earth.getRandomCatastrophe())
         mock.internalEarth.prepopulateCatastrophes()
-        assertNotNull(actual = mock.useCases.earth.getRandomCatastrophe())
+        assertNotNull(actual = mock.useCases.earth.getRandomCatastrophe()).let {}
     }
 
     @Test
     fun `prepopulate and sync catastrophes`() = runBlocking {
         assertNull(actual = mock.useCases.earth.getRandomCatastrophe())
         assertTrue(actual = mock.internalEarth.syncCatastrophes() is SyncResult.Success)
-        assertNotNull(actual = mock.useCases.earth.getRandomCatastrophe())
+        assertNotNull(actual = mock.useCases.earth.getRandomCatastrophe()).let {}
     }
 
     @Test

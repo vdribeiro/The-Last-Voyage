@@ -39,7 +39,7 @@ internal class EventUseCasesTest {
     fun `prepopulate and sync events`() = runBlocking {
         assertNull(actual = mock.useCases.event.getRandomEvent(ids = emptySet()))
         assertTrue(actual = mock.internalEvent.syncEvents() is SyncResult.Success)
-        assertNotNull(actual = mock.useCases.event.getRandomEvent(ids = emptySet()))
+        assertNotNull(actual = mock.useCases.event.getRandomEvent(ids = emptySet())).let {}
     }
 
     @Test

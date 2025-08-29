@@ -31,14 +31,14 @@ internal class ScoreStoreTest {
         val latestGameSession = mock.useCases.gameSession.getLatestGameSession()!!
         mock.useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
         val scoreStore = store
-        assertEquals(actual = listOf(mock.useCases.gameSession.getLatestGameSession()), expected = scoreStore.stateFlow.value.scores)
+        assertEquals(expected = listOf(mock.useCases.gameSession.getLatestGameSession()), actual = scoreStore.stateFlow.value.scores)
     }
 
     @Test
     fun `send action back`() = runBlocking {
         store
-        assertEquals(actual = NavigationManager.Screen.SCORE, expected = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.SCORE, actual = mock.navigation.stateFlow.value.screen)
         mock.navigation.back()
-        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
     }
 }

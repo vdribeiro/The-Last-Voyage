@@ -41,7 +41,10 @@ internal class GameStoreTest {
         assertNotNull(actual = gameStore.stateFlow.value.gameSession)
         assertEquals(expected = Content.SYSTEM, actual = gameStore.stateFlow.value.currentContent)
         assertEquals(expected = stellarHosts.first(), actual = gameStore.stateFlow.value.currentStellarHost)
-        assertEquals(expected = hostsWithPlanets.drop(n = 1), actual = gameStore.stateFlow.value.nearStellarHosts)
+        assertEquals(
+            expected = hostsWithPlanets.drop(n = 1).sortedBy { it.id },
+            actual = gameStore.stateFlow.value.nearStellarHosts.sortedBy { it.id }
+        )
     }
 
     @Test

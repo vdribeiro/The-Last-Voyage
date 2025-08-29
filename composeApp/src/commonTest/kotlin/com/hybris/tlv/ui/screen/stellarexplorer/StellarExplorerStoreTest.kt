@@ -34,45 +34,45 @@ internal class StellarExplorerStoreTest {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         val stellarExplorerStore = store
-        assertEquals(actual = Content.LIST_HOSTS, expected = stellarExplorerStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.LIST_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         val stellarHosts = stellarExplorerStore.stateFlow.value.stellarHosts
         val planets = stellarExplorerStore.stateFlow.value.planets
-        assertEquals(actual = stellarHosts, expected = stellarExplorerStore.stateFlow.value.filteredStellarHosts)
-        assertEquals(actual = planets, expected = stellarExplorerStore.stateFlow.value.filteredPlanets)
+        assertEquals(expected = stellarHosts, actual = stellarExplorerStore.stateFlow.value.filteredStellarHosts)
+        assertEquals(expected = planets, actual = stellarExplorerStore.stateFlow.value.filteredPlanets)
     }
 
     @Test
     fun `send action back`() = runBlocking {
         val stellarExplorerStore = store
-        assertEquals(actual = NavigationManager.Screen.STELLAR_EXPLORER, expected = mock.navigation.stateFlow.value.screen)
-        assertEquals(actual = Content.LIST_HOSTS, expected = stellarExplorerStore.stateFlow.value.currentContent)
+        assertEquals(expected = NavigationManager.Screen.STELLAR_EXPLORER, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = Content.LIST_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         mock.navigation.back()
-        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
 
         mock.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
-        assertEquals(actual = Content.LIST_PLANETS, expected = stellarExplorerStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         mock.navigation.back()
-        assertEquals(actual = NavigationManager.Screen.MAIN_MENU, expected = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
 
         stellarExplorerStore.send(action = StellarExplorerAction.OpenPlanet(planet = planets.first()))
-        assertEquals(actual = Content.DETAIL_PLANETS, expected = stellarExplorerStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.DETAIL_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         mock.navigation.back()
-        assertEquals(actual = Content.LIST_PLANETS, expected = stellarExplorerStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
         stellarExplorerStore.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHosts.first()))
-        assertEquals(actual = Content.DETAIL_HOSTS, expected = stellarExplorerStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.DETAIL_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         mock.navigation.back()
-        assertEquals(actual = Content.LIST_HOSTS, expected = stellarExplorerStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.LIST_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
     }
 
     @Test
     fun `send action save index`() = runBlocking {
         val stellarExplorerStore = store
-        assertEquals(actual = LazyListIndex(), expected = stellarExplorerStore.stateFlow.value.listIndex)
+        assertEquals(expected = LazyListIndex(), actual = stellarExplorerStore.stateFlow.value.listIndex)
         stellarExplorerStore.send(action = StellarExplorerAction.SaveIndex(index = LazyListIndex(index = 6, scrollOffset = 9)))
-        assertEquals(actual = LazyListIndex(index = 6, scrollOffset = 9), expected = stellarExplorerStore.stateFlow.value.listIndex)
+        assertEquals(expected = LazyListIndex(index = 6, scrollOffset = 9), actual = stellarExplorerStore.stateFlow.value.listIndex)
     }
 
     @Test
@@ -82,11 +82,11 @@ internal class StellarExplorerStoreTest {
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.Search(search = stellarHosts.first().id))
-        assertEquals(actual = listOf(stellarHosts.first()), expected = stellarExplorerStore.stateFlow.value.filteredStellarHosts)
+        assertEquals(expected = listOf(stellarHosts.first()), actual = stellarExplorerStore.stateFlow.value.filteredStellarHosts)
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
         stellarExplorerStore.send(action = StellarExplorerAction.Search(search = planets.first().id))
-        assertEquals(actual = listOf(planets.first()), expected = stellarExplorerStore.stateFlow.value.filteredPlanets)
+        assertEquals(expected = listOf(planets.first()), actual = stellarExplorerStore.stateFlow.value.filteredPlanets)
     }
 
     @Test
@@ -96,14 +96,14 @@ internal class StellarExplorerStoreTest {
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.SortStellarHosts(sort = StellarHostProperty.NAME))
-        assertEquals(actual = StellarHostProperty.NAME, expected = stellarExplorerStore.stateFlow.value.sortStellarHostProperty)
+        assertEquals(expected = StellarHostProperty.NAME, actual = stellarExplorerStore.stateFlow.value.sortStellarHostProperty)
 
         stellarExplorerStore.send(action = StellarExplorerAction.SortPlanets(sort = PlanetProperty.NAME))
-        assertEquals(actual = PlanetProperty.NAME, expected = stellarExplorerStore.stateFlow.value.sortPlanetProperty)
+        assertEquals(expected = PlanetProperty.NAME, actual = stellarExplorerStore.stateFlow.value.sortPlanetProperty)
 
-        assertEquals(actual = true, expected = stellarExplorerStore.stateFlow.value.sortAscending)
+        assertEquals(expected = true, actual = stellarExplorerStore.stateFlow.value.sortAscending)
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeSortDirection)
-        assertEquals(actual = false, expected = stellarExplorerStore.stateFlow.value.sortAscending)
+        assertEquals(expected = false, actual = stellarExplorerStore.stateFlow.value.sortAscending)
     }
 
     @Test
@@ -114,14 +114,14 @@ internal class StellarExplorerStoreTest {
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = StellarHostProperty.NAME))
         assertEquals(
-            actual = StellarHostProperty.entries - StellarHostProperty.NAME,
-            expected = stellarExplorerStore.stateFlow.value.visibleStellarHostProperties
+            expected = StellarHostProperty.entries - StellarHostProperty.NAME,
+            actual = stellarExplorerStore.stateFlow.value.visibleStellarHostProperties
         )
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangePlanetVisibility(property = PlanetProperty.NAME))
         assertEquals(
-            actual = PlanetProperty.entries - PlanetProperty.NAME,
-            expected = stellarExplorerStore.stateFlow.value.visiblePlanetProperties
+            expected = PlanetProperty.entries - PlanetProperty.NAME,
+            actual = stellarExplorerStore.stateFlow.value.visiblePlanetProperties
         )
     }
 }

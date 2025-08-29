@@ -21,6 +21,6 @@ internal class EarthLocalTest {
     fun `write and get catastrophes`() = runBlocking {
         assertTrue(actual = mock.earthDao.isCatastropheEmpty())
         mock.earthDao.rewriteCatastrophes(catastrophes = catastrophes)
-        assertNotNull(actual = mock.earthDao.getRandomCatastrophe())
+        assertNotNull(actual = mock.earthDao.getRandomCatastrophe()).let {}
     }
 }
