@@ -28,7 +28,7 @@ internal class SplashStoreTest {
     @Test
     fun `init`() = runTest {
         val splashStore = store
-        delay(timeMillis = 1000L)
+        delay(timeMillis = 100L)
         assertEquals(expected = 1f, actual = splashStore.stateFlow.value.progress)
     }
 

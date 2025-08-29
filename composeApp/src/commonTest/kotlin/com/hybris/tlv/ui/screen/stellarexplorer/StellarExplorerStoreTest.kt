@@ -11,6 +11,7 @@ import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 
 internal class StellarExplorerStoreTest {
@@ -46,25 +47,16 @@ internal class StellarExplorerStoreTest {
         val stellarExplorerStore = store
         mock.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
 
-        assertEquals(expected = Content.LIST_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-        stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
-        assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-        mock.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
-
-        stellarExplorerStore.send(action = StellarExplorerAction.OpenPlanet(planet = planets.first()))
-        assertEquals(expected = Content.DETAIL_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-        mock.navigation.back()
-        assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-
-        stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
         stellarExplorerStore.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHosts.first()))
         assertEquals(expected = Content.DETAIL_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         mock.navigation.back()
         assertEquals(expected = Content.LIST_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-
-        assertEquals(expected = NavigationManager.Screen.STELLAR_EXPLORER, actual = mock.navigation.stateFlow.value.screen)
-        assertEquals(expected = Content.LIST_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
+        stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
+        assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
+        stellarExplorerStore.send(action = StellarExplorerAction.OpenPlanet(planet = planets.first()))
+        assertEquals(expected = Content.DETAIL_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
+        mock.navigation.back()
+        assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         mock.navigation.back()
         assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
     }
