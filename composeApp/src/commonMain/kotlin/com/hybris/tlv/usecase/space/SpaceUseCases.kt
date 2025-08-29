@@ -10,7 +10,7 @@ internal interface SpaceUseCases {
     suspend fun getStellarHost(id: String): StellarHost?
 
     /**
-     * Get exoplanets ordered by ascending distance.
+     * Get exoplanets.
      */
     suspend fun getExoplanets(): List<StellarHost>
 

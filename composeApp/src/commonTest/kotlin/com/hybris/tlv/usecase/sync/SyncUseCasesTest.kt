@@ -1,6 +1,5 @@
 package com.hybris.tlv.usecase.sync
 
-import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.mock.errorMock
 import com.hybris.tlv.mock.mock
@@ -33,8 +32,6 @@ internal class SyncUseCasesTest {
             assertEquals(expected = SyncResult.Loading(progress = i.toFloat(), total = totalOperations), actual = noSync[i])
         }
         assertEquals(expected = SyncResult.Success, actual = noSync.last())
-
-
 
         val sync = mock.useCases.sync.sync().toList()
         for (i in 0..totalOperations.toInt() - 1) {

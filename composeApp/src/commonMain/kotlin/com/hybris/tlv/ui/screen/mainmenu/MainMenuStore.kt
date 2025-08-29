@@ -76,6 +76,7 @@ internal class MainMenuStore(
             Content.PROPERTIES,
             Content.MECHANICS,
             Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
+
             Content.MAIN_MENU, Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
         }.let {}
     }

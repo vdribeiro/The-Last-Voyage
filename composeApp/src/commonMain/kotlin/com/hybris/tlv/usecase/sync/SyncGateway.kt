@@ -49,13 +49,13 @@ internal class SyncGateway(
     override suspend fun sync(): Flow<SyncResult> = flow {
         val totalOperations = 9f
         emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
-        val localConfig = storage.getLocal()
+        var localConfig = storage.getLocal()
         val remoteConfig = storage.getRemote()
         listOf(
             suspend {
                 if (remoteConfig.translationsVersion > localConfig.translationsVersion) {
                     when (val result = internalTranslation.syncTranslations()) {
-                        SyncResult.Success -> localConfig.copy(translationsVersion = remoteConfig.translationsVersion)
+                        SyncResult.Success -> localConfig = localConfig.copy(translationsVersion = remoteConfig.translationsVersion)
                         is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
                         is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
                     }
@@ -64,7 +64,7 @@ internal class SyncGateway(
             suspend {
                 if (remoteConfig.catastrophesVersion > localConfig.catastrophesVersion) {
                     when (val result = internalEarth.syncCatastrophes()) {
-                        SyncResult.Success -> localConfig.copy(catastrophesVersion = remoteConfig.catastrophesVersion)
+                        SyncResult.Success -> localConfig = localConfig.copy(catastrophesVersion = remoteConfig.catastrophesVersion)
                         is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
                         is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
                     }
@@ -73,7 +73,7 @@ internal class SyncGateway(
             suspend {
                 if (remoteConfig.enginesVersion > localConfig.enginesVersion) {
                     when (val result = internalShip.syncEngines()) {
-                        SyncResult.Success -> localConfig.copy(enginesVersion = remoteConfig.enginesVersion)
+                        SyncResult.Success -> localConfig = localConfig.copy(enginesVersion = remoteConfig.enginesVersion)
                         is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
                         is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
                     }
@@ -82,7 +82,7 @@ internal class SyncGateway(
             suspend {
                 if (remoteConfig.stellarHostsVersion > localConfig.stellarHostsVersion) {
                     when (val result = internalSpace.syncStellarHosts()) {
-                        SyncResult.Success -> localConfig.copy(stellarHostsVersion = remoteConfig.stellarHostsVersion)
+                        SyncResult.Success -> localConfig = localConfig.copy(stellarHostsVersion = remoteConfig.stellarHostsVersion)
                         is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
                         is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
                     }
@@ -91,7 +91,7 @@ internal class SyncGateway(
             suspend {
                 if (remoteConfig.planetsVersion > localConfig.planetsVersion) {
                     when (val result = internalSpace.syncPlanets()) {
-                        SyncResult.Success -> localConfig.copy(planetsVersion = remoteConfig.planetsVersion)
+                        SyncResult.Success -> localConfig = localConfig.copy(planetsVersion = remoteConfig.planetsVersion)
                         is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
                         is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
                     }
@@ -100,7 +100,7 @@ internal class SyncGateway(
             suspend {
                 if (remoteConfig.eventsVersion > localConfig.eventsVersion) {
                     when (val result = internalEvent.syncEvents()) {
-                        SyncResult.Success -> localConfig.copy(eventsVersion = remoteConfig.eventsVersion)
+                        SyncResult.Success -> localConfig = localConfig.copy(eventsVersion = remoteConfig.eventsVersion)
                         is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
                         is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
                     }
@@ -109,7 +109,7 @@ internal class SyncGateway(
             suspend {
                 if (remoteConfig.achievementsVersion > localConfig.achievementsVersion) {
                     when (val result = internalAchievement.syncAchievements()) {
-                        SyncResult.Success -> localConfig.copy(achievementsVersion = remoteConfig.achievementsVersion)
+                        SyncResult.Success -> localConfig = localConfig.copy(achievementsVersion = remoteConfig.achievementsVersion)
                         is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
                         is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
                     }
@@ -118,7 +118,7 @@ internal class SyncGateway(
             suspend {
                 if (remoteConfig.creditsVersion > localConfig.creditsVersion) {
                     when (val result = internalCredit.syncCredits()) {
-                        SyncResult.Success -> localConfig.copy(creditsVersion = remoteConfig.creditsVersion)
+                        SyncResult.Success -> localConfig = localConfig.copy(creditsVersion = remoteConfig.creditsVersion)
                         is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
                         is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
                     }
@@ -128,6 +128,7 @@ internal class SyncGateway(
             emit(value = SyncResult.Loading(progress = index.toFloat() + 1f, total = totalOperations))
             sync()
         }
+        storage.setLocal(configs = localConfig)
         emit(value = SyncResult.Success)
     }
 

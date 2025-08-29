@@ -240,7 +240,6 @@ private fun GameSystemScreenPreview() {
             state = GameState(
                 gameSession = gameSession,
                 currentContent = GameContent.SYSTEM,
-                stellarHosts = stellarHosts,
                 currentStellarHost = stellarHosts.first().apply {
                     planets.addAll(elements = planets.filter { it.stellarHostId == id })
                     travelOutcome = TravelOutcome(

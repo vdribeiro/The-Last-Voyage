@@ -19,10 +19,8 @@ import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
 internal sealed interface StellarExplorerAction {
     data class SaveIndex(val index: LazyListIndex): StellarExplorerAction
-
     data object ChangeView: StellarExplorerAction
     data class Search(val search: String): StellarExplorerAction
-
     data class OpenStellarHost(val stellarHost: StellarHost): StellarExplorerAction
     data class OpenPlanet(val planet: Planet): StellarExplorerAction
     data class SortStellarHosts(val sort: StellarHostProperty): StellarExplorerAction
@@ -38,13 +36,10 @@ internal data class StellarExplorerState(
     val stellarHosts: List<StellarHost> = emptyList(),
     val planets: List<Planet> = emptyList(),
     val listIndex: LazyListIndex = LazyListIndex(),
-    val search: String = "",
     val filteredStellarHosts: List<StellarHost> = emptyList(),
     val filteredPlanets: List<Planet> = emptyList(),
     val selectedStellarHost: StellarHost? = null,
     val selectedPlanet: Planet? = null,
-    val stellarHostProperties: List<StellarHostProperty> = StellarHostProperty.entries,
-    val planetProperties: List<PlanetProperty> = PlanetProperty.entries,
     val sortStellarHostProperty: StellarHostProperty = StellarHostProperty.DISTANCE,
     val sortPlanetProperty: PlanetProperty = PlanetProperty.NAME,
     val sortAscending: Boolean = true,
@@ -89,7 +84,7 @@ internal class StellarExplorerStore(
                     )
                 }
             }
-        }
+        }.sortedWith(comparator = compareBy<StellarHost, Double?>(comparator = nullsLast()) { it.distance }.thenBy { it.id })
         val planets = stellarHosts.map { it.planets }.flatten()
             .sortedWith(comparator = compareBy(comparator = nullsLast()) { it.name })
         updateState {
@@ -225,12 +220,7 @@ internal class StellarExplorerStore(
                             search = action.search,
                             stellarHosts = state.stellarHosts
                         )
-                        updateState {
-                            it.copy(
-                                search = action.search,
-                                filteredStellarHosts = filteredStellarHosts,
-                            )
-                        }
+                        updateState { it.copy(filteredStellarHosts = filteredStellarHosts) }
                     }
 
                     Content.LIST_PLANETS -> {
@@ -238,12 +228,7 @@ internal class StellarExplorerStore(
                             search = action.search,
                             planets = state.planets
                         )
-                        updateState {
-                            it.copy(
-                                search = action.search,
-                                filteredPlanets = filteredPlanets,
-                            )
-                        }
+                        updateState { it.copy(filteredPlanets = filteredPlanets) }
                     }
 
                     Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}

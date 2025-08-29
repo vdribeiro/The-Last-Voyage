@@ -41,7 +41,7 @@ internal class SplashStore(
             combine(
                 flows = listOf(
                     syncUseCases.prepopulate(),
-                    //syncUseCases.sync()
+                    syncUseCases.sync()
                 )
             ) { it.combine() }.collectProgress { progress ->
                 updateState { it.copy(progress = progress) }
