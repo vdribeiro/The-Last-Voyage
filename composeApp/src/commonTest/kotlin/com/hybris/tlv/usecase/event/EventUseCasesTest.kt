@@ -22,9 +22,9 @@ internal class EventUseCasesTest {
 
     @Test
     fun `prepopulate and get events`() = runBlocking {
-        assertNull(actual = mock.useCases.event.getRandomEvent(ids = emptySet()))
+        assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
         mock.internalEvent.prepopulateEvents()
-        assertNotNull(actual = mock.useCases.event.getRandomEvent(ids = emptySet()))
+        assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
 
         assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
         val ids = events.map { it.id }.toSet()
@@ -37,9 +37,9 @@ internal class EventUseCasesTest {
 
     @Test
     fun `prepopulate and sync events`() = runBlocking {
-        assertNull(actual = mock.useCases.event.getRandomEvent(ids = emptySet()))
+        assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
         assertTrue(actual = mock.internalEvent.syncEvents() is SyncResult.Success)
-        assertNotNull(actual = mock.useCases.event.getRandomEvent(ids = emptySet())).let {}
+        assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
     }
 
     @Test

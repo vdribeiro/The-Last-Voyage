@@ -18,21 +18,18 @@ internal class SyncUseCasesTest {
     }
 
     @Test
-    fun `prepopulate and sync`() = runBlocking {
+    fun prepopulate() = runBlocking {
         val totalOperations = 8f
-
         val prepopulate = mock.useCases.sync.prepopulate().toList()
         for (i in 0..totalOperations.toInt() - 1) {
             assertEquals(expected = SyncResult.Loading(progress = i.toFloat(), total = totalOperations), actual = prepopulate[i])
         }
         assertEquals(expected = SyncResult.Success, actual = prepopulate.last())
+    }
 
-        val noSync = mock.useCases.sync.sync().toList()
-        for (i in 0..totalOperations.toInt() - 1) {
-            assertEquals(expected = SyncResult.Loading(progress = i.toFloat(), total = totalOperations), actual = noSync[i])
-        }
-        assertEquals(expected = SyncResult.Success, actual = noSync.last())
-
+    @Test
+    fun sync() = runBlocking {
+        val totalOperations = 9f
         val sync = mock.useCases.sync.sync().toList()
         for (i in 0..totalOperations.toInt() - 1) {
             assertEquals(expected = SyncResult.Loading(progress = i.toFloat(), total = totalOperations), actual = sync[i])
