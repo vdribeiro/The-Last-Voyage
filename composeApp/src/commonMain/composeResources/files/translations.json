@@ -1437,6 +1437,11 @@
   {
     "languageIso": "en",
     "key": "event__push_the_engine_go",
+    "value": "Go for speed."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__push_the_engine_go_description",
     "value": "You arrive sooner, but cause an engine strain, requiring repairs."
   },
   {
