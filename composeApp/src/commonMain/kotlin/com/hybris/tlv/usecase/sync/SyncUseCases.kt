@@ -6,12 +6,7 @@ import kotlinx.coroutines.flow.Flow
 internal interface SyncUseCases {
 
     /**
-     * Prepopulates all local data.
-     */
-    suspend fun prepopulate(): Flow<SyncResult>
-
-    /**
-     * Syncs all the remote data to local.
+     * Syncs all the remote data to local, or prepopulates if it fails
      */
     suspend fun sync(): Flow<SyncResult>
 

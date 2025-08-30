@@ -3,6 +3,7 @@ package com.hybris.tlv.usecase.translation
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.http.Result
+import com.hybris.tlv.locale.getLanguage
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import com.hybris.tlv.usecase.translation.local.TranslationLocal
@@ -32,9 +33,13 @@ internal class TranslationInternalGateway(
             val translations: List<Translation> = loadFromJson(path = "files/translations.json")
             translationDao.rewriteTranslations(translations = translations)
         }
+        loadTranslationsToCache(languageIso = getLanguage())
     }
 
-    override suspend fun loadTranslationsToCache(languageIso: String?): List<Translation> {
+    /**
+     * Loads translations to cache given a desired [languageIso].
+     */
+    private fun loadTranslationsToCache(languageIso: String?): List<Translation> {
         val translations = translationDao.getTranslations()
         val translationsMap = translations.toTranslationCacheMap()
         dispatcher.main.launch {

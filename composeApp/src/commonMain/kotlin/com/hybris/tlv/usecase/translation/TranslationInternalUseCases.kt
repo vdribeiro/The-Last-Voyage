@@ -14,9 +14,4 @@ internal interface TranslationInternalUseCases {
      * Prepopulate local [Translation].
      */
     suspend fun prepopulateTranslations()
-
-    /**
-     * Loads translations to cache given a desired [languageIso].
-     */
-    suspend fun loadTranslationsToCache(languageIso: String?): List<Translation>
 }

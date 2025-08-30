@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.sync
 
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.locale.getLanguage
+import com.hybris.tlv.config.Configs
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.usecase.achievement.AchievementInternalUseCases
 import com.hybris.tlv.usecase.credit.CreditInternalUseCases
@@ -11,8 +11,12 @@ import com.hybris.tlv.usecase.ship.ShipInternalUseCases
 import com.hybris.tlv.usecase.space.SpaceInternalUseCases
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import com.hybris.tlv.usecase.translation.TranslationInternalUseCases
+import kotlinx.atomicfu.atomic
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.supervisorScope
 
 internal class SyncGateway(
     private val storage: ConfigManager,
@@ -25,112 +29,107 @@ internal class SyncGateway(
     private val internalCredit: CreditInternalUseCases,
 ): SyncUseCases {
 
-    override suspend fun prepopulate(): Flow<SyncResult> = flow {
-        val totalOperations = 8f
-        listOf(
-            suspend {
-                internalTranslation.prepopulateTranslations()
-                internalTranslation.loadTranslationsToCache(languageIso = getLanguage())
-            },
-            suspend { internalEarth.prepopulateCatastrophes() },
-            suspend { internalShip.prepopulateEngines() },
-            suspend { internalSpace.prepopulateStellarHosts() },
-            suspend { internalSpace.prepopulatePlanets() },
-            suspend { internalEvent.prepopulateEvents() },
-            suspend { internalAchievement.prepopulateAchievements() },
-            suspend { internalCredit.prepopulateCredits() },
-        ).forEachIndexed { index, prepopulate ->
-            emit(value = SyncResult.Loading(progress = index.toFloat(), total = totalOperations))
-            prepopulate()
+    override suspend fun sync(): Flow<SyncResult> = channelFlow {
+        val localConfig = storage.getLocal()
+        val remoteConfig = storage.getRemote()
+
+        val tasks = listOf(
+            SyncTask(
+                remoteVersion = remoteConfig.translationsVersion,
+                localVersion = localConfig.translationsVersion,
+                sync = internalTranslation::syncTranslations,
+                prepopulate = internalTranslation::prepopulateTranslations,
+                updateConfig = { configs, version -> configs.copy(translationsVersion = version) }
+            ),
+            SyncTask(
+                remoteVersion = remoteConfig.catastrophesVersion,
+                localVersion = localConfig.catastrophesVersion,
+                sync = internalEarth::syncCatastrophes,
+                prepopulate = internalEarth::prepopulateCatastrophes,
+                updateConfig = { configs, version -> configs.copy(catastrophesVersion = version) }
+            ),
+            SyncTask(
+                remoteVersion = remoteConfig.enginesVersion,
+                localVersion = localConfig.enginesVersion,
+                sync = internalShip::syncEngines,
+                prepopulate = internalShip::prepopulateEngines,
+                updateConfig = { configs, version -> configs.copy(enginesVersion = version) }
+            ),
+            SyncTask(
+                remoteVersion = remoteConfig.stellarHostsVersion,
+                localVersion = localConfig.stellarHostsVersion,
+                sync = internalSpace::syncStellarHosts,
+                prepopulate = internalSpace::prepopulateStellarHosts,
+                updateConfig = { configs, version -> configs.copy(stellarHostsVersion = version) }
+            ),
+            SyncTask(
+                remoteVersion = remoteConfig.planetsVersion,
+                localVersion = localConfig.planetsVersion,
+                sync = internalSpace::syncPlanets,
+                prepopulate = internalSpace::prepopulatePlanets,
+                updateConfig = { configs, version -> configs.copy(planetsVersion = version) }
+            ),
+            SyncTask(
+                remoteVersion = remoteConfig.eventsVersion,
+                localVersion = localConfig.eventsVersion,
+                sync = internalEvent::syncEvents,
+                prepopulate = internalEvent::prepopulateEvents,
+                updateConfig = { configs, version -> configs.copy(eventsVersion = version) }
+            ),
+            SyncTask(
+                remoteVersion = remoteConfig.achievementsVersion,
+                localVersion = localConfig.achievementsVersion,
+                sync = internalAchievement::syncAchievements,
+                prepopulate = internalAchievement::prepopulateAchievements,
+                updateConfig = { configs, version -> configs.copy(achievementsVersion = version) }
+            ),
+            SyncTask(
+                remoteVersion = remoteConfig.creditsVersion,
+                localVersion = localConfig.creditsVersion,
+                sync = internalCredit::syncCredits,
+                prepopulate = internalCredit::prepopulateCredits,
+                updateConfig = { configs, version -> configs.copy(creditsVersion = version) }
+            ),
+        )
+
+        val completedOperations = atomic(initial = 0)
+        val totalOperations = tasks.size.toFloat()
+        send(element = SyncResult.Loading(progress = 0f, total = totalOperations))
+
+        val finalConfig = supervisorScope {
+            val updaters = tasks.mapIndexed { index, task ->
+                async {
+                    var configUpdater: (Configs) -> Configs = { it }
+                    if (task.remoteVersion > task.localVersion) {
+                        when (val result = task.sync()) {
+                            SyncResult.Success -> {
+                                configUpdater = { config -> task.updateConfig(config, task.remoteVersion) }
+                            }
+
+                            is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
+                            is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
+                        }
+                    }
+                    task.prepopulate()
+                    val currentProgress = completedOperations.incrementAndGet().toFloat()
+                    send(element = SyncResult.Loading(progress = currentProgress, total = totalOperations))
+                    configUpdater
+                }
+            }.awaitAll()
+            updaters.fold(initial = localConfig) { config, updater -> updater(config) }
         }
-        emit(value = SyncResult.Success)
+
+        storage.setLocal(configs = finalConfig)
+        send(element = SyncResult.Success)
     }
 
-    override suspend fun sync(): Flow<SyncResult> = flow {
-        val totalOperations = 9f
-        emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
-        var localConfig = storage.getLocal()
-        val remoteConfig = storage.getRemote()
-        listOf(
-            suspend {
-                if (remoteConfig.translationsVersion > localConfig.translationsVersion) {
-                    when (val result = internalTranslation.syncTranslations()) {
-                        SyncResult.Success -> localConfig = localConfig.copy(translationsVersion = remoteConfig.translationsVersion)
-                        is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
-                        is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
-                    }
-                }
-            },
-            suspend {
-                if (remoteConfig.catastrophesVersion > localConfig.catastrophesVersion) {
-                    when (val result = internalEarth.syncCatastrophes()) {
-                        SyncResult.Success -> localConfig = localConfig.copy(catastrophesVersion = remoteConfig.catastrophesVersion)
-                        is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
-                        is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
-                    }
-                }
-            },
-            suspend {
-                if (remoteConfig.enginesVersion > localConfig.enginesVersion) {
-                    when (val result = internalShip.syncEngines()) {
-                        SyncResult.Success -> localConfig = localConfig.copy(enginesVersion = remoteConfig.enginesVersion)
-                        is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
-                        is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
-                    }
-                }
-            },
-            suspend {
-                if (remoteConfig.stellarHostsVersion > localConfig.stellarHostsVersion) {
-                    when (val result = internalSpace.syncStellarHosts()) {
-                        SyncResult.Success -> localConfig = localConfig.copy(stellarHostsVersion = remoteConfig.stellarHostsVersion)
-                        is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
-                        is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
-                    }
-                }
-            },
-            suspend {
-                if (remoteConfig.planetsVersion > localConfig.planetsVersion) {
-                    when (val result = internalSpace.syncPlanets()) {
-                        SyncResult.Success -> localConfig = localConfig.copy(planetsVersion = remoteConfig.planetsVersion)
-                        is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
-                        is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
-                    }
-                }
-            },
-            suspend {
-                if (remoteConfig.eventsVersion > localConfig.eventsVersion) {
-                    when (val result = internalEvent.syncEvents()) {
-                        SyncResult.Success -> localConfig = localConfig.copy(eventsVersion = remoteConfig.eventsVersion)
-                        is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
-                        is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
-                    }
-                }
-            },
-            suspend {
-                if (remoteConfig.achievementsVersion > localConfig.achievementsVersion) {
-                    when (val result = internalAchievement.syncAchievements()) {
-                        SyncResult.Success -> localConfig = localConfig.copy(achievementsVersion = remoteConfig.achievementsVersion)
-                        is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
-                        is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
-                    }
-                }
-            },
-            suspend {
-                if (remoteConfig.creditsVersion > localConfig.creditsVersion) {
-                    when (val result = internalCredit.syncCredits()) {
-                        SyncResult.Success -> localConfig = localConfig.copy(creditsVersion = remoteConfig.creditsVersion)
-                        is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
-                        is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
-                    }
-                }
-            },
-        ).forEachIndexed { index, sync ->
-            emit(value = SyncResult.Loading(progress = index.toFloat() + 1f, total = totalOperations))
-            sync()
-        }
-        storage.setLocal(configs = localConfig)
-        emit(value = SyncResult.Success)
-    }
+    private data class SyncTask<T: Comparable<T>>(
+        val remoteVersion: T,
+        val localVersion: T,
+        val sync: suspend () -> SyncResult,
+        val prepopulate: suspend () -> Unit,
+        val updateConfig: (Configs, T) -> Configs,
+    )
 
     override suspend fun getArchive(): Flow<SyncResult> = internalSpace.getArchive()
 
@@ -139,10 +138,10 @@ internal class SyncGateway(
     }
 }
 
-internal fun Array<SyncResult>.combine(): SyncResult {
-    val errorList = filterIsInstance<SyncResult.Error>()
-    if (errorList.isNotEmpty()) return SyncResult.Error(error = errorList.joinToString(separator = "\n") { it.error })
-    if (all { it is SyncResult.Success }) return SyncResult.Success
-    val progress = map { if (it is SyncResult.Loading) it.progress / it.total else 1f }.sum() / size
-    return SyncResult.Loading(progress = progress, total = 1f)
+internal suspend fun Flow<SyncResult>.collectProgress(update: (Float) -> Unit) = collect { result ->
+    val progress = when (result) {
+        is SyncResult.Error, SyncResult.Success -> 1f
+        is SyncResult.Loading -> if (result.total > 0f) result.progress / result.total else 1f
+    }
+    update(progress)
 }

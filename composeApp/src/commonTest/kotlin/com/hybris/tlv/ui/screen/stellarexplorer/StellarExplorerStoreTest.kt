@@ -11,7 +11,6 @@ import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 
 internal class StellarExplorerStoreTest {
