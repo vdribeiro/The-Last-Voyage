@@ -84,16 +84,6 @@ private val stellarHosts by lazy {
             spectralType = "W"
         ),
         Host(
-            name = getTranslation(key = "stellar_host_type_q"),
-            description = getTranslation(key = "stellar_host_type_q_description"),
-            spectralType = "Q"
-        ),
-        Host(
-            name = getTranslation(key = "stellar_host_type_p"),
-            description = getTranslation(key = "stellar_host_type_p_description"),
-            spectralType = "P"
-        ),
-        Host(
             name = getTranslation(key = "stellar_host_type_l"),
             description = getTranslation(key = "stellar_host_type_l_description"),
             spectralType = "L"

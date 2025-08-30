@@ -104,10 +104,7 @@ internal class SyncGateway(
                     var configUpdater: (Configs) -> Configs = { it }
                     if (task.remoteVersion > task.localVersion) {
                         when (val result = task.sync()) {
-                            SyncResult.Success -> {
-                                configUpdater = { config -> task.updateConfig(config, task.remoteVersion) }
-                            }
-
+                            SyncResult.Success -> configUpdater = { config -> task.updateConfig(config, task.remoteVersion) }
                             is SyncResult.Error -> Logger.error(tag = TAG, message = result.error)
                             is SyncResult.Loading -> Logger.error(tag = TAG, message = "Impossible state")
                         }
