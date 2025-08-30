@@ -11,7 +11,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 
 internal class EventStoreTest {
 
@@ -25,13 +25,13 @@ internal class EventStoreTest {
         )
 
     @BeforeTest
-    fun setup() = runTest {
+    fun setup() = runBlocking {
         mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.EVENT)
     }
 
     @Test
-    fun `init`() = runTest {
+    fun `init`() = runBlocking {
         mock.internalEvent.syncEvents()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
@@ -44,7 +44,7 @@ internal class EventStoreTest {
     }
 
     @Test
-    fun `init without game session`() = runTest {
+    fun `init without game session`() = runBlocking {
         assertEquals(expected = NavigationManager.Screen.EVENT, actual = mock.navigation.stateFlow.value.screen)
         val eventStore = store
         assertNull(actual = eventStore.stateFlow.value.gameSession)
@@ -52,7 +52,7 @@ internal class EventStoreTest {
     }
 
     @Test
-    fun `init without events`() = runTest {
+    fun `init without events`() = runBlocking {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
         assertNotNull(actual = eventStore.stateFlow.value.gameSession)
@@ -60,7 +60,7 @@ internal class EventStoreTest {
     }
 
     @Test
-    fun `send action back`() = runTest {
+    fun `send action back`() = runBlocking {
         mock.internalEvent.syncEvents()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         store
@@ -70,7 +70,7 @@ internal class EventStoreTest {
     }
 
     @Test
-    fun `send action select`() = runTest {
+    fun `send action select`() = runBlocking {
         mock.internalEvent.syncEvents()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
@@ -80,7 +80,7 @@ internal class EventStoreTest {
     }
 
     @Test
-    fun `send action select without game session`() = runTest {
+    fun `send action select without game session`() = runBlocking {
         assertEquals(expected = NavigationManager.Screen.EVENT, actual = mock.navigation.stateFlow.value.screen)
         val eventStore = store
         val event = events.random()
@@ -89,7 +89,7 @@ internal class EventStoreTest {
     }
 
     @Test
-    fun `send action select without selected event`() = runTest {
+    fun `send action select without selected event`() = runBlocking {
         assertEquals(expected = NavigationManager.Screen.EVENT, actual = mock.navigation.stateFlow.value.screen)
         mock.internalEvent.syncEvents()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)

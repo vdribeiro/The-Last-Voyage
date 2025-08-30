@@ -1,5 +1,6 @@
 package com.hybris.tlv.http
 
+import com.hybris.tlv.config.Configs
 import com.hybris.tlv.mock.achievements
 import com.hybris.tlv.mock.catastrophes
 import com.hybris.tlv.mock.credits
@@ -47,6 +48,7 @@ internal object HttpClientFactory {
                             )
                         }
 
+                        path.startsWith(prefix = CONFIGS_URL) -> respond(content = json.encodeToString(value = listOf(Configs())))
                         path.startsWith(prefix = TRANSLATIONS_URL) -> respond(content = json.encodeToString(value = translations))
                         path.startsWith(prefix = CATASTROPHES_URL) -> respond(content = json.encodeToString(value = catastrophes))
                         path.startsWith(prefix = ENGINES_URL) -> respond(content = json.encodeToString(value = engines))

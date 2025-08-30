@@ -7,7 +7,7 @@ import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 
 internal class ShipUseCasesTest {
 
@@ -17,21 +17,21 @@ internal class ShipUseCasesTest {
     }
 
     @Test
-    fun `prepopulate and get engines`() = runTest {
+    fun `prepopulate and get engines`() = runBlocking {
         assertTrue(actual = mock.useCases.ship.getEngines().isEmpty())
         mock.internalShip.prepopulateEngines()
         assertTrue(actual = mock.useCases.ship.getEngines().isNotEmpty())
     }
 
     @Test
-    fun `prepopulate and sync engines`() = runTest {
+    fun `prepopulate and sync engines`() = runBlocking {
         assertTrue(actual = mock.useCases.ship.getEngines().isEmpty())
         assertTrue(actual = mock.internalShip.syncEngines() is SyncResult.Success)
         assertTrue(actual = mock.useCases.ship.getEngines().isNotEmpty())
     }
 
     @Test
-    fun `get error`() = runTest {
+    fun `get error`() = runBlocking {
         assertTrue(actual = errorMock.internalShip.syncEngines() is SyncResult.Error)
     }
 }

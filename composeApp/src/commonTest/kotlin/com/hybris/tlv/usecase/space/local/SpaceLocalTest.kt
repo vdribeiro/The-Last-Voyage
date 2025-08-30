@@ -8,7 +8,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 
 internal class SpaceLocalTest {
 
@@ -18,14 +18,14 @@ internal class SpaceLocalTest {
     }
 
     @Test
-    fun `write and get stellar hosts`() = runTest {
+    fun `write and get stellar hosts`() = runBlocking {
         assertTrue(actual = mock.spaceDao.isStellarHostEmpty())
         mock.spaceDao.rewriteStellarHosts(stellarHosts = stellarHosts)
         assertEquals(expected = stellarHosts, actual = mock.spaceDao.getStellarHosts())
     }
 
     @Test
-    fun `write and get planets`() = runTest {
+    fun `write and get planets`() = runBlocking {
         assertTrue(actual = mock.spaceDao.isPlanetEmpty())
         mock.spaceDao.rewritePlanets(planets = planets)
         assertEquals(expected = planets, actual = mock.spaceDao.getPlanets())

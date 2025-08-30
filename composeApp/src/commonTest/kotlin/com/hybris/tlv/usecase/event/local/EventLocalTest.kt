@@ -8,7 +8,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 
 internal class EventLocalTest {
 
@@ -18,7 +18,7 @@ internal class EventLocalTest {
     }
 
     @Test
-    fun `write and get events`() = runTest {
+    fun `write and get events`() = runBlocking {
         assertTrue(actual = mock.eventDao.isEventEmpty())
         mock.eventDao.rewriteEvents(events = events)
         assertNotNull(actual = mock.eventDao.getRandomEvent(ids = emptySet()))

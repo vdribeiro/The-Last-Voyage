@@ -9,19 +9,19 @@ import com.hybris.tlv.usecase.space.remote.result.ExoplanetsResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 
 internal class SpaceRemoteTest {
 
     @Test
-    fun `get stellar hosts archive`() = runTest {
+    fun `get stellar hosts archive`() = runBlocking {
         val result = mock.spaceApi.getStellarHostsArchive()
         assertTrue(actual = result is ExoplanetsResult.Success)
         assertEquals(expected = stellarHosts, actual = result.stellarHosts)
     }
 
     @Test
-    fun `get exoplanets archive`() = runTest {
+    fun `get exoplanets archive`() = runBlocking {
         val result = mock.spaceApi.getExoplanetsArchive()
         assertTrue(actual = result is ExoplanetsResult.Success)
         assertEquals(expected = planets, actual = result.planets)
@@ -31,7 +31,7 @@ internal class SpaceRemoteTest {
     }
 
     @Test
-    fun `get K2 exoplanets archive`() = runTest {
+    fun `get K2 exoplanets archive`() = runBlocking {
         val result = mock.spaceApi.getK2ExoplanetsArchive()
         assertTrue(actual = result is ExoplanetsResult.Success)
         assertEquals(expected = planets, actual = result.planets)
@@ -41,17 +41,17 @@ internal class SpaceRemoteTest {
     }
 
     @Test
-    fun `get stellar hosts`() = runTest {
+    fun `get stellar hosts`() = runBlocking {
         assertEquals(expected = Result.Success(list = stellarHosts), actual = mock.spaceApi.getStellarHosts())
     }
 
     @Test
-    fun `get planets`() = runTest {
+    fun `get planets`() = runBlocking {
         assertEquals(expected = Result.Success(list = planets), actual = mock.spaceApi.getPlanets())
     }
 
     @Test
-    fun `get error`() = runTest {
+    fun `get error`() = runBlocking {
         assertTrue(actual = errorMock.spaceApi.getStellarHostsArchive() is ExoplanetsResult.Error)
         assertTrue(actual = errorMock.spaceApi.getExoplanetsArchive() is ExoplanetsResult.Error)
         assertTrue(actual = errorMock.spaceApi.getK2ExoplanetsArchive() is ExoplanetsResult.Error)

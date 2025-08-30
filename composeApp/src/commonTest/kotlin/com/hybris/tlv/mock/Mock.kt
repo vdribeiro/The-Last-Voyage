@@ -25,7 +25,8 @@ import com.hybris.tlv.usecase.translation.model.domain.Translation
 
 internal val mock = Core(
     dispatcher = TestDispatchers(),
-    sqlDriver = createSqlDriver(inMemory = true)
+    sqlDriver = createSqlDriver(inMemory = true),
+    httpClient = HttpClientFactory.buildHttpClient()
 )
 internal val errorMock = Core(
     dispatcher = TestDispatchers(),

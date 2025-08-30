@@ -7,7 +7,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 
 internal class EarthLocalTest {
 
@@ -17,7 +17,7 @@ internal class EarthLocalTest {
     }
 
     @Test
-    fun `write and get catastrophes`() = runTest {
+    fun `write and get catastrophes`() = runBlocking {
         assertTrue(actual = mock.earthDao.isCatastropheEmpty())
         mock.earthDao.rewriteCatastrophes(catastrophes = catastrophes)
         assertNotNull(actual = mock.earthDao.getRandomCatastrophe()).let {}

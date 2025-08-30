@@ -34,7 +34,6 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 
 [libraries]
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
-kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlin-ktor = { group = "io.ktor", name = "ktor-client-core", version.ref = "kotlin-ktor" }
@@ -57,11 +56,11 @@ sqldelight-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "s
 compose-backhandler = { group = "org.jetbrains.compose.ui", name = "ui-backhandler", version.ref = "compose-backhandler" }
 androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "android-startup" }
 androidx-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "androidx-exoplayer" }
+logging = { group = "org.slf4j", name = "slf4j-simple", version.ref = "logging" }
 javafx-base = { group = "org.openjfx", name = "javafx-base", version.ref = "javafx" }
 javafx-graphics = { group = "org.openjfx", name = "javafx-graphics", version.ref = "javafx" }
 javafx-media = { group = "org.openjfx", name = "javafx-media", version.ref = "javafx" }
 javafx-swing = { group = "org.openjfx", name = "javafx-swing", version.ref = "javafx" }
-logging = { group = "org.slf4j", name = "slf4j-simple", version.ref = "logging" }
 
 [bundles]
 common = [
@@ -80,7 +79,6 @@ common = [
 ]
 common-test = [
     "kotlin-test",
-    "kotlin-coroutines-test"
 ]
 android = [
     "kotlin-ktor-okhttp",

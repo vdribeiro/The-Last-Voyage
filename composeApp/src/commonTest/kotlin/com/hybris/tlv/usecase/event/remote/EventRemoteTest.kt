@@ -7,17 +7,17 @@ import com.hybris.tlv.mock.mock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 
 internal class EventRemoteTest {
 
     @Test
-    fun `get events`() = runTest {
+    fun `get events`() = runBlocking {
         assertEquals(expected = Result.Success(list = events), actual = mock.eventApi.getEvents())
     }
 
     @Test
-    fun `get error`() = runTest {
+    fun `get error`() = runBlocking {
         assertTrue(actual = errorMock.eventApi.getEvents() is Result.Error)
     }
 }

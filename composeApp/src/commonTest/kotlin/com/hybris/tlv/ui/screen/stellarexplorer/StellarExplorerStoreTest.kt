@@ -11,7 +11,7 @@ import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 
 internal class StellarExplorerStoreTest {
 
@@ -24,13 +24,13 @@ internal class StellarExplorerStoreTest {
         )
 
     @BeforeTest
-    fun setup() = runTest {
+    fun setup() = runBlocking {
         mock.sqlDriver.clearDatabase()
         mock.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
     }
 
     @Test
-    fun `init`() = runTest {
+    fun `init`() = runBlocking {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         val stellarExplorerStore = store
@@ -42,7 +42,7 @@ internal class StellarExplorerStoreTest {
     }
 
     @Test
-    fun `send action back`() = runTest {
+    fun `send action back`() = runBlocking {
         val stellarExplorerStore = store
         mock.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
 
@@ -61,7 +61,7 @@ internal class StellarExplorerStoreTest {
     }
 
     @Test
-    fun `send action save index`() = runTest {
+    fun `send action save index`() = runBlocking {
         val stellarExplorerStore = store
         assertEquals(expected = LazyListIndex(), actual = stellarExplorerStore.stateFlow.value.listIndex)
         stellarExplorerStore.send(action = StellarExplorerAction.SaveIndex(index = LazyListIndex(index = 6, scrollOffset = 9)))
@@ -69,7 +69,7 @@ internal class StellarExplorerStoreTest {
     }
 
     @Test
-    fun `send action search`() = runTest {
+    fun `send action search`() = runBlocking {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         val stellarExplorerStore = store
@@ -83,7 +83,7 @@ internal class StellarExplorerStoreTest {
     }
 
     @Test
-    fun `send action sort`() = runTest {
+    fun `send action sort`() = runBlocking {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         val stellarExplorerStore = store
@@ -100,7 +100,7 @@ internal class StellarExplorerStoreTest {
     }
 
     @Test
-    fun `send action change visibility`() = runTest {
+    fun `send action change visibility`() = runBlocking {
         mock.internalSpace.syncStellarHosts()
         mock.internalSpace.syncPlanets()
         val stellarExplorerStore = store

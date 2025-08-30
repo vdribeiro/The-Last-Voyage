@@ -7,17 +7,17 @@ import com.hybris.tlv.mock.mock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 
 internal class AchievementRemoteTest {
 
     @Test
-    fun `get achievements`() = runTest {
+    fun `get achievements`() = runBlocking {
         assertEquals(expected = Result.Success(list = achievements), actual = mock.achievementApi.getAchievements())
     }
 
     @Test
-    fun `get error`() = runTest {
+    fun `get error`() = runBlocking {
         assertTrue(actual = errorMock.achievementApi.getAchievements() is Result.Error)
     }
 }

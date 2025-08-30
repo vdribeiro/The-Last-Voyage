@@ -7,17 +7,17 @@ import com.hybris.tlv.mock.mock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 
 internal class CreditRemoteTest {
 
     @Test
-    fun `get credits`() = runTest {
+    fun `get credits`() = runBlocking {
         assertEquals(expected = Result.Success(list = credits), actual = mock.creditApi.getCredits())
     }
 
     @Test
-    fun `get error`() = runTest {
+    fun `get error`() = runBlocking {
         assertTrue(actual = errorMock.creditApi.getCredits() is Result.Error)
     }
 }

@@ -8,7 +8,7 @@ import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 
 internal class TranslationUseCasesTest {
 
@@ -18,23 +18,23 @@ internal class TranslationUseCasesTest {
     }
 
     @Test
-    fun `prepopulate and get translations`() = runTest {
-        val languageIso = translations.first().languageIso
-        assertTrue(actual = mock.internalTranslation.loadTranslationsToCache(languageIso = languageIso).isEmpty())
+    fun `prepopulate and get translations`() = runBlocking {
+        translations.first().languageIso
+        assertTrue(actual = mock.translationDao.getTranslations().isEmpty())
         mock.internalTranslation.prepopulateTranslations()
-        assertTrue(actual = mock.internalTranslation.loadTranslationsToCache(languageIso = languageIso).isNotEmpty())
+        assertTrue(actual = mock.translationDao.getTranslations().isNotEmpty())
     }
 
     @Test
-    fun `prepopulate and sync translations`() = runTest {
-        val languageIso = translations.first().languageIso
-        assertTrue(actual = mock.internalTranslation.loadTranslationsToCache(languageIso = languageIso).isEmpty())
+    fun `prepopulate and sync translations`() = runBlocking {
+        translations.first().languageIso
+        assertTrue(actual = mock.translationDao.getTranslations().isEmpty())
         assertTrue(actual = mock.internalTranslation.syncTranslations() is SyncResult.Success)
-        assertTrue(actual = mock.internalTranslation.loadTranslationsToCache(languageIso = languageIso).isNotEmpty())
+        assertTrue(actual = mock.translationDao.getTranslations().isNotEmpty())
     }
 
     @Test
-    fun `get error`() = runTest {
+    fun `get error`() = runBlocking {
         assertTrue(actual = errorMock.internalTranslation.syncTranslations() is SyncResult.Error)
     }
 }

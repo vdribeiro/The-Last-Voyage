@@ -9,7 +9,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 
 internal class EarthUseCasesTest {
 
@@ -19,21 +19,21 @@ internal class EarthUseCasesTest {
     }
 
     @Test
-    fun `prepopulate and get catastrophes`() = runTest {
+    fun `prepopulate and get catastrophes`() = runBlocking {
         assertNull(actual = mock.useCases.earth.getRandomCatastrophe())
         mock.internalEarth.prepopulateCatastrophes()
         assertNotNull(actual = mock.useCases.earth.getRandomCatastrophe()).let {}
     }
 
     @Test
-    fun `prepopulate and sync catastrophes`() = runTest {
+    fun `prepopulate and sync catastrophes`() = runBlocking {
         assertNull(actual = mock.useCases.earth.getRandomCatastrophe())
         assertTrue(actual = mock.internalEarth.syncCatastrophes() is SyncResult.Success)
         assertNotNull(actual = mock.useCases.earth.getRandomCatastrophe()).let {}
     }
 
     @Test
-    fun `get error`() = runTest {
+    fun `get error`() = runBlocking {
         assertTrue(actual = errorMock.internalEarth.syncCatastrophes() is SyncResult.Error)
     }
 }

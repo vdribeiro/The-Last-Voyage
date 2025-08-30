@@ -113,7 +113,7 @@ internal class SyncGateway(
                         }
                     }
                     task.prepopulate()
-                    send(element = SyncResult.Loading(progress = progressMutex.withLock { progress++ }, total = total))
+                    send(element = SyncResult.Loading(progress = progressMutex.withLock { ++progress }, total = total))
                     configUpdater
                 }
             }.awaitAll()

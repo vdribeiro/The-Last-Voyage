@@ -4,12 +4,12 @@ import com.hybris.tlv.mock.translations
 import com.hybris.tlv.usecase.translation.mapper.toTranslationCacheMap
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 
 internal class TranslationCacheTest {
 
     @Test
-    fun `write and get translations`() = runTest {
+    fun `write and get translations`() = runBlocking {
         val translation = translations.first()
         val translationsMap = translations.toTranslationCacheMap()
         TranslationCache.set(languageIso = translation.languageIso)
