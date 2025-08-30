@@ -10,7 +10,6 @@ plugins {
     alias(notation = libs.plugins.composeCompiler)
     alias(notation = libs.plugins.sqldelight)
     alias(notation = libs.plugins.kotlinSerialization)
-    alias(notation = libs.plugins.googleServices)
 }
 
 val appId: String = libs.versions.applicationId.get()
