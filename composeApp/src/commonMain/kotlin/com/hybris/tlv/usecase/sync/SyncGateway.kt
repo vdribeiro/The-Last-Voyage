@@ -94,9 +94,9 @@ internal class SyncGateway(
         )
 
         val progressMutex = Mutex()
-        val totalOperations = tasks.size.toFloat()
+        val total = tasks.size.toFloat()
         var progress = 0f
-        send(element = SyncResult.Loading(progress = progress, total = totalOperations))
+        send(element = SyncResult.Loading(progress = progress, total = total))
 
         val finalConfig = supervisorScope {
             val updaters = tasks.mapIndexed { index, task ->
@@ -113,7 +113,7 @@ internal class SyncGateway(
                         }
                     }
                     task.prepopulate()
-                    send(element = SyncResult.Loading(progress = progressMutex.withLock { progress++ }, total = totalOperations))
+                    send(element = SyncResult.Loading(progress = progressMutex.withLock { progress++ }, total = total))
                     configUpdater
                 }
             }.awaitAll()

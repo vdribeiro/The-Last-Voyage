@@ -5,7 +5,6 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.sync.SyncUseCases
-import com.hybris.tlv.usecase.sync.collectProgress
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlinx.coroutines.delay
 
