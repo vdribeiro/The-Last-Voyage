@@ -6,6 +6,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.sync.SyncUseCases
 import com.hybris.tlv.usecase.sync.collectProgress
+import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlinx.coroutines.delay
 
 internal sealed interface SplashAction {
@@ -36,7 +37,11 @@ internal class SplashStore(
             //syncUseCases.getArchive().last()
         }
         launch {
-            syncUseCases.sync().collectProgress { progress ->
+            syncUseCases.sync().collect { result ->
+                val progress = when (result) {
+                    is SyncResult.Error, SyncResult.Success -> 1f
+                    is SyncResult.Loading -> if (result.total > 0f) result.progress / result.total else 1f
+                }
                 updateState { it.copy(progress = progress) }
             }
 

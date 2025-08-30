@@ -11,12 +11,13 @@ import com.hybris.tlv.usecase.ship.ShipInternalUseCases
 import com.hybris.tlv.usecase.space.SpaceInternalUseCases
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import com.hybris.tlv.usecase.translation.TranslationInternalUseCases
-import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.supervisorScope
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 internal class SyncGateway(
     private val storage: ConfigManager,
@@ -92,9 +93,10 @@ internal class SyncGateway(
             ),
         )
 
-        val completedOperations = atomic(initial = 0)
+        val progressMutex = Mutex()
         val totalOperations = tasks.size.toFloat()
-        send(element = SyncResult.Loading(progress = 0f, total = totalOperations))
+        var progress = 0f
+        send(element = SyncResult.Loading(progress = progress, total = totalOperations))
 
         val finalConfig = supervisorScope {
             val updaters = tasks.mapIndexed { index, task ->
@@ -111,8 +113,7 @@ internal class SyncGateway(
                         }
                     }
                     task.prepopulate()
-                    val currentProgress = completedOperations.incrementAndGet().toFloat()
-                    send(element = SyncResult.Loading(progress = currentProgress, total = totalOperations))
+                    send(element = SyncResult.Loading(progress = progressMutex.withLock { progress++ }, total = totalOperations))
                     configUpdater
                 }
             }.awaitAll()
@@ -136,12 +137,4 @@ internal class SyncGateway(
     companion object Companion {
         private const val TAG = "Sync"
     }
-}
-
-internal suspend fun Flow<SyncResult>.collectProgress(update: (Float) -> Unit) = collect { result ->
-    val progress = when (result) {
-        is SyncResult.Error, SyncResult.Success -> 1f
-        is SyncResult.Loading -> if (result.total > 0f) result.progress / result.total else 1f
-    }
-    update(progress)
 }
