@@ -10,15 +10,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.PlanetCard
-import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
-import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
-import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.mapper.toDrawable
 import com.hybris.tlv.usecase.space.model.PlanetType
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun PlanetsContent(store: Store<MainMenuAction, MainMenuState>) {
+internal fun PlanetsContent() {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
