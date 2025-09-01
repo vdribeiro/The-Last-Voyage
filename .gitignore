@@ -31,3 +31,5 @@ captures
 **/xcshareddata/WorkspaceSettings.xcsettings
 **/google-services.json
 /composeApp/*.db
+/composeApp/*.jks
+/composeApp/release/*

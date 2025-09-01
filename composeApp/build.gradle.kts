@@ -169,6 +169,7 @@ compose.desktop {
 
             macOS {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns"))
+                entitlementsFile.set(project.file("src/desktopMain/resources/entitlements.plist"))
             }
             windows {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.ico"))
@@ -182,7 +183,7 @@ compose.desktop {
 
 sqldelight {
     databases {
-        create("AppDatabase") {
+        create(name = "AppDatabase") {
             packageName.set("database")
             schemaOutputDirectory.set(file(path = "${project.projectDir}/src/commonMain/sqldelight/schema"))
         }
