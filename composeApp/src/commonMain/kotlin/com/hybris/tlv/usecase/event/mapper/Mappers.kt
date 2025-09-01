@@ -8,7 +8,6 @@ import com.hybris.tlv.usecase.space.model.TravelOutcome
 internal fun Event.toEventSchema(): EventSchema =
     EventSchema(
         id = id,
-        name = name,
         description = description,
         parentId = parentId,
         outcome = outcome?.let { json.encodeToString(value = it) }
@@ -17,7 +16,6 @@ internal fun Event.toEventSchema(): EventSchema =
 internal fun EventSchema.toEvent(): Event =
     Event(
         id = id,
-        name = name,
         description = description,
         parentId = parentId,
         outcome = outcome?.let { json.decodeFromString<TravelOutcome>(string = it) }

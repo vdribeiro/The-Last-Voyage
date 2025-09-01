@@ -1,14 +1,12 @@
 [
   {
-    "id": "a_close_pass",
-    "name": "event__a_close_pass",
+    "id": "event__a_close_pass",
     "description": "event__a_close_pass_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "a_close_pass_for_science",
-    "name": "event__a_close_pass_for_science",
+    "id": "event__a_close_pass_for_science",
     "description": "event__a_close_pass_for_science_description",
     "parentId": "a_close_pass",
     "outcome": {
@@ -17,22 +15,19 @@
     }
   },
   {
-    "id": "a_close_pass_ignore",
-    "name": "event__a_close_pass_ignore",
+    "id": "event__a_close_pass_ignore",
     "description": "event__a_close_pass_ignore_description",
     "parentId": "a_close_pass",
     "outcome": null
   },
   {
-    "id": "a_failing_cryo_block",
-    "name": "event__a_failing_cryo_block",
+    "id": "event__a_failing_cryo_block",
     "description": "event__a_failing_cryo_block_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "a_failing_cryo_block_risky",
-    "name": "event__a_failing_cryo_block_risky",
+    "id": "event__a_failing_cryo_block_risky",
     "description": "event__a_failing_cryo_block_risky_description",
     "parentId": "a_failing_cryo_block",
     "outcome": {
@@ -41,8 +36,7 @@
     }
   },
   {
-    "id": "a_failing_cryo_block_standard",
-    "name": "event__a_failing_cryo_block_standard",
+    "id": "event__a_failing_cryo_block_standard",
     "description": "event__a_failing_cryo_block_standard_description",
     "parentId": "a_failing_cryo_block",
     "outcome": {
@@ -50,22 +44,19 @@
     }
   },
   {
-    "id": "asteroid_mining_opportunity",
-    "name": "event__asteroid_mining_opportunity",
+    "id": "event__asteroid_mining_opportunity",
     "description": "event__asteroid_mining_opportunity_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "asteroid_mining_opportunity_ignore",
-    "name": "event__asteroid_mining_opportunity_ignore",
+    "id": "event__asteroid_mining_opportunity_ignore",
     "description": "event__asteroid_mining_opportunity_ignore_description",
     "parentId": "asteroid_mining_opportunity",
     "outcome": null
   },
   {
-    "id": "asteroid_mining_opportunity_mine",
-    "name": "event__asteroid_mining_opportunity_mine",
+    "id": "event__asteroid_mining_opportunity_mine",
     "description": "event__asteroid_mining_opportunity_mine_description",
     "parentId": "asteroid_mining_opportunity",
     "outcome": {
@@ -74,8 +65,7 @@
     }
   },
   {
-    "id": "comet_rendezvous",
-    "name": "event__comet_rendezvous",
+    "id": "event__comet_rendezvous",
     "description": "event__comet_rendezvous_description",
     "parentId": null,
     "outcome": {
@@ -84,8 +74,7 @@
     }
   },
   {
-    "id": "coronal_mass_ejection",
-    "name": "event__coronal_mass_ejection",
+    "id": "event__coronal_mass_ejection",
     "description": "event__coronal_mass_ejection_description",
     "parentId": null,
     "outcome": {
@@ -93,15 +82,13 @@
     }
   },
   {
-    "id": "cosmic_hum",
-    "name": "event__cosmic_hum",
+    "id": "event__cosmic_hum",
     "description": "event__cosmic_hum_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "cryobay_malfunction",
-    "name": "event__cryobay_malfunction",
+    "id": "event__cryobay_malfunction",
     "description": "event__cryobay_malfunction_description",
     "parentId": null,
     "outcome": {
@@ -110,8 +97,7 @@
     }
   },
   {
-    "id": "data_cascade_failure",
-    "name": "event__data_cascade_failure",
+    "id": "event__data_cascade_failure",
     "description": "event__data_cascade_failure_description",
     "parentId": null,
     "outcome": {
@@ -119,8 +105,7 @@
     }
   },
   {
-    "id": "engine_calibration_breakthrough",
-    "name": "event__engine_calibration_breakthrough",
+    "id": "event__engine_calibration_breakthrough",
     "description": "event__engine_calibration_breakthrough_description",
     "parentId": null,
     "outcome": {
@@ -129,15 +114,13 @@
     }
   },
   {
-    "id": "engine_containment_failure",
-    "name": "event__engine_containment_failure",
+    "id": "event__engine_containment_failure",
     "description": "event__engine_containment_failure_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "engine_containment_failure_burn",
-    "name": "event__engine_containment_failure_burn",
+    "id": "event__engine_containment_failure_burn",
     "description": "event__engine_containment_failure_burn_description",
     "parentId": "engine_containment_failure",
     "outcome": {
@@ -145,8 +128,7 @@
     }
   },
   {
-    "id": "engine_containment_failure_overcharge",
-    "name": "event__engine_containment_failure_overcharge",
+    "id": "event__engine_containment_failure_overcharge",
     "description": "event__engine_containment_failure_overcharge_description",
     "parentId": "engine_containment_failure",
     "outcome": {
@@ -154,8 +136,7 @@
     }
   },
   {
-    "id": "engine_misfire",
-    "name": "event__engine_misfire",
+    "id": "event__engine_misfire",
     "description": "event__engine_misfire_description",
     "parentId": null,
     "outcome": {
@@ -164,8 +145,7 @@
     }
   },
   {
-    "id": "floating_cargo_pod",
-    "name": "event__floating_cargo_pod",
+    "id": "event__floating_cargo_pod",
     "description": "event__floating_cargo_pod_description",
     "parentId": null,
     "outcome": {
@@ -173,8 +153,7 @@
     }
   },
   {
-    "id": "fuel_line_fracture",
-    "name": "event__fuel_line_fracture",
+    "id": "event__fuel_line_fracture",
     "description": "event__fuel_line_fracture_description",
     "parentId": null,
     "outcome": {
@@ -183,15 +162,13 @@
     }
   },
   {
-    "id": "ghost_ship",
-    "name": "event__ghost_ship",
+    "id": "event__ghost_ship",
     "description": "event__ghost_ship_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "ghost_ship_board",
-    "name": "event__ghost_ship_board",
+    "id": "event__ghost_ship_board",
     "description": "event__ghost_ship_board_description",
     "parentId": "ghost_ship",
     "outcome": {
@@ -200,15 +177,13 @@
     }
   },
   {
-    "id": "ghost_ship_ignore",
-    "name": "event__ghost_ship_ignore",
+    "id": "event__ghost_ship_ignore",
     "description": "event__ghost_ship_ignore_description",
     "parentId": "ghost_ship",
     "outcome": null
   },
   {
-    "id": "gravitational_slingshot",
-    "name": "event__gravitational_slingshot",
+    "id": "event__gravitational_slingshot",
     "description": "event__gravitational_slingshot_description",
     "parentId": null,
     "outcome": {
@@ -216,8 +191,7 @@
     }
   },
   {
-    "id": "high_energy_particle_burst",
-    "name": "event__high_energy_particle_burst",
+    "id": "event__high_energy_particle_burst",
     "description": "event__high_energy_particle_burst_description",
     "parentId": null,
     "outcome": {
@@ -226,8 +200,7 @@
     }
   },
   {
-    "id": "hull_resonance",
-    "name": "event__hull_resonance",
+    "id": "event__hull_resonance",
     "description": "event__hull_resonance_description",
     "parentId": null,
     "outcome": {
@@ -235,15 +208,13 @@
     }
   },
   {
-    "id": "lost_probe",
-    "name": "event__lost_probe",
+    "id": "event__lost_probe",
     "description": "event__lost_probe_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "lost_probe_dismantle",
-    "name": "event__lost_probe_dismantle",
+    "id": "event__lost_probe_dismantle",
     "description": "event__lost_probe_dismantle_description",
     "parentId": "lost_probe",
     "outcome": {
@@ -252,15 +223,13 @@
     }
   },
   {
-    "id": "lost_probe_ignore",
-    "name": "event__lost_probe_ignore",
+    "id": "event__lost_probe_ignore",
     "description": "event__lost_probe_ignore_description",
     "parentId": "lost_probe",
     "outcome": null
   },
   {
-    "id": "main_truss_fatigue",
-    "name": "event__main_truss_fatigue",
+    "id": "event__main_truss_fatigue",
     "description": "event__main_truss_fatigue_description",
     "parentId": null,
     "outcome": {
@@ -270,8 +239,7 @@
     }
   },
   {
-    "id": "material_inertia",
-    "name": "event__material_inertia",
+    "id": "event__material_inertia",
     "description": "event__material_inertia_description",
     "parentId": null,
     "outcome": {
@@ -279,8 +247,7 @@
     }
   },
   {
-    "id": "micrometeoroid_swarm",
-    "name": "event__micrometeoroid_swarm",
+    "id": "event__micrometeoroid_swarm",
     "description": "event__micrometeoroid_swarm_description",
     "parentId": null,
     "outcome": {
@@ -289,8 +256,7 @@
     }
   },
   {
-    "id": "navigational_drift",
-    "name": "event__navigational_drift",
+    "id": "event__navigational_drift",
     "description": "event__navigational_drift_description",
     "parentId": null,
     "outcome": {
@@ -298,8 +264,7 @@
     }
   },
   {
-    "id": "navigational_error",
-    "name": "event__navigational_error",
+    "id": "event__navigational_error",
     "description": "event__navigational_error_description",
     "parentId": null,
     "outcome": {
@@ -307,15 +272,13 @@
     }
   },
   {
-    "id": "push_the_engine",
-    "name": "event__push_the_engine",
+    "id": "event__push_the_engine",
     "description": "event__push_the_engine_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "push_the_engine_go",
-    "name": "event__push_the_engine_go",
+    "id": "event__push_the_engine_go",
     "description": "event__push_the_engine_go_description",
     "parentId": "push_the_engine",
     "outcome": {
@@ -324,29 +287,25 @@
     }
   },
   {
-    "id": "push_the_engine_ignore",
-    "name": "event__push_the_engine_ignore",
+    "id": "event__push_the_engine_ignore",
     "description": "event__push_the_engine_ignore_description",
     "parentId": "push_the_engine",
     "outcome": null
   },
   {
-    "id": "redundant_system_shutdown",
-    "name": "event__redundant_system_shutdown",
+    "id": "event__redundant_system_shutdown",
     "description": "event__redundant_system_shutdown_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "resource_rich_asteroid",
-    "name": "event__resource_rich_asteroid",
+    "id": "event__resource_rich_asteroid",
     "description": "event__resource_rich_asteroid_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "resource_rich_asteroid_gather",
-    "name": "event__resource_rich_asteroid_gather",
+    "id": "event__resource_rich_asteroid_gather",
     "description": "event__resource_rich_asteroid_gather_description",
     "parentId": "resource_rich_asteroid",
     "outcome": {
@@ -355,15 +314,13 @@
     }
   },
   {
-    "id": "resource_rich_asteroid_ignore",
-    "name": "event__resource_rich_asteroid_ignore",
+    "id": "event__resource_rich_asteroid_ignore",
     "description": "event__resource_rich_asteroid_ignore_description",
     "parentId": "resource_rich_asteroid",
     "outcome": null
   },
   {
-    "id": "solar_flare",
-    "name": "event__solar_flare",
+    "id": "event__solar_flare",
     "description": "event__solar_flare_description",
     "parentId": null,
     "outcome": {
@@ -372,8 +329,7 @@
     }
   },
   {
-    "id": "solar_shadowing",
-    "name": "event__solar_shadowing",
+    "id": "event__solar_shadowing",
     "description": "event__solar_shadowing_description",
     "parentId": null,
     "outcome": {
@@ -381,8 +337,7 @@
     }
   },
   {
-    "id": "stellar_nursery_passage",
-    "name": "event__stellar_nursery_passage",
+    "id": "event__stellar_nursery_passage",
     "description": "event__stellar_nursery_passage_description",
     "parentId": null,
     "outcome": {
@@ -390,36 +345,31 @@
     }
   },
   {
-    "id": "temporal_echo",
-    "name": "event__temporal_echo",
+    "id": "event__temporal_echo",
     "description": "event__temporal_echo_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "the_light",
-    "name": "event__the_light",
+    "id": "event__the_light",
     "description": "event__the_light_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "the_nebula_shortcut",
-    "name": "event__the_nebula_shortcut",
+    "id": "event__the_nebula_shortcut",
     "description": "event__the_nebula_shortcut_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "the_nebula_shortcut_no",
-    "name": "event__the_nebula_shortcut_no",
+    "id": "event__the_nebula_shortcut_no",
     "description": "event__the_nebula_shortcut_no_description",
     "parentId": "the_nebula_shortcut",
     "outcome": null
   },
   {
-    "id": "the_nebula_shortcut_yes",
-    "name": "event__the_nebula_shortcut_yes",
+    "id": "event__the_nebula_shortcut_yes",
     "description": "event__the_nebula_shortcut_yes_description",
     "parentId": "the_nebula_shortcut",
     "outcome": {
@@ -428,15 +378,13 @@
     }
   },
   {
-    "id": "the_quick_fix",
-    "name": "event__the_quick_fix",
+    "id": "event__the_quick_fix",
     "description": "event__the_quick_fix_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "the_quick_fix_patch",
-    "name": "event__the_quick_fix_patch",
+    "id": "event__the_quick_fix_patch",
     "description": "event__the_quick_fix_patch_description",
     "parentId": "the_quick_fix",
     "outcome": {
@@ -444,8 +392,7 @@
     }
   },
   {
-    "id": "the_quick_fix_replace",
-    "name": "event__the_quick_fix_replace",
+    "id": "event__the_quick_fix_replace",
     "description": "event__the_quick_fix_replace_description",
     "parentId": "the_quick_fix",
     "outcome": {
@@ -453,15 +400,13 @@
     }
   },
   {
-    "id": "the_shadow",
-    "name": "event__the_shadow",
+    "id": "event__the_shadow",
     "description": "event__the_shadow_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "unforeseen_gravity_well",
-    "name": "event__unforeseen_gravity_well",
+    "id": "event__unforeseen_gravity_well",
     "description": "event__unforeseen_gravity_well_description",
     "parentId": null,
     "outcome": {
@@ -469,22 +414,19 @@
     }
   },
   {
-    "id": "unstable_wormhole",
-    "name": "event__unstable_wormhole",
+    "id": "event__unstable_wormhole",
     "description": "event__unstable_wormhole_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "unstable_wormhole_ignore",
-    "name": "event__unstable_wormhole_ignore",
+    "id": "event__unstable_wormhole_ignore",
     "description": "event__unstable_wormhole_ignore_description",
     "parentId": "unstable_wormhole",
     "outcome": null
   },
   {
-    "id": "unstable_wormhole_jump",
-    "name": "event__unstable_wormhole_jump",
+    "id": "event__unstable_wormhole_jump",
     "description": "event__unstable_wormhole_jump_description",
     "parentId": "unstable_wormhole",
     "outcome": {
@@ -493,15 +435,13 @@
     }
   },
   {
-    "id": "water_ice_reprocessing",
-    "name": "event__water_ice_reprocessing",
+    "id": "event__water_ice_reprocessing",
     "description": "event__water_ice_reprocessing_description",
     "parentId": null,
     "outcome": null
   },
   {
-    "id": "water_ice_reprocessing_conserve",
-    "name": "event__water_ice_reprocessing_conserve",
+    "id": "event__water_ice_reprocessing_conserve",
     "description": "event__water_ice_reprocessing_conserve_description",
     "parentId": "water_ice_reprocessing",
     "outcome": {
@@ -511,8 +451,7 @@
     }
   },
   {
-    "id": "water_ice_reprocessing_reprocess",
-    "name": "event__water_ice_reprocessing_reprocess",
+    "id": "event__water_ice_reprocessing_reprocess",
     "description": "event__water_ice_reprocessing_reprocess_description",
     "parentId": "water_ice_reprocessing",
     "outcome": null

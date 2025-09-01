@@ -55,8 +55,7 @@ internal class EventStore(
         val events = eventUseCases.getRandomEvent(ids = gameSession.launchedEvents).ifEmpty {
             listOf(
                 Event(
-                    id = "default",
-                    name = "event__default",
+                    id = "event__default",
                     description = "event__default_description",
                     parentId = null,
                     outcome = null,

@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS Engine (
     id TEXT NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL,
     description TEXT NOT NULL,
     velocity REAL NOT NULL
 );
@@ -17,7 +16,6 @@ INSERT OR REPLACE INTO Engine VALUES ?;
 getEngines:
 SELECT
     Engine.id,
-    Engine.name,
     Engine.description,
     Engine.velocity
 FROM Engine;

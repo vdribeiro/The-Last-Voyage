@@ -22,7 +22,6 @@ internal fun ShipPrototype.toShip(id: String = generateUuid()): Ship =
 internal fun Engine.toEngineSchema(): EngineSchema =
     EngineSchema(
         id = id,
-        name = name,
         description = description,
         velocity = velocity,
     )
@@ -42,7 +41,6 @@ internal fun Ship.toShipSchema(): ShipSchema =
 internal fun EngineSchema.toEngine(): Engine =
     Engine(
         id = id,
-        name = name,
         description = description,
         velocity = velocity,
     )

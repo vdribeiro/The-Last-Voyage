@@ -148,7 +148,7 @@ android {
 compose.desktop {
     application {
         mainClass = "$appId.MainKt"
-        javaHome = System.getenv("JAVA_HOME")
+        javaHome = System.getenv("JAVA_HOME").orEmpty()
 
 
         nativeDistributions {

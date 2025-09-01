@@ -55,7 +55,7 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
             ) {
                 if (event != null) {
                     Text(
-                        text = getTranslation(key = event.name),
+                        text = getTranslation(key = event.id),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )
@@ -79,7 +79,7 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
                                 colors = ButtonDefaults.buttonColors(contentColor = Color.White),
                                 onClick = { store.send(action = EventAction.Select(event = child)) }
                             ) {
-                                Text(text = getTranslation(key = child?.name ?: "event__default_continue"))
+                                Text(text = getTranslation(key = child?.id ?: "event__default_continue"))
                             }
                         }
                         Spacer(modifier = Modifier.height(height = 16.dp))

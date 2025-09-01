@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS Event (
     id TEXT NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL,
     description TEXT NOT NULL,
     parentId TEXT,
     outcome TEXT
@@ -18,7 +17,6 @@ INSERT OR REPLACE INTO Event VALUES ?;
 getRandomEvent:
 SELECT
     Event.id,
-    Event.name,
     Event.description,
     Event.parentId,
     Event.outcome
@@ -33,7 +31,6 @@ WHERE Event.id = (
 getChildEvents:
 SELECT
     Event.id,
-    Event.name,
     Event.description,
     Event.parentId,
     Event.outcome

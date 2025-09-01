@@ -36,7 +36,7 @@ internal fun StartContent(store: Store<NewGameAction, NewGameState>) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = getTranslation(key = catastrophe.name),
+            text = getTranslation(key = catastrophe.id),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
         )

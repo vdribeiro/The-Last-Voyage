@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS Catastrophe (
     id TEXT NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL,
     description TEXT NOT NULL
 );
 
@@ -16,7 +15,6 @@ INSERT OR REPLACE INTO Catastrophe VALUES ?;
 getRandomCatastrophe:
 SELECT
     Catastrophe.id,
-    Catastrophe.name,
     Catastrophe.description
 FROM Catastrophe
 ORDER BY RANDOM() LIMIT 1;

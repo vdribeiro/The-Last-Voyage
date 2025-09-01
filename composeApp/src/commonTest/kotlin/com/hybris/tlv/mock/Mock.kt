@@ -137,13 +137,11 @@ internal val translations by lazy {
 internal val catastrophes by lazy {
     listOf(
         Catastrophe(
-            id = "asteroid_impact",
-            name = "catastrophe__asteroid_impact",
+            id = "catastrophe__asteroid_impact",
             description = "catastrophe__asteroid_impact_description",
         ),
         Catastrophe(
-            id = "nuclear_war",
-            name = "catastrophe__nuclear_war",
+            id = "catastrophe__nuclear_war",
             description = "catastrophe__nuclear_war_description",
         ),
     )
@@ -152,26 +150,22 @@ internal val catastrophes by lazy {
 internal val engines by lazy {
     listOf(
         Engine(
-            id = "alcubierre_drive",
-            name = "engine__alcubierre_drive",
+            id = "engine__alcubierre_drive",
             description = "engine__alcubierre_drive_description",
             velocity = 1.0,
         ),
         Engine(
-            id = "liquid_fuel_rocket",
-            name = "engine__liquid_fuel_rocket",
+            id = "engine__liquid_fuel_rocket",
             description = "engine__liquid_fuel_rocket_description",
             velocity = 0.000014677,
         ),
         Engine(
-            id = "solar_sail",
-            name = "engine__solar_sail",
+            id = "engine__solar_sail",
             description = "engine__solar_sail_description",
             velocity = 0.5,
         ),
         Engine(
-            id = "wormhole_generator",
-            name = "engine__wormhole_generator",
+            id = "engine__wormhole_generator",
             description = "engine__wormhole_generator_description",
             velocity = 299000000.0,
         )
@@ -478,8 +472,7 @@ internal val hostsWithPlanets by lazy {
 internal val events by lazy {
     listOf(
         Event(
-            id = "engine_misfire",
-            name = "event__engine_misfire",
+            id = "event__engine_misfire",
             description = "event__engine_misfire_description",
             parentId = null,
             outcome = TravelOutcome(
@@ -488,8 +481,7 @@ internal val events by lazy {
             ),
         ),
         Event(
-            id = "solar_flare",
-            name = "event__solar_flare",
+            id = "event__solar_flare",
             description = "event__solar_flare_description",
             parentId = null,
             outcome = TravelOutcome(
@@ -498,15 +490,13 @@ internal val events by lazy {
             ),
         ),
         Event(
-            id = "a_close_pass",
-            name = "event__a_close_pass",
+            id = "event__a_close_pass",
             description = "event__a_close_pass_description",
             parentId = null,
             outcome = null
         ),
         Event(
-            id = "a_close_pass_for_science",
-            name = "event__a_close_pass_for_science",
+            id = "event__a_close_pass_for_science",
             description = "event__a_close_pass_for_science_description",
             parentId = "a_close_pass",
             outcome = TravelOutcome(
@@ -515,8 +505,7 @@ internal val events by lazy {
             )
         ),
         Event(
-            id = "a_close_pass_ignore",
-            name = "event__a_close_pass_ignore",
+            id = "event__a_close_pass_ignore",
             description = "event__a_close_pass_ignore_description",
             parentId = "a_close_pass",
             outcome = null
