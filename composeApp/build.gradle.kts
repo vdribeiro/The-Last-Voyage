@@ -171,6 +171,7 @@ compose.desktop {
             }
             windows {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.ico"))
+                shortcut = true
             }
             linux {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png"))
