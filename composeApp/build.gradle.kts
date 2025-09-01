@@ -148,12 +148,8 @@ android {
 compose.desktop {
     application {
         mainClass = "$appId.MainKt"
-        jvmArgs += "--enable-native-access=ALL-UNNAMED"
-        jvmArgs += "--add-modules=javafx.graphics,javafx.swing,javafx.media,javafx.base"
-        jvmArgs += "--add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED"
-        jvmArgs += "--add-exports=javafx.graphics/com.sun.javafx.embed=ALL-UNNAMED"
-        jvmArgs += "--add-exports=javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED"
-        jvmArgs += "--add-exports=javafx.base/com.sun.javafx.logging=ALL-UNNAMED"
+        javaHome = System.getenv("JAVA_HOME")
+
 
         nativeDistributions {
             packageName = "The Last Voyage"
@@ -166,6 +162,8 @@ compose.desktop {
                 TargetFormat.Msi,
                 TargetFormat.Deb
             )
+
+            modules("java.sql")
 
             macOS {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns"))
