@@ -12,6 +12,7 @@ internal actual fun createSqlDriver(inMemory: Boolean): SqlDriver =
         properties = Properties(),
         schema = AppDatabase.Schema,
     )
+
 private fun getDatabasePath(): String {
     val appName = "The Last Voyage"
     val os = System.getProperty("os.name").lowercase()

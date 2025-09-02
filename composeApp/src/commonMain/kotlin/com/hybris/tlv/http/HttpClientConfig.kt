@@ -18,6 +18,8 @@ internal const val CONFIGS_URL =
     "https://gist.githubusercontent.com/vdribeiro/eb23013b329c47317622981187df3f23/raw/f2aef92a463df2b1ee13dd005a520a3fe840658c/configs.json"
 internal const val TRANSLATIONS_URL =
     "https://gist.githubusercontent.com/vdribeiro/90daf9ebde2b8e37ce893e49e8d7f7c7/raw/ddf439b754857b59fd5cb37114c2fa2a7e7e7647/translations.json"
+internal const val LEARNINGS_URL =
+    ""
 internal const val CATASTROPHES_URL =
     "https://gist.githubusercontent.com/vdribeiro/27258c022708a20066f793996031d884/raw/551592f492ed0d1726e8e570232e2771e6011fa4/catastrophes.json"
 internal const val ENGINES_URL =
