@@ -443,5 +443,5 @@ internal fun PlanetType?.toDrawable(): DrawableResource =
         PlanetType.CHTHONIAN_PLANET -> Res.drawable.chthonian_planet
         PlanetType.CRATER_PLANET -> Res.drawable.crater_planet
         PlanetType.ELLIPSOID_PLANET -> Res.drawable.ellipsoid_planet
-        null -> Res.drawable.barren_planet
+        PlanetType.UNKNOWN, null -> Res.drawable.barren_planet
     }

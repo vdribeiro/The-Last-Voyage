@@ -6,6 +6,9 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
+import com.hybris.tlv.usecase.learning.LearningUseCases
+import com.hybris.tlv.usecase.learning.model.Learning
+import com.hybris.tlv.usecase.learning.model.LearningType
 
 internal sealed interface MainMenuAction {
     data object NewGame: MainMenuAction
@@ -26,6 +29,7 @@ internal data class MainMenuState(
     val loading: Boolean = true,
     val currentContent: Content = Content.MAIN_MENU,
     val ongoingGameSession: Boolean = false,
+    val learningsMap: Map<LearningType, List<Learning>> = emptyMap(),
     val developerCorner: String? = null,
     val tip: String? = null,
 )
@@ -45,7 +49,8 @@ internal class MainMenuStore(
     navigation: NavigationManager,
     initialState: MainMenuState,
     private val config: ConfigManager,
-    private val gameSessionUseCases: GameSessionUseCases
+    private val gameSessionUseCases: GameSessionUseCases,
+    private val learningUseCases: LearningUseCases
 ): Store<MainMenuAction, MainMenuState>(
     dispatcher = dispatcher,
     navigation = navigation,
@@ -57,12 +62,14 @@ internal class MainMenuStore(
 
     private fun setup() = launch {
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
+        val learnings = learningUseCases.getLearnings().groupBy { it.type }
         val developerCorner = config.configs.developerCorner
         val tip = config.configs.tip
         updateState {
             it.copy(
                 loading = false,
                 ongoingGameSession = ongoingGameSession,
+                learningsMap = learnings,
                 developerCorner = developerCorner,
                 tip = tip,
             )

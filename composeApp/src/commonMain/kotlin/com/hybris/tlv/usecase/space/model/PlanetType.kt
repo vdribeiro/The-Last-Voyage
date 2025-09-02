@@ -53,4 +53,11 @@ enum class PlanetType(val displayName: String) {
     // Hypothetical
     CRATER_PLANET(displayName = "planet_type_crater_planet"),
     ELLIPSOID_PLANET(displayName = "planet_type_ellipsoid_planet"),
+
+    UNKNOWN(displayName = "planet_type_unknown");
+
+    companion object {
+        private val map = entries.associateBy(keySelector = PlanetType::name)
+        fun fromValue(value: String): PlanetType = map[value.uppercase()] ?: UNKNOWN
+    }
 }

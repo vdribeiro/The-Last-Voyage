@@ -92,7 +92,8 @@ internal class Navigation(
             navigation = this,
             initialState = state as? MainMenuState ?: MainMenuState(),
             config = config,
-            gameSessionUseCases = useCases.gameSession
+            gameSessionUseCases = useCases.gameSession,
+            learningUseCases = useCases.learning
         )
     )
 

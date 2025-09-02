@@ -19,6 +19,7 @@ internal class MainMenuStoreTest {
             navigation = mock.navigation,
             initialState = MainMenuState(),
             config = mock.config,
+            learningUseCases = mock.useCases.learning,
             gameSessionUseCases = mock.useCases.gameSession
         )
 

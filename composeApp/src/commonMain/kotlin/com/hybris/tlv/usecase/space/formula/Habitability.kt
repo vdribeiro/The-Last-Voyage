@@ -779,7 +779,7 @@ internal object Habitability {
         rocheScore: Double?,
         habitableZoneScore: Double?,
         habitabilityScore: Double,
-    ): PlanetType? {
+    ): PlanetType {
         // Non-habitable
         if (rocheScore == 0.0) return PlanetType.DISRUPTED_PLANET
         if (planetOrbitAxis != null && planetOrbitAxis < 0.02) return PlanetType.ELLIPSOID_PLANET
@@ -812,7 +812,7 @@ internal object Habitability {
                 PlanetType.TERRESTRIAL_PLANET
             }
 
-            else -> null
+            else -> PlanetType.UNKNOWN
         }
 
         // Specific states for Gas Giants
@@ -964,6 +964,6 @@ internal object Habitability {
         PlanetType.PROTOPLANET,
         PlanetType.DISRUPTED_PLANET -> 0.2
 
-        null -> 0.1
+        PlanetType.UNKNOWN, null -> 0.1
     }
 }

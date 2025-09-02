@@ -72,11 +72,11 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
             when (storeState.currentContent) {
                 Content.MAIN_MENU -> MainMenuContent(store = store)
                 Content.LEARN_MENU -> LearnContent(store = store)
-                Content.HOST_TYPES -> HostsContent()
-                Content.PLANET_TYPES -> PlanetsContent()
-                Content.PROPERTIES -> PropertiesContent()
-                Content.MECHANICS -> MechanicsContent()
-                Content.HABITABILITY -> HabitabilityContent()
+                Content.HOST_TYPES -> HostsContent(store = store)
+                Content.PLANET_TYPES -> PlanetsContent(store = store)
+                Content.PROPERTIES -> PropertiesContent(store = store)
+                Content.MECHANICS -> MechanicsContent(store = store)
+                Content.HABITABILITY -> HabitabilityContent(store = store)
             }
         }
     }

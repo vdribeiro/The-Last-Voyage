@@ -242,7 +242,7 @@
   {
     "languageIso": "en",
     "key": "stellar_host_type_unknown_description",
-    "value": "A celestial body that can either be a previously undiscovered type of star, an object with a unique and exotic composition, or simply a mystery waiting to be solved."
+    "value": "This star is a mystery waiting to be solved."
   },
   {
     "languageIso": "en",
@@ -833,6 +833,16 @@
     "languageIso": "en",
     "key": "planet_type_ellipsoid_planet_description",
     "value": "A planet deformed into an oval shape by strong tidal forces with an extremely close orbit and orbital axis of less than 0.02 AU."
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_unknown",
+    "value": "Unknown Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_type_unknown_description",
+    "value": "This planet is a mystery waiting to be solved."
   },
   {
     "languageIso": "en",
