@@ -20,6 +20,10 @@ import com.hybris.tlv.usecase.event.local.EventLocal
 import com.hybris.tlv.usecase.gamesession.GameSessionGateway
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.local.GameSessionLocal
+import com.hybris.tlv.usecase.learning.LearningGateway
+import com.hybris.tlv.usecase.learning.LearningInternalUseCases
+import com.hybris.tlv.usecase.learning.LearningUseCases
+import com.hybris.tlv.usecase.learning.local.LearningLocal
 import com.hybris.tlv.usecase.ship.ShipGateway
 import com.hybris.tlv.usecase.ship.ShipInternalUseCases
 import com.hybris.tlv.usecase.ship.ShipUseCases
@@ -34,6 +38,7 @@ import com.hybris.tlv.usecase.translation.TranslationInternalUseCases
 
 internal class Gateways(
     config: ConfigManager,
+    learningDao: LearningLocal,
     earthDao: EarthLocal,
     shipDao: ShipLocal,
     spaceDao: SpaceLocal,
@@ -42,6 +47,7 @@ internal class Gateways(
     achievementDao: AchievementLocal,
     creditDao: CreditLocal,
     internalTranslation: TranslationInternalUseCases,
+    internalLearning: LearningInternalUseCases,
     internalEarth: EarthInternalUseCases,
     internalShip: ShipInternalUseCases,
     internalSpace: SpaceInternalUseCases,
@@ -49,7 +55,7 @@ internal class Gateways(
     internalAchievement: AchievementInternalUseCases,
     internalCredit: CreditInternalUseCases
 ): UseCases {
-
+    override val learning: LearningUseCases = LearningGateway(learningDao = learningDao)
     override val earth: EarthUseCases = EarthGateway(earthDao = earthDao)
     override val ship: ShipUseCases = ShipGateway(shipDao = shipDao)
     override val space: SpaceUseCases = SpaceGateway(spaceDao = spaceDao)
@@ -64,6 +70,7 @@ internal class Gateways(
     override val sync: SyncUseCases = SyncGateway(
         storage = config,
         internalTranslation = internalTranslation,
+        internalLearning = internalLearning,
         internalEarth = internalEarth,
         internalShip = internalShip,
         internalSpace = internalSpace,

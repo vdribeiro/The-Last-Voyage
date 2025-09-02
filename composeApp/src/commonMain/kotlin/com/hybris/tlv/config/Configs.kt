@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class Configs(
     val translationsVersion: Long = 0,
+    val learningsVersion: Long = 0,
     val catastrophesVersion: Long = 0,
     val enginesVersion: Long = 0,
     val stellarHostsVersion: Long = 0,

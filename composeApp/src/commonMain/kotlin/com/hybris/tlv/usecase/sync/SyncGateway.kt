@@ -7,6 +7,7 @@ import com.hybris.tlv.usecase.achievement.AchievementInternalUseCases
 import com.hybris.tlv.usecase.credit.CreditInternalUseCases
 import com.hybris.tlv.usecase.earth.EarthInternalUseCases
 import com.hybris.tlv.usecase.event.EventInternalUseCases
+import com.hybris.tlv.usecase.learning.LearningInternalUseCases
 import com.hybris.tlv.usecase.ship.ShipInternalUseCases
 import com.hybris.tlv.usecase.space.SpaceInternalUseCases
 import com.hybris.tlv.usecase.sync.model.SyncResult
@@ -22,6 +23,7 @@ import kotlinx.coroutines.sync.withLock
 internal class SyncGateway(
     private val storage: ConfigManager,
     private val internalTranslation: TranslationInternalUseCases,
+    private val internalLearning: LearningInternalUseCases,
     private val internalEarth: EarthInternalUseCases,
     private val internalShip: ShipInternalUseCases,
     private val internalSpace: SpaceInternalUseCases,
@@ -41,6 +43,13 @@ internal class SyncGateway(
                 sync = internalTranslation::syncTranslations,
                 prepopulate = internalTranslation::prepopulateTranslations,
                 updateConfig = { configs, version -> configs.copy(translationsVersion = version) }
+            ),
+            SyncTask(
+                remoteVersion = remoteConfig.learningsVersion,
+                localVersion = localConfig.learningsVersion,
+                sync = internalLearning::syncLearnings,
+                prepopulate = internalLearning::prepopulateLearnings,
+                updateConfig = { configs, version -> configs.copy(learningsVersion = version) }
             ),
             SyncTask(
                 remoteVersion = remoteConfig.catastrophesVersion,

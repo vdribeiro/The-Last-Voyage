@@ -5,13 +5,14 @@ import com.hybris.tlv.usecase.credit.CreditUseCases
 import com.hybris.tlv.usecase.earth.EarthUseCases
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
+import com.hybris.tlv.usecase.learning.LearningUseCases
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.sync.SyncUseCases
 
 internal interface UseCases {
 
-    val sync: SyncUseCases
+    val learning: LearningUseCases
     val earth: EarthUseCases
     val ship: ShipUseCases
     val space: SpaceUseCases
@@ -19,4 +20,5 @@ internal interface UseCases {
     val gameSession: GameSessionUseCases
     val achievement: AchievementUseCases
     val credit: CreditUseCases
+    val sync: SyncUseCases
 }

@@ -39,6 +39,12 @@ import com.hybris.tlv.usecase.event.remote.EventApi
 import com.hybris.tlv.usecase.event.remote.EventRemote
 import com.hybris.tlv.usecase.gamesession.local.GameSessionDao
 import com.hybris.tlv.usecase.gamesession.local.GameSessionLocal
+import com.hybris.tlv.usecase.learning.LearningInternalGateway
+import com.hybris.tlv.usecase.learning.LearningInternalUseCases
+import com.hybris.tlv.usecase.learning.local.LearningDao
+import com.hybris.tlv.usecase.learning.local.LearningLocal
+import com.hybris.tlv.usecase.learning.remote.LearningApi
+import com.hybris.tlv.usecase.learning.remote.LearningRemote
 import com.hybris.tlv.usecase.ship.ShipInternalGateway
 import com.hybris.tlv.usecase.ship.ShipInternalUseCases
 import com.hybris.tlv.usecase.ship.local.ShipDao
@@ -66,6 +72,7 @@ internal class Core(
     @get:VisibleForTesting internal val database: AppDatabase = Database(driver = sqlDriver).database,
     @get:VisibleForTesting internal val httpClient: HttpClient = HttpClientFactory.buildHttpClient(),
     @get:VisibleForTesting internal val translationDao: TranslationLocal = TranslationDao(database = database),
+    @get:VisibleForTesting internal val learningDao: LearningLocal = LearningDao(database = database),
     @get:VisibleForTesting internal val earthDao: EarthLocal = EarthDao(database = database),
     @get:VisibleForTesting internal val shipDao: ShipLocal = ShipDao(database = database),
     @get:VisibleForTesting internal val spaceDao: SpaceLocal = SpaceDao(database = database),
@@ -74,6 +81,7 @@ internal class Core(
     @get:VisibleForTesting internal val achievementDao: AchievementLocal = AchievementDao(database = database),
     @get:VisibleForTesting internal val creditDao: CreditLocal = CreditDao(database = database),
     @get:VisibleForTesting internal val translationApi: TranslationRemote = TranslationApi(httpClient = httpClient),
+    @get:VisibleForTesting internal val learningApi: LearningRemote = LearningApi(httpClient = httpClient),
     @get:VisibleForTesting internal val earthApi: EarthRemote = EarthApi(httpClient = httpClient),
     @get:VisibleForTesting internal val shipApi: ShipRemote = ShipApi(httpClient = httpClient),
     @get:VisibleForTesting internal val spaceApi: SpaceRemote = SpaceApi(httpClient = httpClient),
@@ -84,6 +92,10 @@ internal class Core(
         dispatcher = dispatcher,
         translationApi = translationApi,
         translationDao = translationDao
+    ),
+    @get:VisibleForTesting internal val internalLearning: LearningInternalUseCases = LearningInternalGateway(
+        learningApi = learningApi,
+        learningDao = learningDao
     ),
     @get:VisibleForTesting internal val internalEarth: EarthInternalUseCases = EarthInternalGateway(
         earthApi = earthApi,
@@ -112,6 +124,7 @@ internal class Core(
     @get:VisibleForTesting internal val config: ConfigManager = Config(httpClient = httpClient),
     @get:VisibleForTesting internal val useCases: UseCases = Gateways(
         config = config,
+        learningDao = learningDao,
         earthDao = earthDao,
         shipDao = shipDao,
         spaceDao = spaceDao,
@@ -120,6 +133,7 @@ internal class Core(
         achievementDao = achievementDao,
         creditDao = creditDao,
         internalTranslation = internalTranslation,
+        internalLearning = internalLearning,
         internalEarth = internalEarth,
         internalShip = internalShip,
         internalSpace = internalSpace,
