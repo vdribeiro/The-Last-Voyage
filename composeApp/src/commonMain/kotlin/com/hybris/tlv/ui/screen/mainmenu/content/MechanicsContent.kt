@@ -11,7 +11,6 @@ import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun MechanicsContent(store: Store<MainMenuAction, MainMenuState>) {
-    val storeState by store.stateFlow.collectAsState()
 
     Section(title = getTranslation(key = "main_menu_screen__mechanics"), sections = mechanics)
 }

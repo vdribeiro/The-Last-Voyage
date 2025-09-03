@@ -33,6 +33,13 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
         item { Spacer(modifier = Modifier.height(height = 64.dp)) }
         item {
             Text(
+                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
+                text = getTranslation(key = "main_menu_screen__mechanics"),
+                style = MaterialTheme.typography.headlineMedium,
+            )
+        }
+        item {
+            Text(
                 modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.StellarExplorer) },
                 text = getTranslation(key = "main_menu_screen__stellar_explorer"),
                 style = MaterialTheme.typography.headlineMedium,
@@ -56,13 +63,6 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
             Text(
                 modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Properties) },
                 text = getTranslation(key = "main_menu_screen__properties"),
-                style = MaterialTheme.typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
-                text = getTranslation(key = "main_menu_screen__mechanics"),
                 style = MaterialTheme.typography.headlineMedium,
             )
         }

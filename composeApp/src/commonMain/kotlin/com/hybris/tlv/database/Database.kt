@@ -56,7 +56,7 @@ internal class Database(driver: SqlDriver) {
     )
 
     companion object {
-        const val NAME = "dbtlv.db"
+        const val NAME = "locksmith.db"
     }
 }
 

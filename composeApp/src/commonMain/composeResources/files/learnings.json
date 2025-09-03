@@ -328,5 +328,179 @@
     "description": "planet_type_unknown_description",
     "image": "?",
     "type": "PLANET"
+  },
+  {
+    "id": "stellar_host_name",
+    "description": "stellar_host_name_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_system_name",
+    "description": "stellar_host_system_name_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_planet_count",
+    "description": "stellar_host_planet_count_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_temperature",
+    "description": "stellar_host_temperature_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_radius",
+    "description": "stellar_host_radius_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_mass",
+    "description": "stellar_host_mass_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_metallicity",
+    "description": "stellar_host_metallicity_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_luminosity",
+    "description": "stellar_host_luminosity_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_gravity",
+    "description": "stellar_host_gravity_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_age",
+    "description": "stellar_host_age_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_density",
+    "description": "stellar_host_density_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_rotational_velocity",
+    "description": "stellar_host_rotational_velocity_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_rotational_period",
+    "description": "stellar_host_rotational_period_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_distance",
+    "description": "stellar_host_distance_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_ra",
+    "description": "stellar_host_ra_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_dec",
+    "description": "stellar_host_dec_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_type",
+    "description": "stellar_host_type_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "planet_name",
+    "description": "planet_name_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "planet_orbital_period",
+    "description": "planet_orbital_period_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "planet_orbit_axis",
+    "description": "planet_orbit_axis_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "planet_radius",
+    "description": "planet_radius_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "planet_mass",
+    "description": "planet_mass_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "planet_density",
+    "description": "planet_density_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "planet_eccentricity",
+    "description": "planet_eccentricity_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "planet_insolation_flux",
+    "description": "planet_insolation_flux_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "planet_temperature",
+    "description": "planet_temperature_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "planet_occultation_depth",
+    "description": "planet_occultation_depth_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "planet_inclination",
+    "description": "planet_inclination_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "planet_obliquity",
+    "description": "planet_obliquity_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
   }
 ]

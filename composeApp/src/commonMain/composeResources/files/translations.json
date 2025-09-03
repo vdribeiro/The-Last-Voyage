@@ -16,8 +16,18 @@
   },
   {
     "languageIso": "en",
+    "key": "stellar_host_name_description",
+    "value": "Astronomical Name"
+  },
+  {
+    "languageIso": "en",
     "key": "stellar_host_system_name",
     "value": "System name"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_system_name_description",
+    "value": "The system of stars it belong to"
   },
   {
     "languageIso": "en",
@@ -26,8 +36,18 @@
   },
   {
     "languageIso": "en",
+    "key": "stellar_host_planet_count_description",
+    "value": "Number of planets around its host star"
+  },
+  {
+    "languageIso": "en",
     "key": "stellar_host_temperature",
     "value": "Temperature"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_temperature_description",
+    "value": "Stellar effective temperature in Kelvin (K) as modeled by a black body emitting the same total amount of electromagnetic radiation"
   },
   {
     "languageIso": "en",
@@ -36,8 +56,18 @@
   },
   {
     "languageIso": "en",
+    "key": "stellar_host_radius_description",
+    "value": "Star’s radius relative to the radius of the Sun (R☉)"
+  },
+  {
+    "languageIso": "en",
     "key": "stellar_host_mass",
     "value": "Mass"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_mass_description",
+    "value": "Star’s mass relative to the mass of the Sun (M☉)"
   },
   {
     "languageIso": "en",
@@ -46,8 +76,18 @@
   },
   {
     "languageIso": "en",
+    "key": "stellar_host_metallicity_description",
+    "value": "Ratio of metal to hydrogen content in dex"
+  },
+  {
+    "languageIso": "en",
     "key": "stellar_host_luminosity",
     "value": "Luminosity"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_luminosity_description",
+    "value": "Amount of energy emitted by a star in units of solar luminosities (L☉)"
   },
   {
     "languageIso": "en",
@@ -56,8 +96,18 @@
   },
   {
     "languageIso": "en",
+    "key": "stellar_host_gravity_description",
+    "value": "Gravitational acceleration relative to the Sun (G☉)"
+  },
+  {
+    "languageIso": "en",
     "key": "stellar_host_age",
     "value": "Age"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_age_description",
+    "value": "The age of the star in Gigayears (Gyr)"
   },
   {
     "languageIso": "en",
@@ -66,8 +116,18 @@
   },
   {
     "languageIso": "en",
+    "key": "stellar_host_density_description",
+    "value": "Amount of mass per unit of volume of the star in g/cm^3"
+  },
+  {
+    "languageIso": "en",
     "key": "stellar_host_rotational_velocity",
     "value": "Rotational Velocity"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_rotational_velocity_description",
+    "value": "The speed at which the star spins on its axis in km/s"
   },
   {
     "languageIso": "en",
@@ -76,8 +136,18 @@
   },
   {
     "languageIso": "en",
+    "key": "stellar_host_rotational_period_description",
+    "value": "The time it takes the star to complete 1 full rotation on its axis in Earth days"
+  },
+  {
+    "languageIso": "en",
     "key": "stellar_host_distance",
     "value": "Distance"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_distance_description",
+    "value": "Distance from the Sun to the planetary system in light-years (ly)"
   },
   {
     "languageIso": "en",
@@ -86,13 +156,28 @@
   },
   {
     "languageIso": "en",
+    "key": "stellar_host_ra_description",
+    "value": "Celestial equivalents of longitude, Right Ascension is the degrees from vernal equinox"
+  },
+  {
+    "languageIso": "en",
     "key": "stellar_host_dec",
     "value": "Declination"
   },
   {
     "languageIso": "en",
+    "key": "stellar_host_dec_description",
+    "value": "Celestial equivalents of latitude, Declination is the degrees from celestial equator"
+  },
+  {
+    "languageIso": "en",
     "key": "stellar_host_type",
     "value": "Spectral Type"
+  },
+  {
+    "languageIso": "en",
+    "key": "stellar_host_type_description",
+    "value": "Harvard spectral type with Morgan-Keenan luminosity class"
   },
   {
     "languageIso": "en",
@@ -291,8 +376,18 @@
   },
   {
     "languageIso": "en",
+    "key": "planet_name_description",
+    "value": "Astronomical Name"
+  },
+  {
+    "languageIso": "en",
     "key": "planet_orbital_period",
     "value": "Orbital Period"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_orbital_period_description",
+    "value": "The time the planet takes to make a complete orbit around its host star in Earth days"
   },
   {
     "languageIso": "en",
@@ -301,8 +396,18 @@
   },
   {
     "languageIso": "en",
+    "key": "planet_orbit_axis_description",
+    "value": "The longest radius in Astronomical Units (au) of the planet’s elliptic orbit"
+  },
+  {
+    "languageIso": "en",
     "key": "planet_radius",
     "value": "Radius"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_radius_description",
+    "value": "Planet’s radius relative to the radius of the Earth (R⊕)"
   },
   {
     "languageIso": "en",
@@ -311,8 +416,18 @@
   },
   {
     "languageIso": "en",
+    "key": "planet_mass_description",
+    "value": "Planet’s mass relative to the mass of the Earth (M⊕)"
+  },
+  {
+    "languageIso": "en",
     "key": "planet_density",
     "value": "Density"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_density_description",
+    "value": "Amount of mass per unit of volume of the planet in g/cm^3"
   },
   {
     "languageIso": "en",
@@ -321,8 +436,18 @@
   },
   {
     "languageIso": "en",
+    "key": "planet_eccentricity_description",
+    "value": "Amount by which the orbit of the planet deviates from a perfect circle (e)"
+  },
+  {
+    "languageIso": "en",
     "key": "planet_insolation_flux",
     "value": "Insolation Flux"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_insolation_flux_description",
+    "value": "Amount of stellar radiation energy received in Earth units (F)"
   },
   {
     "languageIso": "en",
@@ -331,8 +456,18 @@
   },
   {
     "languageIso": "en",
+    "key": "planet_temperature_description",
+    "value": "The equilibrium temperature of the planet in Kelvin (K) as modeled by a black body heated only by its host star"
+  },
+  {
+    "languageIso": "en",
     "key": "planet_occultation_depth",
     "value": "Occultation Depth"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_occultation_depth_description",
+    "value": "The percentage of the decrease in brightness of the host star when it is hidden by the planet (%)"
   },
   {
     "languageIso": "en",
@@ -341,8 +476,18 @@
   },
   {
     "languageIso": "en",
+    "key": "planet_inclination_description",
+    "value": "Angle in degrees of the plane of the orbit relative to the plane perpendicular to the line-of-sight from Earth to the star"
+  },
+  {
+    "languageIso": "en",
     "key": "planet_obliquity",
     "value": "Obliquity"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_obliquity_description",
+    "value": "The tilt of the planet as it spins (ε)"
   },
   {
     "languageIso": "en",
@@ -351,8 +496,18 @@
   },
   {
     "languageIso": "en",
+    "key": "period_unit_description",
+    "value": "days"
+  },
+  {
+    "languageIso": "en",
     "key": "planet_status",
     "value": "Status"
+  },
+  {
+    "languageIso": "en",
+    "key": "planet_status_description",
+    "value": "Either Confirmed, Candidate or False Positive/Refuted"
   },
   {
     "languageIso": "en",
@@ -2573,26 +2728,6 @@
     "languageIso": "en",
     "key": "main_menu_screen__properties",
     "value": "Properties"
-  },
-  {
-    "languageIso": "en",
-    "key": "main_menu_screen__properties_stellar_host_title",
-    "value": "Stellar Host"
-  },
-  {
-    "languageIso": "en",
-    "key": "main_menu_screen__properties_stellar_host_description",
-    "value": "• Name: Astronomical Name\n• System Name: The system of stars it belong to\n• Spectral Type: Harvard spectral type with Morgan-Keenan luminosity class\n• Temperature: Stellar effective temperature in Kelvin (K) as modeled by a black body emitting the same total amount of electromagnetic radiation\n• Radius: Star’s radius relative to the radius of the Sun\n• Mass: Star’s mass relative to the mass of the Sun\n• Metallicity: Ratio of metal to hydrogen content in dex\n• Luminosity: Amount of energy emitted by a star in units of solar luminosities\n• Gravity: Gravitational acceleration in log10(cm/s^2)\n• Age: The age of the star in Gigayears (Gyr)\n• Density: Amount of mass per unit of volume of the star in g/cm^3\n• Rotational Velocity: The speed at which the star spins on its axis in km/s\n• Rotational Period: The time it takes the star to complete 1 full rotation on its axis in Earth days\n• Distance: Distance from the Sun to the planetary system in light-years\n• RA: Celestial equivalents of longitude, Right Ascension is the degrees from vernal equinox\n• Dec: Celestial equivalents of latitude, Declination is the degrees from celestial equator"
-  },
-  {
-    "languageIso": "en",
-    "key": "main_menu_screen__properties_planet_title",
-    "value": "Planet"
-  },
-  {
-    "languageIso": "en",
-    "key": "main_menu_screen__properties_planet_description",
-    "value": "• Name: Astronomical Name\n• Status: Either Confirmed, Candidate or False Positive/Refuted\n• Orbital Period: The time the planet takes to make a complete orbit around the host star or system in Earth days\n• Orbit Semi-Major Axis: The longest radius in Astronomical Units (au) of the planet’s elliptic orbit\n• Radius: Planet’s radius relative to the radius of the Earth\n• Mass: Planet’s mass relative to the mass of the Earth\n• Density: Amount of mass per unit of volume of the planet in g/cm^3)\n• Eccentricity: Amount by which the orbit of the planet deviates from a perfect circle\n• Insolation Flux: Amount of stellar radiation energy received in Earth units\n • Temperature: The equilibrium temperature of the planet in Kelvin (K) as modeled by a black body heated only by its host star\n• Inclination: Angle in degrees of the plane of the orbit relative to the plane perpendicular to the line-of-sight from Earth to the object\n• Obliquity: The tilt of the planet as it spins"
   },
   {
     "languageIso": "en",
