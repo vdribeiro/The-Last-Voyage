@@ -24,7 +24,4 @@ internal class LearningInternalGateway(
             learningDao.rewriteLearnings(learnings = learnings)
         }
     }
-
-    override suspend fun upsertLearning(learning: Learning) =
-        learningDao.upsertLearning(learning = learning)
 }

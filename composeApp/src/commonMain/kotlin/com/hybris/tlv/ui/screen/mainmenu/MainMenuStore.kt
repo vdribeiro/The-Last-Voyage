@@ -80,11 +80,11 @@ internal class MainMenuStore(
     override fun setBackNavigation() = {
         when (stateFlow.value.currentContent) {
             Content.MAIN_MENU -> {}
-            Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
+            Content.LEARN_MENU,
+            Content.MECHANICS -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
             Content.HOST_TYPES,
             Content.PLANET_TYPES,
             Content.PROPERTIES,
-            Content.MECHANICS,
             Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
         }.let {}
     }

@@ -14,9 +14,4 @@ internal interface LearningInternalUseCases {
      * Prepopulate local [Learning].
      */
     suspend fun prepopulateLearnings()
-
-    /**
-     * Upsert a [Learning] into the database.
-     */
-    suspend fun upsertLearning(learning: Learning)
 }

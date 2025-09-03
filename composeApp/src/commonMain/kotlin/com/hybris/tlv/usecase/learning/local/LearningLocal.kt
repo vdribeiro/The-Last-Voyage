@@ -18,9 +18,4 @@ internal interface LearningLocal {
      * Get [Learning]s from the database.
      */
     fun getLearnings(): List<Learning>
-
-    /**
-     * Upsert a [Learning] into the database.
-     */
-    fun upsertLearning(learning: Learning)
 }

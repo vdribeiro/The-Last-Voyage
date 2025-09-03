@@ -16,7 +16,7 @@ internal class EarthDao(
 
     override fun rewriteCatastrophes(catastrophes: List<Catastrophe>) = catastropheDao.transaction {
         catastropheDao.truncateCatastrophe()
-        catastrophes.forEach { catastropheDao.upsertCatastrophe(it.toCatastropheSchema()) }
+        catastrophes.forEach { catastropheDao.upsertCatastrophe(Catastrophe = it.toCatastropheSchema()) }
     }
 
     override fun getRandomCatastrophe(): Catastrophe? =

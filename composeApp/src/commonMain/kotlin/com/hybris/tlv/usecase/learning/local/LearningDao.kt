@@ -21,8 +21,4 @@ internal class LearningDao(
 
     override fun getLearnings(): List<Learning> =
         learningDao.getLearnings().executeAsList().map { it.toLearning() }
-
-    override fun upsertLearning(learning: Learning) {
-        learningDao.upsertLearning(Learning = learning.toLearningSchema())
-    }
 }
