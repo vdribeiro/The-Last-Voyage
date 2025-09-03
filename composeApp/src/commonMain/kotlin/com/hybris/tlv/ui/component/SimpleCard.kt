@@ -26,7 +26,7 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-internal fun PropertyCard(
+internal fun SimpleCard(
     modifier: Modifier = Modifier,
     name: String? = null,
     description: String? = null,

@@ -34,6 +34,7 @@ internal data class MainMenuState(
     val learningsMap: Map<LearningType, List<Learning>> = emptyMap(),
     val developerCorner: String? = null,
     val tip: String? = null,
+    val formula: String? = null,
 )
 
 internal enum class Content {
@@ -68,6 +69,7 @@ internal class MainMenuStore(
         val learnings = learningUseCases.getLearnings().groupBy { it.type }
         val developerCorner = config.configs.developerCorner
         val tip = config.configs.tip
+        val formula = config.configs.formula
         updateState {
             it.copy(
                 loading = false,
@@ -75,6 +77,7 @@ internal class MainMenuStore(
                 learningsMap = learnings,
                 developerCorner = developerCorner,
                 tip = tip,
+                formula = formula,
             )
         }
     }

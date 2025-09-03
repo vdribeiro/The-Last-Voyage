@@ -105,8 +105,8 @@ internal class GameSessionGateway(
         // Game Over Multiplier
         val gameOverMultiplier = getGameOverMultiplier(gameOver = gameOver)
 
-        // Final Score = Base Score * Game Over Multiplier * Challenge Multiplier
-        val score = baseScore * gameOverMultiplier * challengeMultiplier
+        // Final Score = Base Score * Challenge Multiplier * Game Over Multiplier
+        val score = baseScore * challengeMultiplier * gameOverMultiplier
 
         val updatedGameSession = gameSession.copy(score = score)
         updateGameSession(gameSession = updatedGameSession)

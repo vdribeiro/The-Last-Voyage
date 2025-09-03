@@ -11,7 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.component.PropertyCard
+import com.hybris.tlv.ui.component.SimpleCard
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
@@ -30,7 +30,7 @@ internal fun HostPropertiesContent(store: Store<MainMenuAction, MainMenuState>) 
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         items(items = stellarHostProperties, key = { it.id }) { property ->
-            PropertyCard(
+            SimpleCard(
                 name = property.id,
                 description = property.description,
             )

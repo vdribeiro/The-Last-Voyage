@@ -4,7 +4,9 @@ import androidx.annotation.VisibleForTesting
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.config.Config
 import com.hybris.tlv.config.ConfigManager
+import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.Database
+import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.Dispatchers
@@ -65,6 +67,7 @@ import com.hybris.tlv.usecase.translation.remote.TranslationApi
 import com.hybris.tlv.usecase.translation.remote.TranslationRemote
 import database.AppDatabase
 import io.ktor.client.HttpClient
+import kotlinx.coroutines.runBlocking
 
 internal class Core(
     @get:VisibleForTesting internal val dispatcher: Dispatcher = Dispatchers(),
@@ -146,4 +149,21 @@ internal class Core(
         config = config,
         useCases = useCases
     )
-)
+) {
+    init {
+        if (isDebug) runBlocking {
+            sqlDriver.clearDatabase()
+            config.setLocal(
+                configs = Configs(
+                    translationsVersion = Long.MAX_VALUE,
+                    learningsVersion = Long.MAX_VALUE,
+                    catastrophesVersion = Long.MAX_VALUE,
+                    enginesVersion = Long.MAX_VALUE,
+                    stellarHostsVersion = Long.MAX_VALUE,
+                    planetsVersion = Long.MAX_VALUE,
+                    eventsVersion = Long.MAX_VALUE,
+                )
+            )
+        }
+    }
+}

@@ -508,5 +508,107 @@
     "description": "planet_obliquity_description",
     "image": null,
     "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "habitability",
+    "description": "habitability_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_roche",
+    "description": "habitability_roche_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_hz",
+    "description": "habitability_hz_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_planet_density_radius",
+    "description": "habitability_planet_density_radius_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_planet_mass",
+    "description": "habitability_planet_mass_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_planet_eccentricity",
+    "description": "habitability_planet_eccentricity_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_planet_temperature",
+    "description": "habitability_planet_temperature_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_planet_obliquity",
+    "description": "habitability_planet_obliquity_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_planet_protection",
+    "description": "habitability_planet_protection_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_planet_tidal_locking",
+    "description": "habitability_planet_tidal_locking_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_planet_esi",
+    "description": "habitability_planet_esi_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_star_spectral_type",
+    "description": "habitability_star_spectral_type_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_star_age",
+    "description": "habitability_star_age_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_star_activity",
+    "description": "habitability_star_activity_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_star_gravity",
+    "description": "habitability_star_gravity_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_star_metallicity",
+    "description": "habitability_star_metallicity_description",
+    "image": null,
+    "type": "FORMULA"
+  },
+  {
+    "id": "habitability_star_effective_temperature",
+    "description": "habitability_star_effective_temperature_description",
+    "image": null,
+    "type": "FORMULA"
   }
 ]

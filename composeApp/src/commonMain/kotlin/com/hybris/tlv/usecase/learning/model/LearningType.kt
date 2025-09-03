@@ -5,4 +5,5 @@ enum class LearningType {
     PLANET_PROPERTY,
     HOST_TYPE,
     PLANET_TYPE,
+    FORMULA
 }

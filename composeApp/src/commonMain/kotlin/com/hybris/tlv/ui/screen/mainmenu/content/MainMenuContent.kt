@@ -32,9 +32,8 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        item { Spacer(modifier = Modifier.height(height = 16.dp)) }
         item { AppLogo() }
-        item { Spacer(modifier = Modifier.height(height = 64.dp)) }
+        item { Spacer(modifier = Modifier.height(height = 32.dp)) }
         if (!storeState.loading) {
             item {
                 Text(
