@@ -13,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.SimpleCard
@@ -52,7 +51,6 @@ internal fun HabitabilityContent(store: Store<MainMenuAction, MainMenuState>) {
                         color = MaterialTheme.colorScheme.primary,
                         textDecoration = TextDecoration.Underline
                     ),
-                    textAlign = TextAlign.Center,
                 )
             }
         }

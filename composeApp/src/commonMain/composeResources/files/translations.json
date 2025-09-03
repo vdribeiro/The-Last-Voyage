@@ -2731,23 +2731,28 @@
   },
   {
     "languageIso": "en",
-    "key": "main_menu_screen__star_types",
-    "value": "Star Types"
+    "key": "main_menu_screen__host_definition",
+    "value": "Star Definition"
   },
   {
     "languageIso": "en",
-    "key": "main_menu_screen__planet_types",
-    "value": "Planet Types"
+    "key": "main_menu_screen__definition_example",
+    "value": "Example"
   },
   {
     "languageIso": "en",
-    "key": "main_menu_screen__host_properties",
-    "value": "Star Properties"
+    "key": "main_menu_screen__definition_properties",
+    "value": "Properties"
   },
   {
     "languageIso": "en",
-    "key": "main_menu_screen__planet_properties",
-    "value": "Planet Properties"
+    "key": "main_menu_screen__definition_types",
+    "value": "Types"
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__planet_definition",
+    "value": "Planet Definition"
   },
   {
     "languageIso": "en",
@@ -2812,12 +2817,12 @@
   {
     "languageIso": "en",
     "key": "habitability",
-    "value": "Summary"
+    "value": "Formula"
   },
   {
     "languageIso": "en",
     "key": "habitability_description",
-    "value": "The assessment of a planet's potential to host life is a complex field, and as a result, several different models and indices are usually used to focus on different aspects of habitability. A truly universal formula is elusive because we only have one example of a planet that can sustain life: Earth.\nIn this game, the habitability score used is a weighted average of dozens of planetary and stellar characteristics based on real data and real models.\nThe individual scores range from 0.0 to 1.0. Because data availability is not constant across all celestial objects, this approach tries to derive missing data when possible, and null scores have a penalty, otherwise planets with missing data could outscore a well-rounded planet."
+    "value": "The assessment of a planet's potential to host life is a complex field, and as a result, several different models and indices are usually used to focus on different aspects of habitability. A truly universal formula is elusive because we only have one example of a planet that can sustain life: Earth.\nIn this game, the habitability score used is a weighted average of dozens of planetary and stellar characteristics based on real data and real models.\nThe individual scores range from 0.0 to 1.0. Because data availability is not constant across all celestial objects, this approach tries to derive missing data when possible, and null scores have a penalty, otherwise planets with missing data could outscore a well-rounded planet. This is done by applying a Bayesian adjustment with the Confidence Score, which is a percentage of the total possible weights of all scores.\nIf you really want to look under the hood, I invite you to go to the source code on GitHub."
   },
   {
     "languageIso": "en",

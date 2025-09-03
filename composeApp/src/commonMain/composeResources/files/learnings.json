@@ -342,14 +342,14 @@
     "type": "HOST_PROPERTY"
   },
   {
-    "id": "stellar_host_type",
-    "description": "stellar_host_type_description",
+    "id": "stellar_host_planet_count",
+    "description": "stellar_host_planet_count_description",
     "image": null,
     "type": "HOST_PROPERTY"
   },
   {
-    "id": "stellar_host_planet_count",
-    "description": "stellar_host_planet_count_description",
+    "id": "stellar_host_type",
+    "description": "stellar_host_type_description",
     "image": null,
     "type": "HOST_PROPERTY"
   },
@@ -414,12 +414,6 @@
     "type": "HOST_PROPERTY"
   },
   {
-    "id": "stellar_host_distance",
-    "description": "stellar_host_distance_description",
-    "image": null,
-    "type": "HOST_PROPERTY"
-  },
-  {
     "id": "stellar_host_ra",
     "description": "stellar_host_ra_description",
     "image": null,
@@ -432,8 +426,20 @@
     "type": "HOST_PROPERTY"
   },
   {
+    "id": "stellar_host_distance",
+    "description": "stellar_host_distance_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
     "id": "planet_name",
     "description": "planet_name_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "planet_status",
+    "description": "planet_status_description",
     "image": null,
     "type": "PLANET_PROPERTY"
   },

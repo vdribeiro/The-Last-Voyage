@@ -19,10 +19,8 @@ internal sealed interface MainMenuAction {
     data object Credits: MainMenuAction
     data object Soon: MainMenuAction
     data object StellarExplorer: MainMenuAction
-    data object HostProperties: MainMenuAction
-    data object PlanetProperties: MainMenuAction
-    data object HostTypes: MainMenuAction
-    data object PlanetTypes: MainMenuAction
+    data object HostDefinition: MainMenuAction
+    data object PlanetDefinition: MainMenuAction
     data object Mechanics: MainMenuAction
     data object Habitability: MainMenuAction
 }
@@ -40,10 +38,8 @@ internal data class MainMenuState(
 internal enum class Content {
     MAIN_MENU,
     LEARN_MENU,
-    HOST_PROPERTIES,
-    PLANET_PROPERTIES,
-    HOST_TYPES,
-    PLANET_TYPES,
+    HOST_DEFINITION,
+    PLANET_DEFINITION,
     MECHANICS,
     HABITABILITY,
 }
@@ -88,10 +84,8 @@ internal class MainMenuStore(
             Content.LEARN_MENU,
             Content.MECHANICS -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
 
-            Content.HOST_PROPERTIES,
-            Content.PLANET_PROPERTIES,
-            Content.HOST_TYPES,
-            Content.PLANET_TYPES,
+            Content.HOST_DEFINITION,
+            Content.PLANET_DEFINITION,
             Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
         }.let {}
     }
@@ -114,20 +108,12 @@ internal class MainMenuStore(
 
             MainMenuAction.StellarExplorer -> navigate(screen = Screen.STELLAR_EXPLORER)
 
-            MainMenuAction.HostProperties -> updateState {
-                it.copy(currentContent = Content.HOST_PROPERTIES)
+            MainMenuAction.HostDefinition -> updateState {
+                it.copy(currentContent = Content.HOST_DEFINITION)
             }
 
-            MainMenuAction.PlanetProperties -> updateState {
-                it.copy(currentContent = Content.PLANET_PROPERTIES)
-            }
-
-            MainMenuAction.HostTypes -> updateState {
-                it.copy(currentContent = Content.HOST_TYPES)
-            }
-
-            MainMenuAction.PlanetTypes -> updateState {
-                it.copy(currentContent = Content.PLANET_TYPES)
+            MainMenuAction.PlanetDefinition -> updateState {
+                it.copy(currentContent = Content.PLANET_DEFINITION)
             }
 
             MainMenuAction.Mechanics -> updateState {
