@@ -2812,7 +2812,7 @@
   {
     "languageIso": "en",
     "key": "main_menu_screen__habitability_roche_description",
-    "value": "The Roche limit is the minimum distance a planet can orbit its star before being torn apart by its gravity.\nI used the simplified formula for a rigid satellite based on the star's radius and density and planet orbit axis and density. A rigid satellite is an idealized object that is held together only by its own gravity and doesn't deform or stretch as it gets closer to the star.\nThe Roche limit is directly proportional to the star's radius. A bigger star naturally has a larger danger zone around it. Conversely, if the planet is very dense compared to the star, it's held together more tightly, and it can survive closer to the star, whereas if the planet is fluffy (has low density) compared to the star, it's easier to tear apart."
+    "value": "The Roche limit is the minimum distance a planet can orbit its star before being torn apart by its gravity.\nI use the simplified formula for a rigid satellite based on the star's radius and density and planet orbit axis and density. A rigid satellite is an idealized object that is held together only by its own gravity and doesn't deform or stretch as it gets closer to the star.\nThe Roche limit is directly proportional to the star's radius. A bigger star naturally has a larger danger zone around it. Conversely, if the planet is very dense compared to the star, it's held together more tightly, and it can survive closer to the star, whereas if the planet is fluffy (has low density) compared to the star, it's easier to tear apart."
   },
   {
     "languageIso": "en",
@@ -2822,7 +2822,7 @@
   {
     "languageIso": "en",
     "key": "main_menu_screen__habitability_hz_description",
-    "value": "The Circumstellar Habitable Zone (CHZ) is the the region around a star where liquid water could exist on a planet's surface.\nI used the Kopparapu model with a flat plateau of 1.0 across the entire conservative zone and then a smooth down slope through the optimistic zone, as a simple gradient peaked at the center unfairly penalizes planets like Earth, which is perfectly habitable but located near the inner edge of the Sun's conservative zone.\nThe host star's temperature is used to calculate the fluxes with the model's coefficients. If it is not available, the Kasting simple luminosity model is used instead but with a smaller weight."
+    "value": "The Circumstellar Habitable Zone (CHZ) is the the region around a star where liquid water could exist on a planet's surface.\nI use the Kopparapu model with a flat plateau of 1.0 across the entire conservative zone and then a smooth down slope through the optimistic zone, as a simple gradient peaked at the center unfairly penalizes planets like Earth, which is perfectly habitable but located near the inner edge of the Sun's conservative zone.\nThe host star's temperature is used to calculate the fluxes with the model's coefficients. If it is not available, the Kasting simple luminosity model is used instead but with a smaller weight."
   },
   {
     "languageIso": "en",

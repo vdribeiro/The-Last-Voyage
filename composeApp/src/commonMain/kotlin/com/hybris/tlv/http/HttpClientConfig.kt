@@ -14,26 +14,16 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 
 internal const val EXOPLANET_ARCHIVE_URL = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
-internal const val CONFIGS_URL =
-    "https://gist.githubusercontent.com/vdribeiro/eb23013b329c47317622981187df3f23/raw/f2aef92a463df2b1ee13dd005a520a3fe840658c/configs.json"
-internal const val TRANSLATIONS_URL =
-    "https://gist.githubusercontent.com/vdribeiro/90daf9ebde2b8e37ce893e49e8d7f7c7/raw/ddf439b754857b59fd5cb37114c2fa2a7e7e7647/translations.json"
-internal const val LEARNINGS_URL =
-    "https://gist.githubusercontent.com/vdribeiro/f9ef3c647be7e4aaaa6b9c7af43db270/raw/ebe0c8f8ffdf6a6a66861a7b70bfad506744eea1/learnings.json"
-internal const val CATASTROPHES_URL =
-    "https://gist.githubusercontent.com/vdribeiro/27258c022708a20066f793996031d884/raw/551592f492ed0d1726e8e570232e2771e6011fa4/catastrophes.json"
-internal const val ENGINES_URL =
-    "https://gist.githubusercontent.com/vdribeiro/4168f14c15569dd6dd4a57af4ee37a99/raw/c43fea2cd4bbfcbbd42daa247d4d844671439622/engines.json"
-internal const val STELLAR_HOSTS_URL =
-    "https://gist.githubusercontent.com/vdribeiro/7e0ccc933aa6826bf1f427aa036f5793/raw/09df3493670cb24bfade6ae4a440afe61f62b68c/hosts.json"
-internal const val PLANETS_URL =
-    "https://gist.githubusercontent.com/vdribeiro/95146e01cd2b5c322a5e49ee4b9e3261/raw/7b57429663f891d8434197b34f49525e35faf4e5/planets.json"
-internal const val EVENTS_URL =
-    "https://gist.githubusercontent.com/vdribeiro/c2cf6a30e9be34c512f77ceea583bc71/raw/1df8ea3140695bcd47150739ae0bae47adee60c4/events.json"
-internal const val ACHIEVEMENTS_URL =
-    "https://gist.githubusercontent.com/vdribeiro/bf676c0c196c64ed40a7a1e7635035ea/raw/10a9fce6f794c7b6f81f1c85be00fdb3e718b8dc/achievements.json"
-internal const val CREDITS_URL =
-    "https://gist.githubusercontent.com/vdribeiro/a0dd7e6766e8bb40d1028a62d4d8f941/raw/0f0d1b6426d9c62f116b55d0e3d00e984d501fc1/credits.json"
+internal const val CONFIGS_URL = "https://gist.githubusercontent.com/vdribeiro/eb23013b329c47317622981187df3f23"
+internal const val TRANSLATIONS_URL = "https://gist.githubusercontent.com/vdribeiro/90daf9ebde2b8e37ce893e49e8d7f7c7"
+internal const val LEARNINGS_URL = "https://gist.githubusercontent.com/vdribeiro/f9ef3c647be7e4aaaa6b9c7af43db270"
+internal const val CATASTROPHES_URL = "https://gist.githubusercontent.com/vdribeiro/27258c022708a20066f793996031d884"
+internal const val ENGINES_URL = "https://gist.githubusercontent.com/vdribeiro/4168f14c15569dd6dd4a57af4ee37a99"
+internal const val STELLAR_HOSTS_URL = "https://gist.githubusercontent.com/vdribeiro/7e0ccc933aa6826bf1f427aa036f5793"
+internal const val PLANETS_URL = "https://gist.githubusercontent.com/vdribeiro/95146e01cd2b5c322a5e49ee4b9e3261"
+internal const val EVENTS_URL = "https://gist.githubusercontent.com/vdribeiro/c2cf6a30e9be34c512f77ceea583bc71"
+internal const val ACHIEVEMENTS_URL = "https://gist.githubusercontent.com/vdribeiro/bf676c0c196c64ed40a7a1e7635035ea"
+internal const val CREDITS_URL = "https://gist.githubusercontent.com/vdribeiro/a0dd7e6766e8bb40d1028a62d4d8f941"
 
 internal fun <T: HttpClientEngineConfig> HttpClientConfig<T>.setLogging() {
     install(plugin = Logging) {
