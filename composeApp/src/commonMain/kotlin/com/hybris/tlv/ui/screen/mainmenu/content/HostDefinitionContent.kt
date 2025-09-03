@@ -22,6 +22,8 @@ import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.space.mapper.spectralTypeToDrawable
+import com.hybris.tlv.usecase.space.model.Planet
+import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -48,7 +50,27 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
         distance = 9000.0,
         ra = 901.2,
         dec = 345.6,
-    )
+    ).apply {
+        planets.add(
+            element = Planet(
+                id = "ME",
+                name = "ME",
+                stellarHostId = "Valar",
+                status = PlanetStatus.FALSE,
+                orbitalPeriod = null,
+                orbitAxis = null,
+                radius = null,
+                mass = null,
+                density = null,
+                eccentricity = null,
+                insolationFlux = null,
+                equilibriumTemperature = null,
+                occultationDepth = null,
+                inclination = null,
+                obliquity = null,
+            )
+        )
+    }
 
     LazyColumn(
         modifier = Modifier
