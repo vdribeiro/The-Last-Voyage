@@ -48,9 +48,8 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
                 },
                 onChangeView = { store.send(action = StellarExplorerAction.ChangeView) },
                 count = when (storeState.currentContent) {
-                    Content.LIST_HOSTS -> storeState.filteredStellarHosts.size.toString()
-                    Content.LIST_PLANETS -> storeState.filteredPlanets.size.toString()
-                    Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> null
+                    Content.LIST_HOSTS, Content.DETAIL_HOSTS -> storeState.filteredStellarHosts.size.toString()
+                    Content.LIST_PLANETS, Content.DETAIL_PLANETS -> storeState.filteredPlanets.size.toString()
                 },
                 properties = when (storeState.currentContent) {
                     Content.LIST_HOSTS -> stellarHostProperties.values

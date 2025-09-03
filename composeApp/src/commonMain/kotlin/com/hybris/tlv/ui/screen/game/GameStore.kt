@@ -13,6 +13,7 @@ import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
+import kotlinx.coroutines.Job
 
 internal sealed interface GameAction {
     data class ChangeTab(val content: Content): GameAction
@@ -126,7 +127,7 @@ internal class GameStore(
         }
     }
 
-    private fun travel(state: GameState, action: GameAction.Travel) = launch {
+    private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
         val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
@@ -157,7 +158,7 @@ internal class GameStore(
         navigate(screen = Screen.EVENT)
     }
 
-    private fun settle(state: GameState, action: GameAction.Settle) = launch {
+    private fun settle(state: GameState, action: GameAction.Settle): Job = launch {
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
             navigate(

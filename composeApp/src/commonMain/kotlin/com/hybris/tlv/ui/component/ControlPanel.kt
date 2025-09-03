@@ -52,7 +52,7 @@ internal fun ControlPanel(
     viewName: String,
     viewIcon: ImageVector,
     onChangeView: () -> Unit,
-    count: String?,
+    count: String,
     properties: List<String>,
     selectedProperty: String,
     ascending: Boolean,
@@ -133,7 +133,12 @@ internal fun ControlPanel(
                 }
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    count?.let { Text(text = it) }
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .alpha(alpha = if (enabled) 1f else 0.38f),
+                        text = count
+                    )
                     SortMenu(
                         enabled = enabled,
                         properties = properties,
