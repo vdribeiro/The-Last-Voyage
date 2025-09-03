@@ -34,3 +34,4 @@ captures
 /composeApp/*.jks
 /composeApp/release/*
 composeApp/gists
+/gists

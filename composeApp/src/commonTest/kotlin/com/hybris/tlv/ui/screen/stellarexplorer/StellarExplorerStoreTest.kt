@@ -106,14 +106,49 @@ internal class StellarExplorerStoreTest {
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = StellarHostProperty.NAME))
+        val visibleStellarHostProperties: List<StellarHostProperty> = listOf(
+            StellarHostProperty.SYSTEM_NAME,
+            StellarHostProperty.PLANET_COUNT,
+            StellarHostProperty.SPECTRAL_TYPE,
+            StellarHostProperty.TEMPERATURE,
+            StellarHostProperty.RADIUS,
+            StellarHostProperty.MASS,
+            StellarHostProperty.METALLICITY,
+            StellarHostProperty.LUMINOSITY,
+            StellarHostProperty.GRAVITY,
+            StellarHostProperty.AGE,
+            StellarHostProperty.DENSITY,
+            StellarHostProperty.ROTATIONAL_VELOCITY,
+            StellarHostProperty.ROTATIONAL_PERIOD,
+            StellarHostProperty.DISTANCE,
+            StellarHostProperty.RA,
+            StellarHostProperty.DEC,
+        )
         assertEquals(
-            expected = StellarHostProperty.entries - StellarHostProperty.NAME,
+            expected = visibleStellarHostProperties,
             actual = stellarExplorerStore.stateFlow.value.visibleStellarHostProperties
         )
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangePlanetVisibility(property = PlanetProperty.NAME))
+        val visiblePlanetProperties: List<PlanetProperty> = listOf(
+            PlanetProperty.STATUS,
+            PlanetProperty.HABITABILITY,
+            PlanetProperty.CONFIDENCE,
+            PlanetProperty.TYPE,
+            PlanetProperty.ORBITAL_PERIOD,
+            PlanetProperty.ORBIT_AXIS,
+            PlanetProperty.RADIUS,
+            PlanetProperty.MASS,
+            PlanetProperty.DENSITY,
+            PlanetProperty.ECCENTRICITY,
+            PlanetProperty.INSOLATION_FLUX,
+            PlanetProperty.TEMPERATURE,
+            PlanetProperty.OCCULTATION_DEPTH,
+            PlanetProperty.INCLINATION,
+            PlanetProperty.OBLIQUITY,
+        )
         assertEquals(
-            expected = PlanetProperty.entries - PlanetProperty.NAME,
+            expected = visiblePlanetProperties,
             actual = stellarExplorerStore.stateFlow.value.visiblePlanetProperties
         )
     }

@@ -19,7 +19,7 @@ internal class SyncUseCasesTest {
 
     @Test
     fun sync() = runBlocking {
-        val totalOperations = 8f
+        val totalOperations = 9f
         val sync = mock.useCases.sync.sync().toList()
         for (i in 0..totalOperations.toInt() - 1) {
             assertEquals(expected = SyncResult.Loading(progress = i.toFloat(), total = totalOperations), actual = sync[i])
@@ -39,7 +39,7 @@ internal class SyncUseCasesTest {
 
     @Test
     fun `get error`() = runBlocking {
-        val totalOperations = 8f
+        val totalOperations = 9f
         val errorSync = errorMock.useCases.sync.sync().toList()
         for (i in 0..totalOperations.toInt() - 1) {
             assertEquals(expected = SyncResult.Loading(progress = i.toFloat(), total = totalOperations), actual = errorSync[i])
