@@ -33,3 +33,4 @@ captures
 /composeApp/*.db
 /composeApp/*.jks
 /composeApp/release/*
+composeApp/gists

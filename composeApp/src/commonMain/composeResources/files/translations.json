@@ -2696,6 +2696,11 @@
   },
   {
     "languageIso": "en",
+    "key": "main_menu_screen__soon",
+    "value": "Coming Soon..."
+  },
+  {
+    "languageIso": "en",
     "key": "main_menu_screen__scores",
     "value": "Scores"
   },
@@ -2732,7 +2737,7 @@
   {
     "languageIso": "en",
     "key": "main_menu_screen__mechanics",
-    "value": "Game Mechanics"
+    "value": "Help"
   },
   {
     "languageIso": "en",
@@ -2752,7 +2757,7 @@
   {
     "languageIso": "en",
     "key": "main_menu_screen__mechanics_attributes_description",
-    "value": "At the start of your journey, you must allocate points to your ship's key systems:\n\n• Sensor Range: Determines how many star systems you can choose from for your next destination.\n\n• Fuel: Your starting fuel. Each travel consumes fuel equal to the distance traveled.\n\n• Materials: Can be used to repair the ship in some events but most of all are essential for colonizing a new world.\n\n• Cryopods: The number of colonists you carry. You must have enough to meet a planet's settlement requirements."
+    "value": "• Sensor Range: Determines how many star systems you can choose from for your next destination.\n\n• Fuel: Your starting fuel. Each travel consumes fuel equal to the distance traveled.\n\n• Materials: Can be used to repair the ship in some events but most of all are essential for colonizing a new world.\n\n• Cryopods: The number of colonists you carry. You must have enough to meet a planet's settlement requirements."
   },
   {
     "languageIso": "en",

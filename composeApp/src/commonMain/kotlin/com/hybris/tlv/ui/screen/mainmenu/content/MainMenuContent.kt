@@ -61,6 +61,13 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
             }
             item {
                 Text(
+                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
+                    text = getTranslation(key = "main_menu_screen__mechanics"),
+                    style = MaterialTheme.typography.headlineMedium,
+                )
+            }
+            item {
+                Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Scores) },
                     text = getTranslation(key = "main_menu_screen__scores"),
                     style = MaterialTheme.typography.headlineMedium,
@@ -75,6 +82,13 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Credits) },
                     text = getTranslation(key = "main_menu_screen__credits"),
+                    style = MaterialTheme.typography.headlineMedium,
+                )
+            }
+            item {
+                Text(
+                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Soon) },
+                    text = getTranslation(key = "main_menu_screen__soon"),
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }

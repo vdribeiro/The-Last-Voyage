@@ -17,6 +17,7 @@ internal sealed interface MainMenuAction {
     data object Scores: MainMenuAction
     data object Achievements: MainMenuAction
     data object Credits: MainMenuAction
+    data object Soon: MainMenuAction
     data object StellarExplorer: MainMenuAction
     data object HostTypes: MainMenuAction
     data object PlanetTypes: MainMenuAction
@@ -100,6 +101,9 @@ internal class MainMenuStore(
             MainMenuAction.Scores -> navigate(screen = Screen.SCORE)
             MainMenuAction.Achievements -> navigate(screen = Screen.ACHIEVEMENT)
             MainMenuAction.Credits -> navigate(screen = Screen.CREDIT)
+            MainMenuAction.Soon -> {
+                // TODO
+            }
 
             MainMenuAction.StellarExplorer -> navigate(screen = Screen.STELLAR_EXPLORER)
 
