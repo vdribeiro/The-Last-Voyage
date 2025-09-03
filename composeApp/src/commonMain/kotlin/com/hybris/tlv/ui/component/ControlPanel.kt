@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.ViewDay
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -38,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
@@ -50,6 +50,7 @@ internal fun ControlPanel(
     enabled: Boolean,
     onSearch: (String) -> Unit,
     viewName: String,
+    viewIcon: ImageVector,
     onChangeView: () -> Unit,
     count: String?,
     properties: List<String>,
@@ -124,7 +125,7 @@ internal fun ControlPanel(
                         .padding(all = 8.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.ViewDay,
+                        imageVector = viewIcon,
                         contentDescription = "View"
                     )
                     Spacer(Modifier.width(width = 8.dp))

@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Flare
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -39,6 +42,10 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
                         Content.LIST_PLANETS, Content.DETAIL_PLANETS -> "stellar_explorer_screen__planet_list"
                     }
                 ),
+                viewIcon = when (storeState.currentContent) {
+                    Content.LIST_HOSTS, Content.DETAIL_HOSTS -> Icons.Default.Flare
+                    Content.LIST_PLANETS, Content.DETAIL_PLANETS -> Icons.Default.Public
+                },
                 onChangeView = { store.send(action = StellarExplorerAction.ChangeView) },
                 count = when (storeState.currentContent) {
                     Content.LIST_HOSTS -> storeState.filteredStellarHosts.size.toString()
