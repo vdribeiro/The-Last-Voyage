@@ -47,7 +47,7 @@ internal fun HabitabilityContent(store: Store<MainMenuAction, MainMenuState>) {
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { uriHandler.openUri(uri = it) },
-                    text = getTranslation(key = "Source Code"),
+                    text = getTranslation(key = "formula"),
                     style = MaterialTheme.typography.bodyLarge.copy(
                         color = MaterialTheme.colorScheme.primary,
                         textDecoration = TextDecoration.Underline
