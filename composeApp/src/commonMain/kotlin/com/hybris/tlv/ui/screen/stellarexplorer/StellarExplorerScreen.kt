@@ -90,7 +90,29 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
 
                         Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
                     }
-                }
+                },
+                selectedProperties = when (storeState.currentContent) {
+                    Content.LIST_HOSTS -> storeState.searchableStellarHostProperties.mapNotNull { stellarHostProperties[it] }
+                    Content.LIST_PLANETS -> storeState.searchablePlanetProperties.mapNotNull { planetProperties[it] }
+                    Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> emptyList()
+                },
+                onFiltersChange = { property ->
+                    when (storeState.currentContent) {
+                        Content.LIST_HOSTS -> store.send(
+                            action = StellarExplorerAction.ChangeStellarHostsSearchable(
+                                property = stellarHostProperties.entries.find { it.value == property }?.key ?: StellarHostProperty.DISTANCE
+                            )
+                        )
+
+                        Content.LIST_PLANETS -> store.send(
+                            action = StellarExplorerAction.ChangePlanetSearchable(
+                                property = planetProperties.entries.find { it.value == property }?.key ?: PlanetProperty.NAME
+                            )
+                        )
+
+                        Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
+                    }
+                },
             )
         }
     ) { innerPadding ->

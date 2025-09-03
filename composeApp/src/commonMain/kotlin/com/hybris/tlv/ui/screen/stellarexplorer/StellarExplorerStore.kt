@@ -28,6 +28,8 @@ internal sealed interface StellarExplorerAction {
     data object ChangeSortDirection: StellarExplorerAction
     data class ChangeStellarHostsVisibility(val property: StellarHostProperty): StellarExplorerAction
     data class ChangePlanetVisibility(val property: PlanetProperty): StellarExplorerAction
+    data class ChangeStellarHostsSearchable(val property: StellarHostProperty): StellarExplorerAction
+    data class ChangePlanetSearchable(val property: PlanetProperty): StellarExplorerAction
 }
 
 internal data class StellarExplorerState(
@@ -79,7 +81,9 @@ internal data class StellarExplorerState(
         PlanetProperty.OCCULTATION_DEPTH,
         PlanetProperty.INCLINATION,
         PlanetProperty.OBLIQUITY,
-    )
+    ),
+    val searchableStellarHostProperties: List<StellarHostProperty> = listOf(StellarHostProperty.NAME),
+    val searchablePlanetProperties: List<PlanetProperty> = listOf(PlanetProperty.NAME)
 )
 
 internal enum class Content {
@@ -133,58 +137,88 @@ internal class StellarExplorerStore(
         }
     }
 
-    private fun searchStellarHosts(search: String, stellarHosts: List<StellarHost>): List<StellarHost> =
+    private fun searchStellarHosts(search: String, searchable: List<StellarHostProperty>, stellarHosts: List<StellarHost>): List<StellarHost> =
         if (search.isNotBlank()) {
             val searchLowercase = search.lowercase()
             stellarHosts.filter { stellarHost ->
                 with(receiver = stellarHost) {
                     listOfNotNull(
-                        id,
-                        systemName,
-                        name,
-                        spectralType,
-                        effectiveTemperature?.toString(),
-                        radius?.toString(),
-                        mass?.toString(),
-                        metallicity?.toString(),
-                        luminosity?.toString(),
-                        gravity?.toString(),
-                        age?.toString(),
-                        density?.toString(),
-                        rotationalVelocity?.toString(),
-                        rotationalPeriod?.toString(),
-                        distance?.toString(),
-                        ra?.toString(),
-                        dec?.toString(),
-                        planets.size.toString()
+                        searchable.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = systemName),
+                        searchable.ifContains(element = StellarHostProperty.NAME, value = name),
+                        searchable.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = spectralType),
+                        searchable.ifContains(element = StellarHostProperty.TEMPERATURE, value = effectiveTemperature?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.RADIUS, value = radius?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.MASS, value = mass?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.METALLICITY, value = metallicity?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.LUMINOSITY, value = luminosity?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.GRAVITY, value = gravity?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.AGE, value = age?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.DENSITY, value = density?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.ROTATIONAL_VELOCITY, value = rotationalVelocity?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.ROTATIONAL_PERIOD, value = rotationalPeriod?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.DISTANCE, value = distance?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.RA, value = ra?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.DEC, value = dec?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.PLANET_COUNT, value = planets.size.toString()),
+                        searchable.ifContains(element = StellarHostProperty.SPECTRAL_TYPE_SCORE, value = score?.stellarSpectralTypeScore?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.MASS_SCORE, value = score?.stellarMassScore?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.AGE_SCORE, value = score?.stellarAgeScore?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.ACTIVITY_SCORE, value = score?.stellarActivityScore?.toString()),
+                        searchable.ifContains(
+                            element = StellarHostProperty.ROTATIONAL_PERIOD_SCORE,
+                            value = score?.stellarRotationalPeriodScore?.toString()
+                        ),
+                        searchable.ifContains(element = StellarHostProperty.GRAVITY_SCORE, value = score?.stellarGravityScore?.toString()),
+                        searchable.ifContains(element = StellarHostProperty.METALLICITY_SCORE, value = score?.stellarMetallicityScore?.toString()),
+                        searchable.ifContains(
+                            element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE,
+                            value = score?.stellarEffectiveTemperatureScore?.toString()
+                        ),
                     )
                 }.any { it.lowercase().contains(other = searchLowercase) }
             }
         } else stellarHosts
 
-    private fun searchPlanets(search: String, planets: List<Planet>): List<Planet> =
+    private fun searchPlanets(search: String, searchable: List<PlanetProperty>, planets: List<Planet>): List<Planet> =
         if (search.isNotBlank()) {
             val searchLowercase = search.lowercase()
             planets.filter { stellarHost ->
                 with(receiver = stellarHost) {
                     listOfNotNull(
-                        id,
-                        name,
-                        stellarHostId,
-                        status.displayName,
-                        orbitalPeriod?.toString(),
-                        orbitAxis?.toString(),
-                        radius?.toString(),
-                        mass?.toString(),
-                        density?.toString(),
-                        eccentricity?.toString(),
-                        insolationFlux?.toString(),
-                        equilibriumTemperature?.toString(),
-                        occultationDepth?.toString(),
-                        inclination?.toString(),
-                        obliquity?.toString(),
-                        score?.habitabilityScore?.toString(),
-                        score?.planetType?.displayName
+                        searchable.ifContains(element = PlanetProperty.NAME, value = name),
+                        searchable.ifContains(element = PlanetProperty.STATUS, value = status.displayName),
+                        searchable.ifContains(element = PlanetProperty.ORBITAL_PERIOD, value = orbitalPeriod?.toString()),
+                        searchable.ifContains(element = PlanetProperty.ORBIT_AXIS, value = orbitAxis?.toString()),
+                        searchable.ifContains(element = PlanetProperty.RADIUS, value = radius?.toString()),
+                        searchable.ifContains(element = PlanetProperty.MASS, value = mass?.toString()),
+                        searchable.ifContains(element = PlanetProperty.DENSITY, value = density?.toString()),
+                        searchable.ifContains(element = PlanetProperty.ECCENTRICITY, value = eccentricity?.toString()),
+                        searchable.ifContains(element = PlanetProperty.INSOLATION_FLUX, value = insolationFlux?.toString()),
+                        searchable.ifContains(element = PlanetProperty.TEMPERATURE, value = equilibriumTemperature?.toString()),
+                        searchable.ifContains(element = PlanetProperty.OCCULTATION_DEPTH, value = occultationDepth?.toString()),
+                        searchable.ifContains(element = PlanetProperty.INCLINATION, value = inclination?.toString()),
+                        searchable.ifContains(element = PlanetProperty.OBLIQUITY, value = obliquity?.toString()),
+                        searchable.ifContains(element = PlanetProperty.HABITABILITY, value = score?.habitabilityScore?.toString()),
+                        searchable.ifContains(element = PlanetProperty.TYPE, value = score?.planetType?.displayName),
+                        searchable.ifContains(element = PlanetProperty.ROCHE_SCORE, value = score?.rocheScore?.toString()),
+                        searchable.ifContains(
+                            element = PlanetProperty.HABITABLE_ZONE_KOPPARAPU_SCORE,
+                            value = score?.habitableZoneKopparapuScore?.toString()
+                        ),
+                        searchable.ifContains(
+                            element = PlanetProperty.HABITABLE_ZONE_KASTING_SCORE,
+                            value = score?.habitableZoneKastingScore?.toString()
+                        ),
+                        searchable.ifContains(element = PlanetProperty.RADIUS_SCORE, value = score?.planetRadiusScore?.toString()),
+                        searchable.ifContains(element = PlanetProperty.MASS_SCORE, value = score?.planetMassScore?.toString()),
+                        searchable.ifContains(element = PlanetProperty.TELLURICITY_SCORE, value = score?.planetTelluricityScore?.toString()),
+                        searchable.ifContains(element = PlanetProperty.ECCENTRICITY_SCORE, value = score?.planetEccentricityScore?.toString()),
+                        searchable.ifContains(element = PlanetProperty.TEMPERATURE_SCORE, value = score?.planetTemperatureScore?.toString()),
+                        searchable.ifContains(element = PlanetProperty.OBLIQUITY_SCORE, value = score?.planetObliquityScore?.toString()),
+                        searchable.ifContains(element = PlanetProperty.ESI_SCORE, value = score?.planetEsiScore?.toString()),
+                        searchable.ifContains(element = PlanetProperty.PROTECTION_SCORE, value = score?.planetProtectionScore?.toString()),
+                        searchable.ifContains(element = PlanetProperty.TIDAL_LOCKING_SCORE, value = score?.planetTidalLockingScore?.toString()),
+                        searchable.ifContains(element = PlanetProperty.CONFIDENCE, value = score?.confidenceScore?.toString()),
                     )
                 }.any { it.lowercase().contains(other = searchLowercase) }
             }
@@ -253,6 +287,7 @@ internal class StellarExplorerStore(
                     Content.LIST_HOSTS -> {
                         val filteredStellarHosts = searchStellarHosts(
                             search = action.search,
+                            searchable = state.searchableStellarHostProperties,
                             stellarHosts = state.stellarHosts
                         )
                         updateState { it.copy(filteredStellarHosts = filteredStellarHosts) }
@@ -261,6 +296,7 @@ internal class StellarExplorerStore(
                     Content.LIST_PLANETS -> {
                         val filteredPlanets = searchPlanets(
                             search = action.search,
+                            searchable = state.searchablePlanetProperties,
                             planets = state.planets
                         )
                         updateState { it.copy(filteredPlanets = filteredPlanets) }
@@ -328,18 +364,36 @@ internal class StellarExplorerStore(
             }
 
             is StellarExplorerAction.ChangeStellarHostsVisibility -> launch {
-                val visibleStellarHostProperties = if (state.visibleStellarHostProperties.contains(element = action.property)) {
-                    state.visibleStellarHostProperties.minus(element = action.property)
-                } else state.visibleStellarHostProperties.plus(element = action.property)
+                val visibleStellarHostProperties = state.visibleStellarHostProperties.plusOrMinus(value = action.property)
                 updateState { it.copy(visibleStellarHostProperties = visibleStellarHostProperties) }
             }
 
             is StellarExplorerAction.ChangePlanetVisibility -> launch {
-                val visiblePlanetProperties = if (state.visiblePlanetProperties.contains(element = action.property)) {
-                    state.visiblePlanetProperties.minus(element = action.property)
-                } else state.visiblePlanetProperties.plus(element = action.property)
+                val visiblePlanetProperties = state.visiblePlanetProperties.plusOrMinus(value = action.property)
                 updateState { it.copy(visiblePlanetProperties = visiblePlanetProperties) }
+            }
+
+            is StellarExplorerAction.ChangeStellarHostsSearchable -> launch {
+                val searchableStellarHostProperties = state.searchableStellarHostProperties.plusOrMinus(value = action.property)
+                updateState { it.copy(searchableStellarHostProperties = searchableStellarHostProperties) }
+            }
+
+            is StellarExplorerAction.ChangePlanetSearchable -> launch {
+                val searchablePlanetProperties = state.searchablePlanetProperties.plusOrMinus(value = action.property)
+                updateState { it.copy(searchablePlanetProperties = searchablePlanetProperties) }
             }
         }
     }
 }
+
+/**
+ * Returns [value] if the [element] is present, otherwise returns null.
+ */
+internal fun <E, V> Collection<E>.ifContains(element: E, value: V?): V? =
+    if (contains(element)) value else null
+
+/**
+ * Adds [value] if it is not present, otherwise removes it.
+ */
+internal fun <V> Iterable<V>.plusOrMinus(value: V): List<V> =
+    if (contains(element = value)) minus(element = value) else plus(element = value)

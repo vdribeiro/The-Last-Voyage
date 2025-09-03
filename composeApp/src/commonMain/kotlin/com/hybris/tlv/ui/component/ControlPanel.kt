@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ManageSearch
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
@@ -51,7 +52,9 @@ internal fun ControlPanel(
     onSortChange: (String) -> Unit,
     onSortDirectionChange: () -> Unit,
     visibleProperties: List<String>,
-    onVisibilityChange: (String) -> Unit
+    onVisibilityChange: (String) -> Unit,
+    selectedProperties: List<String>,
+    onFiltersChange: (String) -> Unit
 ) {
     var searchQuery by remember { mutableStateOf(value = "") }
 
@@ -64,21 +67,35 @@ internal fun ControlPanel(
 
     Surface(modifier = modifier.fillMaxWidth()) {
         Column {
-            OutlinedTextField(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                enabled = enabled,
-                value = searchQuery,
-                onValueChange = { searchQuery = it },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "Search"
-                    )
-                },
-                singleLine = true
-            )
+                    .padding(horizontal = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                OutlinedTextField(
+                    modifier = Modifier
+                        .weight(weight = 1f)
+                        .padding(horizontal = 8.dp),
+                    enabled = enabled,
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search"
+                        )
+                    },
+                    singleLine = true
+                )
+                SearchMenu(
+                    enabled = enabled,
+                    properties = properties,
+                    selectedProperties = selectedProperties,
+                    onFiltersChange = onFiltersChange
+                )
+            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -119,6 +136,47 @@ internal fun ControlPanel(
 }
 
 @Composable
+private fun SearchMenu(
+    enabled: Boolean,
+    properties: List<String>,
+    selectedProperties: List<String>,
+    onFiltersChange: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    Box {
+        IconButton(
+            enabled = enabled,
+            onClick = { expanded = true }
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ManageSearch,
+                contentDescription = "Search Filters"
+            )
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            properties.forEach { property ->
+                DropdownMenuItem(
+                    enabled = enabled,
+                    text = { Text(text = property) },
+                    onClick = { onFiltersChange(property) },
+                    leadingIcon = {
+                        if (selectedProperties.contains(element = property)) {
+                            Icon(
+                                imageVector = Icons.Default.Check,
+                                contentDescription = "Checked"
+                            )
+                        } else Spacer(Modifier.size(size = 24.dp))
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
 private fun SortMenu(
     enabled: Boolean,
     properties: List<String>,
@@ -129,6 +187,17 @@ private fun SortMenu(
 ) {
     var expanded by remember { mutableStateOf(false) }
     val sortDirectionIcon = if (ascending) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward
+    Box {
+        IconButton(
+            enabled = enabled,
+            onClick = { onSortDirectionChange() }
+        ) {
+            Icon(
+                imageVector = sortDirectionIcon,
+                contentDescription = "Sort Directions"
+            )
+        }
+    }
     Box {
         IconButton(
             enabled = enabled,
@@ -151,7 +220,7 @@ private fun SortMenu(
                         onSortChange(property)
                         expanded = false
                     },
-                    trailingIcon = {
+                    leadingIcon = {
                         if (selectedProperty == property) {
                             Icon(
                                 imageVector = sortDirectionIcon,
@@ -161,17 +230,6 @@ private fun SortMenu(
                     }
                 )
             }
-        }
-    }
-    Box {
-        IconButton(
-            enabled = enabled,
-            onClick = { onSortDirectionChange() }
-        ) {
-            Icon(
-                imageVector = sortDirectionIcon,
-                contentDescription = "Sort Directions"
-            )
         }
     }
 }
@@ -209,7 +267,7 @@ private fun VisibilityMenu(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = "Visible"
                             )
-                        } else Spacer(Modifier.size(24.dp))
+                        } else Spacer(Modifier.size(size = 24.dp))
                     }
                 )
             }
