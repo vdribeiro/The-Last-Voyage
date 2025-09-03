@@ -19,9 +19,10 @@ internal sealed interface MainMenuAction {
     data object Credits: MainMenuAction
     data object Soon: MainMenuAction
     data object StellarExplorer: MainMenuAction
+    data object HostProperties: MainMenuAction
+    data object PlanetProperties: MainMenuAction
     data object HostTypes: MainMenuAction
     data object PlanetTypes: MainMenuAction
-    data object Properties: MainMenuAction
     data object Mechanics: MainMenuAction
     data object Habitability: MainMenuAction
 }
@@ -38,9 +39,10 @@ internal data class MainMenuState(
 internal enum class Content {
     MAIN_MENU,
     LEARN_MENU,
+    HOST_PROPERTIES,
+    PLANET_PROPERTIES,
     HOST_TYPES,
     PLANET_TYPES,
-    PROPERTIES,
     MECHANICS,
     HABITABILITY,
 }
@@ -82,9 +84,11 @@ internal class MainMenuStore(
             Content.MAIN_MENU -> {}
             Content.LEARN_MENU,
             Content.MECHANICS -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
+
+            Content.HOST_PROPERTIES,
+            Content.PLANET_PROPERTIES,
             Content.HOST_TYPES,
             Content.PLANET_TYPES,
-            Content.PROPERTIES,
             Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
         }.let {}
     }
@@ -107,16 +111,20 @@ internal class MainMenuStore(
 
             MainMenuAction.StellarExplorer -> navigate(screen = Screen.STELLAR_EXPLORER)
 
+            MainMenuAction.HostProperties -> updateState {
+                it.copy(currentContent = Content.HOST_PROPERTIES)
+            }
+
+            MainMenuAction.PlanetProperties -> updateState {
+                it.copy(currentContent = Content.PLANET_PROPERTIES)
+            }
+
             MainMenuAction.HostTypes -> updateState {
                 it.copy(currentContent = Content.HOST_TYPES)
             }
 
             MainMenuAction.PlanetTypes -> updateState {
                 it.copy(currentContent = Content.PLANET_TYPES)
-            }
-
-            MainMenuAction.Properties -> updateState {
-                it.copy(currentContent = Content.PROPERTIES)
             }
 
             MainMenuAction.Mechanics -> updateState {

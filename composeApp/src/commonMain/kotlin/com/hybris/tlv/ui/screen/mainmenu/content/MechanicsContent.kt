@@ -1,8 +1,6 @@
 package com.hybris.tlv.ui.screen.mainmenu.content
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import com.hybris.tlv.ui.component.Section
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState

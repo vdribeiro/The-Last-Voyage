@@ -3,331 +3,331 @@
     "id": "stellar_host_type_o",
     "description": "stellar_host_type_o_description",
     "image": "O",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_b",
     "description": "stellar_host_type_b_description",
     "image": "B",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_a",
     "description": "stellar_host_type_a_description",
     "image": "A",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_f",
     "description": "stellar_host_type_f_description",
     "image": "F",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_g",
     "description": "stellar_host_type_g_description",
     "image": "G",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_k",
     "description": "stellar_host_type_k_description",
     "image": "K",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_m",
     "description": "stellar_host_type_m_description",
     "image": "M",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_w",
     "description": "stellar_host_type_w_description",
     "image": "W",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_l",
     "description": "stellar_host_type_l_description",
     "image": "L",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_t",
     "description": "stellar_host_type_t_description",
     "image": "T",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_y",
     "description": "stellar_host_type_y_description",
     "image": "Y",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_c",
     "description": "stellar_host_type_c_description",
     "image": "C",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_s",
     "description": "stellar_host_type_s_description",
     "image": "S",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_d",
     "description": "stellar_host_type_d_description",
     "image": "D",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "stellar_host_type_unknown",
     "description": "stellar_host_type_unknown_description",
     "image": "?",
-    "type": "HOST"
+    "type": "HOST_TYPE"
   },
   {
     "id": "planet_type_terrestrial_planet",
     "description": "planet_type_terrestrial_planet_description",
     "image": "TERRESTRIAL_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_sub_earth",
     "description": "planet_type_sub_earth_description",
     "image": "SUB_EARTH",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_super_earth",
     "description": "planet_type_super_earth_description",
     "image": "SUPER_EARTH",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_mega_earth",
     "description": "planet_type_mega_earth_description",
     "image": "MEGA_EARTH",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_earth_like_planet",
     "description": "planet_type_earth_like_planet_description",
     "image": "EARTH_LIKE_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_earth_analog_planet",
     "description": "planet_type_earth_analog_planet_description",
     "image": "EARTH_ANALOG_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_superhabitable_planet",
     "description": "planet_type_superhabitable_planet_description",
     "image": "SUPERHABITABLE_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_lava_planet",
     "description": "planet_type_lava_planet_description",
     "image": "LAVA_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_desert_planet",
     "description": "planet_type_desert_planet_description",
     "image": "DESERT_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_ice_planet",
     "description": "planet_type_ice_planet_description",
     "image": "ICE_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_subsurface_ocean_planet",
     "description": "planet_type_subsurface_ocean_planet_description",
     "image": "SUBSURFACE_OCEAN_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_ocean_planet",
     "description": "planet_type_ocean_planet_description",
     "image": "OCEAN_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_iron_planet",
     "description": "planet_type_iron_planet_description",
     "image": "IRON_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_eyeball_planet",
     "description": "planet_type_eyeball_planet_description",
     "image": "EYEBALL_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_hot_eyeball_planet",
     "description": "planet_type_hot_eyeball_planet_description",
     "image": "HOT_EYEBALL_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_cold_eyeball_planet",
     "description": "planet_type_cold_eyeball_planet_description",
     "image": "COLD_EYEBALL_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_barren_planet",
     "description": "planet_type_barren_planet_description",
     "image": "BARREN_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_crater_planet",
     "description": "planet_type_crater_planet_description",
     "image": "CRATER_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_chthonian_planet",
     "description": "planet_type_chthonian_planet_description",
     "image": "CHTHONIAN_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_mini_neptune",
     "description": "planet_type_mini_neptune_description",
     "image": "MINI_NEPTUNE",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_hot_neptune",
     "description": "planet_type_hot_neptune_description",
     "image": "HOT_NEPTUNE",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_ultra_hot_neptune",
     "description": "planet_type_ultra_hot_neptune_description",
     "image": "ULTRA_HOT_NEPTUNE",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_super_neptune",
     "description": "planet_type_super_neptune_description",
     "image": "SUPER_NEPTUNE",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_ice_giant",
     "description": "planet_type_ice_giant_description",
     "image": "ICE_GIANT",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_gas_giant",
     "description": "planet_type_gas_giant_description",
     "image": "GAS_GIANT",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_super_jupiter",
     "description": "planet_type_super_jupiter_description",
     "image": "SUPER_JUPITER",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_hot_jupiter",
     "description": "planet_type_hot_jupiter_description",
     "image": "HOT_JUPITER",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_ultra_hot_jupiter",
     "description": "planet_type_ultra_hot_jupiter_description",
     "image": "ULTRA_HOT_JUPITER",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_ammonia_clouds_gas_giant",
     "description": "planet_type_ammonia_clouds_gas_giant_description",
     "image": "AMMONIA_CLOUDS_GAS_GIANT",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_water_clouds_gas_giant",
     "description": "planet_type_water_clouds_gas_giant_description",
     "image": "WATER_CLOUDS_GAS_GIANT",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_cloudless_gas_giant",
     "description": "planet_type_cloudless_gas_giant_description",
     "image": "CLOUDLESS_GAS_GIANT",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_alkali_metal_clouds_gas_giant",
     "description": "planet_type_alkali_metal_clouds_gas_giant_description",
     "image": "ALKALI_METAL_CLOUDS_GAS_GIANT",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_silicate_clouds_gas_giant",
     "description": "planet_type_silicate_clouds_gas_giant_description",
     "image": "SILICATE_CLOUDS_GAS_GIANT",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_puffy_planet",
     "description": "planet_type_puffy_planet_description",
     "image": "PUFFY_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_super_puff_planet",
     "description": "planet_type_super_puff_planet_description",
     "image": "SUPER_PUFF_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_protoplanet",
     "description": "planet_type_protoplanet_description",
     "image": "PROTOPLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_ultra_short_period_planet",
     "description": "planet_type_ultra_short_period_planet_description",
     "image": "ULTRA_SHORT_PERIOD_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_disrupted_planet",
     "description": "planet_type_disrupted_planet_description",
     "image": "DISRUPTED_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_ellipsoid_planet",
     "description": "planet_type_ellipsoid_planet_description",
     "image": "ELLIPSOID_PLANET",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "planet_type_unknown",
     "description": "planet_type_unknown_description",
     "image": "?",
-    "type": "PLANET"
+    "type": "PLANET_TYPE"
   },
   {
     "id": "stellar_host_name",
@@ -338,6 +338,12 @@
   {
     "id": "stellar_host_system_name",
     "description": "stellar_host_system_name_description",
+    "image": null,
+    "type": "HOST_PROPERTY"
+  },
+  {
+    "id": "stellar_host_type",
+    "description": "stellar_host_type_description",
     "image": null,
     "type": "HOST_PROPERTY"
   },
@@ -426,14 +432,14 @@
     "type": "HOST_PROPERTY"
   },
   {
-    "id": "stellar_host_type",
-    "description": "stellar_host_type_description",
-    "image": null,
-    "type": "HOST_PROPERTY"
-  },
-  {
     "id": "planet_name",
     "description": "planet_name_description",
+    "image": null,
+    "type": "PLANET_PROPERTY"
+  },
+  {
+    "id": "planet_type",
+    "description": "planet_type_description",
     "image": null,
     "type": "PLANET_PROPERTY"
   },

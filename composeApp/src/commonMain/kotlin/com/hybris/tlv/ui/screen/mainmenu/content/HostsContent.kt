@@ -22,7 +22,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun HostsContent(store: Store<MainMenuAction, MainMenuState>) {
     val storeState by store.stateFlow.collectAsState()
-    val stellarHosts = storeState.learningsMap[LearningType.HOST].orEmpty()
+    val stellarHosts = storeState.learningsMap[LearningType.HOST_TYPE].orEmpty()
 
     LazyColumn(
         modifier = Modifier

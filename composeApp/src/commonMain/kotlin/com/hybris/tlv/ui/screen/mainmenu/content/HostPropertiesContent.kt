@@ -11,19 +11,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.component.PlanetCard
+import com.hybris.tlv.ui.component.PropertyCard
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.learning.model.LearningType
-import com.hybris.tlv.usecase.space.mapper.toDrawable
-import com.hybris.tlv.usecase.space.model.PlanetType
-import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun PlanetsContent(store: Store<MainMenuAction, MainMenuState>) {
+internal fun HostPropertiesContent(store: Store<MainMenuAction, MainMenuState>) {
     val storeState by store.stateFlow.collectAsState()
-    val planets = storeState.learningsMap[LearningType.PLANET_TYPE].orEmpty()
+    val stellarHostProperties = storeState.learningsMap[LearningType.HOST_PROPERTY].orEmpty()
 
     LazyColumn(
         modifier = Modifier
@@ -32,11 +29,10 @@ internal fun PlanetsContent(store: Store<MainMenuAction, MainMenuState>) {
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        items(items = planets, key = { it.id }) { planet ->
-            PlanetCard(
-                name = getTranslation(key = planet.id),
-                description = planet.description,
-                typeDrawable = PlanetType.fromValue(value = planet.image.orEmpty()).toDrawable()
+        items(items = stellarHostProperties, key = { it.id }) { property ->
+            PropertyCard(
+                name = property.id,
+                description = property.description,
             )
         }
     }

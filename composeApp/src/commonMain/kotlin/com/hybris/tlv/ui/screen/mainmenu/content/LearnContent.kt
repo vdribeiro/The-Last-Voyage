@@ -40,6 +40,20 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
         }
         item {
             Text(
+                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.HostProperties) },
+                text = getTranslation(key = "main_menu_screen__host_properties"),
+                style = MaterialTheme.typography.headlineMedium,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.PlanetProperties) },
+                text = getTranslation(key = "main_menu_screen__planet_properties"),
+                style = MaterialTheme.typography.headlineMedium,
+            )
+        }
+        item {
+            Text(
                 modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.HostTypes) },
                 text = getTranslation(key = "main_menu_screen__star_types"),
                 style = MaterialTheme.typography.headlineMedium,
@@ -49,13 +63,6 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
             Text(
                 modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.PlanetTypes) },
                 text = getTranslation(key = "main_menu_screen__planet_types"),
-                style = MaterialTheme.typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Properties) },
-                text = getTranslation(key = "main_menu_screen__properties"),
                 style = MaterialTheme.typography.headlineMedium,
             )
         }

@@ -124,6 +124,9 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+    buildFeatures {
+        buildConfig = true
+    }
     sourceSets {
         getByName("main") {
             assets.srcDirs("src/commonMain/resources")
@@ -149,7 +152,6 @@ compose.desktop {
     application {
         mainClass = "$appId.MainKt"
         javaHome = System.getenv("JAVA_HOME").orEmpty()
-
 
         nativeDistributions {
             packageName = "The Last Voyage"
@@ -177,6 +179,8 @@ compose.desktop {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png"))
             }
         }
+
+        jvmArgs += "-Ddebug=true"
     }
 }
 

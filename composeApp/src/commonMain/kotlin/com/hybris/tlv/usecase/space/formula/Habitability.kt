@@ -915,6 +915,9 @@ internal object Habitability {
         return foundationalType
     }
 
+    /**
+     * Calculate a score based on the planet type.
+     */
     fun calculatePlanetTypeScore(planetType: PlanetType?): Double = when (planetType) {
         PlanetType.EARTH_LIKE_PLANET,
         PlanetType.EARTH_ANALOG_PLANET,

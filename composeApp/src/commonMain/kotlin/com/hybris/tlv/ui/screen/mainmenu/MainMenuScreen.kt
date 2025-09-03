@@ -22,12 +22,13 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.debouncedClickable
 import com.hybris.tlv.ui.screen.mainmenu.content.HabitabilityContent
+import com.hybris.tlv.ui.screen.mainmenu.content.HostPropertiesContent
 import com.hybris.tlv.ui.screen.mainmenu.content.HostsContent
 import com.hybris.tlv.ui.screen.mainmenu.content.LearnContent
 import com.hybris.tlv.ui.screen.mainmenu.content.MainMenuContent
 import com.hybris.tlv.ui.screen.mainmenu.content.MechanicsContent
+import com.hybris.tlv.ui.screen.mainmenu.content.PlanetPropertiesContent
 import com.hybris.tlv.ui.screen.mainmenu.content.PlanetsContent
-import com.hybris.tlv.ui.screen.mainmenu.content.PropertiesContent
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
@@ -38,44 +39,48 @@ import thelastvoyage.composeapp.generated.resources.support_me_on_kofi_badge_bei
 internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
     val storeState by store.stateFlow.collectAsState()
     val uriHandler = LocalUriHandler.current
+    val currentContent = storeState.currentContent
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 32.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
+            if (currentContent == Content.MAIN_MENU || currentContent == Content.LEARN_MENU) {
+                Row(
                     modifier = Modifier
-                        .size(size = 100.dp)
-                        .wrapContentHeight(align = Alignment.CenterVertically)
-                        .debouncedClickable { storeState.developerCorner?.let { uriHandler.openUri(uri = it) } },
-                    text = getTranslation(key = "website"),
-                    style = MaterialTheme.typography.titleSmall,
-                )
-                Image(
-                    modifier = Modifier
-                        .size(size = 100.dp)
-                        .debouncedClickable { storeState.tip?.let { uriHandler.openUri(uri = it) } },
-                    painter = painterResource(resource = Res.drawable.support_me_on_kofi_badge_beige),
-                    contentDescription = "Tip",
-                    contentScale = ContentScale.Fit,
-                )
+                        .fillMaxWidth()
+                        .padding(horizontal = 32.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .size(size = 100.dp)
+                            .wrapContentHeight(align = Alignment.CenterVertically)
+                            .debouncedClickable { storeState.developerCorner?.let { uriHandler.openUri(uri = it) } },
+                        text = getTranslation(key = "website"),
+                        style = MaterialTheme.typography.titleSmall,
+                    )
+                    Image(
+                        modifier = Modifier
+                            .size(size = 100.dp)
+                            .debouncedClickable { storeState.tip?.let { uriHandler.openUri(uri = it) } },
+                        painter = painterResource(resource = Res.drawable.support_me_on_kofi_badge_beige),
+                        contentDescription = "Tip",
+                        contentScale = ContentScale.Fit,
+                    )
+                }
             }
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            when (storeState.currentContent) {
+            when (currentContent) {
                 Content.MAIN_MENU -> MainMenuContent(store = store)
                 Content.LEARN_MENU -> LearnContent(store = store)
                 Content.MECHANICS -> MechanicsContent(store = store)
+                Content.HOST_PROPERTIES -> HostPropertiesContent(store = store)
+                Content.PLANET_PROPERTIES -> PlanetPropertiesContent(store = store)
                 Content.HOST_TYPES -> HostsContent(store = store)
                 Content.PLANET_TYPES -> PlanetsContent(store = store)
-                Content.PROPERTIES -> PropertiesContent(store = store)
                 Content.HABITABILITY -> HabitabilityContent(store = store)
             }
         }
