@@ -106,7 +106,7 @@ internal class StellarExplorerStoreTest {
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = StellarHostProperty.NAME))
-        val visibleStellarHostProperties: List<StellarHostProperty> = listOf(
+        val visibleStellarHostProperties: Set<StellarHostProperty> = setOf(
             StellarHostProperty.SYSTEM_NAME,
             StellarHostProperty.PLANET_COUNT,
             StellarHostProperty.SPECTRAL_TYPE,
@@ -130,7 +130,7 @@ internal class StellarExplorerStoreTest {
         )
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangePlanetVisibility(property = PlanetProperty.NAME))
-        val visiblePlanetProperties: List<PlanetProperty> = listOf(
+        val visiblePlanetProperties: Set<PlanetProperty> = setOf(
             PlanetProperty.STATUS,
             PlanetProperty.HABITABILITY,
             PlanetProperty.CONFIDENCE,

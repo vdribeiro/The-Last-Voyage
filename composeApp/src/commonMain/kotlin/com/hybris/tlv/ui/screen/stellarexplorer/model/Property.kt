@@ -63,7 +63,7 @@ internal enum class PlanetProperty(val displayName: String) {
     TIDAL_LOCKING_SCORE(displayName = "planet_tidal_locking_score")
 }
 
-internal fun List<StellarHost>.search(search: String, searchable: Set<StellarHostProperty>): List<StellarHost> =
+internal fun List<StellarHost>.searchStellarHosts(search: String, searchable: Set<StellarHostProperty>): List<StellarHost> =
     if (search.isNotBlank()) {
         val searchLowercase = search.lowercase()
         filter { stellarHost ->
@@ -174,7 +174,7 @@ internal fun List<StellarHost>.search(search: String, searchable: Set<StellarHos
         }
     } else this
 
-internal fun List<Planet>.search(search: String, searchable: Set<PlanetProperty>): List<Planet> =
+internal fun List<Planet>.searchPlanets(search: String, searchable: Set<PlanetProperty>): List<Planet> =
     if (search.isNotBlank()) {
         val searchLowercase = search.lowercase()
         filter { planet ->
@@ -297,10 +297,10 @@ internal fun List<Planet>.search(search: String, searchable: Set<PlanetProperty>
         }
     } else this
 
-internal fun List<StellarHost>.sort(sort: StellarHostProperty, ascending: Boolean): List<StellarHost> =
+internal fun List<StellarHost>.sortStellarHosts(sort: StellarHostProperty, ascending: Boolean): List<StellarHost> =
     sortedWith(comparator = getStellarHostComparator(sort = sort, ascending = ascending).thenBy { it.id })
 
-internal fun List<Planet>.sort(sort: PlanetProperty, ascending: Boolean): List<Planet> =
+internal fun List<Planet>.sortPlanets(sort: PlanetProperty, ascending: Boolean): List<Planet> =
     sortedWith(comparator = getPlanetsComparator(sort = sort, ascending = ascending).thenBy { it.id })
 
 private inline fun <T, K> compare(

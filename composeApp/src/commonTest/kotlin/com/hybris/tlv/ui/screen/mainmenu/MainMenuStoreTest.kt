@@ -56,18 +56,13 @@ internal class MainMenuStoreTest {
         mock.navigation.back()
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
-        mainMenuStore.send(action = MainMenuAction.HostTypes)
-        assertEquals(expected = Content.HOST_TYPES, actual = mainMenuStore.stateFlow.value.currentContent)
+        mainMenuStore.send(action = MainMenuAction.HostDefinition)
+        assertEquals(expected = Content.HOST_DEFINITION, actual = mainMenuStore.stateFlow.value.currentContent)
         mock.navigation.back()
         assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
-        mainMenuStore.send(action = MainMenuAction.PlanetTypes)
-        assertEquals(expected = Content.PLANET_TYPES, actual = mainMenuStore.stateFlow.value.currentContent)
-        mock.navigation.back()
-        assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
-
-        mainMenuStore.send(action = MainMenuAction.Properties)
-        assertEquals(expected = Content.PROPERTIES, actual = mainMenuStore.stateFlow.value.currentContent)
+        mainMenuStore.send(action = MainMenuAction.PlanetDefinition)
+        assertEquals(expected = Content.PLANET_DEFINITION, actual = mainMenuStore.stateFlow.value.currentContent)
         mock.navigation.back()
         assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 

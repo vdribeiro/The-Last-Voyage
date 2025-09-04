@@ -118,7 +118,7 @@ private fun MainMenuHostsScreenPreview() {
         Screen(
             screen = Screen.MAIN_MENU,
             state = MainMenuState(
-                currentContent = MainMenuContent.HOST_TYPES,
+                currentContent = MainMenuContent.HOST_DEFINITION,
             )
         )
     }
@@ -131,20 +131,7 @@ private fun MainMenuPlanetsScreenPreview() {
         Screen(
             screen = Screen.MAIN_MENU,
             state = MainMenuState(
-                currentContent = MainMenuContent.PLANET_TYPES,
-            )
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun MainMenuPropertiesScreenPreview() {
-    AppTheme {
-        Screen(
-            screen = Screen.MAIN_MENU,
-            state = MainMenuState(
-                currentContent = MainMenuContent.PROPERTIES,
+                currentContent = MainMenuContent.PLANET_DEFINITION,
             )
         )
     }
