@@ -88,6 +88,16 @@ internal class EventStore(
         }
     }
 
+    override fun setBackNavigation(): () -> Unit = {
+        navigate(screen = Screen.MAIN_MENU)
+    }
+
+    override fun reducer(state: EventState, action: EventAction) {
+        when (action) {
+            is EventAction.Select -> select(state = state, action = action)
+        }
+    }
+
     private fun select(state: EventState, action: EventAction.Select) = launch {
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
@@ -115,16 +125,6 @@ internal class EventStore(
                 event = action.event,
                 children = children
             )
-        }
-    }
-
-    override fun setBackNavigation(): () -> Unit = {
-        navigate(screen = Screen.MAIN_MENU)
-    }
-
-    override fun reducer(state: EventState, action: EventAction) {
-        when (action) {
-            is EventAction.Select -> select(state = state, action = action)
         }
     }
 

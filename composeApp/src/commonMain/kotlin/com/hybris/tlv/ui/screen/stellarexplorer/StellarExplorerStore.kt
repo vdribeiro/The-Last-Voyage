@@ -131,45 +131,78 @@ internal class StellarExplorerStore(
         }
         val planets = stellarHosts.map { it.planets }.flatten()
 
-        val state = stateFlow.value
-        val filteredStellarHosts = stellarHosts.sortStellarHosts(sort = state.sortStellarHostProperty, ascending = state.sortAscending)
-        val filteredPlanets = planets.sortPlanets(sort = state.sortPlanetProperty, ascending = state.sortAscending)
-
         updateState {
             it.copy(
                 loading = false,
                 stellarHosts = stellarHosts,
-                planets = planets,
-                filteredStellarHosts = filteredStellarHosts,
-                filteredPlanets = filteredPlanets
+                planets = planets
             )
+        }.join()
+        refresh()
+    }
+
+    private fun refresh(): Job = launch {
+        val state = stateFlow.value
+        when (state.currentContent) {
+            Content.LIST_HOSTS -> {
+                val filteredStellarHosts = state.stellarHosts.searchStellarHosts(
+                    search = state.search,
+                    searchable = state.searchableStellarHostProperties,
+                ).sortStellarHosts(sort = state.sortStellarHostProperty, ascending = state.sortAscending)
+                updateState { it.copy(filteredStellarHosts = filteredStellarHosts) }
+            }
+
+            Content.LIST_PLANETS -> {
+                val filteredPlanets = state.planets.searchPlanets(
+                    search = state.search,
+                    searchable = state.searchablePlanetProperties
+                ).sortPlanets(sort = state.sortPlanetProperty, ascending = state.sortAscending)
+                updateState { it.copy(filteredPlanets = filteredPlanets) }
+            }
+
+            Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
+        }
+    }
+
+    override fun reducer(state: StellarExplorerState, action: StellarExplorerAction) {
+        when (action) {
+            is StellarExplorerAction.SaveIndex -> updateState { it.copy(listIndex = action.index) }
+            StellarExplorerAction.ChangeView -> changeView(state = state)
+            is StellarExplorerAction.Search -> search(state = state, action = action)
+            is StellarExplorerAction.OpenStellarHost -> openStellarHost(state = state, action = action)
+            is StellarExplorerAction.OpenPlanet -> openPlanet(state = state, action = action)
+            is StellarExplorerAction.SortStellarHosts -> sortStellarHosts(state = state, action = action)
+            is StellarExplorerAction.SortPlanets -> sortPlanets(state = state, action = action)
+            StellarExplorerAction.ChangeSortDirection -> changeSortDirection(state = state)
+            is StellarExplorerAction.ChangeStellarHostsVisibility -> changeStellarHostsVisibility(state = state, action = action)
+            is StellarExplorerAction.ChangePlanetVisibility -> changePlanetVisibility(state = state, action = action)
+            is StellarExplorerAction.ChangeStellarHostsSearchable -> changeStellarHostsSearchable(state = state, action = action)
+            is StellarExplorerAction.ChangePlanetSearchable -> changePlanetSearchable(state = state, action = action)
         }
     }
 
     private fun changeView(state: StellarExplorerState): Job = launch {
         when (state.currentContent) {
             Content.LIST_HOSTS -> {
-                val filteredPlanets = state.planets.sortPlanets(sort = state.sortPlanetProperty, ascending = state.sortAscending)
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_PLANETS,
                         listIndex = LazyListIndex(),
-                        filteredPlanets = filteredPlanets,
                         search = ""
                     )
-                }
+                }.join()
+                refresh()
             }
 
             Content.LIST_PLANETS -> {
-                val filteredStellarHosts = state.stellarHosts.sortStellarHosts(sort = state.sortStellarHostProperty, ascending = state.sortAscending)
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_HOSTS,
                         listIndex = LazyListIndex(),
-                        filteredStellarHosts = filteredStellarHosts,
                         search = ""
                     )
-                }
+                }.join()
+                refresh()
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -178,32 +211,14 @@ internal class StellarExplorerStore(
 
     private fun search(state: StellarExplorerState, action: StellarExplorerAction.Search): Job = launch {
         when (state.currentContent) {
-            Content.LIST_HOSTS -> {
-                val filteredStellarHosts = state.stellarHosts.searchStellarHosts(
-                    search = action.search,
-                    searchable = state.searchableStellarHostProperties,
-                ).sortStellarHosts(sort = state.sortStellarHostProperty, ascending = state.sortAscending)
+            Content.LIST_HOSTS, Content.LIST_PLANETS -> {
                 updateState {
                     it.copy(
                         listIndex = LazyListIndex(),
-                        filteredStellarHosts = filteredStellarHosts,
                         search = action.search
                     )
-                }
-            }
-
-            Content.LIST_PLANETS -> {
-                val filteredPlanets = state.planets.searchPlanets(
-                    search = action.search,
-                    searchable = state.searchablePlanetProperties
-                ).sortPlanets(sort = state.sortPlanetProperty, ascending = state.sortAscending)
-                updateState {
-                    it.copy(
-                        listIndex = LazyListIndex(),
-                        filteredPlanets = filteredPlanets,
-                        search = action.search
-                    )
-                }
+                }.join()
+                refresh()
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -212,65 +227,57 @@ internal class StellarExplorerStore(
 
     private fun openStellarHost(state: StellarExplorerState, action: StellarExplorerAction.OpenStellarHost): Job = launch {
         if (state.currentContent != Content.LIST_HOSTS) return@launch
+        val filteredPlanets = action.stellarHost.planets
         updateState {
             it.copy(
                 currentContent = Content.DETAIL_HOSTS,
                 selectedStellarHost = action.stellarHost,
+                filteredPlanets = filteredPlanets
             )
         }
     }
 
     private fun openPlanet(state: StellarExplorerState, action: StellarExplorerAction.OpenPlanet): Job = launch {
         if (state.currentContent != Content.LIST_PLANETS) return@launch
+        val filteredStellarHosts = state.stellarHosts.filter { stellarHost -> stellarHost.id == action.planet.stellarHostId }
         updateState {
             it.copy(
                 currentContent = Content.DETAIL_PLANETS,
                 selectedPlanet = action.planet,
+                filteredStellarHosts = filteredStellarHosts
             )
         }
     }
 
     private fun sortStellarHosts(state: StellarExplorerState, action: StellarExplorerAction.SortStellarHosts): Job = launch {
-        val filteredStellarHosts = state.filteredStellarHosts.sortStellarHosts(sort = action.sort, ascending = state.sortAscending)
-        updateState {
-            it.copy(
-                filteredStellarHosts = filteredStellarHosts,
-                sortStellarHostProperty = action.sort
-            )
+        when (state.currentContent) {
+            Content.LIST_HOSTS, Content.LIST_PLANETS -> {
+                updateState { it.copy(sortStellarHostProperty = action.sort) }.join()
+                refresh()
+            }
+
+            Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
         }
     }
 
     private fun sortPlanets(state: StellarExplorerState, action: StellarExplorerAction.SortPlanets): Job = launch {
-        val filteredPlanets = state.filteredPlanets.sortPlanets(sort = action.sort, ascending = state.sortAscending)
-        updateState {
-            it.copy(
-                filteredPlanets = filteredPlanets,
-                sortPlanetProperty = action.sort
-            )
+        when (state.currentContent) {
+            Content.LIST_HOSTS, Content.LIST_PLANETS -> {
+                updateState { it.copy(sortPlanetProperty = action.sort) }.join()
+                refresh()
+            }
+
+            Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
         }
+        refresh()
     }
 
     private fun changeSortDirection(state: StellarExplorerState): Job = launch {
         val ascending = !state.sortAscending
         when (state.currentContent) {
-            Content.LIST_HOSTS -> {
-                val filteredStellarHosts = state.filteredStellarHosts.sortStellarHosts(sort = state.sortStellarHostProperty, ascending = ascending)
-                updateState {
-                    it.copy(
-                        filteredStellarHosts = filteredStellarHosts,
-                        sortAscending = ascending
-                    )
-                }
-            }
-
-            Content.LIST_PLANETS -> {
-                val filteredPlanets = state.filteredPlanets.sortPlanets(sort = state.sortPlanetProperty, ascending = ascending)
-                updateState {
-                    it.copy(
-                        filteredPlanets = filteredPlanets,
-                        sortAscending = ascending
-                    )
-                }
+            Content.LIST_HOSTS, Content.LIST_PLANETS -> {
+                updateState { it.copy(sortAscending = ascending) }.join()
+                refresh()
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -289,33 +296,25 @@ internal class StellarExplorerStore(
 
     private fun changeStellarHostsSearchable(state: StellarExplorerState, action: StellarExplorerAction.ChangeStellarHostsSearchable): Job = launch {
         val searchableStellarHostProperties = state.searchableStellarHostProperties.plusOrMinus(value = action.property)
-        val filteredStellarHosts = state.stellarHosts.searchStellarHosts(
-            search = state.search,
-            searchable = searchableStellarHostProperties,
-        ).sortStellarHosts(sort = state.sortStellarHostProperty, ascending = state.sortAscending)
         updateState {
             it.copy(
                 listIndex = LazyListIndex(),
-                filteredStellarHosts = filteredStellarHosts,
                 searchableStellarHostProperties = searchableStellarHostProperties
             )
-        }
+        }.join()
+        refresh()
     }
 
     private fun changePlanetSearchable(state: StellarExplorerState, action: StellarExplorerAction.ChangePlanetSearchable): Job = launch {
         val searchablePlanetProperties = state.searchablePlanetProperties.plusOrMinus(value = action.property)
-        val filteredPlanets = state.planets.searchPlanets(
-            search = state.search,
-            searchable = searchablePlanetProperties
-        ).sortPlanets(sort = state.sortPlanetProperty, ascending = state.sortAscending)
         updateState {
             it.copy(
                 listIndex = LazyListIndex(),
-                filteredPlanets = filteredPlanets,
                 searchablePlanetProperties = searchablePlanetProperties
 
             )
-        }
+        }.join()
+        refresh()
     }
 
     override fun setBackNavigation(): () -> Unit = {
@@ -326,36 +325,25 @@ internal class StellarExplorerStore(
                 state = MainMenuState(currentContent = MainMenuContent.LEARN_MENU)
             )
 
-            Content.DETAIL_HOSTS -> updateState {
-                it.copy(
-                    currentContent = Content.LIST_HOSTS,
-                    selectedStellarHost = null
-                )
+            Content.DETAIL_HOSTS -> launch {
+                updateState {
+                    it.copy(
+                        currentContent = Content.LIST_HOSTS,
+                        selectedStellarHost = null
+                    )
+                }.join()
+                refresh()
             }
 
-            Content.DETAIL_PLANETS -> updateState {
-                it.copy(
-                    currentContent = Content.LIST_PLANETS,
-                    selectedPlanet = null
-                )
+            Content.DETAIL_PLANETS -> launch {
+                updateState {
+                    it.copy(
+                        currentContent = Content.LIST_PLANETS,
+                        selectedPlanet = null
+                    )
+                }.join()
+                refresh()
             }
-        }
-    }
-
-    override fun reducer(state: StellarExplorerState, action: StellarExplorerAction) {
-        when (action) {
-            is StellarExplorerAction.SaveIndex -> updateState { it.copy(listIndex = action.index) }
-            StellarExplorerAction.ChangeView -> changeView(state = state)
-            is StellarExplorerAction.Search -> search(state = state, action = action)
-            is StellarExplorerAction.OpenStellarHost -> openStellarHost(state = state, action = action)
-            is StellarExplorerAction.OpenPlanet -> openPlanet(state = state, action = action)
-            is StellarExplorerAction.SortStellarHosts -> sortStellarHosts(state = state, action = action)
-            is StellarExplorerAction.SortPlanets -> sortPlanets(state = state, action = action)
-            StellarExplorerAction.ChangeSortDirection -> changeSortDirection(state = state)
-            is StellarExplorerAction.ChangeStellarHostsVisibility -> changeStellarHostsVisibility(state = state, action = action)
-            is StellarExplorerAction.ChangePlanetVisibility -> changePlanetVisibility(state = state, action = action)
-            is StellarExplorerAction.ChangeStellarHostsSearchable -> changeStellarHostsSearchable(state = state, action = action)
-            is StellarExplorerAction.ChangePlanetSearchable -> changePlanetSearchable(state = state, action = action)
         }
     }
 }

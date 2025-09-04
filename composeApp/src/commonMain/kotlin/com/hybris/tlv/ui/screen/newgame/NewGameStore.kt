@@ -77,28 +77,6 @@ internal class NewGameStore(
         }
     }
 
-    private fun startGame(state: NewGameState) = launch {
-        if (state.selectedShip == null) {
-            Logger.error(tag = TAG, message = "Invalid state: missing ship prototype")
-            navigate(
-                screen = Screen.ERROR, state = ErrorState(
-                    screen = Screen.NEW_GAME,
-                    throwable = IllegalStateException("Invalid state: missing ship prototype"),
-                    identifier = "NewGameStore:startGame"
-                )
-            )
-            return@launch
-        }
-
-        gameSessionUseCases.startGame(
-            GameSessionPrototype(
-                ship = state.selectedShip,
-                formula = state.formula
-            )
-        )
-        navigate(screen = Screen.GAME)
-    }
-
     override fun setBackNavigation(): () -> Unit = {
         when (stateFlow.value.currentContent) {
             Content.SHIP,
@@ -129,6 +107,28 @@ internal class NewGameStore(
 
             NewGameAction.StartGame -> startGame(state = state)
         }
+    }
+
+    private fun startGame(state: NewGameState) = launch {
+        if (state.selectedShip == null) {
+            Logger.error(tag = TAG, message = "Invalid state: missing ship prototype")
+            navigate(
+                screen = Screen.ERROR, state = ErrorState(
+                    screen = Screen.NEW_GAME,
+                    throwable = IllegalStateException("Invalid state: missing ship prototype"),
+                    identifier = "NewGameStore:startGame"
+                )
+            )
+            return@launch
+        }
+
+        gameSessionUseCases.startGame(
+            GameSessionPrototype(
+                ship = state.selectedShip,
+                formula = state.formula
+            )
+        )
+        navigate(screen = Screen.GAME)
     }
 
     companion object {

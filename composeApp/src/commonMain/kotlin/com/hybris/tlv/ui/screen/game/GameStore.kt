@@ -127,6 +127,18 @@ internal class GameStore(
         }
     }
 
+    override fun setBackNavigation(): () -> Unit = {
+        navigate(screen = Screen.MAIN_MENU)
+    }
+
+    override fun reducer(state: GameState, action: GameAction) {
+        when (action) {
+            is GameAction.ChangeTab -> updateState { it.copy(currentContent = action.content) }
+            is GameAction.Travel -> travel(state = state, action = action)
+            is GameAction.Settle -> settle(state = state, action = action)
+        }
+    }
+
     private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
         val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }
         if (state.gameSession == null) {
@@ -173,18 +185,6 @@ internal class GameStore(
 
         gameSessionUseCases.settle(gameSession = state.gameSession, planet = action.planet)
         navigate(screen = Screen.GAME_OVER)
-    }
-
-    override fun setBackNavigation(): () -> Unit = {
-        navigate(screen = Screen.MAIN_MENU)
-    }
-
-    override fun reducer(state: GameState, action: GameAction) {
-        when (action) {
-            is GameAction.ChangeTab -> updateState { it.copy(currentContent = action.content) }
-            is GameAction.Travel -> travel(state = state, action = action)
-            is GameAction.Settle -> settle(state = state, action = action)
-        }
     }
 
     companion object {
