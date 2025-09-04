@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,8 +18,10 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.colorScheme
 import com.hybris.tlv.ui.theme.component.SimpleCard
 import com.hybris.tlv.ui.theme.component.debouncedClickable
+import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -49,8 +50,8 @@ internal fun HabitabilityContent(store: Store<MainMenuAction, MainMenuState>) {
                 Text(
                     modifier = Modifier.debouncedClickable { uriHandler.openUri(uri = it) },
                     text = formulaTranslation,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        color = MaterialTheme.colorScheme.primary,
+                    style = typography.bodyLarge.copy(
+                        color = colorScheme.primary,
                         textDecoration = TextDecoration.Underline
                     ),
                 )

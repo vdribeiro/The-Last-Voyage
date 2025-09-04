@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -23,6 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.AppLogo
+import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
@@ -69,7 +69,7 @@ internal fun SplashScreen(store: Store<SplashAction, SplashState>) {
                     .align(alignment = Alignment.BottomCenter)
                     .padding(all = 64.dp),
                 text = loadingTranslation,
-                style = MaterialTheme.typography.headlineMedium,
+                style = typography.headlineMedium,
                 color = Color.White,
             )
         }

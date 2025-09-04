@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,6 +18,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.hybris.tlv.ui.theme.colorScheme
+import com.hybris.tlv.ui.theme.typography
 
 @Composable
 internal fun StatDisplay(
@@ -39,18 +40,18 @@ internal fun StatDisplay(
                 modifier = Modifier.size(size = 40.dp),
                 imageVector = icon,
                 contentDescription = label,
-                tint = MaterialTheme.colorScheme.primary
+                tint = colorScheme.primary
             )
             Spacer(Modifier.width(16.dp))
             Column(modifier = Modifier.weight(weight = 1f)) {
                 Text(
                     text = label,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = typography.bodyMedium,
+                    color = colorScheme.onSurfaceVariant
                 )
                 Text(
                     text = value,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )

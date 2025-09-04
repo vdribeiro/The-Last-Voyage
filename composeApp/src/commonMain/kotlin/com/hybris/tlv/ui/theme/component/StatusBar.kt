@@ -11,7 +11,6 @@ import androidx.compose.material.icons.outlined.Construction
 import androidx.compose.material.icons.outlined.LocalGasStation
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.colorScheme
+import com.hybris.tlv.ui.theme.typography
 
 @Composable
 internal fun StatusBar(
@@ -74,11 +75,11 @@ private fun StatusBarItem(
             imageVector = icon,
             contentDescription = contentDescription,
             modifier = Modifier.size(size = 20.dp),
-            tint = MaterialTheme.colorScheme.primary
+            tint = colorScheme.primary
         )
         Text(
             text = value,
-            style = MaterialTheme.typography.bodyLarge,
+            style = typography.bodyLarge,
             fontWeight = FontWeight.Bold
         )
     }

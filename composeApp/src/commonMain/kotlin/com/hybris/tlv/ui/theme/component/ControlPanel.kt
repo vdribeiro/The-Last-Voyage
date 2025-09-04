@@ -22,7 +22,6 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -39,6 +38,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.shapes
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -114,7 +114,7 @@ internal fun ControlPanel(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .alpha(alpha = if (enabled) 1f else 0.38f)
-                        .clip(shape = MaterialTheme.shapes.large)
+                        .clip(shape = shapes.large)
                         .clickable(
                             enabled = enabled,
                             onClick = {

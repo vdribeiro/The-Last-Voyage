@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,6 +24,7 @@ import com.hybris.tlv.ui.screen.newgame.NewGameAction
 import com.hybris.tlv.ui.screen.newgame.NewGameState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.AttributeRow
+import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -48,7 +48,7 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
     ) {
         Text(
             text = "$shipPointsTranslation: $remainingPoints",
-            style = MaterialTheme.typography.headlineSmall,
+            style = typography.headlineSmall,
             fontWeight = FontWeight.Bold
         )
 

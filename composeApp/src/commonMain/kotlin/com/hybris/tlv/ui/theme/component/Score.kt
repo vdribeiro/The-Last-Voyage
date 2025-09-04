@@ -18,7 +18,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.colorScheme
+import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -92,13 +93,13 @@ private fun ScoreHeader(
         Text(
             modifier = Modifier.weight(weight = 1f),
             text = utc,
-            style = MaterialTheme.typography.titleMedium,
+            style = typography.titleMedium,
         )
         Text(
             text = totalScore,
-            style = MaterialTheme.typography.titleMedium,
+            style = typography.titleMedium,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
+            color = colorScheme.primary
         )
         if (isExpanded != null) {
             val arrowRotation by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f)

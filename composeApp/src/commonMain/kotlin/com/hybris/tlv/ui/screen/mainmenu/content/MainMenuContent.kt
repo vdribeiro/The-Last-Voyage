@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,6 +19,7 @@ import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.AppLogo
 import com.hybris.tlv.ui.theme.component.debouncedClickable
+import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -47,7 +47,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.NewGame) },
                     text = newGameTranslation,
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = typography.headlineMedium,
                 )
             }
             if (storeState.ongoingGameSession) {
@@ -55,7 +55,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                     Text(
                         modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Continue) },
                         text = continueTranslation,
-                        style = MaterialTheme.typography.headlineMedium,
+                        style = typography.headlineMedium,
                     )
                 }
             }
@@ -63,35 +63,35 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Learn) },
                     text = learnTranslation,
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = typography.headlineMedium,
                 )
             }
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
                     text = mechanicsTranslation,
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = typography.headlineMedium,
                 )
             }
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Scores) },
                     text = scoresTranslation,
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = typography.headlineMedium,
                 )
             }
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Credits) },
                     text = creditsTranslation,
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = typography.headlineMedium,
                 )
             }
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Soon) },
                     text = soonTranslation,
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = typography.headlineMedium,
                 )
             }
         }

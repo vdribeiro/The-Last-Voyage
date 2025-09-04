@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +28,7 @@ import com.hybris.tlv.ui.screen.mainmenu.content.MechanicsContent
 import com.hybris.tlv.ui.screen.mainmenu.content.PlanetDefinitionContent
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.debouncedClickable
+import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
@@ -58,7 +58,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                             .wrapContentHeight(align = Alignment.CenterVertically)
                             .debouncedClickable { storeState.developerCorner?.let { uriHandler.openUri(uri = it) } },
                         text = websiteTranslation,
-                        style = MaterialTheme.typography.titleSmall,
+                        style = typography.titleSmall,
                     )
                     Image(
                         modifier = Modifier

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -21,6 +20,7 @@ import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.PlanetCard
 import com.hybris.tlv.ui.theme.component.SimpleCard
+import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.space.mapper.toDrawable
 import com.hybris.tlv.usecase.space.model.Planet
@@ -92,7 +92,7 @@ internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>
         item {
             Text(
                 text = exampleTranslation,
-                style = MaterialTheme.typography.titleLarge,
+                style = typography.titleLarge,
                 fontWeight = FontWeight.Bold,
             )
             Spacer(modifier = Modifier.height(height = 4.dp))
@@ -119,7 +119,7 @@ internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>
         item {
             Text(
                 text = propertiesTranslation,
-                style = MaterialTheme.typography.titleLarge,
+                style = typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(height = 4.dp))
@@ -133,7 +133,7 @@ internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>
         item {
             Text(
                 text = typesTranslation,
-                style = MaterialTheme.typography.titleLarge,
+                style = typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(height = 4.dp))

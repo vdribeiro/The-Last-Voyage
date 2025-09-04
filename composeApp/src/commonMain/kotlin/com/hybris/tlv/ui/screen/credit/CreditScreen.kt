@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,7 +27,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.colorScheme
 import com.hybris.tlv.ui.theme.component.debouncedClickable
+import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -53,7 +54,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     item(key = CreditType.CREATOR) {
                         Text(
                             text = getTranslation(key = "credit_screen__creators"),
-                            style = MaterialTheme.typography.titleLarge,
+                            style = typography.titleLarge,
                             textAlign = TextAlign.Center,
                         )
                     }
@@ -62,8 +63,8 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                         Text(
                             modifier = Modifier.debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                             text = credit.id,
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                color = MaterialTheme.colorScheme.primary,
+                            style = typography.bodyLarge.copy(
+                                color = colorScheme.primary,
                                 textDecoration = TextDecoration.Underline
                             ),
                             textAlign = TextAlign.Center,
@@ -76,7 +77,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     item(key = CreditType.SOURCE) {
                         Text(
                             text = getTranslation(key = "credit_screen__sources"),
-                            style = MaterialTheme.typography.titleLarge,
+                            style = typography.titleLarge,
                             textAlign = TextAlign.Center,
                         )
                     }
@@ -85,8 +86,8 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                         Text(
                             modifier = Modifier.debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                             text = credit.id,
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                color = MaterialTheme.colorScheme.primary,
+                            style = typography.bodyLarge.copy(
+                                color = colorScheme.primary,
                                 textDecoration = TextDecoration.Underline
                             ),
                             textAlign = TextAlign.Center,
@@ -99,7 +100,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     item(key = CreditType.MUSIC) {
                         Text(
                             text = getTranslation(key = "credit_screen__music"),
-                            style = MaterialTheme.typography.titleLarge,
+                            style = typography.titleLarge,
                             textAlign = TextAlign.Center,
                         )
                     }
@@ -108,8 +109,8 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                         Text(
                             modifier = Modifier.debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                             text = credit.id,
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                color = MaterialTheme.colorScheme.primary,
+                            style = typography.bodyLarge.copy(
+                                color = colorScheme.primary,
                                 textDecoration = TextDecoration.Underline
                             ),
                             textAlign = TextAlign.Center,
@@ -122,7 +123,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     item(key = CreditType.SUPPORTER) {
                         Text(
                             text = getTranslation(key = "credit_screen__supporters"),
-                            style = MaterialTheme.typography.titleLarge,
+                            style = typography.titleLarge,
                             textAlign = TextAlign.Center,
                         )
                         Spacer(modifier = Modifier.height(height = 8.dp))
@@ -141,8 +142,8 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                                             .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                                         text = credit.id,
                                         textAlign = TextAlign.Center,
-                                        style = MaterialTheme.typography.bodyLarge.copy(
-                                            color = MaterialTheme.colorScheme.primary,
+                                        style = typography.bodyLarge.copy(
+                                            color = colorScheme.primary,
                                             textDecoration = TextDecoration.Underline
                                         )
                                     )
