@@ -7,7 +7,6 @@ import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.screen.stellarexplorer.model.PlanetProperty
 import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
-import com.hybris.tlv.ui.theme.component.LazyListIndex
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
