@@ -13,8 +13,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.component.AchievementItem
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.AchievementItem
 
 @Composable
 internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>) {

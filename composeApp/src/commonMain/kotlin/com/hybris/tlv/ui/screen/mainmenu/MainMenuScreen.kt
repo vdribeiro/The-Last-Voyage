@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.component.debouncedClickable
 import com.hybris.tlv.ui.screen.mainmenu.content.HabitabilityContent
 import com.hybris.tlv.ui.screen.mainmenu.content.HostDefinitionContent
 import com.hybris.tlv.ui.screen.mainmenu.content.LearnContent
@@ -29,6 +28,7 @@ import com.hybris.tlv.ui.screen.mainmenu.content.MainMenuContent
 import com.hybris.tlv.ui.screen.mainmenu.content.MechanicsContent
 import com.hybris.tlv.ui.screen.mainmenu.content.PlanetDefinitionContent
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.debouncedClickable
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res

@@ -20,11 +20,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.hybris.tlv.ui.component.StatusBar
 import com.hybris.tlv.ui.screen.game.content.ShipContent
 import com.hybris.tlv.ui.screen.game.content.SystemContent
 import com.hybris.tlv.ui.screen.game.content.TravelContent
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.StatusBar
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable

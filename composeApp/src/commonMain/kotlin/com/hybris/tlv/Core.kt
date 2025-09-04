@@ -4,7 +4,6 @@ import androidx.annotation.VisibleForTesting
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.config.Config
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.Database
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.database.createSqlDriver
@@ -67,7 +66,6 @@ import com.hybris.tlv.usecase.translation.remote.TranslationApi
 import com.hybris.tlv.usecase.translation.remote.TranslationRemote
 import database.AppDatabase
 import io.ktor.client.HttpClient
-import kotlinx.coroutines.runBlocking
 
 internal class Core(
     @get:VisibleForTesting internal val dispatcher: Dispatcher = Dispatchers(),

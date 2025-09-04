@@ -15,11 +15,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.component.AppLogo
-import com.hybris.tlv.ui.component.debouncedClickable
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.AppLogo
+import com.hybris.tlv.ui.theme.component.debouncedClickable
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable

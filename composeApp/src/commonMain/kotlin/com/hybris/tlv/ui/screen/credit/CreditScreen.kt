@@ -27,8 +27,8 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.component.debouncedClickable
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.debouncedClickable
 import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -133,7 +133,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
                         ) {
                             items(items = supporters) { credit ->
-                                Card(elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
+                                Card(elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)) {
                                     Text(
                                         modifier = Modifier
                                             .fillMaxWidth()

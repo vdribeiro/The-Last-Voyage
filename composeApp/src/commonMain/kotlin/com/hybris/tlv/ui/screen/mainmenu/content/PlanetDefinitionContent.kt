@@ -16,11 +16,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.component.PlanetCard
-import com.hybris.tlv.ui.component.SimpleCard
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.PlanetCard
+import com.hybris.tlv.ui.theme.component.SimpleCard
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.space.mapper.toDrawable
 import com.hybris.tlv.usecase.space.model.Planet

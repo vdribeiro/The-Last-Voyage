@@ -12,10 +12,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.component.LazyListIndex
-import com.hybris.tlv.ui.component.PlanetCard
-import com.hybris.tlv.ui.component.StellarHostCard
-import com.hybris.tlv.ui.component.debouncedClickable
 import com.hybris.tlv.ui.screen.stellarexplorer.Content
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerAction
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
@@ -23,6 +19,10 @@ import com.hybris.tlv.ui.screen.stellarexplorer.ifContains
 import com.hybris.tlv.ui.screen.stellarexplorer.model.PlanetProperty
 import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.LazyListIndex
+import com.hybris.tlv.ui.theme.component.PlanetCard
+import com.hybris.tlv.ui.theme.component.StellarHostCard
+import com.hybris.tlv.ui.theme.component.debouncedClickable
 import com.hybris.tlv.usecase.space.mapper.spectralTypeToDrawable
 import com.hybris.tlv.usecase.space.mapper.toDrawable
 

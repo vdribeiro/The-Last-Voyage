@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.ui.component.LazyListIndex
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
@@ -12,6 +11,7 @@ import com.hybris.tlv.ui.screen.stellarexplorer.model.searchStellarHosts
 import com.hybris.tlv.ui.screen.stellarexplorer.model.sortPlanets
 import com.hybris.tlv.ui.screen.stellarexplorer.model.sortStellarHosts
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.LazyListIndex
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula

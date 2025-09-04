@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.component
+package com.hybris.tlv.ui.theme.component
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement

@@ -8,9 +8,9 @@ internal fun AppTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = darkColorScheme,
-        shapes = MaterialTheme.shapes,
-        typography = MaterialTheme.typography,
+        colorScheme = colorScheme,
+        shapes = shapes,
+        typography = typography,
         content = content,
     )
 }

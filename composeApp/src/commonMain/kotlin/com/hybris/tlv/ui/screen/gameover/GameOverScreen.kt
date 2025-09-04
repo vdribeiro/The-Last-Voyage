@@ -21,9 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.component.Score
-import com.hybris.tlv.ui.component.TypewriterText
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.Score
+import com.hybris.tlv.ui.theme.component.TypewriterText
 import com.hybris.tlv.usecase.space.mapper.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 

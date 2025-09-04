@@ -16,12 +16,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.hybris.tlv.ui.component.ControlPanel
 import com.hybris.tlv.ui.screen.stellarexplorer.content.PlanetContent
 import com.hybris.tlv.ui.screen.stellarexplorer.content.StellarHostContent
 import com.hybris.tlv.ui.screen.stellarexplorer.model.PlanetProperty
 import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.ControlPanel
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable

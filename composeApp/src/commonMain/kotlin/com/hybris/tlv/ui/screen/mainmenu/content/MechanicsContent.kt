@@ -1,10 +1,10 @@
 package com.hybris.tlv.ui.screen.mainmenu.content
 
 import androidx.compose.runtime.Composable
-import com.hybris.tlv.ui.component.Section
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.Section
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
