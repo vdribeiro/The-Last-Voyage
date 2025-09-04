@@ -33,6 +33,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
     val storeState by store.stateFlow.collectAsState()
     val expandedItems = remember { mutableStateListOf<String>() }
+    val titleTranslation = remember { getTranslation(key = "score_screen__title") }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
@@ -44,7 +45,7 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
             ) {
                 Spacer(modifier = Modifier.height(height = 8.dp))
                 Text(
-                    text = getTranslation(key = "score_screen__title"),
+                    text = titleTranslation,
                     style = MaterialTheme.typography.headlineLarge,
                 )
                 Spacer(modifier = Modifier.height(height = 32.dp))

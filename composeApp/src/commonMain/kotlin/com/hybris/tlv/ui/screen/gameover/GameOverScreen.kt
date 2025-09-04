@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +32,9 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
     val storeState by store.stateFlow.collectAsState()
     val gameSession = storeState.gameSession
     val ship = gameSession?.ship
+    val gameOverTranslation = remember { getTranslation(key = "game_over_screen__game_over") }
+    val messageTranslation = remember { getTranslation(key = "game_over_screen__score") }
+    val scoreTranslation = remember { getTranslation(key = "game_over_screen__end") }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
@@ -45,7 +49,7 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = getTranslation(key = "game_over_screen__game_over"),
+                        text = gameOverTranslation,
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )
@@ -81,8 +85,8 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
                 ) {
                     Text(
                         text = when (storeState.currentContent) {
-                            Content.MESSAGE -> getTranslation(key = "game_over_screen__score")
-                            Content.SCORE -> getTranslation(key = "game_over_screen__end")
+                            Content.MESSAGE -> messageTranslation
+                            Content.SCORE -> scoreTranslation
                         }
                     )
                 }

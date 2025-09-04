@@ -15,6 +15,7 @@ import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.component.StatDisplay
@@ -28,6 +29,13 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun ShipContent(store: Store<GameAction, GameState>) {
     val storeState by store.stateFlow.collectAsState()
     val ship = storeState.gameSession?.ship ?: return
+    val yearsTraveledTranslation = remember { getTranslation(key = "ship_years_traveled") }
+    val sensorTranslation = remember { getTranslation(key = "ship_sensor") }
+    val speedTranslation = remember { getTranslation(key = "ship_speed") }
+    val integrityTranslation = remember { getTranslation(key = "ship_integrity") }
+    val fuelTranslation = remember { getTranslation(key = "ship_fuel") }
+    val materialsTranslation = remember { getTranslation(key = "ship_materials") }
+    val cryopodsTranslation = remember { getTranslation(key = "ship_cryopods") }
 
     LazyColumn(
         modifier = Modifier
@@ -38,49 +46,49 @@ internal fun ShipContent(store: Store<GameAction, GameState>) {
         item {
             StatDisplay(
                 icon = Icons.Outlined.Timer,
-                label = getTranslation(key = "ship_years_traveled"),
+                label = yearsTraveledTranslation,
                 value = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString()
             )
         }
         item {
             StatDisplay(
                 icon = Icons.Outlined.Radar,
-                label = getTranslation(key = "ship_sensor"),
+                label = sensorTranslation,
                 value = ship.sensorRange.toString()
             )
         }
         item {
             StatDisplay(
                 icon = Icons.Outlined.Speed,
-                label = getTranslation(key = "ship_speed"),
+                label = speedTranslation,
                 value = "0.1c" // TODO - use engine speed - using 0.1c for now
             )
         }
         item {
             StatDisplay(
                 icon = Icons.Outlined.Shield,
-                label = getTranslation(key = "ship_integrity"),
+                label = integrityTranslation,
                 value = "${ship.integrity} / 100",
             )
         }
         item {
             StatDisplay(
                 icon = Icons.Outlined.LocalGasStation,
-                label = getTranslation(key = "ship_fuel"),
+                label = fuelTranslation,
                 value = ship.fuel.toString()
             )
         }
         item {
             StatDisplay(
                 icon = Icons.Outlined.Construction,
-                label = getTranslation(key = "ship_materials"),
+                label = materialsTranslation,
                 value = ship.materials.toString()
             )
         }
         item {
             StatDisplay(
                 icon = Icons.Outlined.BedroomParent,
-                label = getTranslation(key = "ship_cryopods"),
+                label = cryopodsTranslation,
                 value = ship.cryopods.toString()
             )
         }

@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -33,49 +34,54 @@ internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>
     val storeState by store.stateFlow.collectAsState()
     val planetProperties = storeState.learningsMap[LearningType.PLANET_PROPERTY].orEmpty()
     val planets = storeState.learningsMap[LearningType.PLANET_TYPE].orEmpty()
-    val planet = Planet(
-        id = "Edoras",
-        name = "Edoras",
-        stellarHostId = "Valar",
-        status = PlanetStatus.CANDIDATE,
-        orbitalPeriod = 123.0,
-        orbitAxis = 1.2,
-        radius = 5.1,
-        mass = 2.3,
-        density = 3.2,
-        eccentricity = 0.5,
-        insolationFlux = 2.1,
-        equilibriumTemperature = 666.9,
-        occultationDepth = 0.01,
-        inclination = 1.8,
-        obliquity = 50.0,
-    ).apply {
-        score = Score(
-            habitabilityScore = 1.0,
-            confidenceScore = 1.0,
-            planetType = PlanetType.SUPERHABITABLE_PLANET,
-            rocheScore = null,
-            habitableZoneKopparapuScore = null,
-            habitableZoneKastingScore = null,
-            planetRadiusScore = null,
-            planetMassScore = null,
-            planetTelluricityScore = null,
-            planetEccentricityScore = null,
-            planetTemperatureScore = null,
-            planetObliquityScore = null,
-            planetEsiScore = null,
-            stellarSpectralTypeScore = null,
-            stellarMassScore = null,
-            stellarAgeScore = null,
-            stellarActivityScore = null,
-            stellarRotationalPeriodScore = null,
-            stellarGravityScore = null,
-            stellarMetallicityScore = null,
-            stellarEffectiveTemperatureScore = null,
-            planetProtectionScore = null,
-            planetTidalLockingScore = null
-        )
+    val planet = remember {
+        Planet(
+            id = "Edoras",
+            name = "Edoras",
+            stellarHostId = "Valar",
+            status = PlanetStatus.CANDIDATE,
+            orbitalPeriod = 123.0,
+            orbitAxis = 1.2,
+            radius = 5.1,
+            mass = 2.3,
+            density = 3.2,
+            eccentricity = 0.5,
+            insolationFlux = 2.1,
+            equilibriumTemperature = 666.9,
+            occultationDepth = 0.01,
+            inclination = 1.8,
+            obliquity = 50.0,
+        ).apply {
+            score = Score(
+                habitabilityScore = 1.0,
+                confidenceScore = 1.0,
+                planetType = PlanetType.SUPERHABITABLE_PLANET,
+                rocheScore = null,
+                habitableZoneKopparapuScore = null,
+                habitableZoneKastingScore = null,
+                planetRadiusScore = null,
+                planetMassScore = null,
+                planetTelluricityScore = null,
+                planetEccentricityScore = null,
+                planetTemperatureScore = null,
+                planetObliquityScore = null,
+                planetEsiScore = null,
+                stellarSpectralTypeScore = null,
+                stellarMassScore = null,
+                stellarAgeScore = null,
+                stellarActivityScore = null,
+                stellarRotationalPeriodScore = null,
+                stellarGravityScore = null,
+                stellarMetallicityScore = null,
+                stellarEffectiveTemperatureScore = null,
+                planetProtectionScore = null,
+                planetTidalLockingScore = null
+            )
+        }
     }
+    val exampleTranslation = remember { getTranslation(key = "main_menu_screen__definition_example") }
+    val propertiesTranslation = remember { getTranslation(key = "main_menu_screen__definition_properties") }
+    val typesTranslation = remember { getTranslation(key = "main_menu_screen__definition_types") }
 
     LazyColumn(
         modifier = Modifier
@@ -85,7 +91,7 @@ internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>
     ) {
         item {
             Text(
-                text = getTranslation(key = "main_menu_screen__definition_example"),
+                text = exampleTranslation,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
             )
@@ -112,7 +118,7 @@ internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>
         }
         item {
             Text(
-                text = getTranslation(key = "main_menu_screen__definition_properties"),
+                text = propertiesTranslation,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
@@ -126,7 +132,7 @@ internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>
         }
         item {
             Text(
-                text = getTranslation(key = "main_menu_screen__definition_types"),
+                text = typesTranslation,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )

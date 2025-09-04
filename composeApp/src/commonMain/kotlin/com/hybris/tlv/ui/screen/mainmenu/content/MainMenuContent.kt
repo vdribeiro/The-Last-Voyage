@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -24,6 +25,13 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
     val storeState by store.stateFlow.collectAsState()
+    val newGameTranslation = remember { getTranslation(key = "main_menu_screen__new_game") }
+    val continueTranslation = remember { getTranslation(key = "main_menu_screen__continue") }
+    val learnTranslation = remember { getTranslation(key = "main_menu_screen__learn") }
+    val mechanicsTranslation = remember { getTranslation(key = "main_menu_screen__mechanics") }
+    val scoresTranslation = remember { getTranslation(key = "main_menu_screen__scores") }
+    val creditsTranslation = remember { getTranslation(key = "main_menu_screen__credits") }
+    val soonTranslation = remember { getTranslation(key = "main_menu_screen__soon") }
 
     LazyColumn(
         modifier = Modifier
@@ -38,7 +46,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.NewGame) },
-                    text = getTranslation(key = "main_menu_screen__new_game"),
+                    text = newGameTranslation,
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }
@@ -46,7 +54,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                 item {
                     Text(
                         modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Continue) },
-                        text = getTranslation(key = "main_menu_screen__continue"),
+                        text = continueTranslation,
                         style = MaterialTheme.typography.headlineMedium,
                     )
                 }
@@ -54,40 +62,35 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Learn) },
-                    text = getTranslation(key = "main_menu_screen__learn"),
+                    text = learnTranslation,
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
-                    text = getTranslation(key = "main_menu_screen__mechanics"),
+                    text = mechanicsTranslation,
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Scores) },
-                    text = getTranslation(key = "main_menu_screen__scores"),
+                    text = scoresTranslation,
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }
-            //Text(
-            //    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Achievements) },
-            //    text = getTranslation(key = "main_menu_screen__achievements"),
-            //    style = MaterialTheme.typography.headlineMedium,
-            //)
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Credits) },
-                    text = getTranslation(key = "main_menu_screen__credits"),
+                    text = creditsTranslation,
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Soon) },
-                    text = getTranslation(key = "main_menu_screen__soon"),
+                    text = soonTranslation,
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }

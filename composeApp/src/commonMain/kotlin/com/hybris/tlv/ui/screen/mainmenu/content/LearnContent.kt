@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,11 @@ import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
+    val stellarExplorerTranslation = remember { getTranslation(key = "main_menu_screen__stellar_explorer") }
+    val hostDefinitionTranslation = remember { getTranslation(key = "main_menu_screen__host_definition") }
+    val planetDefinitionTranslation = remember { getTranslation(key = "main_menu_screen__planet_definition") }
+    val habitabilityTranslation = remember { getTranslation(key = "main_menu_screen__habitability") }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -33,28 +39,28 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
         item {
             Text(
                 modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.StellarExplorer) },
-                text = getTranslation(key = "main_menu_screen__stellar_explorer"),
+                text = stellarExplorerTranslation,
                 style = MaterialTheme.typography.headlineMedium,
             )
         }
         item {
             Text(
                 modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.HostDefinition) },
-                text = getTranslation(key = "main_menu_screen__host_definition"),
+                text = hostDefinitionTranslation,
                 style = MaterialTheme.typography.headlineMedium,
             )
         }
         item {
             Text(
                 modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.PlanetDefinition) },
-                text = getTranslation(key = "main_menu_screen__planet_definition"),
+                text = planetDefinitionTranslation,
                 style = MaterialTheme.typography.headlineMedium,
             )
         }
         item {
             Text(
                 modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Habitability) },
-                text = getTranslation(key = "main_menu_screen__habitability"),
+                text = habitabilityTranslation,
                 style = MaterialTheme.typography.headlineMedium,
             )
         }

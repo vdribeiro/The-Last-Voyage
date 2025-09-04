@@ -7,14 +7,15 @@ import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.screen.stellarexplorer.model.PlanetProperty
 import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
-import com.hybris.tlv.ui.screen.stellarexplorer.model.getPlanetsComparator
-import com.hybris.tlv.ui.screen.stellarexplorer.model.getStellarHostComparator
+import com.hybris.tlv.ui.screen.stellarexplorer.model.search
+import com.hybris.tlv.ui.screen.stellarexplorer.model.sort
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
+import kotlin.String
 import kotlinx.coroutines.Job
 import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
@@ -43,10 +44,11 @@ internal data class StellarExplorerState(
     val filteredPlanets: List<Planet> = emptyList(),
     val selectedStellarHost: StellarHost? = null,
     val selectedPlanet: Planet? = null,
+    val search: String = "",
     val sortStellarHostProperty: StellarHostProperty = StellarHostProperty.DISTANCE,
     val sortPlanetProperty: PlanetProperty = PlanetProperty.NAME,
     val sortAscending: Boolean = true,
-    val visibleStellarHostProperties: List<StellarHostProperty> = listOf(
+    val visibleStellarHostProperties: Set<StellarHostProperty> = setOf(
         StellarHostProperty.NAME,
         StellarHostProperty.SYSTEM_NAME,
         StellarHostProperty.PLANET_COUNT,
@@ -65,7 +67,7 @@ internal data class StellarExplorerState(
         StellarHostProperty.RA,
         StellarHostProperty.DEC,
     ),
-    val visiblePlanetProperties: List<PlanetProperty> = listOf(
+    val visiblePlanetProperties: Set<PlanetProperty> = setOf(
         PlanetProperty.NAME,
         PlanetProperty.STATUS,
         PlanetProperty.HABITABILITY,
@@ -83,8 +85,8 @@ internal data class StellarExplorerState(
         PlanetProperty.INCLINATION,
         PlanetProperty.OBLIQUITY,
     ),
-    val searchableStellarHostProperties: List<StellarHostProperty> = listOf(StellarHostProperty.NAME),
-    val searchablePlanetProperties: List<PlanetProperty> = listOf(PlanetProperty.NAME)
+    val searchableStellarHostProperties: Set<StellarHostProperty> = setOf(StellarHostProperty.NAME),
+    val searchablePlanetProperties: Set<PlanetProperty> = setOf(PlanetProperty.NAME)
 )
 
 internal enum class Content {
@@ -109,31 +111,36 @@ internal class StellarExplorerStore(
     }
 
     private fun setup() = launch {
+        val formula = Formula()
         val stellarHosts = spaceUseCases.getExoplanets().apply {
             forEach { stellarHost ->
                 stellarHost.score = Habitability.calculateScores(
                     stellarHost = stellarHost,
                     planet = null,
-                    formula = Formula()
+                    formula = formula
                 )
                 stellarHost.planets.forEach { planet ->
                     planet.score = Habitability.calculateScores(
                         stellarHost = stellarHost,
                         planet = planet,
-                        formula = Formula()
+                        formula = formula
                     )
                 }
             }
-        }.sortedWith(comparator = compareBy<StellarHost, Double?>(comparator = nullsLast()) { it.distance }.thenBy { it.id })
+        }
         val planets = stellarHosts.map { it.planets }.flatten()
-            .sortedWith(comparator = compareBy(comparator = nullsLast()) { it.name })
+
+        val state = stateFlow.value
+        val filteredStellarHosts = stellarHosts.sort(sort = state.sortStellarHostProperty, ascending = state.sortAscending)
+        val filteredPlanets = planets.sort(sort = state.sortPlanetProperty, ascending = state.sortAscending)
+
         updateState {
             it.copy(
                 loading = false,
                 stellarHosts = stellarHosts,
                 planets = planets,
-                filteredStellarHosts = stellarHosts,
-                filteredPlanets = planets
+                filteredStellarHosts = filteredStellarHosts,
+                filteredPlanets = filteredPlanets
             )
         }
     }
@@ -141,25 +148,27 @@ internal class StellarExplorerStore(
     private fun changeView(state: StellarExplorerState): Job = launch {
         when (state.currentContent) {
             Content.LIST_HOSTS -> {
+                val filteredPlanets = state.planets.sort(sort = state.sortPlanetProperty, ascending = state.sortAscending)
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_PLANETS,
                         listIndex = LazyListIndex(),
-                        filteredPlanets = state.planets
+                        filteredPlanets = filteredPlanets,
+                        search = ""
                     )
-                }.join()
-                send(action = StellarExplorerAction.SortStellarHosts(sort = state.sortStellarHostProperty))
+                }
             }
 
             Content.LIST_PLANETS -> {
+                val filteredStellarHosts = state.stellarHosts.sort(sort = state.sortStellarHostProperty, ascending = state.sortAscending)
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_HOSTS,
                         listIndex = LazyListIndex(),
-                        filteredStellarHosts = state.stellarHosts
+                        filteredStellarHosts = filteredStellarHosts,
+                        search = ""
                     )
-                }.join()
-                send(action = StellarExplorerAction.SortPlanets(sort = state.sortPlanetProperty))
+                }
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -169,101 +178,36 @@ internal class StellarExplorerStore(
     private fun search(state: StellarExplorerState, action: StellarExplorerAction.Search): Job = launch {
         when (state.currentContent) {
             Content.LIST_HOSTS -> {
-                val filteredStellarHosts = searchStellarHosts(
+                val filteredStellarHosts = state.stellarHosts.search(
                     search = action.search,
                     searchable = state.searchableStellarHostProperties,
-                    stellarHosts = state.stellarHosts
-                )
-                updateState { it.copy(filteredStellarHosts = filteredStellarHosts) }
+                ).sort(sort = state.sortStellarHostProperty, ascending = state.sortAscending)
+                updateState {
+                    it.copy(
+                        listIndex = LazyListIndex(),
+                        filteredStellarHosts = filteredStellarHosts,
+                        search = action.search
+                    )
+                }
             }
 
             Content.LIST_PLANETS -> {
-                val filteredPlanets = searchPlanets(
+                val filteredPlanets = state.planets.search(
                     search = action.search,
-                    searchable = state.searchablePlanetProperties,
-                    planets = state.planets
-                )
-                updateState { it.copy(filteredPlanets = filteredPlanets) }
+                    searchable = state.searchablePlanetProperties
+                ).sort(sort = state.sortPlanetProperty, ascending = state.sortAscending)
+                updateState {
+                    it.copy(
+                        listIndex = LazyListIndex(),
+                        filteredPlanets = filteredPlanets,
+                        search = action.search
+                    )
+                }
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
         }
     }
-
-    private fun searchStellarHosts(search: String, searchable: List<StellarHostProperty>, stellarHosts: List<StellarHost>): List<StellarHost> =
-        if (search.isNotBlank()) {
-            val searchLowercase = search.lowercase()
-            stellarHosts.filter { stellarHost ->
-                with(receiver = stellarHost) {
-                    listOfNotNull(
-                        searchable.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = systemName),
-                        searchable.ifContains(element = StellarHostProperty.NAME, value = name),
-                        searchable.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = spectralType),
-                        searchable.ifContains(element = StellarHostProperty.TEMPERATURE, value = effectiveTemperature?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.RADIUS, value = radius?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.MASS, value = mass?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.METALLICITY, value = metallicity?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.LUMINOSITY, value = luminosity?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.GRAVITY, value = gravity?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.AGE, value = age?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.DENSITY, value = density?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.ROTATIONAL_VELOCITY, value = rotationalVelocity?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.ROTATIONAL_PERIOD, value = rotationalPeriod?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.DISTANCE, value = distance?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.RA, value = ra?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.DEC, value = dec?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.PLANET_COUNT, value = planets.size.toString()),
-                        searchable.ifContains(element = StellarHostProperty.SPECTRAL_TYPE_SCORE, value = score?.stellarSpectralTypeScore?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.MASS_SCORE, value = score?.stellarMassScore?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.AGE_SCORE, value = score?.stellarAgeScore?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.ACTIVITY_SCORE, value = score?.stellarActivityScore?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.ROTATIONAL_PERIOD_SCORE, value = score?.stellarRotationalPeriodScore?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.GRAVITY_SCORE, value = score?.stellarGravityScore?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.METALLICITY_SCORE, value = score?.stellarMetallicityScore?.toString()),
-                        searchable.ifContains(element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE, value = score?.stellarEffectiveTemperatureScore?.toString()),
-                    )
-                }.any { it.lowercase().contains(other = searchLowercase) }
-            }
-        } else stellarHosts
-
-    private fun searchPlanets(search: String, searchable: List<PlanetProperty>, planets: List<Planet>): List<Planet> =
-        if (search.isNotBlank()) {
-            val searchLowercase = search.lowercase()
-            planets.filter { stellarHost ->
-                with(receiver = stellarHost) {
-                    listOfNotNull(
-                        searchable.ifContains(element = PlanetProperty.NAME, value = name),
-                        searchable.ifContains(element = PlanetProperty.STATUS, value = status.displayName),
-                        searchable.ifContains(element = PlanetProperty.ORBITAL_PERIOD, value = orbitalPeriod?.toString()),
-                        searchable.ifContains(element = PlanetProperty.ORBIT_AXIS, value = orbitAxis?.toString()),
-                        searchable.ifContains(element = PlanetProperty.RADIUS, value = radius?.toString()),
-                        searchable.ifContains(element = PlanetProperty.MASS, value = mass?.toString()),
-                        searchable.ifContains(element = PlanetProperty.DENSITY, value = density?.toString()),
-                        searchable.ifContains(element = PlanetProperty.ECCENTRICITY, value = eccentricity?.toString()),
-                        searchable.ifContains(element = PlanetProperty.INSOLATION_FLUX, value = insolationFlux?.toString()),
-                        searchable.ifContains(element = PlanetProperty.TEMPERATURE, value = equilibriumTemperature?.toString()),
-                        searchable.ifContains(element = PlanetProperty.OCCULTATION_DEPTH, value = occultationDepth?.toString()),
-                        searchable.ifContains(element = PlanetProperty.INCLINATION, value = inclination?.toString()),
-                        searchable.ifContains(element = PlanetProperty.OBLIQUITY, value = obliquity?.toString()),
-                        searchable.ifContains(element = PlanetProperty.HABITABILITY, value = score?.habitabilityScore?.toString()),
-                        searchable.ifContains(element = PlanetProperty.TYPE, value = score?.planetType?.displayName),
-                        searchable.ifContains(element = PlanetProperty.ROCHE_SCORE, value = score?.rocheScore?.toString()),
-                        searchable.ifContains(element = PlanetProperty.HABITABLE_ZONE_KOPPARAPU_SCORE, value = score?.habitableZoneKopparapuScore?.toString()),
-                        searchable.ifContains(element = PlanetProperty.HABITABLE_ZONE_KASTING_SCORE, value = score?.habitableZoneKastingScore?.toString()),
-                        searchable.ifContains(element = PlanetProperty.RADIUS_SCORE, value = score?.planetRadiusScore?.toString()),
-                        searchable.ifContains(element = PlanetProperty.MASS_SCORE, value = score?.planetMassScore?.toString()),
-                        searchable.ifContains(element = PlanetProperty.TELLURICITY_SCORE, value = score?.planetTelluricityScore?.toString()),
-                        searchable.ifContains(element = PlanetProperty.ECCENTRICITY_SCORE, value = score?.planetEccentricityScore?.toString()),
-                        searchable.ifContains(element = PlanetProperty.TEMPERATURE_SCORE, value = score?.planetTemperatureScore?.toString()),
-                        searchable.ifContains(element = PlanetProperty.OBLIQUITY_SCORE, value = score?.planetObliquityScore?.toString()),
-                        searchable.ifContains(element = PlanetProperty.ESI_SCORE, value = score?.planetEsiScore?.toString()),
-                        searchable.ifContains(element = PlanetProperty.PROTECTION_SCORE, value = score?.planetProtectionScore?.toString()),
-                        searchable.ifContains(element = PlanetProperty.TIDAL_LOCKING_SCORE, value = score?.planetTidalLockingScore?.toString()),
-                        searchable.ifContains(element = PlanetProperty.CONFIDENCE, value = score?.confidenceScore?.toString()),
-                    )
-                }.any { it.lowercase().contains(other = searchLowercase) }
-            }
-        } else planets
 
     private fun openStellarHost(state: StellarExplorerState, action: StellarExplorerAction.OpenStellarHost): Job = launch {
         if (state.currentContent != Content.LIST_HOSTS) return@launch
@@ -271,29 +215,22 @@ internal class StellarExplorerStore(
             it.copy(
                 currentContent = Content.DETAIL_HOSTS,
                 selectedStellarHost = action.stellarHost,
-                filteredPlanets = action.stellarHost.planets
             )
         }
     }
 
     private fun openPlanet(state: StellarExplorerState, action: StellarExplorerAction.OpenPlanet): Job = launch {
         if (state.currentContent != Content.LIST_PLANETS) return@launch
-        val filteredStellarHosts = state.stellarHosts.filter { stellarHost ->
-            stellarHost.id == action.planet.stellarHostId
-        }
         updateState {
             it.copy(
                 currentContent = Content.DETAIL_PLANETS,
                 selectedPlanet = action.planet,
-                filteredStellarHosts = filteredStellarHosts
             )
         }
     }
 
     private fun sortStellarHosts(state: StellarExplorerState, action: StellarExplorerAction.SortStellarHosts): Job = launch {
-        val filteredStellarHosts = with(receiver = state.filteredStellarHosts) {
-            sortedWith(comparator = getStellarHostComparator(sort = action.sort, ascending = state.sortAscending).thenBy { it.id })
-        }
+        val filteredStellarHosts = state.filteredStellarHosts.sort(sort = action.sort, ascending = state.sortAscending)
         updateState {
             it.copy(
                 filteredStellarHosts = filteredStellarHosts,
@@ -303,9 +240,7 @@ internal class StellarExplorerStore(
     }
 
     private fun sortPlanets(state: StellarExplorerState, action: StellarExplorerAction.SortPlanets): Job = launch {
-        val filteredPlanets = with(receiver = state.filteredPlanets) {
-            sortedWith(comparator = getPlanetsComparator(sort = action.sort, ascending = state.sortAscending).thenBy { it.id })
-        }
+        val filteredPlanets = state.filteredPlanets.sort(sort = action.sort, ascending = state.sortAscending)
         updateState {
             it.copy(
                 filteredPlanets = filteredPlanets,
@@ -315,10 +250,28 @@ internal class StellarExplorerStore(
     }
 
     private fun changeSortDirection(state: StellarExplorerState): Job = launch {
-        updateState { it.copy(sortAscending = !it.sortAscending) }.join()
+        val ascending = !state.sortAscending
         when (state.currentContent) {
-            Content.LIST_HOSTS -> send(action = StellarExplorerAction.SortStellarHosts(sort = state.sortStellarHostProperty))
-            Content.LIST_PLANETS -> send(action = StellarExplorerAction.SortPlanets(sort = state.sortPlanetProperty))
+            Content.LIST_HOSTS -> {
+                val filteredStellarHosts = state.filteredStellarHosts.sort(sort = state.sortStellarHostProperty, ascending = ascending)
+                updateState {
+                    it.copy(
+                        filteredStellarHosts = filteredStellarHosts,
+                        sortAscending = ascending
+                    )
+                }
+            }
+
+            Content.LIST_PLANETS -> {
+                val filteredPlanets = state.filteredPlanets.sort(sort = state.sortPlanetProperty, ascending = ascending)
+                updateState {
+                    it.copy(
+                        filteredPlanets = filteredPlanets,
+                        sortAscending = ascending
+                    )
+                }
+            }
+
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
         }
     }
@@ -335,12 +288,33 @@ internal class StellarExplorerStore(
 
     private fun changeStellarHostsSearchable(state: StellarExplorerState, action: StellarExplorerAction.ChangeStellarHostsSearchable): Job = launch {
         val searchableStellarHostProperties = state.searchableStellarHostProperties.plusOrMinus(value = action.property)
-        updateState { it.copy(searchableStellarHostProperties = searchableStellarHostProperties) }
+        val filteredStellarHosts = state.stellarHosts.search(
+            search = state.search,
+            searchable = searchableStellarHostProperties,
+        ).sort(sort = state.sortStellarHostProperty, ascending = state.sortAscending)
+        updateState {
+            it.copy(
+                listIndex = LazyListIndex(),
+                filteredStellarHosts = filteredStellarHosts,
+                searchableStellarHostProperties = searchableStellarHostProperties
+            )
+        }
     }
 
     private fun changePlanetSearchable(state: StellarExplorerState, action: StellarExplorerAction.ChangePlanetSearchable): Job = launch {
         val searchablePlanetProperties = state.searchablePlanetProperties.plusOrMinus(value = action.property)
-        updateState { it.copy(searchablePlanetProperties = searchablePlanetProperties) }
+        val filteredPlanets = state.planets.search(
+            search = state.search,
+            searchable = searchablePlanetProperties
+        ).sort(sort = state.sortPlanetProperty, ascending = state.sortAscending)
+        updateState {
+            it.copy(
+                listIndex = LazyListIndex(),
+                filteredPlanets = filteredPlanets,
+                searchablePlanetProperties = searchablePlanetProperties
+
+            )
+        }
     }
 
     override fun setBackNavigation(): () -> Unit = {
@@ -394,5 +368,5 @@ internal fun <E, V> Collection<E>.ifContains(element: E, value: V?): V? =
 /**
  * Adds [value] if it is not present, otherwise removes it.
  */
-internal fun <V> Iterable<V>.plusOrMinus(value: V): List<V> =
-    if (contains(element = value)) minus(element = value) else plus(element = value)
+internal fun <V> Iterable<V>.plusOrMinus(value: V): Set<V> =
+    (if (contains(element = value)) minus(element = value) else plus(element = value)).toSet()

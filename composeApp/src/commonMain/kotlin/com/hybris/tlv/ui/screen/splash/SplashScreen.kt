@@ -31,6 +31,7 @@ import thelastvoyage.composeapp.generated.resources.ic_launcher_background
 @Composable
 internal fun SplashScreen(store: Store<SplashAction, SplashState>) {
     val storeState by store.stateFlow.collectAsState()
+    val loadingTranslation = getTranslation(key = "splash_screen__loading")
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(
@@ -67,7 +68,7 @@ internal fun SplashScreen(store: Store<SplashAction, SplashState>) {
                 modifier = Modifier
                     .align(alignment = Alignment.BottomCenter)
                     .padding(all = 64.dp),
-                text = getTranslation(key = "splash_screen__loading"),
+                text = loadingTranslation,
                 style = MaterialTheme.typography.headlineMedium,
                 color = Color.White,
             )

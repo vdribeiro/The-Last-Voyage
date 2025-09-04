@@ -118,8 +118,8 @@ internal fun ControlPanel(
                         .clickable(
                             enabled = enabled,
                             onClick = {
-                                searchQuery = ""
                                 onChangeView()
+                                searchQuery = ""
                             },
                         )
                         .padding(all = 8.dp)

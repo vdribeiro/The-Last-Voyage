@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,6 +29,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun StartContent(store: Store<NewGameAction, NewGameState>) {
     val storeState by store.stateFlow.collectAsState()
     val catastrophe = storeState.selectedCatastrophe ?: return
+    val startTranslation = remember { getTranslation(key = "new_game_screen__start") }
 
     Column(
         modifier = Modifier
@@ -56,7 +58,7 @@ internal fun StartContent(store: Store<NewGameAction, NewGameState>) {
             colors = ButtonDefaults.buttonColors(contentColor = Color.White),
             onClick = { store.send(action = NewGameAction.StartGame) }
         ) {
-            Text(text = getTranslation(key = "new_game_screen__start"))
+            Text(text = startTranslation)
         }
     }
 }

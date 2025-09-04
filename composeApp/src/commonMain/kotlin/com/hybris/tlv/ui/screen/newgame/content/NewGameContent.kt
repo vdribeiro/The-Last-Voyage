@@ -31,9 +31,14 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
     val storeState by store.stateFlow.collectAsState()
-
-    val shipState = remember { storeState.shipState }
+    val shipState = storeState.shipState
     val remainingPoints = shipState.remainingPoints
+    val shipPointsTranslation = remember { getTranslation(key = "new_game_screen__ship_points") }
+    val sensorTranslation = remember { getTranslation(key = "ship_sensor") }
+    val fuelTranslation = remember { getTranslation(key = "ship_fuel") }
+    val materialsTranslation = remember { getTranslation(key = "ship_materials") }
+    val cryopodsTranslation = remember { getTranslation(key = "ship_cryopods") }
+    val continueTranslation = remember { getTranslation(key = "new_game_screen__continue") }
 
     Column(
         modifier = Modifier
@@ -42,7 +47,7 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = "${getTranslation(key = "new_game_screen__ship_points")}: $remainingPoints",
+            text = "$shipPointsTranslation: $remainingPoints",
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold
         )
@@ -56,7 +61,7 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
             val canIncrement = remainingPoints > 0
             item {
                 AttributeRow(
-                    name = getTranslation(key = "ship_sensor"),
+                    name = sensorTranslation,
                     minPoints = shipState.sensorRange.min,
                     maxPoints = shipState.sensorRange.max,
                     points = shipState.sensorRange.value,
@@ -67,7 +72,7 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
             }
             item {
                 AttributeRow(
-                    name = getTranslation(key = "ship_fuel"),
+                    name = fuelTranslation,
                     minPoints = shipState.fuel.min,
                     maxPoints = shipState.fuel.max,
                     points = shipState.fuel.value,
@@ -78,7 +83,7 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
             }
             item {
                 AttributeRow(
-                    name = getTranslation(key = "ship_materials"),
+                    name = materialsTranslation,
                     minPoints = shipState.materials.min,
                     maxPoints = shipState.materials.max,
                     points = shipState.materials.value,
@@ -89,7 +94,7 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
             }
             item {
                 AttributeRow(
-                    name = getTranslation(key = "ship_cryopods"),
+                    name = cryopodsTranslation,
                     minPoints = shipState.cryopods.min,
                     maxPoints = shipState.cryopods.max,
                     points = shipState.cryopods.value,
@@ -101,22 +106,6 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
         }
 
         Spacer(modifier = Modifier.weight(weight = 1f))
-
-        // For cheaters only
-        //Button(
-        //    modifier = Modifier
-        //        .fillMaxWidth(),
-        //    colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-        //    onClick = {
-        //        store.send(
-        //            action = NewGameAction.SelectShip(
-        //            )
-        //        )
-        //        store.send(action = NewGameAction.Advanced)
-        //    },
-        //) {
-        //    Text(text = getTranslation(key = "new_game_screen__advanced"))
-        //}
 
         Button(
             modifier = Modifier
@@ -138,7 +127,7 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
                 store.send(action = NewGameAction.Start)
             },
         ) {
-            Text(text = getTranslation(key = "new_game_screen__continue"))
+            Text(text = continueTranslation)
         }
     }
 }

@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.component.StatusBar
 import com.hybris.tlv.ui.screen.game.content.ShipContent
@@ -31,6 +32,9 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     val storeState by store.stateFlow.collectAsState()
     val gameSession = storeState.gameSession
     val ship = gameSession?.ship
+    val travelTranslation = remember { getTranslation(key = "game_screen__travel") }
+    val systemTranslation = remember { getTranslation(key = "game_screen__system") }
+    val shipTranslation = remember { getTranslation(key = "game_screen__ship") }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -46,20 +50,20 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
         bottomBar = {
             NavigationBar {
                 NavigationBarItem(
-                    icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = getTranslation(key = "game_screen__travel")) },
-                    label = { Text(text = getTranslation(key = "game_screen__travel")) },
+                    icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
+                    label = { Text(text = travelTranslation) },
                     selected = (storeState.currentContent == Content.TRAVEL),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.TRAVEL)) },
                 )
                 NavigationBarItem(
-                    icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = getTranslation(key = "game_screen__system")) },
-                    label = { Text(text = getTranslation(key = "game_screen__system")) },
+                    icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = systemTranslation) },
+                    label = { Text(text = systemTranslation) },
                     selected = (storeState.currentContent == Content.SYSTEM),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SYSTEM)) },
                 )
                 NavigationBarItem(
-                    icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = getTranslation(key = "game_screen__ship")) },
-                    label = { Text(text = getTranslation(key = "game_screen__ship")) },
+                    icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
+                    label = { Text(text = shipTranslation) },
                     selected = (storeState.currentContent == Content.SHIP),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 )
