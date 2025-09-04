@@ -64,8 +64,7 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
                         modifier = Modifier
                             .weight(weight = 1f)
                             .fillMaxWidth(),
-                        text = getTranslation(key = event.description) +
-                                if (event.outcome != null) "\n\n${event.outcome.getTranslation()}" else ""
+                        text = getTranslation(key = event.description) + if (event.outcome != null) "\n\n${event.outcome.getTranslation()}" else ""
                     )
 
                     Column(

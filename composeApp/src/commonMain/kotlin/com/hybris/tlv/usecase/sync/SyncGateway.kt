@@ -2,6 +2,7 @@ package com.hybris.tlv.usecase.sync
 
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.config.Configs
+import com.hybris.tlv.isDebug
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.usecase.achievement.AchievementInternalUseCases
 import com.hybris.tlv.usecase.credit.CreditInternalUseCases
@@ -21,7 +22,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 internal class SyncGateway(
-    private val storage: ConfigManager,
+    private val config: ConfigManager,
     private val internalTranslation: TranslationInternalUseCases,
     private val internalLearning: LearningInternalUseCases,
     private val internalEarth: EarthInternalUseCases,
@@ -33,8 +34,8 @@ internal class SyncGateway(
 ): SyncUseCases {
 
     override suspend fun sync(): Flow<SyncResult> = channelFlow {
-        val localConfig = storage.getLocal()
-        val remoteConfig = storage.getRemote()
+        val localConfig = config.getLocal()
+        val remoteConfig = if (isDebug) Configs() else config.getRemote()
 
         val tasks = listOf(
             SyncTask(
@@ -126,7 +127,7 @@ internal class SyncGateway(
             updaters.fold(initial = localConfig) { config, updater -> updater(config) }
         }
 
-        storage.setLocal(configs = finalConfig)
+        config.setLocal(configs = finalConfig)
         send(element = SyncResult.Success)
     }
 

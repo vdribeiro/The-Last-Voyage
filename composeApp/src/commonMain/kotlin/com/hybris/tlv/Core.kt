@@ -151,19 +151,6 @@ internal class Core(
     )
 ) {
     init {
-        if (isDebug) runBlocking {
-            sqlDriver.clearDatabase()
-            config.setLocal(
-                configs = Configs(
-                    translationsVersion = Long.MAX_VALUE,
-                    learningsVersion = Long.MAX_VALUE,
-                    catastrophesVersion = Long.MAX_VALUE,
-                    enginesVersion = Long.MAX_VALUE,
-                    stellarHostsVersion = Long.MAX_VALUE,
-                    planetsVersion = Long.MAX_VALUE,
-                    eventsVersion = Long.MAX_VALUE,
-                )
-            )
-        }
+        if (isDebug) sqlDriver.clearDatabase()
     }
 }

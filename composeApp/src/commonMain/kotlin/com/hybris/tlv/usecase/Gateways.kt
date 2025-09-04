@@ -68,7 +68,7 @@ internal class Gateways(
     override val achievement: AchievementUseCases = AchievementGateway(achievementDao = achievementDao)
     override val credit: CreditUseCases = CreditGateway(creditDao = creditDao)
     override val sync: SyncUseCases = SyncGateway(
-        storage = config,
+        config = config,
         internalTranslation = internalTranslation,
         internalLearning = internalLearning,
         internalEarth = internalEarth,
