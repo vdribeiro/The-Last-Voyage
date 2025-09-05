@@ -78,7 +78,7 @@ private fun MainMenuScreenPreview() {
                 currentContent = MainMenuContent.MAIN_MENU,
                 ongoingGameSession = false,
                 developerCorner = "link",
-                tip = "link",
+                support = "link",
             )
         )
     }

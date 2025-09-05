@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.mainmenu.content.HabitabilityContent
 import com.hybris.tlv.ui.screen.mainmenu.content.HostDefinitionContent
@@ -37,7 +38,8 @@ import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
-import thelastvoyage.composeapp.generated.resources.support_me_on_kofi_badge_beige
+import thelastvoyage.composeapp.generated.resources.dev
+import thelastvoyage.composeapp.generated.resources.kofi
 
 @Composable
 internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
@@ -45,7 +47,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
     val uriHandler = LocalUriHandler.current
     val currentContent = storeState.currentContent
     val isMenu = currentContent == Content.MAIN_MENU || currentContent == Content.LEARN_MENU
-    val websiteTranslation = remember { getTranslation(key = "website") }
+    val creditsTranslation = remember { getTranslation(key = "main_menu_screen__credits") }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -75,20 +77,29 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Image(
+                        modifier = Modifier
+                            .size(size = 100.dp)
+                            .debouncedClickable { storeState.developerCorner?.let { uriHandler.openUri(uri = it) } },
+                        painter = painterResource(resource = Res.drawable.dev),
+                        contentDescription = "Developer's Corner",
+                        contentScale = ContentScale.Fit,
+                    )
                     Text(
                         modifier = Modifier
                             .size(size = 100.dp)
                             .wrapContentHeight(align = Alignment.CenterVertically)
-                            .debouncedClickable { storeState.developerCorner?.let { uriHandler.openUri(uri = it) } },
-                        text = websiteTranslation,
+                            .debouncedClickable { store.send(action = MainMenuAction.Credits) },
+                        text = creditsTranslation,
                         style = typography.titleSmall,
+                        textAlign = TextAlign.Center
                     )
                     Image(
                         modifier = Modifier
                             .size(size = 100.dp)
-                            .debouncedClickable { storeState.tip?.let { uriHandler.openUri(uri = it) } },
-                        painter = painterResource(resource = Res.drawable.support_me_on_kofi_badge_beige),
-                        contentDescription = "Tip",
+                            .debouncedClickable { storeState.support?.let { uriHandler.openUri(uri = it) } },
+                        painter = painterResource(resource = Res.drawable.kofi),
+                        contentDescription = "Support",
                         contentScale = ContentScale.Fit,
                     )
                 }

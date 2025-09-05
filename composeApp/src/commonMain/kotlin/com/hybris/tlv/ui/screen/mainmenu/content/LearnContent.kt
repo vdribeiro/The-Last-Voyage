@@ -26,6 +26,7 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
     val hostDefinitionTranslation = remember { getTranslation(key = "main_menu_screen__host_definition") }
     val planetDefinitionTranslation = remember { getTranslation(key = "main_menu_screen__planet_definition") }
     val habitabilityTranslation = remember { getTranslation(key = "main_menu_screen__habitability") }
+    val mechanicsTranslation = remember { getTranslation(key = "main_menu_screen__mechanics") }
 
     LazyColumn(
         modifier = Modifier
@@ -61,6 +62,13 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
             Text(
                 modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Habitability) },
                 text = habitabilityTranslation,
+                style = typography.headlineMedium,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
+                text = mechanicsTranslation,
                 style = typography.headlineMedium,
             )
         }

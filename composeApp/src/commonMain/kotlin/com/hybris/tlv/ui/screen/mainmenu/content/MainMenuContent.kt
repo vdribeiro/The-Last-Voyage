@@ -28,9 +28,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
     val newGameTranslation = remember { getTranslation(key = "main_menu_screen__new_game") }
     val continueTranslation = remember { getTranslation(key = "main_menu_screen__continue") }
     val learnTranslation = remember { getTranslation(key = "main_menu_screen__learn") }
-    val mechanicsTranslation = remember { getTranslation(key = "main_menu_screen__mechanics") }
     val scoresTranslation = remember { getTranslation(key = "main_menu_screen__scores") }
-    val creditsTranslation = remember { getTranslation(key = "main_menu_screen__credits") }
     val soonTranslation = remember { getTranslation(key = "main_menu_screen__soon") }
 
     LazyColumn(
@@ -68,22 +66,8 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
             }
             item {
                 Text(
-                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
-                    text = mechanicsTranslation,
-                    style = typography.headlineMedium,
-                )
-            }
-            item {
-                Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Scores) },
                     text = scoresTranslation,
-                    style = typography.headlineMedium,
-                )
-            }
-            item {
-                Text(
-                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Credits) },
-                    text = creditsTranslation,
                     style = typography.headlineMedium,
                 )
             }

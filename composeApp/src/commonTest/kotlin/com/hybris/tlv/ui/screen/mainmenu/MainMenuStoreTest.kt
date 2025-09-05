@@ -69,7 +69,7 @@ internal class MainMenuStoreTest {
         mainMenuStore.send(action = MainMenuAction.Mechanics)
         assertEquals(expected = Content.MECHANICS, actual = mainMenuStore.stateFlow.value.currentContent)
         mock.navigation.back()
-        assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
+        assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
         mainMenuStore.send(action = MainMenuAction.Habitability)
         assertEquals(expected = Content.HABITABILITY, actual = mainMenuStore.stateFlow.value.currentContent)

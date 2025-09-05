@@ -33,7 +33,7 @@ internal data class MainMenuState(
     val ongoingGameSession: Boolean = false,
     val learningsMap: Map<LearningType, List<Learning>> = emptyMap(),
     val developerCorner: String? = null,
-    val tip: String? = null,
+    val support: String? = null,
     val formula: String? = null,
 )
 
@@ -66,7 +66,7 @@ internal class MainMenuStore(
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
         val learnings = learningUseCases.getLearnings().groupBy { it.type }
         val developerCorner = config.configs.developerCorner
-        val tip = config.configs.tip
+        val support = config.configs.support
         val formula = config.configs.formula
         updateState {
             it.copy(
@@ -74,7 +74,7 @@ internal class MainMenuStore(
                 ongoingGameSession = ongoingGameSession,
                 learningsMap = learnings,
                 developerCorner = developerCorner,
-                tip = tip,
+                support = support,
                 formula = formula,
             )
         }
@@ -83,12 +83,12 @@ internal class MainMenuStore(
     override fun setBackNavigation() = {
         when (stateFlow.value.currentContent) {
             Content.MAIN_MENU -> {}
-            Content.LEARN_MENU,
-            Content.MECHANICS -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
+            Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
 
             Content.HOST_DEFINITION,
             Content.PLANET_DEFINITION,
-            Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
+            Content.HABITABILITY,
+            Content.MECHANICS -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
         }.let {}
     }
 

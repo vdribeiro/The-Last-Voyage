@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class Configs(
+    // Versioning
     val translationsVersion: Long = 0,
     val learningsVersion: Long = 0,
     val catastrophesVersion: Long = 0,
@@ -13,7 +14,13 @@ internal data class Configs(
     val eventsVersion: Long = 0,
     val achievementsVersion: Long = 0,
     val creditsVersion: Long = 0,
+
+    // Dynamic values
     val developerCorner: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb",
-    val tip: String = "https://ko-fi.com/engsoneca",
-    val formula: String = "https://github.com/vdribeiro/The-Last-Voyage/tree/main/composeApp/src/commonMain/kotlin/com/hybris/tlv/usecase/space/formula"
+    val support: String = "https://ko-fi.com/engsoneca",
+    val formula: String = "https://github.com/vdribeiro/The-Last-Voyage/tree/main/composeApp/src/commonMain/kotlin/com/hybris/tlv/usecase/space/formula",
+
+    // Feature flags
+    val featureFeedback: Boolean = false,
+    val featureLearn: Boolean = false
 )

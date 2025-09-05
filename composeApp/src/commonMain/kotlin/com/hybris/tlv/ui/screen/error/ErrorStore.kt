@@ -5,8 +5,8 @@ import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
-import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
 internal sealed interface ErrorAction {
     data class SendFeedback(val message: String): ErrorAction

@@ -10,7 +10,7 @@
     "achievementsVersion": 1,
     "creditsVersion": 1,
     "developerCorner": "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb",
-    "tip": "https://ko-fi.com/engsoneca",
+    "support": "https://ko-fi.com/engsoneca",
     "formula": "https://github.com/vdribeiro/The-Last-Voyage/tree/main/composeApp/src/commonMain/kotlin/com/hybris/tlv/usecase/space/formula"
   }
 ]
