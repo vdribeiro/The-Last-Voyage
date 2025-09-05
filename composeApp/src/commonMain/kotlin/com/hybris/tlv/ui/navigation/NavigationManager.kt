@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.StateFlow
 internal interface NavigationManager {
 
     enum class Screen {
-        FEEDBACK,
         SPLASH,
         MAIN_MENU,
+        FEEDBACK,
         NEW_GAME,
         GAME,
         EVENT,

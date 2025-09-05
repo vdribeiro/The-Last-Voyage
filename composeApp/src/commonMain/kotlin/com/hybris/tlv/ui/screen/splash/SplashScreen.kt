@@ -40,6 +40,7 @@ internal fun SplashScreen(store: Store<SplashAction, SplashState>) {
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
+            // App logo with background
             Image(
                 modifier = Modifier
                     .size(size = 160.dp)
@@ -48,12 +49,9 @@ internal fun SplashScreen(store: Store<SplashAction, SplashState>) {
                 contentDescription = "Background",
                 contentScale = ContentScale.Crop,
             )
+            AppLogo(size = 200, showText = false)
 
-            AppLogo(
-                size = 200,
-                showText = false
-            )
-
+            // Circular progress around the app logo
             val animatedProgress by animateFloatAsState(
                 targetValue = storeState.progress,
                 animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
@@ -64,6 +62,7 @@ internal fun SplashScreen(store: Store<SplashAction, SplashState>) {
                 progress = { animatedProgress },
             )
 
+            // Loading text
             Text(
                 modifier = Modifier
                     .align(alignment = Alignment.BottomCenter)

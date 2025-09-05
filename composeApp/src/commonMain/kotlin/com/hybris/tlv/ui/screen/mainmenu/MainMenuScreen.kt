@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -58,6 +59,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
             ) {
+                // Feedback button
                 if (isMenu && storeState.featureFeedback) {
                     IconButton(onClick = { store.send(action = MainMenuAction.Feedback) }) {
                         Icon(
@@ -65,7 +67,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                             contentDescription = "Feedback"
                         )
                     }
-                }
+                } else Spacer(modifier = Modifier.size(size = 48.dp)) // Reserve space for the feedback button to avoid layout flickering
             }
         },
         bottomBar = {
@@ -76,6 +78,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // Website, Credits and Ko-fi options
                 if (isMenu) {
                     Image(
                         modifier = Modifier

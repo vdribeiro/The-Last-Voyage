@@ -33,6 +33,7 @@ internal data class MainMenuState(
     val featureLearn: Boolean = false,
     val featureScores: Boolean = false,
     val featureAchievements: Boolean = false,
+    val featureStellarExplorer: Boolean = false,
     val featureNewGame: Boolean = false,
     val loading: Boolean = true,
     val currentContent: Content = Content.MAIN_MENU,
@@ -72,18 +73,25 @@ internal class MainMenuStore(
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
         val learnings = learningUseCases.getLearnings().groupBy { it.type }
         val featureFeedback = config.configs.featureFeedback
-        val featureSoon: Boolean = config.configs.featureSoon
-        val featureLearn: Boolean = config.configs.featureLearn
-        val featureScores: Boolean = config.configs.featureScores
+        val featureSoon = config.configs.featureSoon
+        val featureLearn = config.configs.featureLearn
+        val featureScores = config.configs.featureScores
+        val featureAchievements = config.configs.featureAchievements
+        val featureStellarExplorer = config.configs.featureStellarExplorer
+        val featureNewGame = config.configs.featureNewGame
         val developerCorner = config.configs.developerCorner
         val support = config.configs.support
         val formula = config.configs.formula
+
         updateState {
             it.copy(
                 featureFeedback = featureFeedback,
                 featureSoon = featureSoon,
                 featureLearn = featureLearn,
                 featureScores = featureScores,
+                featureAchievements = featureAchievements,
+                featureStellarExplorer = featureStellarExplorer,
+                featureNewGame = featureNewGame,
                 loading = false,
                 ongoingGameSession = ongoingGameSession,
                 learningsMap = learnings,
