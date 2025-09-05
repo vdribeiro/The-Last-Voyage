@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.Score
 import com.hybris.tlv.ui.theme.component.debouncedClickable
 import com.hybris.tlv.ui.theme.typography
@@ -50,7 +50,7 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                 )
                 Spacer(modifier = Modifier.height(height = 32.dp))
                 when {
-                    storeState.loading -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                    storeState.loading -> DebouncedLinearProgressIndicator(modifier = Modifier.fillMaxWidth())
                     else -> LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(all = 16.dp),

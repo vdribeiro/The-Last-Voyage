@@ -52,13 +52,13 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            if (isMenu) {
-                Row(
-                    modifier = Modifier
-                        .statusBarsPadding()
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
+            Row(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                if (isMenu && storeState.featureFeedback) {
                     IconButton(onClick = { store.send(action = MainMenuAction.Feedback) }) {
                         Icon(
                             imageVector = Icons.Default.BugReport,
@@ -69,14 +69,14 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
             }
         },
         bottomBar = {
-            if (isMenu) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 32.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (isMenu) {
                     Image(
                         modifier = Modifier
                             .size(size = 100.dp)

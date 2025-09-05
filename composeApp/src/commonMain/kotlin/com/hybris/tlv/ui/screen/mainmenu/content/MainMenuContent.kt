@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.screen.mainmenu.content
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +19,7 @@ import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.AppLogo
+import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.debouncedClickable
 import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -40,7 +42,11 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
     ) {
         item { AppLogo() }
         item { Spacer(modifier = Modifier.height(height = 32.dp)) }
-        if (!storeState.loading) {
+        if (storeState.loading) {
+            item { DebouncedLinearProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+            return@LazyColumn
+        }
+        if (storeState.featureNewGame) {
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.NewGame) },
@@ -48,15 +54,17 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                     style = typography.headlineMedium,
                 )
             }
-            if (storeState.ongoingGameSession) {
-                item {
-                    Text(
-                        modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Continue) },
-                        text = continueTranslation,
-                        style = typography.headlineMedium,
-                    )
-                }
+        }
+        if (storeState.ongoingGameSession) {
+            item {
+                Text(
+                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Continue) },
+                    text = continueTranslation,
+                    style = typography.headlineMedium,
+                )
             }
+        }
+        if (storeState.featureLearn) {
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Learn) },
@@ -64,6 +72,8 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                     style = typography.headlineMedium,
                 )
             }
+        }
+        if (storeState.featureScores) {
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Scores) },
@@ -71,6 +81,8 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                     style = typography.headlineMedium,
                 )
             }
+        }
+        if (storeState.featureSoon) {
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Soon) },

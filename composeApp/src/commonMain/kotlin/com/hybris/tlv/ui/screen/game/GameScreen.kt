@@ -10,7 +10,6 @@ import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Rocket
 import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -24,6 +23,7 @@ import com.hybris.tlv.ui.screen.game.content.ShipContent
 import com.hybris.tlv.ui.screen.game.content.SystemContent
 import com.hybris.tlv.ui.screen.game.content.TravelContent
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.StatusBar
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -72,7 +72,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (gameSession) {
-                null -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                null -> DebouncedLinearProgressIndicator(modifier = Modifier.fillMaxWidth())
                 else -> when (storeState.currentContent) {
                     Content.TRAVEL -> TravelContent(store = store)
                     Content.SYSTEM -> SystemContent(store = store)

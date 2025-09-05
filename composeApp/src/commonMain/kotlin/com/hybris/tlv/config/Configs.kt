@@ -22,10 +22,45 @@ internal data class Configs(
 
     // Feature flags
     val featureFeedback: Boolean = false,
-    val featureLearn: Boolean = false
+    val featureSoon: Boolean = false,
+    val featureLearn: Boolean = false,
+    val featureScores: Boolean = false,
+    val featureAchievements: Boolean = false,
+    val featureStellarExplorer: Boolean = false,
+    val featureNewGame: Boolean = false,
+    val featureGame: Boolean = false,
+    val featureEvents: Boolean = false,
+    val featureGameOver: Boolean = false,
 ) {
-    constructor(enableFeature: Boolean): this(
-        featureFeedback = enableFeature,
-        featureLearn = enableFeature
+    constructor(enableAllFeatures: Boolean): this(
+        featureFeedback = enableAllFeatures,
+        featureSoon = enableAllFeatures,
+        featureLearn = enableAllFeatures,
+        featureScores = enableAllFeatures,
+        featureAchievements = enableAllFeatures,
+        featureStellarExplorer = enableAllFeatures,
+        featureNewGame = enableAllFeatures,
+        featureGame = enableAllFeatures,
+        featureEvents = enableAllFeatures,
+        featureGameOver = enableAllFeatures,
+    )
+
+    fun copyValues(config: Configs) = copy(
+        developerCorner = config.developerCorner,
+        support = config.support,
+        formula = config.formula,
+    )
+
+    fun copyFeatures(config: Configs) = copy(
+        featureFeedback = config.featureFeedback,
+        featureSoon = config.featureSoon,
+        featureLearn = config.featureLearn,
+        featureScores = config.featureScores,
+        featureAchievements = config.featureAchievements,
+        featureStellarExplorer = config.featureStellarExplorer,
+        featureNewGame = config.featureNewGame,
+        featureGame = config.featureGame,
+        featureEvents = config.featureEvents,
+        featureGameOver = config.featureGameOver,
     )
 }

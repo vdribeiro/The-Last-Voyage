@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,6 +21,7 @@ import com.hybris.tlv.ui.screen.stellarexplorer.model.PlanetProperty
 import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.ControlPanel
+import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -175,7 +175,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when {
-                storeState.loading -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                storeState.loading -> DebouncedLinearProgressIndicator(modifier = Modifier.fillMaxWidth())
                 else -> when (storeState.currentContent) {
                     Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostContent(store = store)
                     Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetContent(store = store)

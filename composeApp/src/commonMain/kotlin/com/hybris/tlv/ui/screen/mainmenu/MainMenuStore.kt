@@ -28,6 +28,12 @@ internal sealed interface MainMenuAction {
 }
 
 internal data class MainMenuState(
+    val featureFeedback: Boolean = false,
+    val featureSoon: Boolean = false,
+    val featureLearn: Boolean = false,
+    val featureScores: Boolean = false,
+    val featureAchievements: Boolean = false,
+    val featureNewGame: Boolean = false,
     val loading: Boolean = true,
     val currentContent: Content = Content.MAIN_MENU,
     val ongoingGameSession: Boolean = false,
@@ -65,11 +71,19 @@ internal class MainMenuStore(
     private fun setup() = launch {
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
         val learnings = learningUseCases.getLearnings().groupBy { it.type }
+        val featureFeedback = config.configs.featureFeedback
+        val featureSoon: Boolean = config.configs.featureSoon
+        val featureLearn: Boolean = config.configs.featureLearn
+        val featureScores: Boolean = config.configs.featureScores
         val developerCorner = config.configs.developerCorner
         val support = config.configs.support
         val formula = config.configs.formula
         updateState {
             it.copy(
+                featureFeedback = featureFeedback,
+                featureSoon = featureSoon,
+                featureLearn = featureLearn,
+                featureScores = featureScores,
                 loading = false,
                 ongoingGameSession = ongoingGameSession,
                 learningsMap = learnings,
