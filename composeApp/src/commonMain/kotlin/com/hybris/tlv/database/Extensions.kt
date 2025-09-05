@@ -3,7 +3,7 @@ package com.hybris.tlv.database
 import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
 
-internal fun SqlDriver.clearDatabase() {
+internal fun SqlDriver.clearDatabase() = runCatching {
     val query = "SELECT name FROM sqlite_master WHERE type='table' " +
             "AND name!='sqlite_sequence' AND name!='android_metadata'"
     executeQuery(
@@ -24,4 +24,4 @@ internal fun SqlDriver.clearDatabase() {
             binders = null
         ).value
     }
-}
+}.getOrNull()

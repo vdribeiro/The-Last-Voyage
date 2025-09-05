@@ -35,7 +35,7 @@ internal class SyncGateway(
 
     override suspend fun sync(): Flow<SyncResult> = channelFlow {
         val localConfig = config.getLocal()
-        val remoteConfig = if (isDebug) Configs() else config.getRemote()
+        val remoteConfig = if (isDebug) Configs(enableFeature = true) else config.getRemote()
 
         val tasks = listOf(
             SyncTask(
@@ -125,7 +125,13 @@ internal class SyncGateway(
                 }
             }.awaitAll()
             updaters.fold(initial = localConfig) { config, updater -> updater(config) }
-        }
+        }.copy(
+            developerCorner = remoteConfig.developerCorner,
+            support = remoteConfig.support,
+            formula = remoteConfig.formula,
+            featureFeedback = remoteConfig.featureFeedback,
+            featureLearn = remoteConfig.featureLearn
+        )
 
         config.setLocal(configs = finalConfig)
         send(element = SyncResult.Success)

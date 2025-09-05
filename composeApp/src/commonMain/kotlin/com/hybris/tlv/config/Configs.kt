@@ -23,4 +23,9 @@ internal data class Configs(
     // Feature flags
     val featureFeedback: Boolean = false,
     val featureLearn: Boolean = false
-)
+) {
+    constructor(enableFeature: Boolean): this(
+        featureFeedback = enableFeature,
+        featureLearn = enableFeature
+    )
+}
