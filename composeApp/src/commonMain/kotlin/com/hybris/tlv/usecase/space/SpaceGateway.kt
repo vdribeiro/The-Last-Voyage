@@ -5,6 +5,7 @@ import com.hybris.tlv.usecase.space.mapper.toCartesian
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import kotlin.math.ceil
+import kotlin.math.sqrt
 
 internal class SpaceGateway(
     private val spaceDao: SpaceLocal,
@@ -22,29 +23,41 @@ internal class SpaceGateway(
         }
     }
 
-    // TODO - improve performance
     override suspend fun getNearestStars(
         stellarHost: StellarHost,
         n: Int,
         visited: Set<String>
     ): List<StellarHost> {
+        if (n <= 0) return emptyList()
         val stellarHostCP = stellarHost.toCartesian() ?: return emptyList()
-        return getExoplanets()
+        val nearest = mutableListOf<Pair<StellarHost, Double>>()
+        getExoplanets()
             .asSequence()
             .filter { it.id != stellarHost.id && it.id !in visited }
-            .mapNotNull { other ->
-                val otherCP = other.toCartesian() ?: return@mapNotNull null
-                val distance = stellarHostCP.distanceBetween(cp = otherCP)
-                Pair(first = other, second = distance)
-            }
-            .sortedBy { it.second }
-            .take(n = n)
-            .map {
-                it.first.copy(distance = it.second).apply {
-                    planets.addAll(elements = it.first.planets)
-                    travelOutcome = TravelOutcome(fuel = ceil(x = it.second).toInt())
+            .forEach { otherStellarHost ->
+                val otherStellarHostCP = otherStellarHost.toCartesian() ?: return@forEach
+                val distanceSquared = stellarHostCP.distanceSquaredBetween(cp = otherStellarHostCP)
+                when {
+                    nearest.size < n -> {
+                        nearest.add(otherStellarHost to distanceSquared)
+                        nearest.sortBy { it.second }
+                    }
+
+                    else -> {
+                        val farthestDistanceSquared = nearest.last().second
+                        if (distanceSquared < farthestDistanceSquared) {
+                            nearest[n - 1] = otherStellarHost to distanceSquared
+                            nearest.sortBy { it.second }
+                        }
+                    }
                 }
             }
-            .toList()
+        return nearest.map { (stellarHost, distanceSquared) ->
+            val finalDistance = sqrt(x = distanceSquared)
+            stellarHost.copy(distance = finalDistance).apply {
+                planets.addAll(elements = stellarHost.planets)
+                travelOutcome = TravelOutcome(fuel = ceil(x = finalDistance).toInt())
+            }
+        }
     }
 }

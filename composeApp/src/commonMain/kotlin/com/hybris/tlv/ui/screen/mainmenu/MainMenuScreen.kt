@@ -8,7 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,12 +44,30 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
     val storeState by store.stateFlow.collectAsState()
     val uriHandler = LocalUriHandler.current
     val currentContent = storeState.currentContent
+    val isMenu = currentContent == Content.MAIN_MENU || currentContent == Content.LEARN_MENU
     val websiteTranslation = remember { getTranslation(key = "website") }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        topBar = {
+            if (isMenu) {
+                Row(
+                    modifier = Modifier
+                        .statusBarsPadding()
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    IconButton(onClick = { store.send(action = MainMenuAction.Feedback) }) {
+                        Icon(
+                            imageVector = Icons.Default.BugReport,
+                            contentDescription = "Feedback"
+                        )
+                    }
+                }
+            }
+        },
         bottomBar = {
-            if (currentContent == Content.MAIN_MENU || currentContent == Content.LEARN_MENU) {
+            if (isMenu) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()

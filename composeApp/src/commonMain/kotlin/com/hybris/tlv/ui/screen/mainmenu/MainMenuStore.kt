@@ -11,6 +11,7 @@ import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
 
 internal sealed interface MainMenuAction {
+    data object Feedback: MainMenuAction
     data object NewGame: MainMenuAction
     data object Continue: MainMenuAction
     data object Learn: MainMenuAction
@@ -92,6 +93,7 @@ internal class MainMenuStore(
 
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
+            MainMenuAction.Feedback -> navigate(screen = Screen.ERROR)
             MainMenuAction.NewGame -> navigate(screen = Screen.NEW_GAME)
             MainMenuAction.Continue -> navigate(screen = Screen.GAME)
 

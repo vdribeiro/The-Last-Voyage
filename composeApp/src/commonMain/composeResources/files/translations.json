@@ -2676,8 +2676,18 @@
   },
   {
     "languageIso": "en",
+    "key": "error_screen__title_alt",
+    "value": "Feedback"
+  },
+  {
+    "languageIso": "en",
     "key": "error_screen__description",
-    "value": "It seems we've run into an uncharted anomaly. Our engineering crew is already on it, but a description from the you, the captain, would be invaluable."
+    "value": "It seems we've run into an uncharted anomaly. Our engineering crew is already on it, but a description from you would be invaluable."
+  },
+  {
+    "languageIso": "en",
+    "key": "error_screen__description_alt",
+    "value": "Your insights are valuable, whether you have an idea or have found something that isn't working right."
   },
   {
     "languageIso": "en",

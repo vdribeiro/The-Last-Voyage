@@ -15,7 +15,7 @@ internal interface SpaceUseCases {
     suspend fun getExoplanets(): List<StellarHost>
 
     /**
-     * Get the nearest [n] stellar hosts of the [stellarHost] excluding the [visited].
+     * Get the nearest [n] stellar hosts of the given [stellarHost] by Euclidean distance excluding the [visited].
      */
     suspend fun getNearestStars(
         stellarHost: StellarHost,

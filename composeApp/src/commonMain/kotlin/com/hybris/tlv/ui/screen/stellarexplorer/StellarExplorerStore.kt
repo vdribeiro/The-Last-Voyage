@@ -142,7 +142,7 @@ internal class StellarExplorerStore(
         refresh()
     }
 
-    private fun refresh(): Job = launch {
+    private fun refresh() {
         val state = stateFlow.value
         when (state.currentContent) {
             Content.LIST_HOSTS -> {
