@@ -30,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.theme.colorScheme
 import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -56,7 +55,6 @@ internal fun ErrorScreen(store: Store<ErrorAction, ErrorState>) {
                     modifier = Modifier.size(size = 64.dp),
                     imageVector = Icons.Outlined.BugReport,
                     contentDescription = "Error Icon",
-                    tint = colorScheme.secondary
                 )
 
                 Spacer(Modifier.height(height = 16.dp))
@@ -72,7 +70,6 @@ internal fun ErrorScreen(store: Store<ErrorAction, ErrorState>) {
                     text = descriptionTranslation,
                     style = typography.bodyMedium,
                     textAlign = TextAlign.Center,
-                    color = colorScheme.onSurfaceVariant
                 )
 
                 Spacer(Modifier.height(height = 24.dp))

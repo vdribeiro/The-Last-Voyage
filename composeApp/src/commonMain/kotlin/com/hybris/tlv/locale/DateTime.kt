@@ -11,6 +11,3 @@ internal fun now(): String = Clock.System.now().toString().replace(
     regex = "\\.\\d+".toRegex(),
     replacement = ""
 )
-
-@OptIn(ExperimentalTime::class)
-internal fun nowEpoch(): Long = Clock.System.now().epochSeconds

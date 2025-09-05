@@ -7,16 +7,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import com.hybris.tlv.locale.nowEpoch
+import kotlin.time.Clock
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
+@OptIn(ExperimentalTime::class)
 internal fun Modifier.debouncedClickable(
-    debounceTime: Long = 1L,
+    debounceTime: Duration = 500.milliseconds,
     onClick: () -> Unit
 ): Modifier = composed {
-    var lastClickTime by remember { mutableStateOf(value = 0L) }
+    var lastClickTime by remember { mutableStateOf(value = Instant.DISTANT_PAST) }
     clickable {
-        val now = nowEpoch()
-        if (now - lastClickTime > debounceTime) {
+        val now = Clock.System.now()
+        val elapsed = now - lastClickTime
+        if (elapsed > debounceTime) {
             lastClickTime = now
             onClick()
         }
