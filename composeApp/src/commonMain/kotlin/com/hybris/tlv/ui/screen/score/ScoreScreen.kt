@@ -56,6 +56,7 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                         contentPadding = PaddingValues(all = 16.dp),
                         verticalArrangement = Arrangement.spacedBy(space = 12.dp)
                     ) {
+                        // Scores
                         items(items = storeState.scores, key = { it.id }) { score ->
                             Score(
                                 modifier = Modifier

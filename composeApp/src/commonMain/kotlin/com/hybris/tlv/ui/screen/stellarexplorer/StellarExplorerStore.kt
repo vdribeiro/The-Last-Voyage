@@ -142,6 +142,9 @@ internal class StellarExplorerStore(
         refresh()
     }
 
+    /**
+     * Apply filters to the data and refresh the state.
+     */
     private fun refresh() {
         val state = stateFlow.value
         when (state.currentContent) {

@@ -32,6 +32,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
     val hostListTranslation = remember { getTranslation(key = "stellar_explorer_screen__host_list") }
     val planetListTranslation = remember { getTranslation(key = "stellar_explorer_screen__planet_list") }
 
+    // Control panel definitions according to selected view (property visibility, sort, search, etc...)
     val enabled: Boolean
     val viewName: String
     val viewIcon: ImageVector

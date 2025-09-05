@@ -49,6 +49,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
             ) {
                 val creditsMap = storeState.credits.groupBy { it.type }
 
+                // Creators
                 val creators = creditsMap[CreditType.CREATOR].orEmpty()
                 if (creators.isNotEmpty()) {
                     item(key = CreditType.CREATOR) {
@@ -72,6 +73,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     }
                 }
 
+                // Data sources
                 val sources = creditsMap[CreditType.SOURCE].orEmpty()
                 if (sources.isNotEmpty()) {
                     item(key = CreditType.SOURCE) {
@@ -95,6 +97,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     }
                 }
 
+                // Music authors
                 val musics = creditsMap[CreditType.MUSIC].orEmpty()
                 if (musics.isNotEmpty()) {
                     item(key = CreditType.MUSIC) {
@@ -118,6 +121,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     }
                 }
 
+                // Supporters
                 val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
                 if (supporters.isNotEmpty()) {
                     item(key = CreditType.SUPPORTER) {
