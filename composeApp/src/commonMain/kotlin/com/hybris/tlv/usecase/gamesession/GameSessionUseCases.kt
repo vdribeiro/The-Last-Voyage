@@ -37,7 +37,7 @@ internal interface GameSessionUseCases {
     /**
      * Update the given [gameSession] with the given [event].
      */
-    suspend fun doEvent(gameSession: GameSession, event: Event): GameSession
+    suspend fun launchEvent(gameSession: GameSession, event: Event): GameSession
 
     /**
      * Update the given [gameSession] by travelling to the given [stellarHost].

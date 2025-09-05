@@ -166,7 +166,10 @@ internal class GameOverStore(
         }
 
     override fun setBackNavigation(): () -> Unit = {
-        navigate(screen = Screen.MAIN_MENU)
+        when (stateFlow.value.currentContent) {
+            Content.MESSAGE -> {}
+            Content.SCORE -> navigate(screen = Screen.MAIN_MENU)
+        }
     }
 
     override fun reducer(state: GameOverState, action: GameOverAction) {

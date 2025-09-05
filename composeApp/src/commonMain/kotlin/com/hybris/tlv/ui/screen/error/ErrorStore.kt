@@ -4,6 +4,8 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
+import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 import com.hybris.tlv.ui.store.Store
 
 internal sealed interface ErrorAction {
@@ -26,7 +28,15 @@ internal class ErrorStore(
     initialState = initialState
 ) {
     override fun setBackNavigation(): () -> Unit = {
-        navigate(screen = Screen.MAIN_MENU)
+        when (stateFlow.value.identifier) {
+            MainMenuContent.LEARN_MENU.name -> navigate(
+                screen = Screen.MAIN_MENU, state = MainMenuState(
+                    currentContent = MainMenuContent.LEARN_MENU
+                )
+            )
+
+            else -> navigate(screen = Screen.MAIN_MENU)
+        }
     }
 
     override fun reducer(state: ErrorState, action: ErrorAction) {

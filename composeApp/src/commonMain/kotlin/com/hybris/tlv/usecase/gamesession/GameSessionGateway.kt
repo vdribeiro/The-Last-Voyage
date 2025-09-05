@@ -45,7 +45,7 @@ internal class GameSessionGateway(
         spaceInternalUseCases.upsertFormula(formula = gameSession.formula)
     }
 
-    override suspend fun doEvent(gameSession: GameSession, event: Event): GameSession {
+    override suspend fun launchEvent(gameSession: GameSession, event: Event): GameSession {
         val integrity = gameSession.ship.integrity + (event.outcome?.integrity ?: 0)
         val materials = gameSession.ship.materials + (event.outcome?.materials ?: 0)
         val fuel = gameSession.ship.fuel + (event.outcome?.fuel ?: 0)

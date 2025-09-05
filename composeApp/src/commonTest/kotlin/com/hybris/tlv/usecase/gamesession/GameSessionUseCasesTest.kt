@@ -46,7 +46,7 @@ internal class GameSessionUseCasesTest {
         val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val event = events.find { it.outcome != null }!!
         event.outcome!!
-        val newGameSession = mock.useCases.gameSession.doEvent(gameSession = gameSession, event = event)
+        val newGameSession = mock.useCases.gameSession.launchEvent(gameSession = gameSession, event = event)
         assertEquals(expected = gameSession.ship.integrity + (event.outcome.integrity ?: 0), actual = newGameSession.ship.integrity)
         assertEquals(expected = gameSession.ship.fuel + (event.outcome.fuel ?: 0), actual = newGameSession.ship.fuel)
         assertEquals(expected = gameSession.ship.materials + (event.outcome.materials ?: 0), actual = newGameSession.ship.materials)

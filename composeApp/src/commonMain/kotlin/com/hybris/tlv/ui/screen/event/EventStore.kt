@@ -76,7 +76,7 @@ internal class EventStore(
         }
 
         val children = events.filter { it.parentId == event.id }
-        val updatedGameSession = gameSessionUseCases.doEvent(gameSession = gameSession, event = event)
+        val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = event)
 
         updateState {
             it.copy(
@@ -89,7 +89,7 @@ internal class EventStore(
     }
 
     override fun setBackNavigation(): () -> Unit = {
-        navigate(screen = Screen.MAIN_MENU)
+        navigate(screen = Screen.GAME)
     }
 
     override fun reducer(state: EventState, action: EventAction) {
@@ -99,6 +99,11 @@ internal class EventStore(
     }
 
     private fun select(state: EventState, action: EventAction.Select) = launch {
+        if (action.event == null) {
+            navigate(screen = Screen.GAME)
+            return@launch
+        }
+
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
             navigate(
@@ -111,13 +116,8 @@ internal class EventStore(
             return@launch
         }
 
-        if (action.event == null) {
-            navigate(screen = Screen.GAME)
-            return@launch
-        }
-
         val children = state.events.filter { it.parentId == action.event.id }
-        val updatedGameSession = gameSessionUseCases.doEvent(gameSession = state.gameSession, event = action.event)
+        val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = state.gameSession, event = action.event)
 
         updateState {
             it.copy(
