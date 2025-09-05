@@ -11,8 +11,8 @@ internal class NavigationManagerTest {
     fun navigate() = runBlocking {
         assertEquals(expected = NavigationManager.Screen.SPLASH, actual = mock.navigation.stateFlow.value.screen)
 
-        mock.navigation.navigate(screen = NavigationManager.Screen.ERROR)
-        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
+        mock.navigation.navigate(screen = NavigationManager.Screen.FEEDBACK)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
 
         mock.navigation.navigate(screen = NavigationManager.Screen.SPLASH)
         assertEquals(expected = NavigationManager.Screen.SPLASH, actual = mock.navigation.stateFlow.value.screen)

@@ -41,7 +41,7 @@ internal class GameOverStoreTest {
         assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mock.navigation.stateFlow.value.screen)
         val gameOverStore = store
         assertNull(actual = gameOverStore.stateFlow.value.gameSession)
-        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
     }
 
     @Test
@@ -69,6 +69,6 @@ internal class GameOverStoreTest {
     fun `send action continue without game session`() = runBlocking {
         val gameOverStore = store
         gameOverStore.send(action = GameOverAction.Continue)
-        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
     }
 }

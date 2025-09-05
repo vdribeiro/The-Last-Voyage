@@ -109,6 +109,6 @@ internal class NewGameStoreTest {
         assertEquals(expected = NavigationManager.Screen.NEW_GAME, actual = mock.navigation.stateFlow.value.screen)
         val newGameStore = store
         newGameStore.send(action = NewGameAction.StartGame)
-        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
     }
 }

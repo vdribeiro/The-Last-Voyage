@@ -30,7 +30,7 @@ internal fun getTracks(screen: Screen) = when (screen) {
         "tracks/space_gras.mp3",
     )
 
-    Screen.ERROR,
+    Screen.FEEDBACK,
     Screen.GAME_OVER -> arrayOf(
         "tracks/space.mp3",
     )

@@ -14,7 +14,7 @@ import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.achievement.AchievementState
 import com.hybris.tlv.ui.screen.credit.CreditState
-import com.hybris.tlv.ui.screen.error.ErrorState
+import com.hybris.tlv.ui.screen.feedback.FeedbackState
 import com.hybris.tlv.ui.screen.event.EventState
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.screen.gameover.GameOverState
@@ -51,8 +51,8 @@ private fun Screen(
 private fun ErrorScreenPreview() {
     AppTheme {
         Screen(
-            screen = Screen.ERROR,
-            state = ErrorState()
+            screen = Screen.FEEDBACK,
+            state = FeedbackState()
         )
     }
 }

@@ -4,7 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
-import com.hybris.tlv.ui.screen.error.ErrorState
+import com.hybris.tlv.ui.screen.feedback.FeedbackState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
@@ -55,7 +55,7 @@ internal class GameStore(
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
             navigate(
-                screen = Screen.ERROR, state = ErrorState(
+                screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.GAME,
                     throwable = IllegalStateException("Invalid state: missing game session"),
                     identifier = "GameStore:setup"
@@ -78,7 +78,7 @@ internal class GameStore(
         if (currentStellarHost == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing stellar host")
             navigate(
-                screen = Screen.ERROR, state = ErrorState(
+                screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.GAME,
                     throwable = IllegalStateException("Invalid state: missing stellar host"),
                     identifier = "GameStore:setup"
@@ -144,7 +144,7 @@ internal class GameStore(
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
             navigate(
-                screen = Screen.ERROR, state = ErrorState(
+                screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.GAME,
                     throwable = IllegalStateException("Invalid state: missing game session"),
                     identifier = "GameStore:travel"
@@ -155,7 +155,7 @@ internal class GameStore(
         if (stellarHost == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing current stellar host")
             navigate(
-                screen = Screen.ERROR, state = ErrorState(
+                screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.GAME,
                     throwable = IllegalStateException("Invalid state: missing current stellar host"),
                     identifier = "GameStore:travel"
@@ -174,7 +174,7 @@ internal class GameStore(
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
             navigate(
-                screen = Screen.ERROR, state = ErrorState(
+                screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.GAME,
                     throwable = IllegalStateException("Invalid state: missing game session"),
                     identifier = "GameStore:settle"

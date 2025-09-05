@@ -12,9 +12,9 @@ import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.credit.CreditScreen
 import com.hybris.tlv.ui.screen.credit.CreditState
 import com.hybris.tlv.ui.screen.credit.CreditStore
-import com.hybris.tlv.ui.screen.error.ErrorScreen
-import com.hybris.tlv.ui.screen.error.ErrorState
-import com.hybris.tlv.ui.screen.error.ErrorStore
+import com.hybris.tlv.ui.screen.feedback.FeedbackScreen
+import com.hybris.tlv.ui.screen.feedback.FeedbackState
+import com.hybris.tlv.ui.screen.feedback.FeedbackStore
 import com.hybris.tlv.ui.screen.event.EventScreen
 import com.hybris.tlv.ui.screen.event.EventState
 import com.hybris.tlv.ui.screen.event.EventStore
@@ -64,11 +64,11 @@ internal class Navigation(
         screen: Screen,
         state: Any?
     ) = when (screen) {
-        Screen.ERROR -> ErrorScreen(
-            store = ErrorStore(
+        Screen.FEEDBACK -> FeedbackScreen(
+            store = FeedbackStore(
                 dispatcher = dispatcher,
                 navigation = this,
-                initialState = state as? ErrorState ?: ErrorState()
+                initialState = state as? FeedbackState ?: FeedbackState()
             )
         )
 

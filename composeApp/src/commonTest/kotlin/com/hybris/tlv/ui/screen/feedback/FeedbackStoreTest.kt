@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.error
+package com.hybris.tlv.ui.screen.feedback
 
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.mock.mock
@@ -8,33 +8,33 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
 
-internal class ErrorStoreTest {
+internal class FeedbackStoreTest {
 
     private val store
-        get() = ErrorStore(
+        get() = FeedbackStore(
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
-            initialState = ErrorState(),
+            initialState = FeedbackState(),
         )
 
     @BeforeTest
     fun setup() = runBlocking {
         mock.sqlDriver.clearDatabase()
-        mock.navigation.navigate(screen = NavigationManager.Screen.ERROR)
+        mock.navigation.navigate(screen = NavigationManager.Screen.FEEDBACK)
     }
 
     @Test
     fun `send action back`() = runBlocking {
         store
-        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
         mock.navigation.back()
         assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
     }
 
     @Test
     fun `send action send feedback`() = runBlocking {
-        val errorStore = store
-        errorStore.send(action = ErrorAction.SendFeedback(message = "Feedback"))
+        val feedbackStore = store
+        feedbackStore.send(action = FeedbackAction.SendFeedback(message = "Feedback"))
         // TODO - implement feedback on store
     }
 }

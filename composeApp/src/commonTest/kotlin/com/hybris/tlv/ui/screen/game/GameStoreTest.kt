@@ -52,7 +52,7 @@ internal class GameStoreTest {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         val gameStore = store
         assertNull(actual = gameStore.stateFlow.value.gameSession)
-        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
     }
 
     @Test
@@ -93,7 +93,7 @@ internal class GameStoreTest {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         assertNull(actual = gameStore.stateFlow.value.gameSession)
-        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
     }
 
     @Test
@@ -137,7 +137,7 @@ internal class GameStoreTest {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         val gameStore = store
         gameStore.send(action = GameAction.Travel(stellarHost = stellarHosts.first()))
-        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
     }
 
     @Test
@@ -146,7 +146,7 @@ internal class GameStoreTest {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         gameStore.send(action = GameAction.Travel(stellarHost = stellarHosts.first()))
-        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
     }
 
     @Test
@@ -165,6 +165,6 @@ internal class GameStoreTest {
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
         val gameStore = store
         gameStore.send(action = GameAction.Settle(planet = planets.first()))
-        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
     }
 }

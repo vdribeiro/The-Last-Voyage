@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.error
+package com.hybris.tlv.ui.screen.feedback
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
@@ -9,21 +9,21 @@ import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.Job
 import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
-internal sealed interface ErrorAction {
-    data class SendFeedback(val message: String): ErrorAction
+internal sealed interface FeedbackAction {
+    data class SendFeedback(val message: String): FeedbackAction
 }
 
-internal data class ErrorState(
+internal data class FeedbackState(
     val screen: Screen? = null,
     val throwable: Throwable? = null,
     val identifier: String? = null
 )
 
-internal class ErrorStore(
+internal class FeedbackStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: ErrorState,
-): Store<ErrorAction, ErrorState>(
+    initialState: FeedbackState,
+): Store<FeedbackAction, FeedbackState>(
     dispatcher = dispatcher,
     navigation = navigation,
     initialState = initialState
@@ -32,14 +32,14 @@ internal class ErrorStore(
         sendFeedback(state = stateFlow.value, message = "")
     }
 
-    override fun reducer(state: ErrorState, action: ErrorAction) {
+    override fun reducer(state: FeedbackState, action: FeedbackAction) {
         when (action) {
-            is ErrorAction.SendFeedback -> sendFeedback(state = state, message = action.message)
+            is FeedbackAction.SendFeedback -> sendFeedback(state = state, message = action.message)
         }
     }
 
     // TODO: Send feedback to server
-    private fun sendFeedback(state: ErrorState, message: String): Job = launch {
+    private fun sendFeedback(state: FeedbackState, message: String): Job = launch {
         if (message.isNotBlank()) {
             val feedback = buildList {
                 state.screen?.let { add(element = "Screen: $it") }

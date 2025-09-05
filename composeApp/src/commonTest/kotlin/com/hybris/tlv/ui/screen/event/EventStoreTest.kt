@@ -48,7 +48,7 @@ internal class EventStoreTest {
         assertEquals(expected = NavigationManager.Screen.EVENT, actual = mock.navigation.stateFlow.value.screen)
         val eventStore = store
         assertNull(actual = eventStore.stateFlow.value.gameSession)
-        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
     }
 
     @Test
@@ -85,7 +85,7 @@ internal class EventStoreTest {
         val eventStore = store
         val event = events.random()
         eventStore.send(action = EventAction.Select(event = event))
-        assertEquals(expected = NavigationManager.Screen.ERROR, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
     }
 
     @Test

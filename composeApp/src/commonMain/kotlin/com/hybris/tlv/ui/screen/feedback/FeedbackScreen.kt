@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.error
+package com.hybris.tlv.ui.screen.feedback
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,7 +34,7 @@ import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun ErrorScreen(store: Store<ErrorAction, ErrorState>) {
+internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
     val storeState by store.stateFlow.collectAsState()
     val isError = storeState.throwable != null
     var feedbackText by remember { mutableStateOf(value = "") }
@@ -89,7 +89,7 @@ internal fun ErrorScreen(store: Store<ErrorAction, ErrorState>) {
                     horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally)
                 ) {
                     Button(
-                        onClick = { store.send(action = ErrorAction.SendFeedback(message = feedbackText)) },
+                        onClick = { store.send(action = FeedbackAction.SendFeedback(message = feedbackText)) },
                         enabled = feedbackText.isNotBlank()
                     ) {
                         Text(text = buttonTranslation)

@@ -4,7 +4,7 @@ import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
-import com.hybris.tlv.ui.screen.error.ErrorState
+import com.hybris.tlv.ui.screen.feedback.FeedbackState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.learning.LearningUseCases
@@ -95,7 +95,7 @@ internal class MainMenuStore(
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
             MainMenuAction.Feedback -> navigate(
-                screen = Screen.ERROR, state = ErrorState(
+                screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.MAIN_MENU,
                     identifier = state.currentContent.name
                 )

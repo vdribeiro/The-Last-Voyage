@@ -4,7 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
-import com.hybris.tlv.ui.screen.error.ErrorState
+import com.hybris.tlv.ui.screen.feedback.FeedbackState
 import com.hybris.tlv.ui.screen.newgame.state.ShipState
 import com.hybris.tlv.ui.screen.newgame.state.ShipState.Point
 import com.hybris.tlv.ui.store.Store
@@ -60,7 +60,7 @@ internal class NewGameStore(
         if (catastrophe == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing catastrophe")
             navigate(
-                screen = Screen.ERROR, state = ErrorState(
+                screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.NEW_GAME,
                     throwable = IllegalStateException("Invalid state: missing catastrophe"),
                     identifier = "NewGameStore:reducer:Start"
@@ -109,7 +109,7 @@ internal class NewGameStore(
         if (state.selectedShip == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing ship prototype")
             navigate(
-                screen = Screen.ERROR, state = ErrorState(
+                screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.NEW_GAME,
                     throwable = IllegalStateException("Invalid state: missing ship prototype"),
                     identifier = "NewGameStore:startGame"

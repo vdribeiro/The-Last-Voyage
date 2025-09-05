@@ -4,7 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
-import com.hybris.tlv.ui.screen.error.ErrorState
+import com.hybris.tlv.ui.screen.feedback.FeedbackState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
@@ -42,7 +42,7 @@ internal class EventStore(
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
             navigate(
-                screen = Screen.ERROR, state = ErrorState(
+                screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.EVENT,
                     throwable = IllegalStateException("Invalid state: missing game session"),
                     identifier = "EventStore:setup"
@@ -66,7 +66,7 @@ internal class EventStore(
         if (event == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing parent event")
             navigate(
-                screen = Screen.ERROR, state = ErrorState(
+                screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.EVENT,
                     throwable = IllegalStateException("Invalid state: missing parent event"),
                     identifier = "EventStore:setup"
@@ -107,7 +107,7 @@ internal class EventStore(
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
             navigate(
-                screen = Screen.ERROR, state = ErrorState(
+                screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.EVENT,
                     throwable = IllegalStateException("Invalid state: missing game session"),
                     identifier = "EventStore:reducer:Select"
