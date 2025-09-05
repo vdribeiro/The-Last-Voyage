@@ -286,17 +286,17 @@ internal class StellarExplorerStore(
     }
 
     private fun changeStellarHostsVisibility(state: StellarExplorerState, action: StellarExplorerAction.ChangeStellarHostsVisibility): Job = launch {
-        val visibleStellarHostProperties = state.visibleStellarHostProperties.plusOrMinus(value = action.property)
+        val visibleStellarHostProperties = state.visibleStellarHostProperties.plusOrMinus(element = action.property)
         updateState { it.copy(visibleStellarHostProperties = visibleStellarHostProperties) }
     }
 
     private fun changePlanetVisibility(state: StellarExplorerState, action: StellarExplorerAction.ChangePlanetVisibility): Job = launch {
-        val visiblePlanetProperties = state.visiblePlanetProperties.plusOrMinus(value = action.property)
+        val visiblePlanetProperties = state.visiblePlanetProperties.plusOrMinus(element = action.property)
         updateState { it.copy(visiblePlanetProperties = visiblePlanetProperties) }
     }
 
     private fun changeStellarHostsSearchable(state: StellarExplorerState, action: StellarExplorerAction.ChangeStellarHostsSearchable): Job = launch {
-        val searchableStellarHostProperties = state.searchableStellarHostProperties.plusOrMinus(value = action.property)
+        val searchableStellarHostProperties = state.searchableStellarHostProperties.plusOrMinus(element = action.property)
         updateState {
             it.copy(
                 listIndex = LazyListIndex(),
@@ -307,7 +307,7 @@ internal class StellarExplorerStore(
     }
 
     private fun changePlanetSearchable(state: StellarExplorerState, action: StellarExplorerAction.ChangePlanetSearchable): Job = launch {
-        val searchablePlanetProperties = state.searchablePlanetProperties.plusOrMinus(value = action.property)
+        val searchablePlanetProperties = state.searchablePlanetProperties.plusOrMinus(element = action.property)
         updateState {
             it.copy(
                 listIndex = LazyListIndex(),
@@ -367,7 +367,7 @@ internal fun <E, V> Collection<E>.ifContains(element: E, value: V?): V? =
     if (contains(element)) value else null
 
 /**
- * Adds [value] if it is not present, otherwise removes it.
+ * Adds [element] if it is not present, otherwise removes it.
  */
-internal fun <V> Iterable<V>.plusOrMinus(value: V): Set<V> =
-    (if (contains(element = value)) minus(element = value) else plus(element = value)).toSet()
+internal fun <V> Iterable<V>.plusOrMinus(element: V): Set<V> =
+    (if (contains(element = element)) minus(element = element) else plus(element = element)).toSet()

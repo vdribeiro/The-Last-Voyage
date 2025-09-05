@@ -57,13 +57,14 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                         verticalArrangement = Arrangement.spacedBy(space = 12.dp)
                     ) {
                         items(items = storeState.scores, key = { it.id }) { score ->
-                            val isExpanded = expandedItems.contains(element = score.id)
                             Score(
                                 modifier = Modifier
                                     .debouncedClickable(onClick = {
-                                        if (isExpanded) expandedItems.remove(element = score.id) else expandedItems.add(element = score.id)
+                                        if (expandedItems.contains(element = score.id)) {
+                                            expandedItems.remove(element = score.id)
+                                        } else expandedItems.add(element = score.id)
                                     }),
-                                isExpanded = isExpanded,
+                                isExpanded = expandedItems.contains(element = score.id),
                                 score = (score.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
                                 utc = score.utc,
                                 yearsTraveled = score.ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),

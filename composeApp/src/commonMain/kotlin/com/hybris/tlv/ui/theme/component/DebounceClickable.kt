@@ -10,7 +10,7 @@ import androidx.compose.ui.composed
 import com.hybris.tlv.locale.nowEpoch
 
 internal fun Modifier.debouncedClickable(
-    debounceTime: Long = 1000L,
+    debounceTime: Long = 1L,
     onClick: () -> Unit
 ): Modifier = composed {
     var lastClickTime by remember { mutableStateOf(value = 0L) }

@@ -134,7 +134,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
                         ) {
                             items(items = supporters) { credit ->
-                                Card(elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)) {
+                                Card(elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
                                     Text(
                                         modifier = Modifier
                                             .fillMaxWidth()
