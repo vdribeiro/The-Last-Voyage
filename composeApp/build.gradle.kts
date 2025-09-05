@@ -59,6 +59,10 @@ kotlin {
             }
         }
 
+        val androidInstrumentedTest by getting {
+            dependsOn(other = commonTest)
+        }
+
         val desktopMain by getting {
             dependencies {
                 implementation(dependencyNotation = compose.desktop.currentOs)

@@ -23,16 +23,20 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import com.hybris.tlv.usecase.translation.model.domain.Translation
 
-internal val mock = Core(
-    dispatcher = TestDispatchers(),
-    sqlDriver = createSqlDriver(inMemory = true),
-    httpClient = HttpClientFactory.buildHttpClient()
-)
-internal val errorMock = Core(
-    dispatcher = TestDispatchers(),
-    sqlDriver = createSqlDriver(inMemory = true),
-    httpClient = HttpClientFactory.buildErrorHttpClient()
-)
+internal val mock by lazy {
+    Core(
+        dispatcher = TestDispatchers(),
+        sqlDriver = createSqlDriver(inMemory = true),
+        httpClient = HttpClientFactory.buildHttpClient()
+    )
+}
+internal val errorMock by lazy {
+    Core(
+        dispatcher = TestDispatchers(),
+        sqlDriver = createSqlDriver(inMemory = true),
+        httpClient = HttpClientFactory.buildErrorHttpClient()
+    )
+}
 
 internal val translations by lazy {
     listOf(

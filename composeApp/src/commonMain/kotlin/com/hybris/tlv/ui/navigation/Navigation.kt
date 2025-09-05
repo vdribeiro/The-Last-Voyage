@@ -12,12 +12,12 @@ import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.credit.CreditScreen
 import com.hybris.tlv.ui.screen.credit.CreditState
 import com.hybris.tlv.ui.screen.credit.CreditStore
-import com.hybris.tlv.ui.screen.feedback.FeedbackScreen
-import com.hybris.tlv.ui.screen.feedback.FeedbackState
-import com.hybris.tlv.ui.screen.feedback.FeedbackStore
 import com.hybris.tlv.ui.screen.event.EventScreen
 import com.hybris.tlv.ui.screen.event.EventState
 import com.hybris.tlv.ui.screen.event.EventStore
+import com.hybris.tlv.ui.screen.feedback.FeedbackScreen
+import com.hybris.tlv.ui.screen.feedback.FeedbackState
+import com.hybris.tlv.ui.screen.feedback.FeedbackStore
 import com.hybris.tlv.ui.screen.game.GameScreen
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.screen.game.GameStore

@@ -5,7 +5,6 @@ import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.config.Config
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.Database
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.Dispatchers
@@ -147,8 +146,4 @@ internal class Core(
         config = config,
         useCases = useCases
     )
-) {
-    init {
-        if (isDebug) sqlDriver.clearDatabase()
-    }
-}
+)
