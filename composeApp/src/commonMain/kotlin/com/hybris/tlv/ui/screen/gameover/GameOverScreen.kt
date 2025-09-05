@@ -55,6 +55,7 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
                     )
                     Spacer(modifier = Modifier.height(height = 16.dp))
                     when (storeState.currentContent) {
+                        // Game over message
                         Content.MESSAGE -> TypewriterText(
                             modifier = Modifier
                                 .weight(weight = 1f)
@@ -62,6 +63,7 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
                             text = getTranslation(key = storeState.gameOverMessage.orEmpty())
                         )
 
+                        // Score
                         Content.SCORE -> if (gameSession != null && ship != null) Score(
                             isExpanded = null,
                             score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
@@ -76,6 +78,7 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
                     }
                 }
 
+                // Continue button
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()

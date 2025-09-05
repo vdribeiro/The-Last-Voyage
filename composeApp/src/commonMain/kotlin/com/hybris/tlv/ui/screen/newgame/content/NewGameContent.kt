@@ -46,14 +46,15 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
             .padding(all = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        // Remaining points
         Text(
             text = "$shipPointsTranslation: $remainingPoints",
             style = typography.headlineSmall,
             fontWeight = FontWeight.Bold
         )
-
         Spacer(Modifier.height(height = 16.dp))
 
+        // Sliders for sensor range, fuel, materials and cryopods
         LazyColumn(
             modifier = Modifier.weight(weight = 1f),
             verticalArrangement = Arrangement.spacedBy(space = 16.dp, alignment = Alignment.CenterVertically)
@@ -104,9 +105,9 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
                 )
             }
         }
-
         Spacer(modifier = Modifier.weight(weight = 1f))
 
+        // Continue button
         Button(
             modifier = Modifier
                 .fillMaxWidth()

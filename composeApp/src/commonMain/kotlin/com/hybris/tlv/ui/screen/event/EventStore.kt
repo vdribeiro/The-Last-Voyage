@@ -62,8 +62,10 @@ internal class EventStore(
                 )
             )
         }
-        val event = events.find { it.parentId == null }
-        if (event == null) {
+
+        // There must be at least 1 event with no parentId, this is the parent event
+        val parentEvent = events.find { it.parentId == null }
+        if (parentEvent == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing parent event")
             navigate(
                 screen = Screen.FEEDBACK, state = FeedbackState(
@@ -74,16 +76,15 @@ internal class EventStore(
             )
             return@launch
         }
-
-        val children = events.filter { it.parentId == event.id }
-        val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = event)
+        val childrenEvents = events.filter { it.parentId == parentEvent.id }
+        val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = parentEvent)
 
         updateState {
             it.copy(
                 gameSession = updatedGameSession,
                 events = events,
-                event = event,
-                children = children
+                event = parentEvent,
+                children = childrenEvents
             )
         }
     }
@@ -99,6 +100,7 @@ internal class EventStore(
     }
 
     private fun select(state: EventState, action: EventAction.Select) = launch {
+        // Event chain has ended
         if (action.event == null) {
             navigate(screen = Screen.GAME)
             return@launch
@@ -116,6 +118,7 @@ internal class EventStore(
             return@launch
         }
 
+        // Continue event chain
         val children = state.events.filter { it.parentId == action.event.id }
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = state.gameSession, event = action.event)
 

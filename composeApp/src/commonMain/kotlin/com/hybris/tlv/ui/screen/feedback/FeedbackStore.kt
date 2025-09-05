@@ -7,6 +7,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
 internal sealed interface FeedbackAction {
@@ -16,7 +17,7 @@ internal sealed interface FeedbackAction {
 internal data class FeedbackState(
     val screen: Screen? = null,
     val throwable: Throwable? = null,
-    val identifier: String? = null
+    val identifier: String? = null,
 )
 
 internal class FeedbackStore(
@@ -41,6 +42,7 @@ internal class FeedbackStore(
     // TODO: Send feedback to server
     private fun sendFeedback(state: FeedbackState, message: String): Job = launch {
         if (message.isNotBlank()) {
+            // Construct the feedback message with all the components
             val feedback = buildList {
                 state.screen?.let { add(element = "Screen: $it") }
                 state.identifier?.let { add(element = "Identifier: $it") }
@@ -48,8 +50,10 @@ internal class FeedbackStore(
                 state.throwable?.let { add(element = "Throwable: $it") }
             }.joinToString(separator = "\n")
             Logger.info(message = feedback)
+            delay(timeMillis = 2000L)
         }
 
+        // Use the identifier to navigate back to the correct screen
         when (stateFlow.value.identifier) {
             MainMenuContent.LEARN_MENU.name -> navigate(
                 screen = Screen.MAIN_MENU, state = MainMenuState(

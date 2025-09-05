@@ -64,6 +64,7 @@ internal class GameStore(
             return@launch
         }
 
+        // Attempt to repair the ship if the integrity is critically low
         val ship = shipUseCases.repairShip(ship = gameSession.ship)
         val updatedGameSession = gameSession.copy(ship = ship)
         gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
@@ -73,6 +74,7 @@ internal class GameStore(
             return@launch
         }
 
+        // Get the current stellar host which the player is in
         val currentStellarHostId = updatedGameSession.currentStellarHostId ?: "sol"
         val currentStellarHost = spaceUseCases.getStellarHost(id = currentStellarHostId)
         if (currentStellarHost == null) {
@@ -87,7 +89,9 @@ internal class GameStore(
             return@launch
         }
 
+        // Get and set the visited stellar hosts
         var visited = updatedGameSession.visitedStellarHosts.ifEmpty { setOf(currentStellarHostId) }
+        // Get the stars nearest to the current stellar host by sensor range
         var nearStellarHosts = spaceUseCases.getNearestStars(
             stellarHost = currentStellarHost,
             n = ship.sensorRange,
@@ -104,6 +108,7 @@ internal class GameStore(
             )
         }
 
+        // Calculate habitability for each planet of the current stellar host
         currentStellarHost.planets.forEach { planet ->
             planet.score = Habitability.calculateScores(
                 stellarHost = currentStellarHost,
@@ -165,8 +170,6 @@ internal class GameStore(
         }
 
         gameSessionUseCases.travel(gameSession = state.gameSession, stellarHost = stellarHost)
-
-        // Hidden Cheat: If you go to the main menu in the event screen, you will circumvent the event
         navigate(screen = Screen.EVENT)
     }
 

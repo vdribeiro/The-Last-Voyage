@@ -39,6 +39,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
+            // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
                 modifier = Modifier.statusBarsPadding(),
                 hull = ship?.integrity?.toString() ?: "0",
@@ -48,6 +49,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
             )
         },
         bottomBar = {
+            // Navigation bar for travel, system and ship status
             NavigationBar {
                 NavigationBarItem(
                     icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },

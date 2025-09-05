@@ -31,11 +31,11 @@ internal class SplashStore(
     }
 
     private fun setup() {
-        launchAndForget {
+        launch {
             // Uncomment to get archive
             //syncUseCases.getArchive().last()
-        }
-        launch {
+
+            // Sync and return the progress
             syncUseCases.sync().collect { result ->
                 val progress = when (result) {
                     is SyncResult.Error, SyncResult.Success -> 1f
@@ -43,9 +43,7 @@ internal class SplashStore(
                 }
                 updateState { it.copy(progress = progress) }
             }
-
             updateState { it.copy(progress = 1f) }
-            delay(timeMillis = 1000)
             send(action = SplashAction.Start)
         }
     }

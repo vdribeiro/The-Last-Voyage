@@ -35,12 +35,13 @@ internal interface GameSessionUseCases {
     suspend fun updateGameSession(gameSession: GameSession)
 
     /**
-     * Update the given [gameSession] with the given [event].
+     * Update the given [gameSession] with the given [event] outcomes.
      */
     suspend fun launchEvent(gameSession: GameSession, event: Event): GameSession
 
     /**
      * Update the given [gameSession] by travelling to the given [stellarHost].
+     * This will use fuel, add to the years traveled, and add to the visited stellar hosts list.
      */
     suspend fun travel(gameSession: GameSession, stellarHost: StellarHost): GameSession
 

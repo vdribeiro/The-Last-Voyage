@@ -1,9 +1,7 @@
 package com.hybris.tlv.ui.screen.feedback
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -27,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
@@ -38,9 +38,14 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
     val storeState by store.stateFlow.collectAsState()
     val isError = storeState.throwable != null
     var feedbackText by remember { mutableStateOf(value = "") }
+    var inputEnabled by remember { mutableStateOf(value = true) }
+    var buttonEnabled by remember { mutableStateOf(value = false) }
+
+    // Feedback translations depend on if it is was an app error or it's just simple user feedback
     val titleTranslation = remember { getTranslation(key = if (isError) "error_screen__title" else "error_screen__title_alt") }
     val descriptionTranslation = remember { getTranslation(key = if (isError) "error_screen__description" else "error_screen__description_alt") }
     val buttonTranslation = remember { getTranslation(key = "error_screen__button") }
+    val thanksTranslation = remember { getTranslation(key = "error_screen__thanks") }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
@@ -51,49 +56,57 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
                     .padding(all = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                // Icon and title
                 Icon(
                     modifier = Modifier.size(size = 64.dp),
                     imageVector = Icons.Outlined.BugReport,
                     contentDescription = "Error Icon",
                 )
-
                 Spacer(Modifier.height(height = 16.dp))
-
                 Text(
                     text = titleTranslation,
                     style = typography.headlineSmall
                 )
-
                 Spacer(Modifier.height(height = 8.dp))
-
                 Text(
                     text = descriptionTranslation,
                     style = typography.bodyMedium,
                     textAlign = TextAlign.Center,
                 )
-
                 Spacer(Modifier.height(height = 24.dp))
 
+                // Feedback input
                 OutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(height = 120.dp),
+                    enabled = inputEnabled,
                     value = feedbackText,
-                    onValueChange = { feedbackText = it },
+                    onValueChange = {
+                        feedbackText = it
+                        buttonEnabled = feedbackText.isNotBlank()
+                    },
                 )
-
                 Spacer(Modifier.height(height = 24.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally)
+                // Send feedback button
+                Button(
+                    onClick = {
+                        store.send(action = FeedbackAction.SendFeedback(message = feedbackText))
+                        inputEnabled = false
+                        buttonEnabled = false
+                    },
+                    colors = ButtonDefaults.buttonColors(contentColor = Color.White),
+                    enabled = buttonEnabled
                 ) {
-                    Button(
-                        onClick = { store.send(action = FeedbackAction.SendFeedback(message = feedbackText)) },
-                        enabled = feedbackText.isNotBlank()
-                    ) {
-                        Text(text = buttonTranslation)
-                    }
+                    Text(text = buttonTranslation)
+                }
+                if (!inputEnabled) {
+                    Spacer(Modifier.height(height = 16.dp))
+                    Text(
+                        text = thanksTranslation,
+                        style = typography.headlineSmall
+                    )
                 }
             }
         }

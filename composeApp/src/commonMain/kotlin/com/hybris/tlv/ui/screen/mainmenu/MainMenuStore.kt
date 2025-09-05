@@ -106,7 +106,6 @@ internal class MainMenuStore(
         when (stateFlow.value.currentContent) {
             Content.MAIN_MENU -> {}
             Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
-
             Content.HOST_DEFINITION,
             Content.PLANET_DEFINITION,
             Content.HABITABILITY,
@@ -125,35 +124,16 @@ internal class MainMenuStore(
 
             MainMenuAction.NewGame -> navigate(screen = Screen.NEW_GAME)
             MainMenuAction.Continue -> navigate(screen = Screen.GAME)
-
-            MainMenuAction.Learn -> updateState {
-                it.copy(currentContent = Content.LEARN_MENU)
-            }
-
+            MainMenuAction.Learn -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
             MainMenuAction.Scores -> navigate(screen = Screen.SCORE)
             MainMenuAction.Achievements -> navigate(screen = Screen.ACHIEVEMENT)
             MainMenuAction.Credits -> navigate(screen = Screen.CREDIT)
-            MainMenuAction.Soon -> {
-                // TODO - Soon
-            }
-
+            MainMenuAction.Soon -> TODO()
             MainMenuAction.StellarExplorer -> navigate(screen = Screen.STELLAR_EXPLORER)
-
-            MainMenuAction.HostDefinition -> updateState {
-                it.copy(currentContent = Content.HOST_DEFINITION)
-            }
-
-            MainMenuAction.PlanetDefinition -> updateState {
-                it.copy(currentContent = Content.PLANET_DEFINITION)
-            }
-
-            MainMenuAction.Mechanics -> updateState {
-                it.copy(currentContent = Content.MECHANICS)
-            }
-
-            MainMenuAction.Habitability -> updateState {
-                it.copy(currentContent = Content.HABITABILITY)
-            }
+            MainMenuAction.HostDefinition -> updateState { it.copy(currentContent = Content.HOST_DEFINITION) }
+            MainMenuAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
+            MainMenuAction.Mechanics -> updateState { it.copy(currentContent = Content.MECHANICS) }
+            MainMenuAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
         }
     }
 }

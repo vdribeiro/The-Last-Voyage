@@ -54,6 +54,7 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 if (event != null) {
+                    // Event
                     Text(
                         text = getTranslation(key = event.id),
                         style = typography.titleLarge,
@@ -67,6 +68,7 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
                         text = getTranslation(key = event.description) + if (event.outcome != null) "\n\n${event.outcome.getTranslation()}" else ""
                     )
 
+                    // Event chain buttons
                     Column(
                         modifier = Modifier.padding(top = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,

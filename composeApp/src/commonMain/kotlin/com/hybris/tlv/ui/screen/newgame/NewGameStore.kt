@@ -55,6 +55,21 @@ internal class NewGameStore(
     initialState = initialState
 ) {
 
+    override fun setBackNavigation(): () -> Unit = {
+        navigate(screen = Screen.MAIN_MENU)
+    }
+
+    override fun reducer(state: NewGameState, action: NewGameAction) {
+        when (action) {
+            is NewGameAction.SelectShip -> updateState { it.copy(selectedShip = action.ship) }
+            is NewGameAction.SelectFormula -> updateState { it.copy(formula = action.formula) }
+            NewGameAction.Ship -> updateState { it.copy(currentContent = Content.SHIP) }
+            NewGameAction.Advanced -> updateState { it.copy(currentContent = Content.ADVANCED) }
+            NewGameAction.Start -> start()
+            NewGameAction.StartGame -> startGame(state = state)
+        }
+    }
+
     private fun start() = launch {
         val catastrophe = earthUseCases.getRandomCatastrophe()
         if (catastrophe == null) {
@@ -74,34 +89,6 @@ internal class NewGameStore(
                 currentContent = Content.START,
                 selectedCatastrophe = catastrophe,
             )
-        }
-    }
-
-    override fun setBackNavigation(): () -> Unit = {
-        navigate(screen = Screen.MAIN_MENU)
-    }
-
-    override fun reducer(state: NewGameState, action: NewGameAction) {
-        when (action) {
-            is NewGameAction.SelectShip -> updateState {
-                it.copy(selectedShip = action.ship)
-            }
-
-            is NewGameAction.SelectFormula -> updateState {
-                it.copy(formula = action.formula)
-            }
-
-            NewGameAction.Ship -> updateState {
-                it.copy(currentContent = Content.SHIP)
-            }
-
-            NewGameAction.Advanced -> updateState {
-                it.copy(currentContent = Content.ADVANCED)
-            }
-
-            NewGameAction.Start -> start()
-
-            NewGameAction.StartGame -> startGame(state = state)
         }
     }
 

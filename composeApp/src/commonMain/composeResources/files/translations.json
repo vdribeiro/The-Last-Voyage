@@ -2691,6 +2691,11 @@
   },
   {
     "languageIso": "en",
+    "key": "error_screen__thanks",
+    "value": "Thank you for your feedback!"
+  },
+  {
+    "languageIso": "en",
     "key": "splash_screen__loading",
     "value": "Loading..."
   },

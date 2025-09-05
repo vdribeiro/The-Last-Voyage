@@ -64,14 +64,6 @@ internal abstract class Store<Action, State>(
         dispatcher.io.launch { block() }.also { jobs.add(element = it) }
 
     /**
-     * Launches a coroutine without adding it to the list of jobs.
-     * This is useful for coroutines that you don't want to cancel when the Store is destroyed.
-     * NOTE: Use this with caution as it can lead to memory leaks.
-     */
-    protected fun launchAndForget(block: suspend CoroutineScope.() -> Unit): Job =
-        dispatcher.io.launch { block() }
-
-    /**
      * Navigates to a new [screen] given an optional [state].
      */
     protected fun navigate(screen: Screen, state: Any? = null) {

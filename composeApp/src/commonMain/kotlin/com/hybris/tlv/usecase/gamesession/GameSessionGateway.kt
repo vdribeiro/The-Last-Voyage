@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.gamesession
 
+import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.local.GameSessionLocal
 import com.hybris.tlv.usecase.gamesession.mapper.toGameSession
@@ -113,6 +114,7 @@ internal class GameSessionGateway(
         return updatedGameSession
     }
 
+    @VisibleForTesting
     internal fun getGameOverMultiplier(gameOver: GameOver) =
         when (gameOver) {
             // Ship is destroyed

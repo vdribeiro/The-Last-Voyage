@@ -37,13 +37,13 @@ internal fun StartContent(store: Store<NewGameAction, NewGameState>) {
             .padding(all = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        // Catastrophe
         Text(
             text = getTranslation(key = catastrophe.id),
             style = typography.titleLarge,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(height = 16.dp))
-
         TypewriterText(
             modifier = Modifier
                 .weight(weight = 1f)
@@ -51,6 +51,7 @@ internal fun StartContent(store: Store<NewGameAction, NewGameState>) {
             text = getTranslation(key = catastrophe.description)
         )
 
+        // Start game button
         Button(
             modifier = Modifier
                 .fillMaxWidth()

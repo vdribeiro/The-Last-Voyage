@@ -37,6 +37,7 @@ internal fun ShipContent(store: Store<GameAction, GameState>) {
     val materialsTranslation = remember { getTranslation(key = "ship_materials") }
     val cryopodsTranslation = remember { getTranslation(key = "ship_cryopods") }
 
+    // Ship status with years traveled, sensor range, maximum speed, integrity, fuel, materials and cryopods
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
