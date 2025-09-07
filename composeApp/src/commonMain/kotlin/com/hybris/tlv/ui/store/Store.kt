@@ -64,7 +64,7 @@ internal abstract class Store<Action, State>(
         dispatcher.io.launch { block() }.also { jobs.add(element = it) }
 
     /**
-     * Navigates to a new [screen] given an optional [state].
+     * Clean up the store and navigate to a new [screen] given an optional [state].
      */
     protected fun navigate(screen: Screen, state: Any? = null) {
         navigation.back = {}

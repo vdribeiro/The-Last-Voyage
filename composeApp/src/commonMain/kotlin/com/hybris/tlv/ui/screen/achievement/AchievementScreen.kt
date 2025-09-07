@@ -27,7 +27,7 @@ internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(space = 12.dp)
+                verticalArrangement = Arrangement.spacedBy(space = 8.dp)
             ) {
                 items(items = storeState.achievements, key = { it.id }) { achievement ->
                     AchievementItem(

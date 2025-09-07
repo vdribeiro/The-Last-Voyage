@@ -100,7 +100,7 @@ internal class EventStore(
         }
     }
 
-    private fun select(state: EventState, action: EventAction.Select) = launch {
+    private fun select(state: EventState, action: EventAction.Select): Job = launch {
         // Event chain has ended
         if (action.event == null) {
             navigate(screen = Screen.GAME)

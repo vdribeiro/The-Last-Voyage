@@ -40,7 +40,10 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .debouncedClickable(enabled = storeState.tutorial != Tutorial.NO) { store.send(action = GameAction.Next) },
+            .debouncedClickable(
+                enabled = storeState.tutorial != Tutorial.NO,
+                rippleEffect = false
+            ) { store.send(action = GameAction.Next) },
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(

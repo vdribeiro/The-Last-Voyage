@@ -140,19 +140,6 @@ private fun MainMenuPlanetsScreenPreview() {
 
 @Preview
 @Composable
-private fun MainMenuMechanicsScreenPreview() {
-    AppTheme {
-        Screen(
-            screen = Screen.MAIN_MENU,
-            state = MainMenuState(
-                currentContent = MainMenuContent.MECHANICS,
-            )
-        )
-    }
-}
-
-@Preview
-@Composable
 private fun MainMenuHabitabilityScreenPreview() {
     AppTheme {
         Screen(

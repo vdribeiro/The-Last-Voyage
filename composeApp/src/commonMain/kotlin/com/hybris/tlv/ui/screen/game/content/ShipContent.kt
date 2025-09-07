@@ -42,7 +42,7 @@ internal fun ShipContent(store: Store<GameAction, GameState>) {
         modifier = Modifier
             .fillMaxSize()
             .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 12.dp)
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
     ) {
         item {
             StatDisplay(
