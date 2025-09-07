@@ -32,7 +32,7 @@ internal abstract class Store<Action, State>(
     private val jobs = mutableListOf<Job>()
 
     init {
-        navigation.back = { back(state = _stateFlow.value) }
+        navigation.back = { back(state = _stateFlow.value).invoke() }
     }
 
     /**
