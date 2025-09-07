@@ -39,7 +39,6 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
         topBar = {
             StatusBar(
                 modifier = Modifier.statusBarsPadding(),
-                enabled = true,
                 hull = ship?.integrity?.toString() ?: "0",
                 fuel = ship?.fuel?.toString() ?: "0",
                 materials = ship?.materials?.toString() ?: "0",

@@ -5,6 +5,7 @@ import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackState
+import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
@@ -14,6 +15,7 @@ import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import kotlinx.coroutines.Job
+import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
 internal sealed interface GameAction {
     data object Next: GameAction
@@ -23,6 +25,7 @@ internal sealed interface GameAction {
 }
 
 internal data class GameState(
+    val loading: Boolean = true,
     val tutorial: Tutorial = Tutorial.NO,
     val gameSession: GameSession? = null,
     val currentContent: Content = Content.SYSTEM,
@@ -63,7 +66,12 @@ internal class GameStore(
 
     private fun setup(state: GameState): Job = launch {
         if (state.tutorial == Tutorial.YES) {
-            updateState { it.copy(currentContent = Content.TUTORIAL) }
+            updateState {
+                it.copy(
+                    loading = false,
+                    currentContent = Content.TUTORIAL
+                )
+            }
             return@launch
         }
 
@@ -141,6 +149,7 @@ internal class GameStore(
 
         updateState {
             it.copy(
+                loading = false,
                 gameSession = finalUpdatedGameSession,
                 currentStellarHost = currentStellarHost,
                 nearStellarHosts = nearStellarHosts,
@@ -149,7 +158,10 @@ internal class GameStore(
     }
 
     override fun back(state: GameState): () -> Unit = {
-        navigate(screen = Screen.MAIN_MENU)
+        navigate(
+            screen = Screen.MAIN_MENU,
+            state = if (state.tutorial == Tutorial.NO) null else MainMenuState(currentContent = MainMenuContent.LEARN_MENU)
+        )
     }
 
     override fun reducer(state: GameState, action: GameAction) {

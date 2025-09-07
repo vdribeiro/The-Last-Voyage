@@ -184,7 +184,10 @@ compose.desktop {
             }
         }
 
-        jvmArgs += "-Ddebug=true"
+        val isRelease = project.gradle.startParameter.taskNames.any {
+            it.contains(other = "package", ignoreCase = true)
+        }
+        jvmArgs += "-Ddebug=${!isRelease}"
     }
 }
 

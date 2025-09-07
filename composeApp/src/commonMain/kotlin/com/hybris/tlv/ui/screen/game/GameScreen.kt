@@ -31,8 +31,8 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun GameScreen(store: Store<GameAction, GameState>) {
     val storeState by store.stateFlow.collectAsState()
-    val gameSession = storeState.gameSession
-    val ship = gameSession?.ship
+    val ship = storeState.gameSession?.ship
+    val tutorial = storeState.tutorial != Tutorial.NO
     val travelTranslation = remember { getTranslation(key = "game_screen__travel") }
     val systemTranslation = remember { getTranslation(key = "game_screen__system") }
     val shipTranslation = remember { getTranslation(key = "game_screen__ship") }
@@ -48,32 +48,28 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
                 modifier = Modifier.statusBarsPadding(),
-                enabled = storeState.tutorial == Tutorial.NO || storeState.tutorial == Tutorial.YES,
-                hull = ship?.integrity?.toString() ?: "0",
-                fuel = ship?.fuel?.toString() ?: "0",
-                materials = ship?.materials?.toString() ?: "0",
-                cryopods = ship?.cryopods?.toString() ?: "0"
+                hull = ship?.integrity?.toString() ?: (if (tutorial) (0..100).random() else 0).toString(),
+                fuel = ship?.fuel?.toString() ?: (if (tutorial) (0..100).random() else 0).toString(),
+                materials = ship?.materials?.toString() ?: (if (tutorial) (0..100).random() else 0).toString(),
+                cryopods = ship?.cryopods?.toString() ?: (if (tutorial) (0..100).random() else 0).toString()
             )
         },
         bottomBar = {
             // Navigation bar for travel, system and ship status
             NavigationBar {
                 NavigationBarItem(
-                    enabled = storeState.tutorial != Tutorial.YES,
                     icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
                     label = { Text(text = shipTranslation) },
                     selected = (storeState.currentContent == Content.SHIP || storeState.tutorial == Tutorial.SHIP),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 )
                 NavigationBarItem(
-                    enabled = storeState.tutorial != Tutorial.YES,
                     icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = systemTranslation) },
                     label = { Text(text = systemTranslation) },
                     selected = (storeState.currentContent == Content.SYSTEM || storeState.tutorial == Tutorial.SYSTEM),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SYSTEM)) },
                 )
                 NavigationBarItem(
-                    enabled = storeState.tutorial != Tutorial.YES,
                     icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
                     label = { Text(text = travelTranslation) },
                     selected = (storeState.currentContent == Content.TRAVEL || storeState.tutorial == Tutorial.TRAVEL),
@@ -83,9 +79,9 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            when (gameSession) {
-                null -> if (storeState.tutorial == Tutorial.NO) DebouncedLinearProgressIndicator()
-                else -> when (storeState.currentContent) {
+            when (storeState.loading) {
+                true -> DebouncedLinearProgressIndicator()
+                false -> when (storeState.currentContent) {
                     Content.TUTORIAL -> TutorialContent(store = store)
                     Content.SHIP -> ShipContent(store = store)
                     Content.SYSTEM -> SystemContent(store = store)

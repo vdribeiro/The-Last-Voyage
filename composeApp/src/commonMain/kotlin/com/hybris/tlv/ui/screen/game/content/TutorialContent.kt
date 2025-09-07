@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.game.content
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.game.GameAction
 import com.hybris.tlv.ui.screen.game.GameState
@@ -26,40 +26,51 @@ internal fun TutorialContent(store: Store<GameAction, GameState>) {
     val description: String
     when (storeState.tutorial) {
         Tutorial.NO -> {
-            title = remember { getTranslation(key = "tutorial_title") }
-            description = remember { getTranslation(key = "tutorial_description") }
+            title = ""
+            description = ""
         }
+
         Tutorial.YES -> {
-            title = remember { getTranslation(key = "tutorial_title") }
-            description = remember { getTranslation(key = "tutorial_description") }
+            title = remember { getTranslation(key = "tutorial_screen__mechanics_goal_title") }
+            description = remember { getTranslation(key = "tutorial_screen__mechanics_goal_description") }
         }
+
         Tutorial.SHIP -> {
-            title = remember { getTranslation(key = "tutorial_title") }
-            description = remember { getTranslation(key = "tutorial_description") }
+            title = remember { getTranslation(key = "tutorial_screen__mechanics_attributes_title") }
+            description = remember { getTranslation(key = "tutorial_screen__mechanics_attributes_description") }
         }
+
         Tutorial.TRAVEL -> {
-            title = remember { getTranslation(key = "tutorial_title") }
-            description = remember { getTranslation(key = "tutorial_description") }
+            title = remember { getTranslation(key = "tutorial_screen__mechanics_travel_title") }
+            description = remember { getTranslation(key = "tutorial_screen__mechanics_travel_description") }
         }
+
         Tutorial.SYSTEM -> {
-            title = remember { getTranslation(key = "tutorial_title") }
-            description = remember { getTranslation(key = "tutorial_description") }
+            title = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_title") }
+            description = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_description") }
         }
+        //Tutorial.SYSTEM -> {
+        //    title = remember { getTranslation(key = "tutorial_screen__mechanics_score_title") }
+        //    description = remember { getTranslation(key = "tutorial_screen__mechanics_score_description") }
+        //}
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(all = 16.dp),
+            .padding(all = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
-            style = typography.bodyLarge,
-            text = title
+            modifier = Modifier.padding(all = 8.dp),
+            style = typography.titleLarge,
+            text = title,
         )
         Text(
-            style = typography.bodyMedium,
-            text = description
+            modifier = Modifier.padding(all = 8.dp),
+            style = typography.titleMedium,
+            text = description,
         )
     }
 }

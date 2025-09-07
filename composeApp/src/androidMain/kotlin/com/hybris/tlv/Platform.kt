@@ -1,3 +1,5 @@
 package com.hybris.tlv
 
-internal actual val isDebug: Boolean get() = BuildConfig.DEBUG
+internal actual val isDebug: Boolean by lazy {
+    BuildConfig.DEBUG
+}
