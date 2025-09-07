@@ -39,7 +39,6 @@ import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
-import thelastvoyage.composeapp.generated.resources.dev
 import thelastvoyage.composeapp.generated.resources.kofi
 
 @Composable
@@ -48,6 +47,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
     val uriHandler = LocalUriHandler.current
     val currentContent = storeState.currentContent
     val isMenu = currentContent == Content.MAIN_MENU || currentContent == Content.LEARN_MENU
+    val websiteTranslation = remember { getTranslation(key = "website") }
     val creditsTranslation = remember { getTranslation(key = "main_menu_screen__credits") }
 
     Scaffold(
@@ -80,13 +80,13 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
             ) {
                 // Website, Credits and Ko-fi options
                 if (isMenu) {
-                    Image(
+                    Text(
                         modifier = Modifier
                             .size(size = 100.dp)
+                            .wrapContentHeight(align = Alignment.CenterVertically)
                             .debouncedClickable { storeState.developerCorner?.let { uriHandler.openUri(uri = it) } },
-                        painter = painterResource(resource = Res.drawable.dev),
-                        contentDescription = "Developer's Corner",
-                        contentScale = ContentScale.Fit,
+                        text = websiteTranslation,
+                        style = typography.titleSmall,
                     )
                     Text(
                         modifier = Modifier

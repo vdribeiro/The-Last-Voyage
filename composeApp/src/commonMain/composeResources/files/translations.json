@@ -6,6 +6,11 @@
   },
   {
     "languageIso": "en",
+    "key": "website",
+    "value": "Developer's Corner"
+  },
+  {
+    "languageIso": "en",
     "key": "formula",
     "value": "Formula Source Code"
   },

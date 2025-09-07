@@ -21,16 +21,16 @@ internal data class Configs(
     val formula: String = "https://github.com/vdribeiro/The-Last-Voyage/tree/main/composeApp/src/commonMain/kotlin/com/hybris/tlv/usecase/space/formula",
 
     // Feature flags
-    val featureFeedback: Boolean = false,
-    val featureSoon: Boolean = false,
-    val featureLearn: Boolean = false,
-    val featureScores: Boolean = false,
-    val featureAchievements: Boolean = false,
-    val featureStellarExplorer: Boolean = false,
-    val featureNewGame: Boolean = false,
-    val featureGame: Boolean = false,
-    val featureEvents: Boolean = false,
-    val featureGameOver: Boolean = false,
+    val featureFeedback: Boolean = true,
+    val featureSoon: Boolean = true,
+    val featureLearn: Boolean = true,
+    val featureScores: Boolean = true,
+    val featureAchievements: Boolean = true,
+    val featureStellarExplorer: Boolean = true,
+    val featureNewGame: Boolean = true,
+    val featureGame: Boolean = true,
+    val featureEvents: Boolean = true,
+    val featureGameOver: Boolean = true,
 ) {
     constructor(enableAllFeatures: Boolean): this(
         featureFeedback = enableAllFeatures,

@@ -6,7 +6,7 @@ internal object HttpClientFactory {
 
     fun buildHttpClient(): HttpClient = HttpClient {
         setLogging()
-        setTimeout(timeout = 60_000L * 5)
+        setTimeout(timeout = 10_000L)
         setCache()
         setContentValidator()
         setContentEncoding(compressionQuality = 0.9F)

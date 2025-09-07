@@ -44,6 +44,7 @@ internal class SplashStore(
                 updateState { it.copy(progress = progress) }
             }
             updateState { it.copy(progress = 1f) }
+            delay(timeMillis = 1000L)
             send(action = SplashAction.Start)
         }
     }
