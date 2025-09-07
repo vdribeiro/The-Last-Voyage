@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,11 +12,11 @@ import androidx.compose.ui.Modifier
 import kotlinx.coroutines.delay
 
 /**
- * A DebouncedLinearProgressIndicator that only appears after a certain delay.
+ * A LinearProgressIndicator that only appears after a certain delay.
  */
 @Composable
 fun DebouncedLinearProgressIndicator(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.fillMaxWidth(),
     delayMillis: Long = 300L,
     progress: (() -> Float)? = null,
 ) {

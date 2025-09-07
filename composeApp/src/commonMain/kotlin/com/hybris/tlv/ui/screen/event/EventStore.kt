@@ -10,6 +10,7 @@ import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
+import kotlinx.coroutines.Job
 
 internal sealed interface EventAction {
     data class Select(val event: Event?): EventAction
@@ -37,7 +38,7 @@ internal class EventStore(
         setup()
     }
 
-    private fun setup() = launch {
+    private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
@@ -89,7 +90,7 @@ internal class EventStore(
         }
     }
 
-    override fun setBackNavigation(): () -> Unit = {
+    override fun back(state: EventState): () -> Unit = {
         navigate(screen = Screen.GAME)
     }
 

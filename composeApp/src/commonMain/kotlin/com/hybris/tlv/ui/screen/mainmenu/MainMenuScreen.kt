@@ -31,7 +31,6 @@ import com.hybris.tlv.ui.screen.mainmenu.content.HabitabilityContent
 import com.hybris.tlv.ui.screen.mainmenu.content.HostDefinitionContent
 import com.hybris.tlv.ui.screen.mainmenu.content.LearnContent
 import com.hybris.tlv.ui.screen.mainmenu.content.MainMenuContent
-import com.hybris.tlv.ui.screen.mainmenu.content.MechanicsContent
 import com.hybris.tlv.ui.screen.mainmenu.content.PlanetDefinitionContent
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.debouncedClickable
@@ -113,7 +112,6 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
             when (currentContent) {
                 Content.MAIN_MENU -> MainMenuContent(store = store)
                 Content.LEARN_MENU -> LearnContent(store = store)
-                Content.MECHANICS -> MechanicsContent(store = store)
                 Content.HOST_DEFINITION -> HostDefinitionContent(store = store)
                 Content.PLANET_DEFINITION -> PlanetDefinitionContent(store = store)
                 Content.HABITABILITY -> HabitabilityContent(store = store)

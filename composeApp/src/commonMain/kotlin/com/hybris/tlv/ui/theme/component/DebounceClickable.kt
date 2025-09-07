@@ -15,11 +15,12 @@ import kotlin.time.Instant
 
 @OptIn(ExperimentalTime::class)
 internal fun Modifier.debouncedClickable(
+    enabled: Boolean = true,
     debounceTime: Duration = 500.milliseconds,
     onClick: () -> Unit
 ): Modifier = composed {
     var lastClickTime by remember { mutableStateOf(value = Instant.DISTANT_PAST) }
-    clickable {
+    clickable(enabled = enabled) {
         val now = Clock.System.now()
         val elapsed = now - lastClickTime
         if (elapsed > debounceTime) {

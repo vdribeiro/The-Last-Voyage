@@ -50,7 +50,7 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                 )
                 Spacer(modifier = Modifier.height(height = 32.dp))
                 when {
-                    storeState.loading -> DebouncedLinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                    storeState.loading -> DebouncedLinearProgressIndicator()
                     else -> LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(all = 16.dp),

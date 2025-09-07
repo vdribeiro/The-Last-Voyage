@@ -19,12 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.alpha
 import com.hybris.tlv.ui.theme.colorScheme
 import com.hybris.tlv.ui.theme.typography
 
 @Composable
 internal fun StatusBar(
     modifier: Modifier = Modifier,
+    enabled: Boolean,
     hull: String,
     fuel: String,
     materials: String,
@@ -33,7 +35,8 @@ internal fun StatusBar(
     Surface(modifier = modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp),
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .alpha(enabled = enabled),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {

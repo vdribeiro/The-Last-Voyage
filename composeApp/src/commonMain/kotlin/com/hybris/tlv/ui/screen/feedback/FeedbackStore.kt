@@ -29,8 +29,8 @@ internal class FeedbackStore(
     navigation = navigation,
     initialState = initialState
 ) {
-    override fun setBackNavigation(): () -> Unit = {
-        sendFeedback(state = stateFlow.value, message = "")
+    override fun back(state: FeedbackState): () -> Unit = {
+        sendFeedback(state = state, message = "")
     }
 
     override fun reducer(state: FeedbackState, action: FeedbackAction) {
@@ -54,7 +54,7 @@ internal class FeedbackStore(
         }
 
         // Use the identifier to navigate back to the correct screen
-        when (stateFlow.value.identifier) {
+        when (state.identifier) {
             MainMenuContent.LEARN_MENU.name -> navigate(
                 screen = Screen.MAIN_MENU, state = MainMenuState(
                     currentContent = MainMenuContent.LEARN_MENU

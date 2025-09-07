@@ -6,6 +6,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.credit.CreditUseCases
 import com.hybris.tlv.usecase.credit.model.Credit
+import kotlinx.coroutines.Job
 
 internal sealed interface CreditAction
 
@@ -27,12 +28,12 @@ internal class CreditStore(
         setup()
     }
 
-    private fun setup() = launch {
+    private fun setup(): Job = launch {
         val credits = creditUseCases.getCredits()
         updateState { it.copy(credits = credits) }
     }
 
-    override fun setBackNavigation(): () -> Unit = {
+    override fun back(state: CreditState): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
 

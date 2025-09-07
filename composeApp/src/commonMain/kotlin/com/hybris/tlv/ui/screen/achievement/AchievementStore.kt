@@ -6,6 +6,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.achievement.model.Achievement
+import kotlinx.coroutines.Job
 
 internal sealed interface AchievementAction
 
@@ -27,12 +28,12 @@ internal class AchievementStore(
         setup()
     }
 
-    private fun setup() = launch {
+    private fun setup(): Job = launch {
         val achievements = achievementUseCases.getAchievements()
         updateState { it.copy(achievements = achievements) }
     }
 
-    override fun setBackNavigation(): () -> Unit = {
+    override fun back(state: AchievementState): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
 

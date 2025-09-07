@@ -55,7 +55,7 @@ internal class NewGameStore(
     initialState = initialState
 ) {
 
-    override fun setBackNavigation(): () -> Unit = {
+    override fun back(state: NewGameState): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
 

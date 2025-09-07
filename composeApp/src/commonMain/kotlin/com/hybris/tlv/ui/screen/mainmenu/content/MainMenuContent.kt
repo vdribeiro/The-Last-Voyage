@@ -43,7 +43,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         item { AppLogo() }
         item { Spacer(modifier = Modifier.height(height = 32.dp)) }
         if (storeState.loading) {
-            item { DebouncedLinearProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+            item { DebouncedLinearProgressIndicator() }
             return@LazyColumn
         }
         if (storeState.featureNewGame) {

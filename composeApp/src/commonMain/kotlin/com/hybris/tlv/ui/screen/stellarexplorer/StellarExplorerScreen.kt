@@ -176,7 +176,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when {
-                storeState.loading -> DebouncedLinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                storeState.loading -> DebouncedLinearProgressIndicator()
                 else -> when (storeState.currentContent) {
                     Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostContent(store = store)
                     Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetContent(store = store)

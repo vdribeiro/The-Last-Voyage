@@ -16,12 +16,14 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 import kotlinx.coroutines.Job
 
 internal sealed interface GameAction {
+    data object Next: GameAction
     data class ChangeTab(val content: Content): GameAction
     data class Travel(val stellarHost: StellarHost): GameAction
     data class Settle(val planet: Planet): GameAction
 }
 
 internal data class GameState(
+    val tutorial: Tutorial = Tutorial.NO,
     val gameSession: GameSession? = null,
     val currentContent: Content = Content.SYSTEM,
     val currentStellarHost: StellarHost? = null,
@@ -29,9 +31,18 @@ internal data class GameState(
 )
 
 internal enum class Content {
+    TUTORIAL,
+    SHIP,
+    SYSTEM,
+    TRAVEL,
+}
+
+internal enum class Tutorial {
+    NO,
+    YES,
+    SHIP,
     TRAVEL,
     SYSTEM,
-    SHIP
 }
 
 internal class GameStore(
@@ -47,10 +58,15 @@ internal class GameStore(
     initialState = initialState
 ) {
     init {
-        setup()
+        setup(state = stateFlow.value)
     }
 
-    private fun setup() = launch {
+    private fun setup(state: GameState): Job = launch {
+        if (state.tutorial == Tutorial.YES) {
+            updateState { it.copy(currentContent = Content.TUTORIAL) }
+            return@launch
+        }
+
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
@@ -132,17 +148,27 @@ internal class GameStore(
         }
     }
 
-    override fun setBackNavigation(): () -> Unit = {
+    override fun back(state: GameState): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
 
     override fun reducer(state: GameState, action: GameAction) {
         when (action) {
-            is GameAction.ChangeTab -> updateState { it.copy(currentContent = action.content) }
-            is GameAction.Travel -> travel(state = state, action = action)
-            is GameAction.Settle -> settle(state = state, action = action)
+            GameAction.Next -> tutorial(state = state)
+            is GameAction.ChangeTab -> if (state.tutorial == Tutorial.NO) updateState { it.copy(currentContent = action.content) }
+            is GameAction.Travel -> if (state.tutorial == Tutorial.NO) travel(state = state, action = action)
+            is GameAction.Settle -> if (state.tutorial == Tutorial.NO) settle(state = state, action = action)
         }
     }
+
+    private fun tutorial(state: GameState) =
+        when (state.tutorial) {
+            Tutorial.NO -> {}
+            Tutorial.YES -> updateState { it.copy(tutorial = Tutorial.SHIP) }
+            Tutorial.SHIP -> updateState { it.copy(tutorial = Tutorial.SYSTEM) }
+            Tutorial.SYSTEM -> updateState { it.copy(tutorial = Tutorial.TRAVEL) }
+            Tutorial.TRAVEL -> navigate(screen = Screen.MAIN_MENU)
+        }
 
     private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
         val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }

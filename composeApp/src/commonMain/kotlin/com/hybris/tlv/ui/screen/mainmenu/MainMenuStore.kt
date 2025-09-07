@@ -5,11 +5,14 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackState
+import com.hybris.tlv.ui.screen.game.GameState
+import com.hybris.tlv.ui.screen.game.Tutorial
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.learning.LearningUseCases
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
+import kotlinx.coroutines.Job
 
 internal sealed interface MainMenuAction {
     data object Feedback: MainMenuAction
@@ -49,7 +52,6 @@ internal enum class Content {
     LEARN_MENU,
     HOST_DEFINITION,
     PLANET_DEFINITION,
-    MECHANICS,
     HABITABILITY,
 }
 
@@ -69,7 +71,7 @@ internal class MainMenuStore(
         setup()
     }
 
-    private fun setup() = launch {
+    private fun setup(): Job = launch {
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
         val learnings = learningUseCases.getLearnings().groupBy { it.type }
         val featureFeedback = config.configs.featureFeedback
@@ -102,14 +104,13 @@ internal class MainMenuStore(
         }
     }
 
-    override fun setBackNavigation() = {
-        when (stateFlow.value.currentContent) {
+    override fun back(state: MainMenuState) = {
+        when (state.currentContent) {
             Content.MAIN_MENU -> {}
             Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
             Content.HOST_DEFINITION,
             Content.PLANET_DEFINITION,
-            Content.HABITABILITY,
-            Content.MECHANICS -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
+            Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
         }.let {}
     }
 
@@ -128,11 +129,11 @@ internal class MainMenuStore(
             MainMenuAction.Scores -> navigate(screen = Screen.SCORE)
             MainMenuAction.Achievements -> navigate(screen = Screen.ACHIEVEMENT)
             MainMenuAction.Credits -> navigate(screen = Screen.CREDIT)
-            MainMenuAction.Soon -> TODO()
+            MainMenuAction.Soon -> {} // TODO
             MainMenuAction.StellarExplorer -> navigate(screen = Screen.STELLAR_EXPLORER)
             MainMenuAction.HostDefinition -> updateState { it.copy(currentContent = Content.HOST_DEFINITION) }
             MainMenuAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
-            MainMenuAction.Mechanics -> updateState { it.copy(currentContent = Content.MECHANICS) }
+            MainMenuAction.Mechanics -> navigate(screen = Screen.GAME, state = GameState(tutorial = Tutorial.YES))
             MainMenuAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
         }
     }

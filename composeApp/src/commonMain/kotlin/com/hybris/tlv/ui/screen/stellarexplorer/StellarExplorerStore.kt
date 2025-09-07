@@ -109,10 +109,10 @@ internal class StellarExplorerStore(
     initialState = initialState
 ) {
     init {
-        setup()
+        setup(state = stateFlow.value)
     }
 
-    private fun setup() = launch {
+    private fun setup(state: StellarExplorerState): Job = launch {
         val formula = Formula()
         val stellarHosts = spaceUseCases.getExoplanets().apply {
             forEach { stellarHost ->
@@ -139,14 +139,13 @@ internal class StellarExplorerStore(
                 planets = planets
             )
         }.join()
-        refresh()
+        refresh(state = state)
     }
 
     /**
      * Apply filters to the data and refresh the state.
      */
-    private fun refresh() {
-        val state = stateFlow.value
+    private fun refresh(state: StellarExplorerState) {
         when (state.currentContent) {
             Content.LIST_HOSTS -> {
                 val filteredStellarHosts = state.stellarHosts.searchStellarHosts(
@@ -195,7 +194,7 @@ internal class StellarExplorerStore(
                         search = ""
                     )
                 }.join()
-                refresh()
+                refresh(state = state)
             }
 
             Content.LIST_PLANETS -> {
@@ -206,7 +205,7 @@ internal class StellarExplorerStore(
                         search = ""
                     )
                 }.join()
-                refresh()
+                refresh(state = state)
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -222,7 +221,7 @@ internal class StellarExplorerStore(
                         search = action.search
                     )
                 }.join()
-                refresh()
+                refresh(state = state)
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -257,7 +256,7 @@ internal class StellarExplorerStore(
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.LIST_PLANETS -> {
                 updateState { it.copy(sortStellarHostProperty = action.sort) }.join()
-                refresh()
+                refresh(state = state)
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -268,12 +267,12 @@ internal class StellarExplorerStore(
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.LIST_PLANETS -> {
                 updateState { it.copy(sortPlanetProperty = action.sort) }.join()
-                refresh()
+                refresh(state = state)
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
         }
-        refresh()
+        refresh(state = state)
     }
 
     private fun changeSortDirection(state: StellarExplorerState): Job = launch {
@@ -281,7 +280,7 @@ internal class StellarExplorerStore(
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.LIST_PLANETS -> {
                 updateState { it.copy(sortAscending = ascending) }.join()
-                refresh()
+                refresh(state = state)
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -306,7 +305,7 @@ internal class StellarExplorerStore(
                 searchableStellarHostProperties = searchableStellarHostProperties
             )
         }.join()
-        refresh()
+        refresh(state = state)
     }
 
     private fun changePlanetSearchable(state: StellarExplorerState, action: StellarExplorerAction.ChangePlanetSearchable): Job = launch {
@@ -318,11 +317,11 @@ internal class StellarExplorerStore(
 
             )
         }.join()
-        refresh()
+        refresh(state = state)
     }
 
-    override fun setBackNavigation(): () -> Unit = {
-        when (stateFlow.value.currentContent) {
+    override fun back(state: StellarExplorerState): () -> Unit = {
+        when (state.currentContent) {
             Content.LIST_HOSTS,
             Content.LIST_PLANETS -> navigate(
                 screen = Screen.MAIN_MENU,
@@ -336,7 +335,7 @@ internal class StellarExplorerStore(
                         selectedStellarHost = null
                     )
                 }.join()
-                refresh()
+                refresh(state = state)
             }
 
             Content.DETAIL_PLANETS -> launch {
@@ -346,7 +345,7 @@ internal class StellarExplorerStore(
                         selectedPlanet = null
                     )
                 }.join()
-                refresh()
+                refresh(state = state)
             }
         }
     }

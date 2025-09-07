@@ -9,6 +9,7 @@ import com.hybris.tlv.ui.screen.feedback.FeedbackState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
+import kotlinx.coroutines.Job
 
 internal sealed interface GameOverAction {
     data object Continue: GameOverAction
@@ -39,7 +40,7 @@ internal class GameOverStore(
         setup()
     }
 
-    private fun setup() = launch {
+    private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
@@ -64,8 +65,8 @@ internal class GameOverStore(
         }
     }
 
-    override fun setBackNavigation(): () -> Unit = {
-        when (stateFlow.value.currentContent) {
+    override fun back(state: GameOverState): () -> Unit = {
+        when (state.currentContent) {
             Content.MESSAGE -> {}
             Content.SCORE -> navigate(screen = Screen.MAIN_MENU)
         }

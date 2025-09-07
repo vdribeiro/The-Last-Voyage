@@ -2,6 +2,8 @@ package com.hybris.tlv.ui.theme
 
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.ColorScheme
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 
 private val primary = Color(color = 0xFF2C6FC2)
@@ -83,3 +85,10 @@ internal val selectionColors = TextSelectionColors(
     handleColor = primary,
     backgroundColor = primary.copy(alpha = 0.4f),
 )
+
+/**
+ * Alpha used when a component is enabled or disabled.
+ */
+internal fun Modifier.alpha(enabled: Boolean): Modifier = apply {
+    alpha(alpha = if (enabled) 1f else 0.3f)
+}

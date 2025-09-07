@@ -22,9 +22,11 @@ import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.screen.game.content.ShipContent
 import com.hybris.tlv.ui.screen.game.content.SystemContent
 import com.hybris.tlv.ui.screen.game.content.TravelContent
+import com.hybris.tlv.ui.screen.game.content.TutorialContent
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.StatusBar
+import com.hybris.tlv.ui.theme.component.debouncedClickable
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -37,11 +39,14 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     val shipTranslation = remember { getTranslation(key = "game_screen__ship") }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .debouncedClickable(enabled = storeState.tutorial != Tutorial.NO) { store.send(action = GameAction.Next) },
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
                 modifier = Modifier.statusBarsPadding(),
+                enabled = storeState.tutorial != Tutorial.SHIP,
                 hull = ship?.integrity?.toString() ?: "0",
                 fuel = ship?.fuel?.toString() ?: "0",
                 materials = ship?.materials?.toString() ?: "0",
@@ -52,33 +57,37 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
             // Navigation bar for travel, system and ship status
             NavigationBar {
                 NavigationBarItem(
-                    icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
-                    label = { Text(text = travelTranslation) },
-                    selected = (storeState.currentContent == Content.TRAVEL),
-                    onClick = { store.send(action = GameAction.ChangeTab(content = Content.TRAVEL)) },
+                    enabled = storeState.tutorial != Tutorial.SHIP,
+                    icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
+                    label = { Text(text = shipTranslation) },
+                    selected = (storeState.currentContent == Content.SHIP),
+                    onClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 )
                 NavigationBarItem(
+                    enabled = storeState.tutorial != Tutorial.SYSTEM,
                     icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = systemTranslation) },
                     label = { Text(text = systemTranslation) },
                     selected = (storeState.currentContent == Content.SYSTEM),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SYSTEM)) },
                 )
                 NavigationBarItem(
-                    icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
-                    label = { Text(text = shipTranslation) },
-                    selected = (storeState.currentContent == Content.SHIP),
-                    onClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
+                    enabled = storeState.tutorial != Tutorial.TRAVEL,
+                    icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
+                    label = { Text(text = travelTranslation) },
+                    selected = (storeState.currentContent == Content.TRAVEL),
+                    onClick = { store.send(action = GameAction.ChangeTab(content = Content.TRAVEL)) },
                 )
             }
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (gameSession) {
-                null -> DebouncedLinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                null -> if (storeState.tutorial == Tutorial.NO) DebouncedLinearProgressIndicator()
                 else -> when (storeState.currentContent) {
-                    Content.TRAVEL -> TravelContent(store = store)
-                    Content.SYSTEM -> SystemContent(store = store)
+                    Content.TUTORIAL -> TutorialContent(store = store)
                     Content.SHIP -> ShipContent(store = store)
+                    Content.SYSTEM -> SystemContent(store = store)
+                    Content.TRAVEL -> TravelContent(store = store)
                 }
             }
         }

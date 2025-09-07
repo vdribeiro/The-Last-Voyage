@@ -7,6 +7,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
+import kotlinx.coroutines.Job
 
 internal sealed interface ScoreAction
 
@@ -29,7 +30,7 @@ internal class ScoreStore(
         setup()
     }
 
-    private fun setup() = launch {
+    private fun setup(): Job = launch {
         val gameSessions = gameSessionUseCases.getGameSessions()
         val scores = gameSessions
             .filter { it.score != null }
@@ -42,7 +43,7 @@ internal class ScoreStore(
         }
     }
 
-    override fun setBackNavigation(): () -> Unit = {
+    override fun back(state: ScoreState): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
 
