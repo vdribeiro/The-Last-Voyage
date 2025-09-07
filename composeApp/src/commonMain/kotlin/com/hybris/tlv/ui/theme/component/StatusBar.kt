@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,26 +37,30 @@ internal fun StatusBar(
         Row(
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp)
-                .alpha(enabled = enabled),
+                .alpha(alpha = alpha(enabled = enabled)),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
             StatusBarItem(
+                enabled = enabled,
                 icon = Icons.Outlined.Shield,
                 value = hull,
                 contentDescription = "Hull Integrity"
             )
             StatusBarItem(
+                enabled = enabled,
                 icon = Icons.Outlined.LocalGasStation,
                 value = fuel,
                 contentDescription = "Fuel"
             )
             StatusBarItem(
+                enabled = enabled,
                 icon = Icons.Outlined.Construction,
                 value = materials,
                 contentDescription = "Materials"
             )
             StatusBarItem(
+                enabled = enabled,
                 icon = Icons.Outlined.BedroomParent,
                 value = cryopods,
                 contentDescription = "Cryopods"
@@ -66,18 +71,20 @@ internal fun StatusBar(
 
 @Composable
 private fun StatusBarItem(
+    enabled: Boolean,
     icon: ImageVector,
     value: String,
     contentDescription: String
 ) {
     Row(
+        modifier = Modifier.alpha(alpha = alpha(enabled = enabled)),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(space = 4.dp)
     ) {
         Icon(
+            modifier = Modifier.size(size = 20.dp),
             imageVector = icon,
             contentDescription = contentDescription,
-            modifier = Modifier.size(size = 20.dp),
             tint = colorScheme.primary
         )
         Text(

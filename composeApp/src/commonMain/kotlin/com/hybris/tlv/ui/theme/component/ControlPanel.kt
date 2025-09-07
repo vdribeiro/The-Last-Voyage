@@ -34,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -113,7 +114,7 @@ internal fun ControlPanel(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .alpha(enabled = enabled)
+                        .alpha(alpha = alpha(enabled = enabled))
                         .clip(shape = shapes.large)
                         .clickable(
                             enabled = enabled,
@@ -136,7 +137,7 @@ internal fun ControlPanel(
                     Text(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)
-                            .alpha(enabled = enabled),
+                            .alpha(alpha = alpha(enabled = enabled)),
                         text = count
                     )
                     SortMenu(

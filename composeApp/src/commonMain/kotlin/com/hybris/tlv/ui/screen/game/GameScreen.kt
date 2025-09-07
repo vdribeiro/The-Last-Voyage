@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.screen.game
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
@@ -46,7 +45,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
                 modifier = Modifier.statusBarsPadding(),
-                enabled = storeState.tutorial != Tutorial.SHIP,
+                enabled = storeState.tutorial == Tutorial.NO || storeState.tutorial == Tutorial.YES,
                 hull = ship?.integrity?.toString() ?: "0",
                 fuel = ship?.fuel?.toString() ?: "0",
                 materials = ship?.materials?.toString() ?: "0",
@@ -57,24 +56,24 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
             // Navigation bar for travel, system and ship status
             NavigationBar {
                 NavigationBarItem(
-                    enabled = storeState.tutorial != Tutorial.SHIP,
+                    enabled = storeState.tutorial != Tutorial.YES,
                     icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
                     label = { Text(text = shipTranslation) },
-                    selected = (storeState.currentContent == Content.SHIP),
+                    selected = (storeState.currentContent == Content.SHIP || storeState.tutorial == Tutorial.SHIP),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 )
                 NavigationBarItem(
-                    enabled = storeState.tutorial != Tutorial.SYSTEM,
+                    enabled = storeState.tutorial != Tutorial.YES,
                     icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = systemTranslation) },
                     label = { Text(text = systemTranslation) },
-                    selected = (storeState.currentContent == Content.SYSTEM),
+                    selected = (storeState.currentContent == Content.SYSTEM || storeState.tutorial == Tutorial.SYSTEM),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SYSTEM)) },
                 )
                 NavigationBarItem(
-                    enabled = storeState.tutorial != Tutorial.TRAVEL,
+                    enabled = storeState.tutorial != Tutorial.YES,
                     icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
                     label = { Text(text = travelTranslation) },
-                    selected = (storeState.currentContent == Content.TRAVEL),
+                    selected = (storeState.currentContent == Content.TRAVEL || storeState.tutorial == Tutorial.TRAVEL),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.TRAVEL)) },
                 )
             }
