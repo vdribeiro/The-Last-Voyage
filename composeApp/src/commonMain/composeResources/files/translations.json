@@ -2802,7 +2802,7 @@
   {
     "languageIso": "en",
     "key": "tutorial_screen__mechanics_travel_description",
-    "value": "Each travel between systems costs fuel and takes time. The ship travels at 0.1c, so a 10 light-year journey will add 100 years of total travelled time. Longer journeys can be rewarding but are also more dangerous.\nWith each new destination, you will also encounter a new random event that can help or hinder your progress, consuming or rewarding resources."
+    "value": "Each travel between systems costs fuel and takes time.\nThe ship travels at 0.1c, so a 10 light-year journey will add 100 years of total travelled time.\nLonger journeys can be rewarding but are also more dangerous.\nWith each new destination, you will also encounter a new random event that can help or hinder your progress, consuming or rewarding resources."
   },
   {
     "languageIso": "en",
@@ -2812,7 +2812,7 @@
   {
     "languageIso": "en",
     "key": "tutorial_screen__mechanics_game_over_description",
-    "value": "The game ends when your ship's integrity or fuel reaches 0, or you settle in a new world. Settlement success depends on the planet's habitability and whether you have enough materials and cryopods.\n• Uninhabitable Worlds (below 40%): Instant failure.\n• Harsh Worlds (41-60%): Require significant resources (300 materials + 150 cryopods).\n• Tolerable Worlds (61-80%): Require moderate resources (100 materials + 100 cryopods).\n• Paradise Worlds (81-100%): Are the easiest to colonize (50 materials + 50 cryopods).\nThere are special cases where you can defy the odds with insufficient materials but enough population, if you have plenty of fuel to use the engine as a makeshift energy source, or ship integrity to cannibalize the ship for materials."
+    "value": "The game ends when your ship's integrity or fuel reaches 0, or you settle in a new world.\nSettlement success depends on the planet's habitability and whether you have enough materials and cryopods.\n• Uninhabitable Worlds (below 40%): Instant failure.\n• Harsh Worlds (41-60%): Require significant resources (300 materials + 150 cryopods).\n• Tolerable Worlds (61-80%): Require moderate resources (100 materials + 100 cryopods).\n• Paradise Worlds (81-100%): Are the easiest to colonize (50 materials + 50 cryopods).\nThere are special cases where you can defy the odds with insufficient materials but enough population, if you have plenty of fuel to use the engine as a makeshift energy source, or ship integrity to cannibalize the ship for materials."
   },
   {
     "languageIso": "en",
