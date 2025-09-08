@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.translation
 
-import com.hybris.tlv.usecase.translation.mapper.toTranslationCacheMap
+import com.hybris.tlv.locale.getLanguage
 import com.hybris.tlv.usecase.translation.model.domain.Translation
 
 /**
@@ -27,18 +27,18 @@ internal object TranslationCache {
     )
     private val translationsCache = translations.toTranslationCacheMap().toMutableMap()
 
-    fun set(languageIso: String?) {
-        this.languageIso = languageIso ?: DEFAULT_LANGUAGE
-    }
-
-    fun set(translations: Map<String, String>) {
-        translationsCache.putAll(from = translations)
+    fun set(translations: List<Translation>) {
+        languageIso = getLanguage()
+        translationsCache.putAll(from = translations.toTranslationCacheMap())
     }
 
     fun get(key: String): String =
         translationsCache["${languageIso}__${key}"] ?: if (languageIso != DEFAULT_LANGUAGE) {
             translationsCache["${DEFAULT_LANGUAGE}__${key}"] ?: key
         } else key
+
+    private fun List<Translation>.toTranslationCacheMap(): Map<String, String> =
+        associate { "${it.languageIso}__${it.key}" to it.value }
 }
 
 fun getTranslation(key: String): String = TranslationCache.get(key)

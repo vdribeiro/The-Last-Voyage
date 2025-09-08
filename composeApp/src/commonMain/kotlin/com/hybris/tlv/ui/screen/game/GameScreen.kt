@@ -1,6 +1,8 @@
 package com.hybris.tlv.ui.screen.game
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -17,22 +19,38 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.game.content.ShipContent
 import com.hybris.tlv.ui.screen.game.content.SystemContent
 import com.hybris.tlv.ui.screen.game.content.TravelContent
-import com.hybris.tlv.ui.screen.game.content.TutorialContent
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.StatusBar
 import com.hybris.tlv.ui.theme.component.debouncedClickable
+import com.hybris.tlv.ui.theme.typography
+import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun GameScreen(store: Store<GameAction, GameState>) {
     val storeState by store.stateFlow.collectAsState()
-    val ship = storeState.gameSession?.ship
     val tutorial = storeState.tutorial != Tutorial.NO
+    val defaultShip = remember {
+        Ship(
+            id = "",
+            assignedPoints = 0,
+            yearsTraveled = 0.0,
+            sensorRange = if (tutorial) (1..5).random() else 0,
+            integrity = if (tutorial) (50..100).random() else 0,
+            fuel = if (tutorial) (50..1000).random() else 0,
+            materials = if (tutorial) (50..1000).random() else 0,
+            cryopods = if (tutorial) (50..1000).random() else 0,
+        )
+    }
+    val ship = storeState.gameSession?.ship ?: defaultShip
+
     val travelTranslation = remember { getTranslation(key = "game_screen__travel") }
     val systemTranslation = remember { getTranslation(key = "game_screen__system") }
     val shipTranslation = remember { getTranslation(key = "game_screen__ship") }
@@ -41,17 +59,21 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
         modifier = Modifier
             .fillMaxSize()
             .debouncedClickable(
-                enabled = storeState.tutorial != Tutorial.NO,
+                enabled = tutorial,
                 rippleEffect = false
-            ) { store.send(action = GameAction.Next) },
+            ) { store.send(action = GameAction.NextTutorial) },
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
                 modifier = Modifier.statusBarsPadding(),
-                hull = ship?.integrity?.toString() ?: (if (tutorial) (0..100).random() else 0).toString(),
-                fuel = ship?.fuel?.toString() ?: (if (tutorial) (0..100).random() else 0).toString(),
-                materials = ship?.materials?.toString() ?: (if (tutorial) (0..100).random() else 0).toString(),
-                cryopods = ship?.cryopods?.toString() ?: (if (tutorial) (0..100).random() else 0).toString()
+                hullEnabled = storeState.tutorial != Tutorial.NO,
+                fuelEnabled = storeState.tutorial != Tutorial.NO,
+                materialsEnabled = storeState.tutorial != Tutorial.NO,
+                cryopodsEnabled = storeState.tutorial != Tutorial.NO,
+                hull = ship.integrity.toString(),
+                fuel = ship.fuel.toString(),
+                materials = ship.materials.toString(),
+                cryopods = ship.cryopods.toString()
             )
         },
         bottomBar = {
@@ -82,11 +104,62 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
             when (storeState.loading) {
                 true -> DebouncedLinearProgressIndicator()
                 false -> when (storeState.currentContent) {
-                    Content.TUTORIAL -> TutorialContent(store = store)
                     Content.SHIP -> ShipContent(store = store)
                     Content.SYSTEM -> SystemContent(store = store)
                     Content.TRAVEL -> TravelContent(store = store)
                 }
+            }
+
+            val title: String
+            val description: String
+            when (storeState.tutorial) {
+                Tutorial.NO -> {
+                    title = remember { "" }
+                    description = remember { "" }
+                }
+
+                Tutorial.YES -> {
+                    title = remember { getTranslation(key = "tutorial_screen__mechanics_goal_title") }
+                    description = remember { getTranslation(key = "tutorial_screen__mechanics_goal_description") }
+                }
+
+                Tutorial.SHIP -> {
+                    title = remember { getTranslation(key = "tutorial_screen__mechanics_attributes_title") }
+                    description = remember { getTranslation(key = "tutorial_screen__mechanics_attributes_description") }
+                }
+
+                Tutorial.TRAVEL -> {
+                    title = remember { getTranslation(key = "tutorial_screen__mechanics_travel_title") }
+                    description = remember { getTranslation(key = "tutorial_screen__mechanics_travel_description") }
+                }
+
+                Tutorial.SYSTEM -> {
+                    title = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_title") }
+                    description = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_description") }
+                }
+                //Tutorial.SYSTEM -> {
+                //    title = remember { getTranslation(key = "tutorial_screen__mechanics_score_title") }
+                //    description = remember { getTranslation(key = "tutorial_screen__mechanics_score_description") }
+                //}
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    modifier = Modifier.padding(all = 8.dp),
+                    style = typography.titleLarge,
+                    text = title,
+                )
+                Text(
+                    modifier = Modifier.padding(all = 8.dp),
+                    style = typography.titleMedium,
+                    text = description,
+                )
             }
         }
     }

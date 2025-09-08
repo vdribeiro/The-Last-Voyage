@@ -16,15 +16,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.alpha
 import com.hybris.tlv.ui.theme.colorScheme
 import com.hybris.tlv.ui.theme.typography
 
 @Composable
 internal fun StatusBar(
     modifier: Modifier = Modifier,
+    hullEnabled: Boolean = true,
+    fuelEnabled: Boolean = true,
+    materialsEnabled: Boolean = true,
+    cryopodsEnabled: Boolean = true,
     hull: String,
     fuel: String,
     materials: String,
@@ -38,21 +44,25 @@ internal fun StatusBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             StatusBarItem(
+                enabled = hullEnabled,
                 icon = Icons.Outlined.Shield,
                 value = hull,
                 contentDescription = "Hull Integrity"
             )
             StatusBarItem(
+                enabled = fuelEnabled,
                 icon = Icons.Outlined.LocalGasStation,
                 value = fuel,
                 contentDescription = "Fuel"
             )
             StatusBarItem(
+                enabled = materialsEnabled,
                 icon = Icons.Outlined.Construction,
                 value = materials,
                 contentDescription = "Materials"
             )
             StatusBarItem(
+                enabled = cryopodsEnabled,
                 icon = Icons.Outlined.BedroomParent,
                 value = cryopods,
                 contentDescription = "Cryopods"
@@ -63,11 +73,13 @@ internal fun StatusBar(
 
 @Composable
 private fun StatusBarItem(
+    enabled: Boolean,
     icon: ImageVector,
     value: String,
     contentDescription: String
 ) {
     Row(
+        modifier = Modifier.alpha(alpha = alpha(enabled = enabled)),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(space = 4.dp)
     ) {

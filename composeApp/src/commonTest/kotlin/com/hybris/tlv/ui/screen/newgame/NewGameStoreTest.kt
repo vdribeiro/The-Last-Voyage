@@ -1,7 +1,10 @@
 package com.hybris.tlv.ui.screen.newgame
 
+import com.hybris.tlv.Core
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock.mock
+import com.hybris.tlv.database.createSqlDriver
+import com.hybris.tlv.flow.TestDispatchers
+import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
@@ -10,16 +13,24 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class NewGameStoreTest {
 
+    private val mock by lazy {
+        Core(
+            dispatcher = TestDispatchers(),
+            sqlDriver = createSqlDriver(inMemory = true),
+            httpClient = HttpClientFactory.buildHttpClient()
+        )
+    }
     private val store
         get() = NewGameStore(
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = NewGameState(),
-            earthUseCases = mock.useCases.earth,
+            catastropheUseCases = mock.useCases.catastrophe,
             gameSessionUseCases = mock.useCases.gameSession
         )
 
@@ -31,14 +42,14 @@ internal class NewGameStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        mock.internalEarth.syncCatastrophes()
+        mock.useCases.sync.sync().last()
         val newGameStore = store
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
     }
 
     @Test
     fun `send action back`() = runBlocking {
-        mock.internalEarth.syncCatastrophes()
+        mock.useCases.sync.sync().last()
         val newGameStore = store
         assertEquals(expected = NavigationManager.Screen.NEW_GAME, actual = mock.navigation.stateFlow.value.screen)
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
@@ -64,7 +75,7 @@ internal class NewGameStoreTest {
 
     @Test
     fun `send action select ship`() = runBlocking {
-        mock.internalEarth.syncCatastrophes()
+        mock.useCases.sync.sync().last()
         val newGameStore = store
         assertNull(actual = newGameStore.stateFlow.value.selectedShip)
         val shipPrototype = ShipPrototype(
@@ -80,7 +91,7 @@ internal class NewGameStoreTest {
 
     @Test
     fun `send action select formula`() = runBlocking {
-        mock.internalEarth.syncCatastrophes()
+        mock.useCases.sync.sync().last()
         val newGameStore = store
         val formula = Formula()
         newGameStore.send(action = NewGameAction.SelectFormula(formula = formula))
@@ -90,7 +101,7 @@ internal class NewGameStoreTest {
     @Test
     fun `send action start game`() = runBlocking {
         assertEquals(expected = NavigationManager.Screen.NEW_GAME, actual = mock.navigation.stateFlow.value.screen)
-        mock.internalEarth.syncCatastrophes()
+        mock.useCases.sync.sync().last()
         val newGameStore = store
         val shipPrototype = ShipPrototype(
             assignedPoints = 1,

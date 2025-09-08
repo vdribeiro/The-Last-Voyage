@@ -107,7 +107,7 @@ internal class Navigation(
                 dispatcher = dispatcher,
                 navigation = this@Navigation,
                 initialState = state as? NewGameState ?: NewGameState(),
-                earthUseCases = useCases.earth,
+                catastropheUseCases = useCases.catastrophe,
                 gameSessionUseCases = useCases.gameSession
             )
         ) else GameScreen()
