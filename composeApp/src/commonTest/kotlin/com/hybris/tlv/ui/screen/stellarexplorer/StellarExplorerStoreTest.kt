@@ -52,7 +52,6 @@ internal class StellarExplorerStoreTest {
             search = state.search,
             searchable = state.searchableStellarHostProperties,
         ).sortStellarHosts(sort = state.sortStellarHostProperty, ascending = state.sortAscending)
-        delay(1000L)
         assertEquals(expected = filteredStellarHosts, actual = state.filteredStellarHosts)
         assertEquals(expected = emptyList(), actual = state.filteredPlanets)
     }
@@ -164,5 +163,23 @@ internal class StellarExplorerStoreTest {
             expected = visiblePlanetProperties,
             actual = stellarExplorerStore.stateFlow.value.visiblePlanetProperties
         )
+    }
+
+    @Test
+    fun `send action change searchable`() = runBlocking {
+        mock.useCases.sync.sync().last()
+        val stellarExplorerStore = store
+
+        assertEquals(expected = setOf(StellarHostProperty.NAME), actual = stellarExplorerStore.stateFlow.value.searchableStellarHostProperties)
+        stellarExplorerStore.send(action = StellarExplorerAction.ChangeStellarHostsSearchable(property = StellarHostProperty.NAME))
+        assertEquals(expected = emptySet(), actual = stellarExplorerStore.stateFlow.value.searchableStellarHostProperties)
+
+        stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
+
+        assertEquals(expected = setOf(PlanetProperty.NAME), actual = stellarExplorerStore.stateFlow.value.searchablePlanetProperties)
+        stellarExplorerStore.send(action = StellarExplorerAction.ChangePlanetSearchable(property = PlanetProperty.NAME))
+        assertEquals(expected = emptySet(), actual = stellarExplorerStore.stateFlow.value.searchablePlanetProperties)
+
+        stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
     }
 }

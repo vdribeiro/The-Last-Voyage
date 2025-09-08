@@ -7,6 +7,7 @@ import com.hybris.tlv.mock.configs
 import com.hybris.tlv.mock.credits
 import com.hybris.tlv.mock.engines
 import com.hybris.tlv.mock.events
+import com.hybris.tlv.mock.learnings
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.mock.translations
@@ -15,6 +16,7 @@ import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.credit.model.Credit
 import com.hybris.tlv.usecase.event.model.Event
+import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.space.formula.Constants.PARSEC
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY
@@ -37,6 +39,7 @@ internal object HttpClientFactory {
     fun buildHttpClient(
         mockConfigs: List<Configs> = configs,
         mockTranslations: List<Translation> = translations,
+        mockLearnings: List<Learning> = learnings,
         mockCatastrophes: List<Catastrophe> = catastrophes,
         mockEngines: List<Engine> = engines,
         mockStellarHosts: List<StellarHost> = stellarHosts,
@@ -73,6 +76,7 @@ internal object HttpClientFactory {
 
                         path.startsWith(prefix = CONFIGS_URL) -> respond(content = json.encodeToString(value = mockConfigs))
                         path.startsWith(prefix = TRANSLATIONS_URL) -> respond(content = json.encodeToString(value = mockTranslations))
+                        path.startsWith(prefix = LEARNINGS_URL) -> respond(content = json.encodeToString(value = mockLearnings))
                         path.startsWith(prefix = CATASTROPHES_URL) -> respond(content = json.encodeToString(value = mockCatastrophes))
                         path.startsWith(prefix = ENGINES_URL) -> respond(content = json.encodeToString(value = mockEngines))
                         path.startsWith(prefix = STELLAR_HOSTS_URL) -> respond(content = json.encodeToString(value = mockStellarHosts))

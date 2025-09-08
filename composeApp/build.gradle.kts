@@ -236,6 +236,7 @@ kover {
                         "${appId}.ui.component",
                     )
                     classes(
+                        "*Debug*",
                         "*Screen*",
                         "*Content*",
                         "${appId}.App*",

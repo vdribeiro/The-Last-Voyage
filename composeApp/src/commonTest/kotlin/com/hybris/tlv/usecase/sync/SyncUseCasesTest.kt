@@ -35,16 +35,6 @@ internal class SyncUseCasesTest {
     }
 
     @Test
-    fun sync() = runBlocking {
-        val totalOperations = 9f
-        val sync = mock.useCases.sync.sync().toList()
-        for (i in 0..totalOperations.toInt() - 1) {
-            assertEquals(expected = SyncResult.Loading(progress = i.toFloat(), total = totalOperations), actual = sync[i])
-        }
-        assertEquals(expected = SyncResult.Success, actual = sync.last())
-    }
-
-    @Test
     fun `get archive`() = runBlocking {
         val totalOperations = 6f
         val archive = mock.useCases.sync.getArchive().toList()
@@ -55,7 +45,23 @@ internal class SyncUseCasesTest {
     }
 
     @Test
-    fun `get error`() = runBlocking {
+    fun `get archive and error`() = runBlocking {
+        val errorSync = errorMock.useCases.sync.getArchive().toList()
+        assertEquals(expected = 3, actual = errorSync.count { it is SyncResult.Error })
+    }
+
+    @Test
+    fun sync() = runBlocking {
+        val totalOperations = 9f
+        val sync = mock.useCases.sync.sync().toList()
+        for (i in 0..totalOperations.toInt() - 1) {
+            assertEquals(expected = SyncResult.Loading(progress = i.toFloat(), total = totalOperations), actual = sync[i])
+        }
+        assertEquals(expected = SyncResult.Success, actual = sync.last())
+    }
+
+    @Test
+    fun `sync and get error`() = runBlocking {
         val totalOperations = 9f
         val errorSync = errorMock.useCases.sync.sync().toList()
         for (i in 0..totalOperations.toInt() - 1) {

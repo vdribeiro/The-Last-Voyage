@@ -10,6 +10,8 @@ import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
+import com.hybris.tlv.usecase.learning.model.Learning
+import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
@@ -121,6 +123,17 @@ internal val translations by lazy {
             key = "event__a_close_pass_ignore_description",
             value = "The risk of system damage is too great. The ship gives the pulsar a wide berth, and the unique scientific opportunity is lost."
         ),
+    )
+}
+
+internal val learnings by lazy {
+    listOf(
+        Learning(
+            id = "planet_type_unknown",
+            description = "planet_type_unknown_description",
+            image = "?",
+            type = LearningType.PLANET_TYPE
+        )
     )
 }
 

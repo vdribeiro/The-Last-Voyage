@@ -2,9 +2,11 @@ package com.hybris.tlv.serializer
 
 import com.hybris.tlv.mock.achievements
 import com.hybris.tlv.mock.catastrophes
+import com.hybris.tlv.mock.configs
 import com.hybris.tlv.mock.credits
 import com.hybris.tlv.mock.engines
 import com.hybris.tlv.mock.events
+import com.hybris.tlv.mock.learnings
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.mock.translations
@@ -17,10 +19,12 @@ val json = Json {
     prettyPrint = true
 }
 
-@Suppress("UNCHECKED_CAST")
+@Suppress("UNCHECKED_CAST", "RedundantSuspendModifier", "unused")
 private suspend fun <T> loadFromJsonShadowing(path: String, serializer: KSerializer<List<T>>): List<T> =
     when (path) {
+        "files/configs.json" -> configs
         "files/translations.json" -> translations
+        "files/learnings.json" -> learnings
         "files/catastrophes.json" -> catastrophes
         "files/engines.json" -> engines
         "files/hosts.json" -> stellarHosts
