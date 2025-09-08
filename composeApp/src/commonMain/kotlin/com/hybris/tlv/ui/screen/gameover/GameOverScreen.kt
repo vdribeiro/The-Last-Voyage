@@ -24,7 +24,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.Score
 import com.hybris.tlv.ui.theme.component.TypewriterText
 import com.hybris.tlv.ui.theme.typography
-import com.hybris.tlv.usecase.space.mapper.roundTo
+import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable

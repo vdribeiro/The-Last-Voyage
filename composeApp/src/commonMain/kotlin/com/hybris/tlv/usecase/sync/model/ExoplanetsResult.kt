@@ -1,4 +1,4 @@
-package com.hybris.tlv.usecase.space.remote.result
+package com.hybris.tlv.usecase.sync.model
 
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost

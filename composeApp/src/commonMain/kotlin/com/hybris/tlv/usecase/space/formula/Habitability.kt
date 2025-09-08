@@ -36,7 +36,6 @@ import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_EM
 import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_MG
 import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_RG
 import com.hybris.tlv.usecase.space.formula.Constants.S_EFF_SUN_RV
-import com.hybris.tlv.usecase.space.mapper.sanitize
 import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetType

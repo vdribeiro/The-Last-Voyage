@@ -7,20 +7,17 @@ import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.storage.saveFile
-import com.hybris.tlv.usecase.space.formula.Constants
 import com.hybris.tlv.usecase.space.formula.DerivedData
-import com.hybris.tlv.usecase.space.mapper.roundTo
-import com.hybris.tlv.usecase.space.mapper.toExpandedName
-import com.hybris.tlv.usecase.space.mapper.toSnakeCase
+import com.hybris.tlv.usecase.space.formula.parsecsToLightYears
+import com.hybris.tlv.usecase.space.formula.stellarHostGravityToSunGravity
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
-import com.hybris.tlv.usecase.space.remote.json.ExoplanetJson
-import com.hybris.tlv.usecase.space.remote.json.StellarHostJson
-import com.hybris.tlv.usecase.space.remote.result.ExoplanetsResult
+import com.hybris.tlv.usecase.sync.model.ExoplanetJson
+import com.hybris.tlv.usecase.sync.model.ExoplanetsResult
+import com.hybris.tlv.usecase.sync.model.StellarHostJson
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import io.ktor.client.HttpClient
-import kotlin.math.pow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -235,10 +232,6 @@ internal class SpaceSync(
         }
     }
 
-    private fun Double.stellarHostGravityToSunGravity(): Double = 10.0.pow(x = this - Constants.SUN_SURFACE_GRAVITY).roundTo(decimalPlaces = 7)
-
-    private fun Double.parsecsToLightYears(): Double = this * Constants.PARSEC
-
     private fun StellarHostJson.toStellarHost(): StellarHost =
         StellarHost(
             id = stellarHostName.toSnakeCase(),
@@ -353,4 +346,132 @@ internal class SpaceSync(
                 obliquity = group.mapNotNull { it.obliquity }.ifEmpty { null }?.average(),
             )
         }
+
+    private val greekAbbreviations = mapOf(
+        "Alf" to "Alpha",
+        "Bet" to "Beta",
+        "Gam" to "Gamma",
+        "Del" to "Delta",
+        "Eps" to "Epsilon",
+        "Zet" to "Zeta",
+        "Eta" to "Eta",
+        "The" to "Theta",
+        "Iot" to "Iota",
+        "Kap" to "Kappa",
+        "Lam" to "Lambda",
+        "Mu" to "Mu",
+        "Nu" to "Nu",
+        "Xi" to "Xi",
+        "Omi" to "Omicron",
+        "Pi" to "Pi",
+        "Rho" to "Rho",
+        "Sig" to "Sigma",
+        "Tau" to "Tau",
+        "Ups" to "Upsilon",
+        "Phi" to "Phi",
+        "Chi" to "Chi",
+        "Psi" to "Psi",
+        "Ome" to "Omega"
+    )
+    private val latinAbbreviations = mapOf(
+        "And" to "Andromedae",
+        "Ant" to "Antliae",
+        "Aps" to "Apodis",
+        "Aqr" to "Aquarii",
+        "Aql" to "Aquilae",
+        "Ara" to "Arae",
+        "Ari" to "Arietis",
+        "Aur" to "Aurigae",
+        "Boo" to "Bootis",
+        "Cae" to "Caeli",
+        "Cam" to "Camelopardalis",
+        "Cnc" to "Cancri",
+        "CVn" to "Canum Venaticorum",
+        "CMa" to "Canis Majoris",
+        "CMi" to "Canis Minoris",
+        "Cap" to "Capricorni",
+        "Car" to "Carinae",
+        "Cas" to "Cassiopeiae",
+        "Cen" to "Centauri",
+        "Cep" to "Cephei",
+        "Cet" to "Ceti",
+        "Cha" to "Chamaeleontis",
+        "Cir" to "Circini",
+        "Col" to "Columbae",
+        "Com" to "Comae Berenices",
+        "CrA" to "Coronae Australis",
+        "CrB" to "Coronae Borealis",
+        "Crv" to "Corvi",
+        "Crt" to "Crateris",
+        "Cru" to "Crucis",
+        "Cyg" to "Cygni",
+        "Del" to "Delphini",
+        "Dor" to "Doradus",
+        "Dra" to "Draconis",
+        "Equ" to "Equulei",
+        "Eri" to "Eridani",
+        "For" to "Fornacis",
+        "Gem" to "Geminorum",
+        "Gru" to "Gruis",
+        "Her" to "Herculis",
+        "Hor" to "Horologii",
+        "Hya" to "Hydrae",
+        "Hyi" to "Hydri",
+        "Ind" to "Indi",
+        "Lac" to "Lacertae",
+        "Leo" to "Leonis",
+        "LMi" to "Leonis Minoris",
+        "Lep" to "Leporis",
+        "Lib" to "Librae",
+        "Lup" to "Lupi",
+        "Lyn" to "Lyncis",
+        "Lyr" to "Lyrae",
+        "Men" to "Mensae",
+        "Mic" to "Microscopii",
+        "Mon" to "Monocerotis",
+        "Mus" to "Muscae",
+        "Nor" to "Normae",
+        "Oct" to "Octantis",
+        "Oph" to "Ophiuchi",
+        "Ori" to "Orionis",
+        "Pav" to "Pavonis",
+        "Peg" to "Pegasi",
+        "Per" to "Persei",
+        "Phe" to "Phoenicis",
+        "Pic" to "Pictoris",
+        "Psc" to "Piscium",
+        "PsA" to "Piscis Austrini",
+        "Pup" to "Puppis",
+        "Pyx" to "Pyxidis",
+        "Ret" to "Reticuli",
+        "Sge" to "Sagittae",
+        "Sgr" to "Sagittarii",
+        "Sco" to "Scorpii",
+        "Scl" to "Sculptoris",
+        "Sct" to "Scuti",
+        "Ser" to "Serpentis",
+        "Sex" to "Sextantis",
+        "Tau" to "Tauri",
+        "Tel" to "Telescopii",
+        "Tri" to "Trianguli",
+        "TrA" to "Trianguli Australis",
+        "Tuc" to "Tucanae",
+        "UMa" to "Ursae Majoris",
+        "UMi" to "Ursae Minoris",
+        "Vel" to "Velorum",
+        "Vir" to "Virginis",
+        "Vol" to "Volantis",
+        "Vul" to "Vulpeculae"
+    )
+    private val allAbbreviations = (greekAbbreviations + latinAbbreviations).mapKeys { it.key.lowercase() }
+    private val allAbbreviationsPattern =
+        "\\b(${allAbbreviations.keys.joinToString(separator = "|")})\\b".toRegex(option = RegexOption.IGNORE_CASE)
+
+    private fun String.toExpandedName() = allAbbreviationsPattern.replace(input = replace(oldValue = "_", newValue = " ")) { matchResult ->
+        val key = matchResult.value.lowercase()
+        allAbbreviations[key] ?: matchResult.value
+    }
+
+    private fun String.toSnakeCase(): String =
+        lowercase().replace(oldValue = " ", newValue = "_").replace(oldValue = "-", newValue = "_")
 }

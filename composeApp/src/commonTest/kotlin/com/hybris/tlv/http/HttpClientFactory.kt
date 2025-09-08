@@ -18,13 +18,12 @@ import com.hybris.tlv.usecase.credit.model.Credit
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.ship.model.Engine
-import com.hybris.tlv.usecase.space.formula.Constants.PARSEC
-import com.hybris.tlv.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY
-import com.hybris.tlv.usecase.space.mapper.roundTo
+import com.hybris.tlv.usecase.space.formula.lightYearsToParsecs
+import com.hybris.tlv.usecase.space.formula.sunGravityToStellarHostGravity
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
-import com.hybris.tlv.usecase.space.remote.json.ExoplanetJson
-import com.hybris.tlv.usecase.space.remote.json.StellarHostJson
+import com.hybris.tlv.usecase.sync.model.ExoplanetJson
+import com.hybris.tlv.usecase.sync.model.StellarHostJson
 import com.hybris.tlv.usecase.translation.model.domain.Translation
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
@@ -32,7 +31,6 @@ import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.respondError
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
-import kotlin.math.log10
 
 internal object HttpClientFactory {
 
@@ -105,9 +103,6 @@ internal object HttpClientFactory {
         respondError(status = HttpStatusCode.InternalServerError)
     })
 
-    private fun Double.sunGravityToStellarHostGravity(): Double = (log10(x = this) + SUN_SURFACE_GRAVITY).roundTo(decimalPlaces = 7)
-    private fun Double.lightYearsToParsecs(): Double = this / PARSEC
-
     private fun StellarHost.toStellarHostJson(): StellarHostJson =
         StellarHostJson(
             stellarHostName = name,
@@ -128,7 +123,7 @@ internal object HttpClientFactory {
             stellarHostDec = dec
         )
 
-    private fun Planet.toExoplanetJson(stellarHost: StellarHost): ExoplanetJson? =
+    private fun Planet.toExoplanetJson(stellarHost: StellarHost): ExoplanetJson =
         ExoplanetJson(
             stellarHostName = stellarHost.name,
             stellarHostSpectralType = stellarHost.spectralType,

@@ -1,4 +1,4 @@
-package com.hybris.tlv.usecase.space.remote.json
+package com.hybris.tlv.usecase.sync.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

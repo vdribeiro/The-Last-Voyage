@@ -23,8 +23,8 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.PlanetCard
 import com.hybris.tlv.ui.theme.component.StellarHostCard
 import com.hybris.tlv.ui.theme.component.debouncedClickable
-import com.hybris.tlv.usecase.space.mapper.spectralTypeToDrawable
-import com.hybris.tlv.usecase.space.mapper.toDrawable
+import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
+import com.hybris.tlv.usecase.space.formula.toDrawable
 
 @Composable
 internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerState>) {

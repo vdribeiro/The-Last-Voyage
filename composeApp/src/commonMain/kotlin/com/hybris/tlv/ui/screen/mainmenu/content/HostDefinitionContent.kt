@@ -22,7 +22,7 @@ import com.hybris.tlv.ui.theme.component.SimpleCard
 import com.hybris.tlv.ui.theme.component.StellarHostCard
 import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.learning.model.LearningType
-import com.hybris.tlv.usecase.space.mapper.spectralTypeToDrawable
+import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost

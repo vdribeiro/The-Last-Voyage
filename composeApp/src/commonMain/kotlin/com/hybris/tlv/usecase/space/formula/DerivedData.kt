@@ -12,7 +12,6 @@ import com.hybris.tlv.usecase.space.formula.Constants.SUN_MASS_IN_KG
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_RADIUS_IN_AU
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_RADIUS_IN_EARTH_RADII
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_RADIUS_IN_METERS
-import com.hybris.tlv.usecase.space.mapper.sanitize
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import kotlin.math.PI

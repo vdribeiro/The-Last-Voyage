@@ -1,6 +1,9 @@
-package com.hybris.tlv.usecase.space.mapper
+package com.hybris.tlv.usecase.space.formula
 
+import com.hybris.tlv.usecase.space.formula.Constants.PARSEC
+import com.hybris.tlv.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY
 import com.hybris.tlv.usecase.space.model.PlanetType
+import kotlin.math.log10
 import kotlin.math.pow
 import kotlin.math.round
 import org.jetbrains.compose.resources.DrawableResource
@@ -70,6 +73,14 @@ internal fun Double?.sanitize(): Double? = when {
     isNaN() || isInfinite() || this == Double.NEGATIVE_INFINITY || this == Double.POSITIVE_INFINITY || this == Double.NaN -> null
     else -> this
 }
+
+internal fun Double.stellarHostGravityToSunGravity(): Double = 10.0.pow(x = this - SUN_SURFACE_GRAVITY).roundTo(decimalPlaces = 7)
+
+internal fun Double.sunGravityToStellarHostGravity(): Double = (log10(x = this) + SUN_SURFACE_GRAVITY).roundTo(decimalPlaces = 7)
+
+internal fun Double.parsecsToLightYears(): Double = this * PARSEC
+
+internal fun Double.lightYearsToParsecs(): Double = this / PARSEC
 
 internal fun String?.spectralTypeToDrawable(): DrawableResource =
     when (this?.firstOrNull()?.uppercase()) {

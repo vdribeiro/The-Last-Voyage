@@ -22,7 +22,7 @@ import com.hybris.tlv.ui.theme.component.PlanetCard
 import com.hybris.tlv.ui.theme.component.SimpleCard
 import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.learning.model.LearningType
-import com.hybris.tlv.usecase.space.mapper.toDrawable
+import com.hybris.tlv.usecase.space.formula.toDrawable
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.PlanetType

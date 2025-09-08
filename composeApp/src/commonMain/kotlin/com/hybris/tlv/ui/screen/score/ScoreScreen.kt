@@ -25,7 +25,7 @@ import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.Score
 import com.hybris.tlv.ui.theme.component.debouncedClickable
 import com.hybris.tlv.ui.theme.typography
-import com.hybris.tlv.usecase.space.mapper.roundTo
+import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
