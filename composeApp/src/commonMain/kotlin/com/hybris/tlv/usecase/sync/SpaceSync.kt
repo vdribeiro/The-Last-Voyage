@@ -15,6 +15,36 @@ import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.sync.model.ExoplanetJson
 import com.hybris.tlv.usecase.sync.model.ExoplanetsResult
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_DENSITY
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_ECCENTRICITY
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_EQUILIBRIUM_TEMPERATURE
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_INCLINATION
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_INSOLATION_FLUX
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_MASS
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_NAME
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_OBLIQUITY
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_OCCULTATION_DEPTH
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_ORBITAL_PERIOD
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_ORBIT_AXIS
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_PROJECTED_OBLIQUITY
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_RADIUS
+import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_STATUS
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_AGE
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_DEC
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_DENSITY
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_DISTANCE
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_GRAVITY
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_LUMINOSITY
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_MASS
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_METALLICITY
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_NAME
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_RA
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_RADIUS
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_ROTATIONAL_PERIOD
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_ROTATIONAL_VELOCITY
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_SPECTRAL_TYPE
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_SYSTEM_NAME
+import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_TEMPERATURE
 import com.hybris.tlv.usecase.sync.model.StellarHostJson
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import io.ktor.client.HttpClient
@@ -103,24 +133,24 @@ internal class SpaceSync(
         val offset = queryMap.offset ?: 0
         val limit = queryMap.limit ?: Long.MAX_VALUE
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
-                "${StellarHostJson.Companion.STELLAR_HOST_NAME}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_SYSTEM_NAME}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_SPECTRAL_TYPE}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_TEMPERATURE}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_RADIUS}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_MASS}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_METALLICITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_LUMINOSITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_GRAVITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_AGE}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_DENSITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_ROTATIONAL_VELOCITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_ROTATIONAL_PERIOD}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_DISTANCE}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_RA}," +
-                StellarHostJson.Companion.STELLAR_HOST_DEC +
+                "${STELLAR_HOST_NAME}," +
+                "${STELLAR_HOST_SYSTEM_NAME}," +
+                "${STELLAR_HOST_SPECTRAL_TYPE}," +
+                "${STELLAR_HOST_TEMPERATURE}," +
+                "${STELLAR_HOST_RADIUS}," +
+                "${STELLAR_HOST_MASS}," +
+                "${STELLAR_HOST_METALLICITY}," +
+                "${STELLAR_HOST_LUMINOSITY}," +
+                "${STELLAR_HOST_GRAVITY}," +
+                "${STELLAR_HOST_AGE}," +
+                "${STELLAR_HOST_DENSITY}," +
+                "${STELLAR_HOST_ROTATIONAL_VELOCITY}," +
+                "${STELLAR_HOST_ROTATIONAL_PERIOD}," +
+                "${STELLAR_HOST_DISTANCE}," +
+                "${STELLAR_HOST_RA}," +
+                STELLAR_HOST_DEC +
                 "+from+stellarhosts" +
-                "+order+by+${StellarHostJson.Companion.STELLAR_HOST_NAME}+asc" +
+                "+order+by+${STELLAR_HOST_NAME}+asc" +
                 "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
         val queryMap = QueryMap().apply {
             set(key = "query", value = query)
@@ -139,36 +169,36 @@ internal class SpaceSync(
         val offset = queryMap.offset ?: 0
         val limit = queryMap.limit ?: Long.MAX_VALUE
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
-                "${StellarHostJson.Companion.STELLAR_HOST_NAME}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_SPECTRAL_TYPE}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_TEMPERATURE}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_RADIUS}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_MASS}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_METALLICITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_LUMINOSITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_GRAVITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_AGE}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_DENSITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_ROTATIONAL_VELOCITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_ROTATIONAL_PERIOD}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_DISTANCE}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_RA}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_DEC}," +
-                "${ExoplanetJson.Companion.PLANET_NAME}," +
-                "${ExoplanetJson.Companion.PLANET_ORBITAL_PERIOD}," +
-                "${ExoplanetJson.Companion.PLANET_ORBIT_AXIS}," +
-                "${ExoplanetJson.Companion.PLANET_RADIUS}," +
-                "${ExoplanetJson.Companion.PLANET_MASS}," +
-                "${ExoplanetJson.Companion.PLANET_DENSITY}," +
-                "${ExoplanetJson.Companion.PLANET_ECCENTRICITY}," +
-                "${ExoplanetJson.Companion.PLANET_INSOLATION_FLUX}," +
-                "${ExoplanetJson.Companion.PLANET_EQUILIBRIUM_TEMPERATURE}," +
-                "${ExoplanetJson.Companion.PLANET_OCCULTATION_DEPTH}," +
-                "${ExoplanetJson.Companion.PLANET_INCLINATION}," +
-                "${ExoplanetJson.Companion.PLANET_OBLIQUITY}," +
-                ExoplanetJson.Companion.PLANET_PROJECTED_OBLIQUITY +
+                "${STELLAR_HOST_NAME}," +
+                "${STELLAR_HOST_SPECTRAL_TYPE}," +
+                "${STELLAR_HOST_TEMPERATURE}," +
+                "${STELLAR_HOST_RADIUS}," +
+                "${STELLAR_HOST_MASS}," +
+                "${STELLAR_HOST_METALLICITY}," +
+                "${STELLAR_HOST_LUMINOSITY}," +
+                "${STELLAR_HOST_GRAVITY}," +
+                "${STELLAR_HOST_AGE}," +
+                "${STELLAR_HOST_DENSITY}," +
+                "${STELLAR_HOST_ROTATIONAL_VELOCITY}," +
+                "${STELLAR_HOST_ROTATIONAL_PERIOD}," +
+                "${STELLAR_HOST_DISTANCE}," +
+                "${STELLAR_HOST_RA}," +
+                "${STELLAR_HOST_DEC}," +
+                "${PLANET_NAME}," +
+                "${PLANET_ORBITAL_PERIOD}," +
+                "${PLANET_ORBIT_AXIS}," +
+                "${PLANET_RADIUS}," +
+                "${PLANET_MASS}," +
+                "${PLANET_DENSITY}," +
+                "${PLANET_ECCENTRICITY}," +
+                "${PLANET_INSOLATION_FLUX}," +
+                "${PLANET_EQUILIBRIUM_TEMPERATURE}," +
+                "${PLANET_OCCULTATION_DEPTH}," +
+                "${PLANET_INCLINATION}," +
+                "${PLANET_OBLIQUITY}," +
+                PLANET_PROJECTED_OBLIQUITY +
                 "+from+pscomppars" +
-                "+order+by+${ExoplanetJson.Companion.PLANET_NAME}+asc" +
+                "+order+by+${PLANET_NAME}+asc" +
                 "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
         val queryMap = QueryMap().apply {
             set(key = "query", value = query)
@@ -187,37 +217,37 @@ internal class SpaceSync(
         val offset = queryMap.offset ?: 0
         val limit = queryMap.limit ?: Long.MAX_VALUE
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
-                "${StellarHostJson.Companion.STELLAR_HOST_NAME}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_SPECTRAL_TYPE}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_TEMPERATURE}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_RADIUS}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_MASS}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_METALLICITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_LUMINOSITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_GRAVITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_AGE}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_DENSITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_ROTATIONAL_VELOCITY}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_ROTATIONAL_PERIOD}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_DISTANCE}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_RA}," +
-                "${StellarHostJson.Companion.STELLAR_HOST_DEC}," +
-                "${ExoplanetJson.Companion.PLANET_NAME}," +
-                "${ExoplanetJson.Companion.PLANET_STATUS}," +
-                "${ExoplanetJson.Companion.PLANET_ORBITAL_PERIOD}," +
-                "${ExoplanetJson.Companion.PLANET_ORBIT_AXIS}," +
-                "${ExoplanetJson.Companion.PLANET_RADIUS}," +
-                "${ExoplanetJson.Companion.PLANET_MASS}," +
-                "${ExoplanetJson.Companion.PLANET_DENSITY}," +
-                "${ExoplanetJson.Companion.PLANET_ECCENTRICITY}," +
-                "${ExoplanetJson.Companion.PLANET_INSOLATION_FLUX}," +
-                "${ExoplanetJson.Companion.PLANET_EQUILIBRIUM_TEMPERATURE}," +
-                "${ExoplanetJson.Companion.PLANET_OCCULTATION_DEPTH}," +
-                "${ExoplanetJson.Companion.PLANET_INCLINATION}," +
-                "${ExoplanetJson.Companion.PLANET_OBLIQUITY}," +
-                ExoplanetJson.Companion.PLANET_PROJECTED_OBLIQUITY +
+                "${STELLAR_HOST_NAME}," +
+                "${STELLAR_HOST_SPECTRAL_TYPE}," +
+                "${STELLAR_HOST_TEMPERATURE}," +
+                "${STELLAR_HOST_RADIUS}," +
+                "${STELLAR_HOST_MASS}," +
+                "${STELLAR_HOST_METALLICITY}," +
+                "${STELLAR_HOST_LUMINOSITY}," +
+                "${STELLAR_HOST_GRAVITY}," +
+                "${STELLAR_HOST_AGE}," +
+                "${STELLAR_HOST_DENSITY}," +
+                "${STELLAR_HOST_ROTATIONAL_VELOCITY}," +
+                "${STELLAR_HOST_ROTATIONAL_PERIOD}," +
+                "${STELLAR_HOST_DISTANCE}," +
+                "${STELLAR_HOST_RA}," +
+                "${STELLAR_HOST_DEC}," +
+                "${PLANET_NAME}," +
+                "${PLANET_STATUS}," +
+                "${PLANET_ORBITAL_PERIOD}," +
+                "${PLANET_ORBIT_AXIS}," +
+                "${PLANET_RADIUS}," +
+                "${PLANET_MASS}," +
+                "${PLANET_DENSITY}," +
+                "${PLANET_ECCENTRICITY}," +
+                "${PLANET_INSOLATION_FLUX}," +
+                "${PLANET_EQUILIBRIUM_TEMPERATURE}," +
+                "${PLANET_OCCULTATION_DEPTH}," +
+                "${PLANET_INCLINATION}," +
+                "${PLANET_OBLIQUITY}," +
+                PLANET_PROJECTED_OBLIQUITY +
                 "+from+k2pandc" +
-                "+order+by+${ExoplanetJson.Companion.PLANET_NAME}+asc" +
+                "+order+by+${PLANET_NAME}+asc" +
                 "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
         val queryMap = QueryMap().apply {
             set(key = "query", value = query)
