@@ -7,9 +7,9 @@ import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
+import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.credit.model.Credit
 import com.hybris.tlv.usecase.credit.model.CreditType
-import com.hybris.tlv.usecase.earth.model.Catastrophe
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype

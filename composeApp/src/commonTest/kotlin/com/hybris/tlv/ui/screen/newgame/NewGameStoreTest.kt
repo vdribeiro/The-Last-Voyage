@@ -19,7 +19,7 @@ internal class NewGameStoreTest {
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = NewGameState(),
-            earthUseCases = mock.useCases.earth,
+            catastropheUseCases = mock.useCases.catastrophe,
             gameSessionUseCases = mock.useCases.gameSession
         )
 

@@ -1,16 +1,19 @@
 package com.hybris.tlv.usecase.ship
 
-import com.hybris.tlv.usecase.ship.local.ShipLocal
+import com.hybris.tlv.database.EngineSchema
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
+import database.AppDatabase
 import kotlin.math.abs
 
 internal class ShipGateway(
-    private val shipDao: ShipLocal
+    database: AppDatabase
 ): ShipUseCases {
 
+    private val engineDao = database.engineQueries
+
     override suspend fun getEngines(): List<Engine> =
-        shipDao.getEngines().sortedByDescending { it.velocity }
+        engineDao.getEngines().executeAsList().map { it.toEngine() }.sortedByDescending { it.velocity }
 
     override suspend fun repairShip(ship: Ship): Ship {
         var integrity = ship.integrity
@@ -44,4 +47,11 @@ internal class ShipGateway(
             cryopods = cryopods
         )
     }
+
+    private fun EngineSchema.toEngine(): Engine =
+        Engine(
+            id = id,
+            description = description,
+            velocity = velocity,
+        )
 }
