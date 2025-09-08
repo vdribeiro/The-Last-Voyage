@@ -1,9 +1,12 @@
 package com.hybris.tlv.ui.screen.event
 
+import com.hybris.tlv.Core
 import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.database.createSqlDriver
+import com.hybris.tlv.flow.TestDispatchers
+import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.mock.events
 import com.hybris.tlv.mock.gameSessionPrototype
-import com.hybris.tlv.mock.mock
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -11,10 +14,18 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class EventStoreTest {
 
+    private val mock by lazy {
+        Core(
+            dispatcher = TestDispatchers(),
+            sqlDriver = createSqlDriver(inMemory = true),
+            httpClient = HttpClientFactory.buildHttpClient()
+        )
+    }
     private val store
         get() = EventStore(
             dispatcher = mock.dispatcher,
@@ -32,7 +43,7 @@ internal class EventStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        mock.internalEvent.syncEvents()
+        mock.useCases.sync.sync().last()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
         assertNotNull(actual = eventStore.stateFlow.value.gameSession)
@@ -61,7 +72,7 @@ internal class EventStoreTest {
 
     @Test
     fun `send action back`() = runBlocking {
-        mock.internalEvent.syncEvents()
+        mock.useCases.sync.sync().last()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         store
         assertEquals(expected = NavigationManager.Screen.EVENT, actual = mock.navigation.stateFlow.value.screen)
@@ -71,7 +82,7 @@ internal class EventStoreTest {
 
     @Test
     fun `send action select`() = runBlocking {
-        mock.internalEvent.syncEvents()
+        mock.useCases.sync.sync().last()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
         val event = events.random()
@@ -91,7 +102,7 @@ internal class EventStoreTest {
     @Test
     fun `send action select without selected event`() = runBlocking {
         assertEquals(expected = NavigationManager.Screen.EVENT, actual = mock.navigation.stateFlow.value.screen)
-        mock.internalEvent.syncEvents()
+        mock.useCases.sync.sync().last()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
         eventStore.send(action = EventAction.Select(event = null))

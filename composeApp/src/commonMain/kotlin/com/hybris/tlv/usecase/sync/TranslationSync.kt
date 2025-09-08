@@ -24,19 +24,17 @@ internal class TranslationSync(
     suspend fun syncTranslations(): SyncResult =
         when (val result = httpClient.getStream<Translation>(path = TRANSLATIONS_URL)) {
             is Result.Error -> SyncResult.Error(error = result.error)
-            is Result.Success -> {
-                rewriteTranslations(translations = result.list)
-                dispatcher.main.launch { TranslationCache.set(translations = result.list) }
-                SyncResult.Success
-            }
+            is Result.Success -> rewriteTranslations(translations = result.list).let { SyncResult.Success }
         }
 
     suspend fun prepopulateTranslations() {
-        val translations = if (translationDao.isTranslationEmpty().executeAsList().isEmpty()) {
-            val translations: List<Translation> = loadFromJson(path = "files/translations.json")
-            rewriteTranslations(translations = translations)
-            translations
-        } else translationDao.getTranslations().executeAsList().map { it.toTranslation() }
+        val translations = when {
+            translationDao.isTranslationEmpty().executeAsList().isEmpty() -> loadFromJson<Translation>(
+                path = "files/translations.json"
+            ).also { rewriteTranslations(translations = it) }
+
+            else -> translationDao.getTranslations().executeAsList().map { it.toTranslation() }
+        }
         dispatcher.main.launch { TranslationCache.set(translations = translations) }
     }
 

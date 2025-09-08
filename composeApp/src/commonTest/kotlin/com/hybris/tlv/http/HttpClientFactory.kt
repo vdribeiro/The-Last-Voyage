@@ -3,6 +3,7 @@ package com.hybris.tlv.http
 import com.hybris.tlv.config.Configs
 import com.hybris.tlv.mock.achievements
 import com.hybris.tlv.mock.catastrophes
+import com.hybris.tlv.mock.configs
 import com.hybris.tlv.mock.credits
 import com.hybris.tlv.mock.engines
 import com.hybris.tlv.mock.events
@@ -10,6 +11,11 @@ import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.mock.translations
 import com.hybris.tlv.serializer.json
+import com.hybris.tlv.usecase.achievement.model.Achievement
+import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
+import com.hybris.tlv.usecase.credit.model.Credit
+import com.hybris.tlv.usecase.event.model.Event
+import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.space.formula.Constants.PARSEC
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY
 import com.hybris.tlv.usecase.space.mapper.roundTo
@@ -17,6 +23,7 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.remote.json.ExoplanetJson
 import com.hybris.tlv.usecase.space.remote.json.StellarHostJson
+import com.hybris.tlv.usecase.translation.model.domain.Translation
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
@@ -27,7 +34,17 @@ import kotlin.math.log10
 
 internal object HttpClientFactory {
 
-    fun buildHttpClient(): HttpClient {
+    fun buildHttpClient(
+        mockConfigs: List<Configs> = configs,
+        mockTranslations: List<Translation> = translations,
+        mockCatastrophes: List<Catastrophe> = catastrophes,
+        mockEngines: List<Engine> = engines,
+        mockStellarHosts: List<StellarHost> = stellarHosts,
+        mockPlanets: List<Planet> = planets,
+        mockEvents: List<Event> = events,
+        mockAchievements: List<Achievement> = achievements,
+        mockCredits: List<Credit> = credits
+    ): HttpClient {
         val mockEngine = MockEngine { request ->
             when {
                 request.method == HttpMethod.Get -> {
@@ -54,15 +71,15 @@ internal object HttpClientFactory {
                             )
                         }
 
-                        path.startsWith(prefix = CONFIGS_URL) -> respond(content = json.encodeToString(value = listOf(Configs())))
-                        path.startsWith(prefix = TRANSLATIONS_URL) -> respond(content = json.encodeToString(value = translations))
-                        path.startsWith(prefix = CATASTROPHES_URL) -> respond(content = json.encodeToString(value = catastrophes))
-                        path.startsWith(prefix = ENGINES_URL) -> respond(content = json.encodeToString(value = engines))
-                        path.startsWith(prefix = STELLAR_HOSTS_URL) -> respond(content = json.encodeToString(value = stellarHosts))
-                        path.startsWith(prefix = PLANETS_URL) -> respond(content = json.encodeToString(value = planets))
-                        path.startsWith(prefix = EVENTS_URL) -> respond(content = json.encodeToString(value = events))
-                        path.startsWith(prefix = ACHIEVEMENTS_URL) -> respond(content = json.encodeToString(value = achievements))
-                        path.startsWith(prefix = CREDITS_URL) -> respond(content = json.encodeToString(value = credits))
+                        path.startsWith(prefix = CONFIGS_URL) -> respond(content = json.encodeToString(value = mockConfigs))
+                        path.startsWith(prefix = TRANSLATIONS_URL) -> respond(content = json.encodeToString(value = mockTranslations))
+                        path.startsWith(prefix = CATASTROPHES_URL) -> respond(content = json.encodeToString(value = mockCatastrophes))
+                        path.startsWith(prefix = ENGINES_URL) -> respond(content = json.encodeToString(value = mockEngines))
+                        path.startsWith(prefix = STELLAR_HOSTS_URL) -> respond(content = json.encodeToString(value = mockStellarHosts))
+                        path.startsWith(prefix = PLANETS_URL) -> respond(content = json.encodeToString(value = mockPlanets))
+                        path.startsWith(prefix = EVENTS_URL) -> respond(content = json.encodeToString(value = mockEvents))
+                        path.startsWith(prefix = ACHIEVEMENTS_URL) -> respond(content = json.encodeToString(value = mockAchievements))
+                        path.startsWith(prefix = CREDITS_URL) -> respond(content = json.encodeToString(value = mockCredits))
 
                         else -> respondError(
                             status = HttpStatusCode.NotFound,

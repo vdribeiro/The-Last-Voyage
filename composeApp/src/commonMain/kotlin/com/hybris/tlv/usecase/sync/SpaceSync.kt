@@ -28,7 +28,7 @@ internal class SpaceSync(
     private val httpClient: HttpClient
 ) {
 
-    suspend fun getArchive(): Flow<SyncResult> = flow {
+    fun getArchive(): Flow<SyncResult> = flow {
         val totalOperations = 6f
         emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
         val stellarHosts = loadFromJson<StellarHost>(path = "files/solarsystem.json").toMutableList()

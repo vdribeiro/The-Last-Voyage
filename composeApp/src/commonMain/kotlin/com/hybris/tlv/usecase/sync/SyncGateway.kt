@@ -17,54 +17,30 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 internal class SyncGateway(
-    private val dispatcher: Dispatcher,
+    dispatcher: Dispatcher,
     private val config: ConfigManager,
-    private val httpClient: HttpClient,
-    private val database: AppDatabase,
+    httpClient: HttpClient,
+    database: AppDatabase
 ): SyncUseCases {
 
-    private val translationSync = TranslationSync(
+    private val translationSync: TranslationSync = TranslationSync(
         dispatcher = dispatcher,
         httpClient = httpClient,
         database = database
     )
-    private val learningSync = LearningSync(
-        httpClient = httpClient,
-        database = database
-    )
-    private val catastropheSync = CatastropheSync(
-        httpClient = httpClient,
-        database = database
-    )
-    private val shipSync = ShipSync(
-        httpClient = httpClient,
-        database = database
-    )
-    private val stellarHostSync = StellarHostSync(
-        httpClient = httpClient,
-        database = database
-    )
-    private val planetSync = PlanetSync(
-        httpClient = httpClient,
-        database = database
-    )
-    private val eventSync = EventSync(
-        httpClient = httpClient,
-        database = database
-    )
-    private val achievementSync = AchievementSync(
-        httpClient = httpClient,
-        database = database
-    )
-    private val creditSync = CreditSync(
-        httpClient = httpClient,
-        database = database
-    )
-    private val spaceSync = SpaceSync(
-        httpClient = httpClient
-    )
+    private val learningSync: LearningSync = LearningSync(httpClient = httpClient, database = database)
+    private val catastropheSync: CatastropheSync = CatastropheSync(httpClient = httpClient, database = database)
+    private val shipSync: ShipSync = ShipSync(httpClient = httpClient, database = database)
+    private val spaceSync: SpaceSync = SpaceSync(httpClient = httpClient)
+    private val stellarHostSync: StellarHostSync = StellarHostSync(httpClient = httpClient, database = database)
+    private val planetSync: PlanetSync = PlanetSync(httpClient = httpClient, database = database)
+    private val eventSync: EventSync = EventSync(httpClient = httpClient, database = database)
+    private val achievementSync: AchievementSync = AchievementSync(httpClient = httpClient, database = database)
+    private val creditSync: CreditSync = CreditSync(httpClient = httpClient, database = database)
 
-    override suspend fun sync(): Flow<SyncResult> = channelFlow {
+    override fun getArchive(): Flow<SyncResult> = spaceSync.getArchive()
+
+    override fun sync(): Flow<SyncResult> = channelFlow {
         val localConfig = config.getLocal()
         val remoteConfig = if (isDebug) Configs(enableAllFeatures = true) else config.getRemote()
 
@@ -169,8 +145,6 @@ internal class SyncGateway(
         val prepopulate: suspend () -> Unit,
         val updateConfig: (Configs, T) -> Configs,
     )
-
-    override suspend fun getArchive(): Flow<SyncResult> = spaceSync.getArchive()
 
     companion object Companion {
         private const val TAG = "Sync"

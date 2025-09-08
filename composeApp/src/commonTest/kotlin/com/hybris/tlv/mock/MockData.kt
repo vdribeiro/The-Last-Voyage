@@ -1,9 +1,6 @@
 package com.hybris.tlv.mock
 
-import com.hybris.tlv.Core
-import com.hybris.tlv.database.createSqlDriver
-import com.hybris.tlv.flow.TestDispatchers
-import com.hybris.tlv.http.HttpClientFactory
+import com.hybris.tlv.config.Configs
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
@@ -23,19 +20,8 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import com.hybris.tlv.usecase.translation.model.domain.Translation
 
-internal val mock by lazy {
-    Core(
-        dispatcher = TestDispatchers(),
-        sqlDriver = createSqlDriver(inMemory = true),
-        httpClient = HttpClientFactory.buildHttpClient()
-    )
-}
-internal val errorMock by lazy {
-    Core(
-        dispatcher = TestDispatchers(),
-        sqlDriver = createSqlDriver(inMemory = true),
-        httpClient = HttpClientFactory.buildErrorHttpClient()
-    )
+internal val configs by lazy {
+    listOf(Configs())
 }
 
 internal val translations by lazy {
