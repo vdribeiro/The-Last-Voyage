@@ -1,23 +1,31 @@
 package com.hybris.tlv.usecase.gamesession
 
 import androidx.annotation.VisibleForTesting
+import com.hybris.tlv.database.FormulaSchema
+import com.hybris.tlv.database.GameSessionSchema
+import com.hybris.tlv.database.ShipSchema
+import com.hybris.tlv.locale.now
+import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.usecase.event.model.Event
-import com.hybris.tlv.usecase.gamesession.local.GameSessionLocal
-import com.hybris.tlv.usecase.gamesession.mapper.toGameSession
 import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
-import com.hybris.tlv.usecase.ship.ShipInternalUseCases
-import com.hybris.tlv.usecase.space.SpaceInternalUseCases
+import com.hybris.tlv.usecase.gamesession.model.gameSessionProjection
+import com.hybris.tlv.usecase.ship.model.Ship
+import com.hybris.tlv.usecase.ship.model.ShipPrototype
+import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
+import database.AppDatabase
 import kotlin.math.ceil
 
 internal class GameSessionGateway(
-    private val gameSessionDao: GameSessionLocal,
-    private val shipInternalUseCases: ShipInternalUseCases,
-    private val spaceInternalUseCases: SpaceInternalUseCases
+    database: AppDatabase,
 ): GameSessionUseCases {
+
+    private val gameSessionDao = database.gameSessionQueries
+    private val shipDao = database.shipQueries
+    private val formulaDao = database.formulaQueries
 
     override suspend fun startGame(gameSessionPrototype: GameSessionPrototype): GameSession {
         val gameSession = gameSessionPrototype.toGameSession()
@@ -26,10 +34,10 @@ internal class GameSessionGateway(
     }
 
     override suspend fun getGameSessions(): List<GameSession> =
-        gameSessionDao.getGameSessions()
+        gameSessionDao.getGameSessions(mapper = gameSessionProjection).executeAsList()
 
     override suspend fun getLatestGameSession(): GameSession? =
-        gameSessionDao.getLatestGameSession()
+        gameSessionDao.getLatestGameSession(mapper = gameSessionProjection).executeAsOneOrNull()
 
     override suspend fun isGameSessionOngoing(): Boolean {
         val gameSession = getLatestGameSession()
@@ -40,10 +48,14 @@ internal class GameSessionGateway(
                 gameSession.ship.fuel > 0
     }
 
+    private fun upsertGameSession(gameSession: GameSession) {
+        gameSessionDao.upsertGameSession(GameSession = gameSession.toGameSessionSchema())
+    }
+
     override suspend fun updateGameSession(gameSession: GameSession) {
-        gameSessionDao.upsertGameSession(gameSession = gameSession)
-        shipInternalUseCases.upsertShip(ship = gameSession.ship)
-        spaceInternalUseCases.upsertFormula(formula = gameSession.formula)
+        upsertGameSession(gameSession = gameSession)
+        shipDao.upsertShip(Ship = gameSession.ship.toShipSchema())
+        formulaDao.upsertFormula(Formula = gameSession.formula.toFormulaSchema())
     }
 
     override suspend fun launchEvent(gameSession: GameSession, event: Event): GameSession {
@@ -368,4 +380,98 @@ internal class GameSessionGateway(
 
     override suspend fun isGameOver(gameSession: GameSession): Boolean =
         gameSession.ship.integrity <= 0 || gameSession.ship.fuel <= 0 || gameSession.settledPlanetId != null
+
+    private fun GameSessionPrototype.toGameSession(id: String = generateUuid()): GameSession =
+        GameSession(
+            id = id,
+            utc = now(),
+            currentStellarHostId = null,
+            visitedStellarHosts = emptySet(),
+            launchedEvents = emptySet(),
+            settledPlanetId = null,
+            finalHabitability = null,
+            score = null,
+            ship = ship.toShip(id),
+            formula = formula.copy(id = id)
+        )
+
+    private fun GameSession.toGameSessionSchema(): GameSessionSchema =
+        GameSessionSchema(
+            id = id,
+            utc = utc,
+            currentStellarHostId = currentStellarHostId,
+            visitedStellarHosts = visitedStellarHosts,
+            launchedEvents = launchedEvents,
+            settledPlanetId = settledPlanetId,
+            finalHabitability = finalHabitability,
+            score = score,
+        )
+
+    private fun ShipPrototype.toShip(id: String = generateUuid()): Ship =
+        Ship(
+            id = id,
+            assignedPoints = assignedPoints,
+            yearsTraveled = 0.0,
+            sensorRange = sensorRange,
+            integrity = 100,
+            fuel = fuel,
+            materials = materials,
+            cryopods = cryopods,
+        )
+
+    private fun ShipSchema.toShip(): Ship =
+        Ship(
+            id = id,
+            assignedPoints = assignedPoints,
+            yearsTraveled = yearsTraveled,
+            sensorRange = sensorRange,
+            integrity = integrity,
+            fuel = fuel,
+            materials = materials,
+            cryopods = cryopods,
+        )
+
+    private fun Ship.toShipSchema(): ShipSchema =
+        ShipSchema(
+            id = id,
+            assignedPoints = assignedPoints,
+            yearsTraveled = yearsTraveled,
+            sensorRange = sensorRange,
+            integrity = integrity,
+            fuel = fuel,
+            materials = materials,
+            cryopods = cryopods,
+        )
+
+    private fun Formula.toFormulaSchema(): FormulaSchema =
+        FormulaSchema(
+            id = id,
+            rocheWeight = rocheWeight,
+            habitableZoneKopparapuWeight = habitableZoneKopparapuWeight,
+            habitableZoneKastingWeight = habitableZoneKastingWeight,
+            planetRadiusWeight = planetRadiusWeight,
+            planetMassWeight = planetMassWeight,
+            planetTelluricityWeight = planetTelluricityWeight,
+            planetEccentricityWeight = planetEccentricityWeight,
+            planetTemperatureWeight = planetTemperatureWeight,
+            planetObliquityWeight = planetObliquityWeight,
+            planetEsiWeight = planetEsiWeight,
+            stellarSpectralTypeWeight = stellarSpectralTypeWeight,
+            stellarMassWeight = stellarMassWeight,
+            stellarAgeWeight = stellarAgeWeight,
+            stellarActivityWeight = stellarActivityWeight,
+            stellarRotationalPeriodWeight = stellarRotationalPeriodWeight,
+            stellarGravityWeight = stellarGravityWeight,
+            stellarMetallicityWeight = stellarMetallicityWeight,
+            stellarEffectiveTemperatureWeight = stellarEffectiveTemperatureWeight,
+            planetProtectionWeight = planetProtectionWeight,
+            planetTidalLockingWeight = planetTidalLockingWeight,
+            planetMassLowerLimit = planetMassLowerLimit,
+            planetMassIdealUpperLimit = planetMassIdealUpperLimit,
+            planetMassMaxUpperLimit = planetMassMaxUpperLimit,
+            planetRadiusLowerLimit = planetRadiusLowerLimit,
+            planetRadiusIdealUpperLimit = planetRadiusIdealUpperLimit,
+            planetRadiusMaxUpperLimit = planetRadiusMaxUpperLimit,
+            stellarHostEffectiveTemperatureMaxDeviation = stellarHostEffectiveTemperatureMaxDeviation
+        )
 }

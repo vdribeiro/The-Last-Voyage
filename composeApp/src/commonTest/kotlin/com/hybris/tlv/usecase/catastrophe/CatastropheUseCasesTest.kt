@@ -1,4 +1,4 @@
-package com.hybris.tlv.usecase.credit
+package com.hybris.tlv.usecase.catastrophe
 
 import com.hybris.tlv.Core
 import com.hybris.tlv.database.clearDatabase
@@ -7,11 +7,12 @@ import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.http.HttpClientFactory
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
-internal class CreditUseCasesTest {
+internal class CatastropheUseCasesTest {
 
     private val mock by lazy {
         Core(
@@ -27,9 +28,9 @@ internal class CreditUseCasesTest {
     }
 
     @Test
-    fun `sync and get credits`() = runBlocking {
-        assertTrue(actual = mock.useCases.credit.getCredits().isEmpty())
+    fun `sync and get catastrophes`() = runBlocking {
+        assertNull(actual = mock.useCases.catastrophe.getRandomCatastrophe())
         mock.useCases.sync.sync().last()
-        assertTrue(actual = mock.useCases.credit.getCredits().isNotEmpty())
+        assertNotNull(actual = mock.useCases.catastrophe.getRandomCatastrophe()).let {}
     }
 }

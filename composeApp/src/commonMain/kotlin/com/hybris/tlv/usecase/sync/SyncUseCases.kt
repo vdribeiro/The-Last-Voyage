@@ -6,12 +6,12 @@ import kotlinx.coroutines.flow.Flow
 internal interface SyncUseCases {
 
     /**
-     * Syncs all the remote data to local, or prepopulates if it fails
-     */
-    suspend fun sync(): Flow<SyncResult>
-
-    /**
      * Get exoplanet data from the NASA archive.
      */
-    suspend fun getArchive(): Flow<SyncResult>
+    fun getArchive(): Flow<SyncResult>
+
+    /**
+     * Syncs all the remote data to local, or prepopulates if it fails
+     */
+    fun sync(): Flow<SyncResult>
 }

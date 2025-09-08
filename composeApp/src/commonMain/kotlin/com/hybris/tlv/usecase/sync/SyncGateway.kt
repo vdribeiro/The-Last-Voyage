@@ -2,17 +2,12 @@ package com.hybris.tlv.usecase.sync
 
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.config.Configs
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.isDebug
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.usecase.achievement.AchievementInternalUseCases
-import com.hybris.tlv.usecase.credit.CreditInternalUseCases
-import com.hybris.tlv.usecase.earth.EarthInternalUseCases
-import com.hybris.tlv.usecase.event.EventInternalUseCases
-import com.hybris.tlv.usecase.learning.LearningInternalUseCases
-import com.hybris.tlv.usecase.ship.ShipInternalUseCases
-import com.hybris.tlv.usecase.space.SpaceInternalUseCases
 import com.hybris.tlv.usecase.sync.model.SyncResult
-import com.hybris.tlv.usecase.translation.TranslationInternalUseCases
+import database.AppDatabase
+import io.ktor.client.HttpClient
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
@@ -22,18 +17,30 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 internal class SyncGateway(
+    dispatcher: Dispatcher,
     private val config: ConfigManager,
-    private val internalTranslation: TranslationInternalUseCases,
-    private val internalLearning: LearningInternalUseCases,
-    private val internalEarth: EarthInternalUseCases,
-    private val internalShip: ShipInternalUseCases,
-    private val internalSpace: SpaceInternalUseCases,
-    private val internalEvent: EventInternalUseCases,
-    private val internalAchievement: AchievementInternalUseCases,
-    private val internalCredit: CreditInternalUseCases,
+    httpClient: HttpClient,
+    database: AppDatabase
 ): SyncUseCases {
 
-    override suspend fun sync(): Flow<SyncResult> = channelFlow {
+    private val translationSync: TranslationSync = TranslationSync(
+        dispatcher = dispatcher,
+        httpClient = httpClient,
+        database = database
+    )
+    private val learningSync: LearningSync = LearningSync(httpClient = httpClient, database = database)
+    private val catastropheSync: CatastropheSync = CatastropheSync(httpClient = httpClient, database = database)
+    private val shipSync: ShipSync = ShipSync(httpClient = httpClient, database = database)
+    private val spaceSync: SpaceSync = SpaceSync(httpClient = httpClient)
+    private val stellarHostSync: StellarHostSync = StellarHostSync(httpClient = httpClient, database = database)
+    private val planetSync: PlanetSync = PlanetSync(httpClient = httpClient, database = database)
+    private val eventSync: EventSync = EventSync(httpClient = httpClient, database = database)
+    private val achievementSync: AchievementSync = AchievementSync(httpClient = httpClient, database = database)
+    private val creditSync: CreditSync = CreditSync(httpClient = httpClient, database = database)
+
+    override fun getArchive(): Flow<SyncResult> = spaceSync.getArchive()
+
+    override fun sync(): Flow<SyncResult> = channelFlow {
         val localConfig = config.getLocal()
         val remoteConfig = if (isDebug) Configs(enableAllFeatures = true) else config.getRemote()
 
@@ -41,64 +48,64 @@ internal class SyncGateway(
             SyncTask(
                 remoteVersion = remoteConfig.translationsVersion,
                 localVersion = localConfig.translationsVersion,
-                sync = internalTranslation::syncTranslations,
-                prepopulate = internalTranslation::prepopulateTranslations,
+                sync = translationSync::syncTranslations,
+                prepopulate = translationSync::prepopulateTranslations,
                 updateConfig = { configs, version -> configs.copy(translationsVersion = version) }
             ),
             SyncTask(
                 remoteVersion = remoteConfig.learningsVersion,
                 localVersion = localConfig.learningsVersion,
-                sync = internalLearning::syncLearnings,
-                prepopulate = internalLearning::prepopulateLearnings,
+                sync = learningSync::syncLearnings,
+                prepopulate = learningSync::prepopulateLearnings,
                 updateConfig = { configs, version -> configs.copy(learningsVersion = version) }
             ),
             SyncTask(
                 remoteVersion = remoteConfig.catastrophesVersion,
                 localVersion = localConfig.catastrophesVersion,
-                sync = internalEarth::syncCatastrophes,
-                prepopulate = internalEarth::prepopulateCatastrophes,
+                sync = catastropheSync::syncCatastrophes,
+                prepopulate = catastropheSync::prepopulateCatastrophes,
                 updateConfig = { configs, version -> configs.copy(catastrophesVersion = version) }
             ),
             SyncTask(
                 remoteVersion = remoteConfig.enginesVersion,
                 localVersion = localConfig.enginesVersion,
-                sync = internalShip::syncEngines,
-                prepopulate = internalShip::prepopulateEngines,
+                sync = shipSync::syncEngines,
+                prepopulate = shipSync::prepopulateEngines,
                 updateConfig = { configs, version -> configs.copy(enginesVersion = version) }
             ),
             SyncTask(
                 remoteVersion = remoteConfig.stellarHostsVersion,
                 localVersion = localConfig.stellarHostsVersion,
-                sync = internalSpace::syncStellarHosts,
-                prepopulate = internalSpace::prepopulateStellarHosts,
+                sync = stellarHostSync::syncStellarHosts,
+                prepopulate = stellarHostSync::prepopulateStellarHosts,
                 updateConfig = { configs, version -> configs.copy(stellarHostsVersion = version) }
             ),
             SyncTask(
                 remoteVersion = remoteConfig.planetsVersion,
                 localVersion = localConfig.planetsVersion,
-                sync = internalSpace::syncPlanets,
-                prepopulate = internalSpace::prepopulatePlanets,
+                sync = planetSync::syncPlanets,
+                prepopulate = planetSync::prepopulatePlanets,
                 updateConfig = { configs, version -> configs.copy(planetsVersion = version) }
             ),
             SyncTask(
                 remoteVersion = remoteConfig.eventsVersion,
                 localVersion = localConfig.eventsVersion,
-                sync = internalEvent::syncEvents,
-                prepopulate = internalEvent::prepopulateEvents,
+                sync = eventSync::syncEvents,
+                prepopulate = eventSync::prepopulateEvents,
                 updateConfig = { configs, version -> configs.copy(eventsVersion = version) }
             ),
             SyncTask(
                 remoteVersion = remoteConfig.achievementsVersion,
                 localVersion = localConfig.achievementsVersion,
-                sync = internalAchievement::syncAchievements,
-                prepopulate = internalAchievement::prepopulateAchievements,
+                sync = achievementSync::syncAchievements,
+                prepopulate = achievementSync::prepopulateAchievements,
                 updateConfig = { configs, version -> configs.copy(achievementsVersion = version) }
             ),
             SyncTask(
                 remoteVersion = remoteConfig.creditsVersion,
                 localVersion = localConfig.creditsVersion,
-                sync = internalCredit::syncCredits,
-                prepopulate = internalCredit::prepopulateCredits,
+                sync = creditSync::syncCredits,
+                prepopulate = creditSync::prepopulateCredits,
                 updateConfig = { configs, version -> configs.copy(creditsVersion = version) }
             ),
         )
@@ -138,8 +145,6 @@ internal class SyncGateway(
         val prepopulate: suspend () -> Unit,
         val updateConfig: (Configs, T) -> Configs,
     )
-
-    override suspend fun getArchive(): Flow<SyncResult> = internalSpace.getArchive()
 
     companion object Companion {
         private const val TAG = "Sync"

@@ -109,10 +109,10 @@ internal class StellarExplorerStore(
     initialState = initialState
 ) {
     init {
-        setup(state = stateFlow.value)
+        setup()
     }
 
-    private fun setup(state: StellarExplorerState): Job = launch {
+    private fun setup(): Job = launch {
         val formula = Formula()
         val stellarHosts = spaceUseCases.getExoplanets().apply {
             forEach { stellarHost ->
@@ -139,13 +139,14 @@ internal class StellarExplorerStore(
                 planets = planets
             )
         }.join()
-        refresh(state = state)
+        refresh()
     }
 
     /**
      * Apply filters to the data and refresh the state.
      */
-    private fun refresh(state: StellarExplorerState) {
+    private fun refresh() {
+        val state = stateFlow.value
         when (state.currentContent) {
             Content.LIST_HOSTS -> {
                 val filteredStellarHosts = state.stellarHosts.searchStellarHosts(
@@ -194,7 +195,7 @@ internal class StellarExplorerStore(
                         search = ""
                     )
                 }.join()
-                refresh(state = state)
+                refresh()
             }
 
             Content.LIST_PLANETS -> {
@@ -205,7 +206,7 @@ internal class StellarExplorerStore(
                         search = ""
                     )
                 }.join()
-                refresh(state = state)
+                refresh()
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -221,7 +222,7 @@ internal class StellarExplorerStore(
                         search = action.search
                     )
                 }.join()
-                refresh(state = state)
+                refresh()
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -256,7 +257,7 @@ internal class StellarExplorerStore(
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.LIST_PLANETS -> {
                 updateState { it.copy(sortStellarHostProperty = action.sort) }.join()
-                refresh(state = state)
+                refresh()
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -267,12 +268,12 @@ internal class StellarExplorerStore(
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.LIST_PLANETS -> {
                 updateState { it.copy(sortPlanetProperty = action.sort) }.join()
-                refresh(state = state)
+                refresh()
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
         }
-        refresh(state = state)
+        refresh()
     }
 
     private fun changeSortDirection(state: StellarExplorerState): Job = launch {
@@ -280,7 +281,7 @@ internal class StellarExplorerStore(
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.LIST_PLANETS -> {
                 updateState { it.copy(sortAscending = ascending) }.join()
-                refresh(state = state)
+                refresh()
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -305,7 +306,7 @@ internal class StellarExplorerStore(
                 searchableStellarHostProperties = searchableStellarHostProperties
             )
         }.join()
-        refresh(state = state)
+        refresh()
     }
 
     private fun changePlanetSearchable(state: StellarExplorerState, action: StellarExplorerAction.ChangePlanetSearchable): Job = launch {
@@ -317,7 +318,7 @@ internal class StellarExplorerStore(
 
             )
         }.join()
-        refresh(state = state)
+        refresh()
     }
 
     override fun back(state: StellarExplorerState): () -> Unit = {
@@ -335,7 +336,7 @@ internal class StellarExplorerStore(
                         selectedStellarHost = null
                     )
                 }.join()
-                refresh(state = state)
+                refresh()
             }
 
             Content.DETAIL_PLANETS -> launch {
@@ -345,7 +346,7 @@ internal class StellarExplorerStore(
                         selectedPlanet = null
                     )
                 }.join()
-                refresh(state = state)
+                refresh()
             }
         }
     }

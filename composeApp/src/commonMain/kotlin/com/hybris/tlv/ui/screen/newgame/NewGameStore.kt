@@ -8,8 +8,8 @@ import com.hybris.tlv.ui.screen.feedback.FeedbackState
 import com.hybris.tlv.ui.screen.newgame.state.ShipState
 import com.hybris.tlv.ui.screen.newgame.state.ShipState.Point
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.earth.EarthUseCases
-import com.hybris.tlv.usecase.earth.model.Catastrophe
+import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
+import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
@@ -47,7 +47,7 @@ internal class NewGameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: NewGameState,
-    private val earthUseCases: EarthUseCases,
+    private val catastropheUseCases: CatastropheUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameAction, NewGameState>(
     dispatcher = dispatcher,
@@ -71,7 +71,7 @@ internal class NewGameStore(
     }
 
     private fun start() = launch {
-        val catastrophe = earthUseCases.getRandomCatastrophe()
+        val catastrophe = catastropheUseCases.getRandomCatastrophe()
         if (catastrophe == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing catastrophe")
             navigate(

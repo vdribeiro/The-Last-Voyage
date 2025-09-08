@@ -1,10 +1,13 @@
 package com.hybris.tlv.usecase.gamesession
 
+import com.hybris.tlv.Core
 import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.database.createSqlDriver
+import com.hybris.tlv.flow.TestDispatchers
+import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.mock.events
 import com.hybris.tlv.mock.gameSessionPrototype
 import com.hybris.tlv.mock.hostsWithPlanets
-import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.usecase.gamesession.model.GameOver
@@ -21,6 +24,14 @@ import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
 internal class GameSessionUseCasesTest {
+
+    private val mock by lazy {
+        Core(
+            dispatcher = TestDispatchers(),
+            sqlDriver = createSqlDriver(inMemory = true),
+            httpClient = HttpClientFactory.buildHttpClient()
+        )
+    }
 
     @BeforeTest
     fun setup() {

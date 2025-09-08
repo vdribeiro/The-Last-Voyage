@@ -1,24 +1,33 @@
 package com.hybris.tlv.usecase.space
 
-import com.hybris.tlv.usecase.space.local.SpaceLocal
-import com.hybris.tlv.usecase.space.mapper.toCartesian
+import com.hybris.tlv.database.PlanetSchema
+import com.hybris.tlv.database.StellarHostSchema
+import com.hybris.tlv.usecase.space.model.CartesianPoint
+import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
+import database.AppDatabase
+import kotlin.math.PI
 import kotlin.math.ceil
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.math.sqrt
 
 internal class SpaceGateway(
-    private val spaceDao: SpaceLocal,
+    database: AppDatabase
 ): SpaceUseCases {
 
+    private val stellarHostDao = database.stellarHostQueries
+    private val planetDao = database.planetQueries
+
     override suspend fun getStellarHost(id: String): StellarHost? {
-        val planets = spaceDao.getPlanetsByStellarHost(stellarHostId = id)
-        return spaceDao.getStellarHost(id = id)?.apply { this.planets.addAll(elements = planets) }
+        val planets = planetDao.getPlanetsByStellarHost(stellarHostId = id).executeAsList().map { it.toPlanet() }
+        return stellarHostDao.getStellarHost(id = id).executeAsOneOrNull()?.toStellarHost()?.apply { this.planets.addAll(elements = planets) }
     }
 
     override suspend fun getExoplanets(): List<StellarHost> {
-        val planetMap = spaceDao.getPlanets().groupBy { it.stellarHostId }
-        return spaceDao.getStellarHosts().apply {
+        val planetMap = planetDao.getPlanets().executeAsList().map { it.toPlanet() }.groupBy { it.stellarHostId }
+        return stellarHostDao.getStellarHosts().executeAsList().map { it.toStellarHost() }.apply {
             forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) }
         }
     }
@@ -60,4 +69,55 @@ internal class SpaceGateway(
             }
         }
     }
+
+    private fun StellarHost.toCartesian(): CartesianPoint? {
+        if (ra == null || dec == null || distance == null) return null
+        val raRad = ra * PI / 180.0
+        val decRad = dec * PI / 180.0
+        return CartesianPoint(
+            x = distance * cos(x = decRad) * cos(x = raRad),
+            y = distance * cos(x = decRad) * sin(x = raRad),
+            z = distance * sin(x = decRad)
+        )
+    }
+
+    private fun StellarHostSchema.toStellarHost(): StellarHost =
+        StellarHost(
+            id = id,
+            name = name,
+            systemName = systemName,
+            spectralType = spectralType,
+            effectiveTemperature = effectiveTemperature,
+            radius = radius,
+            mass = mass,
+            metallicity = metallicity,
+            luminosity = luminosity,
+            gravity = gravity,
+            age = age,
+            density = density,
+            rotationalVelocity = rotationalVelocity,
+            rotationalPeriod = rotationalPeriod,
+            distance = distance,
+            ra = ra,
+            dec = dec
+        )
+
+    private fun PlanetSchema.toPlanet(): Planet =
+        Planet(
+            id = id,
+            name = name,
+            stellarHostId = stellarHostId,
+            status = status,
+            orbitalPeriod = orbitalPeriod,
+            orbitAxis = orbitAxis,
+            radius = radius,
+            mass = mass,
+            density = density,
+            eccentricity = eccentricity,
+            insolationFlux = insolationFlux,
+            equilibriumTemperature = equilibriumTemperature,
+            occultationDepth = occultationDepth,
+            inclination = inclination,
+            obliquity = obliquity,
+        )
 }
