@@ -15,6 +15,7 @@ import com.hybris.tlv.ui.screen.stellarexplorer.model.sortStellarHosts
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
@@ -51,6 +52,7 @@ internal class StellarExplorerStoreTest {
             search = state.search,
             searchable = state.searchableStellarHostProperties,
         ).sortStellarHosts(sort = state.sortStellarHostProperty, ascending = state.sortAscending)
+        delay(1000L)
         assertEquals(expected = filteredStellarHosts, actual = state.filteredStellarHosts)
         assertEquals(expected = emptyList(), actual = state.filteredPlanets)
     }
