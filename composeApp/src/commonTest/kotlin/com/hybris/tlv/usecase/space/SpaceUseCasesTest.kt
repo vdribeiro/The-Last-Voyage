@@ -5,8 +5,10 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.http.HttpClientFactory
+import com.hybris.tlv.mock.stellarHosts
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
@@ -33,5 +35,19 @@ internal class SpaceUseCasesTest {
         val stellarHosts = mock.useCases.space.getExoplanets()
         assertTrue(actual = stellarHosts.isNotEmpty())
         assertTrue(actual = stellarHosts.map { it.planets }.flatten().isNotEmpty())
+    }
+
+    @Test
+    fun `get stellar host`() = runBlocking {
+        mock.useCases.sync.sync().last()
+        val stellarHost = mock.useCases.space.getStellarHost(id = "sol")
+        assertEquals(expected = "sol", actual = stellarHost?.id)
+    }
+
+    @Test
+    fun `get nearest stars`() = runBlocking {
+        mock.useCases.sync.sync().last()
+        val stellarHosts = mock.useCases.space.getNearestStars(stellarHost = stellarHosts.first(), n = 1, visited = emptySet())
+        assertEquals(expected = "proxima_centauri", actual = stellarHosts.first().id)
     }
 }
