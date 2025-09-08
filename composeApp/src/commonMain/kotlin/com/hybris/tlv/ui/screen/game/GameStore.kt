@@ -18,7 +18,7 @@ import kotlinx.coroutines.Job
 import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
 internal sealed interface GameAction {
-    data object Next: GameAction
+    data object NextTutorial: GameAction
     data class ChangeTab(val content: Content): GameAction
     data class Travel(val stellarHost: StellarHost): GameAction
     data class Settle(val planet: Planet): GameAction
@@ -34,7 +34,6 @@ internal data class GameState(
 )
 
 internal enum class Content {
-    TUTORIAL,
     SHIP,
     SYSTEM,
     TRAVEL,
@@ -69,7 +68,6 @@ internal class GameStore(
             updateState {
                 it.copy(
                     loading = false,
-                    currentContent = Content.TUTORIAL
                 )
             }
             return@launch
@@ -166,10 +164,10 @@ internal class GameStore(
 
     override fun reducer(state: GameState, action: GameAction) {
         when (action) {
-            GameAction.Next -> tutorial(state = state)
+            GameAction.NextTutorial -> tutorial(state = state)
             is GameAction.ChangeTab -> if (state.tutorial == Tutorial.NO) updateState { it.copy(currentContent = action.content) }
-            is GameAction.Travel -> if (state.tutorial == Tutorial.NO) travel(state = state, action = action)
-            is GameAction.Settle -> if (state.tutorial == Tutorial.NO) settle(state = state, action = action)
+            is GameAction.Travel -> travel(state = state, action = action)
+            is GameAction.Settle -> settle(state = state, action = action)
         }
     }
 
@@ -183,6 +181,7 @@ internal class GameStore(
         }
 
     private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
+        if (state.tutorial != Tutorial.NO) return@launch
         val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
@@ -212,6 +211,7 @@ internal class GameStore(
     }
 
     private fun settle(state: GameState, action: GameAction.Settle): Job = launch {
+        if (state.tutorial != Tutorial.NO) return@launch
         if (state.gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
             navigate(
