@@ -1,7 +1,7 @@
 [versions]
 
 applicationId = "com.hybris.tlv"
-agp = "8.12.0"
+agp = "8.12.2"
 kover = "0.9.1"
 kotlin = "2.2.10"
 kotlinx-serialization = "1.9.0"
