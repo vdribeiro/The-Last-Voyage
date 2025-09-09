@@ -41,6 +41,15 @@ internal abstract class Store<Action, State>(
     protected abstract fun back(state: State): () -> Unit
 
     /**
+     * Clean up the store and navigate to a new [screen] given an optional [state].
+     */
+    protected fun navigate(screen: Screen, state: Any? = null) {
+        navigation.back = {}
+        jobs.forEach { it.cancel() }
+        navigation.navigate(screen = screen, state = state)
+    }
+
+    /**
      * Sends an [Action] to the Store.
      */
     fun send(action: Action) = reducer(state = _stateFlow.value, action = action)
@@ -62,13 +71,4 @@ internal abstract class Store<Action, State>(
      */
     protected fun launch(block: suspend CoroutineScope.() -> Unit): Job =
         dispatcher.io.launch { block() }.also { jobs.add(element = it) }
-
-    /**
-     * Clean up the store and navigate to a new [screen] given an optional [state].
-     */
-    protected fun navigate(screen: Screen, state: Any? = null) {
-        navigation.back = {}
-        jobs.forEach { it.cancel() }
-        navigation.navigate(screen = screen, state = state)
-    }
 }

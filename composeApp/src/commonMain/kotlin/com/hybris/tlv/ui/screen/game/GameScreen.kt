@@ -66,10 +66,10 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
                 modifier = Modifier.statusBarsPadding(),
-                hullEnabled = storeState.tutorial != Tutorial.NO,
-                fuelEnabled = storeState.tutorial != Tutorial.NO,
-                materialsEnabled = storeState.tutorial != Tutorial.NO,
-                cryopodsEnabled = storeState.tutorial != Tutorial.NO,
+                //hullEnabled = storeState.tutorial != Tutorial.NO,
+                //fuelEnabled = storeState.tutorial != Tutorial.NO,
+                //materialsEnabled = storeState.tutorial != Tutorial.NO,
+                //cryopodsEnabled = storeState.tutorial != Tutorial.NO,
                 hull = ship.integrity.toString(),
                 fuel = ship.fuel.toString(),
                 materials = ship.materials.toString(),

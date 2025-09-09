@@ -97,7 +97,7 @@ internal object DerivedData {
     /**
      * Iteratively runs all derivation functions until no new data can be found.
      */
-    fun derivePlanet(stellarHost: StellarHost, planet: Planet): Planet {
+    private fun derivePlanet(stellarHost: StellarHost, planet: Planet): Planet {
         var dataWasDerived: Boolean
         var derivedPlanet = planet.copy()
 
@@ -214,7 +214,7 @@ internal object DerivedData {
     /**
      * Calculates the star's equatorial rotational velocity in km/s.
      */
-    fun calculateStellarHostRotationalVelocity(
+    private fun calculateStellarHostRotationalVelocity(
         stellarHostRadius: Double?,
         stellarHostRotationalPeriod: Double?
     ): Double? {
@@ -229,7 +229,7 @@ internal object DerivedData {
     /**
      * Calculates the star's rotational period in Earth days.
      */
-    fun calculateStellarHostRotationalPeriod(
+    private  fun calculateStellarHostRotationalPeriod(
         stellarHostRadius: Double?,
         stellarHostRotationalVelocity: Double?,
     ): Double? {
