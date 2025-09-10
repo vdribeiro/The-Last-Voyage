@@ -82,7 +82,7 @@ internal class MainMenuStore(
             MainMenuAction.StellarExplorer -> navigate(screen = Screen.STELLAR_EXPLORER)
             MainMenuAction.HostDefinition -> updateState { it.copy(currentContent = Content.HOST_DEFINITION) }
             MainMenuAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
-            MainMenuAction.Mechanics -> navigate(screen = Screen.GAME, state = GameState(tutorial = Tutorial.YES))
+            MainMenuAction.Mechanics -> {} //TODO - navigate(screen = Screen.GAME, state = GameState(tutorial = Tutorial.YES))
             MainMenuAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
         }
     }
