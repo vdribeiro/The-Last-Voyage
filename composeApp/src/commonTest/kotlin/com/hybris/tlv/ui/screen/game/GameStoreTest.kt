@@ -106,6 +106,8 @@ internal class GameStoreTest {
 
     @Test
     fun `send action change tab`() = runBlocking {
+        mock.useCases.sync.sync().last()
+        mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store.apply { setup(state = GameState()) }
 
         gameStore.send(action = GameAction.ChangeTab(Content.SYSTEM))
