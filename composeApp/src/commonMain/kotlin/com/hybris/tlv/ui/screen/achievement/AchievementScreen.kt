@@ -29,7 +29,7 @@ internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(space = 8.dp)
             ) {
-                items(items = storeState.achievements, key = { it.id }) { achievement ->
+                items(items = storeState.achievements.orEmpty(), key = { it.id }) { achievement ->
                     AchievementItem(
                         name = achievement.name,
                         description = achievement.description

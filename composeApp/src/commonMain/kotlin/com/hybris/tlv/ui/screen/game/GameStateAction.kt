@@ -5,12 +5,12 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal data class GameState(
-    val loading: Boolean = true,
-    val tutorial: Tutorial = Tutorial.NO,
+    val loading: Boolean? = null,
+    val tutorial: Tutorial? = null,
+    val currentContent: Content? = null,
     val gameSession: GameSession? = null,
-    val currentContent: Content = Content.SYSTEM,
     val currentStellarHost: StellarHost? = null,
-    val nearStellarHosts: List<StellarHost> = emptyList(),
+    val nearStellarHosts: List<StellarHost>? = null,
 )
 
 internal enum class Content {

@@ -4,11 +4,9 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
-import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
 internal class FeedbackStore(
     dispatcher: Dispatcher,
@@ -19,8 +17,20 @@ internal class FeedbackStore(
     navigation = navigation,
     initialState = initialState
 ) {
+    override fun setup(state: FeedbackState): Job = launch {
+        val tag = state.tag
+        val message = state.message
+        if (tag != null && message != null) Logger.error(tag = tag, message = message)
+        updateState {
+            it.copy(
+                tag = tag,
+                message = message
+            )
+        }
+    }
+
     override fun back(state: FeedbackState): () -> Unit = {
-        sendFeedback(state = state, message = "")
+        navigate(screen = Screen.MAIN_MENU)
     }
 
     override fun reducer(state: FeedbackState, action: FeedbackAction) {
@@ -29,29 +39,16 @@ internal class FeedbackStore(
         }
     }
 
-    // TODO: Send feedback to server
     private fun sendFeedback(state: FeedbackState, message: String): Job = launch {
-        if (message.isNotBlank()) {
-            // Construct the feedback message with all the components
-            val feedback = buildList {
-                state.screen?.let { add(element = "Screen: $it") }
-                state.identifier?.let { add(element = "Identifier: $it") }
-                add(element = "Message: $message")
-                state.throwable?.let { add(element = "Throwable: $it") }
-            }.joinToString(separator = "\n")
-            Logger.info(message = feedback)
-            delay(timeMillis = 2000L)
-        }
-
-        // Use the identifier to navigate back to the correct screen
-        when (state.identifier) {
-            MainMenuContent.LEARN_MENU.name -> navigate(
-                screen = Screen.MAIN_MENU, state = MainMenuState(
-                    currentContent = MainMenuContent.LEARN_MENU
-                )
-            )
-
-            else -> navigate(screen = Screen.MAIN_MENU)
-        }
+        // Construct the feedback message with all the components
+        val feedback = buildList {
+            state.tag?.let { add(element = "Identifier: $it") }
+            state.message?.let { add(element = "Message: $it") }
+            if (message.isNotBlank()) add(element = "Feedback: $message")
+        }.joinToString(separator = "\n")
+        // TODO: Send feedback to server
+        println(feedback)
+        delay(timeMillis = 2000L)
+        navigate(screen = Screen.MAIN_MENU)
     }
 }

@@ -74,7 +74,7 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
                     ) {
-                        children.ifEmpty { listOf(null) }.forEach { child ->
+                        children.orEmpty().ifEmpty { listOf(null) }.forEach { child ->
                             Button(
                                 modifier = Modifier.fillMaxWidth(),
                                 colors = ButtonDefaults.buttonColors(contentColor = Color.White),

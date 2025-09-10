@@ -102,8 +102,9 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (storeState.loading) {
-                true -> DebouncedLinearProgressIndicator()
+                null, true -> DebouncedLinearProgressIndicator()
                 false -> when (storeState.currentContent) {
+                    null -> {}
                     Content.SHIP -> ShipContent(store = store)
                     Content.SYSTEM -> SystemContent(store = store)
                     Content.TRAVEL -> TravelContent(store = store)
@@ -113,7 +114,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
             val title: String
             val description: String
             when (storeState.tutorial) {
-                Tutorial.NO -> {
+                null, Tutorial.NO -> {
                     title = remember { "" }
                     description = remember { "" }
                 }

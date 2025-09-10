@@ -4,6 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.screen.event.EventStore
 import com.hybris.tlv.ui.screen.feedback.FeedbackState
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
@@ -26,30 +27,14 @@ internal class GameStore(
     navigation = navigation,
     initialState = initialState
 ) {
-    init {
-        setup(state = stateFlow.value)
-    }
+    override fun setup(state: GameState): Job = launch {
+        val loading = state.loading ?: false
+        val tutorial = state.tutorial ?: Tutorial.NO
+        val currentContent = state.currentContent ?: Content.SYSTEM
 
-    private fun setup(state: GameState): Job = launch {
-        if (state.tutorial == Tutorial.YES) {
-            updateState {
-                it.copy(
-                    loading = false,
-                )
-            }
-            return@launch
-        }
-
-        val gameSession = gameSessionUseCases.getLatestGameSession()
+        val gameSession = state.gameSession ?: gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            Logger.error(tag = TAG, message = "Invalid state: missing game session")
-            navigate(
-                screen = Screen.FEEDBACK, state = FeedbackState(
-                    screen = Screen.GAME,
-                    throwable = IllegalStateException("Invalid state: missing game session"),
-                    identifier = "GameStore:setup"
-                )
-            )
+            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 
@@ -65,44 +50,36 @@ internal class GameStore(
 
         // Get the current stellar host which the player is in
         val currentStellarHostId = updatedGameSession.currentStellarHostId ?: "sol"
-        val currentStellarHost = spaceUseCases.getStellarHost(id = currentStellarHostId)
-        if (currentStellarHost == null) {
-            Logger.error(tag = TAG, message = "Invalid state: missing stellar host")
-            navigate(
-                screen = Screen.FEEDBACK, state = FeedbackState(
-                    screen = Screen.GAME,
-                    throwable = IllegalStateException("Invalid state: missing stellar host"),
-                    identifier = "GameStore:setup"
+        // Calculate habitability for each planet of the current stellar host
+        val currentStellarHost = state.currentStellarHost ?: spaceUseCases.getStellarHost(id = currentStellarHostId)?.apply {
+            planets.forEach { planet ->
+                planet.score = Habitability.calculateScores(
+                    stellarHost = this,
+                    planet = planet,
+                    formula = gameSession.formula
                 )
-            )
+            }
+        }
+        if (currentStellarHost == null) {
+            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing stellar host on setup()"))
             return@launch
         }
 
         // Get and set the visited stellar hosts
         var visited = updatedGameSession.visitedStellarHosts.ifEmpty { setOf(currentStellarHostId) }
         // Get the stars nearest to the current stellar host by sensor range
-        var nearStellarHosts = spaceUseCases.getNearestStars(
+        val nearStellarHosts = state.nearStellarHosts ?: spaceUseCases.getNearestStars(
             stellarHost = currentStellarHost,
             n = ship.sensorRange,
             visited = visited
-        )
-        // Nowhere to go, clear visited and recalculate
-        if (nearStellarHosts.isEmpty()) {
+        ).ifEmpty {
+            // Nowhere to go, clear visited and recalculate
             // TODO - achievement here!
             visited = setOf(currentStellarHost.id)
-            nearStellarHosts = spaceUseCases.getNearestStars(
+            spaceUseCases.getNearestStars(
                 stellarHost = currentStellarHost,
                 n = ship.sensorRange,
                 visited = visited
-            )
-        }
-
-        // Calculate habitability for each planet of the current stellar host
-        currentStellarHost.planets.forEach { planet ->
-            planet.score = Habitability.calculateScores(
-                stellarHost = currentStellarHost,
-                planet = planet,
-                formula = gameSession.formula
             )
         }
 
@@ -114,7 +91,9 @@ internal class GameStore(
 
         updateState {
             it.copy(
-                loading = false,
+                loading = loading,
+                tutorial = tutorial,
+                currentContent = currentContent,
                 gameSession = finalUpdatedGameSession,
                 currentStellarHost = currentStellarHost,
                 nearStellarHosts = nearStellarHosts,
@@ -140,7 +119,7 @@ internal class GameStore(
 
     private fun tutorial(state: GameState) =
         when (state.tutorial) {
-            Tutorial.NO -> {}
+            null, Tutorial.NO -> {}
             Tutorial.YES -> updateState { it.copy(tutorial = Tutorial.SHIP) }
             Tutorial.SHIP -> updateState { it.copy(tutorial = Tutorial.SYSTEM) }
             Tutorial.SYSTEM -> updateState { it.copy(tutorial = Tutorial.TRAVEL) }
@@ -149,27 +128,15 @@ internal class GameStore(
 
     private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
         if (state.tutorial != Tutorial.NO) return@launch
-        val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }
+
         if (state.gameSession == null) {
-            Logger.error(tag = TAG, message = "Invalid state: missing game session")
-            navigate(
-                screen = Screen.FEEDBACK, state = FeedbackState(
-                    screen = Screen.GAME,
-                    throwable = IllegalStateException("Invalid state: missing game session"),
-                    identifier = "GameStore:travel"
-                )
-            )
+            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing game session on travel()"))
             return@launch
         }
+
+        val stellarHost = state.nearStellarHosts?.find { it.id == action.stellarHost.id }
         if (stellarHost == null) {
-            Logger.error(tag = TAG, message = "Invalid state: missing current stellar host")
-            navigate(
-                screen = Screen.FEEDBACK, state = FeedbackState(
-                    screen = Screen.GAME,
-                    throwable = IllegalStateException("Invalid state: missing current stellar host"),
-                    identifier = "GameStore:travel"
-                )
-            )
+            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing stellar host on travel()"))
             return@launch
         }
 
@@ -179,15 +146,9 @@ internal class GameStore(
 
     private fun settle(state: GameState, action: GameAction.Settle): Job = launch {
         if (state.tutorial != Tutorial.NO) return@launch
+
         if (state.gameSession == null) {
-            Logger.error(tag = TAG, message = "Invalid state: missing game session")
-            navigate(
-                screen = Screen.FEEDBACK, state = FeedbackState(
-                    screen = Screen.GAME,
-                    throwable = IllegalStateException("Invalid state: missing game session"),
-                    identifier = "GameStore:settle"
-                )
-            )
+            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing game session on settle()"))
             return@launch
         }
 

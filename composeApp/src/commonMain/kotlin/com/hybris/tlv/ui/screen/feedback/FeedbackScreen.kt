@@ -36,7 +36,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
     val storeState by store.stateFlow.collectAsState()
-    val isError = storeState.throwable != null
+    val isError = storeState.message != null
     var feedbackText by remember { mutableStateOf(value = "") }
     var inputEnabled by remember { mutableStateOf(value = true) }
     var buttonEnabled by remember { mutableStateOf(value = false) }

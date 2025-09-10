@@ -24,23 +24,22 @@ internal class MainMenuStore(
     navigation = navigation,
     initialState = initialState
 ) {
-    init {
-        setup()
-    }
-
-    private fun setup(): Job = launch {
+    override fun setup(state: MainMenuState): Job = launch {
+        val config = config.configs
+        val featureFeedback = config.featureFeedback
+        val featureSoon = config.featureSoon
+        val featureLearn = config.featureLearn
+        val featureScores = config.featureScores
+        val featureAchievements = config.featureAchievements
+        val featureStellarExplorer = config.featureStellarExplorer
+        val featureNewGame = config.featureNewGame
+        val loading = state.loading
+        val currentContent = state.currentContent
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
-        val learnings = learningUseCases.getLearnings().groupBy { it.type }
-        val featureFeedback = config.configs.featureFeedback
-        val featureSoon = config.configs.featureSoon
-        val featureLearn = config.configs.featureLearn
-        val featureScores = config.configs.featureScores
-        val featureAchievements = config.configs.featureAchievements
-        val featureStellarExplorer = config.configs.featureStellarExplorer
-        val featureNewGame = config.configs.featureNewGame
-        val developerCorner = config.configs.developerCorner
-        val support = config.configs.support
-        val formula = config.configs.formula
+        val learningsMap = learningUseCases.getLearnings().groupBy { it.type }
+        val developerCorner = config.developerCorner
+        val support = config.support
+        val formula = config.formula
 
         updateState {
             it.copy(
@@ -51,9 +50,10 @@ internal class MainMenuStore(
                 featureAchievements = featureAchievements,
                 featureStellarExplorer = featureStellarExplorer,
                 featureNewGame = featureNewGame,
-                loading = false,
+                loading = loading,
+                currentContent = currentContent,
                 ongoingGameSession = ongoingGameSession,
-                learningsMap = learnings,
+                learningsMap = learningsMap,
                 developerCorner = developerCorner,
                 support = support,
                 formula = formula,
@@ -76,7 +76,7 @@ internal class MainMenuStore(
             MainMenuAction.Feedback -> navigate(
                 screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.MAIN_MENU,
-                    identifier = state.currentContent.name
+                    tag = state.currentContent.name
                 )
             )
 

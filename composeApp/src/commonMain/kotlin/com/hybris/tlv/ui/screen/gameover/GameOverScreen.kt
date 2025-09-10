@@ -60,7 +60,7 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
                             modifier = Modifier
                                 .weight(weight = 1f)
                                 .fillMaxWidth(),
-                            text = getTranslation(key = storeState.gameOverMessage.orEmpty())
+                            text = getTranslation(key = storeState.gameOver?.displayName.orEmpty())
                         )
 
                         // Score

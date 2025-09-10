@@ -33,7 +33,13 @@ internal abstract class Store<Action, State>(
 
     init {
         navigation.back = { back(state = _stateFlow.value).invoke() }
+        setup(state = _stateFlow.value)
     }
+
+    /**
+     * Called when the Store is created.
+     */
+    protected abstract fun setup(state: State): Job
 
     /**
      * Back navigation.

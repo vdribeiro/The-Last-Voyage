@@ -20,31 +20,32 @@ internal class GameOverStore(
     navigation = navigation,
     initialState = initialState
 ) {
-    init {
-        setup()
-    }
-
-    private fun setup(): Job = launch {
-        val gameSession = gameSessionUseCases.getLatestGameSession()
+    override fun setup(state: GameOverState): Job = launch {
+        val gameSession = state.gameSession ?: gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             Logger.error(tag = TAG, message = "Invalid state: missing game session")
             navigate(
                 screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.GAME_OVER,
-                    throwable = IllegalStateException("Invalid state: missing game session"),
-                    identifier = "GameOverStore:setup"
+                    message = IllegalStateException("Invalid state: missing game session"),
+                    tag = "GameOverStore:setup"
                 )
             )
             return@launch
         }
 
-        val gameOver = gameSessionUseCases.getGameOver(gameSession = gameSession)
-        val updatedGameSession = gameSessionUseCases.score(gameSession = gameSession, gameOver = gameOver)
+        val currentContent = state.currentContent
+        val gameOver = state.gameOver ?: gameSessionUseCases.getGameOver(gameSession = gameSession)
+        val updatedGameSession = state.gameSession ?: gameSessionUseCases.score(
+            gameSession = gameSession,
+            gameOver = gameOver
+        ).let { it.copy(utc = getLocalDateTime(utc = it.utc)) }
 
         updateState {
             it.copy(
-                gameSession = updatedGameSession.copy(utc = getLocalDateTime(utc = updatedGameSession.utc)),
-                gameOverMessage = gameOver.displayName
+                currentContent = currentContent,
+                gameSession = updatedGameSession,
+                gameOver = gameOver
             )
         }
     }

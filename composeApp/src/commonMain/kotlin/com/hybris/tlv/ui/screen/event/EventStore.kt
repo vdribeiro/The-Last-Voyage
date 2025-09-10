@@ -22,26 +22,15 @@ internal class EventStore(
     navigation = navigation,
     initialState = initialState
 ) {
-    init {
-        setup()
-    }
-
-    private fun setup(): Job = launch {
-        val gameSession = gameSessionUseCases.getLatestGameSession()
+    override fun setup(state: EventState): Job = launch {
+        val gameSession = state.gameSession ?: gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            Logger.error(tag = TAG, message = "Invalid state: missing game session")
-            navigate(
-                screen = Screen.FEEDBACK, state = FeedbackState(
-                    screen = Screen.EVENT,
-                    throwable = IllegalStateException("Invalid state: missing game session"),
-                    identifier = "EventStore:setup"
-                )
-            )
+            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 
         // Guarantee at least 1 event
-        val events = eventUseCases.getRandomEvent(ids = gameSession.launchedEvents).ifEmpty {
+        val events = state.events ?: eventUseCases.getRandomEvent(ids = gameSession.launchedEvents).ifEmpty {
             listOf(
                 Event(
                     id = "event__default",
@@ -53,19 +42,12 @@ internal class EventStore(
         }
 
         // There must be at least 1 event with no parentId, this is the parent event
-        val parentEvent = events.find { it.parentId == null }
+        val parentEvent = state.event ?: events.find { it.parentId == null }
         if (parentEvent == null) {
-            Logger.error(tag = TAG, message = "Invalid state: missing parent event")
-            navigate(
-                screen = Screen.FEEDBACK, state = FeedbackState(
-                    screen = Screen.EVENT,
-                    throwable = IllegalStateException("Invalid state: missing parent event"),
-                    identifier = "EventStore:setup"
-                )
-            )
+            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing parent event on setup()"))
             return@launch
         }
-        val childrenEvents = events.filter { it.parentId == parentEvent.id }
+        val childrenEvents = state.children ?: events.filter { it.parentId == parentEvent.id }
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = parentEvent)
 
         updateState {
@@ -96,19 +78,12 @@ internal class EventStore(
         }
 
         if (state.gameSession == null) {
-            Logger.error(tag = TAG, message = "Invalid state: missing game session")
-            navigate(
-                screen = Screen.FEEDBACK, state = FeedbackState(
-                    screen = Screen.EVENT,
-                    throwable = IllegalStateException("Invalid state: missing game session"),
-                    identifier = "EventStore:reducer:Select"
-                )
-            )
+            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing game session on select()"))
             return@launch
         }
 
         // Continue event chain
-        val children = state.events.filter { it.parentId == action.event.id }
+        val children = state.events?.filter { it.parentId == action.event.id }
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = state.gameSession, event = action.event)
 
         updateState {

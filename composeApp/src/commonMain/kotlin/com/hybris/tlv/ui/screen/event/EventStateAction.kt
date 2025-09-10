@@ -5,9 +5,9 @@ import com.hybris.tlv.usecase.gamesession.model.GameSession
 
 internal data class EventState(
     val gameSession: GameSession? = null,
-    val events: List<Event> = emptyList(),
+    val events: List<Event>? = null,
     val event: Event? = null,
-    val children: List<Event> = emptyList()
+    val children: List<Event>? = null
 )
 
 internal sealed interface EventAction {

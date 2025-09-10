@@ -17,12 +17,8 @@ internal class CreditStore(
     navigation = navigation,
     initialState = initialState
 ) {
-    init {
-        setup()
-    }
-
-    private fun setup(): Job = launch {
-        val credits = creditUseCases.getCredits()
+    override fun setup(state: CreditState): Job = launch {
+        val credits = state.credits ?: creditUseCases.getCredits()
         updateState { it.copy(credits = credits) }
     }
 

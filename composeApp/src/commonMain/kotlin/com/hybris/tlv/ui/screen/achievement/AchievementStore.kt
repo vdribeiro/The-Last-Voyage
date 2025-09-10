@@ -5,7 +5,6 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
-import kotlinx.coroutines.Job
 
 internal class AchievementStore(
     dispatcher: Dispatcher,
@@ -17,12 +16,8 @@ internal class AchievementStore(
     navigation = navigation,
     initialState = initialState
 ) {
-    init {
-        setup()
-    }
-
-    private fun setup(): Job = launch {
-        val achievements = achievementUseCases.getAchievements()
+    override fun setup(state: AchievementState) = launch {
+        val achievements = state.achievements ?: achievementUseCases.getAchievements()
         updateState { it.copy(achievements = achievements) }
     }
 

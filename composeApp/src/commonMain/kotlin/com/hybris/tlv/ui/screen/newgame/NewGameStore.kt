@@ -44,8 +44,8 @@ internal class NewGameStore(
             navigate(
                 screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.NEW_GAME,
-                    throwable = IllegalStateException("Invalid state: missing catastrophe"),
-                    identifier = "NewGameStore:reducer:Start"
+                    message = IllegalStateException("Invalid state: missing catastrophe"),
+                    tag = "NewGameStore:reducer:Start"
                 )
             )
             return@launch
@@ -65,8 +65,8 @@ internal class NewGameStore(
             navigate(
                 screen = Screen.FEEDBACK, state = FeedbackState(
                     screen = Screen.NEW_GAME,
-                    throwable = IllegalStateException("Invalid state: missing ship prototype"),
-                    identifier = "NewGameStore:startGame"
+                    message = IllegalStateException("Invalid state: missing ship prototype"),
+                    tag = "NewGameStore:startGame"
                 )
             )
             return@launch
