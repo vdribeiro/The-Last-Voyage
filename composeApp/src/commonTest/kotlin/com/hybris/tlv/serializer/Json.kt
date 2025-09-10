@@ -1,15 +1,15 @@
 package com.hybris.tlv.serializer
 
-import com.hybris.tlv.mock.achievements
-import com.hybris.tlv.mock.catastrophes
-import com.hybris.tlv.mock.configs
-import com.hybris.tlv.mock.credits
-import com.hybris.tlv.mock.engines
-import com.hybris.tlv.mock.events
-import com.hybris.tlv.mock.learnings
-import com.hybris.tlv.mock.planets
-import com.hybris.tlv.mock.stellarHosts
-import com.hybris.tlv.mock.translations
+import com.hybris.tlv.achievements
+import com.hybris.tlv.catastrophes
+import com.hybris.tlv.configs
+import com.hybris.tlv.credits
+import com.hybris.tlv.engines
+import com.hybris.tlv.events
+import com.hybris.tlv.learnings
+import com.hybris.tlv.planets
+import com.hybris.tlv.stellarHosts
+import com.hybris.tlv.translations
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 

@@ -1,9 +1,9 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock.mock
-import com.hybris.tlv.mock.planets
-import com.hybris.tlv.mock.stellarHosts
+import com.hybris.tlv.mock
+import com.hybris.tlv.planets
+import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.screen.stellarexplorer.model.PlanetProperty
 import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty

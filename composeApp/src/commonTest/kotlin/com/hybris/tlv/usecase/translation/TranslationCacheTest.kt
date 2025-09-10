@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.translation
 
-import com.hybris.tlv.mock.translations
+import com.hybris.tlv.translations
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking

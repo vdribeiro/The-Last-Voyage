@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.catastrophe
 
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock.mock
+import com.hybris.tlv.mock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull

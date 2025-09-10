@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.event
 
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock.events
-import com.hybris.tlv.mock.mock
+import com.hybris.tlv.events
+import com.hybris.tlv.mock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

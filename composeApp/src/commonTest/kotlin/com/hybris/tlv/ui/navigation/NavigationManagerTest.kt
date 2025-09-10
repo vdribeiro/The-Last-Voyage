@@ -1,6 +1,6 @@
 package com.hybris.tlv.ui.navigation
 
-import com.hybris.tlv.mock.mock
+import com.hybris.tlv.mock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking

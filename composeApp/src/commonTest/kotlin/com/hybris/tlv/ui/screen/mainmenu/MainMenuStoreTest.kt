@@ -1,8 +1,8 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock.gameSessionPrototype
-import com.hybris.tlv.mock.mock
+import com.hybris.tlv.gameSessionPrototype
+import com.hybris.tlv.mock
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test

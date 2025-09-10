@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.space
 
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock.mock
-import com.hybris.tlv.mock.stellarHosts
+import com.hybris.tlv.mock
+import com.hybris.tlv.stellarHosts
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

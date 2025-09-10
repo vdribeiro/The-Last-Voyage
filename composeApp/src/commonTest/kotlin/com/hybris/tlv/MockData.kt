@@ -1,4 +1,4 @@
-package com.hybris.tlv.mock
+package com.hybris.tlv
 
 import com.hybris.tlv.config.Configs
 import com.hybris.tlv.locale.now

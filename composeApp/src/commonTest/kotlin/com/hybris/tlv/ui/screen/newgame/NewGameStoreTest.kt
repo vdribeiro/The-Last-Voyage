@@ -1,7 +1,7 @@
 package com.hybris.tlv.ui.screen.newgame
 
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock.mock
+import com.hybris.tlv.mock
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
