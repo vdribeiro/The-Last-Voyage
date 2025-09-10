@@ -32,8 +32,8 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>) {
     val storeState by store.stateFlow.collectAsState()
-    val planetProperties = storeState.learningsMap[LearningType.PLANET_PROPERTY].orEmpty()
-    val planets = storeState.learningsMap[LearningType.PLANET_TYPE].orEmpty()
+    val planetProperties = storeState.learningsMap.orEmpty()[LearningType.PLANET_PROPERTY].orEmpty()
+    val planets = storeState.learningsMap.orEmpty()[LearningType.PLANET_TYPE].orEmpty()
     val planet = remember {
         Planet(
             id = "Edoras",

@@ -27,7 +27,7 @@ internal fun TravelContent(store: Store<GameAction, GameState>) {
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
-        items(items = storeState.nearStellarHosts, key = { it.id }) { stellarHost ->
+        items(items = storeState.nearStellarHosts.orEmpty(), key = { it.id }) { stellarHost ->
             StellarHostCard(
                 modifier = Modifier.debouncedClickable { store.send(action = GameAction.Travel(stellarHost = stellarHost)) },
                 name = stellarHost.name,

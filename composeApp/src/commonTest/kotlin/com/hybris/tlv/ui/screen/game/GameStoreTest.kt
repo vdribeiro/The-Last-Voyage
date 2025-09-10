@@ -43,7 +43,7 @@ internal class GameStoreTest {
         assertEquals(expected = stellarHosts.first(), actual = gameStore.stateFlow.value.currentStellarHost)
         assertEquals(
             expected = hostsWithPlanets.drop(n = 1).sortedBy { it.id },
-            actual = gameStore.stateFlow.value.nearStellarHosts.sortedBy { it.id }
+            actual = gameStore.stateFlow.value.nearStellarHosts.orEmpty().sortedBy { it.id }
         )
     }
 

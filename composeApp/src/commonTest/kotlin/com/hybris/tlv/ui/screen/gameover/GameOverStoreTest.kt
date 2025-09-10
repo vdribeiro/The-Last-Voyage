@@ -32,7 +32,7 @@ internal class GameOverStoreTest {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameOverStore = store
         assertNotNull(actual = gameOverStore.stateFlow.value.gameSession)
-        assertNotNull(actual = gameOverStore.stateFlow.value.gameOverMessage)
+        assertNotNull(actual = gameOverStore.stateFlow.value.gameOver)
         assertEquals(expected = Content.MESSAGE, actual = gameOverStore.stateFlow.value.currentContent)
     }
 

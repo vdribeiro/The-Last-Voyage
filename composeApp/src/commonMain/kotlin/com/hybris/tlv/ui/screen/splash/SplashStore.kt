@@ -19,11 +19,10 @@ internal class SplashStore(
     navigation = navigation,
     initialState = initialState
 ) {
-    init {
-        setup()
-    }
+    override fun setup(state: SplashState): Job = launch {
+        val progress = state.progress ?: 0f
+        updateState { it.copy(progress = progress) }
 
-    private fun setup(): Job = launch {
         // Uncomment to get archive
         //syncUseCases.getArchive().last()
 
@@ -35,6 +34,7 @@ internal class SplashStore(
             }
             updateState { it.copy(progress = progress) }
         }
+
         updateState { it.copy(progress = 1f) }
         delay(timeMillis = 1000L)
         send(action = SplashAction.Start)

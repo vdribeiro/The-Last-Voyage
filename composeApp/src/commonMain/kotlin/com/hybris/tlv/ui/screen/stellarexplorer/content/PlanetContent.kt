@@ -14,11 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.stellarexplorer.Content
 import com.hybris.tlv.ui.screen.stellarexplorer.LazyListIndex
+import com.hybris.tlv.ui.screen.stellarexplorer.PlanetProperty
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerAction
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
+import com.hybris.tlv.ui.screen.stellarexplorer.StellarHostProperty
 import com.hybris.tlv.ui.screen.stellarexplorer.ifContains
-import com.hybris.tlv.ui.screen.stellarexplorer.model.PlanetProperty
-import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.PlanetCard
 import com.hybris.tlv.ui.theme.component.StellarHostCard
@@ -31,10 +31,9 @@ internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerSt
     val storeState by store.stateFlow.collectAsState()
     val currentContent = storeState.currentContent
     val stellarHost = storeState.selectedStellarHost
-    val visibleStellarHostProperties = storeState.visibleStellarHostProperties
-    val visiblePlanetProperties = storeState.visiblePlanetProperties
-
-    val listState = if (currentContent == Content.LIST_PLANETS) storeState.listIndex.getState() else rememberLazyListState()
+    val visibleStellarHostProperties = storeState.visibleStellarHostProperties.orEmpty()
+    val visiblePlanetProperties = storeState.visiblePlanetProperties.orEmpty()
+    val listState = storeState.listIndex?.getState() ?: rememberLazyListState()
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -153,7 +152,7 @@ internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerSt
             }
             item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
         }
-        items(items = storeState.filteredPlanets, key = { it.id }) { planet ->
+        items(items = storeState.filteredPlanets.orEmpty(), key = { it.id }) { planet ->
             PlanetCard(
                 modifier = Modifier.debouncedClickable {
                     store.send(

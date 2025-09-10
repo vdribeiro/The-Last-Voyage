@@ -49,14 +49,14 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                 )
                 Spacer(modifier = Modifier.height(height = 32.dp))
                 when {
-                    storeState.loading -> DebouncedLinearProgressIndicator()
+                    storeState.loading != false -> DebouncedLinearProgressIndicator()
                     else -> LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(all = 16.dp),
                         verticalArrangement = Arrangement.spacedBy(space = 12.dp)
                     ) {
                         // Scores
-                        items(items = storeState.scores, key = { it.id }) { score ->
+                        items(items = storeState.gameSessions.orEmpty(), key = { it.id }) { score ->
                             Score(
                                 modifier = Modifier
                                     .debouncedClickable(onClick = {

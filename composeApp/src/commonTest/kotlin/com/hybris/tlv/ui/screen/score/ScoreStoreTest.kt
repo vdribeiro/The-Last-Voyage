@@ -31,7 +31,7 @@ internal class ScoreStoreTest {
         val latestGameSession = mock.useCases.gameSession.getLatestGameSession()!!
         mock.useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
         val scoreStore = store
-        assertEquals(expected = listOf(mock.useCases.gameSession.getLatestGameSession()), actual = scoreStore.stateFlow.value.scores)
+        assertEquals(expected = listOf(mock.useCases.gameSession.getLatestGameSession()), actual = scoreStore.stateFlow.value.gameSessions.orEmpty())
     }
 
     @Test

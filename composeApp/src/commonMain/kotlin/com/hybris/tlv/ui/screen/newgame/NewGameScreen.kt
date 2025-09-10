@@ -20,6 +20,7 @@ internal fun NewGameScreen(store: Store<NewGameAction, NewGameState>) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (storeState.currentContent) {
+                null -> {}
                 Content.SHIP -> NewGameContent(store = store)
                 Content.ADVANCED -> AdvancedContent(store = store)
                 Content.START -> StartContent(store = store)

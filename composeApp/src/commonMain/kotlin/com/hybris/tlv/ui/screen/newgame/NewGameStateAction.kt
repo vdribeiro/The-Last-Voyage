@@ -1,29 +1,12 @@
 package com.hybris.tlv.ui.screen.newgame
 
-import com.hybris.tlv.ui.screen.newgame.state.ShipState
-import com.hybris.tlv.ui.screen.newgame.state.ShipState.Point
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
-
-internal data class NewGameState(
-    val currentContent: Content = Content.SHIP,
-    val selectedCatastrophe: Catastrophe? = null,
-    val selectedShip: ShipPrototype? = null,
-    val shipState: ShipState = ShipState(
-        sensorRange = Point(max = 10, min = 1, interval = 1, initialValue = 3),
-        materials = Point(max = 1000, min = 0, interval = 100, initialValue = 100),
-        fuel = Point(max = 1000, min = 0, interval = 100, initialValue = 100),
-        cryopods = Point(max = 1000, min = 0, interval = 100, initialValue = 100),
-    ),
-    val formula: Formula = Formula(),
-)
-
-internal enum class Content {
-    SHIP,
-    ADVANCED,
-    START
-}
 
 internal sealed interface NewGameAction {
     data class SelectShip(val ship: ShipPrototype): NewGameAction
@@ -34,3 +17,72 @@ internal sealed interface NewGameAction {
     data object StartGame: NewGameAction
 }
 
+internal data class NewGameState(
+    val currentContent: Content? = null,
+    val selectedCatastrophe: Catastrophe? = null,
+    val selectedShip: ShipPrototype? = null,
+    val shipState: ShipState? = null,
+    val formula: Formula? = null,
+)
+
+internal enum class Content {
+    SHIP,
+    ADVANCED,
+    START
+}
+
+@Stable
+internal data class ShipState(
+    val sensorRange: Point,
+    val fuel: Point,
+    val materials: Point,
+    val cryopods: Point,
+) {
+    @Stable
+    data class Point(
+        val max: Int,
+        val min: Int,
+        val interval: Int,
+        val initialValue: Int
+    ) {
+        init {
+            if (max <= 0) throw IllegalArgumentException("max must be greater than 0")
+            if (min < 0) throw IllegalArgumentException("min must be greater or equal to 0")
+            if (max <= min) throw IllegalArgumentException("max must be greater than min")
+            if (interval <= 0) throw IllegalArgumentException("interval must be greater than 0")
+        }
+
+        private var _value: Int by mutableStateOf(value = initialValue.coerceIn(minimumValue = min, maximumValue = max))
+
+        var value: Int
+            get() = _value
+            set(newValue) {
+                _value = newValue.coerceIn(minimumValue = min, maximumValue = max)
+            }
+
+        val assignedPoints: Int get() = (value - min) / interval
+
+        val maxAssignablePoints: Int get() = (max - min) / interval
+
+        fun increment() {
+            if (value < max) value += interval
+        }
+
+        fun decrement() {
+            if (value > min) value -= interval
+        }
+    }
+
+    val maxPoints: Int =
+        sensorRange.maxAssignablePoints +
+                materials.maxAssignablePoints +
+                fuel.maxAssignablePoints +
+                cryopods.maxAssignablePoints
+
+    val assignedPoints: Int
+        get() = sensorRange.assignedPoints +
+                materials.assignedPoints +
+                fuel.assignedPoints +
+                cryopods.assignedPoints
+    val remainingPoints get() = maxPoints - assignedPoints
+}

@@ -28,7 +28,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun HabitabilityContent(store: Store<MainMenuAction, MainMenuState>) {
     val storeState by store.stateFlow.collectAsState()
-    val formula = storeState.learningsMap[LearningType.FORMULA].orEmpty()
+    val formula = storeState.learningsMap.orEmpty()[LearningType.FORMULA].orEmpty()
     val uriHandler = LocalUriHandler.current
     val formulaTranslation = remember { getTranslation(key = "formula") }
 

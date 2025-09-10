@@ -5,10 +5,6 @@ import com.hybris.tlv.mock
 import com.hybris.tlv.planets
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.screen.stellarexplorer.model.PlanetProperty
-import com.hybris.tlv.ui.screen.stellarexplorer.model.StellarHostProperty
-import com.hybris.tlv.ui.screen.stellarexplorer.model.searchStellarHosts
-import com.hybris.tlv.ui.screen.stellarexplorer.model.sortStellarHosts
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -37,10 +33,13 @@ internal class StellarExplorerStoreTest {
         val stellarExplorerStore = store
         val state = stellarExplorerStore.stateFlow.value
         assertEquals(expected = Content.LIST_HOSTS, actual = state.currentContent)
-        val filteredStellarHosts = state.stellarHosts.searchStellarHosts(
-            search = state.search,
-            searchable = state.searchableStellarHostProperties,
-        ).sortStellarHosts(sort = state.sortStellarHostProperty, ascending = state.sortAscending)
+        val filteredStellarHosts = state.stellarHosts.orEmpty().searchStellarHosts(
+            search = state.search.orEmpty(),
+            searchable = state.searchableStellarHostProperties.orEmpty(),
+        ).sortStellarHosts(
+            sort = state.sortStellarHostProperty!!,
+            ascending = state.sortAscending!!
+        )
         assertEquals(expected = filteredStellarHosts, actual = state.filteredStellarHosts)
         assertEquals(expected = emptyList(), actual = state.filteredPlanets)
     }

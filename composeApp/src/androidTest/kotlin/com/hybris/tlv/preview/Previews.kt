@@ -24,6 +24,7 @@ import com.hybris.tlv.ui.screen.score.ScoreState
 import com.hybris.tlv.ui.screen.splash.SplashState
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import database.AppDatabase
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -263,7 +264,7 @@ private fun GameOverMessageScreenPreview() {
             state = GameOverState(
                 currentContent = GameOverContent.MESSAGE,
                 gameSession = gameSession,
-                gameOverMessage = "Game over man! Game over!"
+                gameOver = GameOver.GAME_OVER
             )
         )
     }
@@ -320,7 +321,7 @@ private fun ScoreScreenPreview() {
         Screen(
             screen = Screen.SCORE,
             state = ScoreState(
-                scores = listOf(
+                gameSessions = listOf(
                     gameSession.copy(id = generateUuid(), score = 100.0),
                     gameSession.copy(id = generateUuid(), score = 50.0),
                     gameSession.copy(id = generateUuid(), score = 150.0),

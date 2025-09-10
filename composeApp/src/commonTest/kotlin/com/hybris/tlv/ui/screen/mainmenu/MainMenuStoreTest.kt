@@ -33,14 +33,14 @@ internal class MainMenuStoreTest {
     fun `init`() = runBlocking {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val mainMenuStore = store
-        assertTrue(actual = mainMenuStore.stateFlow.value.ongoingGameSession)
+        assertTrue(actual = mainMenuStore.stateFlow.value.ongoingGameSession == true)
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
     }
 
     @Test
     fun `init without game session`() = runBlocking {
         val mainMenuStore = store
-        assertFalse(actual = mainMenuStore.stateFlow.value.ongoingGameSession)
+        assertFalse(actual = mainMenuStore.stateFlow.value.ongoingGameSession == true)
     }
 
     @Test

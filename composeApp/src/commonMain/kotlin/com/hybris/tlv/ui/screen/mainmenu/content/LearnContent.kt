@@ -41,11 +41,11 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
     ) {
         item { AppLogo() }
         item { Spacer(modifier = Modifier.height(height = 32.dp)) }
-        if (storeState.loading) {
+        if (storeState.loading != false) {
             item { DebouncedLinearProgressIndicator() }
             return@LazyColumn
         }
-        if (storeState.featureStellarExplorer) {
+        if (storeState.featureStellarExplorer != false) {
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.StellarExplorer) },

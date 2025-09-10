@@ -4,7 +4,6 @@ import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
-import com.hybris.tlv.ui.screen.feedback.FeedbackState
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.screen.game.Tutorial
 import com.hybris.tlv.ui.store.Store
@@ -25,21 +24,20 @@ internal class MainMenuStore(
     initialState = initialState
 ) {
     override fun setup(state: MainMenuState): Job = launch {
-        val config = config.configs
-        val featureFeedback = config.featureFeedback
-        val featureSoon = config.featureSoon
-        val featureLearn = config.featureLearn
-        val featureScores = config.featureScores
-        val featureAchievements = config.featureAchievements
-        val featureStellarExplorer = config.featureStellarExplorer
-        val featureNewGame = config.featureNewGame
-        val loading = state.loading
-        val currentContent = state.currentContent
-        val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
-        val learningsMap = learningUseCases.getLearnings().groupBy { it.type }
-        val developerCorner = config.developerCorner
-        val support = config.support
-        val formula = config.formula
+        val featureFeedback = state.featureFeedback ?: config.configs.featureFeedback
+        val featureSoon = state.featureSoon ?: config.configs.featureSoon
+        val featureLearn = state.featureLearn ?: config.configs.featureLearn
+        val featureScores = state.featureScores ?: config.configs.featureScores
+        val featureAchievements = state.featureAchievements ?: config.configs.featureAchievements
+        val featureStellarExplorer = state.featureStellarExplorer ?: config.configs.featureStellarExplorer
+        val featureNewGame = state.featureNewGame ?: config.configs.featureNewGame
+        val loading = state.loading ?: false
+        val currentContent = state.currentContent ?: Content.MAIN_MENU
+        val ongoingGameSession = state.ongoingGameSession ?: gameSessionUseCases.isGameSessionOngoing()
+        val learningsMap = state.learningsMap ?: learningUseCases.getLearnings().groupBy { it.type }
+        val developerCorner = state.developerCorner ?: config.configs.developerCorner
+        val support = state.support ?: config.configs.support
+        val formula = state.formula ?: config.configs.formula
 
         updateState {
             it.copy(
@@ -63,7 +61,7 @@ internal class MainMenuStore(
 
     override fun back(state: MainMenuState) = {
         when (state.currentContent) {
-            Content.MAIN_MENU -> {}
+            null, Content.MAIN_MENU -> {}
             Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
             Content.HOST_DEFINITION,
             Content.PLANET_DEFINITION,
@@ -73,13 +71,7 @@ internal class MainMenuStore(
 
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
-            MainMenuAction.Feedback -> navigate(
-                screen = Screen.FEEDBACK, state = FeedbackState(
-                    screen = Screen.MAIN_MENU,
-                    tag = state.currentContent.name
-                )
-            )
-
+            MainMenuAction.Feedback -> navigate(screen = Screen.FEEDBACK)
             MainMenuAction.NewGame -> navigate(screen = Screen.NEW_GAME)
             MainMenuAction.Continue -> navigate(screen = Screen.GAME)
             MainMenuAction.Learn -> updateState { it.copy(currentContent = Content.LEARN_MENU) }

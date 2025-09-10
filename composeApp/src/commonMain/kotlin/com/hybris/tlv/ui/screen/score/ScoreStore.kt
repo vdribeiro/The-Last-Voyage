@@ -18,19 +18,16 @@ internal class ScoreStore(
     navigation = navigation,
     initialState = initialState
 ) {
-    init {
-        setup()
-    }
-
-    private fun setup(): Job = launch {
-        val gameSessions = gameSessionUseCases.getGameSessions()
-        val scores = gameSessions
+    override fun setup(state: ScoreState): Job = launch {
+        val loading = state.loading ?: false
+        val gameSessions = state.gameSessions ?: gameSessionUseCases.getGameSessions()
             .filter { it.score != null }
             .map { it.copy(utc = getLocalDateTime(utc = it.utc)) }
+
         updateState {
             it.copy(
-                loading = false,
-                scores = scores
+                loading = loading,
+                gameSessions = gameSessions
             )
         }
     }

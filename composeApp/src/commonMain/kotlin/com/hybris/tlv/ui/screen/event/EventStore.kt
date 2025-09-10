@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.event
 
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackState
