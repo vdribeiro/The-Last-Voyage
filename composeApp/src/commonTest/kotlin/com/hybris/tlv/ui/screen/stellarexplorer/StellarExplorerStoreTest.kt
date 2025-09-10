@@ -13,13 +13,14 @@ import kotlinx.coroutines.runBlocking
 
 internal class StellarExplorerStoreTest {
 
-    private val store
-        get() = StellarExplorerStore(
+    private val store by lazy {
+        StellarExplorerStore(
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = StellarExplorerState(),
             spaceUseCases = mock.useCases.space
         )
+    }
 
     @BeforeTest
     fun setup() = runBlocking {
@@ -30,7 +31,7 @@ internal class StellarExplorerStoreTest {
     @Test
     fun `init`() = runBlocking {
         mock.useCases.sync.sync().last()
-        val stellarExplorerStore = store
+        val stellarExplorerStore = store.apply { setup(state = StellarExplorerState()) }
         val state = stellarExplorerStore.stateFlow.value
         assertEquals(expected = Content.LIST_HOSTS, actual = state.currentContent)
         val filteredStellarHosts = state.stellarHosts.orEmpty().searchStellarHosts(
@@ -46,7 +47,7 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action back`() = runBlocking {
-        val stellarExplorerStore = store
+        val stellarExplorerStore = store.apply { setup(state = StellarExplorerState()) }
         mock.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
 
         stellarExplorerStore.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHosts.first()))
@@ -65,7 +66,7 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action save index`() = runBlocking {
-        val stellarExplorerStore = store
+        val stellarExplorerStore = store.apply { setup(state = StellarExplorerState()) }
         assertEquals(expected = LazyListIndex(), actual = stellarExplorerStore.stateFlow.value.listIndex)
         stellarExplorerStore.send(action = StellarExplorerAction.SaveIndex(index = LazyListIndex(index = 6, scrollOffset = 9)))
         assertEquals(expected = LazyListIndex(index = 6, scrollOffset = 9), actual = stellarExplorerStore.stateFlow.value.listIndex)
@@ -74,7 +75,7 @@ internal class StellarExplorerStoreTest {
     @Test
     fun `send action search`() = runBlocking {
         mock.useCases.sync.sync().last()
-        val stellarExplorerStore = store
+        val stellarExplorerStore = store.apply { setup(state = StellarExplorerState()) }
 
         stellarExplorerStore.send(action = StellarExplorerAction.Search(search = stellarHosts.first().id))
         assertEquals(expected = listOf(stellarHosts.first()), actual = stellarExplorerStore.stateFlow.value.filteredStellarHosts)
@@ -87,7 +88,7 @@ internal class StellarExplorerStoreTest {
     @Test
     fun `send action sort`() = runBlocking {
         mock.useCases.sync.sync().last()
-        val stellarExplorerStore = store
+        val stellarExplorerStore = store.apply { setup(state = StellarExplorerState()) }
 
         stellarExplorerStore.send(action = StellarExplorerAction.SortStellarHosts(sort = StellarHostProperty.NAME))
         assertEquals(expected = StellarHostProperty.NAME, actual = stellarExplorerStore.stateFlow.value.sortStellarHostProperty)
@@ -103,7 +104,7 @@ internal class StellarExplorerStoreTest {
     @Test
     fun `send action change visibility`() = runBlocking {
         mock.useCases.sync.sync().last()
-        val stellarExplorerStore = store
+        val stellarExplorerStore = store.apply { setup(state = StellarExplorerState()) }
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = StellarHostProperty.NAME))
         val visibleStellarHostProperties: Set<StellarHostProperty> = setOf(
@@ -156,7 +157,7 @@ internal class StellarExplorerStoreTest {
     @Test
     fun `send action change searchable`() = runBlocking {
         mock.useCases.sync.sync().last()
-        val stellarExplorerStore = store
+        val stellarExplorerStore = store.apply { setup(state = StellarExplorerState()) }
 
         assertEquals(expected = setOf(StellarHostProperty.NAME), actual = stellarExplorerStore.stateFlow.value.searchableStellarHostProperties)
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeStellarHostsSearchable(property = StellarHostProperty.NAME))

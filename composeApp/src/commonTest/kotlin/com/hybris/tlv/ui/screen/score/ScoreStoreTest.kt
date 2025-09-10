@@ -11,13 +11,14 @@ import kotlinx.coroutines.runBlocking
 
 internal class ScoreStoreTest {
 
-    private val store
-        get() = ScoreStore(
+    private val store by lazy {
+        ScoreStore(
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = ScoreState(),
             gameSessionUseCases = mock.useCases.gameSession
         )
+    }
 
     @BeforeTest
     fun setup() = runBlocking {
@@ -30,13 +31,13 @@ internal class ScoreStoreTest {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val latestGameSession = mock.useCases.gameSession.getLatestGameSession()!!
         mock.useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
-        val scoreStore = store
+        val scoreStore = store.apply { setup(state = ScoreState()) }
         assertEquals(expected = listOf(mock.useCases.gameSession.getLatestGameSession()), actual = scoreStore.stateFlow.value.gameSessions.orEmpty())
     }
 
     @Test
     fun `send action back`() = runBlocking {
-        store
+        store.setup(state = ScoreState())
         assertEquals(expected = NavigationManager.Screen.SCORE, actual = mock.navigation.stateFlow.value.screen)
         mock.navigation.back()
         assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)

@@ -39,7 +39,7 @@ internal abstract class Store<Action, State>(
     /**
      * Called when the Store is created.
      */
-    protected abstract fun setup(state: State): Job
+    abstract fun setup(state: State): Job
 
     /**
      * Back navigation.

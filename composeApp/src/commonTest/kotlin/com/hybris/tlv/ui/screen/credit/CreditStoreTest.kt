@@ -12,13 +12,14 @@ import kotlinx.coroutines.runBlocking
 
 internal class CreditStoreTest {
 
-    private val store
-        get() = CreditStore(
+    private val store by lazy {
+        CreditStore(
             dispatcher = mock.dispatcher,
             navigation = mock.navigation,
             initialState = CreditState(),
             creditUseCases = mock.useCases.credit
         )
+    }
 
     @BeforeTest
     fun setup() = runBlocking {
@@ -29,14 +30,14 @@ internal class CreditStoreTest {
     @Test
     fun `init`() = runBlocking {
         mock.useCases.sync.sync().last()
-        val creditStore = store
+        val creditStore = store.apply { setup(state = CreditState()) }
         assertEquals(expected = credits, actual = creditStore.stateFlow.value.credits)
     }
 
     @Test
     fun `send action back`() = runBlocking {
         mock.useCases.sync.sync().last()
-        store
+        store.setup(state = CreditState())
         assertEquals(expected = NavigationManager.Screen.CREDIT, actual = mock.navigation.stateFlow.value.screen)
         mock.navigation.back()
         assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
