@@ -18,7 +18,7 @@ import database.Ship
 import database.StellarHost
 import database.Translation
 
-internal class Database(driver: SqlDriver) {
+internal class DatabaseFactory(driver: SqlDriver) {
 
     private val learningAdapter = Learning.Adapter(
         typeAdapter = EnumColumnAdapter()
@@ -54,10 +54,6 @@ internal class Database(driver: SqlDriver) {
         GameSessionAdapter = gameSessionAdapter,
         CreditAdapter = creditAdapter,
     )
-
-    companion object {
-        const val NAME = "astro.db"
-    }
 }
 
 typealias TranslationSchema = Translation

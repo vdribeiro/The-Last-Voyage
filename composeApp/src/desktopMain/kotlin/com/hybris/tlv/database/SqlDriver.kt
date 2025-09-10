@@ -1,19 +1,23 @@
 package com.hybris.tlv.database
 
+import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.db.SqlSchema
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import database.AppDatabase
 import java.io.File
 import java.util.Properties
 
-internal actual fun createSqlDriver(inMemory: Boolean): SqlDriver =
-    JdbcSqliteDriver(
-        url = if (inMemory) JdbcSqliteDriver.IN_MEMORY else "jdbc:sqlite:${getDatabasePath()}",
-        properties = Properties(),
-        schema = AppDatabase.Schema,
-    )
+internal actual fun createSqlDriver(
+    name: String,
+    schema: SqlSchema<QueryResult.Value<Unit>>,
+    inMemory: Boolean
+): SqlDriver = JdbcSqliteDriver(
+    url = if (inMemory) JdbcSqliteDriver.IN_MEMORY else "jdbc:sqlite:${getDatabasePath(name = name)}",
+    properties = Properties(),
+    schema = schema,
+)
 
-private fun getDatabasePath(): String {
+private fun getDatabasePath(name: String): String {
     val appName = "The Last Voyage"
     val os = System.getProperty("os.name").lowercase()
     val baseDir = when {
@@ -23,5 +27,5 @@ private fun getDatabasePath(): String {
     }
     val appDir = File(baseDir, appName)
     if (!appDir.exists()) appDir.mkdirs()
-    return File(appDir, Database.NAME).absolutePath
+    return File(appDir, name).absolutePath
 }

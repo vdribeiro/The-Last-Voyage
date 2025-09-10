@@ -3,8 +3,8 @@ package com.hybris.tlv.usecase.sync
 import com.hybris.tlv.database.TranslationSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
+import com.hybris.tlv.http.HttpClientFactory.Companion.TRANSLATIONS_URL
 import com.hybris.tlv.http.Result
-import com.hybris.tlv.http.TRANSLATIONS_URL
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.sync.model.SyncResult

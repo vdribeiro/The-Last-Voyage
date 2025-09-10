@@ -1,12 +1,9 @@
 package com.hybris.tlv.ui.screen.game
 
-import com.hybris.tlv.Core
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.database.createSqlDriver
-import com.hybris.tlv.flow.TestDispatchers
-import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.mock.gameSessionPrototype
 import com.hybris.tlv.mock.hostsWithPlanets
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.mock.planets
 import com.hybris.tlv.mock.stellarHosts
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -20,13 +17,6 @@ import kotlinx.coroutines.runBlocking
 
 internal class GameStoreTest {
 
-    private val mock by lazy {
-        Core(
-            dispatcher = TestDispatchers(),
-            sqlDriver = createSqlDriver(inMemory = true),
-            httpClient = HttpClientFactory.buildHttpClient()
-        )
-    }
     private val store
         get() = GameStore(
             dispatcher = mock.dispatcher,

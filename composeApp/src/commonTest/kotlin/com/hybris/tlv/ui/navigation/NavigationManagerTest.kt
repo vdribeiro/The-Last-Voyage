@@ -1,22 +1,11 @@
 package com.hybris.tlv.ui.navigation
 
-import com.hybris.tlv.Core
-import com.hybris.tlv.database.createSqlDriver
-import com.hybris.tlv.flow.TestDispatchers
-import com.hybris.tlv.http.HttpClientFactory
+import com.hybris.tlv.mock.mock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
 
 internal class NavigationManagerTest {
-
-    private val mock by lazy {
-        Core(
-            dispatcher = TestDispatchers(),
-            sqlDriver = createSqlDriver(inMemory = true),
-            httpClient = HttpClientFactory.buildHttpClient()
-        )
-    }
 
     @Test
     fun navigate() = runBlocking {

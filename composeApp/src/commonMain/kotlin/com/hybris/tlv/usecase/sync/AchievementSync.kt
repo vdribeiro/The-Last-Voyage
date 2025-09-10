@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.sync
 
 import com.hybris.tlv.database.AchievementSchema
-import com.hybris.tlv.http.ACHIEVEMENTS_URL
+import com.hybris.tlv.http.HttpClientFactory.Companion.ACHIEVEMENTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.json

@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.sync
 
 import com.hybris.tlv.database.StellarHostSchema
+import com.hybris.tlv.http.HttpClientFactory.Companion.STELLAR_HOSTS_URL
 import com.hybris.tlv.http.Result
-import com.hybris.tlv.http.STELLAR_HOSTS_URL
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.space.model.StellarHost

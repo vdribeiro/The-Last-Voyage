@@ -1,10 +1,8 @@
 package com.hybris.tlv.usecase.sync
 
-import com.hybris.tlv.Core
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.database.createSqlDriver
-import com.hybris.tlv.flow.TestDispatchers
-import com.hybris.tlv.http.HttpClientFactory
+import com.hybris.tlv.mock.errorMock
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -13,21 +11,6 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 
 internal class SyncUseCasesTest {
-
-    private val mock by lazy {
-        Core(
-            dispatcher = TestDispatchers(),
-            sqlDriver = createSqlDriver(inMemory = true),
-            httpClient = HttpClientFactory.buildHttpClient()
-        )
-    }
-    private val errorMock by lazy {
-        Core(
-            dispatcher = TestDispatchers(),
-            sqlDriver = createSqlDriver(inMemory = true),
-            httpClient = HttpClientFactory.buildErrorHttpClient()
-        )
-    }
 
     @BeforeTest
     fun setup() {

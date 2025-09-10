@@ -1,7 +1,6 @@
 package com.hybris.tlv.usecase.sync
 
-import com.hybris.tlv.http.EXOPLANET_ARCHIVE_URL
-import com.hybris.tlv.http.QueryMap
+import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.json
@@ -62,13 +61,13 @@ internal class SpaceSync(
         val planets = loadFromJson<Planet>(path = "files/solarplanets.json").toMutableList()
 
         emit(value = SyncResult.Loading(progress = 1f, total = totalOperations))
-        when (val stellarHostsArchiveResult = getArchive { getStellarHostsArchive(queryMap = it) }) {
+        when (val stellarHostsArchiveResult = getArchive { offset, limit -> getStellarHostsArchive(offset = offset, limit = limit) }) {
             is ExoplanetsResult.Error -> emit(value = SyncResult.Error(error = stellarHostsArchiveResult.error))
             is ExoplanetsResult.Success -> stellarHosts.addAll(elements = stellarHostsArchiveResult.stellarHosts)
         }
 
         emit(value = SyncResult.Loading(progress = 2f, total = totalOperations))
-        when (val exoplanetsArchiveResult = getArchive { getExoplanetsArchive(queryMap = it) }) {
+        when (val exoplanetsArchiveResult = getArchive { offset, limit -> getExoplanetsArchive(offset = offset, limit = limit) }) {
             is ExoplanetsResult.Error -> emit(value = SyncResult.Error(error = exoplanetsArchiveResult.error))
             is ExoplanetsResult.Success -> {
                 val stellarHostIds = stellarHosts.map { it.id }
@@ -79,7 +78,7 @@ internal class SpaceSync(
         }
 
         emit(value = SyncResult.Loading(progress = 3f, total = totalOperations))
-        when (val k2ExoplanetsArchiveResult = getArchive { getK2ExoplanetsArchive(queryMap = it) }) {
+        when (val k2ExoplanetsArchiveResult = getArchive { offset, limit -> getK2ExoplanetsArchive(offset = offset, limit = limit) }) {
             is ExoplanetsResult.Error -> emit(value = SyncResult.Error(error = k2ExoplanetsArchiveResult.error))
             is ExoplanetsResult.Success -> {
                 val stellarHostIds = stellarHosts.map { it.id }
@@ -107,20 +106,18 @@ internal class SpaceSync(
         emit(value = SyncResult.Success)
     }
 
-    private suspend fun getArchive(apiCall: suspend (QueryMap) -> ExoplanetsResult): ExoplanetsResult {
+    private suspend fun getArchive(apiCall: suspend (Int, Int) -> ExoplanetsResult): ExoplanetsResult {
         val stellarHosts = mutableListOf<StellarHost>()
         val planets = mutableListOf<Planet>()
-        val queryMap = QueryMap().apply {
-            this.limit = 1000
-            this.offset = 0
-        }
+        var offset = 0
+        val limit = 1000
         do {
-            val hasMore = when (val result = apiCall(queryMap)) {
+            val hasMore = when (val result = apiCall(offset, limit)) {
                 is ExoplanetsResult.Success -> {
                     stellarHosts.addAll(elements = result.stellarHosts)
                     planets.addAll(elements = result.planets)
-                    queryMap.nextPage()
-                    result.stellarHosts.size >= queryMap.limit!! || result.planets.size >= queryMap.limit!!
+                    offset += limit
+                    result.stellarHosts.size >= limit || result.planets.size >= limit
                 }
 
                 is ExoplanetsResult.Error -> return result
@@ -129,9 +126,7 @@ internal class SpaceSync(
         return ExoplanetsResult.Success(stellarHosts = stellarHosts, planets = planets)
     }
 
-    private suspend fun getStellarHostsArchive(queryMap: QueryMap): ExoplanetsResult {
-        val offset = queryMap.offset ?: 0
-        val limit = queryMap.limit ?: Long.MAX_VALUE
+    private suspend fun getStellarHostsArchive(offset: Int, limit: Int): ExoplanetsResult {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +
                 "${STELLAR_HOST_SYSTEM_NAME}," +
@@ -152,7 +147,7 @@ internal class SpaceSync(
                 "+from+stellarhosts" +
                 "+order+by+${STELLAR_HOST_NAME}+asc" +
                 "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
-        val queryMap = QueryMap().apply {
+        val queryMap = mutableMapOf<String, String>().apply {
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }
@@ -165,9 +160,7 @@ internal class SpaceSync(
         }
     }
 
-    private suspend fun getExoplanetsArchive(queryMap: QueryMap): ExoplanetsResult {
-        val offset = queryMap.offset ?: 0
-        val limit = queryMap.limit ?: Long.MAX_VALUE
+    private suspend fun getExoplanetsArchive(offset: Int, limit: Int): ExoplanetsResult {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +
                 "${STELLAR_HOST_SPECTRAL_TYPE}," +
@@ -200,7 +193,7 @@ internal class SpaceSync(
                 "+from+pscomppars" +
                 "+order+by+${PLANET_NAME}+asc" +
                 "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
-        val queryMap = QueryMap().apply {
+        val queryMap = mutableMapOf<String, String>().apply {
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }
@@ -213,9 +206,7 @@ internal class SpaceSync(
         }
     }
 
-    private suspend fun getK2ExoplanetsArchive(queryMap: QueryMap): ExoplanetsResult {
-        val offset = queryMap.offset ?: 0
-        val limit = queryMap.limit ?: Long.MAX_VALUE
+    private suspend fun getK2ExoplanetsArchive(offset: Int, limit: Int): ExoplanetsResult {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +
                 "${STELLAR_HOST_SPECTRAL_TYPE}," +
@@ -249,7 +240,7 @@ internal class SpaceSync(
                 "+from+k2pandc" +
                 "+order+by+${PLANET_NAME}+asc" +
                 "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
-        val queryMap = QueryMap().apply {
+        val queryMap = mutableMapOf<String, String>().apply {
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }

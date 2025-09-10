@@ -229,7 +229,7 @@ internal object DerivedData {
     /**
      * Calculates the star's rotational period in Earth days.
      */
-    private  fun calculateStellarHostRotationalPeriod(
+    private fun calculateStellarHostRotationalPeriod(
         stellarHostRadius: Double?,
         stellarHostRotationalVelocity: Double?,
     ): Double? {

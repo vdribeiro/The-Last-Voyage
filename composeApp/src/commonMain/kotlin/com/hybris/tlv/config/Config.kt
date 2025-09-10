@@ -1,6 +1,6 @@
 package com.hybris.tlv.config
 
-import com.hybris.tlv.http.CONFIGS_URL
+import com.hybris.tlv.http.HttpClientFactory.Companion.CONFIGS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.logger.Logger

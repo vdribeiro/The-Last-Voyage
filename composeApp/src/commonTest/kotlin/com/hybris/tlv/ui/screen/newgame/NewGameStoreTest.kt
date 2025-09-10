@@ -1,10 +1,7 @@
 package com.hybris.tlv.ui.screen.newgame
 
-import com.hybris.tlv.Core
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.database.createSqlDriver
-import com.hybris.tlv.flow.TestDispatchers
-import com.hybris.tlv.http.HttpClientFactory
+import com.hybris.tlv.mock.mock
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
@@ -18,13 +15,6 @@ import kotlinx.coroutines.runBlocking
 
 internal class NewGameStoreTest {
 
-    private val mock by lazy {
-        Core(
-            dispatcher = TestDispatchers(),
-            sqlDriver = createSqlDriver(inMemory = true),
-            httpClient = HttpClientFactory.buildHttpClient()
-        )
-    }
     private val store
         get() = NewGameStore(
             dispatcher = mock.dispatcher,

@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.sync
 
 import com.hybris.tlv.database.CreditSchema
-import com.hybris.tlv.http.CREDITS_URL
+import com.hybris.tlv.http.HttpClientFactory.Companion.CREDITS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.loadFromJson
