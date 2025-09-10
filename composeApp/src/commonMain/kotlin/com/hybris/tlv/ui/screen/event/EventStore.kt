@@ -9,19 +9,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
-import com.hybris.tlv.usecase.gamesession.model.GameSession
 import kotlinx.coroutines.Job
-
-internal sealed interface EventAction {
-    data class Select(val event: Event?): EventAction
-}
-
-internal data class EventState(
-    val gameSession: GameSession? = null,
-    val events: List<Event> = emptyList(),
-    val event: Event? = null,
-    val children: List<Event> = emptyList()
-)
 
 internal class EventStore(
     dispatcher: Dispatcher,

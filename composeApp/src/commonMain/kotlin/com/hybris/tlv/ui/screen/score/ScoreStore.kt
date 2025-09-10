@@ -6,15 +6,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
-import com.hybris.tlv.usecase.gamesession.model.GameSession
 import kotlinx.coroutines.Job
-
-internal sealed interface ScoreAction
-
-internal data class ScoreState(
-    val loading: Boolean = true,
-    val scores: List<GameSession> = emptyList(),
-)
 
 internal class ScoreStore(
     dispatcher: Dispatcher,

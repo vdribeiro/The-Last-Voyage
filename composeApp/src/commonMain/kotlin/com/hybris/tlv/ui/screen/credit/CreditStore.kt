@@ -5,14 +5,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.credit.CreditUseCases
-import com.hybris.tlv.usecase.credit.model.Credit
 import kotlinx.coroutines.Job
-
-internal sealed interface CreditAction
-
-internal data class CreditState(
-    val credits: List<Credit> = emptyList(),
-)
 
 internal class CreditStore(
     dispatcher: Dispatcher,

@@ -10,16 +10,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
-internal sealed interface FeedbackAction {
-    data class SendFeedback(val message: String): FeedbackAction
-}
-
-internal data class FeedbackState(
-    val screen: Screen? = null,
-    val throwable: Throwable? = null,
-    val identifier: String? = null,
-)
-
 internal class FeedbackStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,

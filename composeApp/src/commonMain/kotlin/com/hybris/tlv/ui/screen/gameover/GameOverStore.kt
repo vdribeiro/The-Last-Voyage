@@ -8,23 +8,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
-import com.hybris.tlv.usecase.gamesession.model.GameSession
 import kotlinx.coroutines.Job
-
-internal sealed interface GameOverAction {
-    data object Continue: GameOverAction
-}
-
-internal data class GameOverState(
-    val currentContent: Content = Content.MESSAGE,
-    val gameSession: GameSession? = null,
-    val gameOverMessage: String? = null
-)
-
-internal enum class Content {
-    MESSAGE,
-    SCORE
-}
 
 internal class GameOverStore(
     dispatcher: Dispatcher,

@@ -5,14 +5,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
-import com.hybris.tlv.usecase.achievement.model.Achievement
 import kotlinx.coroutines.Job
-
-internal sealed interface AchievementAction
-
-internal data class AchievementState(
-    val achievements: List<Achievement> = emptyList()
-)
 
 internal class AchievementStore(
     dispatcher: Dispatcher,

@@ -9,14 +9,6 @@ import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 
-internal sealed interface SplashAction {
-    data object Start: SplashAction
-}
-
-internal data class SplashState(
-    val progress: Float = 0f,
-)
-
 internal class SplashStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,

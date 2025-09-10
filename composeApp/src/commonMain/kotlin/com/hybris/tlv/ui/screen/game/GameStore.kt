@@ -8,44 +8,11 @@ import com.hybris.tlv.ui.screen.feedback.FeedbackState
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
-import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
-import com.hybris.tlv.usecase.space.model.Planet
-import com.hybris.tlv.usecase.space.model.StellarHost
 import kotlinx.coroutines.Job
 import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
-
-internal sealed interface GameAction {
-    data object NextTutorial: GameAction
-    data class ChangeTab(val content: Content): GameAction
-    data class Travel(val stellarHost: StellarHost): GameAction
-    data class Settle(val planet: Planet): GameAction
-}
-
-internal data class GameState(
-    val loading: Boolean = true,
-    val tutorial: Tutorial = Tutorial.NO,
-    val gameSession: GameSession? = null,
-    val currentContent: Content = Content.SYSTEM,
-    val currentStellarHost: StellarHost? = null,
-    val nearStellarHosts: List<StellarHost> = emptyList(),
-)
-
-internal enum class Content {
-    SHIP,
-    SYSTEM,
-    TRAVEL,
-}
-
-internal enum class Tutorial {
-    NO,
-    YES,
-    SHIP,
-    TRAVEL,
-    SYSTEM,
-}
 
 internal class GameStore(
     dispatcher: Dispatcher,
