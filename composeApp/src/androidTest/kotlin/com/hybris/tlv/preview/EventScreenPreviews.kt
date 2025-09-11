@@ -3,9 +3,11 @@ package com.hybris.tlv.preview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.App
+import com.hybris.tlv.events
+import com.hybris.tlv.gameSession
+import com.hybris.tlv.translations
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.event.EventState
-import com.hybris.tlv.usecase.translation.model.domain.Translation
 
 @Preview
 @Composable
@@ -18,9 +20,18 @@ private fun EventNull() {
     App(navigation = navigation)
 }
 
-private val translations = listOf(
-    Translation(
-        key = "key",
-        value = "value"
-    ),
-)
+@Preview
+@Composable
+private fun EventRandom() {
+    val navigation = navigation(
+        screen = Screen.EVENT,
+        state = EventState(
+            gameSession = gameSession,
+            events = events,
+            event = events.first(),
+            children = events.shuffled().take(n = 3)
+        )
+    )
+    setTranslations(translations = translations)
+    App(navigation = navigation)
+}
