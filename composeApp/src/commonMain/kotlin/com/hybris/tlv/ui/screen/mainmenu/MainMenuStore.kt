@@ -7,8 +7,6 @@ import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.learning.LearningUseCases
-import com.hybris.tlv.usecase.learning.model.Learning
-import com.hybris.tlv.usecase.learning.model.LearningType
 import kotlinx.coroutines.Job
 
 internal class MainMenuStore(
