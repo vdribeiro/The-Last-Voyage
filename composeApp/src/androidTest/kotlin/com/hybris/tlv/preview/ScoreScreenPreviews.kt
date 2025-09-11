@@ -3,7 +3,6 @@ package com.hybris.tlv.preview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.App
-import com.hybris.tlv.gameSession
 import com.hybris.tlv.gameSessionFinished
 import com.hybris.tlv.translations
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
@@ -27,7 +26,7 @@ private fun ScoreLoading() {
         screen = Screen.SCORE,
         state = ScoreState(
             loading = true,
-            gameSessions = listOf(gameSession, gameSessionFinished)
+            gameSessions = listOf(gameSessionFinished)
         )
     )
     setTranslations(translations = translations)
@@ -41,7 +40,7 @@ private fun ScoreList() {
         screen = Screen.SCORE,
         state = ScoreState(
             loading = false,
-            gameSessions = listOf(gameSession, gameSessionFinished)
+            gameSessions = listOf(gameSessionFinished)
         )
     )
     setTranslations(translations = translations)

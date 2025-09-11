@@ -469,11 +469,11 @@ internal val gameSession: GameSession by lazy {
 
 internal val gameSessionFinished: GameSession by lazy {
     GameSession(
-        id = "1",
+        id = "2",
         utc = now(),
-        currentStellarHostId = stellarHosts.first().id,
-        visitedStellarHosts = emptySet(),
-        launchedEvents = emptySet(),
+        currentStellarHostId = stellarHosts.random().id,
+        visitedStellarHosts = stellarHosts.shuffled().take(n = 2).map { it.id }.toSet(),
+        launchedEvents = events.shuffled().take(n = 2).map { it.id }.toSet(),
         settledPlanetId = "earth",
         finalHabitability = 90.0,
         score = 9000.0,
@@ -614,6 +614,14 @@ internal val translations: List<Translation> by lazy {
         Translation(
             key = "main_menu_screen__habitability",
             value = "Habitability Formula"
+        ),
+        Translation(
+            key = "stellar_explorer_screen__host_list",
+            value = "Stellar Hosts"
+        ),
+        Translation(
+            key = "stellar_explorer_screen__planet_list",
+            value = "Planets"
         ),
         Translation(
             languageIso = "en",
