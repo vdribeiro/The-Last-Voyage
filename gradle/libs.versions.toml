@@ -17,6 +17,7 @@ android-targetSdk = "35"
 android-compileSdk = "35"
 android-startup = "1.2.0"
 androidx-exoplayer = "1.8.0"
+android-test = "1.9.1"
 javafx = "21.0.2"
 logging = "2.0.17"
 
@@ -54,6 +55,8 @@ sqldelight-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "s
 compose-backhandler = { group = "org.jetbrains.compose.ui", name = "ui-backhandler", version.ref = "compose-backhandler" }
 androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "android-startup" }
 androidx-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "androidx-exoplayer" }
+androidx-test-junit = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "android-test" }
+androidx-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "android-test" }
 logging = { group = "org.slf4j", name = "slf4j-simple", version.ref = "logging" }
 javafx-base = { group = "org.openjfx", name = "javafx-base", version.ref = "javafx" }
 javafx-graphics = { group = "org.openjfx", name = "javafx-graphics", version.ref = "javafx" }
