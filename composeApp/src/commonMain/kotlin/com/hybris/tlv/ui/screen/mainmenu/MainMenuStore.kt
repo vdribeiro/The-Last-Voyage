@@ -11,7 +11,7 @@ import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
 import kotlinx.coroutines.Job
 
-private class MainMenuStore(
+internal class MainMenuStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: MainMenuState,
@@ -87,19 +87,3 @@ private class MainMenuStore(
         }
     }
 }
-
-internal fun createMainMenuStore(
-    dispatcher: Dispatcher,
-    navigation: NavigationManager,
-    initialState: MainMenuState,
-    config: ConfigManager,
-    gameSessionUseCases: GameSessionUseCases,
-    learningUseCases: LearningUseCases
-): Store<MainMenuAction, MainMenuState> = MainMenuStore(
-    dispatcher = dispatcher,
-    navigation = navigation,
-    initialState = initialState,
-    config = config,
-    gameSessionUseCases = gameSessionUseCases,
-    learningUseCases = learningUseCases
-)

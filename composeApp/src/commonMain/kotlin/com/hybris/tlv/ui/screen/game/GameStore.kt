@@ -13,7 +13,7 @@ import com.hybris.tlv.usecase.space.formula.Habitability
 import kotlinx.coroutines.Job
 import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
-private class GameStore(
+internal class GameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: GameState,
@@ -158,19 +158,3 @@ private class GameStore(
         private const val TAG = "GameStore"
     }
 }
-
-internal fun createGameStore(
-    dispatcher: Dispatcher,
-    navigation: NavigationManager,
-    initialState: GameState,
-    shipUseCases: ShipUseCases,
-    spaceUseCases: SpaceUseCases,
-    gameSessionUseCases: GameSessionUseCases
-) : Store<GameAction, GameState> = GameStore(
-    dispatcher = dispatcher,
-    navigation = navigation,
-    initialState = initialState,
-    shipUseCases = shipUseCases,
-    spaceUseCases = spaceUseCases,
-    gameSessionUseCases = gameSessionUseCases
-)

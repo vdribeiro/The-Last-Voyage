@@ -34,5 +34,5 @@ internal interface NavigationManager {
     fun navigate(screen: Screen, state: Any? = null)
 
     @Composable
-    fun Screen(screen: Screen, state: Any?)
+    fun Screen(screen: Screen, state: Any? = null)
 }

@@ -12,9 +12,7 @@ import kotlinx.coroutines.runBlocking
 
 internal class FeedbackStoreTest {
 
-    private val store: Store<FeedbackAction, FeedbackState> by lazy {
-        storeFactory.createFeedbackStore()
-    }
+    private val store: Store<FeedbackAction, FeedbackState> get() = storeFactory.createFeedbackStore()
 
     @BeforeTest
     fun setup() = runBlocking {

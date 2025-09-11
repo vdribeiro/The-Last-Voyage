@@ -9,7 +9,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import kotlinx.coroutines.Job
 
-private class GameOverStore(
+internal class GameOverStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: GameOverState,
@@ -62,15 +62,3 @@ private class GameOverStore(
         private const val TAG = "GameOverStore"
     }
 }
-
-internal fun createGameOverStore(
-    dispatcher: Dispatcher,
-    navigation: NavigationManager,
-    initialState: GameOverState,
-    gameSessionUseCases: GameSessionUseCases
-): Store<GameOverAction, GameOverState> = GameOverStore(
-    dispatcher = dispatcher,
-    navigation = navigation,
-    initialState = initialState,
-    gameSessionUseCases = gameSessionUseCases
-)

@@ -10,7 +10,7 @@ import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import kotlinx.coroutines.Job
 
-private class EventStore(
+internal class EventStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: EventState,
@@ -98,17 +98,3 @@ private class EventStore(
         private const val TAG = "EventStore"
     }
 }
-
-internal fun createEventStore(
-    dispatcher: Dispatcher,
-    navigation: NavigationManager,
-    initialState: EventState,
-    eventUseCases: EventUseCases,
-    gameSessionUseCases: GameSessionUseCases
-): Store<EventAction, EventState> = EventStore(
-    dispatcher = dispatcher,
-    navigation = navigation,
-    initialState = initialState,
-    eventUseCases = eventUseCases,
-    gameSessionUseCases = gameSessionUseCases
-)

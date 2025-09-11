@@ -8,7 +8,7 @@ import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 
-private class FeedbackStore(
+internal class FeedbackStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: FeedbackState,
@@ -52,13 +52,3 @@ private class FeedbackStore(
         navigate(screen = Screen.MAIN_MENU)
     }
 }
-
-internal fun createFeedbackStore(
-    dispatcher: Dispatcher,
-    navigation: NavigationManager,
-    initialState: FeedbackState,
-): Store<FeedbackAction, FeedbackState> = FeedbackStore(
-    dispatcher = dispatcher,
-    navigation = navigation,
-    initialState = initialState
-)

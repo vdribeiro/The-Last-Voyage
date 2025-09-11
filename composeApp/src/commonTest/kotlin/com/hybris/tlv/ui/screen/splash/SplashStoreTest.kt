@@ -13,9 +13,7 @@ import kotlinx.coroutines.runBlocking
 
 internal class SplashStoreTest {
 
-    private val store: Store<SplashAction, SplashState> by lazy {
-        storeFactory.createSplashStore()
-    }
+    private val store: Store<SplashAction, SplashState> get() = storeFactory.createSplashStore()
 
     @BeforeTest
     fun setup() = runBlocking {
@@ -25,7 +23,7 @@ internal class SplashStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        val splashStore = store.apply { setup(state = SplashState()) }
+        val splashStore = store
         delay(timeMillis = 100L)
         assertEquals(expected = 1f, actual = splashStore.stateFlow.value.progress)
     }
@@ -33,7 +31,7 @@ internal class SplashStoreTest {
     @Test
     fun `send action start`() = runBlocking {
         assertEquals(expected = NavigationManager.Screen.SPLASH, actual = mock.navigation.stateFlow.value.screen)
-        val gameStore = store.apply { setup(state = SplashState()) }
+        val gameStore = store
         gameStore.send(action = SplashAction.Start)
         assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
     }

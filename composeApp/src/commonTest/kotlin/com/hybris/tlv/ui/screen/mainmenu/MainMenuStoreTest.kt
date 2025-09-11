@@ -16,9 +16,7 @@ import kotlinx.coroutines.runBlocking
 
 internal class MainMenuStoreTest {
 
-    private val store: Store<MainMenuAction, MainMenuState> by lazy {
-        storeFactory.createMainMenuStore()
-    }
+    private val store: Store<MainMenuAction, MainMenuState> get() = storeFactory.createMainMenuStore()
 
     @BeforeTest
     fun setup() = runBlocking {
@@ -29,20 +27,20 @@ internal class MainMenuStoreTest {
     @Test
     fun `init`() = runBlocking {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        val mainMenuStore = store.apply { setup(state = MainMenuState()) }
+        val mainMenuStore = store
         assertTrue(actual = mainMenuStore.stateFlow.value.ongoingGameSession == true)
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
     }
 
     @Test
     fun `init without game session`() = runBlocking {
-        val mainMenuStore = store.apply { setup(state = MainMenuState()) }
+        val mainMenuStore = store
         assertFalse(actual = mainMenuStore.stateFlow.value.ongoingGameSession == true)
     }
 
     @Test
     fun `send action change content`() = runBlocking {
-        val mainMenuStore = store.apply { setup(state = MainMenuState()) }
+        val mainMenuStore = store
         assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
         mock.navigation.back()

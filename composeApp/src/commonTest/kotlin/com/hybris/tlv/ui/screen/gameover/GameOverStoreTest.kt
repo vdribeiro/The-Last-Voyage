@@ -3,7 +3,9 @@ package com.hybris.tlv.ui.screen.gameover
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.mock
+import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.store.Store
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -13,14 +15,7 @@ import kotlinx.coroutines.runBlocking
 
 internal class GameOverStoreTest {
 
-    private val store by lazy {
-        GameOverStore(
-            dispatcher = mock.dispatcher,
-            navigation = mock.navigation,
-            initialState = GameOverState(),
-            gameSessionUseCases = mock.useCases.gameSession
-        )
-    }
+    private val store: Store<GameOverAction, GameOverState> get() = storeFactory.createGameOverStore()
 
     @BeforeTest
     fun setup() = runBlocking {
@@ -31,7 +26,7 @@ internal class GameOverStoreTest {
     @Test
     fun `init`() = runBlocking {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        val gameOverStore = store.apply { setup(state = GameOverState()) }
+        val gameOverStore = store
         assertNotNull(actual = gameOverStore.stateFlow.value.gameSession)
         assertNotNull(actual = gameOverStore.stateFlow.value.gameOver)
         assertEquals(expected = Content.MESSAGE, actual = gameOverStore.stateFlow.value.currentContent)
@@ -40,7 +35,7 @@ internal class GameOverStoreTest {
     @Test
     fun `init without game session`() = runBlocking {
         assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mock.navigation.stateFlow.value.screen)
-        val gameOverStore = store.apply { setup(state = GameOverState()) }
+        val gameOverStore = store
         assertNull(actual = gameOverStore.stateFlow.value.gameSession)
         assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
     }
@@ -48,7 +43,7 @@ internal class GameOverStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        store.setup(state = GameOverState())
+        store
         assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mock.navigation.stateFlow.value.screen)
         mock.navigation.back()
         assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mock.navigation.stateFlow.value.screen)
@@ -58,7 +53,7 @@ internal class GameOverStoreTest {
     fun `send action continue`() = runBlocking {
         assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mock.navigation.stateFlow.value.screen)
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        val gameOverStore = store.apply { setup(state = GameOverState()) }
+        val gameOverStore = store
         assertEquals(expected = Content.MESSAGE, actual = gameOverStore.stateFlow.value.currentContent)
         gameOverStore.send(action = GameOverAction.Continue)
         assertEquals(expected = Content.SCORE, actual = gameOverStore.stateFlow.value.currentContent)
@@ -68,7 +63,7 @@ internal class GameOverStoreTest {
 
     @Test
     fun `send action continue without game session`() = runBlocking {
-        val gameOverStore = store.apply { setup(state = GameOverState()) }
+        val gameOverStore = store
         gameOverStore.send(action = GameOverAction.Continue)
         assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mock.navigation.stateFlow.value.screen)
     }

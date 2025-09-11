@@ -7,11 +7,7 @@ import com.hybris.tlv.flow.launch
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.navigation.NavigationManager.State
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
-import com.hybris.tlv.ui.screen.achievement.AchievementState
-import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.credit.CreditScreen
-import com.hybris.tlv.ui.screen.credit.CreditState
-import com.hybris.tlv.ui.screen.credit.CreditStore
 import com.hybris.tlv.ui.screen.event.EventScreen
 import com.hybris.tlv.ui.screen.feedback.FeedbackScreen
 import com.hybris.tlv.ui.screen.game.GameScreen
@@ -19,12 +15,8 @@ import com.hybris.tlv.ui.screen.gameover.GameOverScreen
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuScreen
 import com.hybris.tlv.ui.screen.newgame.NewGameScreen
 import com.hybris.tlv.ui.screen.score.ScoreScreen
-import com.hybris.tlv.ui.screen.score.ScoreState
-import com.hybris.tlv.ui.screen.score.ScoreStore
 import com.hybris.tlv.ui.screen.splash.SplashScreen
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerScreen
-import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
-import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
 import com.hybris.tlv.ui.store.StoreFactory
 import com.hybris.tlv.usecase.UseCases
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,99 +48,18 @@ internal class Navigation(
     override fun Screen(screen: Screen, state: Any?) {
         with(receiver = config.configs) {
             when (screen) {
-                Screen.SPLASH -> Splash(state = state)
-                Screen.MAIN_MENU -> MainMenu(state = state)
-                Screen.FEEDBACK -> Feedback(state = state)
-                Screen.NEW_GAME -> NewGame(state = state)
-                Screen.GAME -> Game(state = state)
-                Screen.EVENT -> Event(state = state)
-                Screen.GAME_OVER -> GameOver(state = state)
-                Screen.STELLAR_EXPLORER -> StellarExplorer(state = state)
-                Screen.SCORE -> Score(state = state)
-                Screen.ACHIEVEMENT -> Achievement(state = state)
-                Screen.CREDIT -> Credit(state = state)
+                Screen.SPLASH -> SplashScreen(store = storeFactory.createSplashStore(state = state))
+                Screen.MAIN_MENU -> MainMenuScreen(store = storeFactory.createMainMenuStore(state = state))
+                Screen.FEEDBACK -> if (featureFeedback) FeedbackScreen(store = storeFactory.createFeedbackStore(state = state)) else Screen(screen = Screen.MAIN_MENU)
+                Screen.NEW_GAME -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(state = state)) else Screen(screen = Screen.GAME)
+                Screen.GAME -> if (featureGame) GameScreen(store = storeFactory.createGameStore(state = state)) else Screen(screen = Screen.GAME_OVER)
+                Screen.EVENT -> if (featureEvents) EventScreen(store = storeFactory.createEventStore(state = state)) else Screen(screen = Screen.GAME)
+                Screen.GAME_OVER -> if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore(state = state)) else Screen(screen = Screen.MAIN_MENU)
+                Screen.STELLAR_EXPLORER -> if (featureStellarExplorer) StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(state = state)) else Screen(screen = Screen.MAIN_MENU)
+                Screen.SCORE -> if (featureScores) ScoreScreen(store = storeFactory.createScoreStore(state = state)) else Screen(screen = Screen.MAIN_MENU)
+                Screen.ACHIEVEMENT -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore(state = state)) else Screen(screen = Screen.MAIN_MENU)
+                Screen.CREDIT -> CreditScreen(store = storeFactory.createCreditStore(state = state))
             }
         }
     }
-
-    @Composable
-    private fun Splash(state: Any? = null) = SplashScreen(
-        store = storeFactory.createSplashStore(state = state)
-    )
-
-    @Composable
-    private fun MainMenu(state: Any? = null) = MainMenuScreen(
-        store = storeFactory.createMainMenuStore(state = state)
-    )
-
-    @Composable
-    private fun Feedback(state: Any? = null) = with(receiver = config.configs) {
-        if (featureFeedback) FeedbackScreen(store = storeFactory.createFeedbackStore(state = state)) else MainMenu()
-    }
-
-    @Composable
-    private fun NewGame(state: Any? = null) = with(receiver = config.configs) {
-        if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(state = state)) else Game()
-    }
-
-    @Composable
-    private fun Game(state: Any? = null) = with(receiver = config.configs) {
-        if (featureGame) GameScreen(store = storeFactory.createGameStore(state = state)) else GameOver()
-    }
-
-    @Composable
-    private fun Event(state: Any? = null) = with(receiver = config.configs) {
-        if (featureEvents) EventScreen(store = storeFactory.createEventStore(state = state)) else Game()
-    }
-
-    @Composable
-    private fun GameOver(state: Any? = null) = with(receiver = config.configs) {
-        if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore(state = state)) else MainMenu()
-    }
-
-    @Composable
-    private fun StellarExplorer(state: Any? = null) = with(receiver = config.configs) {
-        if (featureStellarExplorer) StellarExplorerScreen(
-            store = StellarExplorerStore(
-                dispatcher = dispatcher,
-                navigation = this@Navigation,
-                initialState = state as? StellarExplorerState ?: StellarExplorerState(),
-                spaceUseCases = useCases.space,
-            )
-        ) else MainMenu()
-    }
-
-    @Composable
-    private fun Score(state: Any? = null) = with(receiver = config.configs) {
-        if (featureScores) ScoreScreen(
-            store = ScoreStore(
-                dispatcher = dispatcher,
-                navigation = this@Navigation,
-                initialState = state as? ScoreState ?: ScoreState(),
-                gameSessionUseCases = useCases.gameSession
-            )
-        ) else MainMenu()
-    }
-
-    @Composable
-    private fun Achievement(state: Any? = null) = with(receiver = config.configs) {
-        if (featureAchievements) AchievementScreen(
-            store = AchievementStore(
-                dispatcher = dispatcher,
-                navigation = this@Navigation,
-                initialState = state as? AchievementState ?: AchievementState(),
-                achievementUseCases = useCases.achievement
-            )
-        ) else MainMenu()
-    }
-
-    @Composable
-    private fun Credit(state: Any? = null) = CreditScreen(
-        store = CreditStore(
-            dispatcher = dispatcher,
-            navigation = this@Navigation,
-            initialState = state as? CreditState ?: CreditState(),
-            creditUseCases = useCases.credit
-        )
-    )
 }
