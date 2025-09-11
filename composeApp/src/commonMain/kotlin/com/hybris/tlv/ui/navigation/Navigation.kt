@@ -13,19 +13,11 @@ import com.hybris.tlv.ui.screen.credit.CreditScreen
 import com.hybris.tlv.ui.screen.credit.CreditState
 import com.hybris.tlv.ui.screen.credit.CreditStore
 import com.hybris.tlv.ui.screen.event.EventScreen
-import com.hybris.tlv.ui.screen.event.EventState
-import com.hybris.tlv.ui.screen.event.EventStore
 import com.hybris.tlv.ui.screen.feedback.FeedbackScreen
 import com.hybris.tlv.ui.screen.game.GameScreen
-import com.hybris.tlv.ui.screen.game.GameState
-import com.hybris.tlv.ui.screen.game.GameStore
 import com.hybris.tlv.ui.screen.gameover.GameOverScreen
-import com.hybris.tlv.ui.screen.gameover.GameOverState
-import com.hybris.tlv.ui.screen.gameover.GameOverStore
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuScreen
 import com.hybris.tlv.ui.screen.newgame.NewGameScreen
-import com.hybris.tlv.ui.screen.newgame.NewGameState
-import com.hybris.tlv.ui.screen.newgame.NewGameStore
 import com.hybris.tlv.ui.screen.score.ScoreScreen
 import com.hybris.tlv.ui.screen.score.ScoreState
 import com.hybris.tlv.ui.screen.score.ScoreStore
@@ -91,61 +83,27 @@ internal class Navigation(
 
     @Composable
     private fun Feedback(state: Any? = null) = with(receiver = config.configs) {
-        if (featureFeedback) FeedbackScreen(
-            store = storeFactory.createFeedbackStore(state = state)
-        ) else MainMenu()
+        if (featureFeedback) FeedbackScreen(store = storeFactory.createFeedbackStore(state = state)) else MainMenu()
     }
 
     @Composable
     private fun NewGame(state: Any? = null) = with(receiver = config.configs) {
-        if (featureNewGame) NewGameScreen(
-            store = NewGameStore(
-                dispatcher = dispatcher,
-                navigation = this@Navigation,
-                initialState = state as? NewGameState ?: NewGameState(),
-                catastropheUseCases = useCases.catastrophe,
-                gameSessionUseCases = useCases.gameSession
-            )
-        ) else Game()
+        if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(state = state)) else Game()
     }
 
     @Composable
     private fun Game(state: Any? = null) = with(receiver = config.configs) {
-        if (featureGame) GameScreen(
-            store = GameStore(
-                dispatcher = dispatcher,
-                navigation = this@Navigation,
-                initialState = state as? GameState ?: GameState(),
-                shipUseCases = useCases.ship,
-                spaceUseCases = useCases.space,
-                gameSessionUseCases = useCases.gameSession
-            )
-        ) else GameOver()
+        if (featureGame) GameScreen(store = storeFactory.createGameStore(state = state)) else GameOver()
     }
 
     @Composable
     private fun Event(state: Any? = null) = with(receiver = config.configs) {
-        if (featureEvents) EventScreen(
-            store = EventStore(
-                dispatcher = dispatcher,
-                navigation = this@Navigation,
-                initialState = state as? EventState ?: EventState(),
-                eventUseCases = useCases.event,
-                gameSessionUseCases = useCases.gameSession
-            )
-        ) else Game()
+        if (featureEvents) EventScreen(store = storeFactory.createEventStore(state = state)) else Game()
     }
 
     @Composable
     private fun GameOver(state: Any? = null) = with(receiver = config.configs) {
-        if (featureGameOver) GameOverScreen(
-            store = GameOverStore(
-                dispatcher = dispatcher,
-                navigation = this@Navigation,
-                initialState = state as? GameOverState ?: GameOverState(),
-                gameSessionUseCases = useCases.gameSession
-            )
-        ) else MainMenu()
+        if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore(state = state)) else MainMenu()
     }
 
     @Composable

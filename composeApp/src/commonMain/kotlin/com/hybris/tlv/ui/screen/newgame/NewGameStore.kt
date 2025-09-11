@@ -11,7 +11,7 @@ import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 import kotlinx.coroutines.Job
 
-internal class NewGameStore(
+private class NewGameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: NewGameState,
@@ -86,3 +86,17 @@ internal class NewGameStore(
         private const val TAG = "NewGameStore"
     }
 }
+
+internal fun createNewGameStore(
+    dispatcher: Dispatcher,
+    navigation: NavigationManager,
+    initialState: NewGameState,
+    catastropheUseCases: CatastropheUseCases,
+    gameSessionUseCases: GameSessionUseCases
+): Store<NewGameAction, NewGameState> = NewGameStore(
+    dispatcher = dispatcher,
+    navigation = navigation,
+    initialState = initialState,
+    catastropheUseCases = catastropheUseCases,
+    gameSessionUseCases = gameSessionUseCases
+)
