@@ -21,6 +21,7 @@ internal abstract class Store<Action, State>(
     private val navigation: NavigationManager,
     initialState: State
 ) {
+
     /**
      * The current state of the screen.
      */
@@ -36,7 +37,7 @@ internal abstract class Store<Action, State>(
     }
 
     /**
-     * Called when the Store is created.
+     * Initialize state.
      */
     abstract fun setup(state: State): Job
 
