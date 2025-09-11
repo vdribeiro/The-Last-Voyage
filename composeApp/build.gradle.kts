@@ -227,23 +227,12 @@ kover {
                         "*.generated*",
                         "database",
                         "${appId}.flow",
-                        "${appId}.http",
-                        "${appId}.storage",
-                        "${appId}.media",
-                        "${appId}.locale",
-                        "${appId}.preview",
-                        "${appId}.ui.theme",
-                        "${appId}.ui.component",
                     )
                     classes(
                         "*Debug*",
-                        "*Screen*",
-                        "*Content*",
-                        "${appId}.App*",
-                        "${appId}.Composable*",
+                        "*ComposableSingletons*",
                         "${appId}.KInitializer*",
                         "${appId}.Main*",
-                        "${appId}.App*",
                     )
                 }
             }
