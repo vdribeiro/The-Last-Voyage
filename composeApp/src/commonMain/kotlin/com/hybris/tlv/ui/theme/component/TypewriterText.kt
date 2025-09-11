@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import kotlinx.coroutines.delay
 
 @Composable
@@ -20,9 +21,10 @@ internal fun TypewriterText(
     modifier: Modifier = Modifier,
     text: String
 ) {
+    val inspection = LocalInspectionMode.current
     val words = remember(key1 = text) { text.split(' ') }
     var visibleWordsCount by remember { mutableStateOf(value = 0) }
-    var isRevealed by remember { mutableStateOf(value = false) }
+    var isRevealed by remember { mutableStateOf(value = inspection) }
     LaunchedEffect(key1 = text) {
         visibleWordsCount = 0
         isRevealed = false

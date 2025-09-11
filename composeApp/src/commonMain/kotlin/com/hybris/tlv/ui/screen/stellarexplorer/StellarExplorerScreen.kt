@@ -154,6 +154,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
             ControlPanel(
                 modifier = Modifier.statusBarsPadding(),
                 enabled = enabled,
+                search = storeState.search.orEmpty(),
                 onSearch = { store.send(action = StellarExplorerAction.Search(search = it)) },
                 viewName = viewName,
                 viewIcon = viewIcon,

@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import kotlinx.coroutines.delay
 
 /**
@@ -20,13 +21,17 @@ fun DebouncedLinearProgressIndicator(
     delayMillis: Long = 300L,
     progress: (() -> Float)? = null,
 ) {
-    var show by remember { mutableStateOf(value = false) }
+    val inspection = LocalInspectionMode.current
+    var show by remember { mutableStateOf(value = inspection) }
     LaunchedEffect(key1 = Unit) {
         delay(timeMillis = delayMillis)
         show = true
     }
-    if (show) when (progress) {
+    val callback = if (inspection && progress == null) {
+        { 0.5f }
+    } else progress
+    if (show) when (callback) {
         null -> LinearProgressIndicator(modifier = modifier)
-        else -> LinearProgressIndicator(modifier = modifier, progress = progress)
+        else -> LinearProgressIndicator(modifier = modifier, progress = callback)
     }
 }

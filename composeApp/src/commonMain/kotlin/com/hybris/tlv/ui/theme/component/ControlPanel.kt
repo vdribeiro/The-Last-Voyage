@@ -49,6 +49,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 internal fun ControlPanel(
     modifier: Modifier,
     enabled: Boolean,
+    search: String,
     onSearch: (String) -> Unit,
     viewName: String,
     viewIcon: ImageVector,
@@ -64,7 +65,7 @@ internal fun ControlPanel(
     selectedProperties: List<String>,
     onFiltersChange: (String) -> Unit
 ) {
-    var searchQuery by remember { mutableStateOf(value = "") }
+    var searchQuery by remember { mutableStateOf(value = search) }
 
     LaunchedEffect(key1 = Unit) {
         snapshotFlow { searchQuery }
