@@ -2,12 +2,12 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.App
+import com.hybris.tlv.translations
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.mainmenu.Content
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
-import com.hybris.tlv.usecase.translation.model.domain.Translation
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Preview
@@ -287,70 +287,3 @@ private fun MainMenuHabitability() {
     setTranslations(translations = translations)
     App(navigation = navigation)
 }
-
-private val translations = listOf(
-    Translation(
-        key = "website",
-        value = "Website"
-    ),
-    Translation(
-        key = "main_menu_screen__new_game",
-        value = "New Game"
-    ),
-    Translation(
-        key = "main_menu_screen__continue",
-        value = "Continue"
-    ),
-    Translation(
-        key = "main_menu_screen__learn",
-        value = "Learn"
-    ),
-    Translation(
-        key = "main_menu_screen__soon",
-        value = "Coming Soon..."
-    ),
-    Translation(
-        key = "main_menu_screen__scores",
-        value = "Scores"
-    ),
-    Translation(
-        key = "main_menu_screen__achievements",
-        value = "Achievements"
-    ),
-    Translation(
-        key = "main_menu_screen__credits",
-        value = "Credits"
-    ),
-    Translation(
-        key = "main_menu_screen__stellar_explorer",
-        value = "Stellar Explorer"
-    ),
-    Translation(
-        key = "main_menu_screen__host_definition",
-        value = "Star Definition"
-    ),
-    Translation(
-        key = "main_menu_screen__definition_example",
-        value = "Example"
-    ),
-    Translation(
-        key = "main_menu_screen__definition_properties",
-        value = "Properties"
-    ),
-    Translation(
-        key = "main_menu_screen__definition_types",
-        value = "Types"
-    ),
-    Translation(
-        key = "main_menu_screen__planet_definition",
-        value = "Planet Definition"
-    ),
-    Translation(
-        key = "main_menu_screen__mechanics",
-        value = "Tutorial"
-    ),
-    Translation(
-        key = "main_menu_screen__habitability",
-        value = "Habitability Formula"
-    ),
-)

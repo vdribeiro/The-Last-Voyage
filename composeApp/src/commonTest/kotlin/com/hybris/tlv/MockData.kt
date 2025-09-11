@@ -2,6 +2,7 @@ package com.hybris.tlv
 
 import com.hybris.tlv.config.Configs
 import com.hybris.tlv.locale.now
+import com.hybris.tlv.ui.screen.newgame.ShipState
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
@@ -435,10 +436,19 @@ internal val ship: Ship by lazy {
     )
 }
 
+internal val shipState: ShipState by lazy {
+    ShipState(
+        sensorRange = ShipState.Point(max = 10, min = 1, interval = 1, initialValue = 3),
+        materials = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
+        fuel = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
+        cryopods = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
+    )
+}
+
 internal val gameSessionPrototype: GameSessionPrototype by lazy {
     GameSessionPrototype(
         ship = shipPrototype,
-        formula = Formula(id = "1")
+        formula = formula
     )
 }
 
@@ -453,7 +463,7 @@ internal val gameSession: GameSession by lazy {
         finalHabitability = null,
         score = null,
         ship = ship,
-        formula = Formula(id = "1")
+        formula = formula
     )
 }
 
@@ -468,8 +478,12 @@ internal val gameSessionFinished: GameSession by lazy {
         finalHabitability = 90.0,
         score = 9000.0,
         ship = ship,
-        formula = Formula(id = "1")
+        formula = formula
     )
+}
+
+internal val formula: Formula by lazy {
+    Formula(id = "1")
 }
 
 internal val achievements: List<Achievement> by lazy {
@@ -538,6 +552,70 @@ internal val translations: List<Translation> by lazy {
             value = "The Last Voyage"
         ),
         Translation(
+            key = "website",
+            value = "Website"
+        ),
+        Translation(
+            key = "main_menu_screen__new_game",
+            value = "New Game"
+        ),
+        Translation(
+            key = "main_menu_screen__continue",
+            value = "Continue"
+        ),
+        Translation(
+            key = "main_menu_screen__learn",
+            value = "Learn"
+        ),
+        Translation(
+            key = "main_menu_screen__soon",
+            value = "Coming Soon..."
+        ),
+        Translation(
+            key = "main_menu_screen__scores",
+            value = "Scores"
+        ),
+        Translation(
+            key = "main_menu_screen__achievements",
+            value = "Achievements"
+        ),
+        Translation(
+            key = "main_menu_screen__credits",
+            value = "Credits"
+        ),
+        Translation(
+            key = "main_menu_screen__stellar_explorer",
+            value = "Stellar Explorer"
+        ),
+        Translation(
+            key = "main_menu_screen__host_definition",
+            value = "Star Definition"
+        ),
+        Translation(
+            key = "main_menu_screen__definition_example",
+            value = "Example"
+        ),
+        Translation(
+            key = "main_menu_screen__definition_properties",
+            value = "Properties"
+        ),
+        Translation(
+            key = "main_menu_screen__definition_types",
+            value = "Types"
+        ),
+        Translation(
+            key = "main_menu_screen__planet_definition",
+            value = "Planet Definition"
+        ),
+        Translation(
+            key = "main_menu_screen__mechanics",
+            value = "Tutorial"
+        ),
+        Translation(
+            key = "main_menu_screen__habitability",
+            value = "Habitability Formula"
+        ),
+        Translation(
             languageIso = "en",
             key = "catastrophe__asteroid_impact",
             value = "Asteroid Impact"
@@ -576,6 +654,18 @@ internal val translations: List<Translation> by lazy {
             languageIso = "en",
             key = "engine__liquid_fuel_rocket_description",
             value = "Uses liquid fuel and oxidizer."
+        ),
+        Translation(
+            key = "game_screen__travel",
+            value = "Travel"
+        ),
+        Translation(
+            key = "game_screen__system",
+            value = "System"
+        ),
+        Translation(
+            key = "game_screen__ship",
+            value = "Ship"
         ),
         Translation(
             languageIso = "en",
