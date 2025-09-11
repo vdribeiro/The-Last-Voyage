@@ -8,7 +8,6 @@ import platform.Foundation.NSUTF8StringEncoding
 import platform.Foundation.NSUserDomainMask
 import platform.Foundation.stringByAppendingPathComponent
 import platform.Foundation.stringWithContentsOfFile
-import platform.Foundation.toNSString
 import platform.Foundation.writeToFile
 
 private val appDataDir: NSString by lazy {
@@ -19,7 +18,7 @@ private val appDataDir: NSString by lazy {
 @OptIn(ExperimentalForeignApi::class)
 actual fun saveFile(fileName: String, content: String): Boolean = runCatching {
     val path = appDataDir.stringByAppendingPathComponent(str = fileName)
-    content.toNSString().writeToFile(path, atomically = true, encoding = NSUTF8StringEncoding, error = null)
+    (content as NSString).writeToFile(path, atomically = true, encoding = NSUTF8StringEncoding, error = null)
     true
 }.getOrDefault(defaultValue = false)
 
@@ -27,4 +26,4 @@ actual fun saveFile(fileName: String, content: String): Boolean = runCatching {
 actual fun loadFile(fileName: String): String? = runCatching {
     val path = appDataDir.stringByAppendingPathComponent(str = fileName)
     NSString.stringWithContentsOfFile(path, encoding = NSUTF8StringEncoding, error = null).orEmpty()
-}.getOrDefault(defaultValue = null)
+}.getOrNull()
