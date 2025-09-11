@@ -42,26 +42,6 @@ internal class TestEngines {
                 val path = request.url.toString()
                 val parameters = request.url.parameters.toString()
                 when {
-                    path.startsWith(prefix = EXOPLANET_ARCHIVE_URL) -> when {
-                        parameters.contains(other = "from stellarhosts") -> {
-                            respond(content = json.encodeToString(value = stellarHosts.map { it.toStellarHostJson() }))
-                        }
-
-                        parameters.contains(other = "from pscomppars") || parameters.contains(other = "from k2pandc") -> {
-                            val stellarHostsMap = stellarHosts.associateBy { it.id }
-                            val exoplanets = planets.mapNotNull {
-                                val stellarHost = stellarHostsMap[it.stellarHostId] ?: return@mapNotNull null
-                                it.toExoplanetJson(stellarHost = stellarHost)
-                            }
-                            respond(content = json.encodeToString(value = exoplanets))
-                        }
-
-                        else -> respondError(
-                            status = HttpStatusCode.BadRequest,
-                            content = "Resource query incorrect: ${request.url.encodedPath}"
-                        )
-                    }
-
                     path.startsWith(prefix = CONFIGS_URL) -> respond(content = json.encodeToString(value = configs))
                     path.startsWith(prefix = TRANSLATIONS_URL) -> respond(content = json.encodeToString(value = translations))
                     path.startsWith(prefix = LEARNINGS_URL) -> respond(content = json.encodeToString(value = learnings))
@@ -72,11 +52,21 @@ internal class TestEngines {
                     path.startsWith(prefix = EVENTS_URL) -> respond(content = json.encodeToString(value = events))
                     path.startsWith(prefix = ACHIEVEMENTS_URL) -> respond(content = json.encodeToString(value = achievements))
                     path.startsWith(prefix = CREDITS_URL) -> respond(content = json.encodeToString(value = credits))
+                    path.startsWith(prefix = EXOPLANET_ARCHIVE_URL) -> when {
+                        parameters.contains(other = "from stellarhosts") -> respond(content = json.encodeToString(value = stellarHosts.map { it.toStellarHostJson() }))
+                        parameters.contains(other = "from pscomppars") || parameters.contains(other = "from k2pandc") -> {
+                            val stellarHostsMap = stellarHosts.associateBy { it.id }
+                            val exoplanets = planets.mapNotNull {
+                                val stellarHost = stellarHostsMap[it.stellarHostId] ?: return@mapNotNull null
+                                it.toExoplanetJson(stellarHost = stellarHost)
+                            }
+                            respond(content = json.encodeToString(value = exoplanets))
+                        }
 
-                    else -> respondError(
-                        status = HttpStatusCode.NotFound,
-                        content = "Resource not found for path: ${request.url.encodedPath}"
-                    )
+                        else -> respondError(status = HttpStatusCode.BadRequest, content = "Resource query incorrect: ${request.url.encodedPath}")
+                    }
+
+                    else -> respondError(status = HttpStatusCode.NotFound, content = "Resource not found for path: ${request.url.encodedPath}")
                 }
             }
 

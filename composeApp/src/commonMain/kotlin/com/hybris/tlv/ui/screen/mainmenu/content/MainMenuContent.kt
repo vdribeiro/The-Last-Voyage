@@ -53,14 +53,14 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                     style = typography.headlineMedium,
                 )
             }
-        }
-        if (storeState.ongoingGameSession != false) {
-            item {
-                Text(
-                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Continue) },
-                    text = continueTranslation,
-                    style = typography.headlineMedium,
-                )
+            if (storeState.ongoingGameSession != false) {
+                item {
+                    Text(
+                        modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Continue) },
+                        text = continueTranslation,
+                        style = typography.headlineMedium,
+                    )
+                }
             }
         }
         if (storeState.featureLearn != false) {
