@@ -22,11 +22,11 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import com.hybris.tlv.usecase.translation.model.domain.Translation
 
-internal val configs by lazy {
+internal val configs: List<Configs> by lazy {
     listOf(Configs())
 }
 
-internal val translations by lazy {
+internal val translations: List<Translation> by lazy {
     listOf(
         Translation(
             languageIso = "en",
@@ -126,7 +126,7 @@ internal val translations by lazy {
     )
 }
 
-internal val learnings by lazy {
+internal val learnings: List<Learning> by lazy {
     listOf(
         Learning(
             id = "planet_type_unknown",
@@ -137,7 +137,7 @@ internal val learnings by lazy {
     )
 }
 
-internal val catastrophes by lazy {
+internal val catastrophes: List<Catastrophe> by lazy {
     listOf(
         Catastrophe(
             id = "catastrophe__asteroid_impact",
@@ -150,7 +150,7 @@ internal val catastrophes by lazy {
     )
 }
 
-internal val engines by lazy {
+internal val engines: List<Engine> by lazy {
     listOf(
         Engine(
             id = "engine__alcubierre_drive",
@@ -175,7 +175,7 @@ internal val engines by lazy {
     )
 }
 
-internal val stellarHosts by lazy {
+internal val stellarHosts: List<StellarHost> by lazy {
     listOf(
         StellarHost(
             id = "sol",
@@ -256,7 +256,7 @@ internal val stellarHosts by lazy {
     )
 }
 
-internal val planets by lazy {
+internal val planets: List<Planet> by lazy {
     listOf(
         Planet(
             id = "mercury",
@@ -465,14 +465,14 @@ internal val planets by lazy {
     )
 }
 
-internal val hostsWithPlanets by lazy {
+internal val hostsWithPlanets: List<StellarHost> by lazy {
     val planetsMap = planets.groupBy { it.stellarHostId }
     stellarHosts.apply {
         forEach { it.planets.addAll(elements = planetsMap[it.id].orEmpty()) }
     }.sortedWith(comparator = compareBy<StellarHost, Double?>(comparator = nullsLast()) { it.distance }.thenBy { it.id })
 }
 
-internal val events by lazy {
+internal val events: List<Event> by lazy {
     listOf(
         Event(
             id = "event__engine_misfire",
@@ -516,7 +516,7 @@ internal val events by lazy {
     )
 }
 
-internal val shipPrototype by lazy {
+internal val shipPrototype: ShipPrototype by lazy {
     ShipPrototype(
         assignedPoints = 10,
         sensorRange = 5,
@@ -526,7 +526,7 @@ internal val shipPrototype by lazy {
     )
 }
 
-internal val ship by lazy {
+internal val ship: Ship by lazy {
     Ship(
         id = "1",
         assignedPoints = 10,
@@ -539,14 +539,14 @@ internal val ship by lazy {
     )
 }
 
-internal val gameSessionPrototype by lazy {
+internal val gameSessionPrototype: GameSessionPrototype by lazy {
     GameSessionPrototype(
         ship = shipPrototype,
         formula = Formula(id = "1")
     )
 }
 
-internal val gameSession by lazy {
+internal val gameSession: GameSession by lazy {
     GameSession(
         id = "1",
         utc = now(),
@@ -561,7 +561,7 @@ internal val gameSession by lazy {
     )
 }
 
-internal val achievements by lazy {
+internal val achievements: List<Achievement> by lazy {
     listOf(
         Achievement(
             id = "earth",
@@ -575,7 +575,7 @@ internal val achievements by lazy {
     )
 }
 
-internal val credits by lazy {
+internal val credits: List<Credit> by lazy {
     listOf(
         Credit(
             id = "engsoneca",

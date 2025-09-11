@@ -9,7 +9,7 @@ import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 
-internal class SplashStore(
+private class SplashStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: SplashState,
@@ -48,3 +48,15 @@ internal class SplashStore(
         }
     }
 }
+
+internal fun createSplashStore(
+    dispatcher: Dispatcher,
+    navigation: NavigationManager,
+    initialState: SplashState,
+    syncUseCases: SyncUseCases,
+): Store<SplashAction, SplashState> = SplashStore(
+    dispatcher = dispatcher,
+    navigation = navigation,
+    initialState = initialState,
+    syncUseCases = syncUseCases
+)

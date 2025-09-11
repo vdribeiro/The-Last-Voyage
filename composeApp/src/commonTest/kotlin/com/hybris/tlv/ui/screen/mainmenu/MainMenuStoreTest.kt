@@ -3,7 +3,10 @@ package com.hybris.tlv.ui.screen.mainmenu
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.mock
+import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.store.StoreFactory
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -13,15 +16,8 @@ import kotlinx.coroutines.runBlocking
 
 internal class MainMenuStoreTest {
 
-    private val store by lazy {
-        MainMenuStore(
-            dispatcher = mock.dispatcher,
-            navigation = mock.navigation,
-            initialState = MainMenuState(),
-            config = mock.config,
-            learningUseCases = mock.useCases.learning,
-            gameSessionUseCases = mock.useCases.gameSession
-        )
+    private val store: Store<MainMenuAction, MainMenuState> by lazy {
+        storeFactory.createMainMenuStore()
     }
 
     @BeforeTest

@@ -2,7 +2,9 @@ package com.hybris.tlv.ui.screen.splash
 
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.mock
+import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.store.Store
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -11,13 +13,8 @@ import kotlinx.coroutines.runBlocking
 
 internal class SplashStoreTest {
 
-    private val store by lazy {
-        SplashStore(
-            dispatcher = mock.dispatcher,
-            navigation = mock.navigation,
-            initialState = SplashState(),
-            syncUseCases = mock.useCases.sync
-        )
+    private val store: Store<SplashAction, SplashState> by lazy {
+        storeFactory.createSplashStore()
     }
 
     @BeforeTest

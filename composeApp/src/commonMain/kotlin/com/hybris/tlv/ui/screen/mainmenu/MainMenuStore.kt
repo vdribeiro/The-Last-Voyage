@@ -4,14 +4,14 @@ import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
-import com.hybris.tlv.ui.screen.game.GameState
-import com.hybris.tlv.ui.screen.game.Tutorial
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.learning.LearningUseCases
+import com.hybris.tlv.usecase.learning.model.Learning
+import com.hybris.tlv.usecase.learning.model.LearningType
 import kotlinx.coroutines.Job
 
-internal class MainMenuStore(
+private class MainMenuStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     initialState: MainMenuState,
@@ -87,3 +87,19 @@ internal class MainMenuStore(
         }
     }
 }
+
+internal fun createMainMenuStore(
+    dispatcher: Dispatcher,
+    navigation: NavigationManager,
+    initialState: MainMenuState,
+    config: ConfigManager,
+    gameSessionUseCases: GameSessionUseCases,
+    learningUseCases: LearningUseCases
+): Store<MainMenuAction, MainMenuState> = MainMenuStore(
+    dispatcher = dispatcher,
+    navigation = navigation,
+    initialState = initialState,
+    config = config,
+    gameSessionUseCases = gameSessionUseCases,
+    learningUseCases = learningUseCases
+)
