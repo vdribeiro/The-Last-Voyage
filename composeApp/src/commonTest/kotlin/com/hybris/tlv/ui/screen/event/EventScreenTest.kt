@@ -42,7 +42,7 @@ internal class EventScreenTest {
         val store = storeFactory.createEventStore(
             stateBuilder = EventStateBuilder(
                 gameSession = gameSession,
-                events = emptyList()
+                eventChain = emptyList()
             )
         )
         setContent {
@@ -63,7 +63,7 @@ internal class EventScreenTest {
         val store = storeFactory.createEventStore(
             stateBuilder = EventStateBuilder(
                 gameSession = gameSession,
-                events = events
+                eventChain = events
             )
         )
         setContent {

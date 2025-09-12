@@ -36,7 +36,7 @@ internal class EventStore(
     )
 
     private var gameSession: GameSession? = null
-    private val events: MutableList<Event> = mutableListOf()
+    private val eventChain: MutableList<Event> = mutableListOf()
 
     init {
         setup(builder = stateBuilder)
@@ -52,23 +52,23 @@ internal class EventStore(
         }
 
         // Guarantee at least 1 event
-        val events = builder.events ?: eventUseCases.getRandomEvent(ids = gameSession.launchedEvents).ifEmpty {
+        val eventChain = builder.eventChain ?: eventUseCases.getRandomEvent(ids = gameSession.launchedEvents).ifEmpty {
             listOf(element = defaultEvent)
         }
 
         // There must be at least 1 event with no parentId, this is the parent event
-        val parentEvent = events.find { it.parentId == null }
+        val parentEvent = eventChain.find { it.parentId == null }
         if (parentEvent == null) {
             navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing parent event on setup()"))
             return@launch
         }
-        val childrenEvents = events.filter { it.parentId == parentEvent.id }.ifEmpty {
+        val childrenEvents = eventChain.filter { it.parentId == parentEvent.id }.ifEmpty {
             listOf(element = stopEvent)
         }
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = parentEvent)
 
         this@EventStore.gameSession = updatedGameSession
-        this@EventStore.events.addAll(elements = events)
+        this@EventStore.eventChain.addAll(elements = eventChain)
         updateState {
             it.copy(
                 ship = updatedGameSession.ship,
@@ -102,7 +102,7 @@ internal class EventStore(
         }
 
         // Continue event chain
-        val children = events.filter { it.parentId == action.event.id }
+        val children = eventChain.filter { it.parentId == action.event.id }
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = action.event)
 
         updateState {

@@ -10,7 +10,7 @@ internal sealed interface EventAction {
 
 internal data class EventStateBuilder(
     val gameSession: GameSession? = null,
-    val events: List<Event>? = null,
+    val eventChain: List<Event>? = null,
 )
 
 internal data class EventState(

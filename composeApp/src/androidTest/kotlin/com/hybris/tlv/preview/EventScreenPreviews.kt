@@ -7,7 +7,6 @@ import com.hybris.tlv.events
 import com.hybris.tlv.gameSession
 import com.hybris.tlv.translations
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
-import com.hybris.tlv.ui.screen.event.EventState
 import com.hybris.tlv.ui.screen.event.EventStateBuilder
 
 @Preview
@@ -28,7 +27,7 @@ private fun EventRandom() {
         screen = Screen.EVENT,
         stateBuilder = EventStateBuilder(
             gameSession = gameSession,
-            events = events,
+            eventChain = events,
         )
     )
     setTranslations(translations = translations)
