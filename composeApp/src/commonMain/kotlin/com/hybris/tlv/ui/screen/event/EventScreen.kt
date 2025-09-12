@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
@@ -19,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
@@ -31,14 +34,18 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun EventScreen(store: Store<EventAction, EventState>) {
     val storeState by store.stateFlow.collectAsState()
     val event = storeState.event
-    val children = storeState.children
+    val children = storeState.children.orEmpty()
     val ship = storeState.gameSession?.ship
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .testTag(tag = EVENT_SCREEN)
+            .fillMaxSize(),
         topBar = {
             StatusBar(
-                modifier = Modifier.statusBarsPadding(),
+                modifier = Modifier
+                    .testTag(tag = EVENT_SCREEN_STATUS_BAR)
+                    .statusBarsPadding(),
                 hull = ship?.integrity?.toString() ?: "0",
                 fuel = ship?.fuel?.toString() ?: "0",
                 materials = ship?.materials?.toString() ?: "0",
@@ -49,6 +56,7 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             Column(
                 modifier = Modifier
+                    .testTag(tag = EVENT_SCREEN_COLUMN)
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -56,6 +64,8 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
                 if (event != null) {
                     // Event
                     Text(
+                        modifier = Modifier
+                            .testTag(tag = EVENT_SCREEN_COLUMN_EVENT),
                         text = getTranslation(key = event.id),
                         style = typography.titleLarge,
                         fontWeight = FontWeight.Bold
@@ -63,27 +73,32 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
                     Spacer(modifier = Modifier.height(height = 16.dp))
                     TypewriterText(
                         modifier = Modifier
+                            .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_DESCRIPTION)
                             .weight(weight = 1f)
                             .fillMaxWidth(),
                         text = getTranslation(key = event.description) + if (event.outcome != null) "\n\n${event.outcome.getTranslation()}" else ""
                     )
 
                     // Event chain buttons
-                    Column(
-                        modifier = Modifier.padding(top = 16.dp),
+                    LazyColumn(
+                        modifier = Modifier
+                            .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS)
+                            .padding(top = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
                     ) {
-                        children.orEmpty().ifEmpty { listOf(null) }.forEach { child ->
+                        items(items = children, key = { it.id }) { child ->
                             Button(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier
+                                    .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS_ITEM)
+                                    .fillMaxWidth(),
                                 colors = ButtonDefaults.buttonColors(contentColor = Color.White),
                                 onClick = { store.send(action = EventAction.Select(event = child)) }
                             ) {
-                                Text(text = getTranslation(key = child?.id ?: "event__default_continue"))
+                                Text(text = getTranslation(key = child.id))
                             }
                         }
-                        Spacer(modifier = Modifier.height(height = 16.dp))
+                        item { Spacer(modifier = Modifier.height(height = 16.dp)) }
                     }
                 }
             }

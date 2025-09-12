@@ -240,8 +240,7 @@ kover {
                         "${appId}.flow",
                     )
                     classes(
-                        "*Debug*",
-                        "*ComposableSingletons*",
+                        "${appId}.Debug",
                         "${appId}.KInitializer*",
                         "${appId}.Main*",
                     )
