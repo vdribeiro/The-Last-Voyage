@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
@@ -47,10 +48,15 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
     val buttonTranslation = remember { getTranslation(key = "error_screen__button") }
     val thanksTranslation = remember { getTranslation(key = "error_screen__thanks") }
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    Scaffold(
+        modifier = Modifier
+            .testTag(tag = FEEDBACK_SCREEN)
+            .fillMaxSize()
+    ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             Column(
                 modifier = Modifier
+                    .testTag(tag = FEEDBACK_SCREEN_COLUMN)
                     .fillMaxSize()
                     .verticalScroll(state = rememberScrollState())
                     .padding(all = 16.dp),
@@ -58,17 +64,23 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
             ) {
                 // Icon and title
                 Icon(
-                    modifier = Modifier.size(size = 64.dp),
+                    modifier = Modifier
+                        .testTag(tag = FEEDBACK_SCREEN_ICON)
+                        .size(size = 64.dp),
                     imageVector = Icons.Outlined.BugReport,
                     contentDescription = "Error Icon",
                 )
                 Spacer(Modifier.height(height = 16.dp))
                 Text(
+                    modifier = Modifier
+                        .testTag(tag = FEEDBACK_SCREEN_TITLE),
                     text = titleTranslation,
                     style = typography.headlineSmall
                 )
                 Spacer(Modifier.height(height = 8.dp))
                 Text(
+                    modifier = Modifier
+                        .testTag(tag = FEEDBACK_SCREEN_DESCRIPTION),
                     text = descriptionTranslation,
                     style = typography.bodyMedium,
                     textAlign = TextAlign.Center,
@@ -78,6 +90,7 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
                 // Feedback input
                 OutlinedTextField(
                     modifier = Modifier
+                        .testTag(tag = FEEDBACK_SCREEN_INPUT)
                         .fillMaxWidth()
                         .height(height = 120.dp),
                     enabled = inputEnabled,
@@ -91,6 +104,8 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
 
                 // Send feedback button
                 Button(
+                    modifier = Modifier
+                        .testTag(tag = FEEDBACK_SCREEN_BUTTON),
                     onClick = {
                         store.send(action = FeedbackAction.SendFeedback(message = feedbackText))
                         inputEnabled = false
@@ -104,6 +119,8 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
                 if (!inputEnabled) {
                     Spacer(Modifier.height(height = 16.dp))
                     Text(
+                        modifier = Modifier
+                            .testTag(tag = FEEDBACK_SCREEN_THANKS),
                         text = thanksTranslation,
                         style = typography.headlineSmall
                     )
