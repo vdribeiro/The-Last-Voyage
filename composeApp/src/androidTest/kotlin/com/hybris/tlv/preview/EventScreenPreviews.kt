@@ -28,8 +28,8 @@ private fun EventRandom() {
         state = EventState(
             gameSession = gameSession,
             events = events,
-            event = events.first(),
-            children = events.shuffled().take(n = 3)
+            parentEvent = events.first(),
+            childrenEvents = events.shuffled().take(n = 3)
         )
     )
     setTranslations(translations = translations)

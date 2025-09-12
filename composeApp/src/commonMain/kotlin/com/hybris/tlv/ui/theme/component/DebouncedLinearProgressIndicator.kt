@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.theme.component
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

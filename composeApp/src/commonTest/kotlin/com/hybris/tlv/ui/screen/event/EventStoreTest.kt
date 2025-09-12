@@ -35,8 +35,8 @@ internal class EventStoreTest {
         val events = eventStore.stateFlow.value.events.orEmpty()
         assertTrue(actual = events.isNotEmpty())
         val event = events.find { it.parentId == null }
-        assertEquals(expected = event, actual = eventStore.stateFlow.value.event)
-        assertEquals(expected = events.filter { it.parentId == event?.id }, actual = eventStore.stateFlow.value.children)
+        assertEquals(expected = event, actual = eventStore.stateFlow.value.parentEvent)
+        assertEquals(expected = events.filter { it.parentId == event?.id }, actual = eventStore.stateFlow.value.childrenEvents)
     }
 
     @Test
@@ -72,7 +72,7 @@ internal class EventStoreTest {
         val eventStore = store
         val event = events.random()
         eventStore.send(action = EventAction.Select(event = event))
-        assertEquals(expected = event, actual = eventStore.stateFlow.value.event)
+        assertEquals(expected = event, actual = eventStore.stateFlow.value.parentEvent)
     }
 
     @Test

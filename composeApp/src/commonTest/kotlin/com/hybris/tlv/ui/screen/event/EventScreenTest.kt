@@ -64,8 +64,8 @@ internal class EventScreenTest {
             state = EventState(
                 gameSession = gameSession,
                 events = events,
-                event = events.first(),
-                children = events
+                parentEvent = events.first(),
+                childrenEvents = events
             )
         )
         setContent {
