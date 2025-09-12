@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
@@ -21,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.game.content.ShipContent
 import com.hybris.tlv.ui.screen.game.content.SystemContent
@@ -57,6 +59,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
 
     Scaffold(
         modifier = Modifier
+            .testTag(tag = GAME_SCREEN)
             .fillMaxSize()
             .debouncedClickable(
                 enabled = tutorial,
@@ -65,7 +68,9 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
-                modifier = Modifier.statusBarsPadding(),
+                modifier = Modifier
+                    .testTag(tag = GAME_SCREEN_STATUS_BAR)
+                    .statusBarsPadding(),
                 //hullEnabled = storeState.tutorial != Tutorial.NO,
                 //fuelEnabled = storeState.tutorial != Tutorial.NO,
                 //materialsEnabled = storeState.tutorial != Tutorial.NO,
@@ -80,18 +85,24 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
             // Navigation bar for travel, system and ship status
             NavigationBar {
                 NavigationBarItem(
+                    modifier = Modifier
+                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP),
                     icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
                     label = { Text(text = shipTranslation) },
                     selected = (storeState.currentContent == Content.SHIP || storeState.tutorial == Tutorial.SHIP),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 )
                 NavigationBarItem(
+                    modifier = Modifier
+                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM),
                     icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = systemTranslation) },
                     label = { Text(text = systemTranslation) },
                     selected = (storeState.currentContent == Content.SYSTEM || storeState.tutorial == Tutorial.SYSTEM),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SYSTEM)) },
                 )
                 NavigationBarItem(
+                    modifier = Modifier
+                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL),
                     icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
                     label = { Text(text = travelTranslation) },
                     selected = (storeState.currentContent == Content.TRAVEL || storeState.tutorial == Tutorial.TRAVEL),
@@ -102,7 +113,11 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (storeState.loading) {
-                null, true -> DebouncedLinearProgressIndicator()
+                null, true -> DebouncedLinearProgressIndicator(
+                    modifier = Modifier
+                        .testTag(tag = GAME_SCREEN_PROGRESS_INDICATOR)
+                        .fillMaxWidth()
+                )
                 false -> when (storeState.currentContent) {
                     null -> {}
                     Content.SHIP -> ShipContent(store = store)

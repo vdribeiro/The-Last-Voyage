@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.screen.mainmenu.content
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -42,7 +43,12 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         item { AppLogo() }
         item { Spacer(modifier = Modifier.height(height = 32.dp)) }
         if (storeState.loading != false) {
-            item { DebouncedLinearProgressIndicator() }
+            item {
+                DebouncedLinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
             return@LazyColumn
         }
         if (storeState.featureNewGame != false) {

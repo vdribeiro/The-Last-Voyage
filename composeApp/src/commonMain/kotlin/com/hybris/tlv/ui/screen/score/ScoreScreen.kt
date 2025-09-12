@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -49,7 +50,10 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                 )
                 Spacer(modifier = Modifier.height(height = 32.dp))
                 when {
-                    storeState.loading != false -> DebouncedLinearProgressIndicator()
+                    storeState.loading != false -> DebouncedLinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
                     else -> LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(all = 16.dp),

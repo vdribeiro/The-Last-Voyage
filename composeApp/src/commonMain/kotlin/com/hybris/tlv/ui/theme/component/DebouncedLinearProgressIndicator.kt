@@ -17,7 +17,7 @@ import kotlinx.coroutines.delay
  */
 @Composable
 fun DebouncedLinearProgressIndicator(
-    modifier: Modifier = Modifier.fillMaxWidth(),
+    modifier: Modifier = Modifier,
     delayMillis: Long = 300L,
     progress: (() -> Float)? = null,
 ) {

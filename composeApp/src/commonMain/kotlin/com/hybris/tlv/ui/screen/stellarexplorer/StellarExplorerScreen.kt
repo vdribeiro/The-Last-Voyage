@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
@@ -174,7 +175,10 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when {
-                storeState.loading != false -> DebouncedLinearProgressIndicator()
+                storeState.loading != false -> DebouncedLinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
                 else -> when (storeState.currentContent) {
                     null -> {}
                     Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostContent(store = store)

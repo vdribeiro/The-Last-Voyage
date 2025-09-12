@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
@@ -36,19 +37,28 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
     val messageTranslation = remember { getTranslation(key = "game_over_screen__score") }
     val scoreTranslation = remember { getTranslation(key = "game_over_screen__end") }
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    Scaffold(
+        modifier = Modifier
+            .testTag(tag = GAME_OVER_SCREEN)
+            .fillMaxSize()
+    ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             Column(
                 modifier = Modifier
+                    .testTag(tag = GAME_OVER_SCREEN_COLUMN)
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Column(
-                    modifier = Modifier.weight(weight = 1f),
+                    modifier = Modifier
+                        .testTag(tag = GAME_OVER_SCREEN_CONTENT)
+                        .weight(weight = 1f),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
+                        modifier = Modifier
+                            .testTag(tag = GAME_OVER_SCREEN_TITLE),
                         text = gameOverTranslation,
                         style = typography.titleLarge,
                         fontWeight = FontWeight.Bold
@@ -59,6 +69,7 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
                         // Game over message
                         Content.MESSAGE -> TypewriterText(
                             modifier = Modifier
+                                .testTag(tag = GAME_OVER_SCREEN_MESSAGE)
                                 .weight(weight = 1f)
                                 .fillMaxWidth(),
                             text = getTranslation(key = storeState.gameOver?.displayName.orEmpty())
@@ -66,6 +77,8 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
 
                         // Score
                         Content.SCORE -> if (gameSession != null && ship != null) Score(
+                            modifier = Modifier
+                                .testTag(tag = GAME_OVER_SCREEN_SCORE),
                             isExpanded = null,
                             score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
                             utc = gameSession.utc,
@@ -82,6 +95,7 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
                 // Continue button
                 Button(
                     modifier = Modifier
+                        .testTag(tag = GAME_OVER_SCREEN_BUTTON)
                         .fillMaxWidth()
                         .padding(vertical = 16.dp),
                     colors = ButtonDefaults.buttonColors(contentColor = Color.White),
