@@ -32,6 +32,6 @@ internal class FeedbackStoreTest {
     fun `send action send feedback`() = runBlocking {
         val feedbackStore = store
         feedbackStore.send(action = FeedbackAction.SendFeedback(message = "Feedback"))
-        // TODO - implement feedback on store
+        // TODO: implement feedback on store
     }
 }

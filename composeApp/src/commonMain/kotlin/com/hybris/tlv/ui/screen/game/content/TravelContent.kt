@@ -14,7 +14,7 @@ import com.hybris.tlv.ui.screen.game.GameAction
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.StellarHostCard
-import com.hybris.tlv.ui.theme.component.debouncedClickable
+import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
 
 @Composable

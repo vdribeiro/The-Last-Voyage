@@ -62,7 +62,7 @@ internal fun ShipContent(store: Store<GameAction, GameState>) {
             StatDisplay(
                 icon = Icons.Outlined.Speed,
                 label = speedTranslation,
-                value = "0.1c" // TODO - use engine speed - using 0.1c for now
+                value = "0.1c" // TODO: use engine speed - using 0.1c for now
             )
         }
         item {

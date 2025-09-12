@@ -19,7 +19,7 @@ import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.AppLogo
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
-import com.hybris.tlv.ui.theme.component.debouncedClickable
+import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 

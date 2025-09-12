@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.AchievementItem
@@ -24,6 +25,7 @@ internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             LazyColumn(
                 modifier = Modifier
+                    .testTag(tag = "list")
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,

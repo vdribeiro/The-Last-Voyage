@@ -20,15 +20,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.colorScheme
-import com.hybris.tlv.ui.theme.component.debouncedClickable
+import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -37,11 +39,20 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
     val storeState by store.stateFlow.collectAsState()
     val uriHandler = LocalUriHandler.current
+    val creatorsTranslation = remember { getTranslation(key = "credit_screen__creators") }
+    val sourcesTranslation = remember { getTranslation(key = "credit_screen__sources") }
+    val musicTranslation = remember { getTranslation(key = "credit_screen__music") }
+    val supportersTranslation = remember { getTranslation(key = "credit_screen__supporters") }
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag(tag = CREDIT_SCREEN)
+    ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             LazyColumn(
                 modifier = Modifier
+                    .testTag(tag = CREDIT_SCREEN_LIST)
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -54,7 +65,9 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                 if (creators.isNotEmpty()) {
                     item(key = CreditType.CREATOR) {
                         Text(
-                            text = getTranslation(key = "credit_screen__creators"),
+                            modifier = Modifier
+                                .testTag(tag = CREDIT_SCREEN_LIST_CREATOR),
+                            text = creatorsTranslation,
                             style = typography.titleLarge,
                             textAlign = TextAlign.Center,
                         )
@@ -62,7 +75,9 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     items(items = creators, key = { it.id }) { credit ->
                         Spacer(modifier = Modifier.height(height = 8.dp))
                         Text(
-                            modifier = Modifier.debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                            modifier = Modifier
+                                .testTag(tag = CREDIT_SCREEN_LIST_CREATOR_ITEM)
+                                .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                             text = credit.id,
                             style = typography.bodyLarge.copy(
                                 color = colorScheme.primary,
@@ -78,7 +93,9 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                 if (sources.isNotEmpty()) {
                     item(key = CreditType.SOURCE) {
                         Text(
-                            text = getTranslation(key = "credit_screen__sources"),
+                            modifier = Modifier
+                                .testTag(tag = CREDIT_SCREEN_LIST_SOURCE),
+                            text = sourcesTranslation,
                             style = typography.titleLarge,
                             textAlign = TextAlign.Center,
                         )
@@ -86,7 +103,9 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     items(items = sources, key = { it.id }) { credit ->
                         Spacer(modifier = Modifier.height(height = 8.dp))
                         Text(
-                            modifier = Modifier.debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                            modifier = Modifier
+                                .testTag(tag = CREDIT_SCREEN_LIST_SOURCE_ITEM)
+                                .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                             text = credit.id,
                             style = typography.bodyLarge.copy(
                                 color = colorScheme.primary,
@@ -102,7 +121,9 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                 if (musics.isNotEmpty()) {
                     item(key = CreditType.MUSIC) {
                         Text(
-                            text = getTranslation(key = "credit_screen__music"),
+                            modifier = Modifier
+                                .testTag(tag = CREDIT_SCREEN_LIST_MUSIC),
+                            text = musicTranslation,
                             style = typography.titleLarge,
                             textAlign = TextAlign.Center,
                         )
@@ -110,7 +131,9 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     items(items = musics, key = { it.id }) { credit ->
                         Spacer(modifier = Modifier.height(height = 8.dp))
                         Text(
-                            modifier = Modifier.debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                            modifier = Modifier
+                                .testTag(tag = CREDIT_SCREEN_LIST_MUSIC_ITEM)
+                                .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                             text = credit.id,
                             style = typography.bodyLarge.copy(
                                 color = colorScheme.primary,
@@ -126,7 +149,9 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                 if (supporters.isNotEmpty()) {
                     item(key = CreditType.SUPPORTER) {
                         Text(
-                            text = getTranslation(key = "credit_screen__supporters"),
+                            modifier = Modifier
+                                .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER),
+                            text = supportersTranslation,
                             style = typography.titleLarge,
                             textAlign = TextAlign.Center,
                         )
@@ -141,6 +166,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                                 Card(elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
                                     Text(
                                         modifier = Modifier
+                                            .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER_ITEM)
                                             .fillMaxWidth()
                                             .padding(all = 16.dp)
                                             .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },

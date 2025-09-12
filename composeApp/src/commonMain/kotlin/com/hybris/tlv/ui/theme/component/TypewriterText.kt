@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
+import com.hybris.tlv.ui.theme.debouncedClickable
 import kotlinx.coroutines.delay
 
 @Composable

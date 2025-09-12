@@ -72,7 +72,7 @@ internal class GameStore(
             visited = visited
         ).ifEmpty {
             // Nowhere to go, clear visited and recalculate
-            // TODO - achievement here!
+            // TODO: achievement here!
             visited = setOf(currentStellarHost.id)
             spaceUseCases.getNearestStars(
                 stellarHost = currentStellarHost,

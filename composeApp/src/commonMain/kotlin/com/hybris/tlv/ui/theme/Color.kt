@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.theme
 
-import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
 
@@ -79,12 +78,7 @@ internal val colorScheme = ColorScheme(
     surfaceDim = surfaceDim,
 )
 
-internal val selectionColors = TextSelectionColors(
-    handleColor = primary,
-    backgroundColor = primary.copy(alpha = 0.4f),
-)
-
 /**
  * Alpha used when a component is enabled or disabled.
  */
-internal fun alpha(enabled: Boolean): Float = if (enabled) 1f else 0.3f
+internal fun alpha(enabled: Boolean): Float = if (enabled) 1f else 0.4f
