@@ -20,7 +20,7 @@ internal fun App(navigation: NavigationManager) {
         val navigationState by navigation.stateFlow.collectAsState()
         navigation.Screen(
             screen = navigationState.screen,
-            state = navigationState.state
+            stateBuilder = navigationState.stateBuilder
         )
 
         if (!LocalInspectionMode.current) {

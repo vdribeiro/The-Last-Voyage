@@ -8,13 +8,14 @@ import com.hybris.tlv.gameSession
 import com.hybris.tlv.translations
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.event.EventState
+import com.hybris.tlv.ui.screen.event.EventStateBuilder
 
 @Preview
 @Composable
 private fun EventNull() {
     val navigation = navigation(
         screen = Screen.EVENT,
-        state = EventState()
+        stateBuilder = EventStateBuilder()
     )
     setTranslations(translations = translations)
     App(navigation = navigation)
@@ -25,11 +26,9 @@ private fun EventNull() {
 private fun EventRandom() {
     val navigation = navigation(
         screen = Screen.EVENT,
-        state = EventState(
+        stateBuilder = EventStateBuilder(
             gameSession = gameSession,
             events = events,
-            parentEvent = events.first(),
-            childrenEvents = events.shuffled().take(n = 3)
         )
     )
     setTranslations(translations = translations)

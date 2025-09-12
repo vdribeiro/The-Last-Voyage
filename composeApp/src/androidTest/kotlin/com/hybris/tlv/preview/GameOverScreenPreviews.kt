@@ -15,7 +15,7 @@ import com.hybris.tlv.usecase.gamesession.model.GameOver
 private fun GameOverNull() {
     val navigation = navigation(
         screen = Screen.GAME_OVER,
-        state = GameOverState()
+        stateBuilder = GameOverState()
     )
     setTranslations(translations = translations)
     App(navigation = navigation)
@@ -26,7 +26,7 @@ private fun GameOverNull() {
 private fun GameOverMessage() {
     val navigation = navigation(
         screen = Screen.GAME_OVER,
-        state = GameOverState(
+        stateBuilder = GameOverState(
             currentContent = Content.MESSAGE,
             gameSession = gameSessionFinished,
             gameOver = GameOver.GAME_OVER
@@ -41,7 +41,7 @@ private fun GameOverMessage() {
 private fun GameOverScore() {
     val navigation = navigation(
         screen = Screen.GAME_OVER,
-        state = GameOverState(
+        stateBuilder = GameOverState(
             currentContent = Content.SCORE,
             gameSession = gameSessionFinished,
             gameOver = GameOver.GAME_OVER

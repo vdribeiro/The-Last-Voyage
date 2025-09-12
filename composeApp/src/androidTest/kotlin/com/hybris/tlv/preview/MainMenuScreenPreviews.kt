@@ -15,7 +15,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 private fun MainMenuNull() {
     val navigation = navigation(
         screen = Screen.MAIN_MENU,
-        state = MainMenuState()
+        stateBuilder = MainMenuState()
     )
     setTranslations(translations = translations)
     App(navigation = navigation)
@@ -26,7 +26,7 @@ private fun MainMenuNull() {
 private fun MainMenuAll() {
     val navigation = navigation(
         screen = Screen.MAIN_MENU,
-        state = MainMenuState(
+        stateBuilder = MainMenuState(
             featureFeedback = true,
             featureSoon = true,
             featureLearn = true,
@@ -48,7 +48,7 @@ private fun MainMenuAll() {
 private fun MainMenuLoading() {
     val navigation = navigation(
         screen = Screen.MAIN_MENU,
-        state = MainMenuState(
+        stateBuilder = MainMenuState(
             featureFeedback = true,
             featureSoon = true,
             featureLearn = true,
@@ -70,7 +70,7 @@ private fun MainMenuLoading() {
 private fun MainMenuContinue() {
     val navigation = navigation(
         screen = Screen.MAIN_MENU,
-        state = MainMenuState(
+        stateBuilder = MainMenuState(
             featureFeedback = true,
             featureSoon = true,
             featureLearn = true,
@@ -92,7 +92,7 @@ private fun MainMenuContinue() {
 private fun MainMenuNoNewGame() {
     val navigation = navigation(
         screen = Screen.MAIN_MENU,
-        state = MainMenuState(
+        stateBuilder = MainMenuState(
             featureFeedback = true,
             featureSoon = true,
             featureLearn = true,
@@ -115,7 +115,7 @@ private fun MainMenuNoNewGame() {
 private fun MainMenuNoFeedbackAndSoon() {
     val navigation = navigation(
         screen = Screen.MAIN_MENU,
-        state = MainMenuState(
+        stateBuilder = MainMenuState(
             featureFeedback = false,
             featureSoon = false,
             featureLearn = true,
@@ -137,7 +137,7 @@ private fun MainMenuNoFeedbackAndSoon() {
 private fun MainMenuNoScoresAndAchievements() {
     val navigation = navigation(
         screen = Screen.MAIN_MENU,
-        state = MainMenuState(
+        stateBuilder = MainMenuState(
             featureFeedback = true,
             featureSoon = true,
             featureLearn = true,
@@ -159,7 +159,7 @@ private fun MainMenuNoScoresAndAchievements() {
 private fun MainMenuNoLearnAndStellarExplorer() {
     val navigation = navigation(
         screen = Screen.MAIN_MENU,
-        state = MainMenuState(
+        stateBuilder = MainMenuState(
             featureFeedback = true,
             featureSoon = true,
             featureLearn = false,
@@ -181,7 +181,7 @@ private fun MainMenuNoLearnAndStellarExplorer() {
 private fun MainMenuLearn() {
     val navigation = navigation(
         screen = Screen.MAIN_MENU,
-        state = MainMenuState(
+        stateBuilder = MainMenuState(
             loading = false,
             currentContent = Content.LEARN_MENU,
         )
@@ -195,7 +195,7 @@ private fun MainMenuLearn() {
 private fun MainMenuHostDefinition() {
     val navigation = navigation(
         screen = Screen.MAIN_MENU,
-        state = MainMenuState(
+        stateBuilder = MainMenuState(
             loading = false,
             currentContent = Content.HOST_DEFINITION,
             learningsMap = listOf(
@@ -229,7 +229,7 @@ private fun MainMenuHostDefinition() {
 private fun MainMenuPlanetDefinition() {
     val navigation = navigation(
         screen = Screen.MAIN_MENU,
-        state = MainMenuState(
+        stateBuilder = MainMenuState(
             loading = false,
             currentContent = Content.PLANET_DEFINITION,
             learningsMap = listOf(
@@ -263,7 +263,7 @@ private fun MainMenuPlanetDefinition() {
 private fun MainMenuHabitability() {
     val navigation = navigation(
         screen = Screen.MAIN_MENU,
-        state = MainMenuState(
+        stateBuilder = MainMenuState(
             loading = false,
             currentContent = Content.HABITABILITY,
             learningsMap = listOf(

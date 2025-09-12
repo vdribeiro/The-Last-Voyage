@@ -40,7 +40,7 @@ internal class EventScreenTest {
     @Test
     fun eventEmpty() = runComposeUiTest {
         val store = storeFactory.createEventStore(
-            state = EventState(
+            stateBuilder = EventStateBuilder(
                 gameSession = gameSession,
                 events = emptyList()
             )
@@ -61,11 +61,9 @@ internal class EventScreenTest {
     @Test
     fun eventList() = runComposeUiTest {
         val store = storeFactory.createEventStore(
-            state = EventState(
+            stateBuilder = EventStateBuilder(
                 gameSession = gameSession,
-                events = events,
-                parentEvent = events.first(),
-                childrenEvents = events
+                events = events
             )
         )
         setContent {

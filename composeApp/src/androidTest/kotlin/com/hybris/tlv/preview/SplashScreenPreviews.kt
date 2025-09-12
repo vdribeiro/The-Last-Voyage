@@ -11,7 +11,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 private fun SplashNull() {
     val navigation = navigation(
         screen = Screen.SPLASH,
-        state = SplashState()
+        stateBuilder = SplashState()
     )
     App(navigation = navigation)
 }
@@ -21,7 +21,7 @@ private fun SplashNull() {
 private fun SplashHalfway() {
     val navigation = navigation(
         screen = Screen.SPLASH,
-        state = SplashState(
+        stateBuilder = SplashState(
             progress = 0.5f
         )
     )
@@ -33,7 +33,7 @@ private fun SplashHalfway() {
 private fun SplashFull() {
     val navigation = navigation(
         screen = Screen.SPLASH,
-        state = SplashState(
+        stateBuilder = SplashState(
             progress = 1.0f
         )
     )

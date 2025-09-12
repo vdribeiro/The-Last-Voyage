@@ -12,7 +12,7 @@ import com.hybris.tlv.ui.screen.feedback.FeedbackState
 private fun FeedbackNull() {
     val navigation = navigation(
         screen = Screen.FEEDBACK,
-        state = FeedbackState()
+        stateBuilder = FeedbackState()
     )
     setTranslations(translations = translations)
     App(navigation = navigation)
@@ -23,7 +23,7 @@ private fun FeedbackNull() {
 private fun FeedbackWithTagAndMessage() {
     val navigation = navigation(
         screen = Screen.FEEDBACK,
-        state = FeedbackState(
+        stateBuilder = FeedbackState(
             tag = "Sum Ting Wong",
             message = "Bang Ding Ow"
         )

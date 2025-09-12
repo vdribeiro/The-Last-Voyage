@@ -18,7 +18,7 @@ import com.hybris.tlv.ui.screen.stellarexplorer.StellarHostProperty
 private fun StellarExplorerNull() {
     val navigation = navigation(
         screen = Screen.STELLAR_EXPLORER,
-        state = StellarExplorerState()
+        stateBuilder = StellarExplorerState()
     )
     setTranslations(translations = translations)
     App(navigation = navigation)
@@ -29,7 +29,7 @@ private fun StellarExplorerNull() {
 private fun StellarExplorerLoading() {
     val navigation = navigation(
         screen = Screen.STELLAR_EXPLORER,
-        state = StellarExplorerState(
+        stateBuilder = StellarExplorerState(
             loading = true,
             currentContent = Content.LIST_HOSTS,
         )
@@ -43,7 +43,7 @@ private fun StellarExplorerLoading() {
 private fun StellarExplorerHostList() {
     val navigation = navigation(
         screen = Screen.STELLAR_EXPLORER,
-        state = StellarExplorerState(
+        stateBuilder = StellarExplorerState(
             loading = false,
             currentContent = Content.LIST_HOSTS,
             stellarHosts = hostsWithPlanets,
@@ -67,7 +67,7 @@ private fun StellarExplorerHostList() {
 private fun StellarExplorerPlanetList() {
     val navigation = navigation(
         screen = Screen.STELLAR_EXPLORER,
-        state = StellarExplorerState(
+        stateBuilder = StellarExplorerState(
             loading = false,
             currentContent = Content.LIST_PLANETS,
             stellarHosts = hostsWithPlanets,
@@ -91,7 +91,7 @@ private fun StellarExplorerPlanetList() {
 private fun StellarExplorerHostDetail() {
     val navigation = navigation(
         screen = Screen.STELLAR_EXPLORER,
-        state = StellarExplorerState(
+        stateBuilder = StellarExplorerState(
             loading = false,
             currentContent = Content.DETAIL_HOSTS,
             stellarHosts = hostsWithPlanets,
@@ -116,7 +116,7 @@ private fun StellarExplorerHostDetail() {
 private fun StellarExplorerPlanetDetail() {
     val navigation = navigation(
         screen = Screen.STELLAR_EXPLORER,
-        state = StellarExplorerState(
+        stateBuilder = StellarExplorerState(
             loading = false,
             currentContent = Content.DETAIL_PLANETS,
             stellarHosts = hostsWithPlanets,
@@ -141,7 +141,7 @@ private fun StellarExplorerPlanetDetail() {
 private fun StellarExplorerSearchHosts() {
     val navigation = navigation(
         screen = Screen.STELLAR_EXPLORER,
-        state = StellarExplorerState(
+        stateBuilder = StellarExplorerState(
             loading = false,
             currentContent = Content.LIST_HOSTS,
             stellarHosts = hostsWithPlanets,
@@ -167,7 +167,7 @@ private fun StellarExplorerSearchHosts() {
 private fun StellarExplorerSearchPlanet() {
     val navigation = navigation(
         screen = Screen.STELLAR_EXPLORER,
-        state = StellarExplorerState(
+        stateBuilder = StellarExplorerState(
             loading = false,
             currentContent = Content.LIST_PLANETS,
             stellarHosts = hostsWithPlanets,

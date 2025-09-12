@@ -17,7 +17,7 @@ import com.hybris.tlv.ui.screen.game.Tutorial
 private fun GameNull() {
     val navigation = navigation(
         screen = Screen.GAME,
-        state = GameState()
+        stateBuilder = GameState()
     )
     setTranslations(translations = translations)
     App(navigation = navigation)
@@ -28,7 +28,7 @@ private fun GameNull() {
 private fun GameLoading() {
     val navigation = navigation(
         screen = Screen.GAME,
-        state = GameState(
+        stateBuilder = GameState(
             loading = true,
             tutorial = Tutorial.NO,
             currentContent = Content.SHIP,
@@ -46,7 +46,7 @@ private fun GameLoading() {
 private fun GameShip() {
     val navigation = navigation(
         screen = Screen.GAME,
-        state = GameState(
+        stateBuilder = GameState(
             loading = false,
             tutorial = Tutorial.NO,
             currentContent = Content.SHIP,
@@ -64,7 +64,7 @@ private fun GameShip() {
 private fun GameSystem() {
     val navigation = navigation(
         screen = Screen.GAME,
-        state = GameState(
+        stateBuilder = GameState(
             loading = false,
             tutorial = Tutorial.NO,
             currentContent = Content.SYSTEM,
@@ -82,7 +82,7 @@ private fun GameSystem() {
 private fun GameTravel() {
     val navigation = navigation(
         screen = Screen.GAME,
-        state = GameState(
+        stateBuilder = GameState(
             loading = false,
             tutorial = Tutorial.NO,
             currentContent = Content.TRAVEL,
@@ -100,7 +100,7 @@ private fun GameTravel() {
 private fun GameTutorial() {
     val navigation = navigation(
         screen = Screen.GAME,
-        state = GameState(
+        stateBuilder = GameState(
             loading = false,
             tutorial = Tutorial.YES
         )

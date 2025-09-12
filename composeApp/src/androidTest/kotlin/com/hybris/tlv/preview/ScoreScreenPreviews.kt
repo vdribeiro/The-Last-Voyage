@@ -13,7 +13,7 @@ import com.hybris.tlv.ui.screen.score.ScoreState
 private fun ScoreNull() {
     val navigation = navigation(
         screen = Screen.SCORE,
-        state = ScoreState()
+        stateBuilder = ScoreState()
     )
     setTranslations(translations = translations)
     App(navigation = navigation)
@@ -24,7 +24,7 @@ private fun ScoreNull() {
 private fun ScoreLoading() {
     val navigation = navigation(
         screen = Screen.SCORE,
-        state = ScoreState(
+        stateBuilder = ScoreState(
             loading = true,
             gameSessions = listOf(gameSessionFinished)
         )
@@ -38,7 +38,7 @@ private fun ScoreLoading() {
 private fun ScoreList() {
     val navigation = navigation(
         screen = Screen.SCORE,
-        state = ScoreState(
+        stateBuilder = ScoreState(
             loading = false,
             gameSessions = listOf(gameSessionFinished)
         )

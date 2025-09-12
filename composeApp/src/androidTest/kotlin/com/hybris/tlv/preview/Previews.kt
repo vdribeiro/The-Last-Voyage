@@ -11,12 +11,12 @@ import com.hybris.tlv.usecase.translation.model.domain.Translation
 import database.AppDatabase
 
 @Composable
-internal fun navigation(screen: Screen, state: Any?): NavigationManager = Core(
+internal fun navigation(screen: Screen, stateBuilder: Any?): NavigationManager = Core(
     sqlDriver = AndroidSqliteDriver(
         context = LocalContext.current,
         schema = AppDatabase.Schema,
     )
-).navigation.apply { navigate(screen = screen, state = state) }
+).navigation.apply { navigate(screen = screen, stateBuilder = stateBuilder) }
 
 internal fun setTranslations(translations: List<Translation>) =
     TranslationCache.set(translations = translations)

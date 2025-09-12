@@ -40,25 +40,25 @@ internal class Navigation(
 
     override var back: () -> Unit = {}
 
-    override fun navigate(screen: Screen, state: Any?) {
-        dispatcher.main.launch { _stateFlow.update { it.copy(screen = screen, state = state) } }
+    override fun navigate(screen: Screen, stateBuilder: Any?) {
+        dispatcher.main.launch { _stateFlow.update { it.copy(screen = screen, stateBuilder = stateBuilder) } }
     }
 
     @Composable
-    override fun Screen(screen: Screen, state: Any?) {
+    override fun Screen(screen: Screen, stateBuilder: Any?) {
         with(receiver = config.configs) {
             when (screen) {
-                Screen.SPLASH -> SplashScreen(store = storeFactory.createSplashStore(state = state))
-                Screen.MAIN_MENU -> MainMenuScreen(store = storeFactory.createMainMenuStore(state = state))
-                Screen.FEEDBACK -> if (featureFeedback) FeedbackScreen(store = storeFactory.createFeedbackStore(state = state)) else Screen(screen = Screen.MAIN_MENU)
-                Screen.NEW_GAME -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(state = state)) else Screen(screen = Screen.GAME)
-                Screen.GAME -> if (featureGame) GameScreen(store = storeFactory.createGameStore(state = state)) else Screen(screen = Screen.GAME_OVER)
-                Screen.EVENT -> if (featureEvents) EventScreen(store = storeFactory.createEventStore(state = state)) else Screen(screen = Screen.GAME)
-                Screen.GAME_OVER -> if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore(state = state)) else Screen(screen = Screen.MAIN_MENU)
-                Screen.STELLAR_EXPLORER -> if (featureStellarExplorer) StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(state = state)) else Screen(screen = Screen.MAIN_MENU)
-                Screen.SCORE -> if (featureScores) ScoreScreen(store = storeFactory.createScoreStore(state = state)) else Screen(screen = Screen.MAIN_MENU)
-                Screen.ACHIEVEMENT -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore(state = state)) else Screen(screen = Screen.MAIN_MENU)
-                Screen.CREDIT -> CreditScreen(store = storeFactory.createCreditStore(state = state))
+                Screen.SPLASH -> SplashScreen(store = storeFactory.createSplashStore(state = stateBuilder))
+                Screen.MAIN_MENU -> MainMenuScreen(store = storeFactory.createMainMenuStore(state = stateBuilder))
+                Screen.FEEDBACK -> if (featureFeedback) FeedbackScreen(store = storeFactory.createFeedbackStore(state = stateBuilder)) else Screen(screen = Screen.MAIN_MENU)
+                Screen.NEW_GAME -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(state = stateBuilder)) else Screen(screen = Screen.GAME)
+                Screen.GAME -> if (featureGame) GameScreen(store = storeFactory.createGameStore(state = stateBuilder)) else Screen(screen = Screen.GAME_OVER)
+                Screen.EVENT -> if (featureEvents) EventScreen(store = storeFactory.createEventStore(stateBuilder = stateBuilder)) else Screen(screen = Screen.GAME)
+                Screen.GAME_OVER -> if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore(state = stateBuilder)) else Screen(screen = Screen.MAIN_MENU)
+                Screen.STELLAR_EXPLORER -> if (featureStellarExplorer) StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(state = stateBuilder)) else Screen(screen = Screen.MAIN_MENU)
+                Screen.SCORE -> if (featureScores) ScoreScreen(store = storeFactory.createScoreStore(state = stateBuilder)) else Screen(screen = Screen.MAIN_MENU)
+                Screen.ACHIEVEMENT -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore(state = stateBuilder)) else Screen(screen = Screen.MAIN_MENU)
+                Screen.CREDIT -> CreditScreen(store = storeFactory.createCreditStore(state = stateBuilder))
             }
         }
     }

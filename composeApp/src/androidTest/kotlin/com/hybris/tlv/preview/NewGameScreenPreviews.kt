@@ -17,7 +17,7 @@ import com.hybris.tlv.ui.screen.newgame.NewGameState
 private fun NewGameNull() {
     val navigation = navigation(
         screen = Screen.NEW_GAME,
-        state = NewGameState()
+        stateBuilder = NewGameState()
     )
     setTranslations(translations = translations)
     App(navigation = navigation)
@@ -28,7 +28,7 @@ private fun NewGameNull() {
 private fun NewGameShip() {
     val navigation = navigation(
         screen = Screen.NEW_GAME,
-        state = NewGameState(
+        stateBuilder = NewGameState(
             currentContent = Content.SHIP,
             selectedShip = shipPrototype,
             shipState = shipState,
@@ -43,7 +43,7 @@ private fun NewGameShip() {
 private fun NewGameAdvanced() {
     val navigation = navigation(
         screen = Screen.NEW_GAME,
-        state = NewGameState(
+        stateBuilder = NewGameState(
             currentContent = Content.ADVANCED,
             formula = formula
         )
@@ -57,7 +57,7 @@ private fun NewGameAdvanced() {
 private fun NewGameStart() {
     val navigation = navigation(
         screen = Screen.NEW_GAME,
-        state = NewGameState(
+        stateBuilder = NewGameState(
             currentContent = Content.START,
             selectedCatastrophe = catastrophes.random(),
             selectedShip = shipPrototype,

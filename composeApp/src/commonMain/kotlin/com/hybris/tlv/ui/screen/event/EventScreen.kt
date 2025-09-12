@@ -33,9 +33,9 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun EventScreen(store: Store<EventAction, EventState>) {
     val storeState by store.stateFlow.collectAsState()
-    val event = storeState.event
-    val children = storeState.children.orEmpty()
-    val ship = storeState.gameSession?.ship
+    val event = storeState.parentEvent
+    val children = storeState.childrenEvents
+    val ship = storeState.ship
 
     Scaffold(
         modifier = Modifier

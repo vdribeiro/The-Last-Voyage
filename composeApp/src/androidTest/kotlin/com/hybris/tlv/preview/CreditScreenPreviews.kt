@@ -13,7 +13,7 @@ import com.hybris.tlv.ui.screen.credit.CreditState
 private fun CreditNull() {
     val navigation = navigation(
         screen = Screen.CREDIT,
-        state = CreditState()
+        stateBuilder = CreditState()
     )
     setTranslations(translations = translations)
     App(navigation = navigation)
@@ -24,7 +24,7 @@ private fun CreditNull() {
 private fun CreditList() {
     val navigation = navigation(
         screen = Screen.CREDIT,
-        state = CreditState(
+        stateBuilder = CreditState(
             credits = credits
         )
     )

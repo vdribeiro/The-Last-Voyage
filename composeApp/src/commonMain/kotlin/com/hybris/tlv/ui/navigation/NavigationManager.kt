@@ -24,15 +24,15 @@ internal interface NavigationManager {
 
     data class State(
         val screen: Screen = Screen.SPLASH,
-        val state: Any? = null
+        val stateBuilder: Any? = null
     )
 
     val stateFlow: StateFlow<State>
 
     var back: () -> Unit
 
-    fun navigate(screen: Screen, state: Any? = null)
+    fun navigate(screen: Screen, stateBuilder: Any? = null)
 
     @Composable
-    fun Screen(screen: Screen, state: Any? = null)
+    fun Screen(screen: Screen, stateBuilder: Any? = null)
 }

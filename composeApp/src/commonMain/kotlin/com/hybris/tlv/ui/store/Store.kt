@@ -52,7 +52,7 @@ internal abstract class Store<Action, State>(
     protected fun navigate(screen: Screen, state: Any? = null) {
         navigation.back = {}
         jobs.forEach { it.cancel() }
-        navigation.navigate(screen = screen, state = state)
+        navigation.navigate(screen = screen, stateBuilder = state)
     }
 
     /**

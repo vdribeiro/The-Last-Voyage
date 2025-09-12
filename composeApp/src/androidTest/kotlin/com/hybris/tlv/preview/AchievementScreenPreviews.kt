@@ -13,7 +13,7 @@ import com.hybris.tlv.usecase.translation.model.domain.Translation
 private fun AchievementNull() {
     val navigation = navigation(
         screen = Screen.ACHIEVEMENT,
-        state = AchievementState()
+        stateBuilder = AchievementState()
     )
     setTranslations(translations = translations)
     App(navigation = navigation)
@@ -24,7 +24,7 @@ private fun AchievementNull() {
 private fun AchievementList() {
     val navigation = navigation(
         screen = Screen.ACHIEVEMENT,
-        state = AchievementState(
+        stateBuilder = AchievementState(
             achievements = achievements
         )
     )

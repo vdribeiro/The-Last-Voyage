@@ -10,6 +10,7 @@ import com.hybris.tlv.ui.screen.credit.CreditAction
 import com.hybris.tlv.ui.screen.credit.CreditState
 import com.hybris.tlv.ui.screen.credit.CreditStore
 import com.hybris.tlv.ui.screen.event.EventAction
+import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.screen.event.EventState
 import com.hybris.tlv.ui.screen.event.EventStore
 import com.hybris.tlv.ui.screen.feedback.FeedbackAction
@@ -98,15 +99,15 @@ internal class StoreFactory(
         ).apply { setup(state = state) }
     }
 
-    fun createEventStore(state: Any? = null): Store<EventAction, EventState> {
-        val state = state as? EventState ?: EventState()
+    fun createEventStore(stateBuilder: Any? = null): Store<EventAction, EventState> {
+        val stateBuilder = stateBuilder as? EventStateBuilder ?: EventStateBuilder()
         return EventStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            initialState = state,
+            stateBuilder = stateBuilder,
             eventUseCases = useCases.event,
             gameSessionUseCases = useCases.gameSession
-        ).apply { setup(state = state) }
+        )
     }
 
     fun createGameOverStore(state: Any? = null): Store<GameOverAction, GameOverState> {
