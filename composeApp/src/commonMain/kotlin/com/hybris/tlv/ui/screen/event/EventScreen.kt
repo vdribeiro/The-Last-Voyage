@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.StatusBar
 import com.hybris.tlv.ui.theme.component.TypewriterText
 import com.hybris.tlv.ui.theme.typography
@@ -46,22 +47,28 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
                 modifier = Modifier
                     .testTag(tag = EVENT_SCREEN_STATUS_BAR)
                     .statusBarsPadding(),
-                hull = ship?.integrity?.toString() ?: "0",
-                fuel = ship?.fuel?.toString() ?: "0",
-                materials = ship?.materials?.toString() ?: "0",
-                cryopods = ship?.cryopods?.toString() ?: "0"
+                hull = ship?.integrity?.toString(),
+                fuel = ship?.fuel?.toString(),
+                materials = ship?.materials?.toString(),
+                cryopods = ship?.cryopods?.toString()
             )
         },
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            Column(
-                modifier = Modifier
-                    .testTag(tag = EVENT_SCREEN_COLUMN)
-                    .fillMaxSize()
-                    .padding(all = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                if (event != null) {
+            when (storeState.loading) {
+                true -> DebouncedLinearProgressIndicator(
+                    modifier = Modifier
+                        .testTag(tag = EVENT_SCREEN_PROGRESS_INDICATOR)
+                        .fillMaxWidth()
+                )
+
+                false -> Column(
+                    modifier = Modifier
+                        .testTag(tag = EVENT_SCREEN_COLUMN)
+                        .fillMaxSize()
+                        .padding(all = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
                     // Event
                     Text(
                         modifier = Modifier

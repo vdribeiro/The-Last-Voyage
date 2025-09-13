@@ -31,10 +31,10 @@ internal fun StatusBar(
     fuelEnabled: Boolean = true,
     materialsEnabled: Boolean = true,
     cryopodsEnabled: Boolean = true,
-    hull: String,
-    fuel: String,
-    materials: String,
-    cryopods: String
+    hull: String?,
+    fuel: String?,
+    materials: String?,
+    cryopods: String?
 ) {
     Surface(modifier = modifier.fillMaxWidth()) {
         Row(
@@ -75,7 +75,7 @@ internal fun StatusBar(
 private fun StatusBarItem(
     enabled: Boolean,
     icon: ImageVector,
-    value: String,
+    value: String?,
     contentDescription: String
 ) {
     Row(
@@ -89,10 +89,12 @@ private fun StatusBarItem(
             contentDescription = contentDescription,
             tint = colorScheme.primary
         )
-        Text(
-            text = value,
-            style = typography.bodyLarge,
-            fontWeight = FontWeight.Bold
-        )
+        value?.let {
+            Text(
+                text = it,
+                style = typography.bodyLarge,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }

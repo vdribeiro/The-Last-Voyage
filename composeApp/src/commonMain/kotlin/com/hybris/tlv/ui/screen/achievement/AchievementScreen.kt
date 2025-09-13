@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.screen.achievement
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,8 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.screen.game.GAME_SCREEN_PROGRESS_INDICATOR
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.AchievementItem
+import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 
 @Composable
 internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>) {
@@ -23,19 +26,27 @@ internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            LazyColumn(
-                modifier = Modifier
-                    .testTag(tag = "list")
-                    .fillMaxSize()
-                    .padding(all = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(space = 8.dp)
-            ) {
-                items(items = storeState.achievements, key = { it.id }) { achievement ->
-                    AchievementItem(
-                        name = achievement.name,
-                        description = achievement.description
-                    )
+            when (storeState.loading) {
+                true -> DebouncedLinearProgressIndicator(
+                    modifier = Modifier
+                        .testTag(tag = GAME_SCREEN_PROGRESS_INDICATOR)
+                        .fillMaxWidth()
+                )
+
+                false -> LazyColumn(
+                    modifier = Modifier
+                        .testTag(tag = "list")
+                        .fillMaxSize()
+                        .padding(all = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+                ) {
+                    items(items = storeState.achievements, key = { it.id }) { achievement ->
+                        AchievementItem(
+                            name = achievement.name,
+                            description = achievement.description
+                        )
+                    }
                 }
             }
         }

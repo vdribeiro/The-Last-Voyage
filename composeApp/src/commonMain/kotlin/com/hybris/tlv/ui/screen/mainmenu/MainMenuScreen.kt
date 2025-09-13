@@ -83,7 +83,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                         modifier = Modifier
                             .size(size = 100.dp)
                             .wrapContentHeight(align = Alignment.CenterVertically)
-                            .debouncedClickable {  uriHandler.openUri(uri = storeState.developerCorner) } ,
+                            .debouncedClickable { uriHandler.openUri(uri = storeState.developerCorner) },
                         text = websiteTranslation,
                         style = typography.titleSmall,
                     )
@@ -99,7 +99,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                     Image(
                         modifier = Modifier
                             .size(size = 100.dp)
-                            .debouncedClickable {  uriHandler.openUri(uri = storeState.support) } ,
+                            .debouncedClickable { uriHandler.openUri(uri = storeState.support) },
                         painter = painterResource(resource = Res.drawable.kofi),
                         contentDescription = "Support",
                         contentScale = ContentScale.Fit,

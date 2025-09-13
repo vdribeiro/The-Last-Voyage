@@ -10,6 +10,19 @@ internal sealed interface EventAction {
 internal data class EventState(
     val loading: Boolean,
     val ship: Ship?,
-    val parentEvent: Event?,
+    val parentEvent: Event,
     val childrenEvents: List<Event>
+)
+
+internal val defaultEvent = Event(
+    id = "event__default",
+    description = "event__default_description",
+    parentId = null,
+    outcome = null,
+)
+internal val stopEvent = Event(
+    id = "event__default_continue",
+    description = "event__default_continue",
+    parentId = null,
+    outcome = null,
 )

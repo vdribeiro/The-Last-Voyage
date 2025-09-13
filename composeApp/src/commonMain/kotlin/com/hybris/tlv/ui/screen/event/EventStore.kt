@@ -22,23 +22,10 @@ internal class EventStore(
     initialState = EventState(
         loading = true,
         ship = null,
-        parentEvent = null,
+        parentEvent = defaultEvent,
         childrenEvents = emptyList()
     )
 ) {
-    private val defaultEvent = Event(
-        id = "event__default",
-        description = "event__default_description",
-        parentId = null,
-        outcome = null,
-    )
-    private val stopEvent = Event(
-        id = "event__default_continue",
-        description = "event__default_continue",
-        parentId = null,
-        outcome = null,
-    )
-
     private var gameSession: GameSession? = null
     private val eventChain: MutableList<Event> = mutableListOf()
 

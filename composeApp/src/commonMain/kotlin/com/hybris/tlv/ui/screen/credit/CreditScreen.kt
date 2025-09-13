@@ -28,8 +28,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.screen.game.GAME_SCREEN_PROGRESS_INDICATOR
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.colorScheme
+import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.credit.model.CreditType
@@ -50,133 +52,141 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
             .testTag(tag = CREDIT_SCREEN)
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            LazyColumn(
-                modifier = Modifier
-                    .testTag(tag = CREDIT_SCREEN_LIST)
-                    .fillMaxSize()
-                    .padding(all = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(space = 8.dp)
-            ) {
-                val creditsMap = storeState.credits.groupBy { it.type }
+            when (storeState.loading) {
+                true -> DebouncedLinearProgressIndicator(
+                    modifier = Modifier
+                        .testTag(tag = GAME_SCREEN_PROGRESS_INDICATOR)
+                        .fillMaxWidth()
+                )
 
-                // Creators
-                val creators = creditsMap[CreditType.CREATOR].orEmpty()
-                if (creators.isNotEmpty()) {
-                    item(key = CreditType.CREATOR) {
-                        Text(
-                            modifier = Modifier
-                                .testTag(tag = CREDIT_SCREEN_LIST_CREATOR),
-                            text = creatorsTranslation,
-                            style = typography.titleLarge,
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                    items(items = creators, key = { it.id }) { credit ->
-                        Spacer(modifier = Modifier.height(height = 8.dp))
-                        Text(
-                            modifier = Modifier
-                                .testTag(tag = CREDIT_SCREEN_LIST_CREATOR_ITEM)
-                                .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
-                            text = credit.id,
-                            style = typography.bodyLarge.copy(
-                                color = colorScheme.primary,
-                                textDecoration = TextDecoration.Underline
-                            ),
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                }
+                false -> LazyColumn(
+                    modifier = Modifier
+                        .testTag(tag = CREDIT_SCREEN_LIST)
+                        .fillMaxSize()
+                        .padding(all = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+                ) {
+                    val creditsMap = storeState.credits.groupBy { it.type }
 
-                // Data sources
-                val sources = creditsMap[CreditType.SOURCE].orEmpty()
-                if (sources.isNotEmpty()) {
-                    item(key = CreditType.SOURCE) {
-                        Text(
-                            modifier = Modifier
-                                .testTag(tag = CREDIT_SCREEN_LIST_SOURCE),
-                            text = sourcesTranslation,
-                            style = typography.titleLarge,
-                            textAlign = TextAlign.Center,
-                        )
+                    // Creators
+                    val creators = creditsMap[CreditType.CREATOR].orEmpty()
+                    if (creators.isNotEmpty()) {
+                        item(key = CreditType.CREATOR) {
+                            Text(
+                                modifier = Modifier
+                                    .testTag(tag = CREDIT_SCREEN_LIST_CREATOR),
+                                text = creatorsTranslation,
+                                style = typography.titleLarge,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                        items(items = creators, key = { it.id }) { credit ->
+                            Spacer(modifier = Modifier.height(height = 8.dp))
+                            Text(
+                                modifier = Modifier
+                                    .testTag(tag = CREDIT_SCREEN_LIST_CREATOR_ITEM)
+                                    .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                                text = credit.id,
+                                style = typography.bodyLarge.copy(
+                                    color = colorScheme.primary,
+                                    textDecoration = TextDecoration.Underline
+                                ),
+                                textAlign = TextAlign.Center,
+                            )
+                        }
                     }
-                    items(items = sources, key = { it.id }) { credit ->
-                        Spacer(modifier = Modifier.height(height = 8.dp))
-                        Text(
-                            modifier = Modifier
-                                .testTag(tag = CREDIT_SCREEN_LIST_SOURCE_ITEM)
-                                .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
-                            text = credit.id,
-                            style = typography.bodyLarge.copy(
-                                color = colorScheme.primary,
-                                textDecoration = TextDecoration.Underline
-                            ),
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                }
 
-                // Music authors
-                val musics = creditsMap[CreditType.MUSIC].orEmpty()
-                if (musics.isNotEmpty()) {
-                    item(key = CreditType.MUSIC) {
-                        Text(
-                            modifier = Modifier
-                                .testTag(tag = CREDIT_SCREEN_LIST_MUSIC),
-                            text = musicTranslation,
-                            style = typography.titleLarge,
-                            textAlign = TextAlign.Center,
-                        )
+                    // Data sources
+                    val sources = creditsMap[CreditType.SOURCE].orEmpty()
+                    if (sources.isNotEmpty()) {
+                        item(key = CreditType.SOURCE) {
+                            Text(
+                                modifier = Modifier
+                                    .testTag(tag = CREDIT_SCREEN_LIST_SOURCE),
+                                text = sourcesTranslation,
+                                style = typography.titleLarge,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                        items(items = sources, key = { it.id }) { credit ->
+                            Spacer(modifier = Modifier.height(height = 8.dp))
+                            Text(
+                                modifier = Modifier
+                                    .testTag(tag = CREDIT_SCREEN_LIST_SOURCE_ITEM)
+                                    .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                                text = credit.id,
+                                style = typography.bodyLarge.copy(
+                                    color = colorScheme.primary,
+                                    textDecoration = TextDecoration.Underline
+                                ),
+                                textAlign = TextAlign.Center,
+                            )
+                        }
                     }
-                    items(items = musics, key = { it.id }) { credit ->
-                        Spacer(modifier = Modifier.height(height = 8.dp))
-                        Text(
-                            modifier = Modifier
-                                .testTag(tag = CREDIT_SCREEN_LIST_MUSIC_ITEM)
-                                .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
-                            text = credit.id,
-                            style = typography.bodyLarge.copy(
-                                color = colorScheme.primary,
-                                textDecoration = TextDecoration.Underline
-                            ),
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                }
 
-                // Supporters
-                val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
-                if (supporters.isNotEmpty()) {
-                    item(key = CreditType.SUPPORTER) {
-                        Text(
-                            modifier = Modifier
-                                .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER),
-                            text = supportersTranslation,
-                            style = typography.titleLarge,
-                            textAlign = TextAlign.Center,
-                        )
-                        Spacer(modifier = Modifier.height(height = 8.dp))
-                        LazyVerticalGrid(
-                            modifier = Modifier.heightIn(max = 500.dp),
-                            columns = GridCells.Adaptive(minSize = 100.dp),
-                            horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-                            verticalArrangement = Arrangement.spacedBy(space = 8.dp)
-                        ) {
-                            items(items = supporters) { credit ->
-                                Card(elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
-                                    Text(
-                                        modifier = Modifier
-                                            .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER_ITEM)
-                                            .fillMaxWidth()
-                                            .padding(all = 16.dp)
-                                            .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
-                                        text = credit.id,
-                                        textAlign = TextAlign.Center,
-                                        style = typography.bodyLarge.copy(
-                                            color = colorScheme.primary,
-                                            textDecoration = TextDecoration.Underline
+                    // Music authors
+                    val musics = creditsMap[CreditType.MUSIC].orEmpty()
+                    if (musics.isNotEmpty()) {
+                        item(key = CreditType.MUSIC) {
+                            Text(
+                                modifier = Modifier
+                                    .testTag(tag = CREDIT_SCREEN_LIST_MUSIC),
+                                text = musicTranslation,
+                                style = typography.titleLarge,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                        items(items = musics, key = { it.id }) { credit ->
+                            Spacer(modifier = Modifier.height(height = 8.dp))
+                            Text(
+                                modifier = Modifier
+                                    .testTag(tag = CREDIT_SCREEN_LIST_MUSIC_ITEM)
+                                    .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                                text = credit.id,
+                                style = typography.bodyLarge.copy(
+                                    color = colorScheme.primary,
+                                    textDecoration = TextDecoration.Underline
+                                ),
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                    }
+
+                    // Supporters
+                    val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
+                    if (supporters.isNotEmpty()) {
+                        item(key = CreditType.SUPPORTER) {
+                            Text(
+                                modifier = Modifier
+                                    .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER),
+                                text = supportersTranslation,
+                                style = typography.titleLarge,
+                                textAlign = TextAlign.Center,
+                            )
+                            Spacer(modifier = Modifier.height(height = 8.dp))
+                            LazyVerticalGrid(
+                                modifier = Modifier.heightIn(max = 500.dp),
+                                columns = GridCells.Adaptive(minSize = 100.dp),
+                                horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+                                verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+                            ) {
+                                items(items = supporters) { credit ->
+                                    Card(elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
+                                        Text(
+                                            modifier = Modifier
+                                                .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER_ITEM)
+                                                .fillMaxWidth()
+                                                .padding(all = 16.dp)
+                                                .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                                            text = credit.id,
+                                            textAlign = TextAlign.Center,
+                                            style = typography.bodyLarge.copy(
+                                                color = colorScheme.primary,
+                                                textDecoration = TextDecoration.Underline
+                                            )
                                         )
-                                    )
+                                    }
                                 }
                             }
                         }

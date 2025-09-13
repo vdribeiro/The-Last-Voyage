@@ -20,7 +20,7 @@ internal sealed interface MainMenuAction {
 }
 
 internal data class MainMenuStateBuilder(
-    val currentContent: Content? = null,
+    val currentContent: Content = Content.MAIN_MENU,
 )
 
 internal data class MainMenuState(

@@ -18,6 +18,7 @@ import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.screen.feedback.FeedbackStore
 import com.hybris.tlv.ui.screen.game.GameAction
 import com.hybris.tlv.ui.screen.game.GameState
+import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.screen.game.GameStore
 import com.hybris.tlv.ui.screen.gameover.GameOverAction
 import com.hybris.tlv.ui.screen.gameover.GameOverState

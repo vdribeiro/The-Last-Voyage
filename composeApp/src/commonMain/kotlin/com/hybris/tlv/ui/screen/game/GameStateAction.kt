@@ -12,7 +12,7 @@ internal sealed interface GameAction {
 }
 
 internal data class GameStateBuilder(
-    val tutorial: Boolean
+    val tutorial: Boolean = false
 )
 
 internal data class GameState(
