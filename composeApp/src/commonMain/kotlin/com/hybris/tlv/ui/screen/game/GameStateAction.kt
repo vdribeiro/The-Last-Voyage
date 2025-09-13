@@ -1,6 +1,6 @@
 package com.hybris.tlv.ui.screen.game
 
-import com.hybris.tlv.usecase.gamesession.model.GameSession
+import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
@@ -11,13 +11,17 @@ internal sealed interface GameAction {
     data class Settle(val planet: Planet): GameAction
 }
 
+internal data class GameStateBuilder(
+    val tutorial: Boolean
+)
+
 internal data class GameState(
-    val loading: Boolean? = null,
-    val tutorial: Tutorial? = null,
-    val currentContent: Content? = null,
-    val gameSession: GameSession? = null,
-    val currentStellarHost: StellarHost? = null,
-    val nearStellarHosts: List<StellarHost>? = null,
+    val loading: Boolean,
+    val tutorialStep: Tutorial,
+    val currentContent: Content,
+    val ship: Ship?,
+    val currentStellarHost: StellarHost?,
+    val nearStellarHosts: List<StellarHost>
 )
 
 internal enum class Content {

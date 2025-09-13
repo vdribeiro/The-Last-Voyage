@@ -30,7 +30,7 @@ private fun GameLoading() {
         screen = Screen.GAME,
         stateBuilder = GameState(
             loading = true,
-            tutorial = Tutorial.NO,
+            tutorialStep = Tutorial.NO,
             currentContent = Content.SHIP,
             gameSession = gameSession,
             currentStellarHost = hostsWithPlanets.first(),
@@ -48,7 +48,7 @@ private fun GameShip() {
         screen = Screen.GAME,
         stateBuilder = GameState(
             loading = false,
-            tutorial = Tutorial.NO,
+            tutorialStep = Tutorial.NO,
             currentContent = Content.SHIP,
             gameSession = gameSession,
             currentStellarHost = hostsWithPlanets.first(),
@@ -66,7 +66,7 @@ private fun GameSystem() {
         screen = Screen.GAME,
         stateBuilder = GameState(
             loading = false,
-            tutorial = Tutorial.NO,
+            tutorialStep = Tutorial.NO,
             currentContent = Content.SYSTEM,
             gameSession = gameSession,
             currentStellarHost = hostsWithPlanets.first(),
@@ -84,7 +84,7 @@ private fun GameTravel() {
         screen = Screen.GAME,
         stateBuilder = GameState(
             loading = false,
-            tutorial = Tutorial.NO,
+            tutorialStep = Tutorial.NO,
             currentContent = Content.TRAVEL,
             gameSession = gameSession,
             currentStellarHost = hostsWithPlanets.first(),
@@ -102,7 +102,7 @@ private fun GameTutorial() {
         screen = Screen.GAME,
         stateBuilder = GameState(
             loading = false,
-            tutorial = Tutorial.YES
+            tutorialStep = Tutorial.YES
         )
     )
     setTranslations(translations = translations)

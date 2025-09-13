@@ -12,7 +12,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
@@ -89,7 +88,7 @@ internal class EventStoreTest {
         assertEquals(expected = NavigationManager.Screen.EVENT, actual = mock.navigation.stateFlow.value.screen)
         mock.useCases.sync.sync().last()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        val eventStore = store
+        store
         //eventStore.send(action = EventAction.Select(event = null))
     }
 }

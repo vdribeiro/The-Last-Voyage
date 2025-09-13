@@ -38,7 +38,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun GameScreen(store: Store<GameAction, GameState>) {
     val storeState by store.stateFlow.collectAsState()
-    val tutorial = storeState.tutorial != Tutorial.NO
+    val tutorial = storeState.tutorialStep != Tutorial.NO
     val defaultShip = remember {
         Ship(
             id = "",
@@ -89,7 +89,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
                         .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP),
                     icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
                     label = { Text(text = shipTranslation) },
-                    selected = (storeState.currentContent == Content.SHIP || storeState.tutorial == Tutorial.SHIP),
+                    selected = (storeState.currentContent == Content.SHIP || storeState.tutorialStep == Tutorial.SHIP),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 )
                 NavigationBarItem(
@@ -97,7 +97,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
                         .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM),
                     icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = systemTranslation) },
                     label = { Text(text = systemTranslation) },
-                    selected = (storeState.currentContent == Content.SYSTEM || storeState.tutorial == Tutorial.SYSTEM),
+                    selected = (storeState.currentContent == Content.SYSTEM || storeState.tutorialStep == Tutorial.SYSTEM),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SYSTEM)) },
                 )
                 NavigationBarItem(
@@ -105,7 +105,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
                         .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL),
                     icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
                     label = { Text(text = travelTranslation) },
-                    selected = (storeState.currentContent == Content.TRAVEL || storeState.tutorial == Tutorial.TRAVEL),
+                    selected = (storeState.currentContent == Content.TRAVEL || storeState.tutorialStep == Tutorial.TRAVEL),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.TRAVEL)) },
                 )
             }
@@ -118,6 +118,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
                         .testTag(tag = GAME_SCREEN_PROGRESS_INDICATOR)
                         .fillMaxWidth()
                 )
+
                 false -> when (storeState.currentContent) {
                     null -> {}
                     Content.SHIP -> ShipContent(store = store)
@@ -128,7 +129,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
 
             val title: String
             val description: String
-            when (storeState.tutorial) {
+            when (storeState.tutorialStep) {
                 null, Tutorial.NO -> {
                     title = remember { "" }
                     description = remember { "" }

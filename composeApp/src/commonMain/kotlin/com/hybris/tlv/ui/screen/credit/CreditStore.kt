@@ -25,7 +25,12 @@ internal class CreditStore(
 
     private fun setup(): Job = launch {
         val credits = creditUseCases.getCredits()
-        updateState { it.copy(credits = credits) }
+        updateState {
+            it.copy(
+                loading = false,
+                credits = credits
+            )
+        }
     }
 
     override fun back(state: CreditState): () -> Unit = {

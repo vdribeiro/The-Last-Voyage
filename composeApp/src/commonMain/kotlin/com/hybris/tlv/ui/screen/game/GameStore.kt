@@ -3,10 +3,11 @@ package com.hybris.tlv.ui.screen.game
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
-import com.hybris.tlv.ui.screen.feedback.FeedbackState
-import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
+import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
+import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
+import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
@@ -16,23 +17,32 @@ import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 internal class GameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    stateBuilder: GameState,
+    stateBuilder: GameStateBuilder,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameAction, GameState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = stateBuilder
+    initialState = GameState(
+        loading = true,
+        tutorialStep = if (stateBuilder.tutorial) Tutorial.YES else Tutorial.NO,
+        currentContent = Content.SYSTEM,
+        ship = null,
+        currentStellarHost = null,
+        nearStellarHosts = emptyList(),
+    )
 ) {
-    override fun setup(state: GameState): Job = launch {
-        val loading = state.loading.orFalse()
-        val tutorial = state.tutorial ?: Tutorial.NO
-        val currentContent = state.currentContent ?: Content.SYSTEM
+    private var gameSession: GameSession? = null
 
-        val gameSession = state.gameSession ?: gameSessionUseCases.getLatestGameSession()
+    init {
+        setup()
+    }
+
+    private fun setup(): Job = launch {
+        val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing game session on setup()"))
+            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 
@@ -49,7 +59,7 @@ internal class GameStore(
         // Get the current stellar host which the player is in
         val currentStellarHostId = updatedGameSession.currentStellarHostId ?: "sol"
         // Calculate habitability for each planet of the current stellar host
-        val currentStellarHost = state.currentStellarHost ?: spaceUseCases.getStellarHost(id = currentStellarHostId)?.apply {
+        val currentStellarHost = spaceUseCases.getStellarHost(id = currentStellarHostId)?.apply {
             planets.forEach { planet ->
                 planet.score = Habitability.calculateScores(
                     stellarHost = this,
@@ -59,14 +69,14 @@ internal class GameStore(
             }
         }
         if (currentStellarHost == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing stellar host on setup()"))
+            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing stellar host on setup()"))
             return@launch
         }
 
         // Get and set the visited stellar hosts
         var visited = updatedGameSession.visitedStellarHosts.ifEmpty { setOf(currentStellarHostId) }
         // Get the stars nearest to the current stellar host by sensor range
-        val nearStellarHosts = state.nearStellarHosts ?: spaceUseCases.getNearestStars(
+        val nearStellarHosts = spaceUseCases.getNearestStars(
             stellarHost = currentStellarHost,
             n = ship.sensorRange,
             visited = visited
@@ -87,71 +97,72 @@ internal class GameStore(
         )
         gameSessionUseCases.updateGameSession(gameSession = finalUpdatedGameSession)
 
+        this@GameStore.gameSession = finalUpdatedGameSession
         updateState {
             it.copy(
-                loading = loading,
-                tutorial = tutorial,
-                currentContent = currentContent,
-                gameSession = finalUpdatedGameSession,
+                loading = false,
+                ship = finalUpdatedGameSession.ship,
                 currentStellarHost = currentStellarHost,
                 nearStellarHosts = nearStellarHosts,
             )
         }
     }
 
+    private fun tutorial(state: GameState) =
+        when (state.tutorialStep) {
+            Tutorial.NO -> {}
+            Tutorial.YES -> updateState { it.copy(tutorialStep = Tutorial.SHIP) }
+            Tutorial.SHIP -> updateState { it.copy(tutorialStep = Tutorial.SYSTEM) }
+            Tutorial.SYSTEM -> updateState { it.copy(tutorialStep = Tutorial.TRAVEL) }
+            Tutorial.TRAVEL -> navigate(screen = Screen.MAIN_MENU)
+        }
+
+    private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
+        if (state.tutorialStep != Tutorial.NO) return@launch
+
+        val gameSession = gameSession
+        if (gameSession == null) {
+            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on travel()"))
+            return@launch
+        }
+
+        val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }
+        if (stellarHost == null) {
+            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing stellar host on travel()"))
+            return@launch
+        }
+
+        this@GameStore.gameSession = gameSessionUseCases.travel(gameSession = gameSession, stellarHost = stellarHost)
+        navigate(screen = Screen.EVENT)
+    }
+
+    private fun settle(state: GameState, action: GameAction.Settle): Job = launch {
+        if (state.tutorialStep != Tutorial.NO) return@launch
+
+        val gameSession = gameSession
+        if (gameSession == null) {
+            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on settle()"))
+            return@launch
+        }
+
+        this@GameStore.gameSession = gameSessionUseCases.settle(gameSession = gameSession, planet = action.planet)
+        navigate(screen = Screen.GAME_OVER)
+    }
+
     override fun back(state: GameState): () -> Unit = {
         navigate(
             screen = Screen.MAIN_MENU,
-            state = if (state.tutorial == Tutorial.NO) null else MainMenuState(currentContent = MainMenuContent.LEARN_MENU)
+            state = if (state.tutorialStep == Tutorial.NO) null else MainMenuStateBuilder(currentContent = MainMenuContent.LEARN_MENU)
         )
     }
 
     override fun reducer(state: GameState, action: GameAction) {
         when (action) {
             GameAction.NextTutorial -> tutorial(state = state)
-            is GameAction.ChangeTab -> if (state.tutorial == Tutorial.NO) updateState { it.copy(currentContent = action.content) }
+            is GameAction.ChangeTab -> if (state.tutorialStep == Tutorial.NO) updateState { it.copy(currentContent = action.content) }
             is GameAction.Travel -> travel(state = state, action = action)
             is GameAction.Settle -> settle(state = state, action = action)
         }
-    }
-
-    private fun tutorial(state: GameState) =
-        when (state.tutorial) {
-            null, Tutorial.NO -> {}
-            Tutorial.YES -> updateState { it.copy(tutorial = Tutorial.SHIP) }
-            Tutorial.SHIP -> updateState { it.copy(tutorial = Tutorial.SYSTEM) }
-            Tutorial.SYSTEM -> updateState { it.copy(tutorial = Tutorial.TRAVEL) }
-            Tutorial.TRAVEL -> navigate(screen = Screen.MAIN_MENU)
-        }
-
-    private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
-        if (state.tutorial != Tutorial.NO) return@launch
-
-        if (state.gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing game session on travel()"))
-            return@launch
-        }
-
-        val stellarHost = state.nearStellarHosts?.find { it.id == action.stellarHost.id }
-        if (stellarHost == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing stellar host on travel()"))
-            return@launch
-        }
-
-        gameSessionUseCases.travel(gameSession = state.gameSession, stellarHost = stellarHost)
-        navigate(screen = Screen.EVENT)
-    }
-
-    private fun settle(state: GameState, action: GameAction.Settle): Job = launch {
-        if (state.tutorial != Tutorial.NO) return@launch
-
-        if (state.gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing game session on settle()"))
-            return@launch
-        }
-
-        gameSessionUseCases.settle(gameSession = state.gameSession, planet = action.planet)
-        navigate(screen = Screen.GAME_OVER)
     }
 
     companion object {

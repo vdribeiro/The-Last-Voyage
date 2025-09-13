@@ -179,6 +179,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
                     modifier = Modifier
                         .fillMaxWidth()
                 )
+
                 else -> when (storeState.currentContent) {
                     null -> {}
                     Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostContent(store = store)

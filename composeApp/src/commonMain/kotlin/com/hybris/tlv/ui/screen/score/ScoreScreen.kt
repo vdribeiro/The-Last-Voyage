@@ -54,6 +54,7 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                         modifier = Modifier
                             .fillMaxWidth()
                     )
+
                     else -> LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(all = 16.dp),
