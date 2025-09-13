@@ -1,6 +1,8 @@
 package com.hybris.tlv.ui.screen.credit
 
 internal const val CREDIT_SCREEN = "credit_screen"
+
+internal const val CREDIT_SCREEN_PROGRESS_INDICATOR = "credit_screen_progress_indicator"
 internal const val CREDIT_SCREEN_LIST = "credit_screen_list"
 internal const val CREDIT_SCREEN_LIST_CREATOR = "credit_screen_list_creator"
 internal const val CREDIT_SCREEN_LIST_CREATOR_ITEM = "credit_screen_list_creator_item"

@@ -55,7 +55,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
             when (storeState.loading) {
                 true -> DebouncedLinearProgressIndicator(
                     modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_PROGRESS_INDICATOR)
+                        .testTag(tag = CREDIT_SCREEN_PROGRESS_INDICATOR)
                         .fillMaxWidth()
                 )
 

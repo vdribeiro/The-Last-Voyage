@@ -1,13 +1,20 @@
 package com.hybris.tlv.ui.screen.event
 
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.events
+import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalTestApi::class)
 internal class EventScreenTest {
@@ -18,7 +25,7 @@ internal class EventScreenTest {
     }
 
     @Test
-    fun eventNull() = runComposeUiTest {
+    fun eventEmpty() = runComposeUiTest {
         val store = storeFactory.createEventStore()
         setContent {
             EventScreen(store = store)
@@ -26,53 +33,32 @@ internal class EventScreenTest {
 
         onNodeWithTag(testTag = EVENT_SCREEN).assertExists()
         onNodeWithTag(testTag = EVENT_SCREEN_STATUS_BAR).assertExists()
-        onNodeWithTag(testTag = EVENT_SCREEN_COLUMN).assertExists()
+        onNodeWithTag(testTag = EVENT_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
+        onNodeWithTag(testTag = EVENT_SCREEN_COLUMN).assertDoesNotExist()
         onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT).assertDoesNotExist()
         onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_DESCRIPTION).assertDoesNotExist()
         onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS).assertDoesNotExist()
         onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS_ITEM).assertDoesNotExist()
     }
 
-    //@Test
-    //fun eventEmpty() = runComposeUiTest {
-    //    val store = storeFactory.createEventStore(
-    //        stateBuilder = EventStateBuilder(
-    //            gameSession = gameSession,
-    //            eventChain = emptyList()
-    //        )
-    //    )
-    //    setContent {
-    //        EventScreen(store = store)
-    //    }
-    //
-    //    onNodeWithTag(testTag = EVENT_SCREEN).assertExists()
-    //    onNodeWithTag(testTag = EVENT_SCREEN_STATUS_BAR).assertExists()
-    //    onNodeWithTag(testTag = EVENT_SCREEN_COLUMN).assertExists()
-    //    onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT).assertDoesNotExist()
-    //    onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_DESCRIPTION).assertDoesNotExist()
-    //    onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS).assertDoesNotExist()
-    //    onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS_ITEM).assertDoesNotExist()
-    //}
-    //
-    //@Test
-    //fun eventList() = runComposeUiTest {
-    //    val store = storeFactory.createEventStore(
-    //        stateBuilder = EventStateBuilder(
-    //            gameSession = gameSession,
-    //            eventChain = events
-    //        )
-    //    )
-    //    setContent {
-    //        EventScreen(store = store)
-    //    }
-    //
-    //    onNodeWithTag(testTag = EVENT_SCREEN).assertExists()
-    //    onNodeWithTag(testTag = EVENT_SCREEN_STATUS_BAR).assertExists()
-    //    onNodeWithTag(testTag = EVENT_SCREEN_COLUMN).assertExists()
-    //    onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT).assertExists()
-    //    onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_DESCRIPTION).assertExists()
-    //    onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS).assertExists()
-    //    onAllNodesWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS_ITEM)
-    //        .assertCountEquals(expectedSize = events.size)
-    //}
+    @Test
+    fun eventList() = runComposeUiTest {
+        runBlocking {
+            mock.useCases.sync.sync().last()
+            mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        }
+        val store = storeFactory.createEventStore()
+        setContent {
+            EventScreen(store = store)
+        }
+
+        onNodeWithTag(testTag = EVENT_SCREEN).assertExists()
+        onNodeWithTag(testTag = EVENT_SCREEN_STATUS_BAR).assertExists()
+        onNodeWithTag(testTag = EVENT_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
+        onNodeWithTag(testTag = EVENT_SCREEN_COLUMN).assertExists()
+        onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT).assertExists()
+        onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_DESCRIPTION).assertExists()
+        onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS).assertExists()
+        onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS_ITEM).assertExists().performClick()
+    }
 }
