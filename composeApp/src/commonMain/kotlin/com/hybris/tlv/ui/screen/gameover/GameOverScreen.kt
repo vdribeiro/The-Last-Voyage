@@ -21,7 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.screen.game.GAME_SCREEN_PROGRESS_INDICATOR
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.Score
@@ -48,7 +47,7 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
             when (storeState.loading) {
                 true -> DebouncedLinearProgressIndicator(
                     modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_PROGRESS_INDICATOR)
+                        .testTag(tag = GAME_OVER_SCREEN_PROGRESS_INDICATOR)
                         .fillMaxWidth()
                 )
 

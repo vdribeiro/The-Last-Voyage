@@ -28,7 +28,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.screen.game.GAME_SCREEN_PROGRESS_INDICATOR
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.colorScheme
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator

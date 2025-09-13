@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.screen.game.GAME_SCREEN_PROGRESS_INDICATOR
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.AchievementItem
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
@@ -29,7 +28,7 @@ internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>
             when (storeState.loading) {
                 true -> DebouncedLinearProgressIndicator(
                     modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_PROGRESS_INDICATOR)
+                        .testTag(tag = ACHIEVEMENT_SCREEN_PROGRESS_INDICATOR)
                         .fillMaxWidth()
                 )
 

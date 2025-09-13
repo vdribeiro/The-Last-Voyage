@@ -10,7 +10,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import com.hybris.tlv.ui.screen.game.GAME_SCREEN_PROGRESS_INDICATOR
 import com.hybris.tlv.ui.screen.newgame.content.AdvancedContent
 import com.hybris.tlv.ui.screen.newgame.content.NewGameContent
 import com.hybris.tlv.ui.screen.newgame.content.StartContent
@@ -26,7 +25,7 @@ internal fun NewGameScreen(store: Store<NewGameAction, NewGameState>) {
             when (storeState.loading) {
                 true -> DebouncedLinearProgressIndicator(
                     modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_PROGRESS_INDICATOR)
+                        .testTag(tag = NEW_GAME_SCREEN_PROGRESS_INDICATOR)
                         .fillMaxWidth()
                 )
 
