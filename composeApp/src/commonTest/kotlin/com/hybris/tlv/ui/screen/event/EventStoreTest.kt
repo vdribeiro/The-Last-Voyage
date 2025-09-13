@@ -35,7 +35,7 @@ internal class EventStoreTest {
         assertTrue(actual = events.isNotEmpty())
         val event = events.find { it.parentId == null }
         assertEquals(expected = event, actual = eventStore.stateFlow.value.parentEvent)
-        assertEquals(expected = events.filter { it.parentId == event?.id }, actual = eventStore.stateFlow.value.childrenEvents)
+        assertEquals(expected = listOf(stopEvent), actual = eventStore.stateFlow.value.childrenEvents)
     }
 
     @Test
@@ -51,7 +51,7 @@ internal class EventStoreTest {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
         assertNotNull(actual = eventStore.stateFlow.value.ship)
-        assertNull(actual = eventStore.stateFlow.value.parentEvent)
+        assertEquals(expected = defaultEvent, actual = eventStore.stateFlow.value.parentEvent)
     }
 
     @Test

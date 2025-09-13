@@ -12,104 +12,115 @@ import com.hybris.tlv.ui.screen.game.GameScreen
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.screen.game.Tutorial
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.translation.TranslationCache
 
 @Preview
 @Composable
 private fun GameLoading() {
     TranslationCache.set(translations = translations)
-    GameScreen(
-        store = Store(
-            dispatcher = TestDispatchers(),
-            navigation = PreviewNavigation(),
-            initialState = GameState(
-                loading = true,
-                tutorialStep = Tutorial.NO,
-                currentContent = Content.SYSTEM,
-                ship = null,
-                currentStellarHost = null,
-                nearStellarHosts = emptyList(),
+    AppTheme {
+        GameScreen(
+            store = Store(
+                dispatcher = TestDispatchers(),
+                navigation = PreviewNavigation(),
+                initialState = GameState(
+                    loading = true,
+                    tutorialStep = Tutorial.NO,
+                    currentContent = Content.SYSTEM,
+                    ship = null,
+                    currentStellarHost = null,
+                    nearStellarHosts = emptyList(),
+                )
             )
         )
-    )
+    }
 }
 
 @Preview
 @Composable
 private fun GameShip() {
     TranslationCache.set(translations = translations)
-    GameScreen(
-        store = Store(
-            dispatcher = TestDispatchers(),
-            navigation = PreviewNavigation(),
-            initialState = GameState(
-                loading = false,
-                tutorialStep = Tutorial.NO,
-                currentContent = Content.SHIP,
-                ship = ship,
-                currentStellarHost = null,
-                nearStellarHosts = emptyList(),
+    AppTheme {
+        GameScreen(
+            store = Store(
+                dispatcher = TestDispatchers(),
+                navigation = PreviewNavigation(),
+                initialState = GameState(
+                    loading = false,
+                    tutorialStep = Tutorial.NO,
+                    currentContent = Content.SHIP,
+                    ship = ship,
+                    currentStellarHost = null,
+                    nearStellarHosts = emptyList(),
+                )
             )
         )
-    )
+    }
 }
 
 @Preview
 @Composable
 private fun GameSystem() {
     TranslationCache.set(translations = translations)
-    GameScreen(
-        store = Store(
-            dispatcher = TestDispatchers(),
-            navigation = PreviewNavigation(),
-            initialState = GameState(
-                loading = false,
-                tutorialStep = Tutorial.NO,
-                currentContent = Content.SYSTEM,
-                ship = null,
-                currentStellarHost = hostsWithPlanets.random(),
-                nearStellarHosts = emptyList(),
+    AppTheme {
+        GameScreen(
+            store = Store(
+                dispatcher = TestDispatchers(),
+                navigation = PreviewNavigation(),
+                initialState = GameState(
+                    loading = false,
+                    tutorialStep = Tutorial.NO,
+                    currentContent = Content.SYSTEM,
+                    ship = ship,
+                    currentStellarHost = hostsWithPlanets.random(),
+                    nearStellarHosts = emptyList(),
+                )
             )
         )
-    )
+    }
 }
 
 @Preview
 @Composable
 private fun GameTravel() {
     TranslationCache.set(translations = translations)
-    GameScreen(
-        store = Store(
-            dispatcher = TestDispatchers(),
-            navigation = PreviewNavigation(),
-            initialState = GameState(
-                loading = false,
-                tutorialStep = Tutorial.NO,
-                currentContent = Content.TRAVEL,
-                ship = null,
-                currentStellarHost = null,
-                nearStellarHosts = stellarHosts.shuffled().take(n = 3),
+    AppTheme {
+        GameScreen(
+            store = Store(
+                dispatcher = TestDispatchers(),
+                navigation = PreviewNavigation(),
+                initialState = GameState(
+                    loading = false,
+                    tutorialStep = Tutorial.NO,
+                    currentContent = Content.TRAVEL,
+                    ship = ship,
+                    currentStellarHost = null,
+                    nearStellarHosts = stellarHosts.shuffled().take(n = 3),
+                )
             )
         )
-    )
+    }
 }
 
 @Preview
 @Composable
 private fun GameTutorial() {
     TranslationCache.set(translations = translations)
-    GameScreen(
-        store = Store(
-            dispatcher = TestDispatchers(),
-            navigation = PreviewNavigation(),
-            initialState = GameState(
-                loading = false,
-                tutorialStep = Tutorial.YES,
-                currentContent = Content.SYSTEM,
-                ship = null,
-                currentStellarHost = null,
-                nearStellarHosts = emptyList(),
+    AppTheme {
+        GameScreen(
+            store = Store(
+                dispatcher = TestDispatchers(),
+                navigation = PreviewNavigation(),
+                initialState = GameState(
+                    loading = false,
+                    tutorialStep = Tutorial.YES,
+                    currentContent = Content.SYSTEM,
+                    ship = null,
+                    currentStellarHost = null,
+                    nearStellarHosts = emptyList(),
+                )
             )
         )
-    )
+    }
 }

@@ -10,40 +10,45 @@ import com.hybris.tlv.ui.screen.event.EventScreen
 import com.hybris.tlv.ui.screen.event.EventState
 import com.hybris.tlv.ui.screen.event.defaultEvent
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.translation.TranslationCache
 
 @Preview
 @Composable
 private fun EventLoading() {
     TranslationCache.set(translations = translations)
-    EventScreen(
-        store = Store(
-            dispatcher = TestDispatchers(),
-            navigation = PreviewNavigation(),
-            initialState = EventState(
-                loading = true,
-                ship = null,
-                parentEvent = defaultEvent,
-                childrenEvents = emptyList()
+    AppTheme {
+        EventScreen(
+            store = Store(
+                dispatcher = TestDispatchers(),
+                navigation = PreviewNavigation(),
+                initialState = EventState(
+                    loading = true,
+                    ship = null,
+                    parentEvent = defaultEvent,
+                    childrenEvents = emptyList()
+                )
             )
         )
-    )
+    }
 }
 
 @Preview
 @Composable
 private fun EventRandom() {
     TranslationCache.set(translations = translations)
-    EventScreen(
-        store = Store(
-            dispatcher = TestDispatchers(),
-            navigation = PreviewNavigation(),
-            initialState = EventState(
-                loading = true,
-                ship = ship,
-                parentEvent = defaultEvent,
-                childrenEvents = events.shuffled().take(n = 3)
+    AppTheme {
+        EventScreen(
+            store = Store(
+                dispatcher = TestDispatchers(),
+                navigation = PreviewNavigation(),
+                initialState = EventState(
+                    loading = false,
+                    ship = ship,
+                    parentEvent = events.random(),
+                    childrenEvents = events.shuffled().take(n = 3)
+                )
             )
         )
-    )
+    }
 }

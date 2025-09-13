@@ -9,6 +9,7 @@ import com.hybris.tlv.ui.screen.gameover.Content
 import com.hybris.tlv.ui.screen.gameover.GameOverScreen
 import com.hybris.tlv.ui.screen.gameover.GameOverState
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.translation.TranslationCache
 
@@ -16,52 +17,58 @@ import com.hybris.tlv.usecase.translation.TranslationCache
 @Composable
 private fun GameOverLoading() {
     TranslationCache.set(translations = translations)
-    GameOverScreen(
-        store = Store(
-            dispatcher = TestDispatchers(),
-            navigation = PreviewNavigation(),
-            initialState = GameOverState(
-                loading = true,
-                currentContent = Content.MESSAGE,
-                gameSession = null,
-                gameOver = null
+    AppTheme {
+        GameOverScreen(
+            store = Store(
+                dispatcher = TestDispatchers(),
+                navigation = PreviewNavigation(),
+                initialState = GameOverState(
+                    loading = true,
+                    currentContent = Content.MESSAGE,
+                    gameSession = null,
+                    gameOver = null
+                )
             )
         )
-    )
+    }
 }
 
 @Preview
 @Composable
 private fun GameOverMessage() {
     TranslationCache.set(translations = translations)
-    GameOverScreen(
-        store = Store(
-            dispatcher = TestDispatchers(),
-            navigation = PreviewNavigation(),
-            initialState = GameOverState(
-                loading = false,
-                currentContent = Content.MESSAGE,
-                gameSession = gameSessionFinished,
-                gameOver = GameOver.GAME_OVER
+    AppTheme {
+        GameOverScreen(
+            store = Store(
+                dispatcher = TestDispatchers(),
+                navigation = PreviewNavigation(),
+                initialState = GameOverState(
+                    loading = false,
+                    currentContent = Content.MESSAGE,
+                    gameSession = gameSessionFinished,
+                    gameOver = GameOver.GAME_OVER
+                )
             )
         )
-    )
+    }
 }
 
 @Preview
 @Composable
 private fun GameOverScore() {
     TranslationCache.set(translations = translations)
-    GameOverScreen(
-        store = Store(
-            dispatcher = TestDispatchers(),
-            navigation = PreviewNavigation(),
-            initialState = GameOverState(
-                loading = false,
-                currentContent = Content.SCORE,
-                gameSession = gameSessionFinished,
-                gameOver = GameOver.GAME_OVER
+    AppTheme {
+        GameOverScreen(
+            store = Store(
+                dispatcher = TestDispatchers(),
+                navigation = PreviewNavigation(),
+                initialState = GameOverState(
+                    loading = false,
+                    currentContent = Content.SCORE,
+                    gameSession = gameSessionFinished,
+                    gameOver = GameOver.GAME_OVER
+                )
             )
         )
-    )
+    }
 }
