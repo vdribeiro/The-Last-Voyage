@@ -58,7 +58,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(space = 8.dp)
             ) {
-                val creditsMap = storeState.credits.orEmpty().groupBy { it.type }
+                val creditsMap = storeState.credits.groupBy { it.type }
 
                 // Creators
                 val creators = creditsMap[CreditType.CREATOR].orEmpty()

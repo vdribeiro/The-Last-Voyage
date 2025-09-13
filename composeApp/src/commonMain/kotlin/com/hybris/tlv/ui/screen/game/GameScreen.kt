@@ -51,7 +51,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
             cryopods = if (tutorial) (50..1000).random() else 0,
         )
     }
-    val ship = storeState.gameSession?.ship ?: defaultShip
+    val ship = storeState.ship ?: defaultShip
 
     val travelTranslation = remember { getTranslation(key = "game_screen__travel") }
     val systemTranslation = remember { getTranslation(key = "game_screen__system") }
@@ -113,14 +113,13 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (storeState.loading) {
-                null, true -> DebouncedLinearProgressIndicator(
+                true -> DebouncedLinearProgressIndicator(
                     modifier = Modifier
                         .testTag(tag = GAME_SCREEN_PROGRESS_INDICATOR)
                         .fillMaxWidth()
                 )
 
                 false -> when (storeState.currentContent) {
-                    null -> {}
                     Content.SHIP -> ShipContent(store = store)
                     Content.SYSTEM -> SystemContent(store = store)
                     Content.TRAVEL -> TravelContent(store = store)
@@ -130,7 +129,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
             val title: String
             val description: String
             when (storeState.tutorialStep) {
-                null, Tutorial.NO -> {
+                Tutorial.NO -> {
                     title = remember { "" }
                     description = remember { "" }
                 }

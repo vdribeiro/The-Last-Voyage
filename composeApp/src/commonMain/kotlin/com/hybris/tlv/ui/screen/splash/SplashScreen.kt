@@ -53,7 +53,7 @@ internal fun SplashScreen(store: Store<SplashAction, SplashState>) {
 
             // Circular progress around the app logo
             val animatedProgress by animateFloatAsState(
-                targetValue = storeState.progress ?: 0f,
+                targetValue = storeState.progress,
                 animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
             )
             CircularProgressIndicator(

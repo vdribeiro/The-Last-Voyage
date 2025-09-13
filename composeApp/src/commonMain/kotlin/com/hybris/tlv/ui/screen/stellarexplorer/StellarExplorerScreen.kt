@@ -44,11 +44,11 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
     val onFiltersChange: (String) -> Unit
 
     when (storeState.currentContent) {
-        null, Content.LIST_HOSTS -> {
+        Content.LIST_HOSTS -> {
             enabled = true
             viewName = hostListTranslation
             viewIcon = Icons.Default.Flare
-            count = storeState.filteredStellarHosts.orEmpty().size.toString()
+            count = storeState.filteredStellarHosts.size.toString()
             properties = stellarHostProperties.values.toList()
             selectedProperty = stellarHostProperties[storeState.sortStellarHostProperty].orEmpty()
             onSortChange = { property ->
@@ -56,13 +56,13 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
                     store.send(action = StellarExplorerAction.SortStellarHosts(sort = it))
                 }
             }
-            visibleProperties = storeState.visibleStellarHostProperties.orEmpty().mapNotNull { stellarHostProperties[it] }
+            visibleProperties = storeState.visibleStellarHostProperties.mapNotNull { stellarHostProperties[it] }
             onVisibilityChange = { property ->
                 stellarHostProperties.entries.find { it.value == property }?.key?.let {
                     store.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = it))
                 }
             }
-            selectedProperties = storeState.searchableStellarHostProperties.orEmpty().mapNotNull { stellarHostProperties[it] }
+            selectedProperties = storeState.searchableStellarHostProperties.mapNotNull { stellarHostProperties[it] }
             onFiltersChange = { property ->
                 stellarHostProperties.entries.find { it.value == property }?.key?.let {
                     store.send(action = StellarExplorerAction.ChangeStellarHostsSearchable(property = it))
@@ -74,7 +74,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
             enabled = false
             viewName = hostListTranslation
             viewIcon = Icons.Default.Flare
-            count = storeState.filteredStellarHosts.orEmpty().size.toString()
+            count = storeState.filteredStellarHosts.size.toString()
             properties = stellarHostProperties.values.toList()
             selectedProperty = stellarHostProperties[storeState.sortStellarHostProperty].orEmpty()
             onSortChange = { property ->
@@ -82,13 +82,13 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
                     store.send(action = StellarExplorerAction.SortStellarHosts(sort = it))
                 }
             }
-            visibleProperties = storeState.visibleStellarHostProperties.orEmpty().mapNotNull { stellarHostProperties[it] }
+            visibleProperties = storeState.visibleStellarHostProperties.mapNotNull { stellarHostProperties[it] }
             onVisibilityChange = { property ->
                 stellarHostProperties.entries.find { it.value == property }?.key?.let {
                     store.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = it))
                 }
             }
-            selectedProperties = storeState.searchableStellarHostProperties.orEmpty().mapNotNull { stellarHostProperties[it] }
+            selectedProperties = storeState.searchableStellarHostProperties.mapNotNull { stellarHostProperties[it] }
             onFiltersChange = { property ->
                 stellarHostProperties.entries.find { it.value == property }?.key?.let {
                     store.send(action = StellarExplorerAction.ChangeStellarHostsSearchable(property = it))
@@ -100,7 +100,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
             enabled = true
             viewName = planetListTranslation
             viewIcon = Icons.Default.Public
-            count = storeState.filteredPlanets.orEmpty().size.toString()
+            count = storeState.filteredPlanets.size.toString()
             properties = planetProperties.values.toList()
             selectedProperty = planetProperties[storeState.sortPlanetProperty].orEmpty()
             onSortChange = { property ->
@@ -108,13 +108,13 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
                     store.send(action = StellarExplorerAction.SortPlanets(sort = it))
                 }
             }
-            visibleProperties = storeState.visiblePlanetProperties.orEmpty().mapNotNull { planetProperties[it] }
+            visibleProperties = storeState.visiblePlanetProperties.mapNotNull { planetProperties[it] }
             onVisibilityChange = { property ->
                 planetProperties.entries.find { it.value == property }?.key?.let {
                     store.send(action = StellarExplorerAction.ChangePlanetVisibility(property = it))
                 }
             }
-            selectedProperties = storeState.searchablePlanetProperties.orEmpty().mapNotNull { planetProperties[it] }
+            selectedProperties = storeState.searchablePlanetProperties.mapNotNull { planetProperties[it] }
             onFiltersChange = { property ->
                 planetProperties.entries.find { it.value == property }?.key?.let {
                     store.send(action = StellarExplorerAction.ChangePlanetSearchable(property = it))
@@ -126,7 +126,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
             enabled = false
             viewName = planetListTranslation
             viewIcon = Icons.Default.Public
-            count = storeState.filteredPlanets.orEmpty().size.toString()
+            count = storeState.filteredPlanets.size.toString()
             properties = planetProperties.values.toList()
             selectedProperty = planetProperties[storeState.sortPlanetProperty].orEmpty()
             onSortChange = { property ->
@@ -134,13 +134,13 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
                     store.send(action = StellarExplorerAction.SortPlanets(sort = it))
                 }
             }
-            visibleProperties = storeState.visiblePlanetProperties.orEmpty().mapNotNull { planetProperties[it] }
+            visibleProperties = storeState.visiblePlanetProperties.mapNotNull { planetProperties[it] }
             onVisibilityChange = { property ->
                 planetProperties.entries.find { it.value == property }?.key?.let {
                     store.send(action = StellarExplorerAction.ChangePlanetVisibility(property = it))
                 }
             }
-            selectedProperties = storeState.searchablePlanetProperties.orEmpty().mapNotNull { planetProperties[it] }
+            selectedProperties = storeState.searchablePlanetProperties.mapNotNull { planetProperties[it] }
             onFiltersChange = { property ->
                 planetProperties.entries.find { it.value == property }?.key?.let {
                     store.send(action = StellarExplorerAction.ChangePlanetSearchable(property = it))
@@ -155,7 +155,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
             ControlPanel(
                 modifier = Modifier.statusBarsPadding(),
                 enabled = enabled,
-                search = storeState.search.orEmpty(),
+                search = storeState.search,
                 onSearch = { store.send(action = StellarExplorerAction.Search(search = it)) },
                 viewName = viewName,
                 viewIcon = viewIcon,
@@ -163,7 +163,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
                 count = count,
                 properties = properties,
                 selectedProperty = selectedProperty,
-                ascending = storeState.sortAscending.orTrue(),
+                ascending = storeState.sortAscending,
                 onSortChange = onSortChange,
                 onSortDirectionChange = { store.send(action = StellarExplorerAction.ChangeSortDirection) },
                 visibleProperties = visibleProperties,
@@ -175,13 +175,12 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when {
-                storeState.loading != false -> DebouncedLinearProgressIndicator(
+                storeState.loading -> DebouncedLinearProgressIndicator(
                     modifier = Modifier
                         .fillMaxWidth()
                 )
 
                 else -> when (storeState.currentContent) {
-                    null -> {}
                     Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostContent(store = store)
                     Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetContent(store = store)
                 }

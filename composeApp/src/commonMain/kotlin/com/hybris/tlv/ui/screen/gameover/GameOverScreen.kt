@@ -65,7 +65,6 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
                     )
                     Spacer(modifier = Modifier.height(height = 16.dp))
                     when (storeState.currentContent) {
-                        null -> {}
                         // Game over message
                         Content.MESSAGE -> TypewriterText(
                             modifier = Modifier
@@ -103,7 +102,6 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
                 ) {
                     Text(
                         text = when (storeState.currentContent) {
-                            null -> ""
                             Content.MESSAGE -> messageTranslation
                             Content.SCORE -> scoreTranslation
                         }

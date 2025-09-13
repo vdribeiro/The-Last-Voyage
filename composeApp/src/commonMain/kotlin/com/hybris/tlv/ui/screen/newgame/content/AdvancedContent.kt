@@ -28,7 +28,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun AdvancedContent(store: Store<NewGameAction, NewGameState>) {
     val storeState by store.stateFlow.collectAsState()
-    val formula = storeState.formula ?: return
+    val formula = storeState.formula
 
     var habitableZoneKopparapuWeight by remember { mutableStateOf(value = formula.habitableZoneKopparapuWeight.toString()) }
     var habitableZoneKastingWeight by remember { mutableStateOf(value = formula.habitableZoneKastingWeight.toString()) }

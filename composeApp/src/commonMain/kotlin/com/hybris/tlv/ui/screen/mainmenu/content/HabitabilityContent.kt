@@ -28,7 +28,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun HabitabilityContent(store: Store<MainMenuAction, MainMenuState>) {
     val storeState by store.stateFlow.collectAsState()
-    val formula = storeState.learningsMap.orEmpty()[LearningType.FORMULA].orEmpty()
+    val formula = storeState.learningsMap[LearningType.FORMULA].orEmpty()
     val uriHandler = LocalUriHandler.current
     val formulaTranslation = remember { getTranslation(key = "formula") }
 
@@ -45,17 +45,15 @@ internal fun HabitabilityContent(store: Store<MainMenuAction, MainMenuState>) {
                 description = property.description,
             )
         }
-        storeState.formula?.let {
-            item {
-                Text(
-                    modifier = Modifier.debouncedClickable { uriHandler.openUri(uri = it) },
-                    text = formulaTranslation,
-                    style = typography.bodyLarge.copy(
-                        color = colorScheme.primary,
-                        textDecoration = TextDecoration.Underline
-                    ),
-                )
-            }
+        item {
+            Text(
+                modifier = Modifier.debouncedClickable { uriHandler.openUri(uri = storeState.formula) },
+                text = formulaTranslation,
+                style = typography.bodyLarge.copy(
+                    color = colorScheme.primary,
+                    textDecoration = TextDecoration.Underline
+                ),
+            )
         }
     }
 }

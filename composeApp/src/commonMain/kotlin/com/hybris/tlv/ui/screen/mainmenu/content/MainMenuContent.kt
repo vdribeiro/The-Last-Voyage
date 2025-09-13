@@ -42,7 +42,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
     ) {
         item { AppLogo() }
         item { Spacer(modifier = Modifier.height(height = 32.dp)) }
-        if (storeState.loading != false) {
+        if (storeState.loading) {
             item {
                 DebouncedLinearProgressIndicator(
                     modifier = Modifier
@@ -51,7 +51,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
             }
             return@LazyColumn
         }
-        if (storeState.featureNewGame != false) {
+        if (storeState.featureNewGame) {
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.NewGame) },
@@ -59,7 +59,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                     style = typography.headlineMedium,
                 )
             }
-            if (storeState.ongoingGameSession != false) {
+            if (storeState.ongoingGameSession) {
                 item {
                     Text(
                         modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Continue) },
@@ -69,7 +69,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                 }
             }
         }
-        if (storeState.featureLearn != false) {
+        if (storeState.featureLearn) {
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Learn) },
@@ -78,7 +78,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                 )
             }
         }
-        if (storeState.featureScores != false) {
+        if (storeState.featureScores) {
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Scores) },
@@ -87,7 +87,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                 )
             }
         }
-        if (storeState.featureSoon != false) {
+        if (storeState.featureSoon) {
             item {
                 Text(
                     modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Soon) },

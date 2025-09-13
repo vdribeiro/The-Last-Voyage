@@ -59,7 +59,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                 horizontalArrangement = Arrangement.End
             ) {
                 // Feedback button
-                if (isMenu && storeState.featureFeedback == true) {
+                if (isMenu && storeState.featureFeedback) {
                     IconButton(onClick = { store.send(action = MainMenuAction.Feedback) }) {
                         Icon(
                             imageVector = Icons.Default.BugReport,
@@ -83,7 +83,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                         modifier = Modifier
                             .size(size = 100.dp)
                             .wrapContentHeight(align = Alignment.CenterVertically)
-                            .debouncedClickable { storeState.developerCorner?.let { uriHandler.openUri(uri = it) } },
+                            .debouncedClickable {  uriHandler.openUri(uri = storeState.developerCorner) } ,
                         text = websiteTranslation,
                         style = typography.titleSmall,
                     )
@@ -99,7 +99,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                     Image(
                         modifier = Modifier
                             .size(size = 100.dp)
-                            .debouncedClickable { storeState.support?.let { uriHandler.openUri(uri = it) } },
+                            .debouncedClickable {  uriHandler.openUri(uri = storeState.support) } ,
                         painter = painterResource(resource = Res.drawable.kofi),
                         contentDescription = "Support",
                         contentScale = ContentScale.Fit,
@@ -110,7 +110,6 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (currentContent) {
-                null -> {}
                 Content.MAIN_MENU -> MainMenuContent(store = store)
                 Content.LEARN_MENU -> LearnContent(store = store)
                 Content.HOST_DEFINITION -> HostDefinitionContent(store = store)

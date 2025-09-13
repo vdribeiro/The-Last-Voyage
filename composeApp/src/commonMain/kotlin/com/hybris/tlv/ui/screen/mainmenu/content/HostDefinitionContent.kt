@@ -31,8 +31,8 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) {
     val storeState by store.stateFlow.collectAsState()
-    val stellarHostProperties = storeState.learningsMap.orEmpty()[LearningType.HOST_PROPERTY].orEmpty()
-    val stellarHosts = storeState.learningsMap.orEmpty()[LearningType.HOST_TYPE].orEmpty()
+    val stellarHostProperties = storeState.learningsMap[LearningType.HOST_PROPERTY].orEmpty()
+    val stellarHosts = storeState.learningsMap[LearningType.HOST_TYPE].orEmpty()
     val stellarHost = remember {
         StellarHost(
             id = "Valar",

@@ -50,7 +50,7 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                 )
                 Spacer(modifier = Modifier.height(height = 32.dp))
                 when {
-                    storeState.loading != false -> DebouncedLinearProgressIndicator(
+                    storeState.loading -> DebouncedLinearProgressIndicator(
                         modifier = Modifier
                             .fillMaxWidth()
                     )
@@ -61,7 +61,7 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                         verticalArrangement = Arrangement.spacedBy(space = 12.dp)
                     ) {
                         // Scores
-                        items(items = storeState.gameSessions.orEmpty(), key = { it.id }) { score ->
+                        items(items = storeState.gameSessions, key = { it.id }) { score ->
                             Score(
                                 modifier = Modifier
                                     .debouncedClickable(onClick = {
