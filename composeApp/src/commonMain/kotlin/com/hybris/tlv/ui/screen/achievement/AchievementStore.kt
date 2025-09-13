@@ -35,6 +35,4 @@ internal class AchievementStore(
     override fun back(state: AchievementState): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
-
-    override fun reducer(state: AchievementState, action: AchievementAction) {}
 }

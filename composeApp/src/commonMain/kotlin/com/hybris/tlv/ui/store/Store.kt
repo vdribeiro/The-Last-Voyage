@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.update
  * After it receives the result from the Use Case, it combines it with the current [State], and emits a new [State].
  * A key rule is that the UI only observes the Store's [State] and never modifies it directly.
  */
-internal abstract class Store<Action, State>(
+internal open class Store<Action, State>(
     private val dispatcher: Dispatcher,
     private val navigation: NavigationManager,
     initialState: State
@@ -39,7 +39,7 @@ internal abstract class Store<Action, State>(
     /**
      * Back navigation.
      */
-    protected abstract fun back(state: State): () -> Unit
+    protected open fun back(state: State): () -> Unit = {}
 
     /**
      * Clean up the store and navigate to a new [screen] given an optional [state].
@@ -59,7 +59,7 @@ internal abstract class Store<Action, State>(
      * Called when an [Action] is sent to the Store.
      * It uses the current [state] and the [action] to produce a new [State].
      */
-    protected abstract fun reducer(state: State, action: Action)
+    protected open fun reducer(state: State, action: Action) {}
 
     /**
      * Updates the current [State].

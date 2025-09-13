@@ -40,6 +40,4 @@ internal class ScoreStore(
     override fun back(state: ScoreState): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
-
-    override fun reducer(state: ScoreState, action: ScoreAction) {}
 }

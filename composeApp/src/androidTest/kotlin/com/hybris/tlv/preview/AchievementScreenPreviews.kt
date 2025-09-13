@@ -2,39 +2,42 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.App
 import com.hybris.tlv.achievements
-import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.flow.TestDispatchers
+import com.hybris.tlv.translations
+import com.hybris.tlv.ui.screen.achievement.AchievementScreen
 import com.hybris.tlv.ui.screen.achievement.AchievementState
-import com.hybris.tlv.usecase.translation.model.domain.Translation
+import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.translation.TranslationCache
 
 @Preview
 @Composable
-private fun AchievementNull() {
-    val navigation = navigation(
-        screen = Screen.ACHIEVEMENT,
-        stateBuilder = AchievementState()
+private fun AchievementLoading() {
+    TranslationCache.set(translations = translations)
+    AchievementScreen(
+        store = Store(
+            dispatcher = TestDispatchers(),
+            navigation = PreviewNavigation(),
+            initialState = AchievementState(
+                loading = true,
+                achievements = emptyList()
+            )
+        )
     )
-    setTranslations(translations = translations)
-    App(navigation = navigation)
 }
 
 @Preview
 @Composable
 private fun AchievementList() {
-    val navigation = navigation(
-        screen = Screen.ACHIEVEMENT,
-        stateBuilder = AchievementState(
-            achievements = achievements
+    TranslationCache.set(translations = translations)
+    AchievementScreen(
+        store = Store(
+            dispatcher = TestDispatchers(),
+            navigation = PreviewNavigation(),
+            initialState = AchievementState(
+                loading = true,
+                achievements = achievements
+            )
         )
     )
-    setTranslations(translations = translations)
-    App(navigation = navigation)
 }
-
-private val translations = listOf(
-    Translation(
-        key = "key",
-        value = "value"
-    ),
-)

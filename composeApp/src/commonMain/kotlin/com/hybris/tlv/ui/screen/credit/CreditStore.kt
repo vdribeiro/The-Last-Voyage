@@ -36,6 +36,4 @@ internal class CreditStore(
     override fun back(state: CreditState): () -> Unit = {
         navigate(screen = Screen.MAIN_MENU)
     }
-
-    override fun reducer(state: CreditState, action: CreditAction) {}
 }

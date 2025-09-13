@@ -1,41 +1,55 @@
 package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
-import com.hybris.tlv.App
-import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.flow.TestDispatchers
+import com.hybris.tlv.translations
+import com.hybris.tlv.ui.screen.splash.SplashScreen
 import com.hybris.tlv.ui.screen.splash.SplashState
+import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.translation.TranslationCache
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable
-private fun SplashNull() {
-    val navigation = navigation(
-        screen = Screen.SPLASH,
-        stateBuilder = SplashState()
+private fun SplashZero() {
+    TranslationCache.set(translations = translations)
+    SplashScreen(
+        store = Store(
+            dispatcher = TestDispatchers(),
+            navigation = PreviewNavigation(),
+            initialState = SplashState(
+                progress = 0.0f
+            )
+        )
     )
-    App(navigation = navigation)
 }
 
 @Preview
 @Composable
 private fun SplashHalfway() {
-    val navigation = navigation(
-        screen = Screen.SPLASH,
-        stateBuilder = SplashState(
-            progress = 0.5f
+    TranslationCache.set(translations = translations)
+    SplashScreen(
+        store = Store(
+            dispatcher = TestDispatchers(),
+            navigation = PreviewNavigation(),
+            initialState = SplashState(
+                progress = 0.5f
+            )
         )
     )
-    App(navigation = navigation)
 }
 
 @Preview
 @Composable
 private fun SplashFull() {
-    val navigation = navigation(
-        screen = Screen.SPLASH,
-        stateBuilder = SplashState(
-            progress = 1.0f
+    TranslationCache.set(translations = translations)
+    SplashScreen(
+        store = Store(
+            dispatcher = TestDispatchers(),
+            navigation = PreviewNavigation(),
+            initialState = SplashState(
+                progress = 1.0f
+            )
         )
     )
-    App(navigation = navigation)
 }

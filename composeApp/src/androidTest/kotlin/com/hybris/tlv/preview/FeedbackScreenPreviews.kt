@@ -2,32 +2,39 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.App
+import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.translations
-import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.screen.feedback.FeedbackScreen
 import com.hybris.tlv.ui.screen.feedback.FeedbackState
+import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.translation.TranslationCache
 
 @Preview
 @Composable
-private fun FeedbackNull() {
-    val navigation = navigation(
-        screen = Screen.FEEDBACK,
-        stateBuilder = FeedbackState()
+private fun Feedback() {
+    TranslationCache.set(translations = translations)
+    FeedbackScreen(
+        store = Store(
+            dispatcher = TestDispatchers(),
+            navigation = PreviewNavigation(),
+            initialState = FeedbackState(
+                isError = false
+            )
+        )
     )
-    setTranslations(translations = translations)
-    App(navigation = navigation)
 }
 
 @Preview
 @Composable
-private fun FeedbackWithTagAndMessage() {
-    val navigation = navigation(
-        screen = Screen.FEEDBACK,
-        stateBuilder = FeedbackState(
-            tag = "Sum Ting Wong",
-            message = "Bang Ding Ow"
+private fun FeedbackError() {
+    TranslationCache.set(translations = translations)
+    FeedbackScreen(
+        store = Store(
+            dispatcher = TestDispatchers(),
+            navigation = PreviewNavigation(),
+            initialState = FeedbackState(
+                isError = true
+            )
         )
     )
-    setTranslations(translations = translations)
-    App(navigation = navigation)
 }

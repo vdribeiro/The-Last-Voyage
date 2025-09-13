@@ -28,7 +28,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun ShipContent(store: Store<GameAction, GameState>) {
     val storeState by store.stateFlow.collectAsState()
-    val ship = storeState.gameSession?.ship ?: return
+    val ship = storeState.ship ?: return
     val yearsTraveledTranslation = remember { getTranslation(key = "ship_years_traveled") }
     val sensorTranslation = remember { getTranslation(key = "ship_sensor") }
     val speedTranslation = remember { getTranslation(key = "ship_speed") }
