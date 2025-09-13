@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.event
 
+import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
@@ -26,8 +27,10 @@ internal class EventStore(
         childrenEvents = emptyList()
     )
 ) {
-    private var gameSession: GameSession? = null
-    private val eventChain: MutableList<Event> = mutableListOf()
+    @get:VisibleForTesting
+    internal var gameSession: GameSession? = null
+    @get:VisibleForTesting
+    internal val eventChain: MutableList<Event> = mutableListOf()
 
     init {
         setup()

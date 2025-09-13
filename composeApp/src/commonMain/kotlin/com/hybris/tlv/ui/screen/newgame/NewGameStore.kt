@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.newgame
 
+import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
@@ -33,7 +34,8 @@ internal class NewGameStore(
         formula = Formula()
     )
 ) {
-    private var selectedShip: ShipPrototype? = null
+    @get:VisibleForTesting
+    internal var selectedShip: ShipPrototype? = null
 
     init {
         setup()

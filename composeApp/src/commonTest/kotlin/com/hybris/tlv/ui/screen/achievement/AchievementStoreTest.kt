@@ -5,7 +5,6 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.store.Store
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -14,7 +13,7 @@ import kotlinx.coroutines.runBlocking
 
 internal class AchievementStoreTest {
 
-    private val store: Store<AchievementAction, AchievementState> get() = storeFactory.createAchievementStore()
+    private val store: AchievementStore get() = storeFactory.createAchievementStore()
 
     @BeforeTest
     fun setup() = runBlocking {

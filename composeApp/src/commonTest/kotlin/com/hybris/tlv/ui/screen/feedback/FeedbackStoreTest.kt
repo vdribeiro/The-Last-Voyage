@@ -4,7 +4,6 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.store.Store
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -12,7 +11,7 @@ import kotlinx.coroutines.runBlocking
 
 internal class FeedbackStoreTest {
 
-    private val store: Store<FeedbackAction, FeedbackState> get() = storeFactory.createFeedbackStore()
+    private val store: FeedbackStore get() = storeFactory.createFeedbackStore()
 
     @BeforeTest
     fun setup() = runBlocking {

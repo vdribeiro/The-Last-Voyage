@@ -6,18 +6,18 @@ import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.store.Store
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class EventStoreTest {
 
-    private val store: Store<EventAction, EventState> get() = storeFactory.createEventStore()
+    private val store: EventStore get() = storeFactory.createEventStore()
 
     @BeforeTest
     fun setup() = runBlocking {
@@ -30,12 +30,12 @@ internal class EventStoreTest {
         mock.useCases.sync.sync().last()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
-        assertNotNull(actual = eventStore.stateFlow.value.ship)
-        val parentEvent = eventStore.stateFlow.value.parentEvent
-        assertNotNull(actual = parentEvent)
-        //val event = parentEvent.find { it.parentId == null }
-        //assertEquals(expected = event, actual = eventStore.stateFlow.value.parentEvent)
-        //assertEquals(expected = parentEvent.filter { it.parentId == event?.id }, actual = eventStore.stateFlow.value.childrenEvents)
+        assertNotNull(actual = eventStore.gameSession)
+        val events = eventStore.eventChain
+        assertTrue(actual = events.isNotEmpty())
+        val event = events.find { it.parentId == null }
+        assertEquals(expected = event, actual = eventStore.stateFlow.value.parentEvent)
+        assertEquals(expected = events.filter { it.parentId == event?.id }, actual = eventStore.stateFlow.value.childrenEvents)
     }
 
     @Test
@@ -88,7 +88,7 @@ internal class EventStoreTest {
         assertEquals(expected = NavigationManager.Screen.EVENT, actual = mock.navigation.stateFlow.value.screen)
         mock.useCases.sync.sync().last()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        store
-        //eventStore.send(action = EventAction.Select(event = null))
+        val eventStore = store
+        eventStore.send(action = EventAction.Select(event = defaultEvent))
     }
 }

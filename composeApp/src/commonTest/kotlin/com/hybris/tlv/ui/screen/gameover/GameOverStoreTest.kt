@@ -5,7 +5,6 @@ import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.store.Store
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,7 +14,7 @@ import kotlinx.coroutines.runBlocking
 
 internal class GameOverStoreTest {
 
-    private val store: Store<GameOverAction, GameOverState> get() = storeFactory.createGameOverStore()
+    private val store: GameOverStore get() = storeFactory.createGameOverStore()
 
     @BeforeTest
     fun setup() = runBlocking {

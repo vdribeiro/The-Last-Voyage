@@ -5,7 +5,6 @@ import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.store.Store
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,7 +14,7 @@ import kotlinx.coroutines.runBlocking
 
 internal class MainMenuStoreTest {
 
-    private val store: Store<MainMenuAction, MainMenuState> get() = storeFactory.createMainMenuStore()
+    private val store: MainMenuStore get() = storeFactory.createMainMenuStore()
 
     @BeforeTest
     fun setup() = runBlocking {
@@ -27,14 +26,14 @@ internal class MainMenuStoreTest {
     fun `init`() = runBlocking {
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val mainMenuStore = store
-        assertTrue(actual = mainMenuStore.stateFlow.value.ongoingGameSession == true)
+        assertTrue(actual = mainMenuStore.stateFlow.value.ongoingGameSession)
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
     }
 
     @Test
     fun `init without game session`() = runBlocking {
         val mainMenuStore = store
-        assertFalse(actual = mainMenuStore.stateFlow.value.ongoingGameSession == true)
+        assertFalse(actual = mainMenuStore.stateFlow.value.ongoingGameSession)
     }
 
     @Test

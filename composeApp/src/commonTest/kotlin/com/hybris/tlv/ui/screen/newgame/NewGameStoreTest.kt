@@ -4,7 +4,6 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 import kotlin.test.BeforeTest
@@ -17,7 +16,7 @@ import kotlinx.coroutines.runBlocking
 
 internal class NewGameStoreTest {
 
-    private val store: Store<NewGameAction, NewGameState> get() = storeFactory.createNewGameStore()
+    private val store: NewGameStore get() = storeFactory.createNewGameStore()
 
     @BeforeTest
     fun setup() = runBlocking {
@@ -62,7 +61,7 @@ internal class NewGameStoreTest {
     fun `send action select ship`() = runBlocking {
         mock.useCases.sync.sync().last()
         val newGameStore = store
-        assertNull(actual = newGameStore.stateFlow.value.selectedShip)
+        assertNull(actual = newGameStore.selectedShip)
         val shipPrototype = ShipPrototype(
             assignedPoints = 1,
             sensorRange = 1,
@@ -71,7 +70,7 @@ internal class NewGameStoreTest {
             cryopods = 1
         )
         newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype))
-        assertEquals(expected = shipPrototype, actual = newGameStore.stateFlow.value.selectedShip)
+        assertEquals(expected = shipPrototype, actual = newGameStore.selectedShip)
     }
 
     @Test

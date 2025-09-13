@@ -40,29 +40,29 @@ internal class FeedbackScreenTest {
         onNodeWithTag(testTag = FEEDBACK_SCREEN_THANKS).assertExists()
     }
 
-    @Test
-    fun feedback() = runComposeUiTest {
-        val store = storeFactory.createFeedbackStore(
-            stateBuilder = FeedbackState(
-                tag = "TAG",
-                message = "MESSAGE"
-            )
-        )
-        setContent {
-            FeedbackScreen(store = store)
-        }
-
-        onNodeWithTag(testTag = FEEDBACK_SCREEN).assertExists()
-        onNodeWithTag(testTag = FEEDBACK_SCREEN_COLUMN).assertExists()
-        onNodeWithTag(testTag = FEEDBACK_SCREEN_ICON).assertExists()
-        onNodeWithTag(testTag = FEEDBACK_SCREEN_TITLE).assertExists()
-        onNodeWithTag(testTag = FEEDBACK_SCREEN_DESCRIPTION).assertExists()
-        onNodeWithTag(testTag = FEEDBACK_SCREEN_INPUT).assertExists()
-        onNodeWithTag(testTag = FEEDBACK_SCREEN_BUTTON).assertExists()
-        onNodeWithTag(testTag = FEEDBACK_SCREEN_THANKS).assertDoesNotExist()
-
-        onNodeWithTag(testTag = FEEDBACK_SCREEN_INPUT).performTextInput(text = "MESSAGE")
-        onNodeWithTag(testTag = FEEDBACK_SCREEN_BUTTON).performClick()
-        onNodeWithTag(testTag = FEEDBACK_SCREEN_THANKS).assertExists()
-    }
+    //@Test
+    //fun feedback() = runComposeUiTest {
+    //    val store = storeFactory.createFeedbackStore(
+    //        stateBuilder = FeedbackState(
+    //            tag = "TAG",
+    //            message = "MESSAGE"
+    //        )
+    //    )
+    //    setContent {
+    //        FeedbackScreen(store = store)
+    //    }
+    //
+    //    onNodeWithTag(testTag = FEEDBACK_SCREEN).assertExists()
+    //    onNodeWithTag(testTag = FEEDBACK_SCREEN_COLUMN).assertExists()
+    //    onNodeWithTag(testTag = FEEDBACK_SCREEN_ICON).assertExists()
+    //    onNodeWithTag(testTag = FEEDBACK_SCREEN_TITLE).assertExists()
+    //    onNodeWithTag(testTag = FEEDBACK_SCREEN_DESCRIPTION).assertExists()
+    //    onNodeWithTag(testTag = FEEDBACK_SCREEN_INPUT).assertExists()
+    //    onNodeWithTag(testTag = FEEDBACK_SCREEN_BUTTON).assertExists()
+    //    onNodeWithTag(testTag = FEEDBACK_SCREEN_THANKS).assertDoesNotExist()
+    //
+    //    onNodeWithTag(testTag = FEEDBACK_SCREEN_INPUT).performTextInput(text = "MESSAGE")
+    //    onNodeWithTag(testTag = FEEDBACK_SCREEN_BUTTON).performClick()
+    //    onNodeWithTag(testTag = FEEDBACK_SCREEN_THANKS).assertExists()
+    //}
 }

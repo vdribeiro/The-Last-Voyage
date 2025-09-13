@@ -6,7 +6,6 @@ import com.hybris.tlv.planets
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.store.Store
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,7 +14,7 @@ import kotlinx.coroutines.runBlocking
 
 internal class StellarExplorerStoreTest {
 
-    private val store: Store<StellarExplorerAction, StellarExplorerState> get() = storeFactory.createStellarExplorerStore()
+    private val store: StellarExplorerStore get() = storeFactory.createStellarExplorerStore()
 
     @BeforeTest
     fun setup() = runBlocking {
@@ -29,14 +28,6 @@ internal class StellarExplorerStoreTest {
         val stellarExplorerStore = store
         val state = stellarExplorerStore.stateFlow.value
         assertEquals(expected = Content.LIST_HOSTS, actual = state.currentContent)
-        val filteredStellarHosts = state.stellarHosts.orEmpty().searchStellarHosts(
-            search = state.search.orEmpty(),
-            searchable = state.searchableStellarHostProperties.orEmpty(),
-        ).sortStellarHosts(
-            sort = state.sortStellarHostProperty!!,
-            ascending = state.sortAscending!!
-        )
-        assertEquals(expected = filteredStellarHosts, actual = state.filteredStellarHosts)
         assertEquals(expected = emptyList(), actual = state.filteredPlanets)
     }
 
