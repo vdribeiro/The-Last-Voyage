@@ -37,11 +37,6 @@ internal abstract class Store<Action, State>(
     }
 
     /**
-     * Initialize state.
-     */
-    abstract fun setup(state: State): Job
-
-    /**
      * Back navigation.
      */
     protected abstract fun back(state: State): () -> Unit

@@ -4,6 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackState
+import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
@@ -14,13 +15,17 @@ import kotlinx.coroutines.Job
 internal class EventStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    stateBuilder: EventStateBuilder,
     private val eventUseCases: EventUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<EventAction, EventState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = EventState()
+    initialState = EventState(
+        loading = true,
+        ship = null,
+        parentEvent = null,
+        childrenEvents = emptyList()
+    )
 ) {
     private val defaultEvent = Event(
         id = "event__default",
@@ -39,27 +44,25 @@ internal class EventStore(
     private val eventChain: MutableList<Event> = mutableListOf()
 
     init {
-        setup(builder = stateBuilder)
+        setup()
     }
 
-    override fun setup(state: EventState): Job = launch {}
-
-    private fun setup(builder: EventStateBuilder): Job = launch {
-        val gameSession = builder.gameSession ?: gameSessionUseCases.getLatestGameSession()
+    private fun setup(): Job = launch {
+        val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing game session on setup()"))
+            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 
         // Guarantee at least 1 event
-        val eventChain = builder.eventChain ?: eventUseCases.getRandomEvent(ids = gameSession.launchedEvents).ifEmpty {
+        val eventChain = eventUseCases.getRandomEvent(ids = gameSession.launchedEvents).ifEmpty {
             listOf(element = defaultEvent)
         }
 
         // There must be at least 1 event with no parentId, this is the parent event
         val parentEvent = eventChain.find { it.parentId == null }
         if (parentEvent == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing parent event on setup()"))
+            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing parent event on setup()"))
             return@launch
         }
         val childrenEvents = eventChain.filter { it.parentId == parentEvent.id }.ifEmpty {
@@ -71,20 +74,11 @@ internal class EventStore(
         this@EventStore.eventChain.addAll(elements = eventChain)
         updateState {
             it.copy(
+                loading = false,
                 ship = updatedGameSession.ship,
                 parentEvent = parentEvent,
                 childrenEvents = childrenEvents
             )
-        }
-    }
-
-    override fun back(state: EventState): () -> Unit = {
-        navigate(screen = Screen.GAME)
-    }
-
-    override fun reducer(state: EventState, action: EventAction) {
-        when (action) {
-            is EventAction.Select -> select(action = action)
         }
     }
 
@@ -97,7 +91,7 @@ internal class EventStore(
 
         val gameSession = this@EventStore.gameSession
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing game session on select()"))
+            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on select()"))
             return@launch
         }
 
@@ -111,6 +105,16 @@ internal class EventStore(
                 parentEvent = action.event,
                 childrenEvents = children
             )
+        }
+    }
+
+    override fun back(state: EventState): () -> Unit = {
+        navigate(screen = Screen.GAME)
+    }
+
+    override fun reducer(state: EventState, action: EventAction) {
+        when (action) {
+            is EventAction.Select -> select(action = action)
         }
     }
 

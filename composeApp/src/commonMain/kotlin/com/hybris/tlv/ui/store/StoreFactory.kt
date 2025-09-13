@@ -10,11 +10,12 @@ import com.hybris.tlv.ui.screen.credit.CreditAction
 import com.hybris.tlv.ui.screen.credit.CreditState
 import com.hybris.tlv.ui.screen.credit.CreditStore
 import com.hybris.tlv.ui.screen.event.EventAction
-import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.screen.event.EventState
+import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.screen.event.EventStore
 import com.hybris.tlv.ui.screen.feedback.FeedbackAction
 import com.hybris.tlv.ui.screen.feedback.FeedbackState
+import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.screen.feedback.FeedbackStore
 import com.hybris.tlv.ui.screen.game.GameAction
 import com.hybris.tlv.ui.screen.game.GameState
@@ -24,6 +25,7 @@ import com.hybris.tlv.ui.screen.gameover.GameOverState
 import com.hybris.tlv.ui.screen.gameover.GameOverStore
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
+import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStore
 import com.hybris.tlv.ui.screen.newgame.NewGameAction
 import com.hybris.tlv.ui.screen.newgame.NewGameState
@@ -45,118 +47,102 @@ internal class StoreFactory(
     private val config: ConfigManager,
     private val useCases: UseCases
 ) {
-    fun createSplashStore(state: Any? = null): Store<SplashAction, SplashState> {
-        val state = state as? SplashState ?: SplashState()
+    fun createSplashStore(): Store<SplashAction, SplashState> {
         return SplashStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            initialState = state,
             syncUseCases = useCases.sync
-        ).apply { setup(state = state) }
+        )
     }
 
-    fun createMainMenuStore(state: Any? = null): Store<MainMenuAction, MainMenuState> {
-        val state = state as? MainMenuState ?: MainMenuState()
+    fun createMainMenuStore(stateBuilder: Any? = null): Store<MainMenuAction, MainMenuState> {
+        val stateBuilder = stateBuilder as? MainMenuStateBuilder ?: MainMenuStateBuilder()
         return MainMenuStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            initialState = state,
+            stateBuilder = stateBuilder,
             config = config,
             gameSessionUseCases = useCases.gameSession,
             learningUseCases = useCases.learning
-        ).apply { setup(state = state) }
+        )
     }
 
-    fun createFeedbackStore(state: Any? = null): Store<FeedbackAction, FeedbackState> {
-        val state = state as? FeedbackState ?: FeedbackState()
+    fun createFeedbackStore(stateBuilder: Any? = null): Store<FeedbackAction, FeedbackState> {
+        val stateBuilder = stateBuilder as? FeedbackStateBuilder ?: FeedbackStateBuilder()
         return FeedbackStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            initialState = state
-        ).apply { setup(state = state) }
+            stateBuilder = stateBuilder
+        )
     }
 
-    fun createNewGameStore(state: Any? = null): Store<NewGameAction, NewGameState> {
-        val state = state as? NewGameState ?: NewGameState()
+    fun createNewGameStore(): Store<NewGameAction, NewGameState> {
         return NewGameStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            initialState = state,
             catastropheUseCases = useCases.catastrophe,
             gameSessionUseCases = useCases.gameSession
-        ).apply { setup(state = state) }
+        )
     }
 
-    fun createGameStore(state: Any? = null): Store<GameAction, GameState> {
-        val state = state as? GameState ?: GameState()
+    fun createGameStore(stateBuilder: Any? = null): Store<GameAction, GameState> {
+        val stateBuilder = stateBuilder as? GameState ?: GameState()
         return GameStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            initialState = state,
+            stateBuilder = stateBuilder,
             shipUseCases = useCases.ship,
             spaceUseCases = useCases.space,
             gameSessionUseCases = useCases.gameSession
-        ).apply { setup(state = state) }
+        )
     }
 
-    fun createEventStore(stateBuilder: Any? = null): Store<EventAction, EventState> {
-        val stateBuilder = stateBuilder as? EventStateBuilder ?: EventStateBuilder()
+    fun createEventStore(): Store<EventAction, EventState> {
         return EventStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            stateBuilder = stateBuilder,
             eventUseCases = useCases.event,
             gameSessionUseCases = useCases.gameSession
         )
     }
 
-    fun createGameOverStore(state: Any? = null): Store<GameOverAction, GameOverState> {
-        val state = state as? GameOverState ?: GameOverState()
+    fun createGameOverStore(): Store<GameOverAction, GameOverState> {
         return GameOverStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            initialState = state,
             gameSessionUseCases = useCases.gameSession
-        ).apply { setup(state = state) }
+        )
     }
 
-    fun createStellarExplorerStore(state: Any? = null): Store<StellarExplorerAction, StellarExplorerState> {
-        val state = state as? StellarExplorerState ?: StellarExplorerState()
+    fun createStellarExplorerStore(): Store<StellarExplorerAction, StellarExplorerState> {
         return StellarExplorerStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            initialState = state,
             spaceUseCases = useCases.space
-        ).apply { setup(state = state) }
+        )
     }
 
-    fun createScoreStore(state: Any? = null): Store<ScoreAction, ScoreState> {
-        val state = state as? ScoreState ?: ScoreState()
+    fun createScoreStore(): Store<ScoreAction, ScoreState> {
         return ScoreStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            initialState = state,
             gameSessionUseCases = useCases.gameSession
-        ).apply { setup(state = state) }
+        )
     }
 
-    fun createAchievementStore(state: Any? = null): Store<AchievementAction, AchievementState> {
-        val state = state as? AchievementState ?: AchievementState()
+    fun createAchievementStore(): Store<AchievementAction, AchievementState> {
         return AchievementStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            initialState = state,
             achievementUseCases = useCases.achievement
-        ).apply { setup(state = state) }
+        )
     }
 
-    fun createCreditStore(state: Any? = null): Store<CreditAction, CreditState> {
-        val state = state as? CreditState ?: CreditState()
+    fun createCreditStore(): Store<CreditAction, CreditState> {
         return CreditStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            initialState = state,
             creditUseCases = useCases.credit
-        ).apply { setup(state = state) }
+        )
     }
 }

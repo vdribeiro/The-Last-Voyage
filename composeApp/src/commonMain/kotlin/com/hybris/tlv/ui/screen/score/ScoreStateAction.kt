@@ -5,6 +5,6 @@ import com.hybris.tlv.usecase.gamesession.model.GameSession
 internal sealed interface ScoreAction
 
 internal data class ScoreState(
-    val loading: Boolean? = null,
-    val gameSessions: List<GameSession>? = null,
+    val loading: Boolean,
+    val gameSessions: List<GameSession>,
 )

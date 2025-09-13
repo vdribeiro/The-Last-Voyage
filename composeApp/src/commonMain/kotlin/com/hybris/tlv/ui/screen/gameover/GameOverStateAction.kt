@@ -8,9 +8,10 @@ internal sealed interface GameOverAction {
 }
 
 internal data class GameOverState(
-    val currentContent: Content? = null,
-    val gameSession: GameSession? = null,
-    val gameOver: GameOver? = null
+    val loading: Boolean,
+    val currentContent: Content,
+    val gameSession: GameSession?,
+    val gameOver: GameOver?
 )
 
 internal enum class Content {

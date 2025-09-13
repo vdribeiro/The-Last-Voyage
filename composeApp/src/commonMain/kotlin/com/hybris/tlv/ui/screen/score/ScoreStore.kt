@@ -11,22 +11,27 @@ import kotlinx.coroutines.Job
 internal class ScoreStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: ScoreState,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<ScoreAction, ScoreState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = ScoreState(
+        loading = true,
+        gameSessions = emptyList()
+    )
 ) {
-    override fun setup(state: ScoreState): Job = launch {
-        val loading = state.loading ?: false
-        val gameSessions = state.gameSessions ?: gameSessionUseCases.getGameSessions()
+    init {
+        setup()
+    }
+
+    private fun setup(): Job = launch {
+        val gameSessions = gameSessionUseCases.getGameSessions()
             .filter { it.score != null }
             .map { it.copy(utc = getLocalDateTime(utc = it.utc)) }
 
         updateState {
             it.copy(
-                loading = loading,
+                loading = false,
                 gameSessions = gameSessions
             )
         }

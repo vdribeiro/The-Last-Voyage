@@ -163,7 +163,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
                 count = count,
                 properties = properties,
                 selectedProperty = selectedProperty,
-                ascending = storeState.sortAscending ?: true,
+                ascending = storeState.sortAscending.orTrue(),
                 onSortChange = onSortChange,
                 onSortDirectionChange = { store.send(action = StellarExplorerAction.ChangeSortDirection) },
                 visibleProperties = visibleProperties,

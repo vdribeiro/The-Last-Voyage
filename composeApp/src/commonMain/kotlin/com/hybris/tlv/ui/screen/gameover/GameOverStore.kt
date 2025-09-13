@@ -5,6 +5,7 @@ import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackState
+import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import kotlinx.coroutines.Job
@@ -12,22 +13,29 @@ import kotlinx.coroutines.Job
 internal class GameOverStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: GameOverState,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameOverAction, GameOverState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = GameOverState(
+        loading = true,
+        currentContent = Content.MESSAGE,
+        gameSession = null,
+        gameOver = null
+    )
 ) {
-    override fun setup(state: GameOverState): Job = launch {
-        val currentContent = state.currentContent ?: Content.MESSAGE
-        val gameSession = state.gameSession ?: gameSessionUseCases.getLatestGameSession()
+    init {
+        setup()
+    }
+
+    private fun setup(): Job = launch {
+        val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackState(tag = TAG, message = "Invalid state: missing game session on setup()"))
+            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 
-        val gameOver = state.gameOver ?: gameSessionUseCases.getGameOver(gameSession = gameSession)
+        val gameOver = gameSessionUseCases.getGameOver(gameSession = gameSession)
         val updatedGameSession = gameSessionUseCases.score(
             gameSession = gameSession,
             gameOver = gameOver
@@ -35,7 +43,7 @@ internal class GameOverStore(
 
         updateState {
             it.copy(
-                currentContent = currentContent,
+                loading = false,
                 gameSession = updatedGameSession,
                 gameOver = gameOver
             )
@@ -44,7 +52,7 @@ internal class GameOverStore(
 
     override fun back(state: GameOverState): () -> Unit = {
         when (state.currentContent) {
-            null, Content.MESSAGE -> {}
+            Content.MESSAGE -> {}
             Content.SCORE -> navigate(screen = Screen.MAIN_MENU)
         }
     }
@@ -52,7 +60,7 @@ internal class GameOverStore(
     override fun reducer(state: GameOverState, action: GameOverAction) {
         when (action) {
             GameOverAction.Continue -> when (state.currentContent) {
-                null, Content.MESSAGE -> updateState { it.copy(currentContent = Content.SCORE) }
+                Content.MESSAGE -> updateState { it.copy(currentContent = Content.SCORE) }
                 Content.SCORE -> navigate(screen = Screen.MAIN_MENU)
             }
         }

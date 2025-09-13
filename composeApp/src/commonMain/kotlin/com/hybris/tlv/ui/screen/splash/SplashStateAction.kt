@@ -5,5 +5,5 @@ internal sealed interface SplashAction {
 }
 
 internal data class SplashState(
-    val progress: Float? = null,
+    val progress: Float,
 )

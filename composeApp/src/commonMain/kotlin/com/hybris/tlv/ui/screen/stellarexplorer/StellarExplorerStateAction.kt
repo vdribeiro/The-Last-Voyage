@@ -21,23 +21,23 @@ internal sealed interface StellarExplorerAction {
 }
 
 internal data class StellarExplorerState(
-    val loading: Boolean? = null,
-    val currentContent: Content? = null,
-    val stellarHosts: List<StellarHost>? = null,
-    val planets: List<Planet>? = null,
-    val listIndex: LazyListIndex? = null,
-    val filteredStellarHosts: List<StellarHost>? = null,
-    val filteredPlanets: List<Planet>? = null,
-    val selectedStellarHost: StellarHost? = null,
-    val selectedPlanet: Planet? = null,
-    val search: String? = null,
-    val sortStellarHostProperty: StellarHostProperty? = null,
-    val sortPlanetProperty: PlanetProperty? = null,
-    val sortAscending: Boolean? = null,
-    val visibleStellarHostProperties: Set<StellarHostProperty>? = null,
-    val visiblePlanetProperties: Set<PlanetProperty>? = null,
-    val searchableStellarHostProperties: Set<StellarHostProperty>? = null,
-    val searchablePlanetProperties: Set<PlanetProperty>? = null
+    val loading: Boolean,
+    val currentContent: Content,
+    val listIndex: LazyListIndex,
+    val stellarHosts: List<StellarHost>,
+    val planets: List<Planet>,
+    val filteredStellarHosts: List<StellarHost>,
+    val filteredPlanets: List<Planet>,
+    val selectedStellarHost: StellarHost?,
+    val selectedPlanet: Planet?,
+    val search: String,
+    val sortStellarHostProperty: StellarHostProperty,
+    val sortPlanetProperty: PlanetProperty,
+    val sortAscending: Boolean,
+    val visibleStellarHostProperties: Set<StellarHostProperty>,
+    val visiblePlanetProperties: Set<PlanetProperty>,
+    val searchableStellarHostProperties: Set<StellarHostProperty>,
+    val searchablePlanetProperties: Set<PlanetProperty>
 )
 
 internal enum class Content {

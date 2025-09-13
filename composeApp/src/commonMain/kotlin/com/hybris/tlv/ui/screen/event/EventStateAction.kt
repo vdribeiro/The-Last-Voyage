@@ -8,13 +8,9 @@ internal sealed interface EventAction {
     data class Select(val event: Event): EventAction
 }
 
-internal data class EventStateBuilder(
-    val gameSession: GameSession? = null,
-    val eventChain: List<Event>? = null,
-)
-
 internal data class EventState(
-    val ship: Ship? = null,
-    val parentEvent: Event? = null,
-    val childrenEvents: List<Event> = emptyList()
+    val loading: Boolean,
+    val ship: Ship?,
+    val parentEvent: Event?,
+    val childrenEvents: List<Event>
 )

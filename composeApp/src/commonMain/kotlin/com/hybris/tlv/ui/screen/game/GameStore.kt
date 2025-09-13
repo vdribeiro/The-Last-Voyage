@@ -16,17 +16,17 @@ import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 internal class GameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: GameState,
+    stateBuilder: GameState,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameAction, GameState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = stateBuilder
 ) {
     override fun setup(state: GameState): Job = launch {
-        val loading = state.loading ?: false
+        val loading = state.loading.orFalse()
         val tutorial = state.tutorial ?: Tutorial.NO
         val currentContent = state.currentContent ?: Content.SYSTEM
 

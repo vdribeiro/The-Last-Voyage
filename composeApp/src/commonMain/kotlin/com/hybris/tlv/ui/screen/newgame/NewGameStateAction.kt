@@ -18,11 +18,11 @@ internal sealed interface NewGameAction {
 }
 
 internal data class NewGameState(
-    val currentContent: Content? = null,
-    val selectedCatastrophe: Catastrophe? = null,
-    val selectedShip: ShipPrototype? = null,
-    val shipState: ShipState? = null,
-    val formula: Formula? = null,
+    val loading: Boolean,
+    val currentContent: Content,
+    val selectedCatastrophe: Catastrophe?,
+    val shipState: ShipState,
+    val formula: Formula,
 )
 
 internal enum class Content {

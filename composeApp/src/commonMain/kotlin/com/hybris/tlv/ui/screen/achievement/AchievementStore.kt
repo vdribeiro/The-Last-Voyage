@@ -9,16 +9,27 @@ import com.hybris.tlv.usecase.achievement.AchievementUseCases
 internal class AchievementStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: AchievementState,
     private val achievementUseCases: AchievementUseCases
 ): Store<AchievementAction, AchievementState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = AchievementState(
+        loading = true,
+        achievements = emptyList()
+    )
 ) {
-    override fun setup(state: AchievementState) = launch {
-        val achievements = state.achievements ?: achievementUseCases.getAchievements()
-        updateState { it.copy(achievements = achievements) }
+    init {
+        setup()
+    }
+
+    private fun setup() = launch {
+        val achievements = achievementUseCases.getAchievements()
+        updateState {
+            it.copy(
+                loading = false,
+                achievements = achievements
+            )
+        }
     }
 
     override fun back(state: AchievementState): () -> Unit = {

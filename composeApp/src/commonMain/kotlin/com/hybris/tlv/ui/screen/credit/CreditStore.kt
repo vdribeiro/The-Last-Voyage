@@ -10,15 +10,21 @@ import kotlinx.coroutines.Job
 internal class CreditStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: CreditState,
     private val creditUseCases: CreditUseCases
 ): Store<CreditAction, CreditState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = CreditState(
+        loading = true,
+        credits = emptyList()
+    )
 ) {
-    override fun setup(state: CreditState): Job = launch {
-        val credits = state.credits ?: creditUseCases.getCredits()
+    init {
+        setup()
+    }
+
+    private fun setup(): Job = launch {
+        val credits = creditUseCases.getCredits()
         updateState { it.copy(credits = credits) }
     }
 

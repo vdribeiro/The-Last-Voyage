@@ -50,7 +50,7 @@ internal class CreditScreenTest {
     @Test
     fun creditEmpty() = runComposeUiTest {
         val store = storeFactory.createCreditStore(
-            state = CreditState(
+            stateBuilder = CreditState(
                 credits = emptyList()
             )
         )
@@ -80,7 +80,7 @@ internal class CreditScreenTest {
         }
 
         val store = storeFactory.createCreditStore(
-            state = CreditState(
+            stateBuilder = CreditState(
                 credits = credits
             )
         )

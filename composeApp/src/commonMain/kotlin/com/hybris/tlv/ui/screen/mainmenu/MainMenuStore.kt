@@ -12,54 +12,50 @@ import kotlinx.coroutines.Job
 internal class MainMenuStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: MainMenuState,
-    private val config: ConfigManager,
+    stateBuilder: MainMenuStateBuilder,
+    config: ConfigManager,
     private val gameSessionUseCases: GameSessionUseCases,
     private val learningUseCases: LearningUseCases
 ): Store<MainMenuAction, MainMenuState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = MainMenuState(
+        loading = true,
+        featureFeedback = config.configs.featureFeedback,
+        featureSoon = config.configs.featureSoon,
+        featureLearn = config.configs.featureLearn,
+        featureScores = config.configs.featureScores,
+        featureAchievements = config.configs.featureAchievements,
+        featureStellarExplorer = config.configs.featureStellarExplorer,
+        featureNewGame = config.configs.featureNewGame,
+        developerCorner = config.configs.developerCorner,
+        support = config.configs.support,
+        formula = config.configs.formula,
+        currentContent = stateBuilder.currentContent ?: Content.MAIN_MENU,
+        ongoingGameSession = false,
+        learningsMap = emptyMap(),
+    )
 ) {
-    override fun setup(state: MainMenuState): Job = launch {
-        val featureFeedback = state.featureFeedback ?: config.configs.featureFeedback
-        val featureSoon = state.featureSoon ?: config.configs.featureSoon
-        val featureLearn = state.featureLearn ?: config.configs.featureLearn
-        val featureScores = state.featureScores ?: config.configs.featureScores
-        val featureAchievements = state.featureAchievements ?: config.configs.featureAchievements
-        val featureStellarExplorer = state.featureStellarExplorer ?: config.configs.featureStellarExplorer
-        val featureNewGame = state.featureNewGame ?: config.configs.featureNewGame
-        val loading = state.loading ?: false
-        val currentContent = state.currentContent ?: Content.MAIN_MENU
-        val ongoingGameSession = state.ongoingGameSession ?: gameSessionUseCases.isGameSessionOngoing()
-        val learningsMap = state.learningsMap ?: learningUseCases.getLearnings().groupBy { it.type }
-        val developerCorner = state.developerCorner ?: config.configs.developerCorner
-        val support = state.support ?: config.configs.support
-        val formula = state.formula ?: config.configs.formula
+    init {
+        setup()
+    }
+
+    private fun setup(): Job = launch {
+        val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
+        val learningsMap = learningUseCases.getLearnings().groupBy { it.type }
 
         updateState {
             it.copy(
-                featureFeedback = featureFeedback,
-                featureSoon = featureSoon,
-                featureLearn = featureLearn,
-                featureScores = featureScores,
-                featureAchievements = featureAchievements,
-                featureStellarExplorer = featureStellarExplorer,
-                featureNewGame = featureNewGame,
-                loading = loading,
-                currentContent = currentContent,
+                loading = false,
                 ongoingGameSession = ongoingGameSession,
                 learningsMap = learningsMap,
-                developerCorner = developerCorner,
-                support = support,
-                formula = formula,
             )
         }
     }
 
     override fun back(state: MainMenuState) = {
         when (state.currentContent) {
-            null, Content.MAIN_MENU -> {}
+            Content.MAIN_MENU -> {}
             Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
             Content.HOST_DEFINITION,
             Content.PLANET_DEFINITION,

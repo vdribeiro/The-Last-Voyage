@@ -12,17 +12,19 @@ import kotlinx.coroutines.delay
 internal class SplashStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: SplashState,
     private val syncUseCases: SyncUseCases,
 ): Store<SplashAction, SplashState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = SplashState(
+        progress = 0f
+    )
 ) {
-    override fun setup(state: SplashState): Job = launch {
-        val progress = state.progress ?: 0f
-        updateState { it.copy(progress = progress) }
+    init {
+        setup()
+    }
 
+    private fun setup(): Job = launch {
         // Uncomment to get archive
         //syncUseCases.getArchive().last()
 

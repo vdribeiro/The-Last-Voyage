@@ -11,22 +11,35 @@ import kotlinx.coroutines.delay
 internal class FeedbackStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    initialState: FeedbackState,
+    private val stateBuilder: FeedbackStateBuilder,
 ): Store<FeedbackAction, FeedbackState>(
     dispatcher = dispatcher,
     navigation = navigation,
-    initialState = initialState
+    initialState = FeedbackState(
+        isError = stateBuilder.message != null
+    )
 ) {
-    override fun setup(state: FeedbackState): Job = launch {
-        val tag = state.tag
-        val message = state.message
+    init {
+        setup()
+    }
+
+    private fun setup(): Job = launch {
+        val tag = stateBuilder.tag
+        val message = stateBuilder.message
         if (tag != null && message != null) Logger.error(tag = tag, message = message)
-        updateState {
-            it.copy(
-                tag = tag,
-                message = message
-            )
-        }
+    }
+
+    private fun sendFeedback(message: String): Job = launch {
+        // Construct the feedback message with all the components
+        val feedback = buildList {
+            stateBuilder.tag?.let { add(element = "Identifier: $it") }
+            stateBuilder.message?.let { add(element = "Message: $it") }
+            if (message.isNotBlank()) add(element = "Feedback: $message")
+        }.joinToString(separator = "\n")
+        // TODO: Send feedback to server
+        println(feedback)
+        delay(timeMillis = 2000L)
+        navigate(screen = Screen.MAIN_MENU)
     }
 
     override fun back(state: FeedbackState): () -> Unit = {
@@ -35,20 +48,7 @@ internal class FeedbackStore(
 
     override fun reducer(state: FeedbackState, action: FeedbackAction) {
         when (action) {
-            is FeedbackAction.SendFeedback -> sendFeedback(state = state, message = action.message)
+            is FeedbackAction.SendFeedback -> sendFeedback(message = action.message)
         }
-    }
-
-    private fun sendFeedback(state: FeedbackState, message: String): Job = launch {
-        // Construct the feedback message with all the components
-        val feedback = buildList {
-            state.tag?.let { add(element = "Identifier: $it") }
-            state.message?.let { add(element = "Message: $it") }
-            if (message.isNotBlank()) add(element = "Feedback: $message")
-        }.joinToString(separator = "\n")
-        // TODO: Send feedback to server
-        println(feedback)
-        delay(timeMillis = 2000L)
-        navigate(screen = Screen.MAIN_MENU)
     }
 }
