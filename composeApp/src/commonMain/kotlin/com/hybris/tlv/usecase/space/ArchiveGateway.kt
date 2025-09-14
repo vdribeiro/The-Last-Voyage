@@ -7,6 +7,9 @@ import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.storage.saveFile
+import com.hybris.tlv.usecase.space.formula.DerivedData
+import com.hybris.tlv.usecase.space.formula.parsecsToLightYears
+import com.hybris.tlv.usecase.space.formula.stellarHostGravityToSunGravity
 import com.hybris.tlv.usecase.space.model.ExoplanetJson
 import com.hybris.tlv.usecase.space.model.ExoplanetsResult
 import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_DENSITY
@@ -39,13 +42,10 @@ import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_ROTATIONAL_
 import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_SPECTRAL_TYPE
 import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_SYSTEM_NAME
 import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_TEMPERATURE
-import com.hybris.tlv.usecase.space.model.StellarHostJson
-import com.hybris.tlv.usecase.space.formula.DerivedData
-import com.hybris.tlv.usecase.space.formula.parsecsToLightYears
-import com.hybris.tlv.usecase.space.formula.stellarHostGravityToSunGravity
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
+import com.hybris.tlv.usecase.space.model.StellarHostJson
 import io.ktor.client.HttpClient
 
 internal class ArchiveGateway(

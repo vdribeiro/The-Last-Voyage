@@ -16,10 +16,10 @@ import com.hybris.tlv.usecase.learning.LearningGateway
 import com.hybris.tlv.usecase.learning.LearningUseCases
 import com.hybris.tlv.usecase.ship.ShipGateway
 import com.hybris.tlv.usecase.ship.ShipUseCases
-import com.hybris.tlv.usecase.space.SpaceGateway
-import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.ArchiveGateway
 import com.hybris.tlv.usecase.space.ArchiveUseCases
+import com.hybris.tlv.usecase.space.SpaceGateway
+import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.translation.TranslationGateway
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 import database.AppDatabase

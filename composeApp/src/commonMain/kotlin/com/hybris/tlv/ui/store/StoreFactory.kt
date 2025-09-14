@@ -29,6 +29,7 @@ internal class StoreFactory(
         SplashStore(
             dispatcher = dispatcher,
             navigation = navigation,
+            config = config,
             translateUseCases = useCases.translation,
             archiveUseCases = useCases.archive,
             learningUseCases = useCases.learning,
