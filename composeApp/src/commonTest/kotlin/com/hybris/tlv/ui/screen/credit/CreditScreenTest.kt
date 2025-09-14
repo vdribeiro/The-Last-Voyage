@@ -30,7 +30,7 @@ internal class CreditScreenTest {
     }
 
     @Test
-    fun creditEmpty() = runComposeUiTest {
+    fun creditWithoutData() = runComposeUiTest {
         val store = storeFactory.createCreditStore()
         setContent {
             CreditScreen(store = store)
@@ -50,7 +50,7 @@ internal class CreditScreenTest {
     }
 
     @Test
-    fun creditList() = runComposeUiTest {
+    fun creditWithData() = runComposeUiTest {
         var openedUri: String?
         val mockUriHandler = object: UriHandler {
             override fun openUri(uri: String) {
