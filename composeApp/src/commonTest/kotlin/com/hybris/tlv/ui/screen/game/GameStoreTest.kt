@@ -28,7 +28,8 @@ internal class GameStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.space.prepopulateStellarHosts()
+        mock.useCases.space.prepopulatePlanets()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         assertNotNull(actual = gameStore.stateFlow.value.ship)
@@ -50,7 +51,8 @@ internal class GameStoreTest {
 
     @Test
     fun `ship is repaired`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.space.prepopulateStellarHosts()
+        mock.useCases.space.prepopulatePlanets()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameSession = mock.useCases.gameSession.getLatestGameSession()!!
         mock.useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(integrity = 0)))
@@ -88,7 +90,8 @@ internal class GameStoreTest {
 
     @Test
     fun `send action back`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.space.prepopulateStellarHosts()
+        mock.useCases.space.prepopulatePlanets()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         store
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
@@ -98,7 +101,6 @@ internal class GameStoreTest {
 
     @Test
     fun `send action change tab`() = runBlocking {
-        mock.useCases.sync.sync().last()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
 
@@ -114,8 +116,9 @@ internal class GameStoreTest {
 
     @Test
     fun `send action travel`() = runBlocking {
+        mock.useCases.space.prepopulateStellarHosts()
+        mock.useCases.space.prepopulatePlanets()
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
-        mock.useCases.sync.sync().last()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         gameStore.send(action = GameAction.Travel(stellarHost = stellarHosts[1]))
@@ -141,8 +144,9 @@ internal class GameStoreTest {
 
     @Test
     fun `send action settle`() = runBlocking {
+        mock.useCases.space.prepopulateStellarHosts()
+        mock.useCases.space.prepopulatePlanets()
         assertEquals(expected = NavigationManager.Screen.GAME, actual = mock.navigation.stateFlow.value.screen)
-        mock.useCases.sync.sync().last()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         gameStore.send(action = GameAction.Settle(planet = planets.first()))

@@ -26,14 +26,14 @@ internal class NewGameStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.catastrophe.prepopulateCatastrophes()
         val newGameStore = store
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
     }
 
     @Test
     fun `send action back`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.catastrophe.prepopulateCatastrophes()
         val newGameStore = store
         assertEquals(expected = NavigationManager.Screen.NEW_GAME, actual = mock.navigation.stateFlow.value.screen)
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
@@ -59,7 +59,7 @@ internal class NewGameStoreTest {
 
     @Test
     fun `send action select ship`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.catastrophe.prepopulateCatastrophes()
         val newGameStore = store
         assertNull(actual = newGameStore.selectedShip)
         val shipPrototype = ShipPrototype(
@@ -75,7 +75,7 @@ internal class NewGameStoreTest {
 
     @Test
     fun `send action select formula`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.catastrophe.prepopulateCatastrophes()
         val newGameStore = store
         val formula = Formula()
         newGameStore.send(action = NewGameAction.SelectFormula(formula = formula))
@@ -85,7 +85,7 @@ internal class NewGameStoreTest {
     @Test
     fun `send action start game`() = runBlocking {
         assertEquals(expected = NavigationManager.Screen.NEW_GAME, actual = mock.navigation.stateFlow.value.screen)
-        mock.useCases.sync.sync().last()
+        mock.useCases.catastrophe.prepopulateCatastrophes()
         val newGameStore = store
         val shipPrototype = ShipPrototype(
             assignedPoints = 1,

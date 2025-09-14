@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.translation
 
+import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.mock
 import com.hybris.tlv.translations
@@ -15,6 +16,8 @@ internal class TranslationUseCasesTest {
     @BeforeTest
     fun setup() {
         mock.sqlDriver.clearDatabase()
+        mock.config.localConfigs = Configs()
+        TranslationCache.set(emptyList())
     }
 
     @Test

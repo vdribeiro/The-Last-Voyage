@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.ship
 
+import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.mock
 import com.hybris.tlv.usecase.ship.model.Ship
@@ -15,6 +16,7 @@ internal class ShipUseCasesTest {
     @BeforeTest
     fun setup() {
         mock.sqlDriver.clearDatabase()
+        mock.config.localConfigs = Configs()
     }
 
     @Test

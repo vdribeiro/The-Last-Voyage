@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.catastrophe
 
+import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.mock
 import kotlin.test.BeforeTest
@@ -14,6 +15,7 @@ internal class CatastropheUseCasesTest {
     @BeforeTest
     fun setup() {
         mock.sqlDriver.clearDatabase()
+        mock.config.localConfigs = Configs()
     }
 
     @Test
