@@ -541,7 +541,19 @@ internal val credits: List<Credit> by lazy {
 }
 
 internal val configs: List<Configs> by lazy {
-    listOf(Configs())
+    listOf(
+        Configs(
+            translationsVersion = 1,
+            learningsVersion = 1,
+            catastrophesVersion = 1,
+            enginesVersion = 1,
+            stellarHostsVersion = 1,
+            planetsVersion = 1,
+            eventsVersion = 1,
+            achievementsVersion = 1,
+            creditsVersion = 1,
+        )
+    )
 }
 
 internal val translations: List<Translation> by lazy {

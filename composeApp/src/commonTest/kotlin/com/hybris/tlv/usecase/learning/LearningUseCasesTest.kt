@@ -18,7 +18,14 @@ internal class LearningUseCasesTest {
     @Test
     fun `sync and get learnings`() = runBlocking {
         assertTrue(actual = mock.useCases.learning.getLearnings().isEmpty())
-        mock.useCases.sync.sync().last()
+        mock.useCases.learning.syncLearnings()
+        assertTrue(actual = mock.useCases.learning.getLearnings().isNotEmpty())
+    }
+
+    @Test
+    fun `prepopulate and get learnings`() = runBlocking {
+        assertTrue(actual = mock.useCases.learning.getLearnings().isEmpty())
+        mock.useCases.learning.prepopulateLearnings()
         assertTrue(actual = mock.useCases.learning.getLearnings().isNotEmpty())
     }
 }
