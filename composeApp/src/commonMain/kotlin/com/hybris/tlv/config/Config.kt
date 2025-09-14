@@ -13,22 +13,28 @@ internal class Config(
     private val httpClient: HttpClient,
 ): ConfigManager {
 
-    private var cache: Configs = Configs()
-    override val configs: Configs get() = cache
+    private var localCache: Configs = Configs()
+    override val localConfigs: Configs get() = localCache
+    private var remoteCache: Configs = Configs()
+    override val remoteConfigs: Configs get() = remoteCache
 
-    override suspend fun getLocal(): Configs =
-        loadFile(fileName = "configs.json")?.let {
+    override suspend fun fetchLocal() {
+        val localConfigs = loadFile(fileName = "configs.json")?.let {
             json.decodeFromString<Configs>(string = it)
         } ?: Configs().also { setLocal(configs = it) }
+        localCache = localConfigs
+    }
 
-    override suspend fun getRemote(): Configs =
-        when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
+    override suspend fun fetchRemote() {
+        val remoteConfigs = when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
             is Result.Error -> null.also { Logger.error(tag = TAG, message = result.error) }
             is Result.Success -> result.list.firstOrNull()
         } ?: Configs()
+        remoteCache = remoteConfigs
+    }
 
     override suspend fun setLocal(configs: Configs) {
-        cache = configs
+        localCache = configs
         saveFile(fileName = "configs.json", content = json.encodeToString(value = configs))
     }
 

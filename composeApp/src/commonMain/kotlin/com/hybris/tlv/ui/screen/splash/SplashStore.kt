@@ -4,15 +4,32 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.sync.SyncUseCases
-import com.hybris.tlv.usecase.sync.model.SyncResult
+import com.hybris.tlv.usecase.achievement.AchievementUseCases
+import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
+import com.hybris.tlv.usecase.credit.CreditUseCases
+import com.hybris.tlv.usecase.event.EventUseCases
+import com.hybris.tlv.usecase.learning.LearningUseCases
+import com.hybris.tlv.usecase.ship.ShipUseCases
+import com.hybris.tlv.usecase.space.ArchiveUseCases
+import com.hybris.tlv.usecase.space.SpaceUseCases
+import com.hybris.tlv.usecase.translation.TranslationUseCases
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.supervisorScope
 
 internal class SplashStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    private val syncUseCases: SyncUseCases,
+    private val translateUseCases: TranslationUseCases,
+    private val archiveUseCases: ArchiveUseCases,
+    private val learningUseCases: LearningUseCases,
+    private val catastropheUseCases: CatastropheUseCases,
+    private val shipUseCases: ShipUseCases,
+    private val spaceUseCases: SpaceUseCases,
+    private val eventUseCases: EventUseCases,
+    private val achievementUseCases: AchievementUseCases,
+    private val creditUseCases: CreditUseCases
 ): Store<SplashAction, SplashState>(
     dispatcher = dispatcher,
     navigation = navigation,
@@ -25,26 +42,26 @@ internal class SplashStore(
     }
 
     private fun setup(): Job = launch {
-        // Uncomment to get archive
-        //syncUseCases.getArchive().last()
-
-        // Sync and return the progress
-        syncUseCases.sync().collect { result ->
-            val progress = when (result) {
-                is SyncResult.Error, SyncResult.Success -> 1f
-                is SyncResult.Loading -> if (result.total > 0f) result.progress / result.total else 1f
-            }
+        val tasks = listOf(
+            { suspend { translateUseCases.syncTranslations(); translateUseCases.prepopulateTranslations() } },
+            { suspend { learningUseCases.syncLearnings(); learningUseCases.prepopulateLearnings() } },
+            { suspend { catastropheUseCases.syncCatastrophes(); catastropheUseCases.prepopulateCatastrophes() } },
+            { suspend { shipUseCases.syncEngines(); shipUseCases.prepopulateEngines() } },
+            { suspend { spaceUseCases.syncStellarHosts(); spaceUseCases.prepopulateStellarHosts() } },
+            { suspend { spaceUseCases.syncPlanets(); spaceUseCases.prepopulatePlanets() } },
+            { suspend { eventUseCases.syncEvents(); eventUseCases.prepopulateEvents() } },
+            { suspend { achievementUseCases.syncAchievements(); achievementUseCases.prepopulateAchievements() } },
+            { suspend { creditUseCases.syncCredits(); creditUseCases.prepopulateCredits() } }
+        )
+        val deferredJobs = supervisorScope {
+            tasks.map { task -> async { task() } }
+        }
+        deferredJobs.forEachIndexed { index, job ->
+            job.await()
+            val progress = (index + 1).toFloat() / deferredJobs.size.toFloat()
             updateState { it.copy(progress = progress) }
         }
-
-        updateState { it.copy(progress = 1f) }
         delay(timeMillis = 1000L)
-        send(action = SplashAction.Start)
-    }
-
-    override fun reducer(state: SplashState, action: SplashAction) {
-        when (action) {
-            SplashAction.Start -> navigate(screen = Screen.MAIN_MENU)
-        }
+        navigate(screen = Screen.MAIN_MENU)
     }
 }

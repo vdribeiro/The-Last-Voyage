@@ -1,4 +1,4 @@
-package com.hybris.tlv.usecase.translation.model.domain
+package com.hybris.tlv.usecase.translation.model
 
 import com.hybris.tlv.usecase.translation.TranslationCache
 import kotlinx.serialization.Serializable

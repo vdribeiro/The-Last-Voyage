@@ -29,7 +29,15 @@ internal class StoreFactory(
         SplashStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            syncUseCases = useCases.sync
+            translateUseCases = useCases.translation,
+            archiveUseCases = useCases.archive,
+            learningUseCases = useCases.learning,
+            catastropheUseCases = useCases.catastrophe,
+            shipUseCases = useCases.ship,
+            spaceUseCases = useCases.space,
+            eventUseCases = useCases.event,
+            achievementUseCases = useCases.achievement,
+            creditUseCases = useCases.credit
         )
 
     fun createMainMenuStore(stateBuilder: Any? = null): MainMenuStore {

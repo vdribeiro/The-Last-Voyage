@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.translation
 
 import com.hybris.tlv.locale.getLanguage
-import com.hybris.tlv.usecase.translation.model.domain.Translation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 /**
  * Translations cache.

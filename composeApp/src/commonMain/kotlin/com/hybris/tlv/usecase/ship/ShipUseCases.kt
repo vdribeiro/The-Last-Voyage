@@ -1,6 +1,5 @@
 package com.hybris.tlv.usecase.ship
 
-import com.hybris.tlv.http.Result
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 
@@ -9,7 +8,7 @@ internal interface ShipUseCases {
     /**
      * Sync [Engine]s.
      */
-    suspend fun syncEngines(): Result<Engine>
+    suspend fun syncEngines()
 
     /**
      * Prepopulate [Engine]s.

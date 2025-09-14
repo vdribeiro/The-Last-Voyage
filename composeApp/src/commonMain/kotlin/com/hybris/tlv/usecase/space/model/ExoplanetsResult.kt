@@ -1,7 +1,4 @@
-package com.hybris.tlv.usecase.sync.model
-
-import com.hybris.tlv.usecase.space.model.Planet
-import com.hybris.tlv.usecase.space.model.StellarHost
+package com.hybris.tlv.usecase.space.model
 
 internal sealed interface ExoplanetsResult {
     data class Success(val stellarHosts: List<StellarHost>, val planets: List<Planet>): ExoplanetsResult

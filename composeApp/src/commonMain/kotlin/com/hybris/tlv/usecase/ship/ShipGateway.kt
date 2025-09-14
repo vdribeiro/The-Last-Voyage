@@ -1,9 +1,11 @@
 package com.hybris.tlv.usecase.ship
 
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.EngineSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.ENGINES_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
+import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
@@ -12,14 +14,21 @@ import io.ktor.client.HttpClient
 import kotlin.math.abs
 
 internal class ShipGateway(
+    private val config: ConfigManager,
     private val httpClient: HttpClient,
     database: AppDatabase
 ): ShipUseCases {
 
     private val engineDao = database.engineQueries
 
-    override suspend fun syncEngines(): Result<Engine> =
-        httpClient.getStream<Engine>(path = ENGINES_URL)
+    override suspend fun syncEngines() {
+        if (config.remoteConfigs.enginesVersion > config.localConfigs.enginesVersion) {
+            when (val result = httpClient.getStream<Engine>(path = ENGINES_URL)) {
+                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Success -> rewriteEngines(engines = result.list)
+            }
+        }
+    }
 
     override suspend fun prepopulateEngines() {
         if (engineDao.isEngineEmpty().executeAsList().isEmpty()) {
@@ -82,4 +91,8 @@ internal class ShipGateway(
             description = description,
             velocity = velocity,
         )
+
+    companion object Companion {
+        private const val TAG = "Ship"
+    }
 }

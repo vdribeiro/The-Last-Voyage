@@ -1,6 +1,5 @@
 package com.hybris.tlv.usecase.event
 
-import com.hybris.tlv.http.Result
 import com.hybris.tlv.usecase.event.model.Event
 
 internal interface EventUseCases {
@@ -8,7 +7,7 @@ internal interface EventUseCases {
     /**
      * Sync [Event]s.
      */
-    suspend fun syncEvents(): Result<Event>
+    suspend fun syncEvents()
 
     /**
      * Prepopulate [Event]s.

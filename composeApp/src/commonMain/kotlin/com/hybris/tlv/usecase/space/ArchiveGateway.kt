@@ -1,74 +1,68 @@
-package com.hybris.tlv.usecase.sync
+package com.hybris.tlv.usecase.space
 
 import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
+import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.storage.saveFile
+import com.hybris.tlv.usecase.space.model.ExoplanetJson
+import com.hybris.tlv.usecase.space.model.ExoplanetsResult
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_DENSITY
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_ECCENTRICITY
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_EQUILIBRIUM_TEMPERATURE
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_INCLINATION
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_INSOLATION_FLUX
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_MASS
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_NAME
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_OBLIQUITY
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_OCCULTATION_DEPTH
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_ORBITAL_PERIOD
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_ORBIT_AXIS
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_PROJECTED_OBLIQUITY
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_RADIUS
+import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_STATUS
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_AGE
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_DEC
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_DENSITY
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_DISTANCE
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_GRAVITY
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_LUMINOSITY
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_MASS
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_METALLICITY
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_NAME
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_RA
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_RADIUS
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_ROTATIONAL_PERIOD
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_ROTATIONAL_VELOCITY
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_SPECTRAL_TYPE
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_SYSTEM_NAME
+import com.hybris.tlv.usecase.space.model.JsonConstants.STELLAR_HOST_TEMPERATURE
+import com.hybris.tlv.usecase.space.model.StellarHostJson
 import com.hybris.tlv.usecase.space.formula.DerivedData
 import com.hybris.tlv.usecase.space.formula.parsecsToLightYears
 import com.hybris.tlv.usecase.space.formula.stellarHostGravityToSunGravity
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
-import com.hybris.tlv.usecase.sync.model.ExoplanetJson
-import com.hybris.tlv.usecase.sync.model.ExoplanetsResult
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_DENSITY
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_ECCENTRICITY
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_EQUILIBRIUM_TEMPERATURE
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_INCLINATION
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_INSOLATION_FLUX
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_MASS
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_NAME
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_OBLIQUITY
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_OCCULTATION_DEPTH
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_ORBITAL_PERIOD
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_ORBIT_AXIS
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_PROJECTED_OBLIQUITY
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_RADIUS
-import com.hybris.tlv.usecase.sync.model.JsonConstants.PLANET_STATUS
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_AGE
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_DEC
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_DENSITY
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_DISTANCE
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_GRAVITY
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_LUMINOSITY
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_MASS
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_METALLICITY
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_NAME
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_RA
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_RADIUS
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_ROTATIONAL_PERIOD
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_ROTATIONAL_VELOCITY
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_SPECTRAL_TYPE
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_SYSTEM_NAME
-import com.hybris.tlv.usecase.sync.model.JsonConstants.STELLAR_HOST_TEMPERATURE
-import com.hybris.tlv.usecase.sync.model.StellarHostJson
-import com.hybris.tlv.usecase.sync.model.SyncResult
 import io.ktor.client.HttpClient
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
-internal class SpaceSync(
-    private val httpClient: HttpClient
-) {
+internal class ArchiveGateway(
+    private val httpClient: HttpClient,
+): ArchiveUseCases {
 
-    fun getArchive(): Flow<SyncResult> = flow {
-        val totalOperations = 6f
-        emit(value = SyncResult.Loading(progress = 0f, total = totalOperations))
+    override suspend fun getArchive() {
         val stellarHosts = loadFromJson<StellarHost>(path = "files/solarsystem.json").toMutableList()
         val planets = loadFromJson<Planet>(path = "files/solarplanets.json").toMutableList()
 
-        emit(value = SyncResult.Loading(progress = 1f, total = totalOperations))
         when (val stellarHostsArchiveResult = getArchive { offset, limit -> getStellarHostsArchive(offset = offset, limit = limit) }) {
-            is ExoplanetsResult.Error -> emit(value = SyncResult.Error(error = stellarHostsArchiveResult.error))
+            is ExoplanetsResult.Error -> Logger.error(tag = TAG, message = stellarHostsArchiveResult.error)
             is ExoplanetsResult.Success -> stellarHosts.addAll(elements = stellarHostsArchiveResult.stellarHosts)
         }
 
-        emit(value = SyncResult.Loading(progress = 2f, total = totalOperations))
         when (val exoplanetsArchiveResult = getArchive { offset, limit -> getExoplanetsArchive(offset = offset, limit = limit) }) {
-            is ExoplanetsResult.Error -> emit(value = SyncResult.Error(error = exoplanetsArchiveResult.error))
+            is ExoplanetsResult.Error -> Logger.error(tag = TAG, message = exoplanetsArchiveResult.error)
             is ExoplanetsResult.Success -> {
                 val stellarHostIds = stellarHosts.map { it.id }
                 val filteredStellarHosts = exoplanetsArchiveResult.stellarHosts.filter { it.id !in stellarHostIds }
@@ -77,9 +71,8 @@ internal class SpaceSync(
             }
         }
 
-        emit(value = SyncResult.Loading(progress = 3f, total = totalOperations))
         when (val k2ExoplanetsArchiveResult = getArchive { offset, limit -> getK2ExoplanetsArchive(offset = offset, limit = limit) }) {
-            is ExoplanetsResult.Error -> emit(value = SyncResult.Error(error = k2ExoplanetsArchiveResult.error))
+            is ExoplanetsResult.Error -> Logger.error(tag = TAG, message = k2ExoplanetsArchiveResult.error)
             is ExoplanetsResult.Success -> {
                 val stellarHostIds = stellarHosts.map { it.id }
                 val filteredStellarHosts = k2ExoplanetsArchiveResult.stellarHosts.filter { it.id !in stellarHostIds }
@@ -91,7 +84,6 @@ internal class SpaceSync(
             }
         }
 
-        emit(value = SyncResult.Loading(progress = 4f, total = totalOperations))
         val planetMap = planets.mergePlanets().groupBy { it.stellarHostId }
         val mergedStellarHosts = stellarHosts.mergeStellarHosts().apply {
             forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) }
@@ -99,11 +91,8 @@ internal class SpaceSync(
         val derivedStellarHosts = DerivedData.derive(stellarHosts = mergedStellarHosts)
         val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
 
-        emit(value = SyncResult.Loading(progress = 5f, total = totalOperations))
         saveFile(fileName = "hosts.json", content = json.encodeToString(value = derivedStellarHosts.map { it.copy() }))
         saveFile(fileName = "planets.json", content = json.encodeToString(value = derivedPlanets.map { it.copy() }))
-
-        emit(value = SyncResult.Success)
     }
 
     private suspend fun getArchive(apiCall: suspend (Int, Int) -> ExoplanetsResult): ExoplanetsResult {
@@ -495,4 +484,8 @@ internal class SpaceSync(
 
     private fun String.toSnakeCase(): String =
         lowercase().replace(oldValue = " ", newValue = "_").replace(oldValue = "-", newValue = "_")
+
+    companion object {
+        private const val TAG = "Archive"
+    }
 }

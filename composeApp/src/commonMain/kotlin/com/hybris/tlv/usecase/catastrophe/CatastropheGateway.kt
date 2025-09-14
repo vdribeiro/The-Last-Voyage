@@ -1,23 +1,32 @@
 package com.hybris.tlv.usecase.catastrophe
 
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.CatastropheSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.CATASTROPHES_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
+import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import database.AppDatabase
 import io.ktor.client.HttpClient
 
 internal class CatastropheGateway(
+    private val config: ConfigManager,
     private val httpClient: HttpClient,
     database: AppDatabase
 ): CatastropheUseCases {
 
     private val catastropheDao = database.catastropheQueries
 
-    override suspend fun syncCatastrophes(): Result<Catastrophe> =
-        httpClient.getStream<Catastrophe>(path = CATASTROPHES_URL)
+    override suspend fun syncCatastrophes() {
+        if (config.remoteConfigs.catastrophesVersion > config.localConfigs.catastrophesVersion) {
+            when (val result = httpClient.getStream<Catastrophe>(path = CATASTROPHES_URL)) {
+                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Success -> rewriteCatastrophes(catastrophes = result.list)
+            }
+        }
+    }
 
     override suspend fun prepopulateCatastrophes() {
         if (catastropheDao.isCatastropheEmpty().executeAsList().isEmpty()) {
@@ -45,4 +54,8 @@ internal class CatastropheGateway(
             id = id,
             description = description,
         )
+
+    companion object {
+        private const val TAG = "Catastrophe"
+    }
 }

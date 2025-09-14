@@ -1,9 +1,11 @@
 package com.hybris.tlv.usecase.event
 
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.EventSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.EVENTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
+import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.event.model.Event
@@ -12,14 +14,21 @@ import database.AppDatabase
 import io.ktor.client.HttpClient
 
 internal class EventGateway(
+    private val config: ConfigManager,
     private val httpClient: HttpClient,
     database: AppDatabase
 ): EventUseCases {
 
     private val eventDao = database.eventQueries
 
-    override suspend fun syncEvents(): Result<Event> =
-        httpClient.getStream<Event>(path = EVENTS_URL)
+    override suspend fun syncEvents() {
+        if (config.remoteConfigs.eventsVersion > config.localConfigs.eventsVersion) {
+            when (val result = httpClient.getStream<Event>(path = EVENTS_URL)) {
+                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Success -> rewriteEvents(events = result.list)
+            }
+        }
+    }
 
     override suspend fun prepopulateEvents() {
         if (eventDao.isEventEmpty().executeAsList().isEmpty()) {
@@ -63,4 +72,8 @@ internal class EventGateway(
             parentId = parentId,
             outcome = outcome?.let { json.decodeFromString<TravelOutcome>(string = it) }
         )
+
+    companion object Companion {
+        private const val TAG = "Event"
+    }
 }

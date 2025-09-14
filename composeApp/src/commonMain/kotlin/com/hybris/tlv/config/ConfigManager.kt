@@ -5,17 +5,22 @@ internal interface ConfigManager {
     /**
      * Cached local config.
      */
-    val configs: Configs
+    val localConfigs: Configs
+
+    /**
+     * Cached remote config.
+     */
+    val remoteConfigs: Configs
 
     /**
      * Get local config.
      */
-    suspend fun getLocal(): Configs
+    suspend fun fetchLocal()
 
     /**
      * Get remote config.
      */
-    suspend fun getRemote(): Configs
+    suspend fun fetchRemote()
 
     /**
      * Set local config.

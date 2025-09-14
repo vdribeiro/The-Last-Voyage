@@ -1,9 +1,11 @@
 package com.hybris.tlv.usecase.achievement
 
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.AchievementSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.ACHIEVEMENTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
+import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.achievement.model.Achievement
@@ -12,14 +14,21 @@ import database.AppDatabase
 import io.ktor.client.HttpClient
 
 internal class AchievementGateway(
+    private val config: ConfigManager,
     private val httpClient: HttpClient,
     database: AppDatabase
 ): AchievementUseCases {
 
     private val achievementDao = database.achievementQueries
 
-    override suspend fun syncAchievements(): Result<Achievement> =
-        httpClient.getStream<Achievement>(path = ACHIEVEMENTS_URL)
+    override suspend fun syncAchievements() {
+        if (config.remoteConfigs.achievementsVersion > config.localConfigs.achievementsVersion) {
+            when (val result = httpClient.getStream<Achievement>(path = ACHIEVEMENTS_URL)) {
+                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Success -> rewriteAchievements(achievements = result.list)
+            }
+        }
+    }
 
     override suspend fun prepopulateAchievements() {
         if (achievementDao.isAchievementEmpty().executeAsList().isEmpty()) {
@@ -53,4 +62,8 @@ internal class AchievementGateway(
             preconditions = json.decodeFromString<Precondition>(string = preconditions),
             status = status
         )
+
+    companion object Companion {
+        private const val TAG = "Achievement"
+    }
 }

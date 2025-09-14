@@ -1,6 +1,5 @@
 package com.hybris.tlv.usecase.learning
 
-import com.hybris.tlv.http.Result
 import com.hybris.tlv.usecase.learning.model.Learning
 
 internal interface LearningUseCases {
@@ -8,7 +7,7 @@ internal interface LearningUseCases {
     /**
      * Sync [Learning]s.
      */
-    suspend fun syncLearnings(): Result<Learning>
+    suspend fun syncLearnings()
 
     /**
      * Prepopulate [Learning]s.

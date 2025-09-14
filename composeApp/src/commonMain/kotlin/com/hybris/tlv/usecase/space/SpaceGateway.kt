@@ -1,11 +1,13 @@
 package com.hybris.tlv.usecase.space
 
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.PlanetSchema
 import com.hybris.tlv.database.StellarHostSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.PLANETS_URL
 import com.hybris.tlv.http.HttpClientFactory.Companion.STELLAR_HOSTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
+import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.space.model.CartesianPoint
 import com.hybris.tlv.usecase.space.model.Planet
@@ -20,6 +22,7 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 internal class SpaceGateway(
+    private val config: ConfigManager,
     private val httpClient: HttpClient,
     database: AppDatabase
 ): SpaceUseCases {
@@ -27,8 +30,14 @@ internal class SpaceGateway(
     private val stellarHostDao = database.stellarHostQueries
     private val planetDao = database.planetQueries
 
-    override suspend fun syncStellarHosts(): Result<StellarHost> =
-        httpClient.getStream<StellarHost>(path = STELLAR_HOSTS_URL)
+    override suspend fun syncStellarHosts() {
+        if (config.remoteConfigs.stellarHostsVersion > config.localConfigs.stellarHostsVersion) {
+            when (val result = httpClient.getStream<StellarHost>(path = STELLAR_HOSTS_URL)) {
+                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Success -> rewriteStellarHosts(stellarHosts = result.list)
+            }
+        }
+    }
 
     override suspend fun prepopulateStellarHosts() {
         if (stellarHostDao.isStellarHostEmpty().executeAsList().isEmpty()) {
@@ -42,8 +51,14 @@ internal class SpaceGateway(
         stellarHosts.forEach { stellarHostDao.upsertStellarHost(StellarHost = it.toStellarHostSchema()) }
     }
 
-    override suspend fun syncPlanets(): Result<Planet> =
-        httpClient.getStream<Planet>(path = PLANETS_URL)
+    override suspend fun syncPlanets() {
+        if (config.remoteConfigs.planetsVersion > config.localConfigs.planetsVersion) {
+            when (val result = httpClient.getStream<Planet>(path = PLANETS_URL)) {
+                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Success -> rewritePlanets(planets = result.list)
+            }
+        }
+    }
 
     override suspend fun prepopulatePlanets() {
         if (planetDao.isPlanetEmpty().executeAsList().isEmpty()) {
@@ -197,4 +212,8 @@ internal class SpaceGateway(
             inclination = inclination,
             obliquity = obliquity,
         )
+
+    companion object Companion {
+        private const val TAG = "Space"
+    }
 }

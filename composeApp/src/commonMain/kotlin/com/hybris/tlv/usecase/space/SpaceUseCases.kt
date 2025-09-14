@@ -1,6 +1,5 @@
 package com.hybris.tlv.usecase.space
 
-import com.hybris.tlv.http.Result
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
@@ -9,7 +8,7 @@ internal interface SpaceUseCases {
     /**
      * Sync [StellarHost]s.
      */
-    suspend fun syncStellarHosts(): Result<StellarHost>
+    suspend fun syncStellarHosts()
 
     /**
      * Prepopulate [StellarHost]s.
@@ -19,7 +18,7 @@ internal interface SpaceUseCases {
     /**
      * Sync [Planet]s.
      */
-    suspend fun syncPlanets(): Result<Planet>
+    suspend fun syncPlanets()
 
     /**
      * Prepopulate [Planet]s.

@@ -26,8 +26,8 @@ import com.hybris.tlv.usecase.space.formula.lightYearsToParsecs
 import com.hybris.tlv.usecase.space.formula.sunGravityToStellarHostGravity
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
-import com.hybris.tlv.usecase.sync.model.ExoplanetJson
-import com.hybris.tlv.usecase.sync.model.StellarHostJson
+import com.hybris.tlv.usecase.space.model.ExoplanetJson
+import com.hybris.tlv.usecase.space.model.StellarHostJson
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.respondError

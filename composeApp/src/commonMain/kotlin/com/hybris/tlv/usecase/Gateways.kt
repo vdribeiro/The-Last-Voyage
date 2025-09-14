@@ -18,8 +18,10 @@ import com.hybris.tlv.usecase.ship.ShipGateway
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.SpaceGateway
 import com.hybris.tlv.usecase.space.SpaceUseCases
-import com.hybris.tlv.usecase.sync.SyncGateway
-import com.hybris.tlv.usecase.sync.SyncUseCases
+import com.hybris.tlv.usecase.space.ArchiveGateway
+import com.hybris.tlv.usecase.space.ArchiveUseCases
+import com.hybris.tlv.usecase.translation.TranslationGateway
+import com.hybris.tlv.usecase.translation.TranslationUseCases
 import database.AppDatabase
 import io.ktor.client.HttpClient
 
@@ -29,16 +31,47 @@ internal class Gateways(
     httpClient: HttpClient,
     database: AppDatabase,
 ): UseCases {
-    override val learning: LearningUseCases = LearningGateway(database = database)
-    override val catastrophe: CatastropheUseCases = CatastropheGateway(database = database)
-    override val ship: ShipUseCases = ShipGateway(database = database)
-    override val space: SpaceUseCases = SpaceGateway(database = database)
-    override val event: EventUseCases = EventGateway(database = database)
-    override val gameSession: GameSessionUseCases = GameSessionGateway(database = database)
-    override val achievement: AchievementUseCases = AchievementGateway(database = database)
-    override val credit: CreditUseCases = CreditGateway(database = database)
-    override val sync: SyncUseCases = SyncGateway(
+    override val translation: TranslationUseCases = TranslationGateway(
         dispatcher = dispatcher,
+        config = config,
+        httpClient = httpClient,
+        database = database
+    )
+    override val archive: ArchiveUseCases = ArchiveGateway(
+        httpClient = httpClient,
+    )
+    override val learning: LearningUseCases = LearningGateway(
+        config = config,
+        httpClient = httpClient,
+        database = database
+    )
+    override val catastrophe: CatastropheUseCases = CatastropheGateway(
+        config = config,
+        httpClient = httpClient,
+        database = database
+    )
+    override val ship: ShipUseCases = ShipGateway(
+        config = config,
+        httpClient = httpClient,
+        database = database
+    )
+    override val space: SpaceUseCases = SpaceGateway(
+        config = config,
+        httpClient = httpClient,
+        database = database
+    )
+    override val event: EventUseCases = EventGateway(
+        config = config,
+        httpClient = httpClient,
+        database = database
+    )
+    override val gameSession: GameSessionUseCases = GameSessionGateway(database = database)
+    override val achievement: AchievementUseCases = AchievementGateway(
+        config = config,
+        httpClient = httpClient,
+        database = database
+    )
+    override val credit: CreditUseCases = CreditGateway(
         config = config,
         httpClient = httpClient,
         database = database

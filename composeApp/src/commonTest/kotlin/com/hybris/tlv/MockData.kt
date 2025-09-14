@@ -21,7 +21,7 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
-import com.hybris.tlv.usecase.translation.model.domain.Translation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 internal val learnings: List<Learning> by lazy {
     listOf(

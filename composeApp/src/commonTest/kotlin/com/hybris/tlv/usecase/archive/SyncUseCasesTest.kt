@@ -1,9 +1,8 @@
-package com.hybris.tlv.usecase.sync
+package com.hybris.tlv.usecase.archive
 
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.errorMock
 import com.hybris.tlv.mock
-import com.hybris.tlv.usecase.sync.model.SyncResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

@@ -1,6 +1,5 @@
 package com.hybris.tlv.usecase.catastrophe
 
-import com.hybris.tlv.http.Result
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 
 internal interface CatastropheUseCases {
@@ -8,7 +7,7 @@ internal interface CatastropheUseCases {
     /**
      * Sync [Catastrophe]s.
      */
-    suspend fun syncCatastrophes(): Result<Catastrophe>
+    suspend fun syncCatastrophes()
 
     /**
      * Prepopulate [Catastrophe]s.

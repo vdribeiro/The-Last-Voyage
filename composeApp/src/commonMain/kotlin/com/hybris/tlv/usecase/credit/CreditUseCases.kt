@@ -1,6 +1,5 @@
 package com.hybris.tlv.usecase.credit
 
-import com.hybris.tlv.http.Result
 import com.hybris.tlv.usecase.credit.model.Credit
 
 internal interface CreditUseCases {
@@ -8,7 +7,7 @@ internal interface CreditUseCases {
     /**
      * Sync [Credit]s.
      */
-    suspend fun syncCredits(): Result<Credit>
+    suspend fun syncCredits()
 
     /**
      * Prepopulate [Credit]s.
