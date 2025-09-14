@@ -18,7 +18,14 @@ internal class CreditUseCasesTest {
     @Test
     fun `sync and get credits`() = runBlocking {
         assertTrue(actual = mock.useCases.credit.getCredits().isEmpty())
-        mock.useCases.sync.sync().last()
+        mock.useCases.credit.syncCredits()
+        assertTrue(actual = mock.useCases.credit.getCredits().isNotEmpty())
+    }
+
+    @Test
+    fun `prepopulate and get credits`() = runBlocking {
+        assertTrue(actual = mock.useCases.credit.getCredits().isEmpty())
+        mock.useCases.credit.prepopulateCredits()
         assertTrue(actual = mock.useCases.credit.getCredits().isNotEmpty())
     }
 }

@@ -18,7 +18,14 @@ internal class AchievementUseCasesTest {
     @Test
     fun `sync and get achievements`() = runBlocking {
         assertTrue(actual = mock.useCases.achievement.getAchievements().isEmpty())
-        mock.useCases.sync.sync().last()
+        mock.useCases.achievement.syncAchievements()
+        assertTrue(actual = mock.useCases.achievement.getAchievements().isNotEmpty())
+    }
+
+    @Test
+    fun `prepopulate and get achievements`() = runBlocking {
+        assertTrue(actual = mock.useCases.achievement.getAchievements().isEmpty())
+        mock.useCases.achievement.prepopulateAchievements()
         assertTrue(actual = mock.useCases.achievement.getAchievements().isNotEmpty())
     }
 }

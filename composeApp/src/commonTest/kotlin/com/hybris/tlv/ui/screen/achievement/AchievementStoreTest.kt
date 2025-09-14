@@ -23,14 +23,14 @@ internal class AchievementStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.achievement.prepopulateAchievements()
         val achievementStore = store
         assertEquals(expected = achievements, actual = achievementStore.stateFlow.value.achievements)
     }
 
     @Test
     fun `send action back`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.achievement.prepopulateAchievements()
         store
         assertEquals(expected = NavigationManager.Screen.ACHIEVEMENT, actual = mock.navigation.stateFlow.value.screen)
         mock.navigation.back()

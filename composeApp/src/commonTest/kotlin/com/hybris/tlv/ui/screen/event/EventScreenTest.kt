@@ -41,7 +41,7 @@ internal class EventScreenTest {
     @Test
     fun eventList() = runComposeUiTest {
         runBlocking {
-            mock.useCases.sync.sync().last()
+            mock.useCases.event.prepopulateEvents()
             mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         }
         val store = storeFactory.createEventStore()

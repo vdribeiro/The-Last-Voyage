@@ -27,7 +27,7 @@ internal class EventStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.event.prepopulateEvents()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
         assertNotNull(actual = eventStore.gameSession)
@@ -56,7 +56,7 @@ internal class EventStoreTest {
 
     @Test
     fun `send action back`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.event.prepopulateEvents()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         store
         assertEquals(expected = NavigationManager.Screen.EVENT, actual = mock.navigation.stateFlow.value.screen)
@@ -66,7 +66,7 @@ internal class EventStoreTest {
 
     @Test
     fun `send action select`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.event.prepopulateEvents()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
         val event = events.random()
@@ -86,7 +86,7 @@ internal class EventStoreTest {
     @Test
     fun `send action select without selected event`() = runBlocking {
         assertEquals(expected = NavigationManager.Screen.EVENT, actual = mock.navigation.stateFlow.value.screen)
-        mock.useCases.sync.sync().last()
+        mock.useCases.event.prepopulateEvents()
         mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
         eventStore.send(action = EventAction.Select(event = defaultEvent))

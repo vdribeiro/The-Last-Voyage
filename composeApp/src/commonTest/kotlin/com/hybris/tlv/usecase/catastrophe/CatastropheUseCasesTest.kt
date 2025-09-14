@@ -19,7 +19,14 @@ internal class CatastropheUseCasesTest {
     @Test
     fun `sync and get catastrophes`() = runBlocking {
         assertNull(actual = mock.useCases.catastrophe.getRandomCatastrophe())
-        mock.useCases.sync.sync().last()
+        mock.useCases.catastrophe.syncCatastrophes()
+        assertNotNull(actual = mock.useCases.catastrophe.getRandomCatastrophe()).let {}
+    }
+
+    @Test
+    fun `prepopulate and get catastrophes`() = runBlocking {
+        assertNull(actual = mock.useCases.catastrophe.getRandomCatastrophe())
+        mock.useCases.catastrophe.prepopulateCatastrophes()
         assertNotNull(actual = mock.useCases.catastrophe.getRandomCatastrophe()).let {}
     }
 }

@@ -23,14 +23,14 @@ internal class CreditStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.credit.prepopulateCredits()
         val creditStore = store
         assertEquals(expected = credits, actual = creditStore.stateFlow.value.credits)
     }
 
     @Test
     fun `send action back`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.credit.prepopulateCredits()
         store
         assertEquals(expected = NavigationManager.Screen.CREDIT, actual = mock.navigation.stateFlow.value.screen)
         mock.navigation.back()
