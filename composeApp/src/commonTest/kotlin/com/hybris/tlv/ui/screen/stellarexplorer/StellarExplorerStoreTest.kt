@@ -24,7 +24,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.space.prepopulateStellarHosts()
+        mock.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
         val state = stellarExplorerStore.stateFlow.value
         assertEquals(expected = Content.LIST_HOSTS, actual = state.currentContent)
@@ -60,7 +61,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action search`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.space.prepopulateStellarHosts()
+        mock.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.Search(search = stellarHosts.first().id))
@@ -73,7 +75,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action sort`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.space.prepopulateStellarHosts()
+        mock.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.SortStellarHosts(sort = StellarHostProperty.NAME))
@@ -89,7 +92,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action change visibility`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.space.prepopulateStellarHosts()
+        mock.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = StellarHostProperty.NAME))
@@ -142,7 +146,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action change searchable`() = runBlocking {
-        mock.useCases.sync.sync().last()
+        mock.useCases.space.prepopulateStellarHosts()
+        mock.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
 
         assertEquals(expected = setOf(StellarHostProperty.NAME), actual = stellarExplorerStore.stateFlow.value.searchableStellarHostProperties)

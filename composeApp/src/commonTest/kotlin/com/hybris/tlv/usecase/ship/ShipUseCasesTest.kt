@@ -20,7 +20,14 @@ internal class ShipUseCasesTest {
     @Test
     fun `sync and get engines`() = runBlocking {
         assertTrue(actual = mock.useCases.ship.getEngines().isEmpty())
-        mock.useCases.sync.sync().last()
+        mock.useCases.ship.syncEngines()
+        assertTrue(actual = mock.useCases.ship.getEngines().isNotEmpty())
+    }
+
+    @Test
+    fun `prepopulate and get engines`() = runBlocking {
+        assertTrue(actual = mock.useCases.ship.getEngines().isEmpty())
+        mock.useCases.ship.prepopulateEngines()
         assertTrue(actual = mock.useCases.ship.getEngines().isNotEmpty())
     }
 
