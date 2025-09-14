@@ -50,7 +50,9 @@ internal class AchievementGateway(
             id = id,
             name = name,
             description = description,
-            preconditions = json.encodeToString(value = preconditions),
+            preconditions = runCatching {
+                json.encodeToString(value = preconditions)
+            }.getOrDefault(defaultValue = ""),
             status = status
         )
 
@@ -59,7 +61,9 @@ internal class AchievementGateway(
             id = id,
             name = name,
             description = description,
-            preconditions = json.decodeFromString<Precondition>(string = preconditions),
+            preconditions = runCatching {
+                json.decodeFromString<Precondition>(string = preconditions)
+            }.getOrDefault(defaultValue = Precondition()),
             status = status
         )
 

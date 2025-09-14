@@ -28,6 +28,7 @@ internal class TranslationGateway(
                 is Result.Error -> Logger.error(tag = TAG, message = result.error)
                 is Result.Success -> rewriteTranslations(translations = result.list)
             }
+            config.localConfigs = config.localConfigs.copy(translationsVersion = config.remoteConfigs.translationsVersion)
         }
     }
 

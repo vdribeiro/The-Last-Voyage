@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.screen.splash
 
+import com.hybris.tlv.config.Config
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
@@ -21,6 +23,7 @@ import kotlinx.coroutines.supervisorScope
 internal class SplashStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
+    private val config: ConfigManager,
     private val translateUseCases: TranslationUseCases,
     private val archiveUseCases: ArchiveUseCases,
     private val learningUseCases: LearningUseCases,
@@ -42,7 +45,9 @@ internal class SplashStore(
     }
 
     private fun setup(): Job = launch {
+        config.fetchLocal()
         val tasks = listOf(
+            //{ suspend { archiveUseCases.getArchive() } }, // Uncomment to get archive
             { suspend { translateUseCases.syncTranslations(); translateUseCases.prepopulateTranslations() } },
             { suspend { learningUseCases.syncLearnings(); learningUseCases.prepopulateLearnings() } },
             { suspend { catastropheUseCases.syncCatastrophes(); catastropheUseCases.prepopulateCatastrophes() } },

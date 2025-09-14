@@ -91,8 +91,12 @@ internal class ArchiveGateway(
         val derivedStellarHosts = DerivedData.derive(stellarHosts = mergedStellarHosts)
         val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
 
-        saveFile(fileName = "hosts.json", content = json.encodeToString(value = derivedStellarHosts.map { it.copy() }))
-        saveFile(fileName = "planets.json", content = json.encodeToString(value = derivedPlanets.map { it.copy() }))
+        runCatching { json.encodeToString(value = derivedStellarHosts.map { it.copy() }) }.getOrNull()?.let {
+            saveFile(fileName = "hosts.json", content = it)
+        }
+        runCatching { json.encodeToString(value = derivedPlanets.map { it.copy() }) }.getOrNull()?.let {
+            saveFile(fileName = "planets.json", content = it)
+        }
     }
 
     private suspend fun getArchive(apiCall: suspend (Int, Int) -> ExoplanetsResult): ExoplanetsResult {

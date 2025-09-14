@@ -62,7 +62,7 @@ internal class EventGateway(
             id = id,
             description = description,
             parentId = parentId,
-            outcome = outcome?.let { json.encodeToString(value = it) }
+            outcome = outcome?.let { runCatching { json.encodeToString(value = it) }.getOrNull() }
         )
 
     private fun EventSchema.toEvent(): Event =
@@ -70,7 +70,7 @@ internal class EventGateway(
             id = id,
             description = description,
             parentId = parentId,
-            outcome = outcome?.let { json.decodeFromString<TravelOutcome>(string = it) }
+            outcome = outcome?.let { runCatching { json.decodeFromString<TravelOutcome>(string = it) }.getOrNull() }
         )
 
     companion object Companion {
