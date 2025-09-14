@@ -13,7 +13,7 @@ internal interface ConfigManager {
     val remoteConfigs: Configs
 
     /**
-     * Set local config.
+     * Set config to storage.
      */
-    suspend fun setLocal(configs: Configs)
+    suspend fun flush(configs: Configs = localConfigs)
 }

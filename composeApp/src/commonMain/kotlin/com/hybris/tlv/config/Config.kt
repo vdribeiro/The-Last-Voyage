@@ -26,12 +26,9 @@ internal class Config(
     }
 
     private fun fetchLocal() = dispatcher.io.launch {
-        val file = loadFile(fileName = "configs.json")
-        if (file != null) {
-            this@Config.localConfigs = runCatching {
-                json.decodeFromString<Configs>(string = file)
-            }.getOrDefault(defaultValue = Configs())
-        } else setLocal(configs = Configs())
+        this@Config.localConfigs = loadFile(fileName = "configs.json")?.let {
+            runCatching { json.decodeFromString<Configs>(string = it) }.getOrNull()
+        } ?: Configs().also { flush(configs = it) }
     }
 
     private fun fetchRemote() = dispatcher.io.launch {
@@ -42,8 +39,7 @@ internal class Config(
         remoteCache = remoteConfigs
     }
 
-    override suspend fun setLocal(configs: Configs) {
-        localConfigs = configs
+    override suspend fun flush(configs: Configs) {
         runCatching { json.encodeToString(value = configs) }.getOrNull()?.let {
             saveFile(fileName = "configs.json", content = it)
         }

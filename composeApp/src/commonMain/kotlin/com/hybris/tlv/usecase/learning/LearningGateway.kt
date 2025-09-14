@@ -25,6 +25,7 @@ internal class LearningGateway(
                 is Result.Error -> Logger.error(tag = TAG, message = result.error)
                 is Result.Success -> rewriteLearnings(learnings = result.list)
             }
+            config.localConfigs = config.localConfigs.copy(learningsVersion = config.remoteConfigs.learningsVersion)
         }
     }
 

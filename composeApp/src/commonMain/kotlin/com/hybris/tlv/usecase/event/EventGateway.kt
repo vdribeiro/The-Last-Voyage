@@ -27,6 +27,7 @@ internal class EventGateway(
                 is Result.Error -> Logger.error(tag = TAG, message = result.error)
                 is Result.Success -> rewriteEvents(events = result.list)
             }
+            config.localConfigs = config.localConfigs.copy(eventsVersion = config.remoteConfigs.eventsVersion)
         }
     }
 

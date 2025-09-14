@@ -27,6 +27,7 @@ internal class ShipGateway(
                 is Result.Error -> Logger.error(tag = TAG, message = result.error)
                 is Result.Success -> rewriteEngines(engines = result.list)
             }
+            config.localConfigs = config.localConfigs.copy(enginesVersion = config.remoteConfigs.enginesVersion)
         }
     }
 

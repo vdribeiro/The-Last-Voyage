@@ -36,6 +36,7 @@ internal class SpaceGateway(
                 is Result.Error -> Logger.error(tag = TAG, message = result.error)
                 is Result.Success -> rewriteStellarHosts(stellarHosts = result.list)
             }
+            config.localConfigs = config.localConfigs.copy(stellarHostsVersion = config.remoteConfigs.stellarHostsVersion)
         }
     }
 
@@ -57,6 +58,7 @@ internal class SpaceGateway(
                 is Result.Error -> Logger.error(tag = TAG, message = result.error)
                 is Result.Success -> rewritePlanets(planets = result.list)
             }
+            config.localConfigs = config.localConfigs.copy(planetsVersion = config.remoteConfigs.planetsVersion)
         }
     }
 

@@ -45,7 +45,6 @@ internal class SplashStore(
     }
 
     private fun setup(): Job = launch {
-        config.fetchLocal()
         val tasks = listOf(
             //{ suspend { archiveUseCases.getArchive() } }, // Uncomment to get archive
             { suspend { translateUseCases.syncTranslations(); translateUseCases.prepopulateTranslations() } },
@@ -66,6 +65,7 @@ internal class SplashStore(
             val progress = (index + 1).toFloat() / deferredJobs.size.toFloat()
             updateState { it.copy(progress = progress) }
         }
+        config.flush()
         delay(timeMillis = 1000L)
         navigate(screen = Screen.MAIN_MENU)
     }

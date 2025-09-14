@@ -27,6 +27,7 @@ internal class AchievementGateway(
                 is Result.Error -> Logger.error(tag = TAG, message = result.error)
                 is Result.Success -> rewriteAchievements(achievements = result.list)
             }
+            config.localConfigs = config.localConfigs.copy(achievementsVersion = config.remoteConfigs.achievementsVersion)
         }
     }
 

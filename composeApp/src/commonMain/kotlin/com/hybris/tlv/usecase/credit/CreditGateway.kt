@@ -25,6 +25,7 @@ internal class CreditGateway(
                 is Result.Error -> Logger.error(tag = TAG, message = result.error)
                 is Result.Success -> rewriteCredits(credits = result.list)
             }
+            config.localConfigs = config.localConfigs.copy(creditsVersion = config.remoteConfigs.creditsVersion)
         }
     }
 

@@ -25,6 +25,7 @@ internal class CatastropheGateway(
                 is Result.Error -> Logger.error(tag = TAG, message = result.error)
                 is Result.Success -> rewriteCatastrophes(catastrophes = result.list)
             }
+            config.localConfigs = config.localConfigs.copy(catastrophesVersion = config.remoteConfigs.catastrophesVersion)
         }
     }
 
