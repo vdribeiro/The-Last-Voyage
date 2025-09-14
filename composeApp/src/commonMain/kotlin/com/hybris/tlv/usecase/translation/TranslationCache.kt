@@ -5,9 +5,6 @@ import com.hybris.tlv.usecase.translation.model.Translation
 
 /**
  * Translations cache.
- * To avoid concurrency issues, we always access the cache in the main thread.
- * Tremble not, these are extremely fast, in-memory operations that typically complete in microseconds,
- * far from the threshold that triggers an ANR.
  */
 internal object TranslationCache {
 
@@ -29,6 +26,7 @@ internal object TranslationCache {
 
     fun set(translations: List<Translation>) {
         languageIso = getLanguage()
+        translationsCache.clear()
         translationsCache.putAll(from = translations.toTranslationCacheMap())
     }
 

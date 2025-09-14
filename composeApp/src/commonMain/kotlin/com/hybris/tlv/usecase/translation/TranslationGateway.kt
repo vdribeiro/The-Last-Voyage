@@ -36,16 +36,20 @@ internal class TranslationGateway(
         if (translationDao.isTranslationEmpty().executeAsList().isEmpty()) {
             val translations: List<Translation> = loadFromJson(path = "files/translations.json")
             rewriteTranslations(translations = translations)
-            dispatcher.main.launch { TranslationCache.set(translations = translations) }
+            setCache(translations = translations)
         } else {
             val translations = translationDao.getTranslations().executeAsList().map { it.toTranslation() }
-            dispatcher.main.launch { TranslationCache.set(translations = translations) }
+            setCache(translations = translations)
         }
     }
 
     private fun rewriteTranslations(translations: List<Translation>) = translationDao.transaction {
         translationDao.truncateTranslation()
         translations.forEach { translationDao.upsertTranslation(Translation = it.toTranslationSchema()) }
+    }
+
+    private fun setCache(translations: List<Translation>) = dispatcher.main.launch {
+        TranslationCache.set(translations = translations)
     }
 
     private fun Translation.toTranslationSchema(): TranslationSchema =

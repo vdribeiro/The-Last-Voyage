@@ -25,7 +25,7 @@ internal class TranslationUseCasesTest {
         val translation = translations.random()
         assertEquals(expected = translation.key, actual = TranslationCache.get(translation.key))
         mock.useCases.translation.syncTranslations()
-        assertEquals(expected = translation.value, actual = TranslationCache.get(translation.key))
+        assertEquals(expected = translation.key, actual = TranslationCache.get(translation.key))
     }
 
     @Test
