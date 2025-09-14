@@ -1,16 +1,37 @@
 package com.hybris.tlv.usecase.event
 
 import com.hybris.tlv.database.EventSchema
+import com.hybris.tlv.http.HttpClientFactory.Companion.EVENTS_URL
+import com.hybris.tlv.http.Result
+import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.json
+import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import database.AppDatabase
+import io.ktor.client.HttpClient
 
 internal class EventGateway(
+    private val httpClient: HttpClient,
     database: AppDatabase
 ): EventUseCases {
 
     private val eventDao = database.eventQueries
+
+    override suspend fun syncEvents(): Result<Event> =
+        httpClient.getStream<Event>(path = EVENTS_URL)
+
+    override suspend fun prepopulateEvents() {
+        if (eventDao.isEventEmpty().executeAsList().isEmpty()) {
+            val events: List<Event> = loadFromJson(path = "files/events.json")
+            rewriteEvents(events = events)
+        }
+    }
+
+    private fun rewriteEvents(events: List<Event>) = eventDao.transaction {
+        eventDao.truncateEvent()
+        events.forEach { eventDao.upsertEvent(Event = it.toEventSchema()) }
+    }
 
     override suspend fun getRandomEvent(ids: Set<String>): List<Event> {
         val event = eventDao.getRandomEvent(ids = ids).executeAsOneOrNull()?.toEvent() ?: return emptyList()
@@ -26,6 +47,14 @@ internal class EventGateway(
         }
         return treeNodes
     }
+
+    private fun Event.toEventSchema(): EventSchema =
+        EventSchema(
+            id = id,
+            description = description,
+            parentId = parentId,
+            outcome = outcome?.let { json.encodeToString(value = it) }
+        )
 
     private fun EventSchema.toEvent(): Event =
         Event(

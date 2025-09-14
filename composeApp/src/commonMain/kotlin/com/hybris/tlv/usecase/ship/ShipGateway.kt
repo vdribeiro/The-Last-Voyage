@@ -1,16 +1,37 @@
 package com.hybris.tlv.usecase.ship
 
 import com.hybris.tlv.database.EngineSchema
+import com.hybris.tlv.http.HttpClientFactory.Companion.ENGINES_URL
+import com.hybris.tlv.http.Result
+import com.hybris.tlv.http.getStream
+import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import database.AppDatabase
+import io.ktor.client.HttpClient
 import kotlin.math.abs
 
 internal class ShipGateway(
+    private val httpClient: HttpClient,
     database: AppDatabase
 ): ShipUseCases {
 
     private val engineDao = database.engineQueries
+
+    override suspend fun syncEngines(): Result<Engine> =
+        httpClient.getStream<Engine>(path = ENGINES_URL)
+
+    override suspend fun prepopulateEngines() {
+        if (engineDao.isEngineEmpty().executeAsList().isEmpty()) {
+            val engines: List<Engine> = loadFromJson(path = "files/engines.json")
+            rewriteEngines(engines = engines)
+        }
+    }
+
+    private fun rewriteEngines(engines: List<Engine>) = engineDao.transaction {
+        engineDao.truncateEngine()
+        engines.forEach { engineDao.upsertEngine(Engine = it.toEngineSchema()) }
+    }
 
     override suspend fun getEngines(): List<Engine> =
         engineDao.getEngines().executeAsList().map { it.toEngine() }.sortedByDescending { it.velocity }
@@ -47,6 +68,13 @@ internal class ShipGateway(
             cryopods = cryopods
         )
     }
+
+    private fun Engine.toEngineSchema(): EngineSchema =
+        EngineSchema(
+            id = id,
+            description = description,
+            velocity = velocity,
+        )
 
     private fun EngineSchema.toEngine(): Engine =
         Engine(

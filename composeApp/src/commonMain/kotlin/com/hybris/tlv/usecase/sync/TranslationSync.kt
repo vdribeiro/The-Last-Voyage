@@ -21,13 +21,13 @@ internal class TranslationSync(
 
     private val translationDao = database.translationQueries
 
-    suspend fun syncTranslations(): SyncResult =
+    override suspend fun syncTranslations(): SyncResult =
         when (val result = httpClient.getStream<Translation>(path = TRANSLATIONS_URL)) {
             is Result.Error -> SyncResult.Error(error = result.error)
             is Result.Success -> rewriteTranslations(translations = result.list).let { SyncResult.Success }
         }
 
-    suspend fun prepopulateTranslations() {
+    override suspend fun prepopulateTranslations() {
         val translations = when {
             translationDao.isTranslationEmpty().executeAsList().isEmpty() -> loadFromJson<Translation>(
                 path = "files/translations.json"

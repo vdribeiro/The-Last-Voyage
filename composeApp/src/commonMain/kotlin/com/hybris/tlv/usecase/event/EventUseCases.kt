@@ -1,8 +1,19 @@
 package com.hybris.tlv.usecase.event
 
+import com.hybris.tlv.http.Result
 import com.hybris.tlv.usecase.event.model.Event
 
 internal interface EventUseCases {
+
+    /**
+     * Sync [Event]s.
+     */
+    suspend fun syncEvents(): Result<Event>
+
+    /**
+     * Prepopulate [Event]s.
+     */
+    suspend fun prepopulateEvents()
 
     /**
      * Get a random [Event] and its children given an exclusion list of [ids].

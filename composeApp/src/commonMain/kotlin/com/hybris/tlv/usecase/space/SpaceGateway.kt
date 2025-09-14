@@ -2,11 +2,17 @@ package com.hybris.tlv.usecase.space
 
 import com.hybris.tlv.database.PlanetSchema
 import com.hybris.tlv.database.StellarHostSchema
+import com.hybris.tlv.http.HttpClientFactory.Companion.PLANETS_URL
+import com.hybris.tlv.http.HttpClientFactory.Companion.STELLAR_HOSTS_URL
+import com.hybris.tlv.http.Result
+import com.hybris.tlv.http.getStream
+import com.hybris.tlv.serializer.loadFromJson
 import com.hybris.tlv.usecase.space.model.CartesianPoint
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import database.AppDatabase
+import io.ktor.client.HttpClient
 import kotlin.math.PI
 import kotlin.math.ceil
 import kotlin.math.cos
@@ -14,11 +20,42 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 internal class SpaceGateway(
+    private val httpClient: HttpClient,
     database: AppDatabase
 ): SpaceUseCases {
 
     private val stellarHostDao = database.stellarHostQueries
     private val planetDao = database.planetQueries
+
+    override suspend fun syncStellarHosts(): Result<StellarHost> =
+        httpClient.getStream<StellarHost>(path = STELLAR_HOSTS_URL)
+
+    override suspend fun prepopulateStellarHosts() {
+        if (stellarHostDao.isStellarHostEmpty().executeAsList().isEmpty()) {
+            val stellarHosts: List<StellarHost> = loadFromJson(path = "files/hosts.json")
+            rewriteStellarHosts(stellarHosts = stellarHosts)
+        }
+    }
+
+    private fun rewriteStellarHosts(stellarHosts: List<StellarHost>) = stellarHostDao.transaction {
+        stellarHostDao.truncateStellarHost()
+        stellarHosts.forEach { stellarHostDao.upsertStellarHost(StellarHost = it.toStellarHostSchema()) }
+    }
+
+    override suspend fun syncPlanets(): Result<Planet> =
+        httpClient.getStream<Planet>(path = PLANETS_URL)
+
+    override suspend fun prepopulatePlanets() {
+        if (planetDao.isPlanetEmpty().executeAsList().isEmpty()) {
+            val planets: List<Planet> = loadFromJson(path = "files/planets.json")
+            rewritePlanets(planets = planets)
+        }
+    }
+
+    private fun rewritePlanets(planets: List<Planet>) = planetDao.transaction {
+        planetDao.truncatePlanet()
+        planets.forEach { planetDao.upsertPlanet(Planet = it.toPlanetSchema()) }
+    }
 
     override suspend fun getStellarHost(id: String): StellarHost? {
         val planets = planetDao.getPlanetsByStellarHost(stellarHostId = id).executeAsList().map { it.toPlanet() }
@@ -81,6 +118,27 @@ internal class SpaceGateway(
         )
     }
 
+    private fun StellarHost.toStellarHostSchema(): StellarHostSchema =
+        StellarHostSchema(
+            id = id,
+            name = name,
+            systemName = systemName,
+            spectralType = spectralType,
+            effectiveTemperature = effectiveTemperature,
+            radius = radius,
+            mass = mass,
+            metallicity = metallicity,
+            luminosity = luminosity,
+            gravity = gravity,
+            age = age,
+            density = density,
+            rotationalVelocity = rotationalVelocity,
+            rotationalPeriod = rotationalPeriod,
+            distance = distance,
+            ra = ra,
+            dec = dec
+        )
+
     private fun StellarHostSchema.toStellarHost(): StellarHost =
         StellarHost(
             id = id,
@@ -100,6 +158,25 @@ internal class SpaceGateway(
             distance = distance,
             ra = ra,
             dec = dec
+        )
+
+    private fun Planet.toPlanetSchema(): PlanetSchema =
+        PlanetSchema(
+            id = id,
+            name = name,
+            stellarHostId = stellarHostId,
+            status = status,
+            orbitalPeriod = orbitalPeriod,
+            orbitAxis = orbitAxis,
+            radius = radius,
+            mass = mass,
+            density = density,
+            eccentricity = eccentricity,
+            insolationFlux = insolationFlux,
+            equilibriumTemperature = equilibriumTemperature,
+            occultationDepth = occultationDepth,
+            inclination = inclination,
+            obliquity = obliquity,
         )
 
     private fun PlanetSchema.toPlanet(): Planet =

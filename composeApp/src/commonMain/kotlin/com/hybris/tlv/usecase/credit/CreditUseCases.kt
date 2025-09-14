@@ -1,8 +1,19 @@
 package com.hybris.tlv.usecase.credit
 
+import com.hybris.tlv.http.Result
 import com.hybris.tlv.usecase.credit.model.Credit
 
 internal interface CreditUseCases {
+
+    /**
+     * Sync [Credit]s.
+     */
+    suspend fun syncCredits(): Result<Credit>
+
+    /**
+     * Prepopulate [Credit]s.
+     */
+    suspend fun prepopulateCredits()
 
     /**
      * Get all [Credit]s.

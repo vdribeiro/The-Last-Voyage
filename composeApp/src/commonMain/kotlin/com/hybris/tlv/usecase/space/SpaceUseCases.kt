@@ -1,8 +1,30 @@
 package com.hybris.tlv.usecase.space
 
+import com.hybris.tlv.http.Result
+import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal interface SpaceUseCases {
+
+    /**
+     * Sync [StellarHost]s.
+     */
+    suspend fun syncStellarHosts(): Result<StellarHost>
+
+    /**
+     * Prepopulate [StellarHost]s.
+     */
+    suspend fun prepopulateStellarHosts()
+
+    /**
+     * Sync [Planet]s.
+     */
+    suspend fun syncPlanets(): Result<Planet>
+
+    /**
+     * Prepopulate [Planet]s.
+     */
+    suspend fun prepopulatePlanets()
 
     /**
      * Get a stellar host by [id].
