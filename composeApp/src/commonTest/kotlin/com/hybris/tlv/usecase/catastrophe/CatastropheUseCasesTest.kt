@@ -7,7 +7,6 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class CatastropheUseCasesTest {

@@ -6,7 +6,6 @@ import com.hybris.tlv.mock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class CreditUseCasesTest {

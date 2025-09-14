@@ -10,7 +10,6 @@ import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalTestApi::class)

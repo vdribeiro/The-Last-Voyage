@@ -8,7 +8,6 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 internal class AchievementStoreTest {

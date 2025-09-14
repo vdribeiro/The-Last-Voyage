@@ -19,7 +19,6 @@ import com.hybris.tlv.usecase.credit.model.CreditType
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalTestApi::class)
