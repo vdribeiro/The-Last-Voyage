@@ -3,6 +3,7 @@ package com.hybris.tlv.preview
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.translations
+import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.mainmenu.Content
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuScreen
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
@@ -21,7 +22,7 @@ private fun MainMenuLoading() {
         MainMenuScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = true,
                     featureFeedback = true,
@@ -51,7 +52,7 @@ private fun MainMenuAll() {
         MainMenuScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
                     featureFeedback = true,
@@ -81,7 +82,7 @@ private fun MainMenuContinue() {
         MainMenuScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
                     featureFeedback = true,
@@ -111,7 +112,7 @@ private fun MainMenuNoFeedbackAndSoon() {
         MainMenuScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
                     featureFeedback = false,
@@ -141,7 +142,7 @@ private fun MainMenuNoFeatures() {
         MainMenuScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
                     featureFeedback = true,
@@ -171,7 +172,7 @@ private fun MainMenuLearn() {
         MainMenuScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
                     featureFeedback = true,
@@ -201,7 +202,7 @@ private fun MainMenuHostDefinition() {
         MainMenuScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
                     featureFeedback = true,
@@ -250,7 +251,7 @@ private fun MainMenuPlanetDefinition() {
         MainMenuScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
                     featureFeedback = true,
@@ -299,7 +300,7 @@ private fun MainMenuHabitability() {
         MainMenuScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
                     featureFeedback = true,

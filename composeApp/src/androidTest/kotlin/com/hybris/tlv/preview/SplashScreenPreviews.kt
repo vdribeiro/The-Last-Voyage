@@ -3,6 +3,7 @@ package com.hybris.tlv.preview
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.translations
+import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.splash.SplashScreen
 import com.hybris.tlv.ui.screen.splash.SplashState
 import com.hybris.tlv.ui.store.Store
@@ -18,7 +19,7 @@ private fun SplashZero() {
         SplashScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = SplashState(
                     progress = 0.0f
                 )
@@ -35,7 +36,7 @@ private fun SplashHalfway() {
         SplashScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = SplashState(
                     progress = 0.5f
                 )
@@ -52,7 +53,7 @@ private fun SplashFull() {
         SplashScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = SplashState(
                     progress = 1.0f
                 )

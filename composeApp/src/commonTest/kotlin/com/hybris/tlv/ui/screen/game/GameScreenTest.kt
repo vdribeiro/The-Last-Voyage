@@ -7,6 +7,7 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
+import com.hybris.tlv.ui.theme.AppTheme
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
@@ -23,11 +24,14 @@ internal class GameScreenTest {
     fun gameWithoutData() = runComposeUiTest {
         val store = storeFactory.createGameStore()
         setContent {
-            GameScreen(store = store)
+            AppTheme(testing = true) {
+                GameScreen(store = store)
+            }
         }
+        waitForIdle()
 
         onNodeWithTag(testTag = GAME_SCREEN).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_STATUS_BAR).assertDoesNotExist()
+        onNodeWithTag(testTag = GAME_SCREEN_STATUS_BAR).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL).assertExists()
@@ -48,16 +52,17 @@ internal class GameScreenTest {
         setContent {
             GameScreen(store = store)
         }
+        waitForIdle()
 
         onNodeWithTag(testTag = GAME_SCREEN).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_STATUS_BAR).assertDoesNotExist()
+        onNodeWithTag(testTag = GAME_SCREEN_STATUS_BAR).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
-        onNodeWithTag(testTag = GAME_SCREEN_SHIP_CONTENT).assertDoesNotExist()
-        onNodeWithTag(testTag = GAME_SCREEN_SYSTEM_CONTENT).assertDoesNotExist()
-        onNodeWithTag(testTag = GAME_SCREEN_TRAVEL_CONTENT).assertDoesNotExist()
+        onNodeWithTag(testTag = GAME_SCREEN_SHIP_CONTENT).assertExists()
+        onNodeWithTag(testTag = GAME_SCREEN_SYSTEM_CONTENT).assertExists()
+        onNodeWithTag(testTag = GAME_SCREEN_TRAVEL_CONTENT).assertExists()
     }
 
     @Test
@@ -71,6 +76,7 @@ internal class GameScreenTest {
         setContent {
             GameScreen(store = store)
         }
+        waitForIdle()
 
         onNodeWithTag(testTag = GAME_SCREEN).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_STATUS_BAR).assertExists()

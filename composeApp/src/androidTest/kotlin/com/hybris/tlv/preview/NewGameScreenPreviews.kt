@@ -7,6 +7,7 @@ import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.formula
 import com.hybris.tlv.shipState
 import com.hybris.tlv.translations
+import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.newgame.Content
 import com.hybris.tlv.ui.screen.newgame.NewGameScreen
 import com.hybris.tlv.ui.screen.newgame.NewGameState
@@ -22,7 +23,7 @@ private fun NewGameLoading() {
         NewGameScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = NewGameState(
                     loading = true,
                     currentContent = Content.SHIP,
@@ -43,7 +44,7 @@ private fun NewGameShip() {
         NewGameScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = NewGameState(
                     loading = false,
                     currentContent = Content.SHIP,
@@ -64,7 +65,7 @@ private fun NewGameAdvanced() {
         NewGameScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = NewGameState(
                     loading = false,
                     currentContent = Content.ADVANCED,
@@ -85,7 +86,7 @@ private fun NewGameStart() {
         NewGameScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = NewGameState(
                     loading = false,
                     currentContent = Content.START,

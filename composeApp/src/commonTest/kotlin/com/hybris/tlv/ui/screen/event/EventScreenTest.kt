@@ -26,6 +26,7 @@ internal class EventScreenTest {
         setContent {
             EventScreen(store = store)
         }
+        waitForIdle()
 
         onNodeWithTag(testTag = EVENT_SCREEN).assertExists()
         onNodeWithTag(testTag = EVENT_SCREEN_STATUS_BAR).assertExists()
@@ -47,6 +48,7 @@ internal class EventScreenTest {
         setContent {
             EventScreen(store = store)
         }
+        waitForIdle()
 
         onNodeWithTag(testTag = EVENT_SCREEN).assertExists()
         onNodeWithTag(testTag = EVENT_SCREEN_STATUS_BAR).assertExists()

@@ -6,6 +6,7 @@ import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.hostsWithPlanets
 import com.hybris.tlv.planets
 import com.hybris.tlv.translations
+import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.stellarexplorer.Content
 import com.hybris.tlv.ui.screen.stellarexplorer.LazyListIndex
 import com.hybris.tlv.ui.screen.stellarexplorer.PlanetProperty
@@ -24,7 +25,7 @@ private fun StellarExplorerLoading() {
         StellarExplorerScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = StellarExplorerState(
                     loading = true,
                     currentContent = Content.LIST_HOSTS,
@@ -57,7 +58,7 @@ private fun StellarExplorerHostList() {
         StellarExplorerScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.LIST_HOSTS,
@@ -90,7 +91,7 @@ private fun StellarExplorerHostDetail() {
         StellarExplorerScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.DETAIL_HOSTS,
@@ -123,7 +124,7 @@ private fun StellarExplorerSearchHosts() {
         StellarExplorerScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.LIST_HOSTS,
@@ -156,7 +157,7 @@ private fun StellarExplorerPlanetList() {
         StellarExplorerScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.LIST_PLANETS,
@@ -189,7 +190,7 @@ private fun StellarExplorerPlanetDetail() {
         StellarExplorerScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.DETAIL_PLANETS,
@@ -222,7 +223,7 @@ private fun StellarExplorerSearchPlanet() {
         StellarExplorerScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.LIST_PLANETS,

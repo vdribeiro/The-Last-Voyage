@@ -25,6 +25,7 @@ internal class FeedbackScreenTest {
         setContent {
             FeedbackScreen(store = store)
         }
+        waitForIdle()
 
         onNodeWithTag(testTag = FEEDBACK_SCREEN).assertExists()
         onNodeWithTag(testTag = FEEDBACK_SCREEN_COLUMN).assertExists()
@@ -51,6 +52,7 @@ internal class FeedbackScreenTest {
         setContent {
             FeedbackScreen(store = store)
         }
+        waitForIdle()
 
         onNodeWithTag(testTag = FEEDBACK_SCREEN).assertExists()
         onNodeWithTag(testTag = FEEDBACK_SCREEN_COLUMN).assertExists()

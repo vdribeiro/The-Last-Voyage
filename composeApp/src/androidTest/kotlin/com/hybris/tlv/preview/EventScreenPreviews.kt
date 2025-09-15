@@ -6,6 +6,7 @@ import com.hybris.tlv.events
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.ship
 import com.hybris.tlv.translations
+import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.event.EventScreen
 import com.hybris.tlv.ui.screen.event.EventState
 import com.hybris.tlv.ui.screen.event.defaultEvent
@@ -21,7 +22,7 @@ private fun EventLoading() {
         EventScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = EventState(
                     loading = true,
                     ship = null,
@@ -41,7 +42,7 @@ private fun EventRandom() {
         EventScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = EventState(
                     loading = false,
                     ship = ship,

@@ -5,6 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.gameSessionFinished
 import com.hybris.tlv.translations
+import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.gameover.Content
 import com.hybris.tlv.ui.screen.gameover.GameOverScreen
 import com.hybris.tlv.ui.screen.gameover.GameOverState
@@ -21,7 +22,7 @@ private fun GameOverLoading() {
         GameOverScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = GameOverState(
                     loading = true,
                     currentContent = Content.MESSAGE,
@@ -41,7 +42,7 @@ private fun GameOverMessage() {
         GameOverScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = GameOverState(
                     loading = false,
                     currentContent = Content.MESSAGE,
@@ -61,7 +62,7 @@ private fun GameOverScore() {
         GameOverScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = GameOverState(
                     loading = false,
                     currentContent = Content.SCORE,

@@ -35,6 +35,7 @@ internal class CreditScreenTest {
         setContent {
             CreditScreen(store = store)
         }
+        waitForIdle()
 
         onNodeWithTag(testTag = CREDIT_SCREEN).assertExists()
         onNodeWithTag(testTag = CREDIT_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
@@ -65,6 +66,7 @@ internal class CreditScreenTest {
                 CreditScreen(store = store)
             }
         }
+        waitForIdle()
 
         val creditsMap = credits.groupBy { it.type }
         val creators = creditsMap[CreditType.CREATOR].orEmpty()

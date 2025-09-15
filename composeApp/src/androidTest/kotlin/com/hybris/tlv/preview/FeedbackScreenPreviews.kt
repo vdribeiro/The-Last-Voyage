@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.translations
+import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.feedback.FeedbackScreen
 import com.hybris.tlv.ui.screen.feedback.FeedbackState
 import com.hybris.tlv.ui.store.Store
@@ -18,7 +19,7 @@ private fun Feedback() {
         FeedbackScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = FeedbackState(
                     isError = false
                 )
@@ -35,7 +36,7 @@ private fun FeedbackError() {
         FeedbackScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = FeedbackState(
                     isError = true
                 )

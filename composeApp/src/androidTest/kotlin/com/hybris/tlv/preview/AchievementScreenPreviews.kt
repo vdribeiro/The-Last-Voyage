@@ -5,6 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.achievements
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.translations
+import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
 import com.hybris.tlv.ui.screen.achievement.AchievementState
 import com.hybris.tlv.ui.store.Store
@@ -19,7 +20,7 @@ private fun AchievementLoading() {
         AchievementScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = AchievementState(
                     loading = true,
                     achievements = emptyList()
@@ -37,7 +38,7 @@ private fun AchievementList() {
         AchievementScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = AchievementState(
                     loading = true,
                     achievements = achievements

@@ -7,6 +7,7 @@ import com.hybris.tlv.hostsWithPlanets
 import com.hybris.tlv.ship
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.translations
+import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.game.Content
 import com.hybris.tlv.ui.screen.game.GameScreen
 import com.hybris.tlv.ui.screen.game.GameState
@@ -23,7 +24,7 @@ private fun GameLoading() {
         GameScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = GameState(
                     loading = true,
                     tutorialStep = Tutorial.NO,
@@ -45,7 +46,7 @@ private fun GameShip() {
         GameScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = GameState(
                     loading = false,
                     tutorialStep = Tutorial.NO,
@@ -67,7 +68,7 @@ private fun GameSystem() {
         GameScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = GameState(
                     loading = false,
                     tutorialStep = Tutorial.NO,
@@ -89,7 +90,7 @@ private fun GameTravel() {
         GameScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = GameState(
                     loading = false,
                     tutorialStep = Tutorial.NO,
@@ -111,7 +112,7 @@ private fun GameTutorial() {
         GameScreen(
             store = Store(
                 dispatcher = TestDispatchers(),
-                navigation = PreviewNavigation(),
+                navigation = MockNavigation(),
                 initialState = GameState(
                     loading = false,
                     tutorialStep = Tutorial.YES,

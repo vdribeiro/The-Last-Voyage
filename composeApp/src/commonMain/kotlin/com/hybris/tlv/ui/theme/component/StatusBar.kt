@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.alpha
 import com.hybris.tlv.ui.theme.colorScheme
+import com.hybris.tlv.ui.theme.mergeDescendants
 import com.hybris.tlv.ui.theme.typography
 
 @Composable
@@ -36,9 +37,10 @@ internal fun StatusBar(
     materials: String?,
     cryopods: String?
 ) {
-    Surface(modifier = modifier.fillMaxWidth()) {
+    Surface(modifier = Modifier.fillMaxWidth()) {
         Row(
-            modifier = Modifier
+            modifier = modifier
+                .mergeDescendants()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
