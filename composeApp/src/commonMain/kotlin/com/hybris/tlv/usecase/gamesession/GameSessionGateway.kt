@@ -10,7 +10,6 @@ import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
-import com.hybris.tlv.usecase.gamesession.model.gameSessionProjection
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
@@ -419,18 +418,6 @@ internal class GameSessionGateway(
             cryopods = cryopods,
         )
 
-    private fun ShipSchema.toShip(): Ship =
-        Ship(
-            id = id,
-            assignedPoints = assignedPoints,
-            yearsTraveled = yearsTraveled,
-            sensorRange = sensorRange,
-            integrity = integrity,
-            fuel = fuel,
-            materials = materials,
-            cryopods = cryopods,
-        )
-
     private fun Ship.toShipSchema(): ShipSchema =
         ShipSchema(
             id = id,
@@ -474,4 +461,98 @@ internal class GameSessionGateway(
             planetRadiusMaxUpperLimit = planetRadiusMaxUpperLimit,
             stellarHostEffectiveTemperatureMaxDeviation = stellarHostEffectiveTemperatureMaxDeviation
         )
+
+    private val gameSessionProjection = { id: String,
+                                          utc: String,
+                                          currentStellarHostId: String?,
+                                          visitedStellarHosts: Set<String>,
+                                          launchedEvents: Set<String>,
+                                          settledPlanetId: String?,
+                                          finalHabitability: Double?,
+                                          score: Double?,
+                                          assignedPoints: Int,
+                                          yearsTraveled: Double,
+                                          sensorRange: Int,
+                                          integrity: Int,
+                                          fuel: Int,
+                                          materials: Int,
+                                          cryopods: Int,
+                                          rocheWeight: Double,
+                                          habitableZoneKopparapuWeight: Double,
+                                          habitableZoneKastingWeight: Double,
+                                          planetRadiusWeight: Double,
+                                          planetMassWeight: Double,
+                                          planetTelluricityWeight: Double,
+                                          planetEccentricityWeight: Double,
+                                          planetTemperatureWeight: Double,
+                                          planetObliquityWeight: Double,
+                                          planetEsiWeight: Double,
+                                          stellarSpectralTypeWeight: Double,
+                                          stellarMassWeight: Double,
+                                          stellarAgeWeight: Double,
+                                          stellarActivityWeight: Double,
+                                          stellarRotationalPeriodWeight: Double,
+                                          stellarGravityWeight: Double,
+                                          stellarMetallicityWeight: Double,
+                                          stellarEffectiveTemperatureWeight: Double,
+                                          planetProtectionWeight: Double,
+                                          planetTidalLockingWeight: Double,
+                                          planetMassLowerLimit: Double,
+                                          planetMassIdealUpperLimit: Double,
+                                          planetMassMaxUpperLimit: Double,
+                                          planetRadiusLowerLimit: Double,
+                                          planetRadiusIdealUpperLimit: Double,
+                                          planetRadiusMaxUpperLimit: Double,
+                                          stellarHostEffectiveTemperatureMaxDeviation: Double ->
+        GameSession(
+            id = id,
+            utc = utc,
+            currentStellarHostId = currentStellarHostId,
+            visitedStellarHosts = visitedStellarHosts,
+            launchedEvents = launchedEvents,
+            settledPlanetId = settledPlanetId,
+            finalHabitability = finalHabitability,
+            score = score,
+            ship = Ship(
+                id = id,
+                assignedPoints = assignedPoints,
+                yearsTraveled = yearsTraveled,
+                sensorRange = sensorRange,
+                integrity = integrity,
+                fuel = fuel,
+                materials = materials,
+                cryopods = cryopods,
+            ),
+            formula = Formula(
+                id = id,
+                rocheWeight = rocheWeight,
+                habitableZoneKopparapuWeight = habitableZoneKopparapuWeight,
+                habitableZoneKastingWeight = habitableZoneKastingWeight,
+                planetRadiusWeight = planetRadiusWeight,
+                planetMassWeight = planetMassWeight,
+                planetTelluricityWeight = planetTelluricityWeight,
+                planetEccentricityWeight = planetEccentricityWeight,
+                planetTemperatureWeight = planetTemperatureWeight,
+                planetObliquityWeight = planetObliquityWeight,
+                planetEsiWeight = planetEsiWeight,
+                stellarSpectralTypeWeight = stellarSpectralTypeWeight,
+                stellarMassWeight = stellarMassWeight,
+                stellarAgeWeight = stellarAgeWeight,
+                stellarActivityWeight = stellarActivityWeight,
+                stellarRotationalPeriodWeight = stellarRotationalPeriodWeight,
+                stellarGravityWeight = stellarGravityWeight,
+                stellarMetallicityWeight = stellarMetallicityWeight,
+                stellarEffectiveTemperatureWeight = stellarEffectiveTemperatureWeight,
+                planetProtectionWeight = planetProtectionWeight,
+                planetTidalLockingWeight = planetTidalLockingWeight,
+                planetMassLowerLimit = planetMassLowerLimit,
+                planetMassIdealUpperLimit = planetMassIdealUpperLimit,
+                planetMassMaxUpperLimit = planetMassMaxUpperLimit,
+                planetRadiusLowerLimit = planetRadiusLowerLimit,
+                planetRadiusIdealUpperLimit = planetRadiusIdealUpperLimit,
+                planetRadiusMaxUpperLimit = planetRadiusMaxUpperLimit,
+                stellarHostEffectiveTemperatureMaxDeviation = stellarHostEffectiveTemperatureMaxDeviation
+            )
+        )
+    }
 }
