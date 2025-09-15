@@ -31,9 +31,9 @@ internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerSt
     val storeState by store.stateFlow.collectAsState()
     val currentContent = storeState.currentContent
     val stellarHost = storeState.selectedStellarHost
-    val visibleStellarHostProperties = storeState.visibleStellarHostProperties.orEmpty()
-    val visiblePlanetProperties = storeState.visiblePlanetProperties.orEmpty()
-    val listState = storeState.listIndex?.getState() ?: rememberLazyListState()
+    val visibleStellarHostProperties = storeState.visibleStellarHostProperties
+    val visiblePlanetProperties = storeState.visiblePlanetProperties
+    val listState = storeState.listIndex.getState()
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -152,7 +152,7 @@ internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerSt
             }
             item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
         }
-        items(items = storeState.filteredPlanets.orEmpty(), key = { it.id }) { planet ->
+        items(items = storeState.filteredPlanets, key = { it.id }) { planet ->
             PlanetCard(
                 modifier = Modifier.debouncedClickable {
                     store.send(

@@ -31,36 +31,4 @@ internal data class Configs(
     val featureGame: Boolean = true,
     val featureEvents: Boolean = true,
     val featureGameOver: Boolean = true,
-) {
-    constructor(enableAllFeatures: Boolean): this(
-        featureFeedback = enableAllFeatures,
-        featureSoon = enableAllFeatures,
-        featureLearn = enableAllFeatures,
-        featureScores = enableAllFeatures,
-        featureAchievements = enableAllFeatures,
-        featureStellarExplorer = enableAllFeatures,
-        featureNewGame = enableAllFeatures,
-        featureGame = enableAllFeatures,
-        featureEvents = enableAllFeatures,
-        featureGameOver = enableAllFeatures,
-    )
-
-    fun copyValues(config: Configs) = copy(
-        developerCorner = config.developerCorner,
-        support = config.support,
-        formula = config.formula,
-    )
-
-    fun copyFeatures(config: Configs) = copy(
-        featureFeedback = config.featureFeedback,
-        featureSoon = config.featureSoon,
-        featureLearn = config.featureLearn,
-        featureScores = config.featureScores,
-        featureAchievements = config.featureAchievements,
-        featureStellarExplorer = config.featureStellarExplorer,
-        featureNewGame = config.featureNewGame,
-        featureGame = config.featureGame,
-        featureEvents = config.featureEvents,
-        featureGameOver = config.featureGameOver,
-    )
-}
+)
