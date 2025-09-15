@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
 import com.hybris.tlv.ui.screen.game.content.ShipContent
 import com.hybris.tlv.ui.screen.game.content.SystemContent
 import com.hybris.tlv.ui.screen.game.content.TravelContent
@@ -62,10 +63,6 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
                 modifier = Modifier
                     .testTag(tag = GAME_SCREEN_STATUS_BAR)
                     .statusBarsPadding(),
-                //hullEnabled = storeState.tutorial != Tutorial.NO,
-                //fuelEnabled = storeState.tutorial != Tutorial.NO,
-                //materialsEnabled = storeState.tutorial != Tutorial.NO,
-                //cryopodsEnabled = storeState.tutorial != Tutorial.NO,
                 hull = ship.integrity.toString(),
                 fuel = ship.fuel.toString(),
                 materials = ship.materials.toString(),
@@ -108,10 +105,16 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
         Box(
             modifier = Modifier
                 .padding(paddingValues = innerPadding)
-                .debouncedClickable(
-                    enabled = tutorial,
-                    rippleEffect = false
-                ) { store.send(action = GameAction.NextTutorial) },
+                .then(
+                    other = if (tutorial) {
+                        Modifier
+                            .debouncedClickable(
+                                enabled = tutorial,
+                                rippleEffect = false
+                            ) { store.send(action = GameAction.NextTutorial) }
+                            .semantics(mergeDescendants = false) {}
+                    } else Modifier
+                )
         ) {
             when (storeState.loading) {
                 true -> DebouncedLinearProgressIndicator(
