@@ -8,36 +8,41 @@ import com.hybris.tlv.translations
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
 import com.hybris.tlv.ui.screen.achievement.AchievementState
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.translation.TranslationCache
 
 @Preview
 @Composable
 private fun AchievementLoading() {
     TranslationCache.set(translations = translations)
-    AchievementScreen(
-        store = Store(
-            dispatcher = TestDispatchers(),
-            navigation = PreviewNavigation(),
-            initialState = AchievementState(
-                loading = true,
-                achievements = emptyList()
+    AppTheme {
+        AchievementScreen(
+            store = Store(
+                dispatcher = TestDispatchers(),
+                navigation = PreviewNavigation(),
+                initialState = AchievementState(
+                    loading = true,
+                    achievements = emptyList()
+                )
             )
         )
-    )
+    }
 }
 
 @Preview
 @Composable
 private fun AchievementList() {
     TranslationCache.set(translations = translations)
-    AchievementScreen(
-        store = Store(
-            dispatcher = TestDispatchers(),
-            navigation = PreviewNavigation(),
-            initialState = AchievementState(
-                loading = true,
-                achievements = achievements
+    AppTheme {
+        AchievementScreen(
+            store = Store(
+                dispatcher = TestDispatchers(),
+                navigation = PreviewNavigation(),
+                initialState = AchievementState(
+                    loading = true,
+                    achievements = achievements
+                )
             )
         )
-    )
+    }
 }

@@ -17,7 +17,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.screen.game.GAME_SCREEN_SHIP_CONTENT
 import com.hybris.tlv.ui.screen.game.GameAction
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.store.Store
@@ -40,6 +42,7 @@ internal fun ShipContent(store: Store<GameAction, GameState>) {
     // Ship status with years traveled, sensor range, maximum speed, integrity, fuel, materials and cryopods
     LazyColumn(
         modifier = Modifier
+            .testTag(tag = GAME_SCREEN_SHIP_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp)

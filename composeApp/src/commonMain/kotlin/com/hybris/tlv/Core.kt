@@ -39,8 +39,4 @@ internal class Core(
         config = config,
         useCases = useCases
     )
-) {
-    init {
-        if (isDebug) sqlDriver.clearDatabase()
-    }
-}
+)
