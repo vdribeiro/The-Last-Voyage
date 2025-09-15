@@ -46,15 +46,15 @@ internal class SplashStore(
     private fun setup(): Job = launch {
         val tasks = listOf(
             //{ suspend { archiveUseCases.getArchive() } }, // Uncomment to get archive
-            { suspend { translateUseCases.syncTranslations(); translateUseCases.prepopulateTranslations() } },
-            { suspend { learningUseCases.syncLearnings(); learningUseCases.prepopulateLearnings() } },
-            { suspend { catastropheUseCases.syncCatastrophes(); catastropheUseCases.prepopulateCatastrophes() } },
-            { suspend { shipUseCases.syncEngines(); shipUseCases.prepopulateEngines() } },
-            { suspend { spaceUseCases.syncStellarHosts(); spaceUseCases.prepopulateStellarHosts() } },
-            { suspend { spaceUseCases.syncPlanets(); spaceUseCases.prepopulatePlanets() } },
-            { suspend { eventUseCases.syncEvents(); eventUseCases.prepopulateEvents() } },
-            { suspend { achievementUseCases.syncAchievements(); achievementUseCases.prepopulateAchievements() } },
-            { suspend { creditUseCases.syncCredits(); creditUseCases.prepopulateCredits() } }
+            suspend { translateUseCases.syncTranslations(); translateUseCases.prepopulateTranslations() },
+            suspend { learningUseCases.syncLearnings(); learningUseCases.prepopulateLearnings() },
+            suspend { catastropheUseCases.syncCatastrophes(); catastropheUseCases.prepopulateCatastrophes() },
+            suspend { shipUseCases.syncEngines(); shipUseCases.prepopulateEngines() },
+            suspend { spaceUseCases.syncStellarHosts(); spaceUseCases.prepopulateStellarHosts() },
+            suspend { spaceUseCases.syncPlanets(); spaceUseCases.prepopulatePlanets() },
+            suspend { eventUseCases.syncEvents(); eventUseCases.prepopulateEvents() },
+            suspend { achievementUseCases.syncAchievements(); achievementUseCases.prepopulateAchievements() },
+            suspend { creditUseCases.syncCredits(); creditUseCases.prepopulateCredits() }
         )
         val deferredJobs = supervisorScope {
             tasks.map { task -> async { task() } }
