@@ -22,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.alpha
 import com.hybris.tlv.ui.theme.colorScheme
-import com.hybris.tlv.ui.theme.mergeDescendants
 import com.hybris.tlv.ui.theme.typography
 
 @Composable

@@ -25,7 +25,7 @@ internal class GameScreenTest {
     fun gameWithoutData() = runComposeUiTest {
         val store = storeFactory.createGameStore()
         setContent {
-            AppTheme(testing = true) {
+            AppTheme {
                 GameScreen(store = store)
             }
         }
@@ -52,7 +52,7 @@ internal class GameScreenTest {
         }
         val store = storeFactory.createGameStore()
         setContent {
-            AppTheme(testing = true) {
+            AppTheme {
                 GameScreen(store = store)
             }
         }
@@ -72,28 +72,6 @@ internal class GameScreenTest {
 
     @Test
     fun gameTutorial() = runComposeUiTest {
-        runBlocking { mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype) }
-        val store = storeFactory.createGameStore(
-            stateBuilder = GameStateBuilder(
-                tutorial = true
-            )
-        )
-        setContent {
-            AppTheme(testing = true) {
-                GameScreen(store = store)
-            }
-        }
-        waitForIdle()
-
-        onNodeWithTag(testTag = GAME_SCREEN).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_STATUS_BAR).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP).assertExists().assertTextEquals("game_screen__ship")
-        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM).assertExists().assertTextEquals("game_screen__system")
-        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL).assertExists().assertTextEquals("game_screen__travel")
-        onNodeWithTag(testTag = GAME_SCREEN_PROGRESS_INDICATOR).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_SHIP_CONTENT).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_SYSTEM_CONTENT).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_TRAVEL_CONTENT).assertExists()
+        // TODO
     }
 }

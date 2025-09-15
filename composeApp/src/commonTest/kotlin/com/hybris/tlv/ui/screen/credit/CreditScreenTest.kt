@@ -35,7 +35,7 @@ internal class CreditScreenTest {
     fun creditWithoutData() = runComposeUiTest {
         val store = storeFactory.createCreditStore()
         setContent {
-            AppTheme(testing = true) {
+            AppTheme {
                 CreditScreen(store = store)
             }
         }
@@ -67,7 +67,7 @@ internal class CreditScreenTest {
         val store = storeFactory.createCreditStore()
         setContent {
             CompositionLocalProvider(value = LocalUriHandler provides mockUriHandler) {
-                AppTheme(testing = true) {
+                AppTheme {
                     CreditScreen(store = store)
                 }
             }

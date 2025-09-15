@@ -26,7 +26,7 @@ internal class AchievementScreenTest {
     fun achievementWithoutData() = runComposeUiTest {
         val store = storeFactory.createAchievementStore()
         setContent {
-            AppTheme(testing = true) {
+            AppTheme {
                 AchievementScreen(store = store)
             }
         }
@@ -43,7 +43,7 @@ internal class AchievementScreenTest {
         runBlocking { mock.useCases.achievement.prepopulateAchievements() }
         val store = storeFactory.createAchievementStore()
         setContent {
-            AppTheme(testing = true) {
+            AppTheme {
                 AchievementScreen(store = store)
             }
         }

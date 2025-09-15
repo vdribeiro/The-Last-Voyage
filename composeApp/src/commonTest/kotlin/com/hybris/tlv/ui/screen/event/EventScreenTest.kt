@@ -25,7 +25,7 @@ internal class EventScreenTest {
     fun eventWithoutData() = runComposeUiTest {
         val store = storeFactory.createEventStore()
         setContent {
-            AppTheme(testing = true) {
+            AppTheme {
                 EventScreen(store = store)
             }
         }
@@ -49,7 +49,7 @@ internal class EventScreenTest {
         }
         val store = storeFactory.createEventStore()
         setContent {
-            AppTheme(testing = true) {
+            AppTheme {
                 EventScreen(store = store)
             }
         }

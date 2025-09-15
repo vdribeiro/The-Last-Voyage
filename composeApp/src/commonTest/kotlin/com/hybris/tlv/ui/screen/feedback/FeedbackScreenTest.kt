@@ -25,7 +25,7 @@ internal class FeedbackScreenTest {
     fun feedback() = runComposeUiTest {
         val store = storeFactory.createFeedbackStore()
         setContent {
-            AppTheme(testing = true) {
+            AppTheme {
                 FeedbackScreen(store = store)
             }
         }
@@ -54,7 +54,7 @@ internal class FeedbackScreenTest {
             )
         )
         setContent {
-            AppTheme(testing = true) {
+            AppTheme {
                 FeedbackScreen(store = store)
             }
         }
