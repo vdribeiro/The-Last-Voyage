@@ -8,8 +8,8 @@ import androidx.compose.ui.semantics.semantics
 internal val LocalTesting = compositionLocalOf { false }
 
 /**
- * Conditionally applies `semantics { mergeDescendants = false }` if the composable is currently running in a test environment.
- * This prevents UI elements from being merged, making them easier to find in tests.
+ * Conditionally applies 'mergeDescendants' if the composable is currently running in a test environment.
+ * This indicates that the owning component and its descendants should be treated as one logical entity. This makes them easier to find in tests.
  */
 @Composable
 fun Modifier.mergeDescendants(): Modifier =

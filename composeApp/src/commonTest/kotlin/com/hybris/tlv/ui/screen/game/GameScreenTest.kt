@@ -66,7 +66,7 @@ internal class GameScreenTest {
         onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL).assertExists().assertTextEquals("game_screen__travel")
         onNodeWithTag(testTag = GAME_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
         onNodeWithTag(testTag = GAME_SCREEN_SHIP_CONTENT).assertDoesNotExist()
-        onNodeWithTag(testTag = GAME_SCREEN_SYSTEM_CONTENT).assertExists()
+        onNodeWithTag(testTag = GAME_SCREEN_SYSTEM_CONTENT, useUnmergedTree = true).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_TRAVEL_CONTENT).assertDoesNotExist()
     }
 

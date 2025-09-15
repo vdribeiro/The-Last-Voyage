@@ -131,58 +131,6 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
                     Content.TRAVEL -> TravelContent(store = store)
                 }
             }
-
-            val title: String
-            val description: String
-            when (storeState.tutorialStep) {
-                Tutorial.NO -> {
-                    title = remember { "" }
-                    description = remember { "" }
-                }
-
-                Tutorial.YES -> {
-                    title = remember { getTranslation(key = "tutorial_screen__mechanics_goal_title") }
-                    description = remember { getTranslation(key = "tutorial_screen__mechanics_goal_description") }
-                }
-
-                Tutorial.SHIP -> {
-                    title = remember { getTranslation(key = "tutorial_screen__mechanics_attributes_title") }
-                    description = remember { getTranslation(key = "tutorial_screen__mechanics_attributes_description") }
-                }
-
-                Tutorial.TRAVEL -> {
-                    title = remember { getTranslation(key = "tutorial_screen__mechanics_travel_title") }
-                    description = remember { getTranslation(key = "tutorial_screen__mechanics_travel_description") }
-                }
-
-                Tutorial.SYSTEM -> {
-                    title = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_title") }
-                    description = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_description") }
-                }
-                //Tutorial.SYSTEM -> {
-                //    title = remember { getTranslation(key = "tutorial_screen__mechanics_score_title") }
-                //    description = remember { getTranslation(key = "tutorial_screen__mechanics_score_description") }
-                //}
-            }
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(all = 32.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    modifier = Modifier.padding(all = 8.dp),
-                    style = typography.titleLarge,
-                    text = title,
-                )
-                Text(
-                    modifier = Modifier.padding(all = 8.dp),
-                    style = typography.titleMedium,
-                    text = description,
-                )
-            }
         }
     }
 }
