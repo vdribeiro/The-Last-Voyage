@@ -32,9 +32,7 @@ internal class GameScreenTest {
 
         onNodeWithTag(testTag = GAME_SCREEN).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_STATUS_BAR).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL).assertExists()
+        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
         onNodeWithTag(testTag = GAME_SCREEN_SHIP_CONTENT).assertDoesNotExist()
         onNodeWithTag(testTag = GAME_SCREEN_SYSTEM_CONTENT).assertDoesNotExist()
@@ -50,15 +48,15 @@ internal class GameScreenTest {
         }
         val store = storeFactory.createGameStore()
         setContent {
-            GameScreen(store = store)
+            AppTheme(testing = true) {
+                GameScreen(store = store)
+            }
         }
         waitForIdle()
 
         onNodeWithTag(testTag = GAME_SCREEN).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_STATUS_BAR).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL).assertExists()
+        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
         onNodeWithTag(testTag = GAME_SCREEN_SHIP_CONTENT).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_SYSTEM_CONTENT).assertExists()
@@ -74,15 +72,15 @@ internal class GameScreenTest {
             )
         )
         setContent {
-            GameScreen(store = store)
+            AppTheme(testing = true) {
+                GameScreen(store = store)
+            }
         }
         waitForIdle()
 
         onNodeWithTag(testTag = GAME_SCREEN).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_STATUS_BAR).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM).assertExists()
-        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL).assertExists()
+        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_PROGRESS_INDICATOR).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_SHIP_CONTENT).assertExists()
         onNodeWithTag(testTag = GAME_SCREEN_SYSTEM_CONTENT).assertExists()

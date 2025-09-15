@@ -5,6 +5,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -83,19 +84,19 @@ internal class CreditScreenTest {
         onNodeWithTag(testTag = CREDIT_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
         onNodeWithTag(testTag = CREDIT_SCREEN_LIST).assertExists()
 
-        onNodeWithTag(testTag = CREDIT_SCREEN_LIST_CREATOR).performScrollTo().assertExists()
+        onNodeWithTag(testTag = CREDIT_SCREEN_LIST_CREATOR).performScrollTo().assertExists().assertTextEquals("credit_screen__creators")
         onAllNodesWithTag(testTag = CREDIT_SCREEN_LIST_CREATOR_ITEM)
             .assertCountEquals(expectedSize = creators.size)
 
-        onNodeWithTag(testTag = CREDIT_SCREEN_LIST_SOURCE).performScrollTo().assertExists()
+        onNodeWithTag(testTag = CREDIT_SCREEN_LIST_SOURCE).performScrollTo().assertExists().assertTextEquals("credit_screen__sources")
         onAllNodesWithTag(testTag = CREDIT_SCREEN_LIST_SOURCE_ITEM)
             .assertCountEquals(expectedSize = sources.size)
 
-        onNodeWithTag(testTag = CREDIT_SCREEN_LIST_MUSIC).performScrollTo().assertExists()
+        onNodeWithTag(testTag = CREDIT_SCREEN_LIST_MUSIC).performScrollTo().assertExists().assertTextEquals("credit_screen__music")
         onAllNodesWithTag(testTag = CREDIT_SCREEN_LIST_MUSIC_ITEM)
             .assertCountEquals(expectedSize = musics.size)
 
-        onNodeWithTag(testTag = CREDIT_SCREEN_LIST_SUPPORTER).performScrollTo().assertExists()
+        onNodeWithTag(testTag = CREDIT_SCREEN_LIST_SUPPORTER).performScrollTo().assertExists().assertTextEquals("credit_screen__supporters")
         onAllNodesWithTag(testTag = CREDIT_SCREEN_LIST_SUPPORTER_ITEM)
             .assertCountEquals(expectedSize = supporters.size)
 

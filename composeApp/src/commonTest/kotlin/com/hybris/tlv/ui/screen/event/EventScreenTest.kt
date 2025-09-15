@@ -25,8 +25,9 @@ internal class EventScreenTest {
     fun eventWithoutData() = runComposeUiTest {
         val store = storeFactory.createEventStore()
         setContent {
-            AppTheme {  }
-            EventScreen(store = store)
+            AppTheme(testing = true) {
+                EventScreen(store = store)
+            }
         }
         waitForIdle()
 
@@ -48,7 +49,9 @@ internal class EventScreenTest {
         }
         val store = storeFactory.createEventStore()
         setContent {
-            EventScreen(store = store)
+            AppTheme(testing = true) {
+                EventScreen(store = store)
+            }
         }
         waitForIdle()
 

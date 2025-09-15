@@ -83,26 +83,23 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
         },
         bottomBar = {
             // Navigation bar for travel, system and ship status
-            NavigationBar {
+            NavigationBar(
+                modifier = Modifier
+                    .testTag(tag = GAME_SCREEN_NAVIGATION_BAR)
+            ) {
                 NavigationBarItem(
-                    modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP),
                     icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
                     label = { Text(text = shipTranslation) },
                     selected = (storeState.currentContent == Content.SHIP || storeState.tutorialStep == Tutorial.SHIP),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 )
                 NavigationBarItem(
-                    modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM),
                     icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = systemTranslation) },
                     label = { Text(text = systemTranslation) },
                     selected = (storeState.currentContent == Content.SYSTEM || storeState.tutorialStep == Tutorial.SYSTEM),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SYSTEM)) },
                 )
                 NavigationBarItem(
-                    modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL),
                     icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
                     label = { Text(text = travelTranslation) },
                     selected = (storeState.currentContent == Content.TRAVEL || storeState.tutorialStep == Tutorial.TRAVEL),
