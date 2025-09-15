@@ -1,21 +1,58 @@
 package com.hybris.tlv.ui.screen.achievement
 
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.runComposeUiTest
+import com.hybris.tlv.achievements
+import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
+import com.hybris.tlv.ui.theme.AppTheme
+import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlinx.coroutines.runBlocking
 
-// TODO: add missing tests
 @OptIn(ExperimentalTestApi::class)
 internal class AchievementScreenTest {
 
-    @Test
-    fun test() = runComposeUiTest {
-        setContent {
-            AchievementScreen(store = storeFactory.createAchievementStore())
-        }
+    @BeforeTest
+    fun setup() = runComposeUiTest {
+        mock.sqlDriver.clearDatabase()
+    }
 
-        onNodeWithTag(testTag = "list").assertExists()
+    @Test
+    fun achievementWithoutData() = runComposeUiTest {
+        val store = storeFactory.createAchievementStore()
+        setContent {
+            AppTheme(testing = true) {
+                AchievementScreen(store = store)
+            }
+        }
+        waitForIdle()
+
+        onNodeWithTag(testTag = ACHIEVEMENT_SCREEN).assertExists()
+        onNodeWithTag(testTag = ACHIEVEMENT_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
+        onNodeWithTag(testTag = ACHIEVEMENT_SCREEN_LIST).assertExists()
+        onNodeWithTag(testTag = ACHIEVEMENT_SCREEN_LIST_ITEM).assertDoesNotExist()
+    }
+
+    @Test
+    fun achievementWithData() = runComposeUiTest {
+        runBlocking { mock.useCases.achievement.prepopulateAchievements() }
+        val store = storeFactory.createAchievementStore()
+        setContent {
+            AppTheme(testing = true) {
+                AchievementScreen(store = store)
+            }
+        }
+        waitForIdle()
+
+        onNodeWithTag(testTag = ACHIEVEMENT_SCREEN).assertExists()
+        onNodeWithTag(testTag = ACHIEVEMENT_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
+        onNodeWithTag(testTag = ACHIEVEMENT_SCREEN_LIST).assertExists()
+        onAllNodesWithTag(testTag = ACHIEVEMENT_SCREEN_LIST_ITEM)
+            .assertCountEquals(expectedSize = achievements.size)
     }
 }

@@ -8,6 +8,7 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
+import com.hybris.tlv.ui.theme.AppTheme
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
@@ -24,6 +25,7 @@ internal class EventScreenTest {
     fun eventWithoutData() = runComposeUiTest {
         val store = storeFactory.createEventStore()
         setContent {
+            AppTheme {  }
             EventScreen(store = store)
         }
         waitForIdle()

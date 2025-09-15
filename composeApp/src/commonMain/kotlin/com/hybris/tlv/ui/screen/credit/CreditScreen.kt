@@ -47,8 +47,8 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
 
     Scaffold(
         modifier = Modifier
-            .fillMaxSize()
             .testTag(tag = CREDIT_SCREEN)
+            .fillMaxSize()
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (storeState.loading) {

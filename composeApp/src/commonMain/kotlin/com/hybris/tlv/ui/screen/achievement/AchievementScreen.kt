@@ -23,7 +23,11 @@ import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>) {
     val storeState by store.stateFlow.collectAsState()
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    Scaffold(
+        modifier = Modifier
+            .testTag(tag = ACHIEVEMENT_SCREEN)
+            .fillMaxSize()
+    ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (storeState.loading) {
                 true -> DebouncedLinearProgressIndicator(
@@ -34,7 +38,7 @@ internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>
 
                 false -> LazyColumn(
                     modifier = Modifier
-                        .testTag(tag = "list")
+                        .testTag(tag = ACHIEVEMENT_SCREEN_LIST)
                         .fillMaxSize()
                         .padding(all = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -42,6 +46,8 @@ internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>
                 ) {
                     items(items = storeState.achievements, key = { it.id }) { achievement ->
                         AchievementItem(
+                            modifier = Modifier
+                                .testTag(tag = ACHIEVEMENT_SCREEN_LIST_ITEM),
                             name = achievement.name,
                             description = achievement.description
                         )

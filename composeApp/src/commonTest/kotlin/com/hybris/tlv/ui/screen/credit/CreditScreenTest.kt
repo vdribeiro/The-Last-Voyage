@@ -15,6 +15,7 @@ import com.hybris.tlv.credits
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.credit.model.CreditType
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -33,7 +34,9 @@ internal class CreditScreenTest {
     fun creditWithoutData() = runComposeUiTest {
         val store = storeFactory.createCreditStore()
         setContent {
-            CreditScreen(store = store)
+            AppTheme(testing = true) {
+                CreditScreen(store = store)
+            }
         }
         waitForIdle()
 
@@ -63,7 +66,9 @@ internal class CreditScreenTest {
         val store = storeFactory.createCreditStore()
         setContent {
             CompositionLocalProvider(value = LocalUriHandler provides mockUriHandler) {
-                CreditScreen(store = store)
+                AppTheme(testing = true) {
+                    CreditScreen(store = store)
+                }
             }
         }
         waitForIdle()
