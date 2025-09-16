@@ -13,8 +13,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_EXAMPLE
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_EXAMPLE_PLANET
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_PROPERTIES
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_PROPERTIES_SIMPLE
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_TYPES
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_TYPES_PLANET
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
@@ -85,12 +93,15 @@ internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>
 
     LazyColumn(
         modifier = Modifier
+            .testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
         item {
             Text(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_EXAMPLE),
                 text = exampleTranslation,
                 style = typography.titleLarge,
                 fontWeight = FontWeight.Bold,
@@ -99,6 +110,8 @@ internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>
         }
         item {
             PlanetCard(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_EXAMPLE_PLANET),
                 name = planet.name,
                 status = planet.status.displayName,
                 orbitalPeriod = planet.orbitalPeriod,
@@ -118,6 +131,8 @@ internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>
         }
         item {
             Text(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_PROPERTIES),
                 text = propertiesTranslation,
                 style = typography.titleLarge,
                 fontWeight = FontWeight.Bold
@@ -126,12 +141,16 @@ internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>
         }
         items(items = planetProperties, key = { it.id }) { property ->
             SimpleCard(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_PROPERTIES_SIMPLE),
                 name = property.id,
                 description = property.description,
             )
         }
         item {
             Text(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_TYPES),
                 text = typesTranslation,
                 style = typography.titleLarge,
                 fontWeight = FontWeight.Bold
@@ -140,6 +159,8 @@ internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>
         }
         items(items = planets, key = { it.id }) { planet ->
             PlanetCard(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_TYPES_PLANET),
                 name = getTranslation(key = planet.id),
                 description = planet.description,
                 typeDrawable = PlanetType.fromValue(value = planet.image.orEmpty()).toDrawable()

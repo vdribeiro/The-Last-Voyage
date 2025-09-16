@@ -14,7 +14,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONTINUE
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_NEW_GAME
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_PROGRESS_INDICATOR
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SCORES
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SOON
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
@@ -35,6 +43,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
 
     LazyColumn(
         modifier = Modifier
+            .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
@@ -46,6 +55,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
             item {
                 DebouncedLinearProgressIndicator(
                     modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_PROGRESS_INDICATOR)
                         .fillMaxWidth()
                 )
             }
@@ -54,7 +64,9 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         if (storeState.featureNewGame) {
             item {
                 Text(
-                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.NewGame) },
+                    modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_NEW_GAME)
+                        .debouncedClickable { store.send(action = MainMenuAction.NewGame) },
                     text = newGameTranslation,
                     style = typography.headlineMedium,
                 )
@@ -62,7 +74,9 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
             if (storeState.ongoingGameSession) {
                 item {
                     Text(
-                        modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Continue) },
+                        modifier = Modifier
+                            .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONTINUE)
+                            .debouncedClickable { store.send(action = MainMenuAction.Continue) },
                         text = continueTranslation,
                         style = typography.headlineMedium,
                     )
@@ -72,7 +86,9 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         if (storeState.featureLearn) {
             item {
                 Text(
-                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Learn) },
+                    modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN)
+                        .debouncedClickable { store.send(action = MainMenuAction.Learn) },
                     text = learnTranslation,
                     style = typography.headlineMedium,
                 )
@@ -81,7 +97,9 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         if (storeState.featureScores) {
             item {
                 Text(
-                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Scores) },
+                    modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SCORES)
+                        .debouncedClickable { store.send(action = MainMenuAction.Scores) },
                     text = scoresTranslation,
                     style = typography.headlineMedium,
                 )
@@ -90,7 +108,9 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         if (storeState.featureSoon) {
             item {
                 Text(
-                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Soon) },
+                    modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SOON)
+                        .debouncedClickable { store.send(action = MainMenuAction.Soon) },
                     text = soonTranslation,
                     style = typography.headlineMedium,
                 )

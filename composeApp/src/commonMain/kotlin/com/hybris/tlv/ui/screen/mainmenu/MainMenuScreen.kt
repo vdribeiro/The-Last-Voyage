@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.mainmenu.content.HabitabilityContent
@@ -50,17 +51,24 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
     val creditsTranslation = remember { getTranslation(key = "main_menu_screen__credits") }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .testTag(tag = MAIN_MENU_SCREEN)
+            .fillMaxSize(),
         topBar = {
             Row(
                 modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_TOP_BAR)
                     .statusBarsPadding()
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
             ) {
                 // Feedback button
                 if (isMenu && storeState.featureFeedback) {
-                    IconButton(onClick = { store.send(action = MainMenuAction.Feedback) }) {
+                    IconButton(
+                        modifier = Modifier
+                            .testTag(tag = MAIN_MENU_SCREEN_TOP_BAR_FEEDBACK),
+                        onClick = { store.send(action = MainMenuAction.Feedback) }
+                    ) {
                         Icon(
                             imageVector = Icons.Default.BugReport,
                             contentDescription = "Feedback"
@@ -72,6 +80,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
         bottomBar = {
             Row(
                 modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR)
                     .fillMaxWidth()
                     .padding(horizontal = 32.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -81,6 +90,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                 if (isMenu) {
                     Text(
                         modifier = Modifier
+                            .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR_WEBSITE)
                             .size(size = 100.dp)
                             .wrapContentHeight(align = Alignment.CenterVertically)
                             .debouncedClickable { uriHandler.openUri(uri = storeState.developerCorner) },
@@ -89,6 +99,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                     )
                     Text(
                         modifier = Modifier
+                            .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR_CREDITS)
                             .size(size = 100.dp)
                             .wrapContentHeight(align = Alignment.CenterVertically)
                             .debouncedClickable { store.send(action = MainMenuAction.Credits) },
@@ -98,6 +109,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                     )
                     Image(
                         modifier = Modifier
+                            .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR_SUPPORT)
                             .size(size = 100.dp)
                             .debouncedClickable { uriHandler.openUri(uri = storeState.support) },
                         painter = painterResource(resource = Res.drawable.kofi),

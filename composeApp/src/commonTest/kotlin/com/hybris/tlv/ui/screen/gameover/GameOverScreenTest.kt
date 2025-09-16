@@ -8,6 +8,7 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
+import com.hybris.tlv.ui.theme.AppTheme
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
@@ -24,7 +25,9 @@ internal class GameOverScreenTest {
     fun gameOverWithoutData() = runComposeUiTest {
         val store = storeFactory.createGameOverStore()
         setContent {
-            GameOverScreen(store = store)
+            AppTheme {
+                GameOverScreen(store = store)
+            }
         }
 
         onNodeWithTag(testTag = GAME_OVER_SCREEN).assertExists()
@@ -42,7 +45,9 @@ internal class GameOverScreenTest {
         runBlocking { mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype) }
         val store = storeFactory.createGameOverStore()
         setContent {
-            GameOverScreen(store = store)
+            AppTheme {
+                GameOverScreen(store = store)
+            }
         }
 
         onNodeWithTag(testTag = GAME_OVER_SCREEN).assertExists()

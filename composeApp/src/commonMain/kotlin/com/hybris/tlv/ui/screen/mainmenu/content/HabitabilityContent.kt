@@ -13,8 +13,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HABITABILITY_CONTENT
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HABITABILITY_CONTENT_FORMULA
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HABITABILITY_CONTENT_SIMPLE
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
@@ -34,6 +38,7 @@ internal fun HabitabilityContent(store: Store<MainMenuAction, MainMenuState>) {
 
     LazyColumn(
         modifier = Modifier
+            .testTag(tag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
@@ -41,13 +46,17 @@ internal fun HabitabilityContent(store: Store<MainMenuAction, MainMenuState>) {
     ) {
         items(items = formula, key = { it.id }) { property ->
             SimpleCard(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_SIMPLE),
                 name = property.id,
                 description = property.description,
             )
         }
         item {
             Text(
-                modifier = Modifier.debouncedClickable { uriHandler.openUri(uri = storeState.formula) },
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_FORMULA)
+                    .debouncedClickable { uriHandler.openUri(uri = storeState.formula) },
                 text = formulaTranslation,
                 style = typography.bodyLarge.copy(
                     color = colorScheme.primary,

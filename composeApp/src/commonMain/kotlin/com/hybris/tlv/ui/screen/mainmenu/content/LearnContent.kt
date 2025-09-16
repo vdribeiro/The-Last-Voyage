@@ -14,7 +14,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_HABITABILITY
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_HOST_DEFINITION
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_MECHANICS
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_PLANET_DEFINITION
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_PROGRESS_INDICATOR
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_STELLAR_EXPLORER
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
@@ -35,6 +43,7 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
 
     LazyColumn(
         modifier = Modifier
+            .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
@@ -46,6 +55,7 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
             item {
                 DebouncedLinearProgressIndicator(
                     modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_PROGRESS_INDICATOR)
                         .fillMaxWidth()
                 )
             }
@@ -54,7 +64,9 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
         if (storeState.featureStellarExplorer) {
             item {
                 Text(
-                    modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.StellarExplorer) },
+                    modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_STELLAR_EXPLORER)
+                        .debouncedClickable { store.send(action = MainMenuAction.StellarExplorer) },
                     text = stellarExplorerTranslation,
                     style = typography.headlineMedium,
                 )
@@ -62,28 +74,36 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
         }
         item {
             Text(
-                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.HostDefinition) },
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_HOST_DEFINITION)
+                    .debouncedClickable { store.send(action = MainMenuAction.HostDefinition) },
                 text = hostDefinitionTranslation,
                 style = typography.headlineMedium,
             )
         }
         item {
             Text(
-                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.PlanetDefinition) },
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_PLANET_DEFINITION)
+                    .debouncedClickable { store.send(action = MainMenuAction.PlanetDefinition) },
                 text = planetDefinitionTranslation,
                 style = typography.headlineMedium,
             )
         }
         item {
             Text(
-                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Habitability) },
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_HABITABILITY)
+                    .debouncedClickable { store.send(action = MainMenuAction.Habitability) },
                 text = habitabilityTranslation,
                 style = typography.headlineMedium,
             )
         }
         item {
             Text(
-                modifier = Modifier.debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_MECHANICS)
+                    .debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
                 text = mechanicsTranslation,
                 style = typography.headlineMedium,
             )

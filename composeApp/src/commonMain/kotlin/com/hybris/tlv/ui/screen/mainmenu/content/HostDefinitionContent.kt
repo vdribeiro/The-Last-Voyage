@@ -13,8 +13,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE_STELLAR_HOST
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES_SIMPLE
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES
+import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES_STELLAR_HOST
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
@@ -80,12 +88,15 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
 
     LazyColumn(
         modifier = Modifier
+            .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
         item {
             Text(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE),
                 text = exampleTranslation,
                 style = typography.titleLarge,
                 fontWeight = FontWeight.Bold
@@ -94,6 +105,8 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
         }
         item {
             StellarHostCard(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE_STELLAR_HOST),
                 name = stellarHost.name,
                 systemName = stellarHost.systemName,
                 planetCount = stellarHost.planets.size,
@@ -116,6 +129,8 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
         }
         item {
             Text(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES),
                 text = propertiesTranslation,
                 style = typography.titleLarge,
                 fontWeight = FontWeight.Bold
@@ -124,12 +139,16 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
         }
         items(items = stellarHostProperties, key = { it.id }) { property ->
             SimpleCard(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES_SIMPLE),
                 name = property.id,
                 description = property.description,
             )
         }
         item {
             Text(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES),
                 text = typesTranslation,
                 style = typography.titleLarge,
                 fontWeight = FontWeight.Bold
@@ -138,6 +157,8 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
         }
         items(items = stellarHosts, key = { it.id }) { stellarHost ->
             StellarHostCard(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES_STELLAR_HOST),
                 name = getTranslation(key = stellarHost.id),
                 description = stellarHost.description,
                 spectralTypeDrawable = stellarHost.image.spectralTypeToDrawable(),
