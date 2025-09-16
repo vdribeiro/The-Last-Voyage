@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.game.GAME_SCREEN_SYSTEM_CONTENT
+import com.hybris.tlv.ui.screen.game.GAME_SCREEN_SYSTEM_CONTENT_PLANET
+import com.hybris.tlv.ui.screen.game.GAME_SCREEN_SYSTEM_CONTENT_STELLAR_HOST
 import com.hybris.tlv.ui.screen.game.GameAction
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.store.Store
@@ -36,6 +38,8 @@ internal fun SystemContent(store: Store<GameAction, GameState>) {
     ) {
         item(key = stellarHost.id) {
             StellarHostCard(
+                modifier = Modifier
+                    .testTag(tag = GAME_SCREEN_SYSTEM_CONTENT_STELLAR_HOST),
                 name = stellarHost.name,
                 systemName = stellarHost.systemName,
                 planetCount = stellarHost.planets.size,
@@ -59,7 +63,9 @@ internal fun SystemContent(store: Store<GameAction, GameState>) {
         item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
         items(items = stellarHost.planets, key = { it.id }) { planet ->
             PlanetCard(
-                modifier = Modifier.debouncedClickable { store.send(action = GameAction.Settle(planet = planet)) },
+                modifier = Modifier
+                    .testTag(tag = GAME_SCREEN_SYSTEM_CONTENT_PLANET)
+                    .debouncedClickable { store.send(action = GameAction.Settle(planet = planet)) },
                 name = planet.name,
                 orbitalPeriod = planet.orbitalPeriod,
                 orbitAxis = planet.orbitAxis,
