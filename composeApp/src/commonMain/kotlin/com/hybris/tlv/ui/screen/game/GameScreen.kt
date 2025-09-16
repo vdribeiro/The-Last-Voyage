@@ -1,6 +1,8 @@
 package com.hybris.tlv.ui.screen.game
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,9 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.game.content.ShipContent
 import com.hybris.tlv.ui.screen.game.content.SystemContent
 import com.hybris.tlv.ui.screen.game.content.TravelContent
@@ -28,6 +32,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.StatusBar
 import com.hybris.tlv.ui.theme.debouncedClickable
+import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -129,57 +134,62 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
                     Content.TRAVEL -> TravelContent(store = store)
                 }
             }
-
-            //val title: String
-            //val description: String
-            //when (storeState.tutorialStep) {
-            //    Tutorial.NO -> {
-            //        title = remember { "" }
-            //        description = remember { "" }
-            //    }
-            //
-            //    Tutorial.YES -> {
-            //        title = remember { getTranslation(key = "tutorial_screen__mechanics_goal_title") }
-            //        description = remember { getTranslation(key = "tutorial_screen__mechanics_goal_description") }
-            //    }
-            //
-            //    Tutorial.SHIP -> {
-            //        title = remember { getTranslation(key = "tutorial_screen__mechanics_attributes_title") }
-            //        description = remember { getTranslation(key = "tutorial_screen__mechanics_attributes_description") }
-            //    }
-            //
-            //    Tutorial.TRAVEL -> {
-            //        title = remember { getTranslation(key = "tutorial_screen__mechanics_travel_title") }
-            //        description = remember { getTranslation(key = "tutorial_screen__mechanics_travel_description") }
-            //    }
-            //
-            //    Tutorial.SYSTEM -> {
-            //        title = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_title") }
-            //        description = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_description") }
-            //    }
-            //    Tutorial.SYSTEM -> {
-            //        title = remember { getTranslation(key = "tutorial_screen__mechanics_score_title") }
-            //        description = remember { getTranslation(key = "tutorial_screen__mechanics_score_description") }
-            //    }
-            //}
-            //Column(
-            //    modifier = Modifier
-            //        .fillMaxSize()
-            //        .padding(all = 32.dp),
-            //    horizontalAlignment = Alignment.CenterHorizontally,
-            //    verticalArrangement = Arrangement.Center
-            //) {
-            //    Text(
-            //        modifier = Modifier.padding(all = 8.dp),
-            //        style = typography.titleLarge,
-            //        text = title,
-            //    )
-            //    Text(
-            //        modifier = Modifier.padding(all = 8.dp),
-            //        style = typography.titleMedium,
-            //        text = description,
-            //    )
-            //}
         }
+    }
+}
+
+@Composable
+private fun Tutorial(store: Store<GameAction, GameState>) {
+    val storeState by store.stateFlow.collectAsState()
+    val title: String
+    val description: String
+    when (storeState.tutorialStep) {
+        Tutorial.NO -> {
+            title = remember { "" }
+            description = remember { "" }
+        }
+
+        Tutorial.YES -> {
+            title = remember { getTranslation(key = "tutorial_screen__mechanics_goal_title") }
+            description = remember { getTranslation(key = "tutorial_screen__mechanics_goal_description") }
+        }
+
+        Tutorial.SHIP -> {
+            title = remember { getTranslation(key = "tutorial_screen__mechanics_attributes_title") }
+            description = remember { getTranslation(key = "tutorial_screen__mechanics_attributes_description") }
+        }
+
+        Tutorial.TRAVEL -> {
+            title = remember { getTranslation(key = "tutorial_screen__mechanics_travel_title") }
+            description = remember { getTranslation(key = "tutorial_screen__mechanics_travel_description") }
+        }
+
+        Tutorial.SYSTEM -> {
+            title = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_title") }
+            description = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_description") }
+        }
+
+        Tutorial.SYSTEM -> {
+            title = remember { getTranslation(key = "tutorial_screen__mechanics_score_title") }
+            description = remember { getTranslation(key = "tutorial_screen__mechanics_score_description") }
+        }
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(all = 32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            modifier = Modifier.padding(all = 8.dp),
+            style = typography.titleLarge,
+            text = title,
+        )
+        Text(
+            modifier = Modifier.padding(all = 8.dp),
+            style = typography.titleMedium,
+            text = description,
+        )
     }
 }

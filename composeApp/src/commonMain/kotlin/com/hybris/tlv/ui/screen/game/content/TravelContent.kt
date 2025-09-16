@@ -11,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.screen.game.GAME_SCREEN_SYSTEM_CONTENT
 import com.hybris.tlv.ui.screen.game.GAME_SCREEN_TRAVEL_CONTENT
 import com.hybris.tlv.ui.screen.game.GAME_SCREEN_TRAVEL_CONTENT_STELLAR_HOST
 import com.hybris.tlv.ui.screen.game.GameAction
