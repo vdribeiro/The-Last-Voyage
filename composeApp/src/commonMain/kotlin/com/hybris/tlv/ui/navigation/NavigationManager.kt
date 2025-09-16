@@ -32,6 +32,11 @@ internal interface NavigationManager {
         STELLAR_EXPLORER,
         SCORE,
         ACHIEVEMENT,
-        CREDIT,
+        CREDIT;
+
+        companion object {
+            private val map = Screen.entries.associateBy(keySelector = Screen::name)
+            fun fromValue(value: String): Screen = map[value.uppercase()] ?: MAIN_MENU
+        }
     }
 }

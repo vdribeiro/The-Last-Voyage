@@ -26,7 +26,8 @@ import kotlinx.coroutines.flow.update
 internal class Navigation(
     private val dispatcher: Dispatcher,
     private val config: ConfigManager,
-    private val useCases: UseCases
+    private val useCases: UseCases,
+    state: State = State()
 ): NavigationManager {
 
     private val storeFactory: StoreFactory = StoreFactory(
@@ -35,7 +36,7 @@ internal class Navigation(
         config = config,
         useCases = useCases
     )
-    private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = State())
+    private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = state)
     override val stateFlow: StateFlow<State> get() = _stateFlow
 
     override var back: () -> Unit = {}
