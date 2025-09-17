@@ -31,7 +31,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.theme.typography
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -47,6 +47,8 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
     val descriptionTranslation = remember { getTranslation(key = if (isError) "error_screen__description" else "error_screen__description_alt") }
     val buttonTranslation = remember { getTranslation(key = "error_screen__button") }
     val thanksTranslation = remember { getTranslation(key = "error_screen__thanks") }
+
+    val typography = LocalTypography.current
 
     Scaffold(
         modifier = Modifier

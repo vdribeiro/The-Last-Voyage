@@ -20,9 +20,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.LocalColorScheme
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.alpha
-import com.hybris.tlv.ui.theme.colorScheme
-import com.hybris.tlv.ui.theme.typography
 
 @Composable
 internal fun StatusBar(
@@ -78,6 +78,9 @@ private fun StatusBarItem(
     value: String?,
     contentDescription: String
 ) {
+    val typography = LocalTypography.current
+    val colorScheme = LocalColorScheme.current
+
     Row(
         modifier = Modifier.alpha(alpha = alpha(enabled = enabled)),
         verticalAlignment = Alignment.CenterVertically,

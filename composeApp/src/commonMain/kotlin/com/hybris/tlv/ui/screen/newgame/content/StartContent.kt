@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.newgame.NewGameAction
 import com.hybris.tlv.ui.screen.newgame.NewGameState
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.TypewriterText
-import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -30,6 +30,8 @@ internal fun StartContent(store: Store<NewGameAction, NewGameState>) {
     val storeState by store.stateFlow.collectAsState()
     val catastrophe = storeState.selectedCatastrophe ?: return
     val startTranslation = remember { getTranslation(key = "new_game_screen__start") }
+
+    val typography = LocalTypography.current
 
     Column(
         modifier = Modifier

@@ -6,9 +6,9 @@ import androidx.compose.runtime.Composable
 @Composable
 internal fun AppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = colorScheme,
-        shapes = shapes,
-        typography = typography,
+        colorScheme = LocalColorScheme.current,
+        shapes = LocalShapes.current,
+        typography = LocalTypography.current,
         content = content
     )
 }

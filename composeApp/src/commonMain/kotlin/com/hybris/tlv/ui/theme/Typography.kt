@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -173,7 +174,7 @@ private val titleSmall = TextStyle(
     letterSpacing = 0.1.sp,
 )
 
-internal val typography = Typography(
+private val typography = Typography(
     displayLarge = displayLarge,
     displayMedium = displayMedium,
     displaySmall = displaySmall,
@@ -190,3 +191,5 @@ internal val typography = Typography(
     labelMedium = labelMedium,
     labelSmall = labelSmall,
 )
+
+internal val LocalTypography = staticCompositionLocalOf { typography }

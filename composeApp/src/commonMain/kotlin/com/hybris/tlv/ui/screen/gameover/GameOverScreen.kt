@@ -22,10 +22,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.Score
 import com.hybris.tlv.ui.theme.component.TypewriterText
-import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -37,6 +37,8 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
     val gameOverTranslation = remember { getTranslation(key = "game_over_screen__game_over") }
     val messageTranslation = remember { getTranslation(key = "game_over_screen__score") }
     val scoreTranslation = remember { getTranslation(key = "game_over_screen__end") }
+
+    val typography = LocalTypography.current
 
     Scaffold(
         modifier = Modifier

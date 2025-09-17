@@ -26,10 +26,10 @@ import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_STELLAR_
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AppLogo
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.debouncedClickable
-import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -40,6 +40,8 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
     val planetDefinitionTranslation = remember { getTranslation(key = "main_menu_screen__planet_definition") }
     val habitabilityTranslation = remember { getTranslation(key = "main_menu_screen__habitability") }
     val mechanicsTranslation = remember { getTranslation(key = "main_menu_screen__mechanics") }
+
+    val typography = LocalTypography.current
 
     LazyColumn(
         modifier = Modifier

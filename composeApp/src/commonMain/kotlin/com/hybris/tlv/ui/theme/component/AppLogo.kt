@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.theme.typography
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
@@ -21,6 +21,8 @@ internal fun AppLogo(
     size: Int = 160,
     showText: Boolean = true
 ) {
+    val typography = LocalTypography.current
+
     Image(
         modifier = Modifier
             .size(size = size.dp)

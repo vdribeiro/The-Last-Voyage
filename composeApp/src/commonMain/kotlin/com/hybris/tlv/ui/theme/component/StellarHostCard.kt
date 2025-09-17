@@ -20,7 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.theme.typography
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.DrawableResource
@@ -57,6 +57,8 @@ internal fun StellarHostCard(
     metallicityScore: Double? = null,
     effectiveTemperatureScore: Double? = null
 ) {
+    val typography = LocalTypography.current
+
     Card(
         modifier = modifier
             .fillMaxWidth(),

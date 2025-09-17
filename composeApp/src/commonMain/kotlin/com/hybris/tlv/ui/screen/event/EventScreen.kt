@@ -25,10 +25,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.StatusBar
 import com.hybris.tlv.ui.theme.component.TypewriterText
-import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -37,6 +37,8 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
     val event = storeState.parentEvent
     val children = storeState.childrenEvents
     val ship = storeState.ship
+
+    val typography = LocalTypography.current
 
     Scaffold(
         modifier = Modifier

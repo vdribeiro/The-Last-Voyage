@@ -26,8 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.theme.colorScheme
-import com.hybris.tlv.ui.theme.typography
+import com.hybris.tlv.ui.theme.LocalColorScheme
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -89,6 +89,9 @@ private fun ScoreHeader(
     totalScore: String,
     isExpanded: Boolean?
 ) {
+    val typography = LocalTypography.current
+    val colorScheme = LocalColorScheme.current
+
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(
             modifier = Modifier.weight(weight = 1f),

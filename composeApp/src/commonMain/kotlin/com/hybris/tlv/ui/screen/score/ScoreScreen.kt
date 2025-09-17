@@ -22,10 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.Score
 import com.hybris.tlv.ui.theme.debouncedClickable
-import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -34,6 +34,8 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
     val storeState by store.stateFlow.collectAsState()
     val expandedItems = remember { mutableStateListOf<String>() }
     val titleTranslation = remember { getTranslation(key = "score_screen__title") }
+
+    val typography = LocalTypography.current
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {

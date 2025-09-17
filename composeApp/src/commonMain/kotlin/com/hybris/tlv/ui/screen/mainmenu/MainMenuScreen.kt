@@ -34,8 +34,8 @@ import com.hybris.tlv.ui.screen.mainmenu.content.LearnContent
 import com.hybris.tlv.ui.screen.mainmenu.content.MainMenuContent
 import com.hybris.tlv.ui.screen.mainmenu.content.PlanetDefinitionContent
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.debouncedClickable
-import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
@@ -49,6 +49,8 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
     val isMenu = currentContent == Content.MAIN_MENU || currentContent == Content.LEARN_MENU
     val websiteTranslation = remember { getTranslation(key = "website") }
     val creditsTranslation = remember { getTranslation(key = "main_menu_screen__credits") }
+
+    val typography = LocalTypography.current
 
     Scaffold(
         modifier = Modifier

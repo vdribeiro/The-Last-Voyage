@@ -29,10 +29,10 @@ import com.hybris.tlv.ui.screen.game.content.ShipContent
 import com.hybris.tlv.ui.screen.game.content.SystemContent
 import com.hybris.tlv.ui.screen.game.content.TravelContent
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.StatusBar
 import com.hybris.tlv.ui.theme.debouncedClickable
-import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -57,6 +57,8 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     val travelTranslation = remember { getTranslation(key = "game_screen__travel") }
     val systemTranslation = remember { getTranslation(key = "game_screen__system") }
     val shipTranslation = remember { getTranslation(key = "game_screen__ship") }
+
+    LocalTypography.current
 
     Scaffold(
         modifier = Modifier
@@ -141,6 +143,9 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
 @Composable
 private fun Tutorial(store: Store<GameAction, GameState>) {
     val storeState by store.stateFlow.collectAsState()
+
+    val typography = LocalTypography.current
+
     val title: String
     val description: String
     when (storeState.tutorialStep) {

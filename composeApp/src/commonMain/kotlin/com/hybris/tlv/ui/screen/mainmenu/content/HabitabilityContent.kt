@@ -22,10 +22,10 @@ import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HABITABILITY_CONTENT_S
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.theme.colorScheme
+import com.hybris.tlv.ui.theme.LocalColorScheme
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.SimpleCard
 import com.hybris.tlv.ui.theme.debouncedClickable
-import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -35,6 +35,9 @@ internal fun HabitabilityContent(store: Store<MainMenuAction, MainMenuState>) {
     val formula = storeState.learningsMap[LearningType.FORMULA].orEmpty()
     val uriHandler = LocalUriHandler.current
     val formulaTranslation = remember { getTranslation(key = "formula") }
+
+    val typography = LocalTypography.current
+    val colorScheme = LocalColorScheme.current
 
     LazyColumn(
         modifier = Modifier

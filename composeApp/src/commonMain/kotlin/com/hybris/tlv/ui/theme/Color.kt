@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme
 
 import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 private val primary = Color(color = 0xFF2C6FC2)
@@ -39,7 +40,7 @@ private val surfaceContainerLow = Color(red = 29, green = 27, blue = 32)
 private val surfaceContainerLowest = Color(red = 15, green = 13, blue = 19)
 private val surfaceDim = Color(red = 20, green = 18, blue = 24)
 
-internal val colorScheme = ColorScheme(
+private val colorScheme = ColorScheme(
     primary = primary,
     onPrimary = onPrimary,
     primaryContainer = primaryContainer,
@@ -82,3 +83,5 @@ internal val colorScheme = ColorScheme(
  * Alpha used when a component is enabled or disabled.
  */
 internal fun alpha(enabled: Boolean): Float = if (enabled) 1f else 0.4f
+
+internal val LocalColorScheme = staticCompositionLocalOf { colorScheme }

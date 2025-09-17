@@ -29,10 +29,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.theme.colorScheme
+import com.hybris.tlv.ui.theme.LocalColorScheme
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.debouncedClickable
-import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -44,6 +44,9 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
     val sourcesTranslation = remember { getTranslation(key = "credit_screen__sources") }
     val musicTranslation = remember { getTranslation(key = "credit_screen__music") }
     val supportersTranslation = remember { getTranslation(key = "credit_screen__supporters") }
+
+    val typography = LocalTypography.current
+    val colorScheme = LocalColorScheme.current
 
     Scaffold(
         modifier = Modifier

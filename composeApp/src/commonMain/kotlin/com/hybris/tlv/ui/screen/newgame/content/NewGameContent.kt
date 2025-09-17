@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.newgame.NewGameAction
 import com.hybris.tlv.ui.screen.newgame.NewGameState
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AttributeRow
-import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -39,6 +39,8 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
     val materialsTranslation = remember { getTranslation(key = "ship_materials") }
     val cryopodsTranslation = remember { getTranslation(key = "ship_cryopods") }
     val continueTranslation = remember { getTranslation(key = "new_game_screen__continue") }
+
+    val typography = LocalTypography.current
 
     Column(
         modifier = Modifier

@@ -38,8 +38,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.alpha
-import com.hybris.tlv.ui.theme.shapes
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -65,6 +65,8 @@ internal fun ControlPanel(
     selectedProperties: List<String>,
     onFiltersChange: (String) -> Unit
 ) {
+    val shapes = LocalShapes.current
+
     var searchQuery by remember { mutableStateOf(value = search) }
 
     LaunchedEffect(key1 = Unit) {

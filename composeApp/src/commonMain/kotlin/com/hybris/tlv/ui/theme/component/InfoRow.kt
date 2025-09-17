@@ -5,7 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import com.hybris.tlv.ui.theme.typography
+import com.hybris.tlv.ui.theme.LocalTypography
 
 @Composable
 internal fun InfoRow(
@@ -13,6 +13,8 @@ internal fun InfoRow(
     label: String,
     value: Any?
 ) {
+    val typography = LocalTypography.current
+
     Row(modifier = modifier) {
         Text(
             text = "$label: ",

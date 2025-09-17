@@ -26,10 +26,10 @@ import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SOON
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AppLogo
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.debouncedClickable
-import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -40,6 +40,8 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
     val learnTranslation = remember { getTranslation(key = "main_menu_screen__learn") }
     val scoresTranslation = remember { getTranslation(key = "main_menu_screen__scores") }
     val soonTranslation = remember { getTranslation(key = "main_menu_screen__soon") }
+
+    val typography = LocalTypography.current
 
     LazyColumn(
         modifier = Modifier

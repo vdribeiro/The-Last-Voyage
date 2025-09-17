@@ -26,9 +26,9 @@ import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HOST_DEFINITION_CONTEN
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.SimpleCard
 import com.hybris.tlv.ui.theme.component.StellarHostCard
-import com.hybris.tlv.ui.theme.typography
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
 import com.hybris.tlv.usecase.space.model.Planet
@@ -85,6 +85,8 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
     val exampleTranslation = remember { getTranslation(key = "main_menu_screen__definition_example") }
     val propertiesTranslation = remember { getTranslation(key = "main_menu_screen__definition_properties") }
     val typesTranslation = remember { getTranslation(key = "main_menu_screen__definition_types") }
+
+    val typography = LocalTypography.current
 
     LazyColumn(
         modifier = Modifier

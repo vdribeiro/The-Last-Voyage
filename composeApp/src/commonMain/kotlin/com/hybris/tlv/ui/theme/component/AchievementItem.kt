@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.theme.colorScheme
-import com.hybris.tlv.ui.theme.typography
+import com.hybris.tlv.ui.theme.LocalColorScheme
+import com.hybris.tlv.ui.theme.LocalTypography
 
 @Composable
 internal fun AchievementItem(
@@ -25,6 +25,9 @@ internal fun AchievementItem(
     name: String,
     description: String,
 ) {
+    val typography = LocalTypography.current
+    val colorScheme = LocalColorScheme.current
+
     Card(
         modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
