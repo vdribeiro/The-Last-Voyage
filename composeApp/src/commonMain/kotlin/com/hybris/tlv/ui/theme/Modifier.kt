@@ -15,7 +15,7 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 /**
- * Add this modifier to the element to make it clickable within its bounds, and prevent multiple fast clicks.
+ * Make the element clickable within its bounds and prevent multiple fast clicks.
  */
 @OptIn(ExperimentalTime::class)
 internal fun Modifier.debouncedClickable(

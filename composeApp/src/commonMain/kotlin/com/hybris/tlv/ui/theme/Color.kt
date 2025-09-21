@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme
 
 import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
@@ -84,4 +85,4 @@ private val colorScheme = ColorScheme(
  */
 internal fun alpha(enabled: Boolean): Float = if (enabled) 1f else 0.4f
 
-internal val LocalColorScheme = staticCompositionLocalOf { colorScheme }
+internal val LocalColorScheme = compositionLocalOf { colorScheme }

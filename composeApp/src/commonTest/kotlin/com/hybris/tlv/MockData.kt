@@ -26,10 +26,34 @@ import com.hybris.tlv.usecase.translation.model.Translation
 internal val learnings: List<Learning> by lazy {
     listOf(
         Learning(
+            id = "stellar_host_distance",
+            description = "stellar_host_distance_description",
+            image = null,
+            type = LearningType.HOST_PROPERTY
+        ),
+        Learning(
+            id = "planet_orbital_period",
+            description = "planet_orbital_period_description",
+            image = null,
+            type = LearningType.PLANET_PROPERTY
+        ),
+        Learning(
+            id = "stellar_host_type_unknown",
+            description = "stellar_host_type_unknown_description",
+            image = "?",
+            type = LearningType.HOST_TYPE
+        ),
+        Learning(
             id = "planet_type_unknown",
             description = "planet_type_unknown_description",
             image = "?",
             type = LearningType.PLANET_TYPE
+        ),
+        Learning(
+            id = "habitability_hz",
+            description = "habitability_hz_description",
+            image = null,
+            type = LearningType.FORMULA
         )
     )
 }

@@ -1,11 +1,12 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
+import com.hybris.tlv.learnings
 import com.hybris.tlv.mock
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.theme.AppTheme
@@ -79,8 +80,11 @@ internal class MainMenuScreenTest {
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT).assertDoesNotExist()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT).assertDoesNotExist()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT).assertExists()
-        // TODO
-        //onNodeWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_SIMPLE).performScrollTo().assertExists()
+        learnings.forEachIndexed { index, _ ->
+            onNodeWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT).onChildren()[index].assertExists()
+        }
+
+        //onNodeWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_FORMULA).performScrollTo().assertExists()
         //onAllNodesWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_SIMPLE)
         //    .assertCountEquals(expectedSize = learnings.size)
         //onNodeWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_FORMULA).assertExists().assertTextEquals("formula")
