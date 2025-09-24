@@ -11,7 +11,6 @@ import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.game.Content
 import com.hybris.tlv.ui.screen.game.GameScreen
 import com.hybris.tlv.ui.screen.game.GameState
-import com.hybris.tlv.ui.screen.game.Tutorial
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.translation.TranslationCache
@@ -27,7 +26,6 @@ private fun GameLoading() {
                 navigation = MockNavigation(),
                 initialState = GameState(
                     loading = true,
-                    tutorialStep = Tutorial.NO,
                     currentContent = Content.SYSTEM,
                     ship = null,
                     currentStellarHost = null,
@@ -49,7 +47,6 @@ private fun GameShip() {
                 navigation = MockNavigation(),
                 initialState = GameState(
                     loading = false,
-                    tutorialStep = Tutorial.NO,
                     currentContent = Content.SHIP,
                     ship = ship,
                     currentStellarHost = null,
@@ -71,7 +68,6 @@ private fun GameSystem() {
                 navigation = MockNavigation(),
                 initialState = GameState(
                     loading = false,
-                    tutorialStep = Tutorial.NO,
                     currentContent = Content.SYSTEM,
                     ship = ship,
                     currentStellarHost = hostsWithPlanets.random(),
@@ -93,33 +89,10 @@ private fun GameTravel() {
                 navigation = MockNavigation(),
                 initialState = GameState(
                     loading = false,
-                    tutorialStep = Tutorial.NO,
                     currentContent = Content.TRAVEL,
                     ship = ship,
                     currentStellarHost = null,
                     nearStellarHosts = stellarHosts.shuffled().take(n = 3),
-                )
-            )
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun GameTutorial() {
-    TranslationCache.set(translations = translations)
-    AppTheme {
-        GameScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                initialState = GameState(
-                    loading = false,
-                    tutorialStep = Tutorial.YES,
-                    currentContent = Content.SYSTEM,
-                    ship = null,
-                    currentStellarHost = null,
-                    nearStellarHosts = emptyList(),
                 )
             )
         )
