@@ -16,10 +16,10 @@ internal suspend inline fun <reified T> loadFromJson(path: String): List<T> {
     return loadFromJsonShadowing(path = path, serializer = serializer)
 }
 
-// The Json loading must be mocked in tests and 'inline' breaks shadowing, hence the shadowing function
+// The Json loading must be mocked in tests and 'inline' breaks shadowing
 private suspend fun <T> loadFromJsonShadowing(path: String, serializer: KSerializer<List<T>>): List<T> {
     return runCatching {
         val stringContent = Res.readBytes(path).decodeToString()
         json.decodeFromString(deserializer = serializer, string = stringContent)
-    }.getOrDefault(emptyList())
+    }.getOrDefault(defaultValue = emptyList())
 }
