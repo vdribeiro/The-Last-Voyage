@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.mainmenu.content
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -15,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE
@@ -29,6 +31,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.SimpleCard
 import com.hybris.tlv.ui.theme.component.StellarHostCard
+import com.hybris.tlv.ui.theme.thenIf
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
 import com.hybris.tlv.usecase.space.model.Planet
@@ -89,16 +92,17 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
     val typography = LocalTypography.current
 
     LazyColumn(
-        modifier = Modifier
-            .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT)
-            .fillMaxSize()
-            .padding(all = 16.dp),
+        modifier = Modifier.thenIf(
+            tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT,
+            maxWidth = Dp.Infinity,
+            maxHeight = Dp.Infinity,
+            padding = PaddingValues(all = 16.dp)
+        ),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
         item {
             Text(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE),
+                modifier = Modifier.thenIf(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE),
                 text = exampleTranslation,
                 style = typography.titleLarge,
                 fontWeight = FontWeight.Bold
@@ -107,8 +111,7 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
         }
         item {
             StellarHostCard(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE_STELLAR_HOST),
+                modifier = Modifier.thenIf(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE_STELLAR_HOST),
                 name = stellarHost.name,
                 systemName = stellarHost.systemName,
                 planetCount = stellarHost.planets.size,

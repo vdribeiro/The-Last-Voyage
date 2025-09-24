@@ -1,11 +1,8 @@
 package com.hybris.tlv.ui.screen.mainmenu.content
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,7 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_HABITABILITY
@@ -29,7 +26,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AppLogo
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
-import com.hybris.tlv.ui.theme.debouncedClickable
+import com.hybris.tlv.ui.theme.thenIf
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -44,21 +41,24 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
     val typography = LocalTypography.current
 
     LazyColumn(
-        modifier = Modifier
-            .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT)
-            .fillMaxSize()
-            .padding(all = 16.dp),
+        modifier = Modifier.thenIf(
+            tag = MAIN_MENU_SCREEN_LEARN_CONTENT,
+            maxWidth = Dp.Infinity,
+            maxHeight = Dp.Infinity,
+            padding = PaddingValues(all = 16.dp)
+        ),
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         item { AppLogo() }
-        item { Spacer(modifier = Modifier.height(height = 32.dp)) }
+        item { Spacer(modifier = Modifier.thenIf(minHeight = 32.dp, maxHeight = 32.dp)) }
         if (storeState.loading) {
             item {
                 DebouncedLinearProgressIndicator(
-                    modifier = Modifier
-                        .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_PROGRESS_INDICATOR)
-                        .fillMaxWidth()
+                    modifier = Modifier.thenIf(
+                        tag = MAIN_MENU_SCREEN_LEARN_CONTENT_PROGRESS_INDICATOR,
+                        maxWidth = Dp.Infinity
+                    )
                 )
             }
             return@LazyColumn
@@ -66,9 +66,10 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
         if (storeState.featureStellarExplorer) {
             item {
                 Text(
-                    modifier = Modifier
-                        .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_STELLAR_EXPLORER)
-                        .debouncedClickable { store.send(action = MainMenuAction.StellarExplorer) },
+                    modifier = Modifier.thenIf(
+                        tag = MAIN_MENU_SCREEN_LEARN_CONTENT_STELLAR_EXPLORER,
+                        onClick = { store.send(action = MainMenuAction.StellarExplorer) }
+                    ),
                     text = stellarExplorerTranslation,
                     style = typography.headlineMedium,
                 )
@@ -76,36 +77,40 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
         }
         item {
             Text(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_HOST_DEFINITION)
-                    .debouncedClickable { store.send(action = MainMenuAction.HostDefinition) },
+                modifier = Modifier.thenIf(
+                    tag = MAIN_MENU_SCREEN_LEARN_CONTENT_HOST_DEFINITION,
+                    onClick = { store.send(action = MainMenuAction.HostDefinition) }
+                ),
                 text = hostDefinitionTranslation,
                 style = typography.headlineMedium,
             )
         }
         item {
             Text(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_PLANET_DEFINITION)
-                    .debouncedClickable { store.send(action = MainMenuAction.PlanetDefinition) },
+                modifier = Modifier.thenIf(
+                    tag = MAIN_MENU_SCREEN_LEARN_CONTENT_PLANET_DEFINITION,
+                    onClick = { store.send(action = MainMenuAction.PlanetDefinition) }
+                ),
                 text = planetDefinitionTranslation,
                 style = typography.headlineMedium,
             )
         }
         item {
             Text(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_HABITABILITY)
-                    .debouncedClickable { store.send(action = MainMenuAction.Habitability) },
+                modifier = Modifier.thenIf(
+                    tag = MAIN_MENU_SCREEN_LEARN_CONTENT_HABITABILITY,
+                    onClick = { store.send(action = MainMenuAction.Habitability) }
+                ),
                 text = habitabilityTranslation,
                 style = typography.headlineMedium,
             )
         }
         item {
             Text(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_MECHANICS)
-                    .debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
+                modifier = Modifier.thenIf(
+                    tag = MAIN_MENU_SCREEN_LEARN_CONTENT_MECHANICS,
+                    onClick = { store.send(action = MainMenuAction.Mechanics) }
+                ),
                 text = mechanicsTranslation,
                 style = typography.headlineMedium,
             )

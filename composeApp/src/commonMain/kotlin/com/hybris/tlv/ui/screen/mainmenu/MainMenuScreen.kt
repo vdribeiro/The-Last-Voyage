@@ -115,20 +115,27 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                         style = typography.titleSmall,
                     )
                     Text(
-                        modifier = Modifier
-                            .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR_CREDITS)
-                            .size(size = 100.dp)
-                            .wrapContentHeight(align = Alignment.CenterVertically)
-                            .debouncedClickable { store.send(action = MainMenuAction.Credits) },
+                        modifier = Modifier.wrapContentHeight(align = Alignment.CenterVertically).thenIf(
+                            tag = MAIN_MENU_SCREEN_BOTTOM_BAR_CREDITS,
+                            minWidth = 100.dp,
+                            maxWidth = 100.dp,
+                            minHeight = 100.dp,
+                            maxHeight = 100.dp,
+                            onClick = { store.send(action = MainMenuAction.Credits) }
+                        ),
                         text = creditsTranslation,
                         style = typography.titleSmall,
                         textAlign = TextAlign.Center
                     )
                     Image(
-                        modifier = Modifier
-                            .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR_SUPPORT)
-                            .size(size = 100.dp)
-                            .debouncedClickable { uriHandler.openUri(uri = storeState.support) },
+                        modifier = Modifier.wrapContentHeight(align = Alignment.CenterVertically).thenIf(
+                            tag = MAIN_MENU_SCREEN_BOTTOM_BAR_SUPPORT,
+                            minWidth = 100.dp,
+                            maxWidth = 100.dp,
+                            minHeight = 100.dp,
+                            maxHeight = 100.dp,
+                            onClick = { uriHandler.openUri(uri = storeState.support) }
+                        ),
                         painter = painterResource(resource = Res.drawable.kofi),
                         contentDescription = "Support",
                         contentScale = ContentScale.Fit,

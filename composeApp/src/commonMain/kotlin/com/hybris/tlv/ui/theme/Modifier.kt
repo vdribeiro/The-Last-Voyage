@@ -42,10 +42,10 @@ import kotlin.time.Instant
 /**
  * Applies modifiers in the optimal order.
  * - [tag]: The test tag to allow the element to be found in tests.
- * - [minWidth]: The minimum width of the element. When [Dp.Infinity] is used it will fill the available width.
- * - [maxWidth]: The maximum width of the element. When [Dp.Infinity] is used it will fill the available width.
- * - [minHeight]: The minimum height of the element. When [Dp.Infinity] is used it will fill the available height.
- * - [maxHeight]: The maximum height of the element. When [Dp.Infinity] is used it will fill the available height.
+ * - [minWidth]: The minimum width of the element.
+ * - [maxWidth]: The maximum width of the element. [Dp.Infinity] will fill the available width.
+ * - [minHeight]: The minimum height of the element.
+ * - [maxHeight]: The maximum height of the element. [Dp.Infinity] will fill the available height.
  * - [verticalScroll]: The scroll state for the vertical scroll if the element is to be scrollable vertically.
  * - [horizontalScroll]: The scroll state for the horizontal scroll if the element is to be scrollable horizontal.
  * - [enabled]: The enabled state of the click interaction. When false, onClick, and this modifier will appear disabled for accessibility services.

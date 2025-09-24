@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.mainmenu.content
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONTINUE
@@ -29,7 +31,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AppLogo
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
-import com.hybris.tlv.ui.theme.debouncedClickable
+import com.hybris.tlv.ui.theme.thenIf
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -44,10 +46,12 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
     val typography = LocalTypography.current
 
     LazyColumn(
-        modifier = Modifier
-            .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT)
-            .fillMaxSize()
-            .padding(all = 16.dp),
+        modifier = Modifier.thenIf(
+            tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT,
+            maxWidth = Dp.Infinity,
+            maxHeight = Dp.Infinity,
+            padding = PaddingValues(all = 16.dp)
+        ),
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -56,9 +60,10 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         if (storeState.loading) {
             item {
                 DebouncedLinearProgressIndicator(
-                    modifier = Modifier
-                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_PROGRESS_INDICATOR)
-                        .fillMaxWidth()
+                    modifier = Modifier.thenIf(
+                        tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_PROGRESS_INDICATOR,
+                        maxWidth = Dp.Infinity
+                    )
                 )
             }
             return@LazyColumn
@@ -66,9 +71,10 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         if (storeState.featureNewGame) {
             item {
                 Text(
-                    modifier = Modifier
-                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_NEW_GAME)
-                        .debouncedClickable { store.send(action = MainMenuAction.NewGame) },
+                    modifier = Modifier.thenIf(
+                        tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_NEW_GAME,
+                        onClick = { store.send(action = MainMenuAction.NewGame) }
+                    ),
                     text = newGameTranslation,
                     style = typography.headlineMedium,
                 )
@@ -76,9 +82,10 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
             if (storeState.ongoingGameSession) {
                 item {
                     Text(
-                        modifier = Modifier
-                            .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONTINUE)
-                            .debouncedClickable { store.send(action = MainMenuAction.Continue) },
+                        modifier = Modifier.thenIf(
+                            tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONTINUE,
+                            onClick = { store.send(action = MainMenuAction.Continue) }
+                        ),
                         text = continueTranslation,
                         style = typography.headlineMedium,
                     )
@@ -88,9 +95,10 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         if (storeState.featureLearn) {
             item {
                 Text(
-                    modifier = Modifier
-                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN)
-                        .debouncedClickable { store.send(action = MainMenuAction.Learn) },
+                    modifier = Modifier.thenIf(
+                        tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN,
+                        onClick = { store.send(action = MainMenuAction.Learn) }
+                    ),
                     text = learnTranslation,
                     style = typography.headlineMedium,
                 )
@@ -99,9 +107,10 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         if (storeState.featureScores) {
             item {
                 Text(
-                    modifier = Modifier
-                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SCORES)
-                        .debouncedClickable { store.send(action = MainMenuAction.Scores) },
+                    modifier = Modifier.thenIf(
+                        tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SCORES,
+                        onClick = { store.send(action = MainMenuAction.Scores) }
+                    ),
                     text = scoresTranslation,
                     style = typography.headlineMedium,
                 )
@@ -110,9 +119,10 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
         if (storeState.featureSoon) {
             item {
                 Text(
-                    modifier = Modifier
-                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SOON)
-                        .debouncedClickable { store.send(action = MainMenuAction.Soon) },
+                    modifier = Modifier.thenIf(
+                        tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SOON,
+                        onClick = { store.send(action = MainMenuAction.Soon) }
+                    ),
                     text = soonTranslation,
                     style = typography.headlineMedium,
                 )
