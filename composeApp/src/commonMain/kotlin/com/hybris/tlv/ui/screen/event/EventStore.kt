@@ -85,14 +85,16 @@ internal class EventStore(
         }
 
         // Continue event chain
-        val children = eventChain.filter { it.parentId == action.event.id }
+        val childrenEvents = eventChain.filter { it.parentId == action.event.id }.ifEmpty {
+            listOf(element = stopEvent)
+        }
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = action.event)
 
         updateState {
             it.copy(
                 ship = updatedGameSession.ship,
                 parentEvent = action.event,
-                childrenEvents = children
+                childrenEvents = childrenEvents
             )
         }
     }
