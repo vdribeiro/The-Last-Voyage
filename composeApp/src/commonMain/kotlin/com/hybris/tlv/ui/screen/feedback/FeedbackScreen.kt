@@ -2,9 +2,14 @@ package com.hybris.tlv.ui.screen.feedback
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material3.Button
@@ -22,12 +27,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.thenIf
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -47,58 +51,50 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
     val typography = LocalTypography.current
 
     Scaffold(
-        modifier = Modifier.thenIf(
-            tag = FEEDBACK_SCREEN,
-            maxWidth = Dp.Infinity,
-            maxHeight = Dp.Infinity,
-        )
+        modifier = Modifier
+            .testTag(tag = FEEDBACK_SCREEN)
+            .fillMaxSize()
     ) { innerPadding ->
-        Box(modifier = Modifier.thenIf(padding = innerPadding)) {
+        Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             Column(
-                modifier = Modifier.thenIf(
-                    tag = FEEDBACK_SCREEN_COLUMN,
-                    maxWidth = Dp.Infinity,
-                    maxHeight = Dp.Infinity,
-                    verticalScroll = rememberScrollState(),
-                    padding = PaddingValues(all = 16.dp)
-                ),
+                modifier = Modifier
+                    .testTag(tag = FEEDBACK_SCREEN_COLUMN)
+                    .fillMaxSize()
+                    .verticalScroll(state = rememberScrollState())
+                    .padding(all = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 // Icon and title
                 Icon(
-                    modifier = Modifier.thenIf(
-                        tag = FEEDBACK_SCREEN_ICON,
-                        minWidth = 64.dp,
-                        maxWidth = 64.dp,
-                        minHeight = 64.dp,
-                        maxHeight = 64.dp,
-                    ),
+                    modifier = Modifier
+                        .testTag(tag = FEEDBACK_SCREEN_ICON)
+                        .size(size = 64.dp),
                     imageVector = Icons.Outlined.BugReport,
                     contentDescription = "Error Icon",
                 )
-                Spacer(modifier = Modifier.thenIf(minHeight = 16.dp, maxHeight = 16.dp))
+                Spacer(Modifier.height(height = 16.dp))
                 Text(
-                    modifier = Modifier.thenIf(tag = FEEDBACK_SCREEN_TITLE),
+                    modifier = Modifier
+                        .testTag(tag = FEEDBACK_SCREEN_TITLE),
                     text = titleTranslation,
                     style = typography.headlineSmall
                 )
-                Spacer(modifier = Modifier.thenIf(minHeight = 8.dp, maxHeight = 8.dp))
+                Spacer(Modifier.height(height = 8.dp))
                 Text(
-                    modifier = Modifier.thenIf(tag = FEEDBACK_SCREEN_DESCRIPTION),
+                    modifier = Modifier
+                        .testTag(tag = FEEDBACK_SCREEN_DESCRIPTION),
                     text = descriptionTranslation,
                     style = typography.bodyMedium,
                     textAlign = TextAlign.Center,
                 )
-                Spacer(modifier = Modifier.thenIf(minHeight = 24.dp, maxHeight = 24.dp))
+                Spacer(Modifier.height(height = 24.dp))
 
                 // Feedback input
                 OutlinedTextField(
-                    modifier = Modifier.thenIf(
-                        tag = FEEDBACK_SCREEN_INPUT,
-                        maxWidth = Dp.Infinity,
-                        minHeight = 120.dp,
-                        maxHeight = 120.dp
-                    ),
+                    modifier = Modifier
+                        .testTag(tag = FEEDBACK_SCREEN_INPUT)
+                        .fillMaxWidth()
+                        .height(height = 120.dp),
                     enabled = inputEnabled,
                     value = feedbackText,
                     onValueChange = {
@@ -106,11 +102,12 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
                         buttonEnabled = feedbackText.isNotBlank()
                     },
                 )
-                Spacer(modifier = Modifier.thenIf(minHeight = 24.dp, maxHeight = 24.dp))
+                Spacer(Modifier.height(height = 24.dp))
 
                 // Send feedback button
                 Button(
-                    modifier = Modifier.thenIf(tag = FEEDBACK_SCREEN_BUTTON),
+                    modifier = Modifier
+                        .testTag(tag = FEEDBACK_SCREEN_BUTTON),
                     onClick = {
                         store.send(action = FeedbackAction.SendFeedback(message = feedbackText))
                         inputEnabled = false
@@ -122,9 +119,10 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
                     Text(text = buttonTranslation)
                 }
                 if (!inputEnabled) {
-                    Spacer(modifier = Modifier.thenIf(minHeight = 16.dp, maxHeight = 16.dp))
+                    Spacer(Modifier.height(height = 16.dp))
                     Text(
-                        modifier = Modifier.thenIf(tag = FEEDBACK_SCREEN_THANKS),
+                        modifier = Modifier
+                            .testTag(tag = FEEDBACK_SCREEN_THANKS),
                         text = thanksTranslation,
                         style = typography.headlineSmall
                     )

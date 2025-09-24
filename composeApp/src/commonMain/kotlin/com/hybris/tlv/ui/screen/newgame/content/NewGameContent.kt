@@ -2,8 +2,11 @@ package com.hybris.tlv.ui.screen.newgame.content
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -16,14 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.newgame.NewGameAction
 import com.hybris.tlv.ui.screen.newgame.NewGameState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AttributeRow
-import com.hybris.tlv.ui.theme.thenIf
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -42,11 +43,9 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
     val typography = LocalTypography.current
 
     Column(
-        modifier = Modifier.thenIf(
-            maxWidth = Dp.Infinity,
-            maxHeight = Dp.Infinity,
-            padding = PaddingValues(all = 16.dp)
-        ),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(all = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // Remaining points
@@ -55,7 +54,7 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
             style = typography.headlineSmall,
             fontWeight = FontWeight.Bold
         )
-        Spacer(modifier = Modifier.thenIf(minHeight = 16.dp, maxHeight = 16.dp))
+        Spacer(Modifier.height(height = 16.dp))
 
         // Sliders for sensor range, fuel, materials and cryopods
         LazyColumn(
@@ -112,10 +111,9 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
 
         // Continue button
         Button(
-            modifier = Modifier.thenIf(
-                maxWidth = Dp.Infinity,
-                padding = PaddingValues(bottom = 16.dp)
-            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
             colors = ButtonDefaults.buttonColors(contentColor = Color.White),
             onClick = {
                 store.send(

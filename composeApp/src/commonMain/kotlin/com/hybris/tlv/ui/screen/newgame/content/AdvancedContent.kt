@@ -1,7 +1,9 @@
 package com.hybris.tlv.ui.screen.newgame.content
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -15,13 +17,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.newgame.NewGameAction
 import com.hybris.tlv.ui.screen.newgame.NewGameState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.LabeledTextField
-import com.hybris.tlv.ui.theme.thenIf
 import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -57,16 +57,11 @@ internal fun AdvancedContent(store: Store<NewGameAction, NewGameState>) {
     var planetRadiusMaxUpperLimit by remember { mutableStateOf(value = formula.planetRadiusMaxUpperLimit.toString()) }
     var stellarHostEffectiveTemperatureMaxDeviation by remember { mutableStateOf(value = formula.stellarHostEffectiveTemperatureMaxDeviation.toString()) }
 
-    Column(
-        modifier = Modifier.thenIf(
-            maxWidth = Dp.Infinity,
-            maxHeight = Dp.Infinity
-        )
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
-            modifier = Modifier.weight(weight = 1f).thenIf(
-                padding = PaddingValues(all = 16.dp)
-            ),
+            modifier = Modifier
+                .weight(weight = 1f)
+                .padding(all = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
@@ -346,15 +341,14 @@ internal fun AdvancedContent(store: Store<NewGameAction, NewGameState>) {
             }
         }
         Button(
-            modifier = Modifier.thenIf(
-                maxWidth = Dp.Infinity,
-                padding = PaddingValues(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
                     top = 0.dp,
                     bottom = 32.dp,
                     start = 16.dp,
                     end = 16.dp
-                )
-            ),
+                ),
             colors = ButtonDefaults.buttonColors(contentColor = Color.White),
             onClick = {
                 store.send(
