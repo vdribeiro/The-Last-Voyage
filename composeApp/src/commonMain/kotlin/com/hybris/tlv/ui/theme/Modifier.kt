@@ -132,7 +132,7 @@ fun Modifier.thenIf(
  * Make the element clickable within its bounds and prevent multiple fast clicks.
  */
 @OptIn(ExperimentalTime::class)
-private fun Modifier.debouncedClickable(
+internal fun Modifier.debouncedClickable(
     enabled: Boolean = true,
     rippleEffect: Boolean = true,
     debounceTime: Duration = 500.milliseconds,
