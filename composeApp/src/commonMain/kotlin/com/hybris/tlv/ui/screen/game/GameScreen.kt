@@ -20,14 +20,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.unit.Dp
 import com.hybris.tlv.ui.screen.game.content.ShipContent
 import com.hybris.tlv.ui.screen.game.content.SystemContent
 import com.hybris.tlv.ui.screen.game.content.TravelContent
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.StatusBar
-import com.hybris.tlv.ui.theme.thenIf
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -53,15 +51,15 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     val shipTranslation = remember { getTranslation(key = "game_screen__ship") }
 
     Scaffold(
-        modifier = Modifier.thenIf(
-            tag = GAME_SCREEN,
-            maxWidth = Dp.Infinity,
-            maxHeight = Dp.Infinity
-        ),
+        modifier = Modifier
+            .testTag(tag = GAME_SCREEN)
+            .fillMaxSize(),
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
-                modifier = Modifier.thenIf(tag = GAME_SCREEN_STATUS_BAR),
+                modifier = Modifier
+                    .testTag(tag = GAME_SCREEN_STATUS_BAR)
+                    .statusBarsPadding(),
                 hull = ship.integrity.toString(),
                 fuel = ship.fuel.toString(),
                 materials = ship.materials.toString(),
@@ -71,24 +69,28 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
         bottomBar = {
             // Navigation bar for travel, system and ship status
             NavigationBar(
-                modifier = Modifier.thenIf(tag = GAME_SCREEN_NAVIGATION_BAR)
+                modifier = Modifier
+                    .testTag(tag = GAME_SCREEN_NAVIGATION_BAR)
             ) {
                 NavigationBarItem(
-                    modifier = Modifier.thenIf(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP),
+                    modifier = Modifier
+                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP),
                     icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
                     label = { Text(text = shipTranslation) },
                     selected = (storeState.currentContent == Content.SHIP),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 )
                 NavigationBarItem(
-                    modifier = Modifier.thenIf(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM),
+                    modifier = Modifier
+                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM),
                     icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = systemTranslation) },
                     label = { Text(text = systemTranslation) },
                     selected = (storeState.currentContent == Content.SYSTEM),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SYSTEM)) },
                 )
                 NavigationBarItem(
-                    modifier = Modifier.thenIf(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL),
+                    modifier = Modifier
+                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL),
                     icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
                     label = { Text(text = travelTranslation) },
                     selected = (storeState.currentContent == Content.TRAVEL),
@@ -97,13 +99,12 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
             }
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.thenIf(padding = innerPadding)) {
+        Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (storeState.loading) {
                 true -> DebouncedLinearProgressIndicator(
-                    modifier = Modifier.thenIf(
-                        tag = GAME_SCREEN_PROGRESS_INDICATOR,
-                        maxWidth = Dp.Infinity
-                    )
+                    modifier = Modifier
+                        .testTag(tag = GAME_SCREEN_PROGRESS_INDICATOR)
+                        .fillMaxWidth()
                 )
 
                 false -> when (storeState.currentContent) {

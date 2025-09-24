@@ -113,6 +113,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                         modifier = Modifier
                             .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR_SUPPORT)
                             .size(size = 100.dp)
+                            .wrapContentHeight(align = Alignment.CenterVertically)
                             .debouncedClickable { uriHandler.openUri(uri = storeState.support) },
                         painter = painterResource(resource = Res.drawable.kofi),
                         contentDescription = "Support",
