@@ -1,9 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
@@ -15,11 +12,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
 import com.hybris.tlv.ui.screen.stellarexplorer.content.PlanetContent
 import com.hybris.tlv.ui.screen.stellarexplorer.content.StellarHostContent
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.ControlPanel
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
+import com.hybris.tlv.ui.theme.thenIf
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -150,7 +149,10 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
     }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.thenIf(
+            maxWidth = Dp.Infinity,
+            maxHeight = Dp.Infinity,
+        ),
         topBar = {
             ControlPanel(
                 modifier = Modifier.statusBarsPadding(),
@@ -176,8 +178,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
         Box(modifier = Modifier.thenIf(padding = innerPadding)) {
             when {
                 storeState.loading -> DebouncedLinearProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.thenIf(maxWidth = Dp.Infinity)
                 )
 
                 else -> when (storeState.currentContent) {

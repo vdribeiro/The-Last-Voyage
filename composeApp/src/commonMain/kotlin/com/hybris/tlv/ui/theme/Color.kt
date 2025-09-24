@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.theme
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 private val primary = Color(color = 0xFF2C6FC2)

@@ -3,9 +3,7 @@ package com.hybris.tlv.ui.screen.splash
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ProgressIndicatorDefaults
@@ -19,10 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AppLogo
+import com.hybris.tlv.ui.theme.thenIf
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
@@ -35,18 +35,28 @@ internal fun SplashScreen(store: Store<SplashAction, SplashState>) {
 
     val typography = LocalTypography.current
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    Scaffold(
+        modifier = Modifier.thenIf(
+            maxWidth = Dp.Infinity,
+            maxHeight = Dp.Infinity,
+        )
+    ) { innerPadding ->
         Box(
-            modifier = Modifier
-                .padding(paddingValues = innerPadding)
-                .fillMaxSize(),
+            modifier = Modifier.thenIf(
+                maxWidth = Dp.Infinity,
+                maxHeight = Dp.Infinity,
+                padding = innerPadding
+            ),
             contentAlignment = Alignment.Center
         ) {
             // App logo with background
             Image(
-                modifier = Modifier
-                    .size(size = 160.dp)
-                    .clip(shape = CircleShape),
+                modifier = Modifier.thenIf(
+                    minWidth = 160.dp,
+                    maxWidth = 160.dp,
+                    minHeight = 160.dp,
+                    maxHeight = 160.dp
+                ).clip(shape = CircleShape),
                 painter = painterResource(resource = Res.drawable.ic_launcher_background),
                 contentDescription = "Background",
                 contentScale = ContentScale.Crop,
@@ -59,16 +69,18 @@ internal fun SplashScreen(store: Store<SplashAction, SplashState>) {
                 animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
             )
             CircularProgressIndicator(
-                modifier = Modifier
-                    .size(size = 160.dp),
+                modifier = Modifier.thenIf(
+                    minWidth = 160.dp,
+                    maxWidth = 160.dp,
+                    minHeight = 160.dp,
+                    maxHeight = 160.dp
+                ),
                 progress = { animatedProgress },
             )
 
             // Loading text
             Text(
-                modifier = Modifier
-                    .align(alignment = Alignment.BottomCenter)
-                    .padding(all = 64.dp),
+                modifier = Modifier.align(alignment = Alignment.BottomCenter).thenIf(padding = PaddingValues(all = 64.dp)),
                 text = loadingTranslation,
                 style = typography.headlineMedium,
                 color = Color.White,
