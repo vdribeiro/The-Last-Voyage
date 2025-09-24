@@ -8,7 +8,6 @@ import com.hybris.tlv.ui.screen.credit.CreditStore
 import com.hybris.tlv.ui.screen.event.EventStore
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.screen.feedback.FeedbackStore
-import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.screen.game.GameStore
 import com.hybris.tlv.ui.screen.gameover.GameOverStore
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
@@ -25,8 +24,8 @@ internal class StoreFactory(
     private val config: ConfigManager,
     private val useCases: UseCases
 ) {
-    fun createSplashStore(): SplashStore =
-        SplashStore(
+    fun createSplashStore(): SplashStore {
+        return SplashStore(
             dispatcher = dispatcher,
             navigation = navigation,
             config = config,
@@ -40,6 +39,7 @@ internal class StoreFactory(
             achievementUseCases = useCases.achievement,
             creditUseCases = useCases.credit
         )
+    }
 
     fun createMainMenuStore(stateBuilder: Any? = null): MainMenuStore {
         val stateBuilder = stateBuilder as? MainMenuStateBuilder ?: MainMenuStateBuilder()
@@ -62,66 +62,71 @@ internal class StoreFactory(
         )
     }
 
-    fun createNewGameStore(): NewGameStore =
-        NewGameStore(
+    fun createNewGameStore(): NewGameStore {
+        return NewGameStore(
             dispatcher = dispatcher,
             navigation = navigation,
             catastropheUseCases = useCases.catastrophe,
             gameSessionUseCases = useCases.gameSession
         )
+    }
 
-    fun createGameStore(stateBuilder: Any? = null): GameStore {
-        val stateBuilder = stateBuilder as? GameStateBuilder ?: GameStateBuilder()
+    fun createGameStore(): GameStore {
         return GameStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            stateBuilder = stateBuilder,
             shipUseCases = useCases.ship,
             spaceUseCases = useCases.space,
             gameSessionUseCases = useCases.gameSession
         )
     }
 
-    fun createEventStore(): EventStore =
-        EventStore(
+    fun createEventStore(): EventStore {
+        return EventStore(
             dispatcher = dispatcher,
             navigation = navigation,
             eventUseCases = useCases.event,
             gameSessionUseCases = useCases.gameSession
         )
+    }
 
-    fun createGameOverStore(): GameOverStore =
-        GameOverStore(
+    fun createGameOverStore(): GameOverStore {
+        return GameOverStore(
             dispatcher = dispatcher,
             navigation = navigation,
             gameSessionUseCases = useCases.gameSession
         )
+    }
 
-    fun createStellarExplorerStore(): StellarExplorerStore =
-        StellarExplorerStore(
+    fun createStellarExplorerStore(): StellarExplorerStore {
+        return StellarExplorerStore(
             dispatcher = dispatcher,
             navigation = navigation,
             spaceUseCases = useCases.space
         )
+    }
 
-    fun createScoreStore(): ScoreStore =
-        ScoreStore(
+    fun createScoreStore(): ScoreStore {
+        return ScoreStore(
             dispatcher = dispatcher,
             navigation = navigation,
             gameSessionUseCases = useCases.gameSession
         )
+    }
 
-    fun createAchievementStore(): AchievementStore =
-        AchievementStore(
+    fun createAchievementStore(): AchievementStore {
+        return AchievementStore(
             dispatcher = dispatcher,
             navigation = navigation,
             achievementUseCases = useCases.achievement
         )
+    }
 
-    fun createCreditStore(): CreditStore =
-        CreditStore(
+    fun createCreditStore(): CreditStore {
+        return CreditStore(
             dispatcher = dispatcher,
             navigation = navigation,
             creditUseCases = useCases.credit
         )
+    }
 }

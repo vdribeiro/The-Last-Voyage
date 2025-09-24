@@ -21,7 +21,7 @@ internal fun NewGameScreen(store: Store<NewGameAction, NewGameState>) {
     val storeState by store.stateFlow.collectAsState()
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
+        Box(modifier = Modifier.thenIf(padding = innerPadding)) {
             when (storeState.loading) {
                 true -> DebouncedLinearProgressIndicator(
                     modifier = Modifier

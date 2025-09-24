@@ -5,19 +5,13 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal sealed interface GameAction {
-    data object NextTutorial: GameAction
     data class ChangeTab(val content: Content): GameAction
     data class Travel(val stellarHost: StellarHost): GameAction
     data class Settle(val planet: Planet): GameAction
 }
 
-internal data class GameStateBuilder(
-    val tutorial: Boolean = false
-)
-
 internal data class GameState(
     val loading: Boolean,
-    val tutorialStep: Tutorial,
     val currentContent: Content,
     val ship: Ship?,
     val currentStellarHost: StellarHost?,
@@ -28,12 +22,4 @@ internal enum class Content {
     SHIP,
     SYSTEM,
     TRAVEL,
-}
-
-internal enum class Tutorial {
-    NO,
-    YES,
-    SHIP,
-    TRAVEL,
-    SYSTEM,
 }

@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.screen.event
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,12 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.StatusBar
 import com.hybris.tlv.ui.theme.component.TypewriterText
+import com.hybris.tlv.ui.theme.thenIf
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -41,14 +44,15 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
     val typography = LocalTypography.current
 
     Scaffold(
-        modifier = Modifier
-            .testTag(tag = EVENT_SCREEN)
-            .fillMaxSize(),
+        modifier = Modifier.thenIf(
+            tag = EVENT_SCREEN,
+            maxWidth = Dp.Infinity,
+            maxHeight = Dp.Infinity
+        ),
         topBar = {
+            // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
-                modifier = Modifier
-                    .testTag(tag = EVENT_SCREEN_STATUS_BAR)
-                    .statusBarsPadding(),
+                modifier = Modifier.thenIf(tag = EVENT_SCREEN_STATUS_BAR),
                 hull = ship?.integrity?.toString(),
                 fuel = ship?.fuel?.toString(),
                 materials = ship?.materials?.toString(),
@@ -56,58 +60,62 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
             )
         },
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
+        Box(modifier = Modifier.thenIf(padding = innerPadding)) {
             when (storeState.loading) {
                 true -> DebouncedLinearProgressIndicator(
-                    modifier = Modifier
-                        .testTag(tag = EVENT_SCREEN_PROGRESS_INDICATOR)
-                        .fillMaxWidth()
+                    modifier = Modifier.thenIf(
+                        tag = EVENT_SCREEN_PROGRESS_INDICATOR,
+                        maxWidth = Dp.Infinity
+                    )
                 )
 
                 false -> Column(
-                    modifier = Modifier
-                        .testTag(tag = EVENT_SCREEN_COLUMN)
-                        .fillMaxSize()
-                        .padding(all = 16.dp),
+                    modifier = Modifier.thenIf(
+                        tag = EVENT_SCREEN_COLUMN,
+                        maxWidth = Dp.Infinity,
+                        maxHeight = Dp.Infinity,
+                        padding = PaddingValues(all = 16.dp)
+                    ),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     // Event
                     Text(
-                        modifier = Modifier
-                            .testTag(tag = EVENT_SCREEN_COLUMN_EVENT),
+                        modifier = Modifier.thenIf(tag = EVENT_SCREEN_COLUMN_EVENT),
                         text = getTranslation(key = event.id),
                         style = typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )
-                    Spacer(modifier = Modifier.height(height = 16.dp))
+                    Spacer(modifier = Modifier.thenIf(minHeight = 16.dp, maxHeight = 16.dp))
                     TypewriterText(
-                        modifier = Modifier
-                            .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_DESCRIPTION)
-                            .weight(weight = 1f)
-                            .fillMaxWidth(),
+                        modifier = Modifier.weight(weight = 1f).thenIf(
+                            tag = EVENT_SCREEN_COLUMN_EVENT_DESCRIPTION,
+                            maxWidth = Dp.Infinity
+                        ),
                         text = getTranslation(key = event.description) + if (event.outcome != null) "\n\n${event.outcome.getTranslation()}" else ""
                     )
 
                     // Event chain buttons
                     LazyColumn(
-                        modifier = Modifier
-                            .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS)
-                            .padding(top = 16.dp),
+                        modifier = Modifier.thenIf(
+                            tag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS,
+                            padding = PaddingValues(top = 16.dp)
+                        ),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
                     ) {
                         items(items = children, key = { it.id }) { child ->
                             Button(
-                                modifier = Modifier
-                                    .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS_ITEM)
-                                    .fillMaxWidth(),
+                                modifier = Modifier.thenIf(
+                                    tag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS_ITEM,
+                                    maxWidth = Dp.Infinity
+                                ),
                                 colors = ButtonDefaults.buttonColors(contentColor = Color.White),
                                 onClick = { store.send(action = EventAction.Select(event = child)) }
                             ) {
                                 Text(text = getTranslation(key = child.id))
                             }
                         }
-                        item { Spacer(modifier = Modifier.height(height = 16.dp)) }
+                        item { Spacer(modifier = Modifier.thenIf(minHeight = 16.dp, maxHeight = 16.dp))}
                     }
                 }
             }

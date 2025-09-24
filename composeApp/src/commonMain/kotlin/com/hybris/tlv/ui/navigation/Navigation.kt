@@ -53,7 +53,7 @@ internal class Navigation(
                 Screen.MAIN_MENU -> MainMenuScreen(store = storeFactory.createMainMenuStore(stateBuilder = stateBuilder))
                 Screen.FEEDBACK -> if (featureFeedback) FeedbackScreen(store = storeFactory.createFeedbackStore(stateBuilder = stateBuilder)) else Screen(screen = Screen.MAIN_MENU)
                 Screen.NEW_GAME -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore()) else Screen(screen = Screen.GAME)
-                Screen.GAME -> if (featureGame) GameScreen(store = storeFactory.createGameStore(stateBuilder = stateBuilder)) else Screen(screen = Screen.GAME_OVER)
+                Screen.GAME -> if (featureGame) GameScreen(store = storeFactory.createGameStore()) else Screen(screen = Screen.GAME_OVER)
                 Screen.EVENT -> if (featureEvents) EventScreen(store = storeFactory.createEventStore()) else Screen(screen = Screen.GAME)
                 Screen.GAME_OVER -> if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore()) else Screen(screen = Screen.MAIN_MENU)
                 Screen.STELLAR_EXPLORER -> if (featureStellarExplorer) StellarExplorerScreen(store = storeFactory.createStellarExplorerStore()) else Screen(screen = Screen.MAIN_MENU)

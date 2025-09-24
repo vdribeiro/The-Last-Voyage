@@ -1,8 +1,6 @@
 package com.hybris.tlv.ui.screen.game
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,36 +18,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import com.hybris.tlv.ui.screen.game.content.ShipContent
 import com.hybris.tlv.ui.screen.game.content.SystemContent
 import com.hybris.tlv.ui.screen.game.content.TravelContent
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.StatusBar
-import com.hybris.tlv.ui.theme.debouncedClickable
+import com.hybris.tlv.ui.theme.thenIf
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun GameScreen(store: Store<GameAction, GameState>) {
     val storeState by store.stateFlow.collectAsState()
-    val tutorial = storeState.tutorialStep != Tutorial.NO
     val defaultShip = remember {
         Ship(
             id = "",
             assignedPoints = 0,
             yearsTraveled = 0.0,
-            sensorRange = if (tutorial) (1..5).random() else 0,
-            integrity = if (tutorial) (50..100).random() else 0,
-            fuel = if (tutorial) (50..1000).random() else 0,
-            materials = if (tutorial) (50..1000).random() else 0,
-            cryopods = if (tutorial) (50..1000).random() else 0,
+            sensorRange = 0,
+            integrity = 0,
+            fuel = 0,
+            materials = 0,
+            cryopods = 0,
         )
     }
     val ship = storeState.ship ?: defaultShip
@@ -58,18 +52,16 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     val systemTranslation = remember { getTranslation(key = "game_screen__system") }
     val shipTranslation = remember { getTranslation(key = "game_screen__ship") }
 
-    LocalTypography.current
-
     Scaffold(
-        modifier = Modifier
-            .testTag(tag = GAME_SCREEN)
-            .fillMaxSize(),
+        modifier = Modifier.thenIf(
+            tag = GAME_SCREEN,
+            maxWidth = Dp.Infinity,
+            maxHeight = Dp.Infinity
+        ),
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
-                modifier = Modifier
-                    .testTag(tag = GAME_SCREEN_STATUS_BAR)
-                    .statusBarsPadding(),
+                modifier = Modifier.thenIf(tag = GAME_SCREEN_STATUS_BAR),
                 hull = ship.integrity.toString(),
                 fuel = ship.fuel.toString(),
                 materials = ship.materials.toString(),
@@ -79,55 +71,39 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
         bottomBar = {
             // Navigation bar for travel, system and ship status
             NavigationBar(
-                modifier = Modifier
-                    .testTag(tag = GAME_SCREEN_NAVIGATION_BAR)
+                modifier = Modifier.thenIf(tag = GAME_SCREEN_NAVIGATION_BAR)
             ) {
                 NavigationBarItem(
-                    modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP),
+                    modifier = Modifier.thenIf(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP),
                     icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
                     label = { Text(text = shipTranslation) },
-                    selected = (storeState.currentContent == Content.SHIP || storeState.tutorialStep == Tutorial.SHIP),
+                    selected = (storeState.currentContent == Content.SHIP),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 )
                 NavigationBarItem(
-                    modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM),
+                    modifier = Modifier.thenIf(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM),
                     icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = systemTranslation) },
                     label = { Text(text = systemTranslation) },
-                    selected = (storeState.currentContent == Content.SYSTEM || storeState.tutorialStep == Tutorial.SYSTEM),
+                    selected = (storeState.currentContent == Content.SYSTEM),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SYSTEM)) },
                 )
                 NavigationBarItem(
-                    modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL),
+                    modifier = Modifier.thenIf(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL),
                     icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
                     label = { Text(text = travelTranslation) },
-                    selected = (storeState.currentContent == Content.TRAVEL || storeState.tutorialStep == Tutorial.TRAVEL),
+                    selected = (storeState.currentContent == Content.TRAVEL),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.TRAVEL)) },
                 )
             }
         }
     ) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .padding(paddingValues = innerPadding)
-                .then(
-                    other = if (tutorial) {
-                        Modifier
-                            .debouncedClickable(
-                                enabled = tutorial,
-                                rippleEffect = false
-                            ) { store.send(action = GameAction.NextTutorial) }
-                            .semantics(mergeDescendants = false) {}
-                    } else Modifier
-                )
-        ) {
+        Box(modifier = Modifier.thenIf(padding = innerPadding)) {
             when (storeState.loading) {
                 true -> DebouncedLinearProgressIndicator(
-                    modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_PROGRESS_INDICATOR)
-                        .fillMaxWidth()
+                    modifier = Modifier.thenIf(
+                        tag = GAME_SCREEN_PROGRESS_INDICATOR,
+                        maxWidth = Dp.Infinity
+                    )
                 )
 
                 false -> when (storeState.currentContent) {
@@ -137,64 +113,5 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun Tutorial(store: Store<GameAction, GameState>) {
-    val storeState by store.stateFlow.collectAsState()
-
-    val typography = LocalTypography.current
-
-    val title: String
-    val description: String
-    when (storeState.tutorialStep) {
-        Tutorial.NO -> {
-            title = remember { "" }
-            description = remember { "" }
-        }
-
-        Tutorial.YES -> {
-            title = remember { getTranslation(key = "tutorial_screen__mechanics_goal_title") }
-            description = remember { getTranslation(key = "tutorial_screen__mechanics_goal_description") }
-        }
-
-        Tutorial.SHIP -> {
-            title = remember { getTranslation(key = "tutorial_screen__mechanics_attributes_title") }
-            description = remember { getTranslation(key = "tutorial_screen__mechanics_attributes_description") }
-        }
-
-        Tutorial.TRAVEL -> {
-            title = remember { getTranslation(key = "tutorial_screen__mechanics_travel_title") }
-            description = remember { getTranslation(key = "tutorial_screen__mechanics_travel_description") }
-        }
-
-        Tutorial.SYSTEM -> {
-            title = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_title") }
-            description = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_description") }
-        }
-
-        Tutorial.SYSTEM -> {
-            title = remember { getTranslation(key = "tutorial_screen__mechanics_score_title") }
-            description = remember { getTranslation(key = "tutorial_screen__mechanics_score_description") }
-        }
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(all = 32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            modifier = Modifier.padding(all = 8.dp),
-            style = typography.titleLarge,
-            text = title,
-        )
-        Text(
-            modifier = Modifier.padding(all = 8.dp),
-            style = typography.titleMedium,
-            text = description,
-        )
     }
 }

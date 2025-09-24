@@ -1,7 +1,7 @@
 package com.hybris.tlv.storage
 
 /**
- * Save file to device storage. Return true if success.
+ * Save file to device storage. Return true on success.
  */
 expect fun saveFile(fileName: String, content: String): Boolean
 

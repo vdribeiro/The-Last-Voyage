@@ -17,7 +17,6 @@ import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 internal class GameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    stateBuilder: GameStateBuilder,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
@@ -26,7 +25,6 @@ internal class GameStore(
     navigation = navigation,
     initialState = GameState(
         loading = true,
-        tutorialStep = if (stateBuilder.tutorial) Tutorial.YES else Tutorial.NO,
         currentContent = Content.SYSTEM,
         ship = null,
         currentStellarHost = null,
@@ -108,18 +106,7 @@ internal class GameStore(
         }
     }
 
-    private fun tutorial(state: GameState) =
-        when (state.tutorialStep) {
-            Tutorial.NO -> {}
-            Tutorial.YES -> updateState { it.copy(tutorialStep = Tutorial.SHIP) }
-            Tutorial.SHIP -> updateState { it.copy(tutorialStep = Tutorial.SYSTEM) }
-            Tutorial.SYSTEM -> updateState { it.copy(tutorialStep = Tutorial.TRAVEL) }
-            Tutorial.TRAVEL -> navigate(screen = Screen.MAIN_MENU)
-        }
-
     private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
-        if (state.tutorialStep != Tutorial.NO) return@launch
-
         val gameSession = gameSession
         if (gameSession == null) {
             navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on travel()"))
@@ -137,8 +124,6 @@ internal class GameStore(
     }
 
     private fun settle(state: GameState, action: GameAction.Settle): Job = launch {
-        if (state.tutorialStep != Tutorial.NO) return@launch
-
         val gameSession = gameSession
         if (gameSession == null) {
             navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on settle()"))
@@ -152,14 +137,13 @@ internal class GameStore(
     override fun back(state: GameState): () -> Unit = {
         navigate(
             screen = Screen.MAIN_MENU,
-            state = if (state.tutorialStep == Tutorial.NO) null else MainMenuStateBuilder(currentContent = MainMenuContent.LEARN_MENU)
+            state = MainMenuStateBuilder(currentContent = MainMenuContent.LEARN_MENU)
         )
     }
 
     override fun reducer(state: GameState, action: GameAction) {
         when (action) {
-            GameAction.NextTutorial -> tutorial(state = state)
-            is GameAction.ChangeTab -> if (state.tutorialStep == Tutorial.NO) updateState { it.copy(currentContent = action.content) }
+            is GameAction.ChangeTab -> updateState { it.copy(currentContent = action.content) }
             is GameAction.Travel -> travel(state = state, action = action)
             is GameAction.Settle -> settle(state = state, action = action)
         }

@@ -38,7 +38,7 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
     val typography = LocalTypography.current
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
+        Box(modifier = Modifier.thenIf(padding = innerPadding)) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()

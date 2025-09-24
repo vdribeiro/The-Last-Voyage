@@ -173,7 +173,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
             )
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
+        Box(modifier = Modifier.thenIf(padding = innerPadding)) {
             when {
                 storeState.loading -> DebouncedLinearProgressIndicator(
                     modifier = Modifier

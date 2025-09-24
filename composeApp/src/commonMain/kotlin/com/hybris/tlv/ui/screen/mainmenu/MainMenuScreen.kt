@@ -122,7 +122,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
             }
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
+        Box(modifier = Modifier.thenIf(padding = innerPadding)) {
             when (currentContent) {
                 Content.MAIN_MENU -> MainMenuContent(store = store)
                 Content.LEARN_MENU -> LearnContent(store = store)
