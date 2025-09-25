@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Rocket
@@ -142,8 +144,7 @@ internal fun TutorialScreen(store: Store<TutorialAction, TutorialState>) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(all = 64.dp),
-                verticalArrangement = Arrangement.Center
+                    .padding(all = 32.dp),
             ) {
                 Text(
                     modifier = Modifier
@@ -156,6 +157,7 @@ internal fun TutorialScreen(store: Store<TutorialAction, TutorialState>) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .verticalScroll(state = rememberScrollState())
                         .padding(all = 8.dp),
                     style = typography.titleMedium,
                     text = description,

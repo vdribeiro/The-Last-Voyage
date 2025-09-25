@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -62,8 +63,20 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                     .testTag(tag = MAIN_MENU_SCREEN_TOP_BAR)
                     .statusBarsPadding()
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
+                verticalAlignment = Alignment.CenterVertically,
             ) {
+                // Sound button
+                IconButton(
+                    modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_TOP_BAR_MUSIC),
+                    onClick = { store.send(action = MainMenuAction.Music) }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.MusicNote,
+                        contentDescription = "Music"
+                    )
+                }
+                Spacer(modifier = Modifier.weight(weight = 1f))
                 // Feedback button
                 if (isMenu && storeState.featureFeedback) {
                     IconButton(
@@ -76,7 +89,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                             contentDescription = "Feedback"
                         )
                     }
-                } else Spacer(modifier = Modifier.size(size = 48.dp)) // Reserve space for the feedback button to avoid layout flickering
+                }
             }
         },
         bottomBar = {

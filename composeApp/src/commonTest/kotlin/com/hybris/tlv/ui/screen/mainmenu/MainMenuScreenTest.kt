@@ -33,6 +33,7 @@ internal class MainMenuScreenTest {
 
         onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_TOP_BAR).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_TOP_BAR_MUSIC).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_TOP_BAR_FEEDBACK).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR_WEBSITE).assertExists()
@@ -70,6 +71,7 @@ internal class MainMenuScreenTest {
 
         onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_TOP_BAR).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_TOP_BAR_MUSIC).assertDoesNotExist()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_TOP_BAR_FEEDBACK).assertDoesNotExist()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR_WEBSITE).assertDoesNotExist()

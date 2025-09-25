@@ -19,6 +19,7 @@
     "featureAchievements": true,
     "featureStellarExplorer": true,
     "featureNewGame": true,
+    "featureTutorial": true,
     "featureGame": true,
     "featureEvents": true,
     "featureGameOver": true

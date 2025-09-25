@@ -4,6 +4,7 @@ import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
 
 internal sealed interface MainMenuAction {
+    data object Music: MainMenuAction
     data object Feedback: MainMenuAction
     data object NewGame: MainMenuAction
     data object Continue: MainMenuAction

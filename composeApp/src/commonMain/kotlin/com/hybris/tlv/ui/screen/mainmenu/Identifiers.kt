@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.mainmenu
 
 internal const val MAIN_MENU_SCREEN = "main_menu_screen"
 internal const val MAIN_MENU_SCREEN_TOP_BAR = "main_menu_screen_top_bar"
+internal const val MAIN_MENU_SCREEN_TOP_BAR_MUSIC = "main_menu_screen_top_bar_feedback"
 internal const val MAIN_MENU_SCREEN_TOP_BAR_FEEDBACK = "main_menu_screen_top_bar_feedback"
 internal const val MAIN_MENU_SCREEN_BOTTOM_BAR = "main_menu_screen_bottom_bar"
 internal const val MAIN_MENU_SCREEN_BOTTOM_BAR_WEBSITE = "main_menu_screen_bottom_bar_website"

@@ -66,6 +66,7 @@ internal class MainMenuStore(
 
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
+            MainMenuAction.Music -> {} // TODO
             MainMenuAction.Feedback -> navigate(screen = Screen.FEEDBACK)
             MainMenuAction.NewGame -> navigate(screen = Screen.NEW_GAME)
             MainMenuAction.Continue -> navigate(screen = Screen.GAME)
