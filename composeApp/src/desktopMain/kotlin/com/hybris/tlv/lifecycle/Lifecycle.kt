@@ -12,10 +12,7 @@ internal actual fun Register(
 ) {
     val lifecycleOwner = LocalWindowState.current
     DisposableEffect(keys = arrayOf(lifecycleOwner.isMinimized, key)) {
-        when {
-            lifecycleOwner.isMinimized -> onPause()
-            else -> onResume()
-        }
+        if (lifecycleOwner.isMinimized) onPause() else onResume()
 
         onDispose {}
     }
