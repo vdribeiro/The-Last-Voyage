@@ -25,6 +25,7 @@ private fun MainMenuLoading() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = true,
+                    featureMusic = true,
                     featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,
@@ -56,6 +57,7 @@ private fun MainMenuAll() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
+                    featureMusic = true,
                     featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,
@@ -87,6 +89,7 @@ private fun MainMenuContinue() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
+                    featureMusic = true,
                     featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,
@@ -109,7 +112,7 @@ private fun MainMenuContinue() {
 
 @Preview
 @Composable
-private fun MainMenuNoFeedbackAndSoon() {
+private fun MainMenuNoMusicAndFeedbackAndSoon() {
     TranslationCache.set(translations = translations)
     AppTheme {
         MainMenuScreen(
@@ -118,6 +121,7 @@ private fun MainMenuNoFeedbackAndSoon() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
+                    featureMusic = false,
                     featureFeedback = false,
                     featureSoon = false,
                     featureLearn = true,
@@ -149,6 +153,7 @@ private fun MainMenuNoFeatures() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
+                    featureMusic = true,
                     featureFeedback = true,
                     featureSoon = true,
                     featureLearn = false,
@@ -180,6 +185,7 @@ private fun MainMenuLearn() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
+                    featureMusic = true,
                     featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,
@@ -211,6 +217,7 @@ private fun MainMenuHostDefinition() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
+                    featureMusic = true,
                     featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,
@@ -261,6 +268,7 @@ private fun MainMenuPlanetDefinition() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
+                    featureMusic = true,
                     featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,
@@ -311,6 +319,7 @@ private fun MainMenuHabitability() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
+                    featureMusic = true,
                     featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,

@@ -66,15 +66,17 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 // Sound button
-                IconButton(
-                    modifier = Modifier
-                        .testTag(tag = MAIN_MENU_SCREEN_TOP_BAR_MUSIC),
-                    onClick = { store.send(action = MainMenuAction.Music) }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.MusicNote,
-                        contentDescription = "Music"
-                    )
+                if (isMenu && storeState.featureMusic) {
+                    IconButton(
+                        modifier = Modifier
+                            .testTag(tag = MAIN_MENU_SCREEN_TOP_BAR_MUSIC),
+                        onClick = { store.send(action = MainMenuAction.Music) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.MusicNote,
+                            contentDescription = "Music"
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.weight(weight = 1f))
                 // Feedback button
@@ -90,6 +92,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
                         )
                     }
                 }
+                if (!isMenu) Spacer(modifier = Modifier.statusBarsPadding()) // Reserve space for the buttons to avoid layout flickering
             }
         },
         bottomBar = {

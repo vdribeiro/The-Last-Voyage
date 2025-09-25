@@ -26,6 +26,7 @@ internal data class MainMenuStateBuilder(
 
 internal data class MainMenuState(
     val loading: Boolean,
+    val featureMusic: Boolean,
     val featureFeedback: Boolean,
     val featureSoon: Boolean,
     val featureLearn: Boolean,

@@ -21,6 +21,7 @@ internal class MainMenuStore(
     navigation = navigation,
     initialState = MainMenuState(
         loading = true,
+        featureMusic = config.localConfigs.featureMusic,
         featureFeedback = config.localConfigs.featureFeedback,
         featureSoon = config.localConfigs.featureSoon,
         featureLearn = config.localConfigs.featureLearn,
