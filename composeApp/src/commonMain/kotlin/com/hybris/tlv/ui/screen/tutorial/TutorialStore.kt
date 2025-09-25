@@ -32,7 +32,7 @@ internal class TutorialStore(
                 Tutorial.SHIP -> updateState { it.copy(tutorialStep = Tutorial.SYSTEM) }
                 Tutorial.SYSTEM -> updateState { it.copy(tutorialStep = Tutorial.TRAVEL) }
                 Tutorial.TRAVEL -> updateState { it.copy(tutorialStep = Tutorial.GAME_OVER) }
-                Tutorial.GAME_OVER -> back(state = state)
+                Tutorial.GAME_OVER -> back(state = state).invoke()
             }
         }
     }
