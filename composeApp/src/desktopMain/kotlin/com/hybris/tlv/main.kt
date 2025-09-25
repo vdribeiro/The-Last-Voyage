@@ -40,9 +40,7 @@ fun main() = application {
                             core.navigation.back()
                         }
                     }
-            ) {
-                App(navigation = core.navigation)
-            }
+            ) { App() }
         }
     }
 }

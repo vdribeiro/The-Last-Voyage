@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.credits
 import com.hybris.tlv.flow.TestDispatchers
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.translations
 import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.credit.CreditScreen
@@ -21,6 +22,7 @@ private fun CreditLoading() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = CreditState(
                     loading = true,
                     credits = emptyList()
@@ -39,6 +41,7 @@ private fun CreditList() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = CreditState(
                     loading = false,
                     credits = credits

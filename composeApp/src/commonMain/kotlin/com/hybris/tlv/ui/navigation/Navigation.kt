@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.navigation.NavigationManager.State
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.update
 
 internal class Navigation(
     private val dispatcher: Dispatcher,
+    private val audioPlayer: AudioPlayer,
     private val config: ConfigManager,
     private val useCases: UseCases,
     state: State = State()
@@ -34,6 +36,7 @@ internal class Navigation(
     private val storeFactory: StoreFactory = StoreFactory(
         dispatcher = dispatcher,
         navigation = this,
+        audioPlayer = audioPlayer,
         config = config,
         useCases = useCases
     )

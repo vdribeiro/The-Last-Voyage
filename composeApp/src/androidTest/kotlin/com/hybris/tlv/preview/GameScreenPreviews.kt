@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.hostsWithPlanets
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ship
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.translations
@@ -24,6 +25,7 @@ private fun GameLoading() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = GameState(
                     loading = true,
                     currentContent = Content.SYSTEM,
@@ -45,6 +47,7 @@ private fun GameShip() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = GameState(
                     loading = false,
                     currentContent = Content.SHIP,
@@ -66,6 +69,7 @@ private fun GameSystem() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = GameState(
                     loading = false,
                     currentContent = Content.SYSTEM,
@@ -87,6 +91,7 @@ private fun GameTravel() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = GameState(
                     loading = false,
                     currentContent = Content.TRAVEL,

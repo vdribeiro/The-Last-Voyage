@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.score
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.getLocalDateTime
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
@@ -11,10 +12,12 @@ import kotlinx.coroutines.Job
 internal class ScoreStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
+    audioPlayer: AudioPlayer,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<ScoreAction, ScoreState>(
     dispatcher = dispatcher,
     navigation = navigation,
+    audioPlayer = audioPlayer,
     initialState = ScoreState(
         loading = true,
         gameSessions = emptyList()

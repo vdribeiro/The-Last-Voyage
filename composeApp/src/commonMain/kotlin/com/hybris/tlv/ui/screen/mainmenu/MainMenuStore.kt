@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.mainmenu
 
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
@@ -12,13 +13,15 @@ import kotlinx.coroutines.Job
 internal class MainMenuStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    stateBuilder: MainMenuStateBuilder,
+    audioPlayer: AudioPlayer,
     config: ConfigManager,
+    stateBuilder: MainMenuStateBuilder,
     private val gameSessionUseCases: GameSessionUseCases,
     private val learningUseCases: LearningUseCases
 ): Store<MainMenuAction, MainMenuState>(
     dispatcher = dispatcher,
     navigation = navigation,
+    audioPlayer = audioPlayer,
     initialState = MainMenuState(
         loading = true,
         featureSoon = config.localConfigs.featureSoon,

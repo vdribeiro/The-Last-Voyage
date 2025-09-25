@@ -5,6 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.catastrophes
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.formula
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.shipState
 import com.hybris.tlv.translations
 import com.hybris.tlv.ui.navigation.MockNavigation
@@ -24,6 +25,7 @@ private fun NewGameLoading() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = NewGameState(
                     loading = true,
                     currentContent = Content.SHIP,
@@ -45,6 +47,7 @@ private fun NewGameShip() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = NewGameState(
                     loading = false,
                     currentContent = Content.SHIP,
@@ -66,6 +69,7 @@ private fun NewGameAdvanced() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = NewGameState(
                     loading = false,
                     currentContent = Content.ADVANCED,
@@ -87,6 +91,7 @@ private fun NewGameStart() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = NewGameState(
                     loading = false,
                     currentContent = Content.START,

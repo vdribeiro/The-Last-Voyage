@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.achievements
 import com.hybris.tlv.flow.TestDispatchers
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.translations
 import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
@@ -21,6 +22,7 @@ private fun AchievementLoading() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = AchievementState(
                     loading = true,
                     achievements = emptyList()
@@ -39,6 +41,7 @@ private fun AchievementList() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = AchievementState(
                     loading = true,
                     achievements = achievements

@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.splash
 
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
@@ -22,6 +23,7 @@ import kotlinx.coroutines.supervisorScope
 internal class SplashStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
+    audioPlayer: AudioPlayer,
     private val config: ConfigManager,
     private val translateUseCases: TranslationUseCases,
     private val archiveUseCases: ArchiveUseCases,
@@ -35,6 +37,7 @@ internal class SplashStore(
 ): Store<SplashAction, SplashState>(
     dispatcher = dispatcher,
     navigation = navigation,
+    audioPlayer = audioPlayer,
     initialState = SplashState(
         progress = 0f
     )

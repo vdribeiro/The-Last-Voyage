@@ -5,26 +5,27 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.backhandler.BackHandler
-import androidx.compose.ui.platform.LocalInspectionMode
-import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.media.NoAudioPlayer
+import com.hybris.tlv.lifecycle.register
 import com.hybris.tlv.media.getTracks
-import com.hybris.tlv.media.rememberAudioPlayer
-import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.theme.AppTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun App(navigation: NavigationManager) {
-    AppTheme {
-        BackHandler(enabled = true) { navigation.back() }
+internal fun App() = AppTheme {
+    val navigation = core.navigation
+    val audioPlayer = core.audioPlayer
 
-        val navigationState by navigation.stateFlow.collectAsState()
-        navigation.Screen(state = navigationState)
+    BackHandler(enabled = true) { navigation.back() }
 
-        val audioPlayer: AudioPlayer = if (!LocalInspectionMode.current) rememberAudioPlayer() else NoAudioPlayer
-        audioPlayer.play(playlist = getTracks(screen = navigationState.screen))
-    }
+    val navigationState by navigation.stateFlow.collectAsState()
+    navigation.Screen(state = navigationState)
+
+    audioPlayer.play(playlist = getTracks(screen = navigationState.screen))
+    register(
+        onPause = { audioPlayer.pause() },
+        onResume = { audioPlayer.resume() },
+        onDestroy = { audioPlayer.release() }
+    )
 }
 
 internal val core: Core by lazy {

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.hostsWithPlanets
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.planets
 import com.hybris.tlv.translations
 import com.hybris.tlv.ui.navigation.MockNavigation
@@ -26,6 +27,7 @@ private fun StellarExplorerLoading() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = StellarExplorerState(
                     loading = true,
                     currentContent = Content.LIST_HOSTS,
@@ -59,6 +61,7 @@ private fun StellarExplorerHostList() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.LIST_HOSTS,
@@ -92,6 +95,7 @@ private fun StellarExplorerHostDetail() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.DETAIL_HOSTS,
@@ -125,6 +129,7 @@ private fun StellarExplorerSearchHosts() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.LIST_HOSTS,
@@ -158,6 +163,7 @@ private fun StellarExplorerPlanetList() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.LIST_PLANETS,
@@ -191,6 +197,7 @@ private fun StellarExplorerPlanetDetail() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.DETAIL_PLANETS,
@@ -224,6 +231,7 @@ private fun StellarExplorerSearchPlanet() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.LIST_PLANETS,

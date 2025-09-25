@@ -13,18 +13,11 @@ internal val mock: Core by lazy {
     )
 }
 
-internal val errorMock: Core by lazy {
-    Core(
-        dispatcher = TestDispatchers(),
-        sqlDriver = createSqlDriver(inMemory = true),
-        httpEngine = TestEngines().mockEngineError
-    )
-}
-
 internal val storeFactory: StoreFactory by lazy {
     StoreFactory(
         dispatcher = mock.dispatcher,
         navigation = mock.navigation,
+        audioPlayer = mock.audioPlayer,
         config = mock.config,
         useCases = mock.useCases
     )

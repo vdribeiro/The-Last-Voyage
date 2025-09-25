@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.events
 import com.hybris.tlv.flow.TestDispatchers
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ship
 import com.hybris.tlv.translations
 import com.hybris.tlv.ui.navigation.MockNavigation
@@ -23,6 +24,7 @@ private fun EventLoading() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = EventState(
                     loading = true,
                     ship = null,
@@ -43,6 +45,7 @@ private fun EventRandom() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = EventState(
                     loading = false,
                     ship = ship,

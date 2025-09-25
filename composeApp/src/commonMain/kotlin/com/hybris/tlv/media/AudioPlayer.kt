@@ -1,44 +1,37 @@
 package com.hybris.tlv.media
 
-import androidx.compose.runtime.Composable
-
 /**
  * Audio player.
  */
-internal interface AudioPlayer {
+internal expect class AudioPlayer() {
 
     /**
      * Play the given [playlist].
      */
-    fun play(vararg playlist: String) {}
+    fun play(vararg playlist: String)
 
     /**
      * Resume playback.
      */
-    fun resume() {}
+    fun resume()
 
     /**
      * Pauses playback.
      */
-    fun pause() {}
+    fun pause()
 
     /**
      * Resume or pause playback depending on the current state.
      */
-    fun toggle() {}
+    fun toggle()
 
     /**
      * Stop playback without resetting the playlist.
      */
-    fun stop() {}
+    fun stop()
 
     /**
      * Destroy the player. The player cannot be used after calling this method.
      */
-    fun release() {}
+    fun release()
 }
-
-@Composable
-internal expect fun rememberAudioPlayer(): AudioPlayer
-
-internal object NoAudioPlayer: AudioPlayer

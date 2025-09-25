@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.gameSessionFinished
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.translations
 import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.score.ScoreScreen
@@ -21,6 +22,7 @@ private fun ScoreLoading() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = ScoreState(
                     loading = true,
                     gameSessions = emptyList()
@@ -39,6 +41,7 @@ private fun ScoreList() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = ScoreState(
                     loading = false,
                     gameSessions = listOf(gameSessionFinished)

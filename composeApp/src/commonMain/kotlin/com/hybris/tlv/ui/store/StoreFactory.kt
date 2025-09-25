@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.store
 
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.credit.CreditStore
@@ -24,6 +25,7 @@ import com.hybris.tlv.usecase.UseCases
 internal class StoreFactory(
     private val dispatcher: Dispatcher,
     private val navigation: NavigationManager,
+    private val audioPlayer: AudioPlayer,
     private val config: ConfigManager,
     private val useCases: UseCases
 ) {
@@ -31,6 +33,7 @@ internal class StoreFactory(
         return SplashStore(
             dispatcher = dispatcher,
             navigation = navigation,
+            audioPlayer = audioPlayer,
             config = config,
             translateUseCases = useCases.translation,
             archiveUseCases = useCases.archive,
@@ -49,8 +52,9 @@ internal class StoreFactory(
         return MainMenuStore(
             dispatcher = dispatcher,
             navigation = navigation,
-            stateBuilder = stateBuilder,
+            audioPlayer = audioPlayer,
             config = config,
+            stateBuilder = stateBuilder,
             gameSessionUseCases = useCases.gameSession,
             learningUseCases = useCases.learning
         )
@@ -61,6 +65,7 @@ internal class StoreFactory(
         return FeedbackStore(
             dispatcher = dispatcher,
             navigation = navigation,
+            audioPlayer = audioPlayer,
             stateBuilder = stateBuilder
         )
     }
@@ -69,6 +74,7 @@ internal class StoreFactory(
         return NewGameStore(
             dispatcher = dispatcher,
             navigation = navigation,
+            audioPlayer = audioPlayer,
             catastropheUseCases = useCases.catastrophe,
             gameSessionUseCases = useCases.gameSession
         )
@@ -77,7 +83,8 @@ internal class StoreFactory(
     fun createTutorialStore(): Store<TutorialAction, TutorialState> {
         return TutorialStore(
             dispatcher = dispatcher,
-            navigation = navigation
+            navigation = navigation,
+            audioPlayer = audioPlayer,
         )
     }
 
@@ -85,6 +92,7 @@ internal class StoreFactory(
         return GameStore(
             dispatcher = dispatcher,
             navigation = navigation,
+            audioPlayer = audioPlayer,
             shipUseCases = useCases.ship,
             spaceUseCases = useCases.space,
             gameSessionUseCases = useCases.gameSession
@@ -95,6 +103,7 @@ internal class StoreFactory(
         return EventStore(
             dispatcher = dispatcher,
             navigation = navigation,
+            audioPlayer = audioPlayer,
             eventUseCases = useCases.event,
             gameSessionUseCases = useCases.gameSession
         )
@@ -104,6 +113,7 @@ internal class StoreFactory(
         return GameOverStore(
             dispatcher = dispatcher,
             navigation = navigation,
+            audioPlayer = audioPlayer,
             gameSessionUseCases = useCases.gameSession
         )
     }
@@ -112,6 +122,7 @@ internal class StoreFactory(
         return StellarExplorerStore(
             dispatcher = dispatcher,
             navigation = navigation,
+            audioPlayer = audioPlayer,
             spaceUseCases = useCases.space
         )
     }
@@ -120,6 +131,7 @@ internal class StoreFactory(
         return ScoreStore(
             dispatcher = dispatcher,
             navigation = navigation,
+            audioPlayer = audioPlayer,
             gameSessionUseCases = useCases.gameSession
         )
     }
@@ -128,6 +140,7 @@ internal class StoreFactory(
         return AchievementStore(
             dispatcher = dispatcher,
             navigation = navigation,
+            audioPlayer = audioPlayer,
             achievementUseCases = useCases.achievement
         )
     }
@@ -136,6 +149,7 @@ internal class StoreFactory(
         return CreditStore(
             dispatcher = dispatcher,
             navigation = navigation,
+            audioPlayer = audioPlayer,
             creditUseCases = useCases.credit
         )
     }

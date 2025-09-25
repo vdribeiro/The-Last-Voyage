@@ -1,15 +1,10 @@
 package com.hybris.tlv.media
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import com.hybris.tlv.LocalWindowState
 import com.hybris.tlv.logger.Logger
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
 
-internal class DesktopAudioPlayer: AudioPlayer {
+internal actual class AudioPlayer {
 
     private var currentPlayer: MediaPlayer? = null
     private var currentPlaylist = mutableListOf<String>()
@@ -42,7 +37,7 @@ internal class DesktopAudioPlayer: AudioPlayer {
         playTrackAtIndex(nextIndex)
     }
 
-    override fun play(vararg playlist: String) {
+    actual fun play(vararg playlist: String) {
         runCatching {
             if (currentPlaylist.sorted() == playlist.toList().sorted()) {
                 resume()
@@ -59,7 +54,7 @@ internal class DesktopAudioPlayer: AudioPlayer {
         }
     }
 
-    override fun resume() {
+    actual fun resume() {
         runCatching {
             currentPlayer?.play()
         }.getOrElse {
@@ -67,7 +62,7 @@ internal class DesktopAudioPlayer: AudioPlayer {
         }
     }
 
-    override fun pause() {
+    actual fun pause() {
         runCatching {
             currentPlayer?.pause()
         }.getOrElse {
@@ -75,7 +70,7 @@ internal class DesktopAudioPlayer: AudioPlayer {
         }
     }
 
-    override fun toggle() {
+    actual fun toggle() {
         runCatching {
             if (currentPlayer?.status == MediaPlayer.Status.PLAYING) pause() else resume()
         }.getOrElse {
@@ -83,7 +78,7 @@ internal class DesktopAudioPlayer: AudioPlayer {
         }
     }
 
-    override fun stop() {
+    actual fun stop() {
         runCatching {
             currentPlayer?.stop()
             currentPlayer?.dispose()
@@ -94,32 +89,11 @@ internal class DesktopAudioPlayer: AudioPlayer {
         }
     }
 
-    override fun release() {
+    actual fun release() {
         stop()
     }
 
     companion object {
         private const val TAG = "AudioPlayer"
     }
-}
-
-@Composable
-internal actual fun rememberAudioPlayer(): AudioPlayer {
-    val windowState = LocalWindowState.current
-    val player = remember { DesktopAudioPlayer() }
-
-    LaunchedEffect(key1 = windowState?.isMinimized) {
-        when {
-            windowState?.isMinimized == true -> player.pause()
-            else -> player.resume()
-        }
-    }
-
-    DisposableEffect(key1 = Unit) {
-        onDispose {
-            player.release()
-        }
-    }
-
-    return player
 }

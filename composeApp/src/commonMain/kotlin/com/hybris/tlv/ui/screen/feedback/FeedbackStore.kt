@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.feedback
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.Job
@@ -10,10 +11,12 @@ import kotlinx.coroutines.delay
 internal class FeedbackStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
+    audioPlayer: AudioPlayer,
     private val stateBuilder: FeedbackStateBuilder,
 ): Store<FeedbackAction, FeedbackState>(
     dispatcher = dispatcher,
     navigation = navigation,
+    audioPlayer = audioPlayer,
     initialState = FeedbackState(
         isError = stateBuilder.message != null
     )

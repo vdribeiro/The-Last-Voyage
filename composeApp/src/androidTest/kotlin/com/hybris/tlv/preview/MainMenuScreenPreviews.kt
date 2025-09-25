@@ -2,6 +2,7 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.flow.TestDispatchers
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.translations
 import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.mainmenu.Content
@@ -23,6 +24,7 @@ private fun MainMenuLoading() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = MainMenuState(
                     loading = true,
                     featureSoon = true,
@@ -53,6 +55,7 @@ private fun MainMenuAll() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,
@@ -83,6 +86,7 @@ private fun MainMenuContinue() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,
@@ -113,6 +117,7 @@ private fun MainMenuNoFeatures() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,
@@ -143,6 +148,7 @@ private fun MainMenuLearn() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,
@@ -173,6 +179,7 @@ private fun MainMenuHostDefinition() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,
@@ -222,6 +229,7 @@ private fun MainMenuPlanetDefinition() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,
@@ -271,6 +279,7 @@ private fun MainMenuHabitability() {
             store = Store(
                 dispatcher = TestDispatchers(),
                 navigation = MockNavigation(),
+                audioPlayer = AudioPlayer(),
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,

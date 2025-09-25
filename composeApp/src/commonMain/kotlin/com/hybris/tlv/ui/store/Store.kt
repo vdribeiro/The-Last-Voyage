@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.store
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
-import com.hybris.tlv.media.getTracks
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.update
 internal open class Store<Action, State>(
     private val dispatcher: Dispatcher,
     private val navigation: NavigationManager,
+    private val audioPlayer: AudioPlayer,
     initialState: State
 ) {
 
@@ -33,11 +34,6 @@ internal open class Store<Action, State>(
      * The list of jobs launched by the Store.
      */
     private val jobs = mutableListOf<Job>()
-
-    /**
-     * The playlist to be played by the music player.
-     */
-    val playlist: Array<String> = getTracks(screen = navigation.stateFlow.value.screen)
 
     init {
         navigation.back = { back(state = _stateFlow.value).invoke() }
@@ -91,6 +87,5 @@ internal open class Store<Action, State>(
     /**
      * Toggle music player.
      */
-    fun music() {
-    }
+    fun music() = audioPlayer.toggle()
 }

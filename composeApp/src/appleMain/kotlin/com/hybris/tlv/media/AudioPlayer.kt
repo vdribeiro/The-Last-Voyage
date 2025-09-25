@@ -1,8 +1,5 @@
 package com.hybris.tlv.media
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.remember
 import com.hybris.tlv.logger.Logger
 import platform.AVFoundation.AVPlayer
 import platform.AVFoundation.AVPlayerItem
@@ -13,11 +10,9 @@ import platform.AVFoundation.rate
 import platform.Foundation.NSBundle
 import platform.Foundation.NSNotificationCenter
 import platform.Foundation.NSOperationQueue
-import platform.UIKit.UIApplicationDidBecomeActiveNotification
-import platform.UIKit.UIApplicationWillResignActiveNotification
 import platform.darwin.NSObjectProtocol
 
-internal class IosAudioPlayer: AudioPlayer {
+internal actual class AudioPlayer {
 
     private var player: AVPlayer? = null
     private var playlist = mutableListOf<String>()
@@ -65,7 +60,7 @@ internal class IosAudioPlayer: AudioPlayer {
         playTrackAtIndex(nextIndex)
     }
 
-    override fun play(vararg playlist: String) = runCatching {
+    actual fun play(vararg playlist: String) = runCatching {
         if (this.playlist.sorted() == playlist.toList().sorted()) {
             resume()
             return@runCatching
@@ -80,7 +75,7 @@ internal class IosAudioPlayer: AudioPlayer {
         Logger.error(tag = TAG, message = "Error playing media: ${it.message}")
     }
 
-    override fun resume() {
+    actual fun resume() {
         runCatching {
             player?.play()
         }.getOrElse {
@@ -88,7 +83,7 @@ internal class IosAudioPlayer: AudioPlayer {
         }
     }
 
-    override fun pause() {
+    actual fun pause() {
         runCatching {
             player?.pause()
         }.getOrElse {
@@ -96,7 +91,7 @@ internal class IosAudioPlayer: AudioPlayer {
         }
     }
 
-    override fun toggle() {
+    actual fun toggle() {
         runCatching {
             if ((player?.rate ?: 0.0f) != 0.0f) pause() else resume()
         }.getOrElse {
@@ -104,7 +99,7 @@ internal class IosAudioPlayer: AudioPlayer {
         }
     }
 
-    override fun stop() = runCatching {
+    actual fun stop() = runCatching {
         player?.pause()
         endOfSongObserver?.let { NSNotificationCenter.defaultCenter.removeObserver(observer = it) }
         endOfSongObserver = null
@@ -114,42 +109,11 @@ internal class IosAudioPlayer: AudioPlayer {
         Logger.error(tag = TAG, message = "Error stopping media: ${it.message}")
     }
 
-    override fun release() {
+    actual fun release() {
         stop()
     }
 
     companion object {
         private const val TAG = "AudioPlayer"
     }
-}
-
-@Composable
-internal actual fun rememberAudioPlayer(): AudioPlayer {
-    val player = remember { IosAudioPlayer() }
-
-    DisposableEffect(player) {
-        val pauseObserver = NSNotificationCenter.defaultCenter.addObserverForName(
-            name = UIApplicationWillResignActiveNotification,
-            `object` = null,
-            queue = NSOperationQueue.mainQueue
-        ) { _ ->
-            player.pause()
-        }
-
-        val resumeObserver = NSNotificationCenter.defaultCenter.addObserverForName(
-            name = UIApplicationDidBecomeActiveNotification,
-            `object` = null,
-            queue = NSOperationQueue.mainQueue
-        ) { _ ->
-            player.resume()
-        }
-
-        onDispose {
-            NSNotificationCenter.defaultCenter.removeObserver(pauseObserver)
-            NSNotificationCenter.defaultCenter.removeObserver(resumeObserver)
-            player.release()
-        }
-    }
-
-    return player
 }

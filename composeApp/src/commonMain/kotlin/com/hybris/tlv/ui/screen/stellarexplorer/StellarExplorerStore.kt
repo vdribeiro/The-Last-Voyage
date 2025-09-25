@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
@@ -14,10 +15,12 @@ import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 internal class StellarExplorerStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
+    audioPlayer: AudioPlayer,
     private val spaceUseCases: SpaceUseCases,
 ): Store<StellarExplorerAction, StellarExplorerState>(
     dispatcher = dispatcher,
     navigation = navigation,
+    audioPlayer = audioPlayer,
     initialState = StellarExplorerState(
         loading = true,
         currentContent = Content.LIST_HOSTS,
