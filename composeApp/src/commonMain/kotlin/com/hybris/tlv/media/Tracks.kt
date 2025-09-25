@@ -7,6 +7,7 @@ internal fun getTracks(screen: Screen) = when (screen) {
     Screen.FEEDBACK,
     Screen.MAIN_MENU,
     Screen.NEW_GAME,
+    Screen.TUTORIAL,
     Screen.STELLAR_EXPLORER,
     Screen.SCORE,
     Screen.ACHIEVEMENT,
@@ -14,7 +15,6 @@ internal fun getTracks(screen: Screen) = when (screen) {
         "tracks/ville_seppanen-1_g.mp3",
     )
 
-    Screen.TUTORIAL,
     Screen.GAME,
     Screen.EVENT -> arrayOf(
         "tracks/blind_shift.mp3",

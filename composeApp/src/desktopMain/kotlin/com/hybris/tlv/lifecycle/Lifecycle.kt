@@ -6,7 +6,8 @@ import androidx.compose.runtime.LaunchedEffect
 import com.hybris.tlv.LocalWindowState
 
 @Composable
-internal actual fun register(
+internal actual fun Register(
+    key: Any,
     onPause: () -> Unit,
     onResume: () -> Unit,
     onDestroy: () -> Unit

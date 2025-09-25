@@ -7,13 +7,14 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 
 @Composable
-internal actual fun register(
+internal actual fun Register(
+    key: Any,
     onPause: () -> Unit,
     onResume: () -> Unit,
     onDestroy: () -> Unit
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    DisposableEffect(key1 = lifecycleOwner) {
+    DisposableEffect(keys = arrayOf(lifecycleOwner, key)) {
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
                 Lifecycle.Event.ON_PAUSE -> onPause()

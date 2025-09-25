@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.backhandler.BackHandler
-import com.hybris.tlv.lifecycle.register
+import com.hybris.tlv.lifecycle.Register
 import com.hybris.tlv.media.getTracks
 import com.hybris.tlv.ui.theme.AppTheme
 
@@ -21,7 +21,7 @@ internal fun App() = AppTheme {
     navigation.Screen(state = navigationState)
 
     audioPlayer.play(playlist = getTracks(screen = navigationState.screen))
-    register(
+    Register(
         onPause = { audioPlayer.pause() },
         onResume = { audioPlayer.resume() },
         onDestroy = { audioPlayer.release() }
