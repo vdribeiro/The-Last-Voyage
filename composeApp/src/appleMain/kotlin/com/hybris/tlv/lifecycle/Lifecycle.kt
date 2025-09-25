@@ -20,7 +20,6 @@ internal actual fun Register(
             `object` = null,
             queue = NSOperationQueue.mainQueue
         ) { _ -> onPause() }
-
         val resumeObserver = lifecycleOwner.addObserverForName(
             name = UIApplicationDidBecomeActiveNotification,
             `object` = null,

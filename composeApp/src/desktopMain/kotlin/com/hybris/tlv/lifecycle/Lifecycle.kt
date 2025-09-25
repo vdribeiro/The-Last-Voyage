@@ -1,8 +1,8 @@
 package com.hybris.tlv.lifecycle
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import com.hybris.tlv.LocalWindowState
+import androidx.compose.runtime.DisposableEffect
+import com.hybris.tlv.LocalWindow
 
 @Composable
 internal actual fun Register(
@@ -10,11 +10,10 @@ internal actual fun Register(
     onPause: () -> Unit,
     onResume: () -> Unit,
 ) {
-    val lifecycleOwner = LocalWindowState.current
-    LaunchedEffect(keys = arrayOf(lifecycleOwner?.isMinimized)) {
-        when {
-            lifecycleOwner?.isMinimized == true -> onPause()
-            else -> onResume()
-        }
+    val lifecycleOwner = LocalWindow.current
+    DisposableEffect(keys = arrayOf(lifecycleOwner.isActive, key)) {
+        if (!lifecycleOwner.isActive) onPause() else onResume()
+
+        onDispose {}
     }
 }
