@@ -24,7 +24,6 @@ internal fun App() = AppTheme {
     Register(
         onPause = { audioPlayer.pause() },
         onResume = { audioPlayer.resume() },
-        onDestroy = { audioPlayer.release() }
     )
 }
 
