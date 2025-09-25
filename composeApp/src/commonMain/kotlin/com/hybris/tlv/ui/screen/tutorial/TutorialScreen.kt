@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -140,19 +141,20 @@ internal fun TutorialScreen(store: Store<TutorialAction, TutorialState>) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(all = 32.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                    .padding(all = 64.dp),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     modifier = Modifier.padding(all = 8.dp),
                     style = typography.titleLarge,
                     text = title,
+                    textAlign = TextAlign.Center,
                 )
                 Text(
                     modifier = Modifier.padding(all = 8.dp),
                     style = typography.titleMedium,
                     text = description,
+                    textAlign = TextAlign.Start,
                 )
             }
         }
