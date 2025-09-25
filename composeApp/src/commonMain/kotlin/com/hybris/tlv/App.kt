@@ -1,6 +1,7 @@
 package com.hybris.tlv
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -20,7 +21,9 @@ internal fun App() = AppTheme {
     val navigationState by navigation.stateFlow.collectAsState()
     navigation.Screen(state = navigationState)
 
-    audioPlayer.play(playlist = getTracks(screen = navigationState.screen))
+    LaunchedEffect(keys = arrayOf(navigationState.screen)) {
+        audioPlayer.play(playlist = getTracks(screen = navigationState.screen))
+    }
     Register(
         onPause = { audioPlayer.pause() },
         onResume = { audioPlayer.resume() },

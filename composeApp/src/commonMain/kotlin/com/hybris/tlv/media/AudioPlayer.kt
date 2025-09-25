@@ -29,9 +29,4 @@ internal expect class AudioPlayer() {
      * Stop playback without resetting the playlist.
      */
     fun stop()
-
-    /**
-     * Destroy the player. The player cannot be used after calling this method.
-     */
-    fun release()
 }

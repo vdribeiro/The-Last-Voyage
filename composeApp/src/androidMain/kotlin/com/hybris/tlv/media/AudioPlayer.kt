@@ -10,21 +10,23 @@ import com.hybris.tlv.logger.Logger
 internal actual class AudioPlayer {
 
     private val player = ExoPlayer.Builder(applicationContext).build()
-    private val playlist = mutableListOf<String>()
+    private var playlist = listOf<String>()
 
     actual fun play(vararg playlist: String) = runCatching {
-        if (this.playlist.sorted() == playlist.toList().sorted()) return@runCatching
-        this.playlist.apply {
-            clear()
-            addAll(elements = playlist)
-        }
+        val sortedPlaylist = playlist.toList().sorted()
+        if (this.playlist.sorted() == sortedPlaylist) return@runCatching
+        this.playlist = sortedPlaylist.shuffled()
+        playNextTrack()
+    }.getOrElse {
+        Logger.error(tag = TAG, message = "Error playing media: ${it.message}")
+    }
+
+    private fun playNextTrack() {
         stop()
-        val mediaItems = playlist.map { MediaItem.fromUri("asset:///${it}".toUri()) }
+        val mediaItems = this.playlist.map { MediaItem.fromUri("asset:///${it}".toUri()) }
         player.setMediaItems(mediaItems)
         player.shuffleModeEnabled = true
         resume()
-    }.getOrElse {
-        Logger.error(tag = TAG, message = "Error playing media: ${it.message}")
     }
 
     actual fun resume() = runCatching {
@@ -38,7 +40,9 @@ internal actual class AudioPlayer {
         Logger.error(tag = TAG, message = "Error resuming media: ${it.message}")
     }
 
-    actual fun pause() = runCatching { player.pause() }.getOrElse {
+    actual fun pause() = runCatching {
+        player.pause()
+    }.getOrElse {
         Logger.error(tag = TAG, message = "Error pausing media: ${it.message}")
     }
 
@@ -48,12 +52,10 @@ internal actual class AudioPlayer {
         Logger.error(tag = TAG, message = "Error toggling media: ${it.message}")
     }
 
-    actual fun stop() = runCatching { player.stop() }.getOrElse {
+    actual fun stop() = runCatching {
+        player.stop()
+    }.getOrElse {
         Logger.error(tag = TAG, message = "Error stopping media: ${it.message}")
-    }
-
-    actual fun release() = runCatching { player.release() }.getOrElse {
-        Logger.error(tag = TAG, message = "Error releasing media: ${it.message}")
     }
 
     companion object {
