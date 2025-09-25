@@ -128,12 +128,12 @@ internal fun TutorialScreen(store: Store<TutorialAction, TutorialState>) {
                 }
 
                 Tutorial.TRAVEL -> {
-                    title = remember { getTranslation(key = "tutorial_screen__mechanics_travel_title") }
+                    title = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_title") }
                     description = remember { getTranslation(key = "tutorial_screen__mechanics_travel_description") }
                 }
 
                 Tutorial.GAME_OVER -> {
-                    title = remember { getTranslation(key = "tutorial_screen__mechanics_score_title") }
+                    title = remember { getTranslation(key = "tutorial_screen__mechanics_game_over_title") }
                     description = remember { getTranslation(key = "tutorial_screen__mechanics_score_description") }
                 }
             }
