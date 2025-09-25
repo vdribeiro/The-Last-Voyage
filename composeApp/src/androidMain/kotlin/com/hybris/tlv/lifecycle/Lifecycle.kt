@@ -11,7 +11,6 @@ internal actual fun Register(
     key: Any,
     onPause: () -> Unit,
     onResume: () -> Unit,
-    onDestroy: () -> Unit
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(keys = arrayOf(lifecycleOwner, key)) {
@@ -25,7 +24,6 @@ internal actual fun Register(
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
-            onDestroy()
         }
     }
 }

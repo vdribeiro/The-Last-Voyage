@@ -7,5 +7,4 @@ internal expect fun Register(
     key: Any = Unit,
     onPause: () -> Unit = {},
     onResume: () -> Unit = {},
-    onDestroy: () -> Unit = {}
 )
