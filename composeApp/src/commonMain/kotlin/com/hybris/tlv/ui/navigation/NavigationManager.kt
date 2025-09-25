@@ -26,6 +26,7 @@ internal interface NavigationManager {
         MAIN_MENU,
         FEEDBACK,
         NEW_GAME,
+        TUTORIAL,
         GAME,
         EVENT,
         GAME_OVER,

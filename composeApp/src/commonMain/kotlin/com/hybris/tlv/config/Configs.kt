@@ -28,6 +28,7 @@ internal data class Configs(
     val featureAchievements: Boolean = true,
     val featureStellarExplorer: Boolean = true,
     val featureNewGame: Boolean = true,
+    val featureTutorial: Boolean = true,
     val featureGame: Boolean = true,
     val featureEvents: Boolean = true,
     val featureGameOver: Boolean = true,

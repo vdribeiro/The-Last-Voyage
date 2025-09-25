@@ -101,14 +101,16 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
                 style = typography.headlineMedium,
             )
         }
-        item {
-            Text(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_MECHANICS)
-                    .debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
-                text = mechanicsTranslation,
-                style = typography.headlineMedium,
-            )
+        if (storeState.featureTutorial) {
+            item {
+                Text(
+                    modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_MECHANICS)
+                        .debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
+                    text = mechanicsTranslation,
+                    style = typography.headlineMedium,
+                )
+            }
         }
     }
 }

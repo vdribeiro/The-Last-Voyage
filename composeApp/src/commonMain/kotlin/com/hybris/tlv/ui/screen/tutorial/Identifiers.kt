@@ -6,3 +6,4 @@ internal const val TUTORIAL_SCREEN_NAVIGATION_BAR = "tutorial_screen_navigation_
 internal const val TUTORIAL_SCREEN_NAVIGATION_BAR_ITEM_SHIP = "tutorial_screen_navigation_bar_item_ship"
 internal const val TUTORIAL_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM = "tutorial_screen_navigation_bar_item_system"
 internal const val TUTORIAL_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL = "tutorial_screen_navigation_bar_item_travel"
+internal const val TUTORIAL_SCREEN_CONTENT = "tutorial_screen_content"

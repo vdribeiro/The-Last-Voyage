@@ -2796,6 +2796,16 @@
   },
   {
     "languageIso": "en",
+    "key": "tutorial_screen__mechanics_system_title",
+    "value": "System"
+  },
+  {
+    "languageIso": "en",
+    "key": "tutorial_screen__mechanics_system_description",
+    "value": "This is the system you are currently in. You can choose to settle on a planet here.\nSettlement success depends on the planet's habitability and whether you have enough materials and cryopods.\n• Uninhabitable Worlds (below 40%): Instant failure.\n• Harsh Worlds (41-60%): Require significant resources (300 materials + 150 cryopods).\n• Tolerable Worlds (61-80%): Require moderate resources (100 materials + 100 cryopods).\n• Paradise Worlds (81-100%): Are the easiest to colonize (50 materials + 50 cryopods).\nThere are special cases where you can defy the odds with insufficient materials but enough population, if you have plenty of fuel to use the engine as a makeshift energy source, or ship integrity to cannibalize the ship for materials."
+  },
+  {
+    "languageIso": "en",
     "key": "tutorial_screen__mechanics_travel_title",
     "value": "Travel"
   },
@@ -2812,17 +2822,7 @@
   {
     "languageIso": "en",
     "key": "tutorial_screen__mechanics_game_over_description",
-    "value": "The game ends when your ship's integrity or fuel reaches 0, or you settle in a new world.\nSettlement success depends on the planet's habitability and whether you have enough materials and cryopods.\n• Uninhabitable Worlds (below 40%): Instant failure.\n• Harsh Worlds (41-60%): Require significant resources (300 materials + 150 cryopods).\n• Tolerable Worlds (61-80%): Require moderate resources (100 materials + 100 cryopods).\n• Paradise Worlds (81-100%): Are the easiest to colonize (50 materials + 50 cryopods).\nThere are special cases where you can defy the odds with insufficient materials but enough population, if you have plenty of fuel to use the engine as a makeshift energy source, or ship integrity to cannibalize the ship for materials."
-  },
-  {
-    "languageIso": "en",
-    "key": "tutorial_screen__mechanics_score_title",
-    "value": "Score"
-  },
-  {
-    "languageIso": "en",
-    "key": "tutorial_screen__mechanics_score_description",
-    "value": "Your final score is calculated based on your success, the quality of the planet, ship stats, the length of your journey and difficulty based on initial points spent.\n• Score = Base Score * Challenge Multiplier * Game Over Multiplier\n• Base Score = (Cryopods * 100) + (Materials * 2) + (fuel * 1) + (Years Traveled * 5)\n• Challenge Multiplier = 1.0 + (15 - Assigned Points) + 0.05\n• Game Over Multiplier is based on several factors: 0.25 if the ship disintegrates, runs out of fuel or you don't leave the Solar System; When settling on a planet the habitability modifier is taken into account plus a success score based on the ship's state and resources. You can either survive in a primitive state or defy the odds or perfectly settle in a new world."
+    "value": "The game ends when your ship's integrity or fuel reaches 0, or you settle in a new world.\nYour final score is calculated based on your success, the quality of the planet, ship stats, the length of your journey and difficulty based on initial points spent.\n• Score = Base Score * Challenge Multiplier * Game Over Multiplier\n• Base Score = (Cryopods * 100) + (Materials * 2) + (fuel * 1) + (Years Traveled * 5)\n• Challenge Multiplier = 1.0 + (15 - Assigned Points) + 0.05\n• Game Over Multiplier is based on several factors: 0.25 if the ship disintegrates, runs out of fuel or you don't leave the Solar System; When settling on a planet the habitability modifier is taken into account plus a success score based on the ship's state and resources. You can either survive in a primitive state or defy the odds or perfectly settle in a new world."
   },
   {
     "languageIso": "en",

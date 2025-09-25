@@ -28,6 +28,7 @@ internal class MainMenuStore(
         featureAchievements = config.localConfigs.featureAchievements,
         featureStellarExplorer = config.localConfigs.featureStellarExplorer,
         featureNewGame = config.localConfigs.featureNewGame,
+        featureTutorial = config.localConfigs.featureTutorial,
         developerCorner = config.localConfigs.developerCorner,
         support = config.localConfigs.support,
         formula = config.localConfigs.formula,
@@ -76,7 +77,7 @@ internal class MainMenuStore(
             MainMenuAction.StellarExplorer -> navigate(screen = Screen.STELLAR_EXPLORER)
             MainMenuAction.HostDefinition -> updateState { it.copy(currentContent = Content.HOST_DEFINITION) }
             MainMenuAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
-            MainMenuAction.Mechanics -> {} //TODO: navigate(screen = Screen.GAME, state = GameState(tutorial = Tutorial.YES))
+            MainMenuAction.Mechanics -> navigate(screen = Screen.TUTORIAL)
             MainMenuAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
         }
     }

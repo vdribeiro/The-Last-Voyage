@@ -17,6 +17,7 @@ import com.hybris.tlv.ui.screen.newgame.NewGameScreen
 import com.hybris.tlv.ui.screen.score.ScoreScreen
 import com.hybris.tlv.ui.screen.splash.SplashScreen
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerScreen
+import com.hybris.tlv.ui.screen.tutorial.TutorialScreen
 import com.hybris.tlv.ui.store.StoreFactory
 import com.hybris.tlv.usecase.UseCases
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -53,6 +54,7 @@ internal class Navigation(
                 Screen.MAIN_MENU -> MainMenuScreen(store = storeFactory.createMainMenuStore(stateBuilder = stateBuilder))
                 Screen.FEEDBACK -> if (featureFeedback) FeedbackScreen(store = storeFactory.createFeedbackStore(stateBuilder = stateBuilder)) else Screen(screen = Screen.MAIN_MENU)
                 Screen.NEW_GAME -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore()) else Screen(screen = Screen.GAME)
+                Screen.TUTORIAL -> if (featureTutorial) TutorialScreen(store = storeFactory.createTutorialStore()) else Screen(screen = Screen.MAIN_MENU)
                 Screen.GAME -> if (featureGame) GameScreen(store = storeFactory.createGameStore()) else Screen(screen = Screen.GAME_OVER)
                 Screen.EVENT -> if (featureEvents) EventScreen(store = storeFactory.createEventStore()) else Screen(screen = Screen.GAME)
                 Screen.GAME_OVER -> if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore()) else Screen(screen = Screen.MAIN_MENU)

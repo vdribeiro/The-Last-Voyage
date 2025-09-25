@@ -32,6 +32,7 @@ internal data class MainMenuState(
     val featureAchievements: Boolean,
     val featureStellarExplorer: Boolean,
     val featureNewGame: Boolean,
+    val featureTutorial: Boolean,
     val developerCorner: String,
     val support: String,
     val formula: String,

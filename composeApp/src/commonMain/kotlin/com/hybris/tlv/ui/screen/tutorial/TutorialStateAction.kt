@@ -9,8 +9,9 @@ internal data class TutorialState(
 )
 
 internal enum class Tutorial {
-    YES,
+    GOAL,
     SHIP,
-    TRAVEL,
     SYSTEM,
+    TRAVEL,
+    GAME_OVER
 }

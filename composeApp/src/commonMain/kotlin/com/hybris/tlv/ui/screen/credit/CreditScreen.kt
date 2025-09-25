@@ -179,8 +179,8 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                                             modifier = Modifier
                                                 .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER_ITEM)
                                                 .fillMaxWidth()
-                                                .padding(all = 16.dp)
-                                                .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                                                .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } }
+                                                .padding(all = 16.dp),
                                             text = credit.id,
                                             textAlign = TextAlign.Center,
                                             style = typography.bodyLarge.copy(
