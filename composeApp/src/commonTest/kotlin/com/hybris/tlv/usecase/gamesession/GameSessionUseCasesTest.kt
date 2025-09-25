@@ -128,7 +128,6 @@ internal class GameSessionUseCasesTest {
             GameOver.INTEGRITY_ZERO_FUEL_PLENTY,
             GameOver.INTEGRITY_ZERO_YEARS_LOTS_CRYOPODS_BUSTLING
         )
-        println("gameOverNoIntegrity: $gameOverNoIntegrity")
         assertTrue(actual = gameOverNoIntegrityList.any { it == gameOverNoIntegrity })
 
         mock.useCases.gameSession.updateGameSession(gameSession = gameSession)
@@ -158,7 +157,6 @@ internal class GameSessionUseCasesTest {
             GameOver.FUEL_ZERO_MATERIALS_PLENTY_CRYOPODS_BUSTLING,
             GameOver.FUEL_ZERO_INTEGRITY_ENOUGH_MATERIALS_ENOUGH_CRYOPODS_BUSTLING
         )
-        println("gameOverNoFuel: $gameOverNoFuel")
         assertTrue(actual = gameOverNoFuelList.any { it == gameOverNoFuel })
 
         mock.useCases.gameSession.updateGameSession(gameSession = gameSession)
@@ -172,7 +170,6 @@ internal class GameSessionUseCasesTest {
         assertTrue(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSessionSettled))
         val gameOverSettled = mock.useCases.gameSession.getGameOver(gameSession = gameSessionSettled)
         val gameOverSettledList = GameOver.entries - (gameOverNoIntegrityList + gameOverNoFuelList)
-        println("gameOverSettled: $gameOverSettled")
         assertTrue(actual = gameOverSettledList.any { it == gameOverSettled })
     }
 }

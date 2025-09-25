@@ -1,6 +1,6 @@
 package com.hybris.tlv.media
 
-internal class AudioPlayer {
+internal class AudioPlayer() {
 
     fun play(vararg playlist: String) {}
 
@@ -11,6 +11,4 @@ internal class AudioPlayer {
     fun toggle() {}
 
     fun stop() {}
-
-    fun release() {}
 }
