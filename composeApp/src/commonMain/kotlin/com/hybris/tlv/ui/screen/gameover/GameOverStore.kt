@@ -30,7 +30,7 @@ internal class GameOverStore(
     private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on setup()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 

@@ -4,8 +4,6 @@ import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
 
 internal sealed interface MainMenuAction {
-    data object Music: MainMenuAction
-    data object Feedback: MainMenuAction
     data object NewGame: MainMenuAction
     data object Continue: MainMenuAction
     data object Learn: MainMenuAction
@@ -26,8 +24,6 @@ internal data class MainMenuStateBuilder(
 
 internal data class MainMenuState(
     val loading: Boolean,
-    val featureMusic: Boolean,
-    val featureFeedback: Boolean,
     val featureSoon: Boolean,
     val featureLearn: Boolean,
     val featureScores: Boolean,

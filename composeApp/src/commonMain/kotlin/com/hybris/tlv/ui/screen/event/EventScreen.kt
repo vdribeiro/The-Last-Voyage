@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.event
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
+import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.ui.theme.component.StatusBar
 import com.hybris.tlv.ui.theme.component.TypewriterText
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -40,10 +38,12 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
 
     val typography = LocalTypography.current
 
-    Scaffold(
-        modifier = Modifier
-            .testTag(tag = EVENT_SCREEN)
-            .fillMaxSize(),
+    Screen(
+        modifier = Modifier.testTag(tag = EVENT_SCREEN),
+        loading = storeState.loading,
+        playlist = store.playlist,
+        onMusicClick = { store.music(player = it) },
+        onFeedbackClick = { store.feedback() },
         topBar = {
             StatusBar(
                 modifier = Modifier
@@ -55,61 +55,51 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
                 cryopods = ship?.cryopods?.toString()
             )
         },
-    ) { innerPadding ->
-        Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            when (storeState.loading) {
-                true -> DebouncedLinearProgressIndicator(
-                    modifier = Modifier
-                        .testTag(tag = EVENT_SCREEN_PROGRESS_INDICATOR)
-                        .fillMaxWidth()
-                )
+    ) {
+        Column(
+            modifier = Modifier
+                .testTag(tag = EVENT_SCREEN_COLUMN)
+                .fillMaxSize()
+                .padding(all = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            // Event
+            Text(
+                modifier = Modifier
+                    .testTag(tag = EVENT_SCREEN_COLUMN_EVENT),
+                text = getTranslation(key = event.id),
+                style = typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(height = 16.dp))
+            TypewriterText(
+                modifier = Modifier
+                    .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_DESCRIPTION)
+                    .weight(weight = 1f)
+                    .fillMaxWidth(),
+                text = getTranslation(key = event.description) + if (event.outcome != null) "\n\n${event.outcome.getTranslation()}" else ""
+            )
 
-                false -> Column(
-                    modifier = Modifier
-                        .testTag(tag = EVENT_SCREEN_COLUMN)
-                        .fillMaxSize()
-                        .padding(all = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    // Event
-                    Text(
+            // Event chain buttons
+            LazyColumn(
+                modifier = Modifier
+                    .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS)
+                    .padding(top = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+            ) {
+                items(items = children, key = { it.id }) { child ->
+                    Button(
                         modifier = Modifier
-                            .testTag(tag = EVENT_SCREEN_COLUMN_EVENT),
-                        text = getTranslation(key = event.id),
-                        style = typography.titleLarge,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.height(height = 16.dp))
-                    TypewriterText(
-                        modifier = Modifier
-                            .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_DESCRIPTION)
-                            .weight(weight = 1f)
+                            .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS_ITEM)
                             .fillMaxWidth(),
-                        text = getTranslation(key = event.description) + if (event.outcome != null) "\n\n${event.outcome.getTranslation()}" else ""
-                    )
-
-                    // Event chain buttons
-                    LazyColumn(
-                        modifier = Modifier
-                            .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS)
-                            .padding(top = 16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+                        colors = ButtonDefaults.buttonColors(contentColor = Color.White),
+                        onClick = { store.send(action = EventAction.Select(event = child)) }
                     ) {
-                        items(items = children, key = { it.id }) { child ->
-                            Button(
-                                modifier = Modifier
-                                    .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_BUTTONS_ITEM)
-                                    .fillMaxWidth(),
-                                colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-                                onClick = { store.send(action = EventAction.Select(event = child)) }
-                            ) {
-                                Text(text = getTranslation(key = child.id))
-                            }
-                        }
-                        item { Spacer(modifier = Modifier.height(height = 16.dp)) }
+                        Text(text = getTranslation(key = child.id))
                     }
                 }
+                item { Spacer(modifier = Modifier.height(height = 16.dp)) }
             }
         }
     }

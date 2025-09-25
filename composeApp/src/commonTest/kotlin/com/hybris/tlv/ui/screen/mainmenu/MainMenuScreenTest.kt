@@ -32,15 +32,11 @@ internal class MainMenuScreenTest {
         }
 
         onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
-        onNodeWithTag(testTag = MAIN_MENU_SCREEN_TOP_BAR).assertExists()
-        onNodeWithTag(testTag = MAIN_MENU_SCREEN_TOP_BAR_MUSIC).assertExists()
-        onNodeWithTag(testTag = MAIN_MENU_SCREEN_TOP_BAR_FEEDBACK).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR_WEBSITE).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR_CREDITS).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR_SUPPORT).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT).assertExists()
-        onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_PROGRESS_INDICATOR).assertDoesNotExist()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_NEW_GAME).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONTINUE).assertDoesNotExist()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN).assertExists()
@@ -70,9 +66,6 @@ internal class MainMenuScreenTest {
         }
 
         onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
-        onNodeWithTag(testTag = MAIN_MENU_SCREEN_TOP_BAR).assertExists()
-        onNodeWithTag(testTag = MAIN_MENU_SCREEN_TOP_BAR_MUSIC).assertDoesNotExist()
-        onNodeWithTag(testTag = MAIN_MENU_SCREEN_TOP_BAR_FEEDBACK).assertDoesNotExist()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR_WEBSITE).assertDoesNotExist()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR_CREDITS).assertDoesNotExist()

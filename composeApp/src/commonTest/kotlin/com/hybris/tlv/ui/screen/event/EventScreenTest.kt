@@ -33,7 +33,6 @@ internal class EventScreenTest {
 
         onNodeWithTag(testTag = EVENT_SCREEN).assertExists()
         onNodeWithTag(testTag = EVENT_SCREEN_STATUS_BAR).assertExists()
-        onNodeWithTag(testTag = EVENT_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
         onNodeWithTag(testTag = EVENT_SCREEN_COLUMN).assertDoesNotExist()
         onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT).assertDoesNotExist()
         onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_DESCRIPTION).assertDoesNotExist()
@@ -57,7 +56,6 @@ internal class EventScreenTest {
 
         onNodeWithTag(testTag = EVENT_SCREEN).assertExists()
         onNodeWithTag(testTag = EVENT_SCREEN_STATUS_BAR).assertExists()
-        onNodeWithTag(testTag = EVENT_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
         onNodeWithTag(testTag = EVENT_SCREEN_COLUMN).assertExists()
         onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT).assertExists()
         onNodeWithTag(testTag = EVENT_SCREEN_COLUMN_EVENT_DESCRIPTION).assertExists()

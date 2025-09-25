@@ -3,7 +3,6 @@ package com.hybris.tlv.ui.screen.mainmenu.content
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,14 +20,12 @@ import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_HABITABI
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_HOST_DEFINITION
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_MECHANICS
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_PLANET_DEFINITION
-import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_PROGRESS_INDICATOR
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_LEARN_CONTENT_STELLAR_EXPLORER
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AppLogo
-import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -53,16 +50,6 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
     ) {
         item { AppLogo() }
         item { Spacer(modifier = Modifier.height(height = 32.dp)) }
-        if (storeState.loading) {
-            item {
-                DebouncedLinearProgressIndicator(
-                    modifier = Modifier
-                        .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_PROGRESS_INDICATOR)
-                        .fillMaxWidth()
-                )
-            }
-            return@LazyColumn
-        }
         if (storeState.featureStellarExplorer) {
             item {
                 Text(

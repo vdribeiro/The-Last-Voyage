@@ -75,6 +75,14 @@ internal class DesktopAudioPlayer: AudioPlayer {
         }
     }
 
+    override fun toggle() {
+        runCatching {
+            if (currentPlayer?.status == MediaPlayer.Status.PLAYING) pause() else resume()
+        }.getOrElse {
+            Logger.error(tag = TAG, message = "Error toggling media: ${it.message}")
+        }
+    }
+
     override fun stop() {
         runCatching {
             currentPlayer?.stop()

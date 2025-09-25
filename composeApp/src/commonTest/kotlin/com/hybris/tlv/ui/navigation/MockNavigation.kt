@@ -9,6 +9,6 @@ internal class MockNavigation: NavigationManager {
     override var back: () -> Unit = {}
     override fun navigate(screen: NavigationManager.Screen, stateBuilder: Any?) {}
     @Composable
-    override fun Screen(screen: NavigationManager.Screen, stateBuilder: Any?) {
+    override fun Screen(state: NavigationManager.State) {
     }
 }

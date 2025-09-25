@@ -39,7 +39,7 @@ internal class EventStore(
     private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on setup()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 
@@ -51,7 +51,7 @@ internal class EventStore(
         // There must be at least 1 event with no parentId, this is the parent event
         val parentEvent = eventChain.find { it.parentId == null }
         if (parentEvent == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing parent event on setup()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing parent event on setup()"))
             return@launch
         }
         val childrenEvents = eventChain.filter { it.parentId == parentEvent.id }.ifEmpty {
@@ -80,7 +80,7 @@ internal class EventStore(
 
         val gameSession = this@EventStore.gameSession
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on select()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on select()"))
             return@launch
         }
 

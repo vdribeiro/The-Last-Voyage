@@ -21,8 +21,6 @@ internal data class Configs(
     val formula: String = "https://github.com/vdribeiro/The-Last-Voyage/tree/main/composeApp/src/commonMain/kotlin/com/hybris/tlv/usecase/space/formula",
 
     // Feature flags
-    val featureMusic: Boolean = true,
-    val featureFeedback: Boolean = true,
     val featureSoon: Boolean = true,
     val featureLearn: Boolean = true,
     val featureScores: Boolean = true,

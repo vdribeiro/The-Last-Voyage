@@ -21,8 +21,6 @@ internal class MainMenuStore(
     navigation = navigation,
     initialState = MainMenuState(
         loading = true,
-        featureMusic = config.localConfigs.featureMusic,
-        featureFeedback = config.localConfigs.featureFeedback,
         featureSoon = config.localConfigs.featureSoon,
         featureLearn = config.localConfigs.featureLearn,
         featureScores = config.localConfigs.featureScores,
@@ -67,8 +65,6 @@ internal class MainMenuStore(
 
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
-            MainMenuAction.Music -> {} // TODO
-            MainMenuAction.Feedback -> navigate(screen = Screen.FEEDBACK)
             MainMenuAction.NewGame -> navigate(screen = Screen.NEW_GAME)
             MainMenuAction.Continue -> navigate(screen = Screen.GAME)
             MainMenuAction.Learn -> updateState { it.copy(currentContent = Content.LEARN_MENU) }

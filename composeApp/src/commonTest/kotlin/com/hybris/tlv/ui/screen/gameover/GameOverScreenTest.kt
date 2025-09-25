@@ -31,7 +31,6 @@ internal class GameOverScreenTest {
         }
 
         onNodeWithTag(testTag = GAME_OVER_SCREEN).assertExists()
-        onNodeWithTag(testTag = GAME_OVER_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
         onNodeWithTag(testTag = GAME_OVER_SCREEN_COLUMN).assertDoesNotExist()
         onNodeWithTag(testTag = GAME_OVER_SCREEN_CONTENT).assertDoesNotExist()
         onNodeWithTag(testTag = GAME_OVER_SCREEN_TITLE).assertDoesNotExist()
@@ -51,7 +50,6 @@ internal class GameOverScreenTest {
         }
 
         onNodeWithTag(testTag = GAME_OVER_SCREEN).assertExists()
-        onNodeWithTag(testTag = GAME_OVER_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
         onNodeWithTag(testTag = GAME_OVER_SCREEN_COLUMN).assertExists()
         onNodeWithTag(testTag = GAME_OVER_SCREEN_CONTENT).assertExists()
         onNodeWithTag(testTag = GAME_OVER_SCREEN_TITLE).assertExists()

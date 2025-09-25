@@ -49,6 +49,12 @@ internal class AndroidAudioPlayer(context: Context): AudioPlayer {
         Logger.error(tag = TAG, message = "Error pausing media: ${it.message}")
     }
 
+    override fun toggle() = runCatching {
+        if (player.isPlaying) pause() else resume()
+    }.getOrElse {
+        Logger.error(tag = TAG, message = "Error toggling media: ${it.message}")
+    }
+
     override fun stop() = runCatching { player.stop() }.getOrElse {
         Logger.error(tag = TAG, message = "Error stopping media: ${it.message}")
     }

@@ -280,7 +280,7 @@ internal class StellarExplorerStore(
             Content.LIST_HOSTS,
             Content.LIST_PLANETS -> navigate(
                 screen = Screen.MAIN_MENU,
-                state = MainMenuStateBuilder(currentContent = MainMenuContent.LEARN_MENU)
+                stateBuilder = MainMenuStateBuilder(currentContent = MainMenuContent.LEARN_MENU)
             )
 
             Content.DETAIL_HOSTS -> launch {

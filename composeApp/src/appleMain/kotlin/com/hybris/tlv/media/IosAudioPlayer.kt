@@ -9,6 +9,7 @@ import platform.AVFoundation.AVPlayerItem
 import platform.AVFoundation.AVPlayerItemDidPlayToEndTimeNotification
 import platform.AVFoundation.pause
 import platform.AVFoundation.play
+import platform.AVFoundation.rate
 import platform.Foundation.NSBundle
 import platform.Foundation.NSNotificationCenter
 import platform.Foundation.NSOperationQueue
@@ -92,6 +93,14 @@ internal class IosAudioPlayer: AudioPlayer {
             player?.pause()
         }.getOrElse {
             Logger.error(tag = TAG, message = "Error pausing media: ${it.message}")
+        }
+    }
+
+    override fun toggle() {
+        runCatching {
+            if ((player?.rate ?: 0.0f) != 0.0f) pause() else resume()
+        }.getOrElse {
+            Logger.error(tag = TAG, message = "Error toggling media: ${it.message}")
         }
     }
 

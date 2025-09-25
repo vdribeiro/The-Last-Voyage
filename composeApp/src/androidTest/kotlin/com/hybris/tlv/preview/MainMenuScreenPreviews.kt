@@ -25,8 +25,6 @@ private fun MainMenuLoading() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = true,
-                    featureMusic = true,
-                    featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
@@ -57,8 +55,6 @@ private fun MainMenuAll() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
-                    featureMusic = true,
-                    featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
@@ -89,8 +85,6 @@ private fun MainMenuContinue() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
-                    featureMusic = true,
-                    featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
@@ -112,38 +106,6 @@ private fun MainMenuContinue() {
 
 @Preview
 @Composable
-private fun MainMenuNoMusicAndFeedbackAndSoon() {
-    TranslationCache.set(translations = translations)
-    AppTheme {
-        MainMenuScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                initialState = MainMenuState(
-                    loading = false,
-                    featureMusic = false,
-                    featureFeedback = false,
-                    featureSoon = false,
-                    featureLearn = true,
-                    featureScores = true,
-                    featureAchievements = true,
-                    featureStellarExplorer = true,
-                    featureNewGame = true,
-                    featureTutorial = true,
-                    developerCorner = "Developer Corner",
-                    support = "Support",
-                    formula = "Formula",
-                    currentContent = Content.MAIN_MENU,
-                    ongoingGameSession = false,
-                    learningsMap = emptyMap()
-                )
-            )
-        )
-    }
-}
-
-@Preview
-@Composable
 private fun MainMenuNoFeatures() {
     TranslationCache.set(translations = translations)
     AppTheme {
@@ -153,8 +115,6 @@ private fun MainMenuNoFeatures() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
-                    featureMusic = true,
-                    featureFeedback = true,
                     featureSoon = true,
                     featureLearn = false,
                     featureScores = false,
@@ -185,8 +145,6 @@ private fun MainMenuLearn() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
-                    featureMusic = true,
-                    featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
@@ -217,8 +175,6 @@ private fun MainMenuHostDefinition() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
-                    featureMusic = true,
-                    featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
@@ -268,8 +224,6 @@ private fun MainMenuPlanetDefinition() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
-                    featureMusic = true,
-                    featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
@@ -319,8 +273,6 @@ private fun MainMenuHabitability() {
                 navigation = MockNavigation(),
                 initialState = MainMenuState(
                     loading = false,
-                    featureMusic = true,
-                    featureFeedback = true,
                     featureSoon = true,
                     featureLearn = true,
                     featureScores = true,

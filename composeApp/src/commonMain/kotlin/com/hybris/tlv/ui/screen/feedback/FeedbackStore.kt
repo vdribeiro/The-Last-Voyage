@@ -3,7 +3,6 @@ package com.hybris.tlv.ui.screen.feedback
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -29,7 +28,7 @@ internal class FeedbackStore(
         if (tag != null && message != null) Logger.error(tag = tag, message = message)
     }
 
-    private fun sendFeedback(message: String): Job = launch {
+    private fun sendFeedback(state: FeedbackState, message: String): Job = launch {
         // Construct the feedback message with all the components
         val feedback = buildList {
             stateBuilder.tag?.let { add(element = "Identifier: $it") }
@@ -39,16 +38,17 @@ internal class FeedbackStore(
         // TODO: Send feedback to server
         println(feedback)
         delay(timeMillis = 2000L)
-        navigate(screen = Screen.MAIN_MENU)
+        back(state = state).invoke()
     }
 
     override fun back(state: FeedbackState): () -> Unit = {
-        navigate(screen = Screen.MAIN_MENU)
+        val state = stateBuilder.navigationState
+        navigate(screen = state.screen, stateBuilder = state.stateBuilder)
     }
 
     override fun reducer(state: FeedbackState, action: FeedbackAction) {
         when (action) {
-            is FeedbackAction.SendFeedback -> sendFeedback(message = action.message)
+            is FeedbackAction.SendFeedback -> sendFeedback(state = state, message = action.message)
         }
     }
 }

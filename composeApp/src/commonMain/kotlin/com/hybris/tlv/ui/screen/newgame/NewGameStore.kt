@@ -44,7 +44,7 @@ internal class NewGameStore(
     private fun setup(): Job = launch {
         val selectedCatastrophe = catastropheUseCases.getRandomCatastrophe()
         if (selectedCatastrophe == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing catastrophe on setup()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing catastrophe on setup()"))
             return@launch
         }
         updateState {
@@ -58,7 +58,7 @@ internal class NewGameStore(
     private fun startGame(state: NewGameState) = launch {
         val selectedShip = selectedShip
         if (selectedShip == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing ship prototype on startGame()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing ship prototype on startGame()"))
             return@launch
         }
 

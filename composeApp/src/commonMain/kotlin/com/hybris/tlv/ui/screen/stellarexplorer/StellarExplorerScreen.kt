@@ -1,25 +1,21 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import com.hybris.tlv.ui.screen.stellarexplorer.content.PlanetContent
 import com.hybris.tlv.ui.screen.stellarexplorer.content.StellarHostContent
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.ControlPanel
-import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
+import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -149,8 +145,13 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
         }
     }
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
+    Screen(
+        modifier = Modifier
+            .testTag(tag = STELLAR_EXPLORER_SCREEN),
+        loading = storeState.loading,
+        playlist = store.playlist,
+        onMusicClick = { store.music(player = it) },
+        onFeedbackClick = { store.feedback() },
         topBar = {
             ControlPanel(
                 modifier = Modifier.statusBarsPadding(),
@@ -172,19 +173,10 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
                 onFiltersChange = onFiltersChange,
             )
         }
-    ) { innerPadding ->
-        Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            when {
-                storeState.loading -> DebouncedLinearProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-
-                else -> when (storeState.currentContent) {
-                    Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostContent(store = store)
-                    Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetContent(store = store)
-                }
-            }
+    ) {
+        when (storeState.currentContent) {
+            Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostContent(store = store)
+            Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetContent(store = store)
         }
     }
 }

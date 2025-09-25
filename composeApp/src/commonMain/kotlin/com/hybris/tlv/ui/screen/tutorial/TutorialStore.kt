@@ -21,7 +21,7 @@ internal class TutorialStore(
     override fun back(state: TutorialState): () -> Unit = {
         navigate(
             screen = Screen.MAIN_MENU,
-            state = MainMenuStateBuilder(currentContent = MainMenuContent.LEARN_MENU)
+            stateBuilder = MainMenuStateBuilder(currentContent = MainMenuContent.LEARN_MENU)
         )
     }
 

@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.tutorial
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,13 +15,11 @@ import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
@@ -30,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.ui.theme.component.StatusBar
 import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.usecase.ship.model.Ship
@@ -57,10 +55,12 @@ internal fun TutorialScreen(store: Store<TutorialAction, TutorialState>) {
 
     val typography = LocalTypography.current
 
-    Scaffold(
+    Screen(
         modifier = Modifier
-            .testTag(tag = TUTORIAL_SCREEN)
-            .fillMaxSize(),
+            .testTag(tag = TUTORIAL_SCREEN),
+        playlist = store.playlist,
+        onMusicClick = { store.music(player = it) },
+        onFeedbackClick = { store.feedback() },
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
@@ -105,13 +105,11 @@ internal fun TutorialScreen(store: Store<TutorialAction, TutorialState>) {
                 )
             }
         }
-    ) { innerPadding ->
+    ) {
         Box(
-            modifier = Modifier
-                .testTag(tag = TUTORIAL_SCREEN_CONTENT)
+            modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_CONTENT)
                 .debouncedClickable(rippleEffect = false) { store.send(action = TutorialAction.Next) }
                 .semantics(mergeDescendants = false) {}
-                .padding(paddingValues = innerPadding)
         ) {
             val title: String
             val description: String

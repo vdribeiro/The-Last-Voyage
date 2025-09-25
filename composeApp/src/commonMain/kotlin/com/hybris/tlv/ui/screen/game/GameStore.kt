@@ -4,7 +4,6 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
-import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
@@ -12,7 +11,6 @@ import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import kotlinx.coroutines.Job
-import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
 internal class GameStore(
     dispatcher: Dispatcher,
@@ -40,7 +38,7 @@ internal class GameStore(
     private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on setup()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 
@@ -67,7 +65,7 @@ internal class GameStore(
             }
         }
         if (currentStellarHost == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing stellar host on setup()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing stellar host on setup()"))
             return@launch
         }
 
@@ -109,13 +107,13 @@ internal class GameStore(
     private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
         val gameSession = gameSession
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on travel()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on travel()"))
             return@launch
         }
 
         val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }
         if (stellarHost == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing stellar host on travel()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing stellar host on travel()"))
             return@launch
         }
 
@@ -123,10 +121,10 @@ internal class GameStore(
         navigate(screen = Screen.EVENT)
     }
 
-    private fun settle(state: GameState, action: GameAction.Settle): Job = launch {
+    private fun settle(action: GameAction.Settle): Job = launch {
         val gameSession = gameSession
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on settle()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on settle()"))
             return@launch
         }
 
@@ -135,17 +133,14 @@ internal class GameStore(
     }
 
     override fun back(state: GameState): () -> Unit = {
-        navigate(
-            screen = Screen.MAIN_MENU,
-            state = MainMenuStateBuilder(currentContent = MainMenuContent.LEARN_MENU)
-        )
+        navigate(screen = Screen.MAIN_MENU)
     }
 
     override fun reducer(state: GameState, action: GameAction) {
         when (action) {
             is GameAction.ChangeTab -> updateState { it.copy(currentContent = action.content) }
             is GameAction.Travel -> travel(state = state, action = action)
-            is GameAction.Settle -> settle(state = state, action = action)
+            is GameAction.Settle -> settle(action = action)
         }
     }
 

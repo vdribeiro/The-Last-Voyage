@@ -2,8 +2,11 @@ package com.hybris.tlv.ui.store
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
+import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.media.getTracks
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,6 +35,11 @@ internal open class Store<Action, State>(
      */
     private val jobs = mutableListOf<Job>()
 
+    /**
+     * The playlist to be played by the music player.
+     */
+    val playlist: Array<String> = getTracks(screen = navigation.stateFlow.value.screen)
+
     init {
         navigation.back = { back(state = _stateFlow.value).invoke() }
     }
@@ -42,12 +50,12 @@ internal open class Store<Action, State>(
     protected open fun back(state: State): () -> Unit = {}
 
     /**
-     * Clean up the store and navigate to a new [screen] given an optional [state].
+     * Clean up the store and navigate to a new [screen] given an optional [stateBuilder].
      */
-    protected fun navigate(screen: Screen, state: Any? = null) {
+    protected fun navigate(screen: Screen, stateBuilder: Any? = null) {
         navigation.back = {}
         jobs.forEach { it.cancel() }
-        navigation.navigate(screen = screen, stateBuilder = state)
+        navigation.navigate(screen = screen, stateBuilder = stateBuilder)
     }
 
     /**
@@ -72,4 +80,19 @@ internal open class Store<Action, State>(
      */
     protected fun launch(block: suspend CoroutineScope.() -> Unit): Job =
         dispatcher.io.launch { block() }.also { jobs.add(element = it) }
+
+    /**
+     * Navigate to feedback screen.
+     */
+    fun feedback() = navigate(
+        screen = Screen.FEEDBACK,
+        stateBuilder = FeedbackStateBuilder(navigationState = navigation.stateFlow.value)
+    )
+
+    /**
+     * Toggle music player.
+     */
+    fun music(player: AudioPlayer) {
+        player.toggle()
+    }
 }

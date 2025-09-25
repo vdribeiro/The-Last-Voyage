@@ -33,7 +33,6 @@ internal class AchievementScreenTest {
         waitForIdle()
 
         onNodeWithTag(testTag = ACHIEVEMENT_SCREEN).assertExists()
-        onNodeWithTag(testTag = ACHIEVEMENT_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
         onNodeWithTag(testTag = ACHIEVEMENT_SCREEN_LIST).assertExists()
         onNodeWithTag(testTag = ACHIEVEMENT_SCREEN_LIST_ITEM).assertDoesNotExist()
     }
@@ -50,7 +49,6 @@ internal class AchievementScreenTest {
         waitForIdle()
 
         onNodeWithTag(testTag = ACHIEVEMENT_SCREEN).assertExists()
-        onNodeWithTag(testTag = ACHIEVEMENT_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
         onNodeWithTag(testTag = ACHIEVEMENT_SCREEN_LIST).assertExists()
         onAllNodesWithTag(testTag = ACHIEVEMENT_SCREEN_LIST_ITEM)
             .assertCountEquals(expectedSize = achievements.size)

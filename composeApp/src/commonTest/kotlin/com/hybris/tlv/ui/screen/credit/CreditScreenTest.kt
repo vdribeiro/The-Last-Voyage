@@ -42,7 +42,6 @@ internal class CreditScreenTest {
         waitForIdle()
 
         onNodeWithTag(testTag = CREDIT_SCREEN).assertExists()
-        onNodeWithTag(testTag = CREDIT_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
         onNodeWithTag(testTag = CREDIT_SCREEN_LIST).assertExists()
         onNodeWithTag(testTag = CREDIT_SCREEN_LIST_CREATOR).assertDoesNotExist()
         onNodeWithTag(testTag = CREDIT_SCREEN_LIST_CREATOR_ITEM).assertDoesNotExist()
@@ -81,7 +80,6 @@ internal class CreditScreenTest {
         val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
 
         onNodeWithTag(testTag = CREDIT_SCREEN).assertExists()
-        onNodeWithTag(testTag = CREDIT_SCREEN_PROGRESS_INDICATOR).assertDoesNotExist()
         onNodeWithTag(testTag = CREDIT_SCREEN_LIST).assertExists()
 
         onNodeWithTag(testTag = CREDIT_SCREEN_LIST_CREATOR).performScrollTo().assertExists().assertTextEquals("credit_screen__creators")

@@ -1,9 +1,5 @@
 package com.hybris.tlv.ui.screen.game
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Hub
@@ -12,7 +8,6 @@ import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,7 +19,7 @@ import com.hybris.tlv.ui.screen.game.content.ShipContent
 import com.hybris.tlv.ui.screen.game.content.SystemContent
 import com.hybris.tlv.ui.screen.game.content.TravelContent
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
+import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.ui.theme.component.StatusBar
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -50,10 +45,12 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     val systemTranslation = remember { getTranslation(key = "game_screen__system") }
     val shipTranslation = remember { getTranslation(key = "game_screen__ship") }
 
-    Scaffold(
-        modifier = Modifier
-            .testTag(tag = GAME_SCREEN)
-            .fillMaxSize(),
+    Screen(
+        modifier = Modifier.testTag(tag = GAME_SCREEN),
+        loading = storeState.loading,
+        playlist = store.playlist,
+        onMusicClick = { store.music(player = it) },
+        onFeedbackClick = { store.feedback() },
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
@@ -98,21 +95,11 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
                 )
             }
         }
-    ) { innerPadding ->
-        Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            when (storeState.loading) {
-                true -> DebouncedLinearProgressIndicator(
-                    modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_PROGRESS_INDICATOR)
-                        .fillMaxWidth()
-                )
-
-                false -> when (storeState.currentContent) {
-                    Content.SHIP -> ShipContent(store = store)
-                    Content.SYSTEM -> SystemContent(store = store)
-                    Content.TRAVEL -> TravelContent(store = store)
-                }
-            }
+    ) {
+        when (storeState.currentContent) {
+            Content.SHIP -> ShipContent(store = store)
+            Content.SYSTEM -> SystemContent(store = store)
+            Content.TRAVEL -> TravelContent(store = store)
         }
     }
 }

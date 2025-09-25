@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.gameover
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,8 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.DebouncedLinearProgressIndicator
 import com.hybris.tlv.ui.theme.component.Score
+import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.ui.theme.component.TypewriterText
 import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -40,84 +38,76 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
 
     val typography = LocalTypography.current
 
-    Scaffold(
-        modifier = Modifier
-            .testTag(tag = GAME_OVER_SCREEN)
-            .fillMaxSize()
-    ) { innerPadding ->
-        Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
-            when (storeState.loading) {
-                true -> DebouncedLinearProgressIndicator(
+    Screen(
+        modifier = Modifier.testTag(tag = GAME_OVER_SCREEN),
+        loading = storeState.loading,
+        playlist = store.playlist,
+        onMusicClick = { store.music(player = it) },
+        onFeedbackClick = { store.feedback() },
+    ) {
+        Column(
+            modifier = Modifier
+                .testTag(tag = GAME_OVER_SCREEN_COLUMN)
+                .fillMaxSize()
+                .padding(all = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Column(
+                modifier = Modifier
+                    .testTag(tag = GAME_OVER_SCREEN_CONTENT)
+                    .weight(weight = 1f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
                     modifier = Modifier
-                        .testTag(tag = GAME_OVER_SCREEN_PROGRESS_INDICATOR)
-                        .fillMaxWidth()
+                        .testTag(tag = GAME_OVER_SCREEN_TITLE),
+                    text = gameOverTranslation,
+                    style = typography.titleLarge,
+                    fontWeight = FontWeight.Bold
                 )
-
-                false -> Column(
-                    modifier = Modifier
-                        .testTag(tag = GAME_OVER_SCREEN_COLUMN)
-                        .fillMaxSize()
-                        .padding(all = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Column(
+                Spacer(modifier = Modifier.height(height = 16.dp))
+                when (storeState.currentContent) {
+                    // Game over message
+                    Content.MESSAGE -> TypewriterText(
                         modifier = Modifier
-                            .testTag(tag = GAME_OVER_SCREEN_CONTENT)
-                            .weight(weight = 1f),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Text(
-                            modifier = Modifier
-                                .testTag(tag = GAME_OVER_SCREEN_TITLE),
-                            text = gameOverTranslation,
-                            style = typography.titleLarge,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Spacer(modifier = Modifier.height(height = 16.dp))
-                        when (storeState.currentContent) {
-                            // Game over message
-                            Content.MESSAGE -> TypewriterText(
-                                modifier = Modifier
-                                    .testTag(tag = GAME_OVER_SCREEN_MESSAGE)
-                                    .weight(weight = 1f)
-                                    .fillMaxWidth(),
-                                text = getTranslation(key = storeState.gameOver?.displayName.orEmpty())
-                            )
+                            .testTag(tag = GAME_OVER_SCREEN_MESSAGE)
+                            .weight(weight = 1f)
+                            .fillMaxWidth(),
+                        text = getTranslation(key = storeState.gameOver?.displayName.orEmpty())
+                    )
 
-                            // Score
-                            Content.SCORE -> if (gameSession != null && ship != null) Score(
-                                modifier = Modifier
-                                    .testTag(tag = GAME_OVER_SCREEN_SCORE),
-                                isExpanded = null,
-                                score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
-                                utc = gameSession.utc,
-                                yearsTraveled = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
-                                sensorRange = ship.sensorRange.toString(),
-                                integrity = ship.integrity.toString(),
-                                materials = ship.materials.toString(),
-                                fuel = ship.fuel.toString(),
-                                cryopods = ship.cryopods.toString()
-                            )
-                        }
-                    }
-
-                    // Continue button
-                    Button(
+                    // Score
+                    Content.SCORE -> if (gameSession != null && ship != null) Score(
                         modifier = Modifier
-                            .testTag(tag = GAME_OVER_SCREEN_BUTTON)
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-                        onClick = { store.send(action = GameOverAction.Continue) }
-                    ) {
-                        Text(
-                            text = when (storeState.currentContent) {
-                                Content.MESSAGE -> messageTranslation
-                                Content.SCORE -> scoreTranslation
-                            }
-                        )
-                    }
+                            .testTag(tag = GAME_OVER_SCREEN_SCORE),
+                        isExpanded = null,
+                        score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
+                        utc = gameSession.utc,
+                        yearsTraveled = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
+                        sensorRange = ship.sensorRange.toString(),
+                        integrity = ship.integrity.toString(),
+                        materials = ship.materials.toString(),
+                        fuel = ship.fuel.toString(),
+                        cryopods = ship.cryopods.toString()
+                    )
                 }
+            }
+
+            // Continue button
+            Button(
+                modifier = Modifier
+                    .testTag(tag = GAME_OVER_SCREEN_BUTTON)
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                colors = ButtonDefaults.buttonColors(contentColor = Color.White),
+                onClick = { store.send(action = GameOverAction.Continue) }
+            ) {
+                Text(
+                    text = when (storeState.currentContent) {
+                        Content.MESSAGE -> messageTranslation
+                        Content.SCORE -> scoreTranslation
+                    }
+                )
             }
         }
     }
