@@ -18,7 +18,7 @@ internal class MainMenuStore(
     stateBuilder: MainMenuStateBuilder,
     private val gameSessionUseCases: GameSessionUseCases,
     private val learningUseCases: LearningUseCases
-): Store<MainMenuAction, MainMenuState>(
+): Store<MainMenuState, MainMenuAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,

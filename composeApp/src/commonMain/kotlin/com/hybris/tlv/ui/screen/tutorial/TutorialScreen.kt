@@ -35,7 +35,7 @@ import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun TutorialScreen(store: Store<TutorialAction, TutorialState>) {
+internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
     val storeState by store.stateFlow.collectAsState()
     val ship = remember {
         Ship(

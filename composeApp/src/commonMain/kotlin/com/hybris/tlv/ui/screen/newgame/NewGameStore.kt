@@ -20,7 +20,7 @@ internal class NewGameStore(
     audioPlayer: AudioPlayer,
     private val catastropheUseCases: CatastropheUseCases,
     private val gameSessionUseCases: GameSessionUseCases
-): Store<NewGameAction, NewGameState>(
+): Store<NewGameState, NewGameAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,

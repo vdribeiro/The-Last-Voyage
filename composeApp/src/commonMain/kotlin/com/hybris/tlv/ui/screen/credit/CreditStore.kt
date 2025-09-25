@@ -13,7 +13,7 @@ internal class CreditStore(
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     private val creditUseCases: CreditUseCases
-): Store<CreditAction, CreditState>(
+): Store<CreditState, CreditAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,

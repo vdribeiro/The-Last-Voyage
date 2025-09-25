@@ -19,7 +19,7 @@ internal class EventStore(
     audioPlayer: AudioPlayer,
     private val eventUseCases: EventUseCases,
     private val gameSessionUseCases: GameSessionUseCases
-): Store<EventAction, EventState>(
+): Store<EventState, EventAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,

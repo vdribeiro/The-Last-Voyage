@@ -28,7 +28,7 @@ import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
+internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
     val storeState by store.stateFlow.collectAsState()
     val gameSession = storeState.gameSession
     val ship = gameSession?.ship

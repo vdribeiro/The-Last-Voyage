@@ -90,9 +90,4 @@ internal class GameScreenTest {
         onNodeWithTag(testTag = GAME_SCREEN_TRAVEL_CONTENT).assertExists()
         onAllNodesWithTag(testTag = GAME_SCREEN_TRAVEL_CONTENT_STELLAR_HOST).onLast().assertIsDisplayed()
     }
-
-    @Test
-    fun gameTutorial() = runComposeUiTest {
-        // TODO
-    }
 }

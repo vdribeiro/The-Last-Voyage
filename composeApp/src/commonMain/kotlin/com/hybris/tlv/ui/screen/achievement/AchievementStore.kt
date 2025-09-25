@@ -13,7 +13,7 @@ internal class AchievementStore(
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     private val achievementUseCases: AchievementUseCases
-): Store<AchievementAction, AchievementState>(
+): Store<AchievementState, AchievementAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,

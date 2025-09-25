@@ -12,7 +12,7 @@ internal class TutorialStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer
-): Store<TutorialAction, TutorialState>(
+): Store<TutorialState, TutorialAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,

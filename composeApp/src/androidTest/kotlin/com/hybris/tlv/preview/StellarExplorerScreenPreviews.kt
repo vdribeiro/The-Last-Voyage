@@ -2,19 +2,16 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.flow.TestDispatchers
+import com.hybris.tlv.getStore
 import com.hybris.tlv.hostsWithPlanets
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.planets
 import com.hybris.tlv.translations
-import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.stellarexplorer.Content
 import com.hybris.tlv.ui.screen.stellarexplorer.LazyListIndex
 import com.hybris.tlv.ui.screen.stellarexplorer.PlanetProperty
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerScreen
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarHostProperty
-import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.translation.TranslationCache
 
@@ -24,10 +21,7 @@ private fun StellarExplorerLoading() {
     TranslationCache.set(translations = translations)
     AppTheme {
         StellarExplorerScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = StellarExplorerState(
                     loading = true,
                     currentContent = Content.LIST_HOSTS,
@@ -58,10 +52,7 @@ private fun StellarExplorerHostList() {
     TranslationCache.set(translations = translations)
     AppTheme {
         StellarExplorerScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.LIST_HOSTS,
@@ -92,10 +83,7 @@ private fun StellarExplorerHostDetail() {
     TranslationCache.set(translations = translations)
     AppTheme {
         StellarExplorerScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.DETAIL_HOSTS,
@@ -126,10 +114,7 @@ private fun StellarExplorerSearchHosts() {
     TranslationCache.set(translations = translations)
     AppTheme {
         StellarExplorerScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.LIST_HOSTS,
@@ -160,10 +145,7 @@ private fun StellarExplorerPlanetList() {
     TranslationCache.set(translations = translations)
     AppTheme {
         StellarExplorerScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.LIST_PLANETS,
@@ -194,10 +176,7 @@ private fun StellarExplorerPlanetDetail() {
     TranslationCache.set(translations = translations)
     AppTheme {
         StellarExplorerScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.DETAIL_PLANETS,
@@ -228,10 +207,7 @@ private fun StellarExplorerSearchPlanet() {
     TranslationCache.set(translations = translations)
     AppTheme {
         StellarExplorerScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = StellarExplorerState(
                     loading = false,
                     currentContent = Content.LIST_PLANETS,

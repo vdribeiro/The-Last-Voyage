@@ -32,12 +32,12 @@ internal fun Screen(
         modifier = modifier.fillMaxSize(),
         topBar = {
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .statusBarsPadding(),
             ) {
                 Row(
-                    modifier = modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     // Sound button

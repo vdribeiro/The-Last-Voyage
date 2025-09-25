@@ -30,7 +30,7 @@ import com.hybris.tlv.ui.theme.component.AppLogo
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
+internal fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
     val newGameTranslation = remember { getTranslation(key = "main_menu_screen__new_game") }
     val continueTranslation = remember { getTranslation(key = "main_menu_screen__continue") }

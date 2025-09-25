@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.update
  * After it receives the result from the Use Case, it combines it with the current [State], and emits a new [State].
  * A key rule is that the UI only observes the Store's [State] and never modifies it directly.
  */
-internal open class Store<Action, State>(
+internal open class Store<State, Action>(
     private val dispatcher: Dispatcher,
     private val navigation: NavigationManager,
     private val audioPlayer: AudioPlayer,

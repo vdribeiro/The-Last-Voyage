@@ -26,7 +26,7 @@ import com.hybris.tlv.ui.theme.component.TypewriterText
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun StartContent(store: Store<NewGameAction, NewGameState>) {
+internal fun StartContent(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val catastrophe = storeState.selectedCatastrophe ?: return
     val startTranslation = remember { getTranslation(key = "new_game_screen__start") }

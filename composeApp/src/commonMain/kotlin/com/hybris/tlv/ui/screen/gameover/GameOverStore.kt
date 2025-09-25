@@ -15,7 +15,7 @@ internal class GameOverStore(
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     private val gameSessionUseCases: GameSessionUseCases
-): Store<GameOverAction, GameOverState>(
+): Store<GameOverState, GameOverAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,

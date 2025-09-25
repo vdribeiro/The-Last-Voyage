@@ -57,5 +57,6 @@ internal class GameOverScreenTest {
         onNodeWithTag(testTag = GAME_OVER_SCREEN_SCORE).assertDoesNotExist()
         onNodeWithTag(testTag = GAME_OVER_SCREEN_BUTTON).assertExists().performClick()
         onNodeWithTag(testTag = GAME_OVER_SCREEN_SCORE).assertExists()
+        onNodeWithTag(testTag = GAME_OVER_SCREEN_BUTTON).assertExists().performClick()
     }
 }

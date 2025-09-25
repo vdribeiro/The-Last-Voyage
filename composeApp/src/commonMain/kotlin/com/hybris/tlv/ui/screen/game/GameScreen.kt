@@ -25,7 +25,7 @@ import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun GameScreen(store: Store<GameAction, GameState>) {
+internal fun GameScreen(store: Store<GameState, GameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val defaultShip = remember {
         Ship(

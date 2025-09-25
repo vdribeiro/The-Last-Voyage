@@ -38,7 +38,7 @@ import com.hybris.tlv.usecase.space.model.Score
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun PlanetDefinitionContent(store: Store<MainMenuAction, MainMenuState>) {
+internal fun PlanetDefinitionContent(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
     val planetProperties = storeState.learningsMap[LearningType.PLANET_PROPERTY].orEmpty()
     val planets = storeState.learningsMap[LearningType.PLANET_TYPE].orEmpty()

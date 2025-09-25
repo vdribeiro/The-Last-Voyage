@@ -28,7 +28,7 @@ import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
+internal fun ScoreScreen(store: Store<ScoreState, ScoreAction>) {
     val storeState by store.stateFlow.collectAsState()
     val expandedItems = remember { mutableStateListOf<String>() }
     val titleTranslation = remember { getTranslation(key = "score_screen__title") }

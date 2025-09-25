@@ -29,7 +29,7 @@ import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.ic_launcher_background
 
 @Composable
-internal fun SplashScreen(store: Store<SplashAction, SplashState>) {
+internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     val storeState by store.stateFlow.collectAsState()
     val loadingTranslation = getTranslation(key = "splash_screen__loading")
 

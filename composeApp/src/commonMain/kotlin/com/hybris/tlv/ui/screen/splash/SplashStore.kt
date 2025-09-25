@@ -34,7 +34,7 @@ internal class SplashStore(
     private val eventUseCases: EventUseCases,
     private val achievementUseCases: AchievementUseCases,
     private val creditUseCases: CreditUseCases
-): Store<SplashAction, SplashState>(
+): Store<SplashState, SplashAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,

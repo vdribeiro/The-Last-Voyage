@@ -35,7 +35,7 @@ import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
+internal fun CreditScreen(store: Store<CreditState, CreditAction>) {
     val storeState by store.stateFlow.collectAsState()
     val uriHandler = LocalUriHandler.current
     val creatorsTranslation = remember { getTranslation(key = "credit_screen__creators") }

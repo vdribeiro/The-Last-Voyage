@@ -30,7 +30,7 @@ import com.hybris.tlv.ui.theme.component.AppLogo
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
+internal fun LearnContent(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
     val stellarExplorerTranslation = remember { getTranslation(key = "main_menu_screen__stellar_explorer") }
     val hostDefinitionTranslation = remember { getTranslation(key = "main_menu_screen__host_definition") }

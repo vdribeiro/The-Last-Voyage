@@ -26,7 +26,7 @@ import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun AdvancedContent(store: Store<NewGameAction, NewGameState>) {
+internal fun AdvancedContent(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val formula = storeState.formula
 

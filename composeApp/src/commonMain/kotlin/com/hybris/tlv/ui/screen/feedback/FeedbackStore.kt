@@ -13,7 +13,7 @@ internal class FeedbackStore(
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     private val stateBuilder: FeedbackStateBuilder,
-): Store<FeedbackAction, FeedbackState>(
+): Store<FeedbackState, FeedbackAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,

@@ -21,7 +21,7 @@ import com.hybris.tlv.ui.theme.component.StellarHostCard
 import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
 
 @Composable
-internal fun TravelContent(store: Store<GameAction, GameState>) {
+internal fun TravelContent(store: Store<GameState, GameAction>) {
     val storeState by store.stateFlow.collectAsState()
 
     LazyColumn(

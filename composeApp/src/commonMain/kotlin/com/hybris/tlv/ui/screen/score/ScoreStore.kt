@@ -14,7 +14,7 @@ internal class ScoreStore(
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     private val gameSessionUseCases: GameSessionUseCases
-): Store<ScoreAction, ScoreState>(
+): Store<ScoreState, ScoreAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,

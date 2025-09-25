@@ -29,7 +29,7 @@ import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
+internal fun NewGameContent(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val shipState = storeState.shipState
     val remainingPoints = shipState.remainingPoints

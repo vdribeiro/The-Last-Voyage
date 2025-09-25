@@ -26,7 +26,7 @@ import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
 import com.hybris.tlv.usecase.space.formula.toDrawable
 
 @Composable
-internal fun PlanetContent(store: Store<StellarExplorerAction, StellarExplorerState>) {
+internal fun PlanetContent(store: Store<StellarExplorerState, StellarExplorerAction>) {
     val storeState by store.stateFlow.collectAsState()
     val currentContent = storeState.currentContent
     val stellarHost = storeState.selectedStellarHost

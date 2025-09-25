@@ -20,7 +20,7 @@ internal class GameStore(
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
-): Store<GameAction, GameState>(
+): Store<GameState, GameAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,

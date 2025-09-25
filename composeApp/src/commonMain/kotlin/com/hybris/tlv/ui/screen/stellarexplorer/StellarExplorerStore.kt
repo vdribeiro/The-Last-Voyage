@@ -17,7 +17,7 @@ internal class StellarExplorerStore(
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     private val spaceUseCases: SpaceUseCases,
-): Store<StellarExplorerAction, StellarExplorerState>(
+): Store<StellarExplorerState, StellarExplorerAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,

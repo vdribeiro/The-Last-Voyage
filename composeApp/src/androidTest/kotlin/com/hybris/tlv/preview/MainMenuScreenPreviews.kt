@@ -1,14 +1,11 @@
 package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
-import com.hybris.tlv.flow.TestDispatchers
-import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.getStore
 import com.hybris.tlv.translations
-import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.mainmenu.Content
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuScreen
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
-import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
@@ -21,10 +18,7 @@ private fun MainMenuLoading() {
     TranslationCache.set(translations = translations)
     AppTheme {
         MainMenuScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = MainMenuState(
                     loading = true,
                     featureSoon = true,
@@ -52,10 +46,7 @@ private fun MainMenuAll() {
     TranslationCache.set(translations = translations)
     AppTheme {
         MainMenuScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,
@@ -83,10 +74,7 @@ private fun MainMenuContinue() {
     TranslationCache.set(translations = translations)
     AppTheme {
         MainMenuScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,
@@ -114,10 +102,7 @@ private fun MainMenuNoFeatures() {
     TranslationCache.set(translations = translations)
     AppTheme {
         MainMenuScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,
@@ -145,10 +130,7 @@ private fun MainMenuLearn() {
     TranslationCache.set(translations = translations)
     AppTheme {
         MainMenuScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,
@@ -176,10 +158,7 @@ private fun MainMenuHostDefinition() {
     TranslationCache.set(translations = translations)
     AppTheme {
         MainMenuScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,
@@ -226,10 +205,7 @@ private fun MainMenuPlanetDefinition() {
     TranslationCache.set(translations = translations)
     AppTheme {
         MainMenuScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,
@@ -276,10 +252,7 @@ private fun MainMenuHabitability() {
     TranslationCache.set(translations = translations)
     AppTheme {
         MainMenuScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = MainMenuState(
                     loading = false,
                     featureSoon = true,

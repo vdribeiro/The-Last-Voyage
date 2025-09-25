@@ -30,7 +30,7 @@ import com.hybris.tlv.ui.theme.component.TypewriterText
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun EventScreen(store: Store<EventAction, EventState>) {
+internal fun EventScreen(store: Store<EventState, EventAction>) {
     val storeState by store.stateFlow.collectAsState()
     val event = storeState.parentEvent
     val children = storeState.childrenEvents

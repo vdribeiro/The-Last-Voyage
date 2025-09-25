@@ -2,15 +2,12 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.gameSessionFinished
-import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.getStore
 import com.hybris.tlv.translations
-import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.screen.gameover.Content
 import com.hybris.tlv.ui.screen.gameover.GameOverScreen
 import com.hybris.tlv.ui.screen.gameover.GameOverState
-import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.translation.TranslationCache
@@ -21,10 +18,7 @@ private fun GameOverLoading() {
     TranslationCache.set(translations = translations)
     AppTheme {
         GameOverScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = GameOverState(
                     loading = true,
                     currentContent = Content.MESSAGE,
@@ -42,10 +36,7 @@ private fun GameOverMessage() {
     TranslationCache.set(translations = translations)
     AppTheme {
         GameOverScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = GameOverState(
                     loading = false,
                     currentContent = Content.MESSAGE,
@@ -63,10 +54,7 @@ private fun GameOverScore() {
     TranslationCache.set(translations = translations)
     AppTheme {
         GameOverScreen(
-            store = Store(
-                dispatcher = TestDispatchers(),
-                navigation = MockNavigation(),
-                audioPlayer = AudioPlayer(),
+            store = getStore(
                 initialState = GameOverState(
                     loading = false,
                     currentContent = Content.SCORE,

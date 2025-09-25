@@ -25,7 +25,7 @@ import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
 import com.hybris.tlv.usecase.space.formula.toDrawable
 
 @Composable
-internal fun SystemContent(store: Store<GameAction, GameState>) {
+internal fun SystemContent(store: Store<GameState, GameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val stellarHost = storeState.currentStellarHost ?: return
 

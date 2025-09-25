@@ -19,7 +19,7 @@ import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarExplorerState>) {
+internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExplorerAction>) {
     val storeState by store.stateFlow.collectAsState()
     val stellarHostProperties = remember { StellarHostProperty.entries.associateWith { getTranslation(key = it.displayName) } }
     val planetProperties = remember { PlanetProperty.entries.associateWith { getTranslation(key = it.displayName) } }

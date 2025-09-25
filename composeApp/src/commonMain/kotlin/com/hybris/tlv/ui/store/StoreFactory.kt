@@ -17,8 +17,6 @@ import com.hybris.tlv.ui.screen.newgame.NewGameStore
 import com.hybris.tlv.ui.screen.score.ScoreStore
 import com.hybris.tlv.ui.screen.splash.SplashStore
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
-import com.hybris.tlv.ui.screen.tutorial.TutorialAction
-import com.hybris.tlv.ui.screen.tutorial.TutorialState
 import com.hybris.tlv.ui.screen.tutorial.TutorialStore
 import com.hybris.tlv.usecase.UseCases
 
@@ -80,7 +78,7 @@ internal class StoreFactory(
         )
     }
 
-    fun createTutorialStore(): Store<TutorialAction, TutorialState> {
+    fun createTutorialStore(): TutorialStore {
         return TutorialStore(
             dispatcher = dispatcher,
             navigation = navigation,

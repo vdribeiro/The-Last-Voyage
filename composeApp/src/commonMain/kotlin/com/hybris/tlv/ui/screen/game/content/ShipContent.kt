@@ -35,7 +35,7 @@ import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun ShipContent(store: Store<GameAction, GameState>) {
+internal fun ShipContent(store: Store<GameState, GameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val ship = storeState.ship ?: return
     val yearsTraveledTranslation = remember { getTranslation(key = "ship_years_traveled") }

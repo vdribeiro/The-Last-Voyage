@@ -15,7 +15,7 @@ import com.hybris.tlv.ui.theme.component.BottomBar
 import com.hybris.tlv.ui.theme.component.Screen
 
 @Composable
-internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
+internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
     val currentContent = storeState.currentContent
     val isMenu = currentContent == Content.MAIN_MENU || currentContent == Content.LEARN_MENU
