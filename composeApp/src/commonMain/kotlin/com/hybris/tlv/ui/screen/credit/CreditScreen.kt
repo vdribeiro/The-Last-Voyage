@@ -49,8 +49,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
     Screen(
         modifier = Modifier.testTag(tag = CREDIT_SCREEN),
         loading = storeState.loading,
-        playlist = store.playlist,
-        onMusicClick = { store.music(player = it) },
+        onMusicClick = { store.music() },
         onFeedbackClick = { store.feedback() },
     ) {
         LazyColumn(

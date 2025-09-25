@@ -39,8 +39,7 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
         modifier = Modifier
             .testTag(tag = SCORE_SCREEN),
         loading = storeState.loading,
-        playlist = store.playlist,
-        onMusicClick = { store.music(player = it) },
+        onMusicClick = { store.music() },
         onFeedbackClick = { store.feedback() },
     ) {
         Column(

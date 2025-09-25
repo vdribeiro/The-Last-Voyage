@@ -19,8 +19,7 @@ internal fun NewGameScreen(store: Store<NewGameAction, NewGameState>) {
         modifier = Modifier
             .testTag(tag = NEW_GAME_SCREEN),
         loading = storeState.loading,
-        playlist = store.playlist,
-        onMusicClick = { store.music(player = it) },
+        onMusicClick = { store.music() },
         onFeedbackClick = { store.feedback() },
     ) {
         when (storeState.currentContent) {

@@ -23,8 +23,7 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
     Screen(
         modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN),
         loading = storeState.loading,
-        playlist = store.playlist,
-        onMusicClick = { store.music(player = it) },
+        onMusicClick = { store.music() },
         onFeedbackClick = { store.feedback() },
         bottomBar = {
             if (isMenu) BottomBar(

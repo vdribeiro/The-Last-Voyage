@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.store
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.media.getTracks
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
@@ -92,7 +91,6 @@ internal open class Store<Action, State>(
     /**
      * Toggle music player.
      */
-    fun music(player: AudioPlayer) {
-        player.toggle()
+    fun music() {
     }
 }

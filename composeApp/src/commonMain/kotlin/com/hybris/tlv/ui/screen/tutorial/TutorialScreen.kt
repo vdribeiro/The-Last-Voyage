@@ -58,8 +58,7 @@ internal fun TutorialScreen(store: Store<TutorialAction, TutorialState>) {
     Screen(
         modifier = Modifier
             .testTag(tag = TUTORIAL_SCREEN),
-        playlist = store.playlist,
-        onMusicClick = { store.music(player = it) },
+        onMusicClick = { store.music() },
         onFeedbackClick = { store.feedback() },
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods

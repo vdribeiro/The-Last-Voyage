@@ -23,8 +23,7 @@ internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>
     Screen(
         modifier = Modifier.testTag(tag = ACHIEVEMENT_SCREEN),
         loading = storeState.loading,
-        playlist = store.playlist,
-        onMusicClick = { store.music(player = it) },
+        onMusicClick = { store.music() },
         onFeedbackClick = { store.feedback() },
     ) {
         LazyColumn(

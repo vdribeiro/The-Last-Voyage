@@ -17,25 +17,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalInspectionMode
-import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.media.NoAudioPlayer
-import com.hybris.tlv.media.rememberAudioPlayer
 
 @Composable
 internal fun Screen(
     modifier: Modifier = Modifier,
     loading: Boolean = false,
-    playlist: Array<String> = emptyArray(),
-    onMusicClick: (AudioPlayer) -> Unit = {},
+    onMusicClick: () -> Unit = {},
     onFeedbackClick: () -> Unit = {},
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     content: @Composable () -> Unit = {}
 ) {
-    val audioPlayer: AudioPlayer = if (!LocalInspectionMode.current) rememberAudioPlayer() else NoAudioPlayer
-    audioPlayer.play(playlist = playlist)
-
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
@@ -51,7 +43,7 @@ internal fun Screen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     // Sound button
-                    IconButton(onClick = { onMusicClick(audioPlayer) }) {
+                    IconButton(onClick = { onMusicClick() }) {
                         Icon(
                             imageVector = Icons.Default.MusicNote,
                             contentDescription = "Music"

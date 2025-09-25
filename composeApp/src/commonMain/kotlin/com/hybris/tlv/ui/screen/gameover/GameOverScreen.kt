@@ -41,8 +41,7 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
     Screen(
         modifier = Modifier.testTag(tag = GAME_OVER_SCREEN),
         loading = storeState.loading,
-        playlist = store.playlist,
-        onMusicClick = { store.music(player = it) },
+        onMusicClick = { store.music() },
         onFeedbackClick = { store.feedback() },
     ) {
         Column(

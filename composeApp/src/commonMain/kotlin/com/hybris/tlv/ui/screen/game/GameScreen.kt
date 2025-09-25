@@ -48,8 +48,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     Screen(
         modifier = Modifier.testTag(tag = GAME_SCREEN),
         loading = storeState.loading,
-        playlist = store.playlist,
-        onMusicClick = { store.music(player = it) },
+        onMusicClick = { store.music() },
         onFeedbackClick = { store.feedback() },
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
