@@ -31,7 +31,6 @@ internal fun Screen(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            //TopAppBar()
             Column(
                 modifier = modifier
                     .fillMaxWidth()
@@ -42,7 +41,7 @@ internal fun Screen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     // Sound button
-                    IconButton(onClick = { onMusicClick() }) {
+                    IconButton(onClick = onMusicClick) {
                         Icon(
                             imageVector = Icons.Default.MusicNote,
                             contentDescription = "Music"

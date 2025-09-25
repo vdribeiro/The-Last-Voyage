@@ -41,7 +41,7 @@ internal fun BottomBar(
     val typography = LocalTypography.current
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 32.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
