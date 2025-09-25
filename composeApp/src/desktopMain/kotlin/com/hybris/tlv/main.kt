@@ -26,7 +26,6 @@ private val initializeJfx by lazy {
     }.getOrDefault(defaultValue = false)
 }
 
-val LocalWindow = staticCompositionLocalOf<ComposeWindow> { error("No LocalWindow provided") }
 val LocalWindowState = staticCompositionLocalOf<WindowState> { error("No LocalWindowState provided") }
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -39,10 +38,7 @@ fun main() = application {
         state = windowState,
         title = getTranslation(key = "app_name")
     ) {
-        CompositionLocalProvider(
-            LocalWindow provides window,
-            LocalWindowState provides windowState,
-        ) {
+        CompositionLocalProvider(value = LocalWindowState provides windowState) {
             Box(modifier = Modifier.onPointerEvent(eventType = PointerEventType.Press) { pointerEvent ->
                 if (pointerEvent.buttons.isSecondaryPressed || pointerEvent.buttons.isBackPressed) core.navigation.back()
             }) { App() }
