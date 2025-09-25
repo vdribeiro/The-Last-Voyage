@@ -35,8 +35,7 @@ internal fun SimpleCard(
     val typography = LocalTypography.current
 
     Card(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(size = 8.dp)
     ) {

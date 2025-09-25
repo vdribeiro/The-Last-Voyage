@@ -41,7 +41,7 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
     Screen(
         modifier = Modifier.testTag(tag = EVENT_SCREEN),
         loading = storeState.loading,
-        onMusicClick = { store.music() },
+        onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         topBar = {
             StatusBar(
@@ -64,8 +64,7 @@ internal fun EventScreen(store: Store<EventAction, EventState>) {
         ) {
             // Event
             Text(
-                modifier = Modifier
-                    .testTag(tag = EVENT_SCREEN_COLUMN_EVENT),
+                modifier = Modifier.testTag(tag = EVENT_SCREEN_COLUMN_EVENT),
                 text = getTranslation(key = event.id),
                 style = typography.titleLarge,
                 fontWeight = FontWeight.Bold

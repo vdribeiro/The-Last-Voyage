@@ -132,7 +132,7 @@ internal fun ControlPanel(
                         imageVector = viewIcon,
                         contentDescription = "View"
                     )
-                    Spacer(Modifier.width(width = 8.dp))
+                    Spacer(modifier = Modifier.width(width = 8.dp))
                     Text(text = viewName)
                 }
 
@@ -197,7 +197,7 @@ private fun SearchMenu(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = "Checked"
                             )
-                        } else Spacer(Modifier.size(size = 24.dp))
+                        } else Spacer(modifier = Modifier.size(size = 24.dp))
                     }
                 )
             }
@@ -296,7 +296,7 @@ private fun VisibilityMenu(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = "Visible"
                             )
-                        } else Spacer(Modifier.size(size = 24.dp))
+                        } else Spacer(modifier = Modifier.size(size = 24.dp))
                     }
                 )
             }

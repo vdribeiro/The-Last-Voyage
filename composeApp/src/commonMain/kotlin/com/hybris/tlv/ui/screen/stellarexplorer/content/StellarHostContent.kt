@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer.content
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,7 +22,6 @@ import com.hybris.tlv.ui.screen.stellarexplorer.ifContains
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.PlanetCard
 import com.hybris.tlv.ui.theme.component.StellarHostCard
-import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
 import com.hybris.tlv.usecase.space.formula.toDrawable
 
@@ -165,7 +165,7 @@ internal fun StellarHostContent(store: Store<StellarExplorerAction, StellarExplo
         }
         items(items = storeState.filteredStellarHosts, key = { it.id }) { stellarHost ->
             StellarHostCard(
-                modifier = Modifier.debouncedClickable {
+                modifier = Modifier.clickable {
                     store.send(
                         action = StellarExplorerAction.SaveIndex(
                             index = LazyListIndex(

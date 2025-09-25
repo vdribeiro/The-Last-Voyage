@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.mainmenu.content
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,7 +27,6 @@ import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AppLogo
-import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -55,7 +55,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                 Text(
                     modifier = Modifier
                         .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_NEW_GAME)
-                        .debouncedClickable { store.send(action = MainMenuAction.NewGame) },
+                        .clickable { store.send(action = MainMenuAction.NewGame) },
                     text = newGameTranslation,
                     style = typography.headlineMedium,
                 )
@@ -65,7 +65,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                     Text(
                         modifier = Modifier
                             .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONTINUE)
-                            .debouncedClickable { store.send(action = MainMenuAction.Continue) },
+                            .clickable { store.send(action = MainMenuAction.Continue) },
                         text = continueTranslation,
                         style = typography.headlineMedium,
                     )
@@ -77,7 +77,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                 Text(
                     modifier = Modifier
                         .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN)
-                        .debouncedClickable { store.send(action = MainMenuAction.Learn) },
+                        .clickable { store.send(action = MainMenuAction.Learn) },
                     text = learnTranslation,
                     style = typography.headlineMedium,
                 )
@@ -88,7 +88,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                 Text(
                     modifier = Modifier
                         .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SCORES)
-                        .debouncedClickable { store.send(action = MainMenuAction.Scores) },
+                        .clickable { store.send(action = MainMenuAction.Scores) },
                     text = scoresTranslation,
                     style = typography.headlineMedium,
                 )
@@ -99,7 +99,7 @@ internal fun MainMenuContent(store: Store<MainMenuAction, MainMenuState>) {
                 Text(
                     modifier = Modifier
                         .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SOON)
-                        .debouncedClickable { store.send(action = MainMenuAction.Soon) },
+                        .clickable { store.send(action = MainMenuAction.Soon) },
                     text = soonTranslation,
                     style = typography.headlineMedium,
                 )

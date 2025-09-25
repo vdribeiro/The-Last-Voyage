@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.mainmenu.content
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,7 +26,6 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.SimpleCard
-import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -49,8 +49,7 @@ internal fun HabitabilityContent(store: Store<MainMenuAction, MainMenuState>) {
     ) {
         items(items = formula, key = { it.id }) { property ->
             SimpleCard(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_SIMPLE),
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_SIMPLE),
                 name = property.id,
                 description = property.description,
             )
@@ -59,7 +58,7 @@ internal fun HabitabilityContent(store: Store<MainMenuAction, MainMenuState>) {
             Text(
                 modifier = Modifier
                     .testTag(tag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_FORMULA)
-                    .debouncedClickable { uriHandler.openUri(uri = storeState.formula) },
+                    .clickable { uriHandler.openUri(uri = storeState.formula) },
                 text = formulaTranslation,
                 style = typography.bodyLarge.copy(
                     color = colorScheme.primary,

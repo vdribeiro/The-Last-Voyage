@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.score
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,7 +24,6 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.Score
 import com.hybris.tlv.ui.theme.component.Screen
-import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -36,10 +36,9 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
     val typography = LocalTypography.current
 
     Screen(
-        modifier = Modifier
-            .testTag(tag = SCORE_SCREEN),
+        modifier = Modifier.testTag(tag = SCORE_SCREEN),
         loading = storeState.loading,
-        onMusicClick = { store.music() },
+        onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {
         Column(
@@ -62,12 +61,11 @@ internal fun ScoreScreen(store: Store<ScoreAction, ScoreState>) {
                 // Scores
                 items(items = storeState.gameSessions, key = { it.id }) { score ->
                     Score(
-                        modifier = Modifier
-                            .debouncedClickable(onClick = {
-                                if (expandedItems.contains(element = score.id)) {
-                                    expandedItems.remove(element = score.id)
-                                } else expandedItems.add(element = score.id)
-                            }),
+                        modifier = Modifier.clickable(onClick = {
+                            if (expandedItems.contains(element = score.id)) {
+                                expandedItems.remove(element = score.id)
+                            } else expandedItems.add(element = score.id)
+                        }),
                         isExpanded = expandedItems.contains(element = score.id),
                         score = (score.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
                         utc = score.utc,

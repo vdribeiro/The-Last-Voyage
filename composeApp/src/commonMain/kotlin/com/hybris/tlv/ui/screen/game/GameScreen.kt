@@ -48,7 +48,7 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
     Screen(
         modifier = Modifier.testTag(tag = GAME_SCREEN),
         loading = storeState.loading,
-        onMusicClick = { store.music() },
+        onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
@@ -65,28 +65,24 @@ internal fun GameScreen(store: Store<GameAction, GameState>) {
         bottomBar = {
             // Navigation bar for travel, system and ship status
             NavigationBar(
-                modifier = Modifier
-                    .testTag(tag = GAME_SCREEN_NAVIGATION_BAR)
+                modifier = Modifier.testTag(tag = GAME_SCREEN_NAVIGATION_BAR)
             ) {
                 NavigationBarItem(
-                    modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP),
+                    modifier = Modifier.testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP),
                     icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
                     label = { Text(text = shipTranslation) },
                     selected = (storeState.currentContent == Content.SHIP),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 )
                 NavigationBarItem(
-                    modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM),
+                    modifier = Modifier.testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM),
                     icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = systemTranslation) },
                     label = { Text(text = systemTranslation) },
                     selected = (storeState.currentContent == Content.SYSTEM),
                     onClick = { store.send(action = GameAction.ChangeTab(content = Content.SYSTEM)) },
                 )
                 NavigationBarItem(
-                    modifier = Modifier
-                        .testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL),
+                    modifier = Modifier.testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL),
                     icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
                     label = { Text(text = travelTranslation) },
                     selected = (storeState.currentContent == Content.TRAVEL),

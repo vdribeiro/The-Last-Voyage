@@ -46,7 +46,7 @@ internal fun AchievementItem(
             //        .clip(shape = CircleShape)
             //)
 
-            Spacer(Modifier.width(width = 16.dp))
+            Spacer(modifier = Modifier.width(width = 16.dp))
 
             Column(modifier = Modifier.weight(weight = 1f)) {
                 Text(
@@ -54,7 +54,7 @@ internal fun AchievementItem(
                     style = typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(Modifier.height(height = 4.dp))
+                Spacer(modifier = Modifier.height(height = 4.dp))
                 Text(
                     text = description,
                     style = typography.bodyMedium,

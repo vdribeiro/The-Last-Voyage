@@ -41,7 +41,7 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
     Screen(
         modifier = Modifier.testTag(tag = GAME_OVER_SCREEN),
         loading = storeState.loading,
-        onMusicClick = { store.music() },
+        onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {
         Column(
@@ -58,8 +58,7 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    modifier = Modifier
-                        .testTag(tag = GAME_OVER_SCREEN_TITLE),
+                    modifier = Modifier.testTag(tag = GAME_OVER_SCREEN_TITLE),
                     text = gameOverTranslation,
                     style = typography.titleLarge,
                     fontWeight = FontWeight.Bold
@@ -77,8 +76,7 @@ internal fun GameOverScreen(store: Store<GameOverAction, GameOverState>) {
 
                     // Score
                     Content.SCORE -> if (gameSession != null && ship != null) Score(
-                        modifier = Modifier
-                            .testTag(tag = GAME_OVER_SCREEN_SCORE),
+                        modifier = Modifier.testTag(tag = GAME_OVER_SCREEN_SCORE),
                         isExpanded = null,
                         score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
                         utc = gameSession.utc,

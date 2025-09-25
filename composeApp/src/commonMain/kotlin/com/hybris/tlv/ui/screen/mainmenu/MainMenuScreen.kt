@@ -23,12 +23,11 @@ internal fun MainMenuScreen(store: Store<MainMenuAction, MainMenuState>) {
     Screen(
         modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN),
         loading = storeState.loading,
-        onMusicClick = { store.music() },
+        onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         bottomBar = {
             if (isMenu) BottomBar(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR),
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR),
                 onCreditsClick = { store.send(action = MainMenuAction.Credits) },
                 developerCornerUri = storeState.developerCorner,
                 supportUri = storeState.support

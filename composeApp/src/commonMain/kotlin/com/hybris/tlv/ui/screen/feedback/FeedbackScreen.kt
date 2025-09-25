@@ -72,22 +72,20 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
                     imageVector = Icons.Outlined.BugReport,
                     contentDescription = "Error Icon",
                 )
-                Spacer(Modifier.height(height = 16.dp))
+                Spacer(modifier = Modifier.height(height = 16.dp))
                 Text(
-                    modifier = Modifier
-                        .testTag(tag = FEEDBACK_SCREEN_TITLE),
+                    modifier = Modifier.testTag(tag = FEEDBACK_SCREEN_TITLE),
                     text = titleTranslation,
                     style = typography.headlineSmall
                 )
-                Spacer(Modifier.height(height = 8.dp))
+                Spacer(modifier = Modifier.height(height = 8.dp))
                 Text(
-                    modifier = Modifier
-                        .testTag(tag = FEEDBACK_SCREEN_DESCRIPTION),
+                    modifier = Modifier.testTag(tag = FEEDBACK_SCREEN_DESCRIPTION),
                     text = descriptionTranslation,
                     style = typography.bodyMedium,
                     textAlign = TextAlign.Center,
                 )
-                Spacer(Modifier.height(height = 24.dp))
+                Spacer(modifier = Modifier.height(height = 24.dp))
 
                 // Feedback input
                 OutlinedTextField(
@@ -102,12 +100,11 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
                         buttonEnabled = feedbackText.isNotBlank()
                     },
                 )
-                Spacer(Modifier.height(height = 24.dp))
+                Spacer(modifier = Modifier.height(height = 24.dp))
 
                 // Send feedback button
                 Button(
-                    modifier = Modifier
-                        .testTag(tag = FEEDBACK_SCREEN_BUTTON),
+                    modifier = Modifier.testTag(tag = FEEDBACK_SCREEN_BUTTON),
                     onClick = {
                         store.send(action = FeedbackAction.SendFeedback(message = feedbackText))
                         inputEnabled = false
@@ -119,10 +116,9 @@ internal fun FeedbackScreen(store: Store<FeedbackAction, FeedbackState>) {
                     Text(text = buttonTranslation)
                 }
                 if (!inputEnabled) {
-                    Spacer(Modifier.height(height = 16.dp))
+                    Spacer(modifier = Modifier.height(height = 16.dp))
                     Text(
-                        modifier = Modifier
-                            .testTag(tag = FEEDBACK_SCREEN_THANKS),
+                        modifier = Modifier.testTag(tag = FEEDBACK_SCREEN_THANKS),
                         text = thanksTranslation,
                         style = typography.headlineSmall
                     )

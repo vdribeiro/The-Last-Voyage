@@ -16,10 +16,9 @@ internal fun NewGameScreen(store: Store<NewGameAction, NewGameState>) {
     val storeState by store.stateFlow.collectAsState()
 
     Screen(
-        modifier = Modifier
-            .testTag(tag = NEW_GAME_SCREEN),
+        modifier = Modifier.testTag(tag = NEW_GAME_SCREEN),
         loading = storeState.loading,
-        onMusicClick = { store.music() },
+        onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {
         when (storeState.currentContent) {

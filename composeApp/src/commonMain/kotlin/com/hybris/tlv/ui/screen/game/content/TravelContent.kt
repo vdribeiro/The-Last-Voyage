@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.game.content
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,7 +18,6 @@ import com.hybris.tlv.ui.screen.game.GameAction
 import com.hybris.tlv.ui.screen.game.GameState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.StellarHostCard
-import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
 
 @Composable
@@ -35,7 +35,7 @@ internal fun TravelContent(store: Store<GameAction, GameState>) {
             StellarHostCard(
                 modifier = Modifier
                     .testTag(tag = GAME_SCREEN_TRAVEL_CONTENT_STELLAR_HOST)
-                    .debouncedClickable { store.send(action = GameAction.Travel(stellarHost = stellarHost)) },
+                    .clickable { store.send(action = GameAction.Travel(stellarHost = stellarHost)) },
                 name = stellarHost.name,
                 planetCount = stellarHost.planets.size,
                 spectralType = stellarHost.spectralType,

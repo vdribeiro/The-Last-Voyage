@@ -70,7 +70,7 @@ internal fun Score(
                     verticalArrangement = Arrangement.spacedBy(space = 4.dp)
                 ) {
                     HorizontalDivider()
-                    Spacer(Modifier.height(height = 8.dp))
+                    Spacer(modifier = Modifier.height(height = 8.dp))
                     InfoRow(label = getTranslation(key = "ship_years_traveled"), value = yearsTraveled)
                     InfoRow(label = getTranslation(key = "ship_sensor"), value = sensorRange)
                     InfoRow(label = getTranslation(key = "ship_integrity"), value = integrity)
@@ -106,7 +106,7 @@ private fun ScoreHeader(
         )
         if (isExpanded != null) {
             val arrowRotation by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f)
-            Spacer(Modifier.width(width = 8.dp))
+            Spacer(modifier = Modifier.width(width = 8.dp))
             Icon(
                 modifier = Modifier.rotate(degrees = arrowRotation),
                 imageVector = Icons.Default.KeyboardArrowDown,

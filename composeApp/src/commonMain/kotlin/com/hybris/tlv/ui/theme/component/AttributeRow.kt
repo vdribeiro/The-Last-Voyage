@@ -49,7 +49,9 @@ internal fun AttributeRow(
         }
 
         Column(
-            modifier = Modifier.weight(weight = 1f).padding(horizontal = 8.dp),
+            modifier = Modifier
+                .weight(weight = 1f)
+                .padding(horizontal = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
@@ -57,7 +59,7 @@ internal fun AttributeRow(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium
             )
-            Spacer(Modifier.height(height = 4.dp))
+            Spacer(modifier = Modifier.height(height = 4.dp))
             val progress = if (minPoints >= maxPoints) 0.0f else (points.toFloat() - minPoints) / (maxPoints.toFloat() - minPoints)
             val animatedProgress by animateFloatAsState(targetValue = progress.coerceIn(minimumValue = 0.0f, maximumValue = 1.0f))
             LinearProgressIndicator(

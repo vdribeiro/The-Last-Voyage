@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.mainmenu.content
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,7 +27,6 @@ import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AppLogo
-import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -55,7 +55,7 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
                 Text(
                     modifier = Modifier
                         .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_STELLAR_EXPLORER)
-                        .debouncedClickable { store.send(action = MainMenuAction.StellarExplorer) },
+                        .clickable { store.send(action = MainMenuAction.StellarExplorer) },
                     text = stellarExplorerTranslation,
                     style = typography.headlineMedium,
                 )
@@ -65,7 +65,7 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
             Text(
                 modifier = Modifier
                     .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_HOST_DEFINITION)
-                    .debouncedClickable { store.send(action = MainMenuAction.HostDefinition) },
+                    .clickable { store.send(action = MainMenuAction.HostDefinition) },
                 text = hostDefinitionTranslation,
                 style = typography.headlineMedium,
             )
@@ -74,7 +74,7 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
             Text(
                 modifier = Modifier
                     .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_PLANET_DEFINITION)
-                    .debouncedClickable { store.send(action = MainMenuAction.PlanetDefinition) },
+                    .clickable { store.send(action = MainMenuAction.PlanetDefinition) },
                 text = planetDefinitionTranslation,
                 style = typography.headlineMedium,
             )
@@ -83,7 +83,7 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
             Text(
                 modifier = Modifier
                     .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_HABITABILITY)
-                    .debouncedClickable { store.send(action = MainMenuAction.Habitability) },
+                    .clickable { store.send(action = MainMenuAction.Habitability) },
                 text = habitabilityTranslation,
                 style = typography.headlineMedium,
             )
@@ -93,7 +93,7 @@ internal fun LearnContent(store: Store<MainMenuAction, MainMenuState>) {
                 Text(
                     modifier = Modifier
                         .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_MECHANICS)
-                        .debouncedClickable { store.send(action = MainMenuAction.Mechanics) },
+                        .clickable { store.send(action = MainMenuAction.Mechanics) },
                     text = mechanicsTranslation,
                     style = typography.headlineMedium,
                 )

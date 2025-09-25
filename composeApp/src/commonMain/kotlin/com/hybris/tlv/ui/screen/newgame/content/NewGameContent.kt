@@ -54,7 +54,7 @@ internal fun NewGameContent(store: Store<NewGameAction, NewGameState>) {
             style = typography.headlineSmall,
             fontWeight = FontWeight.Bold
         )
-        Spacer(Modifier.height(height = 16.dp))
+        Spacer(modifier = Modifier.height(height = 16.dp))
 
         // Sliders for sensor range, fuel, materials and cryopods
         LazyColumn(

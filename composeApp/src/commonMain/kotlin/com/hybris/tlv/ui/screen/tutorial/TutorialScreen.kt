@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.screen.tutorial
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +31,6 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.ui.theme.component.StatusBar
-import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -56,9 +57,8 @@ internal fun TutorialScreen(store: Store<TutorialAction, TutorialState>) {
     val typography = LocalTypography.current
 
     Screen(
-        modifier = Modifier
-            .testTag(tag = TUTORIAL_SCREEN),
-        onMusicClick = { store.music() },
+        modifier = Modifier.testTag(tag = TUTORIAL_SCREEN),
+        onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
@@ -75,28 +75,24 @@ internal fun TutorialScreen(store: Store<TutorialAction, TutorialState>) {
         bottomBar = {
             // Navigation bar for travel, system and ship status
             NavigationBar(
-                modifier = Modifier
-                    .testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR)
+                modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR)
             ) {
                 NavigationBarItem(
-                    modifier = Modifier
-                        .testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR_ITEM_SHIP),
+                    modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR_ITEM_SHIP),
                     icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
                     label = { Text(text = shipTranslation) },
                     selected = (storeState.tutorialStep == Tutorial.SHIP),
                     onClick = { },
                 )
                 NavigationBarItem(
-                    modifier = Modifier
-                        .testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM),
+                    modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM),
                     icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = systemTranslation) },
                     label = { Text(text = systemTranslation) },
                     selected = (storeState.tutorialStep == Tutorial.SYSTEM),
                     onClick = { },
                 )
                 NavigationBarItem(
-                    modifier = Modifier
-                        .testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL),
+                    modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL),
                     icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
                     label = { Text(text = travelTranslation) },
                     selected = (storeState.tutorialStep == Tutorial.TRAVEL),
@@ -106,8 +102,9 @@ internal fun TutorialScreen(store: Store<TutorialAction, TutorialState>) {
         }
     ) {
         Box(
-            modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_CONTENT)
-                .debouncedClickable(rippleEffect = false) { store.send(action = TutorialAction.Next) }
+            modifier = Modifier
+                .testTag(tag = TUTORIAL_SCREEN_CONTENT)
+                .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { store.send(action = TutorialAction.Next) }
                 .semantics(mergeDescendants = false) {}
         ) {
             val title: String

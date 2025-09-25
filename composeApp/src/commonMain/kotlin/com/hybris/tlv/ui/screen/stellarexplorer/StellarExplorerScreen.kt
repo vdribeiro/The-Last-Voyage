@@ -149,7 +149,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerAction, StellarEx
         modifier = Modifier
             .testTag(tag = STELLAR_EXPLORER_SCREEN),
         loading = storeState.loading,
-        onMusicClick = { store.music() },
+        onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         topBar = {
             ControlPanel(

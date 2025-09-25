@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,7 +22,6 @@ import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_BOTTOM_BAR_CREDITS
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_BOTTOM_BAR_SUPPORT
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_BOTTOM_BAR_WEBSITE
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
@@ -53,7 +53,7 @@ internal fun BottomBar(
                 .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR_WEBSITE)
                 .size(size = 100.dp)
                 .wrapContentHeight(align = Alignment.CenterVertically)
-                .debouncedClickable { uriHandler.openUri(uri = developerCornerUri) },
+                .clickable { uriHandler.openUri(uri = developerCornerUri) },
             text = websiteTranslation,
             style = typography.titleSmall,
         )
@@ -62,7 +62,7 @@ internal fun BottomBar(
                 .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR_CREDITS)
                 .size(size = 100.dp)
                 .wrapContentHeight(align = Alignment.CenterVertically)
-                .debouncedClickable(onClick = onCreditsClick),
+                .clickable(onClick = onCreditsClick),
             text = creditsTranslation,
             style = typography.titleSmall,
             textAlign = TextAlign.Center
@@ -72,7 +72,7 @@ internal fun BottomBar(
                 .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR_SUPPORT)
                 .size(size = 100.dp)
                 .wrapContentHeight(align = Alignment.CenterVertically)
-                .debouncedClickable { uriHandler.openUri(uri = supportUri) },
+                .clickable { uriHandler.openUri(uri = supportUri) },
             painter = painterResource(resource = Res.drawable.kofi),
             contentDescription = "Support",
             contentScale = ContentScale.Fit,

@@ -48,7 +48,7 @@ internal fun StatDisplay(
                 contentDescription = label,
                 tint = colorScheme.primary
             )
-            Spacer(Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(weight = 1f)) {
                 Text(
                     text = label,

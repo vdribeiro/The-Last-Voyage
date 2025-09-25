@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.credit
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,7 +31,6 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.Screen
-import com.hybris.tlv.ui.theme.debouncedClickable
 import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -49,7 +49,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
     Screen(
         modifier = Modifier.testTag(tag = CREDIT_SCREEN),
         loading = storeState.loading,
-        onMusicClick = { store.music() },
+        onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {
         LazyColumn(
@@ -67,8 +67,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
             if (creators.isNotEmpty()) {
                 item(key = CreditType.CREATOR) {
                     Text(
-                        modifier = Modifier
-                            .testTag(tag = CREDIT_SCREEN_LIST_CREATOR),
+                        modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_CREATOR),
                         text = creatorsTranslation,
                         style = typography.titleLarge,
                         textAlign = TextAlign.Center,
@@ -79,7 +78,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     Text(
                         modifier = Modifier
                             .testTag(tag = CREDIT_SCREEN_LIST_CREATOR_ITEM)
-                            .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                            .clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                         text = credit.id,
                         style = typography.bodyLarge.copy(
                             color = colorScheme.primary,
@@ -95,8 +94,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
             if (sources.isNotEmpty()) {
                 item(key = CreditType.SOURCE) {
                     Text(
-                        modifier = Modifier
-                            .testTag(tag = CREDIT_SCREEN_LIST_SOURCE),
+                        modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_SOURCE),
                         text = sourcesTranslation,
                         style = typography.titleLarge,
                         textAlign = TextAlign.Center,
@@ -107,7 +105,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     Text(
                         modifier = Modifier
                             .testTag(tag = CREDIT_SCREEN_LIST_SOURCE_ITEM)
-                            .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                            .clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                         text = credit.id,
                         style = typography.bodyLarge.copy(
                             color = colorScheme.primary,
@@ -123,8 +121,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
             if (musics.isNotEmpty()) {
                 item(key = CreditType.MUSIC) {
                     Text(
-                        modifier = Modifier
-                            .testTag(tag = CREDIT_SCREEN_LIST_MUSIC),
+                        modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_MUSIC),
                         text = musicTranslation,
                         style = typography.titleLarge,
                         textAlign = TextAlign.Center,
@@ -135,7 +132,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                     Text(
                         modifier = Modifier
                             .testTag(tag = CREDIT_SCREEN_LIST_MUSIC_ITEM)
-                            .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } },
+                            .clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                         text = credit.id,
                         style = typography.bodyLarge.copy(
                             color = colorScheme.primary,
@@ -151,8 +148,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
             if (supporters.isNotEmpty()) {
                 item(key = CreditType.SUPPORTER) {
                     Text(
-                        modifier = Modifier
-                            .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER),
+                        modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER),
                         text = supportersTranslation,
                         style = typography.titleLarge,
                         textAlign = TextAlign.Center,
@@ -170,7 +166,7 @@ internal fun CreditScreen(store: Store<CreditAction, CreditState>) {
                                     modifier = Modifier
                                         .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER_ITEM)
                                         .fillMaxWidth()
-                                        .debouncedClickable { credit.link?.let { uriHandler.openUri(uri = it) } }
+                                        .clickable { credit.link?.let { uriHandler.openUri(uri = it) } }
                                         .padding(all = 16.dp),
                                     text = credit.id,
                                     textAlign = TextAlign.Center,

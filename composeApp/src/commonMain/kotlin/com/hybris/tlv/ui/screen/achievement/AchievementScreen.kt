@@ -23,7 +23,7 @@ internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>
     Screen(
         modifier = Modifier.testTag(tag = ACHIEVEMENT_SCREEN),
         loading = storeState.loading,
-        onMusicClick = { store.music() },
+        onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {
         LazyColumn(
@@ -36,8 +36,7 @@ internal fun AchievementScreen(store: Store<AchievementAction, AchievementState>
         ) {
             items(items = storeState.achievements, key = { it.id }) { achievement ->
                 AchievementItem(
-                    modifier = Modifier
-                        .testTag(tag = ACHIEVEMENT_SCREEN_LIST_ITEM),
+                    modifier = Modifier.testTag(tag = ACHIEVEMENT_SCREEN_LIST_ITEM),
                     name = achievement.name,
                     description = achievement.description
                 )

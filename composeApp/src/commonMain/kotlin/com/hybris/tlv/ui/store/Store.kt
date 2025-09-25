@@ -85,7 +85,7 @@ internal open class Store<Action, State>(
     )
 
     /**
-     * Toggle music player.
+     * Toggle audio player.
      */
-    fun music() = audioPlayer.toggle()
+    fun toggleAudio() = audioPlayer.toggle()
 }

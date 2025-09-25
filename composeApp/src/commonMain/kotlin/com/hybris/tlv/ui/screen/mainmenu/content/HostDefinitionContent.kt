@@ -97,8 +97,7 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
     ) {
         item {
             Text(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE),
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE),
                 text = exampleTranslation,
                 style = typography.titleLarge,
                 fontWeight = FontWeight.Bold
@@ -107,8 +106,7 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
         }
         item {
             StellarHostCard(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE_STELLAR_HOST),
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE_STELLAR_HOST),
                 name = stellarHost.name,
                 systemName = stellarHost.systemName,
                 planetCount = stellarHost.planets.size,
@@ -131,8 +129,7 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
         }
         item {
             Text(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES),
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES),
                 text = propertiesTranslation,
                 style = typography.titleLarge,
                 fontWeight = FontWeight.Bold
@@ -141,16 +138,14 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
         }
         items(items = stellarHostProperties, key = { it.id }) { property ->
             SimpleCard(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES_SIMPLE),
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES_SIMPLE),
                 name = property.id,
                 description = property.description,
             )
         }
         item {
             Text(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES),
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES),
                 text = typesTranslation,
                 style = typography.titleLarge,
                 fontWeight = FontWeight.Bold
@@ -159,8 +154,7 @@ internal fun HostDefinitionContent(store: Store<MainMenuAction, MainMenuState>) 
         }
         items(items = stellarHosts, key = { it.id }) { stellarHost ->
             StellarHostCard(
-                modifier = Modifier
-                    .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES_STELLAR_HOST),
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES_STELLAR_HOST),
                 name = getTranslation(key = stellarHost.id),
                 description = stellarHost.description,
                 spectralTypeDrawable = stellarHost.image.spectralTypeToDrawable(),

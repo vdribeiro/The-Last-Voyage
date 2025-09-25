@@ -38,8 +38,7 @@ internal fun Screen(
                     .statusBarsPadding(),
             ) {
                 Row(
-                    modifier = modifier
-                        .fillMaxWidth(),
+                    modifier = modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     // Sound button
