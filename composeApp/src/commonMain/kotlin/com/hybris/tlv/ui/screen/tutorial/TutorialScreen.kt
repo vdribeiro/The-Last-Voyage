@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
@@ -145,13 +146,17 @@ internal fun TutorialScreen(store: Store<TutorialAction, TutorialState>) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    modifier = Modifier.padding(all = 8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = 8.dp),
                     style = typography.titleLarge,
                     text = title,
                     textAlign = TextAlign.Center,
                 )
                 Text(
-                    modifier = Modifier.padding(all = 8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = 8.dp),
                     style = typography.titleMedium,
                     text = description,
                     textAlign = TextAlign.Start,
