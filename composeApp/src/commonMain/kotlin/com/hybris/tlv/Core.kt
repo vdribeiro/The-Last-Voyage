@@ -24,10 +24,7 @@ internal class Core(
     @get:VisibleForTesting internal val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,
     @get:VisibleForTesting internal val httpEngine: HttpClientEngine? = null,
     @get:VisibleForTesting internal val httpClient: HttpClient = HttpClientFactory(engine = httpEngine).httpClient,
-    @get:VisibleForTesting internal val config: ConfigManager = Config(
-        dispatcher = dispatcher,
-        httpClient = httpClient
-    ),
+    @get:VisibleForTesting internal val config: ConfigManager = Config(httpClient = httpClient),
     @get:VisibleForTesting internal val useCases: UseCases = Gateways(
         dispatcher = dispatcher,
         config = config,

@@ -13,6 +13,11 @@ internal interface ConfigManager {
     val remoteConfigs: Configs
 
     /**
+     * Fetch configs and refresh caches.
+     */
+    suspend fun fetch()
+
+    /**
      * Set config to storage.
      */
     suspend fun flush(configs: Configs = localConfigs)
