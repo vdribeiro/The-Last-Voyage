@@ -59,7 +59,10 @@ internal open class Store<State, Action>(
     /**
      * Navigate to feedback screen.
      */
-    fun feedback() = navigate(screen = Screen.FEEDBACK)
+    fun feedback() = navigate(
+        screen = Screen.FEEDBACK,
+        stateBuilder = FeedbackStateBuilder(navigationState = navigation.stateFlow.value)
+    )
 
     /**
      * Toggle audio player.
