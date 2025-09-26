@@ -35,12 +35,10 @@ internal class NewGameStore(
             fuel = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
             cryopods = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
         ),
+        selectedShip = null,
         formula = Formula()
     )
 ) {
-    @get:VisibleForTesting
-    internal var selectedShip: ShipPrototype? = null
-
     init {
         if (state == null) setup()
     }
@@ -60,7 +58,7 @@ internal class NewGameStore(
     }
 
     private fun startGame(state: NewGameState) = launch {
-        val selectedShip = selectedShip
+        val selectedShip = state.selectedShip
         if (selectedShip == null) {
             navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing ship prototype on startGame()"))
             return@launch
@@ -81,7 +79,7 @@ internal class NewGameStore(
 
     override fun reducer(state: NewGameState, action: NewGameAction) {
         when (action) {
-            is NewGameAction.SelectShip -> selectedShip = action.ship
+            is NewGameAction.SelectShip -> updateState { it.copy(selectedShip = action.ship) }
             is NewGameAction.SelectFormula -> updateState { it.copy(formula = action.formula) }
             NewGameAction.Ship -> updateState { it.copy(currentContent = Content.SHIP) }
             NewGameAction.Advanced -> updateState { it.copy(currentContent = Content.ADVANCED) }

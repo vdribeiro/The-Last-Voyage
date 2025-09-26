@@ -22,6 +22,7 @@ internal data class NewGameState(
     val currentContent: Content,
     val selectedCatastrophe: Catastrophe?,
     val shipState: ShipState,
+    val selectedShip: ShipPrototype?,
     val formula: Formula,
 )
 

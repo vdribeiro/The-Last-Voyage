@@ -29,8 +29,8 @@ internal class EventStoreTest {
         testCore.useCases.event.prepopulateEvents()
         testCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
-        assertNotNull(actual = eventStore.gameSession)
-        val events = eventStore.eventChain
+        assertNotNull(actual = eventStore.stateFlow.value.gameSession)
+        val events = eventStore.stateFlow.value.eventChain
         assertTrue(actual = events.isNotEmpty())
         val event = events.find { it.parentId == null }
         assertEquals(expected = event, actual = eventStore.stateFlow.value.parentEvent)

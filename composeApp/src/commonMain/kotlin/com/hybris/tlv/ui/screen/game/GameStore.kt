@@ -28,13 +28,12 @@ internal class GameStore(
     initialState = state ?: GameState(
         loading = true,
         currentContent = Content.SYSTEM,
+        gameSession = null,
         ship = null,
         currentStellarHost = null,
         nearStellarHosts = emptyList(),
     )
 ) {
-    private var gameSession: GameSession? = null
-
     init {
         if (state == null) setup()
     }
@@ -97,10 +96,10 @@ internal class GameStore(
         )
         gameSessionUseCases.updateGameSession(gameSession = finalUpdatedGameSession)
 
-        this@GameStore.gameSession = finalUpdatedGameSession
         updateState {
             it.copy(
                 loading = false,
+                gameSession = finalUpdatedGameSession,
                 ship = finalUpdatedGameSession.ship,
                 currentStellarHost = currentStellarHost,
                 nearStellarHosts = nearStellarHosts,
@@ -109,7 +108,7 @@ internal class GameStore(
     }
 
     private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
-        val gameSession = gameSession
+        val gameSession = state.gameSession
         if (gameSession == null) {
             navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on travel()"))
             return@launch
@@ -121,18 +120,18 @@ internal class GameStore(
             return@launch
         }
 
-        this@GameStore.gameSession = gameSessionUseCases.travel(gameSession = gameSession, stellarHost = stellarHost)
+        gameSessionUseCases.travel(gameSession = gameSession, stellarHost = stellarHost)
         navigate(screen = Screen.EVENT)
     }
 
-    private fun settle(action: GameAction.Settle): Job = launch {
-        val gameSession = gameSession
+    private fun settle(state: GameState, action: GameAction.Settle): Job = launch {
+        val gameSession = state.gameSession
         if (gameSession == null) {
             navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on settle()"))
             return@launch
         }
 
-        this@GameStore.gameSession = gameSessionUseCases.settle(gameSession = gameSession, planet = action.planet)
+        gameSessionUseCases.settle(gameSession = gameSession, planet = action.planet)
         navigate(screen = Screen.GAME_OVER)
     }
 
@@ -144,7 +143,7 @@ internal class GameStore(
         when (action) {
             is GameAction.ChangeTab -> updateState { it.copy(currentContent = action.content) }
             is GameAction.Travel -> travel(state = state, action = action)
-            is GameAction.Settle -> settle(action = action)
+            is GameAction.Settle -> settle(state = state, action = action)
         }
     }
 

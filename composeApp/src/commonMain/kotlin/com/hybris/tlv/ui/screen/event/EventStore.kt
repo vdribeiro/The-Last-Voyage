@@ -26,16 +26,13 @@ internal class EventStore(
     audioPlayer = audioPlayer,
     initialState = state ?: EventState(
         loading = true,
+        gameSession = null,
         ship = null,
+        eventChain = emptyList(),
         parentEvent = defaultEvent,
-        childrenEvents = emptyList()
+        childrenEvents = emptyList(),
     )
 ) {
-    @get:VisibleForTesting
-    internal var gameSession: GameSession? = null
-    @get:VisibleForTesting
-    internal val eventChain: MutableList<Event> = mutableListOf()
-
     init {
         if (state == null) setup()
     }
@@ -63,33 +60,33 @@ internal class EventStore(
         }
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = parentEvent)
 
-        this@EventStore.gameSession = updatedGameSession
-        this@EventStore.eventChain.addAll(elements = eventChain)
         updateState {
             it.copy(
                 loading = false,
+                gameSession = updatedGameSession,
                 ship = updatedGameSession.ship,
+                eventChain = eventChain,
                 parentEvent = parentEvent,
-                childrenEvents = childrenEvents
+                childrenEvents = childrenEvents,
             )
         }
     }
 
-    private fun select(action: EventAction.Select): Job = launch {
+    private fun select(state: EventState, action: EventAction.Select): Job = launch {
         // Event chain has ended
         if (action.event == stopEvent) {
             navigate(screen = Screen.GAME)
             return@launch
         }
 
-        val gameSession = this@EventStore.gameSession
+        val gameSession = state.gameSession
         if (gameSession == null) {
             navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on select()"))
             return@launch
         }
 
         // Continue event chain
-        val childrenEvents = eventChain.filter { it.parentId == action.event.id }.ifEmpty {
+        val childrenEvents = state.eventChain.filter { it.parentId == action.event.id }.ifEmpty {
             listOf(element = stopEvent)
         }
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = action.event)
@@ -109,7 +106,7 @@ internal class EventStore(
 
     override fun reducer(state: EventState, action: EventAction) {
         when (action) {
-            is EventAction.Select -> select(action = action)
+            is EventAction.Select -> select(state = state, action = action)
         }
     }
 
