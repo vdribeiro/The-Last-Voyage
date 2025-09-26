@@ -16,7 +16,7 @@ import kotlinx.coroutines.Job
 internal class GameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    audioPlayer: AudioPlayer,
+    audioPlayer: AudioPlayer?,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases

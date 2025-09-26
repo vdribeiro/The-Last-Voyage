@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.update
 
 internal class Navigation(
     private val dispatcher: Dispatcher,
-    private val audioPlayer: AudioPlayer,
+    private val audioPlayer: AudioPlayer?,
     private val config: ConfigManager,
     private val useCases: UseCases,
     state: State = State()

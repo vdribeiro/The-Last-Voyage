@@ -12,6 +12,7 @@ internal val mock: Core by lazy {
         dispatcher = TestDispatchers(),
         sqlDriver = createSqlDriver(inMemory = true),
         httpEngine = TestEngines().mockEngine,
+        audioPlayer = null
     )
 }
 

@@ -1,5 +1,6 @@
 package com.hybris.tlv.media
 
+import com.hybris.tlv.lifecycle.observe
 import com.hybris.tlv.logger.Logger
 import platform.AVFoundation.AVPlayer
 import platform.AVFoundation.AVPlayerItem
@@ -9,7 +10,6 @@ import platform.AVFoundation.play
 import platform.AVFoundation.rate
 import platform.Foundation.NSBundle
 import platform.Foundation.NSNotificationCenter
-import platform.Foundation.NSOperationQueue
 import platform.darwin.NSObjectProtocol
 
 internal actual class AudioPlayer {
@@ -46,11 +46,10 @@ internal actual class AudioPlayer {
                 null -> Logger.error(tag = TAG, message = "Could not find audio resource: $trackPath")
                 else -> {
                     val playerItem = AVPlayerItem(uRL = resourceUrl)
-                    endOfSongObserver = NSNotificationCenter.defaultCenter.addObserverForName(
+                    endOfSongObserver = NSNotificationCenter.defaultCenter.observe(
                         name = AVPlayerItemDidPlayToEndTimeNotification,
-                        `object` = playerItem,
-                        queue = NSOperationQueue.mainQueue
-                    ) { _ -> playNextTrack() }
+                        key = playerItem,
+                    ) { playNextTrack() }
                     player = AVPlayer(playerItem = playerItem).apply {
                         play()
                     }

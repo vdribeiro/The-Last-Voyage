@@ -15,20 +15,28 @@ internal actual fun Register(
 ) {
     val lifecycleOwner = NSNotificationCenter.defaultCenter
     DisposableEffect(keys = arrayOf(key)) {
-        val pauseObserver = lifecycleOwner.addObserverForName(
+        val pauseObserver = lifecycleOwner.observe(
             name = UIApplicationWillResignActiveNotification,
-            `object` = null,
-            queue = NSOperationQueue.mainQueue
-        ) { _ -> onPause() }
-        val resumeObserver = lifecycleOwner.addObserverForName(
+            onObserve = onPause
+        )
+        val resumeObserver = lifecycleOwner.observe(
             name = UIApplicationDidBecomeActiveNotification,
-            `object` = null,
-            queue = NSOperationQueue.mainQueue
-        ) { _ -> onResume() }
+            onObserve = onResume
+        )
 
         onDispose {
-            lifecycleOwner.removeObserver(pauseObserver)
-            lifecycleOwner.removeObserver(resumeObserver)
+            lifecycleOwner.removeObserver(observer = pauseObserver)
+            lifecycleOwner.removeObserver(observer = resumeObserver)
         }
     }
 }
+
+internal fun NSNotificationCenter.observe(
+    name: String?,
+    key: Any? = null,
+    onObserve: () -> Unit
+) = addObserverForName(
+    name = name,
+    `object` = key,
+    queue = NSOperationQueue.mainQueue
+) { _ -> onObserve() }

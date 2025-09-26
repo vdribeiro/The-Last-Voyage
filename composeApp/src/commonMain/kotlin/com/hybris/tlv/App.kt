@@ -23,11 +23,11 @@ internal fun App() = AppTheme {
 
     LaunchedEffect(keys = arrayOf(navigationState.screen)) {
         val playlist = getTracks(screen = navigationState.screen)
-        if (playlist.isNotEmpty()) audioPlayer.play(playlist = playlist)
+        if (playlist.isNotEmpty()) audioPlayer?.play(playlist = playlist)
     }
     Register(
-        onPause = { audioPlayer.pause() },
-        onResume = { audioPlayer.resume() },
+        onPause = { audioPlayer?.pause() },
+        onResume = { audioPlayer?.resume() },
     )
 }
 

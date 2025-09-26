@@ -23,7 +23,7 @@ import kotlinx.coroutines.supervisorScope
 internal class SplashStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    audioPlayer: AudioPlayer,
+    audioPlayer: AudioPlayer?,
     private val config: ConfigManager,
     private val translateUseCases: TranslationUseCases,
     private val archiveUseCases: ArchiveUseCases,

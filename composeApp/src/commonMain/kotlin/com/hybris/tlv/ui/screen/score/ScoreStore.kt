@@ -12,7 +12,7 @@ import kotlinx.coroutines.Job
 internal class ScoreStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    audioPlayer: AudioPlayer,
+    audioPlayer: AudioPlayer?,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<ScoreState, ScoreAction>(
     dispatcher = dispatcher,

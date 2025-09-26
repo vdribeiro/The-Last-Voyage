@@ -11,7 +11,7 @@ import kotlinx.coroutines.Job
 internal class CreditStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    audioPlayer: AudioPlayer,
+    audioPlayer: AudioPlayer?,
     private val creditUseCases: CreditUseCases
 ): Store<CreditState, CreditAction>(
     dispatcher = dispatcher,
