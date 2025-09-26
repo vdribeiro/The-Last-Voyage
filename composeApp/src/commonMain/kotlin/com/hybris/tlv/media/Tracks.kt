@@ -2,8 +2,8 @@ package com.hybris.tlv.media
 
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 
-internal fun getTracks(screen: Screen) = when (screen) {
-    Screen.FEEDBACK -> emptyArray()
+internal fun getTracks(screen: Screen): Array<String>? = when (screen) {
+    Screen.FEEDBACK -> null
 
     Screen.SPLASH,
     Screen.MAIN_MENU,
