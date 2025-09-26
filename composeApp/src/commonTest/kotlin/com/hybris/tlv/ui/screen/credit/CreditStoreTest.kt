@@ -2,8 +2,8 @@ package com.hybris.tlv.ui.screen.credit
 
 import com.hybris.tlv.credits
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mockCore
 import com.hybris.tlv.storeFactory
+import com.hybris.tlv.testCore
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -16,23 +16,23 @@ internal class CreditStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        mockCore.sqlDriver.clearDatabase()
-        mockCore.navigation.navigate(screen = NavigationManager.Screen.CREDIT)
+        testCore.sqlDriver.clearDatabase()
+        testCore.navigation.navigate(screen = NavigationManager.Screen.CREDIT)
     }
 
     @Test
     fun `init`() = runBlocking {
-        mockCore.useCases.credit.prepopulateCredits()
+        testCore.useCases.credit.prepopulateCredits()
         val creditStore = store
         assertEquals(expected = credits, actual = creditStore.stateFlow.value.credits)
     }
 
     @Test
     fun `send action back`() = runBlocking {
-        mockCore.useCases.credit.prepopulateCredits()
+        testCore.useCases.credit.prepopulateCredits()
         store
-        assertEquals(expected = NavigationManager.Screen.CREDIT, actual = mockCore.navigation.stateFlow.value.screen)
-        mockCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.CREDIT, actual = testCore.navigation.stateFlow.value.screen)
+        testCore.navigation.back()
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = testCore.navigation.stateFlow.value.screen)
     }
 }

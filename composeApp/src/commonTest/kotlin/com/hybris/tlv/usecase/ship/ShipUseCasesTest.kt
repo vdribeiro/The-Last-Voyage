@@ -2,7 +2,7 @@ package com.hybris.tlv.usecase.ship
 
 import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mockCore
+import com.hybris.tlv.testCore
 import com.hybris.tlv.usecase.ship.model.Ship
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -14,22 +14,22 @@ internal class ShipUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        mockCore.sqlDriver.clearDatabase()
-        mockCore.config.localConfigs = Configs()
+        testCore.sqlDriver.clearDatabase()
+        testCore.config.localConfigs = Configs()
     }
 
     @Test
     fun `sync and get engines`() = runBlocking {
-        assertTrue(actual = mockCore.useCases.ship.getEngines().isEmpty())
-        mockCore.useCases.ship.syncEngines()
-        assertTrue(actual = mockCore.useCases.ship.getEngines().isNotEmpty())
+        assertTrue(actual = testCore.useCases.ship.getEngines().isEmpty())
+        testCore.useCases.ship.syncEngines()
+        assertTrue(actual = testCore.useCases.ship.getEngines().isNotEmpty())
     }
 
     @Test
     fun `prepopulate and get engines`() = runBlocking {
-        assertTrue(actual = mockCore.useCases.ship.getEngines().isEmpty())
-        mockCore.useCases.ship.prepopulateEngines()
-        assertTrue(actual = mockCore.useCases.ship.getEngines().isNotEmpty())
+        assertTrue(actual = testCore.useCases.ship.getEngines().isEmpty())
+        testCore.useCases.ship.prepopulateEngines()
+        assertTrue(actual = testCore.useCases.ship.getEngines().isNotEmpty())
     }
 
     @Test
@@ -44,7 +44,7 @@ internal class ShipUseCasesTest {
             materials = 50,
             cryopods = 50,
         )
-        val repairedShipIntegrity = mockCore.useCases.ship.repairShip(ship = shipNoIntegrity)
+        val repairedShipIntegrity = testCore.useCases.ship.repairShip(ship = shipNoIntegrity)
         assertEquals(expected = 1, actual = repairedShipIntegrity.integrity)
         assertEquals(expected = 49, actual = repairedShipIntegrity.materials)
         val shipNoMaterials = Ship(
@@ -57,7 +57,7 @@ internal class ShipUseCasesTest {
             materials = -1,
             cryopods = 50,
         )
-        val repairedShipMaterials = mockCore.useCases.ship.repairShip(ship = shipNoMaterials)
+        val repairedShipMaterials = testCore.useCases.ship.repairShip(ship = shipNoMaterials)
         assertEquals(expected = 9, actual = repairedShipMaterials.integrity)
         assertEquals(expected = 0, actual = repairedShipMaterials.materials)
     }

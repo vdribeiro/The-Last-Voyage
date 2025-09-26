@@ -36,7 +36,7 @@ import io.ktor.http.HttpStatusCode
 
 internal object TestEngines {
 
-    val mockEngine = MockEngine { request ->
+    val testEngine = MockEngine { request ->
         when {
             request.method == HttpMethod.Get -> {
                 val path = request.url.toString()

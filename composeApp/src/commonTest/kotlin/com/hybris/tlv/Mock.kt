@@ -11,32 +11,32 @@ import kotlinx.coroutines.flow.StateFlow
 
 private val testDispatchers by lazy { TestDispatchers() }
 
-internal val mockCore: Core by lazy {
+internal val testCore: Core by lazy {
     Core(
         dispatcher = testDispatchers,
         sqlDriver = createSqlDriver(inMemory = true),
-        httpEngine = TestEngines.mockEngine,
+        httpEngine = TestEngines.testEngine,
     )
 }
 
 internal val storeFactory: StoreFactory by lazy {
     StoreFactory(
-        dispatcher = mockCore.dispatcher,
-        navigation = mockCore.navigation,
-        audioPlayer = mockCore.audioPlayer,
-        config = mockCore.config,
-        useCases = mockCore.useCases
+        dispatcher = testCore.dispatcher,
+        navigation = testCore.navigation,
+        audioPlayer = testCore.audioPlayer,
+        config = testCore.config,
+        useCases = testCore.useCases
     )
 }
 
-private val mockNavigation = object: NavigationManager {
+private val navigation = object: NavigationManager {
     override val stateFlow: StateFlow<NavigationManager.State> = MutableStateFlow(value = NavigationManager.State())
     override var back: () -> Unit = {}
 }
 
 internal fun <State, Action> getStore(initialState: State): Store<State, Action> = Store(
     dispatcher = testDispatchers,
-    navigation = mockNavigation,
+    navigation = navigation,
     audioPlayer = null,
     initialState = initialState
 )

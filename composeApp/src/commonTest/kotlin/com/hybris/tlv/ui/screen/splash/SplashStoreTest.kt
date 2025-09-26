@@ -1,8 +1,8 @@
 package com.hybris.tlv.ui.screen.splash
 
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mockCore
 import com.hybris.tlv.storeFactory
+import com.hybris.tlv.testCore
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -16,8 +16,8 @@ internal class SplashStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        mockCore.sqlDriver.clearDatabase()
-        mockCore.navigation.navigate(screen = NavigationManager.Screen.SPLASH)
+        testCore.sqlDriver.clearDatabase()
+        testCore.navigation.navigate(screen = NavigationManager.Screen.SPLASH)
     }
 
     @Test

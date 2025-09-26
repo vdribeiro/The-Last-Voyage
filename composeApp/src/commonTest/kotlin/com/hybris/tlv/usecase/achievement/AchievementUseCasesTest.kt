@@ -2,7 +2,7 @@ package com.hybris.tlv.usecase.achievement
 
 import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mockCore
+import com.hybris.tlv.testCore
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
@@ -12,21 +12,21 @@ internal class AchievementUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        mockCore.sqlDriver.clearDatabase()
-        mockCore.config.localConfigs = Configs()
+        testCore.sqlDriver.clearDatabase()
+        testCore.config.localConfigs = Configs()
     }
 
     @Test
     fun `sync and get achievements`() = runBlocking {
-        assertTrue(actual = mockCore.useCases.achievement.getAchievements().isEmpty())
-        mockCore.useCases.achievement.syncAchievements()
-        assertTrue(actual = mockCore.useCases.achievement.getAchievements().isNotEmpty())
+        assertTrue(actual = testCore.useCases.achievement.getAchievements().isEmpty())
+        testCore.useCases.achievement.syncAchievements()
+        assertTrue(actual = testCore.useCases.achievement.getAchievements().isNotEmpty())
     }
 
     @Test
     fun `prepopulate and get achievements`() = runBlocking {
-        assertTrue(actual = mockCore.useCases.achievement.getAchievements().isEmpty())
-        mockCore.useCases.achievement.prepopulateAchievements()
-        assertTrue(actual = mockCore.useCases.achievement.getAchievements().isNotEmpty())
+        assertTrue(actual = testCore.useCases.achievement.getAchievements().isEmpty())
+        testCore.useCases.achievement.prepopulateAchievements()
+        assertTrue(actual = testCore.useCases.achievement.getAchievements().isNotEmpty())
     }
 }
