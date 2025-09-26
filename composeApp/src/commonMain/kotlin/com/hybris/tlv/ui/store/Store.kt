@@ -34,6 +34,10 @@ internal open class Store<State, Action>(
      * The list of jobs launched by the Store.
      */
     private val jobs = mutableListOf<Job>()
+    /**
+     * The current navigation state.
+     */
+    private val navigationState: NavigationManager.State get() = NavigationManager.State(screen = navigation.stateFlow.value.screen, state = _stateFlow.value)
 
     init {
         navigation.back = { back(state = _stateFlow.value).invoke() }
@@ -52,24 +56,6 @@ internal open class Store<State, Action>(
      * Back navigation.
      */
     protected open fun back(state: State): () -> Unit = {}
-
-    /**
-     * Navigate to feedback screen.
-     */
-    fun feedback() = navigate(
-        screen = Screen.FEEDBACK,
-        state = FeedbackStateBuilder(
-            navigationState = NavigationManager.State(
-                screen = navigation.stateFlow.value.screen,
-                state = _stateFlow.value
-            )
-        )
-    )
-
-    /**
-     * Toggle audio player.
-     */
-    fun toggleAudio() = audioPlayer?.toggle()
 
     /**
      * Sends an [Action] to the Store.
@@ -93,4 +79,17 @@ internal open class Store<State, Action>(
      */
     protected fun launch(block: suspend CoroutineScope.() -> Unit): Job =
         dispatcher.io.launch { block() }.also { jobs.add(element = it) }
+
+    /**
+     * Toggle audio player.
+     */
+    fun toggleAudio() = audioPlayer?.toggle()
+
+    /**
+     * Navigate to feedback screen.
+     */
+    fun feedback() = navigate(
+        screen = Screen.FEEDBACK,
+        state = FeedbackStateBuilder(navigationState = navigationState)
+    )
 }
