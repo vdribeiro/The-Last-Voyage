@@ -5,6 +5,9 @@ import com.hybris.tlv.usecase.learning.model.LearningType
 
 internal sealed interface MainMenuAction {
     data object NewGame: MainMenuAction
+    data object YesNewGameDialog: MainMenuAction
+    data object NoNewGameDialog: MainMenuAction
+    data object HideNewGameDialog: MainMenuAction
     data object Continue: MainMenuAction
     data object Learn: MainMenuAction
     data object Scores: MainMenuAction
@@ -16,9 +19,6 @@ internal sealed interface MainMenuAction {
     data object PlanetDefinition: MainMenuAction
     data object Mechanics: MainMenuAction
     data object Habitability: MainMenuAction
-    data object YesNewGameDialog: MainMenuAction
-    data object NoNewGameDialog: MainMenuAction
-    data object HideNewGameDialog: MainMenuAction
 }
 
 internal data class MainMenuStateBuilder(

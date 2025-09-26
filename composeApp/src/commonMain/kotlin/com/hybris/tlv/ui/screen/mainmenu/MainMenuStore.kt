@@ -59,9 +59,17 @@ internal class MainMenuStore(
     }
 
     private fun newGame(): Job = launch {
-        if (Preferences.get().showTutorial) {
-            updateState { it.copy(newGameDialog = true) }
-        } else navigate(screen = Screen.NEW_GAME)
+        if (Preferences.get().showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = Screen.NEW_GAME)
+    }
+
+    private fun newGameWithoutTutorial(): Job = launch {
+        Preferences.set(preferences = Preferences.get().copy(showTutorial = false))
+        navigate(screen = Screen.NEW_GAME)
+    }
+
+    private fun newGameWithTutorial(): Job = launch {
+        Preferences.set(preferences = Preferences.get().copy(showTutorial = false))
+        navigate(screen = Screen.TUTORIAL)
     }
 
     override fun back(state: MainMenuState) = {
@@ -77,6 +85,9 @@ internal class MainMenuStore(
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
             MainMenuAction.NewGame -> newGame()
+            MainMenuAction.HideNewGameDialog -> updateState { it.copy(newGameDialog = false) }
+            MainMenuAction.NoNewGameDialog -> newGameWithoutTutorial()
+            MainMenuAction.YesNewGameDialog -> newGameWithTutorial()
             MainMenuAction.Continue -> navigate(screen = Screen.GAME)
             MainMenuAction.Learn -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
             MainMenuAction.Scores -> navigate(screen = Screen.SCORE)
@@ -88,9 +99,6 @@ internal class MainMenuStore(
             MainMenuAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
             MainMenuAction.Mechanics -> navigate(screen = Screen.TUTORIAL)
             MainMenuAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
-            MainMenuAction.HideNewGameDialog -> updateState { it.copy(newGameDialog = false) }
-            MainMenuAction.NoNewGameDialog -> navigate(screen = Screen.NEW_GAME)
-            MainMenuAction.YesNewGameDialog -> navigate(screen = Screen.TUTORIAL)
         }
     }
 }
