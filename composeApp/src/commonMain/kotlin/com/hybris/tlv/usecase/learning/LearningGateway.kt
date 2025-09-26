@@ -6,7 +6,8 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.LEARNINGS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.serializer.loadFromJson
+import com.hybris.tlv.serializer.LEARNINGS_JSON
+import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.usecase.learning.model.Learning
 import database.AppDatabase
 import io.ktor.client.HttpClient
@@ -31,7 +32,7 @@ internal class LearningGateway(
 
     override suspend fun prepopulateLearnings() {
         if (learningDao.isLearningEmpty().executeAsList().isEmpty()) {
-            val learnings: List<Learning> = loadFromJson(path = "files/learnings.json")
+            val learnings: List<Learning> = loadFromJsonResource(path = LEARNINGS_JSON)
             rewriteLearnings(learnings = learnings)
         }
     }

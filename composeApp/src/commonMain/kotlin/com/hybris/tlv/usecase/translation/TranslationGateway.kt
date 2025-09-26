@@ -8,7 +8,8 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.TRANSLATIONS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.serializer.loadFromJson
+import com.hybris.tlv.serializer.TRANSLATIONS_JSON
+import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.usecase.translation.model.Translation
 import database.AppDatabase
 import io.ktor.client.HttpClient
@@ -34,7 +35,7 @@ internal class TranslationGateway(
 
     override suspend fun prepopulateTranslations() {
         if (translationDao.isTranslationEmpty().executeAsList().isEmpty()) {
-            val translations: List<Translation> = loadFromJson(path = "files/translations.json")
+            val translations: List<Translation> = loadFromJsonResource(path = TRANSLATIONS_JSON)
             rewriteTranslations(translations = translations)
             setCache(translations = translations)
         } else {

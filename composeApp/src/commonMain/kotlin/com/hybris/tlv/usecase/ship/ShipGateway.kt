@@ -6,7 +6,8 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.ENGINES_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.serializer.loadFromJson
+import com.hybris.tlv.serializer.ENGINES_JSON
+import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import database.AppDatabase
@@ -33,7 +34,7 @@ internal class ShipGateway(
 
     override suspend fun prepopulateEngines() {
         if (engineDao.isEngineEmpty().executeAsList().isEmpty()) {
-            val engines: List<Engine> = loadFromJson(path = "files/engines.json")
+            val engines: List<Engine> = loadFromJsonResource(path = ENGINES_JSON)
             rewriteEngines(engines = engines)
         }
     }

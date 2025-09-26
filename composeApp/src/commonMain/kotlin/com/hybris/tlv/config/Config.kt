@@ -4,6 +4,7 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.CONFIGS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.serializer.CONFIGS_JSON
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.storage.loadFile
 import com.hybris.tlv.storage.saveFile
@@ -21,7 +22,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     }
 
     private suspend fun fetchLocal() {
-        this@Config.localConfigs = loadFile(fileName = "configs.json")?.let {
+        this@Config.localConfigs = loadFile(fileName = CONFIGS_JSON)?.let {
             runCatching { json.decodeFromString<Configs>(string = it) }.getOrNull()
         } ?: Configs().also { flush(configs = it) }
     }
@@ -36,7 +37,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
 
     override suspend fun flush(configs: Configs) {
         runCatching { json.encodeToString(value = configs) }.getOrNull()?.let {
-            saveFile(fileName = "configs.json", content = it)
+            saveFile(fileName = CONFIGS_JSON, content = it)
         }
     }
 

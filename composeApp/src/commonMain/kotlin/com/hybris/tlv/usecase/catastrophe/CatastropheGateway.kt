@@ -6,7 +6,8 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.CATASTROPHES_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.serializer.loadFromJson
+import com.hybris.tlv.serializer.CATASTROPHES_JSON
+import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import database.AppDatabase
 import io.ktor.client.HttpClient
@@ -31,7 +32,7 @@ internal class CatastropheGateway(
 
     override suspend fun prepopulateCatastrophes() {
         if (catastropheDao.isCatastropheEmpty().executeAsList().isEmpty()) {
-            val catastrophes: List<Catastrophe> = loadFromJson(path = "files/catastrophes.json")
+            val catastrophes: List<Catastrophe> = loadFromJsonResource(path = CATASTROPHES_JSON)
             rewriteCatastrophes(catastrophes = catastrophes)
         }
     }

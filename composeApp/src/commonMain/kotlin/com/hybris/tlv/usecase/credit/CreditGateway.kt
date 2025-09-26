@@ -6,7 +6,8 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.CREDITS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.logger.Logger
-import com.hybris.tlv.serializer.loadFromJson
+import com.hybris.tlv.serializer.CREDITS_JSON
+import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.usecase.credit.model.Credit
 import database.AppDatabase
 import io.ktor.client.HttpClient
@@ -31,7 +32,7 @@ internal class CreditGateway(
 
     override suspend fun prepopulateCredits() {
         if (creditDao.isCreditEmpty().executeAsList().isEmpty()) {
-            val credits: List<Credit> = loadFromJson(path = "files/credits.json")
+            val credits: List<Credit> = loadFromJsonResource(path = CREDITS_JSON)
             rewriteCredits(credits = credits)
         }
     }

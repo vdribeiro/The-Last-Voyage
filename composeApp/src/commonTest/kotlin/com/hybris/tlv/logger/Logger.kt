@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.hybris.tlv.logger
 
 internal object Logger {

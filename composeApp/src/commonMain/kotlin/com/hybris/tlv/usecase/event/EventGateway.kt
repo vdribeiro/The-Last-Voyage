@@ -6,8 +6,9 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.EVENTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.serializer.EVENTS_JSON
 import com.hybris.tlv.serializer.json
-import com.hybris.tlv.serializer.loadFromJson
+import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import database.AppDatabase
@@ -33,7 +34,7 @@ internal class EventGateway(
 
     override suspend fun prepopulateEvents() {
         if (eventDao.isEventEmpty().executeAsList().isEmpty()) {
-            val events: List<Event> = loadFromJson(path = "files/events.json")
+            val events: List<Event> = loadFromJsonResource(path = EVENTS_JSON)
             rewriteEvents(events = events)
         }
     }

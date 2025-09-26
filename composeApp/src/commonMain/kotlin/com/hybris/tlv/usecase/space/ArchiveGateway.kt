@@ -4,8 +4,12 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.serializer.PLANETS_JSON
+import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
+import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
+import com.hybris.tlv.serializer.STELLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.json
-import com.hybris.tlv.serializer.loadFromJson
+import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.storage.saveFile
 import com.hybris.tlv.usecase.space.formula.DerivedData
 import com.hybris.tlv.usecase.space.formula.parsecsToLightYears
@@ -53,8 +57,8 @@ internal class ArchiveGateway(
 ): ArchiveUseCases {
 
     override suspend fun getArchive() {
-        val stellarHosts = loadFromJson<StellarHost>(path = "files/solarsystem.json").toMutableList()
-        val planets = loadFromJson<Planet>(path = "files/solarplanets.json").toMutableList()
+        val stellarHosts = loadFromJsonResource<StellarHost>(path = SOLAR_HOSTS_JSON).toMutableList()
+        val planets = loadFromJsonResource<Planet>(path = SOLAR_PLANETS_JSON).toMutableList()
 
         when (val stellarHostsArchiveResult = getArchive { offset, limit -> getStellarHostsArchive(offset = offset, limit = limit) }) {
             is ExoplanetsResult.Error -> Logger.error(tag = TAG, message = stellarHostsArchiveResult.error)
@@ -92,10 +96,10 @@ internal class ArchiveGateway(
         val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
 
         runCatching { json.encodeToString(value = derivedStellarHosts.map { it.copy() }) }.getOrNull()?.let {
-            saveFile(fileName = "hosts.json", content = it)
+            saveFile(fileName = STELLAR_HOSTS_JSON, content = it)
         }
         runCatching { json.encodeToString(value = derivedPlanets.map { it.copy() }) }.getOrNull()?.let {
-            saveFile(fileName = "planets.json", content = it)
+            saveFile(fileName = PLANETS_JSON, content = it)
         }
     }
 

@@ -1,3 +1,5 @@
+@file:Suppress("unused", "UNCHECKED_CAST", "RedundantSuspendModifier")
+
 package com.hybris.tlv.serializer
 
 import com.hybris.tlv.achievements
@@ -19,18 +21,16 @@ val json = Json {
     prettyPrint = true
 }
 
-@Suppress("UNCHECKED_CAST", "RedundantSuspendModifier", "unused")
 private suspend fun <T> loadFromJsonShadowing(path: String, serializer: KSerializer<List<T>>): List<T> =
     when (path) {
-        "files/configs.json" -> configs
-        "files/translations.json" -> translations
-        "files/learnings.json" -> learnings
-        "files/catastrophes.json" -> catastrophes
-        "files/engines.json" -> engines
-        "files/hosts.json" -> stellarHosts
-        "files/planets.json" -> planets
-        "files/events.json" -> events
-        "files/achievements.json" -> achievements
-        "files/credits.json" -> credits
+        TRANSLATIONS_JSON -> translations
+        LEARNINGS_JSON -> learnings
+        CATASTROPHES_JSON -> catastrophes
+        ENGINES_JSON -> engines
+        STELLAR_HOSTS_JSON, SOLAR_HOSTS_JSON -> stellarHosts
+        PLANETS_JSON, SOLAR_PLANETS_JSON -> planets
+        EVENTS_JSON -> events
+        ACHIEVEMENTS_JSON -> achievements
+        CREDITS_JSON -> credits
         else -> emptyList()
     } as List<T>

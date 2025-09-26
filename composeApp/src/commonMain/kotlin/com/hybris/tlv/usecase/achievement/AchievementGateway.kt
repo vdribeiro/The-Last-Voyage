@@ -6,8 +6,9 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.ACHIEVEMENTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.serializer.ACHIEVEMENTS_JSON
 import com.hybris.tlv.serializer.json
-import com.hybris.tlv.serializer.loadFromJson
+import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
 import database.AppDatabase
@@ -33,7 +34,7 @@ internal class AchievementGateway(
 
     override suspend fun prepopulateAchievements() {
         if (achievementDao.isAchievementEmpty().executeAsList().isEmpty()) {
-            val achievements: List<Achievement> = loadFromJson(path = "files/achievements.json")
+            val achievements: List<Achievement> = loadFromJsonResource(path = ACHIEVEMENTS_JSON)
             rewriteAchievements(achievements = achievements)
         }
     }
