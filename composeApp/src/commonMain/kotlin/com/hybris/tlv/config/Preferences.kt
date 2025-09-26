@@ -11,14 +11,12 @@ internal data class Preferences(
     val showTutorial: Boolean = true,
 ) {
     companion object {
-        suspend fun get(): Preferences = loadFile(fileName = PREFERENCES_JSON)?.let {
+        fun get(): Preferences = loadFile(fileName = PREFERENCES_JSON)?.let {
             runCatching { json.decodeFromString<Preferences>(string = it) }.getOrNull()
         } ?: Preferences().also { set(preferences = it) }
 
-        suspend fun set(preferences: Preferences) {
-            runCatching { json.encodeToString(value = preferences) }.getOrNull()?.let {
-                saveFile(fileName = PREFERENCES_JSON, content = it)
-            }
-        }
+        fun set(preferences: Preferences): Boolean = runCatching { json.encodeToString(value = preferences) }.getOrNull()?.let {
+            saveFile(fileName = PREFERENCES_JSON, content = it)
+        } ?: false
     }
 }
