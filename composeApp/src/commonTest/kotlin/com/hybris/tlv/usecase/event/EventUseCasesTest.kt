@@ -3,7 +3,7 @@ package com.hybris.tlv.usecase.event
 import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.events
-import com.hybris.tlv.mock
+import com.hybris.tlv.mockCore
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -14,33 +14,33 @@ internal class EventUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        mock.sqlDriver.clearDatabase()
-        mock.config.localConfigs = Configs()
+        mockCore.sqlDriver.clearDatabase()
+        mockCore.config.localConfigs = Configs()
     }
 
     @Test
     fun `sync and get events`() = runBlocking {
-        assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
-        mock.useCases.event.syncEvents()
-        assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
+        assertTrue(actual = mockCore.useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
+        mockCore.useCases.event.syncEvents()
+        assertTrue(actual = mockCore.useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
         val ids = events.map { it.id }.toSet()
-        assertTrue(actual = mock.useCases.event.getRandomEvent(ids = ids).isEmpty())
+        assertTrue(actual = mockCore.useCases.event.getRandomEvent(ids = ids).isEmpty())
         assertEquals(
             expected = listOf(events.first()),
-            actual = mock.useCases.event.getRandomEvent(ids = ids - events.first().id)
+            actual = mockCore.useCases.event.getRandomEvent(ids = ids - events.first().id)
         )
     }
 
     @Test
     fun `prepopulate and get events`() = runBlocking {
-        assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
-        mock.useCases.event.prepopulateEvents()
-        assertTrue(actual = mock.useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
+        assertTrue(actual = mockCore.useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
+        mockCore.useCases.event.prepopulateEvents()
+        assertTrue(actual = mockCore.useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
         val ids = events.map { it.id }.toSet()
-        assertTrue(actual = mock.useCases.event.getRandomEvent(ids = ids).isEmpty())
+        assertTrue(actual = mockCore.useCases.event.getRandomEvent(ids = ids).isEmpty())
         assertEquals(
             expected = listOf(events.first()),
-            actual = mock.useCases.event.getRandomEvent(ids = ids - events.first().id)
+            actual = mockCore.useCases.event.getRandomEvent(ids = ids - events.first().id)
         )
     }
 }

@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.screen.score
 
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.mock
+import com.hybris.tlv.mockCore
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
@@ -16,24 +16,24 @@ internal class ScoreStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        mock.sqlDriver.clearDatabase()
-        mock.navigation.navigate(screen = NavigationManager.Screen.SCORE)
+        mockCore.sqlDriver.clearDatabase()
+        mockCore.navigation.navigate(screen = NavigationManager.Screen.SCORE)
     }
 
     @Test
     fun `init`() = runBlocking {
-        mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        val latestGameSession = mock.useCases.gameSession.getLatestGameSession()!!
-        mock.useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
+        mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val latestGameSession = mockCore.useCases.gameSession.getLatestGameSession()!!
+        mockCore.useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
         val scoreStore = store
-        assertEquals(expected = listOf(mock.useCases.gameSession.getLatestGameSession()), actual = scoreStore.stateFlow.value.gameSessions)
+        assertEquals(expected = listOf(mockCore.useCases.gameSession.getLatestGameSession()), actual = scoreStore.stateFlow.value.gameSessions)
     }
 
     @Test
     fun `send action back`() = runBlocking {
         store
-        assertEquals(expected = NavigationManager.Screen.SCORE, actual = mock.navigation.stateFlow.value.screen)
-        mock.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.SCORE, actual = mockCore.navigation.stateFlow.value.screen)
+        mockCore.navigation.back()
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mockCore.navigation.stateFlow.value.screen)
     }
 }

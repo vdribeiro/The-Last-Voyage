@@ -7,7 +7,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.achievements
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock
+import com.hybris.tlv.mockCore
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.theme.AppTheme
 import kotlin.test.BeforeTest
@@ -19,7 +19,7 @@ internal class AchievementScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        mock.sqlDriver.clearDatabase()
+        mockCore.sqlDriver.clearDatabase()
     }
 
     @Test
@@ -39,7 +39,7 @@ internal class AchievementScreenTest {
 
     @Test
     fun achievementWithData() = runComposeUiTest {
-        runBlocking { mock.useCases.achievement.prepopulateAchievements() }
+        runBlocking { mockCore.useCases.achievement.prepopulateAchievements() }
         val store = storeFactory.createAchievementStore()
         setContent {
             AppTheme {

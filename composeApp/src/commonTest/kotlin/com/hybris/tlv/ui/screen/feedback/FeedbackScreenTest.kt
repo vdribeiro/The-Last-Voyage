@@ -7,7 +7,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock
+import com.hybris.tlv.mockCore
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.theme.AppTheme
 import kotlin.test.BeforeTest
@@ -18,7 +18,7 @@ internal class FeedbackScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        mock.sqlDriver.clearDatabase()
+        mockCore.sqlDriver.clearDatabase()
     }
 
     @Test

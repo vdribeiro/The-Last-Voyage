@@ -6,7 +6,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.mock
+import com.hybris.tlv.mockCore
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.theme.AppTheme
 import kotlin.test.BeforeTest
@@ -18,7 +18,7 @@ internal class EventScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        mock.sqlDriver.clearDatabase()
+        mockCore.sqlDriver.clearDatabase()
     }
 
     @Test
@@ -43,8 +43,8 @@ internal class EventScreenTest {
     @Test
     fun eventWithData() = runComposeUiTest {
         runBlocking {
-            mock.useCases.event.prepopulateEvents()
-            mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+            mockCore.useCases.event.prepopulateEvents()
+            mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         }
         val store = storeFactory.createEventStore()
         setContent {

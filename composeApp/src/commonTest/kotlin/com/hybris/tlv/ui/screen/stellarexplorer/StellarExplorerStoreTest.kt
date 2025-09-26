@@ -1,7 +1,7 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock
+import com.hybris.tlv.mockCore
 import com.hybris.tlv.planets
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.storeFactory
@@ -17,14 +17,14 @@ internal class StellarExplorerStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        mock.sqlDriver.clearDatabase()
-        mock.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
+        mockCore.sqlDriver.clearDatabase()
+        mockCore.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
     }
 
     @Test
     fun `init`() = runBlocking {
-        mock.useCases.space.prepopulateStellarHosts()
-        mock.useCases.space.prepopulatePlanets()
+        mockCore.useCases.space.prepopulateStellarHosts()
+        mockCore.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
         val state = stellarExplorerStore.stateFlow.value
         assertEquals(expected = Content.LIST_HOSTS, actual = state.currentContent)
@@ -34,20 +34,20 @@ internal class StellarExplorerStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         val stellarExplorerStore = store
-        mock.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
+        mockCore.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
 
         stellarExplorerStore.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHosts.first()))
         assertEquals(expected = Content.DETAIL_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-        mock.navigation.back()
+        mockCore.navigation.back()
         assertEquals(expected = Content.LIST_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
         assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         stellarExplorerStore.send(action = StellarExplorerAction.OpenPlanet(planet = planets.first()))
         assertEquals(expected = Content.DETAIL_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-        mock.navigation.back()
+        mockCore.navigation.back()
         assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-        mock.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mock.navigation.stateFlow.value.screen)
+        mockCore.navigation.back()
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mockCore.navigation.stateFlow.value.screen)
     }
 
     @Test
@@ -60,8 +60,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action search`() = runBlocking {
-        mock.useCases.space.prepopulateStellarHosts()
-        mock.useCases.space.prepopulatePlanets()
+        mockCore.useCases.space.prepopulateStellarHosts()
+        mockCore.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.Search(search = stellarHosts.first().id))
@@ -74,8 +74,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action sort`() = runBlocking {
-        mock.useCases.space.prepopulateStellarHosts()
-        mock.useCases.space.prepopulatePlanets()
+        mockCore.useCases.space.prepopulateStellarHosts()
+        mockCore.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.SortStellarHosts(sort = StellarHostProperty.NAME))
@@ -91,8 +91,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action change visibility`() = runBlocking {
-        mock.useCases.space.prepopulateStellarHosts()
-        mock.useCases.space.prepopulatePlanets()
+        mockCore.useCases.space.prepopulateStellarHosts()
+        mockCore.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = StellarHostProperty.NAME))
@@ -145,8 +145,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action change searchable`() = runBlocking {
-        mock.useCases.space.prepopulateStellarHosts()
-        mock.useCases.space.prepopulatePlanets()
+        mockCore.useCases.space.prepopulateStellarHosts()
+        mockCore.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
 
         assertEquals(expected = setOf(StellarHostProperty.NAME), actual = stellarExplorerStore.stateFlow.value.searchableStellarHostProperties)

@@ -4,7 +4,7 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.events
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.hostsWithPlanets
-import com.hybris.tlv.mock
+import com.hybris.tlv.mockCore
 import com.hybris.tlv.planets
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.usecase.gamesession.model.GameOver
@@ -24,29 +24,29 @@ internal class GameSessionUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        mock.sqlDriver.clearDatabase()
+        mockCore.sqlDriver.clearDatabase()
     }
 
     @Test
     fun `write and get game sessions`() = runBlocking {
-        assertNull(actual = mock.useCases.gameSession.getLatestGameSession())
-        assertTrue(actual = mock.useCases.gameSession.getGameSessions().isEmpty())
-        assertFalse(actual = mock.useCases.gameSession.isGameSessionOngoing())
-        val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        assertTrue(actual = mock.useCases.gameSession.isGameSessionOngoing())
-        assertEquals(expected = gameSession, actual = mock.useCases.gameSession.getLatestGameSession())
-        assertTrue(actual = mock.useCases.gameSession.getGameSessions().isNotEmpty())
+        assertNull(actual = mockCore.useCases.gameSession.getLatestGameSession())
+        assertTrue(actual = mockCore.useCases.gameSession.getGameSessions().isEmpty())
+        assertFalse(actual = mockCore.useCases.gameSession.isGameSessionOngoing())
+        val gameSession = mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        assertTrue(actual = mockCore.useCases.gameSession.isGameSessionOngoing())
+        assertEquals(expected = gameSession, actual = mockCore.useCases.gameSession.getLatestGameSession())
+        assertTrue(actual = mockCore.useCases.gameSession.getGameSessions().isNotEmpty())
         val newGameSession = gameSession.copy(score = 9000.0)
-        mock.useCases.gameSession.updateGameSession(gameSession = newGameSession)
-        assertEquals(expected = newGameSession, actual = mock.useCases.gameSession.getLatestGameSession())
+        mockCore.useCases.gameSession.updateGameSession(gameSession = newGameSession)
+        assertEquals(expected = newGameSession, actual = mockCore.useCases.gameSession.getLatestGameSession())
     }
 
     @Test
     fun `do event`() = runBlocking {
-        val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val gameSession = mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val event = events.find { it.outcome != null }!!
         event.outcome!!
-        val newGameSession = mock.useCases.gameSession.launchEvent(gameSession = gameSession, event = event)
+        val newGameSession = mockCore.useCases.gameSession.launchEvent(gameSession = gameSession, event = event)
         assertEquals(expected = gameSession.ship.integrity + (event.outcome.integrity ?: 0), actual = newGameSession.ship.integrity)
         assertEquals(expected = gameSession.ship.fuel + (event.outcome.fuel ?: 0), actual = newGameSession.ship.fuel)
         assertEquals(expected = gameSession.ship.materials + (event.outcome.materials ?: 0), actual = newGameSession.ship.materials)
@@ -55,9 +55,9 @@ internal class GameSessionUseCasesTest {
 
     @Test
     fun travel() = runBlocking {
-        val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val gameSession = mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val stellarHost = stellarHosts.random()
-        val newGameSession = mock.useCases.gameSession.travel(gameSession = gameSession, stellarHost = stellarHost)
+        val newGameSession = mockCore.useCases.gameSession.travel(gameSession = gameSession, stellarHost = stellarHost)
         assertEquals(expected = stellarHost.id, actual = newGameSession.currentStellarHostId)
         assertTrue(actual = newGameSession.visitedStellarHosts.contains(element = stellarHost.id))
 
@@ -69,7 +69,7 @@ internal class GameSessionUseCasesTest {
 
     @Test
     fun settle() = runBlocking {
-        val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val gameSession = mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val stellarHost = hostsWithPlanets.filter { it.planets.isNotEmpty() }.random()
         val planet = stellarHost.planets.random().apply {
             score = Habitability.calculateScores(
@@ -79,16 +79,16 @@ internal class GameSessionUseCasesTest {
             )
         }
 
-        val newGameSession = mock.useCases.gameSession.settle(gameSession = gameSession, planet = planet)
+        val newGameSession = mockCore.useCases.gameSession.settle(gameSession = gameSession, planet = planet)
         assertEquals(expected = planet.id, actual = newGameSession.settledPlanetId)
         assertEquals(expected = planet.score?.habitabilityScore?.times(other = 100.0), actual = newGameSession.finalHabitability)
     }
 
     @Test
     fun score() = runBlocking {
-        val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val gameSession = mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameOver = GameOver.entries.random()
-        val newGameSession = mock.useCases.gameSession.score(gameSession = gameSession, gameOver = gameOver)
+        val newGameSession = mockCore.useCases.gameSession.score(gameSession = gameSession, gameOver = gameOver)
 
         val ship = gameSession.ship
         val cryopodScore = ship.cryopods * 100
@@ -96,7 +96,7 @@ internal class GameSessionUseCasesTest {
         val journeyScore = ship.yearsTraveled * 5
         val baseScore = cryopodScore + resourceScore + journeyScore
         val challengeMultiplier = (1.0 + (15 - ship.assignedPoints) + 0.05).coerceIn(minimumValue = 0.01, maximumValue = 10.0)
-        val gameOverMultiplier = (mock.useCases.gameSession as GameSessionGateway).getGameOverMultiplier(gameOver = gameOver)
+        val gameOverMultiplier = (mockCore.useCases.gameSession as GameSessionGateway).getGameOverMultiplier(gameOver = gameOver)
         val score = baseScore * gameOverMultiplier * challengeMultiplier
 
         assertEquals(expected = score, actual = newGameSession.score)
@@ -104,13 +104,13 @@ internal class GameSessionUseCasesTest {
 
     @Test
     fun `is game over`() = runBlocking {
-        val gameSession = mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        assertFalse(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSession))
+        val gameSession = mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        assertFalse(actual = mockCore.useCases.gameSession.isGameOver(gameSession = gameSession))
 
         val gameSessionNoIntegrity = gameSession.copy(ship = gameSession.ship.copy(integrity = 0))
-        mock.useCases.gameSession.updateGameSession(gameSession = gameSessionNoIntegrity)
-        assertTrue(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSessionNoIntegrity))
-        val gameOverNoIntegrity = mock.useCases.gameSession.getGameOver(gameSession = gameSessionNoIntegrity)
+        mockCore.useCases.gameSession.updateGameSession(gameSession = gameSessionNoIntegrity)
+        assertTrue(actual = mockCore.useCases.gameSession.isGameOver(gameSession = gameSessionNoIntegrity))
+        val gameOverNoIntegrity = mockCore.useCases.gameSession.getGameOver(gameSession = gameSessionNoIntegrity)
         val gameOverNoIntegrityList = listOf(
             GameOver.INTEGRITY_ZERO,
             GameOver.INTEGRITY_ZERO_YEARS_FEW,
@@ -130,13 +130,13 @@ internal class GameSessionUseCasesTest {
         )
         assertTrue(actual = gameOverNoIntegrityList.any { it == gameOverNoIntegrity })
 
-        mock.useCases.gameSession.updateGameSession(gameSession = gameSession)
-        assertFalse(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSession))
+        mockCore.useCases.gameSession.updateGameSession(gameSession = gameSession)
+        assertFalse(actual = mockCore.useCases.gameSession.isGameOver(gameSession = gameSession))
 
         val gameSessionNoFuel = gameSession.copy(ship = gameSession.ship.copy(fuel = 0))
-        mock.useCases.gameSession.updateGameSession(gameSession = gameSessionNoFuel)
-        assertTrue(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSessionNoFuel))
-        val gameOverNoFuel = mock.useCases.gameSession.getGameOver(gameSession = gameSessionNoFuel)
+        mockCore.useCases.gameSession.updateGameSession(gameSession = gameSessionNoFuel)
+        assertTrue(actual = mockCore.useCases.gameSession.isGameOver(gameSession = gameSessionNoFuel))
+        val gameOverNoFuel = mockCore.useCases.gameSession.getGameOver(gameSession = gameSessionNoFuel)
         val gameOverNoFuelList = listOf(
             GameOver.FUEL_ZERO,
             GameOver.FUEL_ZERO_YEARS_FEW,
@@ -159,16 +159,16 @@ internal class GameSessionUseCasesTest {
         )
         assertTrue(actual = gameOverNoFuelList.any { it == gameOverNoFuel })
 
-        mock.useCases.gameSession.updateGameSession(gameSession = gameSession)
-        assertFalse(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSession))
+        mockCore.useCases.gameSession.updateGameSession(gameSession = gameSession)
+        assertFalse(actual = mockCore.useCases.gameSession.isGameOver(gameSession = gameSession))
 
         val gameSessionSettled = gameSession.copy(
             settledPlanetId = planets.random().id,
             finalHabitability = Random.nextDouble(until = 100.0)
         )
-        mock.useCases.gameSession.updateGameSession(gameSession = gameSessionSettled)
-        assertTrue(actual = mock.useCases.gameSession.isGameOver(gameSession = gameSessionSettled))
-        val gameOverSettled = mock.useCases.gameSession.getGameOver(gameSession = gameSessionSettled)
+        mockCore.useCases.gameSession.updateGameSession(gameSession = gameSessionSettled)
+        assertTrue(actual = mockCore.useCases.gameSession.isGameOver(gameSession = gameSessionSettled))
+        val gameOverSettled = mockCore.useCases.gameSession.getGameOver(gameSession = gameSessionSettled)
         val gameOverSettledList = GameOver.entries - (gameOverNoIntegrityList + gameOverNoFuelList)
         assertTrue(actual = gameOverSettledList.any { it == gameOverSettled })
     }

@@ -6,7 +6,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.mock
+import com.hybris.tlv.mockCore
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.theme.AppTheme
 import kotlin.test.BeforeTest
@@ -18,7 +18,7 @@ internal class MainMenuScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        mock.sqlDriver.clearDatabase()
+        mockCore.sqlDriver.clearDatabase()
     }
 
     @Test
@@ -50,8 +50,8 @@ internal class MainMenuScreenTest {
     @Test
     fun mainMenuWithData() = runComposeUiTest {
         runBlocking {
-            mock.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-            mock.useCases.learning.prepopulateLearnings()
+            mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+            mockCore.useCases.learning.prepopulateLearnings()
         }
         val store = storeFactory.createMainMenuStore()
         setContent {

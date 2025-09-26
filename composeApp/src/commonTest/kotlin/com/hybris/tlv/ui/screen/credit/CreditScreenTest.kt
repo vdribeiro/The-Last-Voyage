@@ -14,7 +14,7 @@ import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.credits
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.mock
+import com.hybris.tlv.mockCore
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.credit.model.CreditType
@@ -28,7 +28,7 @@ internal class CreditScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        mock.sqlDriver.clearDatabase()
+        mockCore.sqlDriver.clearDatabase()
     }
 
     @Test
@@ -62,7 +62,7 @@ internal class CreditScreenTest {
             }
         }
 
-        runBlocking { mock.useCases.credit.prepopulateCredits() }
+        runBlocking { mockCore.useCases.credit.prepopulateCredits() }
         val store = storeFactory.createCreditStore()
         setContent {
             CompositionLocalProvider(value = LocalUriHandler provides mockUriHandler) {

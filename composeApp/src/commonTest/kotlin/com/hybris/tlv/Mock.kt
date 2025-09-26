@@ -7,7 +7,7 @@ import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.store.StoreFactory
 
-internal val mock: Core by lazy {
+internal val mockCore: Core by lazy {
     Core(
         dispatcher = TestDispatchers(),
         sqlDriver = createSqlDriver(inMemory = true),
@@ -18,17 +18,17 @@ internal val mock: Core by lazy {
 
 internal val storeFactory: StoreFactory by lazy {
     StoreFactory(
-        dispatcher = mock.dispatcher,
-        navigation = mock.navigation,
-        audioPlayer = mock.audioPlayer,
-        config = mock.config,
-        useCases = mock.useCases
+        dispatcher = mockCore.dispatcher,
+        navigation = mockCore.navigation,
+        audioPlayer = mockCore.audioPlayer,
+        config = mockCore.config,
+        useCases = mockCore.useCases
     )
 }
 
 internal fun <State, Action> getStore(initialState: State): Store<State, Action> = Store(
-    dispatcher = mock.dispatcher,
+    dispatcher = mockCore.dispatcher,
     navigation = MockNavigation(),
-    audioPlayer = mock.audioPlayer,
+    audioPlayer = null,
     initialState = initialState
 )
