@@ -6,6 +6,7 @@ import com.hybris.tlv.http.TestEngines
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.store.StoreFactory
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 private val testDispatchers by lazy { TestDispatchers() }
@@ -29,7 +30,7 @@ internal val storeFactory: StoreFactory by lazy {
 }
 
 private val mockNavigation = object: NavigationManager {
-    override val stateFlow: StateFlow<NavigationManager.State> get() = throw IllegalStateException("StateFlow has no value")
+    override val stateFlow: StateFlow<NavigationManager.State> = MutableStateFlow(value = NavigationManager.State())
     override var back: () -> Unit = {}
 }
 
