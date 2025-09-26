@@ -22,8 +22,8 @@ import androidx.compose.ui.Modifier
 internal fun Screen(
     modifier: Modifier = Modifier,
     loading: Boolean = false,
-    onMusicClick: () -> Unit = {},
-    onFeedbackClick: () -> Unit = {},
+    onMusicClick: (() -> Unit)? = null,
+    onFeedbackClick: (() -> Unit)? = null,
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     content: @Composable () -> Unit = {}
@@ -41,19 +41,23 @@ internal fun Screen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     // Sound button
-                    IconButton(onClick = onMusicClick) {
-                        Icon(
-                            imageVector = Icons.Default.MusicNote,
-                            contentDescription = "Music"
-                        )
+                    onMusicClick?.let {
+                        IconButton(onClick = it) {
+                            Icon(
+                                imageVector = Icons.Default.MusicNote,
+                                contentDescription = "Music"
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.weight(weight = 1f))
                     // Feedback button
-                    IconButton(onClick = onFeedbackClick) {
-                        Icon(
-                            imageVector = Icons.Default.BugReport,
-                            contentDescription = "Feedback"
-                        )
+                    onFeedbackClick?.let {
+                        IconButton(onClick = it) {
+                            Icon(
+                                imageVector = Icons.Default.BugReport,
+                                contentDescription = "Feedback"
+                            )
+                        }
                     }
                 }
                 topBar()

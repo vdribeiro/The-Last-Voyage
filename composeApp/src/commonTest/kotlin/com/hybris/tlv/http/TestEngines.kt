@@ -74,10 +74,6 @@ internal class TestEngines {
         }
     }
 
-    val mockEngineError = MockEngine {
-        respondError(status = HttpStatusCode.InternalServerError)
-    }
-
     private fun StellarHost.toStellarHostJson(): StellarHostJson =
         StellarHostJson(
             stellarHostName = name,
