@@ -16,7 +16,7 @@ internal interface NavigationManager {
 
     var back: () -> Unit
 
-    fun navigate(screen: Screen, stateBuilder: Any? = null) {}
+    fun navigate(screen: Screen, state: Any? = null) {}
 
     @Composable
     fun Screen(state: State) {

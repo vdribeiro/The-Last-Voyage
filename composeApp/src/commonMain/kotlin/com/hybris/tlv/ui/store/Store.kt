@@ -40,12 +40,12 @@ internal open class Store<State, Action>(
     }
 
     /**
-     * Clean up the store and navigate to a new [screen] given an optional [stateBuilder].
+     * Clean up the store and navigate to a new [screen] given an optional [state].
      */
-    protected fun navigate(screen: Screen, stateBuilder: Any? = null) {
+    protected fun navigate(screen: Screen, state: Any? = null) {
         navigation.back = {}
         jobs.forEach { it.cancel() }
-        navigation.navigate(screen = screen, stateBuilder = stateBuilder)
+        navigation.navigate(screen = screen, state = state)
     }
 
     /**
@@ -58,7 +58,12 @@ internal open class Store<State, Action>(
      */
     fun feedback() = navigate(
         screen = Screen.FEEDBACK,
-        stateBuilder = FeedbackStateBuilder(navigationState = navigation.stateFlow.value)
+        state = FeedbackStateBuilder(
+            navigationState = NavigationManager.State(
+                screen = navigation.stateFlow.value.screen,
+                state = _stateFlow.value
+            )
+        )
     )
 
     /**

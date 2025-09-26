@@ -45,8 +45,8 @@ internal class Navigation(
 
     override var back: () -> Unit = {}
 
-    override fun navigate(screen: Screen, stateBuilder: Any?) {
-        dispatcher.main.launch { _stateFlow.update { it.copy(screen = screen, state = stateBuilder) } }
+    override fun navigate(screen: Screen, state: Any?) {
+        dispatcher.main.launch { _stateFlow.update { it.copy(screen = screen, state = state) } }
     }
 
     @Composable
