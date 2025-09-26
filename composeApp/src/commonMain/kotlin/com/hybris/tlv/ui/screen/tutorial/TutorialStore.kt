@@ -12,7 +12,8 @@ internal class TutorialStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer?,
-    state: TutorialState?
+    state: TutorialState?,
+    private val stateBuilder: TutorialStateBuilder,
 ): Store<TutorialState, TutorialAction>(
     dispatcher = dispatcher,
     navigation = navigation,
@@ -23,10 +24,9 @@ internal class TutorialStore(
 ) {
 
     override fun back(state: TutorialState): () -> Unit = {
-        navigate(
-            screen = Screen.MAIN_MENU,
-            state = MainMenuStateBuilder(currentContent = MainMenuContent.LEARN_MENU)
-        )
+        if (!stateBuilder.newGame) {
+            navigate(screen = Screen.MAIN_MENU, state = MainMenuStateBuilder(currentContent = MainMenuContent.LEARN_MENU))
+        } else navigate(screen = Screen.NEW_GAME)
     }
 
     override fun reducer(state: TutorialState, action: TutorialAction) {

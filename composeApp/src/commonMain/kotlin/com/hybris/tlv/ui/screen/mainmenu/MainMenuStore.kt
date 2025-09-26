@@ -6,6 +6,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.learning.LearningUseCases
@@ -70,7 +71,7 @@ internal class MainMenuStore(
 
     private fun newGameWithTutorial(): Job = launch {
         Preferences.set(preferences = Preferences.get().copy(showTutorial = false))
-        navigate(screen = Screen.TUTORIAL)
+        navigate(screen = Screen.TUTORIAL, state = TutorialStateBuilder(newGame = true))
     }
 
     override fun back(state: MainMenuState) = {

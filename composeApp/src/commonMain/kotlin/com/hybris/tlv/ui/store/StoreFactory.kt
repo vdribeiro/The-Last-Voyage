@@ -29,6 +29,7 @@ import com.hybris.tlv.ui.screen.splash.SplashStore
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
 import com.hybris.tlv.ui.screen.tutorial.TutorialState
+import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
 import com.hybris.tlv.ui.screen.tutorial.TutorialStore
 import com.hybris.tlv.usecase.UseCases
 
@@ -88,7 +89,8 @@ internal class StoreFactory(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        state = state as? TutorialState
+        state = state as? TutorialState,
+        stateBuilder = state as? TutorialStateBuilder ?: TutorialStateBuilder()
     )
 
     fun createGameStore(state: Any? = null): GameStore = GameStore(

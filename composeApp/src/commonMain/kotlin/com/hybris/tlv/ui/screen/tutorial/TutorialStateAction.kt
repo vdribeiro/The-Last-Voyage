@@ -4,6 +4,10 @@ internal sealed interface TutorialAction {
     data object Next: TutorialAction
 }
 
+internal data class TutorialStateBuilder(
+    val newGame: Boolean = false,
+)
+
 internal data class TutorialState(
     val tutorialStep: Tutorial,
 )
