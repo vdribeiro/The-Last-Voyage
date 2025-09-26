@@ -9,15 +9,15 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 @Composable
 internal actual fun Register(
     key: Any,
-    onPause: () -> Unit,
-    onResume: () -> Unit,
+    onBackground: () -> Unit,
+    onForeground: () -> Unit,
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(keys = arrayOf(lifecycleOwner, key)) {
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
-                Lifecycle.Event.ON_PAUSE -> onPause()
-                Lifecycle.Event.ON_RESUME -> onResume()
+                Lifecycle.Event.ON_PAUSE -> onBackground()
+                Lifecycle.Event.ON_RESUME -> onForeground()
                 else -> {}
             }
         }

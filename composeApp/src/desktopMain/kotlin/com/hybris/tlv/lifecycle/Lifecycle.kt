@@ -7,12 +7,12 @@ import com.hybris.tlv.LocalWindowState
 @Composable
 internal actual fun Register(
     key: Any,
-    onPause: () -> Unit,
-    onResume: () -> Unit,
+    onBackground: () -> Unit,
+    onForeground: () -> Unit,
 ) {
     val lifecycleOwner = LocalWindowState.current
     DisposableEffect(keys = arrayOf(lifecycleOwner.isMinimized, key)) {
-        if (lifecycleOwner.isMinimized) onPause() else onResume()
+        if (lifecycleOwner.isMinimized) onBackground() else onForeground()
 
         onDispose {}
     }

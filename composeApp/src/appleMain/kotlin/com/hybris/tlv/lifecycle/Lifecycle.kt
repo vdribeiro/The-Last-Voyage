@@ -10,18 +10,18 @@ import platform.UIKit.UIApplicationWillResignActiveNotification
 @Composable
 internal actual fun Register(
     key: Any,
-    onPause: () -> Unit,
-    onResume: () -> Unit,
+    onBackground: () -> Unit,
+    onForeground: () -> Unit,
 ) {
     val lifecycleOwner = NSNotificationCenter.defaultCenter
     DisposableEffect(keys = arrayOf(key)) {
         val pauseObserver = lifecycleOwner.observe(
             name = UIApplicationWillResignActiveNotification,
-            onObserve = onPause
+            onObserve = onBackground
         )
         val resumeObserver = lifecycleOwner.observe(
             name = UIApplicationDidBecomeActiveNotification,
-            onObserve = onResume
+            onObserve = onForeground
         )
 
         onDispose {

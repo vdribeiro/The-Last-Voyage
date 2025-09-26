@@ -27,8 +27,8 @@ internal fun App() = AppTheme {
         if (playlist != null) audioPlayer.play(playlist = playlist)
     }
     Register(
-        onPause = { audioPlayer.pause() },
-        onResume = { audioPlayer.resume() },
+        onBackground = { audioPlayer.pause() },
+        onForeground = { audioPlayer.resume() },
     )
 }
 
