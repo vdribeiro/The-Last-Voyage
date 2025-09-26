@@ -97,10 +97,6 @@ internal class EventStore(
         }
     }
 
-    override fun back(state: EventState): () -> Unit = {
-        navigate(screen = Screen.GAME)
-    }
-
     override fun reducer(state: EventState, action: EventAction) {
         when (action) {
             is EventAction.Select -> select(state = state, action = action)
