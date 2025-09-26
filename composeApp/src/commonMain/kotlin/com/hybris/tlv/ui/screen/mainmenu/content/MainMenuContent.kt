@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -33,12 +35,34 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
     val newGameTranslation = remember { getTranslation(key = "main_menu_screen__new_game") }
+    val tutorialTranslation = remember { getTranslation(key = "main_menu_screen__new_game_tutorial") }
+    val tutorialTranslationYes = remember { getTranslation(key = "main_menu_screen__new_game_tutorial_yes") }
+    val tutorialTranslationNo = remember { getTranslation(key = "main_menu_screen__new_game_tutorial_no") }
     val continueTranslation = remember { getTranslation(key = "main_menu_screen__continue") }
     val learnTranslation = remember { getTranslation(key = "main_menu_screen__learn") }
     val scoresTranslation = remember { getTranslation(key = "main_menu_screen__scores") }
     val soonTranslation = remember { getTranslation(key = "main_menu_screen__soon") }
 
     val typography = LocalTypography.current
+
+    if (storeState.newGameDialog) {
+        AlertDialog(
+            onDismissRequest = { store.send(action = MainMenuAction.HideNewGameDialog) },
+            title = {
+                Text(text = tutorialTranslation)
+            },
+            confirmButton = {
+                Button(onClick = { store.send(action = MainMenuAction.YesNewGameDialog) }) {
+                    Text(text = tutorialTranslationYes)
+                }
+            },
+            dismissButton = {
+                Button(onClick = { store.send(action = MainMenuAction.NoNewGameDialog) }) {
+                    Text(text = tutorialTranslationNo)
+                }
+            }
+        )
+    }
 
     LazyColumn(
         modifier = Modifier

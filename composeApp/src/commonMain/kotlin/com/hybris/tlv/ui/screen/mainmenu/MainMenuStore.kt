@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import com.hybris.tlv.config.ConfigManager
+import com.hybris.tlv.config.Preferences
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -37,6 +38,7 @@ internal class MainMenuStore(
         currentContent = stateBuilder.currentContent,
         ongoingGameSession = false,
         learningsMap = emptyMap(),
+        newGameDialog = false
     )
 ) {
     init {
@@ -56,6 +58,12 @@ internal class MainMenuStore(
         }
     }
 
+    private fun newGame(): Job = launch {
+        if (Preferences.get().showTutorial) {
+            updateState { it.copy(newGameDialog = true) }
+        } else navigate(screen = Screen.NEW_GAME)
+    }
+
     override fun back(state: MainMenuState) = {
         when (state.currentContent) {
             Content.MAIN_MENU -> {}
@@ -68,7 +76,7 @@ internal class MainMenuStore(
 
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
-            MainMenuAction.NewGame -> navigate(screen = Screen.NEW_GAME)
+            MainMenuAction.NewGame -> newGame()
             MainMenuAction.Continue -> navigate(screen = Screen.GAME)
             MainMenuAction.Learn -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
             MainMenuAction.Scores -> navigate(screen = Screen.SCORE)
@@ -80,6 +88,9 @@ internal class MainMenuStore(
             MainMenuAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
             MainMenuAction.Mechanics -> navigate(screen = Screen.TUTORIAL)
             MainMenuAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
+            MainMenuAction.HideNewGameDialog -> updateState { it.copy(newGameDialog = false) }
+            MainMenuAction.NoNewGameDialog -> navigate(screen = Screen.NEW_GAME)
+            MainMenuAction.YesNewGameDialog -> navigate(screen = Screen.TUTORIAL)
         }
     }
 }

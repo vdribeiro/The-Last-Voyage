@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.update
  */
 internal open class Store<State, Action>(
     private val dispatcher: Dispatcher,
-    private val navigation: NavigationManager?,
+    private val navigation: NavigationManager,
     private val audioPlayer: AudioPlayer?,
     initialState: State
 ) {
@@ -36,22 +36,35 @@ internal open class Store<State, Action>(
     private val jobs = mutableListOf<Job>()
 
     init {
-        navigation?.back = { back(state = _stateFlow.value).invoke() }
+        navigation.back = { back(state = _stateFlow.value).invoke() }
     }
-
-    /**
-     * Back navigation.
-     */
-    protected open fun back(state: State): () -> Unit = {}
 
     /**
      * Clean up the store and navigate to a new [screen] given an optional [stateBuilder].
      */
     protected fun navigate(screen: Screen, stateBuilder: Any? = null) {
-        navigation?.back = {}
+        navigation.back = {}
         jobs.forEach { it.cancel() }
-        navigation?.navigate(screen = screen, stateBuilder = stateBuilder)
+        navigation.navigate(screen = screen, stateBuilder = stateBuilder)
     }
+
+    /**
+     * Back navigation.
+     */
+    protected open fun back(state: State): () -> Unit = {
+        val state = navigation.stateFlow.value
+        navigate(screen = state.screen, stateBuilder = state.stateBuilder)
+    }
+
+    /**
+     * Navigate to feedback screen.
+     */
+    fun feedback() = navigate(screen = Screen.FEEDBACK)
+
+    /**
+     * Toggle audio player.
+     */
+    fun toggleAudio() = audioPlayer?.toggle()
 
     /**
      * Sends an [Action] to the Store.
@@ -75,19 +88,4 @@ internal open class Store<State, Action>(
      */
     protected fun launch(block: suspend CoroutineScope.() -> Unit): Job =
         dispatcher.io.launch { block() }.also { jobs.add(element = it) }
-
-    /**
-     * Navigate to feedback screen.
-     */
-    fun feedback() = navigation?.let {
-        navigate(
-            screen = Screen.FEEDBACK,
-            stateBuilder = FeedbackStateBuilder(navigationState = navigation.stateFlow.value)
-        )
-    }
-
-    /**
-     * Toggle audio player.
-     */
-    fun toggleAudio() = audioPlayer?.toggle()
 }

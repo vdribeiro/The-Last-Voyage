@@ -2711,6 +2711,21 @@
   },
   {
     "languageIso": "en",
+    "key": "main_menu_screen__new_game_tutorial",
+    "value": "Show the tutorial?"
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__new_game_tutorial_yes",
+    "value": "Yes"
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__new_game_tutorial_no",
+    "value": "No"
+  },
+  {
+    "languageIso": "en",
     "key": "main_menu_screen__continue",
     "value": "Continue"
   },

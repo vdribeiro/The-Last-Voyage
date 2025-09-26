@@ -33,7 +33,8 @@ private fun MainMenuLoading() {
                     formula = "Formula",
                     currentContent = Content.MAIN_MENU,
                     ongoingGameSession = false,
-                    learningsMap = emptyMap()
+                    learningsMap = emptyMap(),
+                    newGameDialog = false
                 )
             )
         )
@@ -61,7 +62,8 @@ private fun MainMenuAll() {
                     formula = "Formula",
                     currentContent = Content.MAIN_MENU,
                     ongoingGameSession = false,
-                    learningsMap = emptyMap()
+                    learningsMap = emptyMap(),
+                    newGameDialog = false
                 )
             )
         )
@@ -89,7 +91,37 @@ private fun MainMenuContinue() {
                     formula = "Formula",
                     currentContent = Content.MAIN_MENU,
                     ongoingGameSession = true,
-                    learningsMap = emptyMap()
+                    learningsMap = emptyMap(),
+                    newGameDialog = false
+                )
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun MainMenuNewGameDialog() {
+    TranslationCache.set(translations = translations)
+    AppTheme {
+        MainMenuScreen(
+            store = getStore(
+                initialState = MainMenuState(
+                    loading = false,
+                    featureSoon = true,
+                    featureLearn = true,
+                    featureScores = true,
+                    featureAchievements = true,
+                    featureStellarExplorer = true,
+                    featureNewGame = true,
+                    featureTutorial = true,
+                    developerCorner = "Developer Corner",
+                    support = "Support",
+                    formula = "Formula",
+                    currentContent = Content.MAIN_MENU,
+                    ongoingGameSession = true,
+                    learningsMap = emptyMap(),
+                    newGameDialog = true
                 )
             )
         )
@@ -117,7 +149,8 @@ private fun MainMenuNoFeatures() {
                     formula = "Formula",
                     currentContent = Content.MAIN_MENU,
                     ongoingGameSession = false,
-                    learningsMap = emptyMap()
+                    learningsMap = emptyMap(),
+                    newGameDialog = false
                 )
             )
         )
@@ -145,7 +178,8 @@ private fun MainMenuLearn() {
                     formula = "Formula",
                     currentContent = Content.LEARN_MENU,
                     ongoingGameSession = false,
-                    learningsMap = emptyMap()
+                    learningsMap = emptyMap(),
+                    newGameDialog = false
                 )
             )
         )
@@ -192,7 +226,8 @@ private fun MainMenuHostDefinition() {
                             image = "W",
                             type = LearningType.HOST_TYPE
                         ),
-                    ).groupBy { it.type }
+                    ).groupBy { it.type },
+                    newGameDialog = false
                 )
             )
         )
@@ -239,7 +274,8 @@ private fun MainMenuPlanetDefinition() {
                             image = "MINI_NEPTUNE",
                             type = LearningType.PLANET_TYPE
                         ),
-                    ).groupBy { it.type }
+                    ).groupBy { it.type },
+                    newGameDialog = false
                 )
             )
         )
@@ -282,7 +318,8 @@ private fun MainMenuHabitability() {
                             image = null,
                             type = LearningType.FORMULA
                         ),
-                    ).groupBy { it.type }
+                    ).groupBy { it.type },
+                    newGameDialog = false
                 )
             )
         )

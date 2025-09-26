@@ -16,6 +16,9 @@ internal sealed interface MainMenuAction {
     data object PlanetDefinition: MainMenuAction
     data object Mechanics: MainMenuAction
     data object Habitability: MainMenuAction
+    data object YesNewGameDialog: MainMenuAction
+    data object NoNewGameDialog: MainMenuAction
+    data object HideNewGameDialog: MainMenuAction
 }
 
 internal data class MainMenuStateBuilder(
@@ -36,7 +39,8 @@ internal data class MainMenuState(
     val formula: String,
     val currentContent: Content,
     val ongoingGameSession: Boolean,
-    val learningsMap: Map<LearningType, List<Learning>>
+    val learningsMap: Map<LearningType, List<Learning>>,
+    val newGameDialog: Boolean,
 )
 
 internal enum class Content {

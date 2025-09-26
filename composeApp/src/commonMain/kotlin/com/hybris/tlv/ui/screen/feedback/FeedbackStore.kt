@@ -44,11 +44,6 @@ internal class FeedbackStore(
         back(state = state).invoke()
     }
 
-    override fun back(state: FeedbackState): () -> Unit = {
-        val state = stateBuilder.navigationState
-        navigate(screen = state.screen, stateBuilder = state.stateBuilder)
-    }
-
     override fun reducer(state: FeedbackState, action: FeedbackAction) {
         when (action) {
             is FeedbackAction.SendFeedback -> sendFeedback(state = state, message = action.message)
