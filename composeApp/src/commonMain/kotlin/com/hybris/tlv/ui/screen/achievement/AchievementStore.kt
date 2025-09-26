@@ -12,18 +12,19 @@ internal class AchievementStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
+    state: AchievementState?,
     private val achievementUseCases: AchievementUseCases
 ): Store<AchievementState, AchievementAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = AchievementState(
+    initialState = state ?: AchievementState(
         loading = true,
         achievements = emptyList()
     )
 ) {
     init {
-        setup()
+        if (state == null) setup()
     }
 
     private fun setup(): Job = launch {

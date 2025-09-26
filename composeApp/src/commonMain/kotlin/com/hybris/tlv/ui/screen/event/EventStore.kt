@@ -17,13 +17,14 @@ internal class EventStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
+    state: EventState?,
     private val eventUseCases: EventUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<EventState, EventAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = EventState(
+    initialState = state ?: EventState(
         loading = true,
         ship = null,
         parentEvent = defaultEvent,
@@ -36,7 +37,7 @@ internal class EventStore(
     internal val eventChain: MutableList<Event> = mutableListOf()
 
     init {
-        setup()
+        if (state == null) setup()
     }
 
     private fun setup(): Job = launch {

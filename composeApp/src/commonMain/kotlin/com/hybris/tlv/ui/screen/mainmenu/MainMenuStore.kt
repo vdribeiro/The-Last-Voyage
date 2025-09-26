@@ -16,6 +16,7 @@ internal class MainMenuStore(
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     config: ConfigManager,
+    state: MainMenuState?,
     stateBuilder: MainMenuStateBuilder,
     private val gameSessionUseCases: GameSessionUseCases,
     private val learningUseCases: LearningUseCases
@@ -23,7 +24,7 @@ internal class MainMenuStore(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = MainMenuState(
+    initialState = state ?: MainMenuState(
         loading = true,
         featureSoon = config.localConfigs.featureSoon,
         featureLearn = config.localConfigs.featureLearn,
@@ -42,7 +43,7 @@ internal class MainMenuStore(
     )
 ) {
     init {
-        setup()
+        if (state == null) setup()
     }
 
     private fun setup(): Job = launch {

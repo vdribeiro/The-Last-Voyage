@@ -24,6 +24,7 @@ internal class SplashStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
+    state: SplashState?,
     private val config: ConfigManager,
     private val translateUseCases: TranslationUseCases,
     private val archiveUseCases: ArchiveUseCases,
@@ -38,12 +39,12 @@ internal class SplashStore(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = SplashState(
+    initialState = state ?: SplashState(
         progress = 0f
     )
 ) {
     init {
-        setup()
+        if (state == null) setup()
     }
 
     private fun setup(): Job = launch {

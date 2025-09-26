@@ -18,13 +18,14 @@ internal class NewGameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
+    state: NewGameState?,
     private val catastropheUseCases: CatastropheUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameState, NewGameAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = NewGameState(
+    initialState = state ?: NewGameState(
         loading = true,
         currentContent = Content.SHIP,
         selectedCatastrophe = null,
@@ -41,7 +42,7 @@ internal class NewGameStore(
     internal var selectedShip: ShipPrototype? = null
 
     init {
-        setup()
+        if (state == null) setup()
     }
 
     private fun setup(): Job = launch {

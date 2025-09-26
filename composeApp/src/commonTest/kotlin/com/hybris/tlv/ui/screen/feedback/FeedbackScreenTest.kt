@@ -48,7 +48,7 @@ internal class FeedbackScreenTest {
     @Test
     fun feedbackError() = runComposeUiTest {
         val store = storeFactory.createFeedbackStore(
-            stateBuilder = FeedbackStateBuilder(
+            state = FeedbackStateBuilder(
                 tag = "TAG",
                 message = "MESSAGE"
             )

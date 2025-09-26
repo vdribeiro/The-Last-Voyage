@@ -12,17 +12,18 @@ internal class FeedbackStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
+    state: FeedbackState?,
     private val stateBuilder: FeedbackStateBuilder,
 ): Store<FeedbackState, FeedbackAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = FeedbackState(
+    initialState = state ?: FeedbackState(
         isError = stateBuilder.message != null
     )
 ) {
     init {
-        setup()
+        if (state == null) setup()
     }
 
     private fun setup(): Job = launch {
@@ -46,7 +47,7 @@ internal class FeedbackStore(
 
     override fun back(state: FeedbackState): () -> Unit = {
         val state = stateBuilder.navigationState
-        navigate(screen = state.screen, stateBuilder = state.stateBuilder)
+        navigate(screen = state.screen, stateBuilder = state.state)
     }
 
     override fun reducer(state: FeedbackState, action: FeedbackAction) {

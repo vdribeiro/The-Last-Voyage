@@ -17,6 +17,7 @@ internal class GameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
+    state: GameState?,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
@@ -24,7 +25,7 @@ internal class GameStore(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = GameState(
+    initialState = state ?: GameState(
         loading = true,
         currentContent = Content.SYSTEM,
         ship = null,
@@ -35,7 +36,7 @@ internal class GameStore(
     private var gameSession: GameSession? = null
 
     init {
-        setup()
+        if (state == null) setup()
     }
 
     private fun setup(): Job = launch {

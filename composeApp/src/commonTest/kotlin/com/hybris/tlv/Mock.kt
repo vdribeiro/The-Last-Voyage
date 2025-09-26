@@ -29,14 +29,14 @@ internal val storeFactory: StoreFactory by lazy {
     )
 }
 
-private val navigation = object: NavigationManager {
+private val testNavigation = object: NavigationManager {
     override val stateFlow: StateFlow<NavigationManager.State> = MutableStateFlow(value = NavigationManager.State())
     override var back: () -> Unit = {}
 }
 
 internal fun <State, Action> getStore(initialState: State): Store<State, Action> = Store(
     dispatcher = testDispatchers,
-    navigation = navigation,
+    navigation = testNavigation,
     audioPlayer = null,
     initialState = initialState
 )

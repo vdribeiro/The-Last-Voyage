@@ -16,12 +16,13 @@ internal class StellarExplorerStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
+    state: StellarExplorerState?,
     private val spaceUseCases: SpaceUseCases,
 ): Store<StellarExplorerState, StellarExplorerAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = StellarExplorerState(
+    initialState = state ?: StellarExplorerState(
         loading = true,
         currentContent = Content.LIST_HOSTS,
         listIndex = LazyListIndex(),
@@ -77,7 +78,7 @@ internal class StellarExplorerStore(
     )
 ) {
     init {
-        setup()
+        if (state == null) setup()
     }
 
     private fun setup(): Job = launch {

@@ -14,12 +14,13 @@ internal class GameOverStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
+    state: GameOverState?,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameOverState, GameOverAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = GameOverState(
+    initialState = state ?: GameOverState(
         loading = true,
         currentContent = Content.MESSAGE,
         gameSession = null,
@@ -27,7 +28,7 @@ internal class GameOverStore(
     )
 ) {
     init {
-        setup()
+        if (state == null) setup()
     }
 
     private fun setup(): Job = launch {
