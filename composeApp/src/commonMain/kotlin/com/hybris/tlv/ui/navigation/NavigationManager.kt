@@ -19,7 +19,8 @@ internal interface NavigationManager {
     fun navigate(screen: Screen, stateBuilder: Any? = null) {}
 
     @Composable
-    fun Screen(state: State) {}
+    fun Screen(state: State) {
+    }
 
     enum class Screen {
         SPLASH,

@@ -51,10 +51,7 @@ internal open class Store<State, Action>(
     /**
      * Back navigation.
      */
-    protected open fun back(state: State): () -> Unit = {
-        val state = navigation.stateFlow.value
-        navigate(screen = state.screen, stateBuilder = state.stateBuilder)
-    }
+    protected open fun back(state: State): () -> Unit = {}
 
     /**
      * Navigate to feedback screen.
