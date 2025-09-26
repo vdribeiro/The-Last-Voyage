@@ -20,21 +20,25 @@ internal actual class AudioPlayer {
     }
 
     private fun playNextTrack(index: Int? = null) {
-        stop()
-        val nextIndex = index ?: ((currentIndex + 1) % playlist.size)
-        val trackPath = playlist.getOrNull(index = nextIndex) ?: return
-        val resourceUrl = Thread.currentThread().contextClassLoader.getResource(trackPath)
+        runCatching {
+            stop()
+            val nextIndex = index ?: ((currentIndex + 1) % playlist.size)
+            val trackPath = playlist.getOrNull(index = nextIndex) ?: return
+            val resourceUrl = Thread.currentThread().contextClassLoader.getResource(trackPath)
 
-        when (resourceUrl) {
-            null -> Logger.error(tag = TAG, message = "Could not find audio resource: $trackPath")
-            else -> {
-                player = MediaPlayer(Media(resourceUrl.toString())).apply {
-                    setOnEndOfMedia { playNextTrack() }
-                    setOnError { Logger.error(tag = TAG, message = "MediaPlayer error: $error") }
-                    play()
+            when (resourceUrl) {
+                null -> Logger.error(tag = TAG, message = "Could not find audio resource: $trackPath")
+                else -> {
+                    player = MediaPlayer(Media(resourceUrl.toString())).apply {
+                        setOnEndOfMedia { playNextTrack() }
+                        setOnError { Logger.error(tag = TAG, message = "MediaPlayer error: $error") }
+                        play()
+                    }
+                    currentIndex = nextIndex
                 }
-                currentIndex = nextIndex
             }
+        }.getOrElse {
+            Logger.error(tag = TAG, message = "Error playing media: ${it.message}")
         }
     }
 

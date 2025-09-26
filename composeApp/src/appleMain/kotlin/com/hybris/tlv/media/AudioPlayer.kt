@@ -29,32 +29,36 @@ internal actual class AudioPlayer {
     }
 
     private fun playNextTrack(index: Int? = null) {
-        stop()
-        val nextIndex = index ?: ((currentIndex + 1) % playlist.size)
-        val trackPath = playlist.getOrNull(index = nextIndex) ?: return
-        val fileName = trackPath.substringAfterLast(delimiter = '/')
-        val resourceName = fileName.substringBeforeLast(delimiter = '.')
-        val resourceExtension = fileName.substringAfterLast(delimiter = '.')
-        val resourceUrl = NSBundle.mainBundle.URLForResource(
-            name = resourceName,
-            withExtension = resourceExtension,
-            subdirectory = "files"
-        )
+        runCatching {
+            stop()
+            val nextIndex = index ?: ((currentIndex + 1) % playlist.size)
+            val trackPath = playlist.getOrNull(index = nextIndex) ?: return
+            val fileName = trackPath.substringAfterLast(delimiter = '/')
+            val resourceName = fileName.substringBeforeLast(delimiter = '.')
+            val resourceExtension = fileName.substringAfterLast(delimiter = '.')
+            val resourceUrl = NSBundle.mainBundle.URLForResource(
+                name = resourceName,
+                withExtension = resourceExtension,
+                subdirectory = "files"
+            )
 
-        when (resourceUrl) {
-            null -> Logger.error(tag = TAG, message = "Could not find audio resource: $trackPath")
-            else -> {
-                val playerItem = AVPlayerItem(uRL = resourceUrl)
-                endOfSongObserver = NSNotificationCenter.defaultCenter.addObserverForName(
-                    name = AVPlayerItemDidPlayToEndTimeNotification,
-                    `object` = playerItem,
-                    queue = NSOperationQueue.mainQueue
-                ) { _ -> playNextTrack() }
-                player = AVPlayer(playerItem = playerItem).apply {
-                    play()
+            when (resourceUrl) {
+                null -> Logger.error(tag = TAG, message = "Could not find audio resource: $trackPath")
+                else -> {
+                    val playerItem = AVPlayerItem(uRL = resourceUrl)
+                    endOfSongObserver = NSNotificationCenter.defaultCenter.addObserverForName(
+                        name = AVPlayerItemDidPlayToEndTimeNotification,
+                        `object` = playerItem,
+                        queue = NSOperationQueue.mainQueue
+                    ) { _ -> playNextTrack() }
+                    player = AVPlayer(playerItem = playerItem).apply {
+                        play()
+                    }
+                    currentIndex = nextIndex
                 }
-                currentIndex = nextIndex
             }
+        }.getOrElse {
+            Logger.error(tag = TAG, message = "Error playing media: ${it.message}")
         }
     }
 

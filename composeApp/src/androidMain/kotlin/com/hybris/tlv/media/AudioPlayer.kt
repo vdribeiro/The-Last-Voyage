@@ -9,7 +9,7 @@ import com.hybris.tlv.logger.Logger
 
 internal actual class AudioPlayer {
 
-    private val player = ExoPlayer.Builder(applicationContext).build()
+    private var player: ExoPlayer? = null
     private var playlist = listOf<String>()
 
     actual fun play(vararg playlist: String) = runCatching {
@@ -22,15 +22,23 @@ internal actual class AudioPlayer {
     }
 
     private fun playNextTrack() {
-        stop()
-        val mediaItems = this.playlist.map { MediaItem.fromUri("asset:///${it}".toUri()) }
-        player.setMediaItems(mediaItems)
-        player.shuffleModeEnabled = true
-        resume()
+        runCatching {
+            stop()
+
+            player = ExoPlayer.Builder(applicationContext).build()
+            val mediaItems = this.playlist.map { MediaItem.fromUri("asset:///${it}".toUri()) }
+            player?.apply {
+                setMediaItems(mediaItems)
+                shuffleModeEnabled = true
+            }
+            resume()
+        }.getOrElse {
+            Logger.error(tag = TAG, message = "Error playing media: ${it.message}")
+        }
     }
 
     actual fun resume() = runCatching {
-        player.apply {
+        player?.apply {
             if (mediaItemCount <= 0) return@runCatching
             repeatMode = Player.REPEAT_MODE_ALL
             playWhenReady = true
@@ -41,19 +49,19 @@ internal actual class AudioPlayer {
     }
 
     actual fun pause() = runCatching {
-        player.pause()
+        player?.pause() ?: Unit
     }.getOrElse {
         Logger.error(tag = TAG, message = "Error pausing media: ${it.message}")
     }
 
     actual fun toggle() = runCatching {
-        if (player.isPlaying) pause() else resume()
+        if (player?.isPlaying == true) pause() else resume()
     }.getOrElse {
         Logger.error(tag = TAG, message = "Error toggling media: ${it.message}")
     }
 
     actual fun stop() = runCatching {
-        player.stop()
+        player?.stop() ?: Unit
     }.getOrElse {
         Logger.error(tag = TAG, message = "Error stopping media: ${it.message}")
     }
