@@ -10,15 +10,8 @@ internal actual fun createSqlDriver(
     name: String,
     schema: SqlSchema<QueryResult.Value<Unit>>,
     inMemory: Boolean
-): SqlDriver = when (inMemory) {
-    true -> AndroidSqliteDriver(
-        context = applicationContext,
-        schema = schema
-    )
-
-    false -> AndroidSqliteDriver(
-        context = applicationContext,
-        name = name,
-        schema = schema,
-    )
-}
+): SqlDriver = AndroidSqliteDriver(
+    schema = schema,
+    context = applicationContext,
+    name = if (inMemory) null else name
+)
