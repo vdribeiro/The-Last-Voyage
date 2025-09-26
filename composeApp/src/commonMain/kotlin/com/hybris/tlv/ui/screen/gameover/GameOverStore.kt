@@ -12,7 +12,7 @@ import kotlinx.coroutines.Job
 
 internal class GameOverStore(
     dispatcher: Dispatcher,
-    navigation: NavigationManager?,
+    navigation: NavigationManager,
     audioPlayer: AudioPlayer?,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameOverState, GameOverAction>(

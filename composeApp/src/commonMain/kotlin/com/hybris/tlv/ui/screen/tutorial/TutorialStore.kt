@@ -10,7 +10,7 @@ import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
 internal class TutorialStore(
     dispatcher: Dispatcher,
-    navigation: NavigationManager?,
+    navigation: NavigationManager,
     audioPlayer: AudioPlayer?
 ): Store<TutorialState, TutorialAction>(
     dispatcher = dispatcher,

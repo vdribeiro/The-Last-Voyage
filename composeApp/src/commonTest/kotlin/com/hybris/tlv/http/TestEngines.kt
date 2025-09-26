@@ -34,7 +34,7 @@ import io.ktor.client.engine.mock.respondError
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 
-internal class TestEngines {
+internal object TestEngines {
 
     val mockEngine = MockEngine { request ->
         when {

@@ -12,7 +12,7 @@ import kotlinx.coroutines.Job
 
 internal class MainMenuStore(
     dispatcher: Dispatcher,
-    navigation: NavigationManager?,
+    navigation: NavigationManager,
     audioPlayer: AudioPlayer?,
     config: ConfigManager,
     stateBuilder: MainMenuStateBuilder,

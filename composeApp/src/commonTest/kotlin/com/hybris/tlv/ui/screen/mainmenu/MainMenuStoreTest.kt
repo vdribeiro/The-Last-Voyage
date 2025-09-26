@@ -19,7 +19,7 @@ internal class MainMenuStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         mockCore.sqlDriver.clearDatabase()
-        mockCore.navigation?.navigate(screen = NavigationManager.Screen.MAIN_MENU) ?: Unit
+        mockCore.navigation.navigate(screen = NavigationManager.Screen.MAIN_MENU)
     }
 
     @Test
@@ -39,47 +39,47 @@ internal class MainMenuStoreTest {
     @Test
     fun `send action change content`() = runBlocking {
         val mainMenuStore = store
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mockCore.navigation?.stateFlow?.value?.screen)
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mockCore.navigation.stateFlow.value.screen)
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
-        mockCore.navigation?.back()
+        mockCore.navigation.back()
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
         mainMenuStore.send(action = MainMenuAction.Learn)
         assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
-        mockCore.navigation?.back()
+        mockCore.navigation.back()
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
         mainMenuStore.send(action = MainMenuAction.HostDefinition)
         assertEquals(expected = Content.HOST_DEFINITION, actual = mainMenuStore.stateFlow.value.currentContent)
-        mockCore.navigation?.back()
+        mockCore.navigation.back()
         assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
         mainMenuStore.send(action = MainMenuAction.PlanetDefinition)
         assertEquals(expected = Content.PLANET_DEFINITION, actual = mainMenuStore.stateFlow.value.currentContent)
-        mockCore.navigation?.back()
+        mockCore.navigation.back()
         assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
         mainMenuStore.send(action = MainMenuAction.Habitability)
         assertEquals(expected = Content.HABITABILITY, actual = mainMenuStore.stateFlow.value.currentContent)
-        mockCore.navigation?.back()
+        mockCore.navigation.back()
         assertEquals(expected = Content.LEARN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
-        mockCore.navigation?.back()
+        mockCore.navigation.back()
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
         mainMenuStore.send(action = MainMenuAction.NewGame)
-        assertEquals(expected = NavigationManager.Screen.NEW_GAME, actual = mockCore.navigation?.stateFlow?.value?.screen)
+        assertEquals(expected = NavigationManager.Screen.NEW_GAME, actual = mockCore.navigation.stateFlow.value.screen)
 
         mainMenuStore.send(action = MainMenuAction.Continue)
-        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation?.stateFlow?.value?.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation.stateFlow.value.screen)
 
         mainMenuStore.send(action = MainMenuAction.Scores)
-        assertEquals(expected = NavigationManager.Screen.SCORE, actual = mockCore.navigation?.stateFlow?.value?.screen)
+        assertEquals(expected = NavigationManager.Screen.SCORE, actual = mockCore.navigation.stateFlow.value.screen)
 
         mainMenuStore.send(action = MainMenuAction.Achievements)
-        assertEquals(expected = NavigationManager.Screen.ACHIEVEMENT, actual = mockCore.navigation?.stateFlow?.value?.screen)
+        assertEquals(expected = NavigationManager.Screen.ACHIEVEMENT, actual = mockCore.navigation.stateFlow.value.screen)
 
         mainMenuStore.send(action = MainMenuAction.Credits)
-        assertEquals(expected = NavigationManager.Screen.CREDIT, actual = mockCore.navigation?.stateFlow?.value?.screen)
+        assertEquals(expected = NavigationManager.Screen.CREDIT, actual = mockCore.navigation.stateFlow.value.screen)
     }
 }

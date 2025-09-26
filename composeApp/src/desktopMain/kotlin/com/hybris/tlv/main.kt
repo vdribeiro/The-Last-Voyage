@@ -39,7 +39,7 @@ fun main() = application {
     ) {
         CompositionLocalProvider(value = LocalWindowState provides windowState) {
             Box(modifier = Modifier.onPointerEvent(eventType = PointerEventType.Press) { pointerEvent ->
-                if (pointerEvent.buttons.isSecondaryPressed || pointerEvent.buttons.isBackPressed) core.navigation?.back()
+                if (pointerEvent.buttons.isSecondaryPressed || pointerEvent.buttons.isBackPressed) core.navigation.back()
             }) { App() }
         }
     }
