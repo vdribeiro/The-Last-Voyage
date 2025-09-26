@@ -13,9 +13,8 @@ import com.hybris.tlv.ui.theme.AppTheme
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun App() = AppTheme {
-    val navigation = core.navigation
-
     // Setup Navigation
+    val navigation = core.navigation
     BackHandler(enabled = true) { navigation.back() }
     val navigationState by navigation.stateFlow.collectAsState()
     navigation.Screen(state = navigationState)
