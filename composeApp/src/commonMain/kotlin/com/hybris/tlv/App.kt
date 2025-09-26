@@ -14,21 +14,21 @@ import com.hybris.tlv.ui.theme.AppTheme
 @Composable
 internal fun App() = AppTheme {
     val navigation = core.navigation
-    val audioPlayer = core.audioPlayer
-
     BackHandler(enabled = true) { navigation.back() }
-
     val navigationState by navigation.stateFlow.collectAsState()
     navigation.Screen(state = navigationState)
 
-    LaunchedEffect(keys = arrayOf(navigationState.screen)) {
-        val playlist = getTracks(screen = navigationState.screen)
-        if (playlist.isNotEmpty()) audioPlayer?.play(playlist = playlist)
+    val audioPlayer = core.audioPlayer
+    if (audioPlayer != null) {
+        LaunchedEffect(keys = arrayOf(navigationState.screen)) {
+            val playlist = getTracks(screen = navigationState.screen)
+            if (playlist.isNotEmpty()) audioPlayer.play(playlist = playlist)
+        }
+        Register(
+            onPause = { audioPlayer.pause() },
+            onResume = { audioPlayer.resume() },
+        )
     }
-    Register(
-        onPause = { audioPlayer?.pause() },
-        onResume = { audioPlayer?.resume() },
-    )
 }
 
 internal val core: Core by lazy {
