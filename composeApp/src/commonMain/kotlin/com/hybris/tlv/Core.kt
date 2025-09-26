@@ -35,7 +35,7 @@ internal class Core(
         database = database
     ),
     val audioPlayer: AudioPlayer? = AudioPlayer(),
-    val navigation: NavigationManager = Navigation(
+    val navigation: NavigationManager? = Navigation(
         dispatcher = dispatcher,
         audioPlayer = audioPlayer,
         config = config,

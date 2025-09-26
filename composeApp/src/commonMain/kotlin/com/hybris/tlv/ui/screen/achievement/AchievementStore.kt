@@ -10,7 +10,7 @@ import kotlinx.coroutines.Job
 
 internal class AchievementStore(
     dispatcher: Dispatcher,
-    navigation: NavigationManager,
+    navigation: NavigationManager?,
     audioPlayer: AudioPlayer?,
     private val achievementUseCases: AchievementUseCases
 ): Store<AchievementState, AchievementAction>(

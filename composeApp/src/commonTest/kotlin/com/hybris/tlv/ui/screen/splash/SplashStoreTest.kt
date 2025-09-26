@@ -17,7 +17,7 @@ internal class SplashStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         mockCore.sqlDriver.clearDatabase()
-        mockCore.navigation.navigate(screen = NavigationManager.Screen.SPLASH)
+        mockCore.navigation?.navigate(screen = NavigationManager.Screen.SPLASH) ?: Unit
     }
 
     @Test

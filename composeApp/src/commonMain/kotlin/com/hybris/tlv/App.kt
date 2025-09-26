@@ -14,6 +14,7 @@ import com.hybris.tlv.ui.theme.AppTheme
 @Composable
 internal fun App() = AppTheme {
     val navigation = core.navigation
+    if (navigation == null) return@AppTheme
     BackHandler(enabled = true) { navigation.back() }
     val navigationState by navigation.stateFlow.collectAsState()
     navigation.Screen(state = navigationState)

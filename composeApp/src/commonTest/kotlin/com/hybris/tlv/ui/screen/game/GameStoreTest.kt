@@ -22,7 +22,7 @@ internal class GameStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         mockCore.sqlDriver.clearDatabase()
-        mockCore.navigation.navigate(screen = NavigationManager.Screen.GAME)
+        mockCore.navigation?.navigate(screen = NavigationManager.Screen.GAME) ?: Unit
     }
 
     @Test
@@ -42,10 +42,10 @@ internal class GameStoreTest {
 
     @Test
     fun `init without game session`() = runBlocking {
-        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation?.stateFlow?.value?.screen)
         val gameStore = store
         assertNull(actual = gameStore.stateFlow.value.ship)
-        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
@@ -62,29 +62,29 @@ internal class GameStoreTest {
 
     @Test
     fun `game over by integrity`() = runBlocking {
-        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation?.stateFlow?.value?.screen)
         mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameSession = mockCore.useCases.gameSession.getLatestGameSession()!!
         mockCore.useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(integrity = 0, materials = 0)))
         store
-        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
     fun `game over by fuel`() = runBlocking {
-        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation?.stateFlow?.value?.screen)
         mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype.copy(ship = gameSessionPrototype.ship.copy(fuel = 0)))
         store
-        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
     fun `init without stellar host`() = runBlocking {
-        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation?.stateFlow?.value?.screen)
         mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         assertNull(actual = gameStore.stateFlow.value.ship)
-        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
@@ -93,9 +93,9 @@ internal class GameStoreTest {
         mockCore.useCases.space.prepopulatePlanets()
         mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         store
-        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation.stateFlow.value.screen)
-        mockCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation?.stateFlow?.value?.screen)
+        mockCore.navigation?.back()
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
@@ -117,46 +117,46 @@ internal class GameStoreTest {
     fun `send action travel`() = runBlocking {
         mockCore.useCases.space.prepopulateStellarHosts()
         mockCore.useCases.space.prepopulatePlanets()
-        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation?.stateFlow?.value?.screen)
         mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         gameStore.send(action = GameAction.Travel(stellarHost = stellarHosts[1]))
-        assertEquals(expected = NavigationManager.Screen.EVENT, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.EVENT, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
     fun `send action travel without game session`() = runBlocking {
-        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation?.stateFlow?.value?.screen)
         val gameStore = store
         gameStore.send(action = GameAction.Travel(stellarHost = stellarHosts.first()))
-        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
     fun `send action travel without stellar host`() = runBlocking {
-        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation?.stateFlow?.value?.screen)
         mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         gameStore.send(action = GameAction.Travel(stellarHost = stellarHosts.first()))
-        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
     fun `send action settle`() = runBlocking {
         mockCore.useCases.space.prepopulateStellarHosts()
         mockCore.useCases.space.prepopulatePlanets()
-        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation?.stateFlow?.value?.screen)
         mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         gameStore.send(action = GameAction.Settle(planet = planets.first()))
-        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
     fun `send action settle without game session`() = runBlocking {
-        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation?.stateFlow?.value?.screen)
         val gameStore = store
         gameStore.send(action = GameAction.Settle(planet = planets.first()))
-        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 }

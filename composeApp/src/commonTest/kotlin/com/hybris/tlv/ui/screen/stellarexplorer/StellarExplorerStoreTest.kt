@@ -18,7 +18,7 @@ internal class StellarExplorerStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         mockCore.sqlDriver.clearDatabase()
-        mockCore.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
+        mockCore.navigation?.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER) ?: Unit
     }
 
     @Test
@@ -34,20 +34,20 @@ internal class StellarExplorerStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         val stellarExplorerStore = store
-        mockCore.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
+        mockCore.navigation?.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
 
         stellarExplorerStore.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHosts.first()))
         assertEquals(expected = Content.DETAIL_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-        mockCore.navigation.back()
+        mockCore.navigation?.back()
         assertEquals(expected = Content.LIST_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
         assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         stellarExplorerStore.send(action = StellarExplorerAction.OpenPlanet(planet = planets.first()))
         assertEquals(expected = Content.DETAIL_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-        mockCore.navigation.back()
+        mockCore.navigation?.back()
         assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-        mockCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mockCore.navigation.stateFlow.value.screen)
+        mockCore.navigation?.back()
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test

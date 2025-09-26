@@ -19,7 +19,7 @@ internal class GameOverStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         mockCore.sqlDriver.clearDatabase()
-        mockCore.navigation.navigate(screen = NavigationManager.Screen.GAME_OVER)
+        mockCore.navigation?.navigate(screen = NavigationManager.Screen.GAME_OVER) ?: Unit
     }
 
     @Test
@@ -33,37 +33,37 @@ internal class GameOverStoreTest {
 
     @Test
     fun `init without game session`() = runBlocking {
-        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation?.stateFlow?.value?.screen)
         val gameOverStore = store
         assertNull(actual = gameOverStore.stateFlow.value.gameSession)
-        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
     fun `send action back`() = runBlocking {
         mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         store
-        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation.stateFlow.value.screen)
-        mockCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation?.stateFlow?.value?.screen)
+        mockCore.navigation?.back()
+        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
     fun `send action continue`() = runBlocking {
-        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.GAME_OVER, actual = mockCore.navigation?.stateFlow?.value?.screen)
         mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameOverStore = store
         assertEquals(expected = Content.MESSAGE, actual = gameOverStore.stateFlow.value.currentContent)
         gameOverStore.send(action = GameOverAction.Continue)
         assertEquals(expected = Content.SCORE, actual = gameOverStore.stateFlow.value.currentContent)
         gameOverStore.send(action = GameOverAction.Continue)
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
     fun `send action continue without game session`() = runBlocking {
         val gameOverStore = store
         gameOverStore.send(action = GameOverAction.Continue)
-        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 }

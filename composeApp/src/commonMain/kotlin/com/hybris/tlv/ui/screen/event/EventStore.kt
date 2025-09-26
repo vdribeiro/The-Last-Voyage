@@ -15,7 +15,7 @@ import kotlinx.coroutines.Job
 
 internal class EventStore(
     dispatcher: Dispatcher,
-    navigation: NavigationManager,
+    navigation: NavigationManager?,
     audioPlayer: AudioPlayer?,
     private val eventUseCases: EventUseCases,
     private val gameSessionUseCases: GameSessionUseCases

@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.update
  */
 internal open class Store<State, Action>(
     private val dispatcher: Dispatcher,
-    private val navigation: NavigationManager,
+    private val navigation: NavigationManager?,
     private val audioPlayer: AudioPlayer?,
     initialState: State
 ) {
@@ -36,7 +36,7 @@ internal open class Store<State, Action>(
     private val jobs = mutableListOf<Job>()
 
     init {
-        navigation.back = { back(state = _stateFlow.value).invoke() }
+        navigation?.back = { back(state = _stateFlow.value).invoke() }
     }
 
     /**
@@ -48,9 +48,9 @@ internal open class Store<State, Action>(
      * Clean up the store and navigate to a new [screen] given an optional [stateBuilder].
      */
     protected fun navigate(screen: Screen, stateBuilder: Any? = null) {
-        navigation.back = {}
+        navigation?.back = {}
         jobs.forEach { it.cancel() }
-        navigation.navigate(screen = screen, stateBuilder = stateBuilder)
+        navigation?.navigate(screen = screen, stateBuilder = stateBuilder)
     }
 
     /**
@@ -79,10 +79,12 @@ internal open class Store<State, Action>(
     /**
      * Navigate to feedback screen.
      */
-    fun feedback() = navigate(
-        screen = Screen.FEEDBACK,
-        stateBuilder = FeedbackStateBuilder(navigationState = navigation.stateFlow.value)
-    )
+    fun feedback() = navigation?.let {
+        navigate(
+            screen = Screen.FEEDBACK,
+            stateBuilder = FeedbackStateBuilder(navigationState = navigation.stateFlow.value)
+        )
+    }
 
     /**
      * Toggle audio player.

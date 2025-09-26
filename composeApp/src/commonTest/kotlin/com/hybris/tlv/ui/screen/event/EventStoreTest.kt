@@ -21,7 +21,7 @@ internal class EventStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         mockCore.sqlDriver.clearDatabase()
-        mockCore.navigation.navigate(screen = NavigationManager.Screen.EVENT)
+        mockCore.navigation?.navigate(screen = NavigationManager.Screen.EVENT) ?: Unit
     }
 
     @Test
@@ -39,10 +39,10 @@ internal class EventStoreTest {
 
     @Test
     fun `init without game session`() = runBlocking {
-        assertEquals(expected = NavigationManager.Screen.EVENT, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.EVENT, actual = mockCore.navigation?.stateFlow?.value?.screen)
         val eventStore = store
         assertNull(actual = eventStore.stateFlow.value.ship)
-        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
@@ -58,9 +58,9 @@ internal class EventStoreTest {
         mockCore.useCases.event.prepopulateEvents()
         mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         store
-        assertEquals(expected = NavigationManager.Screen.EVENT, actual = mockCore.navigation.stateFlow.value.screen)
-        mockCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.EVENT, actual = mockCore.navigation?.stateFlow?.value?.screen)
+        mockCore.navigation?.back()
+        assertEquals(expected = NavigationManager.Screen.GAME, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
@@ -75,16 +75,16 @@ internal class EventStoreTest {
 
     @Test
     fun `send action select without game session`() = runBlocking {
-        assertEquals(expected = NavigationManager.Screen.EVENT, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.EVENT, actual = mockCore.navigation?.stateFlow?.value?.screen)
         val eventStore = store
         val event = events.random()
         eventStore.send(action = EventAction.Select(event = event))
-        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 
     @Test
     fun `send action select without selected event`() = runBlocking {
-        assertEquals(expected = NavigationManager.Screen.EVENT, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.EVENT, actual = mockCore.navigation?.stateFlow?.value?.screen)
         mockCore.useCases.event.prepopulateEvents()
         mockCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store

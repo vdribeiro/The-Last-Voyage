@@ -3,7 +3,6 @@ package com.hybris.tlv
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.http.TestEngines
-import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.store.StoreFactory
 
@@ -27,8 +26,8 @@ internal val storeFactory: StoreFactory by lazy {
 }
 
 internal fun <State, Action> getStore(initialState: State): Store<State, Action> = Store(
-    dispatcher = mockCore.dispatcher,
-    navigation = MockNavigation(),
+    dispatcher = TestDispatchers(),
+    navigation = null,
     audioPlayer = null,
     initialState = initialState
 )

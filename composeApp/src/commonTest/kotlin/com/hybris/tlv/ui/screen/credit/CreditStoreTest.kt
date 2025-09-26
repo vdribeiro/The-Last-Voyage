@@ -17,7 +17,7 @@ internal class CreditStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         mockCore.sqlDriver.clearDatabase()
-        mockCore.navigation.navigate(screen = NavigationManager.Screen.CREDIT)
+        mockCore.navigation?.navigate(screen = NavigationManager.Screen.CREDIT) ?: Unit
     }
 
     @Test
@@ -31,8 +31,8 @@ internal class CreditStoreTest {
     fun `send action back`() = runBlocking {
         mockCore.useCases.credit.prepopulateCredits()
         store
-        assertEquals(expected = NavigationManager.Screen.CREDIT, actual = mockCore.navigation.stateFlow.value.screen)
-        mockCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mockCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.CREDIT, actual = mockCore.navigation?.stateFlow?.value?.screen)
+        mockCore.navigation?.back()
+        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = mockCore.navigation?.stateFlow?.value?.screen)
     }
 }

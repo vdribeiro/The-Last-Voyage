@@ -22,7 +22,7 @@ import com.hybris.tlv.usecase.UseCases
 
 internal class StoreFactory(
     private val dispatcher: Dispatcher,
-    private val navigation: NavigationManager,
+    private val navigation: NavigationManager?,
     private val audioPlayer: AudioPlayer?,
     private val config: ConfigManager,
     private val useCases: UseCases

@@ -10,7 +10,7 @@ import kotlinx.coroutines.Job
 
 internal class CreditStore(
     dispatcher: Dispatcher,
-    navigation: NavigationManager,
+    navigation: NavigationManager?,
     audioPlayer: AudioPlayer?,
     private val creditUseCases: CreditUseCases
 ): Store<CreditState, CreditAction>(
