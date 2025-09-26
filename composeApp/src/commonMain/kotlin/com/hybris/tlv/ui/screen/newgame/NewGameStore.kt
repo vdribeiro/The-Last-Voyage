@@ -17,7 +17,7 @@ import kotlinx.coroutines.Job
 internal class NewGameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    audioPlayer: AudioPlayer?,
+    audioPlayer: AudioPlayer,
     private val catastropheUseCases: CatastropheUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameState, NewGameAction>(

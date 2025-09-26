@@ -21,17 +21,15 @@ internal fun App() = AppTheme {
 
     // Setup Audio Player
     val audioPlayer = core.audioPlayer
-    if (audioPlayer != null) {
-        val screen = navigationState.screen
-        LaunchedEffect(keys = arrayOf(screen)) {
-            val playlist = getTracks(screen = screen)
-            if (playlist.isNotEmpty()) audioPlayer.play(playlist = playlist)
-        }
-        Register(
-            onPause = { audioPlayer.pause() },
-            onResume = { audioPlayer.resume() },
-        )
+    val screen = navigationState.screen
+    LaunchedEffect(keys = arrayOf(screen)) {
+        val playlist = getTracks(screen = screen)
+        if (playlist.isNotEmpty()) audioPlayer.play(playlist = playlist)
     }
+    Register(
+        onPause = { audioPlayer.pause() },
+        onResume = { audioPlayer.resume() },
+    )
 }
 
 internal val core: Core by lazy {

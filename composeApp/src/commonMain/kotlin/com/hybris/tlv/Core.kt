@@ -34,7 +34,7 @@ internal class Core(
         httpClient = httpClient,
         database = database
     ),
-    val audioPlayer: AudioPlayer? = AudioPlayer(),
+    val audioPlayer: AudioPlayer = AudioPlayer(),
     val navigation: NavigationManager = Navigation(
         dispatcher = dispatcher,
         audioPlayer = audioPlayer,

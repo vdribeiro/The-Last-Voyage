@@ -15,7 +15,7 @@ import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 internal class StellarExplorerStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    audioPlayer: AudioPlayer?,
+    audioPlayer: AudioPlayer,
     private val spaceUseCases: SpaceUseCases,
 ): Store<StellarExplorerState, StellarExplorerAction>(
     dispatcher = dispatcher,
