@@ -7,19 +7,19 @@ import kotlinx.coroutines.flow.StateFlow
  * Navigation manager with the screens index.
  */
 internal interface NavigationManager {
-    data class State(
+    data class NavigationState(
         val screen: Screen = Screen.SPLASH,
         val state: Any? = null
     )
 
-    val stateFlow: StateFlow<State>
+    val stateFlow: StateFlow<NavigationState>
 
     var back: () -> Unit
 
     fun navigate(screen: Screen, state: Any? = null) {}
 
     @Composable
-    fun Screen(state: State) {
+    fun Screen(navigationState: NavigationState) {
     }
 
     enum class Screen {

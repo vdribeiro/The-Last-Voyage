@@ -5,8 +5,8 @@ import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.ui.navigation.NavigationManager.NavigationState
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
-import com.hybris.tlv.ui.navigation.NavigationManager.State
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
 import com.hybris.tlv.ui.screen.credit.CreditScreen
 import com.hybris.tlv.ui.screen.event.EventScreen
@@ -30,7 +30,7 @@ internal class Navigation(
     private val audioPlayer: AudioPlayer,
     private val config: ConfigManager,
     private val useCases: UseCases,
-    state: State = State()
+    navigationState: NavigationState = NavigationState()
 ): NavigationManager {
 
     private val storeFactory: StoreFactory = StoreFactory(
@@ -40,8 +40,8 @@ internal class Navigation(
         config = config,
         useCases = useCases
     )
-    private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = state)
-    override val stateFlow: StateFlow<State> get() = _stateFlow
+    private val _stateFlow: MutableStateFlow<NavigationState> = MutableStateFlow(value = navigationState)
+    override val stateFlow: StateFlow<NavigationState> get() = _stateFlow
 
     override var back: () -> Unit = {}
 
@@ -50,21 +50,21 @@ internal class Navigation(
     }
 
     @Composable
-    override fun Screen(state: State) {
+    override fun Screen(navigationState: NavigationState) {
         with(receiver = config.localConfigs) {
-            when (state.screen) {
-                Screen.SPLASH -> SplashScreen(store = storeFactory.createSplashStore(state = state.state))
-                Screen.MAIN_MENU -> MainMenuScreen(store = storeFactory.createMainMenuStore(state = state.state))
-                Screen.FEEDBACK -> FeedbackScreen(store = storeFactory.createFeedbackStore(state = state.state))
-                Screen.NEW_GAME -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(state = state.state)) else Screen(state = State())
-                Screen.TUTORIAL -> if (featureTutorial) TutorialScreen(store = storeFactory.createTutorialStore(state = state.state)) else Screen(state = State())
-                Screen.GAME -> if (featureGame) GameScreen(store = storeFactory.createGameStore(state = state.state)) else Screen(state = State())
-                Screen.EVENT -> if (featureEvents) EventScreen(store = storeFactory.createEventStore(state = state.state)) else Screen(state = State())
-                Screen.GAME_OVER -> if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore(state = state.state)) else Screen(state = State())
-                Screen.STELLAR_EXPLORER -> if (featureStellarExplorer) StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(state = state.state)) else Screen(state = State())
-                Screen.SCORE -> if (featureScores) ScoreScreen(store = storeFactory.createScoreStore(state = state.state)) else Screen(state = State())
-                Screen.ACHIEVEMENT -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore(state = state.state)) else Screen(state = State())
-                Screen.CREDIT -> CreditScreen(store = storeFactory.createCreditStore(state = state.state))
+            when (navigationState.screen) {
+                Screen.SPLASH -> SplashScreen(store = storeFactory.createSplashStore(state = navigationState.state))
+                Screen.MAIN_MENU -> MainMenuScreen(store = storeFactory.createMainMenuStore(state = navigationState.state))
+                Screen.FEEDBACK -> FeedbackScreen(store = storeFactory.createFeedbackStore(state = navigationState.state))
+                Screen.NEW_GAME -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(state = navigationState.state)) else Screen(navigationState = NavigationState())
+                Screen.TUTORIAL -> if (featureTutorial) TutorialScreen(store = storeFactory.createTutorialStore(state = navigationState.state)) else Screen(navigationState = NavigationState())
+                Screen.GAME -> if (featureGame) GameScreen(store = storeFactory.createGameStore(state = navigationState.state)) else Screen(navigationState = NavigationState())
+                Screen.EVENT -> if (featureEvents) EventScreen(store = storeFactory.createEventStore(state = navigationState.state)) else Screen(navigationState = NavigationState())
+                Screen.GAME_OVER -> if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore(state = navigationState.state)) else Screen(navigationState = NavigationState())
+                Screen.STELLAR_EXPLORER -> if (featureStellarExplorer) StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(state = navigationState.state)) else Screen(navigationState = NavigationState())
+                Screen.SCORE -> if (featureScores) ScoreScreen(store = storeFactory.createScoreStore(state = navigationState.state)) else Screen(navigationState = NavigationState())
+                Screen.ACHIEVEMENT -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore(state = navigationState.state)) else Screen(navigationState = NavigationState())
+                Screen.CREDIT -> CreditScreen(store = storeFactory.createCreditStore(state = navigationState.state))
             }
         }
     }

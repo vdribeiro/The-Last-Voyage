@@ -4,6 +4,7 @@ import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.http.TestEngines
 import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.NavigationState
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.store.StoreFactory
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +31,7 @@ internal val storeFactory: StoreFactory by lazy {
 }
 
 private val testNavigation = object: NavigationManager {
-    override val stateFlow: StateFlow<NavigationManager.State> = MutableStateFlow(value = NavigationManager.State())
+    override val stateFlow: StateFlow<NavigationState> = MutableStateFlow(value = NavigationState())
     override var back: () -> Unit = {}
 }
 

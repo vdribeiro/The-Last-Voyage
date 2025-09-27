@@ -17,7 +17,7 @@ internal fun App() = AppTheme {
     val navigation = core.navigation
     BackHandler(enabled = true) { navigation.back() }
     val navigationState by navigation.stateFlow.collectAsState()
-    navigation.Screen(state = navigationState)
+    navigation.Screen(navigationState = navigationState)
 
     // Setup Audio Player
     val audioPlayer = core.audioPlayer

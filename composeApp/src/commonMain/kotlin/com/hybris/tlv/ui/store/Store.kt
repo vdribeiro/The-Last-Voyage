@@ -4,6 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.NavigationState
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import kotlinx.coroutines.CoroutineScope
@@ -37,7 +38,7 @@ internal open class Store<State, Action>(
     /**
      * The current navigation state.
      */
-    private val navigationState: NavigationManager.State get() = NavigationManager.State(screen = navigation.stateFlow.value.screen, state = _stateFlow.value)
+    private val navigationState: NavigationState get() = NavigationState(screen = navigation.stateFlow.value.screen, state = _stateFlow.value)
 
     init {
         navigation.back = { back(state = _stateFlow.value).invoke() }
