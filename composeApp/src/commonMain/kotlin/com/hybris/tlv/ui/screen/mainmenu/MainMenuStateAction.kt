@@ -21,26 +21,28 @@ internal sealed interface MainMenuAction {
     data object Habitability: MainMenuAction
 }
 
-internal data class MainMenuStateBuilder(
-    val currentContent: Content = Content.MAIN_MENU,
-)
+internal sealed interface MainMenuStateBuilder {
+    data object Load: MainMenuStateBuilder
+    data class FromState(val state: MainMenuState): MainMenuStateBuilder
+    data class FromContent(val content: Content): MainMenuStateBuilder
+}
 
 internal data class MainMenuState(
-    val loading: Boolean,
-    val featureSoon: Boolean,
-    val featureLearn: Boolean,
-    val featureScores: Boolean,
-    val featureAchievements: Boolean,
-    val featureStellarExplorer: Boolean,
-    val featureNewGame: Boolean,
-    val featureTutorial: Boolean,
-    val developerCorner: String,
-    val support: String,
-    val formula: String,
-    val currentContent: Content,
-    val ongoingGameSession: Boolean,
-    val learningsMap: Map<LearningType, List<Learning>>,
-    val newGameDialog: Boolean,
+    val loading: Boolean = true,
+    val featureSoon: Boolean = false,
+    val featureLearn: Boolean = false,
+    val featureScores: Boolean = false,
+    val featureAchievements: Boolean = false,
+    val featureStellarExplorer: Boolean = false,
+    val featureNewGame: Boolean = false,
+    val featureTutorial: Boolean = false,
+    val developerCorner: String = "",
+    val support: String = "",
+    val formula: String = "",
+    val currentContent: Content = Content.MAIN_MENU,
+    val ongoingGameSession: Boolean = false,
+    val learningsMap: Map<LearningType, List<Learning>> = emptyMap(),
+    val newGameDialog: Boolean = false,
 )
 
 internal enum class Content {

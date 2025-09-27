@@ -16,69 +16,22 @@ internal class StellarExplorerStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
-    state: StellarExplorerState?,
+    stateBuilder: StellarExplorerStateBuilder,
     private val spaceUseCases: SpaceUseCases,
 ): Store<StellarExplorerState, StellarExplorerAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = state ?: StellarExplorerState(
-        loading = true,
-        currentContent = Content.LIST_HOSTS,
-        listIndex = LazyListIndex(),
-        stellarHosts = emptyList(),
-        planets = emptyList(),
-        filteredStellarHosts = emptyList(),
-        filteredPlanets = emptyList(),
-        selectedStellarHost = null,
-        selectedPlanet = null,
-        search = "",
-        sortStellarHostProperty = StellarHostProperty.DISTANCE,
-        sortPlanetProperty = PlanetProperty.HABITABILITY,
-        sortAscending = true,
-        visibleStellarHostProperties = setOf(
-            StellarHostProperty.NAME,
-            StellarHostProperty.SYSTEM_NAME,
-            StellarHostProperty.PLANET_COUNT,
-            StellarHostProperty.SPECTRAL_TYPE,
-            StellarHostProperty.TEMPERATURE,
-            StellarHostProperty.RADIUS,
-            StellarHostProperty.MASS,
-            StellarHostProperty.METALLICITY,
-            StellarHostProperty.LUMINOSITY,
-            StellarHostProperty.GRAVITY,
-            StellarHostProperty.AGE,
-            StellarHostProperty.DENSITY,
-            StellarHostProperty.ROTATIONAL_VELOCITY,
-            StellarHostProperty.ROTATIONAL_PERIOD,
-            StellarHostProperty.DISTANCE,
-            StellarHostProperty.RA,
-            StellarHostProperty.DEC,
-        ),
-        visiblePlanetProperties = setOf(
-            PlanetProperty.NAME,
-            PlanetProperty.STATUS,
-            PlanetProperty.HABITABILITY,
-            PlanetProperty.CONFIDENCE,
-            PlanetProperty.TYPE,
-            PlanetProperty.ORBITAL_PERIOD,
-            PlanetProperty.ORBIT_AXIS,
-            PlanetProperty.RADIUS,
-            PlanetProperty.MASS,
-            PlanetProperty.DENSITY,
-            PlanetProperty.ECCENTRICITY,
-            PlanetProperty.INSOLATION_FLUX,
-            PlanetProperty.TEMPERATURE,
-            PlanetProperty.OCCULTATION_DEPTH,
-            PlanetProperty.INCLINATION,
-            PlanetProperty.OBLIQUITY,
-        ),
-        searchableStellarHostProperties = setOf(StellarHostProperty.NAME),
-        searchablePlanetProperties = setOf(PlanetProperty.NAME)
-    )
+    initialState = when (stateBuilder) {
+        StellarExplorerStateBuilder.Load -> StellarExplorerState()
+        is StellarExplorerStateBuilder.FromState -> stateBuilder.state
+    }
 ) {
     init {
-        if (state == null) setup()
+        when (stateBuilder) {
+            StellarExplorerStateBuilder.Load -> setup()
+            is StellarExplorerStateBuilder.FromState -> {}
+        }
     }
 
     private fun setup(): Job = launch {
@@ -284,7 +237,7 @@ internal class StellarExplorerStore(
             Content.LIST_HOSTS,
             Content.LIST_PLANETS -> navigate(
                 screen = Screen.MAIN_MENU,
-                state = MainMenuStateBuilder(currentContent = MainMenuContent.LEARN_MENU)
+                stateBuilder = MainMenuStateBuilder.FromContent(content = MainMenuContent.LEARN_MENU)
             )
 
             Content.DETAIL_HOSTS -> launch {

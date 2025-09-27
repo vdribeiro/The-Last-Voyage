@@ -13,19 +13,22 @@ internal class ScoreStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
-    state: ScoreState?,
+    stateBuilder: ScoreStateBuilder,
     private val gameSessionUseCases: GameSessionUseCases
-): Store<ScoreState, ScoreAction>(
+): Store<ScoreState, Unit>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = state ?: ScoreState(
-        loading = true,
-        gameSessions = emptyList()
-    )
+    initialState = when (stateBuilder) {
+        ScoreStateBuilder.Load -> ScoreState()
+        is ScoreStateBuilder.FromState -> stateBuilder.state
+    }
 ) {
     init {
-        if (state == null) setup()
+        when (stateBuilder) {
+            ScoreStateBuilder.Load -> setup()
+            is ScoreStateBuilder.FromState -> {}
+        }
     }
 
     private fun setup(): Job = launch {

@@ -14,27 +14,28 @@ internal class GameOverStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
-    state: GameOverState?,
+    stateBuilder: GameOverStateBuilder,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameOverState, GameOverAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = state ?: GameOverState(
-        loading = true,
-        currentContent = Content.MESSAGE,
-        gameSession = null,
-        gameOver = null
-    )
+    initialState = when (stateBuilder) {
+        GameOverStateBuilder.Load -> GameOverState()
+        is GameOverStateBuilder.FromState -> stateBuilder.state
+    }
 ) {
     init {
-        if (state == null) setup()
+        when (stateBuilder) {
+            GameOverStateBuilder.Load -> setup()
+            is GameOverStateBuilder.FromState -> {}
+        }
     }
 
     private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing game session on setup()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 

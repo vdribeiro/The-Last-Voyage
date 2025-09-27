@@ -8,13 +8,20 @@ internal sealed interface EventAction {
     data class Select(val event: Event): EventAction
 }
 
+internal sealed interface EventStateBuilder {
+    data object Load: EventStateBuilder
+    data class FromState(
+        val state: EventState,
+        val gameSession: GameSession?,
+        val eventChain: List<Event>
+    ): EventStateBuilder
+}
+
 internal data class EventState(
-    val loading: Boolean,
-    val gameSession: GameSession?,
-    val ship: Ship?,
-    val eventChain: List<Event>,
-    val parentEvent: Event,
-    val childrenEvents: List<Event>,
+    val loading: Boolean = true,
+    val ship: Ship? = null,
+    val parentEvent: Event? = null,
+    val childrenEvents: List<Event> = emptyList(),
 )
 
 internal val defaultEvent = Event(

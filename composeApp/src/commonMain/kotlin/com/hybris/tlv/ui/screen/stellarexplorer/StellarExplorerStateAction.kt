@@ -20,24 +20,64 @@ internal sealed interface StellarExplorerAction {
     data class ChangePlanetSearchable(val property: PlanetProperty): StellarExplorerAction
 }
 
+internal sealed interface StellarExplorerStateBuilder {
+    data object Load: StellarExplorerStateBuilder
+    data class FromState(val state: StellarExplorerState): StellarExplorerStateBuilder
+}
+
 internal data class StellarExplorerState(
-    val loading: Boolean,
-    val currentContent: Content,
-    val listIndex: LazyListIndex,
-    val stellarHosts: List<StellarHost>,
-    val planets: List<Planet>,
-    val filteredStellarHosts: List<StellarHost>,
-    val filteredPlanets: List<Planet>,
-    val selectedStellarHost: StellarHost?,
-    val selectedPlanet: Planet?,
-    val search: String,
-    val sortStellarHostProperty: StellarHostProperty,
-    val sortPlanetProperty: PlanetProperty,
-    val sortAscending: Boolean,
-    val visibleStellarHostProperties: Set<StellarHostProperty>,
-    val visiblePlanetProperties: Set<PlanetProperty>,
-    val searchableStellarHostProperties: Set<StellarHostProperty>,
-    val searchablePlanetProperties: Set<PlanetProperty>
+    val loading: Boolean = true,
+    val currentContent: Content = Content.LIST_HOSTS,
+    val listIndex: LazyListIndex = LazyListIndex(),
+    val stellarHosts: List<StellarHost> = emptyList(),
+    val planets: List<Planet> = emptyList(),
+    val filteredStellarHosts: List<StellarHost> = emptyList(),
+    val filteredPlanets: List<Planet> = emptyList(),
+    val selectedStellarHost: StellarHost? = null,
+    val selectedPlanet: Planet? = null,
+    val search: String = "",
+    val sortStellarHostProperty: StellarHostProperty = StellarHostProperty.DISTANCE,
+    val sortPlanetProperty: PlanetProperty = PlanetProperty.HABITABILITY,
+    val sortAscending: Boolean = true,
+    val visibleStellarHostProperties: Set<StellarHostProperty> = setOf(
+        StellarHostProperty.NAME,
+        StellarHostProperty.SYSTEM_NAME,
+        StellarHostProperty.PLANET_COUNT,
+        StellarHostProperty.SPECTRAL_TYPE,
+        StellarHostProperty.TEMPERATURE,
+        StellarHostProperty.RADIUS,
+        StellarHostProperty.MASS,
+        StellarHostProperty.METALLICITY,
+        StellarHostProperty.LUMINOSITY,
+        StellarHostProperty.GRAVITY,
+        StellarHostProperty.AGE,
+        StellarHostProperty.DENSITY,
+        StellarHostProperty.ROTATIONAL_VELOCITY,
+        StellarHostProperty.ROTATIONAL_PERIOD,
+        StellarHostProperty.DISTANCE,
+        StellarHostProperty.RA,
+        StellarHostProperty.DEC,
+    ),
+    val visiblePlanetProperties: Set<PlanetProperty> = setOf(
+        PlanetProperty.NAME,
+        PlanetProperty.STATUS,
+        PlanetProperty.HABITABILITY,
+        PlanetProperty.CONFIDENCE,
+        PlanetProperty.TYPE,
+        PlanetProperty.ORBITAL_PERIOD,
+        PlanetProperty.ORBIT_AXIS,
+        PlanetProperty.RADIUS,
+        PlanetProperty.MASS,
+        PlanetProperty.DENSITY,
+        PlanetProperty.ECCENTRICITY,
+        PlanetProperty.INSOLATION_FLUX,
+        PlanetProperty.TEMPERATURE,
+        PlanetProperty.OCCULTATION_DEPTH,
+        PlanetProperty.INCLINATION,
+        PlanetProperty.OBLIQUITY,
+    ),
+    val searchableStellarHostProperties: Set<StellarHostProperty> = setOf(StellarHostProperty.NAME),
+    val searchablePlanetProperties: Set<PlanetProperty> = setOf(PlanetProperty.NAME)
 )
 
 internal enum class Content {

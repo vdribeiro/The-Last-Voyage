@@ -17,7 +17,7 @@ import com.hybris.tlv.ui.theme.component.AchievementItem
 import com.hybris.tlv.ui.theme.component.Screen
 
 @Composable
-internal fun AchievementScreen(store: Store<AchievementState, AchievementAction>) {
+internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
     val storeState by store.stateFlow.collectAsState()
 
     Screen(

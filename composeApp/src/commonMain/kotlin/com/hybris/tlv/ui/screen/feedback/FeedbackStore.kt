@@ -1,9 +1,11 @@
 package com.hybris.tlv.ui.screen.feedback
 
+import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationManager.NavigationState
 import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -12,47 +14,55 @@ internal class FeedbackStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
-    state: FeedbackState?,
-    private val stateBuilder: FeedbackStateBuilder,
+    stateBuilder: FeedbackStateBuilder,
 ): Store<FeedbackState, FeedbackAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = state ?: FeedbackState(
-        isError = stateBuilder.message != null
-    )
+    initialState = when (stateBuilder) {
+        is FeedbackStateBuilder.Feedback -> FeedbackState()
+        is FeedbackStateBuilder.Error -> FeedbackState(isError = true)
+    }
 ) {
+    @get:VisibleForTesting
+    internal var navigationState: NavigationState? = null
+    @get:VisibleForTesting
+    internal var tag: String? = null
+    @get:VisibleForTesting
+    internal var message: String? = null
+
     init {
-        if (state == null) setup()
+        when (stateBuilder) {
+            is FeedbackStateBuilder.Feedback -> navigationState = stateBuilder.navigationState
+            is FeedbackStateBuilder.Error -> {
+                navigationState = NavigationState()
+                tag = stateBuilder.tag
+                message = stateBuilder.message
+                Logger.error(tag = tag.orEmpty(), message = message.orEmpty())
+            }
+        }
     }
 
-    private fun setup(): Job = launch {
-        val tag = stateBuilder.tag
-        val message = stateBuilder.message
-        if (tag != null && message != null) Logger.error(tag = tag, message = message)
-    }
-
-    private fun sendFeedback(state: FeedbackState, message: String): Job = launch {
+    private fun sendFeedback(state: FeedbackState, action: FeedbackAction.SendFeedback): Job = launch {
         // Construct the feedback message with all the components
         val feedback = buildList {
-            stateBuilder.tag?.let { add(element = "Identifier: $it") }
-            stateBuilder.message?.let { add(element = "Message: $it") }
-            if (message.isNotBlank()) add(element = "Feedback: $message")
+            tag?.let { add(element = "Identifier: $it") }
+            message?.let { add(element = "Message: $it") }
+            if (action.message.isNotBlank()) add(element = "Feedback: ${action.message}")
         }.joinToString(separator = "\n")
         // TODO: Send feedback to server
-        println(feedback)
+        Logger.info(tag = "Feedback", message = feedback)
         delay(timeMillis = 2000L)
         back(state = state).invoke()
     }
 
     override fun back(state: FeedbackState): () -> Unit = {
-        val state = stateBuilder.navigationState
-        navigate(screen = state.screen, state = state.state)
+        navigationState?.let { navigate(screen = it.screen, stateBuilder = it.stateBuilder) }
     }
 
     override fun reducer(state: FeedbackState, action: FeedbackAction) {
         when (action) {
-            is FeedbackAction.SendFeedback -> sendFeedback(state = state, message = action.message)
+            is FeedbackAction.SendFeedback -> sendFeedback(state = state, action = action)
         }
     }
 }

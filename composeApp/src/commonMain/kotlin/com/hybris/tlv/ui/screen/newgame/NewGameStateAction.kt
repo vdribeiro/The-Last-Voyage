@@ -17,13 +17,22 @@ internal sealed interface NewGameAction {
     data object StartGame: NewGameAction
 }
 
+internal sealed interface NewGameStateBuilder {
+    data object Load: NewGameStateBuilder
+    data class FromState(val state: NewGameState, val selectedShip: ShipPrototype?): NewGameStateBuilder
+}
+
 internal data class NewGameState(
-    val loading: Boolean,
-    val currentContent: Content,
-    val selectedCatastrophe: Catastrophe?,
-    val shipState: ShipState,
-    val selectedShip: ShipPrototype?,
-    val formula: Formula,
+    val loading: Boolean = true,
+    val currentContent: Content = Content.SHIP,
+    val selectedCatastrophe: Catastrophe? = null,
+    val shipState: ShipState = ShipState(
+        sensorRange = ShipState.Point(max = 10, min = 1, interval = 1, initialValue = 3),
+        materials = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
+        fuel = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
+        cryopods = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
+    ),
+    val formula: Formula = Formula()
 )
 
 internal enum class Content {

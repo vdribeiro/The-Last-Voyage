@@ -16,44 +16,46 @@ internal class MainMenuStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
-    config: ConfigManager,
-    state: MainMenuState?,
     stateBuilder: MainMenuStateBuilder,
+    private val config: ConfigManager,
     private val gameSessionUseCases: GameSessionUseCases,
     private val learningUseCases: LearningUseCases
 ): Store<MainMenuState, MainMenuAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = state ?: MainMenuState(
-        loading = true,
-        featureSoon = config.localConfigs.featureSoon,
-        featureLearn = config.localConfigs.featureLearn,
-        featureScores = config.localConfigs.featureScores,
-        featureAchievements = config.localConfigs.featureAchievements,
-        featureStellarExplorer = config.localConfigs.featureStellarExplorer,
-        featureNewGame = config.localConfigs.featureNewGame,
-        featureTutorial = config.localConfigs.featureTutorial,
-        developerCorner = config.localConfigs.developerCorner,
-        support = config.localConfigs.support,
-        formula = config.localConfigs.formula,
-        currentContent = stateBuilder.currentContent,
-        ongoingGameSession = false,
-        learningsMap = emptyMap(),
-        newGameDialog = false
-    )
+    initialState = when (stateBuilder) {
+        MainMenuStateBuilder.Load -> MainMenuState()
+        is MainMenuStateBuilder.FromState -> stateBuilder.state
+        is MainMenuStateBuilder.FromContent -> MainMenuState(currentContent = stateBuilder.content)
+    }
 ) {
     init {
-        if (state == null) setup()
+        when (stateBuilder) {
+            MainMenuStateBuilder.Load -> setup()
+            is MainMenuStateBuilder.FromState -> {}
+            is MainMenuStateBuilder.FromContent -> setup()
+        }
     }
 
     private fun setup(): Job = launch {
+        config.fetch()
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
         val learningsMap = learningUseCases.getLearnings().groupBy { it.type }
 
         updateState {
             it.copy(
                 loading = false,
+                featureSoon = config.localConfigs.featureSoon,
+                featureLearn = config.localConfigs.featureLearn,
+                featureScores = config.localConfigs.featureScores,
+                featureAchievements = config.localConfigs.featureAchievements,
+                featureStellarExplorer = config.localConfigs.featureStellarExplorer,
+                featureNewGame = config.localConfigs.featureNewGame,
+                featureTutorial = config.localConfigs.featureTutorial,
+                developerCorner = config.localConfigs.developerCorner,
+                support = config.localConfigs.support,
+                formula = config.localConfigs.formula,
                 ongoingGameSession = ongoingGameSession,
                 learningsMap = learningsMap,
             )
@@ -71,7 +73,7 @@ internal class MainMenuStore(
 
     private fun newGameWithTutorial(): Job = launch {
         Preferences.set(preferences = Preferences.get().copy(showTutorial = false))
-        navigate(screen = Screen.TUTORIAL, state = TutorialStateBuilder(newGame = true))
+        navigate(screen = Screen.TUTORIAL, stateBuilder = TutorialStateBuilder.NewGame(newGame = true))
     }
 
     override fun back(state: MainMenuState) = {

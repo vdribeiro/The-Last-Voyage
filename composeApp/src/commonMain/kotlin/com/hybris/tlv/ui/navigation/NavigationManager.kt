@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 internal interface NavigationManager {
     data class NavigationState(
         val screen: Screen = Screen.SPLASH,
-        val state: Any? = null
+        val stateBuilder: Any? = null
     )
 
     val stateFlow: StateFlow<NavigationState>

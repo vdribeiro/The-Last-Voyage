@@ -4,31 +4,29 @@ import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.screen.achievement.AchievementState
+import com.hybris.tlv.ui.navigation.NavigationManager.NavigationState
+import com.hybris.tlv.ui.screen.achievement.AchievementStateBuilder
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
-import com.hybris.tlv.ui.screen.credit.CreditState
+import com.hybris.tlv.ui.screen.credit.CreditStateBuilder
 import com.hybris.tlv.ui.screen.credit.CreditStore
-import com.hybris.tlv.ui.screen.event.EventState
+import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.screen.event.EventStore
-import com.hybris.tlv.ui.screen.feedback.FeedbackState
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.screen.feedback.FeedbackStore
-import com.hybris.tlv.ui.screen.game.GameState
+import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.screen.game.GameStore
-import com.hybris.tlv.ui.screen.gameover.GameOverState
+import com.hybris.tlv.ui.screen.gameover.GameOverStateBuilder
 import com.hybris.tlv.ui.screen.gameover.GameOverStore
-import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStore
-import com.hybris.tlv.ui.screen.newgame.NewGameState
+import com.hybris.tlv.ui.screen.newgame.NewGameStateBuilder
 import com.hybris.tlv.ui.screen.newgame.NewGameStore
-import com.hybris.tlv.ui.screen.score.ScoreState
+import com.hybris.tlv.ui.screen.score.ScoreStateBuilder
 import com.hybris.tlv.ui.screen.score.ScoreStore
-import com.hybris.tlv.ui.screen.splash.SplashState
+import com.hybris.tlv.ui.screen.splash.SplashStateBuilder
 import com.hybris.tlv.ui.screen.splash.SplashStore
-import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
+import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStateBuilder
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
-import com.hybris.tlv.ui.screen.tutorial.TutorialState
 import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
 import com.hybris.tlv.ui.screen.tutorial.TutorialStore
 import com.hybris.tlv.usecase.UseCases
@@ -40,12 +38,12 @@ internal class StoreFactory(
     private val config: ConfigManager,
     private val useCases: UseCases
 ) {
-    fun createSplashStore(state: Any? = null): SplashStore = SplashStore(
+    fun createSplashStore(stateBuilder: Any? = null): SplashStore = SplashStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
+        stateBuilder = stateBuilder as? SplashStateBuilder ?: SplashStateBuilder.Load,
         config = config,
-        state = state as? SplashState,
         translateUseCases = useCases.translation,
         archiveUseCases = useCases.archive,
         learningUseCases = useCases.learning,
@@ -57,98 +55,95 @@ internal class StoreFactory(
         creditUseCases = useCases.credit
     )
 
-    fun createMainMenuStore(state: Any? = null): MainMenuStore = MainMenuStore(
+    fun createMainMenuStore(stateBuilder: Any? = null): MainMenuStore = MainMenuStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
+        stateBuilder = stateBuilder as? MainMenuStateBuilder ?: MainMenuStateBuilder.Load,
         config = config,
-        state = state as? MainMenuState,
-        stateBuilder = state as? MainMenuStateBuilder ?: MainMenuStateBuilder(),
         gameSessionUseCases = useCases.gameSession,
         learningUseCases = useCases.learning
     )
 
-    fun createFeedbackStore(state: Any? = null): FeedbackStore = FeedbackStore(
+    fun createFeedbackStore(stateBuilder: Any? = null): FeedbackStore = FeedbackStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        state = state as? FeedbackState,
-        stateBuilder = state as? FeedbackStateBuilder ?: FeedbackStateBuilder()
+        stateBuilder = stateBuilder as? FeedbackStateBuilder ?: FeedbackStateBuilder.Feedback(navigationState = NavigationState())
     )
 
-    fun createNewGameStore(state: Any? = null): NewGameStore = NewGameStore(
+    fun createNewGameStore(stateBuilder: Any? = null): NewGameStore = NewGameStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        state = state as? NewGameState,
+        stateBuilder = stateBuilder as? NewGameStateBuilder ?: NewGameStateBuilder.Load,
         catastropheUseCases = useCases.catastrophe,
         gameSessionUseCases = useCases.gameSession
     )
 
-    fun createTutorialStore(state: Any? = null): TutorialStore = TutorialStore(
+    fun createTutorialStore(stateBuilder: Any? = null): TutorialStore = TutorialStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        state = state as? TutorialState,
-        stateBuilder = state as? TutorialStateBuilder ?: TutorialStateBuilder()
+        stateBuilder = stateBuilder as? TutorialStateBuilder ?: TutorialStateBuilder.NewGame(newGame = false)
     )
 
-    fun createGameStore(state: Any? = null): GameStore = GameStore(
+    fun createGameStore(stateBuilder: Any? = null): GameStore = GameStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
         shipUseCases = useCases.ship,
         spaceUseCases = useCases.space,
-        state = state as? GameState,
+        stateBuilder = stateBuilder as? GameStateBuilder ?: GameStateBuilder.Load,
         gameSessionUseCases = useCases.gameSession
     )
 
-    fun createEventStore(state: Any? = null): EventStore = EventStore(
+    fun createEventStore(stateBuilder: Any? = null): EventStore = EventStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
         eventUseCases = useCases.event,
-        state = state as? EventState,
+        stateBuilder = stateBuilder as? EventStateBuilder.Load ?: EventStateBuilder.Load,
         gameSessionUseCases = useCases.gameSession
     )
 
-    fun createGameOverStore(state: Any? = null): GameOverStore = GameOverStore(
+    fun createGameOverStore(stateBuilder: Any? = null): GameOverStore = GameOverStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        state = state as? GameOverState,
+        stateBuilder = stateBuilder as? GameOverStateBuilder ?: GameOverStateBuilder.Load,
         gameSessionUseCases = useCases.gameSession
     )
 
-    fun createStellarExplorerStore(state: Any? = null): StellarExplorerStore = StellarExplorerStore(
+    fun createStellarExplorerStore(stateBuilder: Any? = null): StellarExplorerStore = StellarExplorerStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        state = state as? StellarExplorerState,
+        stateBuilder = stateBuilder as? StellarExplorerStateBuilder ?: StellarExplorerStateBuilder.Load,
         spaceUseCases = useCases.space
     )
 
-    fun createScoreStore(state: Any? = null): ScoreStore = ScoreStore(
+    fun createScoreStore(stateBuilder: Any? = null): ScoreStore = ScoreStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        state = state as? ScoreState,
+        stateBuilder = stateBuilder as? ScoreStateBuilder ?: ScoreStateBuilder.Load,
         gameSessionUseCases = useCases.gameSession
     )
 
-    fun createAchievementStore(state: Any? = null): AchievementStore = AchievementStore(
+    fun createAchievementStore(stateBuilder: Any? = null): AchievementStore = AchievementStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        state = state as? AchievementState,
+        stateBuilder = stateBuilder as? AchievementStateBuilder ?: AchievementStateBuilder.Load,
         achievementUseCases = useCases.achievement
     )
 
-    fun createCreditStore(state: Any? = null): CreditStore = CreditStore(
+    fun createCreditStore(stateBuilder: Any? = null): CreditStore = CreditStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        state = state as? CreditState,
+        stateBuilder = stateBuilder as? CreditStateBuilder ?: CreditStateBuilder.Load,
         creditUseCases = useCases.credit
     )
 }

@@ -12,19 +12,20 @@ internal class CreditStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
-    state: CreditState?,
+    stateBuilder: CreditStateBuilder,
     private val creditUseCases: CreditUseCases
-): Store<CreditState, CreditAction>(
+): Store<CreditState, Unit>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = state ?: CreditState(
-        loading = true,
-        credits = emptyList()
-    )
+    initialState = when (stateBuilder) {
+        CreditStateBuilder.Load -> CreditState()
+    }
 ) {
     init {
-        if (state == null) setup()
+        when (stateBuilder) {
+            CreditStateBuilder.Load -> setup()
+        }
     }
 
     private fun setup(): Job = launch {

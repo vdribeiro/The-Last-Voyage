@@ -4,12 +4,12 @@ internal sealed interface TutorialAction {
     data object Next: TutorialAction
 }
 
-internal data class TutorialStateBuilder(
-    val newGame: Boolean = false,
-)
+internal sealed interface TutorialStateBuilder {
+    data class NewGame(val newGame: Boolean): TutorialStateBuilder
+}
 
 internal data class TutorialState(
-    val tutorialStep: Tutorial,
+    val tutorialStep: Tutorial = Tutorial.GOAL
 )
 
 internal enum class Tutorial {

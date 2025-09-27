@@ -35,22 +35,18 @@ internal open class Store<State, Action>(
      * The list of jobs launched by the Store.
      */
     private val jobs = mutableListOf<Job>()
-    /**
-     * The current navigation state.
-     */
-    private val navigationState: NavigationState get() = NavigationState(screen = navigation.stateFlow.value.screen, state = _stateFlow.value)
 
     init {
         navigation.back = { back(state = _stateFlow.value).invoke() }
     }
 
     /**
-     * Clean up the store and navigate to a new [screen] given an optional [state].
+     * Clean up the store and navigate to a new [screen] given an optional [stateBuilder].
      */
-    protected fun navigate(screen: Screen, state: Any? = null) {
+    protected fun navigate(screen: Screen, stateBuilder: Any? = null) {
         navigation.back = {}
         jobs.forEach { it.cancel() }
-        navigation.navigate(screen = screen, state = state)
+        navigation.navigate(screen = screen, state = stateBuilder)
     }
 
     /**
@@ -89,8 +85,12 @@ internal open class Store<State, Action>(
     /**
      * Navigate to feedback screen.
      */
-    fun feedback() = navigate(
+    fun feedback(
+        stateBuilder: FeedbackStateBuilder = FeedbackStateBuilder.Feedback(
+            navigationState = NavigationState(screen = navigation.stateFlow.value.screen, stateBuilder = _stateFlow.value)
+        )
+    ) = navigate(
         screen = Screen.FEEDBACK,
-        state = FeedbackStateBuilder(navigationState = navigationState)
+        stateBuilder = stateBuilder
     )
 }

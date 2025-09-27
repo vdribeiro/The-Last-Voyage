@@ -7,11 +7,16 @@ internal sealed interface GameOverAction {
     data object Continue: GameOverAction
 }
 
+internal sealed interface GameOverStateBuilder {
+    data object Load: GameOverStateBuilder
+    data class FromState(val state: GameOverState): GameOverStateBuilder
+}
+
 internal data class GameOverState(
-    val loading: Boolean,
-    val currentContent: Content,
-    val gameSession: GameSession?,
-    val gameOver: GameOver?
+    val loading: Boolean = true,
+    val currentContent: Content = Content.MESSAGE,
+    val gameSession: GameSession? = null,
+    val gameOver: GameOver? = null
 )
 
 internal enum class Content {

@@ -21,9 +21,7 @@ private fun EventLoading() {
             store = getStore(
                 initialState = EventState(
                     loading = true,
-                    gameSession = null,
                     ship = null,
-                    eventChain = emptyList(),
                     parentEvent = defaultEvent,
                     childrenEvents = emptyList()
                 )
@@ -41,9 +39,7 @@ private fun EventRandom() {
             store = getStore(
                 initialState = EventState(
                     loading = false,
-                    gameSession = null,
                     ship = ship,
-                    eventChain = emptyList(),
                     parentEvent = events.random(),
                     childrenEvents = events.shuffled().take(n = 3)
                 )

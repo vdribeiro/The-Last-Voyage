@@ -2,9 +2,12 @@ package com.hybris.tlv.ui.screen.score
 
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 
-internal sealed interface ScoreAction
+internal sealed interface ScoreStateBuilder {
+    data object Load: ScoreStateBuilder
+    data class FromState(val state: ScoreState): ScoreStateBuilder
+}
 
 internal data class ScoreState(
-    val loading: Boolean,
-    val gameSessions: List<GameSession>,
+    val loading: Boolean = true,
+    val gameSessions: List<GameSession> = emptyList()
 )

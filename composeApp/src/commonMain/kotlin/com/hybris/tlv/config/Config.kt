@@ -17,6 +17,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     override val remoteConfigs: Configs get() = remoteCache
 
     override suspend fun fetch() {
+        // TODO - timer
         fetchLocal()
         fetchRemote()
     }

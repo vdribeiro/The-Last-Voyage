@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.tutorial
 
+import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -12,21 +13,29 @@ internal class TutorialStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer?,
-    state: TutorialState?,
-    private val stateBuilder: TutorialStateBuilder,
+    stateBuilder: TutorialStateBuilder,
 ): Store<TutorialState, TutorialAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = state ?: TutorialState(
-        tutorialStep = Tutorial.GOAL
-    )
+    initialState = when (stateBuilder) {
+        is TutorialStateBuilder.NewGame -> TutorialState()
+    }
 ) {
+    @get:VisibleForTesting
+    internal var newGame: Boolean = false
+
+    init {
+        when (stateBuilder) {
+            is TutorialStateBuilder.NewGame -> newGame = stateBuilder.newGame
+        }
+    }
 
     override fun back(state: TutorialState): () -> Unit = {
-        if (!stateBuilder.newGame) {
-            navigate(screen = Screen.MAIN_MENU, state = MainMenuStateBuilder(currentContent = MainMenuContent.LEARN_MENU))
-        } else navigate(screen = Screen.NEW_GAME)
+        when {
+            newGame -> navigate(screen = Screen.NEW_GAME)
+            else -> navigate(screen = Screen.MAIN_MENU, stateBuilder = MainMenuStateBuilder.FromContent(content = MainMenuContent.LEARN_MENU))
+        }
     }
 
     override fun reducer(state: TutorialState, action: TutorialAction) {

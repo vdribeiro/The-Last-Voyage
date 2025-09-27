@@ -60,7 +60,7 @@ internal class NewGameStoreTest {
     fun `send action select ship`() = runBlocking {
         testCore.useCases.catastrophe.prepopulateCatastrophes()
         val newGameStore = store
-        assertNull(actual = newGameStore.stateFlow.value.selectedShip)
+        assertNull(actual = newGameStore.selectedShip)
         val shipPrototype = ShipPrototype(
             assignedPoints = 1,
             sensorRange = 1,
@@ -69,7 +69,7 @@ internal class NewGameStoreTest {
             cryopods = 1
         )
         newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype))
-        assertEquals(expected = shipPrototype, actual = newGameStore.stateFlow.value.selectedShip)
+        assertEquals(expected = shipPrototype, actual = newGameStore.selectedShip)
     }
 
     @Test

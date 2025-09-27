@@ -23,7 +23,6 @@ private fun GameLoading() {
                 initialState = GameState(
                     loading = true,
                     currentContent = Content.SYSTEM,
-                    gameSession = null,
                     ship = null,
                     currentStellarHost = null,
                     nearStellarHosts = emptyList(),
@@ -43,7 +42,6 @@ private fun GameShip() {
                 initialState = GameState(
                     loading = false,
                     currentContent = Content.SHIP,
-                    gameSession = null,
                     ship = ship,
                     currentStellarHost = null,
                     nearStellarHosts = emptyList(),
@@ -63,7 +61,6 @@ private fun GameSystem() {
                 initialState = GameState(
                     loading = false,
                     currentContent = Content.SYSTEM,
-                    gameSession = null,
                     ship = ship,
                     currentStellarHost = hostsWithPlanets.random(),
                     nearStellarHosts = emptyList(),
@@ -83,7 +80,6 @@ private fun GameTravel() {
                 initialState = GameState(
                     loading = false,
                     currentContent = Content.TRAVEL,
-                    gameSession = null,
                     ship = ship,
                     currentStellarHost = null,
                     nearStellarHosts = stellarHosts.shuffled().take(n = 3),

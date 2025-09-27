@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.newgame
 
+import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -9,42 +10,39 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
-import com.hybris.tlv.usecase.space.model.Formula
+import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import kotlinx.coroutines.Job
 
 internal class NewGameStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
-    state: NewGameState?,
+    stateBuilder: NewGameStateBuilder,
     private val catastropheUseCases: CatastropheUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameState, NewGameAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = state ?: NewGameState(
-        loading = true,
-        currentContent = Content.SHIP,
-        selectedCatastrophe = null,
-        shipState = ShipState(
-            sensorRange = ShipState.Point(max = 10, min = 1, interval = 1, initialValue = 3),
-            materials = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
-            fuel = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
-            cryopods = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
-        ),
-        selectedShip = null,
-        formula = Formula()
-    )
+    initialState = when (stateBuilder) {
+        NewGameStateBuilder.Load -> NewGameState()
+        is NewGameStateBuilder.FromState -> stateBuilder.state
+    }
 ) {
+    @VisibleForTesting
+    internal var selectedShip: ShipPrototype? = null
+
     init {
-        if (state == null) setup()
+        when (stateBuilder) {
+            NewGameStateBuilder.Load -> setup()
+            is NewGameStateBuilder.FromState -> selectedShip = stateBuilder.selectedShip
+        }
     }
 
     private fun setup(): Job = launch {
         val selectedCatastrophe = catastropheUseCases.getRandomCatastrophe()
         if (selectedCatastrophe == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing catastrophe on setup()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing catastrophe on setup()"))
             return@launch
         }
         updateState {
@@ -56,9 +54,9 @@ internal class NewGameStore(
     }
 
     private fun startGame(state: NewGameState) = launch {
-        val selectedShip = state.selectedShip
+        val selectedShip = this@NewGameStore.selectedShip
         if (selectedShip == null) {
-            navigate(screen = Screen.FEEDBACK, state = FeedbackStateBuilder(tag = TAG, message = "Invalid state: missing ship prototype on startGame()"))
+            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing ship prototype on startGame()"))
             return@launch
         }
 
@@ -77,7 +75,7 @@ internal class NewGameStore(
 
     override fun reducer(state: NewGameState, action: NewGameAction) {
         when (action) {
-            is NewGameAction.SelectShip -> updateState { it.copy(selectedShip = action.ship) }
+            is NewGameAction.SelectShip -> selectedShip = action.ship
             is NewGameAction.SelectFormula -> updateState { it.copy(formula = action.formula) }
             NewGameAction.Ship -> updateState { it.copy(currentContent = Content.SHIP) }
             NewGameAction.Advanced -> updateState { it.copy(currentContent = Content.ADVANCED) }

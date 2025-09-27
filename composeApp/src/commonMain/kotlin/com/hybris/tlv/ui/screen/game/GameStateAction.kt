@@ -11,13 +11,17 @@ internal sealed interface GameAction {
     data class Settle(val planet: Planet): GameAction
 }
 
+internal sealed interface GameStateBuilder {
+    data object Load: GameStateBuilder
+    data class FromState(val state: GameState, val gameSession: GameSession?): GameStateBuilder
+}
+
 internal data class GameState(
-    val loading: Boolean,
-    val currentContent: Content,
-    val gameSession: GameSession?,
-    val ship: Ship?,
-    val currentStellarHost: StellarHost?,
-    val nearStellarHosts: List<StellarHost>
+    val loading: Boolean = true,
+    val currentContent: Content = Content.SYSTEM,
+    val ship: Ship? = null,
+    val currentStellarHost: StellarHost? = null,
+    val nearStellarHosts: List<StellarHost> = emptyList()
 )
 
 internal enum class Content {
