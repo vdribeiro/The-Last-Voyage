@@ -6,6 +6,7 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
+import com.hybris.tlv.ui.screen.splash.SplashStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import kotlinx.coroutines.Job
@@ -21,13 +22,13 @@ internal class GameOverStore(
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
-        GameOverStateBuilder.Load -> GameOverState()
+        GameOverStateBuilder.Default -> GameOverState()
         is GameOverStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     init {
         when (stateBuilder) {
-            GameOverStateBuilder.Load -> setup()
+            GameOverStateBuilder.Default -> setup()
             is GameOverStateBuilder.FromState -> {}
         }
     }
@@ -35,7 +36,7 @@ internal class GameOverStore(
     private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on setup()"))
+            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 
@@ -58,7 +59,7 @@ internal class GameOverStore(
         when (action) {
             GameOverAction.Continue -> when (state.currentContent) {
                 Content.MESSAGE -> updateState { it.copy(currentContent = Content.SCORE) }
-                Content.SCORE -> navigate(screen = Screen.MAIN_MENU)
+                Content.SCORE -> navigate(screen = Screen.MainMenu)
             }
         }
     }

@@ -20,13 +20,13 @@ internal class ScoreStore(
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
-        ScoreStateBuilder.Load -> ScoreState()
+        ScoreStateBuilder.Default -> ScoreState()
         is ScoreStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     init {
         when (stateBuilder) {
-            ScoreStateBuilder.Load -> setup()
+            ScoreStateBuilder.Default -> setup()
             is ScoreStateBuilder.FromState -> {}
         }
     }
@@ -45,6 +45,6 @@ internal class ScoreStore(
     }
 
     override fun back(state: ScoreState): () -> Unit = {
-        navigate(screen = Screen.MAIN_MENU)
+        navigate(screen = Screen.MainMenu)
     }
 }

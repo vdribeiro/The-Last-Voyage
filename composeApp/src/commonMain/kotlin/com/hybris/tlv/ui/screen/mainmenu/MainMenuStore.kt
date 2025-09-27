@@ -25,14 +25,14 @@ internal class MainMenuStore(
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
-        MainMenuStateBuilder.Load -> MainMenuState()
+        MainMenuStateBuilder.Default -> MainMenuState()
         is MainMenuStateBuilder.FromState -> stateBuilder.state
         is MainMenuStateBuilder.FromContent -> MainMenuState(currentContent = stateBuilder.content)
     }
 ) {
     init {
         when (stateBuilder) {
-            MainMenuStateBuilder.Load -> setup()
+            MainMenuStateBuilder.Default -> setup()
             is MainMenuStateBuilder.FromState -> {}
             is MainMenuStateBuilder.FromContent -> setup()
         }
@@ -63,17 +63,17 @@ internal class MainMenuStore(
     }
 
     private fun newGame(): Job = launch {
-        if (Preferences.get().showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = Screen.NEW_GAME)
+        if (Preferences.get().showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = Screen.NewGame)
     }
 
     private fun newGameWithoutTutorial(): Job = launch {
         Preferences.set(preferences = Preferences.get().copy(showTutorial = false))
-        navigate(screen = Screen.NEW_GAME)
+        navigate(screen = Screen.NewGame)
     }
 
     private fun newGameWithTutorial(): Job = launch {
         Preferences.set(preferences = Preferences.get().copy(showTutorial = false))
-        navigate(screen = Screen.TUTORIAL, stateBuilder = TutorialStateBuilder.NewGame(newGame = true))
+        navigate(screen = Screen.Tutorial, stateBuilder = TutorialStateBuilder.NewGame(newGame = true))
     }
 
     override fun back(state: MainMenuState) = {
@@ -92,16 +92,16 @@ internal class MainMenuStore(
             MainMenuAction.HideNewGameDialog -> updateState { it.copy(newGameDialog = false) }
             MainMenuAction.NoNewGameDialog -> newGameWithoutTutorial()
             MainMenuAction.YesNewGameDialog -> newGameWithTutorial()
-            MainMenuAction.Continue -> navigate(screen = Screen.GAME)
+            MainMenuAction.Continue -> navigate(screen = Screen.Game)
             MainMenuAction.Learn -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
-            MainMenuAction.Scores -> navigate(screen = Screen.SCORE)
-            MainMenuAction.Achievements -> navigate(screen = Screen.ACHIEVEMENT)
-            MainMenuAction.Credits -> navigate(screen = Screen.CREDIT)
+            MainMenuAction.Scores -> navigate(screen = Screen.Score)
+            MainMenuAction.Achievements -> navigate(screen = Screen.Achievement)
+            MainMenuAction.Credits -> navigate(screen = Screen.Credit)
             MainMenuAction.Soon -> {} // TODO
-            MainMenuAction.StellarExplorer -> navigate(screen = Screen.STELLAR_EXPLORER)
+            MainMenuAction.StellarExplorer -> navigate(screen = Screen.StellarExplorer)
             MainMenuAction.HostDefinition -> updateState { it.copy(currentContent = Content.HOST_DEFINITION) }
             MainMenuAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
-            MainMenuAction.Mechanics -> navigate(screen = Screen.TUTORIAL)
+            MainMenuAction.Mechanics -> navigate(screen = Screen.Tutorial)
             MainMenuAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
         }
     }

@@ -17,7 +17,7 @@ internal class CreditStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testCore.sqlDriver.clearDatabase()
-        testCore.navigation.navigate(screen = NavigationManager.Screen.CREDIT)
+        testCore.navigation.navigate(screen = NavigationManager.Screen.Credit)
     }
 
     @Test
@@ -31,8 +31,8 @@ internal class CreditStoreTest {
     fun `send action back`() = runBlocking {
         testCore.useCases.credit.prepopulateCredits()
         store
-        assertEquals(expected = NavigationManager.Screen.CREDIT, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.Credit, actual = testCore.navigation.stateFlow.value.screen)
         testCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testCore.navigation.stateFlow.value.screen)
     }
 }

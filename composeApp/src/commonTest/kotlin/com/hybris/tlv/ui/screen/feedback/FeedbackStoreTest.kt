@@ -16,15 +16,15 @@ internal class FeedbackStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testCore.sqlDriver.clearDatabase()
-        testCore.navigation.navigate(screen = NavigationManager.Screen.FEEDBACK)
+        testCore.navigation.navigate(screen = NavigationManager.Screen.Feedback)
     }
 
     @Test
     fun `send action back`() = runBlocking {
         store
-        assertEquals(expected = NavigationManager.Screen.FEEDBACK, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.Feedback, actual = testCore.navigation.stateFlow.value.screen)
         testCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.SPLASH, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.Splash, actual = testCore.navigation.stateFlow.value.screen)
     }
 
     @Test

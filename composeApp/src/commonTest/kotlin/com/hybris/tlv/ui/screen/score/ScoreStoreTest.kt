@@ -17,7 +17,7 @@ internal class ScoreStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testCore.sqlDriver.clearDatabase()
-        testCore.navigation.navigate(screen = NavigationManager.Screen.SCORE)
+        testCore.navigation.navigate(screen = NavigationManager.Screen.Score)
     }
 
     @Test
@@ -32,8 +32,8 @@ internal class ScoreStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         store
-        assertEquals(expected = NavigationManager.Screen.SCORE, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.Score, actual = testCore.navigation.stateFlow.value.screen)
         testCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testCore.navigation.stateFlow.value.screen)
     }
 }

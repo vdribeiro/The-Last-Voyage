@@ -6,6 +6,7 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
+import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
@@ -25,7 +26,7 @@ internal class EventStore(
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
-        EventStateBuilder.Load -> EventState()
+        EventStateBuilder.Default -> EventState()
         is EventStateBuilder.FromState -> stateBuilder.state
     }
 ) {
@@ -36,7 +37,7 @@ internal class EventStore(
 
     init {
         when (stateBuilder) {
-            EventStateBuilder.Load -> setup()
+            EventStateBuilder.Default -> setup()
             is EventStateBuilder.FromState -> {
                 gameSession = stateBuilder.gameSession
                 eventChain.addAll(elements = stateBuilder.eventChain)
@@ -47,7 +48,7 @@ internal class EventStore(
     private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on setup()"))
+            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 
@@ -59,7 +60,7 @@ internal class EventStore(
         // There must be at least 1 event with no parentId, this is the parent event
         val parentEvent = eventChain.find { it.parentId == null }
         if (parentEvent == null) {
-            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing parent event on setup()"))
+            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing parent event on setup()"))
             return@launch
         }
         val childrenEvents = eventChain.filter { it.parentId == parentEvent.id }.ifEmpty {
@@ -82,13 +83,13 @@ internal class EventStore(
     private fun select(action: EventAction.Select): Job = launch {
         // Event chain has ended
         if (action.event == stopEvent) {
-            navigate(screen = Screen.GAME)
+            navigate(screen = Screen.Game)
             return@launch
         }
 
         val gameSession = this@EventStore.gameSession
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on select()"))
+            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on select()"))
             return@launch
         }
 

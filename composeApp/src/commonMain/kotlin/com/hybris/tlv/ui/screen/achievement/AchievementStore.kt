@@ -19,12 +19,12 @@ internal class AchievementStore(
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
-        AchievementStateBuilder.Load -> AchievementState()
+        AchievementStateBuilder.Default -> AchievementState()
     }
 ) {
     init {
         when (stateBuilder) {
-            AchievementStateBuilder.Load -> setup()
+            AchievementStateBuilder.Default -> setup()
         }
     }
 
@@ -39,6 +39,6 @@ internal class AchievementStore(
     }
 
     override fun back(state: AchievementState): () -> Unit = {
-        navigate(screen = Screen.MAIN_MENU)
+        navigate(screen = Screen.MainMenu)
     }
 }

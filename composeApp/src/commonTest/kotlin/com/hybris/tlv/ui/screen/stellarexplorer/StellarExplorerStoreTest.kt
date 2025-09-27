@@ -18,7 +18,7 @@ internal class StellarExplorerStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testCore.sqlDriver.clearDatabase()
-        testCore.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
+        testCore.navigation.navigate(screen = NavigationManager.Screen.StellarExplorer)
     }
 
     @Test
@@ -34,7 +34,7 @@ internal class StellarExplorerStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         val stellarExplorerStore = store
-        testCore.navigation.navigate(screen = NavigationManager.Screen.STELLAR_EXPLORER)
+        testCore.navigation.navigate(screen = NavigationManager.Screen.StellarExplorer)
 
         stellarExplorerStore.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHosts.first()))
         assertEquals(expected = Content.DETAIL_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
@@ -47,7 +47,7 @@ internal class StellarExplorerStoreTest {
         testCore.navigation.back()
         assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         testCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testCore.navigation.stateFlow.value.screen)
     }
 
     @Test

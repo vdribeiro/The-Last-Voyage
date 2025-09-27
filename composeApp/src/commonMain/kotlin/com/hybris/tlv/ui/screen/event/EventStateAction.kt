@@ -9,7 +9,7 @@ internal sealed interface EventAction {
 }
 
 internal sealed interface EventStateBuilder {
-    data object Load: EventStateBuilder
+    data object Default: EventStateBuilder
     data class FromState(
         val state: EventState,
         val gameSession: GameSession?,

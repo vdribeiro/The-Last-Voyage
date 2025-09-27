@@ -19,7 +19,7 @@ internal class MainMenuStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testCore.sqlDriver.clearDatabase()
-        testCore.navigation.navigate(screen = NavigationManager.Screen.MAIN_MENU)
+        testCore.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
     }
 
     @Test
@@ -39,7 +39,7 @@ internal class MainMenuStoreTest {
     @Test
     fun `send action change content`() = runBlocking {
         val mainMenuStore = store
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testCore.navigation.stateFlow.value.screen)
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
         testCore.navigation.back()
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
@@ -68,18 +68,18 @@ internal class MainMenuStoreTest {
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
         mainMenuStore.send(action = MainMenuAction.NewGame)
-        assertEquals(expected = NavigationManager.Screen.NEW_GAME, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.NewGame, actual = testCore.navigation.stateFlow.value.screen)
 
         mainMenuStore.send(action = MainMenuAction.Continue)
-        assertEquals(expected = NavigationManager.Screen.GAME, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.Game, actual = testCore.navigation.stateFlow.value.screen)
 
         mainMenuStore.send(action = MainMenuAction.Scores)
-        assertEquals(expected = NavigationManager.Screen.SCORE, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.Score, actual = testCore.navigation.stateFlow.value.screen)
 
         mainMenuStore.send(action = MainMenuAction.Achievements)
-        assertEquals(expected = NavigationManager.Screen.ACHIEVEMENT, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.Achievement, actual = testCore.navigation.stateFlow.value.screen)
 
         mainMenuStore.send(action = MainMenuAction.Credits)
-        assertEquals(expected = NavigationManager.Screen.CREDIT, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.Credit, actual = testCore.navigation.stateFlow.value.screen)
     }
 }

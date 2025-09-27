@@ -17,7 +17,7 @@ internal class AchievementStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testCore.sqlDriver.clearDatabase()
-        testCore.navigation.navigate(screen = NavigationManager.Screen.ACHIEVEMENT)
+        testCore.navigation.navigate(screen = NavigationManager.Screen.Achievement)
     }
 
     @Test
@@ -31,8 +31,8 @@ internal class AchievementStoreTest {
     fun `send action back`() = runBlocking {
         testCore.useCases.achievement.prepopulateAchievements()
         store
-        assertEquals(expected = NavigationManager.Screen.ACHIEVEMENT, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.Achievement, actual = testCore.navigation.stateFlow.value.screen)
         testCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MAIN_MENU, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testCore.navigation.stateFlow.value.screen)
     }
 }

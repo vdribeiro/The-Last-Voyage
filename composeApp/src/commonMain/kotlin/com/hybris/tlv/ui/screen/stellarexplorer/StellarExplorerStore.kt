@@ -23,13 +23,13 @@ internal class StellarExplorerStore(
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
-        StellarExplorerStateBuilder.Load -> StellarExplorerState()
+        StellarExplorerStateBuilder.Default -> StellarExplorerState()
         is StellarExplorerStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     init {
         when (stateBuilder) {
-            StellarExplorerStateBuilder.Load -> setup()
+            StellarExplorerStateBuilder.Default -> setup()
             is StellarExplorerStateBuilder.FromState -> {}
         }
     }
@@ -236,7 +236,7 @@ internal class StellarExplorerStore(
         when (state.currentContent) {
             Content.LIST_HOSTS,
             Content.LIST_PLANETS -> navigate(
-                screen = Screen.MAIN_MENU,
+                screen = Screen.MainMenu,
                 stateBuilder = MainMenuStateBuilder.FromContent(content = MainMenuContent.LEARN_MENU)
             )
 

@@ -40,12 +40,12 @@ internal class SplashStore(
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
-        SplashStateBuilder.Load -> SplashState()
+        SplashStateBuilder.Default -> SplashState()
     }
 ) {
     init {
         when (stateBuilder) {
-            SplashStateBuilder.Load -> setup()
+            SplashStateBuilder.Default -> setup()
         }
     }
 
@@ -76,6 +76,6 @@ internal class SplashStore(
 
         config.flush()
         delay(timeMillis = 1000L)
-        navigate(screen = Screen.MAIN_MENU)
+        navigate(screen = Screen.MainMenu)
     }
 }

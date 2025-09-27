@@ -6,6 +6,8 @@ import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.NavigationState
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.screen.splash.SplashStateBuilder
 import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -25,7 +27,7 @@ internal class FeedbackStore(
     }
 ) {
     @get:VisibleForTesting
-    internal var navigationState: NavigationState? = null
+    internal var navigationState: NavigationState<*>? = null
     @get:VisibleForTesting
     internal var tag: String? = null
     @get:VisibleForTesting
@@ -35,7 +37,10 @@ internal class FeedbackStore(
         when (stateBuilder) {
             is FeedbackStateBuilder.Feedback -> navigationState = stateBuilder.navigationState
             is FeedbackStateBuilder.Error -> {
-                navigationState = NavigationState()
+                navigationState = NavigationState(
+                    screen = Screen.Splash,
+                    stateBuilder = SplashStateBuilder.Default
+                )
                 tag = stateBuilder.tag
                 message = stateBuilder.message
                 Logger.error(tag = tag.orEmpty(), message = message.orEmpty())

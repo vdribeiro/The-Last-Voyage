@@ -17,7 +17,7 @@ internal class SplashStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testCore.sqlDriver.clearDatabase()
-        testCore.navigation.navigate(screen = NavigationManager.Screen.SPLASH)
+        testCore.navigation.navigate(screen = NavigationManager.Screen.Splash)
     }
 
     @Test

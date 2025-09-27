@@ -25,7 +25,7 @@ internal class NewGameStore(
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
-        NewGameStateBuilder.Load -> NewGameState()
+        NewGameStateBuilder.Default -> NewGameState()
         is NewGameStateBuilder.FromState -> stateBuilder.state
     }
 ) {
@@ -34,7 +34,7 @@ internal class NewGameStore(
 
     init {
         when (stateBuilder) {
-            NewGameStateBuilder.Load -> setup()
+            NewGameStateBuilder.Default -> setup()
             is NewGameStateBuilder.FromState -> selectedShip = stateBuilder.selectedShip
         }
     }
@@ -42,7 +42,7 @@ internal class NewGameStore(
     private fun setup(): Job = launch {
         val selectedCatastrophe = catastropheUseCases.getRandomCatastrophe()
         if (selectedCatastrophe == null) {
-            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing catastrophe on setup()"))
+            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing catastrophe on setup()"))
             return@launch
         }
         updateState {
@@ -56,7 +56,7 @@ internal class NewGameStore(
     private fun startGame(state: NewGameState) = launch {
         val selectedShip = this@NewGameStore.selectedShip
         if (selectedShip == null) {
-            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing ship prototype on startGame()"))
+            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing ship prototype on startGame()"))
             return@launch
         }
 
@@ -66,11 +66,11 @@ internal class NewGameStore(
                 formula = state.formula
             )
         )
-        navigate(screen = Screen.GAME)
+        navigate(screen = Screen.Game)
     }
 
     override fun back(state: NewGameState): () -> Unit = {
-        navigate(screen = Screen.MAIN_MENU)
+        navigate(screen = Screen.MainMenu)
     }
 
     override fun reducer(state: NewGameState, action: NewGameAction) {

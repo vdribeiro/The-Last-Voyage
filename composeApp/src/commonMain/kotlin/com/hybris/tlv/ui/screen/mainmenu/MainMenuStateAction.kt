@@ -22,7 +22,7 @@ internal sealed interface MainMenuAction {
 }
 
 internal sealed interface MainMenuStateBuilder {
-    data object Load: MainMenuStateBuilder
+    data object Default: MainMenuStateBuilder
     data class FromState(val state: MainMenuState): MainMenuStateBuilder
     data class FromContent(val content: Content): MainMenuStateBuilder
 }

@@ -33,8 +33,8 @@ internal class TutorialStore(
 
     override fun back(state: TutorialState): () -> Unit = {
         when {
-            newGame -> navigate(screen = Screen.NEW_GAME)
-            else -> navigate(screen = Screen.MAIN_MENU, stateBuilder = MainMenuStateBuilder.FromContent(content = MainMenuContent.LEARN_MENU))
+            newGame -> navigate(screen = Screen.NewGame)
+            else -> navigate(screen = Screen.MainMenu, stateBuilder = MainMenuStateBuilder.FromContent(content = MainMenuContent.LEARN_MENU))
         }
     }
 

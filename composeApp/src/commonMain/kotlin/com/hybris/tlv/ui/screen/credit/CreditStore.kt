@@ -4,6 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.credit.CreditUseCases
 import kotlinx.coroutines.Job
@@ -19,12 +20,12 @@ internal class CreditStore(
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
-        CreditStateBuilder.Load -> CreditState()
+        CreditStateBuilder.Default -> CreditState()
     }
 ) {
     init {
         when (stateBuilder) {
-            CreditStateBuilder.Load -> setup()
+            CreditStateBuilder.Default -> setup()
         }
     }
 
@@ -39,6 +40,6 @@ internal class CreditStore(
     }
 
     override fun back(state: CreditState): () -> Unit = {
-        navigate(screen = Screen.MAIN_MENU)
+        navigate(screen = Screen.MainMenu)
     }
 }

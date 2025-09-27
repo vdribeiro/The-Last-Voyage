@@ -6,6 +6,7 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
+import com.hybris.tlv.ui.screen.gameover.GameOverStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
@@ -27,7 +28,7 @@ internal class GameStore(
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
-        GameStateBuilder.Load -> GameState()
+        GameStateBuilder.Default -> GameState()
         is GameStateBuilder.FromState -> stateBuilder.state
     }
 ) {
@@ -36,7 +37,7 @@ internal class GameStore(
 
     init {
         when (stateBuilder) {
-            GameStateBuilder.Load -> setup()
+            GameStateBuilder.Default -> setup()
             is GameStateBuilder.FromState -> gameSession = stateBuilder.gameSession
         }
     }
@@ -44,7 +45,7 @@ internal class GameStore(
     private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on setup()"))
+            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 
@@ -54,7 +55,7 @@ internal class GameStore(
         gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
 
         if (gameSessionUseCases.isGameOver(gameSession = updatedGameSession)) {
-            navigate(screen = Screen.GAME_OVER)
+            navigate(screen = Screen.GameOver)
             return@launch
         }
 
@@ -71,7 +72,7 @@ internal class GameStore(
             }
         }
         if (currentStellarHost == null) {
-            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing stellar host on setup()"))
+            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing stellar host on setup()"))
             return@launch
         }
 
@@ -113,33 +114,33 @@ internal class GameStore(
     private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
         val gameSession = this@GameStore.gameSession
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on travel()"))
+            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on travel()"))
             return@launch
         }
 
         val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }
         if (stellarHost == null) {
-            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing stellar host on travel()"))
+            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing stellar host on travel()"))
             return@launch
         }
 
         this@GameStore.gameSession = gameSessionUseCases.travel(gameSession = gameSession, stellarHost = stellarHost)
-        navigate(screen = Screen.EVENT)
+        navigate(screen = Screen.Event)
     }
 
     private fun settle(action: GameAction.Settle): Job = launch {
         val gameSession = this@GameStore.gameSession
         if (gameSession == null) {
-            navigate(screen = Screen.FEEDBACK, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on settle()"))
+            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on settle()"))
             return@launch
         }
 
         this@GameStore.gameSession = gameSessionUseCases.settle(gameSession = gameSession, planet = action.planet)
-        navigate(screen = Screen.GAME_OVER)
+        navigate(screen = Screen.GameOver)
     }
 
     override fun back(state: GameState): () -> Unit = {
-        navigate(screen = Screen.MAIN_MENU)
+        navigate(screen = Screen.MainMenu)
     }
 
     override fun reducer(state: GameState, action: GameAction) {

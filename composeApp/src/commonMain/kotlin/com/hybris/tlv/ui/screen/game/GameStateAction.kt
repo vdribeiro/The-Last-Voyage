@@ -12,7 +12,7 @@ internal sealed interface GameAction {
 }
 
 internal sealed interface GameStateBuilder {
-    data object Load: GameStateBuilder
+    data object Default: GameStateBuilder
     data class FromState(val state: GameState, val gameSession: GameSession?): GameStateBuilder
 }
 

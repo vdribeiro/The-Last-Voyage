@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.screen.splash
 internal sealed interface SplashAction
 
 internal sealed interface SplashStateBuilder {
-    data object Load: SplashStateBuilder
+    data object Default: SplashStateBuilder
 }
 
 internal data class SplashState(
