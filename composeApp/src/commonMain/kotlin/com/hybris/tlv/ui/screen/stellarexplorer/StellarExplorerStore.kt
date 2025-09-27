@@ -278,6 +278,8 @@ internal class StellarExplorerStore(
             is StellarExplorerAction.ChangePlanetSearchable -> changePlanetSearchable(state = state, action = action)
         }
     }
+
+    override fun getStateBuilderForFeedback(): Any = StellarExplorerStateBuilder.FromState(state = stateFlow.value)
 }
 
 /**

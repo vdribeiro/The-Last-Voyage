@@ -21,13 +21,11 @@ internal class ScoreStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         ScoreStateBuilder.Default -> ScoreState()
-        is ScoreStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     init {
         when (stateBuilder) {
             ScoreStateBuilder.Default -> setup()
-            is ScoreStateBuilder.FromState -> {}
         }
     }
 

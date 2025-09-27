@@ -63,6 +63,8 @@ internal class GameOverStore(
         }
     }
 
+    override fun getStateBuilderForFeedback(): Any = GameOverStateBuilder.FromState(state = stateFlow.value)
+
     companion object {
         private const val TAG = "GameOverStore"
     }

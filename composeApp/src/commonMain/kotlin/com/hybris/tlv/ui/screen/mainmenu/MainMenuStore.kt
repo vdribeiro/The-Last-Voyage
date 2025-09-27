@@ -105,4 +105,6 @@ internal class MainMenuStore(
             MainMenuAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
         }
     }
+
+    override fun getStateBuilderForFeedback(): Any = MainMenuStateBuilder.FromState(state = stateFlow.value)
 }

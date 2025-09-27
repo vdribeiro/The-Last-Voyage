@@ -6,6 +6,7 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.NavigationState
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.navigation.NavigationManager.Screen.Feedback
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -83,14 +84,17 @@ internal open class Store<State, Action>(
     fun toggleAudio() = audioPlayer?.toggle()
 
     /**
-     * Navigate to feedback screen.
+     * Navigate to [Feedback] screen.
      */
-    fun feedback(
-        stateBuilder: FeedbackStateBuilder = FeedbackStateBuilder.Feedback(
-            navigationState = NavigationState(screen = navigation.stateFlow.value.screen, stateBuilder = _stateFlow.value)
+    fun feedback() = navigate(
+        screen = Feedback,
+        stateBuilder = FeedbackStateBuilder.Feedback(
+            navigationState = NavigationState(screen = navigation.stateFlow.value.screen, stateBuilder = getStateBuilderForFeedback())
         )
-    ) = navigate(
-        screen = Screen.Feedback,
-        stateBuilder = stateBuilder
     )
+
+    /**
+     * Get the state builder to use for the [Feedback] screen.
+     */
+    protected open fun getStateBuilderForFeedback(): Any = {}
 }

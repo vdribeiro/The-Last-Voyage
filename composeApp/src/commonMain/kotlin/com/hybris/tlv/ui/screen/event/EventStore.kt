@@ -113,6 +113,8 @@ internal class EventStore(
         }
     }
 
+    override fun getStateBuilderForFeedback(): Any = EventStateBuilder.FromState(state = stateFlow.value, gameSession = gameSession, eventChain = eventChain)
+
     companion object {
         private const val TAG = "EventStore"
     }

@@ -84,6 +84,8 @@ internal class NewGameStore(
         }
     }
 
+    override fun getStateBuilderForFeedback(): Any = NewGameStateBuilder.FromState(state = stateFlow.value, selectedShip = selectedShip)
+
     companion object {
         private const val TAG = "NewGameStore"
     }

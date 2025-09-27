@@ -8,29 +8,18 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager.NavigationState
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
-import com.hybris.tlv.ui.screen.achievement.AchievementStateBuilder
 import com.hybris.tlv.ui.screen.credit.CreditScreen
-import com.hybris.tlv.ui.screen.credit.CreditStateBuilder
 import com.hybris.tlv.ui.screen.event.EventScreen
-import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.screen.feedback.FeedbackScreen
-import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.screen.game.GameScreen
-import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.screen.gameover.GameOverScreen
-import com.hybris.tlv.ui.screen.gameover.GameOverStateBuilder
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuScreen
-import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
 import com.hybris.tlv.ui.screen.newgame.NewGameScreen
-import com.hybris.tlv.ui.screen.newgame.NewGameStateBuilder
 import com.hybris.tlv.ui.screen.score.ScoreScreen
-import com.hybris.tlv.ui.screen.score.ScoreStateBuilder
 import com.hybris.tlv.ui.screen.splash.SplashScreen
 import com.hybris.tlv.ui.screen.splash.SplashStateBuilder
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerScreen
-import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStateBuilder
 import com.hybris.tlv.ui.screen.tutorial.TutorialScreen
-import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
 import com.hybris.tlv.ui.store.StoreFactory
 import com.hybris.tlv.usecase.UseCases
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -77,7 +66,7 @@ internal class Navigation(
                 Screen.GameOver -> if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore(stateBuilder = navigationState.stateBuilder)) else fallback()
                 Screen.StellarExplorer -> if (featureStellarExplorer) StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(stateBuilder = navigationState.stateBuilder)) else fallback()
                 Screen.Score -> if (featureScores) ScoreScreen(store = storeFactory.createScoreStore(stateBuilder = navigationState.stateBuilder)) else fallback()
-                Screen.Achievement -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore(stateBuilder = navigationState.stateBuilder )) else fallback()
+                Screen.Achievement -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore(stateBuilder = navigationState.stateBuilder)) else fallback()
                 Screen.Credit -> CreditScreen(store = storeFactory.createCreditStore(stateBuilder = navigationState.stateBuilder))
             }
         }

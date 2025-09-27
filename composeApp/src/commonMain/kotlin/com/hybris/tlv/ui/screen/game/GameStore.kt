@@ -150,6 +150,8 @@ internal class GameStore(
         }
     }
 
+    override fun getStateBuilderForFeedback(): Any = GameStateBuilder.FromState(state = stateFlow.value, gameSession = gameSession)
+
     companion object {
         private const val TAG = "GameStore"
     }

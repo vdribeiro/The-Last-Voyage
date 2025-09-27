@@ -4,7 +4,6 @@ import com.hybris.tlv.usecase.gamesession.model.GameSession
 
 internal sealed interface ScoreStateBuilder {
     data object Default: ScoreStateBuilder
-    data class FromState(val state: ScoreState): ScoreStateBuilder
 }
 
 internal data class ScoreState(
