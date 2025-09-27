@@ -42,10 +42,7 @@ internal class Navigation(
     private val audioPlayer: AudioPlayer,
     private val config: ConfigManager,
     private val useCases: UseCases,
-    initialState: NavigationState<*> = NavigationState(
-        screen = Screen.Splash,
-        stateBuilder = SplashStateBuilder.Default
-    )
+    initialState: NavigationState = NavigationState()
 ): NavigationManager {
 
     private val storeFactory: StoreFactory = StoreFactory(
@@ -55,33 +52,33 @@ internal class Navigation(
         config = config,
         useCases = useCases
     )
-    private val _stateFlow: MutableStateFlow<NavigationState<*>> = MutableStateFlow(value = initialState)
-    override val stateFlow: StateFlow<NavigationState<*>> get() = _stateFlow
+    private val _stateFlow: MutableStateFlow<NavigationState> = MutableStateFlow(value = initialState)
+    override val stateFlow: StateFlow<NavigationState> get() = _stateFlow
 
     override var back: () -> Unit = {}
 
-    override fun <StateBuilder> navigate(screen: Screen<StateBuilder>, state: StateBuilder) {
+    override fun navigate(screen: Screen, state: Any?) {
         dispatcher.main.launch { _stateFlow.update { NavigationState(screen = screen, stateBuilder = state) } }
     }
 
     private fun fallback() = navigate(screen = Screen.Splash, state = SplashStateBuilder.Default)
 
     @Composable
-    override fun Screen(navigationState: NavigationState<*>) {
+    override fun Screen(navigationState: NavigationState) {
         with(receiver = config.localConfigs) {
             when (navigationState.screen) {
-                Screen.Splash -> SplashScreen(store = storeFactory.createSplashStore(stateBuilder = navigationState.stateBuilder as SplashStateBuilder))
-                Screen.MainMenu -> MainMenuScreen(store = storeFactory.createMainMenuStore(stateBuilder = navigationState.stateBuilder as MainMenuStateBuilder))
-                Screen.Feedback -> FeedbackScreen(store = storeFactory.createFeedbackStore(stateBuilder = navigationState.stateBuilder as FeedbackStateBuilder))
-                Screen.NewGame -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(stateBuilder = navigationState.stateBuilder as NewGameStateBuilder)) else fallback()
-                Screen.Tutorial -> if (featureTutorial) TutorialScreen(store = storeFactory.createTutorialStore(stateBuilder = navigationState.stateBuilder as TutorialStateBuilder)) else fallback()
-                Screen.Game -> if (featureGame) GameScreen(store = storeFactory.createGameStore(stateBuilder = navigationState.stateBuilder as GameStateBuilder)) else fallback()
-                Screen.Event -> if (featureEvents) EventScreen(store = storeFactory.createEventStore(stateBuilder = navigationState.stateBuilder as EventStateBuilder)) else fallback()
-                Screen.GameOver -> if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore(stateBuilder = navigationState.stateBuilder as GameOverStateBuilder)) else fallback()
-                Screen.StellarExplorer -> if (featureStellarExplorer) StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(stateBuilder = navigationState.stateBuilder as StellarExplorerStateBuilder)) else fallback()
-                Screen.Score -> if (featureScores) ScoreScreen(store = storeFactory.createScoreStore(stateBuilder = navigationState.stateBuilder as ScoreStateBuilder)) else fallback()
-                Screen.Achievement -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore(stateBuilder = navigationState.stateBuilder as AchievementStateBuilder)) else fallback()
-                Screen.Credit -> CreditScreen(store = storeFactory.createCreditStore(stateBuilder = navigationState.stateBuilder as CreditStateBuilder))
+                Screen.Splash -> SplashScreen(store = storeFactory.createSplashStore(stateBuilder = navigationState.stateBuilder))
+                Screen.MainMenu -> MainMenuScreen(store = storeFactory.createMainMenuStore(stateBuilder = navigationState.stateBuilder))
+                Screen.Feedback -> FeedbackScreen(store = storeFactory.createFeedbackStore(stateBuilder = navigationState.stateBuilder))
+                Screen.NewGame -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(stateBuilder = navigationState.stateBuilder)) else fallback()
+                Screen.Tutorial -> if (featureTutorial) TutorialScreen(store = storeFactory.createTutorialStore(stateBuilder = navigationState.stateBuilder)) else fallback()
+                Screen.Game -> if (featureGame) GameScreen(store = storeFactory.createGameStore(stateBuilder = navigationState.stateBuilder)) else fallback()
+                Screen.Event -> if (featureEvents) EventScreen(store = storeFactory.createEventStore(stateBuilder = navigationState.stateBuilder)) else fallback()
+                Screen.GameOver -> if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore(stateBuilder = navigationState.stateBuilder)) else fallback()
+                Screen.StellarExplorer -> if (featureStellarExplorer) StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(stateBuilder = navigationState.stateBuilder)) else fallback()
+                Screen.Score -> if (featureScores) ScoreScreen(store = storeFactory.createScoreStore(stateBuilder = navigationState.stateBuilder)) else fallback()
+                Screen.Achievement -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore(stateBuilder = navigationState.stateBuilder )) else fallback()
+                Screen.Credit -> CreditScreen(store = storeFactory.createCreditStore(stateBuilder = navigationState.stateBuilder))
             }
         }
     }

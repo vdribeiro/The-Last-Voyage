@@ -43,7 +43,7 @@ internal open class Store<State, Action>(
     /**
      * Clean up the store and navigate to a new [screen] given an optional [stateBuilder].
      */
-    protected fun <StateBuilder> navigate(screen: Screen, stateBuilder: StateBuilder) {
+    protected fun navigate(screen: Screen, stateBuilder: Any? = null) {
         navigation.back = {}
         jobs.forEach { it.cancel() }
         navigation.navigate(screen = screen, state = stateBuilder)

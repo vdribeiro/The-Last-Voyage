@@ -7,7 +7,7 @@ internal sealed interface FeedbackAction {
 }
 
 internal sealed interface FeedbackStateBuilder {
-    data class Feedback(val navigationState: NavigationState<*>): FeedbackStateBuilder
+    data class Feedback(val navigationState: NavigationState): FeedbackStateBuilder
     data class Error(val tag: String, val message: String): FeedbackStateBuilder
 }
 

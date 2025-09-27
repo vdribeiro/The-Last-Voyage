@@ -2,7 +2,7 @@ package com.hybris.tlv.media
 
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 
-internal fun <StateBuilder> getTracks(screen: Screen<StateBuilder>): Array<String>? = when (screen) {
+internal fun getTracks(screen: Screen): Array<String>? = when (screen) {
     Screen.Feedback -> null
 
     Screen.Splash,
