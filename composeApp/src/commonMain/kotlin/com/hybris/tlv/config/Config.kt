@@ -21,8 +21,6 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     override val remoteConfigs: Configs get() = remoteCache
 
     override suspend fun fetch() {
-        if (!hasTimePassed(dateTime = getPreferences().syncTime, duration = 1.hours)) return
-        setPreferences { it.copy(syncTime = now()) }
         fetchLocal()
         fetchRemote()
     }
@@ -34,6 +32,10 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     }
 
     private suspend fun fetchRemote() {
+        // To prevet unnecessary fetches, wait 1 hour in between
+        if (!hasTimePassed(dateTime = getPreferences().syncTime, duration = 1.hours)) return
+        setPreferences { it.copy(syncTime = now()) }
+
         val remoteConfigs = when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
             is Result.Error -> null.also { Logger.error(tag = TAG, message = result.error) }
             is Result.Success -> result.list.firstOrNull()
