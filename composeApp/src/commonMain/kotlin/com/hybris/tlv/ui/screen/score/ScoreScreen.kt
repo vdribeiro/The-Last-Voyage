@@ -67,10 +67,10 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
                         modifier = Modifier
                             .testTag(tag = SCORE_SCREEN_SCORE)
                             .clickable(onClick = {
-                            if (expandedItems.contains(element = score.id)) {
-                                expandedItems.remove(element = score.id)
-                            } else expandedItems.add(element = score.id)
-                        }),
+                                if (expandedItems.contains(element = score.id)) {
+                                    expandedItems.remove(element = score.id)
+                                } else expandedItems.add(element = score.id)
+                            }),
                         isExpanded = expandedItems.contains(element = score.id),
                         score = (score.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
                         utc = score.utc,

@@ -1,3 +1,10 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 const val STELLAR_EXPLORER_SCREEN = "stellar_explorer_screen"
+const val STELLAR_EXPLORER_SCREEN_CONTROL_PANEL = "stellar_explorer_screen_control_panel"
+const val STELLAR_EXPLORER_SCREEN_STELLAR_HOST_CONTENT = "stellar_explorer_screen_stellar_host_content"
+const val STELLAR_EXPLORER_SCREEN_STELLAR_HOST_CONTENT_PLANET = "stellar_explorer_screen_stellar_host_content_planet"
+const val STELLAR_EXPLORER_SCREEN_STELLAR_HOST_CONTENT_HOST = "stellar_explorer_screen_stellar_host_content_host"
+const val STELLAR_EXPLORER_SCREEN_PLANET_CONTENT = "stellar_explorer_screen_planet_content"
+const val STELLAR_EXPLORER_SCREEN_PLANET_CONTENT_HOST = "stellar_explorer_screen_planet_content_host"
+const val STELLAR_EXPLORER_SCREEN_PLANET_CONTENT_PLANET = "stellar_explorer_screen_planet_content_planet"

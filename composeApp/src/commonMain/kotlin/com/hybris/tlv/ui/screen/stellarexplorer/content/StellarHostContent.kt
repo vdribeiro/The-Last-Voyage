@@ -11,10 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.screen.stellarexplorer.Content
 import com.hybris.tlv.ui.screen.stellarexplorer.LazyListIndex
 import com.hybris.tlv.ui.screen.stellarexplorer.PlanetProperty
+import com.hybris.tlv.ui.screen.stellarexplorer.STELLAR_EXPLORER_SCREEN_STELLAR_HOST_CONTENT
+import com.hybris.tlv.ui.screen.stellarexplorer.STELLAR_EXPLORER_SCREEN_STELLAR_HOST_CONTENT_HOST
+import com.hybris.tlv.ui.screen.stellarexplorer.STELLAR_EXPLORER_SCREEN_STELLAR_HOST_CONTENT_PLANET
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerAction
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerState
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarHostProperty
@@ -35,6 +39,7 @@ internal fun StellarHostContent(store: Store<StellarExplorerState, StellarExplor
     val listState = storeState.listIndex.getState()
     LazyColumn(
         modifier = Modifier
+            .testTag(tag = STELLAR_EXPLORER_SCREEN_STELLAR_HOST_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
@@ -43,6 +48,7 @@ internal fun StellarHostContent(store: Store<StellarExplorerState, StellarExplor
         if (currentContent == Content.DETAIL_PLANETS && planet != null) {
             item(key = planet.id) {
                 PlanetCard(
+                    modifier = Modifier.testTag(tag = STELLAR_EXPLORER_SCREEN_STELLAR_HOST_CONTENT_PLANET),
                     name = visiblePlanetProperties.ifContains(
                         element = PlanetProperty.NAME,
                         value = planet.name
@@ -165,17 +171,19 @@ internal fun StellarHostContent(store: Store<StellarExplorerState, StellarExplor
         }
         items(items = storeState.filteredStellarHosts, key = { it.id }) { stellarHost ->
             StellarHostCard(
-                modifier = Modifier.clickable {
-                    store.send(
-                        action = StellarExplorerAction.SaveIndex(
-                            index = LazyListIndex(
-                                index = listState.firstVisibleItemIndex,
-                                scrollOffset = listState.firstVisibleItemScrollOffset
+                modifier = Modifier
+                    .testTag(tag = STELLAR_EXPLORER_SCREEN_STELLAR_HOST_CONTENT_HOST)
+                    .clickable {
+                        store.send(
+                            action = StellarExplorerAction.SaveIndex(
+                                index = LazyListIndex(
+                                    index = listState.firstVisibleItemIndex,
+                                    scrollOffset = listState.firstVisibleItemScrollOffset
+                                )
                             )
                         )
-                    )
-                    store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHost))
-                },
+                        store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHost))
+                    },
                 name = visibleStellarHostProperties.ifContains(
                     element = StellarHostProperty.NAME,
                     value = stellarHost.name

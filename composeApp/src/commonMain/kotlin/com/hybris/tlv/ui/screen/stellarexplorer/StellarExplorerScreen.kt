@@ -153,7 +153,9 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
         onFeedbackClick = { store.feedback() },
         topBar = {
             ControlPanel(
-                modifier = Modifier.statusBarsPadding(),
+                modifier = Modifier
+                    .testTag(tag = STELLAR_EXPLORER_SCREEN_CONTROL_PANEL)
+                    .statusBarsPadding(),
                 enabled = enabled,
                 search = storeState.search,
                 onSearch = { store.send(action = StellarExplorerAction.Search(search = it)) },

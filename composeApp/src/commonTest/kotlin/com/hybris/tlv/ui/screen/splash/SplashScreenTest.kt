@@ -9,7 +9,6 @@ import com.hybris.tlv.testCore
 import com.hybris.tlv.ui.theme.AppTheme
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalTestApi::class)
 internal class SplashScreenTest {

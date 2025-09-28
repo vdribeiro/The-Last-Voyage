@@ -6,11 +6,9 @@ import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testCore
-import com.hybris.tlv.ui.screen.score.SCORE_SCREEN
 import com.hybris.tlv.ui.theme.AppTheme
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalTestApi::class)
 internal class TutorialScreenTest {
