@@ -16,8 +16,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.screen.newgame.NEW_GAME_SCREEN_START_CONTENT
+import com.hybris.tlv.ui.screen.newgame.NEW_GAME_SCREEN_START_CONTENT_BUTTON
+import com.hybris.tlv.ui.screen.newgame.NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE
+import com.hybris.tlv.ui.screen.newgame.NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE_DESCRIPTION
 import com.hybris.tlv.ui.screen.newgame.NewGameAction
 import com.hybris.tlv.ui.screen.newgame.NewGameState
 import com.hybris.tlv.ui.store.Store
@@ -35,12 +40,14 @@ internal fun StartContent(store: Store<NewGameState, NewGameAction>) {
 
     Column(
         modifier = Modifier
+            .testTag(tag = NEW_GAME_SCREEN_START_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // Catastrophe
         Text(
+            modifier = Modifier.testTag(tag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE),
             text = getTranslation(key = catastrophe.id),
             style = typography.titleLarge,
             fontWeight = FontWeight.Bold
@@ -48,6 +55,7 @@ internal fun StartContent(store: Store<NewGameState, NewGameAction>) {
         Spacer(modifier = Modifier.height(height = 16.dp))
         TypewriterText(
             modifier = Modifier
+                .testTag(tag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE_DESCRIPTION)
                 .weight(weight = 1f)
                 .fillMaxWidth(),
             text = getTranslation(key = catastrophe.description)
@@ -56,6 +64,7 @@ internal fun StartContent(store: Store<NewGameState, NewGameAction>) {
         // Start game button
         Button(
             modifier = Modifier
+                .testTag(tag = NEW_GAME_SCREEN_START_CONTENT_BUTTON)
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
             colors = ButtonDefaults.buttonColors(contentColor = Color.White),

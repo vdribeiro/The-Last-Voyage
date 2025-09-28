@@ -29,6 +29,7 @@ internal class GameOverScreenTest {
                 GameOverScreen(store = store)
             }
         }
+        waitForIdle()
 
         onNodeWithTag(testTag = GAME_OVER_SCREEN).assertExists()
         onNodeWithTag(testTag = GAME_OVER_SCREEN_COLUMN).assertDoesNotExist()
@@ -48,6 +49,7 @@ internal class GameOverScreenTest {
                 GameOverScreen(store = store)
             }
         }
+        waitForIdle()
 
         onNodeWithTag(testTag = GAME_OVER_SCREEN).assertExists()
         onNodeWithTag(testTag = GAME_OVER_SCREEN_COLUMN).assertExists()

@@ -10,7 +10,6 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
 
-// TODO
 @OptIn(ExperimentalTestApi::class)
 internal class StellarExplorerScreenTest {
 

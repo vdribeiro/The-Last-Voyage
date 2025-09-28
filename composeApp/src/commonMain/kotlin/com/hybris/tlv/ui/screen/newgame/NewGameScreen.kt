@@ -5,7 +5,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import com.hybris.tlv.ui.screen.newgame.content.AdvancedContent
 import com.hybris.tlv.ui.screen.newgame.content.NewGameContent
 import com.hybris.tlv.ui.screen.newgame.content.StartContent
 import com.hybris.tlv.ui.store.Store
@@ -23,7 +22,6 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     ) {
         when (storeState.currentContent) {
             Content.SHIP -> NewGameContent(store = store)
-            Content.ADVANCED -> AdvancedContent(store = store)
             Content.START -> StartContent(store = store)
         }
     }

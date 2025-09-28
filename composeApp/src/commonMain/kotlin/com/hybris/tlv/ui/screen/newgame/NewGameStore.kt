@@ -11,6 +11,7 @@ import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
+import com.hybris.tlv.usecase.space.model.Formula
 import kotlinx.coroutines.Job
 
 internal class NewGameStore(
@@ -56,7 +57,7 @@ internal class NewGameStore(
         }
     }
 
-    private fun startGame(state: NewGameState) = launch {
+    private fun startGame() = launch {
         val selectedShip = this@NewGameStore.selectedShip
         if (selectedShip == null) {
             navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing ship prototype on startGame()"))
@@ -66,7 +67,7 @@ internal class NewGameStore(
         gameSessionUseCases.startGame(
             GameSessionPrototype(
                 ship = selectedShip,
-                formula = state.formula
+                formula = Formula()
             )
         )
         navigate(screen = Screen.Game)
@@ -79,11 +80,9 @@ internal class NewGameStore(
     override fun reducer(state: NewGameState, action: NewGameAction) {
         when (action) {
             is NewGameAction.SelectShip -> selectedShip = action.ship
-            is NewGameAction.SelectFormula -> updateState { it.copy(formula = action.formula) }
             NewGameAction.Ship -> updateState { it.copy(currentContent = Content.SHIP) }
-            NewGameAction.Advanced -> updateState { it.copy(currentContent = Content.ADVANCED) }
             NewGameAction.Start -> updateState { it.copy(currentContent = Content.START) }
-            NewGameAction.StartGame -> startGame(state = state)
+            NewGameAction.StartGame -> startGame()
         }
     }
 

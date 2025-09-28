@@ -6,13 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
-import com.hybris.tlv.usecase.space.model.Formula
 
 internal sealed interface NewGameAction {
     data class SelectShip(val ship: ShipPrototype): NewGameAction
-    data class SelectFormula(val formula: Formula): NewGameAction
     data object Ship: NewGameAction
-    data object Advanced: NewGameAction
     data object Start: NewGameAction
     data object StartGame: NewGameAction
 }
@@ -32,12 +29,10 @@ internal data class NewGameState(
         fuel = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
         cryopods = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
     ),
-    val formula: Formula = Formula()
 )
 
 internal enum class Content {
     SHIP,
-    ADVANCED,
     START
 }
 

@@ -18,8 +18,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.screen.newgame.NEW_GAME_SCREEN_NEW_GAME_CONTENT
+import com.hybris.tlv.ui.screen.newgame.NEW_GAME_SCREEN_NEW_GAME_CONTENT_BUTTON
+import com.hybris.tlv.ui.screen.newgame.NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS
+import com.hybris.tlv.ui.screen.newgame.NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT
 import com.hybris.tlv.ui.screen.newgame.NewGameAction
 import com.hybris.tlv.ui.screen.newgame.NewGameState
 import com.hybris.tlv.ui.store.Store
@@ -44,12 +49,14 @@ internal fun NewGameContent(store: Store<NewGameState, NewGameAction>) {
 
     Column(
         modifier = Modifier
+            .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // Remaining points
         Text(
+            modifier = Modifier.testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT),
             text = "$shipPointsTranslation: $remainingPoints",
             style = typography.headlineSmall,
             fontWeight = FontWeight.Bold
@@ -58,7 +65,9 @@ internal fun NewGameContent(store: Store<NewGameState, NewGameAction>) {
 
         // Sliders for sensor range, fuel, materials and cryopods
         LazyColumn(
-            modifier = Modifier.weight(weight = 1f),
+            modifier = Modifier
+                .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS)
+                .weight(weight = 1f),
             verticalArrangement = Arrangement.spacedBy(space = 16.dp, alignment = Alignment.CenterVertically)
         ) {
             val canIncrement = remainingPoints > 0
@@ -112,6 +121,7 @@ internal fun NewGameContent(store: Store<NewGameState, NewGameAction>) {
         // Continue button
         Button(
             modifier = Modifier
+                .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_BUTTON)
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
             colors = ButtonDefaults.buttonColors(contentColor = Color.White),

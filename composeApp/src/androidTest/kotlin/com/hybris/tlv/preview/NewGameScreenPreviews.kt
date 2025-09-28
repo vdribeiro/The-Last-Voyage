@@ -53,25 +53,6 @@ private fun NewGameShip() {
 
 @Preview
 @Composable
-private fun NewGameAdvanced() {
-    TranslationCache.set(translations = translations)
-    AppTheme {
-        NewGameScreen(
-            store = getStore(
-                initialState = NewGameState(
-                    loading = false,
-                    currentContent = Content.ADVANCED,
-                    selectedCatastrophe = null,
-                    shipState = shipState,
-                    formula = formula
-                )
-            )
-        )
-    }
-}
-
-@Preview
-@Composable
 private fun NewGameStart() {
     TranslationCache.set(translations = translations)
     AppTheme {

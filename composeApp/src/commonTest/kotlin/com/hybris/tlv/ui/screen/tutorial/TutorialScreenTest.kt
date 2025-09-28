@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.splash
+package com.hybris.tlv.ui.screen.tutorial
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
@@ -11,7 +11,7 @@ import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalTestApi::class)
-internal class SplashScreenTest {
+internal class TutorialScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
@@ -19,25 +19,12 @@ internal class SplashScreenTest {
     }
 
     @Test
-    fun splashWithoutData() = runComposeUiTest {
-        val store = storeFactory.createSplashStore()
+    fun tutorial() = runComposeUiTest {
+        val store = storeFactory.createTutorialStore()
         setContent {
             AppTheme {
-                SplashScreen(store = store)
+                TutorialScreen(store = store)
             }
         }
-        waitForIdle()
-    }
-
-    @Test
-    fun splashWithData() = runComposeUiTest {
-        runBlocking { }
-        val store = storeFactory.createSplashStore()
-        setContent {
-            AppTheme {
-                SplashScreen(store = store)
-            }
-        }
-        waitForIdle()
     }
 }

@@ -10,6 +10,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
 internal class MainMenuStoreTest {
@@ -28,6 +29,7 @@ internal class MainMenuStoreTest {
         testCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         testCore.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
         val mainMenuStore = store
+        delay(timeMillis = 100L)
         assertTrue(actual = mainMenuStore.stateFlow.value.ongoingGameSession)
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
     }
@@ -70,7 +72,7 @@ internal class MainMenuStoreTest {
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
         mainMenuStore.send(action = MainMenuAction.NewGame)
-        assertEquals(expected = NavigationManager.Screen.Tutorial, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.NewGame, actual = testCore.navigation.stateFlow.value.screen)
         testCore.navigation.back()
 
         mainMenuStore.send(action = MainMenuAction.Continue)

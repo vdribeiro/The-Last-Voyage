@@ -49,19 +49,24 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
         ) {
             Spacer(modifier = Modifier.height(height = 8.dp))
             Text(
+                modifier = Modifier.testTag(tag = SCORE_SCREEN_TITLE),
                 text = titleTranslation,
                 style = typography.headlineLarge,
             )
             Spacer(modifier = Modifier.height(height = 32.dp))
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .testTag(tag = SCORE_SCREEN_SCORES)
+                    .fillMaxSize(),
                 contentPadding = PaddingValues(all = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(space = 12.dp)
             ) {
                 // Scores
                 items(items = storeState.gameSessions, key = { it.id }) { score ->
                     Score(
-                        modifier = Modifier.clickable(onClick = {
+                        modifier = Modifier
+                            .testTag(tag = SCORE_SCREEN_SCORE)
+                            .clickable(onClick = {
                             if (expandedItems.contains(element = score.id)) {
                                 expandedItems.remove(element = score.id)
                             } else expandedItems.add(element = score.id)

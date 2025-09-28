@@ -5,7 +5,6 @@ import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testCore
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
-import com.hybris.tlv.usecase.space.model.Formula
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -44,11 +43,6 @@ internal class NewGameStoreTest {
         testCore.navigation.back()
         assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testCore.navigation.stateFlow.value.screen)
 
-        newGameStore.send(action = NewGameAction.Advanced)
-        assertEquals(expected = Content.ADVANCED, actual = newGameStore.stateFlow.value.currentContent)
-        testCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testCore.navigation.stateFlow.value.screen)
-
         newGameStore.send(action = NewGameAction.Start)
         assertEquals(expected = Content.START, actual = newGameStore.stateFlow.value.currentContent)
         assertNotNull(actual = newGameStore.stateFlow.value.selectedCatastrophe)
@@ -70,15 +64,6 @@ internal class NewGameStoreTest {
         )
         newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype))
         assertEquals(expected = shipPrototype, actual = newGameStore.selectedShip)
-    }
-
-    @Test
-    fun `send action select formula`() = runBlocking {
-        testCore.useCases.catastrophe.prepopulateCatastrophes()
-        val newGameStore = store
-        val formula = Formula()
-        newGameStore.send(action = NewGameAction.SelectFormula(formula = formula))
-        assertEquals(expected = formula, actual = newGameStore.stateFlow.value.formula)
     }
 
     @Test

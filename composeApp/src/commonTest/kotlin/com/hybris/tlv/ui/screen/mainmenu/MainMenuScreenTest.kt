@@ -29,6 +29,7 @@ internal class MainMenuScreenTest {
                 MainMenuScreen(store = store)
             }
         }
+        waitForIdle()
 
         onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR).assertExists()
@@ -59,6 +60,7 @@ internal class MainMenuScreenTest {
                 MainMenuScreen(store = store)
             }
         }
+        waitForIdle()
 
         onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR).assertExists()
@@ -82,14 +84,79 @@ internal class MainMenuScreenTest {
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_LEARN_CONTENT_PLANET_DEFINITION).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_LEARN_CONTENT_HABITABILITY).assertExists()
         onNodeWithTag(testTag = MAIN_MENU_SCREEN_LEARN_CONTENT_MECHANICS).assertExists()
+    }
 
-        //learnings.forEachIndexed { index, _ ->
-        //    onNodeWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT).onChildren()[index].assertExists()
-        //}
+    @Test
+    fun mainMenuHostDefinitionContent() = runComposeUiTest {
+        runBlocking {
+            testCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+            testCore.useCases.learning.prepopulateLearnings()
+        }
+        val store = storeFactory.createMainMenuStore()
+        setContent {
+            AppTheme {
+                MainMenuScreen(store = store)
+            }
+        }
+        waitForIdle()
 
-        //onNodeWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_FORMULA).performScrollTo().assertExists()
-        //onAllNodesWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_SIMPLE)
-        //    .assertCountEquals(expectedSize = learnings.size)
-        //onNodeWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_FORMULA).assertExists().assertTextEquals("formula")
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN).performClick()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_LEARN_CONTENT_HOST_DEFINITION).performClick()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE_STELLAR_HOST).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES_SIMPLE).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES_STELLAR_HOST).assertExists()
+    }
+
+    @Test
+    fun mainMenuPlanetDefinitionContent() = runComposeUiTest {
+        runBlocking {
+            testCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+            testCore.useCases.learning.prepopulateLearnings()
+        }
+        val store = storeFactory.createMainMenuStore()
+        setContent {
+            AppTheme {
+                MainMenuScreen(store = store)
+            }
+        }
+        waitForIdle()
+
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN).performClick()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_LEARN_CONTENT_PLANET_DEFINITION).performClick()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_EXAMPLE).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_EXAMPLE_PLANET).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_PROPERTIES).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_PROPERTIES_SIMPLE).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_TYPES).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_TYPES_PLANET).assertExists()
+    }
+
+    @Test
+    fun mainMenuHabitabilityContent() = runComposeUiTest {
+        runBlocking {
+            testCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+            testCore.useCases.learning.prepopulateLearnings()
+        }
+        val store = storeFactory.createMainMenuStore()
+        setContent {
+            AppTheme {
+                MainMenuScreen(store = store)
+            }
+        }
+        waitForIdle()
+
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN).performClick()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_LEARN_CONTENT_HABITABILITY).performClick()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_SIMPLE).assertExists()
+        onNodeWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_FORMULA).assertExists()
     }
 }
