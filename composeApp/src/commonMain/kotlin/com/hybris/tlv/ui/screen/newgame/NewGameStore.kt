@@ -72,6 +72,10 @@ internal class NewGameStore(
         navigate(screen = Screen.Game)
     }
 
+    override fun goBack(state: NewGameState) {
+        navigate(screen = Screen.MainMenu)
+    }
+
     override fun reducer(state: NewGameState, action: NewGameAction) {
         when (action) {
             is NewGameAction.SelectShip -> selectedShip = action.ship

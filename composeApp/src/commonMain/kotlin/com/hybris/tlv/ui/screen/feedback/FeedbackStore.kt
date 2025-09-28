@@ -49,7 +49,7 @@ internal class FeedbackStore(
         // TODO: Send feedback to server
         Logger.info(tag = "Feedback", message = feedback)
         delay(timeMillis = 2000L)
-        goBack(state = state).invoke()
+        goBack(state = state)
     }
 
     override fun reducer(state: FeedbackState, action: FeedbackAction) {

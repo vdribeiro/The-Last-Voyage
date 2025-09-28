@@ -232,10 +232,10 @@ internal class StellarExplorerStore(
         refresh()
     }
 
-    override fun goBack(state: StellarExplorerState): () -> Unit = {
+    override fun goBack(state: StellarExplorerState) {
         when (state.currentContent) {
             Content.LIST_HOSTS,
-            Content.LIST_PLANETS -> super.goBack(state)
+            Content.LIST_PLANETS -> super.goBack(state = state)
 
             Content.DETAIL_HOSTS -> launch {
                 updateState {

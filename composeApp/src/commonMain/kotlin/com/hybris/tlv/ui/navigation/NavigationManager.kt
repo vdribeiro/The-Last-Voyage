@@ -32,14 +32,14 @@ internal interface NavigationManager {
     var back: () -> Unit
 
     /**
-     * Updates the state of the current navigation and then navigates to a new screen given a new state.
-     */
-    fun navigate(screen: Screen, stateBuilder: Any? = null, savableState: Any? = null)
-
-    /**
      * Goes back to the previous screen.
      */
     fun goBack()
+
+    /**
+     * Updates the state of the current navigation and then navigates to a new screen given a new state.
+     */
+    fun navigate(screen: Screen, stateBuilder: Any? = null, savableState: Any? = null)
 
     /**
      * The main composable responsible for rendering the current screen based on the navigation state.

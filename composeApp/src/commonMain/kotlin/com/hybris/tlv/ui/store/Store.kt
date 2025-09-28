@@ -36,13 +36,18 @@ internal open class Store<State, Action>(
     private val jobs = mutableListOf<Job>()
 
     init {
-        navigation.back = { goBack(state = _stateFlow.value).invoke() }
+        navigation.back = { goBack(state = _stateFlow.value) }
     }
 
     /**
      * Get the savable state of the store.
      */
     protected open fun getSavableState(state: State): Any? = null
+
+    /**
+     * Back navigation.
+     */
+    protected open fun goBack(state: State) = navigation.goBack()
 
     /**
      * Clean up the store and navigate to a new [screen] given an optional [stateBuilder].
@@ -55,13 +60,6 @@ internal open class Store<State, Action>(
             stateBuilder = stateBuilder,
             savableState = getSavableState(state = _stateFlow.value)
         )
-    }
-
-    /**
-     * Back navigation.
-     */
-    protected open fun goBack(state: State): () -> Unit = {
-        navigation.goBack()
     }
 
     /**

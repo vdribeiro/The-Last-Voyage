@@ -74,5 +74,5 @@ internal class SplashStore(
         navigate(screen = Screen.MainMenu)
     }
 
-    override fun goBack(state: SplashState): () -> Unit = {}
+    override fun goBack(state: SplashState) {}
 }

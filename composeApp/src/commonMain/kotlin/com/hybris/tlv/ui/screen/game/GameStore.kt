@@ -141,7 +141,7 @@ internal class GameStore(
         navigate(screen = Screen.GameOver)
     }
 
-    override fun goBack(state: GameState): () -> Unit = {
+    override fun goBack(state: GameState) {
         navigate(screen = Screen.MainMenu)
     }
 

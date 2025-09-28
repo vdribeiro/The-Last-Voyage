@@ -46,6 +46,16 @@ internal class Navigation(
 
     override var back: () -> Unit = {}
 
+    override fun goBack() {
+        dispatcher.main.launch {
+            if (stack.size > 1) {
+                stack.removeLast()
+                _stateFlow.update { stack.last() }
+            }
+            println("stack: ${stack.map { it.screen }}")
+        }
+    }
+
     override fun navigate(screen: Screen, stateBuilder: Any?, savableState: Any?) {
         dispatcher.main.launch {
             if (stack.isNotEmpty()) stack[stack.lastIndex] = stack.last().copy(stateBuilder = savableState)
@@ -54,15 +64,7 @@ internal class Navigation(
             if (index != -1) stack.subList(index, stack.size).clear()
             stack.add(element = navigationState)
             _stateFlow.value = navigationState
-        }
-    }
-
-    override fun goBack() {
-        dispatcher.main.launch {
-            if (stack.size > 1) {
-                stack.removeLast()
-                _stateFlow.update { stack.last() }
-            }
+            println("stack: ${stack.map { it.screen }}")
         }
     }
 

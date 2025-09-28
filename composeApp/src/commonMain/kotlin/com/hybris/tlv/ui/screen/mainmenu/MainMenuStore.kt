@@ -37,7 +37,7 @@ internal class MainMenuStore(
     }
 
     override fun getSavableState(state: MainMenuState): Any? =
-        MainMenuStateBuilder.FromState(state = state)
+        MainMenuStateBuilder.FromState(state = state.copy(newGameDialog = false))
 
     private fun setup(): Job = launch {
         config.fetch()
@@ -64,7 +64,7 @@ internal class MainMenuStore(
     }
 
     private fun newGame(): Job = launch {
-        if (Preferences.get().showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = Screen.NewGame)
+        updateState { it.copy(newGameDialog = true) }
     }
 
     private fun newGameWithoutTutorial(): Job = launch {
@@ -77,14 +77,14 @@ internal class MainMenuStore(
         navigate(screen = Screen.Tutorial, stateBuilder = TutorialStateBuilder.NewGame(newGame = true))
     }
 
-    override fun goBack(state: MainMenuState) = {
+    override fun goBack(state: MainMenuState) {
         when (state.currentContent) {
             Content.MAIN_MENU -> {}
             Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }
             Content.HOST_DEFINITION,
             Content.PLANET_DEFINITION,
             Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
-        }.let {}
+        }
     }
 
     override fun reducer(state: MainMenuState, action: MainMenuAction) {

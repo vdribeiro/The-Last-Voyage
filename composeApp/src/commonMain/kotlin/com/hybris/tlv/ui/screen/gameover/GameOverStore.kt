@@ -57,7 +57,7 @@ internal class GameOverStore(
         }
     }
 
-    override fun goBack(state: GameOverState): () -> Unit = {}
+    override fun goBack(state: GameOverState) {}
 
     override fun reducer(state: GameOverState, action: GameOverAction) {
         when (action) {
