@@ -22,7 +22,20 @@ internal sealed interface StellarExplorerAction {
 
 internal sealed interface StellarExplorerStateBuilder {
     data object Default: StellarExplorerStateBuilder
-    data class FromSavableState(val state: StellarExplorerState): StellarExplorerStateBuilder
+    data class FromSavableState(
+        val currentContent: Content,
+        val listIndex: LazyListIndex,
+        val selectedStellarHost: StellarHost?,
+        val selectedPlanet: Planet?,
+        val search: String,
+        val sortStellarHostProperty: StellarHostProperty,
+        val sortPlanetProperty: PlanetProperty,
+        val sortAscending: Boolean,
+        val visibleStellarHostProperties: Set<StellarHostProperty>,
+        val visiblePlanetProperties: Set<PlanetProperty>,
+        val searchableStellarHostProperties: Set<StellarHostProperty>,
+        val searchablePlanetProperties: Set<PlanetProperty>
+    ): StellarExplorerStateBuilder
 }
 
 internal data class StellarExplorerState(

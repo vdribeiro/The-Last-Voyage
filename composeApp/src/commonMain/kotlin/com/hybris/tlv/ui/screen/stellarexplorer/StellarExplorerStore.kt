@@ -21,18 +21,41 @@ internal class StellarExplorerStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         StellarExplorerStateBuilder.Default -> StellarExplorerState()
-        is StellarExplorerStateBuilder.FromSavableState -> stateBuilder.state
+        is StellarExplorerStateBuilder.FromSavableState -> StellarExplorerState(
+            currentContent = stateBuilder.currentContent,
+            listIndex = stateBuilder.listIndex,
+            selectedStellarHost = stateBuilder.selectedStellarHost,
+            selectedPlanet = stateBuilder.selectedPlanet,
+            search = stateBuilder.search,
+            sortStellarHostProperty = stateBuilder.sortStellarHostProperty,
+            sortPlanetProperty = stateBuilder.sortPlanetProperty,
+            sortAscending = stateBuilder.sortAscending,
+            visibleStellarHostProperties = stateBuilder.visibleStellarHostProperties,
+            visiblePlanetProperties = stateBuilder.visiblePlanetProperties,
+            searchableStellarHostProperties = stateBuilder.searchableStellarHostProperties,
+            searchablePlanetProperties = stateBuilder.searchablePlanetProperties
+        )
     }
 ) {
     init {
-        when (stateBuilder) {
-            StellarExplorerStateBuilder.Default -> setup()
-            is StellarExplorerStateBuilder.FromSavableState -> {}
-        }
+        setup()
     }
 
     override fun getSavableState(state: StellarExplorerState): Any? =
-        StellarExplorerStateBuilder.FromSavableState(state = state)
+        StellarExplorerStateBuilder.FromSavableState(
+            currentContent = state.currentContent,
+            listIndex = state.listIndex,
+            selectedStellarHost = state.selectedStellarHost,
+            selectedPlanet = state.selectedPlanet,
+            search = state.search,
+            sortStellarHostProperty = state.sortStellarHostProperty,
+            sortPlanetProperty = state.sortPlanetProperty,
+            sortAscending = state.sortAscending,
+            visibleStellarHostProperties = state.visibleStellarHostProperties,
+            visiblePlanetProperties = state.visiblePlanetProperties,
+            searchableStellarHostProperties = state.searchableStellarHostProperties,
+            searchablePlanetProperties = state.searchablePlanetProperties
+        )
 
     private fun setup(): Job = launch {
         val stellarHosts = spaceUseCases.getExoplanets().apply {
