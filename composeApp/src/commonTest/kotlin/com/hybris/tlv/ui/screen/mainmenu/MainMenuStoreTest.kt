@@ -19,12 +19,14 @@ internal class MainMenuStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testCore.sqlDriver.clearDatabase()
+        testCore.navigation.navigate(screen = NavigationManager.Screen.Splash)
         testCore.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
     }
 
     @Test
     fun `init`() = runBlocking {
         testCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        testCore.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
         val mainMenuStore = store
         assertTrue(actual = mainMenuStore.stateFlow.value.ongoingGameSession)
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
@@ -68,16 +70,20 @@ internal class MainMenuStoreTest {
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
         mainMenuStore.send(action = MainMenuAction.NewGame)
-        assertEquals(expected = NavigationManager.Screen.NewGame, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.Tutorial, actual = testCore.navigation.stateFlow.value.screen)
+        testCore.navigation.back()
 
         mainMenuStore.send(action = MainMenuAction.Continue)
         assertEquals(expected = NavigationManager.Screen.Game, actual = testCore.navigation.stateFlow.value.screen)
+        testCore.navigation.back()
 
         mainMenuStore.send(action = MainMenuAction.Scores)
         assertEquals(expected = NavigationManager.Screen.Score, actual = testCore.navigation.stateFlow.value.screen)
+        testCore.navigation.back()
 
         mainMenuStore.send(action = MainMenuAction.Achievements)
         assertEquals(expected = NavigationManager.Screen.Achievement, actual = testCore.navigation.stateFlow.value.screen)
+        testCore.navigation.back()
 
         mainMenuStore.send(action = MainMenuAction.Credits)
         assertEquals(expected = NavigationManager.Screen.Credit, actual = testCore.navigation.stateFlow.value.screen)

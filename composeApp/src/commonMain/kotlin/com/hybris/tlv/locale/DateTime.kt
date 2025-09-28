@@ -1,13 +1,27 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.hybris.tlv.locale
 
 import kotlin.time.Clock
+import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 /**
  * Get the current time in UTC representation in ISO8601.
  */
-@OptIn(ExperimentalTime::class)
-internal fun now(): String = Clock.System.now().toString().replace(
-    regex = "\\.\\d+".toRegex(),
-    replacement = ""
-)
+internal fun now(): String = Clock.System.now().toString()
+
+/**
+ * Get the distant past time.
+ */
+internal fun distantPast(): String = Instant.DISTANT_PAST.toString()
+
+/**
+ * Check if [duration] has passed from now.
+ */
+internal fun hasTimePassed(dateTime: String, duration: Duration): Boolean = runCatching {
+    val parsedDateTime = runCatching { Instant.parse(input = dateTime) }.getOrDefault(defaultValue = Clock.System.now())
+    val elapsedTime = Clock.System.now() - parsedDateTime
+    return elapsedTime > duration
+}.getOrDefault(defaultValue = false)

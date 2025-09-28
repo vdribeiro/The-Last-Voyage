@@ -18,7 +18,7 @@ import database.AppDatabase
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 
-internal class Core(
+internal data class Core(
     @get:VisibleForTesting internal val dispatcher: Dispatcher = Dispatchers(),
     @get:VisibleForTesting internal val sqlDriver: SqlDriver = createSqlDriver(),
     @get:VisibleForTesting internal val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,

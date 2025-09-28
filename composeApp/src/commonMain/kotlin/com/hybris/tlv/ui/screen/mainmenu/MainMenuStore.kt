@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.config.Preferences
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -61,17 +60,18 @@ internal class MainMenuStore(
     }
 
     private fun newGame(): Job = launch {
-        navigate(screen = Screen.Tutorial, stateBuilder = TutorialStateBuilder.NewGame(newGame = true))
-        //if (Preferences.get().showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = Screen.NewGame)
+        if (config.getPreferences().showTutorial) {
+            updateState { it.copy(newGameDialog = true) }
+        } else navigate(screen = Screen.NewGame)
     }
 
     private fun newGameWithoutTutorial(): Job = launch {
-        Preferences.set(preferences = Preferences.get().copy(showTutorial = false))
+        config.setPreferences { it.copy(showTutorial = false) }
         navigate(screen = Screen.NewGame)
     }
 
     private fun newGameWithTutorial(): Job = launch {
-        Preferences.set(preferences = Preferences.get().copy(showTutorial = false))
+        config.setPreferences { it.copy(showTutorial = false) }
         navigate(screen = Screen.Tutorial, stateBuilder = TutorialStateBuilder.NewGame(newGame = true))
     }
 

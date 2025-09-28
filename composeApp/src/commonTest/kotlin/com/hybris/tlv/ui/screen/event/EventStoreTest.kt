@@ -60,7 +60,7 @@ internal class EventStoreTest {
         store
         assertEquals(expected = NavigationManager.Screen.Event, actual = testCore.navigation.stateFlow.value.screen)
         testCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.Game, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.Event, actual = testCore.navigation.stateFlow.value.screen)
     }
 
     @Test

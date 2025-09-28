@@ -32,6 +32,4 @@ internal fun App() = AppTheme {
     )
 }
 
-internal val core: Core by lazy {
-    Core()
-}
+internal val core: Core by lazy { Core() }
