@@ -28,7 +28,7 @@ internal class GameStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         GameStateBuilder.Default -> GameState()
-        is GameStateBuilder.FromState -> stateBuilder.state
+        is GameStateBuilder.FromSavableState -> stateBuilder.state
     }
 ) {
     @get:VisibleForTesting
@@ -37,12 +37,12 @@ internal class GameStore(
     init {
         when (stateBuilder) {
             GameStateBuilder.Default -> setup()
-            is GameStateBuilder.FromState -> gameSession = stateBuilder.gameSession
+            is GameStateBuilder.FromSavableState -> gameSession = stateBuilder.gameSession
         }
     }
 
     override fun getSavableState(state: GameState): Any? =
-        GameStateBuilder.FromState(state = state, gameSession = gameSession)
+        GameStateBuilder.FromSavableState(state = state, gameSession = gameSession)
 
     private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()

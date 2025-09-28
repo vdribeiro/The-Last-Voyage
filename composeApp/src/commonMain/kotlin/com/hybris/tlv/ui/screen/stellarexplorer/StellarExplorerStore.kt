@@ -21,18 +21,18 @@ internal class StellarExplorerStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         StellarExplorerStateBuilder.Default -> StellarExplorerState()
-        is StellarExplorerStateBuilder.FromState -> stateBuilder.state
+        is StellarExplorerStateBuilder.FromSavableState -> stateBuilder.state
     }
 ) {
     init {
         when (stateBuilder) {
             StellarExplorerStateBuilder.Default -> setup()
-            is StellarExplorerStateBuilder.FromState -> {}
+            is StellarExplorerStateBuilder.FromSavableState -> {}
         }
     }
 
     override fun getSavableState(state: StellarExplorerState): Any? =
-        StellarExplorerStateBuilder.FromState(state = state)
+        StellarExplorerStateBuilder.FromSavableState(state = state)
 
     private fun setup(): Job = launch {
         val stellarHosts = spaceUseCases.getExoplanets().apply {

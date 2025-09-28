@@ -19,7 +19,7 @@ internal class FeedbackStore(
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
-        is FeedbackStateBuilder.Feedback -> FeedbackState()
+        is FeedbackStateBuilder.Feedback -> FeedbackState(isError = false)
         is FeedbackStateBuilder.Error -> FeedbackState(isError = true)
     }
 ) {
@@ -49,7 +49,11 @@ internal class FeedbackStore(
         // TODO: Send feedback to server
         Logger.info(tag = "Feedback", message = feedback)
         delay(timeMillis = 2000L)
-        goBack(state = state)
+
+        when {
+            state.isError -> navigate(screen = NavigationManager.Screen.Splash)
+            else -> goBack(state = state)
+        }
     }
 
     override fun reducer(state: FeedbackState, action: FeedbackAction) {

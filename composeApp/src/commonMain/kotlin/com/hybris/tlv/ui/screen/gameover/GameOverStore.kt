@@ -22,18 +22,18 @@ internal class GameOverStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         GameOverStateBuilder.Default -> GameOverState()
-        is GameOverStateBuilder.FromState -> stateBuilder.state
+        is GameOverStateBuilder.FromSavableState -> stateBuilder.state
     }
 ) {
     init {
         when (stateBuilder) {
             GameOverStateBuilder.Default -> setup()
-            is GameOverStateBuilder.FromState -> {}
+            is GameOverStateBuilder.FromSavableState -> {}
         }
     }
 
     override fun getSavableState(state: GameOverState): Any? =
-        GameOverStateBuilder.FromState(state = state)
+        GameOverStateBuilder.FromSavableState(state = state)
 
     private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()

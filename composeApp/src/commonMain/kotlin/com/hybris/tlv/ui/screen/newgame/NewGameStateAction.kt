@@ -19,7 +19,7 @@ internal sealed interface NewGameAction {
 
 internal sealed interface NewGameStateBuilder {
     data object Default: NewGameStateBuilder
-    data class FromState(val state: NewGameState, val selectedShip: ShipPrototype?): NewGameStateBuilder
+    data class FromSavableState(val state: NewGameState, val selectedShip: ShipPrototype?): NewGameStateBuilder
 }
 
 internal data class NewGameState(

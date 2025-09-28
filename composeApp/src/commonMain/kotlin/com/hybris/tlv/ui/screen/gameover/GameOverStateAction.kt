@@ -9,7 +9,7 @@ internal sealed interface GameOverAction {
 
 internal sealed interface GameOverStateBuilder {
     data object Default: GameOverStateBuilder
-    data class FromState(val state: GameOverState): GameOverStateBuilder
+    data class FromSavableState(val state: GameOverState): GameOverStateBuilder
 }
 
 internal data class GameOverState(

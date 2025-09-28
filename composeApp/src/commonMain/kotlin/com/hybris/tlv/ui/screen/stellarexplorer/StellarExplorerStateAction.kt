@@ -22,7 +22,7 @@ internal sealed interface StellarExplorerAction {
 
 internal sealed interface StellarExplorerStateBuilder {
     data object Default: StellarExplorerStateBuilder
-    data class FromState(val state: StellarExplorerState): StellarExplorerStateBuilder
+    data class FromSavableState(val state: StellarExplorerState): StellarExplorerStateBuilder
 }
 
 internal data class StellarExplorerState(

@@ -26,7 +26,7 @@ internal class EventStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         EventStateBuilder.Default -> EventState()
-        is EventStateBuilder.FromState -> stateBuilder.state
+        is EventStateBuilder.FromSavableState -> stateBuilder.state
     }
 ) {
     @get:VisibleForTesting
@@ -37,7 +37,7 @@ internal class EventStore(
     init {
         when (stateBuilder) {
             EventStateBuilder.Default -> setup()
-            is EventStateBuilder.FromState -> {
+            is EventStateBuilder.FromSavableState -> {
                 gameSession = stateBuilder.gameSession
                 eventChain.addAll(elements = stateBuilder.eventChain)
             }
@@ -45,7 +45,7 @@ internal class EventStore(
     }
 
     override fun getSavableState(state: EventState): Any? =
-        EventStateBuilder.FromState(state = state, gameSession = gameSession, eventChain = eventChain)
+        EventStateBuilder.FromSavableState(state = state, gameSession = gameSession, eventChain = eventChain)
 
     private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
@@ -59,7 +59,6 @@ internal class EventStore(
             listOf(element = defaultEvent)
         }
 
-        // There must be at least 1 event with no parentId, this is the parent event
         val parentEvent = eventChain.find { it.parentId == null }
         if (parentEvent == null) {
             navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing parent event on setup()"))
@@ -68,6 +67,7 @@ internal class EventStore(
         val childrenEvents = eventChain.filter { it.parentId == parentEvent.id }.ifEmpty {
             listOf(element = stopEvent)
         }
+
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = parentEvent)
 
         this@EventStore.gameSession = updatedGameSession
