@@ -12,20 +12,15 @@ internal class CreditStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
-    stateBuilder: CreditStateBuilder,
     private val creditUseCases: CreditUseCases
 ): Store<CreditState, Unit>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = when (stateBuilder) {
-        CreditStateBuilder.Default -> CreditState()
-    }
+    initialState = CreditState()
 ) {
     init {
-        when (stateBuilder) {
-            CreditStateBuilder.Default -> setup()
-        }
+        setup()
     }
 
     private fun setup(): Job = launch {
@@ -36,9 +31,5 @@ internal class CreditStore(
                 credits = credits
             )
         }
-    }
-
-    override fun back(state: CreditState): () -> Unit = {
-        navigate(screen = Screen.MainMenu)
     }
 }

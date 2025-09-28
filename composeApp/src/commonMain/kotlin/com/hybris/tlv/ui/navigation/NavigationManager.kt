@@ -2,34 +2,37 @@ package com.hybris.tlv.ui.navigation
 
 import androidx.compose.runtime.Composable
 import kotlinx.coroutines.flow.StateFlow
+import androidx.compose.ui.backhandler.BackHandler
 
 /**
  * Navigation manager with the screens index.
  */
 internal interface NavigationManager {
     /**
-     * Current navigation destination.
+     * Current navigation state.
      */
     data class NavigationState(
         val screen: Screen = Screen.Splash,
         val stateBuilder: Any? = null
-    )
+    ) {
 
-    /**
-     * The flow of navigation states collected by the App.
-     */
+    }
     val stateFlow: StateFlow<NavigationState>
 
     /**
-     * A callback for the back action, handled by the App's [androidx.compose.ui.backhandler.BackHandler]
-     * and implemented optionally in the current screen's Store.
+     * A callback for the back action, handled by the App's [BackHandler].
      */
     var back: () -> Unit
 
     /**
-     * Navigates to a new screen.
+     * Updates the state of the current navigation and then navigates to a new screen given a new state.
      */
-    fun navigate(screen: Screen, state: Any? = null) {}
+    fun navigate(screen: Screen, stateBuilder: Any? = null, savableState: Any? = null)
+
+    /**
+     * Goes back to the previous screen.
+     */
+    fun goBack()
 
     /**
      * The main composable responsible for rendering the current screen based on the navigation state.

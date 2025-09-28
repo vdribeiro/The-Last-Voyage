@@ -5,7 +5,6 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.NavigationManager.NavigationState
 import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -25,17 +24,14 @@ internal class FeedbackStore(
     }
 ) {
     @get:VisibleForTesting
-    internal var navigationState: NavigationState? = null
-    @get:VisibleForTesting
     internal var tag: String? = null
     @get:VisibleForTesting
     internal var message: String? = null
 
     init {
         when (stateBuilder) {
-            is FeedbackStateBuilder.Feedback -> navigationState = stateBuilder.navigationState
+            is FeedbackStateBuilder.Feedback -> {}
             is FeedbackStateBuilder.Error -> {
-                navigationState = NavigationState()
                 tag = stateBuilder.tag
                 message = stateBuilder.message
                 Logger.error(tag = tag.orEmpty(), message = message.orEmpty())
@@ -53,11 +49,7 @@ internal class FeedbackStore(
         // TODO: Send feedback to server
         Logger.info(tag = "Feedback", message = feedback)
         delay(timeMillis = 2000L)
-        back(state = state).invoke()
-    }
-
-    override fun back(state: FeedbackState): () -> Unit = {
-        navigationState?.let { navigate(screen = it.screen, stateBuilder = it.stateBuilder) }
+        goBack(state = state).invoke()
     }
 
     override fun reducer(state: FeedbackState, action: FeedbackAction) {

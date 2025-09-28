@@ -12,20 +12,15 @@ internal class AchievementStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
-    stateBuilder: AchievementStateBuilder,
     private val achievementUseCases: AchievementUseCases
 ): Store<AchievementState, Unit>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = when (stateBuilder) {
-        AchievementStateBuilder.Default -> AchievementState()
-    }
+    initialState = AchievementState()
 ) {
     init {
-        when (stateBuilder) {
-            AchievementStateBuilder.Default -> setup()
-        }
+        setup()
     }
 
     private fun setup(): Job = launch {
@@ -36,9 +31,5 @@ internal class AchievementStore(
                 achievements = achievements
             )
         }
-    }
-
-    override fun back(state: AchievementState): () -> Unit = {
-        navigate(screen = Screen.MainMenu)
     }
 }

@@ -13,20 +13,15 @@ internal class ScoreStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
-    stateBuilder: ScoreStateBuilder,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<ScoreState, Unit>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = when (stateBuilder) {
-        ScoreStateBuilder.Default -> ScoreState()
-    }
+    initialState = ScoreState()
 ) {
     init {
-        when (stateBuilder) {
-            ScoreStateBuilder.Default -> setup()
-        }
+        setup()
     }
 
     private fun setup(): Job = launch {
@@ -40,9 +35,5 @@ internal class ScoreStore(
                 gameSessions = gameSessions
             )
         }
-    }
-
-    override fun back(state: ScoreState): () -> Unit = {
-        navigate(screen = Screen.MainMenu)
     }
 }

@@ -17,7 +17,6 @@ import com.hybris.tlv.ui.screen.mainmenu.MainMenuScreen
 import com.hybris.tlv.ui.screen.newgame.NewGameScreen
 import com.hybris.tlv.ui.screen.score.ScoreScreen
 import com.hybris.tlv.ui.screen.splash.SplashScreen
-import com.hybris.tlv.ui.screen.splash.SplashStateBuilder
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerScreen
 import com.hybris.tlv.ui.screen.tutorial.TutorialScreen
 import com.hybris.tlv.ui.store.StoreFactory
@@ -41,16 +40,33 @@ internal class Navigation(
         config = config,
         useCases = useCases
     )
+    private val stack: MutableList<NavigationState> = mutableListOf(NavigationState())
     private val _stateFlow: MutableStateFlow<NavigationState> = MutableStateFlow(value = initialState)
     override val stateFlow: StateFlow<NavigationState> get() = _stateFlow
 
     override var back: () -> Unit = {}
 
-    override fun navigate(screen: Screen, state: Any?) {
-        dispatcher.main.launch { _stateFlow.update { NavigationState(screen = screen, stateBuilder = state) } }
+    override fun navigate(screen: Screen, stateBuilder: Any?, savableState: Any?) {
+        dispatcher.main.launch {
+            if (stack.isNotEmpty()) stack[stack.lastIndex] = stack.last().copy(stateBuilder = stateBuilder)
+            val navigationState = NavigationState(screen = screen, stateBuilder = stateBuilder)
+            val index = stack.indexOf(element = navigationState)
+            if (index != -1) stack.subList(index, stack.size).clear()
+            stack.add(element = navigationState)
+            _stateFlow.value = navigationState
+        }
     }
 
-    private fun fallback() = navigate(screen = Screen.Splash, state = SplashStateBuilder.Default)
+    override fun goBack() {
+        dispatcher.main.launch {
+            if (stack.size > 1) {
+                stack.removeLast()
+                _stateFlow.update { stack.last() }
+            }
+        }
+    }
+
+    private fun fallback() = navigate(screen = Screen.Splash)
 
     @Composable
     override fun Screen(navigationState: NavigationState) {

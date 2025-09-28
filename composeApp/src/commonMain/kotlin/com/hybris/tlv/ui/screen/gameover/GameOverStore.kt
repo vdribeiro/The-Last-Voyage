@@ -54,6 +54,8 @@ internal class GameOverStore(
         }
     }
 
+    override fun goBack(state: GameOverState): () -> Unit = {}
+
     override fun reducer(state: GameOverState, action: GameOverAction) {
         when (action) {
             GameOverAction.Continue -> when (state.currentContent) {

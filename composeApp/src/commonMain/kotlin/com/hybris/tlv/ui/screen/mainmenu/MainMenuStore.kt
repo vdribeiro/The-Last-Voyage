@@ -27,14 +27,12 @@ internal class MainMenuStore(
     initialState = when (stateBuilder) {
         MainMenuStateBuilder.Default -> MainMenuState()
         is MainMenuStateBuilder.FromState -> stateBuilder.state
-        is MainMenuStateBuilder.FromContent -> MainMenuState(currentContent = stateBuilder.content)
     }
 ) {
     init {
         when (stateBuilder) {
             MainMenuStateBuilder.Default -> setup()
             is MainMenuStateBuilder.FromState -> {}
-            is MainMenuStateBuilder.FromContent -> setup()
         }
     }
 
@@ -76,7 +74,7 @@ internal class MainMenuStore(
         navigate(screen = Screen.Tutorial, stateBuilder = TutorialStateBuilder.NewGame(newGame = true))
     }
 
-    override fun back(state: MainMenuState) = {
+    override fun goBack(state: MainMenuState) = {
         when (state.currentContent) {
             Content.MAIN_MENU -> {}
             Content.LEARN_MENU -> updateState { it.copy(currentContent = Content.MAIN_MENU) }

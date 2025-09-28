@@ -4,9 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.NavigationManager.NavigationState
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
-import com.hybris.tlv.ui.navigation.NavigationManager.Screen.Feedback
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -38,22 +36,33 @@ internal open class Store<State, Action>(
     private val jobs = mutableListOf<Job>()
 
     init {
-        navigation.back = { back(state = _stateFlow.value).invoke() }
+        navigation.back = { goBack(state = _stateFlow.value).invoke() }
     }
+
+    /**
+     * Get the savable state of the store.
+     */
+    protected open fun getSavableState(state: State): Any? = null
 
     /**
      * Clean up the store and navigate to a new [screen] given an optional [stateBuilder].
      */
     protected fun navigate(screen: Screen, stateBuilder: Any? = null) {
-        navigation.back = {}
         jobs.forEach { it.cancel() }
-        navigation.navigate(screen = screen, state = stateBuilder)
+        navigation.back = {}
+        navigation.navigate(
+            screen = screen,
+            stateBuilder = stateBuilder,
+            savableState = getSavableState(state = _stateFlow.value)
+        )
     }
 
     /**
      * Back navigation.
      */
-    protected open fun back(state: State): () -> Unit = {}
+    protected open fun goBack(state: State): () -> Unit = {
+        navigation.goBack()
+    }
 
     /**
      * Sends an [Action] to the Store.
@@ -84,17 +93,10 @@ internal open class Store<State, Action>(
     fun toggleAudio() = audioPlayer?.toggle()
 
     /**
-     * Navigate to [Feedback] screen.
+     * Navigate to [Screen.Feedback] screen.
      */
     fun feedback() = navigate(
-        screen = Feedback,
-        stateBuilder = FeedbackStateBuilder.Feedback(
-            navigationState = NavigationState(screen = navigation.stateFlow.value.screen, stateBuilder = getStateBuilderForFeedback())
-        )
+        screen = Screen.Feedback,
+        stateBuilder = FeedbackStateBuilder.Feedback
     )
-
-    /**
-     * Get the state builder to use for the [Feedback] screen.
-     */
-    protected open fun getStateBuilderForFeedback(): Any = {}
 }
