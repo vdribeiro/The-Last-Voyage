@@ -33,7 +33,10 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
 
     private suspend fun fetchRemote() {
         // To prevet unnecessary fetches, wait 1 hour in between
-        if (!hasTimePassed(dateTime = getPreferences().syncTime, duration = 1.hours)) return
+        if (!hasTimePassed(dateTime = getPreferences().syncTime, duration = 1.hours)) {
+            remoteCache = localConfigs
+            return
+        }
         setPreferences { it.copy(syncTime = now()) }
 
         val remoteConfigs = when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
