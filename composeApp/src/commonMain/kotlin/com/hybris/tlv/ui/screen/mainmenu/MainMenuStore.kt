@@ -64,7 +64,7 @@ internal class MainMenuStore(
     }
 
     private fun newGame(): Job = launch {
-        updateState { it.copy(newGameDialog = true) }
+        if (Preferences.get().showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = Screen.NewGame)
     }
 
     private fun newGameWithoutTutorial(): Job = launch {

@@ -52,7 +52,6 @@ internal class Navigation(
                 stack.removeLast()
                 _stateFlow.update { stack.last() }
             }
-            println("stack: ${stack.map { it.screen }}")
         }
     }
 
@@ -64,7 +63,6 @@ internal class Navigation(
             if (index != -1) stack.subList(index, stack.size).clear()
             stack.add(element = navigationState)
             _stateFlow.value = navigationState
-            println("stack: ${stack.map { it.screen }}")
         }
     }
 
