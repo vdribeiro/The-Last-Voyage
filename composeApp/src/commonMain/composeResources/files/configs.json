@@ -12,7 +12,6 @@
     "developerCorner": "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb",
     "support": "https://ko-fi.com/engsoneca",
     "formula": "https://github.com/vdribeiro/The-Last-Voyage/tree/main/composeApp/src/commonMain/kotlin/com/hybris/tlv/usecase/space/formula",
-    "featureSoon": true,
     "featureLearn": true,
     "featureScores": true,
     "featureAchievements": true,

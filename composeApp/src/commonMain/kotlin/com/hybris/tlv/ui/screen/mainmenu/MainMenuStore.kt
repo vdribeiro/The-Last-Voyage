@@ -43,7 +43,6 @@ internal class MainMenuStore(
         updateState {
             it.copy(
                 loading = false,
-                featureSoon = config.localConfigs.featureSoon,
                 featureLearn = config.localConfigs.featureLearn,
                 featureScores = config.localConfigs.featureScores,
                 featureAchievements = config.localConfigs.featureAchievements,

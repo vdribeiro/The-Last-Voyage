@@ -41,7 +41,6 @@ internal fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
     val continueTranslation = remember { getTranslation(key = "main_menu_screen__continue") }
     val learnTranslation = remember { getTranslation(key = "main_menu_screen__learn") }
     val scoresTranslation = remember { getTranslation(key = "main_menu_screen__scores") }
-    val soonTranslation = remember { getTranslation(key = "main_menu_screen__soon") }
 
     val typography = LocalTypography.current
 
@@ -114,17 +113,6 @@ internal fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
                         .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SCORES)
                         .clickable { store.send(action = MainMenuAction.Scores) },
                     text = scoresTranslation,
-                    style = typography.headlineMedium,
-                )
-            }
-        }
-        if (storeState.featureSoon) {
-            item {
-                Text(
-                    modifier = Modifier
-                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SOON)
-                        .clickable { store.send(action = MainMenuAction.Soon) },
-                    text = soonTranslation,
                     style = typography.headlineMedium,
                 )
             }

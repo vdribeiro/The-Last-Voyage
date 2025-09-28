@@ -604,10 +604,6 @@ internal val translations: List<Translation> by lazy {
             value = "Learn"
         ),
         Translation(
-            key = "main_menu_screen__soon",
-            value = "Coming Soon..."
-        ),
-        Translation(
             key = "main_menu_screen__scores",
             value = "Scores"
         ),

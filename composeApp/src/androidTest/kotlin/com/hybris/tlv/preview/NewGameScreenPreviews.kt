@@ -25,7 +25,6 @@ private fun NewGameLoading() {
                     currentContent = Content.SHIP,
                     selectedCatastrophe = null,
                     shipState = shipState,
-                    formula = formula
                 )
             )
         )
@@ -44,7 +43,6 @@ private fun NewGameShip() {
                     currentContent = Content.SHIP,
                     selectedCatastrophe = null,
                     shipState = shipState,
-                    formula = formula
                 )
             )
         )
@@ -63,7 +61,6 @@ private fun NewGameStart() {
                     currentContent = Content.START,
                     selectedCatastrophe = catastrophes.random(),
                     shipState = shipState,
-                    formula = formula
                 )
             )
         )

@@ -21,7 +21,6 @@ private fun MainMenuLoading() {
             store = getStore(
                 initialState = MainMenuState(
                     loading = true,
-                    featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
                     featureAchievements = true,
@@ -50,7 +49,6 @@ private fun MainMenuAll() {
             store = getStore(
                 initialState = MainMenuState(
                     loading = false,
-                    featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
                     featureAchievements = true,
@@ -79,7 +77,6 @@ private fun MainMenuContinue() {
             store = getStore(
                 initialState = MainMenuState(
                     loading = false,
-                    featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
                     featureAchievements = true,
@@ -108,7 +105,6 @@ private fun MainMenuNewGameDialog() {
             store = getStore(
                 initialState = MainMenuState(
                     loading = false,
-                    featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
                     featureAchievements = true,
@@ -137,7 +133,6 @@ private fun MainMenuNoFeatures() {
             store = getStore(
                 initialState = MainMenuState(
                     loading = false,
-                    featureSoon = true,
                     featureLearn = false,
                     featureScores = false,
                     featureAchievements = false,
@@ -166,7 +161,6 @@ private fun MainMenuLearn() {
             store = getStore(
                 initialState = MainMenuState(
                     loading = false,
-                    featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
                     featureAchievements = true,
@@ -195,7 +189,6 @@ private fun MainMenuHostDefinition() {
             store = getStore(
                 initialState = MainMenuState(
                     loading = false,
-                    featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
                     featureAchievements = true,
@@ -243,7 +236,6 @@ private fun MainMenuPlanetDefinition() {
             store = getStore(
                 initialState = MainMenuState(
                     loading = false,
-                    featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
                     featureAchievements = true,
@@ -291,7 +283,6 @@ private fun MainMenuHabitability() {
             store = getStore(
                 initialState = MainMenuState(
                     loading = false,
-                    featureSoon = true,
                     featureLearn = true,
                     featureScores = true,
                     featureAchievements = true,

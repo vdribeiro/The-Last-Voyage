@@ -28,7 +28,6 @@ internal sealed interface MainMenuStateBuilder {
 
 internal data class MainMenuState(
     val loading: Boolean = true,
-    val featureSoon: Boolean = false,
     val featureLearn: Boolean = false,
     val featureScores: Boolean = false,
     val featureAchievements: Boolean = false,

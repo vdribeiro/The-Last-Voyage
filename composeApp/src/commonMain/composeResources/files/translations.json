@@ -2736,11 +2736,6 @@
   },
   {
     "languageIso": "en",
-    "key": "main_menu_screen__soon",
-    "value": "Coming Soon..."
-  },
-  {
-    "languageIso": "en",
     "key": "main_menu_screen__scores",
     "value": "Scores"
   },
