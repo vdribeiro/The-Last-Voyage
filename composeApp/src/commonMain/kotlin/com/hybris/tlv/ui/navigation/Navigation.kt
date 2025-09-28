@@ -72,11 +72,7 @@ internal class Navigation(
     override fun Screen(navigationState: NavigationState) {
         with(receiver = config.localConfigs) {
             when (navigationState.screen) {
-                    <
-                    <
-                    Screen.Splash
-
-                -> SplashScreen(store = storeFactory.createSplashStore())
+                Screen.Splash -> SplashScreen(store = storeFactory.createSplashStore())
                 Screen.MainMenu -> MainMenuScreen(store = storeFactory.createMainMenuStore(stateBuilder = navigationState.stateBuilder))
                 Screen.Feedback -> FeedbackScreen(store = storeFactory.createFeedbackStore(stateBuilder = navigationState.stateBuilder))
                 Screen.NewGame -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(stateBuilder = navigationState.stateBuilder)) else fallback()
