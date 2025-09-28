@@ -48,7 +48,7 @@ internal class Navigation(
 
     override fun navigate(screen: Screen, stateBuilder: Any?, savableState: Any?) {
         dispatcher.main.launch {
-            if (stack.isNotEmpty()) stack[stack.lastIndex] = stack.last().copy(stateBuilder = stateBuilder)
+            if (stack.isNotEmpty()) stack[stack.lastIndex] = stack.last().copy(stateBuilder = savableState)
             val navigationState = NavigationState(screen = screen, stateBuilder = stateBuilder)
             val index = stack.indexOf(element = navigationState)
             if (index != -1) stack.subList(index, stack.size).clear()
@@ -72,7 +72,11 @@ internal class Navigation(
     override fun Screen(navigationState: NavigationState) {
         with(receiver = config.localConfigs) {
             when (navigationState.screen) {
-                Screen.Splash -> SplashScreen(store = storeFactory.createSplashStore(stateBuilder = navigationState.stateBuilder))
+                    <
+                    <
+                    Screen.Splash
+
+                -> SplashScreen(store = storeFactory.createSplashStore())
                 Screen.MainMenu -> MainMenuScreen(store = storeFactory.createMainMenuStore(stateBuilder = navigationState.stateBuilder))
                 Screen.Feedback -> FeedbackScreen(store = storeFactory.createFeedbackStore(stateBuilder = navigationState.stateBuilder))
                 Screen.NewGame -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(stateBuilder = navigationState.stateBuilder)) else fallback()
@@ -81,9 +85,9 @@ internal class Navigation(
                 Screen.Event -> if (featureEvents) EventScreen(store = storeFactory.createEventStore(stateBuilder = navigationState.stateBuilder)) else fallback()
                 Screen.GameOver -> if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore(stateBuilder = navigationState.stateBuilder)) else fallback()
                 Screen.StellarExplorer -> if (featureStellarExplorer) StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(stateBuilder = navigationState.stateBuilder)) else fallback()
-                Screen.Score -> if (featureScores) ScoreScreen(store = storeFactory.createScoreStore(stateBuilder = navigationState.stateBuilder)) else fallback()
-                Screen.Achievement -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore(stateBuilder = navigationState.stateBuilder)) else fallback()
-                Screen.Credit -> CreditScreen(store = storeFactory.createCreditStore(stateBuilder = navigationState.stateBuilder))
+                Screen.Score -> if (featureScores) ScoreScreen(store = storeFactory.createScoreStore()) else fallback()
+                Screen.Achievement -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore()) else fallback()
+                Screen.Credit -> CreditScreen(store = storeFactory.createCreditStore())
             }
         }
     }

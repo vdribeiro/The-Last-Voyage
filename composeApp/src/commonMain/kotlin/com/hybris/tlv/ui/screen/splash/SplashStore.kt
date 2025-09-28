@@ -41,7 +41,7 @@ internal class SplashStore(
     initialState = SplashState()
 ) {
     init {
-       setup()
+        setup()
     }
 
     private fun setup(): Job = launch {

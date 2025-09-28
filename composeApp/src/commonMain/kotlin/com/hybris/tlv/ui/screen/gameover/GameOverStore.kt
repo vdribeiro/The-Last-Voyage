@@ -32,6 +32,9 @@ internal class GameOverStore(
         }
     }
 
+    override fun getSavableState(state: GameOverState): Any? =
+        GameOverStateBuilder.FromState(state = state)
+
     private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
@@ -64,8 +67,6 @@ internal class GameOverStore(
             }
         }
     }
-
-    override fun getStateBuilderForFeedback(): Any = GameOverStateBuilder.FromState(state = stateFlow.value)
 
     companion object {
         private const val TAG = "GameOverStore"

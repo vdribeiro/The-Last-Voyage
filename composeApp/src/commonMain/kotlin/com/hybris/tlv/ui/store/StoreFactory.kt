@@ -4,10 +4,7 @@ import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.NavigationManager.NavigationState
-import com.hybris.tlv.ui.screen.achievement.AchievementStateBuilder
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
-import com.hybris.tlv.ui.screen.credit.CreditStateBuilder
 import com.hybris.tlv.ui.screen.credit.CreditStore
 import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.screen.event.EventStore
@@ -21,9 +18,7 @@ import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStore
 import com.hybris.tlv.ui.screen.newgame.NewGameStateBuilder
 import com.hybris.tlv.ui.screen.newgame.NewGameStore
-import com.hybris.tlv.ui.screen.score.ScoreStateBuilder
 import com.hybris.tlv.ui.screen.score.ScoreStore
-import com.hybris.tlv.ui.screen.splash.SplashStateBuilder
 import com.hybris.tlv.ui.screen.splash.SplashStore
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStateBuilder
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
@@ -38,11 +33,10 @@ internal class StoreFactory(
     private val config: ConfigManager,
     private val useCases: UseCases
 ) {
-    fun createSplashStore(stateBuilder: Any? = null): SplashStore = SplashStore(
+    fun createSplashStore(): SplashStore = SplashStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder as? SplashStateBuilder ?: SplashStateBuilder.Default,
         config = config,
         translateUseCases = useCases.translation,
         archiveUseCases = useCases.archive,
@@ -69,7 +63,7 @@ internal class StoreFactory(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder as? FeedbackStateBuilder ?: FeedbackStateBuilder.Feedback(navigationState = NavigationState())
+        stateBuilder = stateBuilder as? FeedbackStateBuilder ?: FeedbackStateBuilder.Feedback
     )
 
     fun createNewGameStore(stateBuilder: Any? = null): NewGameStore = NewGameStore(
@@ -123,27 +117,24 @@ internal class StoreFactory(
         spaceUseCases = useCases.space
     )
 
-    fun createScoreStore(stateBuilder: Any? = null): ScoreStore = ScoreStore(
+    fun createScoreStore(): ScoreStore = ScoreStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder as? ScoreStateBuilder ?: ScoreStateBuilder.Default,
         gameSessionUseCases = useCases.gameSession
     )
 
-    fun createAchievementStore(stateBuilder: Any? = null): AchievementStore = AchievementStore(
+    fun createAchievementStore(): AchievementStore = AchievementStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder as? AchievementStateBuilder ?: AchievementStateBuilder.Default,
         achievementUseCases = useCases.achievement
     )
 
-    fun createCreditStore(stateBuilder: Any? = null): CreditStore = CreditStore(
+    fun createCreditStore(): CreditStore = CreditStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder as? CreditStateBuilder ?: CreditStateBuilder.Default,
         creditUseCases = useCases.credit
     )
 }

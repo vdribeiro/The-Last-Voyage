@@ -36,6 +36,9 @@ internal class MainMenuStore(
         }
     }
 
+    override fun getSavableState(state: MainMenuState): Any? =
+        MainMenuStateBuilder.FromState(state = state)
+
     private fun setup(): Job = launch {
         config.fetch()
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
@@ -103,6 +106,4 @@ internal class MainMenuStore(
             MainMenuAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
         }
     }
-
-    override fun getStateBuilderForFeedback(): Any = MainMenuStateBuilder.FromState(state = stateFlow.value)
 }

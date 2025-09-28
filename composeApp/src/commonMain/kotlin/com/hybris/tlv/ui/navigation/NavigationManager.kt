@@ -1,8 +1,8 @@
 package com.hybris.tlv.ui.navigation
 
 import androidx.compose.runtime.Composable
-import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.ui.backhandler.BackHandler
+import kotlinx.coroutines.flow.StateFlow
 
 /**
  * Navigation manager with the screens index.
@@ -15,8 +15,15 @@ internal interface NavigationManager {
         val screen: Screen = Screen.Splash,
         val stateBuilder: Any? = null
     ) {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other !is NavigationState) return false
+            return screen == other.screen
+        }
 
+        override fun hashCode(): Int = screen.hashCode()
     }
+
     val stateFlow: StateFlow<NavigationState>
 
     /**

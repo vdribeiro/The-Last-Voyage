@@ -41,6 +41,9 @@ internal class GameStore(
         }
     }
 
+    override fun getSavableState(state: GameState): Any? =
+        GameStateBuilder.FromState(state = state, gameSession = gameSession)
+
     private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
@@ -149,8 +152,6 @@ internal class GameStore(
             is GameAction.Settle -> settle(action = action)
         }
     }
-
-    override fun getStateBuilderForFeedback(): Any = GameStateBuilder.FromState(state = stateFlow.value, gameSession = gameSession)
 
     companion object {
         private const val TAG = "GameStore"

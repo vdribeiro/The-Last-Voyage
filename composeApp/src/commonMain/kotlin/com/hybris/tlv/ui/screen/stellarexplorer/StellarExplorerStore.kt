@@ -3,14 +3,11 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.NavigationManager.Screen
-import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
 import kotlinx.coroutines.Job
-import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
 internal class StellarExplorerStore(
     dispatcher: Dispatcher,
@@ -33,6 +30,9 @@ internal class StellarExplorerStore(
             is StellarExplorerStateBuilder.FromState -> {}
         }
     }
+
+    override fun getSavableState(state: StellarExplorerState): Any? =
+        StellarExplorerStateBuilder.FromState(state = state)
 
     private fun setup(): Job = launch {
         val stellarHosts = spaceUseCases.getExoplanets().apply {
@@ -235,10 +235,7 @@ internal class StellarExplorerStore(
     override fun goBack(state: StellarExplorerState): () -> Unit = {
         when (state.currentContent) {
             Content.LIST_HOSTS,
-            Content.LIST_PLANETS -> navigate(
-                screen = Screen.MainMenu,
-                stateBuilder = MainMenuStateBuilder.FromContent(content = MainMenuContent.LEARN_MENU)
-            )
+            Content.LIST_PLANETS -> super.goBack(state)
 
             Content.DETAIL_HOSTS -> launch {
                 updateState {
@@ -278,8 +275,6 @@ internal class StellarExplorerStore(
             is StellarExplorerAction.ChangePlanetSearchable -> changePlanetSearchable(state = state, action = action)
         }
     }
-
-    override fun getStateBuilderForFeedback(): Any = StellarExplorerStateBuilder.FromState(state = stateFlow.value)
 }
 
 /**

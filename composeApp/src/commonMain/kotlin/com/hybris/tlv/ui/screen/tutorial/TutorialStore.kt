@@ -5,9 +5,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
-import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.screen.mainmenu.Content as MainMenuContent
 
 internal class TutorialStore(
     dispatcher: Dispatcher,
@@ -34,7 +32,7 @@ internal class TutorialStore(
     override fun goBack(state: TutorialState): () -> Unit = {
         when {
             newGame -> navigate(screen = Screen.NewGame)
-            else -> navigate(screen = Screen.MainMenu, stateBuilder = MainMenuStateBuilder.FromContent(content = MainMenuContent.LEARN_MENU))
+            else -> super.goBack(state)
         }
     }
 

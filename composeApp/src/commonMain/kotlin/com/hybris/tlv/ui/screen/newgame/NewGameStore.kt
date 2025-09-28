@@ -39,6 +39,9 @@ internal class NewGameStore(
         }
     }
 
+    override fun getSavableState(state: NewGameState): Any? =
+        NewGameStateBuilder.FromState(state = state, selectedShip = selectedShip)
+
     private fun setup(): Job = launch {
         val selectedCatastrophe = catastropheUseCases.getRandomCatastrophe()
         if (selectedCatastrophe == null) {
@@ -79,8 +82,6 @@ internal class NewGameStore(
             NewGameAction.StartGame -> startGame(state = state)
         }
     }
-
-    override fun getStateBuilderForFeedback(): Any = NewGameStateBuilder.FromState(state = stateFlow.value, selectedShip = selectedShip)
 
     companion object {
         private const val TAG = "NewGameStore"

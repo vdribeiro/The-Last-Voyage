@@ -44,6 +44,9 @@ internal class EventStore(
         }
     }
 
+    override fun getSavableState(state: EventState): Any? =
+        EventStateBuilder.FromState(state = state, gameSession = gameSession, eventChain = eventChain)
+
     private fun setup(): Job = launch {
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
@@ -114,8 +117,6 @@ internal class EventStore(
             is EventAction.Select -> select(action = action)
         }
     }
-
-    override fun getStateBuilderForFeedback(): Any = EventStateBuilder.FromState(state = stateFlow.value, gameSession = gameSession, eventChain = eventChain)
 
     companion object {
         private const val TAG = "EventStore"
