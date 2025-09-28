@@ -18,13 +18,14 @@ import thelastvoyage.composeapp.generated.resources.ic_launcher_foreground
 
 @Composable
 internal fun AppLogo(
+    modifier: Modifier = Modifier,
     size: Int = 160,
     showText: Boolean = true
 ) {
     val typography = LocalTypography.current
 
     Image(
-        modifier = Modifier
+        modifier = modifier
             .size(size = size.dp)
             .clip(shape = CircleShape),
         painter = painterResource(resource = Res.drawable.ic_launcher_foreground),

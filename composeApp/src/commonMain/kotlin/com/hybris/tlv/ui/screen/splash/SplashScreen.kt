@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -35,7 +36,11 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
 
     val typography = LocalTypography.current
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    Scaffold(
+        modifier = Modifier
+            .testTag(tag = SPLASH_SCREEN)
+            .fillMaxSize()
+    ) { innerPadding ->
         Box(
             modifier = Modifier
                 .padding(paddingValues = innerPadding)
@@ -45,13 +50,18 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
             // App logo with background
             Image(
                 modifier = Modifier
+                    .testTag(tag = SPLASH_SCREEN_LOGO_BACKGROUND)
                     .size(size = 160.dp)
                     .clip(shape = CircleShape),
                 painter = painterResource(resource = Res.drawable.ic_launcher_background),
                 contentDescription = "Background",
                 contentScale = ContentScale.Crop,
             )
-            AppLogo(size = 200, showText = false)
+            AppLogo(
+                modifier = Modifier.testTag(tag = SPLASH_SCREEN_LOGO),
+                size = 200,
+                showText = false
+            )
 
             // Circular progress around the app logo
             val animatedProgress by animateFloatAsState(
@@ -60,6 +70,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
             )
             CircularProgressIndicator(
                 modifier = Modifier
+                    .testTag(tag = SPLASH_SCREEN_PROGRESS)
                     .size(size = 160.dp),
                 progress = { animatedProgress },
             )
@@ -67,6 +78,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
             // Loading text
             Text(
                 modifier = Modifier
+                    .testTag(tag = SPLASH_SCREEN_LOADING)
                     .align(alignment = Alignment.BottomCenter)
                     .padding(all = 64.dp),
                 text = loadingTranslation,

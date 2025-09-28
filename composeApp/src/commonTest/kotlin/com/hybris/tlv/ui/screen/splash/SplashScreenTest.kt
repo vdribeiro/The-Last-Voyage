@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.splash
 
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.storeFactory
@@ -19,7 +20,7 @@ internal class SplashScreenTest {
     }
 
     @Test
-    fun splashWithoutData() = runComposeUiTest {
+    fun splash() = runComposeUiTest {
         val store = storeFactory.createSplashStore()
         setContent {
             AppTheme {
@@ -27,17 +28,11 @@ internal class SplashScreenTest {
             }
         }
         waitForIdle()
-    }
 
-    @Test
-    fun splashWithData() = runComposeUiTest {
-        runBlocking { }
-        val store = storeFactory.createSplashStore()
-        setContent {
-            AppTheme {
-                SplashScreen(store = store)
-            }
-        }
-        waitForIdle()
+        onNodeWithTag(testTag = SPLASH_SCREEN).assertExists()
+        onNodeWithTag(testTag = SPLASH_SCREEN_LOGO_BACKGROUND).assertExists()
+        onNodeWithTag(testTag = SPLASH_SCREEN_LOGO).assertExists()
+        onNodeWithTag(testTag = SPLASH_SCREEN_PROGRESS).assertExists()
+        onNodeWithTag(testTag = SPLASH_SCREEN_LOADING).assertExists()
     }
 }
