@@ -3,10 +3,10 @@ package com.hybris.tlv.usecase.space
 import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.serializer.PLANETS_ARCHIVE_JSON
+import com.hybris.tlv.serializer.PLANETS_JSON
 import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
-import com.hybris.tlv.serializer.STELLAR_HOSTS_ARCHIVE_JSON
+import com.hybris.tlv.serializer.STELLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.serializer.saveJsonFile
 import com.hybris.tlv.telemetry.Logger
@@ -65,7 +65,7 @@ internal class ArchiveGateway(
     /**
      * Request page size.
      */
-    private val pageSize = 5000
+    private val pageSize = 10000
 
     override suspend fun getArchive() = runCatching {
         coroutineScope {
@@ -93,8 +93,8 @@ internal class ArchiveGateway(
             val derivedStellarHosts = DerivedData.derive(stellarHosts = mergedStellarHosts)
             val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
 
-            val hostsFile = saveJsonFile(path = STELLAR_HOSTS_ARCHIVE_JSON, content = derivedStellarHosts)
-            val planetsFile = saveJsonFile(path = PLANETS_ARCHIVE_JSON, content = derivedPlanets)
+            val hostsFile = saveJsonFile(path = STELLAR_HOSTS_JSON, content = derivedStellarHosts)
+            val planetsFile = saveJsonFile(path = PLANETS_JSON, content = derivedPlanets)
             Logger.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
         }
     }.getOrElse {

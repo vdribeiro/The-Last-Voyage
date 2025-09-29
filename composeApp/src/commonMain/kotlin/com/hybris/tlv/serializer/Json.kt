@@ -3,15 +3,18 @@ package com.hybris.tlv.serializer
 import com.hybris.tlv.storage.loadFile
 import com.hybris.tlv.storage.saveFile
 import com.hybris.tlv.telemetry.Logger
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import thelastvoyage.composeapp.generated.resources.Res
 
+@OptIn(ExperimentalSerializationApi::class)
 val json = Json {
     ignoreUnknownKeys = true
     isLenient = true
+    allowTrailingComma = true
 }
 
 /**
@@ -76,7 +79,5 @@ const val ACHIEVEMENTS_JSON = "files/achievements.json"
 const val CREDITS_JSON = "files/credits.json"
 
 // Files
-const val STELLAR_HOSTS_ARCHIVE_JSON = "archivehosts.json"
-const val PLANETS_ARCHIVE_JSON = "archiveplanets.json"
 const val CONFIGS_JSON = "configs.json"
 const val PREFERENCES_JSON = "preferences.json"

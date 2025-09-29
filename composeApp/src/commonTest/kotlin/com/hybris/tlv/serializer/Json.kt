@@ -1,5 +1,3 @@
-@file:Suppress("unused", "UNCHECKED_CAST", "RedundantSuspendModifier")
-
 package com.hybris.tlv.serializer
 
 import com.hybris.tlv.achievements
@@ -12,14 +10,9 @@ import com.hybris.tlv.planets
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.translations
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.json.Json
 
-val json = Json {
-    ignoreUnknownKeys = true
-    isLenient = true
-    prettyPrint = true
-}
-
+// Shadowing function
+@Suppress("RedundantSuspendModifier", "unused", "UNCHECKED_CAST")
 private suspend fun <T> loadFromJsonResourceShadowing(path: String, serializer: KSerializer<List<T>>): List<T> =
     when (path) {
         TRANSLATIONS_JSON -> translations
