@@ -30,12 +30,7 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
             }
             level = LogLevel.INFO
         }
-        install(plugin = HttpTimeout) {
-            val timeout = 10_000L
-            requestTimeoutMillis = timeout
-            connectTimeoutMillis = timeout
-            socketTimeoutMillis = timeout
-        }
+        install(plugin = HttpTimeout) { setTimeout(timeout = 10_000L) }
         install(plugin = HttpCache)
         install(plugin = ContentNegotiation) { json(json = json) }
         install(plugin = ContentEncoding) { gzip(quality = 0.9F) }

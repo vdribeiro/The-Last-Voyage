@@ -3,6 +3,7 @@ package com.hybris.tlv.usecase.space
 import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
+import com.hybris.tlv.http.setTimeout
 import com.hybris.tlv.logger.Logger
 import com.hybris.tlv.serializer.PLANETS_JSON
 import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
@@ -51,11 +52,19 @@ import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.StellarHostJson
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.timeout
 
 internal class ArchiveGateway(
     private val httpClient: HttpClient,
 ): ArchiveUseCases {
 
+    /**
+     * Request timeout in milliseconds.
+     */
+    private val timeout = 1_800_000L // 30 minutes (It's a very slow API)
+    /**
+     * Request page size.
+     */
     private val pageSize = 5000
 
     override suspend fun getArchive() {
@@ -158,7 +167,8 @@ internal class ArchiveGateway(
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }
-        return when (val response = httpClient.getStream<StellarHostJson>(path = EXOPLANET_ARCHIVE_URL, queryMap = queryMap)) {
+
+        return when (val response = httpClient.getStream<StellarHostJson>(path = EXOPLANET_ARCHIVE_URL, queryMap = queryMap) { timeout { setTimeout(timeout = timeout) } }) {
             is Result.Error<StellarHostJson> -> ExoplanetsResult.Error(error = response.error)
             is Result.Success<StellarHostJson> -> ExoplanetsResult.Success(
                 stellarHosts = response.list.map { it.toStellarHost() },
@@ -207,7 +217,7 @@ internal class ArchiveGateway(
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }
-        return when (val response = httpClient.getStream<ExoplanetJson>(path = EXOPLANET_ARCHIVE_URL, queryMap = queryMap)) {
+        return when (val response = httpClient.getStream<ExoplanetJson>(path = EXOPLANET_ARCHIVE_URL, queryMap = queryMap) { timeout { setTimeout(timeout = timeout) } }) {
             is Result.Error<ExoplanetJson> -> ExoplanetsResult.Error(error = response.error)
             is Result.Success<ExoplanetJson> -> ExoplanetsResult.Success(
                 stellarHosts = response.list.map { it.toStellarHost() },
@@ -257,7 +267,7 @@ internal class ArchiveGateway(
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }
-        return when (val response = httpClient.getStream<ExoplanetJson>(path = EXOPLANET_ARCHIVE_URL, queryMap = queryMap)) {
+        return when (val response = httpClient.getStream<ExoplanetJson>(path = EXOPLANET_ARCHIVE_URL, queryMap = queryMap) { timeout { setTimeout(timeout = timeout) } }) {
             is Result.Error<ExoplanetJson> -> ExoplanetsResult.Error(error = response.error)
             is Result.Success<ExoplanetJson> -> ExoplanetsResult.Success(
                 stellarHosts = response.list.map { it.toStellarHost() },
