@@ -29,7 +29,7 @@ val LocalWindowState = staticCompositionLocalOf<WindowState> { error("No LocalWi
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() = application {
-    Logger.info(tag = "APP", message = "JFX = $initializeJfx")
+    Logger.info(tag = TAG, message = "JFX = $initializeJfx")
     val windowState = rememberWindowState(placement = WindowPlacement.Maximized)
 
     Window(

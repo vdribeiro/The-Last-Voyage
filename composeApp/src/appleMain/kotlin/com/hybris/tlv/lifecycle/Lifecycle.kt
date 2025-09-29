@@ -14,7 +14,7 @@ internal actual fun Register(
     onForeground: () -> Unit,
 ) {
     val lifecycleOwner = NSNotificationCenter.defaultCenter
-    DisposableEffect(keys = arrayOf(key)) {
+    DisposableEffect(key1 = key) {
         val pauseObserver = lifecycleOwner.observe(
             name = UIApplicationWillResignActiveNotification,
             onObserve = onBackground
