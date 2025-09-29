@@ -2,7 +2,6 @@ package com.hybris.tlv.http
 
 import com.hybris.tlv.serializer.decode
 import io.ktor.client.HttpClient
-import io.ktor.client.plugins.HttpTimeoutConfig
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.prepareGet
 import io.ktor.client.statement.bodyAsChannel
@@ -27,10 +26,4 @@ internal suspend inline fun <reified T> HttpClient.getStream(
     }
 }.getOrElse {
     Result.Error(error = it.stackTraceToString())
-}
-
-internal fun HttpTimeoutConfig.setTimeout(timeout: Long) {
-    requestTimeoutMillis = timeout
-    connectTimeoutMillis = timeout
-    socketTimeoutMillis = timeout
 }
