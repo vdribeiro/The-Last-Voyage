@@ -26,7 +26,7 @@ internal class TranslationGateway(
     override suspend fun syncTranslations() {
         if (config.remoteConfigs.translationsVersion > config.localConfigs.translationsVersion) {
             when (val result = httpClient.getStream<Translation>(path = TRANSLATIONS_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
                 is Result.Success -> rewriteTranslations(translations = result.list)
             }
             config.localConfigs = config.localConfigs.copy(translationsVersion = config.remoteConfigs.translationsVersion)

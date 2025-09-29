@@ -37,7 +37,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
         setPreferences { it.copy(syncTime = now()) }
 
         val remoteConfigs = when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
-            is Result.Error -> null.also { Logger.error(tag = TAG, message = result.error) }
+            is Result.Error -> null.also { Logger.error(tag = TAG, message = "Unable to get configs", throwable = result.error) }
             is Result.Success -> result.list.firstOrNull()
         } ?: Configs()
         remoteCache = remoteConfigs

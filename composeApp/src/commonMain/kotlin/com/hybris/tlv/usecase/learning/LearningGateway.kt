@@ -23,7 +23,7 @@ internal class LearningGateway(
     override suspend fun syncLearnings() {
         if (config.remoteConfigs.learningsVersion > config.localConfigs.learningsVersion) {
             when (val result = httpClient.getStream<Learning>(path = LEARNINGS_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get learnings", throwable = result.error)
                 is Result.Success -> rewriteLearnings(learnings = result.list)
             }
             config.localConfigs = config.localConfigs.copy(learningsVersion = config.remoteConfigs.learningsVersion)

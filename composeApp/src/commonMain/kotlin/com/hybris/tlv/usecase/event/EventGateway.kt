@@ -26,7 +26,7 @@ internal class EventGateway(
     override suspend fun syncEvents() {
         if (config.remoteConfigs.eventsVersion > config.localConfigs.eventsVersion) {
             when (val result = httpClient.getStream<Event>(path = EVENTS_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get events", throwable = result.error)
                 is Result.Success -> rewriteEvents(events = result.list)
             }
             config.localConfigs = config.localConfigs.copy(eventsVersion = config.remoteConfigs.eventsVersion)

@@ -26,7 +26,7 @@ internal class AchievementGateway(
     override suspend fun syncAchievements() {
         if (config.remoteConfigs.achievementsVersion > config.localConfigs.achievementsVersion) {
             when (val result = httpClient.getStream<Achievement>(path = ACHIEVEMENTS_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get achievements", throwable = result.error)
                 is Result.Success -> rewriteAchievements(achievements = result.list)
             }
             config.localConfigs = config.localConfigs.copy(achievementsVersion = config.remoteConfigs.achievementsVersion)

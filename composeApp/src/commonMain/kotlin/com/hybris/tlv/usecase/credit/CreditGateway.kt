@@ -23,7 +23,7 @@ internal class CreditGateway(
     override suspend fun syncCredits() {
         if (config.remoteConfigs.creditsVersion > config.localConfigs.creditsVersion) {
             when (val result = httpClient.getStream<Credit>(path = CREDITS_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get credits", throwable = result.error)
                 is Result.Success -> rewriteCredits(credits = result.list)
             }
             config.localConfigs = config.localConfigs.copy(creditsVersion = config.remoteConfigs.creditsVersion)

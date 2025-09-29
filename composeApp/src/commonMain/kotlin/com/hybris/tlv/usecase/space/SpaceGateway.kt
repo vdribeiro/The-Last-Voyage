@@ -35,7 +35,7 @@ internal class SpaceGateway(
     override suspend fun syncStellarHosts() {
         if (config.remoteConfigs.stellarHostsVersion > config.localConfigs.stellarHostsVersion) {
             when (val result = httpClient.getStream<StellarHost>(path = STELLAR_HOSTS_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get stellar hosts", throwable = result.error)
                 is Result.Success -> rewriteStellarHosts(stellarHosts = result.list)
             }
             config.localConfigs = config.localConfigs.copy(stellarHostsVersion = config.remoteConfigs.stellarHostsVersion)
@@ -57,7 +57,7 @@ internal class SpaceGateway(
     override suspend fun syncPlanets() {
         if (config.remoteConfigs.planetsVersion > config.localConfigs.planetsVersion) {
             when (val result = httpClient.getStream<Planet>(path = PLANETS_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get planets", throwable = result.error)
                 is Result.Success -> rewritePlanets(planets = result.list)
             }
             config.localConfigs = config.localConfigs.copy(planetsVersion = config.remoteConfigs.planetsVersion)

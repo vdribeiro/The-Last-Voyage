@@ -23,7 +23,7 @@ internal class CatastropheGateway(
     override suspend fun syncCatastrophes() {
         if (config.remoteConfigs.catastrophesVersion > config.localConfigs.catastrophesVersion) {
             when (val result = httpClient.getStream<Catastrophe>(path = CATASTROPHES_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get catastrophes", throwable = result.error)
                 is Result.Success -> rewriteCatastrophes(catastrophes = result.list)
             }
             config.localConfigs = config.localConfigs.copy(catastrophesVersion = config.remoteConfigs.catastrophesVersion)

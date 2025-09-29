@@ -18,12 +18,12 @@ internal suspend inline fun <reified T> HttpClient.getStream(
         queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
         block()
     }.execute { httpResponse ->
-        if (!httpResponse.status.isSuccess()) return@execute Result.Error(error = "Unsuccessful response: ${httpResponse.status}")
+        if (!httpResponse.status.isSuccess()) throw Throwable("Unsuccessful response: ${httpResponse.status}")
         val channel = httpResponse.bodyAsChannel()
         val bytes = channel.toByteArray()
         val list = decode<List<T>>(value = bytes.decodeToString())!!
         Result.Success(list = list)
     }
 }.getOrElse {
-    Result.Error(error = it.stackTraceToString())
+    Result.Error(error = it)
 }

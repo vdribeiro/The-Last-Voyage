@@ -25,7 +25,7 @@ internal class ShipGateway(
     override suspend fun syncEngines() {
         if (config.remoteConfigs.enginesVersion > config.localConfigs.enginesVersion) {
             when (val result = httpClient.getStream<Engine>(path = ENGINES_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = result.error)
+                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get engines", throwable = result.error)
                 is Result.Success -> rewriteEngines(engines = result.list)
             }
             config.localConfigs = config.localConfigs.copy(enginesVersion = config.remoteConfigs.enginesVersion)
