@@ -5,10 +5,11 @@ import com.hybris.tlv.database.EventSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.EVENTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.serializer.EVENTS_JSON
-import com.hybris.tlv.serializer.json
+import com.hybris.tlv.serializer.decode
+import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.serializer.loadFromJsonResource
+import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import database.AppDatabase
@@ -64,7 +65,7 @@ internal class EventGateway(
             id = id,
             description = description,
             parentId = parentId,
-            outcome = outcome?.let { runCatching { json.encodeToString(value = it) }.getOrNull() }
+            outcome = encode(value = outcome)
         )
 
     private fun EventSchema.toEvent(): Event =
@@ -72,7 +73,7 @@ internal class EventGateway(
             id = id,
             description = description,
             parentId = parentId,
-            outcome = outcome?.let { runCatching { json.decodeFromString<TravelOutcome>(string = it) }.getOrNull() }
+            outcome = decode<TravelOutcome>(value = outcome)
         )
 
     companion object Companion {

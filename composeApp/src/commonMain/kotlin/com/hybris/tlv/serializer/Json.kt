@@ -1,5 +1,7 @@
 package com.hybris.tlv.serializer
 
+import com.hybris.tlv.storage.loadFile
+import com.hybris.tlv.storage.saveFile
 import com.hybris.tlv.telemetry.Logger
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.ListSerializer
@@ -12,21 +14,51 @@ val json = Json {
     isLenient = true
 }
 
-internal suspend inline fun <reified T> loadFromJsonResource(path: String): List<T> {
-    val serializer = ListSerializer(elementSerializer = json.serializersModule.serializer<T>())
-    return loadFromJsonResourceShadowing(path = path, serializer = serializer)
+/**
+ * Safely decode a JSON string.
+ */
+internal inline fun <reified T> decode(value: String?): T? = runCatching {
+    value?.let { json.decodeFromString<T>(string = value) }
+}.getOrElse {
+    Logger.error(tag = TAG, message = "Unable to decode value: ${it.stackTraceToString()}")
+    null
+}
+
+/**
+ * Safely encode to JSON string.
+ */
+internal inline fun <reified T> encode(value: T?): String? = runCatching {
+    value?.let { json.encodeToString(value = value) }
+}.getOrElse {
+    Logger.error(tag = TAG, message = "Unable to encode value: ${it.stackTraceToString()}")
+    null
+}
+
+/**
+ * Load a JSON file.
+ */
+internal suspend inline fun <reified T> loadJsonFile(path: String): T? =
+    loadFile(path = path)?.let { decode<T>(value = it) }
+
+/**
+ * Save a JSON file.
+ */
+internal suspend inline fun <reified T> saveJsonFile(path: String, content: T): Boolean =
+    encode<T>(value = content)?.let { saveFile(path = path, content = it) } ?: false
+
+/**
+ * Load a JSON resource.
+ */
+internal suspend inline fun <reified T> loadFromJsonResource(path: String): List<T> = runCatching {
+    loadFromJsonResourceShadowing(path = path, serializer = ListSerializer(elementSerializer = json.serializersModule.serializer<T>()))
+}.getOrElse {
+    Logger.error(tag = TAG, message = "Unable to load resource: ${it.stackTraceToString()}")
+    emptyList()
 }
 
 // The Json loading must be mocked in tests and 'inline' cannot be shadowed
-private suspend fun <T> loadFromJsonResourceShadowing(path: String, serializer: KSerializer<List<T>>): List<T> {
-    return runCatching {
-        val stringContent = Res.readBytes(path).decodeToString()
-        json.decodeFromString(deserializer = serializer, string = stringContent)
-    }.getOrElse {
-        Logger.error(tag = TAG, message = "Unable to load resource: ${it.stackTraceToString()}")
-        emptyList()
-    }
-}
+private suspend fun <T> loadFromJsonResourceShadowing(path: String, serializer: KSerializer<List<T>>): List<T> =
+    json.decodeFromString(deserializer = serializer, string = Res.readBytes(path).decodeToString())
 
 private const val TAG = "JSON"
 

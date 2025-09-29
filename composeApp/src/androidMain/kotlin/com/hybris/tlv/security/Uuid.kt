@@ -11,7 +11,7 @@ internal actual fun generateUuid(): String = runCatching {
     runCatching {
         val byteArray = ByteArray(size = 16).apply { SecureRandom().nextBytes(this) }
         UUID.nameUUIDFromBytes(byteArray).toString()
-    }.getOrElse {throwable ->
+    }.getOrElse { throwable ->
         Logger.error(tag = TAG, message = "Unable to get UUID type 3\n${throwable.stackTraceToString()}")
         "${System.currentTimeMillis()}-${System.nanoTime()}" // Not a real UUID, your device might be screwed...
     }

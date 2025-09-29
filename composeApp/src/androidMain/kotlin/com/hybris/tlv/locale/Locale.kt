@@ -1,7 +1,6 @@
 package com.hybris.tlv.locale
 
 import com.hybris.tlv.applicationContext
-import com.hybris.tlv.serializer.TAG
 import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.usecase.translation.TranslationCache
 import java.time.format.DateTimeFormatter

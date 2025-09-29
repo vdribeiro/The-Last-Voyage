@@ -5,10 +5,11 @@ import com.hybris.tlv.database.AchievementSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.ACHIEVEMENTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.serializer.ACHIEVEMENTS_JSON
-import com.hybris.tlv.serializer.json
+import com.hybris.tlv.serializer.decode
+import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.serializer.loadFromJsonResource
+import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
 import database.AppDatabase
@@ -52,9 +53,7 @@ internal class AchievementGateway(
             id = id,
             name = name,
             description = description,
-            preconditions = runCatching {
-                json.encodeToString(value = preconditions)
-            }.getOrDefault(defaultValue = ""),
+            preconditions = encode(value = preconditions).orEmpty(),
             status = status
         )
 
@@ -63,9 +62,7 @@ internal class AchievementGateway(
             id = id,
             name = name,
             description = description,
-            preconditions = runCatching {
-                json.decodeFromString<Precondition>(string = preconditions)
-            }.getOrDefault(defaultValue = Precondition()),
+            preconditions = decode<Precondition>(value = preconditions) ?: Precondition(),
             status = status
         )
 

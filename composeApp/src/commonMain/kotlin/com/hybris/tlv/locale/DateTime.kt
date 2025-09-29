@@ -2,8 +2,6 @@
 
 package com.hybris.tlv.locale
 
-import com.hybris.tlv.config.Config.Companion.TAG
-import com.hybris.tlv.telemetry.Logger
 import kotlin.time.Clock
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
@@ -22,13 +20,8 @@ internal fun distantPast(): String = Instant.DISTANT_PAST.toString()
 /**
  * Check if [duration] has passed from now.
  */
-internal fun hasTimePassed(dateTime: String, duration: Duration): Boolean = runCatching {
+internal fun hasTimePassed(dateTime: String, duration: Duration): Boolean {
     val parsedDateTime = runCatching { Instant.parse(input = dateTime) }.getOrDefault(defaultValue = Clock.System.now())
     val elapsedTime = Clock.System.now() - parsedDateTime
     return elapsedTime > duration
-}.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to calculate duration\n${it.stackTraceToString()}")
-    false
 }
-
-private const val TAG = "DateTime"

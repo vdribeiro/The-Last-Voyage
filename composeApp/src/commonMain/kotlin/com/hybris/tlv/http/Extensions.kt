@@ -1,6 +1,6 @@
 package com.hybris.tlv.http
 
-import com.hybris.tlv.serializer.json
+import com.hybris.tlv.serializer.decode
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeoutConfig
 import io.ktor.client.request.HttpRequestBuilder
@@ -22,10 +22,11 @@ internal suspend inline fun <reified T> HttpClient.getStream(
         if (!httpResponse.status.isSuccess()) return@execute Result.Error(error = "Unsuccessful response: ${httpResponse.status}")
         val channel = httpResponse.bodyAsChannel()
         val bytes = channel.toByteArray()
-        Result.Success(list = json.decodeFromString<List<T>>(string = bytes.decodeToString()))
+        val list = decode<List<T>>(value = bytes.decodeToString())!!
+        Result.Success(list = list)
     }
 }.getOrElse {
-    Result.Error(error = it.message.orEmpty())
+    Result.Error(error = it.stackTraceToString())
 }
 
 internal fun HttpTimeoutConfig.setTimeout(timeout: Long) {

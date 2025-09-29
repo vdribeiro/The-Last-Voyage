@@ -20,7 +20,7 @@ val json = Json {
     prettyPrint = true
 }
 
-private suspend fun <T> loadFromJsonShadowing(path: String, serializer: KSerializer<List<T>>): List<T> =
+private suspend fun <T> loadFromJsonResourceShadowing(path: String, serializer: KSerializer<List<T>>): List<T> =
     when (path) {
         TRANSLATIONS_JSON -> translations
         LEARNINGS_JSON -> learnings

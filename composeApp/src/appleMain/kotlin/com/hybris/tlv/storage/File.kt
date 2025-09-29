@@ -17,7 +17,7 @@ private val appDataDir: NSString by lazy {
 }
 
 @OptIn(ExperimentalForeignApi::class)
-internal actual fun saveFile(path: String, content: String): Boolean = runCatching {
+internal actual suspend fun saveFile(path: String, content: String): Boolean = runCatching {
     val path = appDataDir.stringByAppendingPathComponent(str = path)
     (content as NSString).writeToFile(path, atomically = true, encoding = NSUTF8StringEncoding, error = null)
     true
@@ -27,7 +27,7 @@ internal actual fun saveFile(path: String, content: String): Boolean = runCatchi
 }
 
 @OptIn(ExperimentalForeignApi::class)
-internal actual fun loadFile(path: String): String? = runCatching {
+internal actual suspend fun loadFile(path: String): String? = runCatching {
     val path = appDataDir.stringByAppendingPathComponent(str = path)
     NSString.stringWithContentsOfFile(path, encoding = NSUTF8StringEncoding, error = null).orEmpty()
 }.getOrElse {

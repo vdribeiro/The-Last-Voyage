@@ -7,10 +7,10 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.PLANETS_URL
 import com.hybris.tlv.http.HttpClientFactory.Companion.STELLAR_HOSTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.serializer.PLANETS_JSON
 import com.hybris.tlv.serializer.STELLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
+import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.usecase.space.model.CartesianPoint
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost

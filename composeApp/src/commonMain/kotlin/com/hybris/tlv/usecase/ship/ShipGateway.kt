@@ -5,9 +5,9 @@ import com.hybris.tlv.database.EngineSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.ENGINES_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.serializer.ENGINES_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
+import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import database.AppDatabase

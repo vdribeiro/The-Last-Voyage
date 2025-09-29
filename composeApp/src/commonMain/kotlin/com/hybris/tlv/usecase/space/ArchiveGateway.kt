@@ -4,7 +4,6 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.http.setTimeout
-import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.serializer.PLANETS_JSON
 import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
@@ -12,6 +11,7 @@ import com.hybris.tlv.serializer.STELLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.storage.saveFile
+import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.usecase.space.formula.DerivedData
 import com.hybris.tlv.usecase.space.formula.parsecsToLightYears
 import com.hybris.tlv.usecase.space.formula.stellarHostGravityToSunGravity

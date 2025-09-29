@@ -19,7 +19,7 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.STELLAR_HOSTS_URL
 import com.hybris.tlv.http.HttpClientFactory.Companion.TRANSLATIONS_URL
 import com.hybris.tlv.learnings
 import com.hybris.tlv.planets
-import com.hybris.tlv.serializer.json
+import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.translations
 import com.hybris.tlv.usecase.space.formula.lightYearsToParsecs
@@ -42,25 +42,25 @@ internal object TestEngines {
                 val path = request.url.toString()
                 val parameters = request.url.parameters.toString()
                 when {
-                    path.startsWith(prefix = CONFIGS_URL) -> respond(content = json.encodeToString(value = configs))
-                    path.startsWith(prefix = TRANSLATIONS_URL) -> respond(content = json.encodeToString(value = translations))
-                    path.startsWith(prefix = LEARNINGS_URL) -> respond(content = json.encodeToString(value = learnings))
-                    path.startsWith(prefix = CATASTROPHES_URL) -> respond(content = json.encodeToString(value = catastrophes))
-                    path.startsWith(prefix = ENGINES_URL) -> respond(content = json.encodeToString(value = engines))
-                    path.startsWith(prefix = STELLAR_HOSTS_URL) -> respond(content = json.encodeToString(value = stellarHosts))
-                    path.startsWith(prefix = PLANETS_URL) -> respond(content = json.encodeToString(value = planets))
-                    path.startsWith(prefix = EVENTS_URL) -> respond(content = json.encodeToString(value = events))
-                    path.startsWith(prefix = ACHIEVEMENTS_URL) -> respond(content = json.encodeToString(value = achievements))
-                    path.startsWith(prefix = CREDITS_URL) -> respond(content = json.encodeToString(value = credits))
+                    path.startsWith(prefix = CONFIGS_URL) -> respond(content = encode(value = configs).orEmpty())
+                    path.startsWith(prefix = TRANSLATIONS_URL) -> respond(content = encode(value = translations).orEmpty())
+                    path.startsWith(prefix = LEARNINGS_URL) -> respond(content = encode(value = learnings).orEmpty())
+                    path.startsWith(prefix = CATASTROPHES_URL) -> respond(content = encode(value = catastrophes).orEmpty())
+                    path.startsWith(prefix = ENGINES_URL) -> respond(content = encode(value = engines).orEmpty())
+                    path.startsWith(prefix = STELLAR_HOSTS_URL) -> respond(content = encode(value = stellarHosts).orEmpty())
+                    path.startsWith(prefix = PLANETS_URL) -> respond(content = encode(value = planets).orEmpty())
+                    path.startsWith(prefix = EVENTS_URL) -> respond(content = encode(value = events).orEmpty())
+                    path.startsWith(prefix = ACHIEVEMENTS_URL) -> respond(content = encode(value = achievements).orEmpty())
+                    path.startsWith(prefix = CREDITS_URL) -> respond(content = encode(value = credits).orEmpty())
                     path.startsWith(prefix = EXOPLANET_ARCHIVE_URL) -> when {
-                        parameters.contains(other = "from stellarhosts") -> respond(content = json.encodeToString(value = stellarHosts.map { it.toStellarHostJson() }))
+                        parameters.contains(other = "from stellarhosts") -> respond(content = encode(value = stellarHosts.map { it.toStellarHostJson() }).orEmpty())
                         parameters.contains(other = "from pscomppars") || parameters.contains(other = "from k2pandc") -> {
                             val stellarHostsMap = stellarHosts.associateBy { it.id }
                             val exoplanets = planets.mapNotNull {
                                 val stellarHost = stellarHostsMap[it.stellarHostId] ?: return@mapNotNull null
                                 it.toExoplanetJson(stellarHost = stellarHost)
                             }
-                            respond(content = json.encodeToString(value = exoplanets))
+                            respond(content = encode(value = exoplanets).orEmpty())
                         }
 
                         else -> respondError(status = HttpStatusCode.BadRequest, content = "Resource query incorrect: ${request.url.encodedPath}")

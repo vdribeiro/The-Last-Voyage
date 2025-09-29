@@ -8,7 +8,7 @@ private val appDataDir: File by lazy {
     applicationContext.filesDir
 }
 
-internal actual fun saveFile(path: String, content: String): Boolean = runCatching {
+internal actual suspend fun saveFile(path: String, content: String): Boolean = runCatching {
     val file = File(appDataDir, path)
     file.writeText(text = content)
     true
@@ -17,7 +17,7 @@ internal actual fun saveFile(path: String, content: String): Boolean = runCatchi
     false
 }
 
-internal actual fun loadFile(path: String): String? = runCatching {
+internal actual suspend fun loadFile(path: String): String? = runCatching {
     val file = File(appDataDir, path)
     file.readText()
 }.getOrElse {

@@ -33,5 +33,5 @@ internal interface ConfigManager {
     /**
      * Set user preferences.
      */
-    suspend fun setPreferences(preferences: (Preferences) -> Preferences): Boolean
+    suspend fun setPreferences(preferences: (Preferences) -> Preferences)
 }

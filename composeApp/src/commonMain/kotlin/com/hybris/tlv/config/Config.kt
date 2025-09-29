@@ -5,12 +5,11 @@ import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.locale.hasTimePassed
 import com.hybris.tlv.locale.now
-import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.serializer.CONFIGS_JSON
 import com.hybris.tlv.serializer.PREFERENCES_JSON
-import com.hybris.tlv.serializer.json
-import com.hybris.tlv.storage.loadFile
-import com.hybris.tlv.storage.saveFile
+import com.hybris.tlv.serializer.loadJsonFile
+import com.hybris.tlv.serializer.saveJsonFile
+import com.hybris.tlv.telemetry.Logger
 import io.ktor.client.HttpClient
 import kotlin.time.Duration.Companion.hours
 
@@ -26,12 +25,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     }
 
     private suspend fun fetchLocal() {
-        this@Config.localConfigs = runCatching {
-            json.decodeFromString<Configs>(string = loadFile(path = CONFIGS_JSON).orEmpty())
-        }.getOrElse {
-            Logger.error(tag = TAG, message = "Unable to load config file\n${it.stackTraceToString()}")
-            null
-        } ?: Configs().also { flush(configs = it) }
+        this@Config.localConfigs = loadJsonFile(path = CONFIGS_JSON) ?: Configs().also { flush(configs = it) }
     }
 
     private suspend fun fetchRemote() {
@@ -50,29 +44,17 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     }
 
     override suspend fun flush(configs: Configs) {
-        runCatching {
-            saveFile(path = CONFIGS_JSON, content = json.encodeToString(value = configs))
-        }.getOrElse {
-            Logger.error(tag = TAG, message = "Unable to flush config file\n${it.stackTraceToString()}")
-        }
+        saveJsonFile(path = CONFIGS_JSON, content = configs)
     }
 
-    override suspend fun getPreferences(): Preferences = runCatching {
-        json.decodeFromString<Preferences>(string = loadFile(path = PREFERENCES_JSON).orEmpty())
-    }.getOrElse {
-        Logger.error(tag = TAG, message = "Unable to load preferences file\n${it.stackTraceToString()}")
-        null
-    } ?: Preferences().also { savePreferences(preferences = it) }
+    override suspend fun getPreferences(): Preferences =
+        loadJsonFile(path = PREFERENCES_JSON) ?: Preferences().also { savePreferences(preferences = it) }
 
     override suspend fun setPreferences(preferences: (Preferences) -> Preferences) =
         savePreferences(preferences = preferences(getPreferences()))
 
-    private fun savePreferences(preferences: Preferences) {
-        runCatching {
-            saveFile(path = PREFERENCES_JSON, content = json.encodeToString(value = preferences))
-        }.getOrElse {
-            Logger.error(tag = TAG, message = "Unable to save preferences file\n${it.stackTraceToString()}")
-        }
+    private suspend fun savePreferences(preferences: Preferences) {
+        saveJsonFile(path = PREFERENCES_JSON, content = preferences)
     }
 
     companion object Companion {
