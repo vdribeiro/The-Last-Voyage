@@ -14,7 +14,7 @@ import kotlinx.datetime.toJavaZoneId
 internal actual fun getLanguage(): String = runCatching {
     Locale.getDefault().language.take(n = 2).lowercase()
 }.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to get language\n${it.stackTraceToString()}")
+    Logger.error(tag = TAG, message = "Unable to get language", throwable = it)
     TranslationCache.DEFAULT_LANGUAGE
 }
 
@@ -25,7 +25,7 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
         .withZone(TimeZone.currentSystemDefault().toJavaZoneId())
         .format(Instant.parse(input = utc).toJavaInstant())
 }.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to get local date time\n${it.stackTraceToString()}")
+    Logger.error(tag = TAG, message = "Unable to get local date time", throwable = it)
     utc
 }
 

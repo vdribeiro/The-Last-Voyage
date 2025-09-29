@@ -23,7 +23,7 @@ private val initializeJfx by lazy {
         Platform.startup {}
         true
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Unable to start JavaFX\n${it.stackTraceToString()}")
+        Logger.error(tag = TAG, message = "Unable to start JavaFX", throwable = it)
         false
     }
 }

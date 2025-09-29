@@ -24,7 +24,7 @@ val json = Json {
 internal inline fun <reified T> decode(value: String?): T? = runCatching {
     value?.let { json.decodeFromString<T>(string = value) }
 }.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to decode value: ${it.stackTraceToString()}")
+    Logger.error(tag = TAG, message = "Unable to decode value", throwable = it)
     null
 }
 
@@ -34,7 +34,7 @@ internal inline fun <reified T> decode(value: String?): T? = runCatching {
 internal inline fun <reified T> encode(value: T?): String? = runCatching {
     value?.let { json.encodeToString(value = value) }
 }.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to encode value: ${it.stackTraceToString()}")
+    Logger.error(tag = TAG, message = "Unable to encode value", throwable = it)
     null
 }
 
@@ -56,7 +56,7 @@ internal suspend inline fun <reified T> saveJsonFile(path: String, content: T): 
 internal suspend inline fun <reified T> loadFromJsonResource(path: String): List<T> = runCatching {
     loadFromJsonResourceShadowing(path = path, serializer = ListSerializer(elementSerializer = json.serializersModule.serializer<T>()))
 }.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to load resource: ${it.stackTraceToString()}")
+    Logger.error(tag = TAG, message = "Unable to load resource", throwable = it)
     emptyList()
 }
 

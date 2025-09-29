@@ -18,7 +18,7 @@ internal actual class AudioPlayer {
         this.playlist = sortedPlaylist.shuffled()
         playNextTrack()
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error playing media\n${it.stackTraceToString()}")
+        Logger.error(tag = TAG, message = "Error playing media", throwable = it)
     }
 
     private fun playNextTrack() {
@@ -33,7 +33,7 @@ internal actual class AudioPlayer {
             }
             resume()
         }.getOrElse {
-            Logger.error(tag = TAG, message = "Error playing media\n${it.stackTraceToString()}")
+            Logger.error(tag = TAG, message = "Error playing media", throwable = it)
         }
     }
 
@@ -45,25 +45,25 @@ internal actual class AudioPlayer {
             prepare()
         }
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error resuming media\n${it.stackTraceToString()}")
+        Logger.error(tag = TAG, message = "Error resuming media", throwable = it)
     }
 
     actual fun pause() = runCatching {
         player?.pause() ?: Unit
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error pausing media\n${it.stackTraceToString()}")
+        Logger.error(tag = TAG, message = "Error pausing media", throwable = it)
     }
 
     actual fun toggle() = runCatching {
         if (player?.isPlaying == true) pause() else resume()
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error toggling media\n${it.stackTraceToString()}")
+        Logger.error(tag = TAG, message = "Error toggling media", throwable = it)
     }
 
     actual fun stop() = runCatching {
         player?.stop() ?: Unit
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error stopping media\n${it.stackTraceToString()}")
+        Logger.error(tag = TAG, message = "Error stopping media", throwable = it)
     }
 
     companion object {

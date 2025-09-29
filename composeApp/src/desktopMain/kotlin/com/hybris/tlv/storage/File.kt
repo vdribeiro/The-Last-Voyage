@@ -19,14 +19,14 @@ internal actual suspend fun saveFile(path: String, content: String): Boolean = r
     assertFile(path = path).writeText(text = content)
     true
 }.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to save file\n${it.stackTraceToString()}")
+    Logger.error(tag = TAG, message = "Unable to save file", throwable = it)
     false
 }
 
 internal actual suspend fun loadFile(path: String): String? = runCatching {
     assertFile(path = path).readText()
 }.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to load file\n${it.stackTraceToString()}")
+    Logger.error(tag = TAG, message = "Unable to load file", throwable = it)
     null
 }
 

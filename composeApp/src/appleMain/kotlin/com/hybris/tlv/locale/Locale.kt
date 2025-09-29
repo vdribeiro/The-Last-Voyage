@@ -19,7 +19,7 @@ internal actual fun getLanguage(): String = runCatching {
         ?.take(n = 2)
         ?.lowercase() ?: TranslationCache.DEFAULT_LANGUAGE
 }.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to get language\n${it.stackTraceToString()}")
+    Logger.error(tag = TAG, message = "Unable to get language", throwable = it)
     TranslationCache.DEFAULT_LANGUAGE
 }
 
@@ -35,7 +35,7 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
     formatter.timeZone = NSTimeZone.timeZoneForSecondsFromGMT(seconds = secondsFromGmt.toLong())
     return formatter.stringFromDate(date = instant.toNSDate())
 }.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to get local date time\n${it.stackTraceToString()}")
+    Logger.error(tag = TAG, message = "Unable to get local date time", throwable = it)
     utc
 }
 

@@ -15,7 +15,7 @@ internal actual fun getLanguage(): String = runCatching {
     val language = applicationContext.resources.configuration.locales[0].language
     language.substring(startIndex = minOf(a = 0, b = language.length), endIndex = minOf(a = 2, b = language.length)).lowercase()
 }.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to get language\n${it.stackTraceToString()}")
+    Logger.error(tag = TAG, message = "Unable to get language", throwable = it)
     TranslationCache.DEFAULT_LANGUAGE
 }
 
@@ -26,7 +26,7 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
         .withZone(TimeZone.currentSystemDefault().toJavaZoneId())
         .format(Instant.parse(input = utc).toJavaInstant())
 }.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to get local date time\n${it.stackTraceToString()}")
+    Logger.error(tag = TAG, message = "Unable to get local date time", throwable = it)
     utc
 }
 
