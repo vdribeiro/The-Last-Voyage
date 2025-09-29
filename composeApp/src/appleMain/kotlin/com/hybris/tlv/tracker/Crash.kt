@@ -1,27 +1,22 @@
-@file:OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)
-
 package com.hybris.tlv.tracker
 
-import kotlin.experimental.ExperimentalNativeApi
+import kotlinx.cinterop.CFunction
+import kotlinx.cinterop.CPointer
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.staticCFunction
+import platform.Foundation.NSException
 import platform.Foundation.NSSetUncaughtExceptionHandler
-import kotlinx.cinterop.*
 
-private var globalOnCrash: ((Throwable) -> Unit)? = null
+private var unhandledExceptionHook: ((Throwable) -> Unit)? = null
 
-@CName("setCrashHandlerFromSwift")
-fun setCrashHandlerFromSwift(exception: CPointer<*>) {
-    // You can't easily convert the native exception to a Kotlin Throwable.
-    // A string representation is more practical.
-    globalOnCrash?.invoke(RuntimeException("Native iOS Crash. See device logs for details."))
+@OptIn(ExperimentalForeignApi::class)
+private val exceptionHandler = staticCFunction<NSException?, Unit> { exception ->
+    val throwable = Throwable(exception.toString())
+    unhandledExceptionHook?.invoke(throwable)
 }
 
+@OptIn(ExperimentalForeignApi::class)
 internal actual fun setCrashHandler(onCrash: (Throwable) -> Unit) {
-    globalOnCrash = onCrash
-    // The actual setup must be done in Swift as shown previously,
-    // which will then call back into `setCrashHandlerFromSwift`.
-    NSSetUncaughtExceptionHandler { exception ->
-        // This block is in native code context
-        println("Caught unhandled exception: ${exception?.reason}")
-        // You can try to call back into Kotlin here, but it can be unstable.
-    }
+    unhandledExceptionHook = onCrash
+    NSSetUncaughtExceptionHandler(arg0 = exceptionHandler)
 }
