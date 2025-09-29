@@ -97,8 +97,14 @@ internal class ArchiveGateway(
         val derivedStellarHosts = DerivedData.derive(stellarHosts = mergedStellarHosts)
         val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
 
-        val hostsFile = runCatching { saveFile(fileName = STELLAR_HOSTS_JSON, content = json.encodeToString(value = derivedStellarHosts.map { it.copy() })) }.getOrDefault(defaultValue = false)
-        val planetsFile = runCatching { saveFile(fileName = PLANETS_JSON, content = json.encodeToString(value = derivedPlanets.map { it.copy() })) }.getOrDefault(defaultValue = false)
+        val hostsFile = runCatching { saveFile(path = STELLAR_HOSTS_JSON, content = json.encodeToString(value = derivedStellarHosts.map { it.copy() })) }.getOrElse {
+            Logger.error(tag = TAG, message = it.stackTraceToString())
+            false
+        }
+        val planetsFile = runCatching { saveFile(path = PLANETS_JSON, content = json.encodeToString(value = derivedPlanets.map { it.copy() })) }.getOrElse {
+            Logger.error(tag = TAG, message = it.stackTraceToString())
+            false
+        }
         Logger.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
     }
 
