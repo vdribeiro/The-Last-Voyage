@@ -39,7 +39,6 @@ internal class StoreFactory(
         audioPlayer = audioPlayer,
         config = config,
         translateUseCases = useCases.translation,
-        archiveUseCases = useCases.archive,
         learningUseCases = useCases.learning,
         catastropheUseCases = useCases.catastrophe,
         shipUseCases = useCases.ship,

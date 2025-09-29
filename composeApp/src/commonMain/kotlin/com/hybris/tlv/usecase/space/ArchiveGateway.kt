@@ -56,6 +56,8 @@ internal class ArchiveGateway(
     private val httpClient: HttpClient,
 ): ArchiveUseCases {
 
+    private val pageSize = 5000
+
     override suspend fun getArchive() {
         val stellarHosts = loadFromJsonResource<StellarHost>(path = SOLAR_HOSTS_JSON).toMutableList()
         val planets = loadFromJsonResource<Planet>(path = SOLAR_PLANETS_JSON).toMutableList()
@@ -95,19 +97,18 @@ internal class ArchiveGateway(
         val derivedStellarHosts = DerivedData.derive(stellarHosts = mergedStellarHosts)
         val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
 
-        runCatching { json.encodeToString(value = derivedStellarHosts.map { it.copy() }) }.getOrNull()?.let {
-            saveFile(fileName = STELLAR_HOSTS_JSON, content = it)
-        }
-        runCatching { json.encodeToString(value = derivedPlanets.map { it.copy() }) }.getOrNull()?.let {
-            saveFile(fileName = PLANETS_JSON, content = it)
-        }
+        val hostsFile = runCatching { saveFile(fileName = STELLAR_HOSTS_JSON, content = json.encodeToString(value = derivedStellarHosts.map { it.copy() })) }.getOrDefault(defaultValue = false)
+        val planetsFile = runCatching { saveFile(fileName = PLANETS_JSON, content = json.encodeToString(value = derivedPlanets.map { it.copy() })) }.getOrDefault(defaultValue = false)
+        Logger.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
     }
 
-    private suspend fun getArchive(apiCall: suspend (Int, Int) -> ExoplanetsResult): ExoplanetsResult {
+    /**
+     *
+     */
+    private suspend fun getArchive(limit: Int = pageSize, apiCall: suspend (Int, Int) -> ExoplanetsResult): ExoplanetsResult {
         val stellarHosts = mutableListOf<StellarHost>()
         val planets = mutableListOf<Planet>()
         var offset = 0
-        val limit = 1000
         do {
             val hasMore = when (val result = apiCall(offset, limit)) {
                 is ExoplanetsResult.Success -> {
@@ -123,6 +124,9 @@ internal class ArchiveGateway(
         return ExoplanetsResult.Success(stellarHosts = stellarHosts, planets = planets)
     }
 
+    /**
+     * Get data from DOI 10.26133/NEA40.
+     */
     private suspend fun getStellarHostsArchive(offset: Int, limit: Int): ExoplanetsResult {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +
@@ -157,6 +161,9 @@ internal class ArchiveGateway(
         }
     }
 
+    /**
+     * Get data from DOI 10.26133/NEA13.
+     */
     private suspend fun getExoplanetsArchive(offset: Int, limit: Int): ExoplanetsResult {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +
@@ -203,6 +210,9 @@ internal class ArchiveGateway(
         }
     }
 
+    /**
+     * Get data from DOI 10.26133/NEA19.
+     */
     private suspend fun getK2ExoplanetsArchive(offset: Int, limit: Int): ExoplanetsResult {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +

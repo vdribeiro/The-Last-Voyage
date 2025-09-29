@@ -12,7 +12,6 @@ import com.hybris.tlv.usecase.credit.CreditUseCases
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.learning.LearningUseCases
 import com.hybris.tlv.usecase.ship.ShipUseCases
-import com.hybris.tlv.usecase.space.ArchiveUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 import kotlinx.coroutines.Job
@@ -26,7 +25,6 @@ internal class SplashStore(
     audioPlayer: AudioPlayer,
     private val config: ConfigManager,
     private val translateUseCases: TranslationUseCases,
-    private val archiveUseCases: ArchiveUseCases,
     private val learningUseCases: LearningUseCases,
     private val catastropheUseCases: CatastropheUseCases,
     private val shipUseCases: ShipUseCases,
@@ -48,8 +46,6 @@ internal class SplashStore(
         config.fetch()
 
         val tasks = listOf(
-            // Uncomment to get exoplanet archive
-            //suspend { archiveUseCases.getArchive() },
             suspend { translateUseCases.syncTranslations(); translateUseCases.prepopulateTranslations() },
             suspend { learningUseCases.syncLearnings(); learningUseCases.prepopulateLearnings() },
             suspend { catastropheUseCases.syncCatastrophes(); catastropheUseCases.prepopulateCatastrophes() },

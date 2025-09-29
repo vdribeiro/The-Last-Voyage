@@ -24,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
@@ -57,7 +56,7 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                 .testTag(tag = CREDIT_SCREEN_LIST)
                 .fillMaxSize()
                 .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
             val creditsMap = storeState.credits.groupBy { it.type }
@@ -70,7 +69,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                         modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_CREATOR),
                         text = creatorsTranslation,
                         style = typography.titleLarge,
-                        textAlign = TextAlign.Center,
                     )
                 }
                 items(items = creators, key = { it.id }) { credit ->
@@ -84,7 +82,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                             color = colorScheme.primary,
                             textDecoration = TextDecoration.Underline
                         ),
-                        textAlign = TextAlign.Center,
                     )
                 }
             }
@@ -93,11 +90,11 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
             val sources = creditsMap[CreditType.SOURCE].orEmpty()
             if (sources.isNotEmpty()) {
                 item(key = CreditType.SOURCE) {
+                    Spacer(modifier = Modifier.height(height = 16.dp))
                     Text(
                         modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_SOURCE),
                         text = sourcesTranslation,
                         style = typography.titleLarge,
-                        textAlign = TextAlign.Center,
                     )
                 }
                 items(items = sources, key = { it.id }) { credit ->
@@ -111,7 +108,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                             color = colorScheme.primary,
                             textDecoration = TextDecoration.Underline
                         ),
-                        textAlign = TextAlign.Center,
                     )
                 }
             }
@@ -120,11 +116,11 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
             val musics = creditsMap[CreditType.MUSIC].orEmpty()
             if (musics.isNotEmpty()) {
                 item(key = CreditType.MUSIC) {
+                    Spacer(modifier = Modifier.height(height = 16.dp))
                     Text(
                         modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_MUSIC),
                         text = musicTranslation,
                         style = typography.titleLarge,
-                        textAlign = TextAlign.Center,
                     )
                 }
                 items(items = musics, key = { it.id }) { credit ->
@@ -138,7 +134,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                             color = colorScheme.primary,
                             textDecoration = TextDecoration.Underline
                         ),
-                        textAlign = TextAlign.Center,
                     )
                 }
             }
@@ -147,12 +142,14 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
             val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
             if (supporters.isNotEmpty()) {
                 item(key = CreditType.SUPPORTER) {
+                    Spacer(modifier = Modifier.height(height = 16.dp))
                     Text(
                         modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER),
                         text = supportersTranslation,
                         style = typography.titleLarge,
-                        textAlign = TextAlign.Center,
                     )
+                }
+                item {
                     Spacer(modifier = Modifier.height(height = 8.dp))
                     LazyVerticalGrid(
                         modifier = Modifier.heightIn(max = 500.dp),
@@ -169,7 +166,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                                         .clickable { credit.link?.let { uriHandler.openUri(uri = it) } }
                                         .padding(all = 16.dp),
                                     text = credit.id,
-                                    textAlign = TextAlign.Center,
                                     style = typography.bodyLarge.copy(
                                         color = colorScheme.primary,
                                         textDecoration = TextDecoration.Underline

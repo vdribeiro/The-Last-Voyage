@@ -23,7 +23,6 @@ import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONT
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_NEW_GAME
 import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SCORES
-import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SOON
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuAction
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState
 import com.hybris.tlv.ui.store.Store

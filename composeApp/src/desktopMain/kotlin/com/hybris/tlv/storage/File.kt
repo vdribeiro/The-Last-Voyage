@@ -7,13 +7,13 @@ private val appDataDir: File by lazy {
     File(home, ".TheLastVoyage").apply { if (!exists()) mkdirs() }
 }
 
-actual fun saveFile(fileName: String, content: String): Boolean = runCatching {
+internal actual fun saveFile(fileName: String, content: String): Boolean = runCatching {
     val file = File(appDataDir, fileName)
     file.writeText(text = content)
     true
 }.getOrDefault(defaultValue = false)
 
-actual fun loadFile(fileName: String): String? = runCatching {
+internal actual fun loadFile(fileName: String): String? = runCatching {
     val file = File(appDataDir, fileName)
     file.readText()
 }.getOrNull()
