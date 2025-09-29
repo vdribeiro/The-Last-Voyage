@@ -52,6 +52,8 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.StellarHostJson
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.timeout
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 
 internal class ArchiveGateway(
     private val httpClient: HttpClient,
@@ -66,51 +68,41 @@ internal class ArchiveGateway(
      */
     private val pageSize = 5000
 
-    override suspend fun getArchive() {
-        val stellarHosts = loadFromJsonResource<StellarHost>(path = SOLAR_HOSTS_JSON).toMutableList()
-        val planets = loadFromJsonResource<Planet>(path = SOLAR_PLANETS_JSON).toMutableList()
+    override suspend fun getArchive() = runCatching {
+        coroutineScope {
+            val stellarHosts = loadFromJsonResource<StellarHost>(path = SOLAR_HOSTS_JSON).toMutableList()
+            val planets = loadFromJsonResource<Planet>(path = SOLAR_PLANETS_JSON).toMutableList()
 
-        when (val stellarHostsArchiveResult = getArchive { offset, limit -> getStellarHostsArchive(offset = offset, limit = limit) }) {
-            is ExoplanetsResult.Error -> Logger.error(tag = TAG, message = stellarHostsArchiveResult.error)
-            is ExoplanetsResult.Success -> stellarHosts.addAll(elements = stellarHostsArchiveResult.stellarHosts)
-        }
+            val stellarHostsArchiveJob = async { getArchive { offset, limit -> getStellarHostsArchive(offset, limit) } }
+            val exoplanetsArchiveJob = async { getArchive { offset, limit -> getExoplanetsArchive(offset, limit) } }
+            val k2ExoplanetsArchiveJob = async { getArchive { offset, limit -> getK2ExoplanetsArchive(offset, limit) } }
 
-        when (val exoplanetsArchiveResult = getArchive { offset, limit -> getExoplanetsArchive(offset = offset, limit = limit) }) {
-            is ExoplanetsResult.Error -> Logger.error(tag = TAG, message = exoplanetsArchiveResult.error)
-            is ExoplanetsResult.Success -> {
-                val stellarHostIds = stellarHosts.map { it.id }
-                val filteredStellarHosts = exoplanetsArchiveResult.stellarHosts.filter { it.id !in stellarHostIds }
-                stellarHosts.addAll(elements = filteredStellarHosts)
-                planets.addAll(elements = exoplanetsArchiveResult.planets)
+            val stellarHostsArchiveResult = stellarHostsArchiveJob.await()
+            val exoplanetsArchiveResult = exoplanetsArchiveJob.await()
+            val k2ExoplanetsArchiveResult = k2ExoplanetsArchiveJob.await()
+
+            stellarHosts.addAll(elements = stellarHostsArchiveResult.stellarHosts)
+            stellarHosts.addAll(elements = exoplanetsArchiveResult.stellarHosts)
+            stellarHosts.addAll(elements = k2ExoplanetsArchiveResult.stellarHosts)
+            planets.addAll(elements = exoplanetsArchiveResult.planets)
+            planets.addAll(elements = k2ExoplanetsArchiveResult.planets)
+
+            val planetMap = planets.mergePlanets().groupBy { it.stellarHostId }
+            val mergedStellarHosts = stellarHosts.mergeStellarHosts().apply {
+                forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) }
             }
+            val derivedStellarHosts = DerivedData.derive(stellarHosts = mergedStellarHosts)
+            val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
+
+            val hostsFile = saveJsonFile(path = STELLAR_HOSTS_JSON, content = derivedStellarHosts)
+            val planetsFile = saveJsonFile(path = PLANETS_JSON, content = derivedPlanets)
+            Logger.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
         }
-
-        when (val k2ExoplanetsArchiveResult = getArchive { offset, limit -> getK2ExoplanetsArchive(offset = offset, limit = limit) }) {
-            is ExoplanetsResult.Error -> Logger.error(tag = TAG, message = k2ExoplanetsArchiveResult.error)
-            is ExoplanetsResult.Success -> {
-                val stellarHostIds = stellarHosts.map { it.id }
-                val filteredStellarHosts = k2ExoplanetsArchiveResult.stellarHosts.filter { it.id !in stellarHostIds }
-                stellarHosts.addAll(elements = filteredStellarHosts)
-
-                val planetIds = planets.map { it.id }
-                val filteredPlanets = k2ExoplanetsArchiveResult.planets.filter { it.id !in planetIds }
-                planets.addAll(elements = filteredPlanets)
-            }
-        }
-
-        val planetMap = planets.mergePlanets().groupBy { it.stellarHostId }
-        val mergedStellarHosts = stellarHosts.mergeStellarHosts().apply {
-            forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) }
-        }
-        val derivedStellarHosts = DerivedData.derive(stellarHosts = mergedStellarHosts)
-        val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
-
-        val hostsFile = saveJsonFile(path = STELLAR_HOSTS_JSON, content = derivedStellarHosts)
-        val planetsFile = saveJsonFile(path = PLANETS_JSON, content = derivedPlanets)
-        Logger.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
+    }.getOrElse {
+        Logger.error(tag = TAG, message = it.stackTraceToString())
     }
 
-    private suspend fun getArchive(limit: Int = pageSize, apiCall: suspend (Int, Int) -> ExoplanetsResult): ExoplanetsResult {
+    private suspend fun getArchive(limit: Int = pageSize, apiCall: suspend (Int, Int) -> ExoplanetsResult): ExoplanetsResult.Success {
         val stellarHosts = mutableListOf<StellarHost>()
         val planets = mutableListOf<Planet>()
         var offset = 0
@@ -123,7 +115,10 @@ internal class ArchiveGateway(
                     result.stellarHosts.size >= limit || result.planets.size >= limit
                 }
 
-                is ExoplanetsResult.Error -> return result
+                is ExoplanetsResult.Error -> {
+                    Logger.error(tag = TAG, message = result.error)
+                    throw Throwable(result.error)
+                }
             }
         } while (hasMore)
         return ExoplanetsResult.Success(stellarHosts = stellarHosts, planets = planets)
