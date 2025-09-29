@@ -110,9 +110,6 @@ internal class ArchiveGateway(
         Logger.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
     }
 
-    /**
-     *
-     */
     private suspend fun getArchive(limit: Int = pageSize, apiCall: suspend (Int, Int) -> ExoplanetsResult): ExoplanetsResult {
         val stellarHosts = mutableListOf<StellarHost>()
         val planets = mutableListOf<Planet>()
