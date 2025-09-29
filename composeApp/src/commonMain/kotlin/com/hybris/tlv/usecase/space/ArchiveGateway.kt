@@ -8,9 +8,8 @@ import com.hybris.tlv.serializer.PLANETS_JSON
 import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
 import com.hybris.tlv.serializer.STELLAR_HOSTS_JSON
-import com.hybris.tlv.serializer.json
 import com.hybris.tlv.serializer.loadFromJsonResource
-import com.hybris.tlv.storage.saveFile
+import com.hybris.tlv.serializer.saveJsonFile
 import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.usecase.space.formula.DerivedData
 import com.hybris.tlv.usecase.space.formula.parsecsToLightYears
@@ -106,14 +105,8 @@ internal class ArchiveGateway(
         val derivedStellarHosts = DerivedData.derive(stellarHosts = mergedStellarHosts)
         val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
 
-        val hostsFile = runCatching { saveFile(path = STELLAR_HOSTS_JSON, content = json.encodeToString(value = derivedStellarHosts.map { it.copy() })) }.getOrElse {
-            Logger.error(tag = TAG, message = it.stackTraceToString())
-            false
-        }
-        val planetsFile = runCatching { saveFile(path = PLANETS_JSON, content = json.encodeToString(value = derivedPlanets.map { it.copy() })) }.getOrElse {
-            Logger.error(tag = TAG, message = it.stackTraceToString())
-            false
-        }
+        val hostsFile = saveJsonFile(path = STELLAR_HOSTS_JSON, content = derivedStellarHosts)
+        val planetsFile = saveJsonFile(path = PLANETS_JSON, content = derivedPlanets)
         Logger.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
     }
 
