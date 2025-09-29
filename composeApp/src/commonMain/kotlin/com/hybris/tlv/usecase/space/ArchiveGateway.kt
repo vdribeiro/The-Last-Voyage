@@ -4,10 +4,10 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.http.setTimeout
-import com.hybris.tlv.serializer.PLANETS_JSON
+import com.hybris.tlv.serializer.PLANETS_ARCHIVE_JSON
 import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
-import com.hybris.tlv.serializer.STELLAR_HOSTS_JSON
+import com.hybris.tlv.serializer.STELLAR_HOSTS_ARCHIVE_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.serializer.saveJsonFile
 import com.hybris.tlv.telemetry.Logger
@@ -70,22 +70,22 @@ internal class ArchiveGateway(
 
     override suspend fun getArchive() = runCatching {
         coroutineScope {
-            val stellarHosts = loadFromJsonResource<StellarHost>(path = SOLAR_HOSTS_JSON).toMutableList()
-            val planets = loadFromJsonResource<Planet>(path = SOLAR_PLANETS_JSON).toMutableList()
+            val stellarHostsJob = async { getArchive { offset, limit -> getStellarHostsArchive(offset, limit) } }
+            val planetarySystemsCompositeJob = async { getArchive { offset, limit -> getPlanetarySystemsCompositeArchive(offset, limit) } }
+            val k2PlanetsJob = async { getArchive { offset, limit -> getK2PlanetsArchive(offset, limit) } }
 
-            val stellarHostsArchiveJob = async { getArchive { offset, limit -> getStellarHostsArchive(offset, limit) } }
-            val exoplanetsArchiveJob = async { getArchive { offset, limit -> getExoplanetsArchive(offset, limit) } }
-            val k2ExoplanetsArchiveJob = async { getArchive { offset, limit -> getK2ExoplanetsArchive(offset, limit) } }
+            val stellarHostsResult = stellarHostsJob.await()
+            val planetarySystemsCompositeResult = planetarySystemsCompositeJob.await()
+            val k2PlanetsResult = k2PlanetsJob.await()
 
-            val stellarHostsArchiveResult = stellarHostsArchiveJob.await()
-            val exoplanetsArchiveResult = exoplanetsArchiveJob.await()
-            val k2ExoplanetsArchiveResult = k2ExoplanetsArchiveJob.await()
-
-            stellarHosts.addAll(elements = stellarHostsArchiveResult.stellarHosts)
-            stellarHosts.addAll(elements = exoplanetsArchiveResult.stellarHosts)
-            stellarHosts.addAll(elements = k2ExoplanetsArchiveResult.stellarHosts)
-            planets.addAll(elements = exoplanetsArchiveResult.planets)
-            planets.addAll(elements = k2ExoplanetsArchiveResult.planets)
+            val stellarHosts = loadFromJsonResource<StellarHost>(path = SOLAR_HOSTS_JSON) +
+                    stellarHostsResult.stellarHosts +
+                    planetarySystemsCompositeResult.stellarHosts +
+                    k2PlanetsResult.stellarHosts
+            val planets = loadFromJsonResource<Planet>(path = SOLAR_PLANETS_JSON) +
+                    stellarHostsResult.planets +
+                    planetarySystemsCompositeResult.planets +
+                    k2PlanetsResult.planets
 
             val planetMap = planets.mergePlanets().groupBy { it.stellarHostId }
             val mergedStellarHosts = stellarHosts.mergeStellarHosts().apply {
@@ -94,8 +94,8 @@ internal class ArchiveGateway(
             val derivedStellarHosts = DerivedData.derive(stellarHosts = mergedStellarHosts)
             val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
 
-            val hostsFile = saveJsonFile(path = STELLAR_HOSTS_JSON, content = derivedStellarHosts)
-            val planetsFile = saveJsonFile(path = PLANETS_JSON, content = derivedPlanets)
+            val hostsFile = saveJsonFile(path = STELLAR_HOSTS_ARCHIVE_JSON, content = derivedStellarHosts)
+            val planetsFile = saveJsonFile(path = PLANETS_ARCHIVE_JSON, content = derivedPlanets)
             Logger.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
         }
     }.getOrElse {
@@ -165,7 +165,7 @@ internal class ArchiveGateway(
     /**
      * Get data from DOI 10.26133/NEA13.
      */
-    private suspend fun getExoplanetsArchive(offset: Int, limit: Int): ExoplanetsResult {
+    private suspend fun getPlanetarySystemsCompositeArchive(offset: Int, limit: Int): ExoplanetsResult {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +
                 "${STELLAR_HOST_SPECTRAL_TYPE}," +
@@ -214,7 +214,7 @@ internal class ArchiveGateway(
     /**
      * Get data from DOI 10.26133/NEA19.
      */
-    private suspend fun getK2ExoplanetsArchive(offset: Int, limit: Int): ExoplanetsResult {
+    private suspend fun getK2PlanetsArchive(offset: Int, limit: Int): ExoplanetsResult {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +
                 "${STELLAR_HOST_SPECTRAL_TYPE}," +

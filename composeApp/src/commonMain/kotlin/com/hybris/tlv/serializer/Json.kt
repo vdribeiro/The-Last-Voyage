@@ -76,5 +76,7 @@ const val ACHIEVEMENTS_JSON = "files/achievements.json"
 const val CREDITS_JSON = "files/credits.json"
 
 // Files
+const val STELLAR_HOSTS_ARCHIVE_JSON = "archivehosts.json"
+const val PLANETS_ARCHIVE_JSON = "archiveplanets.json"
 const val CONFIGS_JSON = "configs.json"
 const val PREFERENCES_JSON = "preferences.json"
