@@ -8,7 +8,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.backhandler.BackHandler
 import com.hybris.tlv.lifecycle.Register
 import com.hybris.tlv.media.getTracks
-import com.hybris.tlv.tracker.setCrashHandler
+import com.hybris.tlv.telemetry.setCrashHandler
 import com.hybris.tlv.ui.navigation.NavigationManager.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.theme.AppTheme

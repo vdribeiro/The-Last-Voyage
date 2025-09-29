@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.hybris.tlv.logger
+package com.hybris.tlv.telemetry
 
 internal object Logger {
 

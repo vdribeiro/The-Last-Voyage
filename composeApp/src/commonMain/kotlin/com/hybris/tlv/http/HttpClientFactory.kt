@@ -1,6 +1,6 @@
 package com.hybris.tlv.http
 
-import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.serializer.json
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig

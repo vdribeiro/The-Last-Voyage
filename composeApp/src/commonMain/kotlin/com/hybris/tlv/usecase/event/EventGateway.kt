@@ -5,7 +5,7 @@ import com.hybris.tlv.database.EventSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.EVENTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.serializer.EVENTS_JSON
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.serializer.loadFromJsonResource

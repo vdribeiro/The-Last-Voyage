@@ -1,4 +1,4 @@
-package com.hybris.tlv.logger
+package com.hybris.tlv.telemetry
 
 import platform.Foundation.NSLog
 

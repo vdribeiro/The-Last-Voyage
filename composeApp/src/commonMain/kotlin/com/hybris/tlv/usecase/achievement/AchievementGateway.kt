@@ -5,7 +5,7 @@ import com.hybris.tlv.database.AchievementSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.ACHIEVEMENTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.serializer.ACHIEVEMENTS_JSON
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.serializer.loadFromJsonResource

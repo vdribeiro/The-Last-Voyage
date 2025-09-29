@@ -1,5 +1,6 @@
 package com.hybris.tlv.locale
 
+import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.usecase.translation.TranslationCache
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -17,7 +18,10 @@ internal actual fun getLanguage(): String = runCatching {
     (NSLocale.preferredLanguages.firstOrNull() as? String)
         ?.take(n = 2)
         ?.lowercase() ?: TranslationCache.DEFAULT_LANGUAGE
-}.getOrDefault(defaultValue = TranslationCache.DEFAULT_LANGUAGE)
+}.getOrElse {
+    Logger.error(tag = TAG, message = "Unable to get language\n${it.stackTraceToString()}")
+    TranslationCache.DEFAULT_LANGUAGE
+}
 
 @OptIn(ExperimentalTime::class)
 internal actual fun getLocalDateTime(utc: String): String = runCatching {
@@ -30,4 +34,9 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
     val secondsFromGmt = timeZone.offsetAt(instant = instant).totalSeconds
     formatter.timeZone = NSTimeZone.timeZoneForSecondsFromGMT(seconds = secondsFromGmt.toLong())
     return formatter.stringFromDate(date = instant.toNSDate())
-}.getOrDefault(defaultValue = utc)
+}.getOrElse {
+    Logger.error(tag = TAG, message = "Unable to get local date time\n${it.stackTraceToString()}")
+    utc
+}
+
+private const val TAG = "Locale"

@@ -5,7 +5,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.hybris.tlv.applicationContext
-import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.telemetry.Logger
 
 internal actual class AudioPlayer {
 
@@ -18,7 +18,7 @@ internal actual class AudioPlayer {
         this.playlist = sortedPlaylist.shuffled()
         playNextTrack()
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error playing media: ${it.message}")
+        Logger.error(tag = TAG, message = "Error playing media\n${it.stackTraceToString()}")
     }
 
     private fun playNextTrack() {
@@ -33,7 +33,7 @@ internal actual class AudioPlayer {
             }
             resume()
         }.getOrElse {
-            Logger.error(tag = TAG, message = "Error playing media: ${it.message}")
+            Logger.error(tag = TAG, message = "Error playing media\n${it.stackTraceToString()}")
         }
     }
 
@@ -45,25 +45,25 @@ internal actual class AudioPlayer {
             prepare()
         }
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error resuming media: ${it.message}")
+        Logger.error(tag = TAG, message = "Error resuming media\n${it.stackTraceToString()}")
     }
 
     actual fun pause() = runCatching {
         player?.pause() ?: Unit
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error pausing media: ${it.message}")
+        Logger.error(tag = TAG, message = "Error pausing media\n${it.stackTraceToString()}")
     }
 
     actual fun toggle() = runCatching {
         if (player?.isPlaying == true) pause() else resume()
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error toggling media: ${it.message}")
+        Logger.error(tag = TAG, message = "Error toggling media\n${it.stackTraceToString()}")
     }
 
     actual fun stop() = runCatching {
         player?.stop() ?: Unit
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error stopping media: ${it.message}")
+        Logger.error(tag = TAG, message = "Error stopping media\n${it.stackTraceToString()}")
     }
 
     companion object {

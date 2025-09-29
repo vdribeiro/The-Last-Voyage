@@ -7,7 +7,7 @@ import com.hybris.tlv.flow.launch
 import com.hybris.tlv.http.HttpClientFactory.Companion.TRANSLATIONS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.serializer.TRANSLATIONS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.usecase.translation.model.Translation

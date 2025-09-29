@@ -1,4 +1,4 @@
-package com.hybris.tlv.tracker
+package com.hybris.tlv.telemetry
 
 internal actual fun setCrashHandler(onCrash: (Throwable) -> Unit) {
     val handler = Thread.getDefaultUncaughtExceptionHandler()

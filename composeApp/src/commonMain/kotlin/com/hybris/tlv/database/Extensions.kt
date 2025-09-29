@@ -24,4 +24,4 @@ internal fun SqlDriver.clearDatabase() = runCatching {
             binders = null
         ).value
     }
-}.getOrNull()
+}

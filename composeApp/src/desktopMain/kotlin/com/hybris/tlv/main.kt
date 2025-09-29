@@ -14,7 +14,7 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.usecase.translation.getTranslation
 import javafx.application.Platform
 
@@ -22,14 +22,17 @@ private val initializeJfx by lazy {
     runCatching {
         Platform.startup {}
         true
-    }.getOrDefault(defaultValue = false)
+    }.getOrElse {
+        Logger.error(tag = TAG, message = "Unable to start JavaFX\n${it.stackTraceToString()}")
+        false
+    }
 }
 
 val LocalWindowState = staticCompositionLocalOf<WindowState> { error("No LocalWindowState provided") }
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() = application {
-    Logger.info(tag = TAG, message = "JFX = $initializeJfx")
+    Logger.info(tag = TAG, message = "JavaFX = $initializeJfx")
     val windowState = rememberWindowState(placement = WindowPlacement.Maximized)
 
     Window(

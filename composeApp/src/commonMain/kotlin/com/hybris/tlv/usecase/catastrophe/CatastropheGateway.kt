@@ -5,7 +5,7 @@ import com.hybris.tlv.database.CatastropheSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.CATASTROPHES_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.logger.Logger
+import com.hybris.tlv.telemetry.Logger
 import com.hybris.tlv.serializer.CATASTROPHES_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe

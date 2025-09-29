@@ -1,6 +1,7 @@
 package com.hybris.tlv.storage
 
 import com.hybris.tlv.applicationContext
+import com.hybris.tlv.telemetry.Logger
 import java.io.File
 
 private val appDataDir: File by lazy {
@@ -11,9 +12,17 @@ internal actual fun saveFile(path: String, content: String): Boolean = runCatchi
     val file = File(appDataDir, path)
     file.writeText(text = content)
     true
-}.getOrDefault(defaultValue = false)
+}.getOrElse {
+    Logger.error(tag = TAG, message = "Unable to save file\n${it.stackTraceToString()}")
+    false
+}
 
 internal actual fun loadFile(path: String): String? = runCatching {
     val file = File(appDataDir, path)
     file.readText()
-}.getOrNull()
+}.getOrElse {
+    Logger.error(tag = TAG, message = "Unable to load file\n${it.stackTraceToString()}")
+    null
+}
+
+private const val TAG = "File"

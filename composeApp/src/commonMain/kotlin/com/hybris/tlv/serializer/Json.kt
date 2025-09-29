@@ -1,5 +1,6 @@
 package com.hybris.tlv.serializer
 
+import com.hybris.tlv.telemetry.Logger
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
@@ -13,16 +14,21 @@ val json = Json {
 
 internal suspend inline fun <reified T> loadFromJsonResource(path: String): List<T> {
     val serializer = ListSerializer(elementSerializer = json.serializersModule.serializer<T>())
-    return loadFromJsonShadowing(path = path, serializer = serializer)
+    return loadFromJsonResourceShadowing(path = path, serializer = serializer)
 }
 
 // The Json loading must be mocked in tests and 'inline' cannot be shadowed
-private suspend fun <T> loadFromJsonShadowing(path: String, serializer: KSerializer<List<T>>): List<T> {
+private suspend fun <T> loadFromJsonResourceShadowing(path: String, serializer: KSerializer<List<T>>): List<T> {
     return runCatching {
         val stringContent = Res.readBytes(path).decodeToString()
         json.decodeFromString(deserializer = serializer, string = stringContent)
-    }.getOrDefault(defaultValue = emptyList())
+    }.getOrElse {
+        Logger.error(tag = TAG, message = "Unable to load resource: ${it.stackTraceToString()}")
+        emptyList()
+    }
 }
+
+private const val TAG = "JSON"
 
 // Resources
 const val TRANSLATIONS_JSON = "files/translations.json"
