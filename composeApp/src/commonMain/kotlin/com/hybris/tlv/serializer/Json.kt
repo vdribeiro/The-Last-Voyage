@@ -14,6 +14,7 @@ import thelastvoyage.composeapp.generated.resources.Res
 val json = Json {
     ignoreUnknownKeys = true
     isLenient = true
+    prettyPrint = true
     allowTrailingComma = true
 }
 

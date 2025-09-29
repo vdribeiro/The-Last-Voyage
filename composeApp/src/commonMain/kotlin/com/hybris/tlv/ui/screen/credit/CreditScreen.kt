@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
@@ -169,7 +170,8 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                                     style = typography.bodyLarge.copy(
                                         color = colorScheme.primary,
                                         textDecoration = TextDecoration.Underline
-                                    )
+                                    ),
+                                    textAlign = TextAlign.Center
                                 )
                             }
                         }
