@@ -26,7 +26,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     }
 
     private suspend fun fetchLocal() {
-        this@Config.localConfigs = loadFile(fileName = CONFIGS_JSON)?.let {
+        this@Config.localConfigs = loadFile(path = CONFIGS_JSON)?.let {
             runCatching { json.decodeFromString<Configs>(string = it) }.getOrNull()
         } ?: Configs().also { flush(configs = it) }
     }
@@ -48,19 +48,19 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
 
     override suspend fun flush(configs: Configs) {
         runCatching { json.encodeToString(value = configs) }.getOrNull()?.let {
-            saveFile(fileName = CONFIGS_JSON, content = it)
+            saveFile(path = CONFIGS_JSON, content = it)
         }
     }
 
     override suspend fun getPreferences(): Preferences = runCatching {
-        json.decodeFromString<Preferences>(string = loadFile(fileName = PREFERENCES_JSON).orEmpty())
+        json.decodeFromString<Preferences>(string = loadFile(path = PREFERENCES_JSON).orEmpty())
     }.getOrNull() ?: Preferences().also { savePreferences(preferences = it) }
 
     override suspend fun setPreferences(preferences: (Preferences) -> Preferences): Boolean =
         savePreferences(preferences = preferences(getPreferences()))
 
     private fun savePreferences(preferences: Preferences) = runCatching {
-        saveFile(fileName = PREFERENCES_JSON, content = json.encodeToString(value = preferences))
+        saveFile(path = PREFERENCES_JSON, content = json.encodeToString(value = preferences))
     }.getOrNull() ?: false
 
     companion object Companion {

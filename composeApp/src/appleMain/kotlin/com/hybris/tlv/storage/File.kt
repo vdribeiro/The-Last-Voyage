@@ -16,14 +16,14 @@ private val appDataDir: NSString by lazy {
 }
 
 @OptIn(ExperimentalForeignApi::class)
-internal actual fun saveFile(fileName: String, content: String): Boolean = runCatching {
-    val path = appDataDir.stringByAppendingPathComponent(str = fileName)
+internal actual fun saveFile(path: String, content: String): Boolean = runCatching {
+    val path = appDataDir.stringByAppendingPathComponent(str = path)
     (content as NSString).writeToFile(path, atomically = true, encoding = NSUTF8StringEncoding, error = null)
     true
 }.getOrDefault(defaultValue = false)
 
 @OptIn(ExperimentalForeignApi::class)
-internal actual fun loadFile(fileName: String): String? = runCatching {
-    val path = appDataDir.stringByAppendingPathComponent(str = fileName)
+internal actual fun loadFile(path: String): String? = runCatching {
+    val path = appDataDir.stringByAppendingPathComponent(str = path)
     NSString.stringWithContentsOfFile(path, encoding = NSUTF8StringEncoding, error = null).orEmpty()
 }.getOrNull()
