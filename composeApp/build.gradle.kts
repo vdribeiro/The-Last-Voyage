@@ -73,10 +73,6 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
-        dependencies {
-            androidTestImplementation(libs.androidx.test.junit)
-            debugImplementation(libs.androidx.test.manifest)
-        }
     }
 
     jvm(name = "desktop") {
@@ -116,6 +112,9 @@ kotlin {
 
         val androidInstrumentedTest by getting {
             dependsOn(other = commonTest)
+            dependencies {
+                implementation(dependencyNotation = libs.androidx.test.junit)
+            }
         }
 
         val desktopMain by getting {
@@ -177,6 +176,7 @@ kotlin {
 
 dependencies {
     debugImplementation(compose.uiTooling)
+    debugImplementation(libs.androidx.test.manifest)
 }
 
 android {
@@ -251,6 +251,7 @@ compose.desktop {
             it.contains(other = "package", ignoreCase = true)
         }
         jvmArgs += "-Ddebug=${!isRelease}"
+        jvmArgs += "-Xdock:icon=${project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns").absolutePath}"
     }
 }
 
