@@ -2,6 +2,7 @@ package com.hybris.tlv
 
 import com.hybris.tlv.config.Configs
 import com.hybris.tlv.locale.now
+import com.hybris.tlv.platform.Property
 import com.hybris.tlv.ui.screen.newgame.ShipState
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
@@ -585,7 +586,7 @@ internal val translations: List<Translation> by lazy {
         Translation(
             languageIso = "en",
             key = "app_name",
-            value = "The Last Voyage"
+            value = Property.APP_NAME
         ),
         Translation(
             key = "website",

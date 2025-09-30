@@ -1,6 +1,7 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(notation = libs.plugins.kotlinMultiplatform)
@@ -13,7 +14,38 @@ plugins {
     alias(notation = libs.plugins.kotlinSerialization)
 }
 
-val appId: String = libs.versions.applicationId.get()
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) localProperties.load(localPropertiesFile.inputStream())
+
+val appId: String = "com.hybris.tlv"
+val appName: String = "The Last Voyage"
+val appVersion: String = "1.0.0"
+val appVersionNumber: Int = 1
+val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
+
+val generatePropertiesTask = tasks.register("generateProperties") {
+    val outputDir = layout.buildDirectory.dir("generated/source/property")
+    outputs.dir(outputDir)
+    doLast {
+        val packageDir = "$appId.platform"
+        val objectName = "Property"
+        val file = outputDir.get().file("${packageDir.replace(oldChar = '.', newChar = '/')}/$objectName.kt").asFile
+        file.parentFile.mkdirs()
+        file.writeText("""
+            package $packageDir
+
+            /**
+             * Generated build-time configuration values. DO NOT EDIT.
+             */
+            object $objectName {
+                const val APP_NAME: String = "$appName"
+                const val APP_VERSION: String = "$appVersion"
+                const val SENTRY_DSN: String = "$sentryDsn"
+            }
+        """.trimIndent())
+    }
+}
 
 kotlin {
     compilerOptions {
@@ -38,6 +70,7 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {
+            kotlin.srcDir(generatePropertiesTask.map { it.outputs.files })
             dependencies {
                 implementation(dependencyNotation = compose.runtime)
                 implementation(dependencyNotation = compose.foundation)
@@ -118,6 +151,7 @@ kotlin {
             iosTarget.binaries.framework {
                 baseName = "TLV"
                 isStatic = true
+                version = appVersion
             }
             sourceSets.getByName("${iosTarget.name}Main").dependsOn(other = appleMain)
         }
@@ -130,14 +164,14 @@ dependencies {
 
 android {
     namespace = appId
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = 35
 
     defaultConfig {
         applicationId = appId
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = 26
+        targetSdk = 35
+        versionCode = appVersionNumber
+        versionName = appVersion
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
@@ -171,7 +205,7 @@ compose.desktop {
 
         nativeDistributions {
             packageName = "The Last Voyage"
-            packageVersion = "1.0.0"
+            packageVersion = appVersion
             description = "An Educational Space adventure."
             vendor = appId
 

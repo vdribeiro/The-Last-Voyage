@@ -1,6 +1,7 @@
 package com.hybris.tlv.usecase.translation
 
 import com.hybris.tlv.locale.getLanguage
+import com.hybris.tlv.platform.Property
 import com.hybris.tlv.usecase.translation.model.Translation
 
 /**
@@ -14,7 +15,7 @@ internal object TranslationCache {
         Translation(
             languageIso = "en",
             key = "app_name",
-            value = "The Last Voyage"
+            value = Property.APP_NAME
         ),
         Translation(
             languageIso = "en",

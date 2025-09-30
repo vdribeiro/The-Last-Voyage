@@ -1,5 +1,7 @@
 package com.hybris.tlv.telemetry
 
+import com.hybris.tlv.platform.Property
+import com.hybris.tlv.platform.isDebug
 import io.sentry.kotlin.multiplatform.Sentry
 import io.sentry.kotlin.multiplatform.SentryLevel
 import io.sentry.kotlin.multiplatform.protocol.Breadcrumb
@@ -15,8 +17,13 @@ internal object SentryLogger {
      */
     internal fun init() {
         Sentry.init { options ->
-            options.dsn = BuildConfig.SENTRY_DSN
-            options.release = "TLV@${BuildConfig.VERSION_NAME}+${BuildConfig.VERSION_CODE}"
+            options.dsn = Property.SENTRY_DSN
+            options.release = "${Property.APP_NAME.lowercase().replace(regex = "\\s+".toRegex(), replacement = "")}@${Property.APP_VERSION}"
+
+            options.debug = isDebug
+            options.attachViewHierarchy = isDebug
+            options.environment = if (isDebug) "dev" else "prod"
+
             options.sampleRate = 1.0
             options.tracesSampleRate = 0.2
         }

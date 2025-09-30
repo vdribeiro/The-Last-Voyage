@@ -10,7 +10,9 @@ import com.hybris.tlv.ui.store.StoreFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-private val testDispatchers by lazy { TestDispatchers() }
+private val testDispatchers by lazy {
+    TestDispatchers()
+}
 
 internal val testCore: Core by lazy {
     Core(

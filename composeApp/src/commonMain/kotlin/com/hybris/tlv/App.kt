@@ -34,5 +34,7 @@ internal fun App() = AppTheme {
     navigation.Screen(navigationState = navigationState)
 }
 
-internal val core: Core by lazy { Core() }
 internal const val TAG = "APP"
+internal val core: Core by lazy {
+    Core()
+}
