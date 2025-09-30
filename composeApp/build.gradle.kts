@@ -17,20 +17,25 @@ plugins {
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) localProperties.load(localPropertiesFile.inputStream())
-
 val appId: String = "com.hybris.tlv"
 val appName: String = "The Last Voyage"
 val appVersion: String = "1.0.0"
 val appVersionNumber: Int = 1
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
 
-val generatePropertiesTask = tasks.register("generateProperties") {
-    val outputDir = layout.buildDirectory.dir("generated/source/property")
-    outputs.dir(outputDir)
-    doLast {
-        val packageDir = "$appId.platform"
+
+abstract class GeneratePropertiesTask : DefaultTask() {
+    @get:Input abstract val taskAppId: Property<String>
+    @get:Input abstract val taskAppName: Property<String>
+    @get:Input abstract val taskAppVersion: Property<String>
+    @get:Input abstract val taskSentryDsn: Property<String>
+    @get:OutputDirectory abstract val taskOutputDir: DirectoryProperty
+
+    @TaskAction
+    fun generate() {
+        val packageDir = "${taskAppId.get()}.platform"
         val objectName = "Property"
-        val file = outputDir.get().file("${packageDir.replace(oldChar = '.', newChar = '/')}/$objectName.kt").asFile
+        val file = taskOutputDir.get().file("${packageDir.replace(oldChar = '.', newChar = '/')}/$objectName.kt").asFile
         file.parentFile.mkdirs()
         file.writeText("""
             package $packageDir
@@ -39,12 +44,19 @@ val generatePropertiesTask = tasks.register("generateProperties") {
              * Generated build-time configuration values. DO NOT EDIT.
              */
             object $objectName {
-                const val APP_NAME: String = "$appName"
-                const val APP_VERSION: String = "$appVersion"
-                const val SENTRY_DSN: String = "$sentryDsn"
+                const val APP_NAME: String = "${taskAppName.get()}"
+                const val APP_VERSION: String = "${taskAppVersion.get()}"
+                const val SENTRY_DSN: String = "${taskSentryDsn.get()}"
             }
         """.trimIndent())
     }
+}
+val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "generateProperties") {
+    taskAppId.set(appId)
+    taskAppName.set(appName)
+    taskAppVersion.set(appVersion)
+    taskSentryDsn.set(sentryDsn)
+    taskOutputDir.set(layout.buildDirectory.dir("generated/source/property"))
 }
 
 kotlin {
