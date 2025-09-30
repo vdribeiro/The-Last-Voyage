@@ -16,16 +16,18 @@ internal object SentryLogger {
      * Initialize Sentry.
      */
     internal fun init() {
-        Sentry.init { options ->
-            options.dsn = Property.SENTRY_DSN
-            options.release = "${Property.APP_NAME.lowercase().replace(regex = "\\s+".toRegex(), replacement = "")}@${Property.APP_VERSION}"
+        if (Property.SENTRY_DSN.isNotBlank()) {
+            Sentry.init { options ->
+                options.dsn = Property.SENTRY_DSN
+                options.release = "${Property.APP_NAME.lowercase().replace(regex = "\\s+".toRegex(), replacement = "")}@${Property.APP_VERSION}"
 
-            options.debug = isDebug
-            options.attachViewHierarchy = isDebug
-            options.environment = if (isDebug) "dev" else "prod"
+                options.debug = isDebug
+                options.attachViewHierarchy = isDebug
+                options.environment = if (isDebug) "dev" else "prod"
 
-            options.sampleRate = 1.0
-            options.tracesSampleRate = 0.2
+                options.sampleRate = 1.0
+                options.tracesSampleRate = 0.2
+            }
         }
     }
 
