@@ -1,7 +1,7 @@
+import java.util.Properties
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.util.Properties
 
 plugins {
     alias(notation = libs.plugins.kotlinMultiplatform)
@@ -221,7 +221,7 @@ compose.desktop {
         javaHome = System.getenv("JAVA_HOME").orEmpty()
 
         nativeDistributions {
-            packageName = "The Last Voyage"
+            packageName = appName
             packageVersion = appVersion
             description = "An Educational Space adventure."
             vendor = appId

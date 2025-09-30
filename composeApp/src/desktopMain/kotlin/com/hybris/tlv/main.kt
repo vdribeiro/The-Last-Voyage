@@ -35,7 +35,6 @@ fun main() = application {
     Telemetry.init()
     Telemetry.info(tag = TAG, message = "JavaFX = $initializeJfx")
     val windowState = rememberWindowState(placement = WindowPlacement.Maximized)
-
     Window(
         onCloseRequest = ::exitApplication,
         state = windowState,
