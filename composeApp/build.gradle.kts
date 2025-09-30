@@ -14,21 +14,24 @@ plugins {
     alias(notation = libs.plugins.kotlinSerialization)
 }
 
-val localProperties = Properties()
-val localPropertiesFile = rootProject.file("local.properties")
-if (localPropertiesFile.exists()) localProperties.load(localPropertiesFile.inputStream())
+val localProperties = Properties().apply { rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use(block = this::load) }
 val appId: String = "com.hybris.tlv"
 val appName: String = "The Last Voyage"
 val appVersion: String = "1.0.0"
 val appVersionNumber: Int = 1
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
 
-abstract class GeneratePropertiesTask : DefaultTask() {
-    @get:Input abstract val taskAppId: Property<String>
-    @get:Input abstract val taskAppName: Property<String>
-    @get:Input abstract val taskAppVersion: Property<String>
-    @get:Input abstract val taskSentryDsn: Property<String>
-    @get:OutputDirectory abstract val taskOutputDir: DirectoryProperty
+abstract class GeneratePropertiesTask: DefaultTask() {
+    @get:Input
+    abstract val taskAppId: Property<String>
+    @get:Input
+    abstract val taskAppName: Property<String>
+    @get:Input
+    abstract val taskAppVersion: Property<String>
+    @get:Input
+    abstract val taskSentryDsn: Property<String>
+    @get:OutputDirectory
+    abstract val taskOutputDir: DirectoryProperty
 
     @TaskAction
     fun generate() {
@@ -36,7 +39,8 @@ abstract class GeneratePropertiesTask : DefaultTask() {
         val objectName = "Property"
         val file = taskOutputDir.get().file("${packageDir.replace(oldChar = '.', newChar = '/')}/$objectName.kt").asFile
         file.parentFile.mkdirs()
-        file.writeText("""
+        file.writeText(
+            """
             package $packageDir
 
             /**
@@ -47,9 +51,11 @@ abstract class GeneratePropertiesTask : DefaultTask() {
                 const val APP_VERSION: String = "${taskAppVersion.get()}"
                 const val SENTRY_DSN: String = "${taskSentryDsn.get()}"
             }
-        """.trimIndent())
+        """.trimIndent()
+        )
     }
 }
+
 val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "generateProperties") {
     taskAppId.set(appId)
     taskAppName.set(appName)
