@@ -1,7 +1,7 @@
 package com.hybris.tlv.http
 
 import com.hybris.tlv.serializer.json
-import com.hybris.tlv.telemetry.Logger
+import com.hybris.tlv.telemetry.Telemetry
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
@@ -25,7 +25,7 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
         install(plugin = Logging) {
             logger = object: io.ktor.client.plugins.logging.Logger {
                 override fun log(message: String) {
-                    Logger.info(tag = "Ktor", message = message)
+                    Telemetry.info(tag = "Ktor", message = message)
                 }
             }
             level = LogLevel.INFO

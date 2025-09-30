@@ -9,7 +9,7 @@ import com.hybris.tlv.serializer.ACHIEVEMENTS_JSON
 import com.hybris.tlv.serializer.decode
 import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.serializer.loadFromJsonResource
-import com.hybris.tlv.telemetry.Logger
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
 import database.AppDatabase
@@ -26,7 +26,7 @@ internal class AchievementGateway(
     override suspend fun syncAchievements() {
         if (config.remoteConfigs.achievementsVersion > config.localConfigs.achievementsVersion) {
             when (val result = httpClient.getStream<Achievement>(path = ACHIEVEMENTS_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get achievements", throwable = result.error)
+                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get achievements", throwable = result.error)
                 is Result.Success -> rewriteAchievements(achievements = result.list)
             }
             config.localConfigs = config.localConfigs.copy(achievementsVersion = config.remoteConfigs.achievementsVersion)

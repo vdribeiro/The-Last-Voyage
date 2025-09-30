@@ -1,6 +1,6 @@
 package com.hybris.tlv.storage
 
-import com.hybris.tlv.telemetry.Logger
+import com.hybris.tlv.telemetry.Telemetry
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSSearchPathForDirectoriesInDomains
@@ -22,7 +22,7 @@ internal actual suspend fun saveFile(path: String, content: String): Boolean = r
     (content as NSString).writeToFile(path, atomically = true, encoding = NSUTF8StringEncoding, error = null)
     true
 }.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to save file", throwable = it)
+    Telemetry.error(tag = TAG, message = "Unable to save file", throwable = it)
     false
 }
 
@@ -31,7 +31,7 @@ internal actual suspend fun loadFile(path: String): String? = runCatching {
     val path = appDataDir.stringByAppendingPathComponent(str = path)
     NSString.stringWithContentsOfFile(path, encoding = NSUTF8StringEncoding, error = null).orEmpty()
 }.getOrElse {
-    Logger.error(tag = TAG, message = "Unable to load file", throwable = it)
+    Telemetry.error(tag = TAG, message = "Unable to load file", throwable = it)
     null
 }
 

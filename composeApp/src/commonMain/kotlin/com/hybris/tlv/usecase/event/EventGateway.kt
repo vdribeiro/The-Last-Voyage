@@ -9,7 +9,7 @@ import com.hybris.tlv.serializer.EVENTS_JSON
 import com.hybris.tlv.serializer.decode
 import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.serializer.loadFromJsonResource
-import com.hybris.tlv.telemetry.Logger
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import database.AppDatabase
@@ -26,7 +26,7 @@ internal class EventGateway(
     override suspend fun syncEvents() {
         if (config.remoteConfigs.eventsVersion > config.localConfigs.eventsVersion) {
             when (val result = httpClient.getStream<Event>(path = EVENTS_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get events", throwable = result.error)
+                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get events", throwable = result.error)
                 is Result.Success -> rewriteEvents(events = result.list)
             }
             config.localConfigs = config.localConfigs.copy(eventsVersion = config.remoteConfigs.eventsVersion)

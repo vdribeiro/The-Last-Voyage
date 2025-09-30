@@ -7,7 +7,7 @@ import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.CREDITS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
-import com.hybris.tlv.telemetry.Logger
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.credit.model.Credit
 import database.AppDatabase
 import io.ktor.client.HttpClient
@@ -23,7 +23,7 @@ internal class CreditGateway(
     override suspend fun syncCredits() {
         if (config.remoteConfigs.creditsVersion > config.localConfigs.creditsVersion) {
             when (val result = httpClient.getStream<Credit>(path = CREDITS_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get credits", throwable = result.error)
+                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get credits", throwable = result.error)
                 is Result.Success -> rewriteCredits(credits = result.list)
             }
             config.localConfigs = config.localConfigs.copy(creditsVersion = config.remoteConfigs.creditsVersion)

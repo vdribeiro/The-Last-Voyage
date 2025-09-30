@@ -7,7 +7,7 @@ import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.LEARNINGS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
-import com.hybris.tlv.telemetry.Logger
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.learning.model.Learning
 import database.AppDatabase
 import io.ktor.client.HttpClient
@@ -23,7 +23,7 @@ internal class LearningGateway(
     override suspend fun syncLearnings() {
         if (config.remoteConfigs.learningsVersion > config.localConfigs.learningsVersion) {
             when (val result = httpClient.getStream<Learning>(path = LEARNINGS_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get learnings", throwable = result.error)
+                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get learnings", throwable = result.error)
                 is Result.Success -> rewriteLearnings(learnings = result.list)
             }
             config.localConfigs = config.localConfigs.copy(learningsVersion = config.remoteConfigs.learningsVersion)

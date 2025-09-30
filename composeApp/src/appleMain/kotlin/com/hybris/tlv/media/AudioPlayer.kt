@@ -1,7 +1,7 @@
 package com.hybris.tlv.media
 
 import com.hybris.tlv.lifecycle.observe
-import com.hybris.tlv.telemetry.Logger
+import com.hybris.tlv.telemetry.Telemetry
 import platform.AVFoundation.AVPlayer
 import platform.AVFoundation.AVPlayerItem
 import platform.AVFoundation.AVPlayerItemDidPlayToEndTimeNotification
@@ -25,7 +25,7 @@ internal actual class AudioPlayer {
         this.playlist = sortedPlaylist.shuffled()
         playNextTrack(index = 0)
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error playing media", throwable = it)
+        Telemetry.error(tag = TAG, message = "Error playing media", throwable = it)
     }
 
     private fun playNextTrack(index: Int? = null) {
@@ -43,7 +43,7 @@ internal actual class AudioPlayer {
             )
 
             when (resourceUrl) {
-                null -> Logger.error(tag = TAG, message = "Could not find audio resource: $trackPath")
+                null -> Telemetry.error(tag = TAG, message = "Could not find audio resource: $trackPath")
                 else -> {
                     val playerItem = AVPlayerItem(uRL = resourceUrl)
                     endOfSongObserver = NSNotificationCenter.defaultCenter.observe(
@@ -57,26 +57,26 @@ internal actual class AudioPlayer {
                 }
             }
         }.getOrElse {
-            Logger.error(tag = TAG, message = "Error playing media", throwable = it)
+            Telemetry.error(tag = TAG, message = "Error playing media", throwable = it)
         }
     }
 
     actual fun resume() = runCatching {
         player?.play() ?: Unit
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error resuming media", throwable = it)
+        Telemetry.error(tag = TAG, message = "Error resuming media", throwable = it)
     }
 
     actual fun pause() = runCatching {
         player?.pause() ?: Unit
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error pausing media", throwable = it)
+        Telemetry.error(tag = TAG, message = "Error pausing media", throwable = it)
     }
 
     actual fun toggle() = runCatching {
         if ((player?.rate ?: 0.0f) != 0.0f) pause() else resume()
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error toggling media", throwable = it)
+        Telemetry.error(tag = TAG, message = "Error toggling media", throwable = it)
     }
 
     actual fun stop() = runCatching {
@@ -86,7 +86,7 @@ internal actual class AudioPlayer {
         player = null
         currentIndex = -1
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error stopping media", throwable = it)
+        Telemetry.error(tag = TAG, message = "Error stopping media", throwable = it)
     }
 
     companion object {

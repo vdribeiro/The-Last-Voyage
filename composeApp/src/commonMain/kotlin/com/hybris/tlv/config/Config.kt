@@ -9,7 +9,7 @@ import com.hybris.tlv.serializer.CONFIGS_JSON
 import com.hybris.tlv.serializer.PREFERENCES_JSON
 import com.hybris.tlv.serializer.loadJsonFile
 import com.hybris.tlv.serializer.saveJsonFile
-import com.hybris.tlv.telemetry.Logger
+import com.hybris.tlv.telemetry.Telemetry
 import io.ktor.client.HttpClient
 import kotlin.time.Duration.Companion.hours
 
@@ -37,7 +37,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
         setPreferences { it.copy(syncTime = now()) }
 
         val remoteConfigs = when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
-            is Result.Error -> null.also { Logger.error(tag = TAG, message = "Unable to get configs", throwable = result.error) }
+            is Result.Error -> null.also { Telemetry.error(tag = TAG, message = "Unable to get configs", throwable = result.error) }
             is Result.Success -> result.list.firstOrNull()
         } ?: Configs()
         remoteCache = remoteConfigs

@@ -9,7 +9,7 @@ import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
 import com.hybris.tlv.serializer.STELLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.serializer.saveJsonFile
-import com.hybris.tlv.telemetry.Logger
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.space.formula.DerivedData
 import com.hybris.tlv.usecase.space.formula.parsecsToLightYears
 import com.hybris.tlv.usecase.space.formula.stellarHostGravityToSunGravity
@@ -102,10 +102,10 @@ internal class ArchiveGateway(
             // Save to file
             val hostsFile = saveJsonFile(path = STELLAR_HOSTS_JSON, content = stellarHostsJson)
             val planetsFile = saveJsonFile(path = PLANETS_JSON, content = planetsJson)
-            Logger.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
+            Telemetry.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
         }
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Unable to get archive", throwable = it)
+        Telemetry.error(tag = TAG, message = "Unable to get archive", throwable = it)
     }
 
     private suspend fun getArchive(limit: Int = pageSize, apiCall: suspend (Int, Int) -> Exoplanets): Exoplanets {

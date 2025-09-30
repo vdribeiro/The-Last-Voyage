@@ -9,7 +9,7 @@ import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.TRANSLATIONS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
-import com.hybris.tlv.telemetry.Logger
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.translation.model.Translation
 import database.AppDatabase
 import io.ktor.client.HttpClient
@@ -26,7 +26,7 @@ internal class TranslationGateway(
     override suspend fun syncTranslations() {
         if (config.remoteConfigs.translationsVersion > config.localConfigs.translationsVersion) {
             when (val result = httpClient.getStream<Translation>(path = TRANSLATIONS_URL)) {
-                is Result.Error -> Logger.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
+                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
                 is Result.Success -> rewriteTranslations(translations = result.list)
             }
             config.localConfigs = config.localConfigs.copy(translationsVersion = config.remoteConfigs.translationsVersion)

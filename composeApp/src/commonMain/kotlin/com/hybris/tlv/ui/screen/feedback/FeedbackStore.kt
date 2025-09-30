@@ -3,8 +3,7 @@ package com.hybris.tlv.ui.screen.feedback
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.telemetry.Logger
-import com.hybris.tlv.telemetry.SentryLogger
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.Job
@@ -35,7 +34,7 @@ internal class FeedbackStore(
             is FeedbackStateBuilder.Error -> {
                 tag = stateBuilder.tag
                 message = stateBuilder.message
-                Logger.error(tag = tag.orEmpty(), message = message.orEmpty())
+                Telemetry.error(tag = tag.orEmpty(), message = message.orEmpty())
             }
         }
     }
@@ -47,7 +46,7 @@ internal class FeedbackStore(
             message?.let { add(element = "Message: $it") }
             if (action.message.isNotBlank()) add(element = "Feedback: ${action.message}")
         }.joinToString(separator = "\n")
-        SentryLogger.feedback(message = feedback)
+        Telemetry.feedback(message = feedback)
         delay(timeMillis = 2000L)
 
         when {

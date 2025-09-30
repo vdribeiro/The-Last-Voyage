@@ -5,7 +5,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.hybris.tlv.applicationContext
-import com.hybris.tlv.telemetry.Logger
+import com.hybris.tlv.telemetry.Telemetry
 
 internal actual class AudioPlayer {
 
@@ -18,7 +18,7 @@ internal actual class AudioPlayer {
         this.playlist = sortedPlaylist.shuffled()
         playNextTrack()
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error playing media", throwable = it)
+        Telemetry.error(tag = TAG, message = "Error playing media", throwable = it)
     }
 
     private fun playNextTrack() {
@@ -33,7 +33,7 @@ internal actual class AudioPlayer {
             }
             resume()
         }.getOrElse {
-            Logger.error(tag = TAG, message = "Error playing media", throwable = it)
+            Telemetry.error(tag = TAG, message = "Error playing media", throwable = it)
         }
     }
 
@@ -45,25 +45,25 @@ internal actual class AudioPlayer {
             prepare()
         }
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error resuming media", throwable = it)
+        Telemetry.error(tag = TAG, message = "Error resuming media", throwable = it)
     }
 
     actual fun pause() = runCatching {
         player?.pause() ?: Unit
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error pausing media", throwable = it)
+        Telemetry.error(tag = TAG, message = "Error pausing media", throwable = it)
     }
 
     actual fun toggle() = runCatching {
         if (player?.isPlaying == true) pause() else resume()
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error toggling media", throwable = it)
+        Telemetry.error(tag = TAG, message = "Error toggling media", throwable = it)
     }
 
     actual fun stop() = runCatching {
         player?.stop() ?: Unit
     }.getOrElse {
-        Logger.error(tag = TAG, message = "Error stopping media", throwable = it)
+        Telemetry.error(tag = TAG, message = "Error stopping media", throwable = it)
     }
 
     companion object {
