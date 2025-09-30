@@ -1,6 +1,6 @@
 package com.hybris.tlv.telemetry
 
-internal actual object Logger {
+internal actual object PlatformLogger {
 
     actual fun info(tag: String, message: String) {
         println("INFO [$tag]: $message")

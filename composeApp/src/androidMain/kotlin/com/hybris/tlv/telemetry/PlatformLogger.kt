@@ -2,7 +2,7 @@ package com.hybris.tlv.telemetry
 
 import android.util.Log
 
-internal actual object Logger {
+internal actual object PlatformLogger {
 
     actual fun info(tag: String, message: String) {
         Log.i(tag, message)
