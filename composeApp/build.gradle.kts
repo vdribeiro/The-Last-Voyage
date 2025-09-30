@@ -23,7 +23,6 @@ val appVersion: String = "1.0.0"
 val appVersionNumber: Int = 1
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
 
-
 abstract class GeneratePropertiesTask : DefaultTask() {
     @get:Input abstract val taskAppId: Property<String>
     @get:Input abstract val taskAppName: Property<String>
