@@ -95,7 +95,6 @@ internal class MainMenuStore(
             MainMenuAction.Scores -> navigate(screen = Screen.Score)
             MainMenuAction.Achievements -> navigate(screen = Screen.Achievement)
             MainMenuAction.Credits -> navigate(screen = Screen.Credit)
-            MainMenuAction.Soon -> {} // TODO
             MainMenuAction.StellarExplorer -> navigate(screen = Screen.StellarExplorer)
             MainMenuAction.HostDefinition -> updateState { it.copy(currentContent = Content.HOST_DEFINITION) }
             MainMenuAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }

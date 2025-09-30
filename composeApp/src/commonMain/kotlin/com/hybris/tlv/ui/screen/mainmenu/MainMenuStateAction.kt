@@ -13,7 +13,6 @@ internal sealed interface MainMenuAction {
     data object Scores: MainMenuAction
     data object Achievements: MainMenuAction
     data object Credits: MainMenuAction
-    data object Soon: MainMenuAction
     data object StellarExplorer: MainMenuAction
     data object HostDefinition: MainMenuAction
     data object PlanetDefinition: MainMenuAction

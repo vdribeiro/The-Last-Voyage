@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Logger
+import com.hybris.tlv.telemetry.SentryLogger
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.Job
@@ -46,8 +47,7 @@ internal class FeedbackStore(
             message?.let { add(element = "Message: $it") }
             if (action.message.isNotBlank()) add(element = "Feedback: ${action.message}")
         }.joinToString(separator = "\n")
-        // TODO: Send feedback to server
-        Logger.info(tag = "Feedback", message = feedback)
+        SentryLogger.feedback(message = feedback)
         delay(timeMillis = 2000L)
 
         when {

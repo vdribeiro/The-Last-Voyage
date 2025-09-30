@@ -27,11 +27,4 @@ internal class FeedbackStoreTest {
         testCore.navigation.back()
         assertEquals(expected = NavigationManager.Screen.Splash, actual = testCore.navigation.stateFlow.value.screen)
     }
-
-    @Test
-    fun `send action send feedback`() = runBlocking {
-        val feedbackStore = store
-        feedbackStore.send(action = FeedbackAction.SendFeedback(message = "Feedback"))
-        // TODO: implement feedback on store
-    }
 }
