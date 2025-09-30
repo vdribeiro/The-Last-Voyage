@@ -14,24 +14,12 @@ internal object SentryLogger {
      * Initialize Sentry.
      */
     internal fun init() {
-        // TODO - init Sentry
-        //Sentry.init { options ->
-        //    options.dsn = BuildConfig.SENTRY_DSN
-        //    options.release = "TLV@${BuildConfig.VERSION_NAME}+${BuildConfig.VERSION_CODE}"
-        //    options.debug = BuildConfig.DEBUG
-        //    options.environment = if (BuildConfig.DEBUG) "development" else "production"
-        //    options.sdk = SdkVersion()
-        //    options.attachViewHierarchy = BuildConfig.DEBUG
-        //    options.sampleRate = 1.0
-        //    options.tracesSampleRate = 0.2
-        //}
-        //
-        //val user = User().apply {
-        //    id = "player123"
-        //    username = "GamingGod"
-        //    email = "player123@example.com"
-        //}
-        //Sentry.setUser(user)
+        Sentry.init { options ->
+            options.dsn = BuildConfig.SENTRY_DSN
+            options.release = "TLV@${BuildConfig.VERSION_NAME}+${BuildConfig.VERSION_CODE}"
+            options.sampleRate = 1.0
+            options.tracesSampleRate = 0.2
+        }
     }
 
     /**
