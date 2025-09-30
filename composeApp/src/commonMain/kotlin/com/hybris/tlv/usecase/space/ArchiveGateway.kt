@@ -14,7 +14,6 @@ import com.hybris.tlv.usecase.space.formula.DerivedData
 import com.hybris.tlv.usecase.space.formula.parsecsToLightYears
 import com.hybris.tlv.usecase.space.formula.stellarHostGravityToSunGravity
 import com.hybris.tlv.usecase.space.model.ExoplanetJson
-import com.hybris.tlv.usecase.space.model.ExoplanetsResult
 import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_DENSITY
 import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_ECCENTRICITY
 import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_EQUILIBRIUM_TEMPERATURE
@@ -67,6 +66,8 @@ internal class ArchiveGateway(
      */
     private val pageSize = 10000
 
+    private data class Exoplanets(val stellarHosts: List<StellarHost>, val planets: List<Planet>)
+
     override suspend fun getArchive() = runCatching {
         coroutineScope {
             // Get archive
@@ -104,35 +105,26 @@ internal class ArchiveGateway(
             Logger.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
         }
     }.getOrElse {
-        Logger.error(tag = TAG, message = it.stackTraceToString())
+        Logger.error(tag = TAG, message = "Unable to get archive", throwable = it)
     }
 
-    private suspend fun getArchive(limit: Int = pageSize, apiCall: suspend (Int, Int) -> ExoplanetsResult): ExoplanetsResult.Success {
+    private suspend fun getArchive(limit: Int = pageSize, apiCall: suspend (Int, Int) -> Exoplanets): Exoplanets {
         val stellarHosts = mutableListOf<StellarHost>()
         val planets = mutableListOf<Planet>()
         var offset = 0
         do {
-            val hasMore = when (val result = apiCall(offset, limit)) {
-                is ExoplanetsResult.Success -> {
-                    stellarHosts.addAll(elements = result.stellarHosts)
-                    planets.addAll(elements = result.planets)
-                    offset += limit
-                    result.stellarHosts.size >= limit || result.planets.size >= limit
-                }
-
-                is ExoplanetsResult.Error -> {
-                    Logger.error(tag = TAG, message = result.error)
-                    throw Throwable(result.error)
-                }
-            }
-        } while (hasMore)
-        return ExoplanetsResult.Success(stellarHosts = stellarHosts, planets = planets)
+            val result = apiCall(offset, limit)
+            stellarHosts.addAll(elements = result.stellarHosts)
+            planets.addAll(elements = result.planets)
+            offset += limit
+        } while (result.stellarHosts.size >= limit || result.planets.size >= limit)
+        return Exoplanets(stellarHosts = stellarHosts, planets = planets)
     }
 
     /**
      * Get data from DOI 10.26133/NEA40.
      */
-    private suspend fun getStellarHostsArchive(offset: Int, limit: Int): ExoplanetsResult {
+    private suspend fun getStellarHostsArchive(offset: Int, limit: Int): Exoplanets {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +
                 "${STELLAR_HOST_SYSTEM_NAME}," +
@@ -162,8 +154,8 @@ internal class ArchiveGateway(
             path = EXOPLANET_ARCHIVE_URL,
             queryMap = queryMap
         ) { timeout { requestTimeoutMillis = timeout } }) {
-            is Result.Error<StellarHostJson> -> ExoplanetsResult.Error(error = response.error)
-            is Result.Success<StellarHostJson> -> ExoplanetsResult.Success(
+            is Result.Error<StellarHostJson> -> throw Throwable("Unable to get stellar hosts archive", response.error)
+            is Result.Success<StellarHostJson> -> Exoplanets(
                 stellarHosts = response.list.map { it.toStellarHost() },
                 planets = emptyList()
             )
@@ -173,7 +165,7 @@ internal class ArchiveGateway(
     /**
      * Get data from DOI 10.26133/NEA13.
      */
-    private suspend fun getPlanetarySystemsCompositeArchive(offset: Int, limit: Int): ExoplanetsResult {
+    private suspend fun getPlanetarySystemsCompositeArchive(offset: Int, limit: Int): Exoplanets {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +
                 "${STELLAR_HOST_SPECTRAL_TYPE}," +
@@ -214,8 +206,8 @@ internal class ArchiveGateway(
             path = EXOPLANET_ARCHIVE_URL,
             queryMap = queryMap
         ) { timeout { requestTimeoutMillis = timeout } }) {
-            is Result.Error<ExoplanetJson> -> ExoplanetsResult.Error(error = response.error)
-            is Result.Success<ExoplanetJson> -> ExoplanetsResult.Success(
+            is Result.Error<ExoplanetJson> -> throw Throwable("Unable to get planetary systems composite archive", response.error)
+            is Result.Success<ExoplanetJson> -> Exoplanets(
                 stellarHosts = response.list.map { it.toStellarHost() },
                 planets = response.list.map { it.toPlanet() }
             )
@@ -225,7 +217,7 @@ internal class ArchiveGateway(
     /**
      * Get data from DOI 10.26133/NEA19.
      */
-    private suspend fun getK2PlanetsArchive(offset: Int, limit: Int): ExoplanetsResult {
+    private suspend fun getK2PlanetsArchive(offset: Int, limit: Int): Exoplanets {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +
                 "${STELLAR_HOST_SPECTRAL_TYPE}," +
@@ -267,8 +259,8 @@ internal class ArchiveGateway(
             path = EXOPLANET_ARCHIVE_URL,
             queryMap = queryMap
         ) { timeout { requestTimeoutMillis = timeout } }) {
-            is Result.Error<ExoplanetJson> -> ExoplanetsResult.Error(error = response.error)
-            is Result.Success<ExoplanetJson> -> ExoplanetsResult.Success(
+            is Result.Error<ExoplanetJson> -> throw Throwable("Unable to get K2 Planets archive", response.error)
+            is Result.Success<ExoplanetJson> -> Exoplanets(
                 stellarHosts = response.list.map { it.toStellarHost() },
                 planets = response.list.map { it.toPlanet() }
             )
