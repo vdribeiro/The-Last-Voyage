@@ -2,6 +2,10 @@ package com.hybris.tlv.telemetry
 
 internal object Telemetry {
 
+    fun init() {
+        SentryLogger.init()
+    }
+
     fun info(tag: String, message: String) {
         PlatformLogger.info(tag = tag, message = message)
         SentryLogger.info(tag = tag, message = message)
