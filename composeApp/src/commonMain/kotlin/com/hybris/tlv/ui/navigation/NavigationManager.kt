@@ -45,8 +45,7 @@ internal interface NavigationManager {
      * The main composable responsible for rendering the current screen based on the navigation state.
      */
     @Composable
-    fun Screen(navigationState: NavigationState) {
-    }
+    fun Screen(navigationState: NavigationState)
 
     /**
      * All possible screens in the app.

@@ -1,5 +1,6 @@
 package com.hybris.tlv
 
+import androidx.compose.runtime.Composable
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.http.TestEngines
@@ -35,8 +36,11 @@ internal val storeFactory: StoreFactory by lazy {
 private val testNavigation = object: NavigationManager {
     override val stateFlow: StateFlow<NavigationState> = MutableStateFlow(value = NavigationState())
     override var back: () -> Unit = {}
-    override fun navigate(screen: NavigationManager.Screen, stateBuilder: Any?, savableState: Any?) {}
     override fun goBack() {}
+    override fun navigate(screen: NavigationManager.Screen, stateBuilder: Any?, savableState: Any?) {}
+    @Composable
+    override fun Screen(navigationState: NavigationState) {
+    }
 }
 
 internal fun <State, Action> getStore(initialState: State): Store<State, Action> = Store(
