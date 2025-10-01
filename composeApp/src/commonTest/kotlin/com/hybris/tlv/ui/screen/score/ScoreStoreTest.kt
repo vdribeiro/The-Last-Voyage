@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.screen.score
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.storeFactory
-import com.hybris.tlv.testCore
+import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -16,26 +16,26 @@ internal class ScoreStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        testCore.sqlDriver.clearDatabase()
-        testCore.navigation.navigate(screen = NavigationManager.Screen.Splash)
-        testCore.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
-        testCore.navigation.navigate(screen = NavigationManager.Screen.Score)
+        testDependency.sqlDriver.clearDatabase()
+        testDependency.navigation.navigate(screen = NavigationManager.Screen.Splash)
+        testDependency.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
+        testDependency.navigation.navigate(screen = NavigationManager.Screen.Score)
     }
 
     @Test
     fun `init`() = runBlocking {
-        testCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        val latestGameSession = testCore.useCases.gameSession.getLatestGameSession()!!
-        testCore.useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
+        testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val latestGameSession = testDependency.useCases.gameSession.getLatestGameSession()!!
+        testDependency.useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
         val scoreStore = store
-        assertEquals(expected = listOf(testCore.useCases.gameSession.getLatestGameSession()), actual = scoreStore.stateFlow.value.gameSessions)
+        assertEquals(expected = listOf(testDependency.useCases.gameSession.getLatestGameSession()), actual = scoreStore.stateFlow.value.gameSessions)
     }
 
     @Test
     fun `send action back`() = runBlocking {
         store
-        assertEquals(expected = NavigationManager.Screen.Score, actual = testCore.navigation.stateFlow.value.screen)
-        testCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.Score, actual = testDependency.navigation.stateFlow.value.screen)
+        testDependency.navigation.back()
+        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
     }
 }

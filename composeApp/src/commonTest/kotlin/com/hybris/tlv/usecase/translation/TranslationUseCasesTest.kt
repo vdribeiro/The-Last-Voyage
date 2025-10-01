@@ -2,7 +2,7 @@ package com.hybris.tlv.usecase.translation
 
 import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.testCore
+import com.hybris.tlv.testDependency
 import com.hybris.tlv.translations
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -13,8 +13,8 @@ internal class TranslationUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        testCore.sqlDriver.clearDatabase()
-        testCore.config.localConfigs = Configs()
+        testDependency.sqlDriver.clearDatabase()
+        testDependency.config.localConfigs = Configs()
         TranslationCache.set(emptyList())
     }
 
@@ -22,7 +22,7 @@ internal class TranslationUseCasesTest {
     fun `sync and get translations`() = runBlocking {
         val translation = translations.random()
         assertEquals(expected = translation.key, actual = TranslationCache.get(translation.key))
-        testCore.useCases.translation.syncTranslations()
+        testDependency.useCases.translation.syncTranslations()
         assertEquals(expected = translation.key, actual = TranslationCache.get(translation.key))
     }
 
@@ -30,7 +30,7 @@ internal class TranslationUseCasesTest {
     fun `prepopulate and get translations`() = runBlocking {
         val translation = translations.random()
         assertEquals(expected = translation.key, actual = TranslationCache.get(translation.key))
-        testCore.useCases.translation.prepopulateTranslations()
+        testDependency.useCases.translation.prepopulateTranslations()
         assertEquals(expected = translation.value, actual = TranslationCache.get(translation.key))
     }
 }

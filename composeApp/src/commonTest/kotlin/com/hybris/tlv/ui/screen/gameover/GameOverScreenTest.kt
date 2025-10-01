@@ -7,7 +7,7 @@ import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.storeFactory
-import com.hybris.tlv.testCore
+import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.theme.AppTheme
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -18,7 +18,7 @@ internal class GameOverScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        testCore.sqlDriver.clearDatabase()
+        testDependency.sqlDriver.clearDatabase()
     }
 
     @Test
@@ -42,7 +42,7 @@ internal class GameOverScreenTest {
 
     @Test
     fun gameOverWithData() = runComposeUiTest {
-        runBlocking { testCore.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype) }
+        runBlocking { testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype) }
         val store = storeFactory.createGameOverStore()
         setContent {
             AppTheme {

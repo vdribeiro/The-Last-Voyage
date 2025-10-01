@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.screen.feedback
 
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.storeFactory
-import com.hybris.tlv.testCore
+import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -15,16 +15,16 @@ internal class FeedbackStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        testCore.sqlDriver.clearDatabase()
-        testCore.navigation.navigate(screen = NavigationManager.Screen.Splash)
-        testCore.navigation.navigate(screen = NavigationManager.Screen.Feedback)
+        testDependency.sqlDriver.clearDatabase()
+        testDependency.navigation.navigate(screen = NavigationManager.Screen.Splash)
+        testDependency.navigation.navigate(screen = NavigationManager.Screen.Feedback)
     }
 
     @Test
     fun `send action back`() = runBlocking {
         store
-        assertEquals(expected = NavigationManager.Screen.Feedback, actual = testCore.navigation.stateFlow.value.screen)
-        testCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.Splash, actual = testCore.navigation.stateFlow.value.screen)
+        assertEquals(expected = NavigationManager.Screen.Feedback, actual = testDependency.navigation.stateFlow.value.screen)
+        testDependency.navigation.back()
+        assertEquals(expected = NavigationManager.Screen.Splash, actual = testDependency.navigation.stateFlow.value.screen)
     }
 }

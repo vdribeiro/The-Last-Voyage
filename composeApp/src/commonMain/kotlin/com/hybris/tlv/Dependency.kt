@@ -1,6 +1,5 @@
 package com.hybris.tlv
 
-import androidx.annotation.VisibleForTesting
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.config.Config
 import com.hybris.tlv.config.ConfigManager
@@ -18,14 +17,17 @@ import database.AppDatabase
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 
-internal data class Core(
-    @get:VisibleForTesting internal val dispatcher: Dispatcher = Dispatchers(),
-    @get:VisibleForTesting internal val sqlDriver: SqlDriver = createSqlDriver(),
-    @get:VisibleForTesting internal val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,
-    @get:VisibleForTesting internal val httpEngine: HttpClientEngine? = null,
-    @get:VisibleForTesting internal val httpClient: HttpClient = HttpClientFactory(engine = httpEngine).httpClient,
-    @get:VisibleForTesting internal val config: ConfigManager = Config(httpClient = httpClient),
-    @get:VisibleForTesting internal val useCases: UseCases = Gateways(
+/**
+ * Dependency index.
+ */
+internal data class Dependency(
+    val dispatcher: Dispatcher = Dispatchers(),
+    val sqlDriver: SqlDriver = createSqlDriver(),
+    val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,
+    val httpEngine: HttpClientEngine? = null,
+    val httpClient: HttpClient = HttpClientFactory(engine = httpEngine).httpClient,
+    val config: ConfigManager = Config(httpClient = httpClient),
+    val useCases: UseCases = Gateways(
         dispatcher = dispatcher,
         config = config,
         httpClient = httpClient,
@@ -39,3 +41,5 @@ internal data class Core(
         useCases = useCases
     )
 )
+
+internal val dependency: Dependency by lazy { Dependency() }

@@ -4,7 +4,7 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.planets
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.storeFactory
-import com.hybris.tlv.testCore
+import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationManager
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -17,16 +17,16 @@ internal class StellarExplorerStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        testCore.sqlDriver.clearDatabase()
-        testCore.navigation.navigate(screen = NavigationManager.Screen.Splash)
-        testCore.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
-        testCore.navigation.navigate(screen = NavigationManager.Screen.StellarExplorer)
+        testDependency.sqlDriver.clearDatabase()
+        testDependency.navigation.navigate(screen = NavigationManager.Screen.Splash)
+        testDependency.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
+        testDependency.navigation.navigate(screen = NavigationManager.Screen.StellarExplorer)
     }
 
     @Test
     fun `init`() = runBlocking {
-        testCore.useCases.space.prepopulateStellarHosts()
-        testCore.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.prepopulateStellarHosts()
+        testDependency.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
         val state = stellarExplorerStore.stateFlow.value
         assertEquals(expected = Content.LIST_HOSTS, actual = state.currentContent)
@@ -36,20 +36,20 @@ internal class StellarExplorerStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         val stellarExplorerStore = store
-        testCore.navigation.navigate(screen = NavigationManager.Screen.StellarExplorer)
+        testDependency.navigation.navigate(screen = NavigationManager.Screen.StellarExplorer)
 
         stellarExplorerStore.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHosts.first()))
         assertEquals(expected = Content.DETAIL_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-        testCore.navigation.back()
+        testDependency.navigation.back()
         assertEquals(expected = Content.LIST_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
         assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         stellarExplorerStore.send(action = StellarExplorerAction.OpenPlanet(planet = planets.first()))
         assertEquals(expected = Content.DETAIL_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-        testCore.navigation.back()
+        testDependency.navigation.back()
         assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
-        testCore.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testCore.navigation.stateFlow.value.screen)
+        testDependency.navigation.back()
+        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
     }
 
     @Test
@@ -62,8 +62,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action search`() = runBlocking {
-        testCore.useCases.space.prepopulateStellarHosts()
-        testCore.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.prepopulateStellarHosts()
+        testDependency.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.Search(search = stellarHosts.first().name))
@@ -76,8 +76,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action sort`() = runBlocking {
-        testCore.useCases.space.prepopulateStellarHosts()
-        testCore.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.prepopulateStellarHosts()
+        testDependency.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.SortStellarHosts(sort = StellarHostProperty.NAME))
@@ -93,8 +93,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action change visibility`() = runBlocking {
-        testCore.useCases.space.prepopulateStellarHosts()
-        testCore.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.prepopulateStellarHosts()
+        testDependency.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = StellarHostProperty.NAME))
@@ -147,8 +147,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action change searchable`() = runBlocking {
-        testCore.useCases.space.prepopulateStellarHosts()
-        testCore.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.prepopulateStellarHosts()
+        testDependency.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
 
         assertEquals(expected = setOf(StellarHostProperty.NAME), actual = stellarExplorerStore.stateFlow.value.searchableStellarHostProperties)

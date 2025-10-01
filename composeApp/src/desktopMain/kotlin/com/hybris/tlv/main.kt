@@ -18,6 +18,8 @@ import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.translation.getTranslation
 import javafx.application.Platform
 
+private const val TAG = "APP"
+
 private val initializeJfx by lazy {
     runCatching {
         Platform.startup {}
@@ -42,7 +44,7 @@ fun main() = application {
     ) {
         CompositionLocalProvider(value = LocalWindowState provides windowState) {
             Box(modifier = Modifier.onPointerEvent(eventType = PointerEventType.Press) { pointerEvent ->
-                if (pointerEvent.buttons.isSecondaryPressed || pointerEvent.buttons.isBackPressed) core.navigation.back()
+                if (pointerEvent.buttons.isSecondaryPressed || pointerEvent.buttons.isBackPressed) dependency.navigation.back()
             }) { App() }
         }
     }

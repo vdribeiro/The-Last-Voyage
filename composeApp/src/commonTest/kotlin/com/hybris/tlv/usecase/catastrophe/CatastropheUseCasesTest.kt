@@ -2,7 +2,7 @@ package com.hybris.tlv.usecase.catastrophe
 
 import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.testCore
+import com.hybris.tlv.testDependency
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
@@ -13,21 +13,21 @@ internal class CatastropheUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        testCore.sqlDriver.clearDatabase()
-        testCore.config.localConfigs = Configs()
+        testDependency.sqlDriver.clearDatabase()
+        testDependency.config.localConfigs = Configs()
     }
 
     @Test
     fun `sync and get catastrophes`() = runBlocking {
-        assertNull(actual = testCore.useCases.catastrophe.getRandomCatastrophe())
-        testCore.useCases.catastrophe.syncCatastrophes()
-        assertNotNull(actual = testCore.useCases.catastrophe.getRandomCatastrophe()).let {}
+        assertNull(actual = testDependency.useCases.catastrophe.getRandomCatastrophe())
+        testDependency.useCases.catastrophe.syncCatastrophes()
+        assertNotNull(actual = testDependency.useCases.catastrophe.getRandomCatastrophe()).let {}
     }
 
     @Test
     fun `prepopulate and get catastrophes`() = runBlocking {
-        assertNull(actual = testCore.useCases.catastrophe.getRandomCatastrophe())
-        testCore.useCases.catastrophe.prepopulateCatastrophes()
-        assertNotNull(actual = testCore.useCases.catastrophe.getRandomCatastrophe()).let {}
+        assertNull(actual = testDependency.useCases.catastrophe.getRandomCatastrophe())
+        testDependency.useCases.catastrophe.prepopulateCatastrophes()
+        assertNotNull(actual = testDependency.useCases.catastrophe.getRandomCatastrophe()).let {}
     }
 }
