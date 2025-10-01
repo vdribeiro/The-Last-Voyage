@@ -2,9 +2,6 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.achievements
-import com.hybris.tlv.getStore
-import com.hybris.tlv.translations
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
 import com.hybris.tlv.ui.screen.achievement.AchievementState
 import com.hybris.tlv.ui.theme.AppTheme

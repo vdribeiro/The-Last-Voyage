@@ -2,8 +2,6 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.getStore
-import com.hybris.tlv.translations
 import com.hybris.tlv.ui.screen.tutorial.Tutorial
 import com.hybris.tlv.ui.screen.tutorial.TutorialScreen
 import com.hybris.tlv.ui.screen.tutorial.TutorialState

@@ -1,8 +1,6 @@
 package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
-import com.hybris.tlv.getStore
-import com.hybris.tlv.translations
 import com.hybris.tlv.ui.screen.mainmenu.Content
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuScreen
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuState

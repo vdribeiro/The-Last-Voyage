@@ -2,9 +2,6 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.gameSessionFinished
-import com.hybris.tlv.getStore
-import com.hybris.tlv.translations
 import com.hybris.tlv.ui.screen.gameover.Content
 import com.hybris.tlv.ui.screen.gameover.GameOverScreen
 import com.hybris.tlv.ui.screen.gameover.GameOverState

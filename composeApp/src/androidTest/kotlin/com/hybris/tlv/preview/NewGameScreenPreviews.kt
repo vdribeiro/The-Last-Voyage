@@ -2,10 +2,6 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.catastrophes
-import com.hybris.tlv.getStore
-import com.hybris.tlv.shipState
-import com.hybris.tlv.translations
 import com.hybris.tlv.ui.screen.newgame.Content
 import com.hybris.tlv.ui.screen.newgame.NewGameScreen
 import com.hybris.tlv.ui.screen.newgame.NewGameState

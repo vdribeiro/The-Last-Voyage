@@ -1,8 +1,6 @@
 package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
-import com.hybris.tlv.getStore
-import com.hybris.tlv.translations
 import com.hybris.tlv.ui.screen.splash.SplashScreen
 import com.hybris.tlv.ui.screen.splash.SplashState
 import com.hybris.tlv.ui.theme.AppTheme

@@ -2,11 +2,6 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.getStore
-import com.hybris.tlv.hostsWithPlanets
-import com.hybris.tlv.ship
-import com.hybris.tlv.stellarHosts
-import com.hybris.tlv.translations
 import com.hybris.tlv.ui.screen.game.Content
 import com.hybris.tlv.ui.screen.game.GameScreen
 import com.hybris.tlv.ui.screen.game.GameState
