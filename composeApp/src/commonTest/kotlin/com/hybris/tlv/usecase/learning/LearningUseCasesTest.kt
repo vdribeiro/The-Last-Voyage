@@ -1,7 +1,6 @@
 package com.hybris.tlv.usecase.learning
 
 import com.hybris.tlv.config.Configs
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.testCore
 import kotlin.test.BeforeTest
 import kotlin.test.Test

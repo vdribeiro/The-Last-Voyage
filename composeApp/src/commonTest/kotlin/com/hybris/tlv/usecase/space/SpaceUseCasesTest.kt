@@ -1,7 +1,6 @@
 package com.hybris.tlv.usecase.space
 
 import com.hybris.tlv.config.Configs
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.testCore
 import kotlin.test.BeforeTest

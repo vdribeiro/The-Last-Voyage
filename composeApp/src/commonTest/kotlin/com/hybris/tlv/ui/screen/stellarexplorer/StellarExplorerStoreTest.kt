@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.planets
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.storeFactory

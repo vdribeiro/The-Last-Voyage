@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.score
 
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testCore

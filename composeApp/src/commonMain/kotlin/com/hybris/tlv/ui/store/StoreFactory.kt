@@ -26,6 +26,9 @@ import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
 import com.hybris.tlv.ui.screen.tutorial.TutorialStore
 import com.hybris.tlv.usecase.UseCases
 
+/**
+ * Helper class to create stores.
+ */
 internal class StoreFactory(
     private val dispatcher: Dispatcher,
     private val navigation: NavigationManager,
