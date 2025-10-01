@@ -49,6 +49,6 @@ internal class SpaceUseCasesTest {
     fun `get nearest stars`() = runBlocking {
         testDependency.useCases.space.prepopulateStellarHosts()
         val stellarHosts = testDependency.useCases.space.getNearestStars(stellarHost = stellarHosts.first(), n = 1, visited = emptySet())
-        assertEquals(expected = "proxima_centauri", actual = stellarHosts.first().id)
+        assertEquals(expected = "proxima_cen", actual = stellarHosts.first().id)
     }
 }
