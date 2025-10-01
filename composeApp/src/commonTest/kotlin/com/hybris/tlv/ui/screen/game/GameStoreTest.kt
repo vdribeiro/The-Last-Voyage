@@ -20,7 +20,7 @@ internal class GameStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        testCore.clearDatabase()
+        testCore.sqlDriver.clearDatabase()
         testCore.navigation.navigate(screen = NavigationManager.Screen.Game)
     }
 

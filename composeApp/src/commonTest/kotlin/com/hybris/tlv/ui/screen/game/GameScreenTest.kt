@@ -22,7 +22,7 @@ internal class GameScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        testCore.clearDatabase()
+        testCore.sqlDriver.clearDatabase()
     }
 
     @Test

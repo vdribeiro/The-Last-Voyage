@@ -17,7 +17,7 @@ internal class GameOverScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        testCore.clearDatabase()
+        testCore.sqlDriver.clearDatabase()
     }
 
     @Test

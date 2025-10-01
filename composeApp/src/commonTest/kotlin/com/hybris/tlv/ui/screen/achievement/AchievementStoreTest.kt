@@ -15,7 +15,7 @@ internal class AchievementStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        testCore.clearDatabase()
+        testCore.sqlDriver.clearDatabase()
         testCore.navigation.navigate(screen = NavigationManager.Screen.Splash)
         testCore.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
         testCore.navigation.navigate(screen = NavigationManager.Screen.Achievement)

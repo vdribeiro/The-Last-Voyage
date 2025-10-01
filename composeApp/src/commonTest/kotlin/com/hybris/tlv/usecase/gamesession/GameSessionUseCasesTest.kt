@@ -23,7 +23,7 @@ internal class GameSessionUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        testCore.clearDatabase()
+        testCore.sqlDriver.clearDatabase()
     }
 
     @Test

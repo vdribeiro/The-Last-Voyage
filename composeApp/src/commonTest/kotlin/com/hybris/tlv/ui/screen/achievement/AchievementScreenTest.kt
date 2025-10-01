@@ -18,7 +18,7 @@ internal class AchievementScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        testCore.clearDatabase()
+        testCore.sqlDriver.clearDatabase()
     }
 
     @Test

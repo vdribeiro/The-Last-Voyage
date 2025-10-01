@@ -14,7 +14,7 @@ internal class FeedbackStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        testCore.clearDatabase()
+        testCore.sqlDriver.clearDatabase()
         testCore.navigation.navigate(screen = NavigationManager.Screen.Splash)
         testCore.navigation.navigate(screen = NavigationManager.Screen.Feedback)
     }

@@ -12,7 +12,7 @@ internal class TranslationUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        testCore.clearDatabase()
+        testCore.sqlDriver.clearDatabase()
         testCore.config.localConfigs = Configs()
         TranslationCache.set(emptyList())
     }

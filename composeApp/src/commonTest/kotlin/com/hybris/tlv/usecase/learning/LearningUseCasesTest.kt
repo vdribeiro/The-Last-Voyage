@@ -11,7 +11,7 @@ internal class LearningUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        testCore.clearDatabase()
+        testCore.sqlDriver.clearDatabase()
         testCore.config.localConfigs = Configs()
     }
 
