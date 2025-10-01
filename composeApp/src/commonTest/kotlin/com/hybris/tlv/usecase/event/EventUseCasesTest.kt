@@ -14,7 +14,7 @@ internal class EventUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        testCore.sqlDriver.clearDatabase()
+        testCore.clearDatabase()
         testCore.config.localConfigs = Configs()
     }
 
@@ -25,9 +25,10 @@ internal class EventUseCasesTest {
         assertTrue(actual = testCore.useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
         val ids = events.map { it.id }.toSet()
         assertTrue(actual = testCore.useCases.event.getRandomEvent(ids = ids).isEmpty())
+        val event = events.first { it.parentId == null }
         assertEquals(
-            expected = listOf(events.first()),
-            actual = testCore.useCases.event.getRandomEvent(ids = ids - events.first().id)
+            expected = listOf(element = event),
+            actual = testCore.useCases.event.getRandomEvent(ids = ids - event.id).filter { it.parentId == null }
         )
     }
 
@@ -38,9 +39,10 @@ internal class EventUseCasesTest {
         assertTrue(actual = testCore.useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
         val ids = events.map { it.id }.toSet()
         assertTrue(actual = testCore.useCases.event.getRandomEvent(ids = ids).isEmpty())
+        val event = events.first { it.parentId == null }
         assertEquals(
-            expected = listOf(events.first()),
-            actual = testCore.useCases.event.getRandomEvent(ids = ids - events.first().id)
+            expected = listOf(element = event),
+            actual = testCore.useCases.event.getRandomEvent(ids = ids - event.id).filter { it.parentId == null }
         )
     }
 }

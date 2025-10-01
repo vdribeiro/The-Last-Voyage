@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.achievement
 
 import com.hybris.tlv.achievements
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testCore
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -16,7 +15,7 @@ internal class AchievementStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        testCore.sqlDriver.clearDatabase()
+        testCore.clearDatabase()
         testCore.navigation.navigate(screen = NavigationManager.Screen.Splash)
         testCore.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
         testCore.navigation.navigate(screen = NavigationManager.Screen.Achievement)

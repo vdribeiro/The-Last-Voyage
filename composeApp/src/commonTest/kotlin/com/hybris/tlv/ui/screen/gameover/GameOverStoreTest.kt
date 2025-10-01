@@ -18,7 +18,7 @@ internal class GameOverStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        testCore.sqlDriver.clearDatabase()
+        testCore.clearDatabase()
         testCore.navigation.navigate(screen = NavigationManager.Screen.GameOver)
     }
 

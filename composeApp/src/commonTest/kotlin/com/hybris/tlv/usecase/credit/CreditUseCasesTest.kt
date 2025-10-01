@@ -12,7 +12,7 @@ internal class CreditUseCasesTest {
 
     @BeforeTest
     fun setup() {
-        testCore.sqlDriver.clearDatabase()
+        testCore.clearDatabase()
         testCore.config.localConfigs = Configs()
     }
 

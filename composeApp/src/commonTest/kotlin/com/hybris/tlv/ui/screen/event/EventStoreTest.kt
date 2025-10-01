@@ -20,7 +20,7 @@ internal class EventStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        testCore.sqlDriver.clearDatabase()
+        testCore.clearDatabase()
         testCore.navigation.navigate(screen = NavigationManager.Screen.Event)
     }
 

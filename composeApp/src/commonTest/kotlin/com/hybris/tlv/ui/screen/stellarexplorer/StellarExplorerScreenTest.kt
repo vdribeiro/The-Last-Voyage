@@ -18,7 +18,7 @@ internal class StellarExplorerScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        testCore.sqlDriver.clearDatabase()
+        testCore.clearDatabase()
     }
 
     @Test

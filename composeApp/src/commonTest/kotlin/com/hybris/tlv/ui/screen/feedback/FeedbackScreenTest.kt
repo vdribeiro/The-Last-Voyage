@@ -18,7 +18,7 @@ internal class FeedbackScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        testCore.sqlDriver.clearDatabase()
+        testCore.clearDatabase()
     }
 
     @Test
