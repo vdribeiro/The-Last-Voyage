@@ -37,9 +37,8 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
     val storeState by store.stateFlow.collectAsState()
     val isError = storeState.isError
-    var feedbackText by remember { mutableStateOf(value = "") }
-    var inputEnabled by remember { mutableStateOf(value = true) }
-    var buttonEnabled by remember { mutableStateOf(value = false) }
+    val showThanks= storeState.showThanks
+    var feedbackText by remember { mutableStateOf(value = storeState.feedback) }
 
     // Feedback translations depend on if it is was an app error or it's just simple user feedback
     val titleTranslation = remember { getTranslation(key = if (isError) "error_screen__title" else "error_screen__title_alt") }
@@ -90,11 +89,10 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
                     .testTag(tag = FEEDBACK_SCREEN_INPUT)
                     .fillMaxWidth()
                     .height(height = 120.dp),
-                enabled = inputEnabled,
+                enabled = !showThanks,
                 value = feedbackText,
                 onValueChange = {
                     feedbackText = it
-                    buttonEnabled = feedbackText.isNotBlank()
                 },
             )
             Spacer(modifier = Modifier.height(height = 24.dp))
@@ -102,17 +100,15 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
             // Send feedback button
             Button(
                 modifier = Modifier.testTag(tag = FEEDBACK_SCREEN_BUTTON),
-                onClick = {
-                    store.send(action = FeedbackAction.SendFeedback(message = feedbackText))
-                    inputEnabled = false
-                    buttonEnabled = false
-                },
+                onClick = { store.send(action = FeedbackAction.SendFeedback(message = feedbackText)) },
                 colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-                enabled = buttonEnabled
+                enabled = feedbackText.isNotBlank() && !showThanks
             ) {
                 Text(text = buttonTranslation)
             }
-            if (!inputEnabled) {
+
+            if (showThanks) {
+                // Thank you message
                 Spacer(modifier = Modifier.height(height = 16.dp))
                 Text(
                     modifier = Modifier.testTag(tag = FEEDBACK_SCREEN_THANKS),

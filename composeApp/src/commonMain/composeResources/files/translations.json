@@ -2146,6 +2146,11 @@
   },
   {
     "languageIso": "en",
+    "key": "game_over_screen__default_game_over",
+    "value": "You have discovered the secret game over"
+  },
+  {
+    "languageIso": "en",
     "key": "game_over_screen__score",
     "value": "Score"
   },

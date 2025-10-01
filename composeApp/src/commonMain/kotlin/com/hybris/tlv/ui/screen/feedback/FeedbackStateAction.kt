@@ -10,5 +10,7 @@ internal sealed interface FeedbackStateBuilder {
 }
 
 internal data class FeedbackState(
-    val isError: Boolean = false
+    val isError: Boolean = false,
+    val feedback: String = "",
+    val showThanks: Boolean = false
 )

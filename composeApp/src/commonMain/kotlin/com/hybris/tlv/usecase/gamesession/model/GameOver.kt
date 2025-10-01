@@ -96,5 +96,5 @@ internal enum class GameOver(val displayName: String) {
     HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ZERO(displayName = "game_over_screen__habitability_high_materials_low_cryopods_zero"),
 
     // Default
-    GAME_OVER(displayName = "game_over_screen__game_over");
+    GAME_OVER(displayName = "game_over_screen__default_game_over");
 }

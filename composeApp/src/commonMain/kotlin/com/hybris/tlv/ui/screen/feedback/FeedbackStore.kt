@@ -12,14 +12,14 @@ import kotlinx.coroutines.delay
 internal class FeedbackStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    audioPlayer: AudioPlayer,
+    audioPlayer: AudioPlayer?,
     stateBuilder: FeedbackStateBuilder,
 ): Store<FeedbackState, FeedbackAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
-        is FeedbackStateBuilder.Feedback -> FeedbackState(isError = false)
+        is FeedbackStateBuilder.Feedback -> FeedbackState()
         is FeedbackStateBuilder.Error -> FeedbackState(isError = true)
     }
 ) {
@@ -40,15 +40,23 @@ internal class FeedbackStore(
     }
 
     private fun sendFeedback(state: FeedbackState, action: FeedbackAction.SendFeedback): Job = launch {
-        // Construct the feedback message with all the components
+        updateState {
+            it.copy(
+                feedback = action.message,
+                showThanks = true
+            )
+        }
+        Telemetry.info(tag = TAG, message = "Construct the feedback message with all the components")
         val feedback = buildList {
             tag?.let { add(element = "Identifier: $it") }
             message?.let { add(element = "Message: $it") }
             if (action.message.isNotBlank()) add(element = "Feedback: ${action.message}")
         }.joinToString(separator = "\n")
+        Telemetry.info(tag = TAG, message = "Send feedback")
         Telemetry.feedback(message = feedback)
+        Telemetry.info(tag = TAG, message = "Wait a small time to properly thank the user")
         delay(timeMillis = 2000L)
-
+        Telemetry.info(tag = TAG, message = "Navigate away")
         when {
             state.isError -> navigate(screen = NavigationManager.Screen.Splash)
             else -> goBack(state = state)
@@ -59,5 +67,9 @@ internal class FeedbackStore(
         when (action) {
             is FeedbackAction.SendFeedback -> sendFeedback(state = state, action = action)
         }
+    }
+
+    companion object {
+        private const val TAG = "Feedback"
     }
 }
