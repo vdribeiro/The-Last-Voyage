@@ -110,11 +110,23 @@ kotlin {
             }
         }
 
-        val androidInstrumentedTest by getting {
-            dependsOn(other = commonTest)
+        val appleMain by creating {
+            dependsOn(other = commonMain)
             dependencies {
-                implementation(dependencyNotation = libs.androidx.test.junit)
+                implementation(dependencyNotation = libs.bundles.ios)
             }
+        }
+        listOf(
+            iosX64(),
+            iosArm64(),
+            iosSimulatorArm64()
+        ).forEach { iosTarget ->
+            iosTarget.binaries.framework {
+                baseName = "TLV"
+                isStatic = true
+                version = appVersion
+            }
+            sourceSets.getByName("${iosTarget.name}Main").dependsOn(other = appleMain)
         }
 
         val desktopMain by getting {
@@ -150,26 +162,6 @@ kotlin {
             dependencies {
                 implementation(dependencyNotation = compose.desktop.uiTestJUnit4)
             }
-        }
-
-        val appleMain by creating {
-            dependsOn(other = commonMain)
-            dependencies {
-                implementation(dependencyNotation = libs.bundles.ios)
-            }
-        }
-        val appleList = listOf(
-            iosX64(),
-            iosArm64(),
-            iosSimulatorArm64()
-        )
-        appleList.forEach { iosTarget ->
-            iosTarget.binaries.framework {
-                baseName = "TLV"
-                isStatic = true
-                version = appVersion
-            }
-            sourceSets.getByName("${iosTarget.name}Main").dependsOn(other = appleMain)
         }
     }
 }

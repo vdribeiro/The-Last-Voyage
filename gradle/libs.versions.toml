@@ -13,9 +13,9 @@ sqldelight-jdbc = "3.50.3.0"
 android-startup = "1.2.0"
 androidx-exoplayer = "1.8.0"
 android-test = "1.9.2"
-javafx = "21.0.2"
 logging = "2.0.17"
 sentry = "0.19.0"
+javafx = "21.0.2"
 
 [plugins]
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
@@ -52,7 +52,6 @@ sqldelight-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "s
 compose-backhandler = { group = "org.jetbrains.compose.ui", name = "ui-backhandler", version.ref = "compose-multiplatform" }
 androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "android-startup" }
 androidx-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "androidx-exoplayer" }
-androidx-test-junit = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "android-test" }
 androidx-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "android-test" }
 logging = { group = "org.slf4j", name = "slf4j-simple", version.ref = "logging" }
 javafx-base = { group = "org.openjfx", name = "javafx-base", version.ref = "javafx" }
