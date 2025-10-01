@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.credit
 
 import com.hybris.tlv.credits
+import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testCore
 import com.hybris.tlv.ui.navigation.NavigationManager

@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.event
 
+import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.events
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.storeFactory

@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
+import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.planets
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.storeFactory
@@ -65,11 +66,11 @@ internal class StellarExplorerStoreTest {
         testCore.useCases.space.prepopulatePlanets()
         val stellarExplorerStore = store
 
-        stellarExplorerStore.send(action = StellarExplorerAction.Search(search = stellarHosts.first().id))
+        stellarExplorerStore.send(action = StellarExplorerAction.Search(search = stellarHosts.first().name))
         assertEquals(expected = listOf(stellarHosts.first()), actual = stellarExplorerStore.stateFlow.value.filteredStellarHosts)
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
-        stellarExplorerStore.send(action = StellarExplorerAction.Search(search = planets.first().id))
+        stellarExplorerStore.send(action = StellarExplorerAction.Search(search = planets.first().name))
         assertEquals(expected = listOf(planets.first()), actual = stellarExplorerStore.stateFlow.value.filteredPlanets)
     }
 

@@ -1,6 +1,7 @@
 package com.hybris.tlv.usecase.ship
 
 import com.hybris.tlv.config.Configs
+import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.testCore
 import com.hybris.tlv.usecase.ship.model.Ship
 import kotlin.test.BeforeTest

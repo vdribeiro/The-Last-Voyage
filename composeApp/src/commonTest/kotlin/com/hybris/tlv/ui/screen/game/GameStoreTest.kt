@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.game
 
+import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.hostsWithPlanets
 import com.hybris.tlv.planets

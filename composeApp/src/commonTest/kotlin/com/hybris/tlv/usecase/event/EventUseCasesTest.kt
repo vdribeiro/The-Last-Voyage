@@ -1,6 +1,7 @@
 package com.hybris.tlv.usecase.event
 
 import com.hybris.tlv.config.Configs
+import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.events
 import com.hybris.tlv.testCore
 import kotlin.test.BeforeTest
