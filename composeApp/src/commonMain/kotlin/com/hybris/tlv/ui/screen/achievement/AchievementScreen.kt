@@ -12,9 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.AchievementItem
 import com.hybris.tlv.ui.theme.component.Screen
+import com.hybris.tlv.usecase.achievement.model.Achievement
+import com.hybris.tlv.usecase.achievement.model.Precondition
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
@@ -42,5 +47,45 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun AchievementLoading() {
+    AppTheme {
+        AchievementScreen(
+            store = getStore(
+                initialState = AchievementState(
+                    loading = true,
+                    achievements = emptyList()
+                )
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AchievementList() {
+    AppTheme {
+        AchievementScreen(
+            store = getStore(
+                initialState = AchievementState(
+                    loading = false,
+                    achievements = listOf(
+                        Achievement(
+                            id = "earth",
+                            name = "Earth",
+                            description = "Settle on Earth",
+                            preconditions = Precondition(
+                                settledPlanetId = "earth"
+                            ),
+                            status = false
+                        )
+                    )
+                )
+            )
+        )
     }
 }

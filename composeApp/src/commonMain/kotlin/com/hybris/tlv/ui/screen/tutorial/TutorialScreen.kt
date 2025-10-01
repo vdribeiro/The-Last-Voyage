@@ -27,12 +27,15 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.ui.theme.component.StatusBar
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
@@ -159,5 +162,75 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun TutorialGoal() {
+    AppTheme {
+        TutorialScreen(
+            store = getStore(
+                initialState = TutorialState(
+                    tutorialStep = Tutorial.GOAL,
+                )
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TutorialShip() {
+    AppTheme {
+        TutorialScreen(
+            store = getStore(
+                initialState = TutorialState(
+                    tutorialStep = Tutorial.SHIP,
+                )
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TutorialSystem() {
+    AppTheme {
+        TutorialScreen(
+            store = getStore(
+                initialState = TutorialState(
+                    tutorialStep = Tutorial.SYSTEM,
+                )
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TutorialTravel() {
+    AppTheme {
+        TutorialScreen(
+            store = getStore(
+                initialState = TutorialState(
+                    tutorialStep = Tutorial.TRAVEL,
+                )
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TutorialGameOver() {
+    AppTheme {
+        TutorialScreen(
+            store = getStore(
+                initialState = TutorialState(
+                    tutorialStep = Tutorial.GAME_OVER,
+                )
+            )
+        )
     }
 }

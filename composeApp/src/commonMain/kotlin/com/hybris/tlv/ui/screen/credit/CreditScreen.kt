@@ -27,12 +27,16 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.Screen
+import com.hybris.tlv.usecase.credit.model.Credit
 import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.translation.getTranslation
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun CreditScreen(store: Store<CreditState, Unit>) {
@@ -181,3 +185,70 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
         }
     }
 }
+
+@Preview
+@Composable
+private fun CreditLoading() {
+    AppTheme {
+        CreditScreen(
+            store = getStore(
+                initialState = CreditState(
+                    loading = true,
+                    credits = emptyList()
+                )
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun CreditList() {
+    AppTheme {
+        CreditScreen(
+            store = getStore(
+                initialState = CreditState(
+                    loading = false,
+                    credits = listOf(
+                        Credit(
+                            id = "engsoneca",
+                            link = "https://ko-fi.com/engsoneca",
+                            type = CreditType.CREATOR,
+                        ),
+                        Credit(
+                            id = "NASA Exoplanet Archive DOIs 10.26133/NEA13 and 10.26133/NEA40",
+                            link = "https://exoplanetarchive.ipac.caltech.edu/",
+                            type = CreditType.SOURCE,
+                        ),
+                        Credit(
+                            id = "OpenGameArt",
+                            link = "https://opengameart.org/",
+                            type = CreditType.MUSIC,
+                        ),
+                        Credit(
+                            id = "You",
+                            link = null,
+                            type = CreditType.SUPPORTER,
+                        ),
+                        Credit(
+                            id = "Yourself",
+                            link = null,
+                            type = CreditType.SUPPORTER,
+                        ),
+                        Credit(
+                            id = "Irene",
+                            link = null,
+                            type = CreditType.SUPPORTER,
+                        ),
+                        Credit(
+                            id = "Jim",
+                            link = null,
+                            type = CreditType.SUPPORTER,
+                        ),
+                    )
+                )
+            )
+        )
+    }
+}
+

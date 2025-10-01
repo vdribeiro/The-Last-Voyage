@@ -1,4 +1,4 @@
-package com.hybris.tlv.preview
+package com.hybris.tlv.ui.preview
 
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.flow.Dispatchers
