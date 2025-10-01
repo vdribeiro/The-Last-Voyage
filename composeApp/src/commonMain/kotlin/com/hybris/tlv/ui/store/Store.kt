@@ -47,7 +47,9 @@ internal open class Store<State, Action>(
     /**
      * Back navigation.
      */
-    protected open fun goBack(state: State) = navigation.goBack()
+    protected open fun goBack(state: State) {
+        navigation.goBack()
+    }
 
     /**
      * Clean up the store and navigate to a new [screen] given an optional [stateBuilder].
