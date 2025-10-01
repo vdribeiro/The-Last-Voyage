@@ -27,19 +27,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun GameScreen(store: Store<GameState, GameAction>) {
     val storeState by store.stateFlow.collectAsState()
-    val defaultShip = remember {
-        Ship(
-            id = "",
-            assignedPoints = 0,
-            yearsTraveled = 0.0,
-            sensorRange = 0,
-            integrity = 0,
-            fuel = 0,
-            materials = 0,
-            cryopods = 0,
-        )
-    }
-    val ship = storeState.ship ?: defaultShip
+    val ship = storeState.ship
 
     val travelTranslation = remember { getTranslation(key = "game_screen__travel") }
     val systemTranslation = remember { getTranslation(key = "game_screen__system") }
@@ -56,10 +44,10 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
                 modifier = Modifier
                     .testTag(tag = GAME_SCREEN_STATUS_BAR)
                     .statusBarsPadding(),
-                hull = ship.integrity.toString(),
-                fuel = ship.fuel.toString(),
-                materials = ship.materials.toString(),
-                cryopods = ship.cryopods.toString()
+                hull = ship?.integrity?.toString(),
+                fuel = ship?.fuel?.toString(),
+                materials = ship?.materials?.toString(),
+                cryopods = ship?.cryopods?.toString()
             )
         },
         bottomBar = {

@@ -463,18 +463,7 @@ internal val translations: List<Translation> by lazy {
             key = "engine__liquid_fuel_rocket_description",
             value = "Uses liquid fuel and oxidizer."
         ),
-        Translation(
-            key = "game_screen__travel",
-            value = "Travel"
-        ),
-        Translation(
-            key = "game_screen__system",
-            value = "System"
-        ),
-        Translation(
-            key = "game_screen__ship",
-            value = "Ship"
-        ),
+
         Translation(
             key = "game_over_screen__game_over",
             value = "Game Over"
@@ -487,11 +476,6 @@ internal val translations: List<Translation> by lazy {
             key = "game_over_screen__end",
             value = "End"
         ),
-
-
-
-
-
         Translation(
             key = "error_screen__thanks",
             value = "Thank you for your feedback!"
