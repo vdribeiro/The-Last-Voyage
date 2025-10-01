@@ -2,6 +2,7 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.hybris.tlv.getStore
 import com.hybris.tlv.ui.screen.credit.CreditScreen
 import com.hybris.tlv.ui.screen.credit.CreditState
 import com.hybris.tlv.ui.theme.AppTheme
@@ -31,7 +32,7 @@ private fun CreditList() {
             store = getStore(
                 initialState = CreditState(
                     loading = false,
-                    credits =  listOf(
+                    credits = listOf(
                         Credit(
                             id = "engsoneca",
                             link = "https://ko-fi.com/engsoneca",

@@ -37,7 +37,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
     val storeState by store.stateFlow.collectAsState()
     val isError = storeState.isError
-    val showThanks= storeState.showThanks
+    val showThanks = storeState.showThanks
     var feedbackText by remember { mutableStateOf(value = storeState.feedback) }
 
     // Feedback translations depend on if it is was an app error or it's just simple user feedback

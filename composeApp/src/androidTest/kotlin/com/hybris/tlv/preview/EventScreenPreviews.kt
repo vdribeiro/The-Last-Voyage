@@ -2,9 +2,9 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.hybris.tlv.getStore
 import com.hybris.tlv.ui.screen.event.EventScreen
 import com.hybris.tlv.ui.screen.event.EventState
-import com.hybris.tlv.ui.screen.event.defaultEvent
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.ship.model.Ship

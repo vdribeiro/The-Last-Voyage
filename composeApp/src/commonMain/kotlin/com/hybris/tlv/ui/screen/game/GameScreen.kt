@@ -21,7 +21,6 @@ import com.hybris.tlv.ui.screen.game.content.TravelContent
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.ui.theme.component.StatusBar
-import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable

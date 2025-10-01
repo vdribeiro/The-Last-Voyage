@@ -23,12 +23,7 @@ internal data class NewGameState(
     val loading: Boolean = true,
     val currentContent: Content = Content.SHIP,
     val selectedCatastrophe: Catastrophe? = null,
-    val shipState: ShipState = ShipState(
-        sensorRange = ShipState.Point(max = 10, min = 1, interval = 1, initialValue = 3),
-        materials = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
-        fuel = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
-        cryopods = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
-    ),
+    val shipState: ShipState? = null,
 )
 
 internal enum class Content {

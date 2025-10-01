@@ -2,16 +2,15 @@ package com.hybris.tlv.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.hybris.tlv.getStore
 import com.hybris.tlv.ui.screen.tutorial.Tutorial
 import com.hybris.tlv.ui.screen.tutorial.TutorialScreen
 import com.hybris.tlv.ui.screen.tutorial.TutorialState
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.usecase.translation.TranslationCache
 
 @Preview
 @Composable
 private fun TutorialGoal() {
-    TranslationCache.set(translations = translations)
     AppTheme {
         TutorialScreen(
             store = getStore(
@@ -26,7 +25,6 @@ private fun TutorialGoal() {
 @Preview
 @Composable
 private fun TutorialShip() {
-    TranslationCache.set(translations = translations)
     AppTheme {
         TutorialScreen(
             store = getStore(
@@ -41,7 +39,6 @@ private fun TutorialShip() {
 @Preview
 @Composable
 private fun TutorialSystem() {
-    TranslationCache.set(translations = translations)
     AppTheme {
         TutorialScreen(
             store = getStore(
@@ -56,7 +53,6 @@ private fun TutorialSystem() {
 @Preview
 @Composable
 private fun TutorialTravel() {
-    TranslationCache.set(translations = translations)
     AppTheme {
         TutorialScreen(
             store = getStore(
@@ -71,7 +67,6 @@ private fun TutorialTravel() {
 @Preview
 @Composable
 private fun TutorialGameOver() {
-    TranslationCache.set(translations = translations)
     AppTheme {
         TutorialScreen(
             store = getStore(
