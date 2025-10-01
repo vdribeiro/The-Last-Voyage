@@ -47,23 +47,27 @@ internal class Navigation(
 
     override var back: () -> Unit = {}
 
-    override fun goBack(): Job = dispatcher.main.launch {
-        if (stack.size > 1) {
-            stack.removeLast()
-            _stateFlow.update { stack.last() }
+    override fun goBack() {
+        dispatcher.main.launch {
+            if (stack.size > 1) {
+                stack.removeLast()
+                _stateFlow.update { stack.last() }
+            }
         }
     }
 
-    override fun navigate(screen: Screen, stateBuilder: Any?, savableState: Any?): Job = dispatcher.main.launch {
-        if (stack.isNotEmpty()) stack[stack.lastIndex] = stack.last().copy(stateBuilder = savableState)
-        val navigationState = NavigationState(screen = screen, stateBuilder = stateBuilder)
-        val index = stack.indexOf(element = navigationState)
-        if (index != -1) stack.subList(index, stack.size).clear()
-        stack.add(element = navigationState)
-        _stateFlow.value = navigationState
+    override fun navigate(screen: Screen, stateBuilder: Any?, savableState: Any?) {
+        dispatcher.main.launch {
+            if (stack.isNotEmpty()) stack[stack.lastIndex] = stack.last().copy(stateBuilder = savableState)
+            val navigationState = NavigationState(screen = screen, stateBuilder = stateBuilder)
+            val index = stack.indexOf(element = navigationState)
+            if (index != -1) stack.subList(index, stack.size).clear()
+            stack.add(element = navigationState)
+            _stateFlow.value = navigationState
+        }
     }
 
-    private fun fallback(): Job = navigate(screen = Screen.Splash)
+    private fun fallback() = navigate(screen = Screen.Splash)
 
     @Composable
     override fun Screen(navigationState: NavigationState) {

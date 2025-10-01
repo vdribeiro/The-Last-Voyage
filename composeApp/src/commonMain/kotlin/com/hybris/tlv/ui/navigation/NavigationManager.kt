@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.backhandler.BackHandler
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.StateFlow
 
 /**
@@ -35,12 +34,12 @@ internal interface NavigationManager {
     /**
      * Goes back to the previous screen.
      */
-    fun goBack(): Job
+    fun goBack()
 
     /**
      * Updates the state of the current navigation and then navigates to a new screen given a new state.
      */
-    fun navigate(screen: Screen, stateBuilder: Any? = null, savableState: Any? = null): Job
+    fun navigate(screen: Screen, stateBuilder: Any? = null, savableState: Any? = null)
 
     /**
      * The main composable responsible for rendering the current screen based on the navigation state.
