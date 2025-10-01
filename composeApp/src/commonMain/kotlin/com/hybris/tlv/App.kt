@@ -17,10 +17,10 @@ internal fun App() = AppTheme {
     val navigation = core.navigation
     BackHandler(enabled = true) { navigation.back() }
     val navigationState by navigation.stateFlow.collectAsState()
+    val screen = navigationState.screen
 
     // Setup Audio Player
     val audioPlayer = core.audioPlayer
-    val screen = navigationState.screen
     LaunchedEffect(key1 = screen) {
         val playlist = getTracks(screen = screen)
         if (playlist != null) audioPlayer.play(playlist = playlist)
