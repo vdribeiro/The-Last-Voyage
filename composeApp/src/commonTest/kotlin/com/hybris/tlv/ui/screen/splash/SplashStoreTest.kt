@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.screen.splash
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
-import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.Screen
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -17,7 +17,7 @@ internal class SplashStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.Splash)
+        testDependency.navigation.navigate(screen = Screen.Splash)
     }
 
     @Test

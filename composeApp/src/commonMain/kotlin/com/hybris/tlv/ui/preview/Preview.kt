@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.hybris.tlv.flow.Dispatchers
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationManager.NavigationState
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +17,7 @@ private val testNavigation by lazy {
         override val stateFlow: StateFlow<NavigationState> = MutableStateFlow(value = NavigationState())
         override var back: () -> Unit = {}
         override fun goBack() {}
-        override fun navigate(screen: NavigationManager.Screen, stateBuilder: Any?, savableState: Any?) {}
+        override fun navigate(screen: Screen, stateBuilder: Any?, savableState: Any?) {}
         @Composable
         override fun Screen(navigationState: NavigationState) {
         }

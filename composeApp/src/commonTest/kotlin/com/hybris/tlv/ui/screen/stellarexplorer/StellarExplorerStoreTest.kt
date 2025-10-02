@@ -5,7 +5,7 @@ import com.hybris.tlv.planets
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
-import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.Screen
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -18,9 +18,9 @@ internal class StellarExplorerStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.Splash)
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.StellarExplorer)
+        testDependency.navigation.navigate(screen = Screen.Splash)
+        testDependency.navigation.navigate(screen = Screen.MainMenu)
+        testDependency.navigation.navigate(screen = Screen.StellarExplorer)
     }
 
     @Test
@@ -36,7 +36,7 @@ internal class StellarExplorerStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         val stellarExplorerStore = store
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.StellarExplorer)
+        testDependency.navigation.navigate(screen = Screen.StellarExplorer)
 
         stellarExplorerStore.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHosts.first()))
         assertEquals(expected = Content.DETAIL_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
@@ -49,7 +49,7 @@ internal class StellarExplorerStoreTest {
         testDependency.navigation.back()
         assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         testDependency.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
+        assertEquals(expected = Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
     }
 
     @Test

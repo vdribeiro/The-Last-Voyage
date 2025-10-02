@@ -4,7 +4,7 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
-import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.Screen
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -20,14 +20,14 @@ internal class MainMenuStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.Splash)
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
+        testDependency.navigation.navigate(screen = Screen.Splash)
+        testDependency.navigation.navigate(screen = Screen.MainMenu)
     }
 
     @Test
     fun `init`() = runBlocking {
         testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
+        testDependency.navigation.navigate(screen = Screen.MainMenu)
         val mainMenuStore = store
         delay(timeMillis = 100L)
         assertTrue(actual = mainMenuStore.stateFlow.value.ongoingGameSession)
@@ -43,7 +43,7 @@ internal class MainMenuStoreTest {
     @Test
     fun `send action change content`() = runBlocking {
         val mainMenuStore = store
-        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
+        assertEquals(expected = Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
         testDependency.navigation.back()
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
@@ -72,22 +72,22 @@ internal class MainMenuStoreTest {
         assertEquals(expected = Content.MAIN_MENU, actual = mainMenuStore.stateFlow.value.currentContent)
 
         mainMenuStore.send(action = MainMenuAction.NewGame)
-        assertEquals(expected = NavigationManager.Screen.NewGame, actual = testDependency.navigation.stateFlow.value.screen)
+        assertEquals(expected = Screen.NewGame, actual = testDependency.navigation.stateFlow.value.screen)
         testDependency.navigation.back()
 
         mainMenuStore.send(action = MainMenuAction.Continue)
-        assertEquals(expected = NavigationManager.Screen.Game, actual = testDependency.navigation.stateFlow.value.screen)
+        assertEquals(expected = Screen.Game, actual = testDependency.navigation.stateFlow.value.screen)
         testDependency.navigation.back()
 
         mainMenuStore.send(action = MainMenuAction.Scores)
-        assertEquals(expected = NavigationManager.Screen.Score, actual = testDependency.navigation.stateFlow.value.screen)
+        assertEquals(expected = Screen.Score, actual = testDependency.navigation.stateFlow.value.screen)
         testDependency.navigation.back()
 
         mainMenuStore.send(action = MainMenuAction.Achievements)
-        assertEquals(expected = NavigationManager.Screen.Achievement, actual = testDependency.navigation.stateFlow.value.screen)
+        assertEquals(expected = Screen.Achievement, actual = testDependency.navigation.stateFlow.value.screen)
         testDependency.navigation.back()
 
         mainMenuStore.send(action = MainMenuAction.Credits)
-        assertEquals(expected = NavigationManager.Screen.Credit, actual = testDependency.navigation.stateFlow.value.screen)
+        assertEquals(expected = Screen.Credit, actual = testDependency.navigation.stateFlow.value.screen)
     }
 }

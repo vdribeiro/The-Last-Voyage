@@ -4,7 +4,7 @@ import com.hybris.tlv.credits
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
-import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.Screen
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -17,7 +17,7 @@ internal class CreditStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.Credit)
+        testDependency.navigation.navigate(screen = Screen.Credit)
     }
 
     @Test
@@ -31,8 +31,8 @@ internal class CreditStoreTest {
     fun `send action back`() = runBlocking {
         testDependency.useCases.credit.prepopulateCredits()
         store
-        assertEquals(expected = NavigationManager.Screen.Credit, actual = testDependency.navigation.stateFlow.value.screen)
+        assertEquals(expected = Screen.Credit, actual = testDependency.navigation.stateFlow.value.screen)
         testDependency.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
+        assertEquals(expected = Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
     }
 }

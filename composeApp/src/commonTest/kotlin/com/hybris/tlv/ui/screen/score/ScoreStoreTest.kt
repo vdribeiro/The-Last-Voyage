@@ -4,7 +4,7 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
-import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.Screen
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -17,9 +17,9 @@ internal class ScoreStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.Splash)
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.Score)
+        testDependency.navigation.navigate(screen = Screen.Splash)
+        testDependency.navigation.navigate(screen = Screen.MainMenu)
+        testDependency.navigation.navigate(screen = Screen.Score)
     }
 
     @Test
@@ -34,8 +34,8 @@ internal class ScoreStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         store
-        assertEquals(expected = NavigationManager.Screen.Score, actual = testDependency.navigation.stateFlow.value.screen)
+        assertEquals(expected = Screen.Score, actual = testDependency.navigation.stateFlow.value.screen)
         testDependency.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
+        assertEquals(expected = Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
     }
 }

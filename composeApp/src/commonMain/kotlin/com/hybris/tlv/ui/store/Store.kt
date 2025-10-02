@@ -4,7 +4,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.NavigationManager.Screen
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

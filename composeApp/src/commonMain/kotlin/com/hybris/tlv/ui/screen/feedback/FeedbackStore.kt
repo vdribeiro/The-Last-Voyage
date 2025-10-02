@@ -5,6 +5,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -58,7 +59,7 @@ internal class FeedbackStore(
         delay(timeMillis = 2000L)
         Telemetry.info(tag = TAG, message = "Navigate away")
         when {
-            state.isError -> navigate(screen = NavigationManager.Screen.Splash)
+            state.isError -> navigate(screen = Screen.Splash)
             else -> goBack(state = state)
         }
     }

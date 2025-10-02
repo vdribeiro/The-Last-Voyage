@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.screen.tutorial
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
-import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.Screen
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -16,9 +16,9 @@ internal class TutorialStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.Splash)
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.MainMenu)
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.Tutorial)
+        testDependency.navigation.navigate(screen = Screen.Splash)
+        testDependency.navigation.navigate(screen = Screen.MainMenu)
+        testDependency.navigation.navigate(screen = Screen.Tutorial)
     }
 
     @Test
@@ -40,8 +40,8 @@ internal class TutorialStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         store
-        testDependency.navigation.navigate(screen = NavigationManager.Screen.Tutorial)
+        testDependency.navigation.navigate(screen = Screen.Tutorial)
         testDependency.navigation.back()
-        assertEquals(expected = NavigationManager.Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
+        assertEquals(expected = Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
     }
 }
