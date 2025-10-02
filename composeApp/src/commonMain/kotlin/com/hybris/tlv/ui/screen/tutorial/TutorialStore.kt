@@ -10,7 +10,7 @@ import com.hybris.tlv.ui.store.Store
 internal class TutorialStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    audioPlayer: AudioPlayer?,
+    audioPlayer: AudioPlayer,
     stateBuilder: TutorialStateBuilder,
 ): Store<TutorialState, TutorialAction>(
     dispatcher = dispatcher,

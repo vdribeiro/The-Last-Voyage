@@ -13,7 +13,7 @@ import kotlinx.coroutines.delay
 internal class FeedbackStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
-    audioPlayer: AudioPlayer?,
+    audioPlayer: AudioPlayer,
     stateBuilder: FeedbackStateBuilder,
 ): Store<FeedbackState, FeedbackAction>(
     dispatcher = dispatcher,

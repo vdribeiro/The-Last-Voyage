@@ -9,6 +9,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.Dispatchers
 import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.media.createAudioPlayer
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.usecase.Gateways
@@ -33,7 +34,7 @@ internal data class Dependency(
         httpClient = httpClient,
         database = database
     ),
-    val audioPlayer: AudioPlayer = AudioPlayer(),
+    val audioPlayer: AudioPlayer = createAudioPlayer(),
     val navigation: NavigationManager = Navigation(
         dispatcher = dispatcher,
         audioPlayer = audioPlayer,

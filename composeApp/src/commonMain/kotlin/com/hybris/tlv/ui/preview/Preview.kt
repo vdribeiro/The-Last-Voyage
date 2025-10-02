@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.preview
 
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.flow.Dispatchers
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
@@ -24,9 +25,19 @@ private val testNavigation by lazy {
     }
 }
 
+private val testAudioPlayer by lazy {
+    object: AudioPlayer() {
+        override fun playNextTrack() {}
+        override fun isPlaying(): Boolean = false
+        override fun resumePlayer() {}
+        override fun pausePlayer() {}
+        override fun stopPlayer() {}
+    }
+}
+
 internal fun <State, Action> getStore(initialState: State): Store<State, Action> = Store(
     dispatcher = testDispatchers,
     navigation = testNavigation,
-    audioPlayer = null,
+    audioPlayer = testAudioPlayer,
     initialState = initialState
 )

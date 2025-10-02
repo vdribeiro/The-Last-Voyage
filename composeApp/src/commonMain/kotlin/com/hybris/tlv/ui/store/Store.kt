@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.update
 internal open class Store<State, Action>(
     private val dispatcher: Dispatcher,
     private val navigation: NavigationManager,
-    private val audioPlayer: AudioPlayer?,
+    private val audioPlayer: AudioPlayer,
     initialState: State
 ) {
 
@@ -88,7 +88,7 @@ internal open class Store<State, Action>(
     /**
      * Toggle audio player.
      */
-    fun toggleAudio() = audioPlayer?.toggle()
+    fun toggleAudio() = audioPlayer.toggle()
 
     /**
      * Navigate to [Screen.Feedback] screen.
