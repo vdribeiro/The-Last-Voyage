@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.navigation
 /**
  * All possible screens in the app.
  */
-sealed interface Screen {
+internal sealed interface Screen {
     data object Splash: Screen
     data object MainMenu: Screen
     data object Feedback: Screen

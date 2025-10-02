@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.preview
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.flow.Dispatchers
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.NavigationManager.NavigationState
+import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import kotlinx.coroutines.flow.MutableStateFlow
