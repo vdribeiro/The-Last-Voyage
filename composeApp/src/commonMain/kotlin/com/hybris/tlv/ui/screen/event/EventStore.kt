@@ -6,6 +6,7 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
@@ -26,6 +27,7 @@ internal class EventStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         EventStateBuilder.Default -> EventState()
+        is EventStateBuilder.WithShip -> EventState(ship = stateBuilder.ship)
         is EventStateBuilder.FromSavableState -> stateBuilder.state
     }
 ) {
@@ -37,6 +39,7 @@ internal class EventStore(
     init {
         when (stateBuilder) {
             EventStateBuilder.Default -> setup()
+            is EventStateBuilder.WithShip -> setup()
             is EventStateBuilder.FromSavableState -> {
                 gameSession = stateBuilder.gameSession
                 eventChain.addAll(elements = stateBuilder.eventChain)
@@ -88,15 +91,15 @@ internal class EventStore(
 
     private fun select(action: EventAction.Select): Job = launch {
         Telemetry.info(tag = TAG, message = "Selected event ${action.event}")
-        Telemetry.info(tag = TAG, message = "Check if event chain has ended")
-        if (action.event == stopEvent) {
-            navigate(screen = Screen.Game)
-            return@launch
-        }
-
         val gameSession = this@EventStore.gameSession
         if (gameSession == null) {
             error(tag = TAG, message = "Invalid state: missing game session on select()")
+            return@launch
+        }
+
+        Telemetry.info(tag = TAG, message = "Check if event chain has ended")
+        if (action.event == stopEvent) {
+            navigate(screen = Screen.Game, stateBuilder = GameStateBuilder.WithShip(ship = gameSession.ship))
             return@launch
         }
 

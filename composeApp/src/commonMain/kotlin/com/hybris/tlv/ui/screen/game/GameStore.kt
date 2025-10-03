@@ -6,6 +6,7 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
@@ -28,6 +29,7 @@ internal class GameStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         GameStateBuilder.Default -> GameState()
+        is GameStateBuilder.WithShip -> GameState(ship = stateBuilder.ship)
         is GameStateBuilder.FromSavableState -> stateBuilder.state
     }
 ) {
@@ -37,6 +39,7 @@ internal class GameStore(
     init {
         when (stateBuilder) {
             GameStateBuilder.Default -> setup()
+            is GameStateBuilder.WithShip -> setup()
             is GameStateBuilder.FromSavableState -> gameSession = stateBuilder.gameSession
         }
     }
@@ -130,7 +133,7 @@ internal class GameStore(
         }
 
         this@GameStore.gameSession = gameSessionUseCases.travel(gameSession = gameSession, stellarHost = stellarHost)
-        navigate(screen = Screen.Event)
+        navigate(screen = Screen.Event, stateBuilder = EventStateBuilder.WithShip(ship = gameSession.ship))
     }
 
     private fun settle(action: GameAction.Settle): Job = launch {

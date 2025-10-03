@@ -10,6 +10,7 @@ internal sealed interface EventAction {
 
 internal sealed interface EventStateBuilder {
     data object Default: EventStateBuilder
+    data class WithShip(val ship: Ship): EventStateBuilder
     data class FromSavableState(
         val state: EventState,
         val gameSession: GameSession?,

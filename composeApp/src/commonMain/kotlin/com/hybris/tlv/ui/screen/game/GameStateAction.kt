@@ -13,6 +13,7 @@ internal sealed interface GameAction {
 
 internal sealed interface GameStateBuilder {
     data object Default: GameStateBuilder
+    data class WithShip(val ship: Ship): GameStateBuilder
     data class FromSavableState(val state: GameState, val gameSession: GameSession?): GameStateBuilder
 }
 
