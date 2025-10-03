@@ -16,7 +16,7 @@ import kotlinx.coroutines.delay
  * A LinearProgressIndicator that only appears after a certain delay.
  */
 @Composable
-fun Loading(
+internal fun Loading(
     modifier: Modifier = Modifier,
     delayMillis: Long = 300L,
     progress: (() -> Float)? = null,
