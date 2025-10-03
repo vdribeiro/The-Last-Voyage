@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.store
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
@@ -54,7 +55,6 @@ internal open class Store<State, Action>(
      */
     protected fun navigate(screen: Screen, stateBuilder: Any? = null) {
         jobs.forEach { it.cancel() }
-        navigation.back = {}
         navigation.navigate(
             screen = screen,
             stateBuilder = stateBuilder,
@@ -91,10 +91,21 @@ internal open class Store<State, Action>(
     fun toggleAudio() = audioPlayer.toggle()
 
     /**
-     * Navigate to [Screen.Feedback] screen.
+     * Navigate to [Screen.Feedback] screen asking for feedback.
      */
     fun feedback() = navigate(
         screen = Screen.Feedback,
         stateBuilder = FeedbackStateBuilder.Feedback
     )
+
+    /**
+     * Navigate to [Screen.Feedback] screen with error.
+     */
+    fun error(tag: String, message: String) {
+        Telemetry.error(tag = tag, message = message)
+        navigate(
+            screen = Screen.Feedback,
+            stateBuilder = FeedbackStateBuilder.Error(tag = tag, message = message)
+        )
+    }
 }

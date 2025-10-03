@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.screen.splash
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
@@ -43,6 +44,7 @@ internal class SplashStore(
     }
 
     private fun setup(): Job = launch {
+        Telemetry.info(tag = TAG, message = "Setup")
         config.fetch()
 
         val tasks = listOf(
@@ -66,9 +68,15 @@ internal class SplashStore(
         }
 
         config.flush()
+        Telemetry.info(tag = TAG, message = "Setup complete")
+
         delay(timeMillis = 1000L)
         navigate(screen = Screen.MainMenu)
     }
 
     override fun goBack(state: SplashState) {}
+
+    companion object {
+        private const val TAG = "SplashStore"
+    }
 }

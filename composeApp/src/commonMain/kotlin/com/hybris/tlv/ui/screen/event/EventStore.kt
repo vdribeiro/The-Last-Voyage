@@ -3,9 +3,9 @@ package com.hybris.tlv.ui.screen.event
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
@@ -48,26 +48,29 @@ internal class EventStore(
         EventStateBuilder.FromSavableState(state = state, gameSession = gameSession, eventChain = eventChain)
 
     private fun setup(): Job = launch {
+        Telemetry.info(tag = TAG, message = "Setup")
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on setup()"))
+            error(tag = TAG, message = "Invalid state: missing game session on setup()")
             return@launch
         }
 
-        // Guarantee at least 1 event
+        Telemetry.info(tag = TAG, message = "Get event chain and guarantee at least 1 event")
         val eventChain = eventUseCases.getRandomEvent(ids = gameSession.launchedEvents).ifEmpty {
             listOf(element = defaultEvent)
         }
 
         val parentEvent = eventChain.find { it.parentId == null }
         if (parentEvent == null) {
-            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing parent event on setup()"))
+            error(tag = TAG, message = "Invalid state: missing parent event on setup()")
             return@launch
         }
+        Telemetry.info(tag = TAG, message = "Get children events and guarantee at least 1 event")
         val childrenEvents = eventChain.filter { it.parentId == parentEvent.id }.ifEmpty {
             listOf(element = stopEvent)
         }
 
+        Telemetry.info(tag = TAG, message = "Launch event")
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = parentEvent)
 
         this@EventStore.gameSession = updatedGameSession
@@ -80,10 +83,12 @@ internal class EventStore(
                 childrenEvents = childrenEvents,
             )
         }
+        Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
     private fun select(action: EventAction.Select): Job = launch {
-        // Event chain has ended
+        Telemetry.info(tag = TAG, message = "Selected event ${action.event}")
+        Telemetry.info(tag = TAG, message = "Check if event chain has ended")
         if (action.event == stopEvent) {
             navigate(screen = Screen.Game)
             return@launch
@@ -91,14 +96,15 @@ internal class EventStore(
 
         val gameSession = this@EventStore.gameSession
         if (gameSession == null) {
-            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on select()"))
+            error(tag = TAG, message = "Invalid state: missing game session on select()")
             return@launch
         }
 
-        // Continue event chain
+        Telemetry.info(tag = TAG, message = "Continue event chain")
         val childrenEvents = this@EventStore.eventChain.filter { it.parentId == action.event.id }.ifEmpty {
             listOf(element = stopEvent)
         }
+        Telemetry.info(tag = TAG, message = "Launch event")
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = action.event)
 
         updateState {

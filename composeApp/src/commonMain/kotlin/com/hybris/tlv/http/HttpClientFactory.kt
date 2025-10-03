@@ -1,5 +1,6 @@
 package com.hybris.tlv.http
 
+import com.hybris.tlv.platform.isDebug
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.telemetry.Telemetry
 import io.ktor.client.HttpClient
@@ -28,7 +29,7 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
                     Telemetry.info(tag = "Ktor", message = message)
                 }
             }
-            level = LogLevel.INFO
+            level = if (isDebug) LogLevel.ALL else LogLevel.INFO
         }
         install(plugin = HttpTimeout) {
             connectTimeoutMillis = 10_000L

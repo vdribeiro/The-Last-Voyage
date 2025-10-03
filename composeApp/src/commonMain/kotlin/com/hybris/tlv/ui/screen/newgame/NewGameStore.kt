@@ -3,9 +3,9 @@ package com.hybris.tlv.ui.screen.newgame
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
@@ -44,9 +44,10 @@ internal class NewGameStore(
         NewGameStateBuilder.FromSavableState(state = state, selectedShip = selectedShip)
 
     private fun setup(): Job = launch {
+        Telemetry.info(tag = TAG, message = "Setup")
         val selectedCatastrophe = catastropheUseCases.getRandomCatastrophe()
         if (selectedCatastrophe == null) {
-            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing catastrophe on setup()"))
+            error(tag = TAG, message = "Invalid state: missing catastrophe on setup()")
             return@launch
         }
         val shipState = ShipState(
@@ -62,15 +63,18 @@ internal class NewGameStore(
                 shipState = shipState
             )
         }
+        Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
     private fun startGame() = launch {
+        Telemetry.info(tag = TAG, message = "Start game")
         val selectedShip = this@NewGameStore.selectedShip
         if (selectedShip == null) {
-            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing ship prototype on startGame()"))
+            error(tag = TAG, message = "Invalid state: missing ship prototype on startGame()")
             return@launch
         }
 
+        Telemetry.info(tag = TAG, message = "Selected ship: $selectedShip")
         gameSessionUseCases.startGame(
             GameSessionPrototype(
                 ship = selectedShip,

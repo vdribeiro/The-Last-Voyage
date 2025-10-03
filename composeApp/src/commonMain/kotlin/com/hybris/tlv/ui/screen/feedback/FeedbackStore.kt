@@ -35,7 +35,6 @@ internal class FeedbackStore(
             is FeedbackStateBuilder.Error -> {
                 tag = stateBuilder.tag
                 message = stateBuilder.message
-                Telemetry.error(tag = tag.orEmpty(), message = message.orEmpty())
             }
         }
     }

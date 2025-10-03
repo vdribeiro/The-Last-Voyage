@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.credit
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.credit.CreditUseCases
@@ -23,6 +24,7 @@ internal class CreditStore(
     }
 
     private fun setup(): Job = launch {
+        Telemetry.info(tag = TAG, message = "Setup")
         val credits = creditUseCases.getCredits()
         updateState {
             it.copy(
@@ -30,5 +32,10 @@ internal class CreditStore(
                 credits = credits
             )
         }
+        Telemetry.info(tag = TAG, message = "Setup complete")
+    }
+
+    companion object {
+        private const val TAG = "CreditStore"
     }
 }

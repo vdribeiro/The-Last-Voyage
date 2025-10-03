@@ -5,6 +5,7 @@ import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
 import com.hybris.tlv.ui.screen.credit.CreditScreen
 import com.hybris.tlv.ui.screen.event.EventScreen
@@ -42,7 +43,7 @@ internal class Navigation(
     private val _stateFlow: MutableStateFlow<NavigationState> = MutableStateFlow(value = initialState)
     override val stateFlow: StateFlow<NavigationState> get() = _stateFlow
 
-    override var back: () -> Unit = {}
+    override var back: () -> Unit = { goBack() }
 
     override fun goBack() {
         dispatcher.main.launch {
@@ -50,6 +51,7 @@ internal class Navigation(
                 stack.removeLast()
                 _stateFlow.update { stack.last() }
             }
+            Telemetry.info(tag = TAG, message = "Go back to ${_stateFlow.value}")
         }
     }
 
@@ -61,6 +63,7 @@ internal class Navigation(
             if (index != -1) stack.subList(index, stack.size).clear()
             stack.add(element = navigationState)
             _stateFlow.value = navigationState
+            Telemetry.info(tag = TAG, message = "Navigate to ${_stateFlow.value}")
         }
     }
 
@@ -84,5 +87,9 @@ internal class Navigation(
                 Screen.Credit -> CreditScreen(store = storeFactory.createCreditStore())
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "Navigation"
     }
 }

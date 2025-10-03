@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.SpaceUseCases
@@ -58,6 +59,7 @@ internal class StellarExplorerStore(
         )
 
     private fun setup(): Job = launch {
+        Telemetry.info(tag = TAG, message = "Setup")
         val stellarHosts = spaceUseCases.getExoplanets().apply {
             val formula = Formula()
             forEach { stellarHost ->
@@ -85,6 +87,7 @@ internal class StellarExplorerStore(
             )
         }.join()
         refresh()
+        Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
     /**
@@ -120,6 +123,7 @@ internal class StellarExplorerStore(
     }
 
     private fun changeView(state: StellarExplorerState): Job = launch {
+        Telemetry.info(tag = TAG, message = "Changed view")
         when (state.currentContent) {
             Content.LIST_HOSTS -> {
                 updateState {
@@ -145,9 +149,11 @@ internal class StellarExplorerStore(
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
         }
+        Telemetry.info(tag = TAG, message = "New view: ${state.currentContent}")
     }
 
     private fun search(state: StellarExplorerState, action: StellarExplorerAction.Search): Job = launch {
+        Telemetry.info(tag = TAG, message = "Searching for ${action.search}")
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.LIST_PLANETS -> {
                 updateState {
@@ -165,6 +171,7 @@ internal class StellarExplorerStore(
 
     private fun openStellarHost(state: StellarExplorerState, action: StellarExplorerAction.OpenStellarHost): Job = launch {
         if (state.currentContent != Content.LIST_HOSTS) return@launch
+        Telemetry.info(tag = TAG, message = "Opening stellar host ${action.stellarHost}")
         val filteredPlanets = action.stellarHost.planets
         updateState {
             it.copy(
@@ -177,6 +184,7 @@ internal class StellarExplorerStore(
 
     private fun openPlanet(state: StellarExplorerState, action: StellarExplorerAction.OpenPlanet): Job = launch {
         if (state.currentContent != Content.LIST_PLANETS) return@launch
+        Telemetry.info(tag = TAG, message = "Opening planet ${action.planet}")
         val filteredStellarHosts = state.stellarHosts.filter { stellarHost -> stellarHost.id == action.planet.stellarHostId }
         updateState {
             it.copy(
@@ -188,6 +196,7 @@ internal class StellarExplorerStore(
     }
 
     private fun sortStellarHosts(state: StellarExplorerState, action: StellarExplorerAction.SortStellarHosts): Job = launch {
+        Telemetry.info(tag = TAG, message = "Sorting stellar hosts by ${action.sort}")
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.LIST_PLANETS -> {
                 updateState { it.copy(sortStellarHostProperty = action.sort) }.join()
@@ -199,6 +208,7 @@ internal class StellarExplorerStore(
     }
 
     private fun sortPlanets(state: StellarExplorerState, action: StellarExplorerAction.SortPlanets): Job = launch {
+        Telemetry.info(tag = TAG, message = "Sorting planets by ${action.sort}")
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.LIST_PLANETS -> {
                 updateState { it.copy(sortPlanetProperty = action.sort) }.join()
@@ -212,6 +222,7 @@ internal class StellarExplorerStore(
 
     private fun changeSortDirection(state: StellarExplorerState): Job = launch {
         val ascending = !state.sortAscending
+        Telemetry.info(tag = TAG, message = "Changed sort direction to ${if (ascending) "ascending" else "descending"}")
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.LIST_PLANETS -> {
                 updateState { it.copy(sortAscending = ascending) }.join()
@@ -223,16 +234,19 @@ internal class StellarExplorerStore(
     }
 
     private fun changeStellarHostsVisibility(state: StellarExplorerState, action: StellarExplorerAction.ChangeStellarHostsVisibility): Job = launch {
+        Telemetry.info(tag = TAG, message = "Changing stellar host visibility for ${action.property}")
         val visibleStellarHostProperties = state.visibleStellarHostProperties.plusOrMinus(element = action.property)
         updateState { it.copy(visibleStellarHostProperties = visibleStellarHostProperties) }
     }
 
     private fun changePlanetVisibility(state: StellarExplorerState, action: StellarExplorerAction.ChangePlanetVisibility): Job = launch {
+        Telemetry.info(tag = TAG, message = "Changing stellar host visibility for ${action.property}")
         val visiblePlanetProperties = state.visiblePlanetProperties.plusOrMinus(element = action.property)
         updateState { it.copy(visiblePlanetProperties = visiblePlanetProperties) }
     }
 
     private fun changeStellarHostsSearchable(state: StellarExplorerState, action: StellarExplorerAction.ChangeStellarHostsSearchable): Job = launch {
+        Telemetry.info(tag = TAG, message = "Changing stellar host searchable property ${action.property}")
         val searchableStellarHostProperties = state.searchableStellarHostProperties.plusOrMinus(element = action.property)
         updateState {
             it.copy(
@@ -244,6 +258,7 @@ internal class StellarExplorerStore(
     }
 
     private fun changePlanetSearchable(state: StellarExplorerState, action: StellarExplorerAction.ChangePlanetSearchable): Job = launch {
+        Telemetry.info(tag = TAG, message = "Changing planet searchable property ${action.property}")
         val searchablePlanetProperties = state.searchablePlanetProperties.plusOrMinus(element = action.property)
         updateState {
             it.copy(
@@ -297,6 +312,10 @@ internal class StellarExplorerStore(
             is StellarExplorerAction.ChangeStellarHostsSearchable -> changeStellarHostsSearchable(state = state, action = action)
             is StellarExplorerAction.ChangePlanetSearchable -> changePlanetSearchable(state = state, action = action)
         }
+    }
+
+    companion object {
+        private const val TAG = "StellarExplorerStore"
     }
 }
 

@@ -26,12 +26,14 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
 
     private suspend fun fetchLocal() {
         this@Config.localConfigs = loadJsonFile(path = CONFIGS_JSON) ?: Configs().also { flush(configs = it) }
+        Telemetry.info(tag = TAG, message = "Fetched local configs")
     }
 
     private suspend fun fetchRemote() {
         // To prevet unnecessary fetches, wait 1 hour in between
         if (!hasTimePassed(dateTime = getPreferences().syncTime, duration = 1.hours)) {
             remoteCache = localConfigs
+            Telemetry.info(tag = TAG, message = "Fetched remote configs from local cache")
             return
         }
         setPreferences { it.copy(syncTime = now()) }
@@ -41,20 +43,26 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
             is Result.Success -> result.list.firstOrNull()
         } ?: Configs()
         remoteCache = remoteConfigs
+        Telemetry.info(tag = TAG, message = "Fetched remote configs")
     }
 
     override suspend fun flush(configs: Configs) {
         saveJsonFile(path = CONFIGS_JSON, content = configs)
+        Telemetry.info(tag = TAG, message = "Flushed local configs")
     }
 
-    override suspend fun getPreferences(): Preferences =
-        loadJsonFile(path = PREFERENCES_JSON) ?: Preferences().also { savePreferences(preferences = it) }
+    override suspend fun getPreferences(): Preferences {
+        val preferences = loadJsonFile(path = PREFERENCES_JSON) ?: Preferences().also { savePreferences(preferences = it) }
+        Telemetry.info(tag = TAG, message = "Fetched preferences")
+        return preferences
+    }
 
     override suspend fun setPreferences(preferences: (Preferences) -> Preferences) =
         savePreferences(preferences = preferences(getPreferences()))
 
     private suspend fun savePreferences(preferences: Preferences) {
         saveJsonFile(path = PREFERENCES_JSON, content = preferences)
+        Telemetry.info(tag = TAG, message = "Flushed preferences")
     }
 
     companion object Companion {

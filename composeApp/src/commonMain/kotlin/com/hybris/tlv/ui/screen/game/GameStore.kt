@@ -3,9 +3,9 @@ package com.hybris.tlv.ui.screen.game
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
@@ -45,13 +45,14 @@ internal class GameStore(
         GameStateBuilder.FromSavableState(state = state, gameSession = gameSession)
 
     private fun setup(): Job = launch {
+        Telemetry.info(tag = TAG, message = "Setup")
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on setup()"))
+            error(tag = TAG, message = "Invalid state: missing game session on setup()")
             return@launch
         }
 
-        // Attempt to repair the ship if the integrity is critically low
+        Telemetry.info(tag = TAG, message = "Attempt to repair the ship if the integrity is critically low")
         val ship = shipUseCases.repairShip(ship = gameSession.ship)
         val updatedGameSession = gameSession.copy(ship = ship)
         gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
@@ -61,9 +62,9 @@ internal class GameStore(
             return@launch
         }
 
-        // Get the current stellar host which the player is in
+        Telemetry.info(tag = TAG, message = "Get the current stellar host the player is in")
         val currentStellarHostId = updatedGameSession.currentStellarHostId ?: "sol"
-        // Calculate habitability for each planet of the current stellar host
+        Telemetry.info(tag = TAG, message = "Calculate the habitability for each planet of the current stellar host")
         val currentStellarHost = spaceUseCases.getStellarHost(id = currentStellarHostId)?.apply {
             planets.forEach { planet ->
                 planet.score = Habitability.calculateScores(
@@ -74,19 +75,19 @@ internal class GameStore(
             }
         }
         if (currentStellarHost == null) {
-            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing stellar host on setup()"))
+            error(tag = TAG, message = "Invalid state: missing stellar host on setup()")
             return@launch
         }
 
-        // Get and set the visited stellar hosts
+        Telemetry.info(tag = TAG, message = "Get and set the visited stellar hosts")
         var visited = updatedGameSession.visitedStellarHosts.ifEmpty { setOf(currentStellarHostId) }
-        // Get the stars nearest to the current stellar host by sensor range
+        Telemetry.info(tag = TAG, message = "Get the stars nearest to the current stellar host by sensor range")
         val nearStellarHosts = spaceUseCases.getNearestStars(
             stellarHost = currentStellarHost,
             n = ship.sensorRange,
             visited = visited
         ).ifEmpty {
-            // Nowhere to go, clear visited and recalculate
+            Telemetry.info(tag = TAG, message = "Nowhere to go, clear visited hosts and recalculate")
             // TODO: achievement here!
             visited = setOf(currentStellarHost.id)
             spaceUseCases.getNearestStars(
@@ -111,18 +112,20 @@ internal class GameStore(
                 nearStellarHosts = nearStellarHosts,
             )
         }
+        Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
     private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
+        Telemetry.info(tag = TAG, message = "Travelled to ${action.stellarHost}")
         val gameSession = this@GameStore.gameSession
         if (gameSession == null) {
-            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on travel()"))
+            error(tag = TAG, message = "Invalid state: missing game session on travel()")
             return@launch
         }
 
         val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }
         if (stellarHost == null) {
-            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing stellar host on travel()"))
+            error(tag = TAG, message = "Invalid state: missing stellar host on travel()")
             return@launch
         }
 
@@ -131,9 +134,10 @@ internal class GameStore(
     }
 
     private fun settle(action: GameAction.Settle): Job = launch {
+        Telemetry.info(tag = TAG, message = "Settled on ${action.planet}")
         val gameSession = this@GameStore.gameSession
         if (gameSession == null) {
-            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on settle()"))
+            error(tag = TAG, message = "Invalid state: missing game session on settle()")
             return@launch
         }
 

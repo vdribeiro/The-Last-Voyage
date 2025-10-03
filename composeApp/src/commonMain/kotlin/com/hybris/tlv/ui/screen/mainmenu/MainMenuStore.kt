@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.screen.mainmenu
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
@@ -36,6 +37,7 @@ internal class MainMenuStore(
         MainMenuStateBuilder.FromSavableState(currentContent = state.currentContent)
 
     private fun setup(): Job = launch {
+        Telemetry.info(tag = TAG, message = "Setup")
         config.fetch()
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
         val learningsMap = learningUseCases.getLearnings().groupBy { it.type }
@@ -56,9 +58,11 @@ internal class MainMenuStore(
                 learningsMap = learningsMap,
             )
         }
+        Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
     private fun newGame(): Job = launch {
+        Telemetry.info(tag = TAG, message = "New game")
         if (config.getPreferences().showTutorial) {
             updateState { it.copy(newGameDialog = true) }
         } else navigate(screen = Screen.NewGame)
@@ -70,6 +74,7 @@ internal class MainMenuStore(
     }
 
     private fun newGameWithTutorial(): Job = launch {
+        Telemetry.info(tag = TAG, message = "Show tutorial")
         config.setPreferences { it.copy(showTutorial = false) }
         navigate(screen = Screen.Tutorial, stateBuilder = TutorialStateBuilder.NewGame(newGame = true))
     }
@@ -101,5 +106,9 @@ internal class MainMenuStore(
             MainMenuAction.Mechanics -> navigate(screen = Screen.Tutorial)
             MainMenuAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
         }
+    }
+
+    companion object {
+        private const val TAG = "MainMenuStore"
     }
 }

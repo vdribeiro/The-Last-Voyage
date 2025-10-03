@@ -3,9 +3,9 @@ package com.hybris.tlv.ui.screen.gameover
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import kotlinx.coroutines.Job
@@ -36,12 +36,14 @@ internal class GameOverStore(
         GameOverStateBuilder.FromSavableState(state = state)
 
     private fun setup(): Job = launch {
+        Telemetry.info(tag = TAG, message = "Setup")
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            navigate(screen = Screen.Feedback, stateBuilder = FeedbackStateBuilder.Error(tag = TAG, message = "Invalid state: missing game session on setup()"))
+            error(tag = TAG, message = "Invalid state: missing game session on setup()")
             return@launch
         }
 
+        Telemetry.info(tag = TAG, message = "Get game over")
         val gameOver = gameSessionUseCases.getGameOver(gameSession = gameSession)
         val updatedGameSession = gameSessionUseCases.score(
             gameSession = gameSession,
@@ -55,6 +57,7 @@ internal class GameOverStore(
                 gameOver = gameOver
             )
         }
+        Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
     override fun goBack(state: GameOverState) {}

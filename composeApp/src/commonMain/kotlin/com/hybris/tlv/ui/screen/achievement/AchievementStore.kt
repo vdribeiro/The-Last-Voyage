@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.achievement
 
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
@@ -23,6 +24,7 @@ internal class AchievementStore(
     }
 
     private fun setup(): Job = launch {
+        Telemetry.info(tag = TAG, message = "Setup")
         val achievements = achievementUseCases.getAchievements()
         updateState {
             it.copy(
@@ -30,5 +32,10 @@ internal class AchievementStore(
                 achievements = achievements
             )
         }
+        Telemetry.info(tag = TAG, message = "Setup complete")
+    }
+
+    companion object {
+        private const val TAG = "AchievementStore"
     }
 }
