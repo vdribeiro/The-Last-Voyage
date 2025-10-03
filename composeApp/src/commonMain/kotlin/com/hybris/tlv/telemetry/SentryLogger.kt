@@ -28,7 +28,7 @@ internal object SentryLogger {
             options.environment = if (isDebug) "dev" else "prod"
 
             options.sampleRate = 1.0
-            options.tracesSampleRate = 0.2
+            options.tracesSampleRate = 0.5
         }
     }
 
