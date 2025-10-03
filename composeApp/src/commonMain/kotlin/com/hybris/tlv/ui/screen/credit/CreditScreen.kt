@@ -2,17 +2,13 @@ package com.hybris.tlv.ui.screen.credit
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -20,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
@@ -56,28 +51,30 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {
-        LazyColumn(
+        LazyVerticalStaggeredGrid(
             modifier = Modifier
                 .testTag(tag = CREDIT_SCREEN_LIST)
                 .fillMaxSize()
                 .padding(all = 16.dp),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+            columns = StaggeredGridCells.Adaptive(minSize = 100.dp),
+            horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+            verticalItemSpacing = 8.dp
         ) {
             val creditsMap = storeState.credits.groupBy { it.type }
 
             // Creators
             val creators = creditsMap[CreditType.CREATOR].orEmpty()
             if (creators.isNotEmpty()) {
-                item(key = CreditType.CREATOR) {
+                item(key = CreditType.CREATOR, span = StaggeredGridItemSpan.FullLine) {
                     Text(
-                        modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_CREATOR),
+                        modifier = Modifier
+                            .testTag(tag = CREDIT_SCREEN_LIST_CREATOR)
+                            .padding(bottom = 8.dp),
                         text = creatorsTranslation,
                         style = typography.titleLarge,
                     )
                 }
-                items(items = creators, key = { it.id }) { credit ->
-                    Spacer(modifier = Modifier.height(height = 8.dp))
+                items(items = creators, key = { it.id }, span = { StaggeredGridItemSpan.FullLine }) { credit ->
                     Text(
                         modifier = Modifier
                             .testTag(tag = CREDIT_SCREEN_LIST_CREATOR_ITEM)
@@ -94,16 +91,16 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
             // Data sources
             val sources = creditsMap[CreditType.SOURCE].orEmpty()
             if (sources.isNotEmpty()) {
-                item(key = CreditType.SOURCE) {
-                    Spacer(modifier = Modifier.height(height = 16.dp))
+                item(key = CreditType.SOURCE, span = StaggeredGridItemSpan.FullLine) {
                     Text(
-                        modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_SOURCE),
+                        modifier = Modifier
+                            .testTag(tag = CREDIT_SCREEN_LIST_SOURCE)
+                            .padding(top = 16.dp, bottom = 8.dp),
                         text = sourcesTranslation,
                         style = typography.titleLarge,
                     )
                 }
-                items(items = sources, key = { it.id }) { credit ->
-                    Spacer(modifier = Modifier.height(height = 8.dp))
+                items(items = sources, key = { it.id }, span = { StaggeredGridItemSpan.FullLine }) { credit ->
                     Text(
                         modifier = Modifier
                             .testTag(tag = CREDIT_SCREEN_LIST_SOURCE_ITEM)
@@ -120,16 +117,16 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
             // Music authors
             val musics = creditsMap[CreditType.MUSIC].orEmpty()
             if (musics.isNotEmpty()) {
-                item(key = CreditType.MUSIC) {
-                    Spacer(modifier = Modifier.height(height = 16.dp))
+                item(key = CreditType.MUSIC, span = StaggeredGridItemSpan.FullLine) {
                     Text(
-                        modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_MUSIC),
+                        modifier = Modifier
+                            .testTag(tag = CREDIT_SCREEN_LIST_MUSIC)
+                            .padding(top = 16.dp, bottom = 8.dp),
                         text = musicTranslation,
                         style = typography.titleLarge,
                     )
                 }
-                items(items = musics, key = { it.id }) { credit ->
-                    Spacer(modifier = Modifier.height(height = 8.dp))
+                items(items = musics, key = { it.id }, span = { StaggeredGridItemSpan.FullLine }) { credit ->
                     Text(
                         modifier = Modifier
                             .testTag(tag = CREDIT_SCREEN_LIST_MUSIC_ITEM)
@@ -146,39 +143,30 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
             // Supporters
             val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
             if (supporters.isNotEmpty()) {
-                item(key = CreditType.SUPPORTER) {
-                    Spacer(modifier = Modifier.height(height = 16.dp))
+                item(key = CreditType.SUPPORTER, span = StaggeredGridItemSpan.FullLine) {
                     Text(
-                        modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER),
+                        modifier = Modifier
+                            .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER)
+                            .padding(top = 16.dp, bottom = 8.dp),
                         text = supportersTranslation,
                         style = typography.titleLarge,
                     )
                 }
-                item {
-                    Spacer(modifier = Modifier.height(height = 8.dp))
-                    LazyVerticalGrid(
-                        modifier = Modifier.heightIn(max = 500.dp),
-                        columns = GridCells.Adaptive(minSize = 100.dp),
-                        horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-                        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
-                    ) {
-                        items(items = supporters) { credit ->
-                            Card(elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
-                                Text(
-                                    modifier = Modifier
-                                        .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER_ITEM)
-                                        .fillMaxWidth()
-                                        .clickable { credit.link?.let { uriHandler.openUri(uri = it) } }
-                                        .padding(all = 16.dp),
-                                    text = credit.id,
-                                    style = typography.bodyLarge.copy(
-                                        color = colorScheme.primary,
-                                        textDecoration = TextDecoration.Underline
-                                    ),
-                                    textAlign = TextAlign.Center
-                                )
-                            }
-                        }
+                items(items = supporters) { credit ->
+                    Card(elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
+                        Text(
+                            modifier = Modifier
+                                .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER_ITEM)
+                                .fillMaxWidth()
+                                .clickable { credit.link?.let { uriHandler.openUri(uri = it) } }
+                                .padding(all = 16.dp),
+                            text = credit.id,
+                            style = typography.bodyLarge.copy(
+                                color = colorScheme.primary,
+                                textDecoration = TextDecoration.Underline
+                            ),
+                            textAlign = TextAlign.Center
+                        )
                     }
                 }
             }
