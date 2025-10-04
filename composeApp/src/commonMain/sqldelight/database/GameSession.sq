@@ -32,6 +32,9 @@ SELECT
     Ship.fuel,
     Ship.materials,
     Ship.cryopods,
+    Engine.id,
+    Engine.description,
+    Engine.velocity,
     Formula.rocheWeight,
     Formula.habitableZoneKopparapuWeight,
     Formula.habitableZoneKastingWeight,
@@ -61,6 +64,7 @@ SELECT
     Formula.stellarHostEffectiveTemperatureMaxDeviation
 FROM GameSession
 JOIN Ship USING(id)
+JOIN Engine ON Ship.engineId = Engine.id
 JOIN Formula USING(id)
 ORDER BY GameSession.utc DESC;
 
@@ -81,6 +85,9 @@ SELECT
     Ship.fuel,
     Ship.materials,
     Ship.cryopods,
+    Engine.id,
+    Engine.description,
+    Engine.velocity,
     Formula.rocheWeight,
     Formula.habitableZoneKopparapuWeight,
     Formula.habitableZoneKastingWeight,
@@ -110,6 +117,7 @@ SELECT
     Formula.stellarHostEffectiveTemperatureMaxDeviation
 FROM GameSession
 JOIN Ship USING(id)
+JOIN Engine ON Ship.engineId = Engine.id
 JOIN Formula USING(id)
 ORDER BY GameSession.utc DESC
 LIMIT 1;

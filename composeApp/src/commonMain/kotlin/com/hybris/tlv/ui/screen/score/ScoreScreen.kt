@@ -28,6 +28,7 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.Score
 import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.usecase.gamesession.model.GameSession
+import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.space.model.Formula
@@ -123,6 +124,11 @@ private fun ScoreList() {
                             utc = now(),
                             ship = Ship(
                                 id = "1",
+                                engine =  Engine(
+                                    id = "1",
+                                    description = "",
+                                    velocity = 0.1
+                                ),
                                 assignedPoints = 10,
                                 yearsTraveled = 100.0,
                                 sensorRange = 5,

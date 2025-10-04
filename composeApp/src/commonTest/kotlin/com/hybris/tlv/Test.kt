@@ -92,6 +92,7 @@ internal val formula: Formula by lazy {
 }
 internal val shipPrototype: ShipPrototype by lazy {
     ShipPrototype(
+        engineId = "engine__liquid_fuel_rocket",
         assignedPoints = 10,
         sensorRange = 5,
         fuel = 100,

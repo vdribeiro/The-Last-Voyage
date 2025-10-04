@@ -10,6 +10,7 @@ import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
+import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
@@ -409,6 +410,7 @@ internal class GameSessionGateway(
     private fun ShipPrototype.toShip(id: String = generateUuid()): Ship =
         Ship(
             id = id,
+            engineId = engineId,
             assignedPoints = assignedPoints,
             yearsTraveled = 0.0,
             sensorRange = sensorRange,
@@ -421,6 +423,7 @@ internal class GameSessionGateway(
     private fun Ship.toShipSchema(): ShipSchema =
         ShipSchema(
             id = id,
+            engineId = engine.id,
             assignedPoints = assignedPoints,
             yearsTraveled = yearsTraveled,
             sensorRange = sensorRange,
@@ -477,6 +480,9 @@ internal class GameSessionGateway(
                                           fuel: Int,
                                           materials: Int,
                                           cryopods: Int,
+                                          engineId: String,
+                                          engineDescription: String,
+                                          engineVelocity: Double,
                                           rocheWeight: Double,
                                           habitableZoneKopparapuWeight: Double,
                                           habitableZoneKastingWeight: Double,
@@ -515,6 +521,11 @@ internal class GameSessionGateway(
             score = score,
             ship = Ship(
                 id = id,
+                engine = Engine(
+                    id = engineId,
+                    description = engineDescription,
+                    velocity = engineVelocity,
+                ),
                 assignedPoints = assignedPoints,
                 yearsTraveled = yearsTraveled,
                 sensorRange = sensorRange,

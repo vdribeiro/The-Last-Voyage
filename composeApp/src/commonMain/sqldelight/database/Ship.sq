@@ -2,6 +2,7 @@ import kotlin.Int;
 
 CREATE TABLE IF NOT EXISTS Ship (
     id TEXT NOT NULL PRIMARY KEY,
+    engineId TEXT NOT NULL,
     assignedPoints INTEGER AS Int NOT NULL,
     yearsTraveled REAL NOT NULL,
     sensorRange INTEGER AS Int NOT NULL,

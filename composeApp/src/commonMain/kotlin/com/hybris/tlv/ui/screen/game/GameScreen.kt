@@ -23,6 +23,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.ui.theme.component.StatusBar
+import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
@@ -156,6 +157,11 @@ private fun GameShip() {
                     currentContent = Content.SHIP,
                     ship = Ship(
                         id = "1",
+                        engine = Engine(
+                            id = "1",
+                            description = "",
+                            velocity = 0.1
+                        ),
                         assignedPoints = 10,
                         yearsTraveled = 100.0,
                         sensorRange = 5,
@@ -199,6 +205,11 @@ private fun GameSystem() {
                     currentContent = Content.SYSTEM,
                     ship = Ship(
                         id = "1",
+                        engine = Engine(
+                            id = "1",
+                            description = "",
+                            velocity = 0.1
+                        ),
                         assignedPoints = 10,
                         yearsTraveled = 100.0,
                         sensorRange = 5,
@@ -280,6 +291,11 @@ private fun GameTravel() {
                     currentContent = Content.TRAVEL,
                     ship = Ship(
                         id = "1",
+                        engine = Engine(
+                            id = "1",
+                            description = "",
+                            velocity = 0.1
+                        ),
                         assignedPoints = 10,
                         yearsTraveled = 100.0,
                         sensorRange = 5,

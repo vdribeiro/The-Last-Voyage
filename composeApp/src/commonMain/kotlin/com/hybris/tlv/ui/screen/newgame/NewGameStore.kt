@@ -51,6 +51,7 @@ internal class NewGameStore(
             return@launch
         }
         val shipState = ShipState(
+            engineId = "engine__liquid_fuel_rocket",
             totalPoints = 16,
             sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 4),
             fuel = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 700),

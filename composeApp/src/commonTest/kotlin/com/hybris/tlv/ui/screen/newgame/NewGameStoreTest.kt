@@ -56,6 +56,7 @@ internal class NewGameStoreTest {
         val newGameStore = store
         assertNull(actual = newGameStore.selectedShip)
         val shipPrototype = ShipPrototype(
+            engineId = "engine__liquid_fuel_rocket",
             assignedPoints = 1,
             sensorRange = 1,
             materials = 1,

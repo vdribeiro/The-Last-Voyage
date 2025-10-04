@@ -59,6 +59,7 @@ private fun NewGameShip() {
                     currentContent = Content.SHIP,
                     selectedCatastrophe = null,
                     shipState = ShipState(
+                        engineId = "engine__liquid_fuel_rocket",
                         totalPoints = 10,
                         sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 3),
                         materials = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),

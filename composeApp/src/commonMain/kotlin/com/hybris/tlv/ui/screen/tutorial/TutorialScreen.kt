@@ -33,6 +33,7 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.ui.theme.component.StatusBar
+import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -43,6 +44,11 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
     val ship = remember {
         Ship(
             id = "",
+            engine = Engine(
+                id = "",
+                description = "",
+                velocity = 0.1
+            ),
             assignedPoints = 0,
             yearsTraveled = 0.0,
             sensorRange = (1..5).random(),

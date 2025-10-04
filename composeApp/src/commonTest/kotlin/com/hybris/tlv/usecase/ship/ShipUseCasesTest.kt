@@ -36,6 +36,7 @@ internal class ShipUseCasesTest {
     fun `repair ship`() = runBlocking {
         val shipNoIntegrity = Ship(
             id = "",
+            engineId = "",
             assignedPoints = 0,
             yearsTraveled = 0.0,
             sensorRange = 5,
@@ -49,6 +50,7 @@ internal class ShipUseCasesTest {
         assertEquals(expected = 49, actual = repairedShipIntegrity.materials)
         val shipNoMaterials = Ship(
             id = "",
+            engineId = "",
             assignedPoints = 0,
             yearsTraveled = 0.0,
             sensorRange = 5,
