@@ -129,7 +129,6 @@ internal fun NewGameContent(store: Store<NewGameState, NewGameAction>) {
                 store.send(
                     action = NewGameAction.SelectShip(
                         ShipPrototype(
-                            engineId = shipState.engineId,
                             assignedPoints = shipState.assignedPoints,
                             sensorRange = shipState.sensorRange.value,
                             fuel = shipState.fuel.value,

@@ -33,7 +33,6 @@ internal enum class Content {
 
 @Stable
 internal data class ShipState(
-    val engineId: String,
     val totalPoints: Int,
     val sensorRange: AttributePoint,
     val fuel: AttributePoint,

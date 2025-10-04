@@ -12,7 +12,6 @@ import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
-import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
@@ -381,7 +380,8 @@ internal class GameSessionGateway(
     override suspend fun isGameOver(gameSession: GameSession): Boolean =
         gameSession.ship.integrity <= 0 || gameSession.ship.fuel <= 0 || gameSession.settledPlanetId != null
 
-    private fun GameSessionPrototype.toGameSession(id: String = generateUuid()): GameSession =
+    private fun GameSessionPrototype.toGameSession(): GameSession {
+        val id = generateUuid()
         GameSession(
             id = id,
             utc = now(),
@@ -391,9 +391,20 @@ internal class GameSessionGateway(
             settledPlanetId = null,
             finalHabitability = null,
             score = null,
-            ship = ship.toShip(id),
+            ship = Ship(
+                id = id,
+                engine = engine,
+                assignedPoints = assignedPoints,
+                yearsTraveled = 0.0,
+                sensorRange = sensorRange,
+                integrity = 100,
+                fuel = fuel,
+                materials = materials,
+                cryopods = cryopods,
+            ),
             formula = formula.copy(id = id)
         )
+    }
 
     private fun GameSession.toGameSessionSchema(): GameSessionSchema =
         GameSessionSchema(
@@ -405,19 +416,6 @@ internal class GameSessionGateway(
             settledPlanetId = settledPlanetId,
             finalHabitability = finalHabitability,
             score = score,
-        )
-
-    private fun ShipPrototype.toShip(id: String = generateUuid()): Ship =
-        Ship(
-            id = id,
-            engineId = engineId,
-            assignedPoints = assignedPoints,
-            yearsTraveled = 0.0,
-            sensorRange = sensorRange,
-            integrity = 100,
-            fuel = fuel,
-            materials = materials,
-            cryopods = cryopods,
         )
 
     private fun Ship.toShipSchema(): ShipSchema =

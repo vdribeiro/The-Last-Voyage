@@ -124,7 +124,7 @@ private fun ScoreList() {
                             utc = now(),
                             ship = Ship(
                                 id = "1",
-                                engine =  Engine(
+                                engine = Engine(
                                     id = "1",
                                     description = "",
                                     velocity = 0.1

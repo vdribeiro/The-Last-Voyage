@@ -5,5 +5,6 @@ import com.hybris.tlv.usecase.space.model.Formula
 
 internal data class GameSessionPrototype(
     val ship: ShipPrototype,
+    val engineId: String,
     val formula: Formula,
 )
