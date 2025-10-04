@@ -1,10 +1,24 @@
 package com.hybris.tlv.ui.screen.game
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Rocket
 import androidx.compose.material.icons.filled.RocketLaunch
+import androidx.compose.material.icons.outlined.BedroomParent
+import androidx.compose.material.icons.outlined.Construction
+import androidx.compose.material.icons.outlined.LocalGasStation
+import androidx.compose.material.icons.outlined.Radar
+import androidx.compose.material.icons.outlined.Shield
+import androidx.compose.material.icons.outlined.Speed
+import androidx.compose.material.icons.outlined.Timer
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -15,16 +29,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
-import com.hybris.tlv.ui.screen.game.content.ShipContent
-import com.hybris.tlv.ui.screen.game.content.SystemContent
-import com.hybris.tlv.ui.screen.game.content.TravelContent
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.PlanetCard
 import com.hybris.tlv.ui.theme.component.Screen
+import com.hybris.tlv.ui.theme.component.StatDisplay
 import com.hybris.tlv.ui.theme.component.StatusBar
+import com.hybris.tlv.ui.theme.component.StellarHostCard
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
+import com.hybris.tlv.usecase.space.formula.roundTo
+import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
+import com.hybris.tlv.usecase.space.formula.toDrawable
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
@@ -92,6 +110,172 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
             Content.SHIP -> ShipContent(store = store)
             Content.SYSTEM -> SystemContent(store = store)
             Content.TRAVEL -> TravelContent(store = store)
+        }
+    }
+}
+
+@Composable
+private fun ShipContent(store: Store<GameState, GameAction>) {
+    val storeState by store.stateFlow.collectAsState()
+    val ship = storeState.ship ?: return
+    val yearsTraveledTranslation = remember { getTranslation(key = "ship_years_traveled") }
+    val sensorTranslation = remember { getTranslation(key = "ship_sensor") }
+    val speedTranslation = remember { getTranslation(key = "ship_speed") }
+    val integrityTranslation = remember { getTranslation(key = "ship_integrity") }
+    val fuelTranslation = remember { getTranslation(key = "ship_fuel") }
+    val materialsTranslation = remember { getTranslation(key = "ship_materials") }
+    val cryopodsTranslation = remember { getTranslation(key = "ship_cryopods") }
+
+    // Ship status with years traveled, sensor range, maximum speed, integrity, fuel, materials and cryopods
+    LazyColumn(
+        modifier = Modifier
+            .testTag(tag = GAME_SCREEN_SHIP_CONTENT)
+            .fillMaxSize()
+            .padding(all = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+    ) {
+        item {
+            StatDisplay(
+                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_YEARS_TRAVELED),
+                icon = Icons.Outlined.Timer,
+                label = yearsTraveledTranslation,
+                value = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString()
+            )
+        }
+        item {
+            StatDisplay(
+                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_SENSOR),
+                icon = Icons.Outlined.Radar,
+                label = sensorTranslation,
+                value = ship.sensorRange.toString()
+            )
+        }
+        item {
+            StatDisplay(
+                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_SPEED),
+                icon = Icons.Outlined.Speed,
+                label = speedTranslation,
+                value = "${ship.engine.velocity}c"
+            )
+        }
+        item {
+            StatDisplay(
+                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_INTEGRITY),
+                icon = Icons.Outlined.Shield,
+                label = integrityTranslation,
+                value = "${ship.integrity} / 100",
+            )
+        }
+        item {
+            StatDisplay(
+                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_FUEL),
+                icon = Icons.Outlined.LocalGasStation,
+                label = fuelTranslation,
+                value = ship.fuel.toString()
+            )
+        }
+        item {
+            StatDisplay(
+                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_MATERIALS),
+                icon = Icons.Outlined.Construction,
+                label = materialsTranslation,
+                value = ship.materials.toString()
+            )
+        }
+        item {
+            StatDisplay(
+                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_CRYOPODS),
+                icon = Icons.Outlined.BedroomParent,
+                label = cryopodsTranslation,
+                value = ship.cryopods.toString()
+            )
+        }
+    }
+}
+
+@Composable
+private fun SystemContent(store: Store<GameState, GameAction>) {
+    val storeState by store.stateFlow.collectAsState()
+    val stellarHost = storeState.currentStellarHost ?: return
+
+    LazyColumn(
+        modifier = Modifier
+            .testTag(tag = GAME_SCREEN_SYSTEM_CONTENT)
+            .fillMaxSize()
+            .padding(all = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+    ) {
+        item(key = stellarHost.id) {
+            StellarHostCard(
+                modifier = Modifier.testTag(tag = GAME_SCREEN_SYSTEM_CONTENT_STELLAR_HOST),
+                name = stellarHost.name,
+                systemName = stellarHost.systemName,
+                planetCount = stellarHost.planets.size,
+                spectralType = stellarHost.spectralType,
+                spectralTypeDrawable = stellarHost.spectralType.spectralTypeToDrawable(),
+                effectiveTemperature = stellarHost.effectiveTemperature,
+                radius = stellarHost.radius,
+                mass = stellarHost.mass,
+                metallicity = stellarHost.metallicity,
+                luminosity = stellarHost.luminosity,
+                gravity = stellarHost.gravity,
+                age = stellarHost.age,
+                density = stellarHost.density,
+                rotationalVelocity = stellarHost.rotationalVelocity,
+                rotationalPeriod = stellarHost.rotationalPeriod,
+                distance = stellarHost.distance,
+                ra = stellarHost.ra,
+                dec = stellarHost.dec,
+            )
+        }
+        item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
+        items(items = stellarHost.planets, key = { it.id }) { planet ->
+            PlanetCard(
+                modifier = Modifier
+                    .testTag(tag = GAME_SCREEN_SYSTEM_CONTENT_PLANET)
+                    .clickable { store.send(action = GameAction.Settle(planet = planet)) },
+                name = planet.name,
+                orbitalPeriod = planet.orbitalPeriod,
+                orbitAxis = planet.orbitAxis,
+                radius = planet.radius,
+                mass = planet.mass,
+                density = planet.density,
+                eccentricity = planet.eccentricity,
+                insolationFlux = planet.insolationFlux,
+                equilibriumTemperature = planet.equilibriumTemperature,
+                occultationDepth = planet.occultationDepth,
+                inclination = planet.inclination,
+                obliquity = planet.obliquity,
+                habitability = planet.score?.habitabilityScore,
+                type = planet.score?.planetType?.displayName,
+                typeDrawable = planet.score?.planetType.toDrawable()
+            )
+        }
+    }
+}
+
+@Composable
+private fun TravelContent(store: Store<GameState, GameAction>) {
+    val storeState by store.stateFlow.collectAsState()
+
+    LazyColumn(
+        modifier = Modifier
+            .testTag(tag = GAME_SCREEN_TRAVEL_CONTENT)
+            .fillMaxSize()
+            .padding(all = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+    ) {
+        items(items = storeState.nearStellarHosts, key = { it.id }) { stellarHost ->
+            StellarHostCard(
+                modifier = Modifier
+                    .testTag(tag = GAME_SCREEN_TRAVEL_CONTENT_STELLAR_HOST)
+                    .clickable { store.send(action = GameAction.Travel(stellarHost = stellarHost)) },
+                name = stellarHost.name,
+                planetCount = stellarHost.planets.size,
+                spectralType = stellarHost.spectralType,
+                spectralTypeDrawable = stellarHost.spectralType.spectralTypeToDrawable(),
+                distance = stellarHost.distance,
+            )
         }
     }
 }

@@ -63,32 +63,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
                 cryopods = ship?.cryopods?.toString()
             )
         },
-    ) {
-        Column(
-            modifier = Modifier
-                .testTag(tag = EVENT_SCREEN_COLUMN)
-                .fillMaxSize()
-                .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            // Event
-            if (event != null) {
-                Text(
-                    modifier = Modifier.testTag(tag = EVENT_SCREEN_COLUMN_EVENT),
-                    text = getTranslation(key = event.id),
-                    style = typography.titleLarge,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(height = 16.dp))
-                TypewriterText(
-                    modifier = Modifier
-                        .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_DESCRIPTION)
-                        .weight(weight = 1f)
-                        .fillMaxWidth(),
-                    text = getTranslation(key = event.description) + if (event.outcome != null) "\n\n${event.outcome.getTranslation()}" else ""
-                )
-            }
-
+        bottomBar = {
             // Event chain buttons
             LazyColumn(
                 modifier = Modifier
@@ -109,6 +84,32 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
                     }
                 }
                 item { Spacer(modifier = Modifier.height(height = 16.dp)) }
+            }
+        }
+    ) {
+        if (event != null) {
+            Column(
+                modifier = Modifier
+                    .testTag(tag = EVENT_SCREEN_COLUMN)
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                // Event
+                Text(
+                    modifier = Modifier.testTag(tag = EVENT_SCREEN_COLUMN_EVENT),
+                    text = getTranslation(key = event.id),
+                    style = typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(height = 16.dp))
+                TypewriterText(
+                    modifier = Modifier
+                        .testTag(tag = EVENT_SCREEN_COLUMN_EVENT_DESCRIPTION)
+                        .weight(weight = 1f)
+                        .fillMaxWidth(),
+                    text = getTranslation(key = event.description) + if (event.outcome != null) "\n\n${event.outcome.getTranslation()}" else ""
+                )
             }
         }
     }

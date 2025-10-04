@@ -1,24 +1,50 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.ui.preview.getStore
-import com.hybris.tlv.ui.screen.mainmenu.content.HabitabilityContent
-import com.hybris.tlv.ui.screen.mainmenu.content.HostDefinitionContent
-import com.hybris.tlv.ui.screen.mainmenu.content.LearnContent
-import com.hybris.tlv.ui.screen.mainmenu.content.MainMenuContent
-import com.hybris.tlv.ui.screen.mainmenu.content.PlanetDefinitionContent
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalColorScheme
+import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.AppLogo
 import com.hybris.tlv.ui.theme.component.BottomBar
+import com.hybris.tlv.ui.theme.component.PlanetCard
 import com.hybris.tlv.ui.theme.component.Screen
+import com.hybris.tlv.ui.theme.component.SimpleCard
+import com.hybris.tlv.ui.theme.component.StellarHostCard
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
+import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
+import com.hybris.tlv.usecase.space.formula.toDrawable
+import com.hybris.tlv.usecase.space.model.Planet
+import com.hybris.tlv.usecase.space.model.PlanetStatus
+import com.hybris.tlv.usecase.space.model.PlanetType
+import com.hybris.tlv.usecase.space.model.Score
+import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -48,6 +74,463 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
             Content.HOST_DEFINITION -> HostDefinitionContent(store = store)
             Content.PLANET_DEFINITION -> PlanetDefinitionContent(store = store)
             Content.HABITABILITY -> HabitabilityContent(store = store)
+        }
+    }
+}
+
+@Composable
+private fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
+    val storeState by store.stateFlow.collectAsState()
+    val newGameTranslation = remember { getTranslation(key = "main_menu_screen__new_game") }
+    val tutorialTranslation = remember { getTranslation(key = "main_menu_screen__new_game_tutorial") }
+    val tutorialTranslationYes = remember { getTranslation(key = "main_menu_screen__new_game_tutorial_yes") }
+    val tutorialTranslationNo = remember { getTranslation(key = "main_menu_screen__new_game_tutorial_no") }
+    val continueTranslation = remember { getTranslation(key = "main_menu_screen__continue") }
+    val learnTranslation = remember { getTranslation(key = "main_menu_screen__learn") }
+    val scoresTranslation = remember { getTranslation(key = "main_menu_screen__scores") }
+
+    val typography = LocalTypography.current
+
+    if (storeState.newGameDialog) {
+        AlertDialog(
+            onDismissRequest = { store.send(action = MainMenuAction.HideNewGameDialog) },
+            title = {
+                Text(text = tutorialTranslation)
+            },
+            confirmButton = {
+                Button(onClick = { store.send(action = MainMenuAction.YesNewGameDialog) }) {
+                    Text(text = tutorialTranslationYes)
+                }
+            },
+            dismissButton = {
+                Button(onClick = { store.send(action = MainMenuAction.NoNewGameDialog) }) {
+                    Text(text = tutorialTranslationNo)
+                }
+            }
+        )
+    }
+
+    LazyColumn(
+        modifier = Modifier
+            .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT)
+            .fillMaxSize()
+            .padding(all = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        item { AppLogo() }
+        item { Spacer(modifier = Modifier.height(height = 32.dp)) }
+        if (storeState.featureNewGame) {
+            item {
+                Text(
+                    modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_NEW_GAME)
+                        .clickable { store.send(action = MainMenuAction.NewGame) },
+                    text = newGameTranslation,
+                    style = typography.headlineMedium,
+                )
+            }
+            if (storeState.ongoingGameSession) {
+                item {
+                    Text(
+                        modifier = Modifier
+                            .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONTINUE)
+                            .clickable { store.send(action = MainMenuAction.Continue) },
+                        text = continueTranslation,
+                        style = typography.headlineMedium,
+                    )
+                }
+            }
+        }
+        if (storeState.featureLearn) {
+            item {
+                Text(
+                    modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN)
+                        .clickable { store.send(action = MainMenuAction.Learn) },
+                    text = learnTranslation,
+                    style = typography.headlineMedium,
+                )
+            }
+        }
+        if (storeState.featureScores) {
+            item {
+                Text(
+                    modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SCORES)
+                        .clickable { store.send(action = MainMenuAction.Scores) },
+                    text = scoresTranslation,
+                    style = typography.headlineMedium,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun LearnContent(store: Store<MainMenuState, MainMenuAction>) {
+    val storeState by store.stateFlow.collectAsState()
+    val stellarExplorerTranslation = remember { getTranslation(key = "main_menu_screen__stellar_explorer") }
+    val hostDefinitionTranslation = remember { getTranslation(key = "main_menu_screen__host_definition") }
+    val planetDefinitionTranslation = remember { getTranslation(key = "main_menu_screen__planet_definition") }
+    val habitabilityTranslation = remember { getTranslation(key = "main_menu_screen__habitability") }
+    val mechanicsTranslation = remember { getTranslation(key = "main_menu_screen__mechanics") }
+
+    val typography = LocalTypography.current
+
+    LazyColumn(
+        modifier = Modifier
+            .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT)
+            .fillMaxSize()
+            .padding(all = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        item { AppLogo() }
+        item { Spacer(modifier = Modifier.height(height = 32.dp)) }
+        if (storeState.featureStellarExplorer) {
+            item {
+                Text(
+                    modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_STELLAR_EXPLORER)
+                        .clickable { store.send(action = MainMenuAction.StellarExplorer) },
+                    text = stellarExplorerTranslation,
+                    style = typography.headlineMedium,
+                )
+            }
+        }
+        item {
+            Text(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_HOST_DEFINITION)
+                    .clickable { store.send(action = MainMenuAction.HostDefinition) },
+                text = hostDefinitionTranslation,
+                style = typography.headlineMedium,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_PLANET_DEFINITION)
+                    .clickable { store.send(action = MainMenuAction.PlanetDefinition) },
+                text = planetDefinitionTranslation,
+                style = typography.headlineMedium,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_HABITABILITY)
+                    .clickable { store.send(action = MainMenuAction.Habitability) },
+                text = habitabilityTranslation,
+                style = typography.headlineMedium,
+            )
+        }
+        if (storeState.featureTutorial) {
+            item {
+                Text(
+                    modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_LEARN_CONTENT_MECHANICS)
+                        .clickable { store.send(action = MainMenuAction.Mechanics) },
+                    text = mechanicsTranslation,
+                    style = typography.headlineMedium,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun HostDefinitionContent(store: Store<MainMenuState, MainMenuAction>) {
+    val storeState by store.stateFlow.collectAsState()
+    val stellarHostProperties = storeState.learningsMap[LearningType.HOST_PROPERTY].orEmpty()
+    val stellarHosts = storeState.learningsMap[LearningType.HOST_TYPE].orEmpty()
+    val stellarHost = remember {
+        StellarHost(
+            id = "Valar",
+            name = "Valar",
+            systemName = "Arda",
+            spectralType = "G3V",
+            effectiveTemperature = 5678.0,
+            radius = 1.0,
+            mass = 7.0,
+            metallicity = 3.0,
+            luminosity = 9.0,
+            gravity = 2.0,
+            age = 1.2,
+            density = 2.1,
+            rotationalVelocity = 10.0,
+            rotationalPeriod = 50.0,
+            distance = 9000.0,
+            ra = 901.2,
+            dec = 345.6,
+        ).apply {
+            planets.add(
+                element = Planet(
+                    id = "ME",
+                    name = "ME",
+                    stellarHostId = "Valar",
+                    status = PlanetStatus.FALSE,
+                    orbitalPeriod = null,
+                    orbitAxis = null,
+                    radius = null,
+                    mass = null,
+                    density = null,
+                    eccentricity = null,
+                    insolationFlux = null,
+                    equilibriumTemperature = null,
+                    occultationDepth = null,
+                    inclination = null,
+                    obliquity = null,
+                )
+            )
+        }
+    }
+    val exampleTranslation = remember { getTranslation(key = "main_menu_screen__definition_example") }
+    val propertiesTranslation = remember { getTranslation(key = "main_menu_screen__definition_properties") }
+    val typesTranslation = remember { getTranslation(key = "main_menu_screen__definition_types") }
+
+    val typography = LocalTypography.current
+
+    LazyColumn(
+        modifier = Modifier
+            .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT)
+            .fillMaxSize()
+            .padding(all = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+    ) {
+        item {
+            Text(
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE),
+                text = exampleTranslation,
+                style = typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(height = 4.dp))
+        }
+        item {
+            StellarHostCard(
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE_STELLAR_HOST),
+                name = stellarHost.name,
+                systemName = stellarHost.systemName,
+                planetCount = stellarHost.planets.size,
+                spectralType = stellarHost.spectralType,
+                spectralTypeDrawable = stellarHost.spectralType.spectralTypeToDrawable(),
+                effectiveTemperature = stellarHost.effectiveTemperature,
+                radius = stellarHost.radius,
+                mass = stellarHost.mass,
+                metallicity = stellarHost.metallicity,
+                luminosity = stellarHost.luminosity,
+                gravity = stellarHost.gravity,
+                age = stellarHost.age,
+                density = stellarHost.density,
+                rotationalVelocity = stellarHost.rotationalVelocity,
+                rotationalPeriod = stellarHost.rotationalPeriod,
+                distance = stellarHost.distance,
+                ra = stellarHost.ra,
+                dec = stellarHost.dec,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES),
+                text = propertiesTranslation,
+                style = typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(height = 4.dp))
+        }
+        items(items = stellarHostProperties, key = { it.id }) { property ->
+            SimpleCard(
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES_SIMPLE),
+                name = property.id,
+                description = property.description,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES),
+                text = typesTranslation,
+                style = typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(height = 4.dp))
+        }
+        items(items = stellarHosts, key = { it.id }) { stellarHost ->
+            StellarHostCard(
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES_STELLAR_HOST),
+                name = getTranslation(key = stellarHost.id),
+                description = stellarHost.description,
+                spectralTypeDrawable = stellarHost.image.spectralTypeToDrawable(),
+            )
+        }
+    }
+}
+
+@Composable
+private fun PlanetDefinitionContent(store: Store<MainMenuState, MainMenuAction>) {
+    val storeState by store.stateFlow.collectAsState()
+    val planetProperties = storeState.learningsMap[LearningType.PLANET_PROPERTY].orEmpty()
+    val planets = storeState.learningsMap[LearningType.PLANET_TYPE].orEmpty()
+    val planet = remember {
+        Planet(
+            id = "Edoras",
+            name = "Edoras",
+            stellarHostId = "Valar",
+            status = PlanetStatus.CANDIDATE,
+            orbitalPeriod = 123.0,
+            orbitAxis = 1.2,
+            radius = 5.1,
+            mass = 2.3,
+            density = 3.2,
+            eccentricity = 0.5,
+            insolationFlux = 2.1,
+            equilibriumTemperature = 666.9,
+            occultationDepth = 0.01,
+            inclination = 1.8,
+            obliquity = 50.0,
+        ).apply {
+            score = Score(
+                habitabilityScore = 1.0,
+                confidenceScore = 1.0,
+                planetType = PlanetType.SUPERHABITABLE_PLANET,
+                rocheScore = null,
+                habitableZoneKopparapuScore = null,
+                habitableZoneKastingScore = null,
+                planetRadiusScore = null,
+                planetMassScore = null,
+                planetTelluricityScore = null,
+                planetEccentricityScore = null,
+                planetTemperatureScore = null,
+                planetObliquityScore = null,
+                planetEsiScore = null,
+                stellarSpectralTypeScore = null,
+                stellarMassScore = null,
+                stellarAgeScore = null,
+                stellarActivityScore = null,
+                stellarRotationalPeriodScore = null,
+                stellarGravityScore = null,
+                stellarMetallicityScore = null,
+                stellarEffectiveTemperatureScore = null,
+                planetProtectionScore = null,
+                planetTidalLockingScore = null
+            )
+        }
+    }
+    val exampleTranslation = remember { getTranslation(key = "main_menu_screen__definition_example") }
+    val propertiesTranslation = remember { getTranslation(key = "main_menu_screen__definition_properties") }
+    val typesTranslation = remember { getTranslation(key = "main_menu_screen__definition_types") }
+
+    val typography = LocalTypography.current
+
+    LazyColumn(
+        modifier = Modifier
+            .testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT)
+            .fillMaxSize()
+            .padding(all = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+    ) {
+        item {
+            Text(
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_EXAMPLE),
+                text = exampleTranslation,
+                style = typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+            )
+            Spacer(modifier = Modifier.height(height = 4.dp))
+        }
+        item {
+            PlanetCard(
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_EXAMPLE_PLANET),
+                name = planet.name,
+                status = planet.status.displayName,
+                orbitalPeriod = planet.orbitalPeriod,
+                orbitAxis = planet.orbitAxis,
+                radius = planet.radius,
+                mass = planet.mass,
+                density = planet.density,
+                eccentricity = planet.eccentricity,
+                insolationFlux = planet.insolationFlux,
+                equilibriumTemperature = planet.equilibriumTemperature,
+                occultationDepth = planet.occultationDepth,
+                inclination = planet.inclination,
+                obliquity = planet.obliquity,
+                type = planet.score?.planetType?.displayName,
+                typeDrawable = planet.score?.planetType.toDrawable()
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_PROPERTIES),
+                text = propertiesTranslation,
+                style = typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(height = 4.dp))
+        }
+        items(items = planetProperties, key = { it.id }) { property ->
+            SimpleCard(
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_PROPERTIES_SIMPLE),
+                name = property.id,
+                description = property.description,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_TYPES),
+                text = typesTranslation,
+                style = typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(height = 4.dp))
+        }
+        items(items = planets, key = { it.id }) { planet ->
+            PlanetCard(
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_TYPES_PLANET),
+                name = getTranslation(key = planet.id),
+                description = planet.description,
+                typeDrawable = PlanetType.fromValue(value = planet.image.orEmpty()).toDrawable()
+            )
+        }
+    }
+}
+
+@Composable
+private fun HabitabilityContent(store: Store<MainMenuState, MainMenuAction>) {
+    val storeState by store.stateFlow.collectAsState()
+    val formula = storeState.learningsMap[LearningType.FORMULA].orEmpty()
+    val uriHandler = LocalUriHandler.current
+    val formulaTranslation = remember { getTranslation(key = "formula") }
+
+    val typography = LocalTypography.current
+    val colorScheme = LocalColorScheme.current
+
+    LazyColumn(
+        modifier = Modifier
+            .testTag(tag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT)
+            .fillMaxSize()
+            .padding(all = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        items(items = formula, key = { it.id }) { property ->
+            SimpleCard(
+                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_SIMPLE),
+                name = property.id,
+                description = property.description,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier
+                    .testTag(tag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_FORMULA)
+                    .clickable { uriHandler.openUri(uri = storeState.formula) },
+                text = formulaTranslation,
+                style = typography.bodyLarge.copy(
+                    color = colorScheme.primary,
+                    textDecoration = TextDecoration.Underline
+                ),
+            )
         }
     }
 }

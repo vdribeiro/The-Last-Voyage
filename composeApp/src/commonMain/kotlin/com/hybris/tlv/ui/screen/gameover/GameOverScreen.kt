@@ -54,53 +54,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
         loading = storeState.loading,
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
-    ) {
-        Column(
-            modifier = Modifier
-                .testTag(tag = GAME_OVER_SCREEN_COLUMN)
-                .fillMaxSize()
-                .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Column(
-                modifier = Modifier
-                    .testTag(tag = GAME_OVER_SCREEN_CONTENT)
-                    .weight(weight = 1f),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(
-                    modifier = Modifier.testTag(tag = GAME_OVER_SCREEN_TITLE),
-                    text = gameOverTranslation,
-                    style = typography.titleLarge,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(height = 16.dp))
-                when (storeState.currentContent) {
-                    // Game over message
-                    Content.MESSAGE -> TypewriterText(
-                        modifier = Modifier
-                            .testTag(tag = GAME_OVER_SCREEN_MESSAGE)
-                            .weight(weight = 1f)
-                            .fillMaxWidth(),
-                        text = getTranslation(key = storeState.gameOver?.displayName.orEmpty())
-                    )
-
-                    // Score
-                    Content.SCORE -> if (gameSession != null && ship != null) Score(
-                        modifier = Modifier.testTag(tag = GAME_OVER_SCREEN_SCORE),
-                        isExpanded = null,
-                        score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
-                        utc = gameSession.utc,
-                        yearsTraveled = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
-                        sensorRange = ship.sensorRange.toString(),
-                        integrity = ship.integrity.toString(),
-                        materials = ship.materials.toString(),
-                        fuel = ship.fuel.toString(),
-                        cryopods = ship.cryopods.toString()
-                    )
-                }
-            }
-
+        bottomBar = {
             // Continue button
             Button(
                 modifier = Modifier
@@ -115,6 +69,46 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
                         Content.MESSAGE -> messageTranslation
                         Content.SCORE -> scoreTranslation
                     }
+                )
+            }
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .testTag(tag = GAME_OVER_SCREEN_CONTENT)
+                .fillMaxSize()
+                .padding(all = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                modifier = Modifier.testTag(tag = GAME_OVER_SCREEN_TITLE),
+                text = gameOverTranslation,
+                style = typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(height = 16.dp))
+            when (storeState.currentContent) {
+                // Game over message
+                Content.MESSAGE -> TypewriterText(
+                    modifier = Modifier
+                        .testTag(tag = GAME_OVER_SCREEN_MESSAGE)
+                        .weight(weight = 1f)
+                        .fillMaxWidth(),
+                    text = getTranslation(key = storeState.gameOver?.displayName.orEmpty())
+                )
+
+                // Score
+                Content.SCORE -> if (gameSession != null && ship != null) Score(
+                    modifier = Modifier.testTag(tag = GAME_OVER_SCREEN_SCORE),
+                    isExpanded = null,
+                    score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
+                    utc = gameSession.utc,
+                    yearsTraveled = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
+                    sensorRange = ship.sensorRange.toString(),
+                    integrity = ship.integrity.toString(),
+                    materials = ship.materials.toString(),
+                    fuel = ship.fuel.toString(),
+                    cryopods = ship.cryopods.toString()
                 )
             }
         }
