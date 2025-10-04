@@ -75,7 +75,7 @@ internal fun ShipContent(store: Store<GameState, GameAction>) {
                 modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_SPEED),
                 icon = Icons.Outlined.Speed,
                 label = speedTranslation,
-                value = "0.1c" // TODO: use engine speed - using 0.1c for now
+                value = "${ship.engine.velocity}c"
             )
         }
         item {

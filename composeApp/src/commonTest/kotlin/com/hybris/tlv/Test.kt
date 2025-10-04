@@ -92,7 +92,6 @@ internal val formula: Formula by lazy {
 }
 internal val shipPrototype: ShipPrototype by lazy {
     ShipPrototype(
-        engineId = "engine__liquid_fuel_rocket",
         assignedPoints = 10,
         sensorRange = 5,
         fuel = 100,
@@ -103,6 +102,7 @@ internal val shipPrototype: ShipPrototype by lazy {
 internal val ship: Ship by lazy {
     Ship(
         id = "1",
+        engine = engines.random(),
         assignedPoints = 10,
         yearsTraveled = 100.0,
         sensorRange = 5,
@@ -115,6 +115,7 @@ internal val ship: Ship by lazy {
 internal val gameSessionPrototype: GameSessionPrototype by lazy {
     GameSessionPrototype(
         ship = shipPrototype,
+        engine = engines.random(),
         formula = formula
     )
 }
@@ -122,7 +123,7 @@ internal val gameSession: GameSession by lazy {
     GameSession(
         id = "1",
         utc = now(),
-        currentStellarHostId = stellarHosts.first().id,
+        currentStellarHostId = stellarHosts.random().id,
         visitedStellarHosts = emptySet(),
         launchedEvents = emptySet(),
         settledPlanetId = null,

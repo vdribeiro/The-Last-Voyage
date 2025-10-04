@@ -10,6 +10,8 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
+import com.hybris.tlv.usecase.ship.ShipUseCases
+import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 import kotlinx.coroutines.Job
@@ -19,6 +21,7 @@ internal class NewGameStore(
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: NewGameStateBuilder,
+    private val shipUseCases: ShipUseCases,
     private val catastropheUseCases: CatastropheUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameState, NewGameAction>(
@@ -32,36 +35,54 @@ internal class NewGameStore(
 ) {
     @VisibleForTesting
     internal var selectedShip: ShipPrototype? = null
+    @VisibleForTesting
+    internal var selectedEngine: Engine? = null
 
     init {
         when (stateBuilder) {
             NewGameStateBuilder.Default -> setup()
-            is NewGameStateBuilder.FromSavableState -> selectedShip = stateBuilder.selectedShip
+            is NewGameStateBuilder.FromSavableState -> {
+                selectedShip = stateBuilder.selectedShip
+                selectedEngine = stateBuilder.selectedEngine
+            }
         }
     }
 
     override fun getSavableState(state: NewGameState): Any? =
-        NewGameStateBuilder.FromSavableState(state = state, selectedShip = selectedShip)
+        NewGameStateBuilder.FromSavableState(
+            state = state,
+            selectedShip = selectedShip,
+            selectedEngine = selectedEngine
+        )
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
+        val shipState = ShipState(
+            totalPoints = 20,
+            sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 3),
+            fuel = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 700),
+            materials = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 500),
+            cryopods = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 300),
+        )
+
+        val engines = shipUseCases.getEngines()
+        if (engines.isEmpty()) {
+            error(tag = TAG, message = "Invalid state: no engines on setup()")
+            return@launch
+        }
+
         val selectedCatastrophe = catastropheUseCases.getRandomCatastrophe()
         if (selectedCatastrophe == null) {
             error(tag = TAG, message = "Invalid state: missing catastrophe on setup()")
             return@launch
         }
-        val shipState = ShipState(
-            totalPoints = 16,
-            sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 4),
-            fuel = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 700),
-            materials = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 500),
-            cryopods = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 400),
-        )
+
         updateState {
             it.copy(
                 loading = false,
+                shipState = shipState,
+                engines = engines,
                 selectedCatastrophe = selectedCatastrophe,
-                shipState = shipState
             )
         }
         Telemetry.info(tag = TAG, message = "Setup complete")
@@ -75,10 +96,17 @@ internal class NewGameStore(
             return@launch
         }
 
+        val selectedEngine = this@NewGameStore.selectedEngine
+        if (selectedEngine == null) {
+            error(tag = TAG, message = "Invalid state: missing engine on startGame()")
+            return@launch
+        }
+
         Telemetry.info(tag = TAG, message = "Selected ship: $selectedShip")
         gameSessionUseCases.startGame(
             GameSessionPrototype(
                 ship = selectedShip,
+                engine = selectedEngine,
                 formula = Formula()
             )
         )

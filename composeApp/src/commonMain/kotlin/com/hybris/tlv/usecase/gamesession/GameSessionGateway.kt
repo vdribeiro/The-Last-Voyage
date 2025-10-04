@@ -77,13 +77,15 @@ internal class GameSessionGateway(
 
     override suspend fun travel(gameSession: GameSession, stellarHost: StellarHost): GameSession {
         val distance = ceil(x = stellarHost.distance ?: 1.0).toInt()
-        val speed = 0.1  // TODO: use engine speed - using 0.1c for now
+        val speed = gameSession.ship.engine.velocity
         val yearsTraveled = gameSession.ship.yearsTraveled + (distance / speed)
         val fuel = gameSession.ship.fuel - distance
+        val integrity = gameSession.ship.integrity - 1
 
         val updatedGameSession = gameSession.copy(
             ship = gameSession.ship.copy(
                 yearsTraveled = yearsTraveled,
+                integrity = integrity,
                 fuel = fuel,
             ),
             currentStellarHostId = stellarHost.id,
@@ -382,7 +384,7 @@ internal class GameSessionGateway(
 
     private fun GameSessionPrototype.toGameSession(): GameSession {
         val id = generateUuid()
-        GameSession(
+        return GameSession(
             id = id,
             utc = now(),
             currentStellarHostId = null,
@@ -394,13 +396,13 @@ internal class GameSessionGateway(
             ship = Ship(
                 id = id,
                 engine = engine,
-                assignedPoints = assignedPoints,
+                assignedPoints = ship.assignedPoints,
                 yearsTraveled = 0.0,
-                sensorRange = sensorRange,
+                sensorRange = ship.sensorRange,
                 integrity = 100,
-                fuel = fuel,
-                materials = materials,
-                cryopods = cryopods,
+                fuel = ship.fuel,
+                materials = ship.materials,
+                cryopods = ship.cryopods,
             ),
             formula = formula.copy(id = id)
         )

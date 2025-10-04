@@ -3,6 +3,7 @@ package com.hybris.tlv.usecase.ship
 import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.testDependency
+import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -36,7 +37,11 @@ internal class ShipUseCasesTest {
     fun `repair ship`() = runBlocking {
         val shipNoIntegrity = Ship(
             id = "",
-            engineId = "",
+            engine = Engine(
+                id = "",
+                description = "",
+                velocity = 0.1
+            ),
             assignedPoints = 0,
             yearsTraveled = 0.0,
             sensorRange = 5,
@@ -50,7 +55,11 @@ internal class ShipUseCasesTest {
         assertEquals(expected = 49, actual = repairedShipIntegrity.materials)
         val shipNoMaterials = Ship(
             id = "",
-            engineId = "",
+            engine = Engine(
+                id = "",
+                description = "",
+                velocity = 0.1
+            ),
             assignedPoints = 0,
             yearsTraveled = 0.0,
             sensorRange = 5,

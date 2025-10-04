@@ -1,10 +1,11 @@
 package com.hybris.tlv.usecase.gamesession.model
 
+import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 
 internal data class GameSessionPrototype(
     val ship: ShipPrototype,
-    val engineId: String,
+    val engine: Engine,
     val formula: Formula,
 )

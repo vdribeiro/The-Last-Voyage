@@ -73,6 +73,7 @@ internal class StoreFactory(
         navigation = navigation,
         audioPlayer = audioPlayer,
         stateBuilder = stateBuilder as? NewGameStateBuilder ?: NewGameStateBuilder.Default,
+        shipUseCases = useCases.ship,
         catastropheUseCases = useCases.catastrophe,
         gameSessionUseCases = useCases.gameSession
     )

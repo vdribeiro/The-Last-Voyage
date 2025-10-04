@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
+import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 
 internal sealed interface NewGameAction {
@@ -16,14 +17,19 @@ internal sealed interface NewGameAction {
 
 internal sealed interface NewGameStateBuilder {
     data object Default: NewGameStateBuilder
-    data class FromSavableState(val state: NewGameState, val selectedShip: ShipPrototype?): NewGameStateBuilder
+    data class FromSavableState(
+        val state: NewGameState,
+        val selectedShip: ShipPrototype?,
+        val selectedEngine: Engine?
+    ): NewGameStateBuilder
 }
 
 internal data class NewGameState(
     val loading: Boolean = true,
     val currentContent: Content = Content.SHIP,
-    val selectedCatastrophe: Catastrophe? = null,
     val shipState: ShipState? = null,
+    val engines: List<Engine> = emptyList(),
+    val selectedCatastrophe: Catastrophe? = null,
 )
 
 internal enum class Content {
