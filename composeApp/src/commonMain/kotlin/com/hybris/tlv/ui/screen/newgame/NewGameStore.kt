@@ -51,10 +51,11 @@ internal class NewGameStore(
             return@launch
         }
         val shipState = ShipState(
-            sensorRange = ShipState.Point(max = 10, min = 1, interval = 1, initialValue = 3),
-            materials = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
-            fuel = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
-            cryopods = ShipState.Point(max = 1000, min = 0, interval = 100, initialValue = 100),
+            totalPoints = 16,
+            sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 4),
+            fuel = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 700),
+            materials = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 500),
+            cryopods = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 400),
         )
         updateState {
             it.copy(
