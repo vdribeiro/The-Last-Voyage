@@ -28,43 +28,36 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
 
 @Preview
 @Composable
-private fun SplashZero() {
-    AppTheme {
-        SplashScreen(
-            store = getStore(
-                initialState = SplashState(
-                    progress = 0.0f
-                )
+private fun SplashZero() = AppTheme {
+    SplashScreen(
+        store = getStore(
+            initialState = SplashState(
+                progress = 0.0f
             )
         )
-    }
+    )
 }
 
 @Preview
 @Composable
-private fun SplashHalfway() {
-    AppTheme {
-        SplashScreen(
-            store = getStore(
-                initialState = SplashState(
-                    progress = 0.5f
-                )
+private fun SplashHalfway() = AppTheme {
+    SplashScreen(
+        store = getStore(
+            initialState = SplashState(
+                progress = 0.5f
             )
         )
-    }
+    )
 }
 
 @Preview
 @Composable
-private fun SplashFull() {
-    AppTheme {
-        SplashScreen(
-            store = getStore(
-                initialState = SplashState(
-                    progress = 1.0f
-                )
+private fun SplashFull() = AppTheme {
+    SplashScreen(
+        store = getStore(
+            initialState = SplashState(
+                progress = 1.0f
             )
         )
-    }
+    )
 }
-

@@ -176,67 +176,62 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
 
 @Preview
 @Composable
-private fun CreditLoading() {
-    AppTheme {
-        CreditScreen(
-            store = getStore(
-                initialState = CreditState(
-                    loading = true,
-                    credits = emptyList()
-                )
+private fun CreditLoading() = AppTheme {
+    CreditScreen(
+        store = getStore(
+            initialState = CreditState(
+                loading = true,
+                credits = emptyList()
             )
         )
-    }
+    )
 }
 
 @Preview
 @Composable
-private fun CreditList() {
-    AppTheme {
-        CreditScreen(
-            store = getStore(
-                initialState = CreditState(
-                    loading = false,
-                    credits = listOf(
-                        Credit(
-                            id = "engsoneca",
-                            link = "https://ko-fi.com/engsoneca",
-                            type = CreditType.CREATOR,
-                        ),
-                        Credit(
-                            id = "NASA Exoplanet Archive DOIs 10.26133/NEA13 and 10.26133/NEA40",
-                            link = "https://exoplanetarchive.ipac.caltech.edu/",
-                            type = CreditType.SOURCE,
-                        ),
-                        Credit(
-                            id = "OpenGameArt",
-                            link = "https://opengameart.org/",
-                            type = CreditType.MUSIC,
-                        ),
-                        Credit(
-                            id = "You",
-                            link = null,
-                            type = CreditType.SUPPORTER,
-                        ),
-                        Credit(
-                            id = "Yourself",
-                            link = null,
-                            type = CreditType.SUPPORTER,
-                        ),
-                        Credit(
-                            id = "Irene",
-                            link = null,
-                            type = CreditType.SUPPORTER,
-                        ),
-                        Credit(
-                            id = "Jim",
-                            link = null,
-                            type = CreditType.SUPPORTER,
-                        ),
-                    )
+private fun CreditList() = AppTheme {
+    CreditScreen(
+        store = getStore(
+            initialState = CreditState(
+                loading = false,
+                credits = listOf(
+                    Credit(
+                        id = "engsoneca",
+                        link = "https://ko-fi.com/engsoneca",
+                        type = CreditType.CREATOR,
+                    ),
+                    Credit(
+                        id = "NASA Exoplanet Archive DOIs 10.26133/NEA13 and 10.26133/NEA40",
+                        link = "https://exoplanetarchive.ipac.caltech.edu/",
+                        type = CreditType.SOURCE,
+                    ),
+                    Credit(
+                        id = "OpenGameArt",
+                        link = "https://opengameart.org/",
+                        type = CreditType.MUSIC,
+                    ),
+                    Credit(
+                        id = "You",
+                        link = null,
+                        type = CreditType.SUPPORTER,
+                    ),
+                    Credit(
+                        id = "Yourself",
+                        link = null,
+                        type = CreditType.SUPPORTER,
+                    ),
+                    Credit(
+                        id = "Irene",
+                        link = null,
+                        type = CreditType.SUPPORTER,
+                    ),
+                    Credit(
+                        id = "Jim",
+                        link = null,
+                        type = CreditType.SUPPORTER,
+                    ),
                 )
             )
         )
-    }
+    )
 }
-

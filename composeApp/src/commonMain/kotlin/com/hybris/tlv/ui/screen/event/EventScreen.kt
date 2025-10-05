@@ -54,24 +54,22 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
 
 @Preview
 @Composable
-private fun EventLoading() {
-    AppTheme {
-        EventScreen(
-            store = getStore(
-                initialState = EventState(
-                    loading = true,
-                    ship = null,
-                    parentEvent = null,
-                    childrenEvents = emptyList()
-                )
+private fun EventLoading() = AppTheme {
+    EventScreen(
+        store = getStore(
+            initialState = EventState(
+                loading = true,
+                ship = null,
+                parentEvent = null,
+                childrenEvents = emptyList()
             )
         )
-    }
+    )
 }
 
 @Preview
 @Composable
-private fun EventRandom() {
+private fun EventRandom() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -84,51 +82,49 @@ private fun EventRandom() {
             ),
         )
     )
-    AppTheme {
-        EventScreen(
-            store = getStore(
-                initialState = EventState(
-                    loading = false,
-                    ship = Ship(
+    EventScreen(
+        store = getStore(
+            initialState = EventState(
+                loading = false,
+                ship = Ship(
+                    id = "1",
+                    engine = Engine(
                         id = "1",
-                        engine = Engine(
-                            id = "1",
-                            description = "",
-                            velocity = 0.1
-                        ),
-                        assignedPoints = 10,
-                        yearsTraveled = 100.0,
-                        sensorRange = 5,
-                        integrity = 80,
-                        fuel = 100,
-                        materials = 90,
-                        cryopods = 150,
+                        description = "",
+                        velocity = 0.1
                     ),
-                    parentEvent = Event(
-                        id = "Two Buttons",
-                        description = "You have a green and a red button.",
+                    assignedPoints = 10,
+                    yearsTraveled = 100.0,
+                    sensorRange = 5,
+                    integrity = 80,
+                    fuel = 100,
+                    materials = 90,
+                    cryopods = 150,
+                ),
+                parentEvent = Event(
+                    id = "Two Buttons",
+                    description = "You have a green and a red button.",
+                    parentId = null,
+                    outcome = TravelOutcome(
+                        materials = -4,
+                        fuel = -2,
+                    ),
+                ),
+                childrenEvents = listOf(
+                    Event(
+                        id = "Press the Red Button",
+                        description = "Lose",
                         parentId = null,
-                        outcome = TravelOutcome(
-                            materials = -4,
-                            fuel = -2,
-                        ),
+                        outcome = null
                     ),
-                    childrenEvents = listOf(
-                        Event(
-                            id = "Press the Red Button",
-                            description = "Lose",
-                            parentId = null,
-                            outcome = null
-                        ),
-                        Event(
-                            id = "Press the Green Button",
-                            description = "Win",
-                            parentId = null,
-                            outcome = null
-                        )
+                    Event(
+                        id = "Press the Green Button",
+                        description = "Win",
+                        parentId = null,
+                        outcome = null
                     )
                 )
             )
         )
-    }
+    )
 }

@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.DropdownMenu
@@ -308,7 +307,6 @@ private fun VisibilityMenu(
         }
     }
 }
-
 
 @Preview
 @Composable

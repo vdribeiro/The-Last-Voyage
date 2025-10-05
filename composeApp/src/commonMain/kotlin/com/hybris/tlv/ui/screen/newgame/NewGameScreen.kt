@@ -141,60 +141,54 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
 
 @Preview
 @Composable
-private fun NewGameLoading() {
-    AppTheme {
-        NewGameScreen(
-            store = getStore(
-                initialState = NewGameState(
-                    loading = true,
-                    currentContent = Content.SHIP,
-                    selectedCatastrophe = null,
-                    shipState = null,
-                )
+private fun NewGameLoading() = AppTheme {
+    NewGameScreen(
+        store = getStore(
+            initialState = NewGameState(
+                loading = true,
+                currentContent = Content.SHIP,
+                selectedCatastrophe = null,
+                shipState = null,
             )
         )
-    }
+    )
 }
 
 @Preview
 @Composable
-private fun NewGameShip() {
-    AppTheme {
-        NewGameScreen(
-            store = getStore(
-                initialState = NewGameState(
-                    loading = false,
-                    currentContent = Content.SHIP,
-                    selectedCatastrophe = null,
-                    shipState = ShipState(
-                        totalPoints = 10,
-                        sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 3),
-                        materials = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),
-                        fuel = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),
-                        cryopods = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),
-                    ),
-                )
+private fun NewGameShip() = AppTheme {
+    NewGameScreen(
+        store = getStore(
+            initialState = NewGameState(
+                loading = false,
+                currentContent = Content.SHIP,
+                selectedCatastrophe = null,
+                shipState = ShipState(
+                    totalPoints = 10,
+                    sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 3),
+                    materials = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),
+                    fuel = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),
+                    cryopods = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),
+                ),
             )
         )
-    }
+    )
 }
 
 @Preview
 @Composable
-private fun NewGameStart() {
-    AppTheme {
-        NewGameScreen(
-            store = getStore(
-                initialState = NewGameState(
-                    loading = false,
-                    currentContent = Content.START,
-                    selectedCatastrophe = Catastrophe(
-                        id = "Asteroid Impact",
-                        description = "A massive asteroid collides with Earth. The impact wipes out most life on the planet.",
-                    ),
-                    shipState = null,
-                )
+private fun NewGameStart() = AppTheme {
+    NewGameScreen(
+        store = getStore(
+            initialState = NewGameState(
+                loading = false,
+                currentContent = Content.START,
+                selectedCatastrophe = Catastrophe(
+                    id = "Asteroid Impact",
+                    description = "A massive asteroid collides with Earth. The impact wipes out most life on the planet.",
+                ),
+                shipState = null,
             )
         )
-    }
+    )
 }

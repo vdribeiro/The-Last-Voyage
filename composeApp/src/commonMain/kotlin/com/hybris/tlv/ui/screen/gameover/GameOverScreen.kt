@@ -70,24 +70,22 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
 
 @Preview
 @Composable
-private fun GameOverLoading() {
-    AppTheme {
-        GameOverScreen(
-            store = getStore(
-                initialState = GameOverState(
-                    loading = true,
-                    currentContent = Content.MESSAGE,
-                    gameSession = null,
-                    gameOver = null
-                )
+private fun GameOverLoading() = AppTheme {
+    GameOverScreen(
+        store = getStore(
+            initialState = GameOverState(
+                loading = true,
+                currentContent = Content.MESSAGE,
+                gameSession = null,
+                gameOver = null
             )
         )
-    }
+    )
 }
 
 @Preview
 @Composable
-private fun GameOverMessage() {
+private fun GameOverMessage() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -105,23 +103,21 @@ private fun GameOverMessage() {
             ),
         )
     )
-    AppTheme {
-        GameOverScreen(
-            store = getStore(
-                initialState = GameOverState(
-                    loading = false,
-                    currentContent = Content.MESSAGE,
-                    gameSession = null,
-                    gameOver = GameOver.GAME_OVER
-                )
+    GameOverScreen(
+        store = getStore(
+            initialState = GameOverState(
+                loading = false,
+                currentContent = Content.MESSAGE,
+                gameSession = null,
+                gameOver = GameOver.GAME_OVER
             )
         )
-    }
+    )
 }
 
 @Preview
 @Composable
-private fun GameOverScore() {
+private fun GameOverScore() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -134,41 +130,39 @@ private fun GameOverScore() {
             ),
         )
     )
-    AppTheme {
-        GameOverScreen(
-            store = getStore(
-                initialState = GameOverState(
-                    loading = false,
-                    currentContent = Content.SCORE,
-                    gameSession = GameSession(
-                        id = "2",
-                        utc = now(),
-                        ship = Ship(
+    GameOverScreen(
+        store = getStore(
+            initialState = GameOverState(
+                loading = false,
+                currentContent = Content.SCORE,
+                gameSession = GameSession(
+                    id = "2",
+                    utc = now(),
+                    ship = Ship(
+                        id = "1",
+                        engine = Engine(
                             id = "1",
-                            engine = Engine(
-                                id = "1",
-                                description = "",
-                                velocity = 0.1
-                            ),
-                            assignedPoints = 10,
-                            yearsTraveled = 100.0,
-                            sensorRange = 5,
-                            integrity = 80,
-                            fuel = 100,
-                            materials = 90,
-                            cryopods = 150,
+                            description = "",
+                            velocity = 0.1
                         ),
-                        currentStellarHostId = null,
-                        visitedStellarHosts = emptySet(),
-                        launchedEvents = emptySet(),
-                        settledPlanetId = "earth",
-                        finalHabitability = 90.0,
-                        score = 9000.0,
-                        formula = Formula(id = "1")
+                        assignedPoints = 10,
+                        yearsTraveled = 100.0,
+                        sensorRange = 5,
+                        integrity = 80,
+                        fuel = 100,
+                        materials = 90,
+                        cryopods = 150,
                     ),
-                    gameOver = GameOver.GAME_OVER
-                )
+                    currentStellarHostId = null,
+                    visitedStellarHosts = emptySet(),
+                    launchedEvents = emptySet(),
+                    settledPlanetId = "earth",
+                    finalHabitability = 90.0,
+                    score = 9000.0,
+                    formula = Formula(id = "1")
+                ),
+                gameOver = GameOver.GAME_OVER
             )
         )
-    }
+    )
 }

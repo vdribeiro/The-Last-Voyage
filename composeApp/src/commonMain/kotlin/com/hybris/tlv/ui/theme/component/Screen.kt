@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import com.hybris.tlv.ui.theme.AppTheme
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -29,7 +30,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 internal fun Screen(
     modifier: Modifier = Modifier,
-    loading: Boolean = false,
+    loading: Boolean = true,
     loadingDelayMillis: Long = 300L,
     loadingText: String = "",
     loadingProgress: Float? = null,
@@ -84,7 +85,8 @@ internal fun Screen(
         ) {
             when (loading) {
                 true -> {
-                    var show by remember { mutableStateOf(value = false) }
+                    val inspection = LocalInspectionMode.current
+                    var show by remember { mutableStateOf(value = inspection) }
                     LaunchedEffect(key1 = Unit) {
                         delay(timeMillis = loadingDelayMillis)
                         show = true
@@ -106,5 +108,10 @@ internal fun Screen(
 @Preview
 @Composable
 private fun ScreenPreview() = AppTheme {
-    Screen()
+    Screen(
+        loading = true,
+        loadingDelayMillis = 0L,
+        loadingProgress = 0.5f,
+        loadingText = "Loading...",
+    )
 }

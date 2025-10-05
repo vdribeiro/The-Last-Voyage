@@ -53,40 +53,36 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
 
 @Preview
 @Composable
-private fun AchievementLoading() {
-    AppTheme {
-        AchievementScreen(
-            store = getStore(
-                initialState = AchievementState(
-                    loading = true,
-                    achievements = emptyList()
-                )
+private fun AchievementLoading() = AppTheme {
+    AchievementScreen(
+        store = getStore(
+            initialState = AchievementState(
+                loading = true,
+                achievements = emptyList()
             )
         )
-    }
+    )
 }
 
 @Preview
 @Composable
-private fun AchievementList() {
-    AppTheme {
-        AchievementScreen(
-            store = getStore(
-                initialState = AchievementState(
-                    loading = false,
-                    achievements = listOf(
-                        Achievement(
-                            id = "earth",
-                            name = "Earth",
-                            description = "Settle on Earth",
-                            preconditions = Precondition(
-                                settledPlanetId = "earth"
-                            ),
-                            status = false
-                        )
+private fun AchievementList() = AppTheme {
+    AchievementScreen(
+        store = getStore(
+            initialState = AchievementState(
+                loading = false,
+                achievements = listOf(
+                    Achievement(
+                        id = "earth",
+                        name = "Earth",
+                        description = "Settle on Earth",
+                        preconditions = Precondition(
+                            settledPlanetId = "earth"
+                        ),
+                        status = false
                     )
                 )
             )
         )
-    }
+    )
 }

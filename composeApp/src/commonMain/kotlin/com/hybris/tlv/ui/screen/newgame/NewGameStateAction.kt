@@ -1,9 +1,6 @@
 package com.hybris.tlv.ui.screen.newgame
 
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import com.hybris.tlv.ui.theme.component.AttributePoint
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.Engine

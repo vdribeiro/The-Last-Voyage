@@ -108,7 +108,7 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
 
 @Preview
 @Composable
-private fun Feedback() {
+private fun Feedback() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -125,22 +125,20 @@ private fun Feedback() {
             ),
         )
     )
-    AppTheme {
-        FeedbackScreen(
-            store = getStore(
-                initialState = FeedbackState(
-                    isError = false,
-                    feedback = "This game is awesome!",
-                    showThanks = false
-                )
+    FeedbackScreen(
+        store = getStore(
+            initialState = FeedbackState(
+                isError = false,
+                feedback = "This game is awesome!",
+                showThanks = false
             )
         )
-    }
+    )
 }
 
 @Preview
 @Composable
-private fun FeedbackThanks() {
+private fun FeedbackThanks() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -161,22 +159,20 @@ private fun FeedbackThanks() {
             ),
         )
     )
-    AppTheme {
-        FeedbackScreen(
-            store = getStore(
-                initialState = FeedbackState(
-                    isError = false,
-                    feedback = "This game is awesome!",
-                    showThanks = true
-                )
+    FeedbackScreen(
+        store = getStore(
+            initialState = FeedbackState(
+                isError = false,
+                feedback = "This game is awesome!",
+                showThanks = true
             )
         )
-    }
+    )
 }
 
 @Preview
 @Composable
-private fun FeedbackError() {
+private fun FeedbackError() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -193,15 +189,13 @@ private fun FeedbackError() {
             ),
         )
     )
-    AppTheme {
-        FeedbackScreen(
-            store = getStore(
-                initialState = FeedbackState(
-                    isError = true,
-                    feedback = "",
-                    showThanks = false
-                )
+    FeedbackScreen(
+        store = getStore(
+            initialState = FeedbackState(
+                isError = true,
+                feedback = "",
+                showThanks = false
             )
         )
-    }
+    )
 }
