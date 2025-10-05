@@ -42,11 +42,11 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         title = when (storeState.currentContent) {
-            Content.SHIP -> ""
+            Content.SHIP -> null
             Content.START -> catastrophe?.let { getTranslation(key = it.id) }
         },
         text = when (storeState.currentContent) {
-            Content.SHIP -> ""
+            Content.SHIP -> null
             Content.START -> catastrophe?.let { getTranslation(key = it.description) }
         },
         content = {

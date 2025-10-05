@@ -39,7 +39,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
         onFeedbackClick = { store.feedback() },
         title = gameOverTranslation,
         text = when (storeState.currentContent) {
-            Content.MESSAGE -> getTranslation(key = storeState.gameOver?.displayName.orEmpty())
+            Content.MESSAGE -> storeState.gameOver?.displayName?.let { getTranslation(key = it) }
             Content.SCORE -> null
         },
         content = {

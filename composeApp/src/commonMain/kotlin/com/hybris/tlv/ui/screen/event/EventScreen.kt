@@ -26,9 +26,9 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
     val event = storeState.parentEvent
     val children = storeState.childrenEvents
     val ship = storeState.ship
-    val title = if (event?.id != null) getTranslation(key = event.id) else ""
-    val outcome = if (event?.outcome != null) "\n\n${event.outcome.getTranslation()}" else ""
-    val text = if (event?.description != null) getTranslation(key = event.description) + outcome else ""
+    val title = if (event?.id != null) getTranslation(key = event.id) else null
+    val outcome = if (event?.outcome != null) "\n\n${event.outcome.getTranslation()}" else null
+    val text = if (event?.description != null) getTranslation(key = event.description) + outcome else null
 
     TypewriterScreen(
         modifier = Modifier.testTag(tag = EVENT_SCREEN),
