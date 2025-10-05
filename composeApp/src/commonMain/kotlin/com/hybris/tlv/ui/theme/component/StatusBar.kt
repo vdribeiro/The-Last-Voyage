@@ -20,9 +20,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.alpha
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun StatusBar(
@@ -31,10 +33,10 @@ internal fun StatusBar(
     fuelEnabled: Boolean = true,
     materialsEnabled: Boolean = true,
     cryopodsEnabled: Boolean = true,
-    hull: String?,
-    fuel: String?,
-    materials: String?,
-    cryopods: String?
+    hull: String? = null,
+    fuel: String? = null,
+    materials: String? = null,
+    cryopods: String? = null
 ) {
     Surface(modifier = modifier.fillMaxWidth()) {
         Row(
@@ -95,8 +97,15 @@ private fun StatusBarItem(
             Text(
                 text = it,
                 style = typography.bodyLarge,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                maxLines = 1
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun StatusBarPreview() = AppTheme {
+    StatusBar()
 }

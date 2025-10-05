@@ -20,6 +20,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     Screen(
         modifier = Modifier.testTag(tag = SPLASH_SCREEN),
         loading = true,
+        loadingDelayMillis = 0L,
         loadingProgress = storeState.progress,
         loadingText = loadingTranslation
     )

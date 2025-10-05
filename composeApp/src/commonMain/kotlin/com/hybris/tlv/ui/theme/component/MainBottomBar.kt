@@ -17,18 +17,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.kofi
 
 @Composable
 internal fun MainBottomBar(
     modifier: Modifier = Modifier,
-    onCreditsClick: () -> Unit,
-    developerCornerUri: String,
-    supportUri: String,
+    onCreditsClick: () -> Unit = {},
+    developerCornerUri: String = "",
+    supportUri: String = "",
 ) {
     val uriHandler = LocalUriHandler.current
     val websiteTranslation = remember { getTranslation(key = "website") }
@@ -43,7 +45,6 @@ internal fun MainBottomBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Website, Credits and Ko-fi options
         Text(
             modifier = Modifier
                 .size(size = 100.dp)
@@ -71,4 +72,10 @@ internal fun MainBottomBar(
             contentScale = ContentScale.Fit,
         )
     }
+}
+
+@Preview
+@Composable
+private fun MainBottomBarPreview() = AppTheme {
+    MainBottomBar()
 }

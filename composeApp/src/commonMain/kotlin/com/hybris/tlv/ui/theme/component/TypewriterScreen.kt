@@ -18,7 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun TypewriterScreen(
@@ -85,4 +87,17 @@ internal fun TypewriterScreen(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun TypewriterScreenPreview() = AppTheme {
+    TypewriterScreen(
+        title = "Title",
+        text = "Text",
+        buttons = listOf(
+            "Button 1" to {},
+            "Button 2" to {},
+        )
+    )
 }

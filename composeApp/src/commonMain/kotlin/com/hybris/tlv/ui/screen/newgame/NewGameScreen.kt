@@ -21,6 +21,7 @@ import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.AttributePoint
 import com.hybris.tlv.ui.theme.component.AttributeRow
 import com.hybris.tlv.ui.theme.component.TypewriterScreen
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
@@ -68,7 +69,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
                         // Remaining points
                         Text(
                             modifier = Modifier.testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT),
-                            text = "$shipPointsTranslation: $remainingPoints",
+                            text = "$shipPointsTranslation: ${shipState.remainingPoints}",
                             style = typography.headlineSmall,
                             fontWeight = FontWeight.Bold
                         )
@@ -81,49 +82,33 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
                                 .weight(weight = 1f),
                             verticalArrangement = Arrangement.spacedBy(space = 16.dp, alignment = Alignment.CenterVertically)
                         ) {
-                            val canIncrement = remainingPoints > 0
+                            val canIncrement = shipState.remainingPoints > 0
                             item {
                                 AttributeRow(
                                     name = sensorTranslation,
-                                    minPoints = shipState.sensorRange.min,
-                                    maxPoints = shipState.sensorRange.max,
-                                    points = shipState.sensorRange.value,
                                     canIncrement = canIncrement,
-                                    onIncrement = { shipState.sensorRange.increment() },
-                                    onDecrement = { shipState.sensorRange.decrement() }
+                                    attributePoint = shipState.sensorRange
                                 )
                             }
                             item {
                                 AttributeRow(
                                     name = fuelTranslation,
-                                    minPoints = shipState.fuel.min,
-                                    maxPoints = shipState.fuel.max,
-                                    points = shipState.fuel.value,
                                     canIncrement = canIncrement,
-                                    onIncrement = { shipState.fuel.increment() },
-                                    onDecrement = { shipState.fuel.decrement() }
+                                    attributePoint = shipState.fuel
                                 )
                             }
                             item {
                                 AttributeRow(
                                     name = materialsTranslation,
-                                    minPoints = shipState.materials.min,
-                                    maxPoints = shipState.materials.max,
-                                    points = shipState.materials.value,
                                     canIncrement = canIncrement,
-                                    onIncrement = { shipState.materials.increment() },
-                                    onDecrement = { shipState.materials.decrement() }
+                                    attributePoint = shipState.materials
                                 )
                             }
                             item {
                                 AttributeRow(
                                     name = cryopodsTranslation,
-                                    minPoints = shipState.cryopods.min,
-                                    maxPoints = shipState.cryopods.max,
-                                    points = shipState.cryopods.value,
                                     canIncrement = canIncrement,
-                                    onIncrement = { shipState.cryopods.increment() },
-                                    onDecrement = { shipState.cryopods.decrement() }
+                                    attributePoint = shipState.cryopods
                                 )
                             }
                         }

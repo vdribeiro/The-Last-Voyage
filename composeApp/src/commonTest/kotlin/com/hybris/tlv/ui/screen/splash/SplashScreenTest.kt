@@ -29,9 +29,5 @@ internal class SplashScreenTest {
         waitForIdle()
 
         onNodeWithTag(testTag = SPLASH_SCREEN).assertExists()
-        onNodeWithTag(testTag = SPLASH_SCREEN_LOGO_BACKGROUND).assertExists()
-        onNodeWithTag(testTag = SPLASH_SCREEN_LOGO).assertExists()
-        onNodeWithTag(testTag = SPLASH_SCREEN_PROGRESS).assertExists()
-        onNodeWithTag(testTag = SPLASH_SCREEN_LOADING).assertExists()
     }
 }

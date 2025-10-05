@@ -38,12 +38,12 @@ internal class NewGameStoreTest {
         testDependency.navigation.back()
         assertEquals(expected = Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
 
-        newGameStore.send(action = NewGameAction.Ship)
+        newGameStore.send(action = NewGameAction.Continue)
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
         testDependency.navigation.back()
         assertEquals(expected = Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
 
-        newGameStore.send(action = NewGameAction.Start)
+        newGameStore.send(action = NewGameAction.Continue)
         assertEquals(expected = Content.START, actual = newGameStore.stateFlow.value.currentContent)
         assertNotNull(actual = newGameStore.stateFlow.value.selectedCatastrophe)
         testDependency.navigation.back()
@@ -79,7 +79,7 @@ internal class NewGameStoreTest {
             cryopods = 1
         )
         newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype))
-        newGameStore.send(action = NewGameAction.StartGame)
+        newGameStore.send(action = NewGameAction.Continue)
         assertEquals(expected = Screen.Game, actual = testDependency.navigation.stateFlow.value.screen)
     }
 
@@ -87,7 +87,7 @@ internal class NewGameStoreTest {
     fun `send action start game without selected ship`() = runBlocking {
         assertEquals(expected = Screen.NewGame, actual = testDependency.navigation.stateFlow.value.screen)
         val newGameStore = store
-        newGameStore.send(action = NewGameAction.StartGame)
+        newGameStore.send(action = NewGameAction.Continue)
         assertEquals(expected = Screen.Feedback, actual = testDependency.navigation.stateFlow.value.screen)
     }
 }

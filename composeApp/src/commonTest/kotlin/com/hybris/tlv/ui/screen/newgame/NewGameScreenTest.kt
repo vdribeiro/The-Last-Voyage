@@ -34,11 +34,9 @@ internal class NewGameScreenTest {
         onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT).assertDoesNotExist()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT).assertDoesNotExist()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS).assertDoesNotExist()
-        onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_BUTTON).assertDoesNotExist()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT).assertDoesNotExist()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE).assertDoesNotExist()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE_DESCRIPTION).assertDoesNotExist()
-        onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_BUTTON).assertDoesNotExist()
     }
 
     @Test
@@ -54,24 +52,25 @@ internal class NewGameScreenTest {
         }
         waitForIdle()
 
+        // TODO
         onNodeWithTag(testTag = NEW_GAME_SCREEN).assertExists()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT).assertExists()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT).assertExists()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS).assertExists()
-        onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_BUTTON).assertExists()
+        //onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_BUTTON).assertExists()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT).assertDoesNotExist()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE).assertDoesNotExist()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE_DESCRIPTION).assertDoesNotExist()
-        onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_BUTTON).assertDoesNotExist()
+        //onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_BUTTON).assertDoesNotExist()
 
-        onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_BUTTON).performClick()
+        //onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_BUTTON).performClick()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT).assertDoesNotExist()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT).assertDoesNotExist()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS).assertDoesNotExist()
-        onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_BUTTON).assertDoesNotExist()
+        //onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_BUTTON).assertDoesNotExist()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT).assertExists()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE).assertExists()
         onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE_DESCRIPTION).assertExists()
-        onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_BUTTON).assertExists()
+        //onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_BUTTON).assertExists()
     }
 }

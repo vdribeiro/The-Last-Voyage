@@ -7,6 +7,7 @@ import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.AttributePoint
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype

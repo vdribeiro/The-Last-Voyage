@@ -26,22 +26,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.locale.now
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.usecase.translation.getTranslation
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun Score(
     modifier: Modifier = Modifier,
-    isExpanded: Boolean?,
-    score: String,
-    utc: String,
-    yearsTraveled: String,
-    sensorRange: String,
-    integrity: String,
-    materials: String,
-    fuel: String,
-    cryopods: String
+    isExpanded: Boolean? = null,
+    score: String = "",
+    utc: String = now(),
+    yearsTraveled: String = "",
+    sensorRange: String = "",
+    integrity: String = "",
+    materials: String = "",
+    fuel: String = "",
+    cryopods: String = ""
 ) {
     Card(
         modifier = modifier,
@@ -114,4 +117,17 @@ private fun ScoreHeader(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun ScorePreview() = AppTheme {
+    Score(
+        isExpanded = true,
+        score = "100",
+        yearsTraveled = "10",
+        sensorRange = "10",
+        integrity = "10",
+        materials = "10"
+    )
 }

@@ -13,24 +13,27 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.hybris.tlv.ui.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun AttributeRow(
     modifier: Modifier = Modifier,
-    name: String,
-    minPoints: Int,
-    maxPoints: Int,
-    points: Int,
-    canIncrement: Boolean,
-    onIncrement: () -> Unit,
-    onDecrement: () -> Unit,
+    name: String = "",
+    canIncrement: Boolean = true,
+    attributePoint: AttributePoint = AttributePoint()
 ) {
+    val value = attributePoint.value
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
@@ -42,12 +45,13 @@ internal fun AttributeRow(
             fontSize = 18.sp,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center,
+            maxLines = 1
         )
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            IconButton(onClick = onDecrement, enabled = points > minPoints) {
+            IconButton(onClick = { attributePoint.decrement() }, enabled = value > attributePoint.min) {
                 Icon(
                     modifier = Modifier.size(size = 36.dp),
                     imageVector = Icons.Default.RemoveCircle,
@@ -59,13 +63,13 @@ internal fun AttributeRow(
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .size(size = 80.dp),
-                text = "$points",
+                text = "$value",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center,
             )
 
-            IconButton(onClick = onIncrement, enabled = canIncrement && points < maxPoints) {
+            IconButton(onClick = { attributePoint.increment() }, enabled = canIncrement && value < attributePoint.min) {
                 Icon(
                     modifier = Modifier.size(size = 36.dp),
                     imageVector = Icons.Default.AddCircle,
@@ -74,4 +78,51 @@ internal fun AttributeRow(
             }
         }
     }
+}
+
+@Stable
+internal data class AttributePoint(
+    val max: Int = 10,
+    val min: Int = 0,
+    val interval: Int = 1,
+    val initialValue: Int = 0
+) {
+    init {
+        if (max <= 0) throw IllegalArgumentException("max must be greater than 0")
+        if (min < 0) throw IllegalArgumentException("min must be greater or equal to 0")
+        if (max <= min) throw IllegalArgumentException("max must be greater than min")
+        if (interval <= 0) throw IllegalArgumentException("interval must be greater than 0")
+        if ((max - min) % interval != 0) throw IllegalArgumentException("The min-max range must be a multiple of the interval.")
+    }
+
+    private var _value: Int by mutableStateOf(value = initialValue.coerceIn(minimumValue = min, maximumValue = max))
+    var value: Int
+        get() = _value
+        set(newValue) {
+            _value = newValue.coerceIn(minimumValue = min, maximumValue = max)
+        }
+    val assignedPoints: Int get() = (value - min) / interval
+
+    fun increment() {
+        if (value < max) value += interval
+    }
+
+    fun decrement() {
+        if (value > min) value -= interval
+    }
+}
+
+@Preview
+@Composable
+private fun AttributeRowPreview() = AppTheme {
+    AttributeRow(
+        name = "Strength",
+        canIncrement = true,
+        attributePoint = AttributePoint(
+            max = 10,
+            min = 0,
+            interval = 1,
+            initialValue = 5
+        )
+    )
 }

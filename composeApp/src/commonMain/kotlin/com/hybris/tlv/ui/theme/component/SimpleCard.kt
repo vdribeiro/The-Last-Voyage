@@ -20,9 +20,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun SimpleCard(
@@ -67,4 +69,13 @@ internal fun SimpleCard(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun SimpleCardPreview() = AppTheme {
+    SimpleCard(
+        name = "Property",
+        description = "Hammer Time",
+    )
 }

@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -19,15 +21,17 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun StatDisplay(
     modifier: Modifier = Modifier,
-    icon: ImageVector,
-    label: String,
-    value: String,
+    icon: ImageVector = Icons.Default.Apps,
+    label: String = "",
+    value: String = "",
 ) {
     val typography = LocalTypography.current
     val colorScheme = LocalColorScheme.current
@@ -53,15 +57,26 @@ internal fun StatDisplay(
                 Text(
                     text = label,
                     style = typography.bodyMedium,
-                    color = colorScheme.onSurfaceVariant
+                    color = colorScheme.onSurfaceVariant,
+                    maxLines = 1
                 )
                 Text(
                     text = value,
                     style = typography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    fontSize = 20.sp,
+                    maxLines = 1
                 )
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppTheme {
+    StatDisplay(
+        label = "Stat",
+        value = "100"
+    )
 }

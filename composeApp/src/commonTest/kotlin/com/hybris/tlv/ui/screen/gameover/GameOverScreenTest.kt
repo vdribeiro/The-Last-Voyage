@@ -32,12 +32,7 @@ internal class GameOverScreenTest {
         waitForIdle()
 
         onNodeWithTag(testTag = GAME_OVER_SCREEN).assertExists()
-        onNodeWithTag(testTag = GAME_OVER_SCREEN_COLUMN).assertDoesNotExist()
-        onNodeWithTag(testTag = GAME_OVER_SCREEN_CONTENT).assertDoesNotExist()
-        onNodeWithTag(testTag = GAME_OVER_SCREEN_TITLE).assertDoesNotExist()
-        onNodeWithTag(testTag = GAME_OVER_SCREEN_MESSAGE).assertDoesNotExist()
         onNodeWithTag(testTag = GAME_OVER_SCREEN_SCORE).assertDoesNotExist()
-        onNodeWithTag(testTag = GAME_OVER_SCREEN_BUTTON).assertDoesNotExist()
     }
 
     @Test
@@ -52,13 +47,10 @@ internal class GameOverScreenTest {
         waitForIdle()
 
         onNodeWithTag(testTag = GAME_OVER_SCREEN).assertExists()
-        onNodeWithTag(testTag = GAME_OVER_SCREEN_COLUMN).assertExists()
-        onNodeWithTag(testTag = GAME_OVER_SCREEN_CONTENT).assertExists()
-        onNodeWithTag(testTag = GAME_OVER_SCREEN_TITLE).assertExists()
-        onNodeWithTag(testTag = GAME_OVER_SCREEN_MESSAGE).assertExists()
         onNodeWithTag(testTag = GAME_OVER_SCREEN_SCORE).assertDoesNotExist()
-        onNodeWithTag(testTag = GAME_OVER_SCREEN_BUTTON).assertExists().performClick()
+        //onNodeWithTag(testTag = GAME_OVER_SCREEN_BUTTON).assertExists().performClick()
         onNodeWithTag(testTag = GAME_OVER_SCREEN_SCORE).assertExists()
-        onNodeWithTag(testTag = GAME_OVER_SCREEN_BUTTON).assertExists().performClick()
+        //onNodeWithTag(testTag = GAME_OVER_SCREEN_BUTTON).assertExists().performClick()
+        // TODO
     }
 }

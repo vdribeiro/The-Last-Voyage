@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ManageSearch
 import androidx.compose.material.icons.automirrored.filled.Sort
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.DropdownMenu
@@ -38,32 +40,34 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.alpha
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(FlowPreview::class)
 @Composable
 internal fun ControlPanel(
-    modifier: Modifier,
-    enabled: Boolean,
-    search: String,
-    onSearch: (String) -> Unit,
-    viewName: String,
-    viewIcon: ImageVector,
-    onChangeView: () -> Unit,
-    count: String,
-    properties: List<String>,
-    selectedProperty: String,
-    ascending: Boolean,
-    onSortChange: (String) -> Unit,
-    onSortDirectionChange: () -> Unit,
-    visibleProperties: List<String>,
-    onVisibilityChange: (String) -> Unit,
-    selectedProperties: List<String>,
-    onFiltersChange: (String) -> Unit
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    search: String = "",
+    onSearch: (String) -> Unit = {},
+    viewName: String = "",
+    viewIcon: ImageVector = Icons.Default.Apps,
+    onChangeView: () -> Unit = {},
+    count: String = "0",
+    properties: List<String> = emptyList(),
+    selectedProperty: String = "",
+    ascending: Boolean = true,
+    onSortChange: (String) -> Unit = {},
+    onSortDirectionChange: () -> Unit = {},
+    visibleProperties: List<String> = emptyList(),
+    onVisibilityChange: (String) -> Unit = {},
+    selectedProperties: List<String> = emptyList(),
+    onFiltersChange: (String) -> Unit = {}
 ) {
     val shapes = LocalShapes.current
 
@@ -133,7 +137,7 @@ internal fun ControlPanel(
                         contentDescription = "View"
                     )
                     Spacer(modifier = Modifier.width(width = 8.dp))
-                    Text(text = viewName)
+                    Text(text = viewName, maxLines = 1)
                 }
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -141,7 +145,8 @@ internal fun ControlPanel(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)
                             .alpha(alpha = alpha(enabled = enabled)),
-                        text = count
+                        text = count,
+                        maxLines = 1
                     )
                     SortMenu(
                         enabled = enabled,
@@ -189,7 +194,7 @@ private fun SearchMenu(
             properties.forEach { property ->
                 DropdownMenuItem(
                     enabled = enabled,
-                    text = { Text(text = property) },
+                    text = { Text(text = property, maxLines = 1) },
                     onClick = { onFiltersChange(property) },
                     leadingIcon = {
                         if (selectedProperties.contains(element = property)) {
@@ -244,7 +249,7 @@ private fun SortMenu(
             properties.forEach { property ->
                 DropdownMenuItem(
                     enabled = enabled,
-                    text = { Text(text = property) },
+                    text = { Text(text = property, maxLines = 1) },
                     onClick = {
                         onSortChange(property)
                         expanded = false
@@ -288,7 +293,7 @@ private fun VisibilityMenu(
             properties.forEach { property ->
                 DropdownMenuItem(
                     enabled = enabled,
-                    text = { Text(text = property) },
+                    text = { Text(text = property, maxLines = 1) },
                     onClick = { onVisibilityChange(property) },
                     leadingIcon = {
                         if (visibleProperties.contains(element = property)) {
@@ -302,4 +307,11 @@ private fun VisibilityMenu(
             }
         }
     }
+}
+
+
+@Preview
+@Composable
+private fun ControlPanelPreview() = AppTheme {
+    ControlPanel()
 }

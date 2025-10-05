@@ -15,14 +15,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.hybris.tlv.ui.theme.AppTheme
+import kotlinx.coroutines.delay
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun Screen(
     modifier: Modifier = Modifier,
     loading: Boolean = false,
-    loadingText: String? = null,
+    loadingDelayMillis: Long = 300L,
+    loadingText: String = "",
     loadingProgress: Float? = null,
     onMusicClick: (() -> Unit)? = null,
     onFeedbackClick: (() -> Unit)? = null,
@@ -67,11 +76,35 @@ internal fun Screen(
         },
         bottomBar = bottomBar
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
+        Box(
+            modifier = Modifier
+                .padding(paddingValues = innerPadding)
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
             when (loading) {
-                true -> Loading(progress = loadingProgress, text = loadingText)
+                true -> {
+                    var show by remember { mutableStateOf(value = false) }
+                    LaunchedEffect(key1 = Unit) {
+                        delay(timeMillis = loadingDelayMillis)
+                        show = true
+                    }
+                    if (show) AppLogo(
+                        showBackground = true,
+                        showProgress = true,
+                        progress = loadingProgress,
+                        text = loadingText
+                    )
+                }
+
                 false -> content()
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun ScreenPreview() = AppTheme {
+    Screen()
 }
