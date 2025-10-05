@@ -33,15 +33,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val catastrophe = storeState.selectedCatastrophe
-    val shipPointsTranslation = remember { getTranslation(key = "new_game_screen__ship_points") }
-    val sensorTranslation = remember { getTranslation(key = "ship_sensor") }
-    val fuelTranslation = remember { getTranslation(key = "ship_fuel") }
-    val materialsTranslation = remember { getTranslation(key = "ship_materials") }
-    val cryopodsTranslation = remember { getTranslation(key = "ship_cryopods") }
     val continueTranslation = remember { getTranslation(key = "new_game_screen__continue") }
     val startTranslation = remember { getTranslation(key = "new_game_screen__start") }
-
-    val typography = LocalTypography.current
 
     TypewriterScreen(
         modifier = Modifier.testTag(tag = NEW_GAME_SCREEN),
@@ -58,76 +51,23 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
         },
         content = {
             when (storeState.currentContent) {
-                Content.SHIP -> storeState.shipState?.let { shipState ->
-                    Column(
-                        modifier = Modifier
-                            .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT)
-                            .fillMaxSize()
-                            .padding(all = 16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        // Remaining points
-                        Text(
-                            modifier = Modifier.testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT),
-                            text = "$shipPointsTranslation: ${shipState.remainingPoints}",
-                            style = typography.headlineSmall,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Spacer(modifier = Modifier.height(height = 16.dp))
-
-                        // Attributes for sensor range, fuel, materials and cryopods
-                        LazyColumn(
-                            modifier = Modifier
-                                .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS)
-                                .weight(weight = 1f),
-                            verticalArrangement = Arrangement.spacedBy(space = 16.dp, alignment = Alignment.CenterVertically)
-                        ) {
-                            val canIncrement = shipState.remainingPoints > 0
-                            item {
-                                AttributeRow(
-                                    name = sensorTranslation,
-                                    canIncrement = canIncrement,
-                                    attributePoint = shipState.sensorRange
-                                )
-                            }
-                            item {
-                                AttributeRow(
-                                    name = fuelTranslation,
-                                    canIncrement = canIncrement,
-                                    attributePoint = shipState.fuel
-                                )
-                            }
-                            item {
-                                AttributeRow(
-                                    name = materialsTranslation,
-                                    canIncrement = canIncrement,
-                                    attributePoint = shipState.materials
-                                )
-                            }
-                            item {
-                                AttributeRow(
-                                    name = cryopodsTranslation,
-                                    canIncrement = canIncrement,
-                                    attributePoint = shipState.cryopods
-                                )
-                            }
-                        }
-                    }
-                }
-
+                Content.SHIP -> storeState.shipState?.let { shipState -> Attributes(shipState = shipState) }
                 Content.START -> null
             }
         },
         buttons = when (storeState.currentContent) {
             Content.SHIP -> listOf(continueTranslation to {
                 storeState.shipState?.let { shipState ->
-                    NewGameAction.SelectShip(
-                        ShipPrototype(
-                            assignedPoints = shipState.assignedPoints,
-                            sensorRange = shipState.sensorRange.value,
-                            fuel = shipState.fuel.value,
-                            materials = shipState.materials.value,
-                            cryopods = shipState.cryopods.value,
+                    store.send(
+                        action = NewGameAction.SelectShip(
+                            ship = ShipPrototype(
+                                assignedPoints = shipState.assignedPoints,
+                                sensorRange = shipState.sensorRange.value,
+                                fuel = shipState.fuel.value,
+                                materials = shipState.materials.value,
+                                cryopods = shipState.cryopods.value,
+                            ),
+                            engine = storeState.engines.first()
                         )
                     )
                 }
@@ -137,6 +77,72 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
             Content.START -> listOf(startTranslation to { store.send(action = NewGameAction.Continue) })
         },
     )
+}
+
+@Composable
+private fun Attributes(shipState: ShipState) {
+    val shipPointsTranslation = remember { getTranslation(key = "new_game_screen__ship_points") }
+    val sensorTranslation = remember { getTranslation(key = "ship_sensor") }
+    val fuelTranslation = remember { getTranslation(key = "ship_fuel") }
+    val materialsTranslation = remember { getTranslation(key = "ship_materials") }
+    val cryopodsTranslation = remember { getTranslation(key = "ship_cryopods") }
+
+    val typography = LocalTypography.current
+
+    Column(
+        modifier = Modifier
+            .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT)
+            .fillMaxSize()
+            .padding(all = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        // Remaining points
+        Text(
+            modifier = Modifier.testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT),
+            text = "$shipPointsTranslation: ${shipState.remainingPoints}",
+            style = typography.headlineSmall,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.height(height = 16.dp))
+
+        // Attributes for sensor range, fuel, materials and cryopods
+        LazyColumn(
+            modifier = Modifier
+                .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS)
+                .weight(weight = 1f),
+            verticalArrangement = Arrangement.spacedBy(space = 16.dp, alignment = Alignment.CenterVertically)
+        ) {
+            val canIncrement = shipState.remainingPoints > 0
+            item {
+                AttributeRow(
+                    name = sensorTranslation,
+                    canIncrement = canIncrement,
+                    attributePoint = shipState.sensorRange
+                )
+            }
+            item {
+                AttributeRow(
+                    name = fuelTranslation,
+                    canIncrement = canIncrement,
+                    attributePoint = shipState.fuel
+                )
+            }
+            item {
+                AttributeRow(
+                    name = materialsTranslation,
+                    canIncrement = canIncrement,
+                    attributePoint = shipState.materials
+                )
+            }
+            item {
+                AttributeRow(
+                    name = cryopodsTranslation,
+                    canIncrement = canIncrement,
+                    attributePoint = shipState.cryopods
+                )
+            }
+        }
+    }
 }
 
 @Preview

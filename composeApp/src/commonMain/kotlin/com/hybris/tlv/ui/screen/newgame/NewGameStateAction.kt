@@ -1,13 +1,12 @@
 package com.hybris.tlv.ui.screen.newgame
 
-import androidx.compose.runtime.Stable
 import com.hybris.tlv.ui.theme.component.AttributePoint
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 
 internal sealed interface NewGameAction {
-    data class SelectShip(val ship: ShipPrototype): NewGameAction
+    data class SelectShip(val ship: ShipPrototype, val engine: Engine): NewGameAction
     data object Continue: NewGameAction
 }
 
@@ -33,7 +32,6 @@ internal enum class Content {
     START
 }
 
-@Stable
 internal data class ShipState(
     val totalPoints: Int,
     val sensorRange: AttributePoint,

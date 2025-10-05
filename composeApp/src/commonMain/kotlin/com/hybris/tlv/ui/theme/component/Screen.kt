@@ -30,7 +30,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 internal fun Screen(
     modifier: Modifier = Modifier,
-    loading: Boolean = true,
+    loading: Boolean = false,
     loadingDelayMillis: Long = 300L,
     loadingText: String = "",
     loadingProgress: Float? = null,
