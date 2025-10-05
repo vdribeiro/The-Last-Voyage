@@ -22,6 +22,8 @@ import androidx.compose.ui.Modifier
 internal fun Screen(
     modifier: Modifier = Modifier,
     loading: Boolean = false,
+    loadingText: String? = null,
+    loadingProgress: Float? = null,
     onMusicClick: (() -> Unit)? = null,
     onFeedbackClick: (() -> Unit)? = null,
     topBar: @Composable () -> Unit = {},
@@ -67,7 +69,7 @@ internal fun Screen(
     ) { innerPadding ->
         Box(modifier = Modifier.padding(paddingValues = innerPadding)) {
             when (loading) {
-                true -> Loading()
+                true -> Loading(progress = loadingProgress, text = loadingText)
                 false -> content()
             }
         }

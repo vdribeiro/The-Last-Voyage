@@ -1,32 +1,17 @@
 package com.hybris.tlv.ui.screen.gameover
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.Score
-import com.hybris.tlv.ui.theme.component.Screen
-import com.hybris.tlv.ui.theme.component.TypewriterText
+import com.hybris.tlv.ui.theme.component.TypewriterScreen
 import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.model.Engine
@@ -47,57 +32,19 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
     val messageTranslation = remember { getTranslation(key = "game_over_screen__score") }
     val scoreTranslation = remember { getTranslation(key = "game_over_screen__end") }
 
-    val typography = LocalTypography.current
-
-    Screen(
+    TypewriterScreen(
         modifier = Modifier.testTag(tag = GAME_OVER_SCREEN),
         loading = storeState.loading,
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
-        bottomBar = {
-            // Continue button
-            Button(
-                modifier = Modifier
-                    .testTag(tag = GAME_OVER_SCREEN_BUTTON)
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-                onClick = { store.send(action = GameOverAction.Continue) }
-            ) {
-                Text(
-                    text = when (storeState.currentContent) {
-                        Content.MESSAGE -> messageTranslation
-                        Content.SCORE -> scoreTranslation
-                    }
-                )
-            }
-        }
-    ) {
-        Column(
-            modifier = Modifier
-                .testTag(tag = GAME_OVER_SCREEN_CONTENT)
-                .fillMaxSize()
-                .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                modifier = Modifier.testTag(tag = GAME_OVER_SCREEN_TITLE),
-                text = gameOverTranslation,
-                style = typography.titleLarge,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(height = 16.dp))
+        title = gameOverTranslation,
+        text = when (storeState.currentContent) {
+            Content.MESSAGE -> getTranslation(key = storeState.gameOver?.displayName.orEmpty())
+            Content.SCORE -> null
+        },
+        content = {
             when (storeState.currentContent) {
-                // Game over message
-                Content.MESSAGE -> TypewriterText(
-                    modifier = Modifier
-                        .testTag(tag = GAME_OVER_SCREEN_MESSAGE)
-                        .weight(weight = 1f)
-                        .fillMaxWidth(),
-                    text = getTranslation(key = storeState.gameOver?.displayName.orEmpty())
-                )
-
-                // Score
+                Content.MESSAGE -> null
                 Content.SCORE -> if (gameSession != null && ship != null) Score(
                     modifier = Modifier.testTag(tag = GAME_OVER_SCREEN_SCORE),
                     isExpanded = null,
@@ -111,8 +58,14 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
                     cryopods = ship.cryopods.toString()
                 )
             }
-        }
-    }
+        },
+        buttons = listOf(
+            when (storeState.currentContent) {
+                Content.MESSAGE -> messageTranslation
+                Content.SCORE -> scoreTranslation
+            } to { store.send(action = GameOverAction.Continue) }
+        )
+    )
 }
 
 @Preview

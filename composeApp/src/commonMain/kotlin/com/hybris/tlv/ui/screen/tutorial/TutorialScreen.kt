@@ -10,13 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.Rocket
-import androidx.compose.material.icons.filled.RocketLaunch
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -31,6 +24,7 @@ import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.BottomNavigation
 import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.ui.theme.component.StatusBar
 import com.hybris.tlv.usecase.ship.model.Engine
@@ -59,10 +53,6 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
         )
     }
 
-    val travelTranslation = remember { getTranslation(key = "game_screen__travel") }
-    val systemTranslation = remember { getTranslation(key = "game_screen__system") }
-    val shipTranslation = remember { getTranslation(key = "game_screen__ship") }
-
     val typography = LocalTypography.current
 
     Screen(
@@ -82,32 +72,12 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
             )
         },
         bottomBar = {
-            // Navigation bar for travel, system and ship status
-            NavigationBar(
-                modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR)
-            ) {
-                NavigationBarItem(
-                    modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR_ITEM_SHIP),
-                    icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
-                    label = { Text(text = shipTranslation) },
-                    selected = (storeState.tutorialStep == Tutorial.SHIP),
-                    onClick = { },
-                )
-                NavigationBarItem(
-                    modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM),
-                    icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = systemTranslation) },
-                    label = { Text(text = systemTranslation) },
-                    selected = (storeState.tutorialStep == Tutorial.SYSTEM),
-                    onClick = { },
-                )
-                NavigationBarItem(
-                    modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL),
-                    icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
-                    label = { Text(text = travelTranslation) },
-                    selected = (storeState.tutorialStep == Tutorial.TRAVEL),
-                    onClick = { },
-                )
-            }
+            BottomNavigation(
+                modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR),
+                shipSelected = storeState.tutorialStep == Tutorial.SHIP,
+                systemSelected = storeState.tutorialStep == Tutorial.SYSTEM,
+                travelSelected = storeState.tutorialStep == Tutorial.TRAVEL,
+            )
         }
     ) {
         Box(

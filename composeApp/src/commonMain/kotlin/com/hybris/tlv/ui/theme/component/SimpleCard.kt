@@ -21,7 +21,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
@@ -59,11 +58,11 @@ internal fun SimpleCard(
             }
             Column(modifier = Modifier.weight(weight = 1f)) {
                 name?.let {
-                    Text(text = getTranslation(key = it), style = typography.titleLarge, fontWeight = FontWeight.Bold)
+                    Text(text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(height = 4.dp))
                 }
                 description?.let {
-                    Text(text = getTranslation(key = it), style = typography.bodyMedium)
+                    Text(text = it, style = typography.bodyMedium)
                 }
             }
         }

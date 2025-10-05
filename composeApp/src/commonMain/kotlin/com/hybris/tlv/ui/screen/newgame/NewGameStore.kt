@@ -120,9 +120,10 @@ internal class NewGameStore(
     override fun reducer(state: NewGameState, action: NewGameAction) {
         when (action) {
             is NewGameAction.SelectShip -> selectedShip = action.ship
-            NewGameAction.Ship -> updateState { it.copy(currentContent = Content.SHIP) }
-            NewGameAction.Start -> updateState { it.copy(currentContent = Content.START) }
-            NewGameAction.StartGame -> startGame()
+            NewGameAction.Continue -> when (state.currentContent) {
+                Content.SHIP -> updateState { it.copy(currentContent = Content.START) }
+                Content.START -> startGame()
+            }
         }
     }
 

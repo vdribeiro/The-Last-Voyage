@@ -15,12 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_BOTTOM_BAR_CREDITS
-import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_BOTTOM_BAR_SUPPORT
-import com.hybris.tlv.ui.screen.mainmenu.MAIN_MENU_SCREEN_BOTTOM_BAR_WEBSITE
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.resources.painterResource
@@ -28,11 +24,11 @@ import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.kofi
 
 @Composable
-internal fun BottomBar(
+internal fun MainBottomBar(
     modifier: Modifier = Modifier,
-    onCreditsClick: () -> Unit = {},
-    developerCornerUri: String = "",
-    supportUri: String = "",
+    onCreditsClick: () -> Unit,
+    developerCornerUri: String,
+    supportUri: String,
 ) {
     val uriHandler = LocalUriHandler.current
     val websiteTranslation = remember { getTranslation(key = "website") }
@@ -50,7 +46,6 @@ internal fun BottomBar(
         // Website, Credits and Ko-fi options
         Text(
             modifier = Modifier
-                .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR_WEBSITE)
                 .size(size = 100.dp)
                 .wrapContentHeight(align = Alignment.CenterVertically)
                 .clickable { uriHandler.openUri(uri = developerCornerUri) },
@@ -59,7 +54,6 @@ internal fun BottomBar(
         )
         Text(
             modifier = Modifier
-                .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR_CREDITS)
                 .size(size = 100.dp)
                 .wrapContentHeight(align = Alignment.CenterVertically)
                 .clickable(onClick = onCreditsClick),
@@ -69,7 +63,6 @@ internal fun BottomBar(
         )
         Image(
             modifier = Modifier
-                .testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR_SUPPORT)
                 .size(size = 100.dp)
                 .wrapContentHeight(align = Alignment.CenterVertically)
                 .clickable { uriHandler.openUri(uri = supportUri) },

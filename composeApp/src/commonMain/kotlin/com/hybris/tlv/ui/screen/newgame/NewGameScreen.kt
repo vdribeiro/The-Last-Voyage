@@ -4,12 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,19 +14,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
-import com.hybris.tlv.ui.screen.newgame.content.NewGameContent
-import com.hybris.tlv.ui.screen.newgame.content.StartContent
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AttributeRow
-import com.hybris.tlv.ui.theme.component.Screen
-import com.hybris.tlv.ui.theme.component.TypewriterText
+import com.hybris.tlv.ui.theme.component.TypewriterScreen
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -38,175 +31,127 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
-
-    Screen(
-        modifier = Modifier.testTag(tag = NEW_GAME_SCREEN),
-        loading = storeState.loading,
-        onMusicClick = { store.toggleAudio() },
-        onFeedbackClick = { store.feedback() },
-        bottomBar = {
-            // Continue button
-            Button(
-                modifier = Modifier
-                    .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_BUTTON)
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp),
-                colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-                onClick = {
-                    store.send(
-                        action = NewGameAction.SelectShip(
-                            ShipPrototype(
-                                assignedPoints = shipState.assignedPoints,
-                                sensorRange = shipState.sensorRange.value,
-                                fuel = shipState.fuel.value,
-                                materials = shipState.materials.value,
-                                cryopods = shipState.cryopods.value,
-                            )
-                        )
-                    )
-                    store.send(action = NewGameAction.Start)
-                },
-            ) {
-                Text(text = continueTranslation)
-            }
-        }
-    ) {
-        when (storeState.currentContent) {
-            Content.SHIP -> NewGameContent(store = store)
-            Content.START -> StartContent(store = store)
-        }
-    }
-}
-
-@Composable
-private fun NewGameContent(store: Store<NewGameState, NewGameAction>) {
-    val storeState by store.stateFlow.collectAsState()
-    val shipState = storeState.shipState
-    val remainingPoints = shipState?.remainingPoints ?: return
+    val catastrophe = storeState.selectedCatastrophe
     val shipPointsTranslation = remember { getTranslation(key = "new_game_screen__ship_points") }
     val sensorTranslation = remember { getTranslation(key = "ship_sensor") }
     val fuelTranslation = remember { getTranslation(key = "ship_fuel") }
     val materialsTranslation = remember { getTranslation(key = "ship_materials") }
     val cryopodsTranslation = remember { getTranslation(key = "ship_cryopods") }
     val continueTranslation = remember { getTranslation(key = "new_game_screen__continue") }
-
-    val typography = LocalTypography.current
-
-    Column(
-        modifier = Modifier
-            .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT)
-            .fillMaxSize()
-            .padding(all = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        // Remaining points
-        Text(
-            modifier = Modifier.testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT),
-            text = "$shipPointsTranslation: $remainingPoints",
-            style = typography.headlineSmall,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(height = 16.dp))
-
-        // Attributes for sensor range, fuel, materials and cryopods
-        LazyColumn(
-            modifier = Modifier
-                .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS)
-                .weight(weight = 1f),
-            verticalArrangement = Arrangement.spacedBy(space = 16.dp, alignment = Alignment.CenterVertically)
-        ) {
-            val canIncrement = remainingPoints > 0
-            item {
-                AttributeRow(
-                    name = sensorTranslation,
-                    minPoints = shipState.sensorRange.min,
-                    maxPoints = shipState.sensorRange.max,
-                    points = shipState.sensorRange.value,
-                    canIncrement = canIncrement,
-                    onIncrement = { shipState.sensorRange.increment() },
-                    onDecrement = { shipState.sensorRange.decrement() }
-                )
-            }
-            item {
-                AttributeRow(
-                    name = fuelTranslation,
-                    minPoints = shipState.fuel.min,
-                    maxPoints = shipState.fuel.max,
-                    points = shipState.fuel.value,
-                    canIncrement = canIncrement,
-                    onIncrement = { shipState.fuel.increment() },
-                    onDecrement = { shipState.fuel.decrement() }
-                )
-            }
-            item {
-                AttributeRow(
-                    name = materialsTranslation,
-                    minPoints = shipState.materials.min,
-                    maxPoints = shipState.materials.max,
-                    points = shipState.materials.value,
-                    canIncrement = canIncrement,
-                    onIncrement = { shipState.materials.increment() },
-                    onDecrement = { shipState.materials.decrement() }
-                )
-            }
-            item {
-                AttributeRow(
-                    name = cryopodsTranslation,
-                    minPoints = shipState.cryopods.min,
-                    maxPoints = shipState.cryopods.max,
-                    points = shipState.cryopods.value,
-                    canIncrement = canIncrement,
-                    onIncrement = { shipState.cryopods.increment() },
-                    onDecrement = { shipState.cryopods.decrement() }
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun StartContent(store: Store<NewGameState, NewGameAction>) {
-    val storeState by store.stateFlow.collectAsState()
-    val catastrophe = storeState.selectedCatastrophe ?: return
     val startTranslation = remember { getTranslation(key = "new_game_screen__start") }
 
     val typography = LocalTypography.current
 
-    Column(
-        modifier = Modifier
-            .testTag(tag = NEW_GAME_SCREEN_START_CONTENT)
-            .fillMaxSize()
-            .padding(all = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        // Catastrophe
-        Text(
-            modifier = Modifier.testTag(tag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE),
-            text = getTranslation(key = catastrophe.id),
-            style = typography.titleLarge,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(height = 16.dp))
-        TypewriterText(
-            modifier = Modifier
-                .testTag(tag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE_DESCRIPTION)
-                .weight(weight = 1f)
-                .fillMaxWidth(),
-            text = getTranslation(key = catastrophe.description)
-        )
+    TypewriterScreen(
+        modifier = Modifier.testTag(tag = NEW_GAME_SCREEN),
+        loading = storeState.loading,
+        onMusicClick = { store.toggleAudio() },
+        onFeedbackClick = { store.feedback() },
+        title = when (storeState.currentContent) {
+            Content.SHIP -> ""
+            Content.START -> catastrophe?.let { getTranslation(key = it.id) }
+        },
+        text = when (storeState.currentContent) {
+            Content.SHIP -> ""
+            Content.START -> catastrophe?.let { getTranslation(key = it.description) }
+        },
+        content = {
+            when (storeState.currentContent) {
+                Content.SHIP -> storeState.shipState?.let { shipState ->
+                    Column(
+                        modifier = Modifier
+                            .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT)
+                            .fillMaxSize()
+                            .padding(all = 16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        // Remaining points
+                        Text(
+                            modifier = Modifier.testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT),
+                            text = "$shipPointsTranslation: $remainingPoints",
+                            style = typography.headlineSmall,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.height(height = 16.dp))
 
-        // Start game button
-        Button(
-            modifier = Modifier
-                .testTag(tag = NEW_GAME_SCREEN_START_CONTENT_BUTTON)
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-            onClick = { store.send(action = NewGameAction.StartGame) }
-        ) {
-            Text(text = startTranslation)
-        }
-    }
+                        // Attributes for sensor range, fuel, materials and cryopods
+                        LazyColumn(
+                            modifier = Modifier
+                                .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS)
+                                .weight(weight = 1f),
+                            verticalArrangement = Arrangement.spacedBy(space = 16.dp, alignment = Alignment.CenterVertically)
+                        ) {
+                            val canIncrement = remainingPoints > 0
+                            item {
+                                AttributeRow(
+                                    name = sensorTranslation,
+                                    minPoints = shipState.sensorRange.min,
+                                    maxPoints = shipState.sensorRange.max,
+                                    points = shipState.sensorRange.value,
+                                    canIncrement = canIncrement,
+                                    onIncrement = { shipState.sensorRange.increment() },
+                                    onDecrement = { shipState.sensorRange.decrement() }
+                                )
+                            }
+                            item {
+                                AttributeRow(
+                                    name = fuelTranslation,
+                                    minPoints = shipState.fuel.min,
+                                    maxPoints = shipState.fuel.max,
+                                    points = shipState.fuel.value,
+                                    canIncrement = canIncrement,
+                                    onIncrement = { shipState.fuel.increment() },
+                                    onDecrement = { shipState.fuel.decrement() }
+                                )
+                            }
+                            item {
+                                AttributeRow(
+                                    name = materialsTranslation,
+                                    minPoints = shipState.materials.min,
+                                    maxPoints = shipState.materials.max,
+                                    points = shipState.materials.value,
+                                    canIncrement = canIncrement,
+                                    onIncrement = { shipState.materials.increment() },
+                                    onDecrement = { shipState.materials.decrement() }
+                                )
+                            }
+                            item {
+                                AttributeRow(
+                                    name = cryopodsTranslation,
+                                    minPoints = shipState.cryopods.min,
+                                    maxPoints = shipState.cryopods.max,
+                                    points = shipState.cryopods.value,
+                                    canIncrement = canIncrement,
+                                    onIncrement = { shipState.cryopods.increment() },
+                                    onDecrement = { shipState.cryopods.decrement() }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Content.START -> null
+            }
+        },
+        buttons = when (storeState.currentContent) {
+            Content.SHIP -> listOf(continueTranslation to {
+                storeState.shipState?.let { shipState ->
+                    NewGameAction.SelectShip(
+                        ShipPrototype(
+                            assignedPoints = shipState.assignedPoints,
+                            sensorRange = shipState.sensorRange.value,
+                            fuel = shipState.fuel.value,
+                            materials = shipState.materials.value,
+                            cryopods = shipState.cryopods.value,
+                        )
+                    )
+                }
+                store.send(action = NewGameAction.Continue)
+            })
+
+            Content.START -> listOf(startTranslation to { store.send(action = NewGameAction.Continue) })
+        },
+    )
 }
 
 @Preview

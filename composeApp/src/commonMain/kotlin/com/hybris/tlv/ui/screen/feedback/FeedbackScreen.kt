@@ -6,14 +6,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,12 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.FeedbackHeader
 import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -65,28 +61,13 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
                 .padding(all = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            // Icon and title
-            Icon(
+            FeedbackHeader(
                 modifier = Modifier
-                    .testTag(tag = FEEDBACK_SCREEN_ICON)
-                    .size(size = 64.dp),
-                imageVector = Icons.Outlined.BugReport,
-                contentDescription = "Error Icon",
+                    .testTag(tag = FEEDBACK_SCREEN_HEADER)
+                    .padding(bottom = 24.dp),
+                title = titleTranslation,
+                description = descriptionTranslation
             )
-            Spacer(modifier = Modifier.height(height = 16.dp))
-            Text(
-                modifier = Modifier.testTag(tag = FEEDBACK_SCREEN_TITLE),
-                text = titleTranslation,
-                style = typography.headlineSmall
-            )
-            Spacer(modifier = Modifier.height(height = 8.dp))
-            Text(
-                modifier = Modifier.testTag(tag = FEEDBACK_SCREEN_DESCRIPTION),
-                text = descriptionTranslation,
-                style = typography.bodyMedium,
-                textAlign = TextAlign.Center,
-            )
-            Spacer(modifier = Modifier.height(height = 24.dp))
 
             // Feedback input
             OutlinedTextField(

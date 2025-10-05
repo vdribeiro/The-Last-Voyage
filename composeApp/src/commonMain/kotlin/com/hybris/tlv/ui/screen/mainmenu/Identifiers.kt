@@ -2,9 +2,6 @@ package com.hybris.tlv.ui.screen.mainmenu
 
 internal const val MAIN_MENU_SCREEN = "main_menu_screen"
 internal const val MAIN_MENU_SCREEN_BOTTOM_BAR = "main_menu_screen_bottom_bar"
-internal const val MAIN_MENU_SCREEN_BOTTOM_BAR_WEBSITE = "main_menu_screen_bottom_bar_website"
-internal const val MAIN_MENU_SCREEN_BOTTOM_BAR_CREDITS = "main_menu_screen_bottom_bar_credits"
-internal const val MAIN_MENU_SCREEN_BOTTOM_BAR_SUPPORT = "main_menu_screen_bottom_bar_support"
 internal const val MAIN_MENU_SCREEN_MAIN_MENU_CONTENT = "main_menu_screen_main_menu_content"
 internal const val MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_NEW_GAME = "main_menu_screen_main_menu_content_new_game"
 internal const val MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONTINUE = "main_menu_screen_main_menu_content_continue"

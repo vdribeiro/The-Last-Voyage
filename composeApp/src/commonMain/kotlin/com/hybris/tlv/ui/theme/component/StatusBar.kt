@@ -36,9 +36,9 @@ internal fun StatusBar(
     materials: String?,
     cryopods: String?
 ) {
-    Surface(modifier = Modifier.fillMaxWidth()) {
+    Surface(modifier = modifier.fillMaxWidth()) {
         Row(
-            modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {

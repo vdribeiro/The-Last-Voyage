@@ -29,7 +29,7 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AppLogo
-import com.hybris.tlv.ui.theme.component.BottomBar
+import com.hybris.tlv.ui.theme.component.MainBottomBar
 import com.hybris.tlv.ui.theme.component.PlanetCard
 import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.ui.theme.component.SimpleCard
@@ -60,7 +60,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         bottomBar = {
-            if (isMenu) BottomBar(
+            if (isMenu) MainBottomBar(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR),
                 onCreditsClick = { store.send(action = MainMenuAction.Credits) },
                 developerCornerUri = storeState.developerCorner,
@@ -81,6 +81,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
 @Composable
 private fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
+    val appNameTranslation = remember { getTranslation(key = "app_name") }
     val newGameTranslation = remember { getTranslation(key = "main_menu_screen__new_game") }
     val tutorialTranslation = remember { getTranslation(key = "main_menu_screen__new_game_tutorial") }
     val tutorialTranslationYes = remember { getTranslation(key = "main_menu_screen__new_game_tutorial_yes") }
@@ -118,8 +119,13 @@ private fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        item { AppLogo() }
-        item { Spacer(modifier = Modifier.height(height = 32.dp)) }
+        item {
+            AppLogo(
+                modifier = Modifier.padding(bottom = 32.dp),
+                showBackground = false,
+                text = appNameTranslation
+            )
+        }
         if (storeState.featureNewGame) {
             item {
                 Text(
@@ -170,6 +176,7 @@ private fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
 @Composable
 private fun LearnContent(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
+    val appNameTranslation = remember { getTranslation(key = "app_name") }
     val stellarExplorerTranslation = remember { getTranslation(key = "main_menu_screen__stellar_explorer") }
     val hostDefinitionTranslation = remember { getTranslation(key = "main_menu_screen__host_definition") }
     val planetDefinitionTranslation = remember { getTranslation(key = "main_menu_screen__planet_definition") }
@@ -186,8 +193,13 @@ private fun LearnContent(store: Store<MainMenuState, MainMenuAction>) {
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        item { AppLogo() }
-        item { Spacer(modifier = Modifier.height(height = 32.dp)) }
+        item {
+            AppLogo(
+                modifier = Modifier.padding(bottom = 32.dp),
+                showBackground = false,
+                text = appNameTranslation
+            )
+        }
         if (storeState.featureStellarExplorer) {
             item {
                 Text(
@@ -343,8 +355,8 @@ private fun HostDefinitionContent(store: Store<MainMenuState, MainMenuAction>) {
         items(items = stellarHostProperties, key = { it.id }) { property ->
             SimpleCard(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES_SIMPLE),
-                name = property.id,
-                description = property.description,
+                name = getTranslation(key = property.id),
+                description = getTranslation(key = property.description),
             )
         }
         item {
@@ -471,8 +483,8 @@ private fun PlanetDefinitionContent(store: Store<MainMenuState, MainMenuAction>)
         items(items = planetProperties, key = { it.id }) { property ->
             SimpleCard(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_PROPERTIES_SIMPLE),
-                name = property.id,
-                description = property.description,
+                name = getTranslation(key = property.id),
+                description = getTranslation(key = property.description),
             )
         }
         item {
@@ -516,8 +528,8 @@ private fun HabitabilityContent(store: Store<MainMenuState, MainMenuAction>) {
         items(items = formula, key = { it.id }) { property ->
             SimpleCard(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_SIMPLE),
-                name = property.id,
-                description = property.description,
+                name = getTranslation(key = property.id),
+                description = getTranslation(key = property.description),
             )
         }
         item {

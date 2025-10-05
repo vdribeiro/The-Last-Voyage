@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.Rocket
-import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material.icons.outlined.BedroomParent
 import androidx.compose.material.icons.outlined.Construction
 import androidx.compose.material.icons.outlined.LocalGasStation
@@ -19,10 +16,6 @@ import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Speed
 import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.BottomNavigation
 import com.hybris.tlv.ui.theme.component.PlanetCard
 import com.hybris.tlv.ui.theme.component.Screen
 import com.hybris.tlv.ui.theme.component.StatDisplay
@@ -56,9 +50,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val ship = storeState.ship
 
-    val travelTranslation = remember { getTranslation(key = "game_screen__travel") }
-    val systemTranslation = remember { getTranslation(key = "game_screen__system") }
-    val shipTranslation = remember { getTranslation(key = "game_screen__ship") }
+
 
     Screen(
         modifier = Modifier.testTag(tag = GAME_SCREEN),
@@ -78,32 +70,15 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
             )
         },
         bottomBar = {
-            // Navigation bar for travel, system and ship status
-            NavigationBar(
-                modifier = Modifier.testTag(tag = GAME_SCREEN_NAVIGATION_BAR)
-            ) {
-                NavigationBarItem(
-                    modifier = Modifier.testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP),
-                    icon = { Icon(imageVector = Icons.Filled.Rocket, contentDescription = shipTranslation) },
-                    label = { Text(text = shipTranslation) },
-                    selected = (storeState.currentContent == Content.SHIP),
-                    onClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
-                )
-                NavigationBarItem(
-                    modifier = Modifier.testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SYSTEM),
-                    icon = { Icon(imageVector = Icons.Filled.Hub, contentDescription = systemTranslation) },
-                    label = { Text(text = systemTranslation) },
-                    selected = (storeState.currentContent == Content.SYSTEM),
-                    onClick = { store.send(action = GameAction.ChangeTab(content = Content.SYSTEM)) },
-                )
-                NavigationBarItem(
-                    modifier = Modifier.testTag(tag = GAME_SCREEN_NAVIGATION_BAR_ITEM_TRAVEL),
-                    icon = { Icon(imageVector = Icons.Filled.RocketLaunch, contentDescription = travelTranslation) },
-                    label = { Text(text = travelTranslation) },
-                    selected = (storeState.currentContent == Content.TRAVEL),
-                    onClick = { store.send(action = GameAction.ChangeTab(content = Content.TRAVEL)) },
-                )
-            }
+            BottomNavigation(
+                modifier = Modifier.testTag(tag = GAME_SCREEN_NAVIGATION_BAR),
+                shipSelected = storeState.currentContent == Content.SHIP,
+                shipOnClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
+                systemSelected = storeState.currentContent == Content.SYSTEM,
+                systemOnClick = { store.send(action = GameAction.ChangeTab(content = Content.SYSTEM)) },
+                travelSelected = storeState.currentContent == Content.TRAVEL,
+                travelOnClick = { store.send(action = GameAction.ChangeTab(content = Content.TRAVEL)) },
+            )
         }
     ) {
         when (storeState.currentContent) {

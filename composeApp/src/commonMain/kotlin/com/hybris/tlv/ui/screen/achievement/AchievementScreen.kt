@@ -15,10 +15,11 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.AchievementItem
 import com.hybris.tlv.ui.theme.component.Screen
+import com.hybris.tlv.ui.theme.component.SimpleCard
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
+import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -40,10 +41,10 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
             items(items = storeState.achievements, key = { it.id }) { achievement ->
-                AchievementItem(
+                SimpleCard(
                     modifier = Modifier.testTag(tag = ACHIEVEMENT_SCREEN_LIST_ITEM),
-                    name = achievement.name,
-                    description = achievement.description
+                    name = getTranslation(key = achievement.name),
+                    description = getTranslation(key = achievement.description)
                 )
             }
         }

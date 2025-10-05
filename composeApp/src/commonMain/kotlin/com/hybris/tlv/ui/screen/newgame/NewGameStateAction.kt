@@ -10,9 +10,7 @@ import com.hybris.tlv.usecase.ship.model.ShipPrototype
 
 internal sealed interface NewGameAction {
     data class SelectShip(val ship: ShipPrototype): NewGameAction
-    data object Ship: NewGameAction
-    data object Start: NewGameAction
-    data object StartGame: NewGameAction
+    data object Continue: NewGameAction
 }
 
 internal sealed interface NewGameStateBuilder {
