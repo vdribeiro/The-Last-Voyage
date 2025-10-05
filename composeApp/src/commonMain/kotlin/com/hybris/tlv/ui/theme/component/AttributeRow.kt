@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -58,17 +59,22 @@ internal fun AttributeRow(
                 )
             }
 
-            Text(
+            Box(
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .size(size = 80.dp),
-                text = "$value",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Center,
-            )
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "$value",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Center,
+                    maxLines = 1
+                )
+            }
 
-            IconButton(onClick = { attributePoint.increment() }, enabled = canIncrement && value < attributePoint.min) {
+            IconButton(onClick = { attributePoint.increment() }, enabled = canIncrement && value < attributePoint.max) {
                 Icon(
                     modifier = Modifier.size(size = 36.dp),
                     imageVector = Icons.Default.AddCircle,
@@ -114,13 +120,13 @@ internal data class AttributePoint(
 @Composable
 private fun AttributeRowPreview() = AppTheme {
     AttributeRow(
-        name = "Strength",
+        name = "Power",
         canIncrement = true,
         attributePoint = AttributePoint(
-            max = 10,
+            max = 10000,
             min = 0,
-            interval = 1,
-            initialValue = 5
+            interval = 100,
+            initialValue = 9000
         )
     )
 }
