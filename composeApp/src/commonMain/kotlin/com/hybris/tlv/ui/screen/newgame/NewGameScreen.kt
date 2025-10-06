@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.newgame
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,7 +25,7 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AttributePoint
 import com.hybris.tlv.ui.theme.component.AttributeRow
-import com.hybris.tlv.ui.theme.component.card.SelectableCard
+import com.hybris.tlv.ui.theme.component.card.SelectableAttribute
 import com.hybris.tlv.ui.theme.component.screen.TypewriterScreen
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
@@ -85,6 +86,7 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val shipState = storeState.shipState ?: return
     val engines = storeState.engines
+    val selectedEngine = storeState.selectedEngine
 
     val shipPointsTranslation = remember { getTranslation(key = "new_game_screen__ship_points") }
     val sensorTranslation = remember { getTranslation(key = "ship_sensor") }
@@ -158,11 +160,15 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
                 )
             }
             items(items = engines, key = { it.id }) { engine ->
-                SelectableCard(
+                SelectableAttribute(
                     modifier = Modifier
-                        .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_ENGINE),
+                        .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_ENGINE)
+                        .clickable {
+                            store.send(action = NewGameAction.SelectEngine(engine = engine))
+                        },
                     name = getTranslation(key = engine.id),
                     description = getTranslation(key = engine.description),
+                    selected = selectedEngine == engine
                 )
             }
         }

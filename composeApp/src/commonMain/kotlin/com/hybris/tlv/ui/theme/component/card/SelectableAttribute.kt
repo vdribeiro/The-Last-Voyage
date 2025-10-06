@@ -1,10 +1,13 @@
 package com.hybris.tlv.ui.theme.component.card
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -14,26 +17,40 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun SelectableCard(
+internal fun SelectableAttribute(
     modifier: Modifier = Modifier,
-    name: String? = null,
-    description: String? = null,
     selected: Boolean = false,
+    name: String = "",
+    description: String = "",
+    points: String = "",
 ) {
     val typography = LocalTypography.current
 
     Card(
         modifier = modifier.fillMaxWidth(),
-        selected = selected,
+        selected = selected
     ) {
-        Column(modifier = Modifier.weight(weight = 1f)) {
-            name?.let {
-                Text(text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold)
+        Row(
+            modifier = Modifier
+                .padding(all = 12.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(weight = 1f)) {
+                Text(
+                    text = name,
+                    style = typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
                 Spacer(modifier = Modifier.height(height = 4.dp))
+                Text(text = description, style = typography.bodyMedium)
             }
-            description?.let {
-                Text(text = it, style = typography.bodyMedium)
-            }
+            Spacer(modifier = Modifier.weight(weight = 0.1f))
+            Text(
+                text = points,
+                style = typography.headlineSmall,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
@@ -41,8 +58,9 @@ internal fun SelectableCard(
 @Preview
 @Composable
 private fun SelectableCardPreview() = AppTheme {
-    SelectableCard(
+    SelectableAttribute(
         name = "Property",
         description = "Hammer Time",
+        points = "10"
     )
 }

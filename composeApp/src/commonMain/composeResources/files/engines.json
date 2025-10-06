@@ -1,10 +1,5 @@
 [
   {
-    "id": "engine__wormhole_generator",
-    "description": "engine__wormhole_generator_description",
-    "velocity": 2.99E8
-  },
-  {
     "id": "engine__alcubierre_drive",
     "description": "engine__alcubierre_drive_description",
     "velocity": 1.0

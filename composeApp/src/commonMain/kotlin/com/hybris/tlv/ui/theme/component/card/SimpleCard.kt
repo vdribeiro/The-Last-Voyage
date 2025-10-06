@@ -55,7 +55,11 @@ internal fun SimpleCard(
             }
             Column(modifier = Modifier.weight(weight = 1f)) {
                 name?.let {
-                    Text(text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold)
+                    Text(
+                        text = it,
+                        style = typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
                     Spacer(modifier = Modifier.height(height = 4.dp))
                 }
                 description?.let {
