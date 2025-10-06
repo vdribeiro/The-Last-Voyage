@@ -15,8 +15,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 internal fun Card(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
-    enabled: Boolean = true,
     selected: Boolean = false,
     content: @Composable ColumnScope.() -> Unit = {}
 ) {
@@ -33,8 +31,6 @@ internal fun Card(
 
     Card(
         modifier = modifier,
-        onClick = onClick,
-        enabled = enabled,
         shape = shapes.small,
         colors = colors,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),

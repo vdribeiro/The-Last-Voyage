@@ -154,7 +154,7 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                 items(items = supporters) { credit ->
                     Card(
                         modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER_ITEM),
-                        onClick = { credit.link?.let { uriHandler.openUri(uri = it) } }
+                        //onClick = { credit.link?.let { uriHandler.openUri(uri = it) } }
                     ) {
                         Text(
                             modifier = Modifier
