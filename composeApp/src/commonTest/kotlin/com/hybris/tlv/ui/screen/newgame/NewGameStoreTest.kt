@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.newgame
 
 import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.engines
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.Screen
@@ -62,7 +63,7 @@ internal class NewGameStoreTest {
             fuel = 1,
             cryopods = 1
         )
-        newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype))
+        newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype, engine = engines.random()))
         assertEquals(expected = shipPrototype, actual = newGameStore.selectedShip)
     }
 
@@ -78,7 +79,7 @@ internal class NewGameStoreTest {
             fuel = 1,
             cryopods = 1
         )
-        newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype))
+        newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype, engine = engines.random()))
         newGameStore.send(action = NewGameAction.Continue)
         assertEquals(expected = Screen.Game, actual = testDependency.navigation.stateFlow.value.screen)
     }
