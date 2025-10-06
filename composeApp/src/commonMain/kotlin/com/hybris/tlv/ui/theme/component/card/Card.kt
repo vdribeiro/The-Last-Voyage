@@ -25,8 +25,8 @@ internal fun Card(
         else -> CardDefaults.cardColors()
     }
     val border = when {
-        selected -> BorderStroke(width = 2.dp, color = colorScheme.primary)
-        else -> BorderStroke(width = 1.dp, color = colorScheme.outline)
+        selected -> BorderStroke(width = 2.dp, color = colorScheme.outline)
+        else -> null
     }
 
     Card(
