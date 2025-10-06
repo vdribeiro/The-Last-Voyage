@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.theme.component.button
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,13 +16,12 @@ internal fun Button(
     text: String = "",
     onClick: () -> Unit = {},
     enabled: Boolean = true,
-    colors: ButtonColors = ButtonDefaults.buttonColors(contentColor = Color.White),
 ) {
     Button(
         modifier = modifier,
         onClick = onClick,
         enabled = enabled,
-        colors = colors,
+        colors = ButtonDefaults.buttonColors(contentColor = Color.White),
         content = { Text(text = text) }
     )
 }
@@ -46,5 +44,5 @@ internal fun Button(
 @Preview
 @Composable
 private fun ButtonPreview() = AppTheme {
-    Button()
+    Button(text = "Button")
 }

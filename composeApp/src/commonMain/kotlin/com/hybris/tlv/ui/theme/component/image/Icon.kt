@@ -17,7 +17,7 @@ internal fun Icon(
     imageVector: ImageVector = defaultIcon,
     tint: Color = LocalContentColor.current,
     contentDescription: String = "Icon",
-){
+) {
     Icon(
         modifier = modifier,
         imageVector = imageVector,

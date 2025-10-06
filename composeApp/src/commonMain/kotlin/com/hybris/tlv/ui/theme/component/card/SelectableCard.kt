@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.text.Text
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -24,26 +26,11 @@ internal fun SelectableCard(
 ) {
     val typography = LocalTypography.current
 
-    val cardColors = if (selected) {
-        CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
-        )
-    } else {
-        CardDefaults.cardColors()
-    }
-
-    val border = if (selected) {
-        BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
-    } else {
-        BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
-    }
-
     Card(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() },
-        colors = cardColors,
-        border = border
+        selected = selected,
     ) {
         Column(modifier = Modifier.weight(weight = 1f)) {
             name?.let {

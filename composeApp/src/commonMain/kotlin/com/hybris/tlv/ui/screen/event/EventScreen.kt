@@ -9,8 +9,8 @@ import androidx.compose.ui.platform.testTag
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.ui.theme.component.screen.TypewriterScreen
+import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship

@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.text.Text
 import org.jetbrains.compose.resources.DrawableResource
@@ -32,6 +33,7 @@ internal fun SimpleCard(
     image: DrawableResource? = null,
 ) {
     val typography = LocalTypography.current
+    val shapes = LocalShapes.current
 
     Card(modifier = modifier.fillMaxWidth()) {
         Row(
@@ -44,7 +46,7 @@ internal fun SimpleCard(
                 Image(
                     modifier = Modifier
                         .size(size = 72.dp)
-                        .clip(shape = RoundedCornerShape(size = 8.dp))
+                        .clip(shape = shapes.small)
                         .align(alignment = Alignment.Top),
                     painter = painterResource(resource = it),
                     contentDescription = name,

@@ -21,11 +21,11 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.ui.theme.component.card.PlanetCard
-import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.divider.Divider
+import com.hybris.tlv.ui.theme.component.screen.Screen
+import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
 import com.hybris.tlv.usecase.space.formula.toDrawable
 import com.hybris.tlv.usecase.space.model.Planet
