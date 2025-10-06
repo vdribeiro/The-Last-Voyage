@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Text
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
@@ -23,8 +24,11 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AttributePoint
 import com.hybris.tlv.ui.theme.component.AttributeRow
-import com.hybris.tlv.ui.theme.component.TypewriterScreen
+import com.hybris.tlv.ui.theme.component.card.SimpleCard
+import com.hybris.tlv.ui.theme.component.screen.TypewriterScreen
+import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
+import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -51,7 +55,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
         },
         content = {
             when (storeState.currentContent) {
-                Content.SHIP -> storeState.shipState?.let { shipState -> Attributes(shipState = shipState) }
+                Content.SHIP -> storeState.shipState?.let { shipState -> Ship(shipState = shipState, engines = storeState.engines) }
                 Content.START -> null
             }
         },
@@ -80,7 +84,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
 }
 
 @Composable
-private fun Attributes(shipState: ShipState) {
+private fun Ship(shipState: ShipState, engines: List<Engine>) {
     val shipPointsTranslation = remember { getTranslation(key = "new_game_screen__ship_points") }
     val sensorTranslation = remember { getTranslation(key = "ship_sensor") }
     val fuelTranslation = remember { getTranslation(key = "ship_fuel") }
@@ -101,7 +105,8 @@ private fun Attributes(shipState: ShipState) {
             modifier = Modifier.testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT),
             text = "$shipPointsTranslation: ${shipState.remainingPoints}",
             style = typography.headlineSmall,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(height = 16.dp))
 
@@ -110,7 +115,8 @@ private fun Attributes(shipState: ShipState) {
             modifier = Modifier
                 .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS)
                 .weight(weight = 1f),
-            verticalArrangement = Arrangement.spacedBy(space = 16.dp, alignment = Alignment.CenterVertically)
+            verticalArrangement = Arrangement.spacedBy(space = 4.dp, alignment = Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val canIncrement = shipState.remainingPoints > 0
             item {
@@ -141,13 +147,29 @@ private fun Attributes(shipState: ShipState) {
                     attributePoint = shipState.cryopods
                 )
             }
+            item {
+                Text(
+                    modifier = Modifier.padding(all = 16.dp),
+                    text = getTranslation(key = "new_game_screen__engine_select"),
+                    style = typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
+            }
+            items(items = engines, key = { it.id }) { engine ->
+                SimpleCard(
+                    modifier = Modifier.testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_ENGINE),
+                    name = getTranslation(key = engine.id),
+                    description = getTranslation(key = engine.description),
+                )
+            }
         }
     }
 }
 
 @Preview
 @Composable
-private fun NewGameLoading() = AppTheme {
+private fun NewGameLoadingPreview() = AppTheme {
     NewGameScreen(
         store = getStore(
             initialState = NewGameState(
@@ -162,7 +184,7 @@ private fun NewGameLoading() = AppTheme {
 
 @Preview
 @Composable
-private fun NewGameShip() = AppTheme {
+private fun NewGameShipPreview() = AppTheme {
     NewGameScreen(
         store = getStore(
             initialState = NewGameState(
@@ -183,7 +205,7 @@ private fun NewGameShip() = AppTheme {
 
 @Preview
 @Composable
-private fun NewGameStart() = AppTheme {
+private fun NewGameStartPreview() = AppTheme {
     NewGameScreen(
         store = getStore(
             initialState = NewGameState(

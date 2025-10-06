@@ -9,8 +9,8 @@ import androidx.compose.ui.platform.testTag
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.StatusBar
-import com.hybris.tlv.ui.theme.component.TypewriterScreen
+import com.hybris.tlv.ui.theme.component.topbar.StatusBar
+import com.hybris.tlv.ui.theme.component.screen.TypewriterScreen
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
@@ -23,12 +23,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 internal fun EventScreen(store: Store<EventState, EventAction>) {
     val storeState by store.stateFlow.collectAsState()
-    val event = storeState.parentEvent
-    val children = storeState.childrenEvents
     val ship = storeState.ship
-    val title = if (event?.id != null) getTranslation(key = event.id) else null
-    val outcome = if (event?.outcome != null) "\n\n${event.outcome.getTranslation()}" else ""
-    val text = if (event?.description != null) getTranslation(key = event.description) + outcome else null
+    val event = storeState.parentEvent
 
     TypewriterScreen(
         modifier = Modifier.testTag(tag = EVENT_SCREEN),
@@ -46,15 +42,28 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
                 cryopods = ship?.cryopods?.toString()
             )
         },
-        title = title,
-        text = text,
-        buttons = children.map { getTranslation(key = it.id) to { store.send(action = EventAction.Select(event = it)) } }
+        title = event?.let { getTranslation(key = it.id) },
+        text = event?.let { getTranslation(key = it.description) + getOutcomeTranslation(outcome = it.outcome) },
+        buttons = storeState.childrenEvents.map { getTranslation(key = it.id) to { store.send(action = EventAction.Select(event = it)) } }
     )
+}
+
+private fun getOutcomeTranslation(outcome: TravelOutcome?): String {
+    if (outcome == null) return ""
+    return with(receiver = outcome) {
+        buildList {
+            add("\n")
+            if (integrity != null) add("${if (integrity > 0) "+" else ""}$integrity ${getTranslation(key = "ship_integrity")}")
+            if (materials != null) add("${if (materials > 0) "+" else ""}$materials ${getTranslation(key = "ship_materials")}")
+            if (fuel != null) add("${if (fuel > 0.0) "+" else ""}$fuel ${getTranslation(key = "ship_fuel")}")
+            if (cryopods != null) add("${if (cryopods > 0) "+" else ""}$cryopods ${getTranslation(key = "ship_cryopods")}")
+        }.joinToString(separator = "\n")
+    }
 }
 
 @Preview
 @Composable
-private fun EventLoading() = AppTheme {
+private fun EventLoadingPreview() = AppTheme {
     EventScreen(
         store = getStore(
             initialState = EventState(
@@ -69,7 +78,7 @@ private fun EventLoading() = AppTheme {
 
 @Preview
 @Composable
-private fun EventRandom() = AppTheme {
+private fun EventRandomPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(

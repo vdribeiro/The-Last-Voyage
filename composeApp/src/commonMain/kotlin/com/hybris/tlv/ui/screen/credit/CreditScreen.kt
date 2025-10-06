@@ -9,9 +9,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,7 +24,9 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.Screen
+import com.hybris.tlv.ui.theme.component.card.Card
+import com.hybris.tlv.ui.theme.component.screen.Screen
+import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.credit.model.Credit
 import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -153,19 +152,20 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                     )
                 }
                 items(items = supporters) { credit ->
-                    Card(elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
+                    Card(
+                        modifier = Modifier.testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER_ITEM),
+                        onClick = { credit.link?.let { uriHandler.openUri(uri = it) } }
+                    ) {
                         Text(
                             modifier = Modifier
-                                .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER_ITEM)
                                 .fillMaxWidth()
-                                .clickable { credit.link?.let { uriHandler.openUri(uri = it) } }
                                 .padding(all = 16.dp),
                             text = credit.id,
+                            textAlign = TextAlign.Center,
                             style = typography.bodyLarge.copy(
                                 color = colorScheme.primary,
                                 textDecoration = TextDecoration.Underline
                             ),
-                            textAlign = TextAlign.Center
                         )
                     }
                 }
@@ -176,7 +176,7 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
 
 @Preview
 @Composable
-private fun CreditLoading() = AppTheme {
+private fun CreditLoadingPreview() = AppTheme {
     CreditScreen(
         store = getStore(
             initialState = CreditState(
@@ -189,7 +189,7 @@ private fun CreditLoading() = AppTheme {
 
 @Preview
 @Composable
-private fun CreditList() = AppTheme {
+private fun CreditListPreview() = AppTheme {
     CreditScreen(
         store = getStore(
             initialState = CreditState(

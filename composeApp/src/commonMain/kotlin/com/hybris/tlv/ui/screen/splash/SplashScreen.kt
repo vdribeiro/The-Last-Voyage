@@ -8,7 +8,7 @@ import androidx.compose.ui.platform.testTag
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.Screen
+import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -28,7 +28,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
 
 @Preview
 @Composable
-private fun SplashZero() = AppTheme {
+private fun SplashZeroPreview() = AppTheme {
     SplashScreen(
         store = getStore(
             initialState = SplashState(
@@ -40,7 +40,7 @@ private fun SplashZero() = AppTheme {
 
 @Preview
 @Composable
-private fun SplashHalfway() = AppTheme {
+private fun SplashHalfwayPreview() = AppTheme {
     SplashScreen(
         store = getStore(
             initialState = SplashState(
@@ -52,7 +52,7 @@ private fun SplashHalfway() = AppTheme {
 
 @Preview
 @Composable
-private fun SplashFull() = AppTheme {
+private fun SplashFullPreview() = AppTheme {
     SplashScreen(
         store = getStore(
             initialState = SplashState(

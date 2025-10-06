@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component
+package com.hybris.tlv.ui.theme.component.card
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -10,9 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.text.InfoRow
+import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.space.formula.toDrawable
 import com.hybris.tlv.usecase.space.model.PlanetType
@@ -66,11 +65,7 @@ internal fun PlanetCard(
 ) {
     val typography = LocalTypography.current
 
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        shape = RoundedCornerShape(size = 8.dp)
-    ) {
+    Card(modifier = modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
                 .padding(all = 12.dp)

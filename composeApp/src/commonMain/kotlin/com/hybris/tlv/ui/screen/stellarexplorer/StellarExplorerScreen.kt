@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,10 +21,11 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.ControlPanel
-import com.hybris.tlv.ui.theme.component.PlanetCard
-import com.hybris.tlv.ui.theme.component.Screen
-import com.hybris.tlv.ui.theme.component.StellarHostCard
+import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
+import com.hybris.tlv.ui.theme.component.card.PlanetCard
+import com.hybris.tlv.ui.theme.component.screen.Screen
+import com.hybris.tlv.ui.theme.component.card.StellarHostCard
+import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
 import com.hybris.tlv.usecase.space.formula.toDrawable
 import com.hybris.tlv.usecase.space.model.Planet
@@ -337,7 +337,7 @@ private fun StellarHostContent(store: Store<StellarExplorerState, StellarExplore
                     )
                 )
             }
-            item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
+            item { Divider(modifier = Modifier.padding(vertical = 8.dp)) }
         }
         items(items = storeState.filteredStellarHosts, key = { it.id }) { stellarHost ->
             StellarHostCard(
@@ -589,7 +589,7 @@ private fun PlanetContent(store: Store<StellarExplorerState, StellarExplorerActi
                     )
                 )
             }
-            item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
+            item { Divider(modifier = Modifier.padding(vertical = 8.dp)) }
         }
         items(items = storeState.filteredPlanets, key = { it.id }) { planet ->
             PlanetCard(
@@ -729,7 +729,7 @@ private fun PlanetContent(store: Store<StellarExplorerState, StellarExplorerActi
 
 @Preview
 @Composable
-private fun StellarExplorerLoading() = AppTheme {
+private fun StellarExplorerLoadingPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -765,7 +765,7 @@ private fun StellarExplorerLoading() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerHostList() = AppTheme {
+private fun StellarExplorerHostListPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -840,7 +840,7 @@ private fun StellarExplorerHostList() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerHostDetail() = AppTheme {
+private fun StellarExplorerHostDetailPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -929,7 +929,7 @@ private fun StellarExplorerHostDetail() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerSearchHosts() = AppTheme {
+private fun StellarExplorerSearchHostsPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -965,7 +965,7 @@ private fun StellarExplorerSearchHosts() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerPlanetList() = AppTheme {
+private fun StellarExplorerPlanetListPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -1036,7 +1036,7 @@ private fun StellarExplorerPlanetList() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerPlanetDetail() = AppTheme {
+private fun StellarExplorerPlanetDetailPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -1108,7 +1108,7 @@ private fun StellarExplorerPlanetDetail() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerSearchPlanet() = AppTheme {
+private fun StellarExplorerSearchPlanetPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(

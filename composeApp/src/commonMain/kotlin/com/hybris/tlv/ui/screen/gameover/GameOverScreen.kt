@@ -10,8 +10,8 @@ import com.hybris.tlv.locale.now
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.Score
-import com.hybris.tlv.ui.theme.component.TypewriterScreen
+import com.hybris.tlv.ui.theme.component.card.Score
+import com.hybris.tlv.ui.theme.component.screen.TypewriterScreen
 import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.model.Engine
@@ -70,7 +70,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
 
 @Preview
 @Composable
-private fun GameOverLoading() = AppTheme {
+private fun GameOverLoadingPreview() = AppTheme {
     GameOverScreen(
         store = getStore(
             initialState = GameOverState(
@@ -85,7 +85,7 @@ private fun GameOverLoading() = AppTheme {
 
 @Preview
 @Composable
-private fun GameOverMessage() = AppTheme {
+private fun GameOverMessagePreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -117,7 +117,7 @@ private fun GameOverMessage() = AppTheme {
 
 @Preview
 @Composable
-private fun GameOverScore() = AppTheme {
+private fun GameOverScorePreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(

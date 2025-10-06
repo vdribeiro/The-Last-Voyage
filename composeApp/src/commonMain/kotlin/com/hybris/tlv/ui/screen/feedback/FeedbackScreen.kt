@@ -8,10 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,7 +24,10 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.FeedbackHeader
-import com.hybris.tlv.ui.theme.component.Screen
+import com.hybris.tlv.ui.theme.component.button.Button
+import com.hybris.tlv.ui.theme.component.screen.Screen
+import com.hybris.tlv.ui.theme.component.text.Input
+import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
@@ -70,7 +69,7 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
             )
 
             // Feedback input
-            OutlinedTextField(
+            Input(
                 modifier = Modifier
                     .testTag(tag = FEEDBACK_SCREEN_INPUT)
                     .fillMaxWidth()
@@ -87,7 +86,6 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
             Button(
                 modifier = Modifier.testTag(tag = FEEDBACK_SCREEN_BUTTON),
                 onClick = { store.send(action = FeedbackAction.SendFeedback(message = feedbackText)) },
-                colors = ButtonDefaults.buttonColors(contentColor = Color.White),
                 enabled = feedbackText.isNotBlank() && !showThanks
             ) {
                 Text(text = buttonTranslation)
@@ -108,7 +106,7 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
 
 @Preview
 @Composable
-private fun Feedback() = AppTheme {
+private fun FeedbackPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -138,7 +136,7 @@ private fun Feedback() = AppTheme {
 
 @Preview
 @Composable
-private fun FeedbackThanks() = AppTheme {
+private fun FeedbackThanksPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -172,7 +170,7 @@ private fun FeedbackThanks() = AppTheme {
 
 @Preview
 @Composable
-private fun FeedbackError() = AppTheme {
+private fun FeedbackErrorPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(

@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component
+package com.hybris.tlv.ui.theme.component.card
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,41 +7,32 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Apps
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.image.Icon
+import com.hybris.tlv.ui.theme.component.image.defaultIcon
+import com.hybris.tlv.ui.theme.component.text.Text
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun StatDisplay(
     modifier: Modifier = Modifier,
-    icon: ImageVector = Icons.Default.Apps,
+    icon: ImageVector = defaultIcon,
     label: String = "",
     value: String = "",
 ) {
     val typography = LocalTypography.current
     val colorScheme = LocalColorScheme.current
 
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .semantics(mergeDescendants = true) {},
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-    ) {
+    Card(modifier = modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.padding(all = 16.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -64,7 +55,6 @@ internal fun StatDisplay(
                     text = value,
                     style = typography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
                     maxLines = 1
                 )
             }

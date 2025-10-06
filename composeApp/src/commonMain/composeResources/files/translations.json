@@ -3021,6 +3021,11 @@
   },
   {
     "languageIso": "en",
+    "key": "new_game_screen__engine_select",
+    "value": "Select Engine"
+  },
+  {
+    "languageIso": "en",
     "key": "new_game_screen__continue",
     "value": "Continue"
   },

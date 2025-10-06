@@ -1,11 +1,10 @@
-package com.hybris.tlv.ui.theme.component
+package com.hybris.tlv.ui.theme.component.text
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,8 +25,8 @@ internal fun TypewriterText(
 ) {
     val inspection = LocalInspectionMode.current
     val words = remember(key1 = text) { text.split(' ') }
-    var visibleWordsCount by remember { mutableStateOf(value = 0) }
-    var isRevealed by remember { mutableStateOf(value = inspection) }
+    var visibleWordsCount by remember(key1 = text) { mutableStateOf(value = 0) }
+    var isRevealed by remember(key1 = text) { mutableStateOf(value = inspection) }
     LaunchedEffect(key1 = text) {
         visibleWordsCount = 0
         isRevealed = false

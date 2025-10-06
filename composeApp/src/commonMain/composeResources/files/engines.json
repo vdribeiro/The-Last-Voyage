@@ -15,21 +15,6 @@
     "velocity": 0.66
   },
   {
-    "id": "engine__bussard_ramjet",
-    "description": "engine__bussard_ramjet_description",
-    "velocity": 0.5
-  },
-  {
-    "id": "engine__laser_propulsion",
-    "description": "engine__laser_propulsion_description",
-    "velocity": 0.5
-  },
-  {
-    "id": "engine__magsail_in_interstellar_medium",
-    "description": "engine__magsail_in_interstellar_medium_description",
-    "velocity": 0.5
-  },
-  {
     "id": "engine__solar_sail",
     "description": "engine__solar_sail_description",
     "velocity": 0.5
@@ -40,24 +25,9 @@
     "velocity": 0.050035
   },
   {
-    "id": "engine__fission_sail",
-    "description": "engine__fission_sail_description",
-    "velocity": 0.050035
-  },
-  {
-    "id": "engine__fusion_propulsion",
-    "description": "engine__fusion_propulsion_description",
-    "velocity": 0.00333564
-  },
-  {
     "id": "engine__project_orion",
     "description": "engine__project_orion_description",
-    "velocity": 0.0033356
-  },
-  {
-    "id": "engine__antimatter_catalyzed_nuclear_pulse_propulsion",
-    "description": "engine__antimatter_catalyzed_nuclear_pulse_propulsion_description",
-    "velocity": 0.0013342
+    "velocity": 0.00333564
   },
   {
     "id": "engine__nuclear_photonic_rocket",

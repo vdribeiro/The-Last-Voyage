@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.Screen
-import com.hybris.tlv.ui.theme.component.SimpleCard
+import com.hybris.tlv.ui.theme.component.screen.Screen
+import com.hybris.tlv.ui.theme.component.card.SimpleCard
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -53,7 +53,7 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
 
 @Preview
 @Composable
-private fun AchievementLoading() = AppTheme {
+private fun AchievementLoadingPreview() = AppTheme {
     AchievementScreen(
         store = getStore(
             initialState = AchievementState(
@@ -66,7 +66,7 @@ private fun AchievementLoading() = AppTheme {
 
 @Preview
 @Composable
-private fun AchievementList() = AppTheme {
+private fun AchievementListPreview() = AppTheme {
     AchievementScreen(
         store = getStore(
             initialState = AchievementState(

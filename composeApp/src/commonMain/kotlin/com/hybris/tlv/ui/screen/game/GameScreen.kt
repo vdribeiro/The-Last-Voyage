@@ -15,7 +15,6 @@ import androidx.compose.material.icons.outlined.Radar
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Speed
 import androidx.compose.material.icons.outlined.Timer
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -26,12 +25,13 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.BottomNavigation
-import com.hybris.tlv.ui.theme.component.PlanetCard
-import com.hybris.tlv.ui.theme.component.Screen
-import com.hybris.tlv.ui.theme.component.StatDisplay
-import com.hybris.tlv.ui.theme.component.StatusBar
-import com.hybris.tlv.ui.theme.component.StellarHostCard
+import com.hybris.tlv.ui.theme.component.bottombar.GameNavigation
+import com.hybris.tlv.ui.theme.component.card.PlanetCard
+import com.hybris.tlv.ui.theme.component.screen.Screen
+import com.hybris.tlv.ui.theme.component.card.StatDisplay
+import com.hybris.tlv.ui.theme.component.topbar.StatusBar
+import com.hybris.tlv.ui.theme.component.card.StellarHostCard
+import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.formula.roundTo
@@ -70,7 +70,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
             )
         },
         bottomBar = {
-            BottomNavigation(
+            GameNavigation(
                 modifier = Modifier.testTag(tag = GAME_SCREEN_NAVIGATION_BAR),
                 shipSelected = storeState.currentContent == Content.SHIP,
                 shipOnClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
@@ -203,7 +203,7 @@ private fun SystemContent(store: Store<GameState, GameAction>) {
                 dec = stellarHost.dec,
             )
         }
-        item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
+        item { Divider(modifier = Modifier.padding(vertical = 8.dp)) }
         items(items = stellarHost.planets, key = { it.id }) { planet ->
             PlanetCard(
                 modifier = Modifier
@@ -257,7 +257,7 @@ private fun TravelContent(store: Store<GameState, GameAction>) {
 
 @Preview
 @Composable
-private fun GameLoading() = AppTheme {
+private fun GameLoadingPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -289,7 +289,7 @@ private fun GameLoading() = AppTheme {
 
 @Preview
 @Composable
-private fun GameShip() = AppTheme {
+private fun GameShipPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -335,7 +335,7 @@ private fun GameShip() = AppTheme {
 
 @Preview
 @Composable
-private fun GameSystem() = AppTheme {
+private fun GameSystemPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -419,7 +419,7 @@ private fun GameSystem() = AppTheme {
 
 @Preview
 @Composable
-private fun GameTravel() = AppTheme {
+private fun GameTravelPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(

@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component
+package com.hybris.tlv.ui.theme.component.card
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
@@ -14,11 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,6 +25,10 @@ import com.hybris.tlv.locale.now
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.divider.Divider
+import com.hybris.tlv.ui.theme.component.image.Icon
+import com.hybris.tlv.ui.theme.component.text.InfoRow
+import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -46,10 +45,7 @@ internal fun Score(
     fuel: String = "",
     cryopods: String = ""
 ) {
-    Card(
-        modifier = modifier,
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-    ) {
+    Card(modifier = modifier) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,7 +68,7 @@ internal fun Score(
                         .padding(top = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(space = 4.dp)
                 ) {
-                    HorizontalDivider()
+                    Divider()
                     Spacer(modifier = Modifier.height(height = 8.dp))
                     InfoRow(label = getTranslation(key = "ship_years_traveled"), value = yearsTraveled)
                     InfoRow(label = getTranslation(key = "ship_sensor"), value = sensorRange)

@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component
+package com.hybris.tlv.ui.theme.component.topbar
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -10,9 +10,6 @@ import androidx.compose.material.icons.outlined.BedroomParent
 import androidx.compose.material.icons.outlined.Construction
 import androidx.compose.material.icons.outlined.LocalGasStation
 import androidx.compose.material.icons.outlined.Shield
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +21,8 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.alpha
+import com.hybris.tlv.ui.theme.component.image.Icon
+import com.hybris.tlv.ui.theme.component.text.Text
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

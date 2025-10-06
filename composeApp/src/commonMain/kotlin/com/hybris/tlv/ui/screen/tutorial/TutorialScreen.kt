@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,9 +23,10 @@ import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.BottomNavigation
-import com.hybris.tlv.ui.theme.component.Screen
-import com.hybris.tlv.ui.theme.component.StatusBar
+import com.hybris.tlv.ui.theme.component.bottombar.GameNavigation
+import com.hybris.tlv.ui.theme.component.screen.Screen
+import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -72,7 +72,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
             )
         },
         bottomBar = {
-            BottomNavigation(
+            GameNavigation(
                 modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR),
                 shipSelected = storeState.tutorialStep == Tutorial.SHIP,
                 systemSelected = storeState.tutorialStep == Tutorial.SYSTEM,
@@ -143,7 +143,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
 
 @Preview
 @Composable
-private fun TutorialGoal() {
+private fun TutorialGoalPreview() {
     AppTheme {
         TutorialScreen(
             store = getStore(
@@ -157,7 +157,7 @@ private fun TutorialGoal() {
 
 @Preview
 @Composable
-private fun TutorialShip() = AppTheme {
+private fun TutorialShipPreview() = AppTheme {
     TutorialScreen(
         store = getStore(
             initialState = TutorialState(
@@ -169,7 +169,7 @@ private fun TutorialShip() = AppTheme {
 
 @Preview
 @Composable
-private fun TutorialSystem() = AppTheme {
+private fun TutorialSystemPreview() = AppTheme {
     TutorialScreen(
         store = getStore(
             initialState = TutorialState(
@@ -181,7 +181,7 @@ private fun TutorialSystem() = AppTheme {
 
 @Preview
 @Composable
-private fun TutorialTravel() = AppTheme {
+private fun TutorialTravelPreview() = AppTheme {
     TutorialScreen(
         store = getStore(
             initialState = TutorialState(
@@ -193,7 +193,7 @@ private fun TutorialTravel() = AppTheme {
 
 @Preview
 @Composable
-private fun TutorialGameOver() = AppTheme {
+private fun TutorialGameOverPreview() = AppTheme {
     TutorialScreen(
         store = getStore(
             initialState = TutorialState(

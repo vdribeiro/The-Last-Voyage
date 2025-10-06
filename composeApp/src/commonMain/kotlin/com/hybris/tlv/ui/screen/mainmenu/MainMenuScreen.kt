@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,12 +25,14 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.AppLogo
-import com.hybris.tlv.ui.theme.component.MainBottomBar
-import com.hybris.tlv.ui.theme.component.PlanetCard
-import com.hybris.tlv.ui.theme.component.Screen
-import com.hybris.tlv.ui.theme.component.SimpleCard
-import com.hybris.tlv.ui.theme.component.StellarHostCard
+import com.hybris.tlv.ui.theme.component.image.AppLogo
+import com.hybris.tlv.ui.theme.component.bottombar.MainNavigation
+import com.hybris.tlv.ui.theme.component.card.PlanetCard
+import com.hybris.tlv.ui.theme.component.screen.Screen
+import com.hybris.tlv.ui.theme.component.card.SimpleCard
+import com.hybris.tlv.ui.theme.component.card.StellarHostCard
+import com.hybris.tlv.ui.theme.component.dialog.Dialog
+import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
@@ -60,7 +59,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         bottomBar = {
-            if (isMenu) MainBottomBar(
+            if (isMenu) MainNavigation(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR),
                 onCreditsClick = { store.send(action = MainMenuAction.Credits) },
                 developerCornerUri = storeState.developerCorner,
@@ -93,21 +92,13 @@ private fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
     val typography = LocalTypography.current
 
     if (storeState.newGameDialog) {
-        AlertDialog(
+        Dialog(
+            title = tutorialTranslation,
+            confirmText = tutorialTranslationYes,
+            dismissText = tutorialTranslationNo,
+            onConfirm = { store.send(action = MainMenuAction.YesNewGameDialog) },
+            onDismiss = { store.send(action = MainMenuAction.NoNewGameDialog) },
             onDismissRequest = { store.send(action = MainMenuAction.HideNewGameDialog) },
-            title = {
-                Text(text = tutorialTranslation)
-            },
-            confirmButton = {
-                Button(onClick = { store.send(action = MainMenuAction.YesNewGameDialog) }) {
-                    Text(text = tutorialTranslationYes)
-                }
-            },
-            dismissButton = {
-                Button(onClick = { store.send(action = MainMenuAction.NoNewGameDialog) }) {
-                    Text(text = tutorialTranslationNo)
-                }
-            }
         )
     }
 
@@ -549,7 +540,7 @@ private fun HabitabilityContent(store: Store<MainMenuState, MainMenuAction>) {
 
 @Preview
 @Composable
-private fun MainMenuLoading() = AppTheme {
+private fun MainMenuLoadingPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -582,7 +573,7 @@ private fun MainMenuLoading() = AppTheme {
 
 @Preview
 @Composable
-private fun MainMenuAll() = AppTheme {
+private fun MainMenuAllPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -631,7 +622,7 @@ private fun MainMenuAll() = AppTheme {
 
 @Preview
 @Composable
-private fun MainMenuContinue() = AppTheme {
+private fun MainMenuContinuePreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -684,7 +675,7 @@ private fun MainMenuContinue() = AppTheme {
 
 @Preview
 @Composable
-private fun MainMenuNoFeatures() = AppTheme {
+private fun MainMenuNoFeaturesPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -721,7 +712,7 @@ private fun MainMenuNoFeatures() = AppTheme {
 
 @Preview
 @Composable
-private fun MainMenuLearn() = AppTheme {
+private fun MainMenuLearnPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -790,7 +781,7 @@ private fun MainMenuLearn() = AppTheme {
 
 @Preview
 @Composable
-private fun MainMenuHostDefinition() = AppTheme {
+private fun MainMenuHostDefinitionPreview() = AppTheme {
     MainMenuScreen(
         store = getStore(
             initialState = MainMenuState(
@@ -834,7 +825,7 @@ private fun MainMenuHostDefinition() = AppTheme {
 
 @Preview
 @Composable
-private fun MainMenuPlanetDefinition() = AppTheme {
+private fun MainMenuPlanetDefinitionPreview() = AppTheme {
     MainMenuScreen(
         store = getStore(
             initialState = MainMenuState(
@@ -878,7 +869,7 @@ private fun MainMenuPlanetDefinition() = AppTheme {
 
 @Preview
 @Composable
-private fun MainMenuHabitability() = AppTheme {
+private fun MainMenuHabitabilityPreview() = AppTheme {
     MainMenuScreen(
         store = getStore(
             initialState = MainMenuState(

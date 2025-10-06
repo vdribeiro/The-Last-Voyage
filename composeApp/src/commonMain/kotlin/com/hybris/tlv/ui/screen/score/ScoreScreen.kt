@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,8 +24,9 @@ import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.Score
-import com.hybris.tlv.ui.theme.component.Screen
+import com.hybris.tlv.ui.theme.component.card.Score
+import com.hybris.tlv.ui.theme.component.screen.Screen
+import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
@@ -97,7 +97,7 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
 
 @Preview
 @Composable
-private fun ScoreLoading() = AppTheme {
+private fun ScoreLoadingPreview() = AppTheme {
     ScoreScreen(
         store = getStore(
             initialState = ScoreState(
@@ -110,7 +110,7 @@ private fun ScoreLoading() = AppTheme {
 
 @Preview
 @Composable
-private fun ScoreList() = AppTheme {
+private fun ScoreListPreview() = AppTheme {
     ScoreScreen(
         store = getStore(
             initialState = ScoreState(
