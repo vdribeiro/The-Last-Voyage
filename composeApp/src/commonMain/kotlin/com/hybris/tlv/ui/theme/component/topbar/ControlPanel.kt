@@ -35,6 +35,13 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.alpha
+import com.hybris.tlv.ui.theme.component.button.Button
+import com.hybris.tlv.ui.theme.component.button.Dropdown
+import com.hybris.tlv.ui.theme.component.button.DropdownItem
+import com.hybris.tlv.ui.theme.component.container.Surface
+import com.hybris.tlv.ui.theme.component.image.Icon
+import com.hybris.tlv.ui.theme.component.text.Input
+import com.hybris.tlv.ui.theme.component.text.Text
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -81,7 +88,7 @@ internal fun ControlPanel(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                OutlinedTextField(
+                Input(
                     modifier = Modifier
                         .weight(weight = 1f)
                         .padding(horizontal = 8.dp),
@@ -94,7 +101,7 @@ internal fun ControlPanel(
                             contentDescription = "Search"
                         )
                     },
-                    singleLine = true
+                    maxLines = 1,
                 )
                 SearchMenu(
                     enabled = enabled,
@@ -170,7 +177,7 @@ private fun SearchMenu(
 ) {
     var expanded by remember { mutableStateOf(false) }
     Box {
-        IconButton(
+        Button(
             enabled = enabled,
             onClick = { expanded = true }
         ) {
@@ -179,17 +186,16 @@ private fun SearchMenu(
                 contentDescription = "Search Filters"
             )
         }
-        DropdownMenu(
+        Dropdown(
             expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            properties.forEach { property ->
-                DropdownMenuItem(
+            onDismissRequest = { expanded = false },
+            items = properties.map {
+                DropdownItem(
                     enabled = enabled,
-                    text = { Text(text = property, maxLines = 1) },
-                    onClick = { onFiltersChange(property) },
+                    text = it,
+                    onClick = { onFiltersChange(it) },
                     leadingIcon = {
-                        if (selectedProperties.contains(element = property)) {
+                        if (selectedProperties.contains(element = it)) {
                             Icon(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = "Checked"
@@ -198,7 +204,7 @@ private fun SearchMenu(
                     }
                 )
             }
-        }
+        )
     }
 }
 
@@ -214,7 +220,7 @@ private fun SortMenu(
     var expanded by remember { mutableStateOf(false) }
     val sortDirectionIcon = if (ascending) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward
     Box {
-        IconButton(
+        Button(
             enabled = enabled,
             onClick = { onSortDirectionChange() }
         ) {
@@ -225,7 +231,7 @@ private fun SortMenu(
         }
     }
     Box {
-        IconButton(
+        Button(
             enabled = enabled,
             onClick = { expanded = true }
         ) {
@@ -234,20 +240,19 @@ private fun SortMenu(
                 contentDescription = "Sort Options"
             )
         }
-        DropdownMenu(
+        Dropdown(
             expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            properties.forEach { property ->
-                DropdownMenuItem(
+            onDismissRequest = { expanded = false },
+            items = properties.map {
+                DropdownItem(
                     enabled = enabled,
-                    text = { Text(text = property, maxLines = 1) },
+                    text = it,
                     onClick = {
-                        onSortChange(property)
+                        onSortChange(it)
                         expanded = false
                     },
                     leadingIcon = {
-                        if (selectedProperty == property) {
+                        if (selectedProperty == it) {
                             Icon(
                                 imageVector = sortDirectionIcon,
                                 contentDescription = "Sort Direction"
@@ -256,7 +261,7 @@ private fun SortMenu(
                     }
                 )
             }
-        }
+        )
     }
 }
 
@@ -269,7 +274,7 @@ private fun VisibilityMenu(
 ) {
     var expanded by remember { mutableStateOf(false) }
     Box {
-        IconButton(
+        Button(
             enabled = enabled,
             onClick = { expanded = true }
         ) {
@@ -278,17 +283,16 @@ private fun VisibilityMenu(
                 contentDescription = "Visibility Options"
             )
         }
-        DropdownMenu(
+        Dropdown(
             expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            properties.forEach { property ->
-                DropdownMenuItem(
+            onDismissRequest = { expanded = false },
+            items = properties.map {
+                DropdownItem(
                     enabled = enabled,
-                    text = { Text(text = property, maxLines = 1) },
-                    onClick = { onVisibilityChange(property) },
+                    text = it,
+                    onClick = { onVisibilityChange(it) },
                     leadingIcon = {
-                        if (visibleProperties.contains(element = property)) {
+                        if (visibleProperties.contains(element = it)) {
                             Icon(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = "Visible"
@@ -297,7 +301,7 @@ private fun VisibilityMenu(
                     }
                 )
             }
-        }
+        )
     }
 }
 

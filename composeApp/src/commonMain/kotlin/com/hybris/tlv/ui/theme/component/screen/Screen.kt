@@ -21,7 +21,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.button.Button
+import com.hybris.tlv.ui.theme.component.container.Scaffold
 import com.hybris.tlv.ui.theme.component.image.AppLogo
+import com.hybris.tlv.ui.theme.component.image.Icon
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -52,7 +55,7 @@ internal fun Screen(
                 ) {
                     // Sound button
                     onMusicClick?.let {
-                        IconButton(onClick = it) {
+                        Button(onClick = it) {
                             Icon(
                                 imageVector = Icons.Default.MusicNote,
                                 contentDescription = "Music"
@@ -62,7 +65,7 @@ internal fun Screen(
                     Spacer(modifier = Modifier.weight(weight = 1f))
                     // Feedback button
                     onFeedbackClick?.let {
-                        IconButton(onClick = it) {
+                        Button(onClick = it) {
                             Icon(
                                 imageVector = Icons.Default.BugReport,
                                 contentDescription = "Feedback"

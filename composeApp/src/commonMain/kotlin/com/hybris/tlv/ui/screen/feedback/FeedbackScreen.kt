@@ -16,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
@@ -85,11 +84,10 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
             // Send feedback button
             Button(
                 modifier = Modifier.testTag(tag = FEEDBACK_SCREEN_BUTTON),
+                text = buttonTranslation,
                 onClick = { store.send(action = FeedbackAction.SendFeedback(message = feedbackText)) },
-                enabled = feedbackText.isNotBlank() && !showThanks
-            ) {
-                Text(text = buttonTranslation)
-            }
+                enabled = feedbackText.isNotBlank() && !showThanks,
+            )
 
             if (showThanks) {
                 // Thank you message

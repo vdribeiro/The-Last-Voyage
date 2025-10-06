@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.progress.ProgressIndicator
 import com.hybris.tlv.ui.theme.component.text.Text
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -27,8 +28,8 @@ import thelastvoyage.composeapp.generated.resources.ic_launcher_foreground
 internal fun AppLogo(
     modifier: Modifier = Modifier,
     showBackground: Boolean = false,
-    showProgress: Boolean = false,
     progress: Float? = null,
+    showProgress: Boolean = progress != null,
     text: String = "",
 ) {
     val typography = LocalTypography.current
@@ -58,22 +59,7 @@ internal fun AppLogo(
                 contentDescription = "Logo",
                 contentScale = ContentScale.Crop,
             )
-            if (showProgress) {
-                when {
-                    progress != null -> {
-                        val animatedProgress by animateFloatAsState(
-                            targetValue = progress,
-                            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-                        )
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(size = 160.dp),
-                            progress = { animatedProgress },
-                        )
-                    }
-
-                    else -> CircularProgressIndicator(modifier = Modifier.size(size = 160.dp))
-                }
-            }
+            if (showProgress) ProgressIndicator(modifier = Modifier.size(size = 160.dp), progress = progress)
         }
 
         Text(

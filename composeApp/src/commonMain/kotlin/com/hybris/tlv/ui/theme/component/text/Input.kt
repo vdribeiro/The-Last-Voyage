@@ -13,13 +13,15 @@ internal fun Input(
     value: String = "",
     onValueChange: (String) -> Unit = {},
     maxLines: Int = Int.MAX_VALUE,
+    leadingIcon: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(
         modifier = modifier,
         enabled = enabled,
         value = value,
         onValueChange = onValueChange,
-        maxLines = maxLines
+        maxLines = maxLines,
+        leadingIcon = leadingIcon
     )
 }
 

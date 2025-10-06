@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.button.Button
+import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.component.text.TypewriterText
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -50,11 +52,9 @@ internal fun TypewriterScreen(
                 items(items = buttons, key = { it.first }) {
                     Button(
                         modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-                        onClick = it.second
-                    ) {
-                        Text(text = it.first)
-                    }
+                        onClick = it.second,
+                        text = it.first,
+                    )
                 }
                 item { Spacer(modifier = Modifier.height(height = 16.dp)) }
             }

@@ -21,16 +21,8 @@ internal fun Dialog(
     AlertDialog(
         modifier = modifier,
         title = { Text(text = title) },
-        confirmButton = {
-            Button(onClick = onConfirm) {
-                Text(text = confirmText)
-            }
-        },
-        dismissButton = {
-            Button(onClick = onDismiss) {
-                Text(text = dismissText)
-            }
-        },
+        confirmButton = { Button(text = confirmText, onClick = onConfirm) },
+        dismissButton = { Button(text = dismissText, onClick = onDismiss) },
         onDismissRequest = onDismissRequest
     )
 }

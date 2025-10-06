@@ -1,0 +1,46 @@
+package com.hybris.tlv.ui.theme.component.button
+
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.text.Text
+import org.jetbrains.compose.ui.tooling.preview.Preview
+
+@Composable
+internal fun Dropdown(
+    modifier: Modifier = Modifier,
+    expanded: Boolean = false,
+    onDismissRequest: () -> Unit = {},
+    items: List<DropdownItem> = emptyList()
+) {
+    DropdownMenu(
+        modifier = modifier,
+        expanded = expanded,
+        onDismissRequest = onDismissRequest,
+    ) {
+        items.forEach { item ->
+            DropdownMenuItem(
+                enabled = item.enabled,
+                text = { Text(text = item.text, maxLines = 1) },
+                onClick = item.onClick,
+                leadingIcon = item.leadingIcon
+            )
+        }
+    }
+}
+
+internal data class DropdownItem(
+    val enabled: Boolean = false,
+    val text: String = "",
+    val onClick: () -> Unit = {},
+    val leadingIcon: @Composable (() -> Unit)? = null,
+)
+
+@Preview
+@Composable
+private fun DropdownPreview() = AppTheme {
+    Dropdown()
+}

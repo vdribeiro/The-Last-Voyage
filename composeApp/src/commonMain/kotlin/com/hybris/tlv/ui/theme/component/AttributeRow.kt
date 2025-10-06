@@ -21,6 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.button.Button
+import com.hybris.tlv.ui.theme.component.image.Icon
+import com.hybris.tlv.ui.theme.component.text.Text
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -39,7 +42,6 @@ internal fun AttributeRow(
         Text(
             modifier = Modifier.padding(all = 2.dp),
             text = name,
-            fontSize = 18.sp,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center,
             maxLines = 1
@@ -48,7 +50,7 @@ internal fun AttributeRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            IconButton(onClick = { attributePoint.decrement() }, enabled = value > attributePoint.min) {
+            Button(onClick = { attributePoint.decrement() }, enabled = value > attributePoint.min) {
                 Icon(
                     modifier = Modifier.size(size = 36.dp),
                     imageVector = Icons.Default.RemoveCircle,
@@ -64,14 +66,13 @@ internal fun AttributeRow(
             ) {
                 Text(
                     text = "$value",
-                    fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center,
                     maxLines = 1
                 )
             }
 
-            IconButton(onClick = { attributePoint.increment() }, enabled = canIncrement && value < attributePoint.max) {
+            Button(onClick = { attributePoint.increment() }, enabled = canIncrement && value < attributePoint.max) {
                 Icon(
                     modifier = Modifier.size(size = 36.dp),
                     imageVector = Icons.Default.AddCircle,
