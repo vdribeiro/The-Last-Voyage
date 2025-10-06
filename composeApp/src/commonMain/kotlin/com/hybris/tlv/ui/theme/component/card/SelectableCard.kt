@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.theme.component.card
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,14 +19,11 @@ internal fun SelectableCard(
     name: String? = null,
     description: String? = null,
     selected: Boolean = false,
-    onClick: () -> Unit = {}
 ) {
     val typography = LocalTypography.current
 
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
+        modifier = modifier.fillMaxWidth(),
         selected = selected,
     ) {
         Column(modifier = Modifier.weight(weight = 1f)) {

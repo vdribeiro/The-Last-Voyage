@@ -24,11 +24,10 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AttributePoint
 import com.hybris.tlv.ui.theme.component.AttributeRow
-import com.hybris.tlv.ui.theme.component.card.SimpleCard
+import com.hybris.tlv.ui.theme.component.card.SelectableCard
 import com.hybris.tlv.ui.theme.component.screen.TypewriterScreen
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
-import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -36,7 +35,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
-    val catastrophe = storeState.selectedCatastrophe
     val continueTranslation = remember { getTranslation(key = "new_game_screen__continue") }
     val startTranslation = remember { getTranslation(key = "new_game_screen__start") }
 
@@ -47,15 +45,15 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
         onFeedbackClick = { store.feedback() },
         title = when (storeState.currentContent) {
             Content.SHIP -> null
-            Content.START -> catastrophe?.let { getTranslation(key = it.id) }
+            Content.START -> storeState.selectedCatastrophe?.let { getTranslation(key = it.id) }
         },
         text = when (storeState.currentContent) {
             Content.SHIP -> null
-            Content.START -> catastrophe?.let { getTranslation(key = it.description) }
+            Content.START -> storeState.selectedCatastrophe?.let { getTranslation(key = it.description) }
         },
         content = {
             when (storeState.currentContent) {
-                Content.SHIP -> storeState.shipState?.let { shipState -> Ship(shipState = shipState, engines = storeState.engines) }
+                Content.SHIP -> Ship(store = store)
                 Content.START -> null
             }
         },
@@ -71,7 +69,6 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
                                 materials = shipState.materials.value,
                                 cryopods = shipState.cryopods.value,
                             ),
-                            engine = storeState.engines.first()
                         )
                     )
                 }
@@ -84,7 +81,11 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
 }
 
 @Composable
-private fun Ship(shipState: ShipState, engines: List<Engine>) {
+private fun Ship(store: Store<NewGameState, NewGameAction>) {
+    val storeState by store.stateFlow.collectAsState()
+    val shipState = storeState.shipState ?: return
+    val engines = storeState.engines
+
     val shipPointsTranslation = remember { getTranslation(key = "new_game_screen__ship_points") }
     val sensorTranslation = remember { getTranslation(key = "ship_sensor") }
     val fuelTranslation = remember { getTranslation(key = "ship_fuel") }
@@ -157,8 +158,9 @@ private fun Ship(shipState: ShipState, engines: List<Engine>) {
                 )
             }
             items(items = engines, key = { it.id }) { engine ->
-                SimpleCard(
-                    modifier = Modifier.testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_ENGINE),
+                SelectableCard(
+                    modifier = Modifier
+                        .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_ENGINE),
                     name = getTranslation(key = engine.id),
                     description = getTranslation(key = engine.description),
                 )

@@ -12,7 +12,6 @@ import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.ShipUseCases
-import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 import kotlinx.coroutines.Job
@@ -36,16 +35,11 @@ internal class NewGameStore(
 ) {
     @VisibleForTesting
     internal var selectedShip: ShipPrototype? = null
-    @VisibleForTesting
-    internal var selectedEngine: Engine? = null
 
     init {
         when (stateBuilder) {
             NewGameStateBuilder.Default -> setup()
-            is NewGameStateBuilder.FromSavableState -> {
-                selectedShip = stateBuilder.selectedShip
-                selectedEngine = stateBuilder.selectedEngine
-            }
+            is NewGameStateBuilder.FromSavableState -> selectedShip = stateBuilder.selectedShip
         }
     }
 
@@ -53,7 +47,6 @@ internal class NewGameStore(
         NewGameStateBuilder.FromSavableState(
             state = state,
             selectedShip = selectedShip,
-            selectedEngine = selectedEngine
         )
 
     private fun setup(): Job = launch {
@@ -89,7 +82,7 @@ internal class NewGameStore(
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    private fun startGame() = launch {
+    private fun startGame(state: NewGameState) = launch {
         Telemetry.info(tag = TAG, message = "Start game")
         val selectedShip = this@NewGameStore.selectedShip
         if (selectedShip == null) {
@@ -97,7 +90,7 @@ internal class NewGameStore(
             return@launch
         }
 
-        val selectedEngine = this@NewGameStore.selectedEngine
+        val selectedEngine = state.selectedEngine
         if (selectedEngine == null) {
             error(tag = TAG, message = "Invalid state: missing engine on startGame()")
             return@launch
@@ -120,14 +113,11 @@ internal class NewGameStore(
 
     override fun reducer(state: NewGameState, action: NewGameAction) {
         when (action) {
-            is NewGameAction.SelectShip -> {
-                selectedShip = action.ship
-                selectedEngine = action.engine
-            }
-
+            is NewGameAction.SelectShip -> selectedShip = action.ship
+            is NewGameAction.SelectEngine -> updateState { it.copy(selectedEngine = action.engine) }
             NewGameAction.Continue -> when (state.currentContent) {
                 Content.SHIP -> updateState { it.copy(currentContent = Content.START) }
-                Content.START -> startGame()
+                Content.START -> startGame(state = state)
             }
         }
     }

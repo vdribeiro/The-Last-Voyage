@@ -6,7 +6,8 @@ import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 
 internal sealed interface NewGameAction {
-    data class SelectShip(val ship: ShipPrototype, val engine: Engine): NewGameAction
+    data class SelectShip(val ship: ShipPrototype): NewGameAction
+    data class SelectEngine(val engine: Engine): NewGameAction
     data object Continue: NewGameAction
 }
 
@@ -15,7 +16,6 @@ internal sealed interface NewGameStateBuilder {
     data class FromSavableState(
         val state: NewGameState,
         val selectedShip: ShipPrototype?,
-        val selectedEngine: Engine?
     ): NewGameStateBuilder
 }
 
@@ -25,6 +25,7 @@ internal data class NewGameState(
     val shipState: ShipState? = null,
     val engines: List<Engine> = emptyList(),
     val selectedCatastrophe: Catastrophe? = null,
+    val selectedEngine: Engine? = null
 )
 
 internal enum class Content {
