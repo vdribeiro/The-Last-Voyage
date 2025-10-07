@@ -75,6 +75,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
                             store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
                         }
                     }
+
                     else -> null
                 }
                 add(element = continueTranslation to onClick)
