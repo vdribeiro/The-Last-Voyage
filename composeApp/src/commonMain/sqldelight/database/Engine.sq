@@ -1,8 +1,11 @@
+import kotlin.Int;
+
 CREATE TABLE IF NOT EXISTS Engine (
     id TEXT NOT NULL PRIMARY KEY,
     description TEXT NOT NULL,
     velocity REAL NOT NULL,
-    fuelConsumption REAL NOT NULL
+    fuelConsumption REAL NOT NULL,
+    cost INTEGER AS Int NOT NULL
 );
 
 isEngineEmpty:
@@ -19,5 +22,6 @@ SELECT
     Engine.id,
     Engine.description,
     Engine.velocity,
-    Engine.fuelConsumption
+    Engine.fuelConsumption,
+    Engine.cost
 FROM Engine;

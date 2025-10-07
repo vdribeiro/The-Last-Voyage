@@ -33,6 +33,10 @@ internal class DatabaseFactory(driver: SqlDriver) {
         cryopodsAdapter = IntColumnAdapter
     )
 
+    private val engineAdapter = Engine.Adapter(
+        costAdapter = IntColumnAdapter
+    )
+
     private val planetAdapter = Planet.Adapter(
         statusAdapter = EnumColumnAdapter()
     )
@@ -50,6 +54,7 @@ internal class DatabaseFactory(driver: SqlDriver) {
         driver = driver,
         LearningAdapter = learningAdapter,
         ShipAdapter = shipAdapter,
+        EngineAdapter = engineAdapter,
         PlanetAdapter = planetAdapter,
         GameSessionAdapter = gameSessionAdapter,
         CreditAdapter = creditAdapter,

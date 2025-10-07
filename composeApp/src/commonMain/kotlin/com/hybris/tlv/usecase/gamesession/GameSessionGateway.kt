@@ -484,6 +484,7 @@ internal class GameSessionGateway(
                                           engineDescription: String,
                                           engineVelocity: Double,
                                           engineFuelConsumption: Double,
+        engineCost: Int,
                                           rocheWeight: Double,
                                           habitableZoneKopparapuWeight: Double,
                                           habitableZoneKastingWeight: Double,
@@ -526,7 +527,8 @@ internal class GameSessionGateway(
                     id = engineId,
                     description = engineDescription,
                     velocity = engineVelocity,
-                    fuelConsumption = engineFuelConsumption
+                    fuelConsumption = engineFuelConsumption,
+                    cost = engineCost
                 ),
                 assignedPoints = assignedPoints,
                 yearsTraveled = yearsTraveled,

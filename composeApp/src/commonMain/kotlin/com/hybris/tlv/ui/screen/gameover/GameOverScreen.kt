@@ -144,7 +144,8 @@ private fun GameOverScorePreview() = AppTheme {
                             id = "1",
                             description = "",
                             velocity = 0.1,
-                            fuelConsumption = 0.0
+                            fuelConsumption = 0.0,
+                            cost = 0
                         ),
                         assignedPoints = 10,
                         yearsTraveled = 100.0,

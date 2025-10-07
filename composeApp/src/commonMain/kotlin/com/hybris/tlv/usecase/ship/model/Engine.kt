@@ -8,4 +8,5 @@ internal data class Engine(
     val description: String,
     val velocity: Double,
     val fuelConsumption: Double,
+    val cost: Int
 )

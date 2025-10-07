@@ -42,7 +42,8 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                 id = "",
                 description = "",
                 velocity = 0.1,
-                fuelConsumption = 0.0
+                fuelConsumption = 0.0,
+                cost = 0
             ),
             assignedPoints = 0,
             yearsTraveled = 0.0,

@@ -85,7 +85,8 @@ internal class ShipGateway(
             id = id,
             description = description,
             velocity = velocity,
-            fuelConsumption = fuelConsumption
+            fuelConsumption = fuelConsumption,
+            cost = cost
         )
 
     private fun EngineSchema.toEngine(): Engine =
@@ -93,7 +94,8 @@ internal class ShipGateway(
             id = id,
             description = description,
             velocity = velocity,
-            fuelConsumption = fuelConsumption
+            fuelConsumption = fuelConsumption,
+            cost = cost
         )
 
     companion object Companion {
