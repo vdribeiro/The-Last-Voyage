@@ -41,7 +41,8 @@ internal class ShipUseCasesTest {
                 id = "",
                 description = "",
                 velocity = 0.1,
-                fuelConsumption = 0.0
+                fuelConsumption = 1.0,
+                cost = 1
             ),
             assignedPoints = 0,
             yearsTraveled = 0.0,
@@ -60,7 +61,8 @@ internal class ShipUseCasesTest {
                 id = "",
                 description = "",
                 velocity = 0.1,
-                fuelConsumption = 0.0
+                fuelConsumption = 1.0,
+                cost = 1
             ),
             assignedPoints = 0,
             yearsTraveled = 0.0,
