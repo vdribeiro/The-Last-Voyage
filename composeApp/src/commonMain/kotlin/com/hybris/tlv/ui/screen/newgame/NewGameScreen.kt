@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,6 +29,7 @@ import com.hybris.tlv.ui.theme.component.card.SelectableAttribute
 import com.hybris.tlv.ui.theme.component.screen.TypewriterScreen
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
+import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.translation.getTranslation
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -86,7 +87,6 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val shipState = storeState.shipState ?: return
     val engines = storeState.engines
-    val selectedEngine = storeState.selectedEngine
 
     val shipPointsTranslation = remember { getTranslation(key = "new_game_screen__ship_points") }
     val sensorTranslation = remember { getTranslation(key = "ship_sensor") }
@@ -161,17 +161,19 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
                     textAlign = TextAlign.Center
                 )
             }
-            itemsIndexed(items = engines) { index, engine ->
+            items(items = engines, key = { it.id }) { engine ->
                 SelectableAttribute(
                     modifier = Modifier
                         .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_ENGINE)
-                        .clickable { store.send(action = NewGameAction.SelectEngine(engine = engine)) },
-                    selected = selectedEngine == engine,
+                        .clickable {
+
+                        },
+                    selected = shipState.engine == engine,
                     name = getTranslation(key = engine.id),
                     description = getTranslation(key = engine.description),
                     velocity = "$engineSpeedTranslation: ${engine.velocity}c",
                     fuel = "$engineFuelTranslation: ${engine.fuelConsumption}",
-                    points = index.toString(),
+                    points = "${engine.cost}",
                 )
             }
         }
@@ -208,6 +210,13 @@ private fun NewGameShipPreview() = AppTheme {
                     materials = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),
                     fuel = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),
                     cryopods = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),
+                    engine = Engine(
+                        id = "Engine",
+                        description = "Engine description",
+                        velocity = 10.0,
+                        fuelConsumption = 1.0,
+                        cost = 1
+                    )
                 ),
             )
         )

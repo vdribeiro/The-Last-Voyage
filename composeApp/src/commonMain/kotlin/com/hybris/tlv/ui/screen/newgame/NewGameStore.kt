@@ -51,20 +51,20 @@ internal class NewGameStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
-        val shipState = ShipState(
-            totalPoints = 20,
-            sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 3),
-            fuel = AttributePoint(max = 2000, min = 100, interval = 100, initialValue = 700),
-            materials = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 500),
-            cryopods = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 300),
-        )
 
         val engines = shipUseCases.getEngines()
         if (engines.isEmpty()) {
             error(tag = TAG, message = "Invalid state: no engines on setup()")
             return@launch
         }
-        val selectedEngine = engines.first()
+        val shipState = ShipState(
+            totalPoints = 20,
+            sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 3),
+            fuel = AttributePoint(max = 2000, min = 100, interval = 100, initialValue = 700),
+            materials = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 500),
+            cryopods = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 300),
+            engine = engines.first()
+        )
 
         val selectedCatastrophe = catastropheUseCases.getRandomCatastrophe()
         if (selectedCatastrophe == null) {
@@ -77,7 +77,6 @@ internal class NewGameStore(
                 loading = false,
                 shipState = shipState,
                 engines = engines,
-                selectedEngine = selectedEngine,
                 selectedCatastrophe = selectedCatastrophe,
             )
         }
@@ -92,7 +91,7 @@ internal class NewGameStore(
             return@launch
         }
 
-        val selectedEngine = state.selectedEngine
+        val selectedEngine = state.shipState?.engine
         if (selectedEngine == null) {
             error(tag = TAG, message = "Invalid state: missing engine on startGame()")
             return@launch
@@ -116,7 +115,6 @@ internal class NewGameStore(
     override fun reducer(state: NewGameState, action: NewGameAction) {
         when (action) {
             is NewGameAction.SelectShip -> selectedShip = action.ship
-            is NewGameAction.SelectEngine -> updateState { it.copy(selectedEngine = action.engine) }
             NewGameAction.Continue -> when (state.currentContent) {
                 Content.SHIP -> updateState { it.copy(currentContent = Content.START) }
                 Content.START -> startGame(state = state)

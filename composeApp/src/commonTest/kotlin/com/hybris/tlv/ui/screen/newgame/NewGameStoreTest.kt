@@ -84,7 +84,6 @@ internal class NewGameStoreTest {
             cryopods = 1
         )
         newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype))
-        newGameStore.send(action = NewGameAction.SelectEngine(engine = engines.first()))
         newGameStore.send(action = NewGameAction.Continue)
         assertEquals(expected = Screen.Game, actual = testDependency.navigation.stateFlow.value.screen)
     }

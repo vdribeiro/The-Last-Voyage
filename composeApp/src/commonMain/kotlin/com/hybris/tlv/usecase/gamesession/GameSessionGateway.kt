@@ -76,18 +76,18 @@ internal class GameSessionGateway(
     }
 
     override suspend fun travel(gameSession: GameSession, stellarHost: StellarHost): GameSession {
-        val distance = ceil(x = stellarHost.distance ?: 1.0).toInt()
+        val distance = stellarHost.distance ?: 1.0
         val speed = gameSession.ship.engine.velocity
         val fuelConsumption = gameSession.ship.engine.fuelConsumption
         val yearsTraveled = gameSession.ship.yearsTraveled + (distance / speed)
-        val fuel = gameSession.ship.fuel - distance
+        val fuel = gameSession.ship.fuel - distance * fuelConsumption
         val integrity = gameSession.ship.integrity - 1
 
         val updatedGameSession = gameSession.copy(
             ship = gameSession.ship.copy(
                 yearsTraveled = yearsTraveled,
                 integrity = integrity,
-                fuel = fuel,
+                fuel = ceil(x = fuel).toInt(),
             ),
             currentStellarHostId = stellarHost.id,
             visitedStellarHosts = gameSession.visitedStellarHosts + stellarHost.id
