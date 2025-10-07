@@ -1116,6 +1116,86 @@
   },
   {
     "languageIso": "en",
+    "key": "engine__exotic",
+    "value": "Exotic Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__exotic_description",
+    "value": "A warp drive that can travel faster than light by warping space-time."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__propellantless",
+    "value": "Propellantless Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__propellantless_description",
+    "value": "Thrust is generated without expelling a propellant, like using the radiation pressure of sunlight."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear",
+    "value": "Nuclear Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_description",
+    "value": "Uses energy from nuclear reactions as the power source."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electromagnetic",
+    "value": "Electromagnetic Thrusters"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electromagnetic_description",
+    "value": "Uses magnetic fields to shape and accelerate plasma in a way that resembles a physical nozzle."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electrostatic",
+    "value": "Electrostatic Thrusters"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electrostatic_description",
+    "value": "Accelerates electrically charged particles (ions) with static electric fields."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electrodynamic",
+    "value": "Electrodynamic Thrusters"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electrodynamic_description",
+    "value": "Creates and accelerates plasma with a large electric current that then interacts with a magnetic field. The dynamics between the current and the field are what creates thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electrothermal",
+    "value": "Electrothermal Thrusters"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electrothermal_description",
+    "value": "Uses electricity to heat the propellant, which is then expelled through a nozzle."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__chemical",
+    "value": "Chemical Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__chemical_description",
+    "value": "Generates thrust by igniting chemical propellants and expelling the hot gas produced by the reaction. It converts chemical energy into kinetic energy."
+  },
+  {
+    "languageIso": "en",
     "key": "engine__alcubierre_drive",
     "value": "Alcubierre Drive"
   },

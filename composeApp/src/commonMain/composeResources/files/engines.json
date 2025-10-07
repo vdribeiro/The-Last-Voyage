@@ -24,16 +24,16 @@
     "fuelConsumption": 0.5
   },
   {
+    "id": "engine__electrostatic",
+    "description": "engine__electrostatic_description",
+    "velocity": 7.0E-4,
+    "fuelConsumption": 2.0
+  },
+  {
     "id": "engine__electrodynamic",
     "description": "engine__electrodynamic_description",
     "velocity": 3.3E-4,
     "fuelConsumption": 4.0
-  },
-  {
-    "id": "engine__electrostatic",
-    "description": "engine__electrostatic_description",
-    "velocity": 7.0E-4,
-    "fuelConsumption": 1.7
   },
   {
     "id": "engine__electrothermal",
