@@ -143,7 +143,8 @@ private fun GameOverScorePreview() = AppTheme {
                         engine = Engine(
                             id = "1",
                             description = "",
-                            velocity = 0.1
+                            velocity = 0.1,
+                            fuelConsumption = 0.0
                         ),
                         assignedPoints = 10,
                         yearsTraveled = 100.0,

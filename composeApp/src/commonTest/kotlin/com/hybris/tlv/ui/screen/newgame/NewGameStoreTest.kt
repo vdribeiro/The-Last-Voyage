@@ -26,6 +26,7 @@ internal class NewGameStoreTest {
     @Test
     fun `init`() = runBlocking {
         testDependency.useCases.catastrophe.prepopulateCatastrophes()
+        testDependency.useCases.ship.prepopulateEngines()
         val newGameStore = store
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
     }
@@ -33,6 +34,7 @@ internal class NewGameStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         testDependency.useCases.catastrophe.prepopulateCatastrophes()
+        testDependency.useCases.ship.prepopulateEngines()
         val newGameStore = store
         assertEquals(expected = Screen.NewGame, actual = testDependency.navigation.stateFlow.value.screen)
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
@@ -54,6 +56,7 @@ internal class NewGameStoreTest {
     @Test
     fun `send action select ship`() = runBlocking {
         testDependency.useCases.catastrophe.prepopulateCatastrophes()
+        testDependency.useCases.ship.prepopulateEngines()
         val newGameStore = store
         assertNull(actual = newGameStore.selectedShip)
         val shipPrototype = ShipPrototype(
@@ -63,7 +66,7 @@ internal class NewGameStoreTest {
             fuel = 1,
             cryopods = 1
         )
-        newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype, engine = engines.random()))
+        newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype))
         assertEquals(expected = shipPrototype, actual = newGameStore.selectedShip)
     }
 
@@ -71,6 +74,7 @@ internal class NewGameStoreTest {
     fun `send action start game`() = runBlocking {
         assertEquals(expected = Screen.NewGame, actual = testDependency.navigation.stateFlow.value.screen)
         testDependency.useCases.catastrophe.prepopulateCatastrophes()
+        testDependency.useCases.ship.prepopulateEngines()
         val newGameStore = store
         val shipPrototype = ShipPrototype(
             assignedPoints = 1,
@@ -79,7 +83,8 @@ internal class NewGameStoreTest {
             fuel = 1,
             cryopods = 1
         )
-        newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype, engine = engines.random()))
+        newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype))
+        newGameStore.send(action = NewGameAction.SelectEngine(engine = engines.first()))
         newGameStore.send(action = NewGameAction.Continue)
         assertEquals(expected = Screen.Game, actual = testDependency.navigation.stateFlow.value.screen)
     }

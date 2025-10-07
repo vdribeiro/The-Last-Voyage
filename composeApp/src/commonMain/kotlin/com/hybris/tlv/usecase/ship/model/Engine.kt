@@ -7,4 +7,5 @@ internal data class Engine(
     val id: String,
     val description: String,
     val velocity: Double,
+    val fuelConsumption: Double,
 )

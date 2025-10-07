@@ -2807,7 +2807,7 @@
   {
     "languageIso": "en",
     "key": "tutorial_screen__mechanics_attributes_description",
-    "value": "• Sensor Range: Determines how many star systems you can choose from for your next destination.\n• Fuel: Your starting fuel. Each travel consumes fuel equal to the distance traveled.\n• Materials: Can be used to repair the ship but most of all are essential for colonizing a new world.\n• Cryopods: The number of colonists you carry. You must have enough to meet a planet's settlement requirements."
+    "value": "• Sensor Range: Determines how many star systems you can choose from for your next destination.\n• Fuel: Your starting fuel. Each travel consumes fuel depending on the distance traveled and type of engine.\n• Materials: Can be used to repair the ship but most of all are essential for colonizing a new world.\n• Cryopods: The number of colonists you carry. You must have enough to meet a planet's settlement requirements."
   },
   {
     "languageIso": "en",
@@ -2827,7 +2827,7 @@
   {
     "languageIso": "en",
     "key": "tutorial_screen__mechanics_travel_description",
-    "value": "Each travel between systems costs fuel and takes time. Both depend on the ship's chosen engine type.\nLonger journeys can be rewarding but are also more dangerous.\nWith each new destination, you will also encounter a new random event that can help or hinder your progress, consuming or rewarding resources."
+    "value": "Each travel between systems costs fuel and takes time. Both depend on the ship's engine.\nLonger journeys can be rewarding but are also more dangerous.\nWith each new destination, you will also encounter a new random event that can help or hinder your progress, consuming or rewarding resources."
   },
   {
     "languageIso": "en",

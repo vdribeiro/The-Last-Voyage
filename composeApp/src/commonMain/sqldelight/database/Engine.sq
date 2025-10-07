@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS Engine (
     id TEXT NOT NULL PRIMARY KEY,
     description TEXT NOT NULL,
-    velocity REAL NOT NULL
+    velocity REAL NOT NULL,
+    fuelConsumption REAL NOT NULL
 );
 
 isEngineEmpty:
@@ -17,5 +18,6 @@ getEngines:
 SELECT
     Engine.id,
     Engine.description,
-    Engine.velocity
+    Engine.velocity,
+    Engine.fuelConsumption
 FROM Engine;

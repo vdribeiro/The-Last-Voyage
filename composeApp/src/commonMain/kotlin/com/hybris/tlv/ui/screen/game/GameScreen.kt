@@ -316,7 +316,8 @@ private fun GameShipPreview() = AppTheme {
                     engine = Engine(
                         id = "1",
                         description = "",
-                        velocity = 0.1
+                        velocity = 0.1,
+                        fuelConsumption = 0.0
                     ),
                     assignedPoints = 10,
                     yearsTraveled = 100.0,
@@ -362,7 +363,8 @@ private fun GameSystemPreview() = AppTheme {
                     engine = Engine(
                         id = "1",
                         description = "",
-                        velocity = 0.1
+                        velocity = 0.1,
+                        fuelConsumption = 0.0
                     ),
                     assignedPoints = 10,
                     yearsTraveled = 100.0,
@@ -446,7 +448,8 @@ private fun GameTravelPreview() = AppTheme {
                     engine = Engine(
                         id = "1",
                         description = "",
-                        velocity = 0.1
+                        velocity = 0.1,
+                        fuelConsumption = 0.0
                     ),
                     assignedPoints = 10,
                     yearsTraveled = 100.0,

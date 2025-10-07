@@ -40,7 +40,8 @@ internal class ShipUseCasesTest {
             engine = Engine(
                 id = "",
                 description = "",
-                velocity = 0.1
+                velocity = 0.1,
+                fuelConsumption = 0.0
             ),
             assignedPoints = 0,
             yearsTraveled = 0.0,
@@ -58,7 +59,8 @@ internal class ShipUseCasesTest {
             engine = Engine(
                 id = "",
                 description = "",
-                velocity = 0.1
+                velocity = 0.1,
+                fuelConsumption = 0.0
             ),
             assignedPoints = 0,
             yearsTraveled = 0.0,
