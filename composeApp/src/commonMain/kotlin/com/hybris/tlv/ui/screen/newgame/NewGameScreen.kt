@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -93,6 +94,7 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
     val fuelTranslation = remember { getTranslation(key = "ship_fuel") }
     val materialsTranslation = remember { getTranslation(key = "ship_materials") }
     val cryopodsTranslation = remember { getTranslation(key = "ship_cryopods") }
+    val engineSpeedTranslation = remember { getTranslation(key = "new_game_screen__engine_speed") }
 
     val typography = LocalTypography.current
 
@@ -159,16 +161,16 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
                     textAlign = TextAlign.Center
                 )
             }
-            items(items = engines, key = { it.id }) { engine ->
+            itemsIndexed(items = engines) { index, engine ->
                 SelectableAttribute(
                     modifier = Modifier
                         .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_ENGINE)
-                        .clickable {
-                            store.send(action = NewGameAction.SelectEngine(engine = engine))
-                        },
+                        .clickable { store.send(action = NewGameAction.SelectEngine(engine = engine)) },
+                    selected = selectedEngine == engine,
                     name = getTranslation(key = engine.id),
                     description = getTranslation(key = engine.description),
-                    selected = selectedEngine == engine
+                    velocity = "$engineSpeedTranslation: ${engine.velocity}c",
+                    points = index.toString(),
                 )
             }
         }

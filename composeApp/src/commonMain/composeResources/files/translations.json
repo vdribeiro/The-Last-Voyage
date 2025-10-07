@@ -1187,7 +1187,7 @@
   {
     "languageIso": "en",
     "key": "engine__field_emission_electric_propulsion",
-    "value": "Field-Emission Electric Propulsion"
+    "value": "Field-Emission Electric Propulsion (FEEP)"
   },
   {
     "languageIso": "en",
@@ -1257,7 +1257,7 @@
   {
     "languageIso": "en",
     "key": "engine__ion_thruster",
-    "value": "Ion Thruster"
+    "value": "Ion Thruster (Electrostatic)"
   },
   {
     "languageIso": "en",
@@ -1357,7 +1357,7 @@
   {
     "languageIso": "en",
     "key": "engine__nuclear_thermal_rocket",
-    "value": "Nuclear Thermal Rocket"
+    "value": "Nuclear Thermal Rocket (NTR)"
   },
   {
     "languageIso": "en",
@@ -1407,7 +1407,7 @@
   {
     "languageIso": "en",
     "key": "engine__pulsed_plasma_thruster",
-    "value": "Pulsed Plasma Thruster"
+    "value": "Pulsed Plasma Thruster (PPT)"
   },
   {
     "languageIso": "en",
@@ -1417,7 +1417,7 @@
   {
     "languageIso": "en",
     "key": "engine__pulsed_inductive_thruster",
-    "value": "Pulsed-Inductive Thruster"
+    "value": "Pulsed-Inductive Thruster (PIT)"
   },
   {
     "languageIso": "en",
@@ -1447,7 +1447,7 @@
   {
     "languageIso": "en",
     "key": "engine__solar_sail",
-    "value": "Solar Sail"
+    "value": "Solar Sails"
   },
   {
     "languageIso": "en",
@@ -1497,7 +1497,7 @@
   {
     "languageIso": "en",
     "key": "engine__variable_specific_impulse_magnetoplasma_rocket",
-    "value": "Variable-Specific-Impulse Magnetoplasma Rocket"
+    "value": "Variable-Specific-Impulse Magnetoplasma Rocket (VASIMR)"
   },
   {
     "languageIso": "en",
@@ -3023,6 +3023,11 @@
     "languageIso": "en",
     "key": "new_game_screen__engine_select",
     "value": "Select Engine"
+  },
+  {
+    "languageIso": "en",
+    "key": "new_game_screen__engine_speed",
+    "value": "Speed"
   },
   {
     "languageIso": "en",

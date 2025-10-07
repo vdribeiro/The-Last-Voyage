@@ -48,9 +48,3 @@ internal data class ShipState(
     val remainingPoints: Int
         get() = totalPoints - assignedPoints
 }
-
-internal val defaultEngine: Engine = Engine(
-    id = "engine__liquid_fuel_rocket",
-    description = "engine__liquid_fuel_rocket_description",
-    velocity = 1.4677E-5
-)
