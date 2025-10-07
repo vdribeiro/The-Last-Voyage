@@ -17,28 +17,29 @@ private val tertiary = Color(color = 0xFFFB923C)
 private val onTertiary = Color(color = 0xFF431407)
 private val tertiaryContainer = Color(color = 0xFF7C2D12)
 private val onTertiaryContainer = Color(color = 0xFFFFEDD5)
-private val error = Color(color = 0xFFF87171)
-private val onError = Color(color = 0xFF450A0A)
-private val errorContainer = Color(color = 0xFF991B1B)
-private val onErrorContainer = Color(color = 0xFFFECACA)
 private val background = Color(color = 0xFF0D1117)
 private val onBackground = Color(color = 0xFFE2E8F0)
 private val surface = Color(color = 0xFF0D1117)
 private val onSurface = Color(color = 0xFFE2E8F0)
 private val surfaceVariant = Color(color = 0xFF334155)
 private val onSurfaceVariant = Color(color = 0xFF94A3B8)
+private val surfaceTint = Color(color = 0xFF2C6FC2)
 private val inverseSurface = Color(color = 0xFFE2E8F0)
 private val inverseOnSurface = Color(color = 0xFF1E293B)
+private val error = Color(color = 0xFFF87171)
+private val onError = Color(color = 0xFF450A0A)
+private val errorContainer = Color(color = 0xFF991B1B)
+private val onErrorContainer = Color(color = 0xFFFECACA)
 private val outline = Color(color = 0xFF475569)
 private val outlineVariant = Color(color = 0xFF334155)
 private val scrim = Color(color = 0xFF000000)
-private val surfaceContainerLowest = Color(color = 0xFF080B0F)
-private val surfaceDim = Color(color = 0xFF0D1117)
-private val surfaceContainerLow = Color(color = 0xFF151A21)
-private val surfaceContainer = Color(color = 0xFF1E293B)
-private val surfaceContainerHigh = Color(color = 0xFF334155)
-private val surfaceContainerHighest = Color(color = 0xFF475569)
-private val surfaceBright = Color(color = 0xFF475569)
+private val surfaceBright = Color(color = 0xFF3B383E)
+private val surfaceDim = Color(color = 0xFF141218)
+private val surfaceContainer = Color(color = 0xFF211F26)
+private val surfaceContainerHigh = Color(color = 0xFF2B2930)
+private val surfaceContainerHighest = Color(color = 0xFF36343B)
+private val surfaceContainerLow = Color(color = 0xFF1D1B20)
+private val surfaceContainerLowest = Color(color = 0xFF0F0D13)
 
 private val colorScheme = ColorScheme(
     primary = primary,
@@ -60,7 +61,7 @@ private val colorScheme = ColorScheme(
     onSurface = onSurface,
     surfaceVariant = surfaceVariant,
     onSurfaceVariant = onSurfaceVariant,
-    surfaceTint = primary,
+    surfaceTint = surfaceTint,
     inverseSurface = inverseSurface,
     inverseOnSurface = inverseOnSurface,
     error = error,
@@ -71,12 +72,12 @@ private val colorScheme = ColorScheme(
     outlineVariant = outlineVariant,
     scrim = scrim,
     surfaceBright = surfaceBright,
+    surfaceDim = surfaceDim,
     surfaceContainer = surfaceContainer,
     surfaceContainerHigh = surfaceContainerHigh,
     surfaceContainerHighest = surfaceContainerHighest,
     surfaceContainerLow = surfaceContainerLow,
     surfaceContainerLowest = surfaceContainerLowest,
-    surfaceDim = surfaceDim,
 )
 
 /**
