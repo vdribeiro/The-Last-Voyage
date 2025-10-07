@@ -59,11 +59,11 @@ internal class NewGameStore(
         }
         val shipState = ShipState(
             totalPoints = 20,
-            sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 3),
+            sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 4),
             fuel = AttributePoint(max = 2000, min = 100, interval = 100, initialValue = 700),
             materials = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 500),
             cryopods = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 300),
-            engine = engines.first()
+            engine = engines.find { it.cost == 5 } ?: engines.first()
         )
 
         val selectedCatastrophe = catastropheUseCases.getRandomCatastrophe()
