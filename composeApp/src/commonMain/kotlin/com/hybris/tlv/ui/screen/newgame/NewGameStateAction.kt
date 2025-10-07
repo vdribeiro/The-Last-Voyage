@@ -7,7 +7,8 @@ import com.hybris.tlv.usecase.ship.model.ShipPrototype
 
 internal sealed interface NewGameAction {
     data class SelectShip(val ship: ShipPrototype): NewGameAction
-    data object Continue: NewGameAction
+    data class SelectEngine(val engine: Engine): NewGameAction
+    data object Next: NewGameAction
 }
 
 internal sealed interface NewGameStateBuilder {
@@ -43,7 +44,8 @@ internal data class ShipState(
         get() = sensorRange.assignedPoints +
                 fuel.assignedPoints +
                 materials.assignedPoints +
-                cryopods.assignedPoints
+                cryopods.assignedPoints +
+                engine.cost
     val remainingPoints: Int
         get() = totalPoints - assignedPoints
 }

@@ -31,7 +31,7 @@ internal fun TypewriterScreen(
     title: String? = null,
     text: String? = null,
     content: @Composable () -> Unit = {},
-    buttons: List<Pair<String, () -> Unit>> = emptyList(),
+    buttons: List<Pair<String, (() -> Unit)?>> = emptyList(),
 ) {
     val typography = LocalTypography.current
 
@@ -51,8 +51,9 @@ internal fun TypewriterScreen(
                 items(items = buttons, key = { it.first }) {
                     Button(
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = it.second,
                         text = it.first,
+                        onClick = it.second ?: {},
+                        enabled = it.second != null
                     )
                 }
                 item { Spacer(modifier = Modifier.height(height = 16.dp)) }

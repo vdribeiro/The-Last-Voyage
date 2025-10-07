@@ -60,24 +60,27 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
             }
         },
         buttons = when (storeState.currentContent) {
-            Content.SHIP -> listOf(continueTranslation to {
-                storeState.shipState?.let { shipState ->
-                    store.send(
-                        action = NewGameAction.SelectShip(
-                            ship = ShipPrototype(
+            Content.SHIP -> buildList {
+                val shipState = storeState.shipState
+                val onClick = when {
+                    shipState?.remainingPoints != null && shipState.remainingPoints >= 0 -> {
+                        {
+                            val shipPrototype = ShipPrototype(
                                 assignedPoints = shipState.assignedPoints,
                                 sensorRange = shipState.sensorRange.value,
                                 fuel = shipState.fuel.value,
                                 materials = shipState.materials.value,
                                 cryopods = shipState.cryopods.value,
-                            ),
-                        )
-                    )
+                            )
+                            store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
+                        }
+                    }
+                    else -> null
                 }
-                store.send(action = NewGameAction.Continue)
-            })
+                add(element = continueTranslation to onClick)
+            }
 
-            Content.START -> listOf(startTranslation to { store.send(action = NewGameAction.Continue) })
+            Content.START -> listOf(startTranslation to { store.send(action = NewGameAction.Next) })
         },
     )
 }
@@ -165,9 +168,7 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
                 SelectableAttribute(
                     modifier = Modifier
                         .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_ENGINE)
-                        .clickable {
-
-                        },
+                        .clickable { store.send(action = NewGameAction.SelectEngine(engine = engine)) },
                     selected = shipState.engine == engine,
                     name = getTranslation(key = engine.id),
                     description = getTranslation(key = engine.description),

@@ -83,29 +83,34 @@ internal class NewGameStore(
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    private fun startGame(state: NewGameState) = launch {
-        Telemetry.info(tag = TAG, message = "Start game")
-        val selectedShip = this@NewGameStore.selectedShip
-        if (selectedShip == null) {
-            error(tag = TAG, message = "Invalid state: missing ship prototype on startGame()")
-            return@launch
-        }
+    private fun next(state: NewGameState): Job = launch {
+        when (state.currentContent) {
+            Content.SHIP -> updateState { it.copy(currentContent = Content.START) }
+            Content.START -> {
+                Telemetry.info(tag = TAG, message = "Start game")
+                val selectedShip = this@NewGameStore.selectedShip
+                if (selectedShip == null) {
+                    error(tag = TAG, message = "Invalid state: missing ship prototype on startGame()")
+                    return@launch
+                }
 
-        val selectedEngine = state.shipState?.engine
-        if (selectedEngine == null) {
-            error(tag = TAG, message = "Invalid state: missing engine on startGame()")
-            return@launch
-        }
+                val selectedEngine = state.shipState?.engine
+                if (selectedEngine == null) {
+                    error(tag = TAG, message = "Invalid state: missing engine on startGame()")
+                    return@launch
+                }
 
-        Telemetry.info(tag = TAG, message = "Selected ship: $selectedShip")
-        gameSessionUseCases.startGame(
-            GameSessionPrototype(
-                ship = selectedShip,
-                engine = selectedEngine,
-                formula = Formula()
-            )
-        )
-        navigate(screen = Screen.Game)
+                Telemetry.info(tag = TAG, message = "Selected ship: $selectedShip")
+                gameSessionUseCases.startGame(
+                    GameSessionPrototype(
+                        ship = selectedShip,
+                        engine = selectedEngine,
+                        formula = Formula()
+                    )
+                )
+                navigate(screen = Screen.Game)
+            }
+        }
     }
 
     override fun goBack(state: NewGameState) {
@@ -114,11 +119,13 @@ internal class NewGameStore(
 
     override fun reducer(state: NewGameState, action: NewGameAction) {
         when (action) {
-            is NewGameAction.SelectShip -> selectedShip = action.ship
-            NewGameAction.Continue -> when (state.currentContent) {
-                Content.SHIP -> updateState { it.copy(currentContent = Content.START) }
-                Content.START -> startGame(state = state)
+            is NewGameAction.SelectShip -> {
+                selectedShip = action.ship
+                next(state = state)
             }
+
+            is NewGameAction.SelectEngine -> updateState { it.copy(shipState = it.shipState?.copy(engine = action.engine)) }
+            NewGameAction.Next -> next(state = state)
         }
     }
 
