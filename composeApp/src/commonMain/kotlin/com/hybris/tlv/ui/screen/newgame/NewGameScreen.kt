@@ -95,6 +95,7 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
     val materialsTranslation = remember { getTranslation(key = "ship_materials") }
     val cryopodsTranslation = remember { getTranslation(key = "ship_cryopods") }
     val engineSpeedTranslation = remember { getTranslation(key = "new_game_screen__engine_speed") }
+    val engineFuelTranslation = remember { getTranslation(key = "new_game_screen__engine_fuel") }
 
     val typography = LocalTypography.current
 
@@ -170,6 +171,7 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
                     name = getTranslation(key = engine.id),
                     description = getTranslation(key = engine.description),
                     velocity = "$engineSpeedTranslation: ${engine.velocity}c",
+                    fuel = "$engineFuelTranslation: ${engine.fuelConsumption}",
                     points = index.toString(),
                 )
             }

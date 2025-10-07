@@ -1142,7 +1142,7 @@
   {
     "languageIso": "en",
     "key": "engine__arcjet_description",
-    "value": "Uses electrical energy to heat a propellant, expelling it for thrust."
+    "value": "Heats a propellant with electrical energy, expelling it for thrust."
   },
   {
     "languageIso": "en",
@@ -1162,7 +1162,7 @@
   {
     "languageIso": "en",
     "key": "engine__colloid_thruster_description",
-    "value": "Uses charged micro-particles to generate thrust."
+    "value": "Generates thrust with charged micro-particles."
   },
   {
     "languageIso": "en",
@@ -1182,7 +1182,7 @@
   {
     "languageIso": "en",
     "key": "engine__electric_sail_description",
-    "value": "Uses charged wires to interact with solar wind, generating thrust."
+    "value": "Interacts with solar wind via charged wires, generating thrust."
   },
   {
     "languageIso": "en",
@@ -1202,7 +1202,7 @@
   {
     "languageIso": "en",
     "key": "engine__fission_sail_description",
-    "value": "Uses fission reactions to heat a propellant."
+    "value": "Heats a propellant with fission reactions."
   },
   {
     "languageIso": "en",
@@ -1222,7 +1222,7 @@
   {
     "languageIso": "en",
     "key": "engine__fusion_propulsion_description",
-    "value": "Uses controlled fusion reactions to generate thrust."
+    "value": "Generates thrust with controlled fusion reactions."
   },
   {
     "languageIso": "en",
@@ -1252,7 +1252,7 @@
   {
     "languageIso": "en",
     "key": "engine__hybrid_rocket_description",
-    "value": "Uses a solid fuel and a liquid or gaseous oxidizer."
+    "value": "Solid fuel and a liquid or gaseous oxidizer."
   },
   {
     "languageIso": "en",
@@ -1272,7 +1272,7 @@
   {
     "languageIso": "en",
     "key": "engine__laser_propulsion_description",
-    "value": "Uses a high-powered laser to heat a propellant."
+    "value": "High-powered laser to heat a propellant."
   },
   {
     "languageIso": "en",
@@ -1282,7 +1282,7 @@
   {
     "languageIso": "en",
     "key": "engine__liquid_fuel_rocket_description",
-    "value": "Uses liquid fuel and oxidizer."
+    "value": "Liquid fuel and oxidizer."
   },
   {
     "languageIso": "en",
@@ -1292,7 +1292,7 @@
   {
     "languageIso": "en",
     "key": "engine__magnetoplasma_sail_in_solar_wind_description",
-    "value": "Uses a magnetic field to interact with solar wind."
+    "value": "Interacts with solar wind with a magnetic field."
   },
   {
     "languageIso": "en",
@@ -1312,7 +1312,7 @@
   {
     "languageIso": "en",
     "key": "engine__magsail_in_interstellar_medium_description",
-    "value": "Uses a magnetic sail to interact with the interstellar medium."
+    "value": "Interacts with the interstellar medium via magnetic sail."
   },
   {
     "languageIso": "en",
@@ -1322,7 +1322,7 @@
   {
     "languageIso": "en",
     "key": "engine__magsail_in_solar_wind_description",
-    "value": "Uses a magnetic sail to interact with the solar wind."
+    "value": "Interact with the solar wind via magnetic sail."
   },
   {
     "languageIso": "en",
@@ -1332,7 +1332,7 @@
   {
     "languageIso": "en",
     "key": "engine__monopropellant_rocket_description",
-    "value": "Uses a single propellant that decomposes catalytically."
+    "value": "Single propellant that decomposes catalytically."
   },
   {
     "languageIso": "en",
@@ -1342,7 +1342,7 @@
   {
     "languageIso": "en",
     "key": "engine__nuclear_electric_propulsion_description",
-    "value": "Uses a nuclear reactor to power an electric propulsion system."
+    "value": "A nuclear reactor that powers an electric propulsion system."
   },
   {
     "languageIso": "en",
@@ -3028,6 +3028,11 @@
     "languageIso": "en",
     "key": "new_game_screen__engine_speed",
     "value": "Speed"
+  },
+  {
+    "languageIso": "en",
+    "key": "new_game_screen__engine_fuel",
+    "value": "Fuel Consumption"
   },
   {
     "languageIso": "en",

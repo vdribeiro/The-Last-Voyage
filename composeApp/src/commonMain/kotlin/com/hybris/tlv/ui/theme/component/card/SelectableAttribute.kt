@@ -23,6 +23,7 @@ internal fun SelectableAttribute(
     name: String = "",
     description: String = "",
     velocity: String = "",
+    fuel: String = "",
     points: String = "",
 ) {
     val typography = LocalTypography.current
@@ -47,6 +48,8 @@ internal fun SelectableAttribute(
                 Text(text = description, style = typography.bodyMedium)
                 Spacer(modifier = Modifier.height(height = 4.dp))
                 Text(text = velocity, style = typography.bodyMedium)
+                Spacer(modifier = Modifier.height(height = 4.dp))
+                Text(text = fuel, style = typography.bodyMedium)
             }
             Spacer(modifier = Modifier.weight(weight = 0.1f))
             Text(
@@ -65,6 +68,7 @@ private fun SelectableCardPreview() = AppTheme {
         name = "Property",
         description = "Hammer Time",
         velocity = "1000",
+        fuel = "100",
         points = "10"
     )
 }
