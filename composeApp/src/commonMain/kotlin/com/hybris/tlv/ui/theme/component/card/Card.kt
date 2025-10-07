@@ -21,7 +21,7 @@ internal fun Card(
     val colorScheme = LocalColorScheme.current
     val shapes = LocalShapes.current
     val colors = when {
-        selected -> CardDefaults.cardColors(containerColor = colorScheme.primaryContainer)
+        selected -> CardDefaults.cardColors(containerColor = colorScheme.onSecondary)
         else -> CardDefaults.cardColors()
     }
     val border = when {
