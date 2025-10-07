@@ -62,7 +62,7 @@ internal class GameSessionUseCasesTest {
         assertTrue(actual = newGameSession.visitedStellarHosts.contains(element = stellarHost.id))
 
         val distance = ceil(x = stellarHost.distance ?: 1.0).toInt()
-        val speed = 0.1  // TODO: use engine speed - using 0.1c for now
+        val speed = gameSession.ship.engine.velocity
         assertEquals(expected = gameSession.ship.yearsTraveled + (distance / speed), actual = newGameSession.ship.yearsTraveled)
         assertEquals(expected = gameSession.ship.fuel - distance, actual = newGameSession.ship.fuel)
     }

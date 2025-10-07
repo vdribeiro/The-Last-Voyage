@@ -2827,7 +2827,7 @@
   {
     "languageIso": "en",
     "key": "tutorial_screen__mechanics_travel_description",
-    "value": "Each travel between systems costs fuel and takes time.\nThe ship travels at 0.1c, so a 10 light-year journey will add 100 years of total travelled time.\nLonger journeys can be rewarding but are also more dangerous.\nWith each new destination, you will also encounter a new random event that can help or hinder your progress, consuming or rewarding resources."
+    "value": "Each travel between systems costs fuel and takes time. Both depend on the ship's chosen engine type.\nLonger journeys can be rewarding but are also more dangerous.\nWith each new destination, you will also encounter a new random event that can help or hinder your progress, consuming or rewarding resources."
   },
   {
     "languageIso": "en",

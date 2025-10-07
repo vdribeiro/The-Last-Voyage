@@ -45,7 +45,7 @@ internal class ShipGateway(
     }
 
     override suspend fun getEngines(): List<Engine> =
-        engineDao.getEngines().executeAsList().map { it.toEngine() }.sortedByDescending { it.velocity }
+        engineDao.getEngines().executeAsList().map { it.toEngine() }.sortedBy { it.velocity }
 
     override suspend fun repairShip(ship: Ship): Ship {
         var integrity = ship.integrity

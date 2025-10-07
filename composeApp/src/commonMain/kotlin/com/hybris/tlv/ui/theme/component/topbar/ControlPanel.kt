@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ManageSearch
 import androidx.compose.material.icons.automirrored.filled.Sort
-import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Check
@@ -40,6 +39,7 @@ import com.hybris.tlv.ui.theme.component.button.Dropdown
 import com.hybris.tlv.ui.theme.component.button.DropdownItem
 import com.hybris.tlv.ui.theme.component.container.Surface
 import com.hybris.tlv.ui.theme.component.image.Icon
+import com.hybris.tlv.ui.theme.component.image.defaultIcon
 import com.hybris.tlv.ui.theme.component.text.Input
 import com.hybris.tlv.ui.theme.component.text.Text
 import kotlinx.coroutines.FlowPreview
@@ -55,7 +55,7 @@ internal fun ControlPanel(
     search: String = "",
     onSearch: (String) -> Unit = {},
     viewName: String = "",
-    viewIcon: ImageVector = Icons.Default.Apps,
+    viewIcon: ImageVector = defaultIcon,
     onChangeView: () -> Unit = {},
     count: String = "0",
     properties: List<String> = emptyList(),

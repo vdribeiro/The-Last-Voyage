@@ -64,6 +64,7 @@ internal class NewGameStore(
             error(tag = TAG, message = "Invalid state: no engines on setup()")
             return@launch
         }
+        val selectedEngine = engines.find { it.id == "engine__liquid_fuel_rocket" } ?: defaultEngine
 
         val selectedCatastrophe = catastropheUseCases.getRandomCatastrophe()
         if (selectedCatastrophe == null) {
@@ -76,6 +77,7 @@ internal class NewGameStore(
                 loading = false,
                 shipState = shipState,
                 engines = engines,
+                selectedEngine = selectedEngine,
                 selectedCatastrophe = selectedCatastrophe,
             )
         }
