@@ -6,6 +6,7 @@ import com.hybris.tlv.telemetry.Telemetry
  * Audio player.
  */
 internal open class AudioPlayer {
+
     protected var playlist = listOf<String>()
 
     sealed interface Action {
