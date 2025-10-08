@@ -314,19 +314,13 @@ internal class StellarExplorerStore(
         }
     }
 
+    /**
+     * Adds [element] if it is not present, otherwise removes it.
+     */
+    private fun <V> Iterable<V>.plusOrMinus(element: V): Set<V> =
+        (if (contains(element = element)) minus(element = element) else plus(element = element)).toSet()
+
     companion object {
         private const val TAG = "StellarExplorerStore"
     }
 }
-
-/**
- * Returns [value] if the [element] is present, otherwise returns null.
- */
-internal fun <E, V> Collection<E>.ifContains(element: E, value: V?): V? =
-    if (contains(element)) value else null
-
-/**
- * Adds [element] if it is not present, otherwise removes it.
- */
-internal fun <V> Iterable<V>.plusOrMinus(element: V): Set<V> =
-    (if (contains(element = element)) minus(element = element) else plus(element = element)).toSet()

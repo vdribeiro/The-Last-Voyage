@@ -691,3 +691,9 @@ private fun getPlanetsComparator(sort: PlanetProperty, ascending: Boolean): Comp
         comparator = if (ascending) nullsLast() else nullsFirst()
     ) { it.score?.planetTidalLockingScore }
 }
+
+/**
+ * Returns [value] if the [element] is present, otherwise returns null.
+ */
+internal fun <E, V> Collection<E>.ifContains(element: E, value: V?): V? =
+    if (contains(element)) value else null
