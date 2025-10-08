@@ -7,62 +7,53 @@ import com.hybris.tlv.telemetry.Telemetry
  */
 internal open class AudioPlayer {
     protected var playlist = listOf<String>()
-    protected var currentIndex = -1
+
+    sealed interface Action {
+        data class Play(val playlist: List<String>): Action
+        data object Pause: Action
+        data object Resume: Action
+        data object Toggle: Action
+    }
+
+    fun action(action: Action) = runCatching {
+        when (action) {
+            is Action.Play -> {
+                val sortedPlaylist = playlist.sorted()
+                if (this.playlist.sorted() == sortedPlaylist) return@runCatching
+                this.playlist = sortedPlaylist.shuffled()
+                stop()
+                play()
+            }
+
+            Action.Pause -> pause()
+            Action.Resume -> resume()
+            Action.Toggle -> if (isPlaying()) pause() else resume()
+        }
+    }.getOrElse {
+        Telemetry.error(tag = TAG, message = "Error with media action $action", throwable = it)
+    }
+
+    protected open fun isPlaying(): Boolean = false
 
     /**
-     * Play the given [playlist].
+     * Play the playlist.
      */
-    fun play(vararg playlist: String) = runCatching {
-        val sortedPlaylist = playlist.toList().sorted()
-        if (this.playlist.sorted() == sortedPlaylist) return@runCatching
-        this.playlist = sortedPlaylist.shuffled()
-        stop()
-        playNextTrack()
-    }.getOrElse {
-        Telemetry.error(tag = TAG, message = "Error playing media", throwable = it)
-    }
+    protected open fun play() {}
 
     /**
      * Resume playback.
      */
-    fun resume() = runCatching {
-        resumePlayer()
-    }.getOrElse {
-        Telemetry.error(tag = TAG, message = "Error resuming media", throwable = it)
-    }
+    protected open fun resume() {}
 
     /**
      * Pauses playback.
      */
-    fun pause() = runCatching {
-        pausePlayer()
-    }.getOrElse {
-        Telemetry.error(tag = TAG, message = "Error pausing media", throwable = it)
-    }
-
-    /**
-     * Resume or pause playback depending on the current state.
-     */
-    fun toggle() = runCatching {
-        if (isPlaying()) pause() else resume()
-    }.getOrElse {
-        Telemetry.error(tag = TAG, message = "Error toggling media", throwable = it)
-    }
+    protected open fun pause() {}
 
     /**
      * Stop playback without resetting the playlist.
      */
-    fun stop() = runCatching {
-        stopPlayer()
-    }.getOrElse {
-        Telemetry.error(tag = TAG, message = "Error stopping media", throwable = it)
-    }
-
-    protected open fun playNextTrack() {}
-    protected open fun isPlaying(): Boolean = false
-    protected open fun resumePlayer() {}
-    protected open fun pausePlayer() {}
-    protected open fun stopPlayer() {}
+    protected open fun stop() {}
 
     companion object {
         private const val TAG = "AudioPlayer"

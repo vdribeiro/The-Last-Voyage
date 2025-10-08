@@ -88,7 +88,7 @@ internal open class Store<State, Action>(
     /**
      * Toggle audio player.
      */
-    fun toggleAudio() = audioPlayer.toggle()
+    fun toggleAudio() = audioPlayer.action(action = AudioPlayer.Action.Toggle)
 
     /**
      * Navigate to [Screen.Feedback] screen asking for feedback.

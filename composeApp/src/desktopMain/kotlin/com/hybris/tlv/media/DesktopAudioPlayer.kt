@@ -6,30 +6,31 @@ import javafx.scene.media.MediaPlayer
 internal class DesktopAudioPlayer: AudioPlayer() {
 
     private var player: MediaPlayer? = null
+    private var currentIndex = -1
 
-    override fun playNextTrack() {
+    override fun isPlaying(): Boolean = player?.status == MediaPlayer.Status.PLAYING
+
+    override fun play() {
         stop()
         val nextIndex = (currentIndex + 1) % playlist.size
         val trackPath = playlist.getOrNull(index = nextIndex) ?: return
         val resourceUrl = Thread.currentThread().contextClassLoader.getResource(trackPath) ?: return
         player = MediaPlayer(Media(resourceUrl.toString())).apply {
-            setOnEndOfMedia { playNextTrack() }
-            play()
+            setOnEndOfMedia { this@DesktopAudioPlayer.play() }
+            this.play()
         }
         currentIndex = nextIndex
     }
 
-    override fun isPlaying(): Boolean = player?.status == MediaPlayer.Status.PLAYING
-
-    override fun resumePlayer() {
+    override fun resume() {
         player?.play()
     }
 
-    override fun pausePlayer() {
+    override fun pause() {
         player?.pause()
     }
 
-    override fun stopPlayer() {
+    override fun stop() {
         player?.stop()
         player?.dispose()
         player = null

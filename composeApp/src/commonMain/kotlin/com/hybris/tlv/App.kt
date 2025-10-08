@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.backhandler.BackHandler
 import com.hybris.tlv.lifecycle.Register
+import com.hybris.tlv.media.AudioPlayer.Action
 import com.hybris.tlv.media.getTracks
 import com.hybris.tlv.ui.theme.AppTheme
 
@@ -23,11 +24,11 @@ internal fun App() = AppTheme {
     val audioPlayer = dependency.audioPlayer
     LaunchedEffect(key1 = screen) {
         val playlist = getTracks(screen = screen)
-        if (playlist != null) audioPlayer.play(playlist = playlist)
+        if (playlist != null) audioPlayer.action(action = Action.Play(playlist = playlist))
     }
     Register(
-        onBackground = { audioPlayer.pause() },
-        onForeground = { audioPlayer.resume() },
+        onBackground = { audioPlayer.action(action = Action.Pause) },
+        onForeground = { audioPlayer.action(action = Action.Resume) },
     )
 
     // Render Screen

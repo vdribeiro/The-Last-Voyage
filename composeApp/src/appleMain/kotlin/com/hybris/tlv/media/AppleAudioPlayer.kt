@@ -14,9 +14,10 @@ import platform.darwin.NSObjectProtocol
 internal class AppleAudioPlayer: AudioPlayer() {
 
     private var player: AVPlayer? = null
+    private var currentIndex = -1
     private var endOfSongObserver: NSObjectProtocol? = null
 
-    override fun playNextTrack() {
+    override fun play() {
         stop()
         val nextIndex = (currentIndex + 1) % playlist.size
         val trackPath = playlist.getOrNull(index = nextIndex) ?: return
@@ -32,22 +33,22 @@ internal class AppleAudioPlayer: AudioPlayer() {
         endOfSongObserver = NSNotificationCenter.defaultCenter.observe(
             name = AVPlayerItemDidPlayToEndTimeNotification,
             key = playerItem,
-        ) { playNextTrack() }
+        ) { play() }
         player = AVPlayer(playerItem = playerItem).apply { play() }
         currentIndex = nextIndex
     }
 
     override fun isPlaying(): Boolean = (player?.rate ?: 0.0f) != 0.0f
 
-    override fun resumePlayer() {
+    override fun resume() {
         player?.play()
     }
 
-    override fun pausePlayer() {
+    override fun pause() {
         player?.pause()
     }
 
-    override fun stopPlayer() {
+    override fun stop() {
         player?.pause()
         endOfSongObserver?.let { NSNotificationCenter.defaultCenter.removeObserver(observer = it) }
         endOfSongObserver = null

@@ -12,7 +12,7 @@ internal class AndroidAudioPlayer: AudioPlayer() {
         ExoPlayer.Builder(applicationContext).build()
     }
 
-    override fun playNextTrack() {
+    override fun play() {
         stop()
         val mediaItems = playlist.map { MediaItem.fromUri("asset:///${it}".toUri()) }
         player.apply {
@@ -24,7 +24,7 @@ internal class AndroidAudioPlayer: AudioPlayer() {
 
     override fun isPlaying(): Boolean = player.isPlaying
 
-    override fun resumePlayer() {
+    override fun resume() {
         player.apply {
             if (mediaItemCount <= 0) return
             repeatMode = Player.REPEAT_MODE_ALL
@@ -33,11 +33,11 @@ internal class AndroidAudioPlayer: AudioPlayer() {
         }
     }
 
-    override fun pausePlayer() {
+    override fun pause() {
         player.pause()
     }
 
-    override fun stopPlayer() {
+    override fun stop() {
         player.stop()
     }
 }
