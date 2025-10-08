@@ -20,8 +20,8 @@ internal open class AudioPlayer {
         when (action) {
             is Action.Play -> {
                 val sortedPlaylist = action.playlist.sorted()
-                if (this.playlist.sorted() == sortedPlaylist) return@runCatching
-                this.playlist = sortedPlaylist.shuffled()
+                if (playlist.sorted() == sortedPlaylist) return@runCatching
+                playlist = sortedPlaylist.shuffled()
                 stop()
                 play()
             }
