@@ -18,7 +18,9 @@ import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -29,6 +31,7 @@ import com.hybris.tlv.ui.theme.component.bottombar.GameNavigation
 import com.hybris.tlv.ui.theme.component.card.PlanetCard
 import com.hybris.tlv.ui.theme.component.card.StatDisplay
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
+import com.hybris.tlv.ui.theme.component.dialog.Dialog
 import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
@@ -172,6 +175,16 @@ private fun ShipContent(store: Store<GameState, GameAction>) {
 private fun SystemContent(store: Store<GameState, GameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val stellarHost = storeState.currentStellarHost ?: return
+    var planetToSettle: Planet? by remember { mutableStateOf(value = null) }
+
+    planetToSettle?.let {
+        Dialog(
+            title = getTranslation(key = "game_screen__settle", it.name),
+            onConfirm = { store.send(action = GameAction.Settle(planet = it)) },
+            onDismiss = { planetToSettle = null },
+            onDismissRequest = { planetToSettle = null },
+        )
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -208,7 +221,7 @@ private fun SystemContent(store: Store<GameState, GameAction>) {
             PlanetCard(
                 modifier = Modifier
                     .testTag(tag = GAME_SCREEN_SYSTEM_CONTENT_PLANET)
-                    .clickable { store.send(action = GameAction.Settle(planet = planet)) },
+                    .clickable { planetToSettle = planet },
                 name = planet.name,
                 orbitalPeriod = planet.orbitalPeriod,
                 orbitAxis = planet.orbitAxis,

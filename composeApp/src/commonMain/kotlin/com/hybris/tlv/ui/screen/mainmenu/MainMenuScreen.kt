@@ -81,10 +81,8 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
 private fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
     val appNameTranslation = remember { getTranslation(key = "app_name") }
-    val newGameTranslation = remember { getTranslation(key = "main_menu_screen__new_game") }
     val tutorialTranslation = remember { getTranslation(key = "main_menu_screen__new_game_tutorial") }
-    val tutorialTranslationYes = remember { getTranslation(key = "main_menu_screen__new_game_tutorial_yes") }
-    val tutorialTranslationNo = remember { getTranslation(key = "main_menu_screen__new_game_tutorial_no") }
+    val newGameTranslation = remember { getTranslation(key = "main_menu_screen__new_game") }
     val continueTranslation = remember { getTranslation(key = "main_menu_screen__continue") }
     val learnTranslation = remember { getTranslation(key = "main_menu_screen__learn") }
     val scoresTranslation = remember { getTranslation(key = "main_menu_screen__scores") }
@@ -94,8 +92,6 @@ private fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
     if (storeState.newGameDialog) {
         Dialog(
             title = tutorialTranslation,
-            confirmText = tutorialTranslationYes,
-            dismissText = tutorialTranslationNo,
             onConfirm = { store.send(action = MainMenuAction.YesNewGameDialog) },
             onDismiss = { store.send(action = MainMenuAction.NoNewGameDialog) },
             onDismissRequest = { store.send(action = MainMenuAction.HideNewGameDialog) },

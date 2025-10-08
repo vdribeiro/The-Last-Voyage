@@ -6,6 +6,21 @@
   },
   {
     "languageIso": "en",
+    "key": "app_yes",
+    "value": "Yes"
+  },
+  {
+    "languageIso": "en",
+    "key": "app_no",
+    "value": "No"
+  },
+  {
+    "languageIso": "en",
+    "key": "splash_screen__loading",
+    "value": "Loading..."
+  },
+  {
+    "languageIso": "en",
     "key": "website",
     "value": "Developer's Corner"
   },
@@ -2786,11 +2801,6 @@
   },
   {
     "languageIso": "en",
-    "key": "splash_screen__loading",
-    "value": "Loading..."
-  },
-  {
-    "languageIso": "en",
     "key": "main_menu_screen__new_game",
     "value": "New Game"
   },
@@ -2798,16 +2808,6 @@
     "languageIso": "en",
     "key": "main_menu_screen__new_game_tutorial",
     "value": "Show the tutorial?"
-  },
-  {
-    "languageIso": "en",
-    "key": "main_menu_screen__new_game_tutorial_yes",
-    "value": "Yes"
-  },
-  {
-    "languageIso": "en",
-    "key": "main_menu_screen__new_game_tutorial_no",
-    "value": "No"
   },
   {
     "languageIso": "en",
@@ -2917,7 +2917,7 @@
   {
     "languageIso": "en",
     "key": "tutorial_screen__mechanics_game_over_description",
-    "value": "The game ends when your ship's integrity or fuel reaches 0, or you settle in a new world.\nYour final score is calculated based on your success, the quality of the planet, ship stats, the length of your journey and difficulty based on initial points spent.\n• Score = Base Score * Challenge Multiplier * Game Over Multiplier\n• Base Score = (Cryopods * 100) + (Materials * 2) + (fuel * 1) + (Years Traveled * 5)\n• Challenge Multiplier = 1.0 + (15 - Assigned Points) + 0.05\n• Game Over Multiplier is based on several factors: 0.25 if the ship disintegrates, runs out of fuel or you don't leave the Solar System; When settling on a planet the habitability modifier is taken into account plus a success score based on the ship's state and resources. You can either survive in a primitive state or defy the odds or perfectly settle in a new world."
+    "value": "The game ends when your ship's integrity or fuel reaches 0, or you settle on a new world.\nYour final score is calculated based on your success, the quality of the planet, ship stats, the length of your journey and difficulty based on initial points spent.\n• Score = Base Score * Challenge Multiplier * Game Over Multiplier\n• Base Score = (Cryopods * 100) + (Materials * 2) + (fuel * 1) + (Years Traveled * 5)\n• Challenge Multiplier = 1.0 + (15 - Assigned Points) + 0.05\n• Game Over Multiplier is based on several factors: 0.25 if the ship disintegrates, runs out of fuel or you don't leave the Solar System; When settling on a planet the habitability modifier is taken into account plus a success score based on the ship's state and resources. You can either survive in a primitive state or defy the odds or perfectly settle on a new world."
   },
   {
     "languageIso": "en",
@@ -3143,6 +3143,11 @@
     "languageIso": "en",
     "key": "game_screen__ship",
     "value": "Ship"
+  },
+  {
+    "languageIso": "en",
+    "key": "game_screen__settle",
+    "value": "Settle on %1$s?"
   },
   {
     "languageIso": "en",
