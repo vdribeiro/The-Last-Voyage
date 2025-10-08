@@ -20,7 +20,6 @@ internal class AppleAudioPlayer: AudioPlayer() {
     override fun isPlaying(): Boolean = (player?.rate ?: 0.0f) != 0.0f
 
     override fun play() {
-        stop()
         val nextIndex = (currentIndex + 1) % playlist.size
         val trackPath = playlist.getOrNull(index = nextIndex) ?: return
         val fileName = trackPath.substringAfterLast(delimiter = '/')

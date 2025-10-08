@@ -15,7 +15,6 @@ internal class AndroidAudioPlayer: AudioPlayer() {
     override fun isPlaying(): Boolean = player.isPlaying
 
     override fun play() {
-        stop()
         val mediaItems = playlist.map { MediaItem.fromUri("asset:///${it}".toUri()) }
         player.apply {
             setMediaItems(mediaItems)

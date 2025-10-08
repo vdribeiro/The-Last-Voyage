@@ -11,7 +11,6 @@ internal class DesktopAudioPlayer: AudioPlayer() {
     override fun isPlaying(): Boolean = player?.status == MediaPlayer.Status.PLAYING
 
     override fun play() {
-        stop()
         val nextIndex = (currentIndex + 1) % playlist.size
         val trackPath = playlist.getOrNull(index = nextIndex) ?: return
         val resourceUrl = Thread.currentThread().contextClassLoader.getResource(trackPath) ?: return
