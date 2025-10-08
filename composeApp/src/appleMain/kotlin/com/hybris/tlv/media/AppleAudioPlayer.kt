@@ -17,6 +17,8 @@ internal class AppleAudioPlayer: AudioPlayer() {
     private var currentIndex = -1
     private var endOfSongObserver: NSObjectProtocol? = null
 
+    override fun isPlaying(): Boolean = (player?.rate ?: 0.0f) != 0.0f
+
     override fun play() {
         stop()
         val nextIndex = (currentIndex + 1) % playlist.size
@@ -37,8 +39,6 @@ internal class AppleAudioPlayer: AudioPlayer() {
         player = AVPlayer(playerItem = playerItem).apply { play() }
         currentIndex = nextIndex
     }
-
-    override fun isPlaying(): Boolean = (player?.rate ?: 0.0f) != 0.0f
 
     override fun resume() {
         player?.play()

@@ -12,6 +12,8 @@ internal class AndroidAudioPlayer: AudioPlayer() {
         ExoPlayer.Builder(applicationContext).build()
     }
 
+    override fun isPlaying(): Boolean = player.isPlaying
+
     override fun play() {
         stop()
         val mediaItems = playlist.map { MediaItem.fromUri("asset:///${it}".toUri()) }
@@ -21,8 +23,6 @@ internal class AndroidAudioPlayer: AudioPlayer() {
         }
         resume()
     }
-
-    override fun isPlaying(): Boolean = player.isPlaying
 
     override fun resume() {
         player.apply {
