@@ -5,7 +5,7 @@ import com.hybris.tlv.telemetry.Telemetry
 /**
  * Audio player.
  */
-internal abstract class AudioPlayer {
+internal open class AudioPlayer {
     protected var playlist = listOf<String>()
     protected var currentIndex = -1
 
@@ -58,11 +58,11 @@ internal abstract class AudioPlayer {
         Telemetry.error(tag = TAG, message = "Error stopping media", throwable = it)
     }
 
-    protected abstract fun playNextTrack()
-    protected abstract fun isPlaying(): Boolean
-    protected abstract fun resumePlayer()
-    protected abstract fun pausePlayer()
-    protected abstract fun stopPlayer()
+    protected open fun playNextTrack() {}
+    protected open fun isPlaying(): Boolean = false
+    protected open fun resumePlayer() {}
+    protected open fun pausePlayer() {}
+    protected open fun stopPlayer() {}
 
     companion object {
         private const val TAG = "AudioPlayer"

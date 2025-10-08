@@ -13,6 +13,7 @@ import com.hybris.tlv.media.createAudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
 import database.AppDatabase
@@ -40,7 +41,8 @@ internal data class Dependency(
         dispatcher = dispatcher,
         audioPlayer = audioPlayer,
         config = config,
-        useCases = useCases
+        useCases = useCases,
+        initialState = NavigationState()
     )
 ) {
     init {

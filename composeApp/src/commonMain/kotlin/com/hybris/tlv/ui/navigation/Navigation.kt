@@ -3,9 +3,7 @@ package com.hybris.tlv.ui.navigation
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.flow.launch
 import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
 import com.hybris.tlv.ui.screen.credit.CreditScreen
 import com.hybris.tlv.ui.screen.event.EventScreen
@@ -20,18 +18,17 @@ import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerScreen
 import com.hybris.tlv.ui.screen.tutorial.TutorialScreen
 import com.hybris.tlv.ui.store.StoreFactory
 import com.hybris.tlv.usecase.UseCases
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 
 internal class Navigation(
     private val dispatcher: Dispatcher,
     private val audioPlayer: AudioPlayer,
     private val config: ConfigManager,
     private val useCases: UseCases,
-    initialState: NavigationState = NavigationState()
-): NavigationManager {
-
+    initialState: NavigationState
+): NavigationManager(
+    dispatcher = dispatcher,
+    initialState = initialState
+) {
     private val storeFactory: StoreFactory = StoreFactory(
         dispatcher = dispatcher,
         navigation = this,
@@ -39,35 +36,6 @@ internal class Navigation(
         config = config,
         useCases = useCases
     )
-    private val stack: MutableList<NavigationState> = mutableListOf(NavigationState())
-    private val _stateFlow: MutableStateFlow<NavigationState> = MutableStateFlow(value = initialState)
-    override val stateFlow: StateFlow<NavigationState> get() = _stateFlow
-
-    override var back: () -> Unit = { goBack() }
-
-    override fun goBack() {
-        dispatcher.main.launch {
-            if (stack.size > 1) {
-                stack.removeLast()
-                _stateFlow.update { stack.last() }
-            }
-            Telemetry.info(tag = TAG, message = "Go back to ${_stateFlow.value}")
-        }
-    }
-
-    override fun navigate(screen: Screen, stateBuilder: Any?, savableState: Any?) {
-        dispatcher.main.launch {
-            if (stack.isNotEmpty()) stack[stack.lastIndex] = stack.last().copy(stateBuilder = savableState)
-            val navigationState = NavigationState(screen = screen, stateBuilder = stateBuilder)
-            val index = stack.indexOf(element = navigationState)
-            if (index != -1) stack.subList(index, stack.size).clear()
-            stack.add(element = navigationState)
-            _stateFlow.value = navigationState
-            Telemetry.info(tag = TAG, message = "Navigate to ${_stateFlow.value}")
-        }
-    }
-
-    private fun fallback() = navigate(screen = Screen.Splash)
 
     @Composable
     override fun Screen(navigationState: NavigationState) {
@@ -87,9 +55,5 @@ internal class Navigation(
                 Screen.Credit -> CreditScreen(store = storeFactory.createCreditStore())
             }
         }
-    }
-
-    companion object {
-        private const val TAG = "Navigation"
     }
 }
