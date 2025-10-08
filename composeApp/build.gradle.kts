@@ -81,6 +81,12 @@ kotlin {
         }
     }
 
+    val iosTargets = listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    )
+
     sourceSets {
         val commonMain by getting {
             kotlin.srcDir(generatePropertiesTask.map { it.outputs.files })
@@ -116,11 +122,7 @@ kotlin {
                 implementation(dependencyNotation = libs.bundles.ios)
             }
         }
-        listOf(
-            iosX64(),
-            iosArm64(),
-            iosSimulatorArm64()
-        ).forEach { iosTarget ->
+        iosTargets.forEach { iosTarget ->
             iosTarget.binaries.framework {
                 baseName = "TLV"
                 isStatic = true
