@@ -25,14 +25,23 @@ import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.container.Scaffold
 import com.hybris.tlv.ui.theme.component.image.AppLogo
 import com.hybris.tlv.ui.theme.component.image.Icon
+import kotlin.time.TimeMark
+import kotlin.time.TimeSource
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
+/**
+ * A scaffold-based screen that handles displaying a loading indicator or the primary content.
+ * This composable is designed to prevent UI flickers during data loading by employing a two-part strategy:
+ * - An initial grace period [loadingDelayMillis] to avoid showing the loader for very fast operations.
+ * - A minimum display time [loadingMinDisplayTimeMillis] to ensure that if the loader does appear, it remains on screen long enough to avoid the same problem.
+ */
 @Composable
 internal fun Screen(
     modifier: Modifier = Modifier,
     loading: Boolean = false,
     loadingDelayMillis: Long = 300L,
+    loadingMinDisplayTimeMillis: Long = 800L,
     loadingText: String = "",
     loadingProgress: Float? = null,
     onMusicClick: (() -> Unit)? = null,
@@ -84,23 +93,37 @@ internal fun Screen(
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            when (loading) {
-                true -> {
-                    val inspection = LocalInspectionMode.current
-                    var show by remember { mutableStateOf(value = inspection) }
-                    LaunchedEffect(key1 = Unit) {
+            val inspection = LocalInspectionMode.current
+            var show by remember { mutableStateOf(value = inspection) }
+            var loaderShownMark by remember { mutableStateOf<TimeMark?>(value = null) }
+            LaunchedEffect(key1 = loading) {
+                when {
+                    loading -> {
                         delay(timeMillis = loadingDelayMillis)
+                        loaderShownMark = TimeSource.Monotonic.markNow()
                         show = true
                     }
-                    if (show) AppLogo(
-                        showBackground = true,
-                        showProgress = true,
-                        progress = loadingProgress,
-                        text = loadingText
-                    )
-                }
 
-                false -> content()
+                    else -> when (val shownMark = loaderShownMark) {
+                        null -> show = false
+                        else -> {
+                            val remainingTime = loadingMinDisplayTimeMillis - shownMark.elapsedNow().inWholeMilliseconds
+                            if (remainingTime > 0) delay(timeMillis = remainingTime)
+                            show = false
+                            loaderShownMark = null
+                        }
+                    }
+                }
+            }
+            when {
+                show -> AppLogo(
+                    showBackground = true,
+                    showProgress = true,
+                    progress = loadingProgress,
+                    text = loadingText
+                )
+
+                else -> content()
             }
         }
     }
