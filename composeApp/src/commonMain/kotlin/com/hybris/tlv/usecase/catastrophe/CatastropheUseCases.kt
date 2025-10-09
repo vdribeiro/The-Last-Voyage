@@ -10,11 +10,6 @@ internal interface CatastropheUseCases {
     suspend fun syncCatastrophes()
 
     /**
-     * Prepopulate [Catastrophe]s.
-     */
-    suspend fun prepopulateCatastrophes()
-
-    /**
      * Get a random [Catastrophe].
      */
     suspend fun getRandomCatastrophe(): Catastrophe?

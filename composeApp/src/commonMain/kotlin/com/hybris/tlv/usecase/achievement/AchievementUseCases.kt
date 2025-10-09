@@ -10,11 +10,6 @@ internal interface AchievementUseCases {
     suspend fun syncAchievements()
 
     /**
-     * Prepopulate [Achievement]s.
-     */
-    suspend fun prepopulateAchievements()
-
-    /**
      * Get all [Achievement]s.
      */
     suspend fun getAchievements(): List<Achievement>

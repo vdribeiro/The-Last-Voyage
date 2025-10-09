@@ -10,11 +10,6 @@ internal interface LearningUseCases {
     suspend fun syncLearnings()
 
     /**
-     * Prepopulate [Learning]s.
-     */
-    suspend fun prepopulateLearnings()
-
-    /**
      * Get all [Learning]s.
      */
     suspend fun getLearnings(): List<Learning>

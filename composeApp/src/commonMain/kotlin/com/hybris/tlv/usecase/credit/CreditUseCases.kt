@@ -10,11 +10,6 @@ internal interface CreditUseCases {
     suspend fun syncCredits()
 
     /**
-     * Prepopulate [Credit]s.
-     */
-    suspend fun prepopulateCredits()
-
-    /**
      * Get all [Credit]s.
      */
     suspend fun getCredits(): List<Credit>

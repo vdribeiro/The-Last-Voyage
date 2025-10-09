@@ -36,13 +36,13 @@ internal class SpaceGateway(
         if (config.remoteConfigs.stellarHostsVersion > config.localConfigs.stellarHostsVersion) {
             when (val result = httpClient.getStream<StellarHost>(path = STELLAR_HOSTS_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get stellar hosts", throwable = result.error)
-                is Result.Success -> rewriteStellarHosts(stellarHosts = result.list)
+                is Result.Success -> {
+                    rewriteStellarHosts(stellarHosts = result.list)
+                    config.localConfigs = config.localConfigs.copy(stellarHostsVersion = config.remoteConfigs.stellarHostsVersion)
+                    return
+                }
             }
-            config.localConfigs = config.localConfigs.copy(stellarHostsVersion = config.remoteConfigs.stellarHostsVersion)
         }
-    }
-
-    override suspend fun prepopulateStellarHosts() {
         if (stellarHostDao.isStellarHostEmpty().executeAsList().isEmpty()) {
             val stellarHosts: List<StellarHost> = loadFromJsonResource(path = STELLAR_HOSTS_JSON)
             rewriteStellarHosts(stellarHosts = stellarHosts)
@@ -58,13 +58,13 @@ internal class SpaceGateway(
         if (config.remoteConfigs.planetsVersion > config.localConfigs.planetsVersion) {
             when (val result = httpClient.getStream<Planet>(path = PLANETS_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get planets", throwable = result.error)
-                is Result.Success -> rewritePlanets(planets = result.list)
+                is Result.Success -> {
+                    rewritePlanets(planets = result.list)
+                    config.localConfigs = config.localConfigs.copy(planetsVersion = config.remoteConfigs.planetsVersion)
+                    return
+                }
             }
-            config.localConfigs = config.localConfigs.copy(planetsVersion = config.remoteConfigs.planetsVersion)
         }
-    }
-
-    override suspend fun prepopulatePlanets() {
         if (planetDao.isPlanetEmpty().executeAsList().isEmpty()) {
             val planets: List<Planet> = loadFromJsonResource(path = PLANETS_JSON)
             rewritePlanets(planets = planets)

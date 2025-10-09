@@ -45,29 +45,32 @@ internal class SplashStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
+
         config.fetch()
-
-        val tasks = listOf(
-            suspend { translateUseCases.syncTranslations(); translateUseCases.prepopulateTranslations() },
-            suspend { learningUseCases.syncLearnings(); learningUseCases.prepopulateLearnings() },
-            suspend { catastropheUseCases.syncCatastrophes(); catastropheUseCases.prepopulateCatastrophes() },
-            suspend { shipUseCases.syncEngines(); shipUseCases.prepopulateEngines() },
-            suspend { spaceUseCases.syncStellarHosts(); spaceUseCases.prepopulateStellarHosts() },
-            suspend { spaceUseCases.syncPlanets(); spaceUseCases.prepopulatePlanets() },
-            suspend { eventUseCases.syncEvents(); eventUseCases.prepopulateEvents() },
-            suspend { achievementUseCases.syncAchievements(); achievementUseCases.prepopulateAchievements() },
-            suspend { creditUseCases.syncCredits(); creditUseCases.prepopulateCredits() }
-        )
-        val deferredJobs = supervisorScope {
-            tasks.map { task -> async { task() } }
+        supervisorScope {
+            val tasks = listOf(
+                suspend { translateUseCases.syncTranslations() },
+                suspend { learningUseCases.syncLearnings() },
+                suspend { catastropheUseCases.syncCatastrophes() },
+                suspend { shipUseCases.syncEngines() },
+                suspend { spaceUseCases.syncStellarHosts() },
+                suspend { spaceUseCases.syncPlanets() },
+                suspend { eventUseCases.syncEvents() },
+                suspend { achievementUseCases.syncAchievements() },
+                suspend { creditUseCases.syncCredits() }
+            )
+            val total = tasks.size.toFloat()
+            tasks.map { task -> async { task() } }.forEachIndexed { index, job ->
+                runCatching {
+                    job.await()
+                }.getOrElse {
+                    Telemetry.error(tag = TAG, message = "Sync task failed.", throwable = it)
+                }
+                updateState { it.copy(progress = (index + 1).toFloat() / total) }
+            }
         }
-        deferredJobs.forEachIndexed { index, job ->
-            job.await()
-            val progress = (index + 1).toFloat() / deferredJobs.size.toFloat()
-            updateState { it.copy(progress = progress) }
-        }
-
         config.flush()
+        translateUseCases.refreshCache()
         Telemetry.info(tag = TAG, message = "Setup complete")
 
         delay(timeMillis = 1000L)

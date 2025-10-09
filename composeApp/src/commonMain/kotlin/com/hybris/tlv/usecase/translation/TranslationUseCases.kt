@@ -10,7 +10,7 @@ internal interface TranslationUseCases {
     suspend fun syncTranslations()
 
     /**
-     * Prepopulate [Translation]s.
+     * Refresh translations cache.
      */
-    suspend fun prepopulateTranslations()
+    suspend fun refreshCache()
 }

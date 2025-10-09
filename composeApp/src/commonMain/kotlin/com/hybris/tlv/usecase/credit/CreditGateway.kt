@@ -24,13 +24,13 @@ internal class CreditGateway(
         if (config.remoteConfigs.creditsVersion > config.localConfigs.creditsVersion) {
             when (val result = httpClient.getStream<Credit>(path = CREDITS_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get credits", throwable = result.error)
-                is Result.Success -> rewriteCredits(credits = result.list)
+                is Result.Success -> {
+                    rewriteCredits(credits = result.list)
+                    config.localConfigs = config.localConfigs.copy(creditsVersion = config.remoteConfigs.creditsVersion)
+                    return
+                }
             }
-            config.localConfigs = config.localConfigs.copy(creditsVersion = config.remoteConfigs.creditsVersion)
         }
-    }
-
-    override suspend fun prepopulateCredits() {
         if (creditDao.isCreditEmpty().executeAsList().isEmpty()) {
             val credits: List<Credit> = loadFromJsonResource(path = CREDITS_JSON)
             rewriteCredits(credits = credits)

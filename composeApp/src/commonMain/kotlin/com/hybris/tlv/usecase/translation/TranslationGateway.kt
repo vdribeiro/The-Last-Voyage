@@ -27,20 +27,16 @@ internal class TranslationGateway(
         if (config.remoteConfigs.translationsVersion > config.localConfigs.translationsVersion) {
             when (val result = httpClient.getStream<Translation>(path = TRANSLATIONS_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
-                is Result.Success -> rewriteTranslations(translations = result.list)
+                is Result.Success -> {
+                    rewriteTranslations(translations = result.list)
+                    config.localConfigs = config.localConfigs.copy(translationsVersion = config.remoteConfigs.translationsVersion)
+                    return
+                }
             }
-            config.localConfigs = config.localConfigs.copy(translationsVersion = config.remoteConfigs.translationsVersion)
         }
-    }
-
-    override suspend fun prepopulateTranslations() {
         if (translationDao.isTranslationEmpty().executeAsList().isEmpty()) {
             val translations: List<Translation> = loadFromJsonResource(path = TRANSLATIONS_JSON)
             rewriteTranslations(translations = translations)
-            setCache(translations = translations)
-        } else {
-            val translations = translationDao.getTranslations().executeAsList().map { it.toTranslation() }
-            setCache(translations = translations)
         }
     }
 
@@ -49,12 +45,13 @@ internal class TranslationGateway(
         translations.forEach { translationDao.upsertTranslation(Translation = it.toTranslationSchema()) }
     }
 
-    private fun setCache(translations: List<Translation>) = dispatcher.main.launch {
-        TranslationCache.set(translations = translations)
+    override suspend fun refreshCache() {
+        val translations = translationDao.getTranslations().executeAsList().map { it.toTranslation() }
+        dispatcher.main.launch { TranslationCache.set(translations = translations) }
     }
 
     private fun Translation.toTranslationSchema(): TranslationSchema =
-        com.hybris.tlv.database.TranslationSchema(
+        TranslationSchema(
             languageIso = languageIso,
             key = key,
             value_ = value

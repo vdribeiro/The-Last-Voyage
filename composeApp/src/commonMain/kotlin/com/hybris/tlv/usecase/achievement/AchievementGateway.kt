@@ -27,13 +27,13 @@ internal class AchievementGateway(
         if (config.remoteConfigs.achievementsVersion > config.localConfigs.achievementsVersion) {
             when (val result = httpClient.getStream<Achievement>(path = ACHIEVEMENTS_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get achievements", throwable = result.error)
-                is Result.Success -> rewriteAchievements(achievements = result.list)
+                is Result.Success -> {
+                    rewriteAchievements(achievements = result.list)
+                    config.localConfigs = config.localConfigs.copy(achievementsVersion = config.remoteConfigs.achievementsVersion)
+                    return
+                }
             }
-            config.localConfigs = config.localConfigs.copy(achievementsVersion = config.remoteConfigs.achievementsVersion)
         }
-    }
-
-    override suspend fun prepopulateAchievements() {
         if (achievementDao.isAchievementEmpty().executeAsList().isEmpty()) {
             val achievements: List<Achievement> = loadFromJsonResource(path = ACHIEVEMENTS_JSON)
             rewriteAchievements(achievements = achievements)

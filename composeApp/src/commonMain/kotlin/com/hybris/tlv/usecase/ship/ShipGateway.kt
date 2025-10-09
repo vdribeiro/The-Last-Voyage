@@ -26,13 +26,13 @@ internal class ShipGateway(
         if (config.remoteConfigs.enginesVersion > config.localConfigs.enginesVersion) {
             when (val result = httpClient.getStream<Engine>(path = ENGINES_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get engines", throwable = result.error)
-                is Result.Success -> rewriteEngines(engines = result.list)
+                is Result.Success -> {
+                    rewriteEngines(engines = result.list)
+                    config.localConfigs = config.localConfigs.copy(enginesVersion = config.remoteConfigs.enginesVersion)
+                    return
+                }
             }
-            config.localConfigs = config.localConfigs.copy(enginesVersion = config.remoteConfigs.enginesVersion)
         }
-    }
-
-    override suspend fun prepopulateEngines() {
         if (engineDao.isEngineEmpty().executeAsList().isEmpty()) {
             val engines: List<Engine> = loadFromJsonResource(path = ENGINES_JSON)
             rewriteEngines(engines = engines)

@@ -24,13 +24,13 @@ internal class LearningGateway(
         if (config.remoteConfigs.learningsVersion > config.localConfigs.learningsVersion) {
             when (val result = httpClient.getStream<Learning>(path = LEARNINGS_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get learnings", throwable = result.error)
-                is Result.Success -> rewriteLearnings(learnings = result.list)
+                is Result.Success -> {
+                    rewriteLearnings(learnings = result.list)
+                    config.localConfigs = config.localConfigs.copy(learningsVersion = config.remoteConfigs.learningsVersion)
+                    return
+                }
             }
-            config.localConfigs = config.localConfigs.copy(learningsVersion = config.remoteConfigs.learningsVersion)
         }
-    }
-
-    override suspend fun prepopulateLearnings() {
         if (learningDao.isLearningEmpty().executeAsList().isEmpty()) {
             val learnings: List<Learning> = loadFromJsonResource(path = LEARNINGS_JSON)
             rewriteLearnings(learnings = learnings)

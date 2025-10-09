@@ -11,19 +11,9 @@ internal interface SpaceUseCases {
     suspend fun syncStellarHosts()
 
     /**
-     * Prepopulate [StellarHost]s.
-     */
-    suspend fun prepopulateStellarHosts()
-
-    /**
      * Sync [Planet]s.
      */
     suspend fun syncPlanets()
-
-    /**
-     * Prepopulate [Planet]s.
-     */
-    suspend fun prepopulatePlanets()
 
     /**
      * Get a stellar host by [id].

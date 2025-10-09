@@ -24,13 +24,13 @@ internal class CatastropheGateway(
         if (config.remoteConfigs.catastrophesVersion > config.localConfigs.catastrophesVersion) {
             when (val result = httpClient.getStream<Catastrophe>(path = CATASTROPHES_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get catastrophes", throwable = result.error)
-                is Result.Success -> rewriteCatastrophes(catastrophes = result.list)
+                is Result.Success -> {
+                    rewriteCatastrophes(catastrophes = result.list)
+                    config.localConfigs = config.localConfigs.copy(catastrophesVersion = config.remoteConfigs.catastrophesVersion)
+                    return
+                }
             }
-            config.localConfigs = config.localConfigs.copy(catastrophesVersion = config.remoteConfigs.catastrophesVersion)
         }
-    }
-
-    override suspend fun prepopulateCatastrophes() {
         if (catastropheDao.isCatastropheEmpty().executeAsList().isEmpty()) {
             val catastrophes: List<Catastrophe> = loadFromJsonResource(path = CATASTROPHES_JSON)
             rewriteCatastrophes(catastrophes = catastrophes)

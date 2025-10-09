@@ -27,13 +27,13 @@ internal class EventGateway(
         if (config.remoteConfigs.eventsVersion > config.localConfigs.eventsVersion) {
             when (val result = httpClient.getStream<Event>(path = EVENTS_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get events", throwable = result.error)
-                is Result.Success -> rewriteEvents(events = result.list)
+                is Result.Success -> {
+                    rewriteEvents(events = result.list)
+                    config.localConfigs = config.localConfigs.copy(eventsVersion = config.remoteConfigs.eventsVersion)
+                    return
+                }
             }
-            config.localConfigs = config.localConfigs.copy(eventsVersion = config.remoteConfigs.eventsVersion)
         }
-    }
-
-    override suspend fun prepopulateEvents() {
         if (eventDao.isEventEmpty().executeAsList().isEmpty()) {
             val events: List<Event> = loadFromJsonResource(path = EVENTS_JSON)
             rewriteEvents(events = events)

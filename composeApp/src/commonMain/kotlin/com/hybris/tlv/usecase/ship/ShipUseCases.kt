@@ -11,11 +11,6 @@ internal interface ShipUseCases {
     suspend fun syncEngines()
 
     /**
-     * Prepopulate [Engine]s.
-     */
-    suspend fun prepopulateEngines()
-
-    /**
      * Get all [Engine]s.
      */
     suspend fun getEngines(): List<Engine>
