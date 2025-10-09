@@ -14,6 +14,7 @@ internal suspend inline fun <reified T> HttpClient.getStream(
     queryMap: Map<String, String> = emptyMap(),
     crossinline block: HttpRequestBuilder.() -> Unit = {}
 ): Result<T> = runCatching {
+    if (!isInternetAvailable()) throw Throwable("No internet connection available.")
     prepareGet(urlString = path.encodeURLPath()) {
         queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
         block()

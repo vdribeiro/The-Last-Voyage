@@ -1,0 +1,20 @@
+package com.hybris.tlv.http
+
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import com.hybris.tlv.applicationContext
+import com.hybris.tlv.telemetry.Telemetry
+
+internal actual fun isInternetAvailable(): Boolean = runCatching {
+    val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+    capabilities != null &&
+            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+}.getOrElse {
+    Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it)
+    false
+}
+
+private const val TAG = "Network"
