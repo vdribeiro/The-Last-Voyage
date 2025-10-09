@@ -17,7 +17,7 @@ import platform.posix.AF_INET
 import platform.posix.sockaddr_in
 
 @OptIn(ExperimentalForeignApi::class)
-internal actual fun isInternetAvailable(): Boolean = runCatching {
+internal actual suspend fun isInternetAvailable(): Boolean = runCatching {
     memScoped {
         // Create a IPv4 zero address
         val zeroAddress = alloc<sockaddr_in>().apply {

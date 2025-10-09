@@ -1,3 +1,3 @@
 package com.hybris.tlv.http
 
-internal expect fun isInternetAvailable(): Boolean
+internal expect suspend fun isInternetAvailable(): Boolean

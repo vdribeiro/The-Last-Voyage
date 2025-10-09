@@ -6,7 +6,7 @@ import android.net.NetworkCapabilities
 import com.hybris.tlv.applicationContext
 import com.hybris.tlv.telemetry.Telemetry
 
-internal actual fun isInternetAvailable(): Boolean = runCatching {
+internal actual suspend fun isInternetAvailable(): Boolean = runCatching {
     val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
     capabilities != null &&
