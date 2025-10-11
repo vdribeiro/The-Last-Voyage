@@ -74,15 +74,30 @@ internal class SplashStore(
         }
         config.flush()
         translateUseCases.refreshCache()
+        val preferences = config.getPreferences()
         Telemetry.info(tag = TAG, message = "Configs\n${config.localConfigs}")
-        Telemetry.info(tag = TAG, message = "Preferences\n${config.getPreferences()}")
+        Telemetry.info(tag = TAG, message = "Preferences\n$preferences")
         Telemetry.info(tag = TAG, message = "Setup complete")
-
         delay(timeMillis = 1000L)
-        navigate(screen = Screen.MainMenu)
+
+        if (preferences.showIntro) {
+            config.setPreferences { it.copy(showIntro = false) }
+            updateState {
+                it.copy(
+                    loading = false,
+                    currentContent = Content.INTRO
+                )
+            }
+        } else navigate(screen = Screen.MainMenu)
     }
 
     override fun goBack(state: SplashState) {}
+
+    override fun reducer(state: SplashState, action: SplashAction) {
+        when (action) {
+            SplashAction.Next -> navigate(screen = Screen.MainMenu)
+        }
+    }
 
     companion object {
         private const val TAG = "SplashStore"

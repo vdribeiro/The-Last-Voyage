@@ -64,7 +64,7 @@ internal class GameOverStore(
 
     override fun reducer(state: GameOverState, action: GameOverAction) {
         when (action) {
-            GameOverAction.Continue -> when (state.currentContent) {
+            GameOverAction.Next -> when (state.currentContent) {
                 Content.MESSAGE -> updateState { it.copy(currentContent = Content.SCORE) }
                 Content.SCORE -> navigate(screen = Screen.MainMenu)
             }

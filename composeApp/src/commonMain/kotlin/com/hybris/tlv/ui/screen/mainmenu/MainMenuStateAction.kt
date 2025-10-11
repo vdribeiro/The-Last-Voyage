@@ -8,7 +8,7 @@ internal sealed interface MainMenuAction {
     data object YesNewGameDialog: MainMenuAction
     data object NoNewGameDialog: MainMenuAction
     data object HideNewGameDialog: MainMenuAction
-    data object Continue: MainMenuAction
+    data object Next: MainMenuAction
     data object Learn: MainMenuAction
     data object Scores: MainMenuAction
     data object Achievements: MainMenuAction

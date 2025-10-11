@@ -15,11 +15,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     val storeState by store.stateFlow.collectAsState()
+    storeState.currentContent
+
     val loadingTranslation = getTranslation(key = "splash_screen__loading")
 
     Screen(
         modifier = Modifier.testTag(tag = SPLASH_SCREEN),
-        loading = true,
+        loading = storeState.loading,
         loadingDelayMillis = 0L,
         loadingProgress = storeState.progress,
         loadingText = loadingTranslation

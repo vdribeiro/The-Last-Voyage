@@ -75,7 +75,7 @@ internal class MainMenuStoreTest {
         assertEquals(expected = Screen.NewGame, actual = testDependency.navigation.stateFlow.value.screen)
         testDependency.navigation.back()
 
-        mainMenuStore.send(action = MainMenuAction.Continue)
+        mainMenuStore.send(action = MainMenuAction.Next)
         assertEquals(expected = Screen.Game, actual = testDependency.navigation.stateFlow.value.screen)
         testDependency.navigation.back()
 

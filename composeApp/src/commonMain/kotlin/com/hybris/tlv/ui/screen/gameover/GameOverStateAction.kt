@@ -4,7 +4,7 @@ import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 
 internal sealed interface GameOverAction {
-    data object Continue: GameOverAction
+    data object Next: GameOverAction
 }
 
 internal sealed interface GameOverStateBuilder {

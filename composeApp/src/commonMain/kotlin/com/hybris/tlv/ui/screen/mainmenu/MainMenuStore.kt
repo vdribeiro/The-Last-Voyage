@@ -95,7 +95,7 @@ internal class MainMenuStore(
             MainMenuAction.HideNewGameDialog -> updateState { it.copy(newGameDialog = false) }
             MainMenuAction.NoNewGameDialog -> newGameWithoutTutorial()
             MainMenuAction.YesNewGameDialog -> newGameWithTutorial()
-            MainMenuAction.Continue -> navigate(screen = Screen.Game)
+            MainMenuAction.Next -> navigate(screen = Screen.Game)
             MainMenuAction.Learn -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
             MainMenuAction.Scores -> navigate(screen = Screen.Score)
             MainMenuAction.Achievements -> navigate(screen = Screen.Achievement)

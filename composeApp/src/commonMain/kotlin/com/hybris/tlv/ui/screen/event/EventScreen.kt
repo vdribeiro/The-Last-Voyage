@@ -9,7 +9,9 @@ import androidx.compose.ui.platform.testTag
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.screen.TypewriterScreen
+import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
+import com.hybris.tlv.ui.theme.component.container.TypewriterContent
+import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.ship.model.Engine
@@ -26,7 +28,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
     val ship = storeState.ship
     val event = storeState.parentEvent
 
-    TypewriterScreen(
+    Screen(
         modifier = Modifier.testTag(tag = EVENT_SCREEN),
         loading = storeState.loading,
         onMusicClick = { store.toggleAudio() },
@@ -42,10 +44,19 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
                 cryopods = ship?.cryopods?.toString()
             )
         },
-        title = event?.let { getTranslation(key = it.id) },
-        text = event?.let { getTranslation(key = it.description) + getOutcomeTranslation(outcome = it.outcome) },
-        buttons = storeState.childrenEvents.map { getTranslation(key = it.id) to { store.send(action = EventAction.Select(event = it)) } }
-    )
+        bottomBar = {
+            ButtonsBar(
+                buttons = storeState.childrenEvents.map {
+                    getTranslation(key = it.id) to { store.send(action = EventAction.Select(event = it)) }
+                }
+            )
+        },
+    ) {
+        TypewriterContent(
+            title = event?.let { getTranslation(key = it.id) },
+            text = event?.let { getTranslation(key = it.description) + getOutcomeTranslation(outcome = it.outcome) },
+        )
+    }
 }
 
 private fun getOutcomeTranslation(outcome: TravelOutcome?): String {

@@ -54,16 +54,16 @@ internal class GameOverStoreTest {
         testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameOverStore = store
         assertEquals(expected = Content.MESSAGE, actual = gameOverStore.stateFlow.value.currentContent)
-        gameOverStore.send(action = GameOverAction.Continue)
+        gameOverStore.send(action = GameOverAction.Next)
         assertEquals(expected = Content.SCORE, actual = gameOverStore.stateFlow.value.currentContent)
-        gameOverStore.send(action = GameOverAction.Continue)
+        gameOverStore.send(action = GameOverAction.Next)
         assertEquals(expected = Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
     }
 
     @Test
     fun `send action continue without game session`() = runBlocking {
         val gameOverStore = store
-        gameOverStore.send(action = GameOverAction.Continue)
+        gameOverStore.send(action = GameOverAction.Next)
         assertEquals(expected = Screen.Feedback, actual = testDependency.navigation.stateFlow.value.screen)
     }
 }

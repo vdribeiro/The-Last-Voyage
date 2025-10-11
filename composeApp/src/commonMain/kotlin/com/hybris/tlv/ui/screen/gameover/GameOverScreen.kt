@@ -10,8 +10,10 @@ import com.hybris.tlv.locale.now
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.card.Score
-import com.hybris.tlv.ui.theme.component.screen.TypewriterScreen
+import com.hybris.tlv.ui.theme.component.container.TypewriterContent
+import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.model.Engine
@@ -32,20 +34,30 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
     val messageTranslation = remember { getTranslation(key = "game_over_screen__score") }
     val scoreTranslation = remember { getTranslation(key = "game_over_screen__end") }
 
-    TypewriterScreen(
+    Screen(
         modifier = Modifier.testTag(tag = GAME_OVER_SCREEN),
         loading = storeState.loading,
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
-        title = gameOverTranslation,
-        text = when (storeState.currentContent) {
-            Content.MESSAGE -> storeState.gameOver?.displayName?.let { getTranslation(key = it) }
-            Content.SCORE -> null
-        },
-        content = {
-            when (storeState.currentContent) {
-                Content.MESSAGE -> null
-                Content.SCORE -> if (gameSession != null && ship != null) Score(
+        bottomBar = {
+            ButtonsBar(
+                buttons = listOf(
+                    when (storeState.currentContent) {
+                        Content.MESSAGE -> messageTranslation
+                        Content.SCORE -> scoreTranslation
+                    } to { store.send(action = GameOverAction.Next) }
+                )
+            )
+        }
+    ) {
+        when (storeState.currentContent) {
+            Content.MESSAGE -> TypewriterContent(
+                title = gameOverTranslation,
+                text = storeState.gameOver?.displayName?.let { getTranslation(key = it) },
+            )
+
+            Content.SCORE -> TypewriterContent(title = gameOverTranslation) {
+                if (gameSession != null && ship != null) Score(
                     modifier = Modifier.testTag(tag = GAME_OVER_SCREEN_SCORE),
                     isExpanded = null,
                     score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
@@ -58,14 +70,8 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
                     cryopods = ship.cryopods.toString()
                 )
             }
-        },
-        buttons = listOf(
-            when (storeState.currentContent) {
-                Content.MESSAGE -> messageTranslation
-                Content.SCORE -> scoreTranslation
-            } to { store.send(action = GameOverAction.Continue) }
-        )
-    )
+        }
+    }
 }
 
 @Preview

@@ -25,8 +25,10 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.AttributePoint
 import com.hybris.tlv.ui.theme.component.AttributeRow
+import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.card.SelectableAttribute
-import com.hybris.tlv.ui.theme.component.screen.TypewriterScreen
+import com.hybris.tlv.ui.theme.component.container.TypewriterContent
+import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.Engine
@@ -40,50 +42,48 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val continueTranslation = remember { getTranslation(key = "new_game_screen__continue") }
     val startTranslation = remember { getTranslation(key = "new_game_screen__start") }
 
-    TypewriterScreen(
+    Screen(
         modifier = Modifier.testTag(tag = NEW_GAME_SCREEN),
         loading = storeState.loading,
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
-        title = when (storeState.currentContent) {
-            Content.SHIP -> null
-            Content.START -> storeState.selectedCatastrophe?.let { getTranslation(key = it.id) }
-        },
-        text = when (storeState.currentContent) {
-            Content.SHIP -> null
-            Content.START -> storeState.selectedCatastrophe?.let { getTranslation(key = it.description) }
-        },
-        content = {
-            when (storeState.currentContent) {
-                Content.SHIP -> Ship(store = store)
-                Content.START -> null
-            }
-        },
-        buttons = when (storeState.currentContent) {
-            Content.SHIP -> buildList {
-                val shipState = storeState.shipState
-                val onClick = when {
-                    shipState?.remainingPoints != null && shipState.remainingPoints >= 0 -> {
-                        {
-                            val shipPrototype = ShipPrototype(
-                                assignedPoints = shipState.assignedPoints,
-                                sensorRange = shipState.sensorRange.value,
-                                fuel = shipState.fuel.value,
-                                materials = shipState.materials.value,
-                                cryopods = shipState.cryopods.value,
-                            )
-                            store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
+        bottomBar = {
+            ButtonsBar(
+                buttons = when (storeState.currentContent) {
+                    Content.SHIP -> buildList {
+                        val shipState = storeState.shipState
+                        val onClick = when {
+                            shipState?.remainingPoints != null && shipState.remainingPoints >= 0 -> {
+                                {
+                                    val shipPrototype = ShipPrototype(
+                                        assignedPoints = shipState.assignedPoints,
+                                        sensorRange = shipState.sensorRange.value,
+                                        fuel = shipState.fuel.value,
+                                        materials = shipState.materials.value,
+                                        cryopods = shipState.cryopods.value,
+                                    )
+                                    store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
+                                }
+                            }
+
+                            else -> null
                         }
+                        add(element = continueTranslation to onClick)
                     }
 
-                    else -> null
+                    Content.START -> listOf(startTranslation to { store.send(action = NewGameAction.Next) })
                 }
-                add(element = continueTranslation to onClick)
-            }
-
-            Content.START -> listOf(startTranslation to { store.send(action = NewGameAction.Next) })
+            )
         },
-    )
+    ) {
+        when (storeState.currentContent) {
+            Content.SHIP -> Ship(store = store)
+            Content.START -> TypewriterContent(
+                title = storeState.selectedCatastrophe?.let { getTranslation(key = it.id) },
+                text = storeState.selectedCatastrophe?.let { getTranslation(key = it.description) }
+            )
+        }
+    }
 }
 
 @Composable

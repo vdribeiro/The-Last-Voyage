@@ -128,7 +128,7 @@ private fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
                     Text(
                         modifier = Modifier
                             .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONTINUE)
-                            .clickable { store.send(action = MainMenuAction.Continue) },
+                            .clickable { store.send(action = MainMenuAction.Next) },
                         text = continueTranslation,
                         style = typography.headlineMedium,
                     )
