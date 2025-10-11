@@ -21,6 +21,11 @@
   },
   {
     "languageIso": "en",
+    "key": "splash_screen__intro",
+    "value": "Welcome to The Last Voyage.\nA narrative-driven adventure that unfolds across the vast emptiness of space.\nThis is a product of love born out of an astronomy tool and crafted by a single creator.\nI hope you enjoy the journey."
+  },
+  {
+    "languageIso": "en",
     "key": "website",
     "value": "Developer's Corner"
   },

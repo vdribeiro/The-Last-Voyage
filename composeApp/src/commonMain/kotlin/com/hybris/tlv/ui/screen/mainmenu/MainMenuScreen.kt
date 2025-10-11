@@ -19,7 +19,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.platform.Property
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
@@ -574,7 +573,7 @@ private fun MainMenuAllPreview() = AppTheme {
         translations = listOf(
             Translation(
                 key = "app_name",
-                value = Property.APP_NAME
+                value = "The Last Voyage"
             ),
             Translation(
                 key = "main_menu_screen__new_game",
@@ -623,7 +622,7 @@ private fun MainMenuContinuePreview() = AppTheme {
         translations = listOf(
             Translation(
                 key = "app_name",
-                value = Property.APP_NAME
+                value = "The Last Voyage"
             ),
             Translation(
                 key = "main_menu_screen__new_game",
@@ -676,7 +675,7 @@ private fun MainMenuNoFeaturesPreview() = AppTheme {
         translations = listOf(
             Translation(
                 key = "app_name",
-                value = Property.APP_NAME
+                value = "The Last Voyage"
             ),
             Translation(
                 key = "main_menu_screen__credits",
@@ -713,7 +712,7 @@ private fun MainMenuLearnPreview() = AppTheme {
         translations = listOf(
             Translation(
                 key = "app_name",
-                value = Property.APP_NAME
+                value = "The Last Voyage"
             ),
             Translation(
                 key = "main_menu_screen__stellar_explorer",

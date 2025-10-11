@@ -21,7 +21,11 @@ internal object SentryLogger {
         if (!available) return
         Sentry.init { options ->
             options.dsn = Property.SENTRY_DSN
-            options.release = "${Property.APP_NAME.lowercase().replace(regex = "\\s+".toRegex(), replacement = "")}@${Property.APP_VERSION}"
+            options.release = "${
+                Property.APP_NAME
+                    .lowercase()
+                    .replace(regex = "\\s+".toRegex(), replacement = "")
+            }@${Property.APP_VERSION}"
 
             options.debug = isDebug
             options.attachViewHierarchy = isDebug

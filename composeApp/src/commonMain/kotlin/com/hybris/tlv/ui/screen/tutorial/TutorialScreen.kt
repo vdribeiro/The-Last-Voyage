@@ -85,7 +85,10 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
         Box(
             modifier = Modifier
                 .testTag(tag = TUTORIAL_SCREEN_CONTENT)
-                .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { store.send(action = TutorialAction.Next) }
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { store.send(action = TutorialAction.Next) }
                 .semantics(mergeDescendants = false) {}
         ) {
             val title: String
