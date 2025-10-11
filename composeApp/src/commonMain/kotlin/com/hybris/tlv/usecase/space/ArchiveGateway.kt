@@ -69,6 +69,7 @@ internal class ArchiveGateway(
     private data class Exoplanets(val stellarHosts: List<StellarHost>, val planets: List<Planet>)
 
     override suspend fun getArchive() = runCatching {
+        if (!ADMIN) return@runCatching
         coroutineScope {
             // Get archive
             val stellarHostsJob = async { getArchive { offset, limit -> getStellarHostsArchive(offset, limit) } }
@@ -512,5 +513,9 @@ internal class ArchiveGateway(
 
     companion object {
         private const val TAG = "Archive"
+        /**
+         * Admin flag to get NASA archive.
+         */
+        private const val ADMIN = false
     }
 }

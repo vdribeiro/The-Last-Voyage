@@ -13,6 +13,7 @@ import com.hybris.tlv.usecase.credit.CreditUseCases
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.learning.LearningUseCases
 import com.hybris.tlv.usecase.ship.ShipUseCases
+import com.hybris.tlv.usecase.space.ArchiveUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 import kotlinx.coroutines.Job
@@ -25,6 +26,7 @@ internal class SplashStore(
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     private val config: ConfigManager,
+    private val archiveUseCases: ArchiveUseCases,
     private val translateUseCases: TranslationUseCases,
     private val learningUseCases: LearningUseCases,
     private val catastropheUseCases: CatastropheUseCases,
@@ -49,6 +51,7 @@ internal class SplashStore(
         config.fetch()
         supervisorScope {
             val tasks = listOf(
+                suspend { archiveUseCases.getArchive() },
                 suspend { translateUseCases.syncTranslations() },
                 suspend { learningUseCases.syncLearnings() },
                 suspend { catastropheUseCases.syncCatastrophes() },
@@ -71,6 +74,8 @@ internal class SplashStore(
         }
         config.flush()
         translateUseCases.refreshCache()
+        Telemetry.info(tag = TAG, message = "Configs\n${config.localConfigs}")
+        Telemetry.info(tag = TAG, message = "Preferences\n${config.getPreferences()}")
         Telemetry.info(tag = TAG, message = "Setup complete")
 
         delay(timeMillis = 1000L)
