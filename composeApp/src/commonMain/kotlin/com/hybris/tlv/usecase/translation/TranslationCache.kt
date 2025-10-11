@@ -37,13 +37,10 @@ internal object TranslationCache {
             translationsCache["${DEFAULT_LANGUAGE}__${key}"] ?: key
         } else key
 
-    fun get(key: String, vararg args: String): String {
-        var translation = translationsCache["${languageIso}__$key"] ?: if (languageIso != DEFAULT_LANGUAGE) {
-            translationsCache["${DEFAULT_LANGUAGE}__$key"] ?: return key
-        } else return key
-        args.forEachIndexed { index, arg -> translation = translation.replace(oldValue = "%${index + 1}\$s", newValue = arg) }
-        return translation
-    }
+    fun get(key: String, vararg args: String): String =
+        args.foldIndexed(initial = get(key = key)) { index, translation, arg ->
+            translation.replace(oldValue = "%${index + 1}\$s", newValue = arg)
+        }
 
     private fun List<Translation>.toTranslationCacheMap(): Map<String, String> =
         associate { "${it.languageIso}__${it.key}" to it.value }
