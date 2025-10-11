@@ -21,17 +21,22 @@ internal class CatastropheGateway(
     private val catastropheDao = database.catastropheQueries
 
     override suspend fun syncCatastrophes() {
-        if (config.remoteConfigs.catastrophesVersion > config.localConfigs.catastrophesVersion) {
+        val remoteVersion = config.remoteConfigs.catastrophesVersion
+        val localVersion = config.localConfigs.catastrophesVersion
+        Telemetry.info(tag = TAG, message = "Syncing catastrophes: remote version: $remoteVersion, local version: $localVersion")
+        if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Catastrophe>(path = CATASTROPHES_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get catastrophes", throwable = result.error)
                 is Result.Success -> {
                     rewriteCatastrophes(catastrophes = result.list)
-                    config.localConfigs = config.localConfigs.copy(catastrophesVersion = config.remoteConfigs.catastrophesVersion)
+                    config.localConfigs = config.localConfigs.copy(catastrophesVersion = remoteVersion)
+                    Telemetry.info(tag = TAG, message = "Successful catastrophes sync")
                     return
                 }
             }
         }
         if (catastropheDao.isCatastropheEmpty().executeAsList().isEmpty()) {
+            Telemetry.info(tag = TAG, message = "Prepopulating catastrophes")
             val catastrophes: List<Catastrophe> = loadFromJsonResource(path = CATASTROPHES_JSON)
             rewriteCatastrophes(catastrophes = catastrophes)
         }

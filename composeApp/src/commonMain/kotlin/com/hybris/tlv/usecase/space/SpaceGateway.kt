@@ -33,17 +33,22 @@ internal class SpaceGateway(
     private val planetDao = database.planetQueries
 
     override suspend fun syncStellarHosts() {
-        if (config.remoteConfigs.stellarHostsVersion > config.localConfigs.stellarHostsVersion) {
+        val remoteVersion = config.remoteConfigs.stellarHostsVersion
+        val localVersion = config.localConfigs.stellarHostsVersion
+        Telemetry.info(tag = TAG, message = "Syncing stellar hosts: remote version: $remoteVersion, local version: $localVersion")
+        if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<StellarHost>(path = STELLAR_HOSTS_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get stellar hosts", throwable = result.error)
                 is Result.Success -> {
                     rewriteStellarHosts(stellarHosts = result.list)
-                    config.localConfigs = config.localConfigs.copy(stellarHostsVersion = config.remoteConfigs.stellarHostsVersion)
+                    config.localConfigs = config.localConfigs.copy(stellarHostsVersion = remoteVersion)
+                    Telemetry.info(tag = TAG, message = "Successful stellar hosts sync")
                     return
                 }
             }
         }
         if (stellarHostDao.isStellarHostEmpty().executeAsList().isEmpty()) {
+            Telemetry.info(tag = TAG, message = "Prepopulating stellar hosts")
             val stellarHosts: List<StellarHost> = loadFromJsonResource(path = STELLAR_HOSTS_JSON)
             rewriteStellarHosts(stellarHosts = stellarHosts)
         }
@@ -55,17 +60,22 @@ internal class SpaceGateway(
     }
 
     override suspend fun syncPlanets() {
-        if (config.remoteConfigs.planetsVersion > config.localConfigs.planetsVersion) {
+        val remoteVersion = config.remoteConfigs.planetsVersion
+        val localVersion = config.localConfigs.planetsVersion
+        Telemetry.info(tag = TAG, message = "Syncing planets: remote version: $remoteVersion, local version: $localVersion")
+        if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Planet>(path = PLANETS_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get planets", throwable = result.error)
                 is Result.Success -> {
                     rewritePlanets(planets = result.list)
-                    config.localConfigs = config.localConfigs.copy(planetsVersion = config.remoteConfigs.planetsVersion)
+                    config.localConfigs = config.localConfigs.copy(planetsVersion = remoteVersion)
+                    Telemetry.info(tag = TAG, message = "Successful planets sync")
                     return
                 }
             }
         }
         if (planetDao.isPlanetEmpty().executeAsList().isEmpty()) {
+            Telemetry.info(tag = TAG, message = "Prepopulating planets")
             val planets: List<Planet> = loadFromJsonResource(path = PLANETS_JSON)
             rewritePlanets(planets = planets)
         }

@@ -23,17 +23,22 @@ internal class ShipGateway(
     private val engineDao = database.engineQueries
 
     override suspend fun syncEngines() {
-        if (config.remoteConfigs.enginesVersion > config.localConfigs.enginesVersion) {
+        val remoteVersion = config.remoteConfigs.enginesVersion
+        val localVersion = config.localConfigs.enginesVersion
+        Telemetry.info(tag = TAG, message = "Syncing engines: remote version: $remoteVersion, local version: $localVersion")
+        if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Engine>(path = ENGINES_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get engines", throwable = result.error)
                 is Result.Success -> {
                     rewriteEngines(engines = result.list)
-                    config.localConfigs = config.localConfigs.copy(enginesVersion = config.remoteConfigs.enginesVersion)
+                    config.localConfigs = config.localConfigs.copy(enginesVersion = remoteVersion)
+                    Telemetry.info(tag = TAG, message = "Successful engines sync")
                     return
                 }
             }
         }
         if (engineDao.isEngineEmpty().executeAsList().isEmpty()) {
+            Telemetry.info(tag = TAG, message = "Prepopulating engines")
             val engines: List<Engine> = loadFromJsonResource(path = ENGINES_JSON)
             rewriteEngines(engines = engines)
         }

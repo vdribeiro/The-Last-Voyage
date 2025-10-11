@@ -16,8 +16,8 @@ import kotlin.time.Duration.Companion.hours
 internal class Config(private val httpClient: HttpClient): ConfigManager {
 
     override var localConfigs: Configs = Configs()
-    private var remoteCache: Configs = Configs()
-    override val remoteConfigs: Configs get() = remoteCache
+    private var remoteConfigsCache: Configs = Configs()
+    override val remoteConfigs: Configs get() = remoteConfigsCache
 
     override suspend fun fetch() {
         fetchLocal()
@@ -32,7 +32,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     private suspend fun fetchRemote() {
         // To prevet unnecessary fetches, wait 1 hour in between
         if (!hasTimePassed(dateTime = getPreferences().syncTime, duration = 1.hours)) {
-            remoteCache = localConfigs
+            remoteConfigsCache = localConfigs
             Telemetry.info(tag = TAG, message = "Fetched remote configs from local cache")
             return
         }
@@ -42,7 +42,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
             is Result.Error -> null.also { Telemetry.error(tag = TAG, message = "Unable to get configs", throwable = result.error) }
             is Result.Success -> result.list.firstOrNull()
         } ?: Configs()
-        remoteCache = remoteConfigs
+        remoteConfigsCache = remoteConfigs
         Telemetry.info(tag = TAG, message = "Fetched remote configs")
     }
 

@@ -14,12 +14,12 @@ internal suspend inline fun <reified T> HttpClient.getStream(
     queryMap: Map<String, String> = emptyMap(),
     crossinline block: HttpRequestBuilder.() -> Unit = {}
 ): Result<T> = runCatching {
-    if (!isInternetAvailable()) throw Throwable("No internet connection available.")
+    if (!isInternetAvailable()) throw Throwable(message = "No internet connection available.")
     prepareGet(urlString = path.encodeURLPath()) {
         queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
         block()
     }.execute { httpResponse ->
-        if (!httpResponse.status.isSuccess()) throw Throwable("Unsuccessful response: ${httpResponse.status}")
+        if (!httpResponse.status.isSuccess()) throw Throwable(message = "Unsuccessful response: ${httpResponse.status}")
         val channel = httpResponse.bodyAsChannel()
         val bytes = channel.toByteArray()
         val list = decode<List<T>>(value = bytes.decodeToString())!!

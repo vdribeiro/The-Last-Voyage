@@ -24,17 +24,22 @@ internal class AchievementGateway(
     private val achievementDao = database.achievementQueries
 
     override suspend fun syncAchievements() {
-        if (config.remoteConfigs.achievementsVersion > config.localConfigs.achievementsVersion) {
+        val remoteVersion = config.remoteConfigs.achievementsVersion
+        val localVersion = config.localConfigs.achievementsVersion
+        Telemetry.info(tag = TAG, message = "Syncing achievements: remote version: $remoteVersion, local version: $localVersion")
+        if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Achievement>(path = ACHIEVEMENTS_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get achievements", throwable = result.error)
                 is Result.Success -> {
                     rewriteAchievements(achievements = result.list)
-                    config.localConfigs = config.localConfigs.copy(achievementsVersion = config.remoteConfigs.achievementsVersion)
+                    config.localConfigs = config.localConfigs.copy(achievementsVersion = remoteVersion)
+                    Telemetry.info(tag = TAG, message = "Successful achievements sync")
                     return
                 }
             }
         }
         if (achievementDao.isAchievementEmpty().executeAsList().isEmpty()) {
+            Telemetry.info(tag = TAG, message = "Prepopulating achievements")
             val achievements: List<Achievement> = loadFromJsonResource(path = ACHIEVEMENTS_JSON)
             rewriteAchievements(achievements = achievements)
         }

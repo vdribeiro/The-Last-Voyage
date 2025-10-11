@@ -154,7 +154,7 @@ internal class ArchiveGateway(
             path = EXOPLANET_ARCHIVE_URL,
             queryMap = queryMap
         ) { timeout { requestTimeoutMillis = timeout } }) {
-            is Result.Error<StellarHostJson> -> throw Throwable("Unable to get stellar hosts archive", response.error)
+            is Result.Error<StellarHostJson> -> throw Throwable(message = "Unable to get stellar hosts archive", cause = response.error)
             is Result.Success<StellarHostJson> -> Exoplanets(
                 stellarHosts = response.list.map { it.toStellarHost() },
                 planets = emptyList()
@@ -206,7 +206,7 @@ internal class ArchiveGateway(
             path = EXOPLANET_ARCHIVE_URL,
             queryMap = queryMap
         ) { timeout { requestTimeoutMillis = timeout } }) {
-            is Result.Error<ExoplanetJson> -> throw Throwable("Unable to get planetary systems composite archive", response.error)
+            is Result.Error<ExoplanetJson> -> throw Throwable(message = "Unable to get planetary systems composite archive", cause = response.error)
             is Result.Success<ExoplanetJson> -> Exoplanets(
                 stellarHosts = response.list.map { it.toStellarHost() },
                 planets = response.list.map { it.toPlanet() }
@@ -259,7 +259,7 @@ internal class ArchiveGateway(
             path = EXOPLANET_ARCHIVE_URL,
             queryMap = queryMap
         ) { timeout { requestTimeoutMillis = timeout } }) {
-            is Result.Error<ExoplanetJson> -> throw Throwable("Unable to get K2 Planets archive", response.error)
+            is Result.Error<ExoplanetJson> -> throw Throwable(message = "Unable to get K2 Planets archive", cause = response.error)
             is Result.Success<ExoplanetJson> -> Exoplanets(
                 stellarHosts = response.list.map { it.toStellarHost() },
                 planets = response.list.map { it.toPlanet() }

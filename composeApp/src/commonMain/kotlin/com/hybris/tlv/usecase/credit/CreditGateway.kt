@@ -21,17 +21,22 @@ internal class CreditGateway(
     private val creditDao = database.creditQueries
 
     override suspend fun syncCredits() {
-        if (config.remoteConfigs.creditsVersion > config.localConfigs.creditsVersion) {
+        val remoteVersion = config.remoteConfigs.creditsVersion
+        val localVersion = config.localConfigs.creditsVersion
+        Telemetry.info(tag = TAG, message = "Syncing credits: remote version: $remoteVersion, local version: $localVersion")
+        if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Credit>(path = CREDITS_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get credits", throwable = result.error)
                 is Result.Success -> {
                     rewriteCredits(credits = result.list)
-                    config.localConfigs = config.localConfigs.copy(creditsVersion = config.remoteConfigs.creditsVersion)
+                    config.localConfigs = config.localConfigs.copy(creditsVersion = remoteVersion)
+                    Telemetry.info(tag = TAG, message = "Successful credits sync")
                     return
                 }
             }
         }
         if (creditDao.isCreditEmpty().executeAsList().isEmpty()) {
+            Telemetry.info(tag = TAG, message = "Prepopulating credits")
             val credits: List<Credit> = loadFromJsonResource(path = CREDITS_JSON)
             rewriteCredits(credits = credits)
         }

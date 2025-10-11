@@ -24,17 +24,22 @@ internal class EventGateway(
     private val eventDao = database.eventQueries
 
     override suspend fun syncEvents() {
-        if (config.remoteConfigs.eventsVersion > config.localConfigs.eventsVersion) {
+        val remoteVersion = config.remoteConfigs.eventsVersion
+        val localVersion = config.localConfigs.eventsVersion
+        Telemetry.info(tag = TAG, message = "Syncing events: remote version: $remoteVersion, local version: $localVersion")
+        if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Event>(path = EVENTS_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get events", throwable = result.error)
                 is Result.Success -> {
                     rewriteEvents(events = result.list)
-                    config.localConfigs = config.localConfigs.copy(eventsVersion = config.remoteConfigs.eventsVersion)
+                    config.localConfigs = config.localConfigs.copy(eventsVersion = remoteVersion)
+                    Telemetry.info(tag = TAG, message = "Successful events sync")
                     return
                 }
             }
         }
         if (eventDao.isEventEmpty().executeAsList().isEmpty()) {
+            Telemetry.info(tag = TAG, message = "Prepopulating events")
             val events: List<Event> = loadFromJsonResource(path = EVENTS_JSON)
             rewriteEvents(events = events)
         }
