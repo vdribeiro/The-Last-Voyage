@@ -54,7 +54,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
                 LaunchedEffect(key1 = Unit) { isVisible = true }
                 AnimatedVisibility(
                     visible = isVisible,
-                    enter = fadeIn(animationSpec = tween(durationMillis = 2000))
+                    enter = fadeIn(animationSpec = tween(durationMillis = 2500))
                 ) {
                     Text(
                         text = getTranslation(key = "splash_screen__intro"),
