@@ -1,9 +1,100 @@
 [
   {
-    "id": "engsoneca",
-    "name": "Earth",
-    "description": "Settle on Earth",
-    "preconditions": {},
-    "status": false
+    "id": "achievement_settle_on_mercury",
+    "description": "achievement_settle_on_mercury_description",
+    "preconditions": {
+      "settledPlanetId" : "1mercury"
+    }
+  },
+  {
+    "id": "achievement_settle_on_venus",
+    "description": "achievement_settle_on_venus_description",
+    "preconditions": {
+      "settledPlanetId" : "2venus"
+    }
+  },
+  {
+    "id": "achievement_settle_on_earth",
+    "description": "achievement_settle_on_earth_description",
+    "preconditions": {
+      "settledPlanetId" : "3earth"
+    }
+  },
+  {
+    "id": "achievement_settle_on_mars",
+    "description": "achievement_settle_on_mars_description",
+    "preconditions": {
+      "settledPlanetId" : "4mars"
+    }
+  },
+  {
+    "id": "achievement_settle_on_jupiter",
+    "description": "achievement_settle_on_jupiter_description",
+    "preconditions": {
+      "settledPlanetId" : "5jupiter"
+    }
+  },
+  {
+    "id": "achievement_settle_on_saturn",
+    "description": "achievement_settle_on_saturn_description",
+    "preconditions": {
+      "settledPlanetId" : "6saturn"
+    }
+  },
+  {
+    "id": "achievement_settle_on_uranus",
+    "description": "achievement_settle_on_uranus_description",
+    "preconditions": {
+      "settledPlanetId" : "7uranus"
+    }
+  },
+  {
+    "id": "achievement_settle_on_neptune",
+    "description": "achievement_settle_on_neptune_description",
+    "preconditions": {
+      "settledPlanetId" : "8neptune"
+    }
+  },
+  {
+    "id": "achievement_settle_on_proxima_centauri_b",
+    "description": "achievement_settle_on_proxima_centauri_b_description",
+    "preconditions": {
+      "settledPlanetId" : "proxima_cen_b"
+    }
+  },
+  {
+    "id": "achievement_settle_on_kepler_186_f",
+    "description": "achievement_settle_on_kepler_186_f_description",
+    "preconditions": {
+      "settledPlanetId" : "kepler_186_f"
+    }
+  },
+  {
+    "id": "achievement_settle_on_any_trappist",
+    "description": "achievement_settle_on_any_trappist_description",
+    "preconditions": {
+      "settledHostId" : "trappist_1"
+    }
+  },
+  {
+    "id": "achievement_settle_on_k2_18_b",
+    "description": "achievement_settle_on_k2_18_b_description",
+    "preconditions": {
+      "settledPlanetId" : "k2_18_b"
+    }
+  },
+  {
+    "id": "achievement_settle_on_gj_504_b",
+    "description": "achievement_settle_on_gj_504_b_description",
+    "preconditions": {
+      "settledPlanetId" : "gj_504_b"
+    }
+  },
+  {
+    "id": "achievement_settle_on_kepler_452_b",
+    "description": "achievement_settle_on_kepler_452_b_description",
+    "preconditions": {
+      "settledPlanetId" : "kepler_452_b"
+    }
   }
 ]

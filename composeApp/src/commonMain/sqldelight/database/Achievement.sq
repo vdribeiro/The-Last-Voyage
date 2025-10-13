@@ -2,10 +2,9 @@ import kotlin.Boolean;
 
 CREATE TABLE IF NOT EXISTS Achievement (
     id TEXT NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL,
     description TEXT NOT NULL,
     preconditions TEXT NOT NULL,
-    status INTEGER AS Boolean NOT NULL DEFAULT 0
+    done INTEGER AS Boolean NOT NULL DEFAULT 0
 );
 
 isAchievementEmpty:
@@ -20,8 +19,7 @@ INSERT OR REPLACE INTO Achievement VALUES ?;
 getAchievements:
 SELECT
     Achievement.id,
-    Achievement.name,
     Achievement.description,
     Achievement.preconditions,
-    Achievement.status
+    Achievement.done
 FROM Achievement;

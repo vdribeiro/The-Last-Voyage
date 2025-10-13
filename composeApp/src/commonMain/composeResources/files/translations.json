@@ -3188,5 +3188,145 @@
     "languageIso": "en",
     "key": "credit_screen__music",
     "value": "Music"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_mercury",
+    "value": "The Show Must Go On"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_mercury_description",
+    "value": "Settle on Mercury"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_venus",
+    "value": "All Summer in a Day"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_venus_description",
+    "value": "Settle on Venus"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_earth",
+    "value": "Homecoming"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_earth_description",
+    "value": "Settle on Earth"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_mars",
+    "value": "Ack! Ack! Ack!"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_mars_description",
+    "value": "Settle on Mars"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_jupiter",
+    "value": "Yo mama"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_jupiter_description",
+    "value": "Settle on Jupiter"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_saturn",
+    "value": "The Fellowship"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_saturn_description",
+    "value": "Settle on Saturn"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_uranus",
+    "value": "Obligatory joke"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_uranus_description",
+    "value": "Settle on Uranus"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_neptune",
+    "value": "Release the Kraken!"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_neptune_description",
+    "value": "Settle on Neptune"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_proxima_centauri_b",
+    "value": "So near yet so far"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_proxima_centauri_b_description",
+    "value": "Settle on Proxima Centauri b"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_kepler_186_f",
+    "value": "My Cousin Kepler"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_kepler_186_f_description",
+    "value": "Settle on Kepler-186 f"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_any_trappist",
+    "value": "It's a Trappist!"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_any_trappist_description",
+    "value": "Settle on any planet in the Trappist-1 system"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_k2_18_b",
+    "value": "Life, Uh, Finds a Way"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_k2_18_b_description",
+    "value": "Settle on K2-18 b"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_gj_504_b",
+    "value": "Pretty in Pink"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_gj_504_b_description",
+    "value": "Settle on GJ 504 b"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_kepler_452_b",
+    "value": "Been There, Done That"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_settle_on_kepler_452_b_description",
+    "value": "Settle on Kepler-452 b"
   }
 ]

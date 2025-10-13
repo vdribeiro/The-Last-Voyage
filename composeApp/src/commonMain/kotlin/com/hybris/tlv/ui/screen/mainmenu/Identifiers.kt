@@ -7,6 +7,7 @@ internal const val MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_NEW_GAME = "main_menu_scre
 internal const val MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONTINUE = "main_menu_screen_main_menu_content_continue"
 internal const val MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN = "main_menu_screen_main_menu_content_learn"
 internal const val MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SCORES = "main_menu_screen_main_menu_content_scores"
+internal const val MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_ACHIEVEMENTS = "main_menu_screen_main_menu_content_achievements"
 internal const val MAIN_MENU_SCREEN_LEARN_CONTENT = "main_menu_screen_learn_content"
 internal const val MAIN_MENU_SCREEN_LEARN_CONTENT_STELLAR_EXPLORER = "main_menu_screen_learn_content_stellar_explorer"
 internal const val MAIN_MENU_SCREEN_LEARN_CONTENT_HOST_DEFINITION = "main_menu_screen_learn_content_host_definition"

@@ -43,7 +43,7 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
             items(items = storeState.achievements, key = { it.id }) { achievement ->
                 SimpleCard(
                     modifier = Modifier.testTag(tag = ACHIEVEMENT_SCREEN_LIST_ITEM),
-                    name = getTranslation(key = achievement.name),
+                    name = getTranslation(key = achievement.id),
                     description = getTranslation(key = achievement.description)
                 )
             }
@@ -74,12 +74,10 @@ private fun AchievementListPreview() = AppTheme {
                 achievements = listOf(
                     Achievement(
                         id = "earth",
-                        name = "Earth",
                         description = "Settle on Earth",
                         preconditions = Precondition(
                             settledPlanetId = "earth"
                         ),
-                        status = false
                     )
                 )
             )

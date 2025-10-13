@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class Precondition(
+    val settledHostId: String? = null,
     val settledPlanetId: String? = null,
     val shipDestroyed: Boolean? = null,
     val yearsTraveled: Double? = null,

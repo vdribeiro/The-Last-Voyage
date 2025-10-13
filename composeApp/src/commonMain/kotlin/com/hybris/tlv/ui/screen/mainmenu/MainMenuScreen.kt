@@ -85,6 +85,7 @@ private fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
     val continueTranslation = remember { getTranslation(key = "main_menu_screen__continue") }
     val learnTranslation = remember { getTranslation(key = "main_menu_screen__learn") }
     val scoresTranslation = remember { getTranslation(key = "main_menu_screen__scores") }
+    val achievementsTranslation = remember { getTranslation(key = "main_menu_screen__achievements") }
 
     val typography = LocalTypography.current
 
@@ -152,6 +153,17 @@ private fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
                         .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SCORES)
                         .clickable { store.send(action = MainMenuAction.Scores) },
                     text = scoresTranslation,
+                    style = typography.headlineMedium,
+                )
+            }
+        }
+        if (storeState.featureAchievements) {
+            item {
+                Text(
+                    modifier = Modifier
+                        .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_ACHIEVEMENTS)
+                        .clickable { store.send(action = MainMenuAction.Achievements) },
+                    text = achievementsTranslation,
                     style = typography.headlineMedium,
                 )
             }

@@ -56,19 +56,17 @@ internal class AchievementGateway(
     private fun Achievement.toAchievementSchema(): AchievementSchema =
         AchievementSchema(
             id = id,
-            name = name,
             description = description,
             preconditions = encode(value = preconditions).orEmpty(),
-            status = status
+            done = done
         )
 
     private fun AchievementSchema.toAchievement(): Achievement =
         Achievement(
             id = id,
-            name = name,
             description = description,
             preconditions = decode<Precondition>(value = preconditions) ?: Precondition(),
-            status = status
+            done = done
         )
 
     companion object Companion {
