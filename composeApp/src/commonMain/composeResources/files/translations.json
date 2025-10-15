@@ -3232,7 +3232,7 @@
   {
     "languageIso": "en",
     "key": "achievement_settle_on_jupiter",
-    "value": "Yo mama"
+    "value": "Yo Mama"
   },
   {
     "languageIso": "en",
@@ -3252,7 +3252,7 @@
   {
     "languageIso": "en",
     "key": "achievement_settle_on_uranus",
-    "value": "Obligatory joke"
+    "value": "Obligatory Joke"
   },
   {
     "languageIso": "en",
@@ -3272,7 +3272,7 @@
   {
     "languageIso": "en",
     "key": "achievement_settle_on_proxima_centauri_b",
-    "value": "So near yet so far"
+    "value": "So Near Yet so Far"
   },
   {
     "languageIso": "en",
@@ -3328,5 +3328,165 @@
     "languageIso": "en",
     "key": "achievement_settle_on_kepler_452_b_description",
     "value": "Settle on Kepler-452 b"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_habitability_negative",
+    "value": "Welcome to Australia"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_habitability_negative_description",
+    "value": "Settle on a planet with less than 30% habitability"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_habitability_positive",
+    "value": "So Long, and Thanks for All the Fish"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_habitability_positive_description",
+    "value": "Settle on a planet with more than 70% habitability"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_sensor_range_max",
+    "value": " I See You"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_sensor_range_max_description",
+    "value": "Game over with maxed-out sensor range"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_sensor_range_min",
+    "value": "Bird Box"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_sensor_range_min_description",
+    "value": "Game over with minimal sensor range"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_materials_max",
+    "value": "Galactic Hoarder"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_materials_max_description",
+    "value": "Game over with maxed-out materials"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_materials_zero",
+    "value": "Nominal Performance"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_materials_zero_description",
+    "value": "Game over with 0 materials"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_cryopods_max",
+    "value": "You Must Construct Additional Pylons"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_cryopods_max_description",
+    "value": "Game over with maxed-out cryopods"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_cryopods_one",
+    "value": "There Can Be Only One"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_cryopods_one_description",
+    "value": "Game over with exactly 1 cryopod"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_cryopods_zero",
+    "value": "The Flying Dutchman"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_cryopods_zero_description",
+    "value": "Game over with 0 cryopods"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_integrity_zero_years_few",
+    "value": "I Am a Leaf on the Wind"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_integrity_zero_years_few_description",
+    "value": "The ship is destroyed after a short journey"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_integrity_zero_years_lots",
+    "value": "Tears in Rain"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_integrity_zero_years_lots_description",
+    "value": "The ship is destroyed after a long journey"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_integrity_zero_cryopods_max",
+    "value": "Ozymandias"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_integrity_zero_cryopods_max_description",
+    "value": "The ship is destroyed with maxed-out cryopods"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_integrity_zero_fuel_plenty",
+    "value": "Directed by Michael Bay"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_integrity_zero_fuel_plenty_description",
+    "value": "The ship is destroyed with plenty of fuel"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_integrity_zero_materials_zero",
+    "value": "Tis But a Scratch"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_integrity_zero_materials_zero_description",
+    "value": "The ship is destroyed without materials to repair it"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_fuel_zero",
+    "value": "Ground Control to Major Tom"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_fuel_zero_description",
+    "value": "The ship ran out of fuel"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_fuel_zero_cryopods_max",
+    "value": "The Caged Bird Sings"
+  },
+  {
+    "languageIso": "en",
+    "key": "achievement_fuel_zero_cryopods_max_description",
+    "value": "The ship ran out of fuel with maxed-out cryopods"
   }
 ]

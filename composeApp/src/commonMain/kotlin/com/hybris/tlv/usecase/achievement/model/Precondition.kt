@@ -6,10 +6,11 @@ import kotlinx.serialization.Serializable
 internal data class Precondition(
     val settledHostId: String? = null,
     val settledPlanetId: String? = null,
-    val shipDestroyed: Boolean? = null,
-    val yearsTraveled: Double? = null,
-    val sensorRange: Int? = null,
-    val materials: Int? = null,
-    val fuel: Int? = null,
-    val cryopods: Int? = null,
+    val integrity: String? = null,
+    val yearsTraveled: String? = null,
+    val sensorRange: String? = null,
+    val materials: String? = null,
+    val fuel: String? = null,
+    val cryopods: String? = null,
+    val habitability: String? = null,
 )

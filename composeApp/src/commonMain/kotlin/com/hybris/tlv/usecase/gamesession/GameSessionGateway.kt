@@ -240,9 +240,9 @@ internal class GameSessionGateway(
             ship.integrity <= 0 -> buildList {
                 add(element = GameOver.INTEGRITY_ZERO)
 
-                if (ship.yearsTraveled < 1000.0) add(element = GameOver.INTEGRITY_ZERO_YEARS_FEW)
-                if (ship.yearsTraveled in 1000.0..5000.0) add(element = GameOver.INTEGRITY_ZERO_YEARS_SOME)
-                if (ship.yearsTraveled > 5000.0) add(element = GameOver.INTEGRITY_ZERO_YEARS_LOTS)
+                if (ship.yearsTraveled < YEARS_FEW) add(element = GameOver.INTEGRITY_ZERO_YEARS_FEW)
+                if (ship.yearsTraveled in YEARS_FEW..YEARS_SOME) add(element = GameOver.INTEGRITY_ZERO_YEARS_SOME)
+                if (ship.yearsTraveled > YEARS_LOTS) add(element = GameOver.INTEGRITY_ZERO_YEARS_LOTS)
 
                 if (ship.materials < 1) add(element = GameOver.INTEGRITY_ZERO_MATERIALS_ZERO)
                 if (ship.materials in 1..20) add(element = GameOver.INTEGRITY_ZERO_MATERIALS_LOW)
@@ -257,15 +257,15 @@ internal class GameSessionGateway(
                 if (ship.fuel in 10..90) add(element = GameOver.INTEGRITY_ZERO_FUEL_SOME)
                 if (ship.fuel > 90) add(element = GameOver.INTEGRITY_ZERO_FUEL_PLENTY)
 
-                if (ship.yearsTraveled >= 2000.0 && ship.cryopods >= 300) add(element = GameOver.INTEGRITY_ZERO_YEARS_LOTS_CRYOPODS_BUSTLING)
+                if (ship.yearsTraveled >= YEARS_LOTS && ship.cryopods >= 300) add(element = GameOver.INTEGRITY_ZERO_YEARS_LOTS_CRYOPODS_BUSTLING)
             }.random()
 
             ship.fuel <= 0 -> buildList {
                 add(element = GameOver.FUEL_ZERO)
 
-                if (ship.yearsTraveled < 1000.0) add(element = GameOver.FUEL_ZERO_YEARS_FEW)
-                if (ship.yearsTraveled in 1000.0..5000.0) add(element = GameOver.FUEL_ZERO_YEARS_SOME)
-                if (ship.yearsTraveled > 5000.0) add(element = GameOver.FUEL_ZERO_YEARS_LOTS)
+                if (ship.yearsTraveled < YEARS_FEW) add(element = GameOver.FUEL_ZERO_YEARS_FEW)
+                if (ship.yearsTraveled in YEARS_FEW..YEARS_SOME) add(element = GameOver.FUEL_ZERO_YEARS_SOME)
+                if (ship.yearsTraveled > YEARS_LOTS) add(element = GameOver.FUEL_ZERO_YEARS_LOTS)
 
                 if (ship.materials < 1) add(element = GameOver.FUEL_ZERO_MATERIALS_ZERO)
                 if (ship.materials in 1..20) add(element = GameOver.FUEL_ZERO_MATERIALS_LOW)
@@ -329,7 +329,7 @@ internal class GameSessionGateway(
                     in 61.0..80.0 -> when {
                         ship.materials >= 100 && ship.cryopods >= 100 -> {
                             add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH)
-                            if (ship.yearsTraveled > 5000.0) add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS)
+                            if (ship.yearsTraveled > YEARS_LOTS) add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS)
                             if (ship.cryopods >= 300) add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_BUSTLING)
                         }
 
@@ -353,7 +353,7 @@ internal class GameSessionGateway(
                     else -> when {
                         ship.materials >= 50 && ship.cryopods >= 50 -> {
                             add(element = GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH)
-                            if (ship.yearsTraveled > 5000.0) add(element = GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS)
+                            if (ship.yearsTraveled > YEARS_LOTS) add(element = GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS)
                             if (ship.cryopods >= 300) add(element = GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_BUSTLING)
                         }
 
@@ -570,5 +570,14 @@ internal class GameSessionGateway(
                 stellarHostEffectiveTemperatureMaxDeviation = stellarHostEffectiveTemperatureMaxDeviation
             )
         )
+    }
+
+    companion object {
+        private const val YEARS_FEW = 1000.0
+        private const val YEARS_SOME = 50000.0
+        private const val YEARS_LOTS = 100000.0
+        private const val MATERIALS_FEW = 100
+        private const val MATERIALS_SOME = 200
+        private const val MATERIALS_LOTS = 500
     }
 }
