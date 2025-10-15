@@ -39,7 +39,7 @@ internal class AchievementScreenTest {
 
     @Test
     fun achievementWithData() = runComposeUiTest {
-        runBlocking { testDependency.useCases.achievement.prepopulateAchievements() }
+        runBlocking { testDependency.useCases.achievement.syncAchievements() }
         val store = storeFactory.createAchievementStore()
         setContent {
             AppTheme {

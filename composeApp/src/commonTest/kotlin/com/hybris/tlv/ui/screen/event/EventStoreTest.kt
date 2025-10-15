@@ -26,7 +26,7 @@ internal class EventStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        testDependency.useCases.event.prepopulateEvents()
+        testDependency.useCases.event.syncEvents()
         testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
         assertNotNull(actual = eventStore.gameSession)
@@ -55,7 +55,7 @@ internal class EventStoreTest {
 
     @Test
     fun `send action back`() = runBlocking {
-        testDependency.useCases.event.prepopulateEvents()
+        testDependency.useCases.event.syncEvents()
         testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         store
         assertEquals(expected = Screen.Event, actual = testDependency.navigation.stateFlow.value.screen)
@@ -65,7 +65,7 @@ internal class EventStoreTest {
 
     @Test
     fun `send action select`() = runBlocking {
-        testDependency.useCases.event.prepopulateEvents()
+        testDependency.useCases.event.syncEvents()
         testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
         val event = events.random()
@@ -85,7 +85,7 @@ internal class EventStoreTest {
     @Test
     fun `send action select without selected event`() = runBlocking {
         assertEquals(expected = Screen.Event, actual = testDependency.navigation.stateFlow.value.screen)
-        testDependency.useCases.event.prepopulateEvents()
+        testDependency.useCases.event.syncEvents()
         testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store
         eventStore.send(action = EventAction.Select(event = defaultEvent))

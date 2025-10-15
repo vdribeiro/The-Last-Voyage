@@ -41,7 +41,7 @@ internal class NewGameScreenTest {
     @Test
     fun newGameWithData() = runComposeUiTest {
         runBlocking {
-            testDependency.useCases.catastrophe.prepopulateCatastrophes()
+            testDependency.useCases.catastrophe.syncCatastrophes()
         }
         val store = storeFactory.createNewGameStore()
         setContent {

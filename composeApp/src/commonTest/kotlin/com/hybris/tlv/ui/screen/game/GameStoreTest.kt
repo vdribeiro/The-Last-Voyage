@@ -27,8 +27,8 @@ internal class GameStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        testDependency.useCases.space.prepopulateStellarHosts()
-        testDependency.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.syncStellarHosts()
+        testDependency.useCases.space.syncPlanets()
         testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         assertNotNull(actual = gameStore.stateFlow.value.ship)
@@ -50,8 +50,8 @@ internal class GameStoreTest {
 
     @Test
     fun `ship is repaired`() = runBlocking {
-        testDependency.useCases.space.prepopulateStellarHosts()
-        testDependency.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.syncStellarHosts()
+        testDependency.useCases.space.syncPlanets()
         testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameSession = testDependency.useCases.gameSession.getLatestGameSession()!!
         testDependency.useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(integrity = 0)))
@@ -89,8 +89,8 @@ internal class GameStoreTest {
 
     @Test
     fun `send action back`() = runBlocking {
-        testDependency.useCases.space.prepopulateStellarHosts()
-        testDependency.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.syncStellarHosts()
+        testDependency.useCases.space.syncPlanets()
         testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         store
         assertEquals(expected = Screen.Game, actual = testDependency.navigation.stateFlow.value.screen)
@@ -115,8 +115,8 @@ internal class GameStoreTest {
 
     @Test
     fun `send action travel`() = runBlocking {
-        testDependency.useCases.space.prepopulateStellarHosts()
-        testDependency.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.syncStellarHosts()
+        testDependency.useCases.space.syncPlanets()
         assertEquals(expected = Screen.Game, actual = testDependency.navigation.stateFlow.value.screen)
         testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
@@ -143,8 +143,8 @@ internal class GameStoreTest {
 
     @Test
     fun `send action settle`() = runBlocking {
-        testDependency.useCases.space.prepopulateStellarHosts()
-        testDependency.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.syncStellarHosts()
+        testDependency.useCases.space.syncPlanets()
         assertEquals(expected = Screen.Game, actual = testDependency.navigation.stateFlow.value.screen)
         testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store

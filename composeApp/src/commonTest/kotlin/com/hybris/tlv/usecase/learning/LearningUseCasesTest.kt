@@ -22,11 +22,4 @@ internal class LearningUseCasesTest {
         testDependency.useCases.learning.syncLearnings()
         assertTrue(actual = testDependency.useCases.learning.getLearnings().isNotEmpty())
     }
-
-    @Test
-    fun `prepopulate and get learnings`() = runBlocking {
-        assertTrue(actual = testDependency.useCases.learning.getLearnings().isEmpty())
-        testDependency.useCases.learning.prepopulateLearnings()
-        assertTrue(actual = testDependency.useCases.learning.getLearnings().isNotEmpty())
-    }
 }

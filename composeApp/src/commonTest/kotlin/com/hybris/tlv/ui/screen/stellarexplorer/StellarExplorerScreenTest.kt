@@ -44,8 +44,8 @@ internal class StellarExplorerScreenTest {
     @Test
     fun stellarExplorerWithData() = runComposeUiTest {
         runBlocking {
-            testDependency.useCases.space.prepopulateStellarHosts()
-            testDependency.useCases.space.prepopulatePlanets()
+            testDependency.useCases.space.syncStellarHosts()
+            testDependency.useCases.space.syncPlanets()
         }
         val store = storeFactory.createStellarExplorerStore()
         setContent {

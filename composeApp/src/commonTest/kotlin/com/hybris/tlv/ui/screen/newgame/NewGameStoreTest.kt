@@ -25,16 +25,16 @@ internal class NewGameStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        testDependency.useCases.catastrophe.prepopulateCatastrophes()
-        testDependency.useCases.ship.prepopulateEngines()
+        testDependency.useCases.catastrophe.syncCatastrophes()
+        testDependency.useCases.ship.syncEngines()
         val newGameStore = store
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
     }
 
     @Test
     fun `send action back`() = runBlocking {
-        testDependency.useCases.catastrophe.prepopulateCatastrophes()
-        testDependency.useCases.ship.prepopulateEngines()
+        testDependency.useCases.catastrophe.syncCatastrophes()
+        testDependency.useCases.ship.syncEngines()
         val newGameStore = store
         assertEquals(expected = Screen.NewGame, actual = testDependency.navigation.stateFlow.value.screen)
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
@@ -55,8 +55,8 @@ internal class NewGameStoreTest {
 
     @Test
     fun `send action select ship`() = runBlocking {
-        testDependency.useCases.catastrophe.prepopulateCatastrophes()
-        testDependency.useCases.ship.prepopulateEngines()
+        testDependency.useCases.catastrophe.syncCatastrophes()
+        testDependency.useCases.ship.syncEngines()
         val newGameStore = store
         assertNull(actual = newGameStore.selectedShip)
         val shipPrototype = ShipPrototype(
@@ -73,8 +73,8 @@ internal class NewGameStoreTest {
     @Test
     fun `send action start game`() = runBlocking {
         assertEquals(expected = Screen.NewGame, actual = testDependency.navigation.stateFlow.value.screen)
-        testDependency.useCases.catastrophe.prepopulateCatastrophes()
-        testDependency.useCases.ship.prepopulateEngines()
+        testDependency.useCases.catastrophe.syncCatastrophes()
+        testDependency.useCases.ship.syncEngines()
         val newGameStore = store
         val shipPrototype = ShipPrototype(
             assignedPoints = 1,

@@ -48,7 +48,7 @@ internal class MainMenuScreenTest {
     fun mainMenuWithData() = runComposeUiTest {
         runBlocking {
             testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-            testDependency.useCases.learning.prepopulateLearnings()
+            testDependency.useCases.learning.syncLearnings()
         }
         val store = storeFactory.createMainMenuStore()
         setContent {
@@ -82,7 +82,7 @@ internal class MainMenuScreenTest {
     fun mainMenuHostDefinitionContent() = runComposeUiTest {
         runBlocking {
             testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-            testDependency.useCases.learning.prepopulateLearnings()
+            testDependency.useCases.learning.syncLearnings()
         }
         val store = storeFactory.createMainMenuStore()
         setContent {
@@ -108,7 +108,7 @@ internal class MainMenuScreenTest {
     fun mainMenuPlanetDefinitionContent() = runComposeUiTest {
         runBlocking {
             testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-            testDependency.useCases.learning.prepopulateLearnings()
+            testDependency.useCases.learning.syncLearnings()
         }
         val store = storeFactory.createMainMenuStore()
         setContent {
@@ -134,7 +134,7 @@ internal class MainMenuScreenTest {
     fun mainMenuHabitabilityContent() = runComposeUiTest {
         runBlocking {
             testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-            testDependency.useCases.learning.prepopulateLearnings()
+            testDependency.useCases.learning.syncLearnings()
         }
         val store = storeFactory.createMainMenuStore()
         setContent {

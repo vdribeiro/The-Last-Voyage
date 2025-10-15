@@ -22,11 +22,4 @@ internal class CreditUseCasesTest {
         testDependency.useCases.credit.syncCredits()
         assertTrue(actual = testDependency.useCases.credit.getCredits().isNotEmpty())
     }
-
-    @Test
-    fun `prepopulate and get credits`() = runBlocking {
-        assertTrue(actual = testDependency.useCases.credit.getCredits().isEmpty())
-        testDependency.useCases.credit.prepopulateCredits()
-        assertTrue(actual = testDependency.useCases.credit.getCredits().isNotEmpty())
-    }
 }

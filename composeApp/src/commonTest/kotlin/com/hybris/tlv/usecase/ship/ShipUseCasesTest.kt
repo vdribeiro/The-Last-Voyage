@@ -27,13 +27,6 @@ internal class ShipUseCasesTest {
     }
 
     @Test
-    fun `prepopulate and get engines`() = runBlocking {
-        assertTrue(actual = testDependency.useCases.ship.getEngines().isEmpty())
-        testDependency.useCases.ship.prepopulateEngines()
-        assertTrue(actual = testDependency.useCases.ship.getEngines().isNotEmpty())
-    }
-
-    @Test
     fun `repair ship`() = runBlocking {
         val shipNoIntegrity = Ship(
             id = "",

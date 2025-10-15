@@ -46,8 +46,8 @@ internal class GameScreenTest {
     @Test
     fun gameWithData() = runComposeUiTest {
         runBlocking {
-            testDependency.useCases.space.prepopulateStellarHosts()
-            testDependency.useCases.space.prepopulatePlanets()
+            testDependency.useCases.space.syncStellarHosts()
+            testDependency.useCases.space.syncPlanets()
             testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         }
         val store = storeFactory.createGameStore()

@@ -23,11 +23,4 @@ internal class CatastropheUseCasesTest {
         testDependency.useCases.catastrophe.syncCatastrophes()
         assertNotNull(actual = testDependency.useCases.catastrophe.getRandomCatastrophe()).let {}
     }
-
-    @Test
-    fun `prepopulate and get catastrophes`() = runBlocking {
-        assertNull(actual = testDependency.useCases.catastrophe.getRandomCatastrophe())
-        testDependency.useCases.catastrophe.prepopulateCatastrophes()
-        assertNotNull(actual = testDependency.useCases.catastrophe.getRandomCatastrophe()).let {}
-    }
 }

@@ -25,8 +25,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `init`() = runBlocking {
-        testDependency.useCases.space.prepopulateStellarHosts()
-        testDependency.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.syncStellarHosts()
+        testDependency.useCases.space.syncPlanets()
         val stellarExplorerStore = store
         val state = stellarExplorerStore.stateFlow.value
         assertEquals(expected = Content.LIST_HOSTS, actual = state.currentContent)
@@ -62,8 +62,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action search`() = runBlocking {
-        testDependency.useCases.space.prepopulateStellarHosts()
-        testDependency.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.syncStellarHosts()
+        testDependency.useCases.space.syncPlanets()
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.Search(search = stellarHosts.first().name))
@@ -76,8 +76,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action sort`() = runBlocking {
-        testDependency.useCases.space.prepopulateStellarHosts()
-        testDependency.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.syncStellarHosts()
+        testDependency.useCases.space.syncPlanets()
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.SortStellarHosts(sort = StellarHostProperty.NAME))
@@ -93,8 +93,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action change visibility`() = runBlocking {
-        testDependency.useCases.space.prepopulateStellarHosts()
-        testDependency.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.syncStellarHosts()
+        testDependency.useCases.space.syncPlanets()
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = StellarHostProperty.NAME))
@@ -147,8 +147,8 @@ internal class StellarExplorerStoreTest {
 
     @Test
     fun `send action change searchable`() = runBlocking {
-        testDependency.useCases.space.prepopulateStellarHosts()
-        testDependency.useCases.space.prepopulatePlanets()
+        testDependency.useCases.space.syncStellarHosts()
+        testDependency.useCases.space.syncPlanets()
         val stellarExplorerStore = store
 
         assertEquals(expected = setOf(StellarHostProperty.NAME), actual = stellarExplorerStore.stateFlow.value.searchableStellarHostProperties)

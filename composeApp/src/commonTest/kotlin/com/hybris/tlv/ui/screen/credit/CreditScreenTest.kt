@@ -62,7 +62,7 @@ internal class CreditScreenTest {
             }
         }
 
-        runBlocking { testDependency.useCases.credit.prepopulateCredits() }
+        runBlocking { testDependency.useCases.credit.syncCredits() }
         val store = storeFactory.createCreditStore()
         setContent {
             CompositionLocalProvider(value = LocalUriHandler provides mockUriHandler) {

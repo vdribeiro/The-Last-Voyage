@@ -37,7 +37,7 @@ internal class EventScreenTest {
     @Test
     fun eventWithData() = runComposeUiTest {
         runBlocking {
-            testDependency.useCases.event.prepopulateEvents()
+            testDependency.useCases.event.syncEvents()
             testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         }
         val store = storeFactory.createEventStore()

@@ -22,11 +22,4 @@ internal class AchievementUseCasesTest {
         testDependency.useCases.achievement.syncAchievements()
         assertTrue(actual = testDependency.useCases.achievement.getAchievements().isNotEmpty())
     }
-
-    @Test
-    fun `prepopulate and get achievements`() = runBlocking {
-        assertTrue(actual = testDependency.useCases.achievement.getAchievements().isEmpty())
-        testDependency.useCases.achievement.prepopulateAchievements()
-        assertTrue(actual = testDependency.useCases.achievement.getAchievements().isNotEmpty())
-    }
 }
