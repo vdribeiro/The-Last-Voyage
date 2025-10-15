@@ -91,7 +91,6 @@ internal class GameStore(
             visited = visited
         ).ifEmpty {
             Telemetry.info(tag = TAG, message = "Nowhere to go, clear visited hosts and recalculate")
-            // TODO: achievement here!
             visited = setOf(currentStellarHost.id)
             spaceUseCases.getNearestStars(
                 stellarHost = currentStellarHost,

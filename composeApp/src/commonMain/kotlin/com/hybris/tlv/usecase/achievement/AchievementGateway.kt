@@ -54,11 +54,78 @@ internal class AchievementGateway(
     override suspend fun getAchievements(): List<Achievement> =
         achievementDao.getAchievements().executeAsList().map { it.toAchievement() }
 
+    // TODO
     override suspend fun updateAchievements(gameSession: GameSession): List<Achievement> {
         val achievements = mutableSetOf<Achievement>().apply {
-            achievementDao.getAchievementsByDone(done = false).executeAsList().map { it.toAchievement() }.forEach {
-                if (gameSession.currentStellarHostId == it.preconditions.settledHostId) add(element = it)
-                if (gameSession.settledPlanetId == it.preconditions.settledPlanetId) add(element = it)
+            achievementDao.getAchievementsByDone(done = false).executeAsList().map { it.toAchievement() }.forEach { achievement ->
+                val preconditions = achievement.preconditions
+                val ship = gameSession.ship
+
+                if (gameSession.currentStellarHostId == preconditions.settledHostId) add(element = achievement)
+                if (gameSession.settledPlanetId == preconditions.settledPlanetId) add(element = achievement)
+
+                val habitabilitySignal = preconditions.habitability?.firstOrNull()
+                val habitability = preconditions.habitability?.drop(n = 1)?.toDoubleOrNull()
+                if (gameSession.finalHabitability != null && habitabilitySignal != null && habitability != null) {
+                    when (habitabilitySignal) {
+                        '+' -> if (gameSession.finalHabitability >= habitability) add(element = achievement)
+                        '-' -> if (gameSession.finalHabitability <= habitability) add(element = achievement)
+                    }
+                }
+
+                val yearsTraveledSignal = preconditions.yearsTraveled?.firstOrNull()
+                val yearsTraveled = preconditions.yearsTraveled?.drop(n = 1)?.toDoubleOrNull()
+                if (yearsTraveledSignal != null && yearsTraveled != null) {
+                    when (yearsTraveledSignal) {
+                        '+' -> if (ship.yearsTraveled >= yearsTraveled) add(element = achievement)
+                        '-' -> if (ship.yearsTraveled <= yearsTraveled) add(element = achievement)
+                    }
+                }
+
+                val integritySignal = preconditions.integrity?.firstOrNull()
+                val integrity = preconditions.integrity?.drop(n = 1)?.toIntOrNull()
+                if (integritySignal != null && integrity != null) {
+                    when (integritySignal) {
+                        '+' -> if (ship.integrity >= integrity) add(element = achievement)
+                        '-' -> if (ship.integrity <= integrity) add(element = achievement)
+                    }
+                }
+
+                val sensorRangeSignal = preconditions.sensorRange?.firstOrNull()
+                val sensorRange = preconditions.sensorRange?.drop(n = 1)?.toIntOrNull()
+                if (sensorRangeSignal != null && sensorRange != null) {
+                    when (sensorRangeSignal) {
+                        '+' -> if (ship.sensorRange >= sensorRange) add(element = achievement)
+                        '-' -> if (ship.sensorRange <= sensorRange) add(element = achievement)
+                    }
+                }
+
+                val materialsSignal = preconditions.materials?.firstOrNull()
+                val materials = preconditions.materials?.drop(n = 1)?.toIntOrNull()
+                if (materialsSignal != null && materials != null) {
+                    when (materialsSignal) {
+                        '+' -> if (ship.materials >= materials) add(element = achievement)
+                        '-' -> if (ship.materials <= materials) add(element = achievement)
+                    }
+                }
+
+                val fuelSignal = preconditions.fuel?.firstOrNull()
+                val fuel = preconditions.fuel?.drop(n = 1)?.toIntOrNull()
+                if (fuelSignal != null && fuel != null) {
+                    when (fuelSignal) {
+                        '+' -> if (ship.fuel >= fuel) add(element = achievement)
+                        '-' -> if (ship.fuel <= fuel) add(element = achievement)
+                    }
+                }
+
+                val cryopodsSignal = preconditions.cryopods?.firstOrNull()
+                val cryopods = preconditions.cryopods?.drop(n = 1)?.toIntOrNull()
+                if (cryopodsSignal != null && cryopods != null) {
+                    when (cryopodsSignal) {
+                        '+' -> if (ship.cryopods >= cryopods) add(element = achievement)
+                        '-' -> if (ship.cryopods <= cryopods) add(element = achievement)
+                    }
+                }
             }
         }
         return achievements.toList()
