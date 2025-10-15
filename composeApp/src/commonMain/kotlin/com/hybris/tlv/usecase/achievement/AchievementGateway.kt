@@ -55,13 +55,13 @@ internal class AchievementGateway(
         achievementDao.getAchievements().executeAsList().map { it.toAchievement() }
 
     override suspend fun updateAchievements(gameSession: GameSession): List<Achievement> {
-        mutableSetOf<Achievement>().apply {
+        val achievements = mutableSetOf<Achievement>().apply {
             achievementDao.getAchievementsByDone(done = false).executeAsList().map { it.toAchievement() }.forEach {
                 if (gameSession.currentStellarHostId == it.preconditions.settledHostId) add(element = it)
                 if (gameSession.settledPlanetId == it.preconditions.settledPlanetId) add(element = it)
-                if (gameSession.finalHabitability == it.preconditions.currentPlanetId) add(element = it)
             }
         }
+        return achievements.toList()
     }
 
     private fun Achievement.toAchievementSchema(): AchievementSchema =
