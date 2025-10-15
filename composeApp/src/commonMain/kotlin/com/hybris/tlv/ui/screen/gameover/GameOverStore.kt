@@ -7,6 +7,7 @@ import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import kotlinx.coroutines.Job
 
@@ -15,7 +16,8 @@ internal class GameOverStore(
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: GameOverStateBuilder,
-    private val gameSessionUseCases: GameSessionUseCases
+    private val gameSessionUseCases: GameSessionUseCases,
+    private val achievementUseCases: AchievementUseCases
 ): Store<GameOverState, GameOverAction>(
     dispatcher = dispatcher,
     navigation = navigation,
@@ -50,11 +52,15 @@ internal class GameOverStore(
             gameOver = gameOver
         ).let { it.copy(utc = getLocalDateTime(utc = it.utc)) }
 
+        Telemetry.info(tag = TAG, message = "Check achievements")
+        val achievements = achievementUseCases.updateAchievements(gameSession = updatedGameSession)
+
         updateState {
             it.copy(
                 loading = false,
                 gameSession = updatedGameSession,
-                gameOver = gameOver
+                gameOver = gameOver,
+                achievements = achievements
             )
         }
         Telemetry.info(tag = TAG, message = "Setup complete")

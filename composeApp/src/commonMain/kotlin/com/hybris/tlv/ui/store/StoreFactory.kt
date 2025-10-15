@@ -110,7 +110,8 @@ internal class StoreFactory(
         navigation = navigation,
         audioPlayer = audioPlayer,
         stateBuilder = stateBuilder as? GameOverStateBuilder ?: GameOverStateBuilder.Default,
-        gameSessionUseCases = useCases.gameSession
+        gameSessionUseCases = useCases.gameSession,
+        achievementUseCases = useCases.achievement
     )
 
     fun createStellarExplorerStore(stateBuilder: Any? = null): StellarExplorerStore = StellarExplorerStore(

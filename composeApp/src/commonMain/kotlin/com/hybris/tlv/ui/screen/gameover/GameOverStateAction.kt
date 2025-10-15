@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.gameover
 
+import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 
@@ -16,7 +17,8 @@ internal data class GameOverState(
     val loading: Boolean = true,
     val currentContent: Content = Content.MESSAGE,
     val gameSession: GameSession? = null,
-    val gameOver: GameOver? = null
+    val gameOver: GameOver? = null,
+    val achievements: List<Achievement> = emptyList()
 )
 
 internal enum class Content {

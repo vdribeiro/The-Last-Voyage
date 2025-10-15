@@ -12,6 +12,7 @@ import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
+import com.hybris.tlv.usecase.gamesession.model.GameSession
 import database.AppDatabase
 import io.ktor.client.HttpClient
 
@@ -52,6 +53,16 @@ internal class AchievementGateway(
 
     override suspend fun getAchievements(): List<Achievement> =
         achievementDao.getAchievements().executeAsList().map { it.toAchievement() }
+
+    override suspend fun updateAchievements(gameSession: GameSession): List<Achievement> {
+        mutableSetOf<Achievement>().apply {
+            achievementDao.getAchievementsByDone(done = false).executeAsList().map { it.toAchievement() }.forEach {
+                if (gameSession.currentStellarHostId == it.preconditions.settledHostId) add(element = it)
+                if (gameSession.settledPlanetId == it.preconditions.settledPlanetId) add(element = it)
+                if (gameSession.finalHabitability == it.preconditions.currentPlanetId) add(element = it)
+            }
+        }
+    }
 
     private fun Achievement.toAchievementSchema(): AchievementSchema =
         AchievementSchema(

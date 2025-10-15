@@ -23,3 +23,12 @@ SELECT
     Achievement.preconditions,
     Achievement.done
 FROM Achievement;
+
+getAchievementsByDone:
+SELECT
+    Achievement.id,
+    Achievement.description,
+    Achievement.preconditions,
+    Achievement.done
+FROM Achievement
+WHERE Achievement.done = :done;

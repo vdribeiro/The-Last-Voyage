@@ -48,6 +48,7 @@ internal fun Screen(
     onFeedbackClick: (() -> Unit)? = null,
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
+    snackbarHost: @Composable () -> Unit = {},
     content: @Composable () -> Unit = {}
 ) {
     Scaffold(
@@ -85,7 +86,8 @@ internal fun Screen(
                 topBar()
             }
         },
-        bottomBar = bottomBar
+        bottomBar = bottomBar,
+        snackbarHost = snackbarHost
     ) { innerPadding ->
         Box(
             modifier = Modifier

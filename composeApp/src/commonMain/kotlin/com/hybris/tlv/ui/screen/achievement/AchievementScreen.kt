@@ -44,7 +44,9 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
                 AchievementCard(
                     modifier = Modifier.testTag(tag = ACHIEVEMENT_SCREEN_LIST_ITEM),
                     name = getTranslation(key = achievement.id),
-                    description = getTranslation(key = achievement.description)
+                    description = getTranslation(key = achievement.description),
+                    image = null, // TODO - achievement image
+                    done = achievement.done
                 )
             }
         }
