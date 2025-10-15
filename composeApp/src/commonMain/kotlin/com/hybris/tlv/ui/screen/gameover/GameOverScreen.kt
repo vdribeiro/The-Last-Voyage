@@ -31,13 +31,11 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
     val storeState by store.stateFlow.collectAsState()
     val gameSession = storeState.gameSession
     val ship = gameSession?.ship
+    val achievements = storeState.achievements
 
     val gameOverTranslation = remember { getTranslation(key = "game_over_screen__game_over") }
     val messageTranslation = remember { getTranslation(key = "game_over_screen__score") }
     val scoreTranslation = remember { getTranslation(key = "game_over_screen__end") }
-    val newAchievementTranslation = remember { getTranslation(key = "achievements_screen__new") }
-
-    val achievements = storeState.achievements.map { "$newAchievementTranslation: ${getTranslation(key = it.id)}" }
 
     Screen(
         modifier = Modifier.testTag(tag = GAME_OVER_SCREEN),

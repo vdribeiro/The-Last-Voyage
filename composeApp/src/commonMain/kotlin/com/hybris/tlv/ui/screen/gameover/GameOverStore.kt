@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.gameover
 
+import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.media.AudioPlayer
@@ -8,7 +9,9 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
+import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
+import com.hybris.tlv.usecase.translation.getTranslation
 import kotlinx.coroutines.Job
 
 internal class GameOverStore(
@@ -27,15 +30,20 @@ internal class GameOverStore(
         is GameOverStateBuilder.FromSavableState -> stateBuilder.state
     }
 ) {
+    @get:VisibleForTesting
+    internal val achievements: MutableList<Achievement> = mutableListOf()
+
     init {
         when (stateBuilder) {
             GameOverStateBuilder.Default -> setup()
-            is GameOverStateBuilder.FromSavableState -> {}
+            is GameOverStateBuilder.FromSavableState -> {
+                achievements.addAll(elements = stateBuilder.achievements)
+            }
         }
     }
 
     override fun getSavableState(state: GameOverState): Any? =
-        GameOverStateBuilder.FromSavableState(state = state)
+        GameOverStateBuilder.FromSavableState(state = state, achievements = achievements)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
@@ -53,17 +61,27 @@ internal class GameOverStore(
         ).let { it.copy(utc = getLocalDateTime(utc = it.utc)) }
 
         Telemetry.info(tag = TAG, message = "Check achievements")
-        val achievements = achievementUseCases.updateAchievements(gameSession = updatedGameSession)
+        this@GameOverStore.achievements.addAll(elements = achievementUseCases.updateAchievements(gameSession = updatedGameSession))
 
         updateState {
             it.copy(
                 loading = false,
                 gameSession = updatedGameSession,
-                gameOver = gameOver,
-                achievements = achievements
+                gameOver = gameOver
             )
         }
         Telemetry.info(tag = TAG, message = "Setup complete")
+    }
+
+    private fun next(state: GameOverState): Job = launch {
+        val newAchievementTranslation = getTranslation(key = "achievements_screen__new")
+        val achievements = achievements.map { achievement -> "$newAchievementTranslation: ${getTranslation(key = achievement.id)}" }
+        updateState {
+            it.copy(
+                currentContent = Content.SCORE,
+                achievements = achievements
+            )
+        }
     }
 
     override fun goBack(state: GameOverState) {}
@@ -71,7 +89,7 @@ internal class GameOverStore(
     override fun reducer(state: GameOverState, action: GameOverAction) {
         when (action) {
             GameOverAction.Next -> when (state.currentContent) {
-                Content.MESSAGE -> updateState { it.copy(currentContent = Content.SCORE) }
+                Content.MESSAGE -> next(state = state)
                 Content.SCORE -> navigate(screen = Screen.MainMenu)
             }
         }
