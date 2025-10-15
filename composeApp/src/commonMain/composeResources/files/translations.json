@@ -2262,12 +2262,12 @@
   {
     "languageIso": "en",
     "key": "game_over_screen__integrity_zero",
-    "value": "A critical failure ripples through the ship. The hull breaches, instantly and violently. The vessel and its contents are scattered into the void, becoming a silent, expanding cloud of frozen debris. The journey is over."
+    "value": "The final alarm blares: a hull breach that cannot be patched. With no materials left for repairs, the ship's fate was sealed long before this final moment."
   },
   {
     "languageIso": "en",
     "key": "game_over_screen__integrity_zero_years_few",
-    "value": "A sudden catastrophe rips through the hull. The journey ends before it truly began, the hope of thousands silenced in the cold vacuum of space."
+    "value": "A sudden catastrophe rips through the hull. The journey ends before it truly began. Hope is silenced in the cold vacuum of space."
   },
   {
     "languageIso": "en",
@@ -2278,21 +2278,6 @@
     "languageIso": "en",
     "key": "game_over_screen__integrity_zero_years_lots",
     "value": "The failure is not an event, but the conclusion to millennia of decay. The ship's metal, fatigued by eons of radiation, finally loses cohesion. The vessel doesn't break; it unravels, surrendering its ancient form to become one with the interstellar dust it has travelled through for so long."
-  },
-  {
-    "languageIso": "en",
-    "key": "game_over_screen__integrity_zero_materials_zero",
-    "value": "The final alarm blares: a hull breach that cannot be patched. With no materials left for repairs, the ship's fate was sealed long before this final moment."
-  },
-  {
-    "languageIso": "en",
-    "key": "game_over_screen__integrity_zero_materials_low",
-    "value": "A final, deep groan echoes through the spine of the vessel. On the bridge, a diagnostic screen showing insufficient repair materials flashes a final error. A stress fracture, born from centuries of travel, spiders across the main viewport. The vacuum does not wait, and the ship comes apart with a quiet, weary finality."
-  },
-  {
-    "languageIso": "en",
-    "key": "game_over_screen__integrity_zero_materials_enough",
-    "value": "A sudden, overwhelming force tears the ship asunder. No amount of repair material could have saved you from such a cataclysmic end. The ship, and its precious cargo, are atomized."
   },
   {
     "languageIso": "en",
@@ -2316,6 +2301,11 @@
   },
   {
     "languageIso": "en",
+    "key": "game_over_screen__integrity_zero_years_lots_cryopods_bustling",
+    "value": "After a journey stretching across millennia, the ship simply fails. A cascade of system-wide breakdowns culminates in a final, critical rupture. Power flickers and dies across hundreds of cryopods, their occupants lost in the same instant as the vessel that carried them. The immense voyage ends not with a bang, but with the quiet death of ancient, exhausted machinery."
+  },
+  {
+    "languageIso": "en",
     "key": "game_over_screen__integrity_zero_fuel_low",
     "value": "Pushed far beyond its limits to conserve the last dregs of fuel, the ship's frame screams in protest. The metal skin of the vessel ripples and shears away. The internal structure buckles and folds, crushing entire decks in an instant. The ship is erased, a crumpled casualty of a desperate, final gamble."
   },
@@ -2331,18 +2321,13 @@
   },
   {
     "languageIso": "en",
-    "key": "game_over_screen__integrity_zero_years_lots_cryopods_bustling",
-    "value": "After a journey stretching across centuries, the ship simply fails. A cascade of system-wide breakdowns culminates in a final, critical rupture. Power flickers and dies across hundreds of cryopods, their occupants lost in the same instant as the vessel that carried them. The immense voyage ends not with a bang, but with the quiet death of ancient, exhausted machinery."
-  },
-  {
-    "languageIso": "en",
     "key": "game_over_screen__fuel_zero",
     "value": "The final drop of fuel is consumed, and the main drive falls silent forever. The ship ceases to be a vessel on a journey and becomes a derelict object, trapped in an endless, aimless drift. Its mission is over, its destination unreachable."
   },
   {
     "languageIso": "en",
     "key": "game_over_screen__fuel_zero_years_few",
-    "value": "The engines sputter and die, leaving the ship a pristine but powerless tomb, adrift in the endless night."
+    "value": "The engines sputter and die, leaving the ship a powerless tomb, adrift in the endless night."
   },
   {
     "languageIso": "en",
@@ -2367,7 +2352,7 @@
   {
     "languageIso": "en",
     "key": "game_over_screen__fuel_zero_materials_enough",
-    "value": "The ship drifts in total silence, its engines permanently cold. In the vast cargo bay, the vast raw materials sit inert. The ship has the means to build a new world, but no way to get to one. Its potential is now just dead mass, contributing to the inertia of its endless, silent coast."
+    "value": "The ship drifts in total silence, its engines permanently cold. In the cargo bay, the vast raw materials sit inert. The ship has the means to build a new world, but no way to get to one. Its potential is now just dead mass, contributing to the inertia of its endless, silent coast."
   },
   {
     "languageIso": "en",
@@ -2381,18 +2366,8 @@
   },
   {
     "languageIso": "en",
-    "key": "game_over_screen__fuel_zero_cryopods_near_zero",
-    "value": "The long journey took its toll, not just on the ship, but on its people. As the final hull breach is reported, there is almost no one left in the cryopods to hear it. Only silence remains."
-  },
-  {
-    "languageIso": "en",
-    "key": "game_over_screen__fuel_zero_cryopods_too_low",
-    "value": "The fuel indicator hits zero. The ship glides to a final, silent stop. On the cryo-deck, status lights show rows upon rows of failed pods and a handful of survivors too few to ever rebuild. The journey ends not with a bang, but with the quiet confirmation that the vessel has become a tomb for a species already all but extinct."
-  },
-  {
-    "languageIso": "en",
     "key": "game_over_screen__fuel_zero_cryopods_low",
-    "value": "The fuel gauge hits zero. The last few cryopods remain cold and silent. A long, lonely journey of attrition ends not with a bang, but with the quiet hum of fading power."
+    "value": "The fuel indicator hits zero. The ship glides to a final, silent stop. On the cryo-deck, status lights show rows upon rows of failed pods and a number of survivors too few to ever rebuild. The journey ends not with a bang, but with the quiet confirmation that the vessel has become a tomb for a species already all but extinct."
   },
   {
     "languageIso": "en",

@@ -189,7 +189,7 @@
     "description": "achievement_integrity_zero_fuel_plenty_description",
     "preconditions": {
       "integrity" : "-0",
-      "fuel" : "+800"
+      "fuel" : "+300"
     }
   },
   {

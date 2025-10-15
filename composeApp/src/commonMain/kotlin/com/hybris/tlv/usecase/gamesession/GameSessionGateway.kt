@@ -136,9 +136,6 @@ internal class GameSessionGateway(
             GameOver.INTEGRITY_ZERO_YEARS_FEW,
             GameOver.INTEGRITY_ZERO_YEARS_SOME,
             GameOver.INTEGRITY_ZERO_YEARS_LOTS,
-            GameOver.INTEGRITY_ZERO_MATERIALS_ZERO,
-            GameOver.INTEGRITY_ZERO_MATERIALS_LOW,
-            GameOver.INTEGRITY_ZERO_MATERIALS_ENOUGH,
             GameOver.INTEGRITY_ZERO_CRYOPODS_ZERO,
             GameOver.INTEGRITY_ZERO_CRYOPODS_ONE,
             GameOver.INTEGRITY_ZERO_CRYOPODS_LOW,
@@ -158,8 +155,6 @@ internal class GameSessionGateway(
             GameOver.FUEL_ZERO_MATERIALS_ENOUGH,
             GameOver.FUEL_ZERO_CRYOPODS_ZERO,
             GameOver.FUEL_ZERO_CRYOPODS_ONE,
-            GameOver.FUEL_ZERO_CRYOPODS_NEAR_ZERO,
-            GameOver.FUEL_ZERO_CRYOPODS_TOO_LOW,
             GameOver.FUEL_ZERO_CRYOPODS_LOW,
             GameOver.FUEL_ZERO_CRYOPODS_ENOUGH,
             GameOver.FUEL_ZERO_INTEGRITY_LOW,
@@ -237,55 +232,43 @@ internal class GameSessionGateway(
     override suspend fun getGameOver(gameSession: GameSession): GameOver {
         val ship = gameSession.ship
         return when {
-            ship.integrity <= 0 -> buildList {
-                add(element = GameOver.INTEGRITY_ZERO)
+            // Ship is destroyed
+            ship.integrity <= 0 -> when {
+                ship.yearsTraveled >= YEARS_LOTS && ship.cryopods >= CRYOPODS_LOTS -> GameOver.INTEGRITY_ZERO_YEARS_LOTS_CRYOPODS_BUSTLING
+                ship.cryopods < 1 -> GameOver.INTEGRITY_ZERO_CRYOPODS_ZERO
+                ship.cryopods == 1 -> GameOver.INTEGRITY_ZERO_CRYOPODS_ONE
+                ship.cryopods in 2..CRYOPODS_LOW -> GameOver.INTEGRITY_ZERO_CRYOPODS_LOW
+                ship.fuel < FUEL_LOW -> GameOver.INTEGRITY_ZERO_FUEL_LOW
+                ship.fuel in FUEL_LOW..FUEL_SOME -> GameOver.INTEGRITY_ZERO_FUEL_SOME
+                ship.fuel > FUEL_PLENTY -> GameOver.INTEGRITY_ZERO_FUEL_PLENTY
+                ship.yearsTraveled < YEARS_FEW -> GameOver.INTEGRITY_ZERO_YEARS_FEW
+                ship.yearsTraveled in YEARS_FEW..YEARS_SOME -> GameOver.INTEGRITY_ZERO_YEARS_SOME
+                ship.yearsTraveled > YEARS_LOTS -> GameOver.INTEGRITY_ZERO_YEARS_LOTS
+                ship.cryopods > CRYOPODS_SOME -> GameOver.INTEGRITY_ZERO_CRYOPODS_ENOUGH
+                else -> GameOver.INTEGRITY_ZERO
+            }
 
-                if (ship.yearsTraveled < YEARS_FEW) add(element = GameOver.INTEGRITY_ZERO_YEARS_FEW)
-                if (ship.yearsTraveled in YEARS_FEW..YEARS_SOME) add(element = GameOver.INTEGRITY_ZERO_YEARS_SOME)
-                if (ship.yearsTraveled > YEARS_LOTS) add(element = GameOver.INTEGRITY_ZERO_YEARS_LOTS)
+            // Ship ran out of fuel
+            ship.fuel <= 0 -> when {
+                ship.integrity >= INTEGRITY_HIGH && ship.materials >= MATERIALS_LOTS && ship.cryopods >= CRYOPODS_LOTS -> GameOver.FUEL_ZERO_INTEGRITY_ENOUGH_MATERIALS_ENOUGH_CRYOPODS_BUSTLING
+                ship.materials >= MATERIALS_LOTS && ship.cryopods >= CRYOPODS_LOTS -> GameOver.FUEL_ZERO_MATERIALS_PLENTY_CRYOPODS_BUSTLING
+                ship.cryopods < 1 -> GameOver.FUEL_ZERO_CRYOPODS_ZERO
+                ship.cryopods == 1 -> GameOver.FUEL_ZERO_CRYOPODS_ONE
+                ship.cryopods in 2..CRYOPODS_LOW -> GameOver.FUEL_ZERO_CRYOPODS_LOW
+                ship.materials < 1 -> GameOver.FUEL_ZERO_MATERIALS_ZERO
+                ship.materials in 1..MATERIALS_FEW -> GameOver.FUEL_ZERO_MATERIALS_LOW
+                ship.integrity < INTEGRITY_LOW -> GameOver.FUEL_ZERO_INTEGRITY_LOW
+                ship.yearsTraveled < YEARS_FEW -> GameOver.FUEL_ZERO_YEARS_FEW
+                ship.yearsTraveled in YEARS_FEW..YEARS_SOME -> GameOver.FUEL_ZERO_YEARS_SOME
+                ship.yearsTraveled > YEARS_LOTS -> GameOver.FUEL_ZERO_YEARS_LOTS
+                ship.integrity > INTEGRITY_HIGH -> GameOver.FUEL_ZERO_INTEGRITY_PRISTINE
+                ship.materials >= MATERIALS_LOTS -> GameOver.FUEL_ZERO_MATERIALS_ENOUGH
+                ship.cryopods > CRYOPODS_SOME -> GameOver.FUEL_ZERO_CRYOPODS_ENOUGH
+                ship.integrity in INTEGRITY_MID..INTEGRITY_HIGH -> GameOver.FUEL_ZERO_INTEGRITY_ENOUGH
+                else -> GameOver.FUEL_ZERO
+            }
 
-                if (ship.materials < 1) add(element = GameOver.INTEGRITY_ZERO_MATERIALS_ZERO)
-                if (ship.materials in 1..20) add(element = GameOver.INTEGRITY_ZERO_MATERIALS_LOW)
-                if (ship.materials > 20) add(element = GameOver.INTEGRITY_ZERO_MATERIALS_ENOUGH)
-
-                if (ship.cryopods < 1) add(element = GameOver.INTEGRITY_ZERO_CRYOPODS_ZERO)
-                if (ship.cryopods == 1) add(element = GameOver.INTEGRITY_ZERO_CRYOPODS_ONE)
-                if (ship.cryopods in 2..20) add(element = GameOver.INTEGRITY_ZERO_CRYOPODS_LOW)
-                if (ship.cryopods > 20) add(element = GameOver.INTEGRITY_ZERO_CRYOPODS_ENOUGH)
-
-                if (ship.fuel < 10) add(element = GameOver.INTEGRITY_ZERO_FUEL_LOW)
-                if (ship.fuel in 10..90) add(element = GameOver.INTEGRITY_ZERO_FUEL_SOME)
-                if (ship.fuel > 90) add(element = GameOver.INTEGRITY_ZERO_FUEL_PLENTY)
-
-                if (ship.yearsTraveled >= YEARS_LOTS && ship.cryopods >= 300) add(element = GameOver.INTEGRITY_ZERO_YEARS_LOTS_CRYOPODS_BUSTLING)
-            }.random()
-
-            ship.fuel <= 0 -> buildList {
-                add(element = GameOver.FUEL_ZERO)
-
-                if (ship.yearsTraveled < YEARS_FEW) add(element = GameOver.FUEL_ZERO_YEARS_FEW)
-                if (ship.yearsTraveled in YEARS_FEW..YEARS_SOME) add(element = GameOver.FUEL_ZERO_YEARS_SOME)
-                if (ship.yearsTraveled > YEARS_LOTS) add(element = GameOver.FUEL_ZERO_YEARS_LOTS)
-
-                if (ship.materials < 1) add(element = GameOver.FUEL_ZERO_MATERIALS_ZERO)
-                if (ship.materials in 1..20) add(element = GameOver.FUEL_ZERO_MATERIALS_LOW)
-                if (ship.materials >= 20) add(element = GameOver.FUEL_ZERO_MATERIALS_ENOUGH)
-
-                if (ship.cryopods < 1) add(element = GameOver.FUEL_ZERO_CRYOPODS_ZERO)
-                if (ship.cryopods == 1) add(element = GameOver.FUEL_ZERO_CRYOPODS_ONE)
-                if (ship.cryopods in 2..10) add(element = GameOver.FUEL_ZERO_CRYOPODS_NEAR_ZERO)
-                if (ship.cryopods in 11..20) add(element = GameOver.FUEL_ZERO_CRYOPODS_TOO_LOW)
-                if (ship.cryopods in 21..50) add(element = GameOver.FUEL_ZERO_CRYOPODS_LOW)
-                if (ship.cryopods > 50) add(element = GameOver.FUEL_ZERO_CRYOPODS_ENOUGH)
-
-                if (ship.integrity < 20) add(element = GameOver.FUEL_ZERO_INTEGRITY_LOW)
-                if (ship.integrity in 20..90) add(element = GameOver.FUEL_ZERO_INTEGRITY_ENOUGH)
-                if (ship.integrity > 90) add(element = GameOver.FUEL_ZERO_INTEGRITY_PRISTINE)
-
-                if (ship.materials >= 100 && ship.cryopods >= 300) add(element = GameOver.FUEL_ZERO_MATERIALS_PLENTY_CRYOPODS_BUSTLING)
-                if (ship.integrity >= 90 && ship.materials >= 100 && ship.cryopods >= 300) add(element = GameOver.FUEL_ZERO_INTEGRITY_ENOUGH_MATERIALS_ENOUGH_CRYOPODS_BUSTLING)
-            }.random()
-
+            // Solar System Planets
             gameSession.settledPlanetId == "1mercury" -> GameOver.MERCURY
             gameSession.settledPlanetId == "2venus" -> GameOver.VENUS
             gameSession.settledPlanetId == "3earth" -> GameOver.EARTH
@@ -295,8 +278,10 @@ internal class GameSessionGateway(
             gameSession.settledPlanetId == "7uranus" -> GameOver.URANUS
             gameSession.settledPlanetId == "8neptune" -> GameOver.NEPTUNE
 
+            // Habitability
             gameSession.finalHabitability != null -> buildList {
                 when (gameSession.finalHabitability) {
+                    // Deadly
                     in 0.0..20.0 -> {
                         add(element = GameOver.HABITABILITY_DEADLY)
                         if (ship.cryopods >= 50) add(element = GameOver.HABITABILITY_DEADLY_CRYOPODS_ENOUGH)
@@ -304,6 +289,7 @@ internal class GameSessionGateway(
                         if (ship.materials >= 50 && ship.integrity < 30) add(element = GameOver.HABITABILITY_DEADLY_INTEGRITY_MID_LOW_MATERIALS_ENOUGH)
                     }
 
+                    // Very Low
                     in 21.0..40.0 -> {
                         add(element = GameOver.HABITABILITY_VERY_LOW)
                         if (ship.cryopods >= 50 && ship.materials >= 50) add(element = GameOver.HABITABILITY_VERY_LOW_CRYOPODS_ENOUGH_MATERIALS_ENOUGH)
@@ -311,6 +297,7 @@ internal class GameSessionGateway(
                         if (ship.integrity < 20) add(element = GameOver.HABITABILITY_VERY_LOW_INTEGRITY_LOW)
                     }
 
+                    // Low
                     in 41.0..60.0 -> when {
                         ship.materials >= 300 && ship.cryopods >= 150 -> {
                             add(element = GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH)
@@ -326,6 +313,7 @@ internal class GameSessionGateway(
                         else -> add(element = GameOver.HABITABILITY_LOW)
                     }
 
+                    // Medium
                     in 61.0..80.0 -> when {
                         ship.materials >= 100 && ship.cryopods >= 100 -> {
                             add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH)
@@ -350,6 +338,7 @@ internal class GameSessionGateway(
                         else -> add(element = GameOver.HABITABILITY_MEDIUM)
                     }
 
+                    // High
                     else -> when {
                         ship.materials >= 50 && ship.cryopods >= 50 -> {
                             add(element = GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH)
@@ -573,11 +562,20 @@ internal class GameSessionGateway(
     }
 
     companion object {
+        private const val INTEGRITY_HIGH = 80
+        private const val INTEGRITY_MID = 50
+        private const val INTEGRITY_LOW = 20
         private const val YEARS_FEW = 1000.0
         private const val YEARS_SOME = 50000.0
         private const val YEARS_LOTS = 100000.0
-        private const val MATERIALS_FEW = 100
-        private const val MATERIALS_SOME = 200
-        private const val MATERIALS_LOTS = 500
+        private const val CRYOPODS_LOW = 50
+        private const val CRYOPODS_SOME = 100
+        private const val CRYOPODS_LOTS = 500
+        private const val FUEL_LOW = 10
+        private const val FUEL_SOME = 100
+        private const val FUEL_PLENTY = 300
+        private const val MATERIALS_FEW = 50
+        private const val MATERIALS_SOME = 100
+        private const val MATERIALS_LOTS = 300
     }
 }
