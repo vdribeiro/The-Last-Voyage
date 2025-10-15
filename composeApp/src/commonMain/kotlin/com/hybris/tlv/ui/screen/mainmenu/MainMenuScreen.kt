@@ -26,7 +26,7 @@ import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.MainNavigation
 import com.hybris.tlv.ui.theme.component.card.PlanetCard
-import com.hybris.tlv.ui.theme.component.card.SimpleCard
+import com.hybris.tlv.ui.theme.component.card.PropertyCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.dialog.Dialog
 import com.hybris.tlv.ui.theme.component.image.AppLogo
@@ -351,7 +351,7 @@ private fun HostDefinitionContent(store: Store<MainMenuState, MainMenuAction>) {
             Spacer(modifier = Modifier.height(height = 4.dp))
         }
         items(items = stellarHostProperties, key = { it.id }) { property ->
-            SimpleCard(
+            PropertyCard(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES_SIMPLE),
                 name = getTranslation(key = property.id),
                 description = getTranslation(key = property.description),
@@ -479,7 +479,7 @@ private fun PlanetDefinitionContent(store: Store<MainMenuState, MainMenuAction>)
             Spacer(modifier = Modifier.height(height = 4.dp))
         }
         items(items = planetProperties, key = { it.id }) { property ->
-            SimpleCard(
+            PropertyCard(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_PROPERTIES_SIMPLE),
                 name = getTranslation(key = property.id),
                 description = getTranslation(key = property.description),
@@ -524,7 +524,7 @@ private fun HabitabilityContent(store: Store<MainMenuState, MainMenuAction>) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         items(items = formula, key = { it.id }) { property ->
-            SimpleCard(
+            PropertyCard(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_SIMPLE),
                 name = getTranslation(key = property.id),
                 description = getTranslation(key = property.description),

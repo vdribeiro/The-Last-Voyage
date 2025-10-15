@@ -25,7 +25,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun SimpleCard(
+internal fun AchievementCard(
     modifier: Modifier = Modifier,
     name: String? = null,
     description: String? = null,
@@ -73,7 +73,7 @@ internal fun SimpleCard(
 @Preview
 @Composable
 private fun SimpleCardPreview() = AppTheme {
-    SimpleCard(
+    PropertyCard(
         name = "Property",
         description = "Hammer Time",
     )

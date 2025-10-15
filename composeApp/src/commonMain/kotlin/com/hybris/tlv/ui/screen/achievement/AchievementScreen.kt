@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.card.SimpleCard
+import com.hybris.tlv.ui.theme.component.card.AchievementCard
 import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
@@ -41,7 +41,7 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
             items(items = storeState.achievements, key = { it.id }) { achievement ->
-                SimpleCard(
+                AchievementCard(
                     modifier = Modifier.testTag(tag = ACHIEVEMENT_SCREEN_LIST_ITEM),
                     name = getTranslation(key = achievement.id),
                     description = getTranslation(key = achievement.description)
