@@ -49,7 +49,7 @@ internal fun PropertyCard(
 
 @Preview
 @Composable
-private fun SimpleCardPreview() = AppTheme {
+private fun PropertyCardPreview() = AppTheme {
     PropertyCard(
         name = "Property",
         description = "Hammer Time",

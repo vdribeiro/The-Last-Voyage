@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -30,6 +33,7 @@ internal fun AchievementCard(
     name: String? = null,
     description: String? = null,
     image: DrawableResource? = null,
+    done: Boolean = false,
 ) {
     val typography = LocalTypography.current
     val shapes = LocalShapes.current
@@ -66,15 +70,27 @@ internal fun AchievementCard(
                     Text(text = it, style = typography.bodyMedium)
                 }
             }
+            Spacer(modifier = Modifier.weight(weight = 0.1f))
+            if (done) Icon(
+                imageVector = Icons.Filled.Check,
+            )
         }
     }
 }
 
 @Preview
 @Composable
-private fun SimpleCardPreview() = AppTheme {
-    PropertyCard(
-        name = "Property",
-        description = "Hammer Time",
-    )
+private fun AchievementCardPreview() = AppTheme {
+    Column {
+        AchievementCard(
+            name = "Achievement",
+            description = "Achievement Description",
+            done = false
+        )
+        AchievementCard(
+            name = "Achievement",
+            description = "Achievement Description",
+            done = true
+        )
+    }
 }
