@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -15,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
@@ -57,6 +59,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
                     enter = fadeIn(animationSpec = tween(durationMillis = 2500))
                 ) {
                     Text(
+                        modifier = Modifier.padding(all = 16.dp),
                         text = getTranslation(key = "splash_screen__intro"),
                         textAlign = TextAlign.Center
                     )
