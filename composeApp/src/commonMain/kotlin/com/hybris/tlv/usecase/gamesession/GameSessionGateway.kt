@@ -279,91 +279,64 @@ internal class GameSessionGateway(
             gameSession.settledPlanetId == "8neptune" -> GameOver.NEPTUNE
 
             // Habitability
-            gameSession.finalHabitability != null -> buildList {
-                when (gameSession.finalHabitability) {
-                    // Deadly
-                    in 0.0..20.0 -> {
-                        add(element = GameOver.HABITABILITY_DEADLY)
-                        if (ship.cryopods >= 50) add(element = GameOver.HABITABILITY_DEADLY_CRYOPODS_ENOUGH)
-                        if (ship.integrity < 20) add(element = GameOver.HABITABILITY_DEADLY_INTEGRITY_LOW)
-                        if (ship.materials >= 50 && ship.integrity < 30) add(element = GameOver.HABITABILITY_DEADLY_INTEGRITY_MID_LOW_MATERIALS_ENOUGH)
-                    }
-
-                    // Very Low
-                    in 21.0..40.0 -> {
-                        add(element = GameOver.HABITABILITY_VERY_LOW)
-                        if (ship.cryopods >= 50 && ship.materials >= 50) add(element = GameOver.HABITABILITY_VERY_LOW_CRYOPODS_ENOUGH_MATERIALS_ENOUGH)
-                        if (ship.cryopods >= 100 && ship.materials >= 50) add(element = GameOver.HABITABILITY_VERY_LOW_CRYOPODS_MID_MATERIALS_ENOUGH)
-                        if (ship.integrity < 20) add(element = GameOver.HABITABILITY_VERY_LOW_INTEGRITY_LOW)
-                    }
-
-                    // Low
-                    in 41.0..60.0 -> when {
-                        ship.materials >= 300 && ship.cryopods >= 150 -> {
-                            add(element = GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH)
-                            if (ship.integrity >= 90) add(element = GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_INTEGRITY_PRISTINE)
-                            if (ship.fuel >= 50) add(element = GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_FUEL_PLENTY)
-                        }
-
-                        ship.materials >= 300 && ship.cryopods in 1..149 -> add(element = GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_LOW)
-                        ship.materials >= 300 && ship.cryopods < 1 -> add(element = GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ZERO)
-                        ship.materials < 300 && ship.cryopods >= 150 -> add(element = GameOver.HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_ENOUGH)
-                        ship.materials < 300 && ship.cryopods in 1..149 -> add(element = GameOver.HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_LOW)
-                        ship.materials < 300 && ship.cryopods < 1 -> add(element = GameOver.HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_ZERO)
-                        else -> add(element = GameOver.HABITABILITY_LOW)
-                    }
-
-                    // Medium
-                    in 61.0..80.0 -> when {
-                        ship.materials >= 100 && ship.cryopods >= 100 -> {
-                            add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH)
-                            if (ship.yearsTraveled > YEARS_LOTS) add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS)
-                            if (ship.cryopods >= 300) add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_BUSTLING)
-                        }
-
-                        ship.materials < 100 && ship.cryopods >= 100 -> when {
-                            ship.integrity >= 75 -> {
-                                add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ENOUGH_INTEGRITY_ENOUGH)
-                            }
-
-                            else -> {
-                                add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ENOUGH)
-                            }
-                        }
-
-                        ship.materials >= 100 && ship.cryopods in 1..99 -> add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_LOW)
-                        ship.materials >= 100 && ship.cryopods < 1 -> add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ZERO)
-                        ship.materials < 100 && ship.cryopods in 1..99 -> add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_LOW)
-                        ship.materials < 100 && ship.cryopods < 1 -> add(element = GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ZERO)
-                        else -> add(element = GameOver.HABITABILITY_MEDIUM)
-                    }
-
-                    // High
-                    else -> when {
-                        ship.materials >= 50 && ship.cryopods >= 50 -> {
-                            add(element = GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH)
-                            if (ship.yearsTraveled > YEARS_LOTS) add(element = GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS)
-                            if (ship.cryopods >= 300) add(element = GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_BUSTLING)
-                        }
-
-                        ship.materials < 50 && ship.cryopods >= 50 -> when {
-                            ship.integrity >= 50 -> {
-                                add(element = GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ENOUGH_INTEGRITY_ENOUGH)
-                            }
-
-                            else -> {
-                                add(element = GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ENOUGH)
-                            }
-                        }
-
-                        ship.materials >= 50 && ship.cryopods in 1..49 -> add(element = GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_LOW)
-                        ship.materials >= 50 && ship.cryopods < 1 -> add(element = GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ZERO)
-                        ship.materials < 50 && ship.cryopods in 1..49 -> add(element = GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_LOW)
-                        ship.materials < 50 && ship.cryopods < 1 -> add(element = GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ZERO)
-                        else -> add(element = GameOver.HABITABILITY_HIGH)
-                    }
+            gameSession.finalHabitability != null -> when (gameSession.finalHabitability) {
+                // Deadly
+                in 0.0..20.0 -> when {
+                    ship.integrity < INTEGRITY_LOW -> GameOver.HABITABILITY_DEADLY_INTEGRITY_LOW
+                    ship.materials >= MATERIALS_SOME && ship.integrity < INTEGRITY_MID -> GameOver.HABITABILITY_DEADLY_INTEGRITY_MID_LOW_MATERIALS_ENOUGH
+                    ship.cryopods >= CRYOPODS_SOME -> GameOver.HABITABILITY_DEADLY_CRYOPODS_ENOUGH
+                    else -> GameOver.HABITABILITY_DEADLY
                 }
-            }.random()
+
+                // Very Low
+                in 21.0..40.0 -> when {
+                    ship.integrity < INTEGRITY_LOW && ship.cryopods > CRYOPODS_LOW -> GameOver.HABITABILITY_VERY_LOW_INTEGRITY_LOW
+                    ship.cryopods >= CRYOPODS_SOME && ship.materials >= MATERIALS_SOME -> GameOver.HABITABILITY_VERY_LOW_CRYOPODS_MID_MATERIALS_ENOUGH
+                    ship.cryopods >= CRYOPODS_LOW && ship.materials >= MATERIALS_SOME -> GameOver.HABITABILITY_VERY_LOW_CRYOPODS_ENOUGH_MATERIALS_ENOUGH
+                    else -> GameOver.HABITABILITY_VERY_LOW
+                }
+
+                // Low
+                in 41.0..60.0 -> when {
+                    ship.materials >= MATERIALS_LOTS && ship.cryopods >= CRYOPODS_ENOUGH && ship.integrity >= INTEGRITY_HIGH -> GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_INTEGRITY_PRISTINE
+                    ship.materials >= MATERIALS_LOTS && ship.cryopods >= CRYOPODS_ENOUGH && ship.fuel >= FUEL_PLENTY -> GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_FUEL_PLENTY
+                    ship.materials >= MATERIALS_LOTS && ship.cryopods >= CRYOPODS_ENOUGH -> GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH
+                    ship.materials >= MATERIALS_LOTS && ship.cryopods in 1..CRYOPODS_ENOUGH -> GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_LOW
+                    ship.materials >= MATERIALS_LOTS && ship.cryopods < 1 -> GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ZERO
+                    ship.materials < MATERIALS_LOTS && ship.cryopods >= CRYOPODS_ENOUGH -> GameOver.HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_ENOUGH
+                    ship.materials < MATERIALS_LOTS && ship.cryopods in 1..CRYOPODS_ENOUGH -> GameOver.HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_LOW
+                    ship.materials < MATERIALS_LOTS && ship.cryopods < 1 -> GameOver.HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_ZERO
+                    else -> GameOver.HABITABILITY_LOW
+                }
+
+                // Medium
+                in 61.0..80.0 -> when {
+                    ship.materials >= MATERIALS_SOME && ship.cryopods >= CRYOPODS_LOTS -> GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_BUSTLING
+                    ship.materials >= MATERIALS_SOME && ship.cryopods >= CRYOPODS_SOME && ship.yearsTraveled > YEARS_LOTS -> GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS
+                    ship.materials >= MATERIALS_SOME && ship.cryopods >= CRYOPODS_SOME -> GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH
+                    ship.materials >= MATERIALS_SOME && ship.cryopods in 1..CRYOPODS_SOME -> GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_LOW
+                    ship.materials >= MATERIALS_SOME && ship.cryopods < 1 -> GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ZERO
+                    ship.materials < MATERIALS_SOME && ship.cryopods >= CRYOPODS_SOME && ship.integrity >= INTEGRITY_HIGH -> GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ENOUGH_INTEGRITY_ENOUGH
+                    ship.materials < MATERIALS_SOME && ship.cryopods >= CRYOPODS_SOME && ship.integrity < INTEGRITY_HIGH -> GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ENOUGH
+                    ship.materials < MATERIALS_SOME && ship.cryopods in 1..CRYOPODS_SOME -> GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_LOW
+                    ship.materials < MATERIALS_SOME && ship.cryopods < 1 -> GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ZERO
+                    else -> GameOver.HABITABILITY_MEDIUM
+                }
+
+                // High
+                else -> when {
+                    ship.materials >= MATERIALS_FEW && ship.cryopods >= CRYOPODS_LOW && ship.cryopods >= CRYOPODS_LOTS -> GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_BUSTLING
+                    ship.materials >= MATERIALS_FEW && ship.cryopods >= CRYOPODS_LOW && ship.yearsTraveled > YEARS_LOTS -> GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS
+                    ship.materials >= MATERIALS_FEW && ship.cryopods >= CRYOPODS_LOW -> GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH
+                    ship.materials >= MATERIALS_FEW && ship.cryopods in 1..CRYOPODS_LOW -> GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_LOW
+                    ship.materials >= MATERIALS_FEW && ship.cryopods < 1 -> GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ZERO
+                    ship.materials < MATERIALS_FEW && ship.cryopods >= CRYOPODS_LOW && ship.integrity >= INTEGRITY_MID -> GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ENOUGH_INTEGRITY_ENOUGH
+                    ship.materials < MATERIALS_FEW && ship.cryopods >= CRYOPODS_LOW && ship.integrity < INTEGRITY_MID -> GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ENOUGH
+                    ship.materials < MATERIALS_FEW && ship.cryopods in 1..CRYOPODS_LOW -> GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_LOW
+                    ship.materials < MATERIALS_FEW && ship.cryopods < 1 -> GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ZERO
+                    else -> GameOver.HABITABILITY_HIGH
+                }
+            }
 
             else -> GameOver.GAME_OVER
         }
@@ -570,6 +543,7 @@ internal class GameSessionGateway(
         private const val YEARS_LOTS = 100000.0
         private const val CRYOPODS_LOW = 50
         private const val CRYOPODS_SOME = 100
+        private const val CRYOPODS_ENOUGH = 200
         private const val CRYOPODS_LOTS = 500
         private const val FUEL_LOW = 10
         private const val FUEL_SOME = 100

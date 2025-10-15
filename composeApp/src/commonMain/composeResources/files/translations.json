@@ -2442,7 +2442,7 @@
   {
     "languageIso": "en",
     "key": "game_over_screen__habitability_low_materials_enough_cryopods_enough",
-    "value": "The planet's brutal winds and extreme temperature shifts are a constant threat. But the ship's material stores are ample, and its cryo-bays hold a viable population. The first action is not exploration, but construction. Prefabs are deployed and anchored deep into the rock. The ship’s hull is cannibalized for shielding. It is a slow, arduous process, but a foothold is established, a small bubble of civilization against the harshness of the world, built from the legacy of the ship."
+    "value": "The planet's brutal atmosphere is a constant threat. But the ship's material stores are ample, and its cryo-bays hold a viable population. The first action is not exploration, but construction. Prefabs are deployed and anchored deep into the rock. The ship’s hull is cannibalized for shielding. It is a slow, arduous process, but a foothold is established, a small bubble of civilization against the harshness of the world, built from the legacy of the ship."
   },
   {
     "languageIso": "en",
@@ -2877,7 +2877,7 @@
   {
     "languageIso": "en",
     "key": "tutorial_screen__mechanics_system_description",
-    "value": "This is the system you are currently in. You can choose to settle on a planet here.\nSettlement success depends on the planet's habitability and whether you have enough materials and cryopods.\n• Uninhabitable Worlds (below 40%): Instant failure.\n• Harsh Worlds (41-60%): Require significant resources (300 materials + 150 cryopods).\n• Tolerable Worlds (61-80%): Require moderate resources (100 materials + 100 cryopods).\n• Paradise Worlds (81-100%): Are the easiest to colonize (50 materials + 50 cryopods).\nThere are special cases where you can defy the odds with insufficient materials but enough population, if you have plenty of fuel to use the engine as a makeshift energy source, or ship integrity to cannibalize the ship for materials."
+    "value": "This is the system you are currently in. You can choose to settle on a planet here.\nSettlement success depends on the planet's habitability and whether you have enough materials and cryopods.\n• Uninhabitable Worlds (below 40%): Instant failure.\n• Harsh Worlds (41-60%): Require significant resources (300 materials + 200 cryopods).\n• Tolerable Worlds (61-80%): Require moderate resources (100 materials + 100 cryopods).\n• Paradise Worlds (81-100%): Are the easiest to colonize (50 materials + 50 cryopods).\nThere are special cases where you can defy the odds with insufficient materials but enough population, if you have plenty of fuel to use the engine as a makeshift energy source, or ship integrity to cannibalize the ship for materials."
   },
   {
     "languageIso": "en",
