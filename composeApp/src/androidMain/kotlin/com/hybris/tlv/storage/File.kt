@@ -1,8 +1,8 @@
 package com.hybris.tlv.storage
 
+import java.io.File
 import com.hybris.tlv.applicationContext
 import com.hybris.tlv.telemetry.Telemetry
-import java.io.File
 
 private val appDataDir: File by lazy {
     applicationContext.filesDir

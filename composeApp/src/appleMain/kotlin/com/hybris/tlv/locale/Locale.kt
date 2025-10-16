@@ -1,7 +1,5 @@
 package com.hybris.tlv.locale
 
-import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.usecase.translation.TranslationCache
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
@@ -13,6 +11,8 @@ import platform.Foundation.NSLocale
 import platform.Foundation.NSTimeZone
 import platform.Foundation.preferredLanguages
 import platform.Foundation.timeZoneForSecondsFromGMT
+import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.usecase.translation.TranslationCache
 
 internal actual fun getLanguage(): String = runCatching {
     (NSLocale.preferredLanguages.firstOrNull() as? String)

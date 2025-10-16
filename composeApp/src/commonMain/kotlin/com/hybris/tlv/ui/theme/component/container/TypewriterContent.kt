@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.container
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +16,6 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.component.text.TypewriterText
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun TypewriterContent(

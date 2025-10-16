@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
+import kotlinx.coroutines.Job
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
@@ -8,7 +9,6 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
-import kotlinx.coroutines.Job
 
 internal class StellarExplorerStore(
     dispatcher: Dispatcher,

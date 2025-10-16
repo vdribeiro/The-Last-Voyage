@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.event
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,7 +21,6 @@ import com.hybris.tlv.usecase.space.model.TravelOutcome
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun EventScreen(store: Store<EventState, EventAction>) {

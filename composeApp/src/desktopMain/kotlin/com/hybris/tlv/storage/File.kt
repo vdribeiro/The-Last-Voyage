@@ -1,7 +1,7 @@
 package com.hybris.tlv.storage
 
-import com.hybris.tlv.telemetry.Telemetry
 import java.io.File
+import com.hybris.tlv.telemetry.Telemetry
 
 private val appDataDir: File by lazy {
     val home = System.getProperty("user.home")

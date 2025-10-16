@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.translation.model
 
-import com.hybris.tlv.usecase.translation.TranslationCache
 import kotlinx.serialization.Serializable
+import com.hybris.tlv.usecase.translation.TranslationCache
 
 @Serializable
 internal data class Translation(

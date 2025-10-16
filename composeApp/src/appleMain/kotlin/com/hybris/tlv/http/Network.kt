@@ -1,6 +1,5 @@
 package com.hybris.tlv.http
 
-import com.hybris.tlv.telemetry.Telemetry
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
@@ -15,6 +14,7 @@ import platform.SystemConfiguration.kSCNetworkReachabilityFlagsConnectionRequire
 import platform.SystemConfiguration.kSCNetworkReachabilityFlagsReachable
 import platform.posix.AF_INET
 import platform.posix.sockaddr_in
+import com.hybris.tlv.telemetry.Telemetry
 
 @OptIn(ExperimentalForeignApi::class)
 internal actual suspend fun isInternetAvailable(): Boolean = runCatching {

@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
+import kotlinx.coroutines.Job
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
@@ -10,7 +11,6 @@ import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.learning.LearningUseCases
-import kotlinx.coroutines.Job
 
 internal class MainMenuStore(
     dispatcher: Dispatcher,

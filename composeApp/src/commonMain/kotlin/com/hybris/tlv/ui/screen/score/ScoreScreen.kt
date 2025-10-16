@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.score
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,7 +34,6 @@ import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.translation.getTranslation
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun ScoreScreen(store: Store<ScoreState, Unit>) {

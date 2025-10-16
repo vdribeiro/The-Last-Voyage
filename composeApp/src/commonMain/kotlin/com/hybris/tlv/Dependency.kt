@@ -1,5 +1,7 @@
 package com.hybris.tlv
 
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.HttpClientEngine
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.config.Config
 import com.hybris.tlv.config.ConfigManager
@@ -17,8 +19,6 @@ import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
 import database.AppDatabase
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.HttpClientEngine
 
 /**
  * Dependency index.

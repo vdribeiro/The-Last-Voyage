@@ -1,11 +1,5 @@
 package com.hybris.tlv.ui.screen.event
 
-import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.events
-import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.storeFactory
-import com.hybris.tlv.testDependency
-import com.hybris.tlv.ui.navigation.Screen
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -13,6 +7,12 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
+import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.events
+import com.hybris.tlv.gameSessionPrototype
+import com.hybris.tlv.storeFactory
+import com.hybris.tlv.testDependency
+import com.hybris.tlv.ui.navigation.Screen
 
 internal class EventStoreTest {
 

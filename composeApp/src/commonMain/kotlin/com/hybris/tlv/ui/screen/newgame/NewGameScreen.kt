@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.newgame
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,7 +35,6 @@ import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.translation.getTranslation
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {

@@ -1,5 +1,7 @@
 package com.hybris.tlv.config
 
+import kotlin.time.Duration.Companion.hours
+import io.ktor.client.HttpClient
 import com.hybris.tlv.http.HttpClientFactory.Companion.CONFIGS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
@@ -10,8 +12,6 @@ import com.hybris.tlv.serializer.PREFERENCES_JSON
 import com.hybris.tlv.serializer.loadJsonFile
 import com.hybris.tlv.serializer.saveJsonFile
 import com.hybris.tlv.telemetry.Telemetry
-import io.ktor.client.HttpClient
-import kotlin.time.Duration.Companion.hours
 
 internal class Config(private val httpClient: HttpClient): ConfigManager {
 

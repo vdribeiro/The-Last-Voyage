@@ -1,5 +1,8 @@
 package com.hybris.tlv.usecase.space.formula
 
+import kotlin.math.abs
+import kotlin.math.pow
+import kotlin.math.sqrt
 import com.hybris.tlv.usecase.space.formula.Constants.A_EM
 import com.hybris.tlv.usecase.space.formula.Constants.A_MG
 import com.hybris.tlv.usecase.space.formula.Constants.A_RG
@@ -41,9 +44,6 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetType
 import com.hybris.tlv.usecase.space.model.Score
 import com.hybris.tlv.usecase.space.model.StellarHost
-import kotlin.math.abs
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 internal object Habitability {
 

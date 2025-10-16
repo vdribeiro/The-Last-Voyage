@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.topbar
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +25,6 @@ import com.hybris.tlv.ui.theme.alpha
 import com.hybris.tlv.ui.theme.component.container.Surface
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun StatusBar(

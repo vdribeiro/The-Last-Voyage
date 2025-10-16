@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.achievement
 
+import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.AchievementSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.ACHIEVEMENTS_URL
@@ -14,7 +15,6 @@ import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import database.AppDatabase
-import io.ktor.client.HttpClient
 
 internal class AchievementGateway(
     private val config: ConfigManager,

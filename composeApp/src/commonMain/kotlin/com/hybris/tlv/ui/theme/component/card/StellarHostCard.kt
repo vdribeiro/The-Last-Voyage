@@ -1,5 +1,8 @@
 package com.hybris.tlv.ui.theme.component.card
 
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,9 +27,6 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
 import com.hybris.tlv.usecase.translation.getTranslation
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun StellarHostCard(

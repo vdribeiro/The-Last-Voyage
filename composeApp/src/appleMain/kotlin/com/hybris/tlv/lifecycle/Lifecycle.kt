@@ -1,11 +1,11 @@
 package com.hybris.tlv.lifecycle
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import platform.Foundation.NSNotificationCenter
 import platform.Foundation.NSOperationQueue
 import platform.UIKit.UIApplicationDidBecomeActiveNotification
 import platform.UIKit.UIApplicationWillResignActiveNotification
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 
 @Composable
 internal actual fun Register(

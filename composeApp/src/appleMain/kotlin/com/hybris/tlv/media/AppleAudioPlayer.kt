@@ -1,6 +1,5 @@
 package com.hybris.tlv.media
 
-import com.hybris.tlv.lifecycle.observe
 import platform.AVFoundation.AVPlayer
 import platform.AVFoundation.AVPlayerItem
 import platform.AVFoundation.AVPlayerItemDidPlayToEndTimeNotification
@@ -10,6 +9,7 @@ import platform.AVFoundation.rate
 import platform.Foundation.NSBundle
 import platform.Foundation.NSNotificationCenter
 import platform.darwin.NSObjectProtocol
+import com.hybris.tlv.lifecycle.observe
 
 internal class AppleAudioPlayer: AudioPlayer() {
 

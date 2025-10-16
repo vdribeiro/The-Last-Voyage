@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.card
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material3.Card
@@ -10,7 +11,6 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalShapes
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun Card(

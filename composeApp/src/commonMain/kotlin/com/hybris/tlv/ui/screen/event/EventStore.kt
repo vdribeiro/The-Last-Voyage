@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.event
 
+import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
@@ -12,7 +13,6 @@ import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
-import kotlinx.coroutines.Job
 
 internal class EventStore(
     dispatcher: Dispatcher,

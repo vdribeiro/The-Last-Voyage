@@ -1,9 +1,9 @@
 package com.hybris.tlv.usecase.translation
 
+import kotlin.concurrent.Volatile
 import com.hybris.tlv.locale.getLanguage
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.usecase.translation.model.Translation
-import kotlin.concurrent.Volatile
 
 /**
  * Translations cache.

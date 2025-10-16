@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.gamesession
 
+import kotlin.math.ceil
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.database.FormulaSchema
 import com.hybris.tlv.database.GameSessionSchema
@@ -16,7 +17,6 @@ import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import database.AppDatabase
-import kotlin.math.ceil
 
 internal class GameSessionGateway(
     database: AppDatabase,

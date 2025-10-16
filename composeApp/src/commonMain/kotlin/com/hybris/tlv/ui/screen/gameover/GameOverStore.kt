@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.gameover
 
+import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.getLocalDateTime
@@ -12,7 +13,6 @@ import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.translation.getTranslation
-import kotlinx.coroutines.Job
 
 internal class GameOverStore(
     dispatcher: Dispatcher,

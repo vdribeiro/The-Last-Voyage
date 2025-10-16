@@ -1,5 +1,7 @@
 package com.hybris.tlv.usecase.ship
 
+import kotlin.math.abs
+import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.EngineSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.ENGINES_URL
@@ -11,8 +13,6 @@ import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import database.AppDatabase
-import io.ktor.client.HttpClient
-import kotlin.math.abs
 
 internal class ShipGateway(
     private val config: ConfigManager,

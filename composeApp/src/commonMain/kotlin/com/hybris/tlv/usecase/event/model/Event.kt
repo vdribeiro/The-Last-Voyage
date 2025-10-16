@@ -1,7 +1,7 @@
 package com.hybris.tlv.usecase.event.model
 
-import com.hybris.tlv.usecase.space.model.TravelOutcome
 import kotlinx.serialization.Serializable
+import com.hybris.tlv.usecase.space.model.TravelOutcome
 
 @Serializable
 internal data class Event(

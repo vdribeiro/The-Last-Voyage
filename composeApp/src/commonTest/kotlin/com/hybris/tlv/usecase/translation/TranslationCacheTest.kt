@@ -1,9 +1,9 @@
 package com.hybris.tlv.usecase.translation
 
-import com.hybris.tlv.translations
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
+import com.hybris.tlv.translations
 
 internal class TranslationCacheTest {
 

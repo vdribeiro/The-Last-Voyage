@@ -1,5 +1,11 @@
 package com.hybris.tlv.ui.screen.game
 
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.hostsWithPlanets
@@ -8,12 +14,6 @@ import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.Screen
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlinx.coroutines.runBlocking
 
 internal class GameStoreTest {
 

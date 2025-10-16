@@ -1,13 +1,13 @@
 package com.hybris.tlv.ui.navigation
 
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.backhandler.BackHandler
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.telemetry.Telemetry
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 
 /**
  * Navigation manager with the screens index.

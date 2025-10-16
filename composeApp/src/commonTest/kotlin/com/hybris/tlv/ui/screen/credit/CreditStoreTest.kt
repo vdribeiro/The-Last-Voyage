@@ -1,14 +1,14 @@
 package com.hybris.tlv.ui.screen.credit
 
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.credits
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.Screen
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlinx.coroutines.runBlocking
 
 internal class CreditStoreTest {
 

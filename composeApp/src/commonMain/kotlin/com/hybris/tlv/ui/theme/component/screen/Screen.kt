@@ -1,5 +1,9 @@
 package com.hybris.tlv.ui.theme.component.screen
 
+import kotlin.time.TimeMark
+import kotlin.time.TimeSource
+import kotlinx.coroutines.delay
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,10 +29,6 @@ import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.container.Scaffold
 import com.hybris.tlv.ui.theme.component.image.AppLogo
 import com.hybris.tlv.ui.theme.component.image.Icon
-import kotlin.time.TimeMark
-import kotlin.time.TimeSource
-import kotlinx.coroutines.delay
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
  * A scaffold-based screen that handles displaying a loading indicator or the primary content.

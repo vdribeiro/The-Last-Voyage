@@ -1,5 +1,6 @@
 package com.hybris.tlv
 
+import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.flow.TestDispatchers
@@ -31,7 +32,6 @@ import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.translation.model.Translation
-import kotlinx.coroutines.runBlocking
 
 internal val testDependency: Dependency by lazy {
     Dependency(

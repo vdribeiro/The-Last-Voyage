@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.bottombar
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.button.Button
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun ButtonsBar(

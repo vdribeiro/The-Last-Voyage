@@ -1,8 +1,5 @@
 package com.hybris.tlv.http
 
-import com.hybris.tlv.platform.isDebug
-import com.hybris.tlv.serializer.json
-import com.hybris.tlv.telemetry.Telemetry
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
@@ -14,6 +11,9 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
+import com.hybris.tlv.platform.isDebug
+import com.hybris.tlv.serializer.json
+import com.hybris.tlv.telemetry.Telemetry
 
 internal class HttpClientFactory(engine: HttpClientEngine?) {
 

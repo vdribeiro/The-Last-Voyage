@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.splash
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -23,7 +24,6 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.getTranslation
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun SplashScreen(store: Store<SplashState, SplashAction>) {

@@ -1,10 +1,10 @@
 package com.hybris.tlv.ui.theme.component.text
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.theme.AppTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun Input(

@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.screen.feedback
 
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithTag
@@ -10,8 +12,6 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.theme.AppTheme
-import kotlin.test.BeforeTest
-import kotlin.test.Test
 
 // TODO
 @OptIn(ExperimentalTestApi::class)

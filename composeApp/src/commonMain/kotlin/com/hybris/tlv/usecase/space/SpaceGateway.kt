@@ -1,5 +1,11 @@
 package com.hybris.tlv.usecase.space
 
+import kotlin.math.PI
+import kotlin.math.ceil
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
+import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.PlanetSchema
 import com.hybris.tlv.database.StellarHostSchema
@@ -16,12 +22,6 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import database.AppDatabase
-import io.ktor.client.HttpClient
-import kotlin.math.PI
-import kotlin.math.ceil
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
 
 internal class SpaceGateway(
     private val config: ConfigManager,

@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.tutorial
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -30,7 +31,6 @@ import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.getTranslation
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {

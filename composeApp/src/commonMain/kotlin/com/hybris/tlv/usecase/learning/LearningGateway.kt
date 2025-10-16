@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.learning
 
+import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.LearningSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.LEARNINGS_URL
@@ -10,7 +11,6 @@ import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.learning.model.Learning
 import database.AppDatabase
-import io.ktor.client.HttpClient
 
 internal class LearningGateway(
     private val config: ConfigManager,

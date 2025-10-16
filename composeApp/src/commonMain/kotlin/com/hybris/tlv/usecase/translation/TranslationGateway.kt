@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.translation
 
+import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.TranslationSchema
 import com.hybris.tlv.flow.Dispatcher
@@ -12,7 +13,6 @@ import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.translation.model.Translation
 import database.AppDatabase
-import io.ktor.client.HttpClient
 
 internal class TranslationGateway(
     private val dispatcher: Dispatcher,

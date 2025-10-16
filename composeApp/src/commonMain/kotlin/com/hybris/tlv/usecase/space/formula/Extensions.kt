@@ -1,12 +1,12 @@
 package com.hybris.tlv.usecase.space.formula
 
-import com.hybris.tlv.usecase.space.formula.Constants.PARSEC
-import com.hybris.tlv.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY
-import com.hybris.tlv.usecase.space.model.PlanetType
 import kotlin.math.log10
 import kotlin.math.pow
 import kotlin.math.round
 import org.jetbrains.compose.resources.DrawableResource
+import com.hybris.tlv.usecase.space.formula.Constants.PARSEC
+import com.hybris.tlv.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY
+import com.hybris.tlv.usecase.space.model.PlanetType
 import thelastvoyage.composeapp.generated.resources.A
 import thelastvoyage.composeapp.generated.resources.B
 import thelastvoyage.composeapp.generated.resources.C

@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.catastrophe
 
+import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.CatastropheSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.CATASTROPHES_URL
@@ -10,7 +11,6 @@ import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import database.AppDatabase
-import io.ktor.client.HttpClient
 
 internal class CatastropheGateway(
     private val config: ConfigManager,

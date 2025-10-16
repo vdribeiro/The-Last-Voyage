@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.dialog
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -7,7 +8,6 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.getTranslation
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun Dialog(

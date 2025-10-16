@@ -1,5 +1,8 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.onAllNodesWithTag
@@ -9,9 +12,6 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.theme.AppTheme
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalTestApi::class)
 internal class StellarExplorerScreenTest {

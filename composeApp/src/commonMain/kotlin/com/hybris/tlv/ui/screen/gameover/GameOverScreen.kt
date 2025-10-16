@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.gameover
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,7 +25,6 @@ import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {

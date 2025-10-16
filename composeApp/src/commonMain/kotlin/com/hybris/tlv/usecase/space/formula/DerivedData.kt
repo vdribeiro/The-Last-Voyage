@@ -1,5 +1,8 @@
 package com.hybris.tlv.usecase.space.formula
 
+import kotlin.math.PI
+import kotlin.math.pow
+import kotlin.math.sqrt
 import com.hybris.tlv.usecase.space.formula.Constants.EARTH_AVERAGE_DENSITY
 import com.hybris.tlv.usecase.space.formula.Constants.EARTH_BOND_ALBEDO
 import com.hybris.tlv.usecase.space.formula.Constants.EARTH_DAY_IN_SECONDS
@@ -14,9 +17,6 @@ import com.hybris.tlv.usecase.space.formula.Constants.SUN_RADIUS_IN_EARTH_RADII
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_RADIUS_IN_METERS
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
-import kotlin.math.PI
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 internal object DerivedData {
 

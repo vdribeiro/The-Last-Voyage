@@ -1,5 +1,9 @@
 package com.hybris.tlv.ui.screen.splash
 
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.supervisorScope
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
@@ -16,10 +20,6 @@ import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.ArchiveUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.translation.TranslationUseCases
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.supervisorScope
 
 internal class SplashStore(
     dispatcher: Dispatcher,

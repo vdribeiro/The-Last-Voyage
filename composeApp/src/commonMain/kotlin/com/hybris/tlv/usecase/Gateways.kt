@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase
 
+import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.usecase.achievement.AchievementGateway
@@ -23,7 +24,6 @@ import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.translation.TranslationGateway
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 import database.AppDatabase
-import io.ktor.client.HttpClient
 
 internal class Gateways(
     dispatcher: Dispatcher,

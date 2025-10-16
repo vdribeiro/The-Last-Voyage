@@ -1,6 +1,5 @@
 package com.hybris.tlv.storage
 
-import com.hybris.tlv.telemetry.Telemetry
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSSearchPathForDirectoriesInDomains
@@ -10,6 +9,7 @@ import platform.Foundation.NSUserDomainMask
 import platform.Foundation.stringByAppendingPathComponent
 import platform.Foundation.stringWithContentsOfFile
 import platform.Foundation.writeToFile
+import com.hybris.tlv.telemetry.Telemetry
 
 private val appDataDir: NSString by lazy {
     val paths = NSSearchPathForDirectoriesInDomains(directory = NSDocumentDirectory, domainMask = NSUserDomainMask, expandTilde = true)

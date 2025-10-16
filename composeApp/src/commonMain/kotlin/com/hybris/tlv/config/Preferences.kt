@@ -1,7 +1,7 @@
 package com.hybris.tlv.config
 
-import com.hybris.tlv.locale.distantPast
 import kotlinx.serialization.Serializable
+import com.hybris.tlv.locale.distantPast
 
 @Serializable
 internal data class Preferences(

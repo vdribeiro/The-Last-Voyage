@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.progress
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ProgressIndicatorDefaults
@@ -7,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.theme.AppTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun ProgressIndicator(

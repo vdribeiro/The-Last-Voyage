@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -15,7 +16,6 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun FeedbackHeader(

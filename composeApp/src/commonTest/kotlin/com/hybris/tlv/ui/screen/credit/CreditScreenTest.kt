@@ -1,5 +1,9 @@
 package com.hybris.tlv.ui.screen.credit
 
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlinx.coroutines.runBlocking
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
@@ -18,10 +22,6 @@ import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.credit.model.CreditType
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalTestApi::class)
 internal class CreditScreenTest {

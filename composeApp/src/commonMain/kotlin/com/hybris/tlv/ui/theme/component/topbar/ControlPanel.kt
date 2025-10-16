@@ -1,5 +1,9 @@
 package com.hybris.tlv.ui.theme.component.topbar
 
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,10 +46,6 @@ import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.image.defaultIcon
 import com.hybris.tlv.ui.theme.component.text.Input
 import com.hybris.tlv.ui.theme.component.text.Text
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(FlowPreview::class)
 @Composable

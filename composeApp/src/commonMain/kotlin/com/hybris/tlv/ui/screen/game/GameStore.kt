@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.game
 
+import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
@@ -13,7 +14,6 @@ import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
-import kotlinx.coroutines.Job
 
 internal class GameStore(
     dispatcher: Dispatcher,

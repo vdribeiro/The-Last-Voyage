@@ -1,5 +1,9 @@
 package com.hybris.tlv.usecase.space
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.timeout
 import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
@@ -48,10 +52,6 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.StellarHostJson
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.timeout
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 
 internal class ArchiveGateway(
     private val httpClient: HttpClient,

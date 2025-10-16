@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.card
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +20,6 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.image.defaultIcon
 import com.hybris.tlv.ui.theme.component.text.Text
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun StatDisplay(

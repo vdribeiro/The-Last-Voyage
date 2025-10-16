@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.event
 
+import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.EventSchema
 import com.hybris.tlv.http.HttpClientFactory.Companion.EVENTS_URL
@@ -13,7 +14,6 @@ import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import database.AppDatabase
-import io.ktor.client.HttpClient
 
 internal class EventGateway(
     private val config: ConfigManager,

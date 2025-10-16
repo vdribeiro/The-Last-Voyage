@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.bottombar
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Rocket
@@ -9,7 +10,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.translation.getTranslation
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun GameNavigation(

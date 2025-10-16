@@ -1,9 +1,9 @@
 package com.hybris.tlv.ui.navigation
 
-import com.hybris.tlv.testDependency
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
+import com.hybris.tlv.testDependency
 
 internal class NavigationManagerTest {
 
