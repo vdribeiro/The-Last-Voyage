@@ -23,6 +23,7 @@ val appVendor = "Hybris"
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
 val macIdentity: String = localProperties.getProperty("mac.sign.identity", "")
 
+// Generate Property.kt file with hidden keys from local properties
 abstract class GeneratePropertiesTask: DefaultTask() {
     @get:Input
     abstract val taskAppId: Property<String>
@@ -57,7 +58,6 @@ abstract class GeneratePropertiesTask: DefaultTask() {
         )
     }
 }
-
 val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "generateProperties") {
     taskAppId.set(appId)
     taskAppName.set(appName)
@@ -249,10 +249,12 @@ compose.desktop {
                     }
                 }
             }
+
             windows {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.ico"))
                 shortcut = true
             }
+            
             linux {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png"))
             }
@@ -272,21 +274,11 @@ sqldelight {
 kover {
     reports {
         total {
-            html {
-                onCheck = true
-            }
-
-            log {
-                onCheck = true
-            }
-
+            html { onCheck = true }
+            log { onCheck = true }
             verify {
                 onCheck = true
-                rule {
-                    bound {
-                        minValue = 80
-                    }
-                }
+                rule { bound { minValue = 80 } } // minimum 80% coverage
             }
 
             filters {
@@ -308,6 +300,7 @@ kover {
     }
 }
 
+// Enable native access for tests
 tasks.withType<Test> {
     jvmArgs("--enable-native-access=ALL-UNNAMED")
 }
