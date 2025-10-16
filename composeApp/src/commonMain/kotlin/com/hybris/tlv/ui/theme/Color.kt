@@ -1,6 +1,6 @@
 package com.hybris.tlv.ui.theme
 
-import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 
@@ -41,7 +41,7 @@ private val surfaceContainerHighest = Color(color = 0xFF36343B)
 private val surfaceContainerLow = Color(color = 0xFF1D1B20)
 private val surfaceContainerLowest = Color(color = 0xFF0F0D13)
 
-private val colorScheme = ColorScheme(
+private val colorScheme = darkColorScheme(
     primary = primary,
     onPrimary = onPrimary,
     primaryContainer = primaryContainer,
