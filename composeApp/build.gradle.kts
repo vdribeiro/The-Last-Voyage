@@ -2,6 +2,7 @@ import java.util.Properties
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 import org.gradle.internal.os.OperatingSystem
 
 plugins {
@@ -66,6 +67,37 @@ val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "gene
     taskAppVersion.set(appVersion)
     taskSentryDsn.set(sentryDsn)
     taskOutputDir.set(layout.buildDirectory.dir("generated/source/property"))
+}
+
+// JavaFX
+val javafx: Configuration by configurations.creating
+val javafxDependencies = listOf(
+    libs.javafx.base,
+    libs.javafx.graphics,
+    libs.javafx.media,
+    libs.javafx.swing
+)
+val javafxModules = "javafx.base,javafx.graphics,javafx.media,javafx.swing"
+val currentOS: OperatingSystem = OperatingSystem.current()
+val osClassifier = when {
+    currentOS.isWindows -> "win"
+    currentOS.isLinux -> "linux"
+    currentOS.isMacOsX -> {
+        when (System.getProperty("os.arch")) {
+            "aarch64" -> "mac-aarch64"
+            else -> "mac"
+        }
+    }
+
+    else -> error("Unsupported OS: ${System.getProperty("os.name")}")
+}
+
+fun DependencyHandler.addJavaFx() {
+    javafxDependencies.forEach { add(configuration = "javafx", dependency = it.get()) { artifact { this.classifier = osClassifier } } }
+}
+
+fun KotlinDependencyHandler.addJavaFx() {
+    javafxDependencies.forEach { implementation(dependency = it.get()) { artifact { this.classifier = osClassifier } } }
 }
 
 kotlin {
@@ -139,25 +171,7 @@ kotlin {
             dependencies {
                 implementation(dependencyNotation = compose.desktop.currentOs)
                 implementation(dependencyNotation = libs.bundles.desktop)
-
-                val currentOS = OperatingSystem.current()
-                val jfxClassifier = when {
-                    currentOS.isWindows -> "win"
-                    currentOS.isLinux -> "linux"
-                    currentOS.isMacOsX -> {
-                        when (System.getProperty("os.arch")) {
-                            "aarch64" -> "mac-aarch64"
-                            else -> "mac"
-                        }
-                    }
-
-                    else -> error("Unsupported OS: ${System.getProperty("os.name")}")
-                }
-
-                implementation(dependency = libs.javafx.base.get()) { artifact { this.classifier = jfxClassifier } }
-                implementation(dependency = libs.javafx.graphics.get()) { artifact { this.classifier = jfxClassifier } }
-                implementation(dependency = libs.javafx.media.get()) { artifact { this.classifier = jfxClassifier } }
-                implementation(dependency = libs.javafx.swing.get()) { artifact { this.classifier = jfxClassifier } }
+                addJavaFx()
             }
         }
 
@@ -172,6 +186,7 @@ kotlin {
 dependencies {
     debugImplementation(compose.uiTooling)
     debugImplementation(libs.androidx.test.manifest)
+    addJavaFx()
 }
 
 android {
@@ -219,6 +234,8 @@ compose.desktop {
         val isRelease = project.gradle.startParameter.taskNames.any { it.contains(other = "package", ignoreCase = true) }
 
         jvmArgs += "-Ddebug=${!isRelease}"
+        jvmArgs += "--module-path=${javafx.asPath}"
+        jvmArgs += "--add-modules=$javafxModules"
 
         if (currentOS.isMacOsX) {
             jvmArgs += "-Xdock:icon=${project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns").absolutePath}"
