@@ -53,8 +53,6 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val ship = storeState.ship
 
-
-
     Screen(
         modifier = Modifier.testTag(tag = GAME_SCREEN),
         loading = storeState.loading,

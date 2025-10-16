@@ -73,7 +73,7 @@ internal class GameOverStore(
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    private fun next(state: GameOverState): Job = launch {
+    private fun next(): Job = launch {
         val newAchievementTranslation = getTranslation(key = "achievements_screen__new")
         val achievements = achievements.map { achievement -> "$newAchievementTranslation: ${getTranslation(key = achievement.id)}" }
         updateState {
@@ -89,7 +89,7 @@ internal class GameOverStore(
     override fun reducer(state: GameOverState, action: GameOverAction) {
         when (action) {
             GameOverAction.Next -> when (state.currentContent) {
-                Content.MESSAGE -> next(state = state)
+                Content.MESSAGE -> next()
                 Content.SCORE -> navigate(screen = Screen.MainMenu)
             }
         }

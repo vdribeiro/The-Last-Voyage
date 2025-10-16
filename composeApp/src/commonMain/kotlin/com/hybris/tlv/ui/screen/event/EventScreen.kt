@@ -34,6 +34,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         topBar = {
+            // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
                 modifier = Modifier
                     .testTag(tag = EVENT_SCREEN_STATUS_BAR)

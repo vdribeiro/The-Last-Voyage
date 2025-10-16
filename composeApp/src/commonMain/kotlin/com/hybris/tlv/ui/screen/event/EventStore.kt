@@ -110,6 +110,7 @@ internal class EventStore(
         Telemetry.info(tag = TAG, message = "Launch event")
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = action.event)
 
+        this@EventStore.gameSession = updatedGameSession
         updateState {
             it.copy(
                 ship = updatedGameSession.ship,
