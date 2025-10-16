@@ -1,0 +1,25 @@
+PODS:
+  - composeApp (1.0.0):
+    - Sentry (= 8.55.1)
+  - Sentry (8.55.1):
+    - Sentry/Core (= 8.55.1)
+  - Sentry/Core (8.55.1)
+
+DEPENDENCIES:
+  - composeApp (from `../composeApp`)
+
+SPEC REPOS:
+  trunk:
+    - Sentry
+
+EXTERNAL SOURCES:
+  composeApp:
+    :path: "../composeApp"
+
+SPEC CHECKSUMS:
+  composeApp: 0f9e83a305b3e10b1d29125da2561e2ab76affc8
+  Sentry: 6c92b12db0634612f6a66757890fea97e788fe12
+
+PODFILE CHECKSUM: 3750c149c31db8d40342771ae5d9df382d9027da
+
+COCOAPODS: 1.16.2

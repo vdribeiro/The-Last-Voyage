@@ -1,6 +1,6 @@
 import UIKit
 import SwiftUI
-import TLV
+import composeApp
 
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
@@ -12,6 +12,6 @@ struct ComposeView: UIViewControllerRepresentable {
 
 struct ContentView: View {
     var body: some View {
-        ComposeView().ignoresSafeArea(.keyboard) // Compose has own keyboard handler
+        ComposeView().ignoresSafeArea(.keyboard)
     }
 }

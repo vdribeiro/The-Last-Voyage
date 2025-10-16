@@ -1,5 +1,6 @@
 plugins {
     alias(notation = libs.plugins.kotlinMultiplatform) apply false
+    alias(notation = libs.plugins.cocoapods) apply false
     alias(notation = libs.plugins.kover) apply false
     alias(notation = libs.plugins.sentry) apply false
     alias(notation = libs.plugins.androidApplication) apply false

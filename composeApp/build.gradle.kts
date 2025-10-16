@@ -7,6 +7,7 @@ import org.gradle.internal.os.OperatingSystem
 
 plugins {
     alias(notation = libs.plugins.kotlinMultiplatform)
+    alias(notation = libs.plugins.cocoapods)
     alias(notation = libs.plugins.kover)
     alias(notation = libs.plugins.sentry)
     alias(notation = libs.plugins.androidApplication)
@@ -21,7 +22,9 @@ val appId: String = "com.hybris.tlv"
 val appName: String = "The Last Voyage"
 val appVersion: String = "1.0.0"
 val appVersionNumber: Int = 1
-val appVendor = "Hybris"
+val appVendor: String = "Hybris"
+val appDescription: String = "An Educational Space Adventure"
+val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb"
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
 val macIdentity: String = localProperties.getProperty("mac.sign.identity", "")
 
@@ -183,6 +186,19 @@ kotlin {
             sourceSets.getByName("${iosTarget.name}Main").dependsOn(other = appleMain)
         }
     }
+
+    cocoapods {
+        version = appVersion
+        summary = appDescription
+        homepage = appHomepage
+        ios.deploymentTarget = "18.2"
+        podfile = project.file("../iosApp/Podfile")
+        pod(name = "Sentry") {
+            version = "8.55.1"
+            linkOnly = true
+            extraOpts += listOf("-compiler-option", "-fmodules")
+        }
+    }
 }
 
 dependencies {
@@ -212,7 +228,7 @@ compose.desktop {
         nativeDistributions {
             packageName = appName
             packageVersion = appVersion
-            description = "An Educational Space Adventure"
+            description = appDescription
             vendor = appVendor
 
             targetFormats(

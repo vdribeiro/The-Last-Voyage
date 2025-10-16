@@ -35,3 +35,4 @@ captures
 /composeApp/release/*
 composeApp/gists
 /scripts
+/iosApp/Pods/
