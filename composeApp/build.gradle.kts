@@ -25,7 +25,7 @@ val appVendor = "Hybris"
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
 val macIdentity: String = localProperties.getProperty("mac.sign.identity", "")
 
-// Generate Property.kt file with hidden keys from local properties
+//region Generate Property.kt file
 abstract class GeneratePropertiesTask: DefaultTask() {
     @get:Input
     abstract val taskAppId: Property<String>
@@ -68,8 +68,9 @@ val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "gene
     taskSentryDsn.set(sentryDsn)
     taskOutputDir.set(layout.buildDirectory.dir("generated/source/property"))
 }
+//endregion
 
-// JavaFX
+//region JavaFX
 val javafx: Configuration by configurations.creating
 val javafxDependencies = listOf(
     libs.javafx.base,
@@ -92,26 +93,27 @@ val osClassifier = when {
     else -> error("Unsupported OS: ${System.getProperty("os.name")}")
 }
 
-fun DependencyHandler.addJavaFx() {
-    javafxDependencies.forEach { add(configuration = "javafx", dependency = it.get()) { artifact { this.classifier = osClassifier } } }
-}
-
 fun KotlinDependencyHandler.addJavaFx() {
     javafxDependencies.forEach { implementation(dependency = it.get()) { artifact { this.classifier = osClassifier } } }
 }
+
+fun DependencyHandler.addJavaFx() {
+    javafxDependencies.forEach { add(configuration = "javafx", dependency = it.get()) { artifact { this.classifier = osClassifier } } }
+}
+//endregion
 
 kotlin {
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 
-    androidTarget {
+    jvm(name = "desktop") {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
 
-    jvm(name = "desktop") {
+    androidTarget {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
@@ -146,6 +148,20 @@ kotlin {
             }
         }
 
+        val desktopMain by getting {
+            dependencies {
+                implementation(dependencyNotation = compose.desktop.currentOs)
+                implementation(dependencyNotation = libs.bundles.desktop)
+                addJavaFx()
+            }
+        }
+
+        val desktopTest by getting {
+            dependencies {
+                implementation(dependencyNotation = compose.desktop.uiTestJUnit4)
+            }
+        }
+
         val androidMain by getting {
             dependencies {
                 implementation(dependencyNotation = libs.bundles.android)
@@ -166,20 +182,6 @@ kotlin {
             }
             sourceSets.getByName("${iosTarget.name}Main").dependsOn(other = appleMain)
         }
-
-        val desktopMain by getting {
-            dependencies {
-                implementation(dependencyNotation = compose.desktop.currentOs)
-                implementation(dependencyNotation = libs.bundles.desktop)
-                addJavaFx()
-            }
-        }
-
-        val desktopTest by getting {
-            dependencies {
-                implementation(dependencyNotation = compose.desktop.uiTestJUnit4)
-            }
-        }
     }
 }
 
@@ -187,42 +189,6 @@ dependencies {
     debugImplementation(compose.uiTooling)
     debugImplementation(libs.androidx.test.manifest)
     addJavaFx()
-}
-
-android {
-    namespace = appId
-    compileSdk = 35
-
-    defaultConfig {
-        applicationId = appId
-        minSdk = 26
-        targetSdk = 35
-        versionCode = appVersionNumber
-        versionName = appVersion
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    buildFeatures {
-        buildConfig = true
-    }
-    sourceSets {
-        getByName("main") {
-            assets.srcDirs("src/commonMain/resources")
-        }
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
 }
 
 compose.desktop {
@@ -278,6 +244,42 @@ compose.desktop {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png"))
             }
         }
+    }
+}
+
+android {
+    namespace = appId
+    compileSdk = 35
+
+    defaultConfig {
+        applicationId = appId
+        minSdk = 26
+        targetSdk = 35
+        versionCode = appVersionNumber
+        versionName = appVersion
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildFeatures {
+        buildConfig = true
+    }
+    sourceSets {
+        getByName("main") {
+            assets.srcDirs("src/commonMain/resources")
+        }
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
