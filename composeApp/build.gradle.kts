@@ -2,6 +2,7 @@ import java.util.Properties
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.gradle.internal.os.OperatingSystem
 
 plugins {
     alias(notation = libs.plugins.kotlinMultiplatform)
@@ -58,6 +59,7 @@ abstract class GeneratePropertiesTask: DefaultTask() {
         )
     }
 }
+
 val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "generateProperties") {
     taskAppId.set(appId)
     taskAppName.set(appName)
@@ -138,7 +140,7 @@ kotlin {
                 implementation(dependencyNotation = compose.desktop.currentOs)
                 implementation(dependencyNotation = libs.bundles.desktop)
 
-                val currentOS = org.gradle.internal.os.OperatingSystem.current()
+                val currentOS = OperatingSystem.current()
                 val jfxClassifier = when {
                     currentOS.isWindows -> "win"
                     currentOS.isLinux -> "linux"
@@ -213,7 +215,7 @@ compose.desktop {
         mainClass = "$appId.MainKt"
         javaHome = System.getenv("JAVA_HOME").orEmpty()
 
-        val currentOS = org.gradle.internal.os.OperatingSystem.current()
+        val currentOS = OperatingSystem.current()
         val isRelease = project.gradle.startParameter.taskNames.any { it.contains(other = "package", ignoreCase = true) }
 
         jvmArgs += "-Ddebug=${!isRelease}"
@@ -254,7 +256,7 @@ compose.desktop {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.ico"))
                 shortcut = true
             }
-            
+
             linux {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png"))
             }
