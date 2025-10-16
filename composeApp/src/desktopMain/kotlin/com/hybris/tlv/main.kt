@@ -16,13 +16,13 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.translation.getTranslation
-import javafx.application.Platform
+import javafx.embed.swing.JFXPanel
 
 private const val TAG = "APP"
 
 private val initializeJfx by lazy {
     runCatching {
-        Platform.startup {}
+        JFXPanel()
         true
     }.getOrElse {
         Telemetry.error(tag = TAG, message = "Unable to start JavaFX", throwable = it)

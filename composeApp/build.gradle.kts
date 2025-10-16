@@ -138,21 +138,18 @@ kotlin {
                 implementation(dependencyNotation = compose.desktop.currentOs)
                 implementation(dependencyNotation = libs.bundles.desktop)
 
-                val osName = System.getProperty("os.name")
-                val osArch = System.getProperty("os.arch")
                 val currentOS = org.gradle.internal.os.OperatingSystem.current()
-
                 val jfxClassifier = when {
                     currentOS.isWindows -> "win"
                     currentOS.isLinux -> "linux"
                     currentOS.isMacOsX -> {
-                        when (osArch) {
+                        when (System.getProperty("os.arch")) {
                             "aarch64" -> "mac-aarch64"
                             else -> "mac"
                         }
                     }
 
-                    else -> error("Unsupported OS: $osName")
+                    else -> error("Unsupported OS: ${System.getProperty("os.name")}")
                 }
 
                 implementation(dependency = libs.javafx.base.get()) { artifact { this.classifier = jfxClassifier } }
@@ -215,14 +212,17 @@ compose.desktop {
     application {
         mainClass = "$appId.MainKt"
         javaHome = System.getenv("JAVA_HOME").orEmpty()
-        val isRelease = project.gradle.startParameter.taskNames.any {
-            it.contains(other = "package", ignoreCase = true)
-        }
+
+        val currentOS = org.gradle.internal.os.OperatingSystem.current()
+        val isRelease = project.gradle.startParameter.taskNames.any { it.contains(other = "package", ignoreCase = true) }
 
         jvmArgs += "-Ddebug=${!isRelease}"
-        jvmArgs += "-Xdock:icon=${project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns").absolutePath}"
-        jvmArgs += "-Xdock:name=$appName"
-        jvmArgs += "-Dapple.awt.application.name=$appName"
+
+        if (currentOS.isMacOsX) {
+            jvmArgs += "-Xdock:icon=${project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns").absolutePath}"
+            jvmArgs += "-Xdock:name=$appName"
+            jvmArgs += "-Dapple.awt.application.name=$appName"
+        }
 
         nativeDistributions {
             packageName = appName
