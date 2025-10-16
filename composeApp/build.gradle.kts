@@ -212,7 +212,7 @@ compose.desktop {
         nativeDistributions {
             packageName = appName
             packageVersion = appVersion
-            description = "An Educational Space adventure."
+            description = "An Educational Space Adventure"
             vendor = appVendor
 
             targetFormats(
