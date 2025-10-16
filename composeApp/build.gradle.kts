@@ -19,7 +19,9 @@ val appId: String = "com.hybris.tlv"
 val appName: String = "The Last Voyage"
 val appVersion: String = "1.0.0"
 val appVersionNumber: Int = 1
+val appVendor = "Hybris"
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
+val macIdentity: String = localProperties.getProperty("mac.sign.identity", "")
 
 abstract class GeneratePropertiesTask: DefaultTask() {
     @get:Input
@@ -213,12 +215,15 @@ compose.desktop {
     application {
         mainClass = "$appId.MainKt"
         javaHome = System.getenv("JAVA_HOME").orEmpty()
+        val isRelease = project.gradle.startParameter.taskNames.any {
+            it.contains(other = "package", ignoreCase = true)
+        }
 
         nativeDistributions {
             packageName = appName
             packageVersion = appVersion
             description = "An Educational Space adventure."
-            vendor = appId
+            vendor = appVendor
 
             targetFormats(
                 TargetFormat.Dmg,
@@ -230,7 +235,14 @@ compose.desktop {
 
             macOS {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns"))
-                entitlementsFile.set(project.file("src/desktopMain/resources/entitlements.plist"))
+                bundleID = appId
+                if (isRelease) {
+                    entitlementsFile.set(project.file("src/desktopMain/resources/entitlements.plist"))
+                    signing {
+                        sign.set(true)
+                        identity.set(macIdentity)
+                    }
+                }
             }
             windows {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.ico"))
@@ -241,9 +253,6 @@ compose.desktop {
             }
         }
 
-        val isRelease = project.gradle.startParameter.taskNames.any {
-            it.contains(other = "package", ignoreCase = true)
-        }
         jvmArgs += "-Ddebug=${!isRelease}"
         jvmArgs += "-Xdock:icon=${project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns").absolutePath}"
     }
