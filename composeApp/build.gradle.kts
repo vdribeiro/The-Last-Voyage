@@ -219,6 +219,11 @@ compose.desktop {
             it.contains(other = "package", ignoreCase = true)
         }
 
+        jvmArgs += "-Ddebug=${!isRelease}"
+        jvmArgs += "-Xdock:icon=${project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns").absolutePath}"
+        jvmArgs += "-Xdock:name=$appName"
+        jvmArgs += "-Dapple.awt.application.name=$appName"
+
         nativeDistributions {
             packageName = appName
             packageVersion = appVersion
@@ -252,9 +257,6 @@ compose.desktop {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png"))
             }
         }
-
-        jvmArgs += "-Ddebug=${!isRelease}"
-        jvmArgs += "-Xdock:icon=${project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns").absolutePath}"
     }
 }
 
