@@ -154,7 +154,7 @@
     }
   },
   {
-    "id": "achievement__cryopods_zero",
+    "id": "achievement_cryopods_zero",
     "description": "achievement_cryopods_zero_description",
     "preconditions": {
       "cryopods": "-0"
