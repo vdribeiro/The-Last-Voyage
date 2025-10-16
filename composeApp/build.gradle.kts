@@ -191,7 +191,7 @@ kotlin {
         version = appVersion
         summary = appDescription
         homepage = appHomepage
-        ios.deploymentTarget = "18.2"
+        ios.deploymentTarget = "18.6"
         podfile = project.file("../iosApp/Podfile")
         pod(name = "Sentry") {
             version = "8.55.1"
