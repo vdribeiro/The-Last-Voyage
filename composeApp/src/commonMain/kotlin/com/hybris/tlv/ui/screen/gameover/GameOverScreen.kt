@@ -31,12 +31,12 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
     val storeState by store.stateFlow.collectAsState()
     val gameSession = storeState.gameSession
     val ship = gameSession?.ship
-    val achievements = storeState.achievements
 
     val translationVersion by TranslationCache.updateFlow.collectAsState()
     val gameOverTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_over_screen__game_over") }
     val messageTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_over_screen__score") }
     val scoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_over_screen__end") }
+    val newAchievementTranslation = remember(key1 = translationVersion) { getTranslation(key = "achievements_screen__new") }
 
     Screen(
         modifier = Modifier.testTag(tag = GAME_OVER_SCREEN),
@@ -53,7 +53,13 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
                 )
             )
         },
-        snackbarHost = { Snackbar(messages = achievements) }
+        snackbarHost = {
+            if (storeState.showAchievements) Snackbar(messages = remember(key1 = storeState.achievements) {
+                storeState.achievements.map { achievement ->
+                    "$newAchievementTranslation: ${getTranslation(key = achievement.id)}"
+                }
+            })
+        }
     ) {
         when (storeState.currentContent) {
             Content.MESSAGE -> TypewriterContent(

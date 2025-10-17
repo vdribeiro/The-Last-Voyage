@@ -10,10 +10,7 @@ internal sealed interface GameOverAction {
 
 internal sealed interface GameOverStateBuilder {
     data object Default: GameOverStateBuilder
-    data class FromSavableState(
-        val state: GameOverState,
-        val achievements: List<Achievement>
-    ): GameOverStateBuilder
+    data class FromSavableState(val state: GameOverState): GameOverStateBuilder
 }
 
 internal data class GameOverState(
@@ -21,7 +18,8 @@ internal data class GameOverState(
     val currentContent: Content = Content.MESSAGE,
     val gameSession: GameSession? = null,
     val gameOver: GameOver? = null,
-    val achievements: List<String> = emptyList()
+    val achievements: List<Achievement> = emptyList(),
+    val showAchievements: Boolean = false
 )
 
 internal enum class Content {
