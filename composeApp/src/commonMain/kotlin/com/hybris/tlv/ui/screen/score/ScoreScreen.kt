@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,6 +25,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.Score
+import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
 import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.gamesession.model.GameSession
@@ -65,7 +65,7 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
                 style = typography.headlineLarge,
             )
             Spacer(modifier = Modifier.height(height = 32.dp))
-            LazyColumn(
+            LazyColumnWithScrollBar(
                 modifier = Modifier
                     .testTag(tag = SCORE_SCREEN_SCORES)
                     .fillMaxSize(),

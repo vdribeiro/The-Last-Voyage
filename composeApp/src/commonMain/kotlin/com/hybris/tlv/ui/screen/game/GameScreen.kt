@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BedroomParent
@@ -34,6 +33,7 @@ import com.hybris.tlv.ui.theme.component.card.StatDisplay
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.dialog.Dialog
 import com.hybris.tlv.ui.theme.component.divider.Divider
+import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
 import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.usecase.ship.model.Engine
@@ -105,7 +105,7 @@ private fun ShipContent(store: Store<GameState, GameAction>) {
     val cryopodsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_cryopods") }
 
     // Ship status with years traveled, sensor range, maximum speed, integrity, fuel, materials and cryopods
-    LazyColumn(
+    LazyColumnWithScrollBar(
         modifier = Modifier
             .testTag(tag = GAME_SCREEN_SHIP_CONTENT)
             .fillMaxSize()
@@ -186,7 +186,7 @@ private fun SystemContent(store: Store<GameState, GameAction>) {
         )
     }
 
-    LazyColumn(
+    LazyColumnWithScrollBar(
         modifier = Modifier
             .testTag(tag = GAME_SCREEN_SYSTEM_CONTENT)
             .fillMaxSize()
@@ -246,7 +246,7 @@ private fun SystemContent(store: Store<GameState, GameAction>) {
 private fun TravelContent(store: Store<GameState, GameAction>) {
     val storeState by store.stateFlow.collectAsState()
 
-    LazyColumn(
+    LazyColumnWithScrollBar(
         modifier = Modifier
             .testTag(tag = GAME_SCREEN_TRAVEL_CONTENT)
             .fillMaxSize()

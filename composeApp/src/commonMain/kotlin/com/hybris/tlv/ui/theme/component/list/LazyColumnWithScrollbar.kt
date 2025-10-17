@@ -37,8 +37,8 @@ internal fun LazyColumnWithScrollBar(
     scrollBarThickness: Dp = 8.dp,
     scrollBarShape: Shape = LocalShapes.current.extraSmall,
     scrollBarHoverDurationMillis: Int = 300,
-    scrollBarUnhoverColor: Color = Color.White,
     scrollBarHoverColor: Color = Color.White,
+    scrollBarUnhoverColor: Color = scrollBarHoverColor.copy(alpha = 0.3f),
     content: LazyListScope.() -> Unit
 ) {
     Box {

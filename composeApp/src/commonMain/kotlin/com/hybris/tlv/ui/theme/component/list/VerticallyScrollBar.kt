@@ -15,6 +15,6 @@ internal expect fun VerticallyScrollBar(
     thickness: Dp,
     shape: Shape,
     hoverDurationMillis: Int,
-    unhoverColor: Color,
-    hoverColor: Color
+    hoverColor: Color,
+    unhoverColor: Color
 )

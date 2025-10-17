@@ -18,8 +18,8 @@ internal actual fun VerticallyScrollBar(
     thickness: Dp,
     shape: Shape,
     hoverDurationMillis: Int,
-    unhoverColor: Color,
-    hoverColor: Color
+    hoverColor: Color,
+    unhoverColor: Color
 ) {
     val currentStyle = LocalScrollbarStyle.current
     VerticalScrollbar(
@@ -30,8 +30,8 @@ internal actual fun VerticallyScrollBar(
             thickness = thickness,
             shape = shape,
             hoverDurationMillis = hoverDurationMillis,
-            unhoverColor = unhoverColor,
-            hoverColor = hoverColor
+            hoverColor = hoverColor,
+            unhoverColor = unhoverColor
         )
     )
 }

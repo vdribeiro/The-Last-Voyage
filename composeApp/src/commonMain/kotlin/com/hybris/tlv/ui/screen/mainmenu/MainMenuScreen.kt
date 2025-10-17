@@ -31,6 +31,7 @@ import com.hybris.tlv.ui.theme.component.card.PropertyCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.dialog.Dialog
 import com.hybris.tlv.ui.theme.component.image.AppLogo
+import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
 import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.learning.model.Learning
@@ -305,7 +306,7 @@ private fun HostDefinitionContent(store: Store<MainMenuState, MainMenuAction>) {
 
     val typography = LocalTypography.current
 
-    LazyColumn(
+    LazyColumnWithScrollBar(
         modifier = Modifier
             .testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT)
             .fillMaxSize()
@@ -437,7 +438,7 @@ private fun PlanetDefinitionContent(store: Store<MainMenuState, MainMenuAction>)
 
     val typography = LocalTypography.current
 
-    LazyColumn(
+    LazyColumnWithScrollBar(
         modifier = Modifier
             .testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT)
             .fillMaxSize()
@@ -520,7 +521,7 @@ private fun HabitabilityContent(store: Store<MainMenuState, MainMenuAction>) {
     val typography = LocalTypography.current
     val colorScheme = LocalColorScheme.current
 
-    LazyColumn(
+    LazyColumnWithScrollBar(
         modifier = Modifier
             .testTag(tag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT)
             .fillMaxSize()

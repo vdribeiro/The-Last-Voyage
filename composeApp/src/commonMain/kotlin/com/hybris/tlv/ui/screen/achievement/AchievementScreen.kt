@@ -4,7 +4,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,6 +16,7 @@ import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.card.AchievementCard
+import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
 import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
@@ -32,7 +32,7 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {
-        LazyColumn(
+        LazyColumnWithScrollBar(
             modifier = Modifier
                 .testTag(tag = ACHIEVEMENT_SCREEN_LIST)
                 .fillMaxSize()

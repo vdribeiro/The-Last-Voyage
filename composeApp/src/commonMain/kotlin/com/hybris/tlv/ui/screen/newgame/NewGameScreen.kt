@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -29,6 +28,7 @@ import com.hybris.tlv.ui.theme.component.AttributeRow
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.card.SelectableAttribute
 import com.hybris.tlv.ui.theme.component.container.TypewriterContent
+import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
 import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
@@ -124,9 +124,10 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
         Spacer(modifier = Modifier.height(height = 16.dp))
 
         // Attributes for sensor range, fuel, materials and cryopods
-        LazyColumn(
+        LazyColumnWithScrollBar(
             modifier = Modifier
                 .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS)
+                .padding(all = 16.dp)
                 .weight(weight = 1f),
             verticalArrangement = Arrangement.spacedBy(space = 4.dp, alignment = Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally
