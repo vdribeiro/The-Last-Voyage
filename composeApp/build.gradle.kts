@@ -112,13 +112,13 @@ kotlin {
         freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 
-    jvm(name = "desktop") {
+    androidTarget {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
 
-    androidTarget {
+    jvm(name = "desktop") {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
@@ -153,6 +153,12 @@ kotlin {
             }
         }
 
+        val androidMain by getting {
+            dependencies {
+                implementation(dependencyNotation = libs.bundles.android)
+            }
+        }
+
         val desktopMain by getting {
             dependencies {
                 implementation(dependencyNotation = compose.desktop.currentOs)
@@ -164,12 +170,6 @@ kotlin {
         val desktopTest by getting {
             dependencies {
                 implementation(dependencyNotation = compose.desktop.uiTestJUnit4)
-            }
-        }
-
-        val androidMain by getting {
-            dependencies {
-                implementation(dependencyNotation = libs.bundles.android)
             }
         }
 
@@ -207,6 +207,42 @@ dependencies {
     debugImplementation(compose.uiTooling)
     debugImplementation(libs.androidx.test.manifest)
     addJavaFx()
+}
+
+android {
+    namespace = appId
+    compileSdk = androidTarget
+
+    defaultConfig {
+        applicationId = appId
+        minSdk = 26
+        targetSdk = androidTarget
+        versionCode = appVersionNumber
+        versionName = appVersion
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildFeatures {
+        buildConfig = true
+    }
+    sourceSets {
+        getByName("main") {
+            assets.srcDirs("src/commonMain/resources")
+        }
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
 }
 
 compose.desktop {
@@ -262,42 +298,6 @@ compose.desktop {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png"))
             }
         }
-    }
-}
-
-android {
-    namespace = appId
-    compileSdk = androidTarget
-
-    defaultConfig {
-        applicationId = appId
-        minSdk = 26
-        targetSdk = androidTarget
-        versionCode = appVersionNumber
-        versionName = appVersion
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    buildFeatures {
-        buildConfig = true
-    }
-    sourceSets {
-        getByName("main") {
-            assets.srcDirs("src/commonMain/resources")
-        }
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
