@@ -62,7 +62,7 @@ internal fun AppLogo(
 
         Text(
             text = text,
-            style = typography.headlineLarge,
+            style = typography.displaySmall,
             textAlign = TextAlign.Center,
             maxLines = 1
         )

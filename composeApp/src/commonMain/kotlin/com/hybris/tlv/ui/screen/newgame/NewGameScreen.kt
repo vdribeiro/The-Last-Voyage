@@ -117,7 +117,7 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
         Text(
             modifier = Modifier.testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT),
             text = "$shipPointsTranslation: ${shipState.remainingPoints}",
-            style = typography.headlineSmall,
+            style = typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
@@ -165,7 +165,7 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
                 Text(
                     modifier = Modifier.padding(all = 16.dp),
                     text = engineSelectTranslation,
-                    style = typography.headlineSmall,
+                    style = typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )

@@ -19,13 +19,13 @@ internal fun InfoRow(
     Row(modifier = modifier) {
         Text(
             text = "$label: ",
-            style = typography.bodyMedium,
+            style = typography.bodyLarge,
             fontWeight = FontWeight.Bold,
             maxLines = 1
         )
         Text(
             text = value.toString(),
-            style = typography.bodyMedium,
+            style = typography.bodyLarge,
             maxLines = 1
         )
     }

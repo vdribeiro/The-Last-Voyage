@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalShapes
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.alpha
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.button.Dropdown
@@ -69,6 +70,7 @@ internal fun ControlPanel(
     onFiltersChange: (String) -> Unit = {}
 ) {
     val shapes = LocalShapes.current
+    val typography = LocalTypography.current
 
     var searchQuery by remember { mutableStateOf(value = search) }
 
@@ -136,7 +138,11 @@ internal fun ControlPanel(
                         contentDescription = "View"
                     )
                     Spacer(modifier = Modifier.width(width = 8.dp))
-                    Text(text = viewName, maxLines = 1)
+                    Text(
+                        text = viewName,
+                        maxLines = 1,
+                        style = typography.labelLarge
+                    )
                 }
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -145,7 +151,8 @@ internal fun ControlPanel(
                             .padding(horizontal = 8.dp)
                             .alpha(alpha = alpha(enabled = enabled)),
                         text = count,
-                        maxLines = 1
+                        maxLines = 1,
+                        style = typography.labelLarge
                     )
                     SortMenu(
                         enabled = enabled,

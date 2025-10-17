@@ -17,10 +17,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
@@ -32,6 +32,8 @@ internal fun AttributeRow(
     canIncrement: Boolean = true,
     attributePoint: AttributePoint = AttributePoint()
 ) {
+    val typography = LocalTypography.current
+
     val value = attributePoint.value
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -41,7 +43,7 @@ internal fun AttributeRow(
         Text(
             modifier = Modifier.padding(all = 2.dp),
             text = name,
-            fontWeight = FontWeight.Medium,
+            style = typography.titleLarge,
             textAlign = TextAlign.Center,
             maxLines = 1
         )
@@ -65,7 +67,7 @@ internal fun AttributeRow(
             ) {
                 Text(
                     text = "$value",
-                    fontWeight = FontWeight.Medium,
+                    style = typography.bodyLarge,
                     textAlign = TextAlign.Center,
                     maxLines = 1
                 )

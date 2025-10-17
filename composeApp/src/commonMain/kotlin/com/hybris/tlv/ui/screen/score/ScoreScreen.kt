@@ -62,9 +62,9 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
             Text(
                 modifier = Modifier.testTag(tag = SCORE_SCREEN_TITLE),
                 text = titleTranslation,
-                style = typography.headlineLarge,
+                style = typography.headlineMedium,
             )
-            Spacer(modifier = Modifier.height(height = 32.dp))
+            Spacer(modifier = Modifier.height(height = 16.dp))
             LazyColumnWithScrollBar(
                 modifier = Modifier
                     .testTag(tag = SCORE_SCREEN_SCORES)

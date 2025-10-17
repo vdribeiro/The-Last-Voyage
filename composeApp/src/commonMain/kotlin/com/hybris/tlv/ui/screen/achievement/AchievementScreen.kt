@@ -2,29 +2,42 @@ package com.hybris.tlv.ui.screen.achievement
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
+import com.hybris.tlv.ui.screen.score.SCORE_SCREEN_TITLE
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.AchievementCard
 import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
 import com.hybris.tlv.ui.theme.component.screen.Screen
+import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
+import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
     val storeState by store.stateFlow.collectAsState()
+
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "achievement_screen__title") }
+
+    val typography = LocalTypography.current
 
     Screen(
         modifier = Modifier.testTag(tag = ACHIEVEMENT_SCREEN),
@@ -32,22 +45,36 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {
-        LazyColumnWithScrollBar(
+        Column(
             modifier = Modifier
-                .testTag(tag = ACHIEVEMENT_SCREEN_LIST)
                 .fillMaxSize()
                 .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(items = storeState.achievements, key = { it.id }) { achievement ->
-                AchievementCard(
-                    modifier = Modifier.testTag(tag = ACHIEVEMENT_SCREEN_LIST_ITEM),
-                    name = getTranslation(key = achievement.id),
-                    description = getTranslation(key = achievement.description),
-                    image = null, // TODO - achievement image
-                    done = achievement.done
-                )
+            Spacer(modifier = Modifier.height(height = 8.dp))
+            Text(
+                modifier = Modifier.testTag(tag = SCORE_SCREEN_TITLE),
+                text = titleTranslation,
+                style = typography.headlineMedium,
+            )
+            Spacer(modifier = Modifier.height(height = 16.dp))
+            LazyColumnWithScrollBar(
+                modifier = Modifier
+                    .testTag(tag = ACHIEVEMENT_SCREEN_LIST)
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+            ) {
+                items(items = storeState.achievements, key = { it.id }) { achievement ->
+                    AchievementCard(
+                        modifier = Modifier.testTag(tag = ACHIEVEMENT_SCREEN_LIST_ITEM),
+                        name = getTranslation(key = achievement.id),
+                        description = getTranslation(key = achievement.description),
+                        image = null, // TODO - achievement image
+                        done = achievement.done
+                    )
+                }
             }
         }
     }

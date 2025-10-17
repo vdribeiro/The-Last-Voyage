@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.image.defaultIcon
 import com.hybris.tlv.ui.theme.component.text.Text
@@ -17,10 +18,19 @@ internal fun NavigationBar(
     modifier: Modifier = Modifier,
     items: List<NavigationItem> = emptyList()
 ) {
+    val typography = LocalTypography.current
+
     NavigationBar(modifier = modifier) {
         items.forEach { item ->
             NavigationBarItem(
-                label = { Text(text = item.label, textAlign = TextAlign.Center, maxLines = 1) },
+                label = {
+                    Text(
+                        text = item.label,
+                        textAlign = TextAlign.Center,
+                        maxLines = 1,
+                        style = typography.labelLarge
+                    )
+                },
                 icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
                 selected = item.selected,
                 onClick = item.onClick,

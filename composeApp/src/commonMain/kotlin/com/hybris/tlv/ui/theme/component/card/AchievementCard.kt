@@ -66,9 +66,7 @@ internal fun AchievementCard(
                     )
                     Spacer(modifier = Modifier.height(height = 4.dp))
                 }
-                description?.let {
-                    Text(text = it, style = typography.bodyMedium)
-                }
+                description?.let { Text(text = it, style = typography.bodyLarge) }
             }
             Spacer(modifier = Modifier.weight(weight = 0.1f))
             if (done) Icon(

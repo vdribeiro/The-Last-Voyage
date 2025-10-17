@@ -135,7 +135,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     .fillMaxWidth()
                     .verticalScroll(state = rememberScrollState())
                     .padding(all = 8.dp),
-                style = typography.titleMedium,
+                style = typography.bodyLarge,
                 text = description,
                 textAlign = TextAlign.Start,
             )

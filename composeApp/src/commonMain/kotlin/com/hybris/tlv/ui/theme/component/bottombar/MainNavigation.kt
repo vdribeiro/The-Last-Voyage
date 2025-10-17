@@ -55,7 +55,7 @@ internal fun MainNavigation(
                 .wrapContentHeight(align = Alignment.CenterVertically)
                 .clickable { uriHandler.openUri(uri = developerCornerUri) },
             text = websiteTranslation,
-            style = typography.titleSmall,
+            style = typography.labelLarge,
         )
         Text(
             modifier = Modifier
@@ -63,7 +63,7 @@ internal fun MainNavigation(
                 .wrapContentHeight(align = Alignment.CenterVertically)
                 .clickable(onClick = onCreditsClick),
             text = creditsTranslation,
-            style = typography.titleSmall,
+            style = typography.labelLarge,
             textAlign = TextAlign.Center
         )
         Image(

@@ -110,7 +110,7 @@ private fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
     ) {
         item {
             AppLogo(
-                modifier = Modifier.padding(bottom = 32.dp),
+                modifier = Modifier.padding(bottom = 16.dp),
                 showBackground = false,
                 text = appNameTranslation
             )
@@ -196,7 +196,7 @@ private fun LearnContent(store: Store<MainMenuState, MainMenuAction>) {
     ) {
         item {
             AppLogo(
-                modifier = Modifier.padding(bottom = 32.dp),
+                modifier = Modifier.padding(bottom = 16.dp),
                 showBackground = false,
                 text = appNameTranslation
             )
@@ -317,7 +317,7 @@ private fun HostDefinitionContent(store: Store<MainMenuState, MainMenuAction>) {
             Text(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE),
                 text = exampleTranslation,
-                style = typography.titleLarge,
+                style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(height = 4.dp))
@@ -349,7 +349,7 @@ private fun HostDefinitionContent(store: Store<MainMenuState, MainMenuAction>) {
             Text(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES),
                 text = propertiesTranslation,
-                style = typography.titleLarge,
+                style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(height = 4.dp))
@@ -365,7 +365,7 @@ private fun HostDefinitionContent(store: Store<MainMenuState, MainMenuAction>) {
             Text(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES),
                 text = typesTranslation,
-                style = typography.titleLarge,
+                style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(height = 4.dp))
@@ -449,7 +449,7 @@ private fun PlanetDefinitionContent(store: Store<MainMenuState, MainMenuAction>)
             Text(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_EXAMPLE),
                 text = exampleTranslation,
-                style = typography.titleLarge,
+                style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
             )
             Spacer(modifier = Modifier.height(height = 4.dp))
@@ -478,7 +478,7 @@ private fun PlanetDefinitionContent(store: Store<MainMenuState, MainMenuAction>)
             Text(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_PROPERTIES),
                 text = propertiesTranslation,
-                style = typography.titleLarge,
+                style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(height = 4.dp))
@@ -494,7 +494,7 @@ private fun PlanetDefinitionContent(store: Store<MainMenuState, MainMenuAction>)
             Text(
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_TYPES),
                 text = typesTranslation,
-                style = typography.titleLarge,
+                style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(height = 4.dp))
@@ -542,7 +542,7 @@ private fun HabitabilityContent(store: Store<MainMenuState, MainMenuAction>) {
                     .testTag(tag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT_FORMULA)
                     .clickable { uriHandler.openUri(uri = storeState.formula) },
                 text = formulaTranslation,
-                style = typography.bodyLarge.copy(
+                style = typography.headlineSmall.copy(
                     color = colorScheme.primary,
                     textDecoration = TextDecoration.Underline
                 ),

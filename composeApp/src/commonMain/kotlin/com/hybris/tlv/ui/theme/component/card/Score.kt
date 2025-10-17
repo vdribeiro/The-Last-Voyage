@@ -117,11 +117,11 @@ private fun ScoreHeader(
         Text(
             modifier = Modifier.weight(weight = 1f),
             text = utc,
-            style = typography.titleMedium,
+            style = typography.titleLarge,
         )
         Text(
             text = totalScore,
-            style = typography.titleMedium,
+            style = typography.titleLarge,
             fontWeight = FontWeight.Bold,
             color = colorScheme.primary
         )

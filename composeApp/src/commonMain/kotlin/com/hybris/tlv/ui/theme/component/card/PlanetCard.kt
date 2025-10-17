@@ -123,7 +123,7 @@ internal fun PlanetCard(
                     Text(text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(height = 4.dp))
                 }
-                description?.let { Text(text = getTranslation(key = it), style = typography.bodyMedium) }
+                description?.let { Text(text = getTranslation(key = it), style = typography.bodyLarge) }
                 status?.let { InfoRow(label = planetStatusTranslation, value = getTranslation(key = it)) }
                 habitability?.let { InfoRow(label = planetHabitabilityTranslation, value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%") }
                 confidence?.let { InfoRow(label = planetConfidenceTranslation, value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%") }

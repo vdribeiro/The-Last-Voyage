@@ -41,11 +41,11 @@ internal fun FeedbackHeader(
                 bottom = 8.dp
             ),
             text = title,
-            style = typography.headlineSmall
+            style = typography.titleLarge
         )
         Text(
             text = description,
-            style = typography.bodyMedium,
+            style = typography.bodyLarge,
             textAlign = TextAlign.Center,
         )
     }

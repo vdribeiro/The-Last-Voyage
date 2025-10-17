@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalTypography
 
 @Composable
 internal fun TypewriterText(
@@ -24,6 +25,8 @@ internal fun TypewriterText(
     text: String = ""
 ) {
     val inspection = LocalInspectionMode.current
+    val typography = LocalTypography.current
+
     val words = remember(key1 = text) { text.split(' ') }
     var visibleWordsCount by remember(key1 = text) { mutableStateOf(value = 0) }
     var isRevealed by remember(key1 = text) { mutableStateOf(value = inspection) }
@@ -44,7 +47,8 @@ internal fun TypewriterText(
             modifier = Modifier
                 .fillMaxWidth()
                 .verticalScroll(state = rememberScrollState()),
-            text = if (isRevealed) text else words.take(n = visibleWordsCount).joinToString(separator = " ")
+            text = if (isRevealed) text else words.take(n = visibleWordsCount).joinToString(separator = " "),
+            style = typography.bodyLarge
         )
     }
 }

@@ -7,7 +7,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
@@ -17,12 +19,21 @@ internal fun Button(
     onClick: () -> Unit = {},
     enabled: Boolean = true,
 ) {
+    val typography = LocalTypography.current
+
     Button(
         modifier = modifier,
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-        content = { Text(text = text) }
+        content = {
+            Text(
+                text = text,
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+                style = typography.labelLarge
+            )
+        }
     )
 }
 

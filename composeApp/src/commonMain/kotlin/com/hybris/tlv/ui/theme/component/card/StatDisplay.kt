@@ -46,7 +46,7 @@ internal fun StatDisplay(
             Column(modifier = Modifier.weight(weight = 1f)) {
                 Text(
                     text = label,
-                    style = typography.bodyMedium,
+                    style = typography.bodyLarge,
                     color = colorScheme.onSurfaceVariant,
                     maxLines = 1
                 )

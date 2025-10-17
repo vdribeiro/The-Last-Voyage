@@ -45,11 +45,11 @@ internal fun SelectableAttribute(
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(height = 4.dp))
-                Text(text = description, style = typography.bodyMedium)
+                Text(text = description, style = typography.bodyLarge)
                 Spacer(modifier = Modifier.height(height = 4.dp))
-                Text(text = velocity, style = typography.bodyMedium)
+                Text(text = velocity, style = typography.bodyLarge)
                 Spacer(modifier = Modifier.height(height = 4.dp))
-                Text(text = fuel, style = typography.bodyMedium)
+                Text(text = fuel, style = typography.bodyLarge)
             }
             Spacer(modifier = Modifier.weight(weight = 0.1f))
             Text(

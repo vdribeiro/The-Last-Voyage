@@ -40,9 +40,7 @@ internal fun PropertyCard(
                 )
                 Spacer(modifier = Modifier.height(height = 4.dp))
             }
-            description?.let {
-                Text(text = it, style = typography.bodyMedium)
-            }
+            description?.let { Text(text = it, style = typography.bodyLarge) }
         }
     }
 }
