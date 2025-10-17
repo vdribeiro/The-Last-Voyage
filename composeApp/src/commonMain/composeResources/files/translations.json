@@ -1101,6 +1101,26 @@
   },
   {
     "languageIso": "en",
+    "key": "settled_planet",
+    "value": "Planet"
+  },
+  {
+    "languageIso": "en",
+    "key": "final_habitability",
+    "value": "Habitability"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine",
+    "value": "Engine"
+  },
+  {
+    "languageIso": "en",
+    "key": "points",
+    "value": "Assigned Points"
+  },
+  {
+    "languageIso": "en",
     "key": "ship_years_traveled",
     "value": "Years Traveled"
   },

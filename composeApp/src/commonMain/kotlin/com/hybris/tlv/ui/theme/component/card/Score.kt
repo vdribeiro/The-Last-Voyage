@@ -53,6 +53,10 @@ internal fun Score(
     cryopods: String = "",
 ) {
     val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val settledPlanetTranslation = remember(key1 = translationVersion) { getTranslation(key = "settled_planet") }
+    val habitabilityTranslation = remember(key1 = translationVersion) { getTranslation(key = "final_habitability") }
+    val engineTranslation = remember(key1 = translationVersion) { getTranslation(key = "engine") }
+    val assignedPointsTranslation = remember(key1 = translationVersion) { getTranslation(key = "points") }
     val yearsTraveledTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_years_traveled") }
     val sensorTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_sensor") }
     val integrityTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_integrity") }
@@ -85,6 +89,10 @@ internal fun Score(
                 ) {
                     Divider()
                     Spacer(modifier = Modifier.height(height = 8.dp))
+                    InfoRow(label = settledPlanetTranslation, value = settledPlanet)
+                    InfoRow(label = habitabilityTranslation, value = habitability)
+                    InfoRow(label = engineTranslation, value = engine)
+                    InfoRow(label = assignedPointsTranslation, value = assignedPoints)
                     InfoRow(label = yearsTraveledTranslation, value = yearsTraveled)
                     InfoRow(label = sensorTranslation, value = sensorRange)
                     InfoRow(label = integrityTranslation, value = integrity)
