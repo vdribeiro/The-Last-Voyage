@@ -77,13 +77,9 @@ val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "gene
 
 //region JavaFX
 val javafx: Configuration by configurations.creating
-val javafxDependencies = listOf(
-    libs.javafx.base,
-    libs.javafx.graphics,
-    libs.javafx.media,
-    libs.javafx.swing
-)
 val javafxModules = "javafx.base,javafx.graphics,javafx.media,javafx.swing"
+val javafxModulePath by lazy { javafx.asPath }
+val javafxDependencies = listOf(libs.javafx.base, libs.javafx.graphics, libs.javafx.media, libs.javafx.swing)
 val currentOS: OperatingSystem = OperatingSystem.current()
 val osClassifier = when {
     currentOS.isWindows -> "win"
@@ -249,14 +245,9 @@ compose.desktop {
     application {
         mainClass = "$appId.MainKt"
         javaHome = System.getenv("JAVA_HOME").orEmpty()
-
-        val currentOS = OperatingSystem.current()
         val isRelease = project.gradle.startParameter.taskNames.any { it.contains(other = "package", ignoreCase = true) }
 
         jvmArgs += "-Ddebug=${!isRelease}"
-        jvmArgs += "--module-path=${javafx.asPath}"
-        jvmArgs += "--add-modules=$javafxModules"
-
         if (currentOS.isMacOsX) {
             jvmArgs += "-Xdock:icon=${project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns").absolutePath}"
             jvmArgs += "-Xdock:name=$appName"
@@ -299,6 +290,12 @@ compose.desktop {
             }
         }
     }
+}
+
+// Module paths have to run after, otherwise it breaks the configuration
+project.afterEvaluate {
+    compose.desktop.application.jvmArgs += "--module-path=$javafxModulePath"
+    compose.desktop.application.jvmArgs += "--add-modules=$javafxModules"
 }
 
 sqldelight {
