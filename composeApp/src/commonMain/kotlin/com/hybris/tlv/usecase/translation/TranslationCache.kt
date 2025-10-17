@@ -1,6 +1,8 @@
 package com.hybris.tlv.usecase.translation
 
 import kotlin.concurrent.Volatile
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import com.hybris.tlv.locale.getLanguage
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.usecase.translation.model.Translation
@@ -27,9 +29,14 @@ internal object TranslationCache {
         ),
     ).toTranslationCacheMap()
 
+    // Trigger updates for cache listeners
+    private val _updateFlow = MutableStateFlow(value = 0)
+    val updateFlow = _updateFlow.asStateFlow()
+
     fun set(translations: List<Translation>) {
         languageIso = getLanguage()
         translationsCache = translations.toTranslationCacheMap()
+        _updateFlow.value++
     }
 
     fun get(key: String): String =
