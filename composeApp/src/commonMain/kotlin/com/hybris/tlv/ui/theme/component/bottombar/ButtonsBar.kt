@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.theme.component.bottombar
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,18 +22,24 @@ internal fun ButtonsBar(
     buttons: List<Pair<String, (() -> Unit)?>> = emptyList(),
 ) {
     LazyColumn(
-        modifier = modifier
-            .padding(top = 16.dp),
+        modifier = modifier.padding(top = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
         items(items = buttons, key = { it.first }) {
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                text = it.first,
-                onClick = it.second ?: {},
-                enabled = it.second != null
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = it.first,
+                    onClick = it.second ?: {},
+                    enabled = it.second != null
+                )
+            }
         }
         item { Spacer(modifier = Modifier.height(height = 16.dp)) }
     }
