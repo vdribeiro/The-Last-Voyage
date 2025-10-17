@@ -41,12 +41,16 @@ internal fun Score(
     isExpanded: Boolean? = null,
     score: String = "",
     utc: String = now(),
+    settledPlanet: String? = null,
+    habitability: String? = null,
+    engine: String = "",
+    assignedPoints: String = "",
     yearsTraveled: String = "",
     sensorRange: String = "",
     integrity: String = "",
-    materials: String = "",
     fuel: String = "",
-    cryopods: String = ""
+    materials: String = "",
+    cryopods: String = "",
 ) {
     val translationVersion by TranslationCache.updateFlow.collectAsState()
     val yearsTraveledTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_years_traveled") }
@@ -135,6 +139,6 @@ private fun ScorePreview() = AppTheme {
         yearsTraveled = "10",
         sensorRange = "10",
         integrity = "10",
-        materials = "10"
+        materials = "10",
     )
 }

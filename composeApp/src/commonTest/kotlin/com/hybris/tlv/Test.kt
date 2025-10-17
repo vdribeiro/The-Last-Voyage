@@ -127,6 +127,7 @@ internal val gameSession: GameSession by lazy {
         visitedStellarHosts = emptySet(),
         launchedEvents = emptySet(),
         settledPlanetId = null,
+        settledPlanetName = null,
         finalHabitability = null,
         score = null,
         ship = ship,

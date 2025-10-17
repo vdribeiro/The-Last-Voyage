@@ -70,7 +70,6 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
             Content.SCORE -> TypewriterContent(title = gameOverTranslation) {
                 if (gameSession != null && ship != null) Score(
                     modifier = Modifier.testTag(tag = GAME_OVER_SCREEN_SCORE),
-                    isExpanded = null,
                     score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
                     utc = gameSession.utc,
                     yearsTraveled = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
@@ -78,7 +77,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
                     integrity = ship.integrity.toString(),
                     materials = ship.materials.toString(),
                     fuel = ship.fuel.toString(),
-                    cryopods = ship.cryopods.toString()
+                    cryopods = ship.cryopods.toString(),
                 )
             }
         }
@@ -176,6 +175,7 @@ private fun GameOverScorePreview() = AppTheme {
                     visitedStellarHosts = emptySet(),
                     launchedEvents = emptySet(),
                     settledPlanetId = "earth",
+                    settledPlanetName = "earth",
                     finalHabitability = 90.0,
                     score = 9000.0,
                     formula = Formula(id = "1")

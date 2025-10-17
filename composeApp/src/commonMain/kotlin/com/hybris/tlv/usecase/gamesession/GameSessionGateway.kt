@@ -28,8 +28,7 @@ internal class GameSessionGateway(
 
     override suspend fun startGame(gameSessionPrototype: GameSessionPrototype): GameSession {
         val gameSession = gameSessionPrototype.toGameSession()
-        updateGameSession(gameSession = gameSession)
-        return gameSession
+        return updateGameSession(gameSession = gameSession)
     }
 
     override suspend fun getGameSessions(): List<GameSession> =
@@ -51,10 +50,11 @@ internal class GameSessionGateway(
         gameSessionDao.upsertGameSession(GameSession = gameSession.toGameSessionSchema())
     }
 
-    override suspend fun updateGameSession(gameSession: GameSession) {
+    override suspend fun updateGameSession(gameSession: GameSession): GameSession {
         upsertGameSession(gameSession = gameSession)
         shipDao.upsertShip(Ship = gameSession.ship.toShipSchema())
         formulaDao.upsertFormula(Formula = gameSession.formula.toFormulaSchema())
+        return gameSession
     }
 
     override suspend fun launchEvent(gameSession: GameSession, event: Event): GameSession {
@@ -71,8 +71,7 @@ internal class GameSessionGateway(
             ),
             launchedEvents = gameSession.launchedEvents + event.id
         )
-        updateGameSession(gameSession = updatedGameSession)
-        return updatedGameSession
+        return updateGameSession(gameSession = updatedGameSession)
     }
 
     override suspend fun travel(gameSession: GameSession, stellarHost: StellarHost): GameSession {
@@ -92,17 +91,16 @@ internal class GameSessionGateway(
             currentStellarHostId = stellarHost.id,
             visitedStellarHosts = gameSession.visitedStellarHosts + stellarHost.id
         )
-        updateGameSession(gameSession = updatedGameSession)
-        return updatedGameSession
+        return updateGameSession(gameSession = updatedGameSession)
     }
 
     override suspend fun settle(gameSession: GameSession, planet: Planet): GameSession {
         val updatedGameSession = gameSession.copy(
             settledPlanetId = planet.id,
+            settledPlanetName = planet.name,
             finalHabitability = planet.score?.habitabilityScore?.times(other = 100.0)
         )
-        updateGameSession(gameSession = updatedGameSession)
-        return updatedGameSession
+        return updateGameSession(gameSession = updatedGameSession)
     }
 
     override suspend fun score(gameSession: GameSession, gameOver: GameOver): GameSession {
@@ -124,8 +122,7 @@ internal class GameSessionGateway(
         val score = baseScore * challengeMultiplier * gameOverMultiplier
 
         val updatedGameSession = gameSession.copy(score = score)
-        updateGameSession(gameSession = updatedGameSession)
-        return updatedGameSession
+        return updateGameSession(gameSession = updatedGameSession)
     }
 
     @VisibleForTesting
@@ -354,6 +351,7 @@ internal class GameSessionGateway(
             visitedStellarHosts = emptySet(),
             launchedEvents = emptySet(),
             settledPlanetId = null,
+            settledPlanetName = null,
             finalHabitability = null,
             score = null,
             ship = Ship(
@@ -379,6 +377,7 @@ internal class GameSessionGateway(
             visitedStellarHosts = visitedStellarHosts,
             launchedEvents = launchedEvents,
             settledPlanetId = settledPlanetId,
+            settledPlanetName = settledPlanetName,
             finalHabitability = finalHabitability,
             score = score,
         )
@@ -434,6 +433,7 @@ internal class GameSessionGateway(
                                           visitedStellarHosts: Set<String>,
                                           launchedEvents: Set<String>,
                                           settledPlanetId: String?,
+                                          settledPlanetName: String?,
                                           finalHabitability: Double?,
                                           score: Double?,
                                           assignedPoints: Int,
@@ -482,6 +482,7 @@ internal class GameSessionGateway(
             visitedStellarHosts = visitedStellarHosts,
             launchedEvents = launchedEvents,
             settledPlanetId = settledPlanetId,
+            settledPlanetName = settledPlanetName,
             finalHabitability = finalHabitability,
             score = score,
             ship = Ship(

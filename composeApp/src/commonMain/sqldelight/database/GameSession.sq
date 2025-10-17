@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS GameSession (
     visitedStellarHosts TEXT AS Set<String> NOT NULL,
     launchedEvents TEXT AS Set<String> NOT NULL,
     settledPlanetId TEXT,
+    settledPlanetName TEXT,
     finalHabitability REAL,
     score REAL
 );
@@ -23,6 +24,7 @@ SELECT
     GameSession.visitedStellarHosts,
     GameSession.launchedEvents,
     GameSession.settledPlanetId,
+    GameSession.settledPlanetName,
     GameSession.finalHabitability,
     GameSession.score,
     Ship.assignedPoints,
@@ -78,6 +80,7 @@ SELECT
     GameSession.visitedStellarHosts,
     GameSession.launchedEvents,
     GameSession.settledPlanetId,
+    GameSession.settledPlanetName,
     GameSession.finalHabitability,
     GameSession.score,
     Ship.assignedPoints,

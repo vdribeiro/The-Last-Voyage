@@ -85,11 +85,15 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
                         isExpanded = expandedItems.contains(element = score.id),
                         score = (score.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
                         utc = score.utc,
+                        settledPlanet = score.settledPlanetName,
+                        habitability = score.finalHabitability?.toString(),
+                        engine = getTranslation(key = score.ship.engine.id),
+                        assignedPoints = score.ship.assignedPoints.toString(),
                         yearsTraveled = score.ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
                         sensorRange = score.ship.sensorRange.toString(),
                         integrity = score.ship.integrity.toString(),
-                        materials = score.ship.materials.toString(),
                         fuel = score.ship.fuel.toString(),
+                        materials = score.ship.materials.toString(),
                         cryopods = score.ship.cryopods.toString()
                     )
                 }
@@ -143,6 +147,7 @@ private fun ScoreListPreview() = AppTheme {
                         visitedStellarHosts = emptySet(),
                         launchedEvents = emptySet(),
                         settledPlanetId = "earth",
+                        settledPlanetName = "earth",
                         finalHabitability = 90.0,
                         score = 9000.0,
                         formula = Formula(id = "1")

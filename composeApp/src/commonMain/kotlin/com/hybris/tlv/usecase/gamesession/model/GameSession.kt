@@ -11,6 +11,7 @@ internal data class GameSession(
     val visitedStellarHosts: Set<String>,
     val launchedEvents: Set<String>,
     val settledPlanetId: String?,
+    val settledPlanetName: String?,
     val finalHabitability: Double?,
     val score: Double?,
     val formula: Formula

@@ -32,7 +32,7 @@ internal interface GameSessionUseCases {
     /**
      * Update the given [gameSession].
      */
-    suspend fun updateGameSession(gameSession: GameSession)
+    suspend fun updateGameSession(gameSession: GameSession): GameSession
 
     /**
      * Update the given [gameSession] with the given [event] outcomes.

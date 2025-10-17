@@ -103,9 +103,8 @@ internal class GameStore(
             currentStellarHostId = currentStellarHostId,
             visitedStellarHosts = visited,
         )
-        gameSessionUseCases.updateGameSession(gameSession = finalUpdatedGameSession)
 
-        this@GameStore.gameSession = finalUpdatedGameSession
+        this@GameStore.gameSession = gameSessionUseCases.updateGameSession(gameSession = finalUpdatedGameSession)
         updateState {
             it.copy(
                 loading = false,
