@@ -34,7 +34,6 @@ internal class AppleAudioPlayer: AudioPlayer() {
             subdirectory = "files"
         ) ?: return
         val playerItem = AVPlayerItem(uRL = resourceUrl)
-        endOfSongObserver?.let { NSNotificationCenter.defaultCenter.removeObserver(observer = it) }
         endOfSongObserver = NSNotificationCenter.defaultCenter.observe(
             name = AVPlayerItemDidPlayToEndTimeNotification,
             key = playerItem,
