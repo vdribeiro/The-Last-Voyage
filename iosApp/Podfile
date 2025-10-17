@@ -1,6 +1,14 @@
 use_frameworks!
-platform :ios, '18.6'
+platform :ios, '16.7.12'
 
 target 'iosApp' do
   pod 'composeApp', :path => '../composeApp'
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '16.7.12'
+    end
+  end
 end

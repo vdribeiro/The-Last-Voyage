@@ -25,6 +25,8 @@ val appVersionNumber: Int = 1
 val appVendor: String = "Hybris"
 val appDescription: String = "An Educational Space Adventure"
 val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb"
+val androidTarget = 35
+val iosTarget = "16.7.12"
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
 val macIdentity: String = localProperties.getProperty("mac.sign.identity", "")
 
@@ -191,7 +193,7 @@ kotlin {
         version = appVersion
         summary = appDescription
         homepage = appHomepage
-        ios.deploymentTarget = "18.6"
+        ios.deploymentTarget = iosTarget
         podfile = project.file("../iosApp/Podfile")
         pod(name = "Sentry") {
             version = "8.55.1"
@@ -265,12 +267,12 @@ compose.desktop {
 
 android {
     namespace = appId
-    compileSdk = 35
+    compileSdk = androidTarget
 
     defaultConfig {
         applicationId = appId
         minSdk = 26
-        targetSdk = 35
+        targetSdk = androidTarget
         versionCode = appVersionNumber
         versionName = appVersion
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
