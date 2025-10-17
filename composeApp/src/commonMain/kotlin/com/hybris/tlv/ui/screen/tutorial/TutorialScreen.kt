@@ -3,7 +3,6 @@ package com.hybris.tlv.ui.screen.tutorial
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -60,7 +59,13 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
     val typography = LocalTypography.current
 
     Screen(
-        modifier = Modifier.testTag(tag = TUTORIAL_SCREEN),
+        modifier = Modifier
+            .testTag(tag = TUTORIAL_SCREEN)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { store.send(action = TutorialAction.Next) }
+            .semantics(mergeDescendants = false) {},
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         topBar = {
@@ -84,66 +89,56 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
             )
         }
     ) {
-        Box(
+        val title: String
+        val description: String
+        when (storeState.tutorialStep) {
+            Tutorial.GOAL -> {
+                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_goal_title") }
+                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_goal_description") }
+            }
+
+            Tutorial.SHIP -> {
+                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_attributes_title") }
+                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_attributes_description") }
+            }
+
+            Tutorial.SYSTEM -> {
+                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_system_title") }
+                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_system_description") }
+            }
+
+            Tutorial.TRAVEL -> {
+                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_travel_title") }
+                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_travel_description") }
+            }
+
+            Tutorial.GAME_OVER -> {
+                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_game_over_title") }
+                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_game_over_description") }
+            }
+        }
+        Column(
             modifier = Modifier
-                .testTag(tag = TUTORIAL_SCREEN_CONTENT)
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null
-                ) { store.send(action = TutorialAction.Next) }
-                .semantics(mergeDescendants = false) {}
+                .fillMaxSize()
+                .padding(all = 32.dp),
         ) {
-            val title: String
-            val description: String
-            when (storeState.tutorialStep) {
-                Tutorial.GOAL -> {
-                    title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_goal_title") }
-                    description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_goal_description") }
-                }
-
-                Tutorial.SHIP -> {
-                    title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_attributes_title") }
-                    description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_attributes_description") }
-                }
-
-                Tutorial.SYSTEM -> {
-                    title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_system_title") }
-                    description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_system_description") }
-                }
-
-                Tutorial.TRAVEL -> {
-                    title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_travel_title") }
-                    description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_travel_description") }
-                }
-
-                Tutorial.GAME_OVER -> {
-                    title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_game_over_title") }
-                    description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_game_over_description") }
-                }
-            }
-            Column(
+            Text(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(all = 32.dp),
-            ) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(all = 8.dp),
-                    style = typography.titleLarge,
-                    text = title,
-                    textAlign = TextAlign.Center,
-                )
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(state = rememberScrollState())
-                        .padding(all = 8.dp),
-                    style = typography.titleMedium,
-                    text = description,
-                    textAlign = TextAlign.Start,
-                )
-            }
+                    .fillMaxWidth()
+                    .padding(all = 8.dp),
+                style = typography.titleLarge,
+                text = title,
+                textAlign = TextAlign.Center,
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(state = rememberScrollState())
+                    .padding(all = 8.dp),
+                style = typography.titleMedium,
+                text = description,
+                textAlign = TextAlign.Start,
+            )
         }
     }
 }

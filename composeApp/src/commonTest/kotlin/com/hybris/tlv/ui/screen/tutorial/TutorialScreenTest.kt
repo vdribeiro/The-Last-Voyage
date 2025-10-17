@@ -31,6 +31,5 @@ internal class TutorialScreenTest {
         onNodeWithTag(testTag = TUTORIAL_SCREEN).assertExists()
         onNodeWithTag(testTag = TUTORIAL_SCREEN_STATUS_BAR).assertExists()
         onNodeWithTag(testTag = TUTORIAL_SCREEN_NAVIGATION_BAR).assertExists()
-        onNodeWithTag(testTag = TUTORIAL_SCREEN_CONTENT).assertExists()
     }
 }

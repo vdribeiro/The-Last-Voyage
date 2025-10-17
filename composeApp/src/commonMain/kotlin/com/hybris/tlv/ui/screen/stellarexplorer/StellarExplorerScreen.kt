@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
@@ -25,6 +24,7 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.card.PlanetCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.divider.Divider
+import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
 import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
@@ -209,7 +209,7 @@ private fun StellarHostContent(store: Store<StellarExplorerState, StellarExplore
     val visibleStellarHostProperties = storeState.visibleStellarHostProperties
     val visiblePlanetProperties = storeState.visiblePlanetProperties
     val listState = storeState.listIndex.getState()
-    LazyColumn(
+    LazyColumnWithScrollBar(
         modifier = Modifier
             .testTag(tag = STELLAR_EXPLORER_SCREEN_STELLAR_HOST_CONTENT)
             .fillMaxSize()
@@ -473,7 +473,7 @@ private fun PlanetContent(store: Store<StellarExplorerState, StellarExplorerActi
     val visibleStellarHostProperties = storeState.visibleStellarHostProperties
     val visiblePlanetProperties = storeState.visiblePlanetProperties
     val listState = storeState.listIndex.getState()
-    LazyColumn(
+    LazyColumnWithScrollBar(
         modifier = Modifier
             .testTag(tag = STELLAR_EXPLORER_SCREEN_PLANET_CONTENT)
             .fillMaxSize()
