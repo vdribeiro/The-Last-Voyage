@@ -79,13 +79,14 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
 @Composable
 private fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
-    val appNameTranslation = remember { getTranslation(key = "app_name") }
-    val tutorialTranslation = remember { getTranslation(key = "main_menu_screen__new_game_tutorial") }
-    val newGameTranslation = remember { getTranslation(key = "main_menu_screen__new_game") }
-    val continueTranslation = remember { getTranslation(key = "main_menu_screen__continue") }
-    val learnTranslation = remember { getTranslation(key = "main_menu_screen__learn") }
-    val scoresTranslation = remember { getTranslation(key = "main_menu_screen__scores") }
-    val achievementsTranslation = remember { getTranslation(key = "main_menu_screen__achievements") }
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val appNameTranslation = remember(key1 = translationVersion) { getTranslation(key = "app_name") }
+    val tutorialTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__new_game_tutorial") }
+    val newGameTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__new_game") }
+    val continueTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__continue") }
+    val learnTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__learn") }
+    val scoresTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__scores") }
+    val achievementsTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__achievements") }
 
     val typography = LocalTypography.current
 
@@ -174,12 +175,13 @@ private fun MainMenuContent(store: Store<MainMenuState, MainMenuAction>) {
 @Composable
 private fun LearnContent(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
-    val appNameTranslation = remember { getTranslation(key = "app_name") }
-    val stellarExplorerTranslation = remember { getTranslation(key = "main_menu_screen__stellar_explorer") }
-    val hostDefinitionTranslation = remember { getTranslation(key = "main_menu_screen__host_definition") }
-    val planetDefinitionTranslation = remember { getTranslation(key = "main_menu_screen__planet_definition") }
-    val habitabilityTranslation = remember { getTranslation(key = "main_menu_screen__habitability") }
-    val mechanicsTranslation = remember { getTranslation(key = "main_menu_screen__mechanics") }
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val appNameTranslation = remember(key1 = translationVersion) { getTranslation(key = "app_name") }
+    val stellarExplorerTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__stellar_explorer") }
+    val hostDefinitionTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__host_definition") }
+    val planetDefinitionTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__planet_definition") }
+    val habitabilityTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__habitability") }
+    val mechanicsTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__mechanics") }
 
     val typography = LocalTypography.current
 
@@ -296,9 +298,10 @@ private fun HostDefinitionContent(store: Store<MainMenuState, MainMenuAction>) {
             )
         }
     }
-    val exampleTranslation = remember { getTranslation(key = "main_menu_screen__definition_example") }
-    val propertiesTranslation = remember { getTranslation(key = "main_menu_screen__definition_properties") }
-    val typesTranslation = remember { getTranslation(key = "main_menu_screen__definition_types") }
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val exampleTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_example") }
+    val propertiesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_properties") }
+    val typesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_types") }
 
     val typography = LocalTypography.current
 
@@ -427,9 +430,10 @@ private fun PlanetDefinitionContent(store: Store<MainMenuState, MainMenuAction>)
             )
         }
     }
-    val exampleTranslation = remember { getTranslation(key = "main_menu_screen__definition_example") }
-    val propertiesTranslation = remember { getTranslation(key = "main_menu_screen__definition_properties") }
-    val typesTranslation = remember { getTranslation(key = "main_menu_screen__definition_types") }
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val exampleTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_example") }
+    val propertiesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_properties") }
+    val typesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_types") }
 
     val typography = LocalTypography.current
 
@@ -510,7 +514,8 @@ private fun HabitabilityContent(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
     val formula = storeState.learningsMap[LearningType.FORMULA].orEmpty()
     val uriHandler = LocalUriHandler.current
-    val formulaTranslation = remember { getTranslation(key = "formula") }
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val formulaTranslation = remember(key1 = translationVersion) { getTranslation(key = "formula") }
 
     val typography = LocalTypography.current
     val colorScheme = LocalColorScheme.current

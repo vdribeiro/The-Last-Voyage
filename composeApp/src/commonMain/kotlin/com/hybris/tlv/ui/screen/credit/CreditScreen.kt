@@ -30,16 +30,18 @@ import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.credit.model.Credit
 import com.hybris.tlv.usecase.credit.model.CreditType
+import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun CreditScreen(store: Store<CreditState, Unit>) {
     val storeState by store.stateFlow.collectAsState()
     val uriHandler = LocalUriHandler.current
-    val creatorsTranslation = remember { getTranslation(key = "credit_screen__creators") }
-    val sourcesTranslation = remember { getTranslation(key = "credit_screen__sources") }
-    val musicTranslation = remember { getTranslation(key = "credit_screen__music") }
-    val supportersTranslation = remember { getTranslation(key = "credit_screen__supporters") }
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val creatorsTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__creators") }
+    val sourcesTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__sources") }
+    val musicTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__music") }
+    val supportersTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__supporters") }
 
     val typography = LocalTypography.current
     val colorScheme = LocalColorScheme.current

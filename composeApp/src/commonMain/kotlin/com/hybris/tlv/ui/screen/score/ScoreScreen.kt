@@ -33,13 +33,16 @@ import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.space.model.Formula
+import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
     val storeState by store.stateFlow.collectAsState()
     val expandedItems = remember { mutableStateListOf<String>() }
-    val titleTranslation = remember { getTranslation(key = "score_screen__title") }
+
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "score_screen__title") }
 
     val typography = LocalTypography.current
 

@@ -1,7 +1,6 @@
 package com.hybris.tlv
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -44,7 +43,6 @@ private val initializeJfx by lazy {
 
 val LocalWindowState = staticCompositionLocalOf<WindowState> { error("No LocalWindowState provided") }
 
-@OptIn(ExperimentalComposeUiApi::class)
 fun main() = application {
     Telemetry.init()
     Telemetry.info(tag = TAG, message = "JavaFX = $initializeJfx")
@@ -68,14 +66,14 @@ fun main() = application {
         }
     ) {
         CompositionLocalProvider(value = LocalWindowState provides windowState) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .onPointerEvent(eventType = PointerEventType.Press) { with(receiver = it.buttons) { if (isBackPressed || isSecondaryPressed) dependency.navigation.back() } }
-            ) { App() }
+            Box(modifier = Modifier.registerBackNavigation()) { App() }
         }
     }
 }
+
+@OptIn(ExperimentalComposeUiApi::class)
+private fun Modifier.registerBackNavigation(): Modifier =
+    onPointerEvent(eventType = PointerEventType.Press) { with(receiver = it.buttons) { if (isBackPressed || isSecondaryPressed) dependency.navigation.back() } }
 
 /**
  * Processes a [keyEvent] to check its [progress] against a given key [sequence]

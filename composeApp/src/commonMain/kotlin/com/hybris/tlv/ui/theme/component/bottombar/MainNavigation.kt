@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.kofi
@@ -33,8 +36,9 @@ internal fun MainNavigation(
     supportUri: String = "",
 ) {
     val uriHandler = LocalUriHandler.current
-    val websiteTranslation = remember { getTranslation(key = "website") }
-    val creditsTranslation = remember { getTranslation(key = "main_menu_screen__credits") }
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val websiteTranslation = remember(key1 = translationVersion) { getTranslation(key = "website") }
+    val creditsTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__credits") }
 
     val typography = LocalTypography.current
 

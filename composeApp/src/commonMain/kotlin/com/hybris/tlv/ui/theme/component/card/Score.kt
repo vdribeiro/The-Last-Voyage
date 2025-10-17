@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -30,6 +32,7 @@ import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -45,6 +48,14 @@ internal fun Score(
     fuel: String = "",
     cryopods: String = ""
 ) {
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val yearsTraveledTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_years_traveled") }
+    val sensorTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_sensor") }
+    val integrityTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_integrity") }
+    val fuelTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_fuel") }
+    val materialsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_materials") }
+    val cryopodsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_cryopods") }
+
     Card(modifier = modifier) {
         Column(
             modifier = Modifier
@@ -70,12 +81,12 @@ internal fun Score(
                 ) {
                     Divider()
                     Spacer(modifier = Modifier.height(height = 8.dp))
-                    InfoRow(label = getTranslation(key = "ship_years_traveled"), value = yearsTraveled)
-                    InfoRow(label = getTranslation(key = "ship_sensor"), value = sensorRange)
-                    InfoRow(label = getTranslation(key = "ship_integrity"), value = integrity)
-                    InfoRow(label = getTranslation(key = "ship_materials"), value = materials)
-                    InfoRow(label = getTranslation(key = "ship_fuel"), value = fuel)
-                    InfoRow(label = getTranslation(key = "ship_cryopods"), value = cryopods)
+                    InfoRow(label = yearsTraveledTranslation, value = yearsTraveled)
+                    InfoRow(label = sensorTranslation, value = sensorRange)
+                    InfoRow(label = integrityTranslation, value = integrity)
+                    InfoRow(label = fuelTranslation, value = fuel)
+                    InfoRow(label = materialsTranslation, value = materials)
+                    InfoRow(label = cryopodsTranslation, value = cryopods)
                 }
             }
         }

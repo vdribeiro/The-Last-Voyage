@@ -94,13 +94,15 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
 private fun ShipContent(store: Store<GameState, GameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val ship = storeState.ship ?: return
-    val yearsTraveledTranslation = remember { getTranslation(key = "ship_years_traveled") }
-    val sensorTranslation = remember { getTranslation(key = "ship_sensor") }
-    val speedTranslation = remember { getTranslation(key = "ship_speed") }
-    val integrityTranslation = remember { getTranslation(key = "ship_integrity") }
-    val fuelTranslation = remember { getTranslation(key = "ship_fuel") }
-    val materialsTranslation = remember { getTranslation(key = "ship_materials") }
-    val cryopodsTranslation = remember { getTranslation(key = "ship_cryopods") }
+
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val yearsTraveledTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_years_traveled") }
+    val sensorTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_sensor") }
+    val speedTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_speed") }
+    val integrityTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_integrity") }
+    val fuelTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_fuel") }
+    val materialsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_materials") }
+    val cryopodsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_cryopods") }
 
     // Ship status with years traveled, sensor range, maximum speed, integrity, fuel, materials and cryopods
     LazyColumn(

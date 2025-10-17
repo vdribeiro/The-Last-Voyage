@@ -34,13 +34,15 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
+import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
-    val continueTranslation = remember { getTranslation(key = "new_game_screen__continue") }
-    val startTranslation = remember { getTranslation(key = "new_game_screen__start") }
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val continueTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__continue") }
+    val startTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__start") }
 
     Screen(
         modifier = Modifier.testTag(tag = NEW_GAME_SCREEN),
@@ -92,13 +94,15 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
     val shipState = storeState.shipState ?: return
     val engines = storeState.engines
 
-    val shipPointsTranslation = remember { getTranslation(key = "new_game_screen__ship_points") }
-    val sensorTranslation = remember { getTranslation(key = "ship_sensor") }
-    val fuelTranslation = remember { getTranslation(key = "ship_fuel") }
-    val materialsTranslation = remember { getTranslation(key = "ship_materials") }
-    val cryopodsTranslation = remember { getTranslation(key = "ship_cryopods") }
-    val engineSpeedTranslation = remember { getTranslation(key = "new_game_screen__engine_speed") }
-    val engineFuelTranslation = remember { getTranslation(key = "new_game_screen__engine_fuel") }
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val shipPointsTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__ship_points") }
+    val sensorTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_sensor") }
+    val fuelTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_fuel") }
+    val materialsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_materials") }
+    val cryopodsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_cryopods") }
+    val engineSpeedTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__engine_speed") }
+    val engineFuelTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__engine_fuel") }
+    val engineSelectTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__engine_select") }
 
     val typography = LocalTypography.current
 
@@ -159,7 +163,7 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
             item {
                 Text(
                     modifier = Modifier.padding(all = 16.dp),
-                    text = getTranslation(key = "new_game_screen__engine_select"),
+                    text = engineSelectTranslation,
                     style = typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center

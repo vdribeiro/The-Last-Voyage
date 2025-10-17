@@ -23,6 +23,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
@@ -30,7 +31,8 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     val storeState by store.stateFlow.collectAsState()
     val currentContent = storeState.currentContent
 
-    val loadingTranslation = getTranslation(key = "splash_screen__loading")
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val loadingTranslation = remember(key1 = translationVersion) { getTranslation(key = "splash_screen__loading") }
 
     Screen(
         modifier = Modifier
