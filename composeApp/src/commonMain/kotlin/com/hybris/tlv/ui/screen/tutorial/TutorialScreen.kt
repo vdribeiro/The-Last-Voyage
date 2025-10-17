@@ -83,8 +83,11 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
         bottomBar = {
             GameNavigation(
                 modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR),
+                shipEnabled = false,
                 shipSelected = storeState.tutorialStep == Tutorial.SHIP,
+                systemEnabled = false,
                 systemSelected = storeState.tutorialStep == Tutorial.SYSTEM,
+                travelEnabled = false,
                 travelSelected = storeState.tutorialStep == Tutorial.TRAVEL,
             )
         }

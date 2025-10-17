@@ -53,8 +53,9 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
             },
         loading = storeState.loading,
         loadingDelayMillis = 0L,
+        loadingText = loadingTranslation,
+        loadingBackground = true,
         loadingProgress = storeState.progress,
-        loadingText = loadingTranslation
     ) {
         when (currentContent) {
             Content.SPLASH -> {}

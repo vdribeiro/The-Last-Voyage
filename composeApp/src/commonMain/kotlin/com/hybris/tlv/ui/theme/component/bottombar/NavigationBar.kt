@@ -32,6 +32,7 @@ internal fun NavigationBar(
                     )
                 },
                 icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
+                enabled = item.enabled,
                 selected = item.selected,
                 onClick = item.onClick,
             )
@@ -42,6 +43,7 @@ internal fun NavigationBar(
 internal data class NavigationItem(
     val label: String = "",
     val icon: ImageVector = defaultIcon,
+    val enabled: Boolean = false,
     val selected: Boolean = false,
     val onClick: () -> Unit = {}
 )

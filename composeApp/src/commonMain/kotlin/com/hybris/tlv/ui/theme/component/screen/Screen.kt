@@ -44,6 +44,7 @@ internal fun Screen(
     loadingDelayMillis: Long = 300L,
     loadingMinDisplayTimeMillis: Long = 800L,
     loadingText: String = "",
+    loadingBackground: Boolean = false,
     loadingProgress: Float? = null,
     onMusicClick: (() -> Unit)? = null,
     onFeedbackClick: (() -> Unit)? = null,
@@ -120,7 +121,7 @@ internal fun Screen(
             }
             when {
                 show -> AppLogo(
-                    showBackground = true,
+                    showBackground = loadingBackground,
                     showProgress = true,
                     progress = loadingProgress,
                     text = loadingText

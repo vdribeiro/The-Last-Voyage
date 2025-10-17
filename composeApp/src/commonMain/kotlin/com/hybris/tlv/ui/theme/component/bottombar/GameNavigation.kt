@@ -17,10 +17,13 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun GameNavigation(
     modifier: Modifier = Modifier,
+    shipEnabled: Boolean = true,
     shipSelected: Boolean = false,
     shipOnClick: () -> Unit = {},
+    systemEnabled: Boolean = true,
     systemSelected: Boolean = false,
     systemOnClick: () -> Unit = {},
+    travelEnabled: Boolean = true,
     travelSelected: Boolean = false,
     travelOnClick: () -> Unit = {},
 ) {
@@ -35,18 +38,21 @@ internal fun GameNavigation(
             NavigationItem(
                 label = shipTranslation,
                 icon = Icons.Filled.Rocket,
+                enabled = shipEnabled,
                 selected = shipSelected,
                 onClick = shipOnClick
             ),
             NavigationItem(
                 label = systemTranslation,
                 icon = Icons.Filled.Hub,
+                enabled = systemEnabled,
                 selected = systemSelected,
                 onClick = systemOnClick
             ),
             NavigationItem(
                 label = travelTranslation,
                 icon = Icons.Filled.RocketLaunch,
+                enabled = travelEnabled,
                 selected = travelSelected,
                 onClick = travelOnClick
             )
