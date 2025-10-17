@@ -1,10 +1,9 @@
 package com.hybris.tlv
 
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -12,13 +11,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.isBackPressed
@@ -30,6 +26,7 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 import javafx.embed.swing.JFXPanel
 
@@ -51,48 +48,56 @@ val LocalWindowState = staticCompositionLocalOf<WindowState> { error("No LocalWi
 fun main() = application {
     Telemetry.init()
     Telemetry.info(tag = TAG, message = "JavaFX = $initializeJfx")
+
+    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val appNameTranslation = remember(key1 = translationVersion) { getTranslation(key = "app_name") }
+
     val windowState = rememberWindowState(placement = WindowPlacement.Maximized)
+    var konamiCodeProgress by remember { mutableStateOf(value = 0) }
     Window(
-        onCloseRequest = ::exitApplication,
+        title = appNameTranslation,
         state = windowState,
-        title = getTranslation(key = "app_name")
+        onCloseRequest = ::exitApplication,
+        onPreviewKeyEvent = { keyEvent ->
+            konamiCodeProgress = onKeySequence(
+                keyEvent = keyEvent,
+                sequence = konamiCode,
+                progress = konamiCodeProgress,
+            ) { Telemetry.feedback(message = "Konami Code!") }
+            false
+        }
     ) {
         CompositionLocalProvider(value = LocalWindowState provides windowState) {
-            val focusRequester = remember { FocusRequester() }
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .onPointerEvent(eventType = PointerEventType.Press) { with(receiver = it.buttons) { if (isBackPressed || isSecondaryPressed) dependency.navigation.back() } }
-                    .onKeySequence(sequence = konamiCode) { Telemetry.feedback(message = "Konami Code!") }
-                    .focusRequester(focusRequester = focusRequester)
-                    .focusable()
             ) { App() }
-            LaunchedEffect(key1 = Unit) { focusRequester.requestFocus() }
         }
     }
 }
 
 /**
- * Listen for a specific [sequence] of key presses.
+ * Processes a [keyEvent] to check its [progress] against a given key [sequence]
+ * and return the new progress value after processing the event.
  */
-private fun Modifier.onKeySequence(
+private fun onKeySequence(
+    keyEvent: KeyEvent,
     sequence: List<Key>,
+    progress: Int,
     onSequenceComplete: () -> Unit
-): Modifier = composed {
-    var progress by remember { mutableStateOf(value = 0) }
-    onPreviewKeyEvent { keyEvent ->
-        if (keyEvent.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
-        val expectedKey = sequence.getOrNull(index = progress)
-        when (keyEvent.key) {
-            expectedKey -> progress++
-            else -> progress = if (keyEvent.key == sequence.firstOrNull()) 1 else 0
-        }
-        if (progress >= sequence.size) {
-            onSequenceComplete()
-            progress = 0
-        }
-        true
+): Int {
+    if (keyEvent.type != KeyEventType.KeyDown) return progress
+    val expectedKey = sequence.getOrNull(index = progress)
+    val newProgress = when (keyEvent.key) {
+        expectedKey -> progress + 1
+        else -> if (keyEvent.key == sequence.firstOrNull()) 1 else 0
     }
+    if (newProgress >= sequence.size) {
+        onSequenceComplete()
+        return 0
+    }
+    return newProgress
 }
 
 private val konamiCode = listOf(
