@@ -75,7 +75,6 @@ internal fun Score(
                 totalScore = score,
                 isExpanded = isExpanded
             )
-
             AnimatedVisibility(
                 visible = isExpanded != false,
                 enter = fadeIn(),
