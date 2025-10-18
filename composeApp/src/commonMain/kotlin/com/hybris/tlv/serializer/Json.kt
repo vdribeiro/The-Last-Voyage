@@ -12,6 +12,7 @@ val json = Json {
     ignoreUnknownKeys = true
     isLenient = true
     prettyPrint = true
+    encodeDefaults = true
     allowTrailingComma = true
 }
 
