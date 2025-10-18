@@ -21,12 +21,10 @@ internal fun InfoRow(
             text = "$label: ",
             style = typography.bodyLarge,
             fontWeight = FontWeight.Bold,
-            maxLines = 1
         )
         Text(
             text = value.toString(),
             style = typography.bodyLarge,
-            maxLines = 1
         )
     }
 }

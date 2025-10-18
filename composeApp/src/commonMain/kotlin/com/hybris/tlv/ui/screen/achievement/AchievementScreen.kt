@@ -35,7 +35,7 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
     val storeState by store.stateFlow.collectAsState()
 
     val translationVersion by TranslationCache.updateFlow.collectAsState()
-    val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "achievement_screen__title") }
+    val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "achievements_screen__title") }
 
     val typography = LocalTypography.current
 
