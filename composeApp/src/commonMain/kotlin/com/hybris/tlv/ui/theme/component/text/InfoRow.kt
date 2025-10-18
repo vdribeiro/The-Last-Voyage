@@ -19,12 +19,15 @@ internal fun InfoRow(
     val typography = LocalTypography.current
 
     val annotatedText = buildAnnotatedString {
-        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) { append("$label: ") }
-        append(value.toString())
+        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) { append(label) }
+        value?.let {
+            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) { append(": ") }
+            append("$it")
+        }
     }
     Text(
         modifier = modifier,
-        text = annotatedText.toString(),
+        text = annotatedText,
         style = typography.bodyLarge,
     )
 }
