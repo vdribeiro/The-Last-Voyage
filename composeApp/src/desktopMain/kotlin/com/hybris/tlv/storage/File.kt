@@ -1,11 +1,17 @@
 package com.hybris.tlv.storage
 
 import java.io.File
+import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
 
 private val appDataDir: File by lazy {
     val home = System.getProperty("user.home")
-    File(home, ".TheLastVoyage")
+    val appDir = ".${
+        Property.APP_NAME
+            .lowercase()
+            .replace(regex = "\\s+".toRegex(), replacement = "")
+    }"
+    File(home, appDir)
 }
 
 internal actual suspend fun saveFile(path: String, content: String): Boolean = runCatching {
