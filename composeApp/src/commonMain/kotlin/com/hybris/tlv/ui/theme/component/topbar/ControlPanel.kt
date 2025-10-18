@@ -104,6 +104,7 @@ internal fun ControlPanel(
                         )
                     },
                     maxLines = 1,
+                    style = typography.bodyLarge
                 )
                 SearchMenu(
                     enabled = enabled,
