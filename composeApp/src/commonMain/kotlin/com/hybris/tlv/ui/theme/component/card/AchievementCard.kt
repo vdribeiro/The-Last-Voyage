@@ -1,9 +1,6 @@
 package com.hybris.tlv.ui.theme.component.card
 
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +22,7 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
+import com.hybris.tlv.ui.theme.component.image.Image
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
@@ -32,7 +30,7 @@ internal fun AchievementCard(
     modifier: Modifier = Modifier,
     name: String? = null,
     description: String? = null,
-    image: DrawableResource? = null,
+    image: String? = null,
     done: Boolean = false,
 ) {
     val typography = LocalTypography.current
@@ -51,7 +49,7 @@ internal fun AchievementCard(
                         .size(size = 72.dp)
                         .clip(shape = shapes.small)
                         .align(alignment = Alignment.Top),
-                    painter = painterResource(resource = it),
+                    path = it,
                     contentDescription = name,
                     contentScale = ContentScale.Crop,
                 )

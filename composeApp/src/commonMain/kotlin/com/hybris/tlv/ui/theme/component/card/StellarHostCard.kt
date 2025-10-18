@@ -1,9 +1,6 @@
 package com.hybris.tlv.ui.theme.component.card
 
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,10 +22,11 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.image.Image
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.space.formula.roundTo
-import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
+import com.hybris.tlv.usecase.space.formula.spectralTypeToImage
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -40,7 +38,7 @@ internal fun StellarHostCard(
     systemName: String? = null,
     planetCount: Int? = null,
     spectralType: String? = null,
-    spectralTypeDrawable: DrawableResource? = null,
+    spectralImage: String? = null,
     effectiveTemperature: Double? = null,
     radius: Double? = null,
     mass: Double? = null,
@@ -99,13 +97,13 @@ internal fun StellarHostCard(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            spectralTypeDrawable?.let {
+            spectralImage?.let {
                 Image(
                     modifier = Modifier
                         .size(size = 72.dp)
                         .clip(shape = shapes.small)
                         .align(alignment = Alignment.Top),
-                    painter = painterResource(resource = it),
+                    path = it,
                     contentDescription = name,
                     contentScale = ContentScale.Crop,
                 )
@@ -152,6 +150,6 @@ private fun StellarHostCardPreview() = AppTheme {
     StellarHostCard(
         name = "Sun",
         description = "Bright",
-        spectralTypeDrawable = "G".spectralTypeToDrawable()
+        spectralImage = "G".spectralTypeToImage()
     )
 }

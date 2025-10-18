@@ -36,8 +36,8 @@ import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
-import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
-import com.hybris.tlv.usecase.space.formula.toDrawable
+import com.hybris.tlv.usecase.space.formula.spectralTypeToImage
+import com.hybris.tlv.usecase.space.formula.toImage
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.PlanetType
@@ -329,7 +329,7 @@ private fun HostDefinitionContent(store: Store<MainMenuState, MainMenuAction>) {
                 systemName = stellarHost.systemName,
                 planetCount = stellarHost.planets.size,
                 spectralType = stellarHost.spectralType,
-                spectralTypeDrawable = stellarHost.spectralType.spectralTypeToDrawable(),
+                spectralImage = stellarHost.spectralType.spectralTypeToImage(),
                 effectiveTemperature = stellarHost.effectiveTemperature,
                 radius = stellarHost.radius,
                 mass = stellarHost.mass,
@@ -375,7 +375,7 @@ private fun HostDefinitionContent(store: Store<MainMenuState, MainMenuAction>) {
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT_TYPES_STELLAR_HOST),
                 name = getTranslation(key = stellarHost.id),
                 description = stellarHost.description,
-                spectralTypeDrawable = stellarHost.image.spectralTypeToDrawable(),
+                spectralImage = stellarHost.image.spectralTypeToImage(),
             )
         }
     }
@@ -471,7 +471,7 @@ private fun PlanetDefinitionContent(store: Store<MainMenuState, MainMenuAction>)
                 inclination = planet.inclination,
                 obliquity = planet.obliquity,
                 type = planet.score?.planetType?.displayName,
-                typeDrawable = planet.score?.planetType.toDrawable()
+                image = planet.score?.planetType.toImage()
             )
         }
         item {
@@ -504,7 +504,7 @@ private fun PlanetDefinitionContent(store: Store<MainMenuState, MainMenuAction>)
                 modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT_TYPES_PLANET),
                 name = getTranslation(key = planet.id),
                 description = planet.description,
-                typeDrawable = PlanetType.fromValue(value = planet.image.orEmpty()).toDrawable()
+                image = PlanetType.fromValue(value = planet.image.orEmpty()).toImage()
             )
         }
     }

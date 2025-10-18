@@ -27,8 +27,8 @@ import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
 import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
-import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
-import com.hybris.tlv.usecase.space.formula.toDrawable
+import com.hybris.tlv.usecase.space.formula.spectralTypeToImage
+import com.hybris.tlv.usecase.space.formula.toImage
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
@@ -285,9 +285,9 @@ private fun StellarHostContent(store: Store<StellarExplorerState, StellarExplore
                         element = PlanetProperty.TYPE,
                         value = planet.score?.planetType?.displayName
                     ),
-                    typeDrawable = visiblePlanetProperties.ifContains(
+                    image = visiblePlanetProperties.ifContains(
                         element = PlanetProperty.TYPE,
-                        value = planet.score?.planetType.toDrawable()
+                        value = planet.score?.planetType.toImage()
                     ),
                     rocheScore = visiblePlanetProperties.ifContains(
                         element = PlanetProperty.ROCHE_SCORE,
@@ -372,9 +372,9 @@ private fun StellarHostContent(store: Store<StellarExplorerState, StellarExplore
                     element = StellarHostProperty.SPECTRAL_TYPE,
                     value = stellarHost.spectralType
                 ),
-                spectralTypeDrawable = visibleStellarHostProperties.ifContains(
+                spectralImage = visibleStellarHostProperties.ifContains(
                     element = StellarHostProperty.SPECTRAL_TYPE,
-                    value = stellarHost.spectralType.spectralTypeToDrawable()
+                    value = stellarHost.spectralType.spectralTypeToImage()
                 ),
                 effectiveTemperature = visibleStellarHostProperties.ifContains(
                     element = StellarHostProperty.TEMPERATURE,
@@ -501,9 +501,9 @@ private fun PlanetContent(store: Store<StellarExplorerState, StellarExplorerActi
                         element = StellarHostProperty.SPECTRAL_TYPE,
                         value = stellarHost.spectralType
                     ),
-                    spectralTypeDrawable = visibleStellarHostProperties.ifContains(
+                    spectralImage = visibleStellarHostProperties.ifContains(
                         element = StellarHostProperty.SPECTRAL_TYPE,
-                        value = stellarHost.spectralType.spectralTypeToDrawable()
+                        value = stellarHost.spectralType.spectralTypeToImage()
                     ),
                     effectiveTemperature = visibleStellarHostProperties.ifContains(
                         element = StellarHostProperty.TEMPERATURE,
@@ -672,9 +672,9 @@ private fun PlanetContent(store: Store<StellarExplorerState, StellarExplorerActi
                     element = PlanetProperty.TYPE,
                     value = planet.score?.planetType?.displayName
                 ),
-                typeDrawable = visiblePlanetProperties.ifContains(
+                image = visiblePlanetProperties.ifContains(
                     element = PlanetProperty.TYPE,
-                    value = planet.score?.planetType.toDrawable()
+                    value = planet.score?.planetType.toImage()
                 ),
                 rocheScore = visiblePlanetProperties.ifContains(
                     element = PlanetProperty.ROCHE_SCORE,

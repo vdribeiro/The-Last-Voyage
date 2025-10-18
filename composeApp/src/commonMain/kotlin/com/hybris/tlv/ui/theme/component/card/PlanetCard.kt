@@ -1,9 +1,6 @@
 package com.hybris.tlv.ui.theme.component.card
 
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,10 +22,11 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.image.Image
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.space.formula.roundTo
-import com.hybris.tlv.usecase.space.formula.toDrawable
+import com.hybris.tlv.usecase.space.formula.toImage
 import com.hybris.tlv.usecase.space.model.PlanetType
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -53,7 +51,7 @@ internal fun PlanetCard(
     habitability: Double? = null,
     confidence: Double? = null,
     type: String? = null,
-    typeDrawable: DrawableResource? = null,
+    image: String? = null,
     rocheScore: Double? = null,
     habitableZoneKopparapuScore: Double? = null,
     habitableZoneKastingScore: Double? = null,
@@ -106,13 +104,13 @@ internal fun PlanetCard(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            typeDrawable?.let {
+            image?.let {
                 Image(
                     modifier = Modifier
                         .size(size = 72.dp)
                         .clip(shape = shapes.small)
                         .align(alignment = Alignment.Top),
-                    painter = painterResource(resource = it),
+                    path = it,
                     contentDescription = name,
                     contentScale = ContentScale.Crop,
                 )
@@ -162,6 +160,6 @@ private fun PlanetCardPreview() = AppTheme {
     PlanetCard(
         name = "Earth",
         description = "Beautiful",
-        typeDrawable = PlanetType.EARTH_ANALOG_PLANET.toDrawable()
+        image = PlanetType.EARTH_ANALOG_PLANET.toImage()
     )
 }

@@ -1,8 +1,6 @@
 package com.hybris.tlv.ui.theme.component.bottombar
 
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -22,11 +20,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.image.Image
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
-import thelastvoyage.composeapp.generated.resources.Res
-import thelastvoyage.composeapp.generated.resources.kofi
 
 @Composable
 internal fun MainNavigation(
@@ -71,7 +68,7 @@ internal fun MainNavigation(
                 .size(size = 100.dp)
                 .wrapContentHeight(align = Alignment.CenterVertically)
                 .clickable { uriHandler.openUri(uri = supportUri) },
-            painter = painterResource(resource = Res.drawable.kofi),
+            path = "kofi.png",
             contentDescription = "Support",
             contentScale = ContentScale.Fit,
         )

@@ -10,6 +10,7 @@ kotlin-ktor = "3.3.1"
 compose-multiplatform = "1.9.1"
 sqldelight = "2.1.0"
 sqldelight-jdbc = "3.50.3.0"
+coil = "3.3.0"
 android-startup = "1.2.0"
 androidx-exoplayer = "1.8.0"
 android-test = "1.9.3"
@@ -51,6 +52,7 @@ sqldelight-native = { group = "app.cash.sqldelight", name = "native-driver", ver
 sqldelight-jvm = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
 sqldelight-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "sqldelight-jdbc" }
 compose-backhandler = { group = "org.jetbrains.compose.ui", name = "ui-backhandler", version.ref = "compose-multiplatform" }
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "android-startup" }
 androidx-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "androidx-exoplayer" }
 androidx-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "android-test" }
@@ -74,6 +76,7 @@ common = [
     "kotlinx-serialization",
     "kotlinx-datetime",
     "compose-backhandler",
+    "coil-compose"
 ]
 common-test = [
     "kotlin-test",

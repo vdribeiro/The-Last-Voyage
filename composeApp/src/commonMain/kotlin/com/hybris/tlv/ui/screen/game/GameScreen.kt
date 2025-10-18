@@ -39,8 +39,8 @@ import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.formula.roundTo
-import com.hybris.tlv.usecase.space.formula.spectralTypeToDrawable
-import com.hybris.tlv.usecase.space.formula.toDrawable
+import com.hybris.tlv.usecase.space.formula.spectralTypeToImage
+import com.hybris.tlv.usecase.space.formula.toImage
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
@@ -200,7 +200,7 @@ private fun SystemContent(store: Store<GameState, GameAction>) {
                 systemName = stellarHost.systemName,
                 planetCount = stellarHost.planets.size,
                 spectralType = stellarHost.spectralType,
-                spectralTypeDrawable = stellarHost.spectralType.spectralTypeToDrawable(),
+                spectralImage = stellarHost.spectralType.spectralTypeToImage(),
                 effectiveTemperature = stellarHost.effectiveTemperature,
                 radius = stellarHost.radius,
                 mass = stellarHost.mass,
@@ -236,7 +236,7 @@ private fun SystemContent(store: Store<GameState, GameAction>) {
                 obliquity = planet.obliquity,
                 habitability = planet.score?.habitabilityScore,
                 type = planet.score?.planetType?.displayName,
-                typeDrawable = planet.score?.planetType.toDrawable()
+                image = planet.score?.planetType.toImage()
             )
         }
     }
@@ -261,7 +261,7 @@ private fun TravelContent(store: Store<GameState, GameAction>) {
                 name = stellarHost.name,
                 planetCount = stellarHost.planets.size,
                 spectralType = stellarHost.spectralType,
-                spectralTypeDrawable = stellarHost.spectralType.spectralTypeToDrawable(),
+                spectralImage = stellarHost.spectralType.spectralTypeToImage(),
                 distance = stellarHost.distance,
             )
         }
