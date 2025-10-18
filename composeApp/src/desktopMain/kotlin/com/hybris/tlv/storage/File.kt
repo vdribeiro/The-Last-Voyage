@@ -9,6 +9,13 @@ internal val appDataDir: File by lazy {
     val baseDir = when {
         os.contains(other = "win") -> System.getenv("APPDATA")
         os.contains(other = "mac") -> "${System.getProperty("user.home")}/Library/Application Support"
+        os.contains("nix") || os.contains("nux") || os.contains("aix") -> {
+            val xdgDataHome = System.getenv("XDG_DATA_HOME")
+            if (!xdgDataHome.isNullOrBlank()) xdgDataHome else {
+                "${System.getProperty("user.home")}/.local/share"
+            }
+        }
+
         else -> "${System.getProperty("user.home")}/.local/share"
     }
     val appDir = Property.APP_NAME
