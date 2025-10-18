@@ -1,9 +1,9 @@
 package com.hybris.tlv.ui.theme.component.button
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,11 +21,14 @@ internal fun Button(
 ) {
     val typography = LocalTypography.current
 
-    Button(
+    OutlinedButton(
         modifier = modifier,
         onClick = onClick,
         enabled = enabled,
-        colors = ButtonDefaults.buttonColors(contentColor = Color.White),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent,
+            contentColor = Color.White
+        ),
         content = {
             Text(
                 text = text,
