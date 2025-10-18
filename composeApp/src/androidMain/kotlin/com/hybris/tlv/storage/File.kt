@@ -8,15 +8,11 @@ private val appDataDir: File by lazy {
     applicationContext.filesDir
 }
 
-private fun assertFile(path: String): File {
+internal actual suspend fun saveFile(path: String, content: String): Boolean = runCatching {
     val file = File(appDataDir, path)
     val parentDir = file.parentFile
     if (parentDir != null && !parentDir.exists()) parentDir.mkdirs()
-    return file
-}
-
-internal actual suspend fun saveFile(path: String, content: String): Boolean = runCatching {
-    assertFile(path = path).writeText(text = content)
+    file.writeText(text = content)
     true
 }.getOrElse {
     Telemetry.error(tag = TAG, message = "Unable to save file", throwable = it)
@@ -24,7 +20,8 @@ internal actual suspend fun saveFile(path: String, content: String): Boolean = r
 }
 
 internal actual suspend fun loadFile(path: String): String? = runCatching {
-    assertFile(path = path).readText()
+    val file = File(appDataDir, path)
+    if (file.exists() && file.isFile) file.readText() else null
 }.getOrElse {
     Telemetry.error(tag = TAG, message = "Unable to load file", throwable = it)
     null

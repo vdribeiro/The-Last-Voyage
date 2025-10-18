@@ -19,7 +19,14 @@ val json = Json {
  * Safely decode a JSON string.
  */
 internal inline fun <reified T> decode(value: String?): T? = runCatching {
-    value?.let { json.decodeFromString<T>(string = value) }
+    value?.let {
+        json.decodeFromString<T>(string = value.ifBlank {
+            when (T::class) {
+                Collection::class -> "[{}]"
+                else -> "{}"
+            }
+        })
+    }
 }.getOrElse {
     Telemetry.error(tag = TAG, message = "Unable to decode value", throwable = it)
     null
