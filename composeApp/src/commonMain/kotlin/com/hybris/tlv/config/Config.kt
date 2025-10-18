@@ -47,8 +47,8 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     }
 
     override suspend fun flush(configs: Configs) {
-        saveJsonFile(path = CONFIGS_JSON, content = configs)
-        Telemetry.info(tag = TAG, message = "Flushed local configs")
+        val file = saveJsonFile(path = CONFIGS_JSON, content = configs)
+        Telemetry.info(tag = TAG, message = "Flushed local configs: $file")
     }
 
     override suspend fun getPreferences(): Preferences {
@@ -61,8 +61,8 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
         savePreferences(preferences = preferences(getPreferences()))
 
     private suspend fun savePreferences(preferences: Preferences) {
-        saveJsonFile(path = PREFERENCES_JSON, content = preferences)
-        Telemetry.info(tag = TAG, message = "Flushed preferences")
+        val file = saveJsonFile(path = PREFERENCES_JSON, content = preferences)
+        Telemetry.info(tag = TAG, message = "Flushed preferences: $file")
     }
 
     companion object Companion {
