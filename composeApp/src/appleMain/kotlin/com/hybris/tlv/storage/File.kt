@@ -1,4 +1,5 @@
 @file:Suppress("CAST_NEVER_SUCCEEDS")
+@file:OptIn(ExperimentalForeignApi::class)
 
 package com.hybris.tlv.storage
 
@@ -10,35 +11,32 @@ import platform.Foundation.NSString
 import platform.Foundation.NSUTF8StringEncoding
 import platform.Foundation.NSUserDomainMask
 import platform.Foundation.stringByAppendingPathComponent
-import platform.Foundation.stringByDeletingLastPathComponent
 import platform.Foundation.stringWithContentsOfFile
 import platform.Foundation.writeToFile
 import com.hybris.tlv.telemetry.Telemetry
 
 private val appDataDir: NSString by lazy {
-    val paths = NSSearchPathForDirectoriesInDomains(
+    (NSSearchPathForDirectoriesInDomains(
         directory = NSDocumentDirectory,
         domainMask = NSUserDomainMask,
         expandTilde = true
-    )
-    paths.first() as NSString
+    ).first() as NSString).also {
+        val fileManager = NSFileManager.defaultManager
+        if (!fileManager.fileExistsAtPath(path = it.toString())) {
+            fileManager.createDirectoryAtPath(
+                path = it.toString(),
+                withIntermediateDirectories = true,
+                attributes = null,
+                error = null
+            )
+        }
+    }
 }
 
-@OptIn(ExperimentalForeignApi::class)
 internal actual suspend fun saveFile(path: String, content: String): Boolean = runCatching {
-    val fileManager = NSFileManager.defaultManager
-    val fullPath = appDataDir.stringByAppendingPathComponent(str = path)
-    val parentDir = (fullPath as NSString).stringByDeletingLastPathComponent()
-    if (!fileManager.fileExistsAtPath(path = parentDir)) {
-        fileManager.createDirectoryAtPath(
-            path = parentDir,
-            withIntermediateDirectories = true,
-            attributes = null,
-            error = null
-        )
-    }
+    val file = appDataDir.stringByAppendingPathComponent(str = path)
     (content as NSString).writeToFile(
-        path = fullPath,
+        path = file,
         atomically = true,
         encoding = NSUTF8StringEncoding,
         error = null
@@ -51,9 +49,8 @@ internal actual suspend fun saveFile(path: String, content: String): Boolean = r
 
 @OptIn(ExperimentalForeignApi::class)
 internal actual suspend fun loadFile(path: String): String? = runCatching {
-    val fileManager = NSFileManager.defaultManager
     val fullPath = appDataDir.stringByAppendingPathComponent(str = path)
-    if (fileManager.fileExistsAtPath(path = fullPath)) {
+    if (NSFileManager.defaultManager.fileExistsAtPath(path = fullPath)) {
         NSString.stringWithContentsOfFile(
             path = fullPath,
             encoding = NSUTF8StringEncoding,

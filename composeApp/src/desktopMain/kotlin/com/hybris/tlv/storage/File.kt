@@ -4,20 +4,23 @@ import java.io.File
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
 
-private val appDataDir: File by lazy {
-    val home = System.getProperty("user.home")
-    val appDir = ".${
-        Property.APP_NAME
-            .lowercase()
-            .replace(regex = "\\s+".toRegex(), replacement = "")
-    }"
-    File(home, appDir)
+internal val appDataDir: File by lazy {
+    val os = System.getProperty("os.name").lowercase()
+    val baseDir = when {
+        os.contains(other = "win") -> System.getenv("APPDATA")
+        os.contains(other = "mac") -> "${System.getProperty("user.home")}/Library/Application Support"
+        else -> "${System.getProperty("user.home")}/.local/share"
+    }
+    val appDir = Property.APP_NAME
+        .lowercase()
+        .replace(regex = "\\s+".toRegex(), replacement = "")
+    File(baseDir, appDir).also {
+        if (!it.exists()) it.mkdirs()
+    }
 }
 
 internal actual suspend fun saveFile(path: String, content: String): Boolean = runCatching {
     val file = File(appDataDir, path)
-    val parentDir = file.parentFile
-    if (parentDir != null && !parentDir.exists()) parentDir.mkdirs()
     file.writeText(text = content)
     true
 }.getOrElse {

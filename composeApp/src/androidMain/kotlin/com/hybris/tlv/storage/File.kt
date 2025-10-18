@@ -5,13 +5,13 @@ import com.hybris.tlv.applicationContext
 import com.hybris.tlv.telemetry.Telemetry
 
 private val appDataDir: File by lazy {
-    applicationContext.filesDir
+    applicationContext.filesDir.also {
+        if (!it.exists()) it.mkdirs()
+    }
 }
 
 internal actual suspend fun saveFile(path: String, content: String): Boolean = runCatching {
     val file = File(appDataDir, path)
-    val parentDir = file.parentFile
-    if (parentDir != null && !parentDir.exists()) parentDir.mkdirs()
     file.writeText(text = content)
     true
 }.getOrElse {
