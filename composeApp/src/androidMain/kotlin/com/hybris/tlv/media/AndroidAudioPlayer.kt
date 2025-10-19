@@ -19,17 +19,15 @@ internal class AndroidAudioPlayer: AudioPlayer() {
         player.apply {
             setMediaItems(mediaItems)
             shuffleModeEnabled = true
+            repeatMode = Player.REPEAT_MODE_ALL
+            playWhenReady = true
+            prepare()
         }
         resume()
     }
 
     override fun resume() {
-        player.apply {
-            if (mediaItemCount <= 0) return
-            repeatMode = Player.REPEAT_MODE_ALL
-            playWhenReady = true
-            prepare()
-        }
+        player.play()
     }
 
     override fun pause() {
