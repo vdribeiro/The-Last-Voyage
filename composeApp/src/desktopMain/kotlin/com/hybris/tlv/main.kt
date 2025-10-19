@@ -1,6 +1,5 @@
 package com.hybris.tlv
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -9,13 +8,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.hybris.tlv.flow.launch
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.theme.component.modifier.onSequence
 import com.hybris.tlv.ui.theme.component.modifier.registerBackNavigation
@@ -51,12 +48,7 @@ fun main() = application {
         state = windowState,
         onCloseRequest = ::exitApplication,
         onPreviewKeyEvent = { keyEvent ->
-            konamiCodeProgress = keyEvent.onSequence(sequence = konamiCode, progress = konamiCodeProgress) {
-                Telemetry.feedback(message = "Konami Code!")
-                dependency.dispatcher.default.launch {
-                    dependency.config.setPreferences { it.copy(cheats = true) }
-                }
-            }
+            konamiCodeProgress = keyEvent.onSequence(sequence = konamiCode, progress = konamiCodeProgress) { setKonamiCode() }
             false
         }
     ) {
@@ -65,9 +57,3 @@ fun main() = application {
         }
     }
 }
-
-private val konamiCode = listOf(
-    Key.DirectionUp, Key.DirectionUp, Key.DirectionDown, Key.DirectionDown,
-    Key.DirectionLeft, Key.DirectionRight, Key.DirectionLeft, Key.DirectionRight,
-    Key.B, Key.A, Key.Enter
-)
