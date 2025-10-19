@@ -35,7 +35,7 @@ private val initializeJfx by lazy {
     }
 }
 
-val LocalWindowState = staticCompositionLocalOf<WindowState> { error("No LocalWindowState provided") }
+internal val LocalWindowState = staticCompositionLocalOf<WindowState> { error("No LocalWindowState provided") }
 
 fun main() = application {
     Telemetry.init()
@@ -61,7 +61,7 @@ fun main() = application {
         }
     ) {
         CompositionLocalProvider(value = LocalWindowState provides windowState) {
-            Box(modifier = Modifier.registerBackNavigation { dependency.navigation.back() }) { App() }
+            App(modifier = Modifier.registerBackNavigation { dependency.navigation.back() })
         }
     }
 }
