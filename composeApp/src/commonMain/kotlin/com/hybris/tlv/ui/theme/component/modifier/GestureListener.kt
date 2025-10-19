@@ -18,7 +18,6 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 
-@Composable
 internal fun Modifier.onGesture(
     sequence: List<Gesture>,
     onSequenceComplete: () -> Unit
@@ -68,10 +67,8 @@ internal fun Modifier.onGesture(
                             totalDrag = change.position - dragStart
                         },
                         onDragEnd = {
-                            println("Total Drag (px): x=${totalDrag.x}, y=${totalDrag.y}")
-                            val gesture = onDragGestures(offset = totalDrag)
-                            println("GESTURE" + gesture)
-                            if (progress.lastOrNull() != gesture) checkSequence(gesture = gesture ?: return@detectDragGestures)
+                            val gesture = onDragGestures(offset = totalDrag) ?: return@detectDragGestures
+                            if (progress.lastOrNull() != gesture) checkSequence(gesture = gesture)
                             dragStart = Offset.Zero
                             totalDrag = Offset.Zero
                         },

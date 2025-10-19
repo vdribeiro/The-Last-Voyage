@@ -3,9 +3,7 @@ package com.hybris.tlv
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
@@ -14,7 +12,6 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.theme.component.modifier.onSequence
 import com.hybris.tlv.ui.theme.component.modifier.registerBackNavigation
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -42,15 +39,11 @@ fun main() = application {
     val appNameTranslation = remember(key1 = translationVersion) { getTranslation(key = "app_name") }
 
     val windowState = rememberWindowState(placement = WindowPlacement.Maximized)
-    var konamiCodeProgress by remember { mutableStateOf(value = 0) }
     Window(
         title = appNameTranslation,
         state = windowState,
         onCloseRequest = ::exitApplication,
-        onPreviewKeyEvent = { keyEvent ->
-            konamiCodeProgress = keyEvent.onSequence(sequence = konamiCode, progress = konamiCodeProgress) { setKonamiCode() }
-            false
-        }
+        onPreviewKeyEvent = rememberKeySequence(sequence = konamiCode) { setKonamiCode() }
     ) {
         CompositionLocalProvider(value = LocalWindowState provides windowState) {
             App(modifier = Modifier.registerBackNavigation { dependency.navigation.back() })
