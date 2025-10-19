@@ -44,8 +44,10 @@ internal fun SelectableAttribute(
                     style = typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.height(height = 4.dp))
-                Text(text = description, style = typography.bodyLarge)
+                if (selected) {
+                    Spacer(modifier = Modifier.height(height = 4.dp))
+                    Text(text = description, style = typography.bodyLarge)
+                }
                 Spacer(modifier = Modifier.height(height = 4.dp))
                 Text(text = velocity, style = typography.bodyLarge)
                 Spacer(modifier = Modifier.height(height = 4.dp))

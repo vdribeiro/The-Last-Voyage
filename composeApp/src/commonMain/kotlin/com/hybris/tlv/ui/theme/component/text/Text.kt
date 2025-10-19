@@ -10,6 +10,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import com.hybris.tlv.ui.theme.AppTheme
 
 @Composable
@@ -30,6 +31,7 @@ internal fun Text(
         style = style,
         color = color,
         fontWeight = fontWeight,
+        overflow = TextOverflow.Ellipsis
     )
 }
 
