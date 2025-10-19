@@ -24,13 +24,13 @@ internal class AppleAudioPlayer: AudioPlayer() {
 
     override fun play() {
         val nextIndex = (currentIndex + 1) % playlist.size
-        val trackPath = playlist.getOrNull(index = nextIndex) ?: return
+        val trackPath = playlist.getOrNull(index = nextIndex) ?: throw Throwable("Unable to get track at index $nextIndex")
         val resourceName = trackPath.substringBeforeLast(delimiter = '.')
         val resourceExtension = trackPath.substringAfterLast(delimiter = '.')
         val resourceUrl = NSBundle.mainBundle.URLForResource(
             name = resourceName,
             withExtension = resourceExtension,
-        ) ?: return
+        ) ?: throw Throwable("Unable to get resource $resourceName.$resourceExtension")
         val playerItem = AVPlayerItem(uRL = resourceUrl)
         endOfSongObserver = NSNotificationCenter.defaultCenter.observe(
             name = AVPlayerItemDidPlayToEndTimeNotification,

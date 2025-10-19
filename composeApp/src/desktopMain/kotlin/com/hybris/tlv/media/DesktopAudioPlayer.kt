@@ -12,8 +12,8 @@ internal class DesktopAudioPlayer: AudioPlayer() {
 
     override fun play() {
         val nextIndex = (currentIndex + 1) % playlist.size
-        val trackPath = playlist.getOrNull(index = nextIndex) ?: return
-        val resourceUrl = Thread.currentThread().contextClassLoader.getResource(trackPath) ?: return
+        val trackPath = playlist.getOrNull(index = nextIndex) ?: throw Throwable("Unable to get track at index $nextIndex")
+        val resourceUrl = Thread.currentThread().contextClassLoader.getResource(trackPath) ?: throw Throwable("Unable to get resource for $trackPath")
         player = MediaPlayer(Media(resourceUrl.toString())).apply {
             setOnEndOfMedia { this@DesktopAudioPlayer.play() }
             this.play()
