@@ -5,14 +5,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.isBackPressed
+import androidx.compose.ui.input.pointer.isSecondaryPressed
+import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.theme.component.modifier.registerBackNavigation
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 import javafx.embed.swing.JFXPanel
@@ -31,6 +35,17 @@ private val initializeJfx by lazy {
 
 internal val LocalWindowState = staticCompositionLocalOf<WindowState> { error("No LocalWindowState provided") }
 
+/**
+ * Registers a back navigation handler.
+ */
+@OptIn(ExperimentalComposeUiApi::class)
+private fun Modifier.registerBackNavigation(onBackNavigation: () -> Unit): Modifier =
+    onPointerEvent(eventType = PointerEventType.Press) {
+        with(receiver = it.buttons) {
+            if (isBackPressed || isSecondaryPressed) onBackNavigation()
+        }
+    }
+
 fun main() = application {
     Telemetry.init()
     Telemetry.info(tag = TAG, message = "JavaFX = $initializeJfx")
@@ -43,7 +58,7 @@ fun main() = application {
         title = appNameTranslation,
         state = windowState,
         onCloseRequest = ::exitApplication,
-        onPreviewKeyEvent = rememberKeySequence(sequence = konamiCode) { setKonamiCode() }
+        onPreviewKeyEvent = rememberCheatCode()
     ) {
         CompositionLocalProvider(value = LocalWindowState provides windowState) {
             App(modifier = Modifier.registerBackNavigation { dependency.navigation.back() })
