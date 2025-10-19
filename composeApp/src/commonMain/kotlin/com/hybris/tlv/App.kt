@@ -1,6 +1,7 @@
 package com.hybris.tlv
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -16,7 +17,7 @@ import com.hybris.tlv.ui.theme.AppTheme
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun App(modifier: Modifier = Modifier) = AppTheme {
-    Box(modifier = modifier) {
+    Box(modifier = modifier.fillMaxSize()) {
         // Setup Navigation
         val navigation = dependency.navigation
         BackHandler(enabled = true) { navigation.back() }
