@@ -73,7 +73,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
                     score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
                     utc = gameSession.utc,
                     settledPlanet = gameSession.settledPlanetName,
-                    habitability = gameSession.finalHabitability?.toString(),
+                    habitability = gameSession.finalHabitability?.roundTo(decimalPlaces = 2).toString(),
                     engine = getTranslation(key = gameSession.ship.engine.id),
                     assignedPoints = gameSession.ship.assignedPoints.toString(),
                     yearsTraveled = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),

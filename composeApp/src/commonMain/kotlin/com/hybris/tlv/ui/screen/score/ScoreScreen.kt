@@ -86,7 +86,7 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
                         score = (score.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
                         utc = score.utc,
                         settledPlanet = score.settledPlanetName,
-                        habitability = score.finalHabitability?.toString(),
+                        habitability = score.finalHabitability?.roundTo(decimalPlaces = 2).toString(),
                         engine = getTranslation(key = score.ship.engine.id),
                         assignedPoints = score.ship.assignedPoints.toString(),
                         yearsTraveled = score.ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
