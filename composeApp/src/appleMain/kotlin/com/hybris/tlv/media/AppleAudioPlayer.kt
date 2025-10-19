@@ -25,13 +25,11 @@ internal class AppleAudioPlayer: AudioPlayer() {
     override fun play() {
         val nextIndex = (currentIndex + 1) % playlist.size
         val trackPath = playlist.getOrNull(index = nextIndex) ?: return
-        val fileName = trackPath.substringAfterLast(delimiter = '/')
-        val resourceName = fileName.substringBeforeLast(delimiter = '.')
-        val resourceExtension = fileName.substringAfterLast(delimiter = '.')
+        val resourceName = trackPath.substringBeforeLast(delimiter = '.')
+        val resourceExtension = trackPath.substringAfterLast(delimiter = '.')
         val resourceUrl = NSBundle.mainBundle.URLForResource(
             name = resourceName,
             withExtension = resourceExtension,
-            subdirectory = "files"
         ) ?: return
         val playerItem = AVPlayerItem(uRL = resourceUrl)
         endOfSongObserver = NSNotificationCenter.defaultCenter.observe(
