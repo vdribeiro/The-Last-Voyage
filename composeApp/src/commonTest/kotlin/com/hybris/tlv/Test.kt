@@ -6,6 +6,7 @@ import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.http.TestEngines
 import com.hybris.tlv.locale.now
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.serializer.ACHIEVEMENTS_JSON
 import com.hybris.tlv.serializer.CATASTROPHES_JSON
 import com.hybris.tlv.serializer.CONFIGS_JSON
@@ -38,6 +39,7 @@ internal val testDependency: Dependency by lazy {
         dispatcher = TestDispatchers(),
         sqlDriver = createSqlDriver(inMemory = true),
         httpEngine = TestEngines.testEngine,
+        audioPlayer = AudioPlayer(),
     )
 }
 
