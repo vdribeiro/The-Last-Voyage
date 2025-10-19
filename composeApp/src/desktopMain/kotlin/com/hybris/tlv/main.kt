@@ -15,6 +15,7 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import com.hybris.tlv.flow.launch
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.theme.component.modifier.onSequence
 import com.hybris.tlv.ui.theme.component.modifier.registerBackNavigation
@@ -52,6 +53,9 @@ fun main() = application {
         onPreviewKeyEvent = { keyEvent ->
             konamiCodeProgress = keyEvent.onSequence(sequence = konamiCode, progress = konamiCodeProgress) {
                 Telemetry.feedback(message = "Konami Code!")
+                dependency.dispatcher.default.launch {
+                    dependency.config.setPreferences { it.copy(cheats = true) }
+                }
             }
             false
         }

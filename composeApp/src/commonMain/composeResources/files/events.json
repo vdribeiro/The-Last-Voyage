@@ -10,7 +10,7 @@
     "description": "event__a_close_pass_for_science_description",
     "parentId": "event__a_close_pass",
     "outcome": {
-      "fuel": 10,
+      "fuel": 50,
       "cryopods": -15
     }
   },

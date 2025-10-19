@@ -1172,7 +1172,7 @@
   {
     "languageIso": "en",
     "key": "engine__propellantless_description",
-    "value": "Thrust is generated without expelling a propellant, like using the radiation pressure of sunlight."
+    "value": "Thrust is generated without expelling a propellant, using the radiation pressure of sunlight."
   },
   {
     "languageIso": "en",
@@ -1857,7 +1857,7 @@
   {
     "languageIso": "en",
     "key": "event__ghost_ship_board_description",
-    "value": "You find a lonely and still functional cryopod and scrap what you can from the ship.You continue your journey, but you feel like there is more to the story."
+    "value": "You find a lonely and still functional cryopod and scrap what you can from the ship. You continue your journey, but you feel like there is more to the story."
   },
   {
     "languageIso": "en",
