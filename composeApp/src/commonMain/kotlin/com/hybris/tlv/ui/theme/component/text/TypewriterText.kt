@@ -30,7 +30,7 @@ internal fun TypewriterText(
     val words = remember(key1 = text) { text.split(' ') }
     var visibleWordsCount by remember(key1 = text) { mutableStateOf(value = 0) }
     var isRevealed by remember(key1 = text) { mutableStateOf(value = inspection) }
-    LaunchedEffect(key1 = text) {
+    if (!inspection) LaunchedEffect(key1 = text) {
         visibleWordsCount = 0
         isRevealed = false
         while (visibleWordsCount < words.size && !isRevealed) {

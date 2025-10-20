@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
@@ -50,5 +51,11 @@ internal data class DropdownItem(
 @Preview
 @Composable
 private fun DropdownPreview() = AppTheme {
-    Dropdown()
+    Dropdown(
+        expanded = true,
+        items = listOf(
+            DropdownItem(text = "Item 1"),
+            DropdownItem(text = "Item 2", leadingIcon = { Icon() }),
+        )
+    )
 }

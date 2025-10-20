@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.OverscrollEffect
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
@@ -13,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberOverscrollEffect
+import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalShapes
+import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
 internal fun LazyColumnWithScrollBar(
@@ -39,7 +43,7 @@ internal fun LazyColumnWithScrollBar(
     scrollBarHoverDurationMillis: Int = 300,
     scrollBarHoverColor: Color = Color.White,
     scrollBarUnhoverColor: Color = scrollBarHoverColor.copy(alpha = 0.3f),
-    content: LazyListScope.() -> Unit
+    content: LazyListScope.() -> Unit = {}
 ) {
     Box {
         LazyColumn(
@@ -54,7 +58,7 @@ internal fun LazyColumnWithScrollBar(
             overscrollEffect = overscrollEffect,
             content = content
         )
-        VerticallyScrollBar(
+        VerticalScrollBar(
             modifier = Modifier
                 .padding(all = 4.dp)
                 .fillMaxHeight()
@@ -67,5 +71,13 @@ internal fun LazyColumnWithScrollBar(
             hoverColor = scrollBarHoverColor,
             unhoverColor = scrollBarUnhoverColor
         )
+    }
+}
+
+@Preview
+@Composable
+private fun LazyColumnWithScrollBarPreview() = AppTheme {
+    LazyColumnWithScrollBar {
+        item { Card { Text(text = "Preview") } }
     }
 }

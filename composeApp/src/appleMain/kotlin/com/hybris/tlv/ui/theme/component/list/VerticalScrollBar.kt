@@ -8,8 +8,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 
 @Composable
-internal expect fun VerticallyScrollBar(
-    modifier: Modifier = Modifier,
+internal actual fun VerticalScrollBar(
+    modifier: Modifier,
     state: LazyListState,
     minimalHeight: Dp,
     thickness: Dp,
@@ -17,4 +17,6 @@ internal expect fun VerticallyScrollBar(
     hoverDurationMillis: Int,
     hoverColor: Color,
     unhoverColor: Color
-)
+) {
+    // No Scrollbar on iOS
+}

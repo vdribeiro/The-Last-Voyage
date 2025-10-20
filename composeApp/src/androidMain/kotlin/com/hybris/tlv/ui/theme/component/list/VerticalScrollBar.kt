@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 
 @Composable
-internal actual fun VerticallyScrollBar(
+internal actual fun VerticalScrollBar(
     modifier: Modifier,
     state: LazyListState,
     minimalHeight: Dp,

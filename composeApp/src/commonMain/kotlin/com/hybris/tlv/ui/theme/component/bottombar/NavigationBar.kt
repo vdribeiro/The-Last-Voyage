@@ -51,5 +51,10 @@ internal data class NavigationItem(
 @Preview
 @Composable
 private fun NavigationBarPreview() = AppTheme {
-    NavigationBar()
+    NavigationBar(
+        items = listOf(
+            NavigationItem(label = "Home"),
+            NavigationItem(label = "Apps")
+        )
+    )
 }

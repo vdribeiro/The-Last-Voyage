@@ -88,8 +88,8 @@ internal fun Score(
                 ) {
                     Divider()
                     Spacer(modifier = Modifier.height(height = 8.dp))
-                    InfoRow(label = settledPlanetTranslation, value = settledPlanet)
-                    InfoRow(label = habitabilityTranslation, value = habitability)
+                    settledPlanet?.let { InfoRow(label = settledPlanetTranslation, value = it) }
+                    habitability?.let { InfoRow(label = habitabilityTranslation, value = it) }
                     InfoRow(label = engineTranslation, value = engine)
                     InfoRow(label = assignedPointsTranslation, value = assignedPoints)
                     InfoRow(label = yearsTraveledTranslation, value = yearsTraveled)

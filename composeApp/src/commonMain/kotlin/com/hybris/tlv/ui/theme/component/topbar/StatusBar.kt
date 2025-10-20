@@ -107,5 +107,5 @@ private fun StatusBarItem(
 @Preview
 @Composable
 private fun StatusBarPreview() = AppTheme {
-    StatusBar()
+    StatusBar(hull = "100")
 }

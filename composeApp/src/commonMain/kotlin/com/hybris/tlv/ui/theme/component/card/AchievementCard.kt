@@ -79,13 +79,13 @@ internal fun AchievementCard(
 private fun AchievementCardPreview() = AppTheme {
     Column {
         AchievementCard(
-            name = "Achievement",
-            description = "Achievement Description",
+            name = "Achievement 1",
+            description = "Achievement Description 1",
             done = false
         )
         AchievementCard(
-            name = "Achievement",
-            description = "Achievement Description",
+            name = "Achievement 2",
+            description = "Achievement Description 2",
             done = true
         )
     }

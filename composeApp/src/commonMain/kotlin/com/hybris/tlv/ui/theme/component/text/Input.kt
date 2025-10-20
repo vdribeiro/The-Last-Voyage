@@ -34,5 +34,5 @@ internal fun Input(
 @Preview
 @Composable
 private fun InputPreview() = AppTheme {
-    Input()
+    Input(value = "Input")
 }

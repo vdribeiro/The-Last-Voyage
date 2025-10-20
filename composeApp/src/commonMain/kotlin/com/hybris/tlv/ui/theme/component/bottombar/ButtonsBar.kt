@@ -49,6 +49,10 @@ internal fun ButtonsBar(
 @Composable
 private fun ButtonsBarPreview() = AppTheme {
     ButtonsBar(
-
+        buttons = listOf(
+            "Button 1" to {},
+            "Button 2" to {},
+            "Button 3" to {},
+        )
     )
 }

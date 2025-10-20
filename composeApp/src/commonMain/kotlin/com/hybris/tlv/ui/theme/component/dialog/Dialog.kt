@@ -42,5 +42,5 @@ internal fun Dialog(
 @Preview
 @Composable
 private fun DialogPreview() = AppTheme {
-    Dialog()
+    Dialog(title = "Title")
 }

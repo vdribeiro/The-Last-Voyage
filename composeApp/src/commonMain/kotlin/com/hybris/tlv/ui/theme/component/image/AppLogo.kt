@@ -67,13 +67,6 @@ internal fun AppLogo(
 @Preview
 @Composable
 private fun AppLogoPreview() = AppTheme {
-    AppLogo()
-}
-
-@Preview
-@Composable
-private fun AppLogoBackGroundPreview() = AppTheme {
-    AppLogo()
     AppLogo(
         showBackground = true,
         showProgress = true,

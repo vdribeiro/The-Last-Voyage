@@ -20,9 +20,10 @@ internal fun InfoRow(
 
     val annotatedText = buildAnnotatedString {
         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) { append(label) }
-        value?.let {
+        val stringValue = value?.toString().orEmpty()
+        if (stringValue.isNotBlank()) {
             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) { append(": ") }
-            append("$it")
+            append(stringValue)
         }
     }
     Text(
