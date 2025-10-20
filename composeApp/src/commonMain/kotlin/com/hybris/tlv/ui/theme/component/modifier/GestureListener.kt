@@ -7,8 +7,11 @@ import kotlinx.coroutines.launch
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
@@ -16,32 +19,33 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 /**
- * Processes [Gesture]s and check if it matches a given [sequence].
- * If so, it executes [onSequenceComplete] callback.
+ * A [Modifier] that listens for a specific [sequence] of [Gesture]s and triggers the [onSequenceComplete] callback upon completion.
+ * This modifier acts as a global gesture detector, capable of capturing both taps and swipes even when layered over scrollable components.
+ * The gesture progress will automatically reset if the user pauses for longer than the specified [delay].
+ * The gesture can be configured with a minimum distance [thresholdDp] it must cover and a [leniency] factor to allow for imperfectly straight swipes (1.0 is perfectly straight).
  */
 internal fun Modifier.onGesture(
     sequence: List<Gesture>,
-    delay: Long = 2000L,
+    delay: Long = 1000L,
+    thresholdDp: Dp = 60.dp,
+    leniency: Double = 2.0,
     onSequenceComplete: () -> Unit
 ): Modifier = composed {
-    val nestedScrollConnection = remember {
-        object: NestedScrollConnection {
-            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                return Offset.Zero
-            }
-        }
-    }
-
     val progress = remember { mutableStateListOf<Gesture>() }
     LaunchedEffect(key1 = progress.size) {
         if (progress.isNotEmpty()) {
             delay(timeMillis = delay)
-            if (progress.size < sequence.size) progress.clear()
+            progress.clear()
         }
     }
-    fun checkSequence(gesture: Gesture) {
+
+    fun checkSequence(gesture: Gesture?) {
+        if (gesture == null) return
         progress.add(element = gesture)
         if (progress.takeLast(n = sequence.size) == sequence) {
             onSequenceComplete()
@@ -49,6 +53,39 @@ internal fun Modifier.onGesture(
         }
     }
 
+    val threshold: Float = with(receiver = LocalDensity.current) { thresholdDp.toPx() }
+    var gestureDragTotal by remember { mutableStateOf(value = Offset.Zero) }
+    LaunchedEffect(key1 = gestureDragTotal) {
+        if (gestureDragTotal != Offset.Zero) {
+            delay(timeMillis = 100)
+            checkSequence(
+                gesture = onDragGestures(
+                    offset = gestureDragTotal,
+                    threshold = threshold,
+                    leniency = leniency
+                )
+            )
+            gestureDragTotal = Offset.Zero
+        }
+    }
+
+    val nestedScrollConnection = remember {
+        object: NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                if (source == NestedScrollSource.UserInput) gestureDragTotal += available
+                return Offset.Zero
+            }
+
+            override fun onPostScroll(
+                consumed: Offset,
+                available: Offset,
+                source: NestedScrollSource
+            ): Offset {
+                if (source == NestedScrollSource.UserInput) gestureDragTotal += consumed
+                return super.onPostScroll(consumed, available, source)
+            }
+        }
+    }
 
     this
         .nestedScroll(connection = nestedScrollConnection)
@@ -69,8 +106,13 @@ internal fun Modifier.onGesture(
                             totalDrag = change.position - dragStart
                         },
                         onDragEnd = {
-                            val gesture = onDragGestures(offset = totalDrag) ?: return@detectDragGestures
-                            if (progress.lastOrNull() != gesture) checkSequence(gesture = gesture)
+                            checkSequence(
+                                gesture = onDragGestures(
+                                    offset = totalDrag,
+                                    threshold = threshold,
+                                    leniency = leniency
+                                )
+                            )
                             dragStart = Offset.Zero
                             totalDrag = Offset.Zero
                         },
@@ -80,11 +122,19 @@ internal fun Modifier.onGesture(
         }
 }
 
-private fun onDragGestures(offset: Offset): Gesture? {
-    //if (offset.getDistance() < 100) return null
+/**
+ * Determines if a drag [offset], with a minimum distance [threshold] in pixels it must cover, constitutes a directional swipe.
+ * The offset should be the total vector of the drag gesture, from start to end.
+ * A [leniency] factor is used to allow for imperfectly straight swipes.
+ */
+private fun onDragGestures(
+    offset: Offset,
+    threshold: Float,
+    leniency: Double
+): Gesture? {
+    if (offset.getDistance() < threshold) return null
     val vertical = abs(x = offset.y)
     val horizontal = abs(x = offset.x)
-    val leniency = 2.0
     return when {
         vertical > horizontal * leniency -> if (offset.y > 0) Gesture.SWIPE_DOWN else Gesture.SWIPE_UP
         horizontal > vertical * leniency -> if (offset.x > 0) Gesture.SWIPE_RIGHT else Gesture.SWIPE_LEFT
