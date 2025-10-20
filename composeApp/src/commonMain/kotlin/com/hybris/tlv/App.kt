@@ -22,7 +22,7 @@ internal fun App() = AppTheme {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .onCheatCode()
+            .enableCheats()
             .backNavigation { navigation.back() }) {
         // Render Screen
         navigation.Screen(navigationState = navigationState)

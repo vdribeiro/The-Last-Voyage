@@ -33,5 +33,5 @@ private fun setKonamiCode() {
 internal fun rememberCheatCode(): (KeyEvent) -> Boolean =
     rememberKeySequence(sequence = konamiCode) { setKonamiCode() }
 
-internal fun Modifier.onCheatCode(): Modifier =
+internal fun Modifier.enableCheats(): Modifier =
     onGesture(sequence = konamiGestureCode) { setKonamiCode() }
