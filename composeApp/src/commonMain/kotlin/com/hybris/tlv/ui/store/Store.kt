@@ -26,7 +26,6 @@ internal open class Store<State, Action>(
     private val audioPlayer: AudioPlayer,
     initialState: State
 ) {
-
     /**
      * The current state of the screen.
      */
