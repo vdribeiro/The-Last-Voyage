@@ -17,6 +17,7 @@ plugins {
     alias(notation = libs.plugins.kotlinSerialization)
 }
 
+//region Local Properties
 val localProperties: Properties = Properties().apply { rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use(block = this::load) }
 val appId: String = "com.hybris.tlv"
 val appName: String = "The Last Voyage"
@@ -26,10 +27,15 @@ val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voya
 val appVersion: String = "1.0.0"
 val appVersionNumber: Int = 1
 val androidTarget: Int = 35
+val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
+val androidKeyPassword: String = localProperties.getProperty("android.keyPassword", "")
+val androidStoreFile: File = rootProject.file(localProperties.getProperty("android.storeFile", ""))
+val androidStorePassword: String = localProperties.getProperty("android.storePassword", "")
 val iosTarget: String = "16.7.12"
+val macIdentity: String = localProperties.getProperty("mac.sign.identity", "")
 val iosSentryVersion: String = libs.versions.iosSentry.get()
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
-val macIdentity: String = localProperties.getProperty("mac.sign.identity", "")
+//endregion
 
 //region Generate Property.kt file
 abstract class GeneratePropertiesTask: DefaultTask() {
@@ -211,6 +217,14 @@ android {
     namespace = appId
     compileSdk = androidTarget
 
+    signingConfigs {
+        create("release") {
+            keyAlias = androidKeyAlias
+            keyPassword = androidKeyPassword
+            storeFile = androidStoreFile
+            storePassword = androidStorePassword
+        }
+    }
     defaultConfig {
         applicationId = appId
         minSdk = 26
@@ -235,6 +249,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
