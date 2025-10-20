@@ -11,37 +11,37 @@ internal class NavigationManagerTest {
     fun navigate() = runBlocking {
         assertEquals(expected = Screen.Splash, actual = testDependency.navigation.stateFlow.value.screen)
 
-        testDependency.navigation.navigate(screen = Screen.Feedback)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Feedback))
         assertEquals(expected = Screen.Feedback, actual = testDependency.navigation.stateFlow.value.screen)
 
-        testDependency.navigation.navigate(screen = Screen.Splash)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Splash))
         assertEquals(expected = Screen.Splash, actual = testDependency.navigation.stateFlow.value.screen)
 
-        testDependency.navigation.navigate(screen = Screen.MainMenu)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.MainMenu))
         assertEquals(expected = Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
 
-        testDependency.navigation.navigate(screen = Screen.NewGame)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.NewGame))
         assertEquals(expected = Screen.NewGame, actual = testDependency.navigation.stateFlow.value.screen)
 
-        testDependency.navigation.navigate(screen = Screen.Game)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Game))
         assertEquals(expected = Screen.Game, actual = testDependency.navigation.stateFlow.value.screen)
 
-        testDependency.navigation.navigate(screen = Screen.Event)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Event))
         assertEquals(expected = Screen.Event, actual = testDependency.navigation.stateFlow.value.screen)
 
-        testDependency.navigation.navigate(screen = Screen.GameOver)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.GameOver))
         assertEquals(expected = Screen.GameOver, actual = testDependency.navigation.stateFlow.value.screen)
 
-        testDependency.navigation.navigate(screen = Screen.StellarExplorer)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.StellarExplorer))
         assertEquals(expected = Screen.StellarExplorer, actual = testDependency.navigation.stateFlow.value.screen)
 
-        testDependency.navigation.navigate(screen = Screen.Score)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Score))
         assertEquals(expected = Screen.Score, actual = testDependency.navigation.stateFlow.value.screen)
 
-        testDependency.navigation.navigate(screen = Screen.Achievement)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Achievement))
         assertEquals(expected = Screen.Achievement, actual = testDependency.navigation.stateFlow.value.screen)
 
-        testDependency.navigation.navigate(screen = Screen.Credit)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Credit))
         assertEquals(expected = Screen.Credit, actual = testDependency.navigation.stateFlow.value.screen)
     }
 }

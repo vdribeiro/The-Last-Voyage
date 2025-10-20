@@ -10,6 +10,7 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.engines
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
+import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 
@@ -20,7 +21,7 @@ internal class NewGameStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = Screen.NewGame)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.NewGame))
     }
 
     @Test

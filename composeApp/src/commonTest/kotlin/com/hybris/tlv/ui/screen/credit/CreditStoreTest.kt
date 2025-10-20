@@ -8,6 +8,7 @@ import com.hybris.tlv.credits
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
+import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class CreditStoreTest {
@@ -17,7 +18,7 @@ internal class CreditStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = Screen.Credit)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Credit))
     }
 
     @Test

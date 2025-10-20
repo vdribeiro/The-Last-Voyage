@@ -11,6 +11,7 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
+import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class MainMenuStoreTest {
@@ -20,14 +21,14 @@ internal class MainMenuStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = Screen.Splash)
-        testDependency.navigation.navigate(screen = Screen.MainMenu)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Splash))
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.MainMenu))
     }
 
     @Test
     fun `init`() = runBlocking {
         testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        testDependency.navigation.navigate(screen = Screen.MainMenu)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.MainMenu))
         val mainMenuStore = store
         delay(timeMillis = 100L)
         assertTrue(actual = mainMenuStore.stateFlow.value.ongoingGameSession)

@@ -13,6 +13,7 @@ import com.hybris.tlv.planets
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
+import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class GameStoreTest {
@@ -22,7 +23,7 @@ internal class GameStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = Screen.Game)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Game))
     }
 
     @Test

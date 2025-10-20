@@ -12,6 +12,7 @@ import com.hybris.tlv.events
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
+import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class EventStoreTest {
@@ -21,7 +22,7 @@ internal class EventStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = Screen.Event)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Event))
     }
 
     @Test

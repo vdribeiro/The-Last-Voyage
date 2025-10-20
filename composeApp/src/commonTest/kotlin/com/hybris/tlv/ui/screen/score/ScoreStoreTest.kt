@@ -8,6 +8,7 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
+import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class ScoreStoreTest {
@@ -17,9 +18,9 @@ internal class ScoreStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = Screen.Splash)
-        testDependency.navigation.navigate(screen = Screen.MainMenu)
-        testDependency.navigation.navigate(screen = Screen.Score)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Splash))
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.MainMenu))
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Score))
     }
 
     @Test

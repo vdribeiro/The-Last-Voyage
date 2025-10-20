@@ -10,6 +10,7 @@ import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
+import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class GameOverStoreTest {
@@ -19,7 +20,7 @@ internal class GameOverStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = Screen.GameOver)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.GameOver))
     }
 
     @Test

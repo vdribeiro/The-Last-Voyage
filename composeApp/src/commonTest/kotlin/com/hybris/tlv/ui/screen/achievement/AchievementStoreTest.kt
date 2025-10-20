@@ -8,6 +8,7 @@ import com.hybris.tlv.achievements
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
+import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class AchievementStoreTest {
@@ -17,9 +18,9 @@ internal class AchievementStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.navigation.navigate(screen = Screen.Splash)
-        testDependency.navigation.navigate(screen = Screen.MainMenu)
-        testDependency.navigation.navigate(screen = Screen.Achievement)
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Splash))
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.MainMenu))
+        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Achievement))
     }
 
     @Test
