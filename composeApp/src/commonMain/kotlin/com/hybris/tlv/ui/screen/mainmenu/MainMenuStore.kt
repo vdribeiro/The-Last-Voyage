@@ -26,15 +26,18 @@ internal class MainMenuStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         MainMenuStateBuilder.Default -> MainMenuState()
-        is MainMenuStateBuilder.FromSavableState -> MainMenuState(currentContent = stateBuilder.currentContent)
+        is MainMenuStateBuilder.FromSavableState -> stateBuilder.state
     }
 ) {
     init {
-        setup()
+        when (stateBuilder) {
+            MainMenuStateBuilder.Default -> setup()
+            is MainMenuStateBuilder.FromSavableState -> {}
+        }
     }
 
     override fun getSavableState(state: MainMenuState): Any? =
-        MainMenuStateBuilder.FromSavableState(currentContent = state.currentContent)
+        MainMenuStateBuilder.FromSavableState(state = state)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
