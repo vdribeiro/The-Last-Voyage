@@ -4,8 +4,11 @@ import kotlin.math.abs
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.awaitTouchSlopOrCancellation
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.drag
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -17,6 +20,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
@@ -97,26 +101,26 @@ internal fun Modifier.onGesture(
                     }
                 }
                 launch {
-                    var dragStart: Offset = Offset.Zero
-                    var totalDrag: Offset = Offset.Zero
-                    detectDragGestures(
-                        onDragStart = { dragStart = it },
-                        onDrag = { change, dragAmount ->
+                    awaitEachGesture {
+                        val down: PointerInputChange = awaitFirstDown(requireUnconsumed = false)
+                        var totalDrag = Offset.Zero
+                        val slopPassed = awaitTouchSlopOrCancellation(pointerId = down.id) { change, overSlop ->
                             change.consume()
-                            totalDrag = change.position - dragStart
-                        },
-                        onDragEnd = {
-                            checkSequence(
-                                gesture = onDragGestures(
-                                    offset = totalDrag,
-                                    threshold = threshold,
-                                    leniency = leniency
-                                )
+                            totalDrag = overSlop
+                        }
+                        if (slopPassed == null) return@awaitEachGesture
+                        drag(pointerId = slopPassed.id) { change ->
+                            totalDrag += change.position - change.previousPosition
+                            change.consume()
+                        }
+                        checkSequence(
+                            gesture = onDragGestures(
+                                offset = totalDrag,
+                                threshold = threshold,
+                                leniency = leniency
                             )
-                            dragStart = Offset.Zero
-                            totalDrag = Offset.Zero
-                        },
-                    )
+                        )
+                    }
                 }
             }
         }
