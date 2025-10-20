@@ -1,8 +1,5 @@
 package com.hybris.tlv.ui.navigation
 
-/**
- * Current navigation state.
- */
 internal data class NavigationState(
     val screen: Screen = Screen.Splash,
     val stateBuilder: Any? = null

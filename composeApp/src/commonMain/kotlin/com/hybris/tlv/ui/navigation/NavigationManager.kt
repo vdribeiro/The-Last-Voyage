@@ -9,14 +9,10 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.telemetry.Telemetry
 
-/**
- * Navigation manager.
- */
 internal open class NavigationManager(
     private val dispatcher: Dispatcher,
     initialState: NavigationState
 ) {
-
     /**
      * The current state of the navigation.
      */
