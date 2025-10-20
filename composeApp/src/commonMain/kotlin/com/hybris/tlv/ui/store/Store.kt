@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.update
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
@@ -100,11 +99,8 @@ internal open class Store<State, Action>(
     /**
      * Navigate to [Screen.Feedback] screen with error.
      */
-    fun error(tag: String, message: String) {
-        Telemetry.error(tag = tag, message = message)
-        navigate(
-            screen = Screen.Feedback,
-            stateBuilder = FeedbackStateBuilder.Error(tag = tag, message = message)
-        )
-    }
+    fun error(tag: String, message: String) = navigate(
+        screen = Screen.Feedback,
+        stateBuilder = FeedbackStateBuilder.Error(tag = tag, message = message)
+    )
 }
