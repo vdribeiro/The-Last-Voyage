@@ -57,8 +57,8 @@ internal open class Store<State, Action>(
         jobs.forEach { it.cancel() }
         navigation.navigate(
             screen = screen,
-            stateBuilder = stateBuilder,
-            savableState = getSavableState(state = _stateFlow.value)
+            newState = stateBuilder,
+            currentState = getSavableState(state = _stateFlow.value)
         )
     }
 

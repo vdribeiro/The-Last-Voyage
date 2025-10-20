@@ -43,12 +43,12 @@ internal open class NavigationManager(
     }
 
     /**
-     * Updates the state of the current navigation and then navigates to a new screen given a new state.
+     * Updates the [currentState] of the screen and then navigates to a new [screen] given a [newState].
      */
-    fun navigate(screen: Screen, stateBuilder: Any? = null, savableState: Any? = null) {
+    fun navigate(screen: Screen, newState: Any? = null, currentState: Any? = null) {
         dispatcher.main.launch {
-            if (stack.isNotEmpty()) stack[stack.lastIndex] = stack.last().copy(stateBuilder = savableState)
-            val navigationState = NavigationState(screen = screen, stateBuilder = stateBuilder)
+            if (stack.isNotEmpty()) stack[stack.lastIndex] = stack.last().copy(stateBuilder = currentState)
+            val navigationState = NavigationState(screen = screen, stateBuilder = newState)
             val index = stack.indexOf(element = navigationState)
             if (index != -1) stack.subList(index, stack.size).clear()
             stack.add(element = navigationState)
@@ -56,11 +56,6 @@ internal open class NavigationManager(
             Telemetry.info(tag = TAG, message = "Navigate to ${_stateFlow.value}")
         }
     }
-
-    /**
-     * Fallback to [Screen.Splash] screen.
-     */
-    protected fun fallback() = navigate(screen = Screen.Splash)
 
     /**
      * The main composable responsible for rendering the current screen based on the navigation state.

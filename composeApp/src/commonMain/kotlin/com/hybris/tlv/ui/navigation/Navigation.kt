@@ -37,6 +37,11 @@ internal class Navigation(
         useCases = useCases
     )
 
+    /**
+     * Fallback to [Screen.Splash] screen.
+     */
+    private fun fallback() = navigate(screen = Screen.Splash)
+
     @Composable
     override fun Screen(navigationState: NavigationState) {
         with(receiver = config.localConfigs) {
