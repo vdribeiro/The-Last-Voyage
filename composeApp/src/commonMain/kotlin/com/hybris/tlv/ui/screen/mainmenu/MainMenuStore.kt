@@ -41,7 +41,6 @@ internal class MainMenuStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
-        config.fetch()
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
         val learningsMap = learningUseCases.getLearnings().groupBy { it.type }
 
