@@ -81,18 +81,13 @@ internal fun Modifier.onGesture(
 }
 
 private fun onDragGestures(offset: Offset): Gesture? {
+    //if (offset.getDistance() < 100) return null
     val vertical = abs(x = offset.y)
     val horizontal = abs(x = offset.x)
     val leniency = 2.0
     return when {
-        vertical > horizontal * leniency -> {
-            if (offset.y > 0) Gesture.SWIPE_DOWN else Gesture.SWIPE_UP
-        }
-
-        horizontal > vertical * leniency -> {
-            if (offset.x > 0) Gesture.SWIPE_RIGHT else Gesture.SWIPE_LEFT
-        }
-
+        vertical > horizontal * leniency -> if (offset.y > 0) Gesture.SWIPE_DOWN else Gesture.SWIPE_UP
+        horizontal > vertical * leniency -> if (offset.x > 0) Gesture.SWIPE_RIGHT else Gesture.SWIPE_LEFT
         else -> null
     }
 }
