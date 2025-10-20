@@ -30,7 +30,7 @@ private fun setKonamiCode() {
 }
 
 @Composable
-internal fun rememberCheatCode(): (KeyEvent) -> Boolean =
+internal fun rememberCheats(): (KeyEvent) -> Boolean =
     rememberKeySequence(sequence = konamiCode) { setKonamiCode() }
 
 internal fun Modifier.enableCheats(): Modifier =

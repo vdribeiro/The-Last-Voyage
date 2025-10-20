@@ -41,7 +41,7 @@ fun main() = application {
         title = appNameTranslation,
         state = windowState,
         onCloseRequest = ::exitApplication,
-        onPreviewKeyEvent = rememberCheatCode()
+        onPreviewKeyEvent = rememberCheats()
     ) {
         CompositionLocalProvider(value = LocalWindowState provides windowState) { App() }
     }
