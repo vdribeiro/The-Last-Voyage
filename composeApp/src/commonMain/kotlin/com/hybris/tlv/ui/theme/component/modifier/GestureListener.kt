@@ -6,7 +6,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +21,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.lifecycle.LifecycleCoroutine
 
 /**
  * A [Modifier] that listens for a specific [sequence] of [Gesture]s and triggers the [onSequenceComplete] callback upon completion.
@@ -37,7 +37,7 @@ internal fun Modifier.onGesture(
     onSequenceComplete: () -> Unit
 ): Modifier = composed {
     val progress = remember { mutableStateListOf<Gesture>() }
-    LaunchedEffect(key1 = progress.size) {
+    LifecycleCoroutine(progress.size) {
         if (progress.isNotEmpty()) {
             delay(timeMillis = delay)
             progress.clear()
@@ -55,7 +55,7 @@ internal fun Modifier.onGesture(
 
     val threshold: Float = with(receiver = LocalDensity.current) { thresholdDp.toPx() }
     var gestureDragTotal by remember { mutableStateOf(value = Offset.Zero) }
-    LaunchedEffect(key1 = gestureDragTotal) {
+    LifecycleCoroutine(gestureDragTotal) {
         if (gestureDragTotal != Offset.Zero) {
             delay(timeMillis = 100)
             checkSequence(

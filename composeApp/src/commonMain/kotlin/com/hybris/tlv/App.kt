@@ -3,10 +3,10 @@ package com.hybris.tlv
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.lifecycle.Register
 import com.hybris.tlv.media.AudioPlayer.Action
 import com.hybris.tlv.media.getTracks
@@ -30,7 +30,7 @@ internal fun App() = AppTheme {
 
     // Setup Audio Player
     val audioPlayer = dependency.audioPlayer
-    LaunchedEffect(key1 = screen) {
+    LifecycleCoroutine(screen) {
         val playlist = getTracks(screen = screen)
         if (playlist != null) audioPlayer.action(action = Action.Play(playlist = playlist))
     }

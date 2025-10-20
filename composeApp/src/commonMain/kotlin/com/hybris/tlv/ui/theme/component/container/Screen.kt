@@ -17,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
+import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.image.AppLogo
@@ -96,10 +96,10 @@ internal fun Screen(
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            val inspection = LocalInspectionMode.current
-            var show by remember { mutableStateOf(value = inspection) }
+            val isPreview = LocalInspectionMode.current
+            var show by remember { mutableStateOf(value = isPreview) }
             var loaderShownMark by remember { mutableStateOf<TimeMark?>(value = null) }
-            LaunchedEffect(key1 = loading) {
+            LifecycleCoroutine(loading) {
                 when {
                     loading -> {
                         delay(timeMillis = loadingDelayMillis)
