@@ -37,7 +37,7 @@ internal class MainMenuStore(
     }
 
     override fun getSavableState(state: MainMenuState): Any? =
-        MainMenuStateBuilder.FromSavableState(state = state)
+        MainMenuStateBuilder.FromSavableState(state = state.copy(newGameDialog = false))
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
