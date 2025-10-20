@@ -10,7 +10,7 @@ import com.hybris.tlv.flow.launch
 import com.hybris.tlv.telemetry.Telemetry
 
 /**
- * Navigation manager with the screens index.
+ * Navigation manager.
  */
 internal open class NavigationManager(
     private val dispatcher: Dispatcher,
@@ -43,12 +43,11 @@ internal open class NavigationManager(
     }
 
     /**
-     * Updates the [currentState] of the screen and then navigates to a new [screen] given a [newState].
+     * Updates the [currentState] of the screen and then navigates to the new [navigationState].
      */
-    fun navigate(screen: Screen, newState: Any? = null, currentState: Any? = null) {
+    fun navigate(navigationState: NavigationState, currentState: Any? = null) {
         dispatcher.main.launch {
             if (stack.isNotEmpty()) stack[stack.lastIndex] = stack.last().copy(stateBuilder = currentState)
-            val navigationState = NavigationState(screen = screen, stateBuilder = newState)
             val index = stack.indexOf(element = navigationState)
             if (index != -1) stack.subList(index, stack.size).clear()
             stack.add(element = navigationState)

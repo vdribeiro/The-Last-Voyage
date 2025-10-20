@@ -10,6 +10,7 @@ import com.hybris.tlv.flow.launch
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 
@@ -56,8 +57,7 @@ internal open class Store<State, Action>(
     protected fun navigate(screen: Screen, stateBuilder: Any? = null) {
         jobs.forEach { it.cancel() }
         navigation.navigate(
-            screen = screen,
-            newState = stateBuilder,
+            navigationState = NavigationState(screen = screen, stateBuilder = stateBuilder),
             currentState = getSavableState(state = _stateFlow.value)
         )
     }

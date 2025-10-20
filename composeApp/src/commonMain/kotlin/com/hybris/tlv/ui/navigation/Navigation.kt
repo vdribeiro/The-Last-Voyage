@@ -40,7 +40,7 @@ internal class Navigation(
     /**
      * Fallback to [Screen.Splash] screen.
      */
-    private fun fallback() = navigate(screen = Screen.Splash)
+    private fun fallback() = navigate(navigationState = NavigationState(screen = Screen.Splash))
 
     @Composable
     override fun Screen(navigationState: NavigationState) {
