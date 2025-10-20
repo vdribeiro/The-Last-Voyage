@@ -5,12 +5,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.isBackPressed
-import androidx.compose.ui.input.pointer.isSecondaryPressed
-import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
@@ -35,17 +29,6 @@ private val initializeJfx by lazy {
 
 internal val LocalWindowState = staticCompositionLocalOf<WindowState> { error("No LocalWindowState provided") }
 
-/**
- * Registers a back navigation handler.
- */
-@OptIn(ExperimentalComposeUiApi::class)
-private fun Modifier.registerBackNavigation(onBackNavigation: () -> Unit): Modifier =
-    onPointerEvent(eventType = PointerEventType.Press) {
-        with(receiver = it.buttons) {
-            if (isBackPressed || isSecondaryPressed) onBackNavigation()
-        }
-    }
-
 fun main() = application {
     Telemetry.init()
     Telemetry.info(tag = TAG, message = "JavaFX = $initializeJfx")
@@ -60,8 +43,6 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         onPreviewKeyEvent = rememberCheatCode()
     ) {
-        CompositionLocalProvider(value = LocalWindowState provides windowState) {
-            App(modifier = Modifier.registerBackNavigation { dependency.navigation.back() })
-        }
+        CompositionLocalProvider(value = LocalWindowState provides windowState) { App() }
     }
 }

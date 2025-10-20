@@ -23,9 +23,9 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.card.PlanetCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
+import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
-import com.hybris.tlv.ui.theme.component.screen.Screen
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.usecase.space.formula.spectralTypeToImage
 import com.hybris.tlv.usecase.space.formula.toImage

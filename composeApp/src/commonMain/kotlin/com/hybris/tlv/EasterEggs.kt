@@ -2,7 +2,6 @@ package com.hybris.tlv
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import com.hybris.tlv.flow.launch
@@ -34,6 +33,5 @@ private fun setKonamiCode() {
 internal fun rememberCheatCode(): (KeyEvent) -> Boolean =
     rememberKeySequence(sequence = konamiCode) { setKonamiCode() }
 
-internal fun Modifier.onCheatCode(): Modifier = composed {
+internal fun Modifier.onCheatCode(): Modifier =
     onGesture(sequence = konamiGestureCode) { setKonamiCode() }
-}

@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component.screen
+package com.hybris.tlv.ui.theme.component.container
 
 import kotlin.time.TimeMark
 import kotlin.time.TimeSource
@@ -27,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.button.Button
-import com.hybris.tlv.ui.theme.component.container.Scaffold
 import com.hybris.tlv.ui.theme.component.image.AppLogo
 import com.hybris.tlv.ui.theme.component.image.Icon
 

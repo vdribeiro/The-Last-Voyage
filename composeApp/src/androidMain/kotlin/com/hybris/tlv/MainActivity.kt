@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.ui.Modifier
 import com.hybris.tlv.telemetry.Telemetry
 
 class MainActivity: ComponentActivity() {
@@ -12,6 +11,6 @@ class MainActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
         Telemetry.init()
         enableEdgeToEdge()
-        setContent { App(modifier = Modifier.onCheatCode()) }
+        setContent { App() }
     }
 }
