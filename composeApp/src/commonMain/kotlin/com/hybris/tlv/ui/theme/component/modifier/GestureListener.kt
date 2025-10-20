@@ -12,13 +12,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 
+/**
+ * Processes [Gesture]s and check if it matches a given [sequence].
+ * If so, it executes [onSequenceComplete] callback.
+ */
 internal fun Modifier.onGesture(
     sequence: List<Gesture>,
+    delay: Long = 2000L,
     onSequenceComplete: () -> Unit
 ): Modifier = composed {
     val nestedScrollConnection = remember {
@@ -32,10 +38,8 @@ internal fun Modifier.onGesture(
     val progress = remember { mutableStateListOf<Gesture>() }
     LaunchedEffect(key1 = progress.size) {
         if (progress.isNotEmpty()) {
-            delay(timeMillis = 2000L)
-            if (progress.size < sequence.size) {
-                progress.clear()
-            }
+            delay(timeMillis = delay)
+            if (progress.size < sequence.size) progress.clear()
         }
     }
     fun checkSequence(gesture: Gesture) {
