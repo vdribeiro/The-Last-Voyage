@@ -1,6 +1,9 @@
+# Build artifacts & outputs
+**/build/
+.gradle/
+captures/
 *.class
 *.log
-*.ctxt
 *.jar
 *.war
 *.nar
@@ -8,29 +11,33 @@
 *.zip
 *.tar.gz
 *.rar
-*.jks
+# Android native build folders
+.externalNativeBuild/
+.cxx/
+# Generated database files
+/composeApp/*.db
+# Unpackaged release artifacts
+/composeApp/release/
+# IDE & Local configuration
+.idea/
 *.iml
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-!*.xcodeproj/xcshareddata/
-!*.xcodeproj/project.xcworkspace/
-!*.xcworkspace/contents.xcworkspacedata
-**/xcshareddata/WorkspaceSettings.xcsettings
-**/build/
-.mtj.tmp/
-.kotlin
-.gradle
-.idea
+local.properties
 .DS_Store
-.externalNativeBuild
-.cxx
+# Xcode
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcshareddata/
+**/xcshareddata/WorkspaceSettings.xcsettings
+xcuserdata/
+# Signing Keys
+*.jks
+# iOS
+/iosApp/Pods/
+# Kotlin
+.kotlin/
+.mtj.tmp/
+# JVM logs
 hs_err_pid*
 replay_pid*
-xcuserdata
-local.properties
-captures
-/composeApp/*.db
-/composeApp/release/*
-scripts
-/iosApp/Pods/
-/tlv.xml
+# Local scripts
+/scripts
