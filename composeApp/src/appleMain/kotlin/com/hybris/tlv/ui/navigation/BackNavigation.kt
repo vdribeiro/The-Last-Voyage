@@ -1,13 +1,12 @@
 package com.hybris.tlv.ui.navigation
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.composed
 
 @OptIn(ExperimentalComposeUiApi::class)
-@Composable
-internal actual fun Modifier.backNavigation(onBack: () -> Unit): Modifier {
+internal actual fun Modifier.backNavigation(onBack: () -> Unit): Modifier = composed {
     BackHandler(enabled = true, onBack = onBack)
-    return this
+    this
 }
