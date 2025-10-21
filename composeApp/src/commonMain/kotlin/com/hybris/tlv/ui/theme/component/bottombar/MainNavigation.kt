@@ -21,9 +21,12 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Image
+import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import thelastvoyage.composeapp.generated.resources.Res
+import thelastvoyage.composeapp.generated.resources.kofi
 
 @Composable
 internal fun MainNavigation(
@@ -68,7 +71,10 @@ internal fun MainNavigation(
                 .size(size = 100.dp)
                 .wrapContentHeight(align = Alignment.CenterVertically)
                 .clickable { uriHandler.openUri(uri = supportUri) },
-            path = "kofi.png",
+            image = ImageResource(
+                path = "kofi.png",
+                drawable = Res.drawable.kofi
+            ),
             contentDescription = "Support",
             contentScale = ContentScale.Fit,
         )

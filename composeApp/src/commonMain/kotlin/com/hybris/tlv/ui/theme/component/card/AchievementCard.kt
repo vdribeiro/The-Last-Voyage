@@ -23,6 +23,7 @@ import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.image.Image
+import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
@@ -30,7 +31,7 @@ internal fun AchievementCard(
     modifier: Modifier = Modifier,
     name: String? = null,
     description: String? = null,
-    image: String? = null,
+    image: ImageResource? = null,
     done: Boolean = false,
 ) {
     val typography = LocalTypography.current
@@ -49,7 +50,7 @@ internal fun AchievementCard(
                         .size(size = 72.dp)
                         .clip(shape = shapes.small)
                         .align(alignment = Alignment.Top),
-                    path = it,
+                    image = it,
                     contentDescription = name,
                     contentScale = ContentScale.Crop,
                 )

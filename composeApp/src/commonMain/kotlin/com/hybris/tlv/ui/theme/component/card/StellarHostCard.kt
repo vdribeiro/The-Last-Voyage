@@ -23,6 +23,7 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Image
+import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.space.formula.roundTo
@@ -38,7 +39,7 @@ internal fun StellarHostCard(
     systemName: String? = null,
     planetCount: Int? = null,
     spectralType: String? = null,
-    spectralImage: String? = null,
+    spectralImage: ImageResource? = null,
     effectiveTemperature: Double? = null,
     radius: Double? = null,
     mass: Double? = null,
@@ -103,7 +104,7 @@ internal fun StellarHostCard(
                         .size(size = 72.dp)
                         .clip(shape = shapes.small)
                         .align(alignment = Alignment.Top),
-                    path = it,
+                    image = it,
                     contentDescription = name,
                     contentScale = ContentScale.Crop,
                 )

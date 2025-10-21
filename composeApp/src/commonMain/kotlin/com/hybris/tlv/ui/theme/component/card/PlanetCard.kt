@@ -23,6 +23,7 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Image
+import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.space.formula.roundTo
@@ -51,7 +52,7 @@ internal fun PlanetCard(
     habitability: Double? = null,
     confidence: Double? = null,
     type: String? = null,
-    image: String? = null,
+    image: ImageResource? = null,
     rocheScore: Double? = null,
     habitableZoneKopparapuScore: Double? = null,
     habitableZoneKastingScore: Double? = null,
@@ -110,7 +111,7 @@ internal fun PlanetCard(
                         .size(size = 72.dp)
                         .clip(shape = shapes.small)
                         .align(alignment = Alignment.Top),
-                    path = it,
+                    image = it,
                     contentDescription = name,
                     contentScale = ContentScale.Crop,
                 )

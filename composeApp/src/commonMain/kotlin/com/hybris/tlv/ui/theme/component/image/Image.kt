@@ -1,8 +1,8 @@
 package com.hybris.tlv.ui.theme.component.image
 
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -14,25 +14,15 @@ import thelastvoyage.composeapp.generated.resources.ic_launcher_foreground
 @Composable
 internal fun Image(
     modifier: Modifier = Modifier,
-    path: String? = null,
+    image: ImageResource? = null,
     contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.Crop,
 ) {
-    Image(
-        modifier = modifier,
-        model = runCatching { path?.let { Res.getUri(path = "drawable/$it") } }.getOrNull(),
-        contentDescription = contentDescription,
-        contentScale = contentScale,
-    )
-}
-
-@Composable
-internal fun Image(
-    modifier: Modifier = Modifier,
-    model: Any? = null,
-    contentDescription: String? = null,
-    contentScale: ContentScale = ContentScale.Crop,
-) {
+    val model = runCatching {
+        image?.path?.let { Res.getUri(path = "drawable/$it") }
+    }.getOrNull() ?: runCatching {
+        image?.drawable?.let { painterResource(resource = it) }
+    }.getOrNull()
     AsyncImage(
         modifier = modifier,
         model = model,
@@ -41,13 +31,13 @@ internal fun Image(
     )
 }
 
+internal data class ImageResource(
+    val path: String? = null,
+    val drawable: DrawableResource? = null
+)
+
 @Preview
 @Composable
 private fun ImagePreview() = AppTheme {
-    Image(
-        model = Image(
-            painter = painterResource(Res.drawable.ic_launcher_foreground),
-            contentDescription = null,
-        )
-    )
+    Image(image = ImageResource(drawable = Res.drawable.ic_launcher_foreground))
 }
