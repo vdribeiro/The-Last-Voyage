@@ -1,4 +1,5 @@
 import java.util.Properties
+import kotlin.experimental.xor
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -52,23 +53,33 @@ abstract class GeneratePropertiesTask: DefaultTask() {
 
     @TaskAction
     fun generate() {
-        val packageDir = "${taskAppId.get()}.platform"
+        val appId: String = taskAppId.get()
+        val appName: String = taskAppName.get()
+        val appVersion: String = taskAppVersion.get()
+        // Basic obfuscation of Sentry DSN
+        val sentryDsn = "byteArrayOf(${
+            taskSentryDsn.get().toByteArray().mapIndexed { index, byte -> byte.xor(other = appId[index % appId.length].code.toByte()) }.joinToString(separator = ", ") { it.toString() }
+        }).mapIndexed { index, byte -> byte.xor(other = APP_ID[index % APP_ID.length].code.toByte()) }.toByteArray().decodeToString()"
+        val packageDir = "$appId.platform"
         val objectName = "Property"
         val file = taskOutputDir.get().file("${packageDir.replace(oldChar = '.', newChar = '/')}/$objectName.kt").asFile
         file.parentFile.mkdirs()
         file.writeText(
-            """
-            package $packageDir
-
-            /**
-             * Generated build-time configuration values. DO NOT EDIT.
-             */
-            object $objectName {
-                const val APP_NAME: String = "${taskAppName.get()}"
-                const val APP_VERSION: String = "${taskAppVersion.get()}"
-                const val SENTRY_DSN: String = "${taskSentryDsn.get()}"
-            }
-        """.trimIndent()
+            text = """
+                package $packageDir
+                
+                import kotlin.experimental.xor
+    
+                /**
+                 * Generated build-time values.
+                 */
+                object $objectName {
+                    const val APP_ID: String = "$appId"
+                    const val APP_NAME: String = "$appName"
+                    const val APP_VERSION: String = "$appVersion"
+                    val sentry: String = $sentryDsn
+                }
+            """.trimIndent()
         )
     }
 }
@@ -84,21 +95,21 @@ val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "gene
 
 //region JavaFX
 val javafx: Configuration by configurations.creating
-val javafxModules = "javafx.base,javafx.graphics,javafx.media,javafx.swing"
-val javafxModulePath by lazy { javafx.asPath }
+val javafxModules: String = "javafx.base,javafx.graphics,javafx.media,javafx.swing"
 val javafxDependencies = listOf(libs.javafx.base, libs.javafx.graphics, libs.javafx.media, libs.javafx.swing)
+val javafxModulePath: String by lazy { javafx.asPath }
 val currentOS: OperatingSystem = OperatingSystem.current()
-val osClassifier = when {
+val osClassifier: String = when {
     currentOS.isWindows -> "win"
     currentOS.isLinux -> "linux"
     currentOS.isMacOsX -> {
-        when (System.getProperty("os.arch")) {
+        when (System.getProperty("os.arch", "")) {
             "aarch64" -> "mac-aarch64"
             else -> "mac"
         }
     }
 
-    else -> error("Unsupported OS: ${System.getProperty("os.name")}")
+    else -> System.getProperty("os.name", "")
 }
 
 fun KotlinDependencyHandler.addJavaFx() {
@@ -247,9 +258,14 @@ android {
         }
     }
     buildTypes {
-        getByName("release") {
+        debug {
             isMinifyEnabled = false
+        }
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {

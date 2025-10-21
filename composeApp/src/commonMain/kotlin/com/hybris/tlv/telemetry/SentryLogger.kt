@@ -12,7 +12,7 @@ import io.sentry.kotlin.multiplatform.protocol.UserFeedback
  */
 internal object SentryLogger {
 
-    private val available = Property.SENTRY_DSN.isNotBlank()
+    private val available = Property.sentry.isNotBlank()
 
     /**
      * Initialize Sentry.
@@ -20,7 +20,7 @@ internal object SentryLogger {
     internal fun init() {
         if (!available) return
         Sentry.init { options ->
-            options.dsn = Property.SENTRY_DSN
+            options.dsn = Property.sentry
             options.release = "${
                 Property.APP_NAME
                     .lowercase()
