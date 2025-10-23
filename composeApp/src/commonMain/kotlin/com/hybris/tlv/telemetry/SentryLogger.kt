@@ -17,8 +17,7 @@ internal object SentryLogger {
     /**
      * Initialize Sentry.
      */
-    internal fun init() {
-        if (!available) return
+    internal fun init() = if (!available) Unit else {
         Sentry.init { options ->
             options.dsn = Property.sentry
             options.release = "${
@@ -40,8 +39,7 @@ internal object SentryLogger {
      * Logs an informational message as a breadcrumb in Sentry.
      * Breadcrumbs are used to record a trail of events that led up to an issue.
      */
-    fun info(tag: String, message: String) {
-        if (!available) return
+    fun info(tag: String, message: String) = if (!available) Unit else {
         Sentry.addBreadcrumb(breadcrumb = Breadcrumb().apply {
             this.level = SentryLevel.INFO
             this.category = tag
@@ -54,8 +52,7 @@ internal object SentryLogger {
      * If a [throwable] is provided, it captures the exception along with the [tag] and [message],
      * otherwise it captures the [message] with the [tag].
      */
-    fun error(tag: String, message: String, throwable: Throwable? = null) {
-        if (!available) return
+    fun error(tag: String, message: String, throwable: Throwable? = null) = if (!available) Unit else {
         when {
             throwable == null -> Sentry.captureMessage(message = message) { scope -> scope.setTag(key = "tag", value = tag) }
             else -> Sentry.captureException(throwable = throwable) { scope ->
@@ -68,8 +65,7 @@ internal object SentryLogger {
     /**
      * Logs a user feedback to Sentry.
      */
-    fun feedback(message: String) {
-        if (!available) return
+    fun feedback(message: String) = if (!available) Unit else {
         Sentry.captureUserFeedback(userFeedback = UserFeedback(sentryId = Sentry.captureMessage(message = message)).apply {
             this.comments = message
         })
