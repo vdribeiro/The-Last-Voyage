@@ -47,7 +47,7 @@ internal open class NavigationManager(
     fun navigate(navigationState: NavigationState, currentState: Any? = null) {
         dispatcher.main.launch {
             mutex.withLock {
-                if (stack.isNotEmpty()) stack[stack.lastIndex] = stack.lastOrNull()?.copy(stateBuilder = currentState)
+                stack.lastOrNull()?.let { stack[stack.lastIndex] = it.copy(stateBuilder = currentState) }
                 val index = stack.indexOf(element = navigationState)
                 if (index != -1) stack.subList(fromIndex = index + 1, toIndex = stack.size).clear()
                 stack.add(element = navigationState)
