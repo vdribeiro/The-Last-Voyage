@@ -6,23 +6,15 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.credit.CreditStore
-import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.screen.event.EventStore
-import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.screen.feedback.FeedbackStore
-import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.screen.game.GameStore
-import com.hybris.tlv.ui.screen.gameover.GameOverStateBuilder
 import com.hybris.tlv.ui.screen.gameover.GameOverStore
-import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStore
-import com.hybris.tlv.ui.screen.newgame.NewGameStateBuilder
 import com.hybris.tlv.ui.screen.newgame.NewGameStore
 import com.hybris.tlv.ui.screen.score.ScoreStore
 import com.hybris.tlv.ui.screen.splash.SplashStore
-import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStateBuilder
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
-import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
 import com.hybris.tlv.ui.screen.tutorial.TutorialStore
 import com.hybris.tlv.usecase.UseCases
 
@@ -36,110 +28,95 @@ internal class StoreFactory(
     private val config: ConfigManager,
     private val useCases: UseCases
 ) {
-    fun createSplashStore(): SplashStore = SplashStore(
+    fun createSplashStore(): SplashStore = SplashStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
         config = config,
-        archiveUseCases = useCases.archive,
-        translateUseCases = useCases.translation,
-        learningUseCases = useCases.learning,
-        catastropheUseCases = useCases.catastrophe,
-        shipUseCases = useCases.ship,
-        spaceUseCases = useCases.space,
-        eventUseCases = useCases.event,
-        achievementUseCases = useCases.achievement,
-        creditUseCases = useCases.credit
+        useCases = useCases
     )
 
-    fun createMainMenuStore(stateBuilder: Any? = null): MainMenuStore = MainMenuStore(
+    fun createMainMenuStore(stateBuilder: Any?): MainMenuStore = MainMenuStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder as? MainMenuStateBuilder ?: MainMenuStateBuilder.Default,
         config = config,
-        gameSessionUseCases = useCases.gameSession,
-        learningUseCases = useCases.learning
+        useCases = useCases,
+        stateBuilder = stateBuilder
     )
 
-    fun createFeedbackStore(stateBuilder: Any? = null): FeedbackStore = FeedbackStore(
+    fun createFeedbackStore(stateBuilder: Any?): FeedbackStore = FeedbackStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder as? FeedbackStateBuilder ?: FeedbackStateBuilder.Feedback
+        stateBuilder = stateBuilder
     )
 
-    fun createNewGameStore(stateBuilder: Any? = null): NewGameStore = NewGameStore(
+    fun createNewGameStore(stateBuilder: Any?): NewGameStore = NewGameStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder as? NewGameStateBuilder ?: NewGameStateBuilder.Default,
-        shipUseCases = useCases.ship,
-        catastropheUseCases = useCases.catastrophe,
-        gameSessionUseCases = useCases.gameSession
+        useCases = useCases,
+        stateBuilder = stateBuilder
     )
 
-    fun createTutorialStore(stateBuilder: Any? = null): TutorialStore = TutorialStore(
+    fun createTutorialStore(stateBuilder: Any?): TutorialStore = TutorialStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder as? TutorialStateBuilder ?: TutorialStateBuilder.NewGame(newGame = false)
+        stateBuilder = stateBuilder
     )
 
-    fun createGameStore(stateBuilder: Any? = null): GameStore = GameStore(
+    fun createGameStore(stateBuilder: Any?): GameStore = GameStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        shipUseCases = useCases.ship,
-        spaceUseCases = useCases.space,
-        stateBuilder = stateBuilder as? GameStateBuilder ?: GameStateBuilder.Default,
-        gameSessionUseCases = useCases.gameSession
+        useCases = useCases,
+        stateBuilder = stateBuilder
     )
 
-    fun createEventStore(stateBuilder: Any? = null): EventStore = EventStore(
+    fun createEventStore(stateBuilder: Any?): EventStore = EventStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        eventUseCases = useCases.event,
-        stateBuilder = stateBuilder as? EventStateBuilder ?: EventStateBuilder.Default,
-        gameSessionUseCases = useCases.gameSession
+        useCases = useCases,
+        stateBuilder = stateBuilder
     )
 
-    fun createGameOverStore(stateBuilder: Any? = null): GameOverStore = GameOverStore(
+    fun createGameOverStore(stateBuilder: Any?): GameOverStore = GameOverStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder as? GameOverStateBuilder ?: GameOverStateBuilder.Default,
-        gameSessionUseCases = useCases.gameSession,
-        achievementUseCases = useCases.achievement
+        useCases = useCases,
+        stateBuilder = stateBuilder
     )
 
-    fun createStellarExplorerStore(stateBuilder: Any? = null): StellarExplorerStore = StellarExplorerStore(
+    fun createStellarExplorerStore(stateBuilder: Any?): StellarExplorerStore = StellarExplorerStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder as? StellarExplorerStateBuilder ?: StellarExplorerStateBuilder.Default,
-        spaceUseCases = useCases.space
+        useCases = useCases,
+        stateBuilder = stateBuilder
     )
 
-    fun createScoreStore(): ScoreStore = ScoreStore(
+    fun createScoreStore(): ScoreStore = ScoreStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        gameSessionUseCases = useCases.gameSession
+        useCases = useCases,
     )
 
-    fun createAchievementStore(): AchievementStore = AchievementStore(
+    fun createAchievementStore(): AchievementStore = AchievementStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        achievementUseCases = useCases.achievement
+        useCases = useCases,
     )
 
-    fun createCreditStore(): CreditStore = CreditStore(
+    fun createCreditStore(): CreditStore = CreditStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        creditUseCases = useCases.credit
+        useCases = useCases,
     )
 }

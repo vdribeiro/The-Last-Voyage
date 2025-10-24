@@ -11,6 +11,7 @@ import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.usecase.credit.CreditUseCases
@@ -101,5 +102,27 @@ internal class SplashStore(
 
     companion object {
         private const val TAG = "SplashStore"
+
+        fun get(
+            dispatcher: Dispatcher,
+            navigation: NavigationManager,
+            audioPlayer: AudioPlayer,
+            config: ConfigManager,
+            useCases: UseCases
+        ): SplashStore = SplashStore(
+            dispatcher = dispatcher,
+            navigation = navigation,
+            audioPlayer = audioPlayer,
+            config = config,
+            archiveUseCases = useCases.archive,
+            translateUseCases = useCases.translation,
+            learningUseCases = useCases.learning,
+            catastropheUseCases = useCases.catastrophe,
+            shipUseCases = useCases.ship,
+            spaceUseCases = useCases.space,
+            eventUseCases = useCases.event,
+            achievementUseCases = useCases.achievement,
+            creditUseCases = useCases.credit
+        )
     }
 }

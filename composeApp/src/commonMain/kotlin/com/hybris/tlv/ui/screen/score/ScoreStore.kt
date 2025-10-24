@@ -7,6 +7,7 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal class ScoreStore(
@@ -41,5 +42,17 @@ internal class ScoreStore(
 
     companion object {
         private const val TAG = "ScoreStore"
+
+        fun get(
+            dispatcher: Dispatcher,
+            navigation: NavigationManager,
+            audioPlayer: AudioPlayer,
+            useCases: UseCases,
+        ): ScoreStore = ScoreStore(
+            dispatcher = dispatcher,
+            navigation = navigation,
+            audioPlayer = audioPlayer,
+            gameSessionUseCases = useCases.gameSession
+        )
     }
 }
