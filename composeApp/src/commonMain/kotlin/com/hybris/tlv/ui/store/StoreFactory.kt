@@ -36,7 +36,7 @@ internal class StoreFactory(
         useCases = useCases
     )
 
-    fun createMainMenuStore(stateBuilder: Any?): MainMenuStore = MainMenuStore.get(
+    fun createMainMenuStore(stateBuilder: Any? = null): MainMenuStore = MainMenuStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
@@ -45,29 +45,14 @@ internal class StoreFactory(
         stateBuilder = stateBuilder
     )
 
-    fun createFeedbackStore(stateBuilder: Any?): FeedbackStore = FeedbackStore.get(
+    fun createFeedbackStore(stateBuilder: Any? = null): FeedbackStore = FeedbackStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
         stateBuilder = stateBuilder
     )
 
-    fun createNewGameStore(stateBuilder: Any?): NewGameStore = NewGameStore.get(
-        dispatcher = dispatcher,
-        navigation = navigation,
-        audioPlayer = audioPlayer,
-        useCases = useCases,
-        stateBuilder = stateBuilder
-    )
-
-    fun createTutorialStore(stateBuilder: Any?): TutorialStore = TutorialStore.get(
-        dispatcher = dispatcher,
-        navigation = navigation,
-        audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder
-    )
-
-    fun createGameStore(stateBuilder: Any?): GameStore = GameStore.get(
+    fun createNewGameStore(stateBuilder: Any? = null): NewGameStore = NewGameStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
@@ -75,7 +60,14 @@ internal class StoreFactory(
         stateBuilder = stateBuilder
     )
 
-    fun createEventStore(stateBuilder: Any?): EventStore = EventStore.get(
+    fun createTutorialStore(stateBuilder: Any? = null): TutorialStore = TutorialStore.get(
+        dispatcher = dispatcher,
+        navigation = navigation,
+        audioPlayer = audioPlayer,
+        stateBuilder = stateBuilder
+    )
+
+    fun createGameStore(stateBuilder: Any? = null): GameStore = GameStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
@@ -83,7 +75,7 @@ internal class StoreFactory(
         stateBuilder = stateBuilder
     )
 
-    fun createGameOverStore(stateBuilder: Any?): GameOverStore = GameOverStore.get(
+    fun createEventStore(stateBuilder: Any? = null): EventStore = EventStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
@@ -91,7 +83,15 @@ internal class StoreFactory(
         stateBuilder = stateBuilder
     )
 
-    fun createStellarExplorerStore(stateBuilder: Any?): StellarExplorerStore = StellarExplorerStore.get(
+    fun createGameOverStore(stateBuilder: Any? = null): GameOverStore = GameOverStore.get(
+        dispatcher = dispatcher,
+        navigation = navigation,
+        audioPlayer = audioPlayer,
+        useCases = useCases,
+        stateBuilder = stateBuilder
+    )
+
+    fun createStellarExplorerStore(stateBuilder: Any? = null): StellarExplorerStore = StellarExplorerStore.get(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
