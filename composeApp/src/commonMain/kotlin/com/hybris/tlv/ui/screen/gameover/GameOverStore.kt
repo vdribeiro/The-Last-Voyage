@@ -8,7 +8,6 @@ import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
@@ -81,20 +80,5 @@ internal class GameOverStore(
 
     companion object {
         private const val TAG = "GameOverStore"
-
-        fun get(
-            dispatcher: Dispatcher,
-            navigation: NavigationManager,
-            audioPlayer: AudioPlayer,
-            useCases: UseCases,
-            stateBuilder: Any?
-        ): GameOverStore = GameOverStore(
-            dispatcher = dispatcher,
-            navigation = navigation,
-            audioPlayer = audioPlayer,
-            stateBuilder = stateBuilder as? GameOverStateBuilder ?: GameOverStateBuilder.Default,
-            gameSessionUseCases = useCases.gameSession,
-            achievementUseCases = useCases.achievement
-        )
     }
 }

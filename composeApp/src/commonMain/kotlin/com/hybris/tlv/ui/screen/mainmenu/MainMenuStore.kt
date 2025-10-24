@@ -9,7 +9,6 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.learning.LearningUseCases
 
@@ -113,22 +112,5 @@ internal class MainMenuStore(
 
     companion object {
         private const val TAG = "MainMenuStore"
-
-        fun get(
-            dispatcher: Dispatcher,
-            navigation: NavigationManager,
-            audioPlayer: AudioPlayer,
-            config: ConfigManager,
-            useCases: UseCases,
-            stateBuilder: Any?
-        ): MainMenuStore = MainMenuStore(
-            dispatcher = dispatcher,
-            navigation = navigation,
-            audioPlayer = audioPlayer,
-            stateBuilder = stateBuilder as? MainMenuStateBuilder ?: MainMenuStateBuilder.Default,
-            config = config,
-            gameSessionUseCases = useCases.gameSession,
-            learningUseCases = useCases.learning
-        )
     }
 }

@@ -46,18 +46,4 @@ internal class TutorialStore(
             }
         }
     }
-
-    companion object {
-        fun get(
-            dispatcher: Dispatcher,
-            navigation: NavigationManager,
-            audioPlayer: AudioPlayer,
-            stateBuilder: Any?
-        ): TutorialStore = TutorialStore(
-            dispatcher = dispatcher,
-            navigation = navigation,
-            audioPlayer = audioPlayer,
-            stateBuilder = stateBuilder as? TutorialStateBuilder ?: TutorialStateBuilder.NewGame(newGame = false)
-        )
-    }
 }

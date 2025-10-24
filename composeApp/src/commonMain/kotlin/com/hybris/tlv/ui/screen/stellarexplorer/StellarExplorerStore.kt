@@ -6,7 +6,6 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
@@ -323,19 +322,5 @@ internal class StellarExplorerStore(
 
     companion object {
         private const val TAG = "StellarExplorerStore"
-
-        fun get(
-            dispatcher: Dispatcher,
-            navigation: NavigationManager,
-            audioPlayer: AudioPlayer,
-            useCases: UseCases,
-            stateBuilder: Any?
-        ): StellarExplorerStore = StellarExplorerStore(
-            dispatcher = dispatcher,
-            navigation = navigation,
-            audioPlayer = audioPlayer,
-            stateBuilder = stateBuilder as? StellarExplorerStateBuilder ?: StellarExplorerStateBuilder.Default,
-            spaceUseCases = useCases.space
-        )
     }
 }

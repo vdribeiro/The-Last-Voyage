@@ -6,7 +6,6 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 
 internal class AchievementStore(
@@ -38,17 +37,5 @@ internal class AchievementStore(
 
     companion object {
         private const val TAG = "AchievementStore"
-
-        fun get(
-            dispatcher: Dispatcher,
-            navigation: NavigationManager,
-            audioPlayer: AudioPlayer,
-            useCases: UseCases,
-        ): AchievementStore = AchievementStore(
-            dispatcher = dispatcher,
-            navigation = navigation,
-            audioPlayer = audioPlayer,
-            achievementUseCases = useCases.achievement
-        )
     }
 }
