@@ -6,6 +6,7 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.credit.CreditUseCases
 
 internal class CreditStore(
@@ -37,5 +38,17 @@ internal class CreditStore(
 
     companion object {
         private const val TAG = "CreditStore"
+
+        fun get(
+            dispatcher: Dispatcher,
+            navigation: NavigationManager,
+            audioPlayer: AudioPlayer,
+            useCases: UseCases,
+        ): CreditStore = CreditStore(
+            dispatcher = dispatcher,
+            navigation = navigation,
+            audioPlayer = audioPlayer,
+            creditUseCases = useCases.credit
+        )
     }
 }

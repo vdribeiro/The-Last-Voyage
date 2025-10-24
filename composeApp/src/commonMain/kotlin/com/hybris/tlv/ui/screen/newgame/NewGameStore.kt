@@ -9,6 +9,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.AttributePoint
+import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
@@ -131,5 +132,21 @@ internal class NewGameStore(
 
     companion object {
         private const val TAG = "NewGameStore"
+
+        fun get(
+            dispatcher: Dispatcher,
+            navigation: NavigationManager,
+            audioPlayer: AudioPlayer,
+            useCases: UseCases,
+            stateBuilder: Any?
+        ): NewGameStore = NewGameStore(
+            dispatcher = dispatcher,
+            navigation = navigation,
+            audioPlayer = audioPlayer,
+            stateBuilder = stateBuilder as? NewGameStateBuilder ?: NewGameStateBuilder.Default,
+            shipUseCases = useCases.ship,
+            catastropheUseCases = useCases.catastrophe,
+            gameSessionUseCases = useCases.gameSession
+        )
     }
 }

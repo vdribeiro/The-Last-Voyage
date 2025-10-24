@@ -71,5 +71,17 @@ internal class FeedbackStore(
 
     companion object {
         private const val TAG = "Feedback"
+
+        fun get(
+            dispatcher: Dispatcher,
+            navigation: NavigationManager,
+            audioPlayer: AudioPlayer,
+            stateBuilder: Any?,
+        ): FeedbackStore = FeedbackStore(
+            dispatcher = dispatcher,
+            navigation = navigation,
+            audioPlayer = audioPlayer,
+            stateBuilder = stateBuilder as? FeedbackStateBuilder ?: FeedbackStateBuilder.Feedback,
+        )
     }
 }

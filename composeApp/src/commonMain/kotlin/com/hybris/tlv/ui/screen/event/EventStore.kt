@@ -9,6 +9,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
@@ -130,5 +131,20 @@ internal class EventStore(
 
     companion object {
         private const val TAG = "EventStore"
+
+        fun get(
+            dispatcher: Dispatcher,
+            navigation: NavigationManager,
+            audioPlayer: AudioPlayer,
+            useCases: UseCases,
+            stateBuilder: Any?
+        ): EventStore = EventStore(
+            dispatcher = dispatcher,
+            navigation = navigation,
+            audioPlayer = audioPlayer,
+            stateBuilder = stateBuilder as? EventStateBuilder ?: EventStateBuilder.Default,
+            gameSessionUseCases = useCases.gameSession,
+            eventUseCases = useCases.event
+        )
     }
 }
