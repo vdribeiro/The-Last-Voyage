@@ -35,7 +35,8 @@ internal open class NavigationManager(
     fun goBack() {
         dispatcher.main.launch {
             mutex.withLock {
-                stack.removeLastOrNull()?.let { navigationState -> _stateFlow.update { navigationState } }
+                stack.removeLastOrNull()
+                stack.lastOrNull()?.let { navigationState -> _stateFlow.update { navigationState } }
                 Telemetry.info(tag = TAG, message = "Go back to ${_stateFlow.value}")
             }
         }
