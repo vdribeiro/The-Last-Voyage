@@ -3,6 +3,8 @@ package com.hybris.tlv.ui.navigation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.backhandler.BackHandler
 import com.hybris.tlv.flow.Dispatcher
@@ -13,6 +15,8 @@ internal open class NavigationManager(
     private val dispatcher: Dispatcher,
     initialState: NavigationState
 ) {
+    private val mutex = Mutex()
+
     /**
      * The current state of the navigation.
      */
@@ -30,11 +34,10 @@ internal open class NavigationManager(
      */
     fun goBack() {
         dispatcher.main.launch {
-            if (stack.size > 1) {
-                stack.removeLast()
-                _stateFlow.update { stack.last() }
+            mutex.withLock {
+                stack.removeLastOrNull()?.let { _stateFlow.update { it } }
+                Telemetry.info(tag = TAG, message = "Go back to ${_stateFlow.value}")
             }
-            Telemetry.info(tag = TAG, message = "Go back to ${_stateFlow.value}")
         }
     }
 
@@ -43,12 +46,14 @@ internal open class NavigationManager(
      */
     fun navigate(navigationState: NavigationState, currentState: Any? = null) {
         dispatcher.main.launch {
-            if (stack.isNotEmpty()) stack[stack.lastIndex] = stack.last().copy(stateBuilder = currentState)
-            val index = stack.indexOf(element = navigationState)
-            if (index != -1) stack.subList(index, stack.size).clear()
-            stack.add(element = navigationState)
-            _stateFlow.value = navigationState
-            Telemetry.info(tag = TAG, message = "Navigate to ${_stateFlow.value}")
+            mutex.withLock {
+                if (stack.isNotEmpty()) stack[stack.lastIndex] = stack.lastOrNull()?.copy(stateBuilder = currentState)
+                val index = stack.indexOf(element = navigationState)
+                if (index != -1) stack.subList(fromIndex = index + 1, toIndex = stack.size).clear()
+                stack.add(element = navigationState)
+                _stateFlow.value = navigationState
+                Telemetry.info(tag = TAG, message = "Navigate to ${_stateFlow.value}")
+            }
         }
     }
 

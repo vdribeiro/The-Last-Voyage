@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase
 
 import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.usecase.achievement.AchievementGateway
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.catastrophe.CatastropheGateway
@@ -26,13 +25,11 @@ import com.hybris.tlv.usecase.translation.TranslationUseCases
 import database.AppDatabase
 
 internal class Gateways(
-    dispatcher: Dispatcher,
     config: ConfigManager,
     httpClient: HttpClient,
     database: AppDatabase,
 ): UseCases {
     override val translation: TranslationUseCases = TranslationGateway(
-        dispatcher = dispatcher,
         config = config,
         httpClient = httpClient,
         database = database

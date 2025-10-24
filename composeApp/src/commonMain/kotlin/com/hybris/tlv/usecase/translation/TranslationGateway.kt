@@ -3,8 +3,6 @@ package com.hybris.tlv.usecase.translation
 import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.TranslationSchema
-import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.flow.launch
 import com.hybris.tlv.http.HttpClientFactory.Companion.TRANSLATIONS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
@@ -15,7 +13,6 @@ import com.hybris.tlv.usecase.translation.model.Translation
 import database.AppDatabase
 
 internal class TranslationGateway(
-    private val dispatcher: Dispatcher,
     private val config: ConfigManager,
     private val httpClient: HttpClient,
     database: AppDatabase
@@ -47,7 +44,7 @@ internal class TranslationGateway(
 
     override suspend fun refreshCache() {
         val translations = translationDao.getTranslations().executeAsList().map { it.toTranslation() }
-        dispatcher.main.launch { TranslationCache.set(translations = translations) }
+        TranslationCache.set(translations = translations)
     }
 
     private fun Translation.toTranslationSchema(): TranslationSchema =

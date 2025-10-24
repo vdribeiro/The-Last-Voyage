@@ -31,7 +31,6 @@ internal data class Dependency(
     val httpClient: HttpClient = HttpClientFactory(engine = httpEngine).httpClient,
     val config: ConfigManager = Config(httpClient = httpClient),
     val useCases: UseCases = Gateways(
-        dispatcher = dispatcher,
         config = config,
         httpClient = httpClient,
         database = database
