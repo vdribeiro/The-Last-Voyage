@@ -35,7 +35,7 @@ internal open class NavigationManager(
     fun goBack() {
         dispatcher.main.launch {
             mutex.withLock {
-                stack.removeLastOrNull()?.let { _stateFlow.update { it } }
+                stack.removeLastOrNull()?.let { navigationState -> _stateFlow.update { navigationState } }
                 Telemetry.info(tag = TAG, message = "Go back to ${_stateFlow.value}")
             }
         }
@@ -47,11 +47,14 @@ internal open class NavigationManager(
     fun navigate(navigationState: NavigationState, currentState: Any? = null) {
         dispatcher.main.launch {
             mutex.withLock {
-                stack.lastOrNull()?.let { stack[stack.lastIndex] = it.copy(stateBuilder = currentState) }
+                // Edit last element of the stack
+                stack.removeLastOrNull()?.let { navigationState -> stack.add(element = navigationState.copy(stateBuilder = currentState)) }
+                // If the state is already in the stack, go from there
                 val index = stack.indexOf(element = navigationState)
                 if (index != -1) stack.subList(fromIndex = index + 1, toIndex = stack.size).clear()
+                // Update state
                 stack.add(element = navigationState)
-                _stateFlow.value = navigationState
+                _stateFlow.update { navigationState }
                 Telemetry.info(tag = TAG, message = "Navigate to ${_stateFlow.value}")
             }
         }
