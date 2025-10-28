@@ -18,6 +18,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.platform.Platform
+import com.hybris.tlv.platform.getPlatform
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Image
@@ -66,18 +68,21 @@ internal fun MainNavigation(
             style = typography.labelLarge,
             textAlign = TextAlign.Center
         )
-        Image(
-            modifier = Modifier
-                .size(size = 100.dp)
-                .wrapContentHeight(align = Alignment.CenterVertically)
-                .clickable { uriHandler.openUri(uri = supportUri) },
-            image = ImageResource(
-                path = "kofi.png",
-                drawable = Res.drawable.kofi
-            ),
-            contentDescription = "Support",
-            contentScale = ContentScale.Fit,
-        )
+        if (getPlatform() != Platform.Ios) {
+            // Greedy Apple does not allow Kofi banner
+            Image(
+                modifier = Modifier
+                    .size(size = 100.dp)
+                    .wrapContentHeight(align = Alignment.CenterVertically)
+                    .clickable { uriHandler.openUri(uri = supportUri) },
+                image = ImageResource(
+                    path = "kofi.png",
+                    drawable = Res.drawable.kofi
+                ),
+                contentDescription = "Support",
+                contentScale = ContentScale.Fit,
+            )
+        }
     }
 }
 
