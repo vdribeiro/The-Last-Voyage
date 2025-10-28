@@ -6,3 +6,5 @@ import kotlin.experimental.ExperimentalNativeApi
 internal actual val isDebug: Boolean by lazy {
     Platform.isDebugBinary
 }
+
+internal actual fun getPlatform(): Platform = Platform.Ios

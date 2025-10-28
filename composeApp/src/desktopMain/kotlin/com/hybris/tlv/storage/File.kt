@@ -1,29 +1,25 @@
 package com.hybris.tlv.storage
 
 import java.io.File
+import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.Property
+import com.hybris.tlv.platform.getPlatform
 import com.hybris.tlv.telemetry.Telemetry
 
 internal val appDataDir: File by lazy {
-    val os = System.getProperty("os.name").lowercase()
-    val baseDir = when {
-        os.contains(other = "win") -> System.getenv("APPDATA")
-        os.contains(other = "mac") -> "${System.getProperty("user.home")}/Library/Application Support"
-        os.contains("nix") || os.contains("nux") || os.contains("aix") -> {
-            val xdgDataHome = System.getenv("XDG_DATA_HOME")
-            if (!xdgDataHome.isNullOrBlank()) xdgDataHome else {
-                "${System.getProperty("user.home")}/.local/share"
-            }
+    val baseDir = when (getPlatform()) {
+        Platform.Windows -> System.getenv("APPDATA")
+        Platform.Mac -> "${System.getProperty("user.home")}/Library/Application Support"
+        Platform.Linux -> with(receiver = System.getenv("XDG_DATA_HOME")) {
+            if (!isNullOrBlank()) this else "${System.getProperty("user.home")}/.local/share"
         }
 
-        else -> "${System.getProperty("user.home")}/.local/share"
+        Platform.Android, Platform.Ios, Platform.Unknown -> "${System.getProperty("user.home")}/.local/share"
     }
     val appDir = Property.APP_NAME
         .lowercase()
         .replace(regex = "\\s+".toRegex(), replacement = "")
-    File(baseDir, appDir).also {
-        if (!it.exists()) it.mkdirs()
-    }
+    File(baseDir, appDir).also { if (!it.exists()) it.mkdirs() }
 }
 
 internal actual suspend fun saveFile(path: String, content: String): Boolean = runCatching {
