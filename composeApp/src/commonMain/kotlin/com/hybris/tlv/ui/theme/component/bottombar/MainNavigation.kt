@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.theme.component.bottombar
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -44,32 +45,31 @@ internal fun MainNavigation(
 
     val typography = LocalTypography.current
 
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 32.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            modifier = Modifier
-                .size(size = 100.dp)
-                .wrapContentHeight(align = Alignment.CenterVertically)
-                .clickable { uriHandler.openUri(uri = developerCornerUri) },
-            text = websiteTranslation,
-            style = typography.labelLarge,
-        )
-        Text(
-            modifier = Modifier
-                .size(size = 100.dp)
-                .wrapContentHeight(align = Alignment.CenterVertically)
-                .clickable(onClick = onCreditsClick),
-            text = creditsTranslation,
-            style = typography.labelLarge,
-            textAlign = TextAlign.Center
-        )
-        if (getPlatform() != Platform.Ios) {
-            // Greedy Apple does not allow Kofi banner
+    if (!asshole) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier
+                    .size(size = 100.dp)
+                    .wrapContentHeight(align = Alignment.CenterVertically)
+                    .clickable { uriHandler.openUri(uri = developerCornerUri) },
+                text = websiteTranslation,
+                style = typography.labelLarge,
+            )
+            Text(
+                modifier = Modifier
+                    .size(size = 100.dp)
+                    .wrapContentHeight(align = Alignment.CenterVertically)
+                    .clickable(onClick = onCreditsClick),
+                text = creditsTranslation,
+                style = typography.labelLarge,
+                textAlign = TextAlign.Center
+            )
             Image(
                 modifier = Modifier
                     .size(size = 100.dp)
@@ -83,6 +83,23 @@ internal fun MainNavigation(
                 contentScale = ContentScale.Fit,
             )
         }
+    } else {
+        Row(
+            modifier = modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier
+                    .size(size = 100.dp)
+                    .wrapContentHeight(align = Alignment.CenterVertically)
+                    .clickable(onClick = onCreditsClick),
+                text = creditsTranslation,
+                style = typography.labelLarge,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
 
@@ -91,3 +108,6 @@ internal fun MainNavigation(
 private fun MainBottomBarPreview() = AppTheme {
     MainNavigation()
 }
+
+// Some greedy companies do not allow Kofi banner...
+private val asshole by lazy { getPlatform() == Platform.Ios }
