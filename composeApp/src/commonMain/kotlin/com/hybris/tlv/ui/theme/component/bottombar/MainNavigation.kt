@@ -18,7 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.platform.isSupercilious
+import com.hybris.tlv.platform.isIos
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Image
@@ -43,7 +43,7 @@ internal fun MainNavigation(
 
     val typography = LocalTypography.current
 
-    if (!isSupercilious) {
+    if (!isIos) {
         Row(
             modifier = modifier
                 .fillMaxWidth()

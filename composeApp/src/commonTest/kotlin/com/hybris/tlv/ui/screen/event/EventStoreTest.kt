@@ -32,8 +32,8 @@ internal class EventStoreTest {
         val eventStore = store
         assertNotNull(actual = eventStore.gameSession)
         val events = eventStore.eventChain
-        assertTrue(actual = events.isNotEmpty())
-        val event = events.find { it.parentId == null }
+        assertTrue(actual = events.orEmpty().isNotEmpty())
+        val event = events.orEmpty().find { it.parentId == null }
         assertEquals(expected = event, actual = eventStore.stateFlow.value.parentEvent)
         assertEquals(expected = listOf(stopEvent), actual = eventStore.stateFlow.value.childrenEvents)
     }
