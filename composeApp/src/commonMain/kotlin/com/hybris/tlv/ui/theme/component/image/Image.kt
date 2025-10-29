@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.theme.AppTheme
 import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.ic_launcher_foreground
@@ -20,15 +21,25 @@ internal fun Image(
 ) {
     val model = runCatching {
         image?.path?.let { Res.getUri(path = "drawable/$it") }
-    }.getOrNull() ?: runCatching {
+    }.getOrElse {
+        Telemetry.error(tag = TAG, message = "Unable to get path", throwable = it)
+        null
+    } ?: runCatching {
         image?.drawable?.let { painterResource(resource = it) }
-    }.getOrNull()
-    AsyncImage(
-        modifier = modifier,
-        model = model,
-        contentDescription = contentDescription,
-        contentScale = contentScale,
-    )
+    }.getOrElse {
+        Telemetry.error(tag = TAG, message = "Unable to get painter", throwable = it)
+        null
+    }
+    runCatching {
+        AsyncImage(
+            modifier = modifier,
+            model = model,
+            contentDescription = contentDescription,
+            contentScale = contentScale,
+        )
+    }.getOrElse {
+        Telemetry.error(tag = TAG, message = "Unable to draw image", throwable = it)
+    }
 }
 
 internal data class ImageResource(
@@ -41,3 +52,5 @@ internal data class ImageResource(
 private fun ImagePreview() = AppTheme {
     Image(image = ImageResource(drawable = Res.drawable.ic_launcher_foreground))
 }
+
+private const val TAG = "Image"
