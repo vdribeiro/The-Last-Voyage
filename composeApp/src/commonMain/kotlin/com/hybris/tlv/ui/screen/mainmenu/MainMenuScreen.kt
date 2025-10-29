@@ -69,11 +69,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
             )
         },
         snackbarHost = {
-            if (isDesktop) Snackbar(messages = remember(key1 = storeState.achievements) {
-                storeState.achievements.map { achievement ->
-                    "$newAchievementTranslation: ${getTranslation(key = achievement.id)}"
-                }
-            })
+            if (isDesktop) Snackbar(messages = emptyList())
         }
     ) {
         when (currentContent) {
