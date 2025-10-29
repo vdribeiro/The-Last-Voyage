@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.platform.isDesktop
+import com.hybris.tlv.platform.isMobile
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
@@ -70,8 +71,14 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
             )
         },
         snackbarHost = {
-            if (showNavigationInfo && isDesktop) Snackbar(
-                message = getTranslation(key = "main_menu_screen__navigation_info"),
+            if (showNavigationInfo) Snackbar(
+                message = getTranslation(
+                    key = when {
+                        isDesktop -> "main_menu_screen__navigation_info_desktop"
+                        isMobile -> "main_menu_screen__navigation_info_mobile"
+                        else -> "main_menu_screen__navigation_info"
+                    }
+                ),
                 buttonText = getTranslation(key = "main_menu_screen__navigation_info_button"),
                 onDismiss = { store.send(action = MainMenuAction.HideNavigationInfo) }
             )
