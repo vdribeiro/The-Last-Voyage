@@ -14,9 +14,18 @@ import com.hybris.tlv.ui.theme.AppTheme
 internal fun Snackbar(
     modifier: Modifier = Modifier,
     messages: List<String> = emptyList(),
+    buttonText: String? = null
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-    rememberCoroutineScope().launch { messages.forEach { snackbarHostState.showSnackbar(message = it) } }
+    rememberCoroutineScope().launch {
+        messages.forEach {
+            snackbarHostState.showSnackbar(
+                message = it,
+                actionLabel = buttonText,
+                withDismissAction = buttonText != null
+            )
+        }
+    }
     SnackbarHost(
         modifier = modifier,
         hostState = snackbarHostState,
