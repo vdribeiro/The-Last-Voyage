@@ -6,11 +6,16 @@ import com.hybris.tlv.usecase.gamesession.model.GameSession
 
 internal sealed interface GameOverAction {
     data object Next: GameOverAction
+    data object NextAchievement: GameOverAction
 }
 
 internal sealed interface GameOverStateBuilder {
     data object Default: GameOverStateBuilder
-    data class FromSavableState(val state: GameOverState): GameOverStateBuilder
+    data class FromSavableState(
+        val state: GameOverState,
+        val achievements: List<Achievement>,
+        val index: Int
+    ): GameOverStateBuilder
 }
 
 internal data class GameOverState(
@@ -18,8 +23,7 @@ internal data class GameOverState(
     val currentContent: Content = Content.MESSAGE,
     val gameSession: GameSession? = null,
     val gameOver: GameOver? = null,
-    val achievements: List<Achievement> = emptyList(),
-    val showAchievements: Boolean = false
+    val achievement: Achievement? = null,
 )
 
 internal enum class Content {

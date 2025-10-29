@@ -1,30 +1,28 @@
 package com.hybris.tlv.ui.theme.component.bottombar
 
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.ui.theme.AppTheme
 
 @Composable
 internal fun Snackbar(
     modifier: Modifier = Modifier,
-    messages: List<String> = emptyList(),
-    buttonText: String? = null
+    message: String = "",
+    buttonText: String? = null,
+    onDismiss: () -> Unit = {},
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-    rememberCoroutineScope().launch {
-        messages.forEach {
-            snackbarHostState.showSnackbar(
-                message = it,
-                actionLabel = buttonText,
-                withDismissAction = buttonText != null
-            )
-        }
+    LifecycleCoroutine(message) {
+        snackbarHostState.showSnackbar(
+            message = message,
+            actionLabel = buttonText,
+        )
+        onDismiss()
     }
     SnackbarHost(
         modifier = modifier,
@@ -35,5 +33,5 @@ internal fun Snackbar(
 @Preview
 @Composable
 private fun SnackbarPreview() = AppTheme {
-    Snackbar(messages = listOf(element = "Snackbar"))
+    Snackbar(message = "Snackbar")
 }

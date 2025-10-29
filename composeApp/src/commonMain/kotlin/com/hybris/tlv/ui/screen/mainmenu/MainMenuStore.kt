@@ -41,12 +41,14 @@ internal class MainMenuStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
+        val showNavigationInfo = config.getPreferences().showNavigationInfo
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
         val learningsMap = learningUseCases.getLearnings().groupBy { it.type }
 
         updateState {
             it.copy(
                 loading = false,
+                showNavigationInfo = showNavigationInfo,
                 featureLearn = config.localConfigs.featureLearn,
                 featureScores = config.localConfigs.featureScores,
                 featureAchievements = config.localConfigs.featureAchievements,
@@ -60,6 +62,7 @@ internal class MainMenuStore(
                 learningsMap = learningsMap,
             )
         }
+        config.setPreferences { it.copy(showNavigationInfo = false) }
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
@@ -94,6 +97,7 @@ internal class MainMenuStore(
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
             MainMenuAction.NewGame -> newGame()
+            MainMenuAction.HideNavigationInfo -> updateState { it.copy(showNavigationInfo = false) }
             MainMenuAction.HideNewGameDialog -> updateState { it.copy(newGameDialog = false) }
             MainMenuAction.NoNewGameDialog -> newGameWithoutTutorial()
             MainMenuAction.YesNewGameDialog -> newGameWithTutorial()

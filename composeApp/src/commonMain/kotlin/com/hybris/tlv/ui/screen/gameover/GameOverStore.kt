@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.gameover
 
 import kotlinx.coroutines.Job
+import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.media.AudioPlayer
@@ -9,6 +10,7 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
+import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal class GameOverStore(
@@ -27,16 +29,23 @@ internal class GameOverStore(
         is GameOverStateBuilder.FromSavableState -> stateBuilder.state
     }
 ) {
+    @get:VisibleForTesting
+    internal var achievements: List<Achievement>? = null
+    @get:VisibleForTesting
+    internal var index: Int = 0
 
     init {
         when (stateBuilder) {
             GameOverStateBuilder.Default -> setup()
-            is GameOverStateBuilder.FromSavableState -> {}
+            is GameOverStateBuilder.FromSavableState -> {
+                achievements = stateBuilder.achievements
+                index = stateBuilder.index
+            }
         }
     }
 
     override fun getSavableState(state: GameOverState): Any? =
-        GameOverStateBuilder.FromSavableState(state = state)
+        GameOverStateBuilder.FromSavableState(state = state, achievements = achievements.orEmpty(), index = index)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
@@ -56,12 +65,12 @@ internal class GameOverStore(
         Telemetry.info(tag = TAG, message = "Check achievements")
         val achievements = achievementUseCases.updateAchievements(gameSession = updatedGameSession)
 
+        this@GameOverStore.achievements = achievements
         updateState {
             it.copy(
                 loading = false,
                 gameSession = updatedGameSession,
                 gameOver = gameOver,
-                achievements = achievements
             )
         }
         Telemetry.info(tag = TAG, message = "Setup complete")
@@ -72,8 +81,19 @@ internal class GameOverStore(
     override fun reducer(state: GameOverState, action: GameOverAction) {
         when (action) {
             GameOverAction.Next -> when (state.currentContent) {
-                Content.MESSAGE -> updateState { it.copy(currentContent = Content.SCORE, showAchievements = true) }
+                Content.MESSAGE -> updateState {
+                    it.copy(
+                        currentContent = Content.SCORE,
+                        achievement = achievements?.getOrNull(index = index)
+                    )
+                }
+
                 Content.SCORE -> navigate(screen = Screen.MainMenu)
+            }
+
+            GameOverAction.NextAchievement -> {
+                index++
+                updateState { it.copy(achievement = achievements?.getOrNull(index = index)) }
             }
         }
     }

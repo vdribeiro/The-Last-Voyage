@@ -34,7 +34,7 @@ internal class EventStore(
     @get:VisibleForTesting
     internal var gameSession: GameSession? = null
     @get:VisibleForTesting
-    internal val eventChain: MutableList<Event> = mutableListOf()
+    internal var eventChain: List<Event>? = null
 
     init {
         when (stateBuilder) {
@@ -42,13 +42,13 @@ internal class EventStore(
             is EventStateBuilder.WithShip -> setup()
             is EventStateBuilder.FromSavableState -> {
                 gameSession = stateBuilder.gameSession
-                eventChain.addAll(elements = stateBuilder.eventChain)
+                eventChain = stateBuilder.eventChain
             }
         }
     }
 
     override fun getSavableState(state: EventState): Any? =
-        EventStateBuilder.FromSavableState(state = state, gameSession = gameSession, eventChain = eventChain)
+        EventStateBuilder.FromSavableState(state = state, gameSession = gameSession, eventChain = eventChain.orEmpty())
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
@@ -77,7 +77,7 @@ internal class EventStore(
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = parentEvent)
 
         this@EventStore.gameSession = updatedGameSession
-        this@EventStore.eventChain.addAll(elements = eventChain)
+        this@EventStore.eventChain = eventChain
         updateState {
             it.copy(
                 loading = false,
@@ -104,7 +104,7 @@ internal class EventStore(
         }
 
         Telemetry.info(tag = TAG, message = "Continue event chain")
-        val childrenEvents = this@EventStore.eventChain.filter { it.parentId == action.event.id }.ifEmpty {
+        val childrenEvents = this@EventStore.eventChain.orEmpty().filter { it.parentId == action.event.id }.ifEmpty {
             listOf(element = stopEvent)
         }
         Telemetry.info(tag = TAG, message = "Launch event")

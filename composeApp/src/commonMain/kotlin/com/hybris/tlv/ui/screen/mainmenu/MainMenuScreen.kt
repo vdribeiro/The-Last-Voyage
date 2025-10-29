@@ -54,6 +54,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
     val currentContent = storeState.currentContent
     val isMenu = currentContent == Content.MAIN_MENU || currentContent == Content.LEARN_MENU
+    val showNavigationInfo = storeState.showNavigationInfo
 
     Screen(
         modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN),
@@ -69,9 +70,10 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
             )
         },
         snackbarHost = {
-            if (isDesktop) Snackbar(
-                messages = listOf(element = getTranslation(key = "main_menu_screen__navigation_info")),
-                buttonText = getTranslation(key = "main_menu_screen__navigation_info_button")
+            if (showNavigationInfo && isDesktop) Snackbar(
+                message = getTranslation(key = "main_menu_screen__navigation_info"),
+                buttonText = getTranslation(key = "main_menu_screen__navigation_info_button"),
+                onDismiss = { store.send(action = MainMenuAction.HideNavigationInfo) }
             )
         }
     ) {
