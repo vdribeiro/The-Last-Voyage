@@ -3,7 +3,6 @@ package com.hybris.tlv.ui.theme.component.bottombar
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,8 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.platform.Platform
-import com.hybris.tlv.platform.getPlatform
+import com.hybris.tlv.platform.isSupercilious
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Image
@@ -45,7 +43,7 @@ internal fun MainNavigation(
 
     val typography = LocalTypography.current
 
-    if (!asshole) {
+    if (!isSupercilious) {
         Row(
             modifier = modifier
                 .fillMaxWidth()
@@ -108,6 +106,3 @@ internal fun MainNavigation(
 private fun MainBottomBarPreview() = AppTheme {
     MainNavigation()
 }
-
-// Some greedy companies do not allow Kofi banner...
-private val asshole by lazy { getPlatform() == Platform.Ios }

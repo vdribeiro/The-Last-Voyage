@@ -20,12 +20,14 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.platform.isDesktop
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.MainNavigation
+import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
 import com.hybris.tlv.ui.theme.component.card.PlanetCard
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
@@ -65,6 +67,13 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
                 developerCornerUri = storeState.developerCorner,
                 supportUri = storeState.support
             )
+        },
+        snackbarHost = {
+            if (isDesktop) Snackbar(messages = remember(key1 = storeState.achievements) {
+                storeState.achievements.map { achievement ->
+                    "$newAchievementTranslation: ${getTranslation(key = achievement.id)}"
+                }
+            })
         }
     ) {
         when (currentContent) {
