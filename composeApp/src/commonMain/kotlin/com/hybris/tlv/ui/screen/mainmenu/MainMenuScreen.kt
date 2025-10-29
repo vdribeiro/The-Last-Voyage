@@ -69,7 +69,10 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
             )
         },
         snackbarHost = {
-            if (isDesktop) Snackbar(messages = emptyList())
+            if (isDesktop) Snackbar(
+                messages = listOf(element = getTranslation(key = "main_menu_screen__navigation_info")),
+                buttonText = getTranslation(key = "main_menu_screen__navigation_info_button")
+            )
         }
     ) {
         when (currentContent) {

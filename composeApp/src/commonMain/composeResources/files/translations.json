@@ -2801,6 +2801,16 @@
   },
   {
     "languageIso": "en",
+    "key": "main_menu_screen__navigation_info",
+    "value": "Press Escape or Mouse Back Button to navigate back"
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__navigation_info_button",
+    "value": "Hide"
+  },
+  {
+    "languageIso": "en",
     "key": "main_menu_screen__new_game",
     "value": "New Game"
   },
