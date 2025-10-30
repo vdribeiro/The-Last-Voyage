@@ -11,6 +11,8 @@ captures/
 *.zip
 *.tar.gz
 *.rar
+# Allow the Gradle wrapper jar
+!gradle/wrapper/gradle-wrapper.jar
 # Android native build folders
 .externalNativeBuild/
 .cxx/
