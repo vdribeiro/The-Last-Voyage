@@ -19,7 +19,9 @@ plugins {
 }
 
 //region Local Properties
-val localProperties: Properties = Properties().apply { rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use(block = this::load) }
+val localProperties: Properties = Properties().apply {
+    runCatching { rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use(block = this::load) }.getOrNull()
+}
 val appId: String = "com.hybris.tlv"
 val appName: String = "The Last Voyage"
 val appDescription: String = "An Educational Space Adventure"
@@ -30,7 +32,7 @@ val appVersionNumber: Int = 3
 val androidTarget: Int = 35
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
 val androidKeyPassword: String = localProperties.getProperty("android.keyPassword", "")
-val androidStoreFile: File = rootProject.file(localProperties.getProperty("android.storeFile", ""))
+val androidStoreFile: File? = runCatching { rootProject.file(localProperties.getProperty("android.storeFile", "")) }.getOrNull()
 val androidStorePassword: String = localProperties.getProperty("android.storePassword", "")
 val iosTarget: String = "16.0"
 val macIdentity: String = localProperties.getProperty("mac.sign.identity", "")
