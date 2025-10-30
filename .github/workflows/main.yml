@@ -39,6 +39,9 @@ jobs:
         run: |
           echo "sentryDsn=${{ secrets.SENTRY_DSN }}" > local.properties
 
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y fakeroot dpkg-dev
+
       - name: Build Linux .deb package
         run: ./gradlew packageDeb
 
@@ -66,8 +69,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            C:\Users\runneradmin\.gradle\caches
-            C:\Users\runneradmin\.gradle\wrapper
+            ~/.gradle/caches
+            ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
