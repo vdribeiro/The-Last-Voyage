@@ -2,6 +2,8 @@ package com.hybris.tlv.ui.screen.help
 
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
+import com.hybris.tlv.usecase.space.model.Planet
+import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal sealed interface HelpAction {
     data object HostDefinition: HelpAction
@@ -16,6 +18,8 @@ internal data class HelpState(
     val featureTutorial: Boolean = false,
     val learningsMap: Map<LearningType, List<Learning>> = emptyMap(),
     val formula: String = "",
+    val stellarHost: StellarHost? = null,
+    val planet: Planet? = null
 )
 
 internal enum class Content {
