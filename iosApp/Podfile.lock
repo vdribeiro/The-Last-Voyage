@@ -1,5 +1,5 @@
 PODS:
-  - composeApp (1.0.1):
+  - composeApp (1.0.2):
     - Sentry (= 8.55.1)
   - Sentry (8.55.1):
     - Sentry/Core (= 8.55.1)
