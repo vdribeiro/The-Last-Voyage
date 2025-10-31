@@ -282,11 +282,18 @@ compose.desktop {
         javaHome = System.getenv("JAVA_HOME").orEmpty()
         val isRelease = project.gradle.startParameter.taskNames.any { it.contains(other = "package", ignoreCase = true) }
 
-        jvmArgs += "-Ddebug=${!isRelease}"
+        jvmArgs += listOf(
+            "-Ddebug=${!isRelease}",
+            "--enable-native-access=ALL-UNNAMED",
+            "--enable-native-access=javafx.graphics",
+            "--enable-native-access=javafx.media"
+        )
         if (currentOS.isMacOsX) {
-            jvmArgs += "-Xdock:icon=${project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns").absolutePath}"
-            jvmArgs += "-Xdock:name=$appName"
-            jvmArgs += "-Dapple.awt.application.name=$appName"
+            jvmArgs += listOf(
+                "-Xdock:icon=${project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns").absolutePath}",
+                "-Xdock:name=$appName",
+                "-Dapple.awt.application.name=$appName"
+            )
         }
 
         nativeDistributions {
