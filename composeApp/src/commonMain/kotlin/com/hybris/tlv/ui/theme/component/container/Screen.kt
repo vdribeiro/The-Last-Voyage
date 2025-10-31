@@ -17,8 +17,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,6 +50,8 @@ internal fun Screen(
     loadingText: String = "",
     loadingBackground: Boolean = false,
     loadingProgress: Float? = null,
+    onBackClick: (() -> Unit)? = null,
+    onHelpClick: (() -> Unit)? = null,
     onMusicClick: (() -> Unit)? = null,
     onFeedbackClick: (() -> Unit)? = null,
     topBar: @Composable () -> Unit = {},
@@ -67,6 +71,25 @@ internal fun Screen(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
+                    // Back button
+                    onBackClick?.let {
+                        Button(onClick = it) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Back"
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.weight(weight = 1f))
+                    // Help button
+                    onHelpClick?.let {
+                        Button(onClick = it) {
+                            Icon(
+                                imageVector = Icons.Default.QuestionMark,
+                                contentDescription = "Help"
+                            )
+                        }
+                    }
                     // Sound button
                     onMusicClick?.let {
                         Button(onClick = it) {
@@ -76,7 +99,6 @@ internal fun Screen(
                             )
                         }
                     }
-                    Spacer(modifier = Modifier.weight(weight = 1f))
                     // Feedback button
                     onFeedbackClick?.let {
                         Button(onClick = it) {
@@ -149,7 +171,10 @@ private fun ScreenPreview() = AppTheme {
     Screen(
         loading = true,
         loadingDelayMillis = 0L,
-        loadingProgress = 0.5f,
         loadingText = "Loading...",
+        loadingProgress = 0.5f,
+        onHelpClick = {},
+        onMusicClick = {},
+        onFeedbackClick = {},
     )
 }

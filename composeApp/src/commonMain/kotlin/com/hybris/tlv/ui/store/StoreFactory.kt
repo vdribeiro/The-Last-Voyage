@@ -14,6 +14,7 @@ import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.screen.game.GameStore
 import com.hybris.tlv.ui.screen.gameover.GameOverStateBuilder
 import com.hybris.tlv.ui.screen.gameover.GameOverStore
+import com.hybris.tlv.ui.screen.help.HelpStore
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStore
 import com.hybris.tlv.ui.screen.newgame.NewGameStateBuilder
@@ -59,6 +60,13 @@ internal class StoreFactory(
         stateBuilder = stateBuilder as? MainMenuStateBuilder ?: MainMenuStateBuilder.Default,
         config = config,
         gameSessionUseCases = useCases.gameSession,
+    )
+
+    fun createHelpStore(): HelpStore = HelpStore(
+        dispatcher = dispatcher,
+        navigation = navigation,
+        audioPlayer = audioPlayer,
+        config = config,
         learningUseCases = useCases.learning
     )
 

@@ -66,6 +66,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                 indication = null
             ) { store.send(action = TutorialAction.Next) }
             .semantics(mergeDescendants = false) {},
+        onBackClick = { store.back() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         topBar = {

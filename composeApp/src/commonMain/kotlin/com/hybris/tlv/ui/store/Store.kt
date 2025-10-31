@@ -45,7 +45,7 @@ internal open class Store<State, Action>(
     protected open fun getSavableState(state: State): Any? = null
 
     /**
-     * Back navigation.
+     * Overridable back navigation.
      */
     protected open fun goBack(state: State) = navigation.goBack()
 
@@ -84,9 +84,19 @@ internal open class Store<State, Action>(
         dispatcher.io.launch { block() }.also { jobs.add(element = it) }
 
     /**
+     * Navigate back.
+     */
+    fun back() = navigation.back()
+
+    /**
      * Toggle audio player.
      */
     fun toggleAudio() = audioPlayer.action(action = AudioPlayer.Action.Toggle)
+
+    /**
+     * Navigate to [Screen.Help] screen.
+     */
+    fun help() = navigate(screen = Screen.Help)
 
     /**
      * Navigate to [Screen.Feedback] screen asking for feedback.

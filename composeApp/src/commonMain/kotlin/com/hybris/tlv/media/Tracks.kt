@@ -3,12 +3,13 @@ package com.hybris.tlv.media
 import com.hybris.tlv.ui.navigation.Screen
 
 internal fun getTracks(screen: Screen): List<String>? = when (screen) {
-    Screen.Feedback -> null
+    Screen.Help,
+    Screen.Feedback,
+    Screen.Tutorial -> null
 
     Screen.Splash,
     Screen.MainMenu,
     Screen.NewGame,
-    Screen.Tutorial,
     Screen.StellarExplorer,
     Screen.Score,
     Screen.Achievement,

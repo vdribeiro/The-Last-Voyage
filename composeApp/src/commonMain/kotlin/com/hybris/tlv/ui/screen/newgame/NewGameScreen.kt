@@ -47,6 +47,8 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     Screen(
         modifier = Modifier.testTag(tag = NEW_GAME_SCREEN),
         loading = storeState.loading,
+        onBackClick = { store.back() },
+        onHelpClick = { store.help() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         bottomBar = {

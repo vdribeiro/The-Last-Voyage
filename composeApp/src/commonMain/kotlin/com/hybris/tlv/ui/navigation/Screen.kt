@@ -6,6 +6,7 @@ package com.hybris.tlv.ui.navigation
 internal sealed interface Screen {
     data object Splash: Screen
     data object MainMenu: Screen
+    data object Help: Screen
     data object Feedback: Screen
     data object NewGame: Screen
     data object Tutorial: Screen

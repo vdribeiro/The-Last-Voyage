@@ -49,6 +49,8 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
     Screen(
         modifier = Modifier.testTag(tag = SCORE_SCREEN),
         loading = storeState.loading,
+        onBackClick = { store.back() },
+        onHelpClick = { store.help() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {

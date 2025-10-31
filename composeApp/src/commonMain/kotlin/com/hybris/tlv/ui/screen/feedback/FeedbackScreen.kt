@@ -50,6 +50,7 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
 
     Screen(
         modifier = Modifier.testTag(tag = FEEDBACK_SCREEN),
+        onBackClick = { store.back() },
         onMusicClick = { store.toggleAudio() },
     ) {
         Column(

@@ -49,6 +49,8 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
     Screen(
         modifier = Modifier.testTag(tag = CREDIT_SCREEN),
         loading = storeState.loading,
+        onBackClick = { store.back() },
+        onHelpClick = { store.help() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {

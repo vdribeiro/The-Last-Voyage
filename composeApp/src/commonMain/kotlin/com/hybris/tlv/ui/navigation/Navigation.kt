@@ -10,6 +10,7 @@ import com.hybris.tlv.ui.screen.event.EventScreen
 import com.hybris.tlv.ui.screen.feedback.FeedbackScreen
 import com.hybris.tlv.ui.screen.game.GameScreen
 import com.hybris.tlv.ui.screen.gameover.GameOverScreen
+import com.hybris.tlv.ui.screen.help.HelpScreen
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuScreen
 import com.hybris.tlv.ui.screen.newgame.NewGameScreen
 import com.hybris.tlv.ui.screen.score.ScoreScreen
@@ -48,6 +49,7 @@ internal class Navigation(
             when (navigationState.screen) {
                 Screen.Splash -> SplashScreen(store = storeFactory.createSplashStore())
                 Screen.MainMenu -> MainMenuScreen(store = storeFactory.createMainMenuStore(stateBuilder = navigationState.stateBuilder))
+                Screen.Help -> HelpScreen(store = storeFactory.createHelpStore())
                 Screen.Feedback -> FeedbackScreen(store = storeFactory.createFeedbackStore(stateBuilder = navigationState.stateBuilder))
                 Screen.NewGame -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(stateBuilder = navigationState.stateBuilder)) else fallback()
                 Screen.Tutorial -> if (featureTutorial) TutorialScreen(store = storeFactory.createTutorialStore(stateBuilder = navigationState.stateBuilder)) else fallback()

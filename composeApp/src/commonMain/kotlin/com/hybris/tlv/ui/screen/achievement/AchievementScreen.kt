@@ -42,6 +42,8 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
     Screen(
         modifier = Modifier.testTag(tag = ACHIEVEMENT_SCREEN),
         loading = storeState.loading,
+        onBackClick = { store.back() },
+        onHelpClick = { store.help() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {

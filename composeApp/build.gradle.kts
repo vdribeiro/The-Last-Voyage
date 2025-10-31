@@ -49,6 +49,8 @@ abstract class GeneratePropertiesTask: DefaultTask() {
     @get:Input
     abstract val taskAppVersion: Property<String>
     @get:Input
+    abstract val taskAppVersionNumber: Property<Int>
+    @get:Input
     abstract val taskSentryDsn: Property<String>
     @get:OutputDirectory
     abstract val taskOutputDir: DirectoryProperty
@@ -58,6 +60,7 @@ abstract class GeneratePropertiesTask: DefaultTask() {
         val appId: String = taskAppId.get()
         val appName: String = taskAppName.get()
         val appVersion: String = taskAppVersion.get()
+        val appVersionNumber: Int = taskAppVersionNumber.get()
         // Basic obfuscation of Sentry DSN
         val sentryDsn = "byteArrayOf(${
             taskSentryDsn.get().toByteArray().mapIndexed { index, byte -> byte.xor(other = appId[index % appId.length].code.toByte()) }.joinToString(separator = ", ") { it.toString() }
@@ -79,6 +82,7 @@ abstract class GeneratePropertiesTask: DefaultTask() {
                     const val APP_ID: String = "$appId"
                     const val APP_NAME: String = "$appName"
                     const val APP_VERSION: String = "$appVersion"
+                    const val APP_VERSION_NUMBER: Int = $appVersionNumber
                     val sentry: String = $sentryDsn
                 }
             """.trimIndent()
@@ -90,6 +94,7 @@ val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "gene
     taskAppId.set(appId)
     taskAppName.set(appName)
     taskAppVersion.set(appVersion)
+    taskAppVersionNumber.set(appVersionNumber)
     taskSentryDsn.set(sentryDsn)
     taskOutputDir.set(layout.buildDirectory.dir("generated/source/property"))
 }

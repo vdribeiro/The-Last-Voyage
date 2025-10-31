@@ -56,6 +56,8 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
     Screen(
         modifier = Modifier.testTag(tag = GAME_SCREEN),
         loading = storeState.loading,
+        onBackClick = { store.back() },
+        onHelpClick = { store.help() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         topBar = {
