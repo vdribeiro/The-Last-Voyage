@@ -61,7 +61,7 @@ internal class MainMenuStore(
                 ongoingGameSession = ongoingGameSession,
             )
         }
-        config.setPreferences { it.copy(showNavigationInfo = false) }
+        config.setPreferences(save = true) { it.copy(showNavigationInfo = false) }
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
@@ -73,13 +73,13 @@ internal class MainMenuStore(
     }
 
     private fun newGameWithoutTutorial(): Job = launch {
-        config.setPreferences { it.copy(showTutorial = false) }
+        config.setPreferences(save = true) { it.copy(showTutorial = false) }
         navigate(screen = Screen.NewGame)
     }
 
     private fun newGameWithTutorial(): Job = launch {
         Telemetry.info(tag = TAG, message = "Show tutorial")
-        config.setPreferences { it.copy(showTutorial = false) }
+        config.setPreferences(save = true) { it.copy(showTutorial = false) }
         navigate(screen = Screen.Tutorial, stateBuilder = TutorialStateBuilder.Default(newGame = true))
     }
 

@@ -56,7 +56,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
         _remoteConfigs = if (!hasTimePassed(dateTime = _preferences.syncTime, duration = remoteInterval)) {
             _localConfigs.also { Telemetry.info(tag = TAG, message = "Fetched remote configs from local cache") }
         } else {
-            setPreferences { it.copy(syncTime = now()) }
+            _preferences = _preferences.copy(syncTime = now())
             when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
                 is Result.Error -> null.also { Telemetry.error(tag = TAG, message = "Unable to get configs", throwable = result.error) }
                 is Result.Success -> result.list.firstOrNull().also { Telemetry.info(tag = TAG, message = "Fetched remote configs") }
@@ -64,8 +64,9 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
         }
     }
 
-    override suspend fun setPreferences(preferences: (Preferences) -> Preferences) = mutex.withLock {
-        _preferences = preferences(_preferences)
+    override suspend fun setPreferences(save: Boolean, preferences: (Preferences) -> Preferences) {
+        mutex.withLock { _preferences = preferences(_preferences) }
+        if (save) savePreferences()
     }
 
     override suspend fun setConfigs(configs: (Configs) -> Configs) = mutex.withLock {

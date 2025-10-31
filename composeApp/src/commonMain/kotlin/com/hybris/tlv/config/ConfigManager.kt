@@ -26,9 +26,9 @@ internal interface ConfigManager {
     suspend fun refresh()
 
     /**
-     * Set user preferences.
+         * Set user preferences. If [save] is true, then save immediately to storage.
      */
-    suspend fun setPreferences(preferences: (Preferences) -> Preferences)
+    suspend fun setPreferences(save: Boolean = false, preferences: (Preferences) -> Preferences)
 
     /**
      * Set configs.

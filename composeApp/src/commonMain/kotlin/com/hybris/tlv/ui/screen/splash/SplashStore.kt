@@ -73,17 +73,16 @@ internal class SplashStore(
             }
         }
         config.savePreferences()
+        Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences}")
         config.saveConfigs()
+        Telemetry.info(tag = TAG, message = "Configs\n${config.localConfigs}")
         translateUseCases.refreshCache()
         Telemetry.info(tag = TAG, message = "Refreshed translations cache")
-        val preferences = config.preferences
-        Telemetry.info(tag = TAG, message = "Configs\n${config.localConfigs}")
-        Telemetry.info(tag = TAG, message = "Preferences\n$preferences")
-        Telemetry.info(tag = TAG, message = "Setup complete")
         delay(timeMillis = 1000L)
+        Telemetry.info(tag = TAG, message = "Setup complete")
 
-        if (preferences.showIntro) {
-            config.setPreferences { it.copy(showIntro = false) }
+        if (config.preferences.showIntro) {
+            config.setPreferences(save = true) { it.copy(showIntro = false) }
             updateState {
                 it.copy(
                     loading = false,
@@ -91,6 +90,7 @@ internal class SplashStore(
                 )
             }
         } else navigate(screen = Screen.MainMenu)
+
     }
 
     override fun goBack(state: SplashState) {}
