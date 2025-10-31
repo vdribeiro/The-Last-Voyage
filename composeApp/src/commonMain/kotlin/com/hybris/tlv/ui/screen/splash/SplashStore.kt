@@ -7,6 +7,7 @@ import kotlinx.coroutines.supervisorScope
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
@@ -95,10 +96,11 @@ internal class SplashStore(
     }
 
     private fun checkAppVersion() {
-        val remoteVersion = config.remoteConfigs.appVersion
-        val localVersion = config.localConfigs.appVersion
-        Telemetry.info(tag = TAG, message = "App: remote version: $remoteVersion, local version: $localVersion")
-        if (remoteVersion > localVersion) config.resetLocalConfigs()
+        // TODO
+//        if (config.remoteConfigs.appVersion > Property.APP_VERSION_NUMBER) {
+//            Telemetry.info(tag = TAG, message = "App update. Resetting configs.")
+//            config.resetLocalConfigs()
+//        }
     }
 
     override fun goBack(state: SplashState) {}
