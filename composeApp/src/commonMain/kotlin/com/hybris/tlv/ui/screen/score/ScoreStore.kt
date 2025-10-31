@@ -13,16 +13,26 @@ internal class ScoreStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
+    stateBuilder: ScoreStateBuilder,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<ScoreState, Unit>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = ScoreState()
+    initialState = when (stateBuilder) {
+        ScoreStateBuilder.Default -> ScoreState()
+        is ScoreStateBuilder.FromSavableState -> stateBuilder.state
+    }
 ) {
     init {
-        setup()
+        when (stateBuilder) {
+            ScoreStateBuilder.Default -> setup()
+            is ScoreStateBuilder.FromSavableState -> {}
+        }
     }
+
+    override fun getSavableState(state: ScoreState): Any =
+        ScoreStateBuilder.FromSavableState(state = state)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")

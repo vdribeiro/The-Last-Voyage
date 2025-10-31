@@ -12,16 +12,26 @@ internal class CreditStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
+    stateBuilder: CreditStateBuilder,
     private val creditUseCases: CreditUseCases
 ): Store<CreditState, Unit>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = CreditState()
+    initialState = when (stateBuilder) {
+        CreditStateBuilder.Default -> CreditState()
+        is CreditStateBuilder.FromSavableState -> stateBuilder.state
+    }
 ) {
     init {
-        setup()
+        when (stateBuilder) {
+            CreditStateBuilder.Default -> setup()
+            is CreditStateBuilder.FromSavableState -> {}
+        }
     }
+
+    override fun getSavableState(state: CreditState): Any =
+        CreditStateBuilder.FromSavableState(state = state)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")

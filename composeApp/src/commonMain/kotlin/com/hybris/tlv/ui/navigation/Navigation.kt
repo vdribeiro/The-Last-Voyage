@@ -49,7 +49,7 @@ internal class Navigation(
             when (navigationState.screen) {
                 Screen.Splash -> SplashScreen(store = storeFactory.createSplashStore())
                 Screen.MainMenu -> MainMenuScreen(store = storeFactory.createMainMenuStore(stateBuilder = navigationState.stateBuilder))
-                Screen.Help -> HelpScreen(store = storeFactory.createHelpStore())
+                Screen.Help -> HelpScreen(store = storeFactory.createHelpStore(stateBuilder = navigationState.stateBuilder))
                 Screen.Feedback -> FeedbackScreen(store = storeFactory.createFeedbackStore(stateBuilder = navigationState.stateBuilder))
                 Screen.NewGame -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(stateBuilder = navigationState.stateBuilder)) else fallback()
                 Screen.Tutorial -> if (featureTutorial) TutorialScreen(store = storeFactory.createTutorialStore(stateBuilder = navigationState.stateBuilder)) else fallback()
@@ -57,9 +57,9 @@ internal class Navigation(
                 Screen.Event -> if (featureEvents) EventScreen(store = storeFactory.createEventStore(stateBuilder = navigationState.stateBuilder)) else fallback()
                 Screen.GameOver -> if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore(stateBuilder = navigationState.stateBuilder)) else fallback()
                 Screen.StellarExplorer -> if (featureStellarExplorer) StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(stateBuilder = navigationState.stateBuilder)) else fallback()
-                Screen.Score -> if (featureScores) ScoreScreen(store = storeFactory.createScoreStore()) else fallback()
-                Screen.Achievement -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore()) else fallback()
-                Screen.Credit -> CreditScreen(store = storeFactory.createCreditStore())
+                Screen.Score -> if (featureScores) ScoreScreen(store = storeFactory.createScoreStore(stateBuilder = navigationState.stateBuilder)) else fallback()
+                Screen.Achievement -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore(stateBuilder = navigationState.stateBuilder)) else fallback()
+                Screen.Credit -> CreditScreen(store = storeFactory.createCreditStore(stateBuilder = navigationState.stateBuilder))
             }
         }
     }

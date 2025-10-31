@@ -12,16 +12,26 @@ internal class AchievementStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
+    stateBuilder: AchievementStateBuilder,
     private val achievementUseCases: AchievementUseCases
 ): Store<AchievementState, Unit>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = AchievementState()
+    initialState = when (stateBuilder) {
+        AchievementStateBuilder.Default -> AchievementState()
+        is AchievementStateBuilder.FromSavableState -> stateBuilder.state
+    }
 ) {
     init {
-        setup()
+        when (stateBuilder) {
+            AchievementStateBuilder.Default -> setup()
+            is AchievementStateBuilder.FromSavableState -> {}
+        }
     }
+
+    override fun getSavableState(state: AchievementState): Any =
+        AchievementStateBuilder.FromSavableState(state = state)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")

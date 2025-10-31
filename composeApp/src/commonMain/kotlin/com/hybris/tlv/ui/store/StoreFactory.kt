@@ -4,7 +4,9 @@ import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.screen.achievement.AchievementStateBuilder
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
+import com.hybris.tlv.ui.screen.credit.CreditStateBuilder
 import com.hybris.tlv.ui.screen.credit.CreditStore
 import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.screen.event.EventStore
@@ -14,11 +16,13 @@ import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.screen.game.GameStore
 import com.hybris.tlv.ui.screen.gameover.GameOverStateBuilder
 import com.hybris.tlv.ui.screen.gameover.GameOverStore
+import com.hybris.tlv.ui.screen.help.HelpStateBuilder
 import com.hybris.tlv.ui.screen.help.HelpStore
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStateBuilder
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStore
 import com.hybris.tlv.ui.screen.newgame.NewGameStateBuilder
 import com.hybris.tlv.ui.screen.newgame.NewGameStore
+import com.hybris.tlv.ui.screen.score.ScoreStateBuilder
 import com.hybris.tlv.ui.screen.score.ScoreStore
 import com.hybris.tlv.ui.screen.splash.SplashStore
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStateBuilder
@@ -62,10 +66,11 @@ internal class StoreFactory(
         gameSessionUseCases = useCases.gameSession,
     )
 
-    fun createHelpStore(): HelpStore = HelpStore(
+    fun createHelpStore(stateBuilder: Any? = null): HelpStore = HelpStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
+        stateBuilder = stateBuilder as? HelpStateBuilder ?: HelpStateBuilder.Default,
         config = config,
         learningUseCases = useCases.learning
     )
@@ -130,24 +135,27 @@ internal class StoreFactory(
         spaceUseCases = useCases.space
     )
 
-    fun createScoreStore(): ScoreStore = ScoreStore(
+    fun createScoreStore(stateBuilder: Any? = null): ScoreStore = ScoreStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
+        stateBuilder = stateBuilder as? ScoreStateBuilder ?: ScoreStateBuilder.Default,
         gameSessionUseCases = useCases.gameSession
     )
 
-    fun createAchievementStore(): AchievementStore = AchievementStore(
+    fun createAchievementStore(stateBuilder: Any? = null): AchievementStore = AchievementStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
+        stateBuilder = stateBuilder as? AchievementStateBuilder ?: AchievementStateBuilder.Default,
         achievementUseCases = useCases.achievement
     )
 
-    fun createCreditStore(): CreditStore = CreditStore(
+    fun createCreditStore(stateBuilder: Any? = null): CreditStore = CreditStore(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
+        stateBuilder = stateBuilder as? CreditStateBuilder ?: CreditStateBuilder.Default,
         creditUseCases = useCases.credit
     )
 }

@@ -39,10 +39,13 @@ internal class StellarExplorerStore(
     }
 ) {
     init {
-        setup()
+        when (stateBuilder) {
+            StellarExplorerStateBuilder.Default -> setup()
+            is StellarExplorerStateBuilder.FromSavableState -> {}
+        }
     }
 
-    override fun getSavableState(state: StellarExplorerState): Any? =
+    override fun getSavableState(state: StellarExplorerState): Any =
         StellarExplorerStateBuilder.FromSavableState(
             currentContent = state.currentContent,
             listIndex = state.listIndex,

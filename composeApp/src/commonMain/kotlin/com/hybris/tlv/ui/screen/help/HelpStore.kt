@@ -19,17 +19,27 @@ internal class HelpStore(
     dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
+    stateBuilder: HelpStateBuilder,
     private val config: ConfigManager,
     private val learningUseCases: LearningUseCases
 ): Store<HelpState, HelpAction>(
     dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
-    initialState = HelpState()
+    initialState = when (stateBuilder) {
+        HelpStateBuilder.Default -> HelpState()
+        is HelpStateBuilder.FromSavableState -> stateBuilder.state
+    }
 ) {
     init {
-        setup()
+        when (stateBuilder) {
+            HelpStateBuilder.Default -> setup()
+            is HelpStateBuilder.FromSavableState -> {}
+        }
     }
+
+    override fun getSavableState(state: HelpState): Any =
+        HelpStateBuilder.FromSavableState(state = state)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
