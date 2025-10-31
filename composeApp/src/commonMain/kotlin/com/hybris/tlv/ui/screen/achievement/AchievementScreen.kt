@@ -34,7 +34,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
     val storeState by store.stateFlow.collectAsState()
 
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "achievements_screen__title") }
 
     val typography = LocalTypography.current

@@ -55,7 +55,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
         )
     }
 
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val typography = LocalTypography.current
 
     Screen(

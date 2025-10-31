@@ -52,7 +52,7 @@ internal fun Score(
     materials: String = "",
     cryopods: String = "",
 ) {
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val settledPlanetTranslation = remember(key1 = translationVersion) { getTranslation(key = "settled_planet") }
     val habitabilityTranslation = remember(key1 = translationVersion) { getTranslation(key = "final_habitability") }
     val engineTranslation = remember(key1 = translationVersion) { getTranslation(key = "engine") }

@@ -33,7 +33,7 @@ fun main() = application {
     Telemetry.init()
     Telemetry.info(tag = TAG, message = "JavaFX = $initializeJfx")
 
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val appNameTranslation = remember(key1 = translationVersion) { getTranslation(key = "app_name") }
 
     val windowState = rememberWindowState(placement = WindowPlacement.Maximized)

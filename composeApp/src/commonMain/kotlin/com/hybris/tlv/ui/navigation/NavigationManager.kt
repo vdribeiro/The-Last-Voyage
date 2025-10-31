@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.navigation
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -22,7 +23,7 @@ internal open class NavigationManager(
      */
     private val stack: MutableList<NavigationState> = mutableListOf(NavigationState())
     private val _stateFlow: MutableStateFlow<NavigationState> = MutableStateFlow(value = initialState)
-    val stateFlow: StateFlow<NavigationState> get() = _stateFlow
+    val stateFlow: StateFlow<NavigationState> = _stateFlow.asStateFlow()
 
     /**
      * A callback for the back action, handled by the App's [BackHandler].

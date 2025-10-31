@@ -41,7 +41,7 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
     val storeState by store.stateFlow.collectAsState()
     val expandedItems = remember { mutableStateListOf<String>() }
 
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "score_screen__title") }
 
     val typography = LocalTypography.current

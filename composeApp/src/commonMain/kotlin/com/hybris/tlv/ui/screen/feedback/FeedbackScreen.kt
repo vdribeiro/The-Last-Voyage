@@ -40,7 +40,7 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
     var feedbackText by remember { mutableStateOf(value = storeState.feedback) }
 
     // Feedback translations depend on if it is was an app error or it's just simple user feedback
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = if (isError) "error_screen__title" else "error_screen__title_alt") }
     val descriptionTranslation = remember(key1 = translationVersion) { getTranslation(key = if (isError) "error_screen__description" else "error_screen__description_alt") }
     val buttonTranslation = remember(key1 = translationVersion) { getTranslation(key = "error_screen__button") }

@@ -27,7 +27,7 @@ internal fun GameNavigation(
     travelSelected: Boolean = false,
     travelOnClick: () -> Unit = {},
 ) {
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val travelTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_screen__travel") }
     val systemTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_screen__system") }
     val shipTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_screen__ship") }

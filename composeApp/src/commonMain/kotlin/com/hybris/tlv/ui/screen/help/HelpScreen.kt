@@ -64,7 +64,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
 @Composable
 private fun LearnContent(store: Store<HelpState, HelpAction>) {
     val storeState by store.stateFlow.collectAsState()
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val helpTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__learn") }
     val hostDefinitionTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__host_definition") }
     val planetDefinitionTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__planet_definition") }
@@ -137,7 +137,7 @@ private fun HostDefinitionContent(store: Store<HelpState, HelpAction>) {
     val stellarHostProperties = storeState.learningsMap[LearningType.HOST_PROPERTY].orEmpty()
     val stellarHosts = storeState.learningsMap[LearningType.HOST_TYPE].orEmpty()
     val stellarHost = storeState.stellarHost
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val exampleTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_example") }
     val propertiesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_properties") }
     val typesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_types") }
@@ -225,7 +225,7 @@ private fun PlanetDefinitionContent(store: Store<HelpState, HelpAction>) {
     val planetProperties = storeState.learningsMap[LearningType.PLANET_PROPERTY].orEmpty()
     val planets = storeState.learningsMap[LearningType.PLANET_TYPE].orEmpty()
     val planet = storeState.planet
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val exampleTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_example") }
     val propertiesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_properties") }
     val typesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_types") }
@@ -309,7 +309,7 @@ private fun HabitabilityContent(store: Store<HelpState, HelpAction>) {
     val storeState by store.stateFlow.collectAsState()
     val formula = storeState.learningsMap[LearningType.FORMULA].orEmpty()
     val uriHandler = LocalUriHandler.current
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val formulaTranslation = remember(key1 = translationVersion) { getTranslation(key = "formula") }
 
     val typography = LocalTypography.current

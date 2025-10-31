@@ -64,7 +64,7 @@ internal fun StellarHostCard(
 ) {
     val typography = LocalTypography.current
     val shapes = LocalShapes.current
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val stellarHostSystemNameTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_system_name") }
     val stellarHostPlanetCountTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_planet_count") }
     val stellarHostTypeTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_type") }

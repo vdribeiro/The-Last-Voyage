@@ -37,7 +37,7 @@ internal fun MainNavigation(
     supportUri: String = "",
 ) {
     val uriHandler = LocalUriHandler.current
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val websiteTranslation = remember(key1 = translationVersion) { getTranslation(key = "website") }
     val creditsTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__credits") }
 

@@ -40,7 +40,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val continueTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__continue") }
     val startTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__start") }
 
@@ -96,7 +96,7 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
     val shipState = storeState.shipState ?: return
     val engines = storeState.engines
 
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val shipPointsTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__ship_points") }
     val sensorTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_sensor") }
     val fuelTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_fuel") }

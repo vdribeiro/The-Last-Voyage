@@ -37,7 +37,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun CreditScreen(store: Store<CreditState, Unit>) {
     val storeState by store.stateFlow.collectAsState()
     val uriHandler = LocalUriHandler.current
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val creatorsTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__creators") }
     val sourcesTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__sources") }
     val musicTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__music") }

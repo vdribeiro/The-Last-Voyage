@@ -4,6 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
@@ -29,7 +30,7 @@ internal open class Store<State, Action>(
      * The current state of the screen.
      */
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = initialState)
-    val stateFlow: StateFlow<State> get() = _stateFlow
+    val stateFlow: StateFlow<State> = _stateFlow.asStateFlow()
     /**
      * The list of jobs launched by the Store.
      */

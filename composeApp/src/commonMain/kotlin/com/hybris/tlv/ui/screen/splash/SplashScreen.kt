@@ -35,7 +35,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     val storeState by store.stateFlow.collectAsState()
     val currentContent = storeState.currentContent
 
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val loadingTranslation = remember(key1 = translationVersion) { getTranslation(key = "splash_screen__loading") }
 
     val typography = LocalTypography.current

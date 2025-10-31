@@ -97,7 +97,7 @@ private fun ShipContent(store: Store<GameState, GameAction>) {
     val storeState by store.stateFlow.collectAsState()
     val ship = storeState.ship ?: return
 
-    val translationVersion by TranslationCache.updateFlow.collectAsState()
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
     val yearsTraveledTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_years_traveled") }
     val sensorTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_sensor") }
     val speedTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_speed") }
