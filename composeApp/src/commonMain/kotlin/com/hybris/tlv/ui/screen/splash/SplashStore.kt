@@ -49,6 +49,7 @@ internal class SplashStore(
         Telemetry.info(tag = TAG, message = "Setup")
 
         config.refresh()
+        checkAppVersion()
         supervisorScope {
             val tasks = listOf(
                 suspend { archiveUseCases.getArchive() },
@@ -82,7 +83,7 @@ internal class SplashStore(
         Telemetry.info(tag = TAG, message = "Setup complete")
 
         if (config.preferences.showIntro) {
-            config.setPreferences(save = true) { it.copy(showIntro = false) }
+            config.setPreferences { it.copy(showIntro = false) }.savePreferences()
             updateState {
                 it.copy(
                     loading = false,
@@ -91,6 +92,13 @@ internal class SplashStore(
             }
         } else navigate(screen = Screen.MainMenu)
 
+    }
+
+    private fun checkAppVersion() {
+        val remoteVersion = config.remoteConfigs.appVersion
+        val localVersion = config.localConfigs.appVersion
+        Telemetry.info(tag = TAG, message = "App: remote version: $remoteVersion, local version: $localVersion")
+        if (remoteVersion > localVersion) config.resetLocalConfigs()
     }
 
     override fun goBack(state: SplashState) {}

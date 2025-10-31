@@ -4,7 +4,6 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.config.Configs
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.translations
@@ -14,7 +13,7 @@ internal class TranslationUseCasesTest {
     @BeforeTest
     fun setup() {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.config.reset()
+        testDependency.config.resetLocalConfigs()
         TranslationCache.set(emptyList())
     }
 

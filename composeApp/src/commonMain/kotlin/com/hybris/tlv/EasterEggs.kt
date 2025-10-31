@@ -25,7 +25,7 @@ private val konamiGestureCode = listOf(
 private fun setKonamiCode() {
     Telemetry.feedback(message = "Konami Code!")
     dependency.dispatcher.default.launch {
-        dependency.config.setPreferences(save = true) { it.copy(cheats = true) }
+        dependency.config.setPreferences { it.copy(cheats = true) }.savePreferences()
     }
 }
 

@@ -64,13 +64,12 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
         }
     }
 
-    override suspend fun setPreferences(save: Boolean, preferences: (Preferences) -> Preferences) {
+    override suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager = apply {
         mutex.withLock { _preferences = preferences(_preferences) }
-        if (save) savePreferences()
     }
 
-    override suspend fun setConfigs(configs: (Configs) -> Configs) = mutex.withLock {
-        _localConfigs = configs(_localConfigs)
+    override suspend fun setConfigs(configs: (Configs) -> Configs): ConfigManager = apply {
+        mutex.withLock { _localConfigs = configs(_localConfigs) }
     }
 
     override suspend fun savePreferences() = mutex.withLock {
@@ -83,8 +82,8 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
         Telemetry.info(tag = TAG, message = "Flushed local configs: $file")
     }
 
-    override fun reset() {
-        // TODO - delete files
+    override fun resetLocalConfigs() {
+        _localConfigs = Configs()
     }
 
     companion object Companion {

@@ -26,14 +26,14 @@ internal interface ConfigManager {
     suspend fun refresh()
 
     /**
-         * Set user preferences. If [save] is true, then save immediately to storage.
+     * Set user preferences.
      */
-    suspend fun setPreferences(save: Boolean = false, preferences: (Preferences) -> Preferences)
+    suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager
 
     /**
      * Set configs.
      */
-    suspend fun setConfigs(configs: (Configs) -> Configs)
+    suspend fun setConfigs(configs: (Configs) -> Configs): ConfigManager
 
     /**
      * Save configs to storage.
@@ -46,7 +46,7 @@ internal interface ConfigManager {
     suspend fun saveConfigs()
 
     /**
-     * Delete user preferences and configs.
+     * Reset local configs.
      */
-    fun reset()
+    fun resetLocalConfigs()
 }
