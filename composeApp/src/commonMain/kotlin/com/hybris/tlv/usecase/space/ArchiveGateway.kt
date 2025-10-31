@@ -7,6 +7,7 @@ import io.ktor.client.plugins.timeout
 import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
+import com.hybris.tlv.platform.Property
 import com.hybris.tlv.serializer.PLANETS_JSON
 import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
@@ -69,7 +70,7 @@ internal class ArchiveGateway(
     private data class Exoplanets(val stellarHosts: List<StellarHost>, val planets: List<Planet>)
 
     override suspend fun getArchive() = runCatching {
-        if (!ADMIN) return@runCatching
+        if (!Property.ARCHIVE) return@runCatching
         coroutineScope {
             // Get archive
             val stellarHostsJob = async { getArchive { offset, limit -> getStellarHostsArchive(offset, limit) } }
@@ -513,9 +514,5 @@ internal class ArchiveGateway(
 
     companion object {
         private const val TAG = "Archive"
-        /**
-         * Admin flag to get NASA archive.
-         */
-        private const val ADMIN = false
     }
 }
