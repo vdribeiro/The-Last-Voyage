@@ -42,6 +42,10 @@ jobs:
           name: The-Last-Voyage-deb
           path: composeApp/build/compose/binaries/main/deb/*.deb
 
+      - name: Stop Gradle Daemon
+        if: ${{ always() }}
+        run: ./gradlew --stop
+
   build-windows:
     name: Build Windows (.msi)
     runs-on: windows-latest
@@ -69,3 +73,8 @@ jobs:
         with:
           name: The-Last-Voyage-msi
           path: composeApp/build/compose/binaries/main/msi/*.msi
+
+      - name: Stop Gradle Daemon
+        if: ${{ always() }}
+        run: ./gradlew.bat --stop
+
