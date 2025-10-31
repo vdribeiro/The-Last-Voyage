@@ -44,7 +44,7 @@ internal class GameOverStore(
         }
     }
 
-    override fun getSavableState(state: GameOverState): Any? =
+    override fun getSavableState(state: GameOverState): Any =
         GameOverStateBuilder.FromSavableState(state = state, achievements = achievements.orEmpty(), index = index)
 
     private fun setup(): Job = launch {

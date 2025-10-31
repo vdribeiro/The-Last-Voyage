@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import kotlinx.coroutines.Job
+import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
@@ -27,21 +28,26 @@ internal class MainMenuStore(
         is MainMenuStateBuilder.FromSavableState -> stateBuilder.state
     }
 ) {
+    @get:VisibleForTesting
+    internal var featureTutorial: Boolean = true
+
     init {
         when (stateBuilder) {
             MainMenuStateBuilder.Default -> setup()
-            is MainMenuStateBuilder.FromSavableState -> {}
+            is MainMenuStateBuilder.FromSavableState -> {
+                featureTutorial = stateBuilder.featureTutorial
+            }
         }
     }
 
     override fun getSavableState(state: MainMenuState): Any =
-        MainMenuStateBuilder.FromSavableState(state = state.copy(newGameDialog = false))
+        MainMenuStateBuilder.FromSavableState(state = state.copy(newGameDialog = false), featureTutorial = featureTutorial)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
         val showNavigationInfo = config.getPreferences().showNavigationInfo
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
-
+        this@MainMenuStore.featureTutorial = config.localConfigs.featureTutorial
         updateState {
             it.copy(
                 loading = false,
@@ -61,7 +67,7 @@ internal class MainMenuStore(
 
     private fun newGame(): Job = launch {
         Telemetry.info(tag = TAG, message = "New game")
-        if (config.getPreferences().showTutorial) {
+        if (featureTutorial && config.getPreferences().showTutorial) {
             updateState { it.copy(newGameDialog = true) }
         } else navigate(screen = Screen.NewGame)
     }

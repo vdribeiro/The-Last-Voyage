@@ -29,7 +29,7 @@ internal class TutorialStore(
         }
     }
 
-    override fun getSavableState(state: TutorialState): Any? =
+    override fun getSavableState(state: TutorialState): Any =
         TutorialStateBuilder.NewGame(newGame = newGame)
 
     override fun reducer(state: TutorialState, action: TutorialAction) {

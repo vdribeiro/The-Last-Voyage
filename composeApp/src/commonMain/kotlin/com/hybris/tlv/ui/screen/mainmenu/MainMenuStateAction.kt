@@ -15,7 +15,10 @@ internal sealed interface MainMenuAction {
 
 internal sealed interface MainMenuStateBuilder {
     data object Default: MainMenuStateBuilder
-    data class FromSavableState(val state: MainMenuState): MainMenuStateBuilder
+    data class FromSavableState(
+        val state: MainMenuState,
+        val featureTutorial: Boolean
+    ): MainMenuStateBuilder
 }
 
 internal data class MainMenuState(

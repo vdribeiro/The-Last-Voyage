@@ -43,7 +43,7 @@ internal class NewGameStore(
         }
     }
 
-    override fun getSavableState(state: NewGameState): Any? =
+    override fun getSavableState(state: NewGameState): Any =
         NewGameStateBuilder.FromSavableState(
             state = state,
             selectedShip = selectedShip,

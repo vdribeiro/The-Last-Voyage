@@ -44,7 +44,7 @@ internal class GameStore(
         }
     }
 
-    override fun getSavableState(state: GameState): Any? =
+    override fun getSavableState(state: GameState): Any =
         GameStateBuilder.FromSavableState(state = state, gameSession = gameSession)
 
     private fun setup(): Job = launch {

@@ -47,7 +47,7 @@ internal class EventStore(
         }
     }
 
-    override fun getSavableState(state: EventState): Any? =
+    override fun getSavableState(state: EventState): Any =
         EventStateBuilder.FromSavableState(state = state, gameSession = gameSession, eventChain = eventChain.orEmpty())
 
     private fun setup(): Job = launch {

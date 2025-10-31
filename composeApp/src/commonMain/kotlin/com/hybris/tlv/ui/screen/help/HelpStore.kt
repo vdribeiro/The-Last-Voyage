@@ -9,11 +9,6 @@ import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.learning.LearningUseCases
-import com.hybris.tlv.usecase.space.model.Planet
-import com.hybris.tlv.usecase.space.model.PlanetStatus
-import com.hybris.tlv.usecase.space.model.PlanetType
-import com.hybris.tlv.usecase.space.model.Score
-import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal class HelpStore(
     dispatcher: Dispatcher,
