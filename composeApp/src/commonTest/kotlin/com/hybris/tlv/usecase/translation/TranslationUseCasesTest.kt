@@ -14,7 +14,7 @@ internal class TranslationUseCasesTest {
     @BeforeTest
     fun setup() {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.config.localConfigs = Configs()
+        testDependency.config.reset()
         TranslationCache.set(emptyList())
     }
 

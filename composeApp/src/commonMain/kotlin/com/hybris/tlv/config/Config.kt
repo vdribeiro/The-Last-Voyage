@@ -33,10 +33,6 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     override val remoteConfigs: Configs get() = _remoteConfigs
     private val remoteInterval = 1.hours
 
-    private suspend fun setPreferences(preferences: Preferences) = mutex.withLock { _preferences = preferences }
-    private suspend fun setLocalConfigs(configs: Configs) = mutex.withLock { _localConfigs = configs }
-    private suspend fun setRemoteConfigs(configs: Configs) = mutex.withLock { _remoteConfigs = configs }
-
     override suspend fun refresh() {
         loadPreferences()
         loadLocalConfigs()
@@ -44,20 +40,20 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     }
 
     private suspend fun loadPreferences() {
-        val preferences = loadJsonFile(path = PREFERENCES_JSON) ?: Preferences().also { savePreferences(preferences = it) }
-        setPreferences(preferences = preferences)
+        val preferences = loadJsonFile(path = PREFERENCES_JSON) ?: Preferences()
+        _preferences = preferences
         Telemetry.info(tag = TAG, message = "Loaded preferences")
     }
 
     private suspend fun loadLocalConfigs() {
-        val configs = loadJsonFile(path = CONFIGS_JSON) ?: Configs().also { saveConfigs(configs = it) }
-        setLocalConfigs(configs = configs)
+        val configs = loadJsonFile(path = CONFIGS_JSON) ?: Configs()
+        _localConfigs = configs
         Telemetry.info(tag = TAG, message = "Loaded local configs")
     }
 
     private suspend fun fetchRemoteConfigs() {
         // To prevet unnecessary fetches, wait 1 hour in between
-        val remoteConfigs = if (!hasTimePassed(dateTime = _preferences.syncTime, duration = remoteInterval)) {
+        _remoteConfigs = if (!hasTimePassed(dateTime = _preferences.syncTime, duration = remoteInterval)) {
             _localConfigs.also { Telemetry.info(tag = TAG, message = "Fetched remote configs from local cache") }
         } else {
             setPreferences { it.copy(syncTime = now()) }
@@ -66,23 +62,28 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
                 is Result.Success -> result.list.firstOrNull().also { Telemetry.info(tag = TAG, message = "Fetched remote configs") }
             } ?: _localConfigs
         }
-        setRemoteConfigs(configs = remoteConfigs)
     }
 
-    override suspend fun setPreferences(preferences: (Preferences) -> Preferences) =
-        setPreferences(preferences = preferences(_preferences))
+    override suspend fun setPreferences(preferences: (Preferences) -> Preferences) = mutex.withLock {
+        _preferences = preferences(_preferences)
+    }
 
-    override suspend fun setConfigs(configs: (Configs) -> Configs) =
-        setLocalConfigs(configs = configs(_localConfigs))
+    override suspend fun setConfigs(configs: (Configs) -> Configs) = mutex.withLock {
+        _localConfigs = configs(_localConfigs)
+    }
 
-    override suspend fun savePreferences(preferences: Preferences) = mutex.withLock {
-        val file = saveJsonFile(path = PREFERENCES_JSON, content = preferences)
+    override suspend fun savePreferences() = mutex.withLock {
+        val file = saveJsonFile(path = PREFERENCES_JSON, content = _preferences)
         Telemetry.info(tag = TAG, message = "Flushed preferences: $file")
     }
 
-    override suspend fun saveConfigs(configs: Configs) = mutex.withLock {
-        val file = saveJsonFile(path = CONFIGS_JSON, content = configs)
+    override suspend fun saveConfigs() = mutex.withLock {
+        val file = saveJsonFile(path = CONFIGS_JSON, content = _localConfigs)
         Telemetry.info(tag = TAG, message = "Flushed local configs: $file")
+    }
+
+    override fun reset() {
+        // TODO - delete files
     }
 
     companion object Companion {

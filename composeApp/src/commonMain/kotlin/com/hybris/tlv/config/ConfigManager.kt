@@ -38,10 +38,15 @@ internal interface ConfigManager {
     /**
      * Save configs to storage.
      */
-    suspend fun savePreferences(preferences: Preferences = this.preferences)
+    suspend fun savePreferences()
 
     /**
      * Save configs to storage.
      */
-    suspend fun saveConfigs(configs: Configs = localConfigs)
+    suspend fun saveConfigs()
+
+    /**
+     * Delete user preferences and configs.
+     */
+    fun reset()
 }

@@ -72,6 +72,7 @@ internal class SplashStore(
                 updateState { it.copy(progress = (index + 1).toFloat() / total) }
             }
         }
+        config.savePreferences()
         config.saveConfigs()
         translateUseCases.refreshCache()
         Telemetry.info(tag = TAG, message = "Refreshed translations cache")

@@ -16,7 +16,7 @@ internal class ShipUseCasesTest {
     @BeforeTest
     fun setup() {
         testDependency.sqlDriver.clearDatabase()
-        testDependency.config.localConfigs = Configs()
+        testDependency.config.reset()
     }
 
     @Test
