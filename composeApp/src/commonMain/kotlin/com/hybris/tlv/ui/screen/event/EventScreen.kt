@@ -31,7 +31,6 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
     Screen(
         modifier = Modifier.testTag(tag = EVENT_SCREEN),
         loading = storeState.loading,
-        onBackClick = { store.back() },
         onHelpClick = { store.help() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },

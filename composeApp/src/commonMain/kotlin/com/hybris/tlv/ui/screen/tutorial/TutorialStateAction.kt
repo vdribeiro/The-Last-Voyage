@@ -5,7 +5,11 @@ internal sealed interface TutorialAction {
 }
 
 internal sealed interface TutorialStateBuilder {
-    data class NewGame(val newGame: Boolean): TutorialStateBuilder
+    data class Default(val newGame: Boolean): TutorialStateBuilder
+    data class FromSavableState(
+        val state: TutorialState,
+        val newGame: Boolean
+    ): TutorialStateBuilder
 }
 
 internal data class TutorialState(

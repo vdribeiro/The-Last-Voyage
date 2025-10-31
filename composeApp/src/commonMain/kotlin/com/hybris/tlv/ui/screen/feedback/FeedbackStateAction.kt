@@ -5,7 +5,7 @@ internal sealed interface FeedbackAction {
 }
 
 internal sealed interface FeedbackStateBuilder {
-    data object Feedback: FeedbackStateBuilder
+    data object Default: FeedbackStateBuilder
     data class Error(val tag: String, val message: String): FeedbackStateBuilder
 }
 

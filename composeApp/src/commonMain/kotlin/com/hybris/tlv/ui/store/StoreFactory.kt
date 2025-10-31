@@ -79,7 +79,7 @@ internal class StoreFactory(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder as? FeedbackStateBuilder ?: FeedbackStateBuilder.Feedback
+        stateBuilder = stateBuilder as? FeedbackStateBuilder ?: FeedbackStateBuilder.Default
     )
 
     fun createNewGameStore(stateBuilder: Any? = null): NewGameStore = NewGameStore(
@@ -96,7 +96,7 @@ internal class StoreFactory(
         dispatcher = dispatcher,
         navigation = navigation,
         audioPlayer = audioPlayer,
-        stateBuilder = stateBuilder as? TutorialStateBuilder ?: TutorialStateBuilder.NewGame(newGame = false)
+        stateBuilder = stateBuilder as? TutorialStateBuilder ?: TutorialStateBuilder.Default(newGame = false)
     )
 
     fun createGameStore(stateBuilder: Any? = null): GameStore = GameStore(

@@ -103,7 +103,7 @@ internal open class Store<State, Action>(
      */
     fun feedback() = navigate(
         screen = Screen.Feedback,
-        stateBuilder = FeedbackStateBuilder.Feedback
+        stateBuilder = FeedbackStateBuilder.Default
     )
 
     /**

@@ -20,7 +20,7 @@ internal class FeedbackStore(
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
-        is FeedbackStateBuilder.Feedback -> FeedbackState()
+        FeedbackStateBuilder.Default -> FeedbackState()
         is FeedbackStateBuilder.Error -> FeedbackState(isError = true)
     }
 ) {
@@ -31,7 +31,7 @@ internal class FeedbackStore(
 
     init {
         when (stateBuilder) {
-            is FeedbackStateBuilder.Feedback -> {}
+            FeedbackStateBuilder.Default -> {}
             is FeedbackStateBuilder.Error -> {
                 tag = stateBuilder.tag
                 message = stateBuilder.message

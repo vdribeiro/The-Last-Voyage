@@ -80,7 +80,7 @@ internal class MainMenuStore(
     private fun newGameWithTutorial(): Job = launch {
         Telemetry.info(tag = TAG, message = "Show tutorial")
         config.setPreferences { it.copy(showTutorial = false) }
-        navigate(screen = Screen.Tutorial, stateBuilder = TutorialStateBuilder.NewGame(newGame = true))
+        navigate(screen = Screen.Tutorial, stateBuilder = TutorialStateBuilder.Default(newGame = true))
     }
 
     override fun goBack(state: MainMenuState) {}
