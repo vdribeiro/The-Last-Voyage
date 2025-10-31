@@ -136,7 +136,7 @@ private fun HostDefinitionContent(store: Store<HelpState, HelpAction>) {
     val storeState by store.stateFlow.collectAsState()
     val stellarHostProperties = storeState.learningsMap[LearningType.HOST_PROPERTY].orEmpty()
     val stellarHosts = storeState.learningsMap[LearningType.HOST_TYPE].orEmpty()
-    val stellarHost = storeState.stellarHost ?: return
+    val stellarHost = storeState.stellarHost
     val translationVersion by TranslationCache.updateFlow.collectAsState()
     val exampleTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_example") }
     val propertiesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_properties") }
@@ -224,7 +224,7 @@ private fun PlanetDefinitionContent(store: Store<HelpState, HelpAction>) {
     val storeState by store.stateFlow.collectAsState()
     val planetProperties = storeState.learningsMap[LearningType.PLANET_PROPERTY].orEmpty()
     val planets = storeState.learningsMap[LearningType.PLANET_TYPE].orEmpty()
-    val planet = storeState.planet ?: return
+    val planet = storeState.planet
     val translationVersion by TranslationCache.updateFlow.collectAsState()
     val exampleTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_example") }
     val propertiesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_properties") }
