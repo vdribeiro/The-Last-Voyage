@@ -21,17 +21,22 @@ internal class TranslationGateway(
     private val translationDao = database.translationQueries
 
     override suspend fun syncTranslations() {
-        if (config.remoteConfigs.translationsVersion > config.localConfigs.translationsVersion) {
+        val remoteVersion = config.remoteConfigs.translationsVersion
+        val localVersion = config.localConfigs.translationsVersion
+        Telemetry.info(tag = TAG, message = "Syncing translations: remote version: $remoteVersion, local version: $localVersion")
+        if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Translation>(path = TRANSLATIONS_URL)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
                 is Result.Success -> {
                     rewriteTranslations(translations = result.list)
-                    config.localConfigs = config.localConfigs.copy(translationsVersion = config.remoteConfigs.translationsVersion)
+                    config.localConfigs = config.localConfigs.copy(translationsVersion = remoteVersion)
+                    Telemetry.info(tag = TAG, message = "Successful translations sync")
                     return
                 }
             }
         }
         if (translationDao.isTranslationEmpty().executeAsList().isEmpty()) {
+            Telemetry.info(tag = TAG, message = "Prepopulating translations")
             val translations: List<Translation> = loadFromJsonResource(path = TRANSLATIONS_JSON)
             rewriteTranslations(translations = translations)
         }

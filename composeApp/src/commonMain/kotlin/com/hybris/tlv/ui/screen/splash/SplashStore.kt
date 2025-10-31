@@ -74,6 +74,7 @@ internal class SplashStore(
         }
         config.flush()
         translateUseCases.refreshCache()
+        Telemetry.info(tag = TAG, message = "Refreshed translations cache")
         val preferences = config.getPreferences()
         Telemetry.info(tag = TAG, message = "Configs\n${config.localConfigs}")
         Telemetry.info(tag = TAG, message = "Preferences\n$preferences")

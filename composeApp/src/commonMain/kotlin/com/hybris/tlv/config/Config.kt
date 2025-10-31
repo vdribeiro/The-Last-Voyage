@@ -1,5 +1,6 @@
 package com.hybris.tlv.config
 
+import kotlin.concurrent.Volatile
 import kotlin.time.Duration.Companion.hours
 import io.ktor.client.HttpClient
 import com.hybris.tlv.http.HttpClientFactory.Companion.CONFIGS_URL
@@ -15,6 +16,7 @@ import com.hybris.tlv.telemetry.Telemetry
 
 internal class Config(private val httpClient: HttpClient): ConfigManager {
 
+    @Volatile
     override var localConfigs: Configs = Configs()
     private var remoteConfigsCache: Configs = Configs()
     override val remoteConfigs: Configs get() = remoteConfigsCache
