@@ -48,7 +48,7 @@ internal class SplashStore(
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
 
-        config.fetch()
+        config.refresh()
         supervisorScope {
             val tasks = listOf(
                 suspend { archiveUseCases.getArchive() },
@@ -72,10 +72,10 @@ internal class SplashStore(
                 updateState { it.copy(progress = (index + 1).toFloat() / total) }
             }
         }
-        config.flush()
+        config.saveConfigs()
         translateUseCases.refreshCache()
         Telemetry.info(tag = TAG, message = "Refreshed translations cache")
-        val preferences = config.getPreferences()
+        val preferences = config.preferences
         Telemetry.info(tag = TAG, message = "Configs\n${config.localConfigs}")
         Telemetry.info(tag = TAG, message = "Preferences\n$preferences")
         Telemetry.info(tag = TAG, message = "Setup complete")

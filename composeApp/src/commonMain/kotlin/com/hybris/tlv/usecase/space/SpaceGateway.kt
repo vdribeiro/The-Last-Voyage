@@ -41,7 +41,7 @@ internal class SpaceGateway(
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get stellar hosts", throwable = result.error)
                 is Result.Success -> {
                     rewriteStellarHosts(stellarHosts = result.list)
-                    config.localConfigs = config.localConfigs.copy(stellarHostsVersion = remoteVersion)
+                    config.setConfigs { it.copy(stellarHostsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful stellar hosts sync")
                     return
                 }
@@ -68,7 +68,7 @@ internal class SpaceGateway(
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get planets", throwable = result.error)
                 is Result.Success -> {
                     rewritePlanets(planets = result.list)
-                    config.localConfigs = config.localConfigs.copy(planetsVersion = remoteVersion)
+                    config.setConfigs { it.copy(planetsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful planets sync")
                     return
                 }

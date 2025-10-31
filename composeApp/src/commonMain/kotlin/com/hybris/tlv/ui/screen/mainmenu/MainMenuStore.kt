@@ -45,7 +45,7 @@ internal class MainMenuStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
-        val showNavigationInfo = config.getPreferences().showNavigationInfo
+        val showNavigationInfo = config.preferences.showNavigationInfo
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
         this@MainMenuStore.featureTutorial = config.localConfigs.featureTutorial
         updateState {
@@ -67,7 +67,7 @@ internal class MainMenuStore(
 
     private fun newGame(): Job = launch {
         Telemetry.info(tag = TAG, message = "New game")
-        if (featureTutorial && config.getPreferences().showTutorial) {
+        if (featureTutorial && config.preferences.showTutorial) {
             updateState { it.copy(newGameDialog = true) }
         } else navigate(screen = Screen.NewGame)
     }

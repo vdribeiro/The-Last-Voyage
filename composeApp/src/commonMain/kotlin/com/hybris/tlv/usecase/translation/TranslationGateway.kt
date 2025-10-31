@@ -29,7 +29,7 @@ internal class TranslationGateway(
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
                 is Result.Success -> {
                     rewriteTranslations(translations = result.list)
-                    config.localConfigs = config.localConfigs.copy(translationsVersion = remoteVersion)
+                    config.setConfigs { it.copy(translationsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful translations sync")
                     return
                 }

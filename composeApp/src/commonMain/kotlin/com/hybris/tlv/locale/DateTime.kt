@@ -18,7 +18,7 @@ internal fun now(): String = Clock.System.now().toString()
 internal fun distantPast(): String = Instant.DISTANT_PAST.toString()
 
 /**
- * Check if [duration] has passed from now.
+ * Check if [duration] has passed from [dateTime] to now.
  */
 internal fun hasTimePassed(dateTime: String, duration: Duration): Boolean {
     val parsedDateTime = runCatching { Instant.parse(input = dateTime) }.getOrDefault(defaultValue = Clock.System.now())

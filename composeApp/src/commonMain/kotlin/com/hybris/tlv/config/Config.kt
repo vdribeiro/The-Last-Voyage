@@ -2,6 +2,8 @@ package com.hybris.tlv.config
 
 import kotlin.concurrent.Volatile
 import kotlin.time.Duration.Companion.hours
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import io.ktor.client.HttpClient
 import com.hybris.tlv.http.HttpClientFactory.Companion.CONFIGS_URL
 import com.hybris.tlv.http.Result
@@ -16,55 +18,71 @@ import com.hybris.tlv.telemetry.Telemetry
 
 internal class Config(private val httpClient: HttpClient): ConfigManager {
 
+    private val mutex = Mutex()
+
     @Volatile
-    override var localConfigs: Configs = Configs()
-    private var remoteConfigsCache: Configs = Configs()
-    override val remoteConfigs: Configs get() = remoteConfigsCache
+    private var _preferences: Preferences = Preferences()
+    override val preferences: Preferences get() = _preferences
 
-    override suspend fun fetch() {
-        fetchLocal()
-        fetchRemote()
+    @Volatile
+    private var _localConfigs: Configs = Configs()
+    override val localConfigs: Configs get() = _localConfigs
+
+    @Volatile
+    private var _remoteConfigs: Configs = Configs()
+    override val remoteConfigs: Configs get() = _remoteConfigs
+    private val remoteInterval = 1.hours
+
+    private suspend fun setPreferences(preferences: Preferences) = mutex.withLock { _preferences = preferences }
+    private suspend fun setLocalConfigs(configs: Configs) = mutex.withLock { _localConfigs = configs }
+    private suspend fun setRemoteConfigs(configs: Configs) = mutex.withLock { _remoteConfigs = configs }
+
+    override suspend fun refresh() {
+        loadPreferences()
+        loadLocalConfigs()
+        fetchRemoteConfigs()
     }
 
-    private suspend fun fetchLocal() {
-        this@Config.localConfigs = loadJsonFile(path = CONFIGS_JSON) ?: Configs().also { flush(configs = it) }
-        Telemetry.info(tag = TAG, message = "Fetched local configs")
-    }
-
-    private suspend fun fetchRemote() {
-        // To prevet unnecessary fetches, wait 1 hour in between
-        if (!hasTimePassed(dateTime = getPreferences().syncTime, duration = 1.hours)) {
-            remoteConfigsCache = localConfigs
-            Telemetry.info(tag = TAG, message = "Fetched remote configs from local cache")
-            return
-        }
-        setPreferences { it.copy(syncTime = now()) }
-
-        val remoteConfigs = when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
-            is Result.Error -> null.also { Telemetry.error(tag = TAG, message = "Unable to get configs", throwable = result.error) }
-            is Result.Success -> result.list.firstOrNull()
-        } ?: Configs()
-        remoteConfigsCache = remoteConfigs
-        Telemetry.info(tag = TAG, message = "Fetched remote configs")
-    }
-
-    override suspend fun flush(configs: Configs) {
-        val file = saveJsonFile(path = CONFIGS_JSON, content = configs)
-        Telemetry.info(tag = TAG, message = "Flushed local configs: $file")
-    }
-
-    override suspend fun getPreferences(): Preferences {
+    private suspend fun loadPreferences() {
         val preferences = loadJsonFile(path = PREFERENCES_JSON) ?: Preferences().also { savePreferences(preferences = it) }
-        Telemetry.info(tag = TAG, message = "Fetched preferences")
-        return preferences
+        setPreferences(preferences = preferences)
+        Telemetry.info(tag = TAG, message = "Loaded preferences")
+    }
+
+    private suspend fun loadLocalConfigs() {
+        val configs = loadJsonFile(path = CONFIGS_JSON) ?: Configs().also { saveConfigs(configs = it) }
+        setLocalConfigs(configs = configs)
+        Telemetry.info(tag = TAG, message = "Loaded local configs")
+    }
+
+    private suspend fun fetchRemoteConfigs() {
+        // To prevet unnecessary fetches, wait 1 hour in between
+        val remoteConfigs = if (!hasTimePassed(dateTime = _preferences.syncTime, duration = remoteInterval)) {
+            _localConfigs.also { Telemetry.info(tag = TAG, message = "Fetched remote configs from local cache") }
+        } else {
+            setPreferences { it.copy(syncTime = now()) }
+            when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
+                is Result.Error -> null.also { Telemetry.error(tag = TAG, message = "Unable to get configs", throwable = result.error) }
+                is Result.Success -> result.list.firstOrNull().also { Telemetry.info(tag = TAG, message = "Fetched remote configs") }
+            } ?: _localConfigs
+        }
+        setRemoteConfigs(configs = remoteConfigs)
     }
 
     override suspend fun setPreferences(preferences: (Preferences) -> Preferences) =
-        savePreferences(preferences = preferences(getPreferences()))
+        setPreferences(preferences = preferences(_preferences))
 
-    private suspend fun savePreferences(preferences: Preferences) {
+    override suspend fun setConfigs(configs: (Configs) -> Configs) =
+        setLocalConfigs(configs = configs(_localConfigs))
+
+    override suspend fun savePreferences(preferences: Preferences) = mutex.withLock {
         val file = saveJsonFile(path = PREFERENCES_JSON, content = preferences)
         Telemetry.info(tag = TAG, message = "Flushed preferences: $file")
+    }
+
+    override suspend fun saveConfigs(configs: Configs) = mutex.withLock {
+        val file = saveJsonFile(path = CONFIGS_JSON, content = configs)
+        Telemetry.info(tag = TAG, message = "Flushed local configs: $file")
     }
 
     companion object Companion {

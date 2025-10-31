@@ -29,7 +29,7 @@ internal class LearningGateway(
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get learnings", throwable = result.error)
                 is Result.Success -> {
                     rewriteLearnings(learnings = result.list)
-                    config.localConfigs = config.localConfigs.copy(learningsVersion = remoteVersion)
+                    config.setConfigs { it.copy(learningsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful learnings sync")
                     return
                 }

@@ -33,7 +33,7 @@ internal class AchievementGateway(
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get achievements", throwable = result.error)
                 is Result.Success -> {
                     rewriteAchievements(achievements = result.list)
-                    config.localConfigs = config.localConfigs.copy(achievementsVersion = remoteVersion)
+                    config.setConfigs { it.copy(achievementsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful achievements sync")
                     return
                 }

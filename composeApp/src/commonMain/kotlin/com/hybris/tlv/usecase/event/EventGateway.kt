@@ -32,7 +32,7 @@ internal class EventGateway(
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get events", throwable = result.error)
                 is Result.Success -> {
                     rewriteEvents(events = result.list)
-                    config.localConfigs = config.localConfigs.copy(eventsVersion = remoteVersion)
+                    config.setConfigs { it.copy(eventsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful events sync")
                     return
                 }

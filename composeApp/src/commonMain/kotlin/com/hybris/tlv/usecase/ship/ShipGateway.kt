@@ -31,7 +31,7 @@ internal class ShipGateway(
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get engines", throwable = result.error)
                 is Result.Success -> {
                     rewriteEngines(engines = result.list)
-                    config.localConfigs = config.localConfigs.copy(enginesVersion = remoteVersion)
+                    config.setConfigs { it.copy(enginesVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful engines sync")
                     return
                 }

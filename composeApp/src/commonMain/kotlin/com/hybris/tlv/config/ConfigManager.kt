@@ -6,9 +6,14 @@ package com.hybris.tlv.config
 internal interface ConfigManager {
 
     /**
+     * Cached preferences.
+     */
+    val preferences: Preferences
+
+    /**
      * Cached local configs.
      */
-    var localConfigs: Configs
+    val localConfigs: Configs
 
     /**
      * Cached remote configs.
@@ -16,22 +21,27 @@ internal interface ConfigManager {
     val remoteConfigs: Configs
 
     /**
-     * Fetch configs and refresh caches.
+     * Fetch configs and refresh all caches.
      */
-    suspend fun fetch()
-
-    /**
-     * Set configs to storage.
-     */
-    suspend fun flush(configs: Configs = localConfigs)
-
-    /**
-     * Get user preferences.
-     */
-    suspend fun getPreferences(): Preferences
+    suspend fun refresh()
 
     /**
      * Set user preferences.
      */
     suspend fun setPreferences(preferences: (Preferences) -> Preferences)
+
+    /**
+     * Set configs.
+     */
+    suspend fun setConfigs(configs: (Configs) -> Configs)
+
+    /**
+     * Save configs to storage.
+     */
+    suspend fun savePreferences(preferences: Preferences = this.preferences)
+
+    /**
+     * Save configs to storage.
+     */
+    suspend fun saveConfigs(configs: Configs = localConfigs)
 }

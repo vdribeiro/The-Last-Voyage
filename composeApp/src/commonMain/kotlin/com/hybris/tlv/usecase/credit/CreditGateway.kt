@@ -29,7 +29,7 @@ internal class CreditGateway(
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get credits", throwable = result.error)
                 is Result.Success -> {
                     rewriteCredits(credits = result.list)
-                    config.localConfigs = config.localConfigs.copy(creditsVersion = remoteVersion)
+                    config.setConfigs { it.copy(creditsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful credits sync")
                     return
                 }

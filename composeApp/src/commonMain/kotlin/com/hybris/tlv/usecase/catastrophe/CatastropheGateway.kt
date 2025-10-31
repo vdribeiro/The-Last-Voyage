@@ -29,7 +29,7 @@ internal class CatastropheGateway(
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get catastrophes", throwable = result.error)
                 is Result.Success -> {
                     rewriteCatastrophes(catastrophes = result.list)
-                    config.localConfigs = config.localConfigs.copy(catastrophesVersion = remoteVersion)
+                    config.setConfigs { it.copy(catastrophesVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful catastrophes sync")
                     return
                 }
