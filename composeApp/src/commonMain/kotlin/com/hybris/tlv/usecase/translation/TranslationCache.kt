@@ -4,6 +4,7 @@ import kotlin.concurrent.Volatile
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import com.hybris.tlv.locale.DEFAULT_LANGUAGE
 import com.hybris.tlv.locale.getLanguage
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.usecase.translation.model.Translation
@@ -12,8 +13,6 @@ import com.hybris.tlv.usecase.translation.model.Translation
  * Translations cache.
  */
 internal object TranslationCache {
-
-    const val DEFAULT_LANGUAGE = "en"
     @Volatile
     private var languageIso: String = DEFAULT_LANGUAGE
     @Volatile

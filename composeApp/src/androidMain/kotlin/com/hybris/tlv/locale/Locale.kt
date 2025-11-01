@@ -9,14 +9,13 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaZoneId
 import com.hybris.tlv.applicationContext
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.usecase.translation.TranslationCache
 
 internal actual fun getLanguage(): String = runCatching {
     val language = applicationContext.resources.configuration.locales[0].language
     language.substring(startIndex = minOf(a = 0, b = language.length), endIndex = minOf(a = 2, b = language.length)).lowercase()
 }.getOrElse {
     Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it)
-    TranslationCache.DEFAULT_LANGUAGE
+    DEFAULT_LANGUAGE
 }
 
 @OptIn(ExperimentalTime::class)

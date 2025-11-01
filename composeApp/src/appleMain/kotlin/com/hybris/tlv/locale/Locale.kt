@@ -12,15 +12,12 @@ import platform.Foundation.NSTimeZone
 import platform.Foundation.preferredLanguages
 import platform.Foundation.timeZoneForSecondsFromGMT
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.usecase.translation.TranslationCache
 
 internal actual fun getLanguage(): String = runCatching {
-    (NSLocale.preferredLanguages.firstOrNull() as? String)
-        ?.take(n = 2)
-        ?.lowercase() ?: TranslationCache.DEFAULT_LANGUAGE
+    (NSLocale.preferredLanguages.first() as String).take(n = 2).lowercase()
 }.getOrElse {
     Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it)
-    TranslationCache.DEFAULT_LANGUAGE
+    DEFAULT_LANGUAGE
 }
 
 @OptIn(ExperimentalTime::class)
