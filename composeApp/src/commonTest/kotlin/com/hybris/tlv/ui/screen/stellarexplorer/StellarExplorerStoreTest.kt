@@ -4,8 +4,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.planets
+import com.hybris.tlv.reset
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
@@ -18,7 +18,7 @@ internal class StellarExplorerStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        testDependency.sqlDriver.clearDatabase()
+        reset()
         testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Splash))
         testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.MainMenu))
         testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.StellarExplorer))

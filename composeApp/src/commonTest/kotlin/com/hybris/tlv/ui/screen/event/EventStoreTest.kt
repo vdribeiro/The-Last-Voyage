@@ -7,9 +7,9 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.events
 import com.hybris.tlv.gameSessionPrototype
+import com.hybris.tlv.reset
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
@@ -21,7 +21,7 @@ internal class EventStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        testDependency.sqlDriver.clearDatabase()
+        reset()
         testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Event))
     }
 

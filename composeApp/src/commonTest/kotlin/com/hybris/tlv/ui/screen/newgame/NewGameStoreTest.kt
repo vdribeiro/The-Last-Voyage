@@ -6,8 +6,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.engines
+import com.hybris.tlv.reset
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
@@ -20,7 +20,7 @@ internal class NewGameStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        testDependency.sqlDriver.clearDatabase()
+        reset()
         testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.NewGame))
     }
 

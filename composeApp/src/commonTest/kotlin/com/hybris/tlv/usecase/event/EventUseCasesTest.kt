@@ -5,17 +5,14 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.events
+import com.hybris.tlv.reset
 import com.hybris.tlv.testDependency
 
 internal class EventUseCasesTest {
 
     @BeforeTest
-    fun setup() {
-        testDependency.sqlDriver.clearDatabase()
-        testDependency.config.resetLocalConfigs()
-    }
+    fun setup() = reset()
 
     @Test
     fun `sync and get events`() = runBlocking {

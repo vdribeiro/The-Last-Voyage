@@ -4,16 +4,13 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.reset
 import com.hybris.tlv.testDependency
 
 internal class AchievementUseCasesTest {
 
     @BeforeTest
-    fun setup() {
-        testDependency.sqlDriver.clearDatabase()
-        testDependency.config.resetLocalConfigs()
-    }
+    fun setup() = reset()
 
     @Test
     fun `sync and get achievements`() = runBlocking {

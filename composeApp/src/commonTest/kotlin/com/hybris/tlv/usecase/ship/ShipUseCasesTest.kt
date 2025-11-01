@@ -5,7 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.reset
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
@@ -13,10 +13,7 @@ import com.hybris.tlv.usecase.ship.model.Ship
 internal class ShipUseCasesTest {
 
     @BeforeTest
-    fun setup() {
-        testDependency.sqlDriver.clearDatabase()
-        testDependency.config.resetLocalConfigs()
-    }
+    fun setup() = reset()
 
     @Test
     fun `sync and get engines`() = runBlocking {

@@ -2,6 +2,8 @@ package com.hybris.tlv
 
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.config.Configs
+import com.hybris.tlv.config.Preferences
+import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.http.TestEngines
@@ -41,6 +43,14 @@ internal val testDependency: Dependency by lazy {
         httpEngine = TestEngines.testEngine,
         audioPlayer = AudioPlayer(),
     )
+}
+
+internal fun reset() {
+    runBlocking {
+        testDependency.sqlDriver.clearDatabase()
+        testDependency.config.setPreferences { Preferences() }
+        testDependency.config.setConfigs { Configs() }
+    }
 }
 
 internal val storeFactory: StoreFactory by lazy {

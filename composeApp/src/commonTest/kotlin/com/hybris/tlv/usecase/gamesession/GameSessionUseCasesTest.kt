@@ -9,11 +9,11 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.events
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.hostsWithPlanets
 import com.hybris.tlv.planets
+import com.hybris.tlv.reset
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.usecase.gamesession.model.GameOver
@@ -23,9 +23,7 @@ import com.hybris.tlv.usecase.space.model.Formula
 internal class GameSessionUseCasesTest {
 
     @BeforeTest
-    fun setup() {
-        testDependency.sqlDriver.clearDatabase()
-    }
+    fun setup() = reset()
 
     @Test
     fun `write and get game sessions`() = runBlocking {

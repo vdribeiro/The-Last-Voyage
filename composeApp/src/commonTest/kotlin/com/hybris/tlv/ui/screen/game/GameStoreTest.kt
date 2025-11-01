@@ -6,10 +6,10 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.hostsWithPlanets
 import com.hybris.tlv.planets
+import com.hybris.tlv.reset
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
@@ -22,7 +22,7 @@ internal class GameStoreTest {
 
     @BeforeTest
     fun setup() = runBlocking {
-        testDependency.sqlDriver.clearDatabase()
+        reset()
         testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Game))
     }
 

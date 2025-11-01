@@ -5,17 +5,14 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.reset
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.testDependency
 
 internal class SpaceUseCasesTest {
 
     @BeforeTest
-    fun setup() {
-        testDependency.sqlDriver.clearDatabase()
-        testDependency.config.resetLocalConfigs()
-    }
+    fun setup() = reset()
 
     @Test
     fun `sync and get exoplanets`() = runBlocking {
