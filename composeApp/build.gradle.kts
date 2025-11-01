@@ -28,7 +28,7 @@ val appDescription: String = "An Educational Space Adventure"
 val appVendor: String = "Hybris"
 val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb"
 val appVersion: String = "1.0.2"
-val appVersionNumber: Int = 4
+val appVersionNumber: Long = 4
 val archive: Boolean = false // Turn on to get the latest NASA data
 val androidTarget: Int = 35
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
@@ -50,7 +50,7 @@ abstract class GeneratePropertiesTask: DefaultTask() {
     @get:Input
     abstract val taskAppVersion: Property<String>
     @get:Input
-    abstract val taskAppVersionNumber: Property<Int>
+    abstract val taskAppVersionNumber: Property<Long>
     @get:Input
     abstract val taskArchive: Property<Boolean>
     @get:Input
@@ -63,7 +63,7 @@ abstract class GeneratePropertiesTask: DefaultTask() {
         val appId: String = taskAppId.get()
         val appName: String = taskAppName.get()
         val appVersion: String = taskAppVersion.get()
-        val appVersionNumber: Int = taskAppVersionNumber.get()
+        val appVersionNumber: Long = taskAppVersionNumber.get()
         val archive: Boolean = taskArchive.get()
         // Basic obfuscation of Sentry DSN
         val sentryDsn = "byteArrayOf(${
@@ -86,7 +86,7 @@ abstract class GeneratePropertiesTask: DefaultTask() {
                     const val APP_ID: String = "$appId"
                     const val APP_NAME: String = "$appName"
                     const val APP_VERSION: String = "$appVersion"
-                    const val APP_VERSION_NUMBER: Int = $appVersionNumber
+                    const val APP_VERSION_NUMBER: Long = $appVersionNumber
                     const val ARCHIVE: Boolean = $archive
                     val sentry: String = $sentryDsn
                 }
@@ -253,7 +253,7 @@ android {
         applicationId = appId
         minSdk = 26
         targetSdk = androidTarget
-        versionCode = appVersionNumber
+        versionCode = appVersionNumber.toInt()
         versionName = appVersion
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

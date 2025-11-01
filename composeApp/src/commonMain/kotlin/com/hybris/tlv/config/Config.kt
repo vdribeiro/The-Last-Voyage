@@ -33,35 +33,19 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     override val remoteConfigs: Configs get() = _remoteConfigs
     private val remoteInterval = 1.hours
 
-    override suspend fun refresh() {
-        loadPreferences()
-        loadLocalConfigs()
-        fetchRemoteConfigs()
-    }
-
-    private suspend fun loadPreferences() {
-        val preferences = loadJsonFile(path = PREFERENCES_JSON) ?: Preferences()
-        _preferences = preferences
-        Telemetry.info(tag = TAG, message = "Loaded preferences")
-    }
-
-    private suspend fun loadLocalConfigs() {
-        val configs = loadJsonFile(path = CONFIGS_JSON) ?: Configs()
-        _localConfigs = configs
-        Telemetry.info(tag = TAG, message = "Loaded local configs")
-    }
-
-    private suspend fun fetchRemoteConfigs() {
+    override suspend fun refresh(): ConfigManager = apply {
+        _preferences = loadJsonFile(path = PREFERENCES_JSON) ?: Preferences()
+        _localConfigs = loadJsonFile(path = CONFIGS_JSON) ?: Configs()
         // To prevet unnecessary fetches, wait 1 hour in between
         _remoteConfigs = if (!hasTimePassed(dateTime = _preferences.syncTime, duration = remoteInterval)) {
-            _localConfigs.also { Telemetry.info(tag = TAG, message = "Fetched remote configs from local cache") }
+            null.also { Telemetry.info(tag = TAG, message = "Fetched remote configs from local cache") }
         } else {
             _preferences = _preferences.copy(syncTime = now())
             when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
-                is Result.Error -> null.also { Telemetry.error(tag = TAG, message = "Unable to get configs", throwable = result.error) }
+                is Result.Error -> null.also { Telemetry.error(tag = TAG, message = "Unable to get remote configs", throwable = result.error) }
                 is Result.Success -> result.list.firstOrNull().also { Telemetry.info(tag = TAG, message = "Fetched remote configs") }
-            } ?: _localConfigs
-        }
+            }
+        } ?: _localConfigs
     }
 
     override suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager = apply {
@@ -72,18 +56,12 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
         mutex.withLock { _localConfigs = configs(_localConfigs) }
     }
 
-    override suspend fun savePreferences() = mutex.withLock {
-        val file = saveJsonFile(path = PREFERENCES_JSON, content = _preferences)
-        Telemetry.info(tag = TAG, message = "Flushed preferences: $file")
+    override suspend fun savePreferences(): ConfigManager = apply {
+        mutex.withLock { saveJsonFile(path = PREFERENCES_JSON, content = _preferences) }
     }
 
-    override suspend fun saveConfigs() = mutex.withLock {
-        val file = saveJsonFile(path = CONFIGS_JSON, content = _localConfigs)
-        Telemetry.info(tag = TAG, message = "Flushed local configs: $file")
-    }
-
-    override fun resetLocalConfigs() {
-        _localConfigs = Configs()
+    override suspend fun saveConfigs(): ConfigManager = apply {
+        mutex.withLock { saveJsonFile(path = CONFIGS_JSON, content = _localConfigs) }
     }
 
     companion object Companion {

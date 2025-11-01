@@ -23,7 +23,8 @@ internal interface ConfigManager {
     /**
      * Fetch configs and refresh all caches.
      */
-    suspend fun refresh()
+    suspend fun refresh(): ConfigManager
+
 
     /**
      * Set user preferences.
@@ -38,15 +39,10 @@ internal interface ConfigManager {
     /**
      * Save configs to storage.
      */
-    suspend fun savePreferences()
+    suspend fun savePreferences(): ConfigManager
 
     /**
      * Save configs to storage.
      */
-    suspend fun saveConfigs()
-
-    /**
-     * Reset local configs.
-     */
-    fun resetLocalConfigs()
+    suspend fun saveConfigs(): ConfigManager
 }

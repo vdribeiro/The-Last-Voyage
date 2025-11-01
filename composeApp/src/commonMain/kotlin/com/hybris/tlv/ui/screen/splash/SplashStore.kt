@@ -7,7 +7,6 @@ import kotlinx.coroutines.supervisorScope
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
@@ -48,59 +47,46 @@ internal class SplashStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
-
-        config.refresh()
-        checkAppVersion()
-        supervisorScope {
-            val tasks = listOf(
-                suspend { archiveUseCases.getArchive() },
-                suspend { translateUseCases.syncTranslations() },
-                suspend { learningUseCases.syncLearnings() },
-                suspend { catastropheUseCases.syncCatastrophes() },
-                suspend { shipUseCases.syncEngines() },
-                suspend { spaceUseCases.syncStellarHosts() },
-                suspend { spaceUseCases.syncPlanets() },
-                suspend { eventUseCases.syncEvents() },
-                suspend { achievementUseCases.syncAchievements() },
-                suspend { creditUseCases.syncCredits() }
-            )
-            val total = tasks.size.toFloat()
-            tasks.map { task -> async { task() } }.forEachIndexed { index, job ->
-                runCatching {
-                    job.await()
-                }.getOrElse {
-                    Telemetry.error(tag = TAG, message = "Sync task failed.", throwable = it)
-                }
-                updateState { it.copy(progress = (index + 1).toFloat() / total) }
-            }
-        }
-        config.savePreferences()
-        Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences}")
-        config.saveConfigs()
-        Telemetry.info(tag = TAG, message = "Configs\n${config.localConfigs}")
+        config
+            .refresh()
+            .savePreferences()
+            .saveConfigs()
+        sync()
         translateUseCases.refreshCache()
-        Telemetry.info(tag = TAG, message = "Refreshed translations cache")
+        Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences}")
+        Telemetry.info(tag = TAG, message = "Configs\n${config.localConfigs}")
         delay(timeMillis = 1000L)
         Telemetry.info(tag = TAG, message = "Setup complete")
 
         if (config.preferences.showIntro) {
             config.setPreferences { it.copy(showIntro = false) }.savePreferences()
-            updateState {
-                it.copy(
-                    loading = false,
-                    currentContent = Content.INTRO
-                )
-            }
+            updateState { it.copy(loading = false, currentContent = Content.INTRO) }
         } else navigate(screen = Screen.MainMenu)
-
     }
 
-    private fun checkAppVersion() {
-        // TODO
-//        if (config.remoteConfigs.appVersion > Property.APP_VERSION_NUMBER) {
-//            Telemetry.info(tag = TAG, message = "App update. Resetting configs.")
-//            config.resetLocalConfigs()
-//        }
+    private suspend fun sync() = supervisorScope {
+        val tasks = listOf(
+            suspend { archiveUseCases.getArchive() },
+            suspend { translateUseCases.syncTranslations() },
+            suspend { learningUseCases.syncLearnings() },
+            suspend { catastropheUseCases.syncCatastrophes() },
+            suspend { shipUseCases.syncEngines() },
+            suspend { spaceUseCases.syncStellarHosts() },
+            suspend { spaceUseCases.syncPlanets() },
+            suspend { eventUseCases.syncEvents() },
+            suspend { achievementUseCases.syncAchievements() },
+            suspend { creditUseCases.syncCredits() }
+        )
+        val total = tasks.size.toFloat()
+        tasks.map { task -> async { task() } }.forEachIndexed { index, job ->
+            runCatching {
+                job.await()
+            }.getOrElse {
+                Telemetry.error(tag = TAG, message = "Sync task failed.", throwable = it)
+            }
+            updateState { it.copy(progress = (index + 1).toFloat() / total) }
+        }
+        config.saveConfigs()
     }
 
     override fun goBack(state: SplashState) {}

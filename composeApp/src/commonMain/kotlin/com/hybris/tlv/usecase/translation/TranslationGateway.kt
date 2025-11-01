@@ -50,6 +50,7 @@ internal class TranslationGateway(
     override suspend fun refreshCache() {
         val translations = translationDao.getTranslations().executeAsList().map { it.toTranslation() }
         TranslationCache.set(translations = translations)
+        Telemetry.info(tag = TAG, message = "Refreshed translations cache")
     }
 
     private fun Translation.toTranslationSchema(): TranslationSchema =
