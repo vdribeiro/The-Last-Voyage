@@ -7,6 +7,7 @@ import kotlinx.coroutines.supervisorScope
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
@@ -51,17 +52,28 @@ internal class SplashStore(
             .refresh()
             .savePreferences()
             .saveConfigs()
-        sync()
+
+        val remoteVersion = config.remoteConfigs.appVersion
+        val localVersion = config.localConfigs.appVersion
+        Telemetry.info(tag = TAG, message = "App version: remote version: $remoteVersion, local version: $localVersion")
+        if (localVersion == 0L || Property.APP_VERSION_NUMBER >= remoteVersion) sync()
+        config.setConfigs { it.copy(appVersion = remoteVersion) }
+
         translateUseCases.refreshCache()
         Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences}")
-        Telemetry.info(tag = TAG, message = "Configs\n${config.localConfigs}")
+        Telemetry.info(tag = TAG, message = "Local Configs\n${config.localConfigs}")
+        Telemetry.info(tag = TAG, message = "Remote Configs\n${config.remoteConfigs}")
         delay(timeMillis = 1000L)
         Telemetry.info(tag = TAG, message = "Setup complete")
 
-        if (config.preferences.showIntro) {
-            config.setPreferences { it.copy(showIntro = false) }.savePreferences()
+        if (!config.preferences.showIntro) navigate(screen = Screen.MainMenu) else {
+            config.setPreferences { it.copy(showIntro = false) }
             updateState { it.copy(loading = false, currentContent = Content.INTRO) }
-        } else navigate(screen = Screen.MainMenu)
+        }
+
+        config
+            .savePreferences()
+            .saveConfigs()
     }
 
     private suspend fun sync() = supervisorScope {

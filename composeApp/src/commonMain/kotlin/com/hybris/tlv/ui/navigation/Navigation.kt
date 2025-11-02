@@ -45,7 +45,7 @@ internal class Navigation(
 
     @Composable
     override fun Screen(navigationState: NavigationState) {
-        with(receiver = config.localConfigs) {
+        with(receiver = config.remoteConfigs) {
             when (navigationState.screen) {
                 Screen.Splash -> SplashScreen(store = storeFactory.createSplashStore())
                 Screen.MainMenu -> MainMenuScreen(store = storeFactory.createMainMenuStore(stateBuilder = navigationState.stateBuilder))

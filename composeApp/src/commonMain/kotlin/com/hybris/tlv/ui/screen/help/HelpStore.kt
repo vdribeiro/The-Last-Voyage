@@ -38,13 +38,14 @@ internal class HelpStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
+        val configs = config.remoteConfigs
         val learningsMap = learningUseCases.getLearnings().groupBy { it.type }
 
         updateState {
             it.copy(
                 loading = false,
-                featureTutorial = config.localConfigs.featureTutorial,
-                formula = config.localConfigs.formula,
+                featureTutorial = configs.featureTutorial,
+                formula = configs.formula,
                 learningsMap = learningsMap,
             )
         }

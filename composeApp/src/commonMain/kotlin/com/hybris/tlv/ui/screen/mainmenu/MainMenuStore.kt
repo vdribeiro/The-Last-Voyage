@@ -47,7 +47,7 @@ internal class MainMenuStore(
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
         val preferences = config.preferences
-        val configs = config.localConfigs
+        val configs = config.remoteConfigs
         val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
         val showNavigationInfo = preferences.showNavigationInfo
         val featureScores = configs.featureScores
