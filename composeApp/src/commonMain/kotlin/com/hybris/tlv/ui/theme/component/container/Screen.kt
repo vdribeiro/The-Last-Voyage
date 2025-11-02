@@ -29,11 +29,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.image.AppLogo
 import com.hybris.tlv.ui.theme.component.image.Icon
+import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.usecase.translation.getTranslation
 
 /**
  * A scaffold-based screen that handles displaying a loading indicator or the primary content.
@@ -50,6 +54,7 @@ internal fun Screen(
     loadingText: String = "",
     loadingBackground: Boolean = false,
     loadingProgress: Float? = null,
+    newVersionBanner: Boolean = false,
     onBackClick: (() -> Unit)? = null,
     onHelpClick: (() -> Unit)? = null,
     onMusicClick: (() -> Unit)? = null,
@@ -59,6 +64,7 @@ internal fun Screen(
     snackbarHost: @Composable () -> Unit = {},
     content: @Composable BoxScope.() -> Unit = {}
 ) {
+    val typography = LocalTypography.current
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
@@ -80,6 +86,11 @@ internal fun Screen(
                             )
                         }
                     }
+                    if (newVersionBanner) Text(
+                        modifier = Modifier.padding(horizontal = 4.dp),
+                        text = getTranslation(key = "new_version"),
+                        style = typography.labelLarge,
+                    )
                     Spacer(modifier = Modifier.weight(weight = 1f))
                     // Help button
                     onHelpClick?.let {
@@ -173,6 +184,8 @@ private fun ScreenPreview() = AppTheme {
         loadingDelayMillis = 0L,
         loadingText = "Loading...",
         loadingProgress = 0.5f,
+        newVersionBanner = true,
+        onBackClick = {},
         onHelpClick = {},
         onMusicClick = {},
         onFeedbackClick = {},

@@ -6,6 +6,11 @@
   },
   {
     "languageIso": "en",
+    "key": "new_version",
+    "value": "New version available!"
+  },
+  {
+    "languageIso": "en",
     "key": "app_yes",
     "value": "Yes"
   },

@@ -5,6 +5,7 @@ import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
@@ -45,19 +46,29 @@ internal class MainMenuStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
-        val showNavigationInfo = config.preferences.showNavigationInfo
+        val preferences = config.preferences
+        val configs = config.localConfigs
+        val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
+        val showNavigationInfo = preferences.showNavigationInfo
+        val featureScores = configs.featureScores
+        val featureAchievements = configs.featureAchievements
+        val featureStellarExplorer = configs.featureStellarExplorer
+        val featureNewGame = configs.featureNewGame
+        val developerCorner = configs.developerCorner
+        val support = configs.support
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
-        this@MainMenuStore.featureTutorial = config.localConfigs.featureTutorial
+        this@MainMenuStore.featureTutorial = configs.featureTutorial
         updateState {
             it.copy(
                 loading = false,
+                newVersionBanner = newVersionBanner,
                 showNavigationInfo = showNavigationInfo,
-                featureScores = config.localConfigs.featureScores,
-                featureAchievements = config.localConfigs.featureAchievements,
-                featureStellarExplorer = config.localConfigs.featureStellarExplorer,
-                featureNewGame = config.localConfigs.featureNewGame,
-                developerCorner = config.localConfigs.developerCorner,
-                support = config.localConfigs.support,
+                featureScores = featureScores,
+                featureAchievements = featureAchievements,
+                featureStellarExplorer = featureStellarExplorer,
+                featureNewGame = featureNewGame,
+                developerCorner = developerCorner,
+                support = support,
                 ongoingGameSession = ongoingGameSession,
             )
         }
