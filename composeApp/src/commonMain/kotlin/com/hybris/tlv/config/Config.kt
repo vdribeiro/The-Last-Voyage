@@ -1,5 +1,6 @@
 package com.hybris.tlv.config
 
+import kotlin.Boolean
 import kotlin.concurrent.Volatile
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.ZERO
@@ -45,9 +46,28 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
             _preferences = _preferences.copy(syncTime = now())
             when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
                 is Result.Error -> null.also { Telemetry.error(tag = TAG, message = "Unable to get remote configs", throwable = result.error) }
-                is Result.Success -> result.list.firstOrNull().also { Telemetry.info(tag = TAG, message = "Fetched remote configs") }
+                is Result.Success -> result.list.firstOrNull().also {
+                    Telemetry.info(tag = TAG, message = "Fetched remote configs")
+                    if (it != null) setNonVersioning(configs = it)
+                }
             }
         } ?: _localConfigs
+    }
+
+    private fun setNonVersioning(configs: Configs) {
+        _localConfigs = _localConfigs.copy(
+            developerCorner = configs.developerCorner,
+            support = configs.support,
+            formula = configs.formula,
+            featureScores = configs.featureScores,
+            featureAchievements = configs.featureAchievements,
+            featureStellarExplorer = configs.featureStellarExplorer,
+            featureNewGame = configs.featureNewGame,
+            featureTutorial = configs.featureTutorial,
+            featureGame = configs.featureGame,
+            featureEvents = configs.featureEvents,
+            featureGameOver = configs.featureGameOver,
+        )
     }
 
     override suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager = apply {
