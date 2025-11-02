@@ -1,5 +1,6 @@
 package com.hybris.tlv.database
 
+import androidx.sqlite.db.SupportSQLiteDatabase
 import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.db.SqlSchema
@@ -13,5 +14,11 @@ internal actual fun createSqlDriver(
 ): SqlDriver = AndroidSqliteDriver(
     schema = schema,
     context = applicationContext,
-    name = if (inMemory) null else name
+    name = if (inMemory) null else name,
+    callback = object: AndroidSqliteDriver.Callback(schema = schema) {
+        override fun onConfigure(db: SupportSQLiteDatabase) {
+            super.onConfigure(db = db)
+            db.enableWriteAheadLogging()
+        }
+    }
 )

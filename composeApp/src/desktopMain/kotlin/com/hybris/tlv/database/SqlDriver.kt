@@ -18,4 +18,11 @@ internal actual fun createSqlDriver(
     },
     properties = Properties(),
     schema = schema,
-)
+).apply {
+    execute(
+        identifier = null,
+        sql = "PRAGMA journal_mode=WAL;",
+        parameters = 0,
+        binders = null
+    )
+}
