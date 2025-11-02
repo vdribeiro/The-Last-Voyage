@@ -56,8 +56,8 @@ internal class SplashStore(
         val remoteVersion = config.remoteConfigs.appVersion
         val localVersion = config.localConfigs.appVersion
         Telemetry.info(tag = TAG, message = "App version: remote version: $remoteVersion, local version: $localVersion")
-        if (localVersion == 0L || Property.APP_VERSION_NUMBER == localVersion) sync()
         config.setConfigs { it.copy(appVersion = remoteVersion) }
+        if (localVersion == 0L || Property.APP_VERSION_NUMBER == remoteVersion) sync()
 
         translateUseCases.refreshCache()
         Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences}")
