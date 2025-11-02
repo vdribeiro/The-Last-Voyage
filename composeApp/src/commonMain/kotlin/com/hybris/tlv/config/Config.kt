@@ -1,6 +1,8 @@
 package com.hybris.tlv.config
 
 import kotlin.concurrent.Volatile
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.ZERO
 import kotlin.time.Duration.Companion.hours
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -10,6 +12,7 @@ import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.locale.hasTimePassed
 import com.hybris.tlv.locale.now
+import com.hybris.tlv.platform.isDebug
 import com.hybris.tlv.serializer.CONFIGS_JSON
 import com.hybris.tlv.serializer.PREFERENCES_JSON
 import com.hybris.tlv.serializer.loadJsonFile
@@ -31,12 +34,11 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     @Volatile
     private var _remoteConfigs: Configs = Configs()
     override val remoteConfigs: Configs get() = _remoteConfigs
-    private val remoteInterval = 1.hours
+    private val remoteInterval: Duration = if (isDebug) ZERO else 1.hours
 
     override suspend fun refresh(): ConfigManager = apply {
         _preferences = loadJsonFile(path = PREFERENCES_JSON) ?: Preferences()
         _localConfigs = loadJsonFile(path = CONFIGS_JSON) ?: Configs()
-        // To prevet unnecessary fetches, wait 1 hour in between
         _remoteConfigs = if (!hasTimePassed(dateTime = _preferences.syncTime, duration = remoteInterval)) {
             null.also { Telemetry.info(tag = TAG, message = "Fetched remote configs from local cache") }
         } else {
