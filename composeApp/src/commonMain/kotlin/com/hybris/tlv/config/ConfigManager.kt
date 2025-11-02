@@ -25,7 +25,6 @@ internal interface ConfigManager {
      */
     suspend fun refresh(): ConfigManager
 
-
     /**
      * Set user preferences.
      */

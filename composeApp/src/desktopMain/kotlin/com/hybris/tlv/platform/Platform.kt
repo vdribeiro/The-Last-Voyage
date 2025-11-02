@@ -2,13 +2,9 @@ package com.hybris.tlv.platform
 
 import com.hybris.tlv.telemetry.Telemetry
 
-private object Debug
-
 internal actual val isDebug: Boolean by lazy {
     runCatching {
-        val java = Debug::class.java
-        val protocol = java.getResource("${java.simpleName}.class")?.protocol
-        protocol == "file"
+        System.getProperty("debug") == "true"
     }.getOrDefault(defaultValue = false)
 }
 
