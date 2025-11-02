@@ -66,14 +66,10 @@ internal class SplashStore(
         delay(timeMillis = 1000L)
         Telemetry.info(tag = TAG, message = "Setup complete")
 
-        if (!config.preferences.showIntro) navigate(screen = Screen.MainMenu) else {
+        if (!config.preferences.showIntro) next() else {
             config.setPreferences { it.copy(showIntro = false) }
             updateState { it.copy(loading = false, currentContent = Content.INTRO) }
         }
-
-        config
-            .savePreferences()
-            .saveConfigs()
     }
 
     private suspend fun sync() = supervisorScope {
@@ -101,11 +97,18 @@ internal class SplashStore(
         config.saveConfigs()
     }
 
+    private fun next(): Job = launch {
+        config
+            .savePreferences()
+            .saveConfigs()
+        navigate(screen = Screen.MainMenu)
+    }
+
     override fun goBack(state: SplashState) {}
 
     override fun reducer(state: SplashState, action: SplashAction) {
         when (action) {
-            SplashAction.Next -> navigate(screen = Screen.MainMenu)
+            SplashAction.Next -> next()
         }
     }
 
