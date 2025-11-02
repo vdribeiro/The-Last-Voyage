@@ -50,7 +50,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
     Screen(
         modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN),
         loading = storeState.loading,
-        newVersionBanner = storeState.newVersionBanner,
+        banner = if (storeState.newVersionBanner) storeState.developerCorner else null,
         onHelpClick = { store.help() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },

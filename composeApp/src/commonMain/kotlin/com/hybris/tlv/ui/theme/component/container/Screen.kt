@@ -4,6 +4,7 @@ import kotlin.time.TimeMark
 import kotlin.time.TimeSource
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.ui.theme.AppTheme
@@ -54,7 +56,7 @@ internal fun Screen(
     loadingText: String = "",
     loadingBackground: Boolean = false,
     loadingProgress: Float? = null,
-    newVersionBanner: Boolean = false,
+    banner: String? = null,
     onBackClick: (() -> Unit)? = null,
     onHelpClick: (() -> Unit)? = null,
     onMusicClick: (() -> Unit)? = null,
@@ -64,7 +66,6 @@ internal fun Screen(
     snackbarHost: @Composable () -> Unit = {},
     content: @Composable BoxScope.() -> Unit = {}
 ) {
-    val typography = LocalTypography.current
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
@@ -86,11 +87,17 @@ internal fun Screen(
                             )
                         }
                     }
-                    if (newVersionBanner) Text(
-                        modifier = Modifier.padding(horizontal = 4.dp),
-                        text = getTranslation(key = "new_version"),
-                        style = typography.labelLarge,
-                    )
+                    banner?.let {
+                        val uriHandler = LocalUriHandler.current
+                        val typography = LocalTypography.current
+                        Text(
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .clickable { uriHandler.openUri(uri = banner) },
+                            text = getTranslation(key = "new_version"),
+                            style = typography.labelLarge,
+                        )
+                    }
                     Spacer(modifier = Modifier.weight(weight = 1f))
                     // Help button
                     onHelpClick?.let {
@@ -184,7 +191,6 @@ private fun ScreenPreview() = AppTheme {
         loadingDelayMillis = 0L,
         loadingText = "Loading...",
         loadingProgress = 0.5f,
-        newVersionBanner = true,
         onBackClick = {},
         onHelpClick = {},
         onMusicClick = {},
