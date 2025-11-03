@@ -29,7 +29,6 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
     val event = storeState.parentEvent
 
     Screen(
-        modifier = Modifier.testTag(tag = EVENT_SCREEN),
         loading = storeState.loading,
         onHelpClick = { store.help() },
         onMusicClick = { store.toggleAudio() },
@@ -38,7 +37,6 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
                 modifier = Modifier
-                    .testTag(tag = EVENT_SCREEN_STATUS_BAR)
                     .statusBarsPadding(),
                 hull = ship?.integrity?.toString(),
                 fuel = ship?.fuel?.toString(),

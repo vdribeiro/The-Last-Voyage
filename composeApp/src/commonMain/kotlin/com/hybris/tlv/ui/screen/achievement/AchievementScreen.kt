@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
-import com.hybris.tlv.ui.screen.score.SCORE_SCREEN_TITLE
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -40,7 +39,6 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
     val typography = LocalTypography.current
 
     Screen(
-        modifier = Modifier.testTag(tag = ACHIEVEMENT_SCREEN),
         loading = storeState.loading,
         onBackClick = { store.back() },
         onHelpClick = { store.help() },
@@ -55,14 +53,12 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
         ) {
             Spacer(modifier = Modifier.height(height = 8.dp))
             Text(
-                modifier = Modifier.testTag(tag = SCORE_SCREEN_TITLE),
                 text = titleTranslation,
                 style = typography.headlineMedium,
             )
             Spacer(modifier = Modifier.height(height = 16.dp))
             LazyColumnWithScrollBar(
                 modifier = Modifier
-                    .testTag(tag = ACHIEVEMENT_SCREEN_LIST)
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -70,7 +66,6 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
             ) {
                 items(items = storeState.achievements, key = { it.id }) { achievement ->
                     AchievementCard(
-                        modifier = Modifier.testTag(tag = ACHIEVEMENT_SCREEN_LIST_ITEM),
                         name = getTranslation(key = achievement.id),
                         description = getTranslation(key = achievement.description),
                         image = null, // TODO - achievement image

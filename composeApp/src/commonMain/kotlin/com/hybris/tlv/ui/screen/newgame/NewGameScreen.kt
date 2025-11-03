@@ -45,7 +45,6 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val startTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__start") }
 
     Screen(
-        modifier = Modifier.testTag(tag = NEW_GAME_SCREEN),
         loading = storeState.loading,
         onBackClick = { store.back() },
         onHelpClick = { store.help() },
@@ -110,14 +109,12 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
 
     Column(
         modifier = Modifier
-            .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // Remaining points
         Text(
-            modifier = Modifier.testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT),
             text = "$shipPointsTranslation: ${shipState.remainingPoints}",
             style = typography.headlineMedium,
             fontWeight = FontWeight.Bold,
@@ -128,7 +125,6 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
         // Attributes for sensor range, fuel, materials and cryopods
         LazyColumnWithScrollBar(
             modifier = Modifier
-                .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS)
                 .padding(all = 16.dp)
                 .weight(weight = 1f),
             verticalArrangement = Arrangement.spacedBy(space = 4.dp, alignment = Alignment.CenterVertically),
@@ -175,7 +171,6 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
             items(items = engines, key = { it.id }) { engine ->
                 SelectableAttribute(
                     modifier = Modifier
-                        .testTag(tag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_ENGINE)
                         .clickable { store.send(action = NewGameAction.SelectEngine(engine = engine)) },
                     selected = shipState.engine == engine,
                     name = getTranslation(key = engine.id),

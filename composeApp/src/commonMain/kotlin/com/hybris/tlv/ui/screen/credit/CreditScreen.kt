@@ -47,7 +47,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
     val colorScheme = LocalColorScheme.current
 
     Screen(
-        modifier = Modifier.testTag(tag = CREDIT_SCREEN),
         loading = storeState.loading,
         onBackClick = { store.back() },
         onHelpClick = { store.help() },
@@ -56,7 +55,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
     ) {
         LazyVerticalStaggeredGrid(
             modifier = Modifier
-                .testTag(tag = CREDIT_SCREEN_LIST)
                 .fillMaxSize()
                 .padding(all = 16.dp),
             columns = StaggeredGridCells.Adaptive(minSize = 100.dp),
@@ -71,7 +69,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                 item(key = CreditType.CREATOR, span = StaggeredGridItemSpan.FullLine) {
                     Text(
                         modifier = Modifier
-                            .testTag(tag = CREDIT_SCREEN_LIST_CREATOR)
                             .padding(bottom = 8.dp),
                         text = creatorsTranslation,
                         style = typography.titleLarge,
@@ -80,7 +77,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                 items(items = creators, key = { it.id }, span = { StaggeredGridItemSpan.FullLine }) { credit ->
                     Text(
                         modifier = Modifier
-                            .testTag(tag = CREDIT_SCREEN_LIST_CREATOR_ITEM)
                             .clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                         text = credit.id,
                         style = typography.bodyLarge.copy(
@@ -97,7 +93,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                 item(key = CreditType.SOURCE, span = StaggeredGridItemSpan.FullLine) {
                     Text(
                         modifier = Modifier
-                            .testTag(tag = CREDIT_SCREEN_LIST_SOURCE)
                             .padding(top = 16.dp, bottom = 8.dp),
                         text = sourcesTranslation,
                         style = typography.titleLarge,
@@ -106,7 +101,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                 items(items = sources, key = { it.id }, span = { StaggeredGridItemSpan.FullLine }) { credit ->
                     Text(
                         modifier = Modifier
-                            .testTag(tag = CREDIT_SCREEN_LIST_SOURCE_ITEM)
                             .clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                         text = credit.id,
                         style = typography.bodyLarge.copy(
@@ -123,7 +117,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                 item(key = CreditType.MUSIC, span = StaggeredGridItemSpan.FullLine) {
                     Text(
                         modifier = Modifier
-                            .testTag(tag = CREDIT_SCREEN_LIST_MUSIC)
                             .padding(top = 16.dp, bottom = 8.dp),
                         text = musicTranslation,
                         style = typography.titleLarge,
@@ -132,7 +125,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                 items(items = musics, key = { it.id }, span = { StaggeredGridItemSpan.FullLine }) { credit ->
                     Text(
                         modifier = Modifier
-                            .testTag(tag = CREDIT_SCREEN_LIST_MUSIC_ITEM)
                             .clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
                         text = credit.id,
                         style = typography.bodyLarge.copy(
@@ -149,7 +141,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                 item(key = CreditType.SUPPORTER, span = StaggeredGridItemSpan.FullLine) {
                     Text(
                         modifier = Modifier
-                            .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER)
                             .padding(top = 16.dp, bottom = 8.dp),
                         text = supportersTranslation,
                         style = typography.titleLarge,
@@ -158,7 +149,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
                 items(items = supporters) { credit ->
                     Card(
                         modifier = Modifier
-                            .testTag(tag = CREDIT_SCREEN_LIST_SUPPORTER_ITEM)
                             .clickable { credit.link?.let { uriHandler.openUri(uri = it) } }
                     ) {
                         Text(

@@ -42,7 +42,6 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
 
     Screen(
         modifier = Modifier
-            .testTag(tag = SPLASH_SCREEN)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null

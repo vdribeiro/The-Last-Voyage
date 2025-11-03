@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
@@ -49,13 +48,11 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
     val typography = LocalTypography.current
 
     Screen(
-        modifier = Modifier.testTag(tag = FEEDBACK_SCREEN),
         onBackClick = { store.back() },
         onMusicClick = { store.toggleAudio() },
     ) {
         Column(
             modifier = Modifier
-                .testTag(tag = FEEDBACK_SCREEN_COLUMN)
                 .fillMaxSize()
                 .verticalScroll(state = rememberScrollState())
                 .padding(all = 16.dp),
@@ -63,7 +60,6 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
         ) {
             FeedbackHeader(
                 modifier = Modifier
-                    .testTag(tag = FEEDBACK_SCREEN_HEADER)
                     .padding(bottom = 24.dp),
                 title = titleTranslation,
                 description = descriptionTranslation
@@ -72,7 +68,6 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
             // Feedback input
             Input(
                 modifier = Modifier
-                    .testTag(tag = FEEDBACK_SCREEN_INPUT)
                     .fillMaxWidth()
                     .height(height = 120.dp),
                 enabled = !showThanks,
@@ -85,7 +80,6 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
 
             // Send feedback button
             Button(
-                modifier = Modifier.testTag(tag = FEEDBACK_SCREEN_BUTTON),
                 text = buttonTranslation,
                 onClick = { store.send(action = FeedbackAction.SendFeedback(message = feedbackText)) },
                 enabled = feedbackText.isNotBlank() && !showThanks,
@@ -95,7 +89,6 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
                 // Thank you message
                 Spacer(modifier = Modifier.height(height = 16.dp))
                 Text(
-                    modifier = Modifier.testTag(tag = FEEDBACK_SCREEN_THANKS),
                     text = thanksTranslation,
                     style = typography.headlineSmall
                 )

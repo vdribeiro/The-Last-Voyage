@@ -40,7 +40,6 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
     val newAchievementTranslation = remember(key1 = translationVersion) { getTranslation(key = "achievements_screen__new") }
 
     Screen(
-        modifier = Modifier.testTag(tag = GAME_OVER_SCREEN),
         loading = storeState.loading,
         onHelpClick = { store.help() },
         onMusicClick = { store.toggleAudio() },
@@ -70,7 +69,6 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
 
             Content.SCORE -> TypewriterContent(title = gameOverTranslation) {
                 if (gameSession != null && ship != null) Score(
-                    modifier = Modifier.testTag(tag = GAME_OVER_SCREEN_SCORE),
                     score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
                     utc = gameSession.utc,
                     settledPlanet = gameSession.settledPlanetName,

@@ -166,7 +166,6 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     }
 
     Screen(
-        modifier = Modifier.testTag(tag = STELLAR_EXPLORER_SCREEN),
         loading = storeState.loading,
         onBackClick = { store.back() },
         onHelpClick = { store.help() },
@@ -175,7 +174,6 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
         topBar = {
             ControlPanel(
                 modifier = Modifier
-                    .testTag(tag = STELLAR_EXPLORER_SCREEN_CONTROL_PANEL)
                     .statusBarsPadding(),
                 enabled = enabled,
                 search = storeState.search,
@@ -213,7 +211,6 @@ private fun StellarHostContent(store: Store<StellarExplorerState, StellarExplore
     val listState = storeState.listIndex.getState()
     LazyColumnWithScrollBar(
         modifier = Modifier
-            .testTag(tag = STELLAR_EXPLORER_SCREEN_STELLAR_HOST_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
@@ -222,7 +219,6 @@ private fun StellarHostContent(store: Store<StellarExplorerState, StellarExplore
         if (currentContent == Content.DETAIL_PLANETS && planet != null) {
             item(key = planet.id) {
                 PlanetCard(
-                    modifier = Modifier.testTag(tag = STELLAR_EXPLORER_SCREEN_STELLAR_HOST_CONTENT_PLANET),
                     name = visiblePlanetProperties.ifContains(
                         element = PlanetProperty.NAME,
                         value = planet.name
@@ -346,7 +342,6 @@ private fun StellarHostContent(store: Store<StellarExplorerState, StellarExplore
         items(items = storeState.filteredStellarHosts, key = { it.id }) { stellarHost ->
             StellarHostCard(
                 modifier = Modifier
-                    .testTag(tag = STELLAR_EXPLORER_SCREEN_STELLAR_HOST_CONTENT_HOST)
                     .clickable {
                         store.send(
                             action = StellarExplorerAction.SaveIndex(
@@ -477,7 +472,6 @@ private fun PlanetContent(store: Store<StellarExplorerState, StellarExplorerActi
     val listState = storeState.listIndex.getState()
     LazyColumnWithScrollBar(
         modifier = Modifier
-            .testTag(tag = STELLAR_EXPLORER_SCREEN_PLANET_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
@@ -486,7 +480,6 @@ private fun PlanetContent(store: Store<StellarExplorerState, StellarExplorerActi
         if (currentContent == Content.DETAIL_HOSTS && stellarHost != null) {
             item(key = stellarHost.id) {
                 StellarHostCard(
-                    modifier = Modifier.testTag(tag = STELLAR_EXPLORER_SCREEN_PLANET_CONTENT_HOST),
                     name = visibleStellarHostProperties.ifContains(
                         element = StellarHostProperty.NAME,
                         value = stellarHost.name
@@ -598,7 +591,6 @@ private fun PlanetContent(store: Store<StellarExplorerState, StellarExplorerActi
         items(items = storeState.filteredPlanets, key = { it.id }) { planet ->
             PlanetCard(
                 modifier = Modifier
-                    .testTag(tag = STELLAR_EXPLORER_SCREEN_PLANET_CONTENT_PLANET)
                     .clickable {
                         store.send(
                             action = StellarExplorerAction.SaveIndex(

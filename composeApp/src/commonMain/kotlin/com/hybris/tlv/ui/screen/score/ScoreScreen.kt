@@ -47,7 +47,6 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
     val typography = LocalTypography.current
 
     Screen(
-        modifier = Modifier.testTag(tag = SCORE_SCREEN),
         loading = storeState.loading,
         onBackClick = { store.back() },
         onHelpClick = { store.help() },
@@ -62,14 +61,12 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
         ) {
             Spacer(modifier = Modifier.height(height = 8.dp))
             Text(
-                modifier = Modifier.testTag(tag = SCORE_SCREEN_TITLE),
                 text = titleTranslation,
                 style = typography.headlineMedium,
             )
             Spacer(modifier = Modifier.height(height = 16.dp))
             LazyColumnWithScrollBar(
                 modifier = Modifier
-                    .testTag(tag = SCORE_SCREEN_SCORES)
                     .fillMaxSize(),
                 contentPadding = PaddingValues(all = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(space = 12.dp)
@@ -78,7 +75,6 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
                 items(items = storeState.gameSessions, key = { it.id }) { score ->
                     Score(
                         modifier = Modifier
-                            .testTag(tag = SCORE_SCREEN_SCORE)
                             .clickable(onClick = {
                                 if (expandedItems.contains(element = score.id)) {
                                     expandedItems.remove(element = score.id)

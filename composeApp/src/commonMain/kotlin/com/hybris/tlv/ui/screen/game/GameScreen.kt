@@ -22,7 +22,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
@@ -54,7 +53,6 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
     val ship = storeState.ship
 
     Screen(
-        modifier = Modifier.testTag(tag = GAME_SCREEN),
         loading = storeState.loading,
         onBackClick = { store.back() },
         onHelpClick = { store.help() },
@@ -64,7 +62,6 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
                 modifier = Modifier
-                    .testTag(tag = GAME_SCREEN_STATUS_BAR)
                     .statusBarsPadding(),
                 hull = ship?.integrity?.toString(),
                 fuel = ship?.fuel?.toString(),
@@ -74,7 +71,6 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
         },
         bottomBar = {
             GameNavigation(
-                modifier = Modifier.testTag(tag = GAME_SCREEN_NAVIGATION_BAR),
                 shipSelected = storeState.currentContent == Content.SHIP,
                 shipOnClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 systemSelected = storeState.currentContent == Content.SYSTEM,
@@ -109,14 +105,12 @@ private fun ShipContent(store: Store<GameState, GameAction>) {
     // Ship status with years traveled, sensor range, maximum speed, integrity, fuel, materials and cryopods
     LazyColumnWithScrollBar(
         modifier = Modifier
-            .testTag(tag = GAME_SCREEN_SHIP_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp)
     ) {
         item {
             StatDisplay(
-                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_YEARS_TRAVELED),
                 icon = Icons.Outlined.Timer,
                 label = yearsTraveledTranslation,
                 value = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString()
@@ -124,7 +118,6 @@ private fun ShipContent(store: Store<GameState, GameAction>) {
         }
         item {
             StatDisplay(
-                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_SENSOR),
                 icon = Icons.Outlined.Radar,
                 label = sensorTranslation,
                 value = ship.sensorRange.toString()
@@ -132,7 +125,6 @@ private fun ShipContent(store: Store<GameState, GameAction>) {
         }
         item {
             StatDisplay(
-                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_SPEED),
                 icon = Icons.Outlined.Speed,
                 label = speedTranslation,
                 value = "${ship.engine.velocity}c"
@@ -140,7 +132,6 @@ private fun ShipContent(store: Store<GameState, GameAction>) {
         }
         item {
             StatDisplay(
-                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_INTEGRITY),
                 icon = Icons.Outlined.Shield,
                 label = integrityTranslation,
                 value = "${ship.integrity} / 100",
@@ -148,7 +139,6 @@ private fun ShipContent(store: Store<GameState, GameAction>) {
         }
         item {
             StatDisplay(
-                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_FUEL),
                 icon = Icons.Outlined.LocalGasStation,
                 label = fuelTranslation,
                 value = ship.fuel.toString()
@@ -156,7 +146,6 @@ private fun ShipContent(store: Store<GameState, GameAction>) {
         }
         item {
             StatDisplay(
-                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_MATERIALS),
                 icon = Icons.Outlined.Construction,
                 label = materialsTranslation,
                 value = ship.materials.toString()
@@ -164,7 +153,6 @@ private fun ShipContent(store: Store<GameState, GameAction>) {
         }
         item {
             StatDisplay(
-                modifier = Modifier.testTag(tag = GAME_SCREEN_SHIP_CONTENT_CRYOPODS),
                 icon = Icons.Outlined.BedroomParent,
                 label = cryopodsTranslation,
                 value = ship.cryopods.toString()
@@ -190,14 +178,12 @@ private fun SystemContent(store: Store<GameState, GameAction>) {
 
     LazyColumnWithScrollBar(
         modifier = Modifier
-            .testTag(tag = GAME_SCREEN_SYSTEM_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp)
     ) {
         item(key = stellarHost.id) {
             StellarHostCard(
-                modifier = Modifier.testTag(tag = GAME_SCREEN_SYSTEM_CONTENT_STELLAR_HOST),
                 name = stellarHost.name,
                 systemName = stellarHost.systemName,
                 planetCount = stellarHost.planets.size,
@@ -222,7 +208,6 @@ private fun SystemContent(store: Store<GameState, GameAction>) {
         items(items = stellarHost.planets, key = { it.id }) { planet ->
             PlanetCard(
                 modifier = Modifier
-                    .testTag(tag = GAME_SCREEN_SYSTEM_CONTENT_PLANET)
                     .clickable { planetToSettle = planet },
                 name = planet.name,
                 orbitalPeriod = planet.orbitalPeriod,
@@ -250,7 +235,6 @@ private fun TravelContent(store: Store<GameState, GameAction>) {
 
     LazyColumnWithScrollBar(
         modifier = Modifier
-            .testTag(tag = GAME_SCREEN_TRAVEL_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
@@ -258,7 +242,6 @@ private fun TravelContent(store: Store<GameState, GameAction>) {
         items(items = storeState.nearStellarHosts, key = { it.id }) { stellarHost ->
             StellarHostCard(
                 modifier = Modifier
-                    .testTag(tag = GAME_SCREEN_TRAVEL_CONTENT_STELLAR_HOST)
                     .clickable { store.send(action = GameAction.Travel(stellarHost = stellarHost)) },
                 name = stellarHost.name,
                 planetCount = stellarHost.planets.size,

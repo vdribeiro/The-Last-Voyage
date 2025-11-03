@@ -60,7 +60,6 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
 
     Screen(
         modifier = Modifier
-            .testTag(tag = TUTORIAL_SCREEN)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
@@ -73,7 +72,6 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
                 modifier = Modifier
-                    .testTag(tag = TUTORIAL_SCREEN_STATUS_BAR)
                     .statusBarsPadding(),
                 hull = ship.integrity.toString(),
                 fuel = ship.fuel.toString(),
@@ -83,7 +81,6 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
         },
         bottomBar = {
             GameNavigation(
-                modifier = Modifier.testTag(tag = TUTORIAL_SCREEN_NAVIGATION_BAR),
                 shipEnabled = false,
                 shipSelected = storeState.tutorialStep == Tutorial.SHIP,
                 systemEnabled = false,

@@ -48,7 +48,6 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
     val typography = LocalTypography.current
 
     Screen(
-        modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN),
         loading = storeState.loading,
         banner = if (storeState.newVersionBanner) storeState.developerCorner else null,
         onHelpClick = { store.help() },
@@ -56,7 +55,6 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
         onFeedbackClick = { store.feedback() },
         bottomBar = {
             MainNavigation(
-                modifier = Modifier.testTag(tag = MAIN_MENU_SCREEN_BOTTOM_BAR),
                 onCreditsClick = { store.send(action = MainMenuAction.Credits) },
                 developerCornerUri = storeState.developerCorner,
                 supportUri = storeState.support
@@ -87,7 +85,6 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
 
         LazyColumn(
             modifier = Modifier
-                .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT)
                 .fillMaxSize()
                 .padding(all = 16.dp),
             verticalArrangement = Arrangement.spacedBy(space = 16.dp),
@@ -104,7 +101,6 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
                 item {
                     Text(
                         modifier = Modifier
-                            .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_NEW_GAME)
                             .clickable { store.send(action = MainMenuAction.NewGame) },
                         text = newGameTranslation,
                         style = typography.headlineMedium,
@@ -114,7 +110,6 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
                     item {
                         Text(
                             modifier = Modifier
-                                .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONTINUE)
                                 .clickable { store.send(action = MainMenuAction.Next) },
                             text = continueTranslation,
                             style = typography.headlineMedium,
@@ -126,7 +121,6 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
                 item {
                     Text(
                         modifier = Modifier
-                            .testTag(tag = MAIN_MENU_SCREEN_MAIN_CONTENT_STELLAR_EXPLORER)
                             .clickable { store.send(action = MainMenuAction.StellarExplorer) },
                         text = stellarExplorerTranslation,
                         style = typography.headlineMedium,
@@ -137,7 +131,6 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
                 item {
                     Text(
                         modifier = Modifier
-                            .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SCORES)
                             .clickable { store.send(action = MainMenuAction.Scores) },
                         text = scoresTranslation,
                         style = typography.headlineMedium,
@@ -148,7 +141,6 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
                 item {
                     Text(
                         modifier = Modifier
-                            .testTag(tag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_ACHIEVEMENTS)
                             .clickable { store.send(action = MainMenuAction.Achievements) },
                         text = achievementsTranslation,
                         style = typography.headlineMedium,

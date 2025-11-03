@@ -46,7 +46,6 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
     val currentContent = storeState.currentContent
 
     Screen(
-        modifier = Modifier.testTag(tag = HELP_SCREEN),
         loading = storeState.loading,
         onBackClick = { store.back() },
         onMusicClick = { store.toggleAudio() },
@@ -75,7 +74,6 @@ private fun LearnContent(store: Store<HelpState, HelpAction>) {
 
     LazyColumn(
         modifier = Modifier
-            .testTag(tag = HELP_SCREEN_LEARN_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
@@ -84,7 +82,6 @@ private fun LearnContent(store: Store<HelpState, HelpAction>) {
         item {
             Text(
                 modifier = Modifier
-                    .testTag(tag = HELP_SCREEN_LEARN_CONTENT_TITLE)
                     .padding(all = 16.dp),
                 text = helpTranslation,
                 style = typography.displaySmall,
@@ -93,7 +90,6 @@ private fun LearnContent(store: Store<HelpState, HelpAction>) {
         item {
             Text(
                 modifier = Modifier
-                    .testTag(tag = HELP_SCREEN_LEARN_CONTENT_HOST_DEFINITION)
                     .clickable { store.send(action = HelpAction.HostDefinition) },
                 text = hostDefinitionTranslation,
                 style = typography.headlineMedium,
@@ -102,7 +98,6 @@ private fun LearnContent(store: Store<HelpState, HelpAction>) {
         item {
             Text(
                 modifier = Modifier
-                    .testTag(tag = HELP_SCREEN_LEARN_CONTENT_PLANET_DEFINITION)
                     .clickable { store.send(action = HelpAction.PlanetDefinition) },
                 text = planetDefinitionTranslation,
                 style = typography.headlineMedium,
@@ -111,7 +106,6 @@ private fun LearnContent(store: Store<HelpState, HelpAction>) {
         item {
             Text(
                 modifier = Modifier
-                    .testTag(tag = HELP_SCREEN_LEARN_CONTENT_HABITABILITY)
                     .clickable { store.send(action = HelpAction.Habitability) },
                 text = habitabilityTranslation,
                 style = typography.headlineMedium,
@@ -121,7 +115,6 @@ private fun LearnContent(store: Store<HelpState, HelpAction>) {
             item {
                 Text(
                     modifier = Modifier
-                        .testTag(tag = HELP_SCREEN_LEARN_CONTENT_MECHANICS)
                         .clickable { store.send(action = HelpAction.Mechanics) },
                     text = mechanicsTranslation,
                     style = typography.headlineMedium,
@@ -146,14 +139,12 @@ private fun HostDefinitionContent(store: Store<HelpState, HelpAction>) {
 
     LazyColumnWithScrollBar(
         modifier = Modifier
-            .testTag(tag = HELP_SCREEN_HOST_DEFINITION_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
         item {
             Text(
-                modifier = Modifier.testTag(tag = HELP_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE),
                 text = exampleTranslation,
                 style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold
@@ -162,7 +153,6 @@ private fun HostDefinitionContent(store: Store<HelpState, HelpAction>) {
         }
         item {
             StellarHostCard(
-                modifier = Modifier.testTag(tag = HELP_SCREEN_HOST_DEFINITION_CONTENT_EXAMPLE_STELLAR_HOST),
                 name = stellarHost.name,
                 systemName = stellarHost.systemName,
                 planetCount = stellarHost.planets.size,
@@ -185,7 +175,6 @@ private fun HostDefinitionContent(store: Store<HelpState, HelpAction>) {
         }
         item {
             Text(
-                modifier = Modifier.testTag(tag = HELP_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES),
                 text = propertiesTranslation,
                 style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold
@@ -194,14 +183,12 @@ private fun HostDefinitionContent(store: Store<HelpState, HelpAction>) {
         }
         items(items = stellarHostProperties, key = { it.id }) { property ->
             PropertyCard(
-                modifier = Modifier.testTag(tag = HELP_SCREEN_HOST_DEFINITION_CONTENT_PROPERTIES_SIMPLE),
                 name = getTranslation(key = property.id),
                 description = getTranslation(key = property.description),
             )
         }
         item {
             Text(
-                modifier = Modifier.testTag(tag = HELP_SCREEN_HOST_DEFINITION_CONTENT_TYPES),
                 text = typesTranslation,
                 style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold
@@ -210,7 +197,6 @@ private fun HostDefinitionContent(store: Store<HelpState, HelpAction>) {
         }
         items(items = stellarHosts, key = { it.id }) { stellarHost ->
             StellarHostCard(
-                modifier = Modifier.testTag(tag = HELP_SCREEN_HOST_DEFINITION_CONTENT_TYPES_STELLAR_HOST),
                 name = getTranslation(key = stellarHost.id),
                 description = stellarHost.description,
                 spectralImage = stellarHost.image.spectralTypeToImage(),
@@ -234,14 +220,12 @@ private fun PlanetDefinitionContent(store: Store<HelpState, HelpAction>) {
 
     LazyColumnWithScrollBar(
         modifier = Modifier
-            .testTag(tag = HELP_SCREEN_PLANET_DEFINITION_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
         item {
             Text(
-                modifier = Modifier.testTag(tag = HELP_SCREEN_PLANET_DEFINITION_CONTENT_EXAMPLE),
                 text = exampleTranslation,
                 style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
@@ -250,7 +234,6 @@ private fun PlanetDefinitionContent(store: Store<HelpState, HelpAction>) {
         }
         item {
             PlanetCard(
-                modifier = Modifier.testTag(tag = HELP_SCREEN_PLANET_DEFINITION_CONTENT_EXAMPLE_PLANET),
                 name = planet.name,
                 status = planet.status.displayName,
                 orbitalPeriod = planet.orbitalPeriod,
@@ -270,7 +253,6 @@ private fun PlanetDefinitionContent(store: Store<HelpState, HelpAction>) {
         }
         item {
             Text(
-                modifier = Modifier.testTag(tag = HELP_SCREEN_PLANET_DEFINITION_CONTENT_PROPERTIES),
                 text = propertiesTranslation,
                 style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold
@@ -279,14 +261,12 @@ private fun PlanetDefinitionContent(store: Store<HelpState, HelpAction>) {
         }
         items(items = planetProperties, key = { it.id }) { property ->
             PropertyCard(
-                modifier = Modifier.testTag(tag = HELP_SCREEN_PLANET_DEFINITION_CONTENT_PROPERTIES_SIMPLE),
                 name = getTranslation(key = property.id),
                 description = getTranslation(key = property.description),
             )
         }
         item {
             Text(
-                modifier = Modifier.testTag(tag = HELP_SCREEN_PLANET_DEFINITION_CONTENT_TYPES),
                 text = typesTranslation,
                 style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold
@@ -295,7 +275,6 @@ private fun PlanetDefinitionContent(store: Store<HelpState, HelpAction>) {
         }
         items(items = planets, key = { it.id }) { planet ->
             PlanetCard(
-                modifier = Modifier.testTag(tag = HELP_SCREEN_PLANET_DEFINITION_CONTENT_TYPES_PLANET),
                 name = getTranslation(key = planet.id),
                 description = planet.description,
                 image = PlanetType.fromValue(value = planet.image.orEmpty()).toImage()
@@ -317,7 +296,6 @@ private fun HabitabilityContent(store: Store<HelpState, HelpAction>) {
 
     LazyColumnWithScrollBar(
         modifier = Modifier
-            .testTag(tag = HELP_SCREEN_HABITABILITY_CONTENT)
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
@@ -325,7 +303,6 @@ private fun HabitabilityContent(store: Store<HelpState, HelpAction>) {
     ) {
         items(items = formula, key = { it.id }) { property ->
             PropertyCard(
-                modifier = Modifier.testTag(tag = HELP_SCREEN_HABITABILITY_CONTENT_SIMPLE),
                 name = getTranslation(key = property.id),
                 description = getTranslation(key = property.description),
             )
@@ -333,7 +310,6 @@ private fun HabitabilityContent(store: Store<HelpState, HelpAction>) {
         item {
             Text(
                 modifier = Modifier
-                    .testTag(tag = HELP_SCREEN_HABITABILITY_CONTENT_FORMULA)
                     .clickable { uriHandler.openUri(uri = storeState.formula) },
                 text = formulaTranslation,
                 style = typography.headlineSmall.copy(
