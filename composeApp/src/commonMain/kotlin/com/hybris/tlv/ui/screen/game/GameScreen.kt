@@ -7,14 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.BedroomParent
-import androidx.compose.material.icons.outlined.Construction
-import androidx.compose.material.icons.outlined.LocalGasStation
-import androidx.compose.material.icons.outlined.Radar
-import androidx.compose.material.icons.outlined.Shield
-import androidx.compose.material.icons.outlined.Speed
-import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,17 +20,15 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.GameNavigation
 import com.hybris.tlv.ui.theme.component.card.PlanetCard
-import com.hybris.tlv.ui.theme.component.card.StatDisplay
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.dialog.Dialog
 import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
-import com.hybris.tlv.ui.theme.component.list.ShipContent
+import com.hybris.tlv.ui.theme.component.list.ShipStats
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
-import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.space.formula.spectralTypeToImage
 import com.hybris.tlv.usecase.space.formula.toImage
 import com.hybris.tlv.usecase.space.model.Planet
@@ -82,7 +72,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
         }
     ) {
         when (storeState.currentContent) {
-            Content.SHIP -> ShipContent(
+            Content.SHIP -> ShipStats(
                 velocity = ship?.engine?.velocity,
                 yearsTraveled = ship?.yearsTraveled,
                 sensorRange = ship?.sensorRange,
@@ -91,6 +81,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
                 materials = ship?.materials,
                 cryopods = ship?.cryopods,
             )
+
             Content.SYSTEM -> SystemContent(store = store)
             Content.TRAVEL -> TravelContent(store = store)
         }

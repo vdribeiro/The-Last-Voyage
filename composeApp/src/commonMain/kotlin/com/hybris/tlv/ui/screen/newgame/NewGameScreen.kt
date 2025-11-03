@@ -79,7 +79,12 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
         },
     ) {
         when (storeState.currentContent) {
-            Content.SHIP -> Ship(store = store)
+            Content.SHIP -> ShipContent(
+                shipState = storeState.shipState ?: return@Screen,
+                engines = storeState.engines,
+                selectEngine = { engine -> store.send(action = NewGameAction.SelectEngine(engine = engine)) }
+            )
+
             Content.START -> TypewriterContent(
                 title = storeState.selectedCatastrophe?.let { getTranslation(key = it.id) },
                 text = storeState.selectedCatastrophe?.let { getTranslation(key = it.description) }
@@ -89,11 +94,11 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
 }
 
 @Composable
-private fun Ship(store: Store<NewGameState, NewGameAction>) {
-    val storeState by store.stateFlow.collectAsState()
-    val shipState = storeState.shipState ?: return
-    val engines = storeState.engines
-
+private fun ShipContent(
+    shipState: ShipState,
+    engines: List<Engine>,
+    selectEngine: (Engine) -> Unit
+) {
     val translationVersion by TranslationCache.stateFlow.collectAsState()
     val shipPointsTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__ship_points") }
     val sensorTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_sensor") }
@@ -170,7 +175,7 @@ private fun Ship(store: Store<NewGameState, NewGameAction>) {
             items(items = engines, key = { it.id }) { engine ->
                 SelectableAttribute(
                     modifier = Modifier
-                        .clickable { store.send(action = NewGameAction.SelectEngine(engine = engine)) },
+                        .clickable { selectEngine(engine) },
                     selected = shipState.engine == engine,
                     name = getTranslation(key = engine.id),
                     description = getTranslation(key = engine.description),

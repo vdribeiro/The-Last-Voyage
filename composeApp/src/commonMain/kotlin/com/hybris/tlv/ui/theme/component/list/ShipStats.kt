@@ -23,7 +23,7 @@ import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun ShipContent(
+internal fun ShipStats(
     modifier: Modifier = Modifier,
     velocity: Double? = null,
     yearsTraveled: Double? = null,
