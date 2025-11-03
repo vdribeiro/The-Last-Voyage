@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.theme.component.grid
 
-import kotlin.collections.isNotEmpty
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,10 +28,10 @@ import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun Credits(
-    creators: List<Credit>,
-    sources: List<Credit>,
-    musics: List<Credit>,
-    supporters: List<Credit>,
+    creators: List<CreditItem>,
+    sources: List<CreditItem>,
+    musics: List<CreditItem>,
+    supporters: List<CreditItem>,
 ) {
     val uriHandler = LocalUriHandler.current
     val translationVersion by TranslationCache.stateFlow.collectAsState()
@@ -154,7 +153,7 @@ internal fun Credits(
     }
 }
 
-internal data class Credit(
+internal data class CreditItem(
     val id: String,
     val link: String?,
 )

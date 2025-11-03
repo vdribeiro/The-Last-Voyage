@@ -5,7 +5,6 @@ import com.hybris.tlv.config.Configs
 import com.hybris.tlv.config.Preferences
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.database.createSqlDriver
-import com.hybris.tlv.flow.TestDispatchers
 import com.hybris.tlv.http.TestEngines
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.media.AudioPlayer
@@ -38,7 +37,6 @@ import com.hybris.tlv.usecase.translation.model.Translation
 
 internal val testDependency: Dependency by lazy {
     Dependency(
-        dispatcher = TestDispatchers(),
         sqlDriver = createSqlDriver(inMemory = true),
         httpEngine = TestEngines.testEngine,
         audioPlayer = AudioPlayer(),
@@ -55,7 +53,6 @@ internal fun reset() {
 
 internal val storeFactory: StoreFactory by lazy {
     StoreFactory(
-        dispatcher = testDependency.dispatcher,
         navigation = testDependency.navigation,
         audioPlayer = testDependency.audioPlayer,
         config = testDependency.config,
