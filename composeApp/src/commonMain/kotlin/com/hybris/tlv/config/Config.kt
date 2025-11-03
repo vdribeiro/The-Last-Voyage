@@ -1,6 +1,5 @@
 package com.hybris.tlv.config
 
-import kotlin.Boolean
 import kotlin.concurrent.Volatile
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.ZERO
