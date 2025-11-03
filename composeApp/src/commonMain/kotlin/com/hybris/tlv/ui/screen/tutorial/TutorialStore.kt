@@ -1,19 +1,16 @@
 package com.hybris.tlv.ui.screen.tutorial
 
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 
 internal class TutorialStore(
-    dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: TutorialStateBuilder,
 ): Store<TutorialState, TutorialAction>(
-    dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {

@@ -24,6 +24,7 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.FeedbackHeader
 import com.hybris.tlv.ui.theme.component.button.Button
+import com.hybris.tlv.ui.theme.component.container.Feedback
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.text.Input
 import com.hybris.tlv.ui.theme.component.text.Text
@@ -34,66 +35,17 @@ import com.hybris.tlv.usecase.translation.model.Translation
 @Composable
 internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
     val storeState by store.stateFlow.collectAsState()
-    val isError = storeState.isError
-    val showThanks = storeState.showThanks
-    var feedbackText by remember { mutableStateOf(value = storeState.feedback) }
-
-    // Feedback translations depend on if it is was an app error or it's just simple user feedback
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
-    val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = if (isError) "error_screen__title" else "error_screen__title_alt") }
-    val descriptionTranslation = remember(key1 = translationVersion) { getTranslation(key = if (isError) "error_screen__description" else "error_screen__description_alt") }
-    val buttonTranslation = remember(key1 = translationVersion) { getTranslation(key = "error_screen__button") }
-    val thanksTranslation = remember(key1 = translationVersion) { getTranslation(key = "error_screen__thanks") }
-
-    val typography = LocalTypography.current
 
     Screen(
         onBackClick = { store.back() },
         onMusicClick = { store.toggleAudio() },
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(state = rememberScrollState())
-                .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            FeedbackHeader(
-                modifier = Modifier
-                    .padding(bottom = 24.dp),
-                title = titleTranslation,
-                description = descriptionTranslation
-            )
-
-            // Feedback input
-            Input(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(height = 120.dp),
-                enabled = !showThanks,
-                value = feedbackText,
-                onValueChange = {
-                    feedbackText = it
-                },
-            )
-            Spacer(modifier = Modifier.height(height = 24.dp))
-
-            // Send feedback button
-            Button(
-                text = buttonTranslation,
-                onClick = { store.send(action = FeedbackAction.SendFeedback(message = feedbackText)) },
-                enabled = feedbackText.isNotBlank() && !showThanks,
-            )
-
-            if (showThanks) {
-                // Thank you message
-                Spacer(modifier = Modifier.height(height = 16.dp))
-                Text(
-                    text = thanksTranslation,
-                    style = typography.headlineSmall
-                )
-            }
-        }
+        Feedback(
+            isError = storeState.isError,
+            showThanks = storeState.showThanks,
+            feedback = storeState.feedback,
+            sendFeedback = { store.send(action = FeedbackAction.SendFeedback(message = it)) }
+        )
     }
 }
 

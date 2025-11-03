@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlinx.coroutines.Job
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -11,13 +10,11 @@ import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
 
 internal class StellarExplorerStore(
-    dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: StellarExplorerStateBuilder,
     private val spaceUseCases: SpaceUseCases,
 ): Store<StellarExplorerState, StellarExplorerAction>(
-    dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {

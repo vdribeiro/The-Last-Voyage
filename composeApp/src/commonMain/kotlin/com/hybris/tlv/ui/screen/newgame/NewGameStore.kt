@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.screen.newgame
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -17,7 +16,6 @@ import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 
 internal class NewGameStore(
-    dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: NewGameStateBuilder,
@@ -25,7 +23,6 @@ internal class NewGameStore(
     private val catastropheUseCases: CatastropheUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameState, NewGameAction>(
-    dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {

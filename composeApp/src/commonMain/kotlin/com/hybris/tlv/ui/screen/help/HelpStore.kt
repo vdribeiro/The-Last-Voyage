@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.screen.help
 
 import kotlinx.coroutines.Job
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -11,14 +10,12 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.learning.LearningUseCases
 
 internal class HelpStore(
-    dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: HelpStateBuilder,
     private val config: ConfigManager,
     private val learningUseCases: LearningUseCases
 ): Store<HelpState, HelpAction>(
-    dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {

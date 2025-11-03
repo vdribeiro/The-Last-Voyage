@@ -32,11 +32,6 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
     val storeState by store.stateFlow.collectAsState()
 
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
-    val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "achievements_screen__title") }
-
-    val typography = LocalTypography.current
-
     Screen(
         loading = storeState.loading,
         onBackClick = { store.back() },
@@ -44,33 +39,43 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {
-        Column(
+        AchievementContent(achievements = storeState.achievements)
+    }
+}
+
+@Composable
+private fun AchievementContent(achievements: List<Achievement>) {
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "achievements_screen__title") }
+
+    val typography = LocalTypography.current
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(all = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(height = 8.dp))
+        Text(
+            text = titleTranslation,
+            style = typography.headlineMedium,
+        )
+        Spacer(modifier = Modifier.height(height = 16.dp))
+        LazyColumnWithScrollBar(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
-            Spacer(modifier = Modifier.height(height = 8.dp))
-            Text(
-                text = titleTranslation,
-                style = typography.headlineMedium,
-            )
-            Spacer(modifier = Modifier.height(height = 16.dp))
-            LazyColumnWithScrollBar(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(all = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(space = 8.dp)
-            ) {
-                items(items = storeState.achievements, key = { it.id }) { achievement ->
-                    AchievementCard(
-                        name = getTranslation(key = achievement.id),
-                        description = getTranslation(key = achievement.description),
-                        image = null, // TODO - achievement image
-                        done = achievement.done
-                    )
-                }
+            items(items = achievements, key = { it.id }) { achievement ->
+                AchievementCard(
+                    name = getTranslation(key = achievement.id),
+                    description = getTranslation(key = achievement.description),
+                    image = null, // TODO - achievement image
+                    done = achievement.done
+                )
             }
         }
     }

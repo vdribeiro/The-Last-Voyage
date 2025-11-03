@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.screen.event
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -15,14 +14,12 @@ import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 
 internal class EventStore(
-    dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: EventStateBuilder,
     private val eventUseCases: EventUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<EventState, EventAction>(
-    dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {

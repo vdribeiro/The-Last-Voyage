@@ -3,7 +3,6 @@ package com.hybris.tlv.ui.screen.feedback
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -11,12 +10,10 @@ import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 
 internal class FeedbackStore(
-    dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: FeedbackStateBuilder,
 ): Store<FeedbackState, FeedbackAction>(
-    dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {

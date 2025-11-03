@@ -5,7 +5,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.supervisorScope
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
@@ -23,7 +22,6 @@ import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 
 internal class SplashStore(
-    dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     private val config: ConfigManager,
@@ -37,7 +35,6 @@ internal class SplashStore(
     private val achievementUseCases: AchievementUseCases,
     private val creditUseCases: CreditUseCases
 ): Store<SplashState, SplashAction>(
-    dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = SplashState()

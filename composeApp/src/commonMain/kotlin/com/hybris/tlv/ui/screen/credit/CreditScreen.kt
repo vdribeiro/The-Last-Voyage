@@ -1,5 +1,8 @@
 package com.hybris.tlv.ui.screen.credit
 
+import kotlin.collections.get
+import kotlin.collections.isNotEmpty
+import kotlin.collections.orEmpty
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +29,7 @@ import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.Card
 import com.hybris.tlv.ui.theme.component.container.Screen
+import com.hybris.tlv.ui.theme.component.grid.Credits
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.credit.model.Credit
 import com.hybris.tlv.usecase.credit.model.CreditType
@@ -35,15 +39,11 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun CreditScreen(store: Store<CreditState, Unit>) {
     val storeState by store.stateFlow.collectAsState()
-    val uriHandler = LocalUriHandler.current
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
-    val creatorsTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__creators") }
-    val sourcesTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__sources") }
-    val musicTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__music") }
-    val supportersTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__supporters") }
-
-    val typography = LocalTypography.current
-    val colorScheme = LocalColorScheme.current
+    val creditsMap = storeState.credits.groupBy { it.type }
+    val creators = creditsMap[CreditType.CREATOR].orEmpty().map { Credit }
+    val sources = creditsMap[CreditType.SOURCE].orEmpty()
+    val musics = creditsMap[CreditType.MUSIC].orEmpty()
+    val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
 
     Screen(
         loading = storeState.loading,
@@ -52,121 +52,15 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {
-        LazyVerticalStaggeredGrid(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(all = 16.dp),
-            columns = StaggeredGridCells.Adaptive(minSize = 100.dp),
-            horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-            verticalItemSpacing = 8.dp
-        ) {
-            val creditsMap = storeState.credits.groupBy { it.type }
-
-            // Creators
-            val creators = creditsMap[CreditType.CREATOR].orEmpty()
-            if (creators.isNotEmpty()) {
-                item(key = CreditType.CREATOR, span = StaggeredGridItemSpan.FullLine) {
-                    Text(
-                        modifier = Modifier
-                            .padding(bottom = 8.dp),
-                        text = creatorsTranslation,
-                        style = typography.titleLarge,
-                    )
-                }
-                items(items = creators, key = { it.id }, span = { StaggeredGridItemSpan.FullLine }) { credit ->
-                    Text(
-                        modifier = Modifier
-                            .clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
-                        text = credit.id,
-                        style = typography.bodyLarge.copy(
-                            color = colorScheme.primary,
-                            textDecoration = TextDecoration.Underline
-                        ),
-                    )
-                }
-            }
-
-            // Data sources
-            val sources = creditsMap[CreditType.SOURCE].orEmpty()
-            if (sources.isNotEmpty()) {
-                item(key = CreditType.SOURCE, span = StaggeredGridItemSpan.FullLine) {
-                    Text(
-                        modifier = Modifier
-                            .padding(top = 16.dp, bottom = 8.dp),
-                        text = sourcesTranslation,
-                        style = typography.titleLarge,
-                    )
-                }
-                items(items = sources, key = { it.id }, span = { StaggeredGridItemSpan.FullLine }) { credit ->
-                    Text(
-                        modifier = Modifier
-                            .clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
-                        text = credit.id,
-                        style = typography.bodyLarge.copy(
-                            color = colorScheme.primary,
-                            textDecoration = TextDecoration.Underline
-                        ),
-                    )
-                }
-            }
-
-            // Music authors
-            val musics = creditsMap[CreditType.MUSIC].orEmpty()
-            if (musics.isNotEmpty()) {
-                item(key = CreditType.MUSIC, span = StaggeredGridItemSpan.FullLine) {
-                    Text(
-                        modifier = Modifier
-                            .padding(top = 16.dp, bottom = 8.dp),
-                        text = musicTranslation,
-                        style = typography.titleLarge,
-                    )
-                }
-                items(items = musics, key = { it.id }, span = { StaggeredGridItemSpan.FullLine }) { credit ->
-                    Text(
-                        modifier = Modifier
-                            .clickable { credit.link?.let { uriHandler.openUri(uri = it) } },
-                        text = credit.id,
-                        style = typography.bodyLarge.copy(
-                            color = colorScheme.primary,
-                            textDecoration = TextDecoration.Underline
-                        ),
-                    )
-                }
-            }
-
-            // Supporters
-            val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
-            if (supporters.isNotEmpty()) {
-                item(key = CreditType.SUPPORTER, span = StaggeredGridItemSpan.FullLine) {
-                    Text(
-                        modifier = Modifier
-                            .padding(top = 16.dp, bottom = 8.dp),
-                        text = supportersTranslation,
-                        style = typography.titleLarge,
-                    )
-                }
-                items(items = supporters) { credit ->
-                    Card(
-                        modifier = Modifier
-                            .clickable { credit.link?.let { uriHandler.openUri(uri = it) } }
-                    ) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(all = 16.dp),
-                            text = credit.id,
-                            textAlign = TextAlign.Center,
-                            style = typography.bodyLarge.copy(
-                                color = colorScheme.primary,
-                                textDecoration = TextDecoration.Underline
-                            ),
-                        )
-                    }
-                }
-            }
-        }
+        Credits(
+            creators = creators,
+            sources = sources,
+            musics = musics,
+            supporters = supporters,
+        )
     }
 }
+
 
 @Preview
 @Composable

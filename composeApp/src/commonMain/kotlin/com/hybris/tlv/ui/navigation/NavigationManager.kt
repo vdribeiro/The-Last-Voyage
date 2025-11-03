@@ -13,7 +13,6 @@ import com.hybris.tlv.flow.launch
 import com.hybris.tlv.telemetry.Telemetry
 
 internal open class NavigationManager(
-    private val dispatcher: Dispatcher,
     initialState: NavigationState
 ) {
     private val mutex = Mutex()
@@ -34,7 +33,7 @@ internal open class NavigationManager(
      * Goes back to the previous screen.
      */
     fun goBack() {
-        dispatcher.main.launch {
+        Dispatcher.Main.launch {
             mutex.withLock {
                 stack.removeLastOrNull()
                 stack.lastOrNull()?.let { navigationState -> _stateFlow.update { navigationState } }
@@ -47,7 +46,7 @@ internal open class NavigationManager(
      * Updates the [currentState] of the screen and then navigates to the new [navigationState].
      */
     fun navigate(navigationState: NavigationState, currentState: Any? = null) {
-        dispatcher.main.launch {
+        Dispatcher.Main.launch {
             mutex.withLock {
                 // Edit last element of the stack
                 stack.removeLastOrNull()?.let { navigationState -> stack.add(element = navigationState.copy(stateBuilder = currentState)) }

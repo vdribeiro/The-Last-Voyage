@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.screen.gameover
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
@@ -14,14 +13,12 @@ import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal class GameOverStore(
-    dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: GameOverStateBuilder,
     private val gameSessionUseCases: GameSessionUseCases,
     private val achievementUseCases: AchievementUseCases
 ): Store<GameOverState, GameOverAction>(
-    dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {

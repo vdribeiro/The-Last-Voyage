@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.navigation
 
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
 import com.hybris.tlv.ui.screen.credit.CreditScreen
@@ -21,17 +20,14 @@ import com.hybris.tlv.ui.store.StoreFactory
 import com.hybris.tlv.usecase.UseCases
 
 internal class Navigation(
-    private val dispatcher: Dispatcher,
     private val audioPlayer: AudioPlayer,
     private val config: ConfigManager,
     private val useCases: UseCases,
     initialState: NavigationState
 ): NavigationManager(
-    dispatcher = dispatcher,
     initialState = initialState
 ) {
     private val storeFactory: StoreFactory = StoreFactory(
-        dispatcher = dispatcher,
         navigation = this,
         audioPlayer = audioPlayer,
         config = config,

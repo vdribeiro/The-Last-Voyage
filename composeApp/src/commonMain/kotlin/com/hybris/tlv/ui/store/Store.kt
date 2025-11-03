@@ -21,7 +21,6 @@ import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
  * A key rule is that the UI only observes the Store's [State] and never modifies it directly.
  */
 internal open class Store<State, Action>(
-    private val dispatcher: Dispatcher,
     private val navigation: NavigationManager,
     private val audioPlayer: AudioPlayer,
     initialState: State
@@ -76,13 +75,13 @@ internal open class Store<State, Action>(
      * Updates the current [State].
      */
     protected fun updateState(body: (State) -> State): Job =
-        dispatcher.main.launch { _stateFlow.update { body(_stateFlow.value) } }
+        Dispatcher.Main.launch { _stateFlow.update { body(_stateFlow.value) } }
 
     /**
      * Launches a coroutine and adds it to the list of jobs.
      */
     protected fun launch(block: suspend CoroutineScope.() -> Unit): Job =
-        dispatcher.io.launch { block() }.also { jobs.add(element = it) }
+        Dispatcher.IO.launch { block() }.also { jobs.add(element = it) }
 
     /**
      * Navigate back.

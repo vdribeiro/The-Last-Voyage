@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.theme.component.modifier.Gesture
@@ -24,7 +25,7 @@ private val konamiGestureCode = listOf(
 
 private fun setKonamiCode() {
     Telemetry.feedback(message = "Konami Code!")
-    dependency.dispatcher.default.launch {
+    Dispatcher.Default.launch {
         dependency.config.setPreferences { it.copy(cheats = true) }.savePreferences()
     }
 }

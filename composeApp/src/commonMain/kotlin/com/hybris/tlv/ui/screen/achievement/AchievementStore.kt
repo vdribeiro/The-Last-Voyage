@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.achievement
 
 import kotlinx.coroutines.Job
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
@@ -9,13 +8,11 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 
 internal class AchievementStore(
-    dispatcher: Dispatcher,
     navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: AchievementStateBuilder,
     private val achievementUseCases: AchievementUseCases
 ): Store<AchievementState, Unit>(
-    dispatcher = dispatcher,
     navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
