@@ -34,6 +34,7 @@ import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.dialog.Dialog
 import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
+import com.hybris.tlv.ui.theme.component.list.ShipContent
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
@@ -81,82 +82,17 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
         }
     ) {
         when (storeState.currentContent) {
-            Content.SHIP -> ShipContent(store = store)
+            Content.SHIP -> ShipContent(
+                velocity = ship?.engine?.velocity,
+                yearsTraveled = ship?.yearsTraveled,
+                sensorRange = ship?.sensorRange,
+                integrity = ship?.integrity,
+                fuel = ship?.fuel,
+                materials = ship?.materials,
+                cryopods = ship?.cryopods,
+            )
             Content.SYSTEM -> SystemContent(store = store)
             Content.TRAVEL -> TravelContent(store = store)
-        }
-    }
-}
-
-@Composable
-private fun ShipContent(store: Store<GameState, GameAction>) {
-    val storeState by store.stateFlow.collectAsState()
-    val ship = storeState.ship ?: return
-
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
-    val yearsTraveledTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_years_traveled") }
-    val sensorTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_sensor") }
-    val speedTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_speed") }
-    val integrityTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_integrity") }
-    val fuelTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_fuel") }
-    val materialsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_materials") }
-    val cryopodsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_cryopods") }
-
-    // Ship status with years traveled, sensor range, maximum speed, integrity, fuel, materials and cryopods
-    LazyColumnWithScrollBar(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
-    ) {
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.Timer,
-                label = yearsTraveledTranslation,
-                value = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString()
-            )
-        }
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.Radar,
-                label = sensorTranslation,
-                value = ship.sensorRange.toString()
-            )
-        }
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.Speed,
-                label = speedTranslation,
-                value = "${ship.engine.velocity}c"
-            )
-        }
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.Shield,
-                label = integrityTranslation,
-                value = "${ship.integrity} / 100",
-            )
-        }
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.LocalGasStation,
-                label = fuelTranslation,
-                value = ship.fuel.toString()
-            )
-        }
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.Construction,
-                label = materialsTranslation,
-                value = ship.materials.toString()
-            )
-        }
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.BedroomParent,
-                label = cryopodsTranslation,
-                value = ship.cryopods.toString()
-            )
         }
     }
 }

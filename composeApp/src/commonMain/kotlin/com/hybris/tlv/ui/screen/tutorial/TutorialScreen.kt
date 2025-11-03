@@ -24,38 +24,16 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.GameNavigation
 import com.hybris.tlv.ui.theme.component.container.Screen
+import com.hybris.tlv.ui.theme.component.container.TitleDescriptionContent
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
-import com.hybris.tlv.usecase.ship.model.Engine
-import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
     val storeState by store.stateFlow.collectAsState()
-    val ship = remember {
-        Ship(
-            id = "",
-            engine = Engine(
-                id = "",
-                description = "",
-                velocity = 0.1,
-                fuelConsumption = 0.0,
-                cost = 0
-            ),
-            assignedPoints = 0,
-            yearsTraveled = 0.0,
-            sensorRange = (1..5).random(),
-            integrity = (50..100).random(),
-            fuel = (50..1000).random(),
-            materials = (50..1000).random(),
-            cryopods = (50..1000).random(),
-        )
-    }
-
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
-    val typography = LocalTypography.current
+    val ship = storeState.ship
 
     Screen(
         modifier = Modifier
@@ -89,58 +67,45 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
             )
         }
     ) {
-        val title: String
-        val description: String
-        when (storeState.tutorialStep) {
-            Tutorial.GOAL -> {
-                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_goal_title") }
-                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_goal_description") }
-            }
+        TutorialContent(tutorialStep = storeState.tutorialStep)
+    }
+}
 
-            Tutorial.SHIP -> {
-                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_attributes_title") }
-                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_attributes_description") }
-            }
-
-            Tutorial.SYSTEM -> {
-                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_system_title") }
-                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_system_description") }
-            }
-
-            Tutorial.TRAVEL -> {
-                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_travel_title") }
-                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_travel_description") }
-            }
-
-            Tutorial.GAME_OVER -> {
-                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_game_over_title") }
-                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_game_over_description") }
-            }
+@Composable
+private fun TutorialContent(tutorialStep: Tutorial) {
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val title: String
+    val description: String
+    when (tutorialStep) {
+        Tutorial.GOAL -> {
+            title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_goal_title") }
+            description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_goal_description") }
         }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(all = 32.dp),
-        ) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = 8.dp),
-                style = typography.titleLarge,
-                text = title,
-                textAlign = TextAlign.Center,
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(state = rememberScrollState())
-                    .padding(all = 8.dp),
-                style = typography.bodyLarge,
-                text = description,
-                textAlign = TextAlign.Start,
-            )
+
+        Tutorial.SHIP -> {
+            title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_attributes_title") }
+            description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_attributes_description") }
+        }
+
+        Tutorial.SYSTEM -> {
+            title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_system_title") }
+            description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_system_description") }
+        }
+
+        Tutorial.TRAVEL -> {
+            title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_travel_title") }
+            description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_travel_description") }
+        }
+
+        Tutorial.GAME_OVER -> {
+            title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_game_over_title") }
+            description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_game_over_description") }
         }
     }
+    TitleDescriptionContent(
+        title =  title,
+        description = description,
+    )
 }
 
 @Preview

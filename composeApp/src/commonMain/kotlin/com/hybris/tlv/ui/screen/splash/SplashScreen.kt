@@ -25,6 +25,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.container.Screen
+import com.hybris.tlv.ui.theme.component.text.FadeInText
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -36,8 +37,6 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
 
     val translationVersion by TranslationCache.stateFlow.collectAsState()
     val loadingTranslation = remember(key1 = translationVersion) { getTranslation(key = "splash_screen__loading") }
-
-    val typography = LocalTypography.current
 
     Screen(
         modifier = Modifier
@@ -58,24 +57,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     ) {
         when (currentContent) {
             Content.SPLASH -> {}
-            Content.INTRO -> {
-                val isPreview = LocalInspectionMode.current
-                var visible by remember { mutableStateOf(value = isPreview) }
-                LifecycleCoroutine(Unit) { visible = true }
-                AnimatedVisibility(
-                    visible = visible,
-                    enter = fadeIn(animationSpec = tween(durationMillis = 2500))
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(all = 16.dp)
-                            .verticalScroll(state = rememberScrollState()),
-                        text = getTranslation(key = "splash_screen__intro"),
-                        textAlign = TextAlign.Center,
-                        style = typography.titleLarge,
-                    )
-                }
-            }
+            Content.INTRO -> FadeInText(text = getTranslation(key = "splash_screen__intro"))
         }
     }
 }

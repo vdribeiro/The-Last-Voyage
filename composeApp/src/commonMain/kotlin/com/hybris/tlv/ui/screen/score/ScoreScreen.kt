@@ -38,12 +38,6 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
     val storeState by store.stateFlow.collectAsState()
-    val expandedItems = remember { mutableStateListOf<String>() }
-
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
-    val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "score_screen__title") }
-
-    val typography = LocalTypography.current
 
     Screen(
         loading = storeState.loading,
@@ -52,48 +46,60 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
     ) {
-        Column(
+        ScoreContent(gameSessions = storeState.gameSessions)
+    }
+}
+
+@Composable
+private fun ScoreContent(gameSessions: List<GameSession>) {
+    val expandedItems = remember { mutableStateListOf<String>() }
+
+    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "score_screen__title") }
+
+    val typography = LocalTypography.current
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(all = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(height = 8.dp))
+        Text(
+            text = titleTranslation,
+            style = typography.headlineMedium,
+        )
+        Spacer(modifier = Modifier.height(height = 16.dp))
+        LazyColumnWithScrollBar(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize(),
+            contentPadding = PaddingValues(all = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(space = 12.dp)
         ) {
-            Spacer(modifier = Modifier.height(height = 8.dp))
-            Text(
-                text = titleTranslation,
-                style = typography.headlineMedium,
-            )
-            Spacer(modifier = Modifier.height(height = 16.dp))
-            LazyColumnWithScrollBar(
-                modifier = Modifier
-                    .fillMaxSize(),
-                contentPadding = PaddingValues(all = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(space = 12.dp)
-            ) {
-                // Scores
-                items(items = storeState.gameSessions, key = { it.id }) { score ->
-                    Score(
-                        modifier = Modifier
-                            .clickable(onClick = {
-                                if (expandedItems.contains(element = score.id)) {
-                                    expandedItems.remove(element = score.id)
-                                } else expandedItems.add(element = score.id)
-                            }),
-                        isExpanded = expandedItems.contains(element = score.id),
-                        score = (score.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
-                        utc = score.utc,
-                        settledPlanet = score.settledPlanetName,
-                        habitability = score.finalHabitability?.roundTo(decimalPlaces = 2).toString(),
-                        engine = getTranslation(key = score.ship.engine.id),
-                        assignedPoints = score.ship.assignedPoints.toString(),
-                        yearsTraveled = score.ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
-                        sensorRange = score.ship.sensorRange.toString(),
-                        integrity = score.ship.integrity.toString(),
-                        fuel = score.ship.fuel.toString(),
-                        materials = score.ship.materials.toString(),
-                        cryopods = score.ship.cryopods.toString()
-                    )
-                }
+            // Scores
+            items(items = gameSessions, key = { it.id }) { score ->
+                Score(
+                    modifier = Modifier
+                        .clickable(onClick = {
+                            if (expandedItems.contains(element = score.id)) {
+                                expandedItems.remove(element = score.id)
+                            } else expandedItems.add(element = score.id)
+                        }),
+                    isExpanded = expandedItems.contains(element = score.id),
+                    score = (score.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
+                    utc = score.utc,
+                    settledPlanet = score.settledPlanetName,
+                    habitability = score.finalHabitability?.roundTo(decimalPlaces = 2).toString(),
+                    engine = getTranslation(key = score.ship.engine.id),
+                    assignedPoints = score.ship.assignedPoints.toString(),
+                    yearsTraveled = score.ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
+                    sensorRange = score.ship.sensorRange.toString(),
+                    integrity = score.ship.integrity.toString(),
+                    fuel = score.ship.fuel.toString(),
+                    materials = score.ship.materials.toString(),
+                    cryopods = score.ship.cryopods.toString()
+                )
             }
         }
     }
