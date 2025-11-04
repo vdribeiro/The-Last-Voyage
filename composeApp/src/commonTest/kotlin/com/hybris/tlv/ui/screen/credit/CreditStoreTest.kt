@@ -6,14 +6,13 @@ import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.credits
 import com.hybris.tlv.reset
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class CreditStoreTest {
 
-    private val store: CreditStore get() = storeFactory.createCreditStore()
+    private val store: CreditStore get() = testDependency.storeFactory.createCreditStore()
 
     @BeforeTest
     fun setup() = runBlocking {

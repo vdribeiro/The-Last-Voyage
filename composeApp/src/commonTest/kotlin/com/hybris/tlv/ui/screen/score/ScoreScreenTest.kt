@@ -7,7 +7,6 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.theme.AppTheme
 
@@ -21,7 +20,7 @@ internal class ScoreScreenTest {
 
     @Test
     fun scoreWithoutData() = runComposeUiTest {
-        val store = storeFactory.createScoreStore()
+        val store = testDependency.storeFactory.createScoreStore()
         setContent {
             AppTheme {
                 ScoreScreen(store = store)
@@ -42,7 +41,7 @@ internal class ScoreScreenTest {
             val gameSession = testDependency.useCases.gameSession.getLatestGameSession()!!
             testDependency.useCases.gameSession.updateGameSession(gameSession = gameSession.copy(score = 9000.0))
         }
-        val store = storeFactory.createScoreStore()
+        val store = testDependency.storeFactory.createScoreStore()
         setContent {
             AppTheme {
                 ScoreScreen(store = store)

@@ -6,7 +6,6 @@ import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.theme.AppTheme
 
@@ -20,7 +19,7 @@ internal class NewGameScreenTest {
 
     @Test
     fun newGameWithoutData() = runComposeUiTest {
-        val store = storeFactory.createNewGameStore()
+        val store = testDependency.storeFactory.createNewGameStore()
         setContent {
             AppTheme {
                 NewGameScreen(store = store)
@@ -42,7 +41,7 @@ internal class NewGameScreenTest {
         runBlocking {
             testDependency.useCases.catastrophe.syncCatastrophes()
         }
-        val store = storeFactory.createNewGameStore()
+        val store = testDependency.storeFactory.createNewGameStore()
         setContent {
             AppTheme {
                 NewGameScreen(store = store)

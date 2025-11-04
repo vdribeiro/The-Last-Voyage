@@ -7,14 +7,13 @@ import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.planets
 import com.hybris.tlv.reset
 import com.hybris.tlv.stellarHosts
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class StellarExplorerStoreTest {
 
-    private val store: StellarExplorerStore get() = storeFactory.createStellarExplorerStore()
+    private val store: StellarExplorerStore get() = testDependency.storeFactory.createStellarExplorerStore()
 
     @BeforeTest
     fun setup() = runBlocking {

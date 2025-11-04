@@ -7,7 +7,6 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.theme.AppTheme
 
@@ -21,7 +20,7 @@ internal class MainMenuScreenTest {
 
     @Test
     fun mainMenuWithoutData() = runComposeUiTest {
-        val store = storeFactory.createMainMenuStore()
+        val store = testDependency.storeFactory.createMainMenuStore()
         setContent {
             AppTheme {
                 MainMenuScreen(store = store)
@@ -48,7 +47,7 @@ internal class MainMenuScreenTest {
             testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
             testDependency.useCases.learning.syncLearnings()
         }
-        val store = storeFactory.createMainMenuStore()
+        val store = testDependency.storeFactory.createMainMenuStore()
         setContent {
             AppTheme {
                 MainMenuScreen(store = store)
@@ -82,7 +81,7 @@ internal class MainMenuScreenTest {
             testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
             testDependency.useCases.learning.syncLearnings()
         }
-        val store = storeFactory.createMainMenuStore()
+        val store = testDependency.storeFactory.createMainMenuStore()
         setContent {
             AppTheme {
                 MainMenuScreen(store = store)
@@ -108,7 +107,7 @@ internal class MainMenuScreenTest {
             testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
             testDependency.useCases.learning.syncLearnings()
         }
-        val store = storeFactory.createMainMenuStore()
+        val store = testDependency.storeFactory.createMainMenuStore()
         setContent {
             AppTheme {
                 MainMenuScreen(store = store)
@@ -134,7 +133,7 @@ internal class MainMenuScreenTest {
             testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
             testDependency.useCases.learning.syncLearnings()
         }
-        val store = storeFactory.createMainMenuStore()
+        val store = testDependency.storeFactory.createMainMenuStore()
         setContent {
             AppTheme {
                 MainMenuScreen(store = store)

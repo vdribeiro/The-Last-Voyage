@@ -8,14 +8,13 @@ import kotlin.test.assertNull
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.reset
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class GameOverStoreTest {
 
-    private val store: GameOverStore get() = storeFactory.createGameOverStore()
+    private val store: GameOverStore get() = testDependency.storeFactory.createGameOverStore()
 
     @BeforeTest
     fun setup() = runBlocking {

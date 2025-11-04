@@ -6,7 +6,6 @@ import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.theme.AppTheme
 
@@ -20,7 +19,7 @@ internal class AchievementScreenTest {
 
     @Test
     fun achievementWithoutData() = runComposeUiTest {
-        val store = storeFactory.createAchievementStore()
+        val store = testDependency.storeFactory.createAchievementStore()
         setContent {
             AppTheme {
                 AchievementScreen(store = store)
@@ -36,7 +35,7 @@ internal class AchievementScreenTest {
     @Test
     fun achievementWithData() = runComposeUiTest {
         runBlocking { testDependency.useCases.achievement.syncAchievements() }
-        val store = storeFactory.createAchievementStore()
+        val store = testDependency.storeFactory.createAchievementStore()
         setContent {
             AppTheme {
                 AchievementScreen(store = store)

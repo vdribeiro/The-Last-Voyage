@@ -5,14 +5,13 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.reset
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class FeedbackStoreTest {
 
-    private val store: FeedbackStore get() = storeFactory.createFeedbackStore()
+    private val store: FeedbackStore get() = testDependency.storeFactory.createFeedbackStore()
 
     @BeforeTest
     fun setup() = runBlocking {

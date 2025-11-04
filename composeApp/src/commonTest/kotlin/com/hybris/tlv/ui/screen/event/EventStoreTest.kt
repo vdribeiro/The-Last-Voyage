@@ -10,14 +10,13 @@ import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.events
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.reset
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class EventStoreTest {
 
-    private val store: EventStore get() = storeFactory.createEventStore()
+    private val store: EventStore get() = testDependency.storeFactory.createEventStore()
 
     @BeforeTest
     fun setup() = runBlocking {

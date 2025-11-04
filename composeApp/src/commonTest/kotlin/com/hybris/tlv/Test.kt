@@ -19,7 +19,6 @@ import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
 import com.hybris.tlv.serializer.TRANSLATIONS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
-import com.hybris.tlv.ui.store.StoreFactory
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.credit.model.Credit
@@ -49,15 +48,6 @@ internal fun reset() {
         testDependency.config.setPreferences { Preferences() }
         testDependency.config.setConfigs { Configs() }
     }
-}
-
-internal val storeFactory: StoreFactory by lazy {
-    StoreFactory(
-        navigation = testDependency.navigation,
-        audioPlayer = testDependency.audioPlayer,
-        config = testDependency.config,
-        useCases = testDependency.useCases
-    )
 }
 
 internal val configs: List<Configs> by lazy {

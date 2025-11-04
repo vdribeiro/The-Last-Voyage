@@ -9,14 +9,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.reset
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class MainMenuStoreTest {
 
-    private val store: MainMenuStore get() = storeFactory.createMainMenuStore()
+    private val store: MainMenuStore get() = testDependency.storeFactory.createMainMenuStore()
 
     @BeforeTest
     fun setup() = runBlocking {

@@ -7,7 +7,6 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.theme.AppTheme
 
@@ -21,7 +20,7 @@ internal class GameScreenTest {
 
     @Test
     fun gameWithoutData() = runComposeUiTest {
-        val store = storeFactory.createGameStore()
+        val store = testDependency.storeFactory.createGameStore()
         setContent {
             AppTheme {
                 GameScreen(store = store)
@@ -45,7 +44,7 @@ internal class GameScreenTest {
             testDependency.useCases.space.syncPlanets()
             testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         }
-        val store = storeFactory.createGameStore()
+        val store = testDependency.storeFactory.createGameStore()
         setContent {
             AppTheme {
                 GameScreen(store = store)

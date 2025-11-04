@@ -11,14 +11,13 @@ import com.hybris.tlv.hostsWithPlanets
 import com.hybris.tlv.planets
 import com.hybris.tlv.reset
 import com.hybris.tlv.stellarHosts
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class GameStoreTest {
 
-    private val store: GameStore get() = storeFactory.createGameStore()
+    private val store: GameStore get() = testDependency.storeFactory.createGameStore()
 
     @BeforeTest
     fun setup() = runBlocking {

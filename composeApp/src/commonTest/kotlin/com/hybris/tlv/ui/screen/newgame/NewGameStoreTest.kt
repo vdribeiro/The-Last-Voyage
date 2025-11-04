@@ -8,7 +8,6 @@ import kotlin.test.assertNull
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.engines
 import com.hybris.tlv.reset
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
@@ -16,7 +15,7 @@ import com.hybris.tlv.usecase.ship.model.ShipPrototype
 
 internal class NewGameStoreTest {
 
-    private val store: NewGameStore get() = storeFactory.createNewGameStore()
+    private val store: NewGameStore get() = testDependency.storeFactory.createNewGameStore()
 
     @BeforeTest
     fun setup() = runBlocking {

@@ -6,14 +6,13 @@ import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.achievements
 import com.hybris.tlv.reset
-import com.hybris.tlv.storeFactory
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class AchievementStoreTest {
 
-    private val store: AchievementStore get() = storeFactory.createAchievementStore()
+    private val store: AchievementStore get() = testDependency.storeFactory.createAchievementStore()
 
     @BeforeTest
     fun setup() = runBlocking {
