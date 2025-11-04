@@ -4,8 +4,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Feedback
 import com.hybris.tlv.ui.theme.component.container.Screen

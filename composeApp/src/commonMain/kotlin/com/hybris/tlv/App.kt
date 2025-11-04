@@ -18,18 +18,19 @@ internal fun App() = AppTheme {
     // Setup Navigation
     val navigation = dependency.navigation
     val navigationState by navigation.stateFlow.collectAsState()
-    val screen = navigationState.screen
+    val screenBuilder = dependency.screenBuilder
     Box(
         modifier = Modifier
             .fillMaxSize()
             .enableCheats()
             .backNavigation { navigation.back() }) {
         // Render Screen
-        navigation.Screen(navigationState = navigationState)
+        screenBuilder.Screen(navigationState = navigationState)
     }
 
     // Setup Audio Player
     val audioPlayer = dependency.audioPlayer
+    val screen = navigationState.screen
     LifecycleCoroutine(screen) {
         val playlist = getTracks(screen = screen)
         if (playlist != null) audioPlayer.action(action = Action.Play(playlist = playlist))

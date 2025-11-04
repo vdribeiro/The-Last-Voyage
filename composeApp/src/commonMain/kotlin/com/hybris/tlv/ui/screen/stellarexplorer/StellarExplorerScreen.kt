@@ -17,8 +17,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.card.PlanetCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard

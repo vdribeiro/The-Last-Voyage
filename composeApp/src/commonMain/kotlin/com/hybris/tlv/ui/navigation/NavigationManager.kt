@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.backhandler.BackHandler
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
@@ -59,13 +58,6 @@ internal open class NavigationManager(
                 Telemetry.info(tag = TAG, message = "Navigate to ${_stateFlow.value}")
             }
         }
-    }
-
-    /**
-     * The main composable responsible for rendering the current screen based on the navigation state.
-     */
-    @Composable
-    open fun Screen(navigationState: NavigationState) {
     }
 
     companion object {

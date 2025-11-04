@@ -8,8 +8,8 @@ import androidx.compose.runtime.remember
 import com.hybris.tlv.platform.isAndroid
 import com.hybris.tlv.platform.isDesktop
 import com.hybris.tlv.platform.isIos
-import com.hybris.tlv.ui.preview.getStore
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.MainNavigation
 import com.hybris.tlv.ui.theme.component.bottombar.Snackbar

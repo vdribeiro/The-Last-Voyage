@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.navigation
 
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
 import com.hybris.tlv.ui.screen.credit.CreditScreen
 import com.hybris.tlv.ui.screen.event.EventScreen
@@ -17,30 +16,17 @@ import com.hybris.tlv.ui.screen.splash.SplashScreen
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerScreen
 import com.hybris.tlv.ui.screen.tutorial.TutorialScreen
 import com.hybris.tlv.ui.store.StoreFactory
-import com.hybris.tlv.usecase.UseCases
 
-internal class Navigation(
-    private val audioPlayer: AudioPlayer,
+internal class ScreenBuilder(
     private val config: ConfigManager,
-    private val useCases: UseCases,
-    initialState: NavigationState
-): NavigationManager(
-    initialState = initialState
+    private val storeFactory: StoreFactory,
+    private val navigation: NavigationManager,
 ) {
-    private val storeFactory: StoreFactory = StoreFactory(
-        navigation = this,
-        audioPlayer = audioPlayer,
-        config = config,
-        useCases = useCases
-    )
-
     /**
-     * Fallback to [Screen.Splash] screen.
+     * The main composable responsible for rendering the current screen based on the navigation state.
      */
-    private fun fallback() = navigate(navigationState = NavigationState(screen = Screen.Splash))
-
     @Composable
-    override fun Screen(navigationState: NavigationState) {
+    fun Screen(navigationState: NavigationState) {
         with(receiver = config.remoteConfigs) {
             when (navigationState.screen) {
                 Screen.Splash -> SplashScreen(store = storeFactory.createSplashStore())
@@ -59,4 +45,9 @@ internal class Navigation(
             }
         }
     }
+
+    /**
+     * Fallback to [Screen.Splash] screen.
+     */
+    private fun fallback() = navigation.navigate(navigationState = NavigationState(screen = Screen.Splash))
 }
