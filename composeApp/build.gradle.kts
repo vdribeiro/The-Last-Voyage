@@ -27,8 +27,8 @@ val appName: String = "The Last Voyage"
 val appDescription: String = "An Educational Space Adventure"
 val appVendor: String = "Hybris"
 val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb"
-val appVersion: String = "1.0.2"
-val appVersionNumber: Long = 4
+val appVersion: String = "1.0.3"
+val appVersionNumber: Long = 5
 val archive: Boolean = false // Turn on to get the latest NASA data
 val androidTarget: Int = 35
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
@@ -37,7 +37,7 @@ val androidStoreFile: File? = runCatching { rootProject.file(localProperties.get
 val androidStorePassword: String = localProperties.getProperty("android.storePassword", "")
 val iosTarget: String = "16.0"
 val macIdentity: String = localProperties.getProperty("mac.sign.identity", "")
-val iosSentryVersion: String = libs.versions.iosSentry.get()
+val iosSentryVersion: String = "8.55.1"
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
 //endregion
 

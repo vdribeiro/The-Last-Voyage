@@ -1,5 +1,5 @@
 PODS:
-  - composeApp (1.0.2):
+  - composeApp (1.0.3):
     - Sentry (= 8.55.1)
   - Sentry (8.55.1):
     - Sentry/Core (= 8.55.1)
@@ -17,7 +17,7 @@ EXTERNAL SOURCES:
     :path: "../composeApp"
 
 SPEC CHECKSUMS:
-  composeApp: dd1a86e6ada6aad75951f28691d0149563be6af0
+  composeApp: 6a164f0dab0382698392d61c399e1786829433fe
   Sentry: 6c92b12db0634612f6a66757890fea97e788fe12
 
 PODFILE CHECKSUM: 3bc5100229ec16ce4e91b20836eecff9fb15c5af
