@@ -37,7 +37,6 @@ val androidStoreFile: File? = runCatching { rootProject.file(localProperties.get
 val androidStorePassword: String = localProperties.getProperty("android.storePassword", "")
 val iosTarget: String = "16.0"
 val macIdentity: String = localProperties.getProperty("mac.sign.identity", "")
-val iosSentryVersion: String = "8.55.1"
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
 //endregion
 
@@ -223,11 +222,6 @@ kotlin {
         homepage = appHomepage
         ios.deploymentTarget = iosTarget
         podfile = project.file("../iosApp/Podfile")
-        pod(name = "Sentry") {
-            version = iosSentryVersion
-            linkOnly = true
-            extraOpts += listOf("-compiler-option", "-fmodules")
-        }
     }
 }
 
