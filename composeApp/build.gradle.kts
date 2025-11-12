@@ -25,6 +25,7 @@ val localProperties: Properties = Properties().apply {
 val appId: String = "com.hybris.tlv"
 val appName: String = "The Last Voyage"
 val appDescription: String = "An Educational Space Adventure"
+val appFramework = "TLV"
 val appVendor: String = "Hybris"
 val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb"
 val appVersion: String = "1.0.3"
@@ -207,7 +208,7 @@ kotlin {
         }
         iosTargets.forEach { iosTarget ->
             iosTarget.binaries.framework {
-                baseName = "TLV"
+                baseName = appFramework
                 isStatic = true
                 version = appVersion
                 freeCompilerArgs += "-Xbinary=bundleId=$appId"
