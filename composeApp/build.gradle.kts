@@ -172,7 +172,7 @@ kotlin {
             }
         }
 
-        val commonTest by getting {
+        getByName("commonTest") {
             dependencies {
                 implementation(dependencyNotation = libs.bundles.common.test)
                 @OptIn(ExperimentalComposeLibrary::class)
@@ -180,13 +180,13 @@ kotlin {
             }
         }
 
-        val androidMain by getting {
+        getByName("androidMain") {
             dependencies {
                 implementation(dependencyNotation = libs.bundles.android)
             }
         }
 
-        val desktopMain by getting {
+        getByName("desktopMain") {
             dependencies {
                 implementation(dependencyNotation = compose.desktop.currentOs)
                 implementation(dependencyNotation = libs.bundles.desktop)
@@ -194,7 +194,7 @@ kotlin {
             }
         }
 
-        val desktopTest by getting {
+        getByName("desktopTest") {
             dependencies {
                 implementation(dependencyNotation = compose.desktop.uiTestJUnit4)
             }
