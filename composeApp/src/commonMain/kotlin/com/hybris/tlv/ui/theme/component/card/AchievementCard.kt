@@ -7,23 +7,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
-import com.hybris.tlv.ui.theme.component.image.Image
-import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
@@ -31,11 +24,9 @@ internal fun AchievementCard(
     modifier: Modifier = Modifier,
     name: String? = null,
     description: String? = null,
-    image: ImageResource? = null,
     done: Boolean = false,
 ) {
     val typography = LocalTypography.current
-    val shapes = LocalShapes.current
 
     Card(modifier = modifier.fillMaxWidth()) {
         Row(
@@ -44,18 +35,6 @@ internal fun AchievementCard(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            image?.let {
-                Image(
-                    modifier = Modifier
-                        .size(size = 72.dp)
-                        .clip(shape = shapes.small)
-                        .align(alignment = Alignment.Top),
-                    image = it,
-                    contentDescription = name,
-                    contentScale = ContentScale.Crop,
-                )
-                Spacer(modifier = Modifier.width(width = 16.dp))
-            }
             Column(modifier = Modifier.weight(weight = 1f)) {
                 name?.let {
                     Text(
