@@ -53,21 +53,8 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
     ) {
         TypewriterContent(
             title = event?.let { getTranslation(key = it.id) },
-            text = event?.let { getTranslation(key = it.description) + getOutcomeTranslation(outcome = it.outcome) },
+            text = event?.let { "${getTranslation(key = it.description)}${it.outcome?.getTranslation()}" },
         )
-    }
-}
-
-private fun getOutcomeTranslation(outcome: TravelOutcome?): String {
-    if (outcome == null) return ""
-    return with(receiver = outcome) {
-        buildList {
-            add("\n")
-            if (integrity != null) add("${if (integrity > 0) "+" else ""}$integrity ${getTranslation(key = "ship_integrity")}")
-            if (materials != null) add("${if (materials > 0) "+" else ""}$materials ${getTranslation(key = "ship_materials")}")
-            if (fuel != null) add("${if (fuel > 0.0) "+" else ""}$fuel ${getTranslation(key = "ship_fuel")}")
-            if (cryopods != null) add("${if (cryopods > 0) "+" else ""}$cryopods ${getTranslation(key = "ship_cryopods")}")
-        }.joinToString(separator = "\n")
     }
 }
 

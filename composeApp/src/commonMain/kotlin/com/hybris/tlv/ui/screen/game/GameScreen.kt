@@ -26,6 +26,7 @@ import com.hybris.tlv.ui.theme.component.dialog.Dialog
 import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
 import com.hybris.tlv.ui.theme.component.list.ShipStats
+import com.hybris.tlv.ui.theme.component.list.TravelList
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
@@ -83,7 +84,16 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
             )
 
             Content.SYSTEM -> SystemContent(store = store)
-            Content.TRAVEL -> TravelContent(store = store)
+            Content.TRAVEL -> TravelList(
+                stellarHosts = storeState.nearStellarHosts,
+                id = { it.id },
+                name = { it.name },
+                planetCount = { it.planets.size },
+                spectralType = { it.spectralType },
+                spectralImage = { it.spectralType.spectralTypeToImage() },
+                distance = { it.distance },
+                onClick = { store.send(action = GameAction.Travel(stellarHost = it)) }
+            )
         }
     }
 }
@@ -151,30 +161,6 @@ private fun SystemContent(store: Store<GameState, GameAction>) {
                 habitability = planet.score?.habitabilityScore,
                 type = planet.score?.planetType?.displayName,
                 image = planet.score?.planetType.toImage()
-            )
-        }
-    }
-}
-
-@Composable
-private fun TravelContent(store: Store<GameState, GameAction>) {
-    val storeState by store.stateFlow.collectAsState()
-
-    LazyColumnWithScrollBar(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
-    ) {
-        items(items = storeState.nearStellarHosts, key = { it.id }) { stellarHost ->
-            StellarHostCard(
-                modifier = Modifier
-                    .clickable { store.send(action = GameAction.Travel(stellarHost = stellarHost)) },
-                name = stellarHost.name,
-                planetCount = stellarHost.planets.size,
-                spectralType = stellarHost.spectralType,
-                spectralImage = stellarHost.spectralType.spectralTypeToImage(),
-                distance = stellarHost.distance,
             )
         }
     }
