@@ -21,12 +21,12 @@ import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun <T> AchievementList(
+internal inline fun <T> AchievementList(
     modifier: Modifier = Modifier,
     achievements: List<T> = emptyList(),
-    id: (T) -> String = { "" },
-    description: (T) -> String? = { null },
-    done: (T) -> Boolean = { false }
+    noinline id: (T) -> String = { "" },
+    crossinline description: (T) -> String? = { null },
+    crossinline done: (T) -> Boolean = { false }
 ) {
     val translationVersion by TranslationCache.stateFlow.collectAsState()
     val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "achievements_screen__title") }

@@ -20,7 +20,7 @@ import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun <T> SystemList(
+internal inline fun <T> SystemList(
     modifier: Modifier = Modifier,
     stellarHostId: String? = null,
     stellarHostName: String? = null,
@@ -31,16 +31,16 @@ internal fun <T> SystemList(
     stellarHostMass: Double? = null,
     stellarHostAge: Double? = null,
     planets: List<T> = emptyList(),
-    planetId: (T) -> String = { "" },
-    planetName: (T) -> String? = { null },
-    planetRadius: (T) -> Double? = { null },
-    planetMass: (T) -> Double? = { null },
-    planetDensity: (T) -> Double? = { null },
-    planetEquilibriumTemperature: (T) -> Double? = { null },
-    planetHabitability: (T) -> Double? = { null },
-    planetType: (T) -> String? = { null },
-    planetImage: (T) -> ImageResource? = { null },
-    onClick: (T) -> Unit = {}
+    noinline planetId: (T) -> String = { "" },
+    crossinline planetName: (T) -> String? = { null },
+    crossinline planetRadius: (T) -> Double? = { null },
+    crossinline planetMass: (T) -> Double? = { null },
+    crossinline planetDensity: (T) -> Double? = { null },
+    crossinline planetEquilibriumTemperature: (T) -> Double? = { null },
+    crossinline planetHabitability: (T) -> Double? = { null },
+    crossinline planetType: (T) -> String? = { null },
+    crossinline planetImage: (T) -> ImageResource? = { null },
+    crossinline onClick: (T) -> Unit = {}
 ) {
     var planetToSettle: T? by remember { mutableStateOf(value = null) }
 

@@ -27,12 +27,12 @@ import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun <T> CreditList(
+internal inline fun <T> CreditList(
     modifier: Modifier = Modifier,
     credits: List<T> = emptyList(),
-    id: (T) -> String = { "" },
-    link: (T) -> String? = { null },
-    type: (T) -> CreditType? = { null },
+    noinline id: (T) -> String = { "" },
+    crossinline link: (T) -> String? = { null },
+    crossinline type: (T) -> CreditType? = { null },
 ) {
     val creditsMap = credits.groupBy { type(it) }
     val creators = creditsMap[CreditType.CREATOR].orEmpty()

@@ -12,16 +12,16 @@ import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.image.ImageResource
 
 @Composable
-internal fun <T> TravelList(
+internal inline fun <T> TravelList(
     modifier: Modifier = Modifier,
     stellarHosts: List<T> = emptyList(),
-    id: (T) -> String = { "" },
-    name: (T) -> String? = { null },
-    planetCount: (T) -> Int? = { null },
-    spectralType: (T) -> String? = { null },
-    spectralImage: (T) -> ImageResource? = { null },
-    distance: (T) -> Double? = { null },
-    onClick: (T) -> Unit = {},
+    noinline id: (T) -> String = { "" },
+    crossinline name: (T) -> String? = { null },
+    crossinline planetCount: (T) -> Int? = { null },
+    crossinline spectralType: (T) -> String? = { null },
+    crossinline spectralImage: (T) -> ImageResource? = { null },
+    crossinline distance: (T) -> Double? = { null },
+    crossinline onClick: (T) -> Unit = {},
 ) {
     LazyColumnWithScrollBar(
         modifier = modifier
