@@ -41,7 +41,6 @@ internal class HelpStore(
         updateState {
             it.copy(
                 loading = false,
-                featureTutorial = configs.featureTutorial,
                 formula = configs.formula,
                 learningsMap = learningsMap,
             )

@@ -41,11 +41,7 @@ internal data class Dependency(
         config = config,
         useCases = useCases
     ),
-    val screenBuilder: ScreenBuilder = ScreenBuilder(
-        config = config,
-        storeFactory = storeFactory,
-        navigation = navigation
-    )
+    val screenBuilder: ScreenBuilder = ScreenBuilder(storeFactory = storeFactory)
 ) {
     init {
         Telemetry.info(tag = TAG, message = "Dependencies setup complete")

@@ -61,7 +61,6 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
 
 @Composable
 private fun LearnContent(store: Store<HelpState, HelpAction>) {
-    val storeState by store.stateFlow.collectAsState()
     val translationVersion by TranslationCache.stateFlow.collectAsState()
     val helpTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__learn") }
     val hostDefinitionTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__host_definition") }
@@ -110,15 +109,13 @@ private fun LearnContent(store: Store<HelpState, HelpAction>) {
                 style = typography.headlineMedium,
             )
         }
-        if (storeState.featureTutorial) {
-            item {
-                Text(
-                    modifier = Modifier
-                        .clickable { store.send(action = HelpAction.Mechanics) },
-                    text = mechanicsTranslation,
-                    style = typography.headlineMedium,
-                )
-            }
+        item {
+            Text(
+                modifier = Modifier
+                    .clickable { store.send(action = HelpAction.Mechanics) },
+                text = mechanicsTranslation,
+                style = typography.headlineMedium,
+            )
         }
     }
 }
@@ -367,7 +364,6 @@ private fun HelpPreview() = AppTheme {
         store = getStore(
             initialState = HelpState(
                 loading = false,
-                featureTutorial = true,
                 formula = "Formula",
                 currentContent = Content.LEARN_MENU,
                 learningsMap = emptyMap(),
@@ -383,7 +379,6 @@ private fun HelpHostDefinitionPreview() = AppTheme {
         store = getStore(
             initialState = HelpState(
                 loading = false,
-                featureTutorial = true,
                 formula = "Formula",
                 currentContent = Content.HOST_DEFINITION,
                 learningsMap = listOf(
@@ -418,7 +413,6 @@ private fun HelpPlanetDefinitionPreview() = AppTheme {
         store = getStore(
             initialState = HelpState(
                 loading = false,
-                featureTutorial = true,
                 formula = "Formula",
                 currentContent = Content.PLANET_DEFINITION,
                 learningsMap = listOf(
@@ -453,7 +447,6 @@ private fun HelpHabitabilityPreview() = AppTheme {
         store = getStore(
             initialState = HelpState(
                 loading = false,
-                featureTutorial = true,
                 formula = "Formula",
                 currentContent = Content.HABITABILITY,
                 learningsMap = listOf(

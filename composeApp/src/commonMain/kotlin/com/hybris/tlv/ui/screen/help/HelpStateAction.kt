@@ -23,7 +23,6 @@ internal sealed interface HelpStateBuilder {
 internal data class HelpState(
     val loading: Boolean = true,
     val currentContent: Content = Content.LEARN_MENU,
-    val featureTutorial: Boolean = false,
     val learningsMap: Map<LearningType, List<Learning>> = emptyMap(),
     val formula: String = "",
     val stellarHost: StellarHost = StellarHost(

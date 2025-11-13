@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.navigation
 
 import androidx.compose.runtime.Composable
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
 import com.hybris.tlv.ui.screen.credit.CreditScreen
 import com.hybris.tlv.ui.screen.event.EventScreen
@@ -17,37 +16,26 @@ import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerScreen
 import com.hybris.tlv.ui.screen.tutorial.TutorialScreen
 import com.hybris.tlv.ui.store.StoreFactory
 
-internal class ScreenBuilder(
-    private val config: ConfigManager,
-    private val storeFactory: StoreFactory,
-    private val navigation: NavigationManager,
-) {
+internal class ScreenBuilder(private val storeFactory: StoreFactory) {
     /**
      * The main composable responsible for rendering the current screen based on the navigation state.
      */
     @Composable
     fun Screen(navigationState: NavigationState) {
-        with(receiver = config.remoteConfigs) {
-            when (navigationState.screen) {
-                Screen.Splash -> SplashScreen(store = storeFactory.createSplashStore())
-                Screen.MainMenu -> MainMenuScreen(store = storeFactory.createMainMenuStore(stateBuilder = navigationState.stateBuilder))
-                Screen.Help -> HelpScreen(store = storeFactory.createHelpStore(stateBuilder = navigationState.stateBuilder))
-                Screen.Feedback -> FeedbackScreen(store = storeFactory.createFeedbackStore(stateBuilder = navigationState.stateBuilder))
-                Screen.NewGame -> if (featureNewGame) NewGameScreen(store = storeFactory.createNewGameStore(stateBuilder = navigationState.stateBuilder)) else fallback()
-                Screen.Tutorial -> if (featureTutorial) TutorialScreen(store = storeFactory.createTutorialStore(stateBuilder = navigationState.stateBuilder)) else fallback()
-                Screen.Game -> if (featureGame) GameScreen(store = storeFactory.createGameStore(stateBuilder = navigationState.stateBuilder)) else fallback()
-                Screen.Event -> if (featureEvents) EventScreen(store = storeFactory.createEventStore(stateBuilder = navigationState.stateBuilder)) else fallback()
-                Screen.GameOver -> if (featureGameOver) GameOverScreen(store = storeFactory.createGameOverStore(stateBuilder = navigationState.stateBuilder)) else fallback()
-                Screen.StellarExplorer -> if (featureStellarExplorer) StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(stateBuilder = navigationState.stateBuilder)) else fallback()
-                Screen.Score -> if (featureScores) ScoreScreen(store = storeFactory.createScoreStore(stateBuilder = navigationState.stateBuilder)) else fallback()
-                Screen.Achievement -> if (featureAchievements) AchievementScreen(store = storeFactory.createAchievementStore(stateBuilder = navigationState.stateBuilder)) else fallback()
-                Screen.Credit -> CreditScreen(store = storeFactory.createCreditStore(stateBuilder = navigationState.stateBuilder))
-            }
+        when (navigationState.screen) {
+            Screen.Splash -> SplashScreen(store = storeFactory.createSplashStore())
+            Screen.MainMenu -> MainMenuScreen(store = storeFactory.createMainMenuStore(stateBuilder = navigationState.stateBuilder))
+            Screen.Help -> HelpScreen(store = storeFactory.createHelpStore(stateBuilder = navigationState.stateBuilder))
+            Screen.Feedback -> FeedbackScreen(store = storeFactory.createFeedbackStore(stateBuilder = navigationState.stateBuilder))
+            Screen.NewGame -> NewGameScreen(store = storeFactory.createNewGameStore(stateBuilder = navigationState.stateBuilder))
+            Screen.Tutorial -> TutorialScreen(store = storeFactory.createTutorialStore(stateBuilder = navigationState.stateBuilder))
+            Screen.Game -> GameScreen(store = storeFactory.createGameStore(stateBuilder = navigationState.stateBuilder))
+            Screen.Event -> EventScreen(store = storeFactory.createEventStore(stateBuilder = navigationState.stateBuilder))
+            Screen.GameOver -> GameOverScreen(store = storeFactory.createGameOverStore(stateBuilder = navigationState.stateBuilder))
+            Screen.StellarExplorer -> StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(stateBuilder = navigationState.stateBuilder))
+            Screen.Score -> ScoreScreen(store = storeFactory.createScoreStore(stateBuilder = navigationState.stateBuilder))
+            Screen.Achievement -> AchievementScreen(store = storeFactory.createAchievementStore(stateBuilder = navigationState.stateBuilder))
+            Screen.Credit -> CreditScreen(store = storeFactory.createCreditStore(stateBuilder = navigationState.stateBuilder))
         }
     }
-
-    /**
-     * Fallback to [Screen.Splash] screen.
-     */
-    private fun fallback() = navigation.navigate(navigationState = NavigationState(screen = Screen.Splash))
 }

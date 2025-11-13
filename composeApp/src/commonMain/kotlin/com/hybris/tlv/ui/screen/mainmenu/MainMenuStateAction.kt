@@ -15,20 +15,13 @@ internal sealed interface MainMenuAction {
 
 internal sealed interface MainMenuStateBuilder {
     data object Default: MainMenuStateBuilder
-    data class FromSavableState(
-        val state: MainMenuState,
-        val featureTutorial: Boolean
-    ): MainMenuStateBuilder
+    data class FromSavableState(val state: MainMenuState): MainMenuStateBuilder
 }
 
 internal data class MainMenuState(
     val loading: Boolean = true,
     val newVersionBanner: Boolean = false,
     val showNavigationInfo: Boolean = false,
-    val featureScores: Boolean = false,
-    val featureAchievements: Boolean = false,
-    val featureStellarExplorer: Boolean = false,
-    val featureNewGame: Boolean = false,
     val developerCorner: String = "",
     val support: String = "",
     val ongoingGameSession: Boolean = false,

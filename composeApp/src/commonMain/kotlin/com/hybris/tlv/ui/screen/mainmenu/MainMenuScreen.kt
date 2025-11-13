@@ -64,13 +64,9 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
             )
         }
         MainMenu(
-            featureScores = storeState.featureNewGame,
             onScoresClick = { store.send(action = MainMenuAction.Scores) },
-            featureAchievements = storeState.featureAchievements,
             onAchievementsClick = { store.send(action = MainMenuAction.Achievements) },
-            featureStellarExplorer = storeState.featureStellarExplorer,
             onStellarExplorerClick = { store.send(action = MainMenuAction.StellarExplorer) },
-            featureNewGame = storeState.featureNewGame,
             onNewGameClick = { store.send(action = MainMenuAction.NewGame) },
             ongoingGameSession = storeState.ongoingGameSession,
             onOngoingGameSessionClick = { store.send(action = MainMenuAction.Next) }
@@ -93,10 +89,6 @@ private fun MainMenuLoadingPreview() = AppTheme {
         store = getStore(
             initialState = MainMenuState(
                 loading = true,
-                featureScores = true,
-                featureAchievements = true,
-                featureStellarExplorer = true,
-                featureNewGame = true,
                 developerCorner = "Developer Corner",
                 support = "Support",
                 ongoingGameSession = false,
@@ -137,10 +129,6 @@ private fun MainMenuAllPreview() = AppTheme {
         store = getStore(
             initialState = MainMenuState(
                 loading = false,
-                featureScores = true,
-                featureAchievements = true,
-                featureStellarExplorer = true,
-                featureNewGame = true,
                 developerCorner = "Developer Corner",
                 support = "Support",
                 ongoingGameSession = false,
@@ -185,45 +173,9 @@ private fun MainMenuContinuePreview() = AppTheme {
         store = getStore(
             initialState = MainMenuState(
                 loading = false,
-                featureScores = true,
-                featureAchievements = true,
-                featureStellarExplorer = true,
-                featureNewGame = true,
                 developerCorner = "Developer Corner",
                 support = "Support",
                 ongoingGameSession = true,
-                newGameDialog = false
-            )
-        )
-    )
-}
-
-@Preview
-@Composable
-private fun MainMenuNoFeaturesPreview() = AppTheme {
-    TranslationCache.set(
-        translations = listOf(
-            Translation(
-                key = "app_name",
-                value = "The Last Voyage"
-            ),
-            Translation(
-                key = "main_menu_screen__credits",
-                value = "Credits"
-            ),
-        )
-    )
-    MainMenuScreen(
-        store = getStore(
-            initialState = MainMenuState(
-                loading = false,
-                featureScores = false,
-                featureAchievements = false,
-                featureStellarExplorer = false,
-                featureNewGame = false,
-                developerCorner = "Developer Corner",
-                support = "Support",
-                ongoingGameSession = false,
                 newGameDialog = false
             )
         )

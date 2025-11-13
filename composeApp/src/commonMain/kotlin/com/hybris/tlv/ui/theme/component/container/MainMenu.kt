@@ -20,13 +20,9 @@ import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun MainMenu(
-    featureScores: Boolean = false,
     onScoresClick: () -> Unit = {},
-    featureAchievements: Boolean = false,
     onAchievementsClick: () -> Unit = {},
-    featureStellarExplorer: Boolean = false,
     onStellarExplorerClick: () -> Unit = {},
-    featureNewGame: Boolean = false,
     onNewGameClick: () -> Unit = {},
     ongoingGameSession: Boolean = false,
     onOngoingGameSessionClick: () -> Unit = {},
@@ -55,55 +51,47 @@ internal fun MainMenu(
                 text = appNameTranslation
             )
         }
-        if (featureNewGame) {
-            item {
-                Text(
-                    modifier = Modifier
-                        .clickable { onNewGameClick() },
-                    text = newGameTranslation,
-                    style = typography.headlineMedium,
-                )
-            }
-            if (ongoingGameSession) {
-                item {
-                    Text(
-                        modifier = Modifier
-                            .clickable { onOngoingGameSessionClick() },
-                        text = continueTranslation,
-                        style = typography.headlineMedium,
-                    )
-                }
-            }
+        item {
+            Text(
+                modifier = Modifier
+                    .clickable { onNewGameClick() },
+                text = newGameTranslation,
+                style = typography.headlineMedium,
+            )
         }
-        if (featureStellarExplorer) {
+        if (ongoingGameSession) {
             item {
                 Text(
                     modifier = Modifier
-                        .clickable { onStellarExplorerClick() },
-                    text = stellarExplorerTranslation,
+                        .clickable { onOngoingGameSessionClick() },
+                    text = continueTranslation,
                     style = typography.headlineMedium,
                 )
             }
         }
-        if (featureScores) {
-            item {
-                Text(
-                    modifier = Modifier
-                        .clickable { onScoresClick() },
-                    text = scoresTranslation,
-                    style = typography.headlineMedium,
-                )
-            }
+        item {
+            Text(
+                modifier = Modifier
+                    .clickable { onStellarExplorerClick() },
+                text = stellarExplorerTranslation,
+                style = typography.headlineMedium,
+            )
         }
-        if (featureAchievements) {
-            item {
-                Text(
-                    modifier = Modifier
-                        .clickable { onAchievementsClick() },
-                    text = achievementsTranslation,
-                    style = typography.headlineMedium,
-                )
-            }
+        item {
+            Text(
+                modifier = Modifier
+                    .clickable { onScoresClick() },
+                text = scoresTranslation,
+                style = typography.headlineMedium,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier
+                    .clickable { onAchievementsClick() },
+                text = achievementsTranslation,
+                style = typography.headlineMedium,
+            )
         }
     }
 }

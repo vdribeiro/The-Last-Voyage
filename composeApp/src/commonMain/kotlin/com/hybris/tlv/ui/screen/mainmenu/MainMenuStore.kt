@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import kotlinx.coroutines.Job
-import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.platform.Property
@@ -26,20 +25,15 @@ internal class MainMenuStore(
         is MainMenuStateBuilder.FromSavableState -> stateBuilder.state
     }
 ) {
-    @get:VisibleForTesting
-    internal var featureTutorial: Boolean = true
-
     init {
         when (stateBuilder) {
             MainMenuStateBuilder.Default -> setup()
-            is MainMenuStateBuilder.FromSavableState -> {
-                featureTutorial = stateBuilder.featureTutorial
-            }
+            is MainMenuStateBuilder.FromSavableState -> {}
         }
     }
 
     override fun getSavableState(state: MainMenuState): Any =
-        MainMenuStateBuilder.FromSavableState(state = state.copy(newGameDialog = false), featureTutorial = featureTutorial)
+        MainMenuStateBuilder.FromSavableState(state = state.copy(newGameDialog = false))
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
@@ -47,23 +41,14 @@ internal class MainMenuStore(
         val configs = config.remoteConfigs
         val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
         val showNavigationInfo = preferences.showNavigationInfo
-        val featureScores = configs.featureScores
-        val featureAchievements = configs.featureAchievements
-        val featureStellarExplorer = configs.featureStellarExplorer
-        val featureNewGame = configs.featureNewGame
         val developerCorner = configs.developerCorner
         val support = configs.support
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
-        this@MainMenuStore.featureTutorial = configs.featureTutorial
         updateState {
             it.copy(
                 loading = false,
                 newVersionBanner = newVersionBanner,
                 showNavigationInfo = showNavigationInfo,
-                featureScores = featureScores,
-                featureAchievements = featureAchievements,
-                featureStellarExplorer = featureStellarExplorer,
-                featureNewGame = featureNewGame,
                 developerCorner = developerCorner,
                 support = support,
                 ongoingGameSession = ongoingGameSession,
@@ -75,9 +60,7 @@ internal class MainMenuStore(
 
     private fun newGame(): Job = launch {
         Telemetry.info(tag = TAG, message = "New game")
-        if (featureTutorial && config.preferences.showTutorial) {
-            updateState { it.copy(newGameDialog = true) }
-        } else navigate(screen = Screen.NewGame)
+        if (config.preferences.showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = Screen.NewGame)
     }
 
     private fun newGameWithoutTutorial(): Job = launch {

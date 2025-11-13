@@ -58,14 +58,6 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
             developerCorner = configs.developerCorner,
             support = configs.support,
             formula = configs.formula,
-            featureScores = configs.featureScores,
-            featureAchievements = configs.featureAchievements,
-            featureStellarExplorer = configs.featureStellarExplorer,
-            featureNewGame = configs.featureNewGame,
-            featureTutorial = configs.featureTutorial,
-            featureGame = configs.featureGame,
-            featureEvents = configs.featureEvents,
-            featureGameOver = configs.featureGameOver,
         )
     }
 

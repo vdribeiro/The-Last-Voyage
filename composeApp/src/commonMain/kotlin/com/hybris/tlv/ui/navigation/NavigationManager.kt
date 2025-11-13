@@ -11,9 +11,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.telemetry.Telemetry
 
-internal open class NavigationManager(
-    initialState: NavigationState
-) {
+internal open class NavigationManager(initialState: NavigationState) {
     private val mutex = Mutex()
 
     /**
