@@ -1,31 +1,18 @@
 package com.hybris.tlv.ui.screen.game
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.GameNavigation
-import com.hybris.tlv.ui.theme.component.card.PlanetCard
-import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.container.Screen
-import com.hybris.tlv.ui.theme.component.dialog.Dialog
-import com.hybris.tlv.ui.theme.component.divider.Divider
-import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
 import com.hybris.tlv.ui.theme.component.list.ShipStats
+import com.hybris.tlv.ui.theme.component.list.SystemList
 import com.hybris.tlv.ui.theme.component.list.TravelList
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.usecase.ship.model.Engine
@@ -36,7 +23,6 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
@@ -83,7 +69,31 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
                 cryopods = ship?.cryopods,
             )
 
-            Content.SYSTEM -> SystemContent(store = store)
+            Content.SYSTEM -> {
+                val stellarHost = storeState.currentStellarHost ?: return@Screen
+                SystemList(
+                    stellarHostId = stellarHost.id,
+                    stellarHostName = stellarHost.name,
+                    stellarHostSpectralType = stellarHost.spectralType,
+                    stellarHostSpectralImage = stellarHost.spectralType.spectralTypeToImage(),
+                    stellarHostEffectiveTemperature = stellarHost.effectiveTemperature,
+                    stellarHostRadius = stellarHost.radius,
+                    stellarHostMass = stellarHost.mass,
+                    stellarHostAge = stellarHost.age,
+                    planets = stellarHost.planets,
+                    planetId = { it.id },
+                    planetName = { it.name },
+                    planetRadius = { it.radius },
+                    planetMass = { it.mass },
+                    planetDensity = { it.density },
+                    planetEquilibriumTemperature = { it.equilibriumTemperature },
+                    planetHabitability = { it.score?.habitabilityScore },
+                    planetType = { it.score?.planetType?.displayName },
+                    planetImage = { it.score?.planetType.toImage() },
+                    onClick = { store.send(action = GameAction.Settle(planet = it)) }
+                )
+            }
+
             Content.TRAVEL -> TravelList(
                 stellarHosts = storeState.nearStellarHosts,
                 id = { it.id },
@@ -93,74 +103,6 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
                 spectralImage = { it.spectralType.spectralTypeToImage() },
                 distance = { it.distance },
                 onClick = { store.send(action = GameAction.Travel(stellarHost = it)) }
-            )
-        }
-    }
-}
-
-@Composable
-private fun SystemContent(store: Store<GameState, GameAction>) {
-    val storeState by store.stateFlow.collectAsState()
-    val stellarHost = storeState.currentStellarHost ?: return
-    var planetToSettle: Planet? by remember { mutableStateOf(value = null) }
-
-    planetToSettle?.let {
-        Dialog(
-            title = getTranslation(key = "game_screen__settle", it.name),
-            onConfirm = { store.send(action = GameAction.Settle(planet = it)) },
-            onDismiss = { planetToSettle = null },
-            onDismissRequest = { planetToSettle = null },
-        )
-    }
-
-    LazyColumnWithScrollBar(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
-    ) {
-        item(key = stellarHost.id) {
-            StellarHostCard(
-                name = stellarHost.name,
-                systemName = stellarHost.systemName,
-                planetCount = stellarHost.planets.size,
-                spectralType = stellarHost.spectralType,
-                spectralImage = stellarHost.spectralType.spectralTypeToImage(),
-                effectiveTemperature = stellarHost.effectiveTemperature,
-                radius = stellarHost.radius,
-                mass = stellarHost.mass,
-                metallicity = stellarHost.metallicity,
-                luminosity = stellarHost.luminosity,
-                gravity = stellarHost.gravity,
-                age = stellarHost.age,
-                density = stellarHost.density,
-                rotationalVelocity = stellarHost.rotationalVelocity,
-                rotationalPeriod = stellarHost.rotationalPeriod,
-                distance = stellarHost.distance,
-                ra = stellarHost.ra,
-                dec = stellarHost.dec,
-            )
-        }
-        item { Divider(modifier = Modifier.padding(vertical = 8.dp)) }
-        items(items = stellarHost.planets, key = { it.id }) { planet ->
-            PlanetCard(
-                modifier = Modifier
-                    .clickable { planetToSettle = planet },
-                name = planet.name,
-                orbitalPeriod = planet.orbitalPeriod,
-                orbitAxis = planet.orbitAxis,
-                radius = planet.radius,
-                mass = planet.mass,
-                density = planet.density,
-                eccentricity = planet.eccentricity,
-                insolationFlux = planet.insolationFlux,
-                equilibriumTemperature = planet.equilibriumTemperature,
-                occultationDepth = planet.occultationDepth,
-                inclination = planet.inclination,
-                obliquity = planet.obliquity,
-                habitability = planet.score?.habitabilityScore,
-                type = planet.score?.planetType?.displayName,
-                image = planet.score?.planetType.toImage()
             )
         }
     }
