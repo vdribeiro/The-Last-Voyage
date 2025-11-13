@@ -2,7 +2,7 @@ package com.hybris.tlv.telemetry
 
 import com.hybris.tlv.platform.isDebug
 
-internal object Telemetry {
+object Telemetry {
 
     fun init() {
         SentryLogger.init()
