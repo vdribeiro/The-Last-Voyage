@@ -32,6 +32,7 @@ import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
@@ -39,18 +40,18 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun Score(
     modifier: Modifier = Modifier,
     isExpanded: Boolean? = null,
-    score: String = "",
-    utc: String = now(),
+    score: Double? = null,
+    utc: String? = null,
     settledPlanet: String? = null,
-    habitability: String? = null,
-    engine: String = "",
-    assignedPoints: String = "",
-    yearsTraveled: String = "",
-    sensorRange: String = "",
-    integrity: String = "",
-    fuel: String = "",
-    materials: String = "",
-    cryopods: String = "",
+    habitability: Double? = null,
+    engine: String? = null,
+    assignedPoints: Int? = null,
+    yearsTraveled: Double? = null,
+    sensorRange: Int? = null,
+    integrity: Int? = null,
+    fuel: Int? = null,
+    materials: Int? = null,
+    cryopods: Int? = null
 ) {
     val translationVersion by TranslationCache.stateFlow.collectAsState()
     val settledPlanetTranslation = remember(key1 = translationVersion) { getTranslation(key = "settled_planet") }
@@ -70,9 +71,9 @@ internal fun Score(
                 .fillMaxWidth()
                 .padding(all = 16.dp)
         ) {
-            ScoreHeader(
+            if (score != null && utc != null) ScoreHeader(
                 utc = utc,
-                totalScore = score,
+                totalScore = score.roundTo(decimalPlaces = 2).toString(),
                 isExpanded = isExpanded
             )
             AnimatedVisibility(
@@ -89,15 +90,15 @@ internal fun Score(
                     Divider()
                     Spacer(modifier = Modifier.height(height = 8.dp))
                     settledPlanet?.let { InfoRow(label = settledPlanetTranslation, value = it) }
-                    habitability?.let { InfoRow(label = habitabilityTranslation, value = it) }
-                    InfoRow(label = engineTranslation, value = engine)
-                    InfoRow(label = assignedPointsTranslation, value = assignedPoints)
-                    InfoRow(label = yearsTraveledTranslation, value = yearsTraveled)
-                    InfoRow(label = sensorTranslation, value = sensorRange)
-                    InfoRow(label = integrityTranslation, value = integrity)
-                    InfoRow(label = fuelTranslation, value = fuel)
-                    InfoRow(label = materialsTranslation, value = materials)
-                    InfoRow(label = cryopodsTranslation, value = cryopods)
+                    habitability?.let { InfoRow(label = habitabilityTranslation, value = it.roundTo(decimalPlaces = 2)) }
+                    engine?.let { InfoRow(label = engineTranslation, value = getTranslation(key = it)) }
+                    assignedPoints?.let { InfoRow(label = assignedPointsTranslation, value = it) }
+                    yearsTraveled?.let { InfoRow(label = yearsTraveledTranslation, value = it.roundTo(decimalPlaces = 2)) }
+                    sensorRange?.let { InfoRow(label = sensorTranslation, value = it) }
+                    integrity?.let { InfoRow(label = integrityTranslation, value = it) }
+                    fuel?.let { InfoRow(label = fuelTranslation, value = it) }
+                    materials?.let { InfoRow(label = materialsTranslation, value = it) }
+                    cryopods?.let { InfoRow(label = cryopodsTranslation, value = it) }
                 }
             }
         }
@@ -142,10 +143,10 @@ private fun ScoreHeader(
 private fun ScorePreview() = AppTheme {
     Score(
         isExpanded = true,
-        score = "100",
-        yearsTraveled = "10",
-        sensorRange = "10",
-        integrity = "10",
-        materials = "10",
+        score = 100.0,
+        yearsTraveled = 10.0,
+        sensorRange = 10,
+        integrity = 10,
+        materials = 10,
     )
 }

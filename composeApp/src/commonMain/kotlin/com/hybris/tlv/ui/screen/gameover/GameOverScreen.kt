@@ -18,7 +18,6 @@ import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
-import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -67,18 +66,18 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
 
             Content.SCORE -> TypewriterContent(title = gameOverTranslation) {
                 if (gameSession != null && ship != null) Score(
-                    score = (gameSession.score?.roundTo(decimalPlaces = 2) ?: 0.0).toString(),
+                    score = gameSession.score,
                     utc = gameSession.utc,
                     settledPlanet = gameSession.settledPlanetName,
-                    habitability = gameSession.finalHabitability?.roundTo(decimalPlaces = 2).toString(),
-                    engine = getTranslation(key = gameSession.ship.engine.id),
-                    assignedPoints = gameSession.ship.assignedPoints.toString(),
-                    yearsTraveled = ship.yearsTraveled.roundTo(decimalPlaces = 2).toString(),
-                    sensorRange = ship.sensorRange.toString(),
-                    integrity = ship.integrity.toString(),
-                    materials = ship.materials.toString(),
-                    fuel = ship.fuel.toString(),
-                    cryopods = ship.cryopods.toString(),
+                    habitability = gameSession.finalHabitability,
+                    engine = gameSession.ship.engine.id,
+                    assignedPoints = gameSession.ship.assignedPoints,
+                    yearsTraveled = ship.yearsTraveled,
+                    sensorRange = ship.sensorRange,
+                    integrity = ship.integrity,
+                    materials = ship.materials,
+                    fuel = ship.fuel,
+                    cryopods = ship.cryopods,
                 )
             }
         }
