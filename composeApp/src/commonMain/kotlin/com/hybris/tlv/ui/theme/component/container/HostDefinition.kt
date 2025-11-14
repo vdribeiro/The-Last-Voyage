@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.theme.component.container
 
-import kotlin.collections.List
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer

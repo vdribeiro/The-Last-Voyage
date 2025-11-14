@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -46,9 +47,9 @@ internal fun LazyColumn(
     scrollBarUnhoverColor: Color = scrollBarHoverColor.copy(alpha = 0.3f),
     content: LazyListScope.() -> Unit = {}
 ) {
-    Box {
+    Box(modifier = modifier) {
         LazyColumn(
-            modifier = modifier,
+            modifier = Modifier.fillMaxSize(),
             state = state,
             contentPadding = contentPadding,
             reverseLayout = reverseLayout,
@@ -77,8 +78,15 @@ internal fun LazyColumn(
 
 @Preview
 @Composable
-private fun LazyColumnWithScrollBarPreview() = AppTheme {
-    com.hybris.tlv.ui.theme.component.list.LazyColumn {
+private fun LazyColumnPreview() = AppTheme {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(all = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        scrollBar = true
+    ) {
         item { Card { Text(text = "Preview") } }
     }
 }
