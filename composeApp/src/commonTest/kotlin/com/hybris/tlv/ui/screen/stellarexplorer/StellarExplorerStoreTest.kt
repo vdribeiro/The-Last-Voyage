@@ -4,13 +4,13 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
+import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.planets
 import com.hybris.tlv.reset
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.theme.component.list.LazyListState
 
 internal class StellarExplorerStoreTest {
 
@@ -57,8 +57,8 @@ internal class StellarExplorerStoreTest {
     fun `send action save index`() = runBlocking {
         val stellarExplorerStore = store
         assertEquals(expected = LazyListState(), actual = stellarExplorerStore.stateFlow.value.listState)
-        stellarExplorerStore.send(action = StellarExplorerAction.SaveIndex(index = LazyListState(index = 6, scrollOffset = 9)))
-        assertEquals(expected = LazyListState(index = 6, scrollOffset = 9), actual = stellarExplorerStore.stateFlow.value.listState)
+        stellarExplorerStore.send(action = StellarExplorerAction.SaveListState(listState = LazyListState(firstVisibleItemIndex = 6, firstVisibleItemScrollOffset = 9)))
+        assertEquals(expected = LazyListState(firstVisibleItemIndex = 6, firstVisibleItemScrollOffset = 9), actual = stellarExplorerStore.stateFlow.value.listState)
     }
 
     @Test

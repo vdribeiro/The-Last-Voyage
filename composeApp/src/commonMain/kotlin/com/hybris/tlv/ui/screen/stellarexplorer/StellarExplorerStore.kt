@@ -1,11 +1,11 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlinx.coroutines.Job
+import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.theme.component.list.LazyListState
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
@@ -297,7 +297,7 @@ internal class StellarExplorerStore(
 
     override fun reducer(state: StellarExplorerState, action: StellarExplorerAction) {
         when (action) {
-            is StellarExplorerAction.SaveIndex -> updateState { it.copy(listState = action.index) }
+            is StellarExplorerAction.SaveListState -> updateState { it.copy(listState = action.listState) }
             StellarExplorerAction.ChangeView -> changeView(state = state)
             is StellarExplorerAction.Search -> search(state = state, action = action)
             is StellarExplorerAction.OpenStellarHost -> openStellarHost(state = state, action = action)

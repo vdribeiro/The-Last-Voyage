@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
@@ -15,7 +16,6 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Screen
-import com.hybris.tlv.ui.theme.component.list.LazyListState
 import com.hybris.tlv.ui.theme.component.list.PlanetList
 import com.hybris.tlv.ui.theme.component.list.StellarHostList
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
@@ -32,6 +32,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExplorerAction>) {
     val storeState by store.stateFlow.collectAsState()
     val currentContent = storeState.currentContent
+    val listState = storeState.listState
     val visibleStellarHostProperties = storeState.visibleStellarHostProperties
     val visiblePlanetProperties = storeState.visiblePlanetProperties
     val stellarHostProperties = remember { StellarHostProperty.entries.associateWith { getTranslation(key = it.displayName) } }
@@ -193,7 +194,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             Content.LIST_HOSTS, Content.DETAIL_PLANETS -> {
                 val planet = storeState.selectedPlanet
                 StellarHostList(
-                    listState = storeState.listState,
+                    listState = listState,
                     showPlanet = currentContent == Content.DETAIL_PLANETS && planet != null,
                     planetId = planet?.id,
                     planetName = visiblePlanetProperties.ifContains(element = PlanetProperty.NAME, value = planet?.name),
@@ -254,15 +255,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                     stellarHostMetallicityScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.METALLICITY_SCORE, value = it.score?.stellarMetallicityScore) },
                     stellarHostEffectiveTemperatureScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE, value = it.score?.stellarEffectiveTemperatureScore) },
                     onStellarHostClick = {
-                        // TODO - save list state
-//                        store.send(
-//                            action = StellarExplorerAction.SaveIndex(
-//                                index = LazyListState(
-//                                    index = listState.firstVisibleItemIndex,
-//                                    scrollOffset = listState.firstVisibleItemScrollOffset
-//                                )
-//                            )
-//                        )
+                        store.send(action = StellarExplorerAction.SaveListState(listState = listState))
                         store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = it))
                     }
                 )
@@ -271,7 +264,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             Content.LIST_PLANETS, Content.DETAIL_HOSTS -> {
                 val stellarHost = storeState.selectedStellarHost
                 PlanetList(
-                    listState = storeState.listState,
+                    listState = listState,
                     showStellarHost = currentContent == Content.DETAIL_HOSTS && stellarHost != null,
                     stellarHostId = stellarHost?.id,
                     stellarHostName = visibleStellarHostProperties.ifContains(element = StellarHostProperty.NAME, value = stellarHost?.name),

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberOverscrollEffect
 import androidx.compose.material3.Card
@@ -28,7 +29,7 @@ import com.hybris.tlv.ui.theme.component.text.Text
 @Composable
 internal fun LazyColumnWithScrollBar(
     modifier: Modifier = Modifier,
-    state: LazyListState = LazyListState(),
+    state: LazyListState = rememberLazyListState(),
     contentPadding: PaddingValues = PaddingValues(all = 0.dp),
     reverseLayout: Boolean = false,
     verticalArrangement: Arrangement.Vertical = if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
@@ -44,7 +45,6 @@ internal fun LazyColumnWithScrollBar(
     scrollBarUnhoverColor: Color = scrollBarHoverColor.copy(alpha = 0.3f),
     content: LazyListScope.() -> Unit = {}
 ) {
-    val state = state.getState()
     Box {
         LazyColumn(
             modifier = modifier,
@@ -72,17 +72,6 @@ internal fun LazyColumnWithScrollBar(
             unhoverColor = scrollBarUnhoverColor
         )
     }
-}
-
-internal data class LazyListState(
-    val index: Int = 0,
-    val scrollOffset: Int = 0
-) {
-    @Composable
-    fun getState() = rememberLazyListState(
-        initialFirstVisibleItemIndex = index,
-        initialFirstVisibleItemScrollOffset = scrollOffset
-    )
 }
 
 @Preview

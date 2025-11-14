@@ -1,11 +1,11 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
-import com.hybris.tlv.ui.theme.component.list.LazyListState
+import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal sealed interface StellarExplorerAction {
-    data class SaveIndex(val index: LazyListState): StellarExplorerAction
+    data class SaveListState(val listState: LazyListState): StellarExplorerAction
     data object ChangeView: StellarExplorerAction
     data class Search(val search: String): StellarExplorerAction
     data class OpenStellarHost(val stellarHost: StellarHost): StellarExplorerAction
