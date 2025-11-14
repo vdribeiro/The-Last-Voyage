@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.text
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -16,6 +17,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.lifecycle.LifecycleCoroutine
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 
 @Composable
@@ -41,4 +43,10 @@ internal fun FadeInText(
             style = typography.titleLarge,
         )
     }
+}
+
+@Preview
+@Composable
+private fun FadeInTextPreview() = AppTheme {
+    FadeInText(text = "Fading Text")
 }
