@@ -48,7 +48,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         topBar = {
-            // Control panel definitions according to selected view (property visibility, sort, search, etc...)
+            // Control panel definitions according to selected view
             val isHostView = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS)
             val viewName = if (isHostView) hostListTranslation else planetListTranslation
             val viewIcon = if (isHostView) Icons.Default.Flare else Icons.Default.Public
