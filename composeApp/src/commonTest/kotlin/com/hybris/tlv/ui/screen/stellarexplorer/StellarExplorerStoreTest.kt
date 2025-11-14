@@ -10,6 +10,7 @@ import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.theme.component.list.LazyListState
 
 internal class StellarExplorerStoreTest {
 
@@ -55,9 +56,9 @@ internal class StellarExplorerStoreTest {
     @Test
     fun `send action save index`() = runBlocking {
         val stellarExplorerStore = store
-        assertEquals(expected = LazyListIndex(), actual = stellarExplorerStore.stateFlow.value.listIndex)
-        stellarExplorerStore.send(action = StellarExplorerAction.SaveIndex(index = LazyListIndex(index = 6, scrollOffset = 9)))
-        assertEquals(expected = LazyListIndex(index = 6, scrollOffset = 9), actual = stellarExplorerStore.stateFlow.value.listIndex)
+        assertEquals(expected = LazyListState(), actual = stellarExplorerStore.stateFlow.value.listState)
+        stellarExplorerStore.send(action = StellarExplorerAction.SaveIndex(index = LazyListState(index = 6, scrollOffset = 9)))
+        assertEquals(expected = LazyListState(index = 6, scrollOffset = 9), actual = stellarExplorerStore.stateFlow.value.listState)
     }
 
     @Test

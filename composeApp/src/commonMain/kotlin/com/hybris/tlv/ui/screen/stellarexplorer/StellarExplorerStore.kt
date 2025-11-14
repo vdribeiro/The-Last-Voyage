@@ -5,6 +5,7 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.theme.component.list.LazyListState
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
@@ -21,7 +22,7 @@ internal class StellarExplorerStore(
         StellarExplorerStateBuilder.Default -> StellarExplorerState()
         is StellarExplorerStateBuilder.FromSavableState -> StellarExplorerState(
             currentContent = stateBuilder.currentContent,
-            listIndex = stateBuilder.listIndex,
+            listState = stateBuilder.listIndex,
             selectedStellarHost = stateBuilder.selectedStellarHost,
             selectedPlanet = stateBuilder.selectedPlanet,
             search = stateBuilder.search,
@@ -42,7 +43,7 @@ internal class StellarExplorerStore(
     override fun getSavableState(state: StellarExplorerState): Any =
         StellarExplorerStateBuilder.FromSavableState(
             currentContent = state.currentContent,
-            listIndex = state.listIndex,
+            listIndex = state.listState,
             selectedStellarHost = state.selectedStellarHost,
             selectedPlanet = state.selectedPlanet,
             search = state.search,
@@ -126,7 +127,7 @@ internal class StellarExplorerStore(
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_PLANETS,
-                        listIndex = LazyListIndex(),
+                        listState = LazyListState(),
                         search = ""
                     )
                 }.join()
@@ -137,7 +138,7 @@ internal class StellarExplorerStore(
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_HOSTS,
-                        listIndex = LazyListIndex(),
+                        listState = LazyListState(),
                         search = ""
                     )
                 }.join()
@@ -155,7 +156,7 @@ internal class StellarExplorerStore(
             Content.LIST_HOSTS, Content.LIST_PLANETS -> {
                 updateState {
                     it.copy(
-                        listIndex = LazyListIndex(),
+                        listState = LazyListState(),
                         search = action.search
                     )
                 }.join()
@@ -247,7 +248,7 @@ internal class StellarExplorerStore(
         val searchableStellarHostProperties = state.searchableStellarHostProperties.plusOrMinus(element = action.property)
         updateState {
             it.copy(
-                listIndex = LazyListIndex(),
+                listState = LazyListState(),
                 searchableStellarHostProperties = searchableStellarHostProperties
             )
         }.join()
@@ -259,7 +260,7 @@ internal class StellarExplorerStore(
         val searchablePlanetProperties = state.searchablePlanetProperties.plusOrMinus(element = action.property)
         updateState {
             it.copy(
-                listIndex = LazyListIndex(),
+                listState = LazyListState(),
                 searchablePlanetProperties = searchablePlanetProperties
 
             )
@@ -296,7 +297,7 @@ internal class StellarExplorerStore(
 
     override fun reducer(state: StellarExplorerState, action: StellarExplorerAction) {
         when (action) {
-            is StellarExplorerAction.SaveIndex -> updateState { it.copy(listIndex = action.index) }
+            is StellarExplorerAction.SaveIndex -> updateState { it.copy(listState = action.index) }
             StellarExplorerAction.ChangeView -> changeView(state = state)
             is StellarExplorerAction.Search -> search(state = state, action = action)
             is StellarExplorerAction.OpenStellarHost -> openStellarHost(state = state, action = action)

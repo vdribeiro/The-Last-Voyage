@@ -1,12 +1,7 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
@@ -16,15 +11,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.card.PlanetCard
-import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.container.Screen
-import com.hybris.tlv.ui.theme.component.divider.Divider
-import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
+import com.hybris.tlv.ui.theme.component.list.LazyListState
+import com.hybris.tlv.ui.theme.component.list.PlanetList
+import com.hybris.tlv.ui.theme.component.list.StellarHostList
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.usecase.space.formula.spectralTypeToImage
 import com.hybris.tlv.usecase.space.formula.toImage
@@ -38,6 +31,9 @@ import com.hybris.tlv.usecase.translation.model.Translation
 @Composable
 internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExplorerAction>) {
     val storeState by store.stateFlow.collectAsState()
+    val currentContent = storeState.currentContent
+    val visibleStellarHostProperties = storeState.visibleStellarHostProperties
+    val visiblePlanetProperties = storeState.visiblePlanetProperties
     val stellarHostProperties = remember { StellarHostProperty.entries.associateWith { getTranslation(key = it.displayName) } }
     val planetProperties = remember { PlanetProperty.entries.associateWith { getTranslation(key = it.displayName) } }
 
@@ -193,531 +189,162 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             )
         }
     ) {
-        when (storeState.currentContent) {
-            Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostContent(store = store)
-            Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetContent(store = store)
-        }
-    }
-}
-
-@Composable
-private fun StellarHostContent(store: Store<StellarExplorerState, StellarExplorerAction>) {
-    val storeState by store.stateFlow.collectAsState()
-    val currentContent = storeState.currentContent
-    val planet = storeState.selectedPlanet
-    val visibleStellarHostProperties = storeState.visibleStellarHostProperties
-    val visiblePlanetProperties = storeState.visiblePlanetProperties
-    val listState = storeState.listIndex.getState()
-    LazyColumnWithScrollBar(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
-        state = listState
-    ) {
-        if (currentContent == Content.DETAIL_PLANETS && planet != null) {
-            item(key = planet.id) {
-                PlanetCard(
-                    name = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.NAME,
-                        value = planet.name
-                    ),
-                    status = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.STATUS,
-                        value = planet.status.displayName
-                    ),
-                    habitability = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.HABITABILITY,
-                        value = planet.score?.habitabilityScore
-                    ),
-                    confidence = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.CONFIDENCE,
-                        value = planet.score?.confidenceScore
-                    ),
-                    orbitalPeriod = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.ORBITAL_PERIOD,
-                        value = planet.orbitalPeriod
-                    ),
-                    orbitAxis = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.ORBIT_AXIS,
-                        value = planet.orbitAxis
-                    ),
-                    radius = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.RADIUS,
-                        value = planet.radius
-                    ),
-                    mass = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.MASS,
-                        value = planet.mass
-                    ),
-                    density = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.DENSITY,
-                        value = planet.density
-                    ),
-                    eccentricity = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.ECCENTRICITY,
-                        value = planet.eccentricity
-                    ),
-                    insolationFlux = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.INSOLATION_FLUX,
-                        value = planet.insolationFlux
-                    ),
-                    equilibriumTemperature = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.TEMPERATURE,
-                        value = planet.equilibriumTemperature
-                    ),
-                    occultationDepth = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.OCCULTATION_DEPTH,
-                        value = planet.occultationDepth
-                    ),
-                    inclination = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.INCLINATION,
-                        value = planet.inclination
-                    ),
-                    obliquity = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.OBLIQUITY,
-                        value = planet.obliquity
-                    ),
-                    type = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.TYPE,
-                        value = planet.score?.planetType?.displayName
-                    ),
-                    image = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.TYPE,
-                        value = planet.score?.planetType.toImage()
-                    ),
-                    rocheScore = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.ROCHE_SCORE,
-                        value = planet.score?.rocheScore
-                    ),
-                    habitableZoneKopparapuScore = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.HABITABLE_ZONE_KOPPARAPU_SCORE,
-                        value = planet.score?.habitableZoneKopparapuScore
-                    ),
-                    habitableZoneKastingScore = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.HABITABLE_ZONE_KASTING_SCORE,
-                        value = planet.score?.habitableZoneKastingScore
-                    ),
-                    radiusScore = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.RADIUS_SCORE,
-                        value = planet.score?.planetRadiusScore
-                    ),
-                    massScore = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.MASS_SCORE,
-                        value = planet.score?.planetMassScore
-                    ),
-                    telluricityScore = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.TELLURICITY_SCORE,
-                        value = planet.score?.planetTelluricityScore
-                    ),
-                    eccentricityScore = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.ECCENTRICITY_SCORE,
-                        value = planet.score?.planetEccentricityScore
-                    ),
-                    temperatureScore = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.TEMPERATURE_SCORE,
-                        value = planet.score?.planetTemperatureScore
-                    ),
-                    obliquityScore = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.OBLIQUITY_SCORE,
-                        value = planet.score?.planetObliquityScore
-                    ),
-                    esiScore = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.ESI_SCORE,
-                        value = planet.score?.planetEsiScore
-                    ),
-                    protectionScore = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.PROTECTION_SCORE,
-                        value = planet.score?.planetProtectionScore
-                    ),
-                    tidalLockingScore = visiblePlanetProperties.ifContains(
-                        element = PlanetProperty.TIDAL_LOCKING_SCORE,
-                        value = planet.score?.planetTidalLockingScore
-                    )
+        when (currentContent) {
+            Content.LIST_HOSTS, Content.DETAIL_PLANETS -> {
+                val planet = storeState.selectedPlanet
+                StellarHostList(
+                    listState = storeState.listState,
+                    showPlanet = currentContent == Content.DETAIL_PLANETS && planet != null,
+                    planetId = planet?.id,
+                    planetName = visiblePlanetProperties.ifContains(element = PlanetProperty.NAME, value = planet?.name),
+                    planetStatus = visiblePlanetProperties.ifContains(element = PlanetProperty.STATUS, value = planet?.status?.displayName),
+                    planetHabitability = visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABILITY, value = planet?.score?.habitabilityScore),
+                    planetConfidence = visiblePlanetProperties.ifContains(element = PlanetProperty.CONFIDENCE, value = planet?.score?.confidenceScore),
+                    planetOrbitalPeriod = visiblePlanetProperties.ifContains(element = PlanetProperty.ORBITAL_PERIOD, value = planet?.orbitalPeriod),
+                    planetOrbitAxis = visiblePlanetProperties.ifContains(element = PlanetProperty.ORBIT_AXIS, value = planet?.orbitAxis),
+                    planetRadius = visiblePlanetProperties.ifContains(element = PlanetProperty.RADIUS, value = planet?.radius),
+                    planetMass = visiblePlanetProperties.ifContains(element = PlanetProperty.MASS, value = planet?.mass),
+                    planetDensity = visiblePlanetProperties.ifContains(element = PlanetProperty.DENSITY, value = planet?.density),
+                    planetEccentricity = visiblePlanetProperties.ifContains(element = PlanetProperty.ECCENTRICITY, value = planet?.eccentricity),
+                    planetInsolationFlux = visiblePlanetProperties.ifContains(element = PlanetProperty.INSOLATION_FLUX, value = planet?.insolationFlux),
+                    planetEquilibriumTemperature = visiblePlanetProperties.ifContains(element = PlanetProperty.TEMPERATURE, value = planet?.equilibriumTemperature),
+                    planetOccultationDepth = visiblePlanetProperties.ifContains(element = PlanetProperty.OCCULTATION_DEPTH, value = planet?.occultationDepth),
+                    planetInclination = visiblePlanetProperties.ifContains(element = PlanetProperty.INCLINATION, value = planet?.inclination),
+                    planetObliquity = visiblePlanetProperties.ifContains(element = PlanetProperty.OBLIQUITY, value = planet?.obliquity),
+                    planetType = visiblePlanetProperties.ifContains(element = PlanetProperty.TYPE, value = planet?.score?.planetType?.displayName),
+                    planetImage = visiblePlanetProperties.ifContains(element = PlanetProperty.TYPE, value = planet?.score?.planetType.toImage()),
+                    planetRocheScore = visiblePlanetProperties.ifContains(element = PlanetProperty.ROCHE_SCORE, value = planet?.score?.rocheScore),
+                    planetHabitableZoneKopparapuScore = visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABLE_ZONE_KOPPARAPU_SCORE, value = planet?.score?.habitableZoneKopparapuScore),
+                    planetHabitableZoneKastingScore = visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABLE_ZONE_KASTING_SCORE, value = planet?.score?.habitableZoneKastingScore),
+                    planetRadiusScore = visiblePlanetProperties.ifContains(element = PlanetProperty.RADIUS_SCORE, value = planet?.score?.planetRadiusScore),
+                    planetMassScore = visiblePlanetProperties.ifContains(element = PlanetProperty.MASS_SCORE, value = planet?.score?.planetMassScore),
+                    planetTelluricityScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TELLURICITY_SCORE, value = planet?.score?.planetTelluricityScore),
+                    planetEccentricityScore = visiblePlanetProperties.ifContains(element = PlanetProperty.ECCENTRICITY_SCORE, value = planet?.score?.planetEccentricityScore),
+                    planetTemperatureScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TEMPERATURE_SCORE, value = planet?.score?.planetTemperatureScore),
+                    planetObliquityScore = visiblePlanetProperties.ifContains(element = PlanetProperty.OBLIQUITY_SCORE, value = planet?.score?.planetObliquityScore),
+                    planetEsiScore = visiblePlanetProperties.ifContains(element = PlanetProperty.ESI_SCORE, value = planet?.score?.planetEsiScore),
+                    planetProtectionScore = visiblePlanetProperties.ifContains(element = PlanetProperty.PROTECTION_SCORE, value = planet?.score?.planetProtectionScore),
+                    planetTidalLockingScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TIDAL_LOCKING_SCORE, value = planet?.score?.planetTidalLockingScore),
+                    stellarHosts = storeState.filteredStellarHosts,
+                    stellarHostId = { it.id },
+                    stellarHostName = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.NAME, value = it.name) },
+                    stellarHostSystemName = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = it.systemName) },
+                    stellarHostPlanetCount = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.PLANET_COUNT, value = it.planets.size) },
+                    stellarHostSpectralType = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = it.spectralType) },
+                    stellarHostSpectralImage = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = it.spectralType.spectralTypeToImage()) },
+                    stellarHostEffectiveTemperature = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.TEMPERATURE, value = it.effectiveTemperature) },
+                    stellarHostRadius = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.RADIUS, value = it.radius) },
+                    stellarHostMass = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.MASS, value = it.mass) },
+                    stellarHostMetallicity = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.METALLICITY, value = it.metallicity) },
+                    stellarHostLuminosity = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.LUMINOSITY, value = it.luminosity) },
+                    stellarHostGravity = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.GRAVITY, value = it.gravity) },
+                    stellarHostAge = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.AGE, value = it.age) },
+                    stellarHostDensity = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.DENSITY, value = it.density) },
+                    stellarHostRotationalVelocity = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.ROTATIONAL_VELOCITY, value = it.rotationalVelocity) },
+                    stellarHostRotationalPeriod = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.ROTATIONAL_PERIOD, value = it.rotationalPeriod) },
+                    stellarHostDistance = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.DISTANCE, value = it.distance) },
+                    stellarHostRa = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.RA, value = it.ra) },
+                    stellarHostDec = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.DEC, value = it.dec) },
+                    stellarHostSpectralTypeScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE_SCORE, value = it.score?.stellarSpectralTypeScore) },
+                    stellarHostMassScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.MASS_SCORE, value = it.score?.stellarMassScore) },
+                    stellarHostAgeScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.AGE_SCORE, value = it.score?.stellarAgeScore) },
+                    stellarHostActivityScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.ACTIVITY_SCORE, value = it.score?.stellarActivityScore) },
+                    stellarHostRotationalPeriodScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.ROTATIONAL_PERIOD_SCORE, value = it.score?.stellarRotationalPeriodScore) },
+                    stellarHostGravityScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.GRAVITY_SCORE, value = it.score?.stellarGravityScore) },
+                    stellarHostMetallicityScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.METALLICITY_SCORE, value = it.score?.stellarMetallicityScore) },
+                    stellarHostEffectiveTemperatureScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE, value = it.score?.stellarEffectiveTemperatureScore) },
+                    onStellarHostClick = {
+                        // TODO - save list state
+//                        store.send(
+//                            action = StellarExplorerAction.SaveIndex(
+//                                index = LazyListState(
+//                                    index = listState.firstVisibleItemIndex,
+//                                    scrollOffset = listState.firstVisibleItemScrollOffset
+//                                )
+//                            )
+//                        )
+                        store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = it))
+                    }
                 )
             }
-            item { Divider(modifier = Modifier.padding(vertical = 8.dp)) }
-        }
-        items(items = storeState.filteredStellarHosts, key = { it.id }) { stellarHost ->
-            StellarHostCard(
-                modifier = Modifier
-                    .clickable {
-                        store.send(
-                            action = StellarExplorerAction.SaveIndex(
-                                index = LazyListIndex(
-                                    index = listState.firstVisibleItemIndex,
-                                    scrollOffset = listState.firstVisibleItemScrollOffset
-                                )
-                            )
-                        )
-                        store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHost))
-                    },
-                name = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.NAME,
-                    value = stellarHost.name
-                ),
-                systemName = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.SYSTEM_NAME,
-                    value = stellarHost.systemName
-                ),
-                planetCount = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.PLANET_COUNT,
-                    value = stellarHost.planets.size
-                ),
-                spectralType = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.SPECTRAL_TYPE,
-                    value = stellarHost.spectralType
-                ),
-                spectralImage = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.SPECTRAL_TYPE,
-                    value = stellarHost.spectralType.spectralTypeToImage()
-                ),
-                effectiveTemperature = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.TEMPERATURE,
-                    value = stellarHost.effectiveTemperature
-                ),
-                radius = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.RADIUS,
-                    value = stellarHost.radius
-                ),
-                mass = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.MASS,
-                    value = stellarHost.mass
-                ),
-                metallicity = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.METALLICITY,
-                    value = stellarHost.metallicity
-                ),
-                luminosity = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.LUMINOSITY,
-                    value = stellarHost.luminosity
-                ),
-                gravity = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.GRAVITY,
-                    value = stellarHost.gravity
-                ),
-                age = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.AGE,
-                    value = stellarHost.age
-                ),
-                density = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.DENSITY,
-                    value = stellarHost.density
-                ),
-                rotationalVelocity = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.ROTATIONAL_VELOCITY,
-                    value = stellarHost.rotationalVelocity
-                ),
-                rotationalPeriod = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.ROTATIONAL_PERIOD,
-                    value = stellarHost.rotationalPeriod
-                ),
-                distance = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.DISTANCE,
-                    value = stellarHost.distance
-                ),
-                ra = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.RA,
-                    value = stellarHost.ra
-                ),
-                dec = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.DEC,
-                    value = stellarHost.dec
-                ),
-                spectralTypeScore = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.SPECTRAL_TYPE_SCORE,
-                    value = stellarHost.score?.stellarSpectralTypeScore
-                ),
-                massScore = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.MASS_SCORE,
-                    value = stellarHost.score?.stellarMassScore
-                ),
-                ageScore = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.AGE_SCORE,
-                    value = stellarHost.score?.stellarAgeScore
-                ),
-                activityScore = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.ACTIVITY_SCORE,
-                    value = stellarHost.score?.stellarActivityScore
-                ),
-                rotationalPeriodScore = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.ROTATIONAL_PERIOD_SCORE,
-                    value = stellarHost.score?.stellarRotationalPeriodScore
-                ),
-                gravityScore = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.GRAVITY_SCORE,
-                    value = stellarHost.score?.stellarGravityScore
-                ),
-                metallicityScore = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.METALLICITY_SCORE,
-                    value = stellarHost.score?.stellarMetallicityScore
-                ),
-                effectiveTemperatureScore = visibleStellarHostProperties.ifContains(
-                    element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE,
-                    value = stellarHost.score?.stellarEffectiveTemperatureScore
-                )
-            )
-        }
-    }
-}
 
-@Composable
-private fun PlanetContent(store: Store<StellarExplorerState, StellarExplorerAction>) {
-    val storeState by store.stateFlow.collectAsState()
-    val currentContent = storeState.currentContent
-    val stellarHost = storeState.selectedStellarHost
-    val visibleStellarHostProperties = storeState.visibleStellarHostProperties
-    val visiblePlanetProperties = storeState.visiblePlanetProperties
-    val listState = storeState.listIndex.getState()
-    LazyColumnWithScrollBar(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
-        state = listState
-    ) {
-        if (currentContent == Content.DETAIL_HOSTS && stellarHost != null) {
-            item(key = stellarHost.id) {
-                StellarHostCard(
-                    name = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.NAME,
-                        value = stellarHost.name
-                    ),
-                    systemName = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.SYSTEM_NAME,
-                        value = stellarHost.systemName
-                    ),
-                    planetCount = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.PLANET_COUNT,
-                        value = stellarHost.planets.size
-                    ),
-                    spectralType = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.SPECTRAL_TYPE,
-                        value = stellarHost.spectralType
-                    ),
-                    spectralImage = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.SPECTRAL_TYPE,
-                        value = stellarHost.spectralType.spectralTypeToImage()
-                    ),
-                    effectiveTemperature = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.TEMPERATURE,
-                        value = stellarHost.effectiveTemperature
-                    ),
-                    radius = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.RADIUS,
-                        value = stellarHost.radius
-                    ),
-                    mass = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.MASS,
-                        value = stellarHost.mass
-                    ),
-                    metallicity = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.METALLICITY,
-                        value = stellarHost.metallicity
-                    ),
-                    luminosity = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.LUMINOSITY,
-                        value = stellarHost.luminosity
-                    ),
-                    gravity = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.GRAVITY,
-                        value = stellarHost.gravity
-                    ),
-                    age = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.AGE,
-                        value = stellarHost.age
-                    ),
-                    density = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.DENSITY,
-                        value = stellarHost.density
-                    ),
-                    rotationalVelocity = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.ROTATIONAL_VELOCITY,
-                        value = stellarHost.rotationalVelocity
-                    ),
-                    rotationalPeriod = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.ROTATIONAL_PERIOD,
-                        value = stellarHost.rotationalPeriod
-                    ),
-                    distance = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.DISTANCE,
-                        value = stellarHost.distance
-                    ),
-                    ra = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.RA,
-                        value = stellarHost.ra
-                    ),
-                    dec = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.DEC,
-                        value = stellarHost.dec
-                    ),
-                    spectralTypeScore = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.SPECTRAL_TYPE_SCORE,
-                        value = stellarHost.score?.stellarSpectralTypeScore
-                    ),
-                    massScore = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.MASS_SCORE,
-                        value = stellarHost.score?.stellarMassScore
-                    ),
-                    ageScore = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.AGE_SCORE,
-                        value = stellarHost.score?.stellarAgeScore
-                    ),
-                    activityScore = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.ACTIVITY_SCORE,
-                        value = stellarHost.score?.stellarActivityScore
-                    ),
-                    rotationalPeriodScore = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.ROTATIONAL_PERIOD_SCORE,
-                        value = stellarHost.score?.stellarRotationalPeriodScore
-                    ),
-                    gravityScore = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.GRAVITY_SCORE,
-                        value = stellarHost.score?.stellarGravityScore
-                    ),
-                    metallicityScore = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.METALLICITY_SCORE,
-                        value = stellarHost.score?.stellarMetallicityScore
-                    ),
-                    effectiveTemperatureScore = visibleStellarHostProperties.ifContains(
-                        element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE,
-                        value = stellarHost.score?.stellarEffectiveTemperatureScore
-                    )
+            Content.LIST_PLANETS, Content.DETAIL_HOSTS -> {
+                val stellarHost = storeState.selectedStellarHost
+                PlanetList(
+                    listState = storeState.listState,
+                    showStellarHost = currentContent == Content.DETAIL_HOSTS && stellarHost != null,
+                    stellarHostId = stellarHost?.id,
+                    stellarHostName = visibleStellarHostProperties.ifContains(element = StellarHostProperty.NAME, value = stellarHost?.name),
+                    stellarHostSystemName = visibleStellarHostProperties.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = stellarHost?.systemName),
+                    stellarHostPlanetCount = visibleStellarHostProperties.ifContains(element = StellarHostProperty.PLANET_COUNT, value = stellarHost?.planets?.size),
+                    stellarHostSpectralType = visibleStellarHostProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = stellarHost?.spectralType),
+                    stellarHostSpectralImage = visibleStellarHostProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = stellarHost?.spectralType.spectralTypeToImage()),
+                    stellarHostEffectiveTemperature = visibleStellarHostProperties.ifContains(element = StellarHostProperty.TEMPERATURE, value = stellarHost?.effectiveTemperature),
+                    stellarHostRadius = visibleStellarHostProperties.ifContains(element = StellarHostProperty.RADIUS, value = stellarHost?.radius),
+                    stellarHostMass = visibleStellarHostProperties.ifContains(element = StellarHostProperty.MASS, value = stellarHost?.mass),
+                    stellarHostMetallicity = visibleStellarHostProperties.ifContains(element = StellarHostProperty.METALLICITY, value = stellarHost?.metallicity),
+                    stellarHostLuminosity = visibleStellarHostProperties.ifContains(element = StellarHostProperty.LUMINOSITY, value = stellarHost?.luminosity),
+                    stellarHostGravity = visibleStellarHostProperties.ifContains(element = StellarHostProperty.GRAVITY, value = stellarHost?.gravity),
+                    stellarHostAge = visibleStellarHostProperties.ifContains(element = StellarHostProperty.AGE, value = stellarHost?.age),
+                    stellarHostDensity = visibleStellarHostProperties.ifContains(element = StellarHostProperty.DENSITY, value = stellarHost?.density),
+                    stellarHostRotationalVelocity = visibleStellarHostProperties.ifContains(element = StellarHostProperty.ROTATIONAL_VELOCITY, value = stellarHost?.rotationalVelocity),
+                    stellarHostRotationalPeriod = visibleStellarHostProperties.ifContains(element = StellarHostProperty.ROTATIONAL_PERIOD, value = stellarHost?.rotationalPeriod),
+                    stellarHostDistance = visibleStellarHostProperties.ifContains(element = StellarHostProperty.DISTANCE, value = stellarHost?.distance),
+                    stellarHostRa = visibleStellarHostProperties.ifContains(element = StellarHostProperty.RA, value = stellarHost?.ra),
+                    stellarHostDec = visibleStellarHostProperties.ifContains(element = StellarHostProperty.DEC, value = stellarHost?.dec),
+                    stellarHostSpectralTypeScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE_SCORE, value = stellarHost?.score?.stellarSpectralTypeScore),
+                    stellarHostMassScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.MASS_SCORE, value = stellarHost?.score?.stellarMassScore),
+                    stellarHostAgeScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.AGE_SCORE, value = stellarHost?.score?.stellarAgeScore),
+                    stellarHostActivityScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.ACTIVITY_SCORE, value = stellarHost?.score?.stellarActivityScore),
+                    stellarHostRotationalPeriodScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.ROTATIONAL_PERIOD_SCORE, value = stellarHost?.score?.stellarRotationalPeriodScore),
+                    stellarHostGravityScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.GRAVITY_SCORE, value = stellarHost?.score?.stellarGravityScore),
+                    stellarHostMetallicityScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.METALLICITY_SCORE, value = stellarHost?.score?.stellarMetallicityScore),
+                    stellarHostEffectiveTemperatureScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE, value = stellarHost?.score?.stellarEffectiveTemperatureScore),
+                    planets = storeState.filteredPlanets,
+                    planetId = { it.id },
+                    planetName = { visiblePlanetProperties.ifContains(element = PlanetProperty.NAME, value = it.name) },
+                    planetStatus = { visiblePlanetProperties.ifContains(element = PlanetProperty.STATUS, value = it.status.displayName) },
+                    planetHabitability = { visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABILITY, value = it.score?.habitabilityScore) },
+                    planetConfidence = { visiblePlanetProperties.ifContains(element = PlanetProperty.CONFIDENCE, value = it.score?.confidenceScore) },
+                    planetOrbitalPeriod = { visiblePlanetProperties.ifContains(element = PlanetProperty.ORBITAL_PERIOD, value = it.orbitalPeriod) },
+                    planetOrbitAxis = { visiblePlanetProperties.ifContains(element = PlanetProperty.ORBIT_AXIS, value = it.orbitAxis) },
+                    planetRadius = { visiblePlanetProperties.ifContains(element = PlanetProperty.RADIUS, value = it.radius) },
+                    planetMass = { visiblePlanetProperties.ifContains(element = PlanetProperty.MASS, value = it.mass) },
+                    planetDensity = { visiblePlanetProperties.ifContains(element = PlanetProperty.DENSITY, value = it.density) },
+                    planetEccentricity = { visiblePlanetProperties.ifContains(element = PlanetProperty.ECCENTRICITY, value = it.eccentricity) },
+                    planetInsolationFlux = { visiblePlanetProperties.ifContains(element = PlanetProperty.INSOLATION_FLUX, value = it.insolationFlux) },
+                    planetEquilibriumTemperature = { visiblePlanetProperties.ifContains(element = PlanetProperty.TEMPERATURE, value = it.equilibriumTemperature) },
+                    planetOccultationDepth = { visiblePlanetProperties.ifContains(element = PlanetProperty.OCCULTATION_DEPTH, value = it.occultationDepth) },
+                    planetInclination = { visiblePlanetProperties.ifContains(element = PlanetProperty.INCLINATION, value = it.inclination) },
+                    planetObliquity = { visiblePlanetProperties.ifContains(element = PlanetProperty.OBLIQUITY, value = it.obliquity) },
+                    planetType = { visiblePlanetProperties.ifContains(element = PlanetProperty.TYPE, value = it.score?.planetType?.displayName) },
+                    planetImage = { visiblePlanetProperties.ifContains(element = PlanetProperty.TYPE, value = it.score?.planetType.toImage()) },
+                    planetRocheScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.ROCHE_SCORE, value = it.score?.rocheScore) },
+                    planetHabitableZoneKopparapuScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABLE_ZONE_KOPPARAPU_SCORE, value = it.score?.habitableZoneKopparapuScore) },
+                    planetHabitableZoneKastingScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABLE_ZONE_KASTING_SCORE, value = it.score?.habitableZoneKastingScore) },
+                    planetRadiusScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.RADIUS_SCORE, value = it.score?.planetRadiusScore) },
+                    planetMassScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.MASS_SCORE, value = it.score?.planetMassScore) },
+                    planetTelluricityScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.TELLURICITY_SCORE, value = it.score?.planetTelluricityScore) },
+                    planetEccentricityScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.ECCENTRICITY_SCORE, value = it.score?.planetEccentricityScore) },
+                    planetTemperatureScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.TEMPERATURE_SCORE, value = it.score?.planetTemperatureScore) },
+                    planetObliquityScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.OBLIQUITY_SCORE, value = it.score?.planetObliquityScore) },
+                    planetEsiScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.ESI_SCORE, value = it.score?.planetEsiScore) },
+                    planetProtectionScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.PROTECTION_SCORE, value = it.score?.planetProtectionScore) },
+                    planetTidalLockingScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.TIDAL_LOCKING_SCORE, value = it.score?.planetTidalLockingScore) },
+                    onPlanetClick = {
+                        // TODO - save list state
+//                        store.send(
+//                            action = StellarExplorerAction.SaveIndex(
+//                                index = LazyListState(
+//                                    index = listState.firstVisibleItemIndex,
+//                                    scrollOffset = listState.firstVisibleItemScrollOffset
+//                                )
+//                            )
+//                        )
+                        store.send(action = StellarExplorerAction.OpenPlanet(planet = it))
+                    }
                 )
             }
-            item { Divider(modifier = Modifier.padding(vertical = 8.dp)) }
-        }
-        items(items = storeState.filteredPlanets, key = { it.id }) { planet ->
-            PlanetCard(
-                modifier = Modifier
-                    .clickable {
-                        store.send(
-                            action = StellarExplorerAction.SaveIndex(
-                                index = LazyListIndex(
-                                    index = listState.firstVisibleItemIndex,
-                                    scrollOffset = listState.firstVisibleItemScrollOffset
-                                )
-                            )
-                        )
-                        store.send(action = StellarExplorerAction.OpenPlanet(planet = planet))
-                    },
-                name = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.NAME,
-                    value = planet.name
-                ),
-                status = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.STATUS,
-                    value = planet.status.displayName
-                ),
-                habitability = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.HABITABILITY,
-                    value = planet.score?.habitabilityScore
-                ),
-                confidence = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.CONFIDENCE,
-                    value = planet.score?.confidenceScore
-                ),
-                orbitalPeriod = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.ORBITAL_PERIOD,
-                    value = planet.orbitalPeriod
-                ),
-                orbitAxis = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.ORBIT_AXIS,
-                    value = planet.orbitAxis
-                ),
-                radius = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.RADIUS,
-                    value = planet.radius
-                ),
-                mass = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.MASS,
-                    value = planet.mass
-                ),
-                density = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.DENSITY,
-                    value = planet.density
-                ),
-                eccentricity = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.ECCENTRICITY,
-                    value = planet.eccentricity
-                ),
-                insolationFlux = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.INSOLATION_FLUX,
-                    value = planet.insolationFlux
-                ),
-                equilibriumTemperature = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.TEMPERATURE,
-                    value = planet.equilibriumTemperature
-                ),
-                occultationDepth = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.OCCULTATION_DEPTH,
-                    value = planet.occultationDepth
-                ),
-                inclination = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.INCLINATION,
-                    value = planet.inclination
-                ),
-                obliquity = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.OBLIQUITY,
-                    value = planet.obliquity
-                ),
-                type = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.TYPE,
-                    value = planet.score?.planetType?.displayName
-                ),
-                image = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.TYPE,
-                    value = planet.score?.planetType.toImage()
-                ),
-                rocheScore = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.ROCHE_SCORE,
-                    value = planet.score?.rocheScore
-                ),
-                habitableZoneKopparapuScore = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.HABITABLE_ZONE_KOPPARAPU_SCORE,
-                    value = planet.score?.habitableZoneKopparapuScore
-                ),
-                habitableZoneKastingScore = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.HABITABLE_ZONE_KASTING_SCORE,
-                    value = planet.score?.habitableZoneKastingScore
-                ),
-                radiusScore = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.RADIUS_SCORE,
-                    value = planet.score?.planetRadiusScore
-                ),
-                massScore = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.MASS_SCORE,
-                    value = planet.score?.planetMassScore
-                ),
-                telluricityScore = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.TELLURICITY_SCORE,
-                    value = planet.score?.planetTelluricityScore
-                ),
-                eccentricityScore = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.ECCENTRICITY_SCORE,
-                    value = planet.score?.planetEccentricityScore
-                ),
-                temperatureScore = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.TEMPERATURE_SCORE,
-                    value = planet.score?.planetTemperatureScore
-                ),
-                obliquityScore = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.OBLIQUITY_SCORE,
-                    value = planet.score?.planetObliquityScore
-                ),
-                esiScore = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.ESI_SCORE,
-                    value = planet.score?.planetEsiScore
-                ),
-                protectionScore = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.PROTECTION_SCORE,
-                    value = planet.score?.planetProtectionScore
-                ),
-                tidalLockingScore = visiblePlanetProperties.ifContains(
-                    element = PlanetProperty.TIDAL_LOCKING_SCORE,
-                    value = planet.score?.planetTidalLockingScore
-                )
-            )
         }
     }
 }
@@ -738,7 +365,7 @@ private fun StellarExplorerLoadingPreview() = AppTheme {
             initialState = StellarExplorerState(
                 loading = true,
                 currentContent = Content.LIST_HOSTS,
-                listIndex = LazyListIndex(),
+                listState = LazyListState(),
                 stellarHosts = emptyList(),
                 planets = emptyList(),
                 filteredStellarHosts = emptyList(),
@@ -774,7 +401,7 @@ private fun StellarExplorerHostListPreview() = AppTheme {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.LIST_HOSTS,
-                listIndex = LazyListIndex(),
+                listState = LazyListState(),
                 stellarHosts = emptyList(),
                 planets = emptyList(),
                 filteredStellarHosts = listOf(
@@ -849,7 +476,7 @@ private fun StellarExplorerHostDetailPreview() = AppTheme {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.DETAIL_HOSTS,
-                listIndex = LazyListIndex(),
+                listState = LazyListState(),
                 stellarHosts = emptyList(),
                 planets = emptyList(),
                 filteredStellarHosts = emptyList(),
@@ -938,7 +565,7 @@ private fun StellarExplorerSearchHostsPreview() = AppTheme {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.LIST_HOSTS,
-                listIndex = LazyListIndex(),
+                listState = LazyListState(),
                 stellarHosts = emptyList(),
                 planets = emptyList(),
                 filteredStellarHosts = emptyList(),
@@ -974,7 +601,7 @@ private fun StellarExplorerPlanetListPreview() = AppTheme {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.LIST_PLANETS,
-                listIndex = LazyListIndex(),
+                listState = LazyListState(),
                 stellarHosts = emptyList(),
                 planets = emptyList(),
                 filteredStellarHosts = emptyList(),
@@ -1045,7 +672,7 @@ private fun StellarExplorerPlanetDetailPreview() = AppTheme {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.DETAIL_PLANETS,
-                listIndex = LazyListIndex(),
+                listState = LazyListState(),
                 stellarHosts = emptyList(),
                 planets = emptyList(),
                 filteredStellarHosts = listOf(
@@ -1117,7 +744,7 @@ private fun StellarExplorerSearchPlanetPreview() = AppTheme {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.LIST_PLANETS,
-                listIndex = LazyListIndex(),
+                listState = LazyListState(),
                 stellarHosts = emptyList(),
                 planets = emptyList(),
                 filteredStellarHosts = emptyList(),

@@ -1,12 +1,11 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.Composable
+import com.hybris.tlv.ui.theme.component.list.LazyListState
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal sealed interface StellarExplorerAction {
-    data class SaveIndex(val index: LazyListIndex): StellarExplorerAction
+    data class SaveIndex(val index: LazyListState): StellarExplorerAction
     data object ChangeView: StellarExplorerAction
     data class Search(val search: String): StellarExplorerAction
     data class OpenStellarHost(val stellarHost: StellarHost): StellarExplorerAction
@@ -24,7 +23,7 @@ internal sealed interface StellarExplorerStateBuilder {
     data object Default: StellarExplorerStateBuilder
     data class FromSavableState(
         val currentContent: Content,
-        val listIndex: LazyListIndex,
+        val listIndex: LazyListState,
         val selectedStellarHost: StellarHost?,
         val selectedPlanet: Planet?,
         val search: String,
@@ -41,7 +40,7 @@ internal sealed interface StellarExplorerStateBuilder {
 internal data class StellarExplorerState(
     val loading: Boolean = true,
     val currentContent: Content = Content.LIST_HOSTS,
-    val listIndex: LazyListIndex = LazyListIndex(),
+    val listState: LazyListState = LazyListState(),
     val stellarHosts: List<StellarHost> = emptyList(),
     val planets: List<Planet> = emptyList(),
     val filteredStellarHosts: List<StellarHost> = emptyList(),
@@ -98,17 +97,6 @@ internal enum class Content {
     DETAIL_HOSTS,
     LIST_PLANETS,
     DETAIL_PLANETS,
-}
-
-internal data class LazyListIndex(
-    val index: Int = 0,
-    val scrollOffset: Int = 0
-) {
-    @Composable
-    fun getState() = rememberLazyListState(
-        initialFirstVisibleItemIndex = index,
-        initialFirstVisibleItemScrollOffset = scrollOffset
-    )
 }
 
 internal enum class StellarHostProperty(val displayName: String) {
