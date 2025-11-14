@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.AttributePoint
+import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.container.TypewriterContent

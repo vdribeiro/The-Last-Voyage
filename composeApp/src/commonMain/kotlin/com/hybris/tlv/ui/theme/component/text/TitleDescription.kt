@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component.container
+package com.hybris.tlv.ui.theme.component.text
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,10 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
-internal fun TitleDescriptionContent(
+internal fun TitleDescription(
     modifier: Modifier = Modifier,
     title: String = "",
     description: String = "",

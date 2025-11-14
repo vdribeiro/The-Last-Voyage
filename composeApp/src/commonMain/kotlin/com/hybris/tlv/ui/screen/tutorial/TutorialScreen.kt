@@ -15,7 +15,7 @@ import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.GameNavigation
 import com.hybris.tlv.ui.theme.component.container.Screen
-import com.hybris.tlv.ui.theme.component.container.TitleDescriptionContent
+import com.hybris.tlv.ui.theme.component.text.TitleDescription
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -86,7 +86,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                 description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_game_over_description") }
             }
         }
-        TitleDescriptionContent(
+        TitleDescription(
             title = title,
             description = description,
         )

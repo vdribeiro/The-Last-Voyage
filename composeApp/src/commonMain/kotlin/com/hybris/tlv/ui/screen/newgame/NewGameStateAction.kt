@@ -1,6 +1,6 @@
 package com.hybris.tlv.ui.screen.newgame
 
-import com.hybris.tlv.ui.theme.component.AttributePoint
+import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype

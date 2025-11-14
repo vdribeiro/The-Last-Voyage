@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.container
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,9 +18,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.FeedbackHeader
 import com.hybris.tlv.ui.theme.component.button.Button
+import com.hybris.tlv.ui.theme.component.text.FeedbackHeader
 import com.hybris.tlv.ui.theme.component.text.Input
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
@@ -27,10 +29,10 @@ import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun Feedback(
-    isError: Boolean,
-    showThanks: Boolean,
-    feedback: String,
-    sendFeedback: (String) -> Unit,
+    isError: Boolean = false,
+    showThanks: Boolean = false,
+    feedback: String = "",
+    sendFeedback: (String) -> Unit = {},
 ) {
     var feedbackText by remember { mutableStateOf(value = feedback) }
 
@@ -85,4 +87,23 @@ internal fun Feedback(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun FeedbackPreview() = AppTheme {
+    Feedback(
+        isError = false,
+        showThanks = true,
+        feedback = "This is awesome!",
+    )
+}
+
+@Preview
+@Composable
+private fun FeedbackErrorPreview() = AppTheme {
+    Feedback(
+        isError = true,
+        showThanks = false,
+    )
 }

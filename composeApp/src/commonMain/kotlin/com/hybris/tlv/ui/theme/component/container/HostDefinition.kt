@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.container
 
+import kotlin.collections.List
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
@@ -124,4 +127,28 @@ internal inline fun <T, S> HostDefinition(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun HostDefinitionPreview() = AppTheme {
+    HostDefinition(
+        name = "Name",
+        properties = listOf(
+            "Property 1",
+            "Property 2",
+            "Property 3",
+        ),
+        propertyId = { it },
+        propertyDescription = { null },
+        stellarHosts = listOf(
+            "Stellar Host 1",
+            "Stellar Host 2",
+            "Stellar Host 3",
+            "Stellar Host 4",
+        ),
+        stellarHostId = { it },
+        stellarHostDescription = { null },
+        stellarHostImage = { null },
+    )
 }

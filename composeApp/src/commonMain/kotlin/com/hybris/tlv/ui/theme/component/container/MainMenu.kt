@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.container
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.AppLogo
 import com.hybris.tlv.ui.theme.component.text.Text
@@ -94,4 +96,10 @@ internal fun MainMenu(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun MainMenuPreview() = AppTheme {
+    MainMenu(ongoingGameSession = true)
 }

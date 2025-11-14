@@ -17,8 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.AttributePoint
-import com.hybris.tlv.ui.theme.component.AttributeRow
+import com.hybris.tlv.ui.theme.component.button.AttributePoint
+import com.hybris.tlv.ui.theme.component.button.AttributeRow
 import com.hybris.tlv.ui.theme.component.card.SelectableAttribute
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
