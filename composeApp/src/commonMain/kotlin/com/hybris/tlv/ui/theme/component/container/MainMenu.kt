@@ -45,6 +45,7 @@ internal fun MainMenu(
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
+        scrollBar = false
     ) {
         item {
             AppLogo(

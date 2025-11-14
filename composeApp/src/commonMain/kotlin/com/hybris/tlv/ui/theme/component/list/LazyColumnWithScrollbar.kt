@@ -47,9 +47,9 @@ internal fun LazyColumn(
     scrollBarUnhoverColor: Color = scrollBarHoverColor.copy(alpha = 0.3f),
     content: LazyListScope.() -> Unit = {}
 ) {
-    Box(modifier = modifier) {
+    Box {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier,
             state = state,
             contentPadding = contentPadding,
             reverseLayout = reverseLayout,
