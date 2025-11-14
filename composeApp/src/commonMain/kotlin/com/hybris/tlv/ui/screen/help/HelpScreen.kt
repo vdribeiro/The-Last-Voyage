@@ -1,39 +1,23 @@
 package com.hybris.tlv.ui.screen.help
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.LocalColorScheme
-import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.card.PropertyCard
 import com.hybris.tlv.ui.theme.component.container.HostDefinition
 import com.hybris.tlv.ui.theme.component.container.LearnMenu
 import com.hybris.tlv.ui.theme.component.container.PlanetDefinition
 import com.hybris.tlv.ui.theme.component.container.Screen
-import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
-import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.component.list.HabitabilityList
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.space.formula.spectralTypeToImage
 import com.hybris.tlv.usecase.space.formula.toImage
 import com.hybris.tlv.usecase.space.model.PlanetType
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
@@ -114,44 +98,11 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 )
             }
 
-            Content.HABITABILITY -> HabitabilityContent(store = store)
-        }
-    }
-}
-
-@Composable
-private fun HabitabilityContent(store: Store<HelpState, HelpAction>) {
-    val storeState by store.stateFlow.collectAsState()
-    val formula = storeState.learningsMap[LearningType.FORMULA].orEmpty()
-    val uriHandler = LocalUriHandler.current
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
-    val formulaTranslation = remember(key1 = translationVersion) { getTranslation(key = "formula") }
-
-    val typography = LocalTypography.current
-    val colorScheme = LocalColorScheme.current
-
-    LazyColumnWithScrollBar(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        items(items = formula, key = { it.id }) { property ->
-            PropertyCard(
-                name = getTranslation(key = property.id),
-                description = getTranslation(key = property.description),
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { uriHandler.openUri(uri = storeState.formula) },
-                text = formulaTranslation,
-                style = typography.headlineSmall.copy(
-                    color = colorScheme.primary,
-                    textDecoration = TextDecoration.Underline
-                ),
+            Content.HABITABILITY -> HabitabilityList(
+                properties = storeState.learningsMap[LearningType.FORMULA].orEmpty(),
+                id = { it.id },
+                description = { it.description },
+                formula = storeState.formula
             )
         }
     }
