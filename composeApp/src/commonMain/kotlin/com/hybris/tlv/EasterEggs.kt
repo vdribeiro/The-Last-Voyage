@@ -7,9 +7,9 @@ import androidx.compose.ui.input.key.KeyEvent
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.theme.component.modifier.Gesture
-import com.hybris.tlv.ui.theme.component.modifier.onGesture
-import com.hybris.tlv.ui.theme.component.modifier.rememberKeySequence
+import com.hybris.tlv.ui.theme.modifier.Gesture
+import com.hybris.tlv.ui.theme.modifier.onGesture
+import com.hybris.tlv.ui.theme.modifier.rememberKeySequence
 
 private val konamiCode = listOf(
     Key.DirectionUp, Key.DirectionUp, Key.DirectionDown, Key.DirectionDown,

@@ -133,13 +133,13 @@ private fun PlanetDefinitionPreview() = AppTheme {
             "Property 2",
             "Property 3",
         ),
-        propertyId = { it },
-        propertyDescription = { null },
+        propertyDescription = { it },
         planets = listOf(
             "Planet 1",
             "Planet 2",
             "Planet 3",
         ),
-        planetId = { it },
+        planetDescription = { it },
+        planetImage = { ImageResource(path = "terrestrial_planet.jpg") },
     )
 }

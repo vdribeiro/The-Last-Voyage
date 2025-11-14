@@ -102,6 +102,7 @@ private fun SystemListPreview() = AppTheme {
             "Planet 2",
             "Planet 3",
         ),
-        planetName = { it }
+        planetName = { it },
+        planetImage = { ImageResource(path = "terrestrial_planet.jpg") },
     )
 }

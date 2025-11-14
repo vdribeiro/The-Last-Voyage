@@ -139,14 +139,14 @@ private fun HostDefinitionPreview() = AppTheme {
             "Property 2",
             "Property 3",
         ),
-        propertyId = { it },
-        propertyDescription = { null },
+        propertyDescription = { it },
         stellarHosts = listOf(
             "Stellar Host 1",
             "Stellar Host 2",
             "Stellar Host 3",
             "Stellar Host 4",
         ),
-        stellarHostId = { it },
+        stellarHostDescription = { it },
+        stellarHostImage = { ImageResource(path = "G.jpg") },
     )
 }

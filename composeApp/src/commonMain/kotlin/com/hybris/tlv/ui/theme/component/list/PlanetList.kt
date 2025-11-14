@@ -169,14 +169,13 @@ internal inline fun <T> PlanetList(
 private fun PlanetListPreview() = AppTheme {
     PlanetList(
         showStellarHost = true,
-        stellarHostId = generateUuid(),
         stellarHostName = "Host",
         planets = listOf(
             "Planet 1",
             "Planet 2",
             "Planet 3",
         ),
-        planetId = { it },
         planetName = { it },
+        planetImage = { ImageResource(path = "terrestrial_planet.jpg") },
     )
 }

@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component.modifier
+package com.hybris.tlv.ui.theme.modifier
 
 import kotlin.math.abs
 import kotlinx.coroutines.coroutineScope

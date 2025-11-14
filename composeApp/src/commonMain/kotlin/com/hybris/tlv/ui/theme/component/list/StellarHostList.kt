@@ -169,14 +169,13 @@ internal inline fun <T> StellarHostList(
 private fun StellarHostListPreview() = AppTheme {
     StellarHostList(
         showPlanet = true,
-        planetId = generateUuid(),
         planetName = "Planet",
         stellarHosts = listOf(
             "Host 1",
             "Host 2",
             "Host 3",
         ),
-        stellarHostId = { it },
         stellarHostName = { it },
+        stellarHostSpectralImage = { ImageResource(path = "G.jpg") },
     )
 }
