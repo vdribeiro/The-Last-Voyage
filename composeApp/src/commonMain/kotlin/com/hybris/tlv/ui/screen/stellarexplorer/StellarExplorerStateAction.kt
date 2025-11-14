@@ -689,6 +689,6 @@ internal fun <E, V> Collection<E>.ifContains(element: E, value: V?): V? =
 /**
  * Returns the first key whose value matches [value].
  */
-internal fun <T : Enum<T>> Map<T, String>.findKey(value: String): T? {
+internal fun <T: Enum<T>> Map<T, String>.findKey(value: String): T? {
     return this.entries.find { it.value == value }?.key
 }
