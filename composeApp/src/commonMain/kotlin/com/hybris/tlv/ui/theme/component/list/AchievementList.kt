@@ -46,7 +46,7 @@ internal inline fun <T> AchievementList(
             style = typography.headlineMedium,
         )
         Spacer(modifier = Modifier.height(height = 16.dp))
-        LazyColumnWithScrollBar(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(all = 16.dp),

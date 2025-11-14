@@ -53,7 +53,7 @@ internal inline fun <T> SystemList(
         )
     }
 
-    LazyColumnWithScrollBar(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(all = 16.dp),

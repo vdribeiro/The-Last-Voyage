@@ -68,7 +68,7 @@ internal inline fun <T> ShipConfiguration(
         )
 
         // Attributes for sensor range, fuel, materials and cryopods
-        LazyColumnWithScrollBar(
+        LazyColumn(
             modifier = Modifier
                 .padding(all = 16.dp)
                 .weight(weight = 1f),

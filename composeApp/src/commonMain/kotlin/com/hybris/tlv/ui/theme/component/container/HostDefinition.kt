@@ -20,7 +20,7 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.image.ImageResource
-import com.hybris.tlv.ui.theme.component.list.LazyColumnWithScrollBar
+import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -61,7 +61,7 @@ internal inline fun <T, S> HostDefinition(
 
     val typography = LocalTypography.current
 
-    LazyColumnWithScrollBar(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(all = 16.dp),

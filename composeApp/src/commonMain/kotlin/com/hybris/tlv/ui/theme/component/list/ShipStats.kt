@@ -43,7 +43,7 @@ internal fun ShipStats(
     val cryopodsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_cryopods") }
 
     // Ship status with years traveled, sensor range, maximum speed, integrity, fuel, materials and cryopods
-    LazyColumnWithScrollBar(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(all = 16.dp),

@@ -27,9 +27,10 @@ import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
-internal fun LazyColumnWithScrollBar(
+internal fun LazyColumn(
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
+    scrollBar: Boolean = true,
     contentPadding: PaddingValues = PaddingValues(all = 0.dp),
     reverseLayout: Boolean = false,
     verticalArrangement: Arrangement.Vertical = if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
@@ -58,7 +59,7 @@ internal fun LazyColumnWithScrollBar(
             overscrollEffect = overscrollEffect,
             content = content
         )
-        VerticalScrollBar(
+        if (scrollBar) VerticalScrollBar(
             modifier = Modifier
                 .padding(all = 4.dp)
                 .fillMaxHeight()
@@ -77,7 +78,7 @@ internal fun LazyColumnWithScrollBar(
 @Preview
 @Composable
 private fun LazyColumnWithScrollBarPreview() = AppTheme {
-    LazyColumnWithScrollBar {
+    com.hybris.tlv.ui.theme.component.list.LazyColumn {
         item { Card { Text(text = "Preview") } }
     }
 }

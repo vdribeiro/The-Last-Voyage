@@ -37,7 +37,7 @@ internal inline fun <T> HabitabilityList(
     val typography = LocalTypography.current
     val colorScheme = LocalColorScheme.current
 
-    LazyColumnWithScrollBar(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(all = 16.dp),

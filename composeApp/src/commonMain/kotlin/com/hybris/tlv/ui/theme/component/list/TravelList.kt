@@ -24,7 +24,7 @@ internal inline fun <T> TravelList(
     crossinline distance: (T) -> Double? = { null },
     crossinline onClick: (T) -> Unit = {},
 ) {
-    LazyColumnWithScrollBar(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(all = 16.dp),

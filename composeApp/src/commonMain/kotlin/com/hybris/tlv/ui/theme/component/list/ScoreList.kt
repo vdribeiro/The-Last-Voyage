@@ -61,7 +61,7 @@ internal inline fun <T> ScoreList(
             style = typography.headlineMedium,
         )
         Spacer(modifier = Modifier.height(height = 16.dp))
-        LazyColumnWithScrollBar(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize(),
             contentPadding = PaddingValues(all = 16.dp),

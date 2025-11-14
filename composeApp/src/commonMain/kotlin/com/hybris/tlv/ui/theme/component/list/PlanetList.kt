@@ -82,7 +82,7 @@ internal inline fun <T> PlanetList(
     crossinline planetTidalLockingScore: (T) -> Double? = { null },
     crossinline onPlanetClick: (T) -> Unit = {}
 ) {
-    LazyColumnWithScrollBar(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(all = 16.dp),

@@ -82,7 +82,7 @@ internal inline fun <T> StellarHostList(
     crossinline stellarHostEffectiveTemperatureScore: (T) -> Double? = { null },
     crossinline onStellarHostClick: (T) -> Unit = {}
 ) {
-    LazyColumnWithScrollBar(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(all = 16.dp),
