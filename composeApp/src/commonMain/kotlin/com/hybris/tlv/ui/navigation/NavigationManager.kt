@@ -45,13 +45,16 @@ internal open class NavigationManager(initialState: NavigationState) {
     fun navigate(navigationState: NavigationState, currentState: Any? = null) {
         Dispatcher.Main.launch {
             mutex.withLock {
-                // Edit last element of the stack
-                stack.removeLastOrNull()?.let { navigationState -> stack.add(element = navigationState.copy(stateBuilder = currentState)) }
-                // If the state is already in the stack, go from there
-                val index = stack.indexOf(element = navigationState)
-                if (index != -1) stack.subList(fromIndex = index + 1, toIndex = stack.size).clear()
-                // Update state
+                // Reset back callback
+                back = { goBack() }
+                // If the screen is already in the stack, truncate from that element onwards, otherwise edit the last element of the stack
+                val index = stack.indexOfFirst { navigationState.screen == it.screen }
+                when {
+                    index != -1 -> stack.subList(fromIndex = index, toIndex = stack.size).clear()
+                    else -> stack.removeLastOrNull()?.let { navigationState -> stack.add(element = navigationState.copy(stateBuilder = currentState)) }
+                }
                 stack.add(element = navigationState)
+                // Update state
                 _stateFlow.update { navigationState }
                 Telemetry.info(tag = TAG, message = "Navigate to ${_stateFlow.value}")
             }
