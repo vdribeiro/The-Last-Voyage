@@ -42,125 +42,6 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     val hostListTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_explorer_screen__host_list") }
     val planetListTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_explorer_screen__planet_list") }
 
-    // Control panel definitions according to selected view (property visibility, sort, search, etc...)
-    val enabled: Boolean
-    val viewName: String
-    val viewIcon: ImageVector
-    val count: String
-    val properties: List<String>
-    val selectedProperty: String
-    val onSortChange: (String) -> Unit
-    val visibleProperties: List<String>
-    val onVisibilityChange: (String) -> Unit
-    val selectedProperties: List<String>
-    val onFiltersChange: (String) -> Unit
-
-    when (storeState.currentContent) {
-        Content.LIST_HOSTS -> {
-            enabled = true
-            viewName = hostListTranslation
-            viewIcon = Icons.Default.Flare
-            count = storeState.filteredStellarHosts.size.toString()
-            properties = stellarHostProperties.values.toList()
-            selectedProperty = stellarHostProperties[storeState.sortStellarHostProperty].orEmpty()
-            onSortChange = { property ->
-                stellarHostProperties.entries.find { it.value == property }?.key?.let {
-                    store.send(action = StellarExplorerAction.SortStellarHosts(sort = it))
-                }
-            }
-            visibleProperties = storeState.visibleStellarHostProperties.mapNotNull { stellarHostProperties[it] }
-            onVisibilityChange = { property ->
-                stellarHostProperties.entries.find { it.value == property }?.key?.let {
-                    store.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = it))
-                }
-            }
-            selectedProperties = storeState.searchableStellarHostProperties.mapNotNull { stellarHostProperties[it] }
-            onFiltersChange = { property ->
-                stellarHostProperties.entries.find { it.value == property }?.key?.let {
-                    store.send(action = StellarExplorerAction.ChangeStellarHostsSearchable(property = it))
-                }
-            }
-        }
-
-        Content.DETAIL_HOSTS -> {
-            enabled = false
-            viewName = hostListTranslation
-            viewIcon = Icons.Default.Flare
-            count = storeState.filteredStellarHosts.size.toString()
-            properties = stellarHostProperties.values.toList()
-            selectedProperty = stellarHostProperties[storeState.sortStellarHostProperty].orEmpty()
-            onSortChange = { property ->
-                stellarHostProperties.entries.find { it.value == property }?.key?.let {
-                    store.send(action = StellarExplorerAction.SortStellarHosts(sort = it))
-                }
-            }
-            visibleProperties = storeState.visibleStellarHostProperties.mapNotNull { stellarHostProperties[it] }
-            onVisibilityChange = { property ->
-                stellarHostProperties.entries.find { it.value == property }?.key?.let {
-                    store.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = it))
-                }
-            }
-            selectedProperties = storeState.searchableStellarHostProperties.mapNotNull { stellarHostProperties[it] }
-            onFiltersChange = { property ->
-                stellarHostProperties.entries.find { it.value == property }?.key?.let {
-                    store.send(action = StellarExplorerAction.ChangeStellarHostsSearchable(property = it))
-                }
-            }
-        }
-
-        Content.LIST_PLANETS -> {
-            enabled = true
-            viewName = planetListTranslation
-            viewIcon = Icons.Default.Public
-            count = storeState.filteredPlanets.size.toString()
-            properties = planetProperties.values.toList()
-            selectedProperty = planetProperties[storeState.sortPlanetProperty].orEmpty()
-            onSortChange = { property ->
-                planetProperties.entries.find { it.value == property }?.key?.let {
-                    store.send(action = StellarExplorerAction.SortPlanets(sort = it))
-                }
-            }
-            visibleProperties = storeState.visiblePlanetProperties.mapNotNull { planetProperties[it] }
-            onVisibilityChange = { property ->
-                planetProperties.entries.find { it.value == property }?.key?.let {
-                    store.send(action = StellarExplorerAction.ChangePlanetVisibility(property = it))
-                }
-            }
-            selectedProperties = storeState.searchablePlanetProperties.mapNotNull { planetProperties[it] }
-            onFiltersChange = { property ->
-                planetProperties.entries.find { it.value == property }?.key?.let {
-                    store.send(action = StellarExplorerAction.ChangePlanetSearchable(property = it))
-                }
-            }
-        }
-
-        Content.DETAIL_PLANETS -> {
-            enabled = false
-            viewName = planetListTranslation
-            viewIcon = Icons.Default.Public
-            count = storeState.filteredPlanets.size.toString()
-            properties = planetProperties.values.toList()
-            selectedProperty = planetProperties[storeState.sortPlanetProperty].orEmpty()
-            onSortChange = { property ->
-                planetProperties.entries.find { it.value == property }?.key?.let {
-                    store.send(action = StellarExplorerAction.SortPlanets(sort = it))
-                }
-            }
-            visibleProperties = storeState.visiblePlanetProperties.mapNotNull { planetProperties[it] }
-            onVisibilityChange = { property ->
-                planetProperties.entries.find { it.value == property }?.key?.let {
-                    store.send(action = StellarExplorerAction.ChangePlanetVisibility(property = it))
-                }
-            }
-            selectedProperties = storeState.searchablePlanetProperties.mapNotNull { planetProperties[it] }
-            onFiltersChange = { property ->
-                planetProperties.entries.find { it.value == property }?.key?.let {
-                    store.send(action = StellarExplorerAction.ChangePlanetSearchable(property = it))
-                }
-            }
-        }
-    }
-
     Screen(
         loading = storeState.loading,
         onBackClick = { store.back() },
@@ -168,6 +49,123 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         topBar = {
+            // Control panel definitions according to selected view (property visibility, sort, search, etc...)
+            val enabled: Boolean
+            val viewName: String
+            val viewIcon: ImageVector
+            val count: String
+            val properties: List<String>
+            val selectedProperty: String
+            val onSortChange: (String) -> Unit
+            val visibleProperties: List<String>
+            val onVisibilityChange: (String) -> Unit
+            val selectedProperties: List<String>
+            val onFiltersChange: (String) -> Unit
+            when (currentContent) {
+                Content.LIST_HOSTS -> {
+                    enabled = true
+                    viewName = hostListTranslation
+                    viewIcon = Icons.Default.Flare
+                    count = storeState.filteredStellarHosts.size.toString()
+                    properties = stellarHostProperties.values.toList()
+                    selectedProperty = stellarHostProperties[storeState.sortStellarHostProperty].orEmpty()
+                    onSortChange = { property ->
+                        stellarHostProperties.entries.find { it.value == property }?.key?.let {
+                            store.send(action = StellarExplorerAction.SortStellarHosts(sort = it))
+                        }
+                    }
+                    visibleProperties = storeState.visibleStellarHostProperties.mapNotNull { stellarHostProperties[it] }
+                    onVisibilityChange = { property ->
+                        stellarHostProperties.entries.find { it.value == property }?.key?.let {
+                            store.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = it))
+                        }
+                    }
+                    selectedProperties = storeState.searchableStellarHostProperties.mapNotNull { stellarHostProperties[it] }
+                    onFiltersChange = { property ->
+                        stellarHostProperties.entries.find { it.value == property }?.key?.let {
+                            store.send(action = StellarExplorerAction.ChangeStellarHostsSearchable(property = it))
+                        }
+                    }
+                }
+
+                Content.DETAIL_HOSTS -> {
+                    enabled = false
+                    viewName = hostListTranslation
+                    viewIcon = Icons.Default.Flare
+                    count = storeState.filteredStellarHosts.size.toString()
+                    properties = stellarHostProperties.values.toList()
+                    selectedProperty = stellarHostProperties[storeState.sortStellarHostProperty].orEmpty()
+                    onSortChange = { property ->
+                        stellarHostProperties.entries.find { it.value == property }?.key?.let {
+                            store.send(action = StellarExplorerAction.SortStellarHosts(sort = it))
+                        }
+                    }
+                    visibleProperties = storeState.visibleStellarHostProperties.mapNotNull { stellarHostProperties[it] }
+                    onVisibilityChange = { property ->
+                        stellarHostProperties.entries.find { it.value == property }?.key?.let {
+                            store.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = it))
+                        }
+                    }
+                    selectedProperties = storeState.searchableStellarHostProperties.mapNotNull { stellarHostProperties[it] }
+                    onFiltersChange = { property ->
+                        stellarHostProperties.entries.find { it.value == property }?.key?.let {
+                            store.send(action = StellarExplorerAction.ChangeStellarHostsSearchable(property = it))
+                        }
+                    }
+                }
+
+                Content.LIST_PLANETS -> {
+                    enabled = true
+                    viewName = planetListTranslation
+                    viewIcon = Icons.Default.Public
+                    count = storeState.filteredPlanets.size.toString()
+                    properties = planetProperties.values.toList()
+                    selectedProperty = planetProperties[storeState.sortPlanetProperty].orEmpty()
+                    onSortChange = { property ->
+                        planetProperties.entries.find { it.value == property }?.key?.let {
+                            store.send(action = StellarExplorerAction.SortPlanets(sort = it))
+                        }
+                    }
+                    visibleProperties = storeState.visiblePlanetProperties.mapNotNull { planetProperties[it] }
+                    onVisibilityChange = { property ->
+                        planetProperties.entries.find { it.value == property }?.key?.let {
+                            store.send(action = StellarExplorerAction.ChangePlanetVisibility(property = it))
+                        }
+                    }
+                    selectedProperties = storeState.searchablePlanetProperties.mapNotNull { planetProperties[it] }
+                    onFiltersChange = { property ->
+                        planetProperties.entries.find { it.value == property }?.key?.let {
+                            store.send(action = StellarExplorerAction.ChangePlanetSearchable(property = it))
+                        }
+                    }
+                }
+
+                Content.DETAIL_PLANETS -> {
+                    enabled = false
+                    viewName = planetListTranslation
+                    viewIcon = Icons.Default.Public
+                    count = storeState.filteredPlanets.size.toString()
+                    properties = planetProperties.values.toList()
+                    selectedProperty = planetProperties[storeState.sortPlanetProperty].orEmpty()
+                    onSortChange = { property ->
+                        planetProperties.entries.find { it.value == property }?.key?.let {
+                            store.send(action = StellarExplorerAction.SortPlanets(sort = it))
+                        }
+                    }
+                    visibleProperties = storeState.visiblePlanetProperties.mapNotNull { planetProperties[it] }
+                    onVisibilityChange = { property ->
+                        planetProperties.entries.find { it.value == property }?.key?.let {
+                            store.send(action = StellarExplorerAction.ChangePlanetVisibility(property = it))
+                        }
+                    }
+                    selectedProperties = storeState.searchablePlanetProperties.mapNotNull { planetProperties[it] }
+                    onFiltersChange = { property ->
+                        planetProperties.entries.find { it.value == property }?.key?.let {
+                            store.send(action = StellarExplorerAction.ChangePlanetSearchable(property = it))
+                        }
+                    }
+                }
+            }
             ControlPanel(
                 modifier = Modifier
                     .statusBarsPadding(),
@@ -325,15 +323,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                     planetProtectionScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.PROTECTION_SCORE, value = it.score?.planetProtectionScore) },
                     planetTidalLockingScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.TIDAL_LOCKING_SCORE, value = it.score?.planetTidalLockingScore) },
                     onPlanetClick = {
-                        // TODO - save list state
-//                        store.send(
-//                            action = StellarExplorerAction.SaveIndex(
-//                                index = LazyListState(
-//                                    index = listState.firstVisibleItemIndex,
-//                                    scrollOffset = listState.firstVisibleItemScrollOffset
-//                                )
-//                            )
-//                        )
+                        store.send(action = StellarExplorerAction.SaveListState(listState = listState))
                         store.send(action = StellarExplorerAction.OpenPlanet(planet = it))
                     }
                 )
