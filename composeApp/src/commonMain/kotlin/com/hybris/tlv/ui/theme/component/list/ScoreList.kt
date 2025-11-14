@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.Score
 import com.hybris.tlv.ui.theme.component.text.Text
@@ -27,7 +28,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal inline fun <T> ScoreList(
     modifier: Modifier = Modifier,
     scores: List<T> = emptyList(),
-    noinline id: (T) -> String = { "" },
+    noinline id: (T) -> String = { generateUuid() },
     crossinline scorePoints: (T) -> Double? = { null },
     crossinline utc: (T) -> String? = { null },
     crossinline settledPlanet: (T) -> String? = { null },

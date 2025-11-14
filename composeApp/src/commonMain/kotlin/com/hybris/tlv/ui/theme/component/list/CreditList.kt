@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.Card
@@ -30,7 +31,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal inline fun <T> CreditList(
     modifier: Modifier = Modifier,
     credits: List<T> = emptyList(),
-    noinline id: (T) -> String = { "" },
+    noinline id: (T) -> String = { generateUuid() },
     crossinline link: (T) -> String? = { null },
     crossinline type: (T) -> CreditType? = { null },
 ) {

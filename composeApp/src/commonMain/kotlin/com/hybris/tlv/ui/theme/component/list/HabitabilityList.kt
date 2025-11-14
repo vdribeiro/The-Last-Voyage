@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
@@ -25,7 +26,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal inline fun <T> HabitabilityList(
     modifier: Modifier = Modifier,
     properties: List<T> = emptyList(),
-    noinline id: (T) -> String = { "" },
+    noinline id: (T) -> String = { generateUuid() },
     crossinline description: (T) -> String? = { null },
     formula: String = "",
 ) {

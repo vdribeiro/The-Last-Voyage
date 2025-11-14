@@ -4,8 +4,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -14,10 +16,10 @@ import com.hybris.tlv.ui.theme.LocalTypography
 internal fun InfoRow(
     modifier: Modifier = Modifier,
     label: String = "",
-    value: Any? = null
+    value: Any? = null,
+    textAlign: TextAlign? = null,
+    style: TextStyle = LocalTypography.current.bodyLarge
 ) {
-    val typography = LocalTypography.current
-
     val annotatedText = buildAnnotatedString {
         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) { append(label) }
         val stringValue = value?.toString().orEmpty()
@@ -29,7 +31,8 @@ internal fun InfoRow(
     Text(
         modifier = modifier,
         text = annotatedText,
-        style = typography.bodyLarge,
+        textAlign = textAlign,
+        style = style,
     )
 }
 
