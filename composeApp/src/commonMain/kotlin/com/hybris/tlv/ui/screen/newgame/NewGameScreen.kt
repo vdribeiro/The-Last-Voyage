@@ -77,7 +77,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
                     velocity = { it.velocity },
                     fuelConsumption = { it.fuelConsumption },
                     cost = { it.cost },
-                    selectEngine = { engine -> store.send(action = NewGameAction.SelectEngine(engine = engine)) }
+                    onEngineClick = { engine -> store.send(action = NewGameAction.SelectEngine(engine = engine)) }
                 )
             }
 

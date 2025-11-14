@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
@@ -46,10 +47,10 @@ internal inline fun <T, S> HostDefinition(
     ra: Double? = null,
     dec: Double? = null,
     properties: List<T> = emptyList(),
-    noinline propertyId: (T) -> String = { "" },
+    noinline propertyId: (T) -> String = { generateUuid() },
     crossinline propertyDescription: (T) -> String? = { null },
     stellarHosts: List<S> = emptyList(),
-    noinline stellarHostId: (S) -> String = { "" },
+    noinline stellarHostId: (S) -> String = { generateUuid() },
     crossinline stellarHostDescription: (S) -> String? = { null },
     crossinline stellarHostImage: (S) -> ImageResource? = { null },
 ) {
@@ -132,7 +133,7 @@ internal inline fun <T, S> HostDefinition(
 @Composable
 private fun HostDefinitionPreview() = AppTheme {
     HostDefinition(
-        name = "Name",
+        name = "Sun",
         properties = listOf(
             "Property 1",
             "Property 2",
@@ -147,7 +148,5 @@ private fun HostDefinitionPreview() = AppTheme {
             "Stellar Host 4",
         ),
         stellarHostId = { it },
-        stellarHostDescription = { null },
-        stellarHostImage = { null },
     )
 }

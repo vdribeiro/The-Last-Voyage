@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.container
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.security.generateUuid
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.PlanetCard
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
@@ -41,10 +44,10 @@ internal inline fun <T, P> PlanetDefinition(
     type: String? = null,
     image: ImageResource? = null,
     properties: List<T> = emptyList(),
-    noinline propertyId: (T) -> String = { "" },
+    noinline propertyId: (T) -> String = { generateUuid() },
     crossinline propertyDescription: (T) -> String? = { null },
     planets: List<P> = emptyList(),
-    noinline planetId: (P) -> String = { "" },
+    noinline planetId: (P) -> String = { generateUuid() },
     crossinline planetDescription: (P) -> String? = { null },
     crossinline planetImage: (P) -> ImageResource? = { null },
 ) {
@@ -118,4 +121,25 @@ internal inline fun <T, P> PlanetDefinition(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun PlanetDefinitionPreview() = AppTheme {
+    PlanetDefinition(
+        name = "Earth",
+        properties = listOf(
+            "Property 1",
+            "Property 2",
+            "Property 3",
+        ),
+        propertyId = { it },
+        propertyDescription = { null },
+        planets = listOf(
+            "Planet 1",
+            "Planet 2",
+            "Planet 3",
+        ),
+        planetId = { it },
+    )
 }

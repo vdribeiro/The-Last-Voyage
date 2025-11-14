@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.security.generateUuid
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.card.PlanetCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.dialog.Dialog
@@ -31,7 +34,7 @@ internal inline fun <T> SystemList(
     stellarHostMass: Double? = null,
     stellarHostAge: Double? = null,
     planets: List<T> = emptyList(),
-    noinline planetId: (T) -> String = { "" },
+    noinline planetId: (T) -> String = { generateUuid() },
     crossinline planetName: (T) -> String? = { null },
     crossinline planetRadius: (T) -> Double? = { null },
     crossinline planetMass: (T) -> Double? = { null },
@@ -86,4 +89,19 @@ internal inline fun <T> SystemList(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun SystemListPreview() = AppTheme {
+    SystemList(
+        stellarHostId = "Host",
+        stellarHostName = "Host",
+        planets = listOf(
+            "Planet 1",
+            "Planet 2",
+            "Planet 3",
+        ),
+        planetName = { it }
+    )
 }

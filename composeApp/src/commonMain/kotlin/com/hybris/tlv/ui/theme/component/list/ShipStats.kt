@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.card.StatDisplay
 import com.hybris.tlv.usecase.space.formula.roundTo
 import com.hybris.tlv.usecase.translation.TranslationCache
@@ -113,4 +115,18 @@ internal fun ShipStats(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun ShipStatsPreview() = AppTheme {
+    ShipStats(
+        velocity = 1.0,
+        yearsTraveled = 10.0,
+        sensorRange = 1,
+        integrity = 100,
+        fuel = 100,
+        materials = 100,
+        cryopods = 100
+    )
 }

@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.security.generateUuid
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.ui.theme.component.button.AttributeRow
@@ -40,7 +42,7 @@ internal inline fun <T> ShipConfiguration(
     crossinline velocity: (T) -> Double? = { null },
     crossinline fuelConsumption: (T) -> Double? = { null },
     crossinline cost: (T) -> Int? = { null },
-    crossinline selectEngine: (T) -> Unit
+    crossinline onEngineClick: (T) -> Unit = {}
 ) {
     val translationVersion by TranslationCache.stateFlow.collectAsState()
     val shipPointsTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__ship_points") }
@@ -125,7 +127,7 @@ internal inline fun <T> ShipConfiguration(
                 val engineId = id(engine)
                 SelectableAttribute(
                     modifier = Modifier
-                        .clickable { selectEngine(engine) },
+                        .clickable { onEngineClick(engine) },
                     selected = selectedEngineId == engineId,
                     name = engineId,
                     description = description(engine),
@@ -136,4 +138,23 @@ internal inline fun <T> ShipConfiguration(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun ShipConfigurationPreview() = AppTheme {
+    ShipConfiguration(
+        remainingPoints = 10,
+        sensorRange = AttributePoint(),
+        selectedEngineId = "1",
+        engines = listOf(
+            "Engine 1",
+            "Engine 2",
+            "Engine 3"
+        ),
+        description = { it },
+        velocity = { 10.0 },
+        fuelConsumption = { 10.0 },
+        cost = { 10 }
+    )
 }

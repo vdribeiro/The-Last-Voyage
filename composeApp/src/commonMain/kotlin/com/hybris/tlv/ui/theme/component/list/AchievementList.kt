@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.security.generateUuid
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.AchievementCard
 import com.hybris.tlv.ui.theme.component.text.Text
@@ -62,4 +64,18 @@ internal inline fun <T> AchievementList(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun AchievementListPreview() = AppTheme {
+    AchievementList(
+        achievements = listOf(
+            "Achievement 1",
+            "Achievement 2",
+            "Achievement 3",
+        ),
+        description = { it },
+        done = { true }
+    )
 }

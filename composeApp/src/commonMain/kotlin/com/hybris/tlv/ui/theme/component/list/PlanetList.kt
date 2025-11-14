@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.security.generateUuid
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.card.PlanetCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.divider.Divider
@@ -160,4 +162,21 @@ internal inline fun <T> PlanetList(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun PlanetListPreview() = AppTheme {
+    PlanetList(
+        showStellarHost = true,
+        stellarHostId = generateUuid(),
+        stellarHostName = "Host",
+        planets = listOf(
+            "Planet 1",
+            "Planet 2",
+            "Planet 3",
+        ),
+        planetId = { it },
+        planetName = { it },
+    )
 }
