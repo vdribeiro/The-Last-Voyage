@@ -8,10 +8,7 @@ import com.hybris.tlv.telemetry.Telemetry
 internal actual suspend fun isInternetAvailable(): Boolean = runCatching {
     val response = httpClient.head(urlString = "https://clients3.google.com/generate_204")
     return response.status.value in 200..299
-}.getOrElse {
-    Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it)
-    false
-}
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = false)
 
 private val httpClient by lazy {
     HttpClient {

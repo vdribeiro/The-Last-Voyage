@@ -69,45 +69,45 @@ internal class ArchiveGateway(
 
     private data class Exoplanets(val stellarHosts: List<StellarHost>, val planets: List<Planet>)
 
-    override suspend fun getArchive() = runCatching {
-        if (!Property.ARCHIVE) return@runCatching
-        coroutineScope {
-            // Get archive
-            val stellarHostsJob = async { getArchive { offset, limit -> getStellarHostsArchive(offset, limit) } }
-            val planetarySystemsCompositeJob = async { getArchive { offset, limit -> getPlanetarySystemsCompositeArchive(offset, limit) } }
-            val k2PlanetsJob = async { getArchive { offset, limit -> getK2PlanetsArchive(offset, limit) } }
-            val stellarHostsResult = stellarHostsJob.await()
-            val planetarySystemsCompositeResult = planetarySystemsCompositeJob.await()
-            val k2PlanetsResult = k2PlanetsJob.await()
+    override suspend fun getArchive() {
+        runCatching {
+            if (!Property.ARCHIVE) return@runCatching
+            coroutineScope {
+                // Get archive
+                val stellarHostsJob = async { getArchive { offset, limit -> getStellarHostsArchive(offset, limit) } }
+                val planetarySystemsCompositeJob = async { getArchive { offset, limit -> getPlanetarySystemsCompositeArchive(offset, limit) } }
+                val k2PlanetsJob = async { getArchive { offset, limit -> getK2PlanetsArchive(offset, limit) } }
+                val stellarHostsResult = stellarHostsJob.await()
+                val planetarySystemsCompositeResult = planetarySystemsCompositeJob.await()
+                val k2PlanetsResult = k2PlanetsJob.await()
 
-            // Data enrichment
-            val stellarHosts = (loadFromJsonResource<StellarHost>(path = SOLAR_HOSTS_JSON) +
-                    stellarHostsResult.stellarHosts +
-                    planetarySystemsCompositeResult.stellarHosts +
-                    k2PlanetsResult.stellarHosts).mergeStellarHosts()
-            val planets = (loadFromJsonResource<Planet>(path = SOLAR_PLANETS_JSON) +
-                    stellarHostsResult.planets +
-                    planetarySystemsCompositeResult.planets +
-                    k2PlanetsResult.planets).mergePlanets()
+                // Data enrichment
+                val stellarHosts = (loadFromJsonResource<StellarHost>(path = SOLAR_HOSTS_JSON) +
+                        stellarHostsResult.stellarHosts +
+                        planetarySystemsCompositeResult.stellarHosts +
+                        k2PlanetsResult.stellarHosts).mergeStellarHosts()
+                val planets = (loadFromJsonResource<Planet>(path = SOLAR_PLANETS_JSON) +
+                        stellarHostsResult.planets +
+                        planetarySystemsCompositeResult.planets +
+                        k2PlanetsResult.planets).mergePlanets()
 
-            // Derive missing data
-            val planetMap = planets.groupBy { it.stellarHostId }
-            val derivedStellarHosts = DerivedData.derive(stellarHosts = stellarHosts.apply {
-                forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) }
-            })
-            val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
+                // Derive missing data
+                val planetMap = planets.groupBy { it.stellarHostId }
+                val derivedStellarHosts = DerivedData.derive(stellarHosts = stellarHosts.apply {
+                    forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) }
+                })
+                val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
 
-            // Strip member properties so only constructor properties are serialized
-            val stellarHostsJson = derivedStellarHosts.map { it.copy() }
-            val planetsJson = derivedPlanets.map { it.copy() }
+                // Strip member properties so only constructor properties are serialized
+                val stellarHostsJson = derivedStellarHosts.map { it.copy() }
+                val planetsJson = derivedPlanets.map { it.copy() }
 
-            // Save to file
-            val hostsFile = saveJsonFile(path = STELLAR_HOSTS_JSON, content = stellarHostsJson)
-            val planetsFile = saveJsonFile(path = PLANETS_JSON, content = planetsJson)
-            Telemetry.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
-        }
-    }.getOrElse {
-        Telemetry.error(tag = TAG, message = "Unable to get archive", throwable = it)
+                // Save to file
+                val hostsFile = saveJsonFile(path = STELLAR_HOSTS_JSON, content = stellarHostsJson)
+                val planetsFile = saveJsonFile(path = PLANETS_JSON, content = planetsJson)
+                Telemetry.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
+            }
+        }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get archive", throwable = it) }
     }
 
     private suspend fun getArchive(limit: Int = pageSize, apiCall: suspend (Int, Int) -> Exoplanets): Exoplanets {

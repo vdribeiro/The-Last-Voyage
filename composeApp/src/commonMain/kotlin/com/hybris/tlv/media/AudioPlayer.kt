@@ -16,21 +16,23 @@ internal open class AudioPlayer {
         data object Toggle: Action
     }
 
-    fun action(action: Action) = runCatching {
-        when (action) {
-            is Action.Play -> {
-                val sortedPlaylist = action.playlist.sorted()
-                if (playlist.sorted() == sortedPlaylist) return@runCatching
-                playlist = sortedPlaylist.shuffled()
-                stop()
-                play()
-            }
+    fun action(action: Action) {
+        runCatching {
+            when (action) {
+                is Action.Play -> {
+                    val sortedPlaylist = action.playlist.sorted()
+                    if (playlist.sorted() == sortedPlaylist) return@runCatching
+                    playlist = sortedPlaylist.shuffled()
+                    stop()
+                    play()
+                }
 
-            Action.Pause -> pause()
-            Action.Resume -> resume()
-            Action.Toggle -> if (isPlaying()) pause() else resume()
-        }
-    }.onFailure { Telemetry.error(tag = TAG, message = "Error with media action $action", throwable = it) }.getOrNull()
+                Action.Pause -> pause()
+                Action.Resume -> resume()
+                Action.Toggle -> if (isPlaying()) pause() else resume()
+            }
+        }.onFailure { Telemetry.error(tag = TAG, message = "Error with media action $action", throwable = it) }
+    }
 
     protected open fun isPlaying(): Boolean = false
 

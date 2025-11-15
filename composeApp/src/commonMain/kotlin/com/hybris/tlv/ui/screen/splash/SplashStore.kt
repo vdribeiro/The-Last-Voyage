@@ -86,9 +86,7 @@ internal class SplashStore(
         tasks.map { task -> async { task() } }.forEachIndexed { index, job ->
             runCatching {
                 job.await()
-            }.getOrElse {
-                Telemetry.error(tag = TAG, message = "Sync task failed.", throwable = it)
-            }
+            }.onFailure { Telemetry.error(tag = TAG, message = "Sync task failed.", throwable = it) }.getOrNull()
             updateState { it.copy(progress = (index + 1).toFloat() / total) }
         }
         config.saveConfigs()
