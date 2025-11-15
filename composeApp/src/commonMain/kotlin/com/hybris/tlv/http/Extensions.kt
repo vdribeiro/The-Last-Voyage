@@ -25,6 +25,4 @@ internal suspend inline fun <reified T> HttpClient.getStream(
         val list = decode<List<T>>(value = bytes.decodeToString())!!
         Result.Success(list = list)
     }
-}.getOrElse {
-    Result.Error(error = it)
-}
+}.getOrElse { Result.Error(error = it) }

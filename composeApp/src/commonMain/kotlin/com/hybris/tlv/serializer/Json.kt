@@ -51,10 +51,7 @@ internal suspend inline fun <reified T> saveJsonFile(path: String, content: T): 
 
 internal suspend inline fun <reified T> loadFromJsonResource(path: String): List<T> = runCatching {
     json.decodeFromString<List<T>>(string = Res.readBytes(path = path).decodeToString())
-}.getOrElse {
-    Telemetry.error(tag = TAG, message = "Unable to load resource", throwable = it)
-    emptyList()
-}
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to load resource", throwable = it) }.getOrDefault(defaultValue = emptyList())
 
 private const val TAG = "JSON"
 

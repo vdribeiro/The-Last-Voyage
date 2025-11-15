@@ -42,10 +42,7 @@ internal actual suspend fun saveFile(path: String, content: String): Boolean = r
         error = null
     )
     true
-}.getOrElse {
-    Telemetry.error(tag = TAG, message = "Unable to save file", throwable = it)
-    false
-}
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to save file", throwable = it) }.getOrDefault(defaultValue = false)
 
 @OptIn(ExperimentalForeignApi::class)
 internal actual suspend fun loadFile(path: String): String? = runCatching {
@@ -57,9 +54,6 @@ internal actual suspend fun loadFile(path: String): String? = runCatching {
             error = null
         )
     } else null
-}.getOrElse {
-    Telemetry.error(tag = TAG, message = "Unable to load file", throwable = it)
-    null
-}
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to load file", throwable = it) }.getOrNull()
 
 private const val TAG = "File"
