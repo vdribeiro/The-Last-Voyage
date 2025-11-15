@@ -6,13 +6,11 @@ import com.hybris.tlv.telemetry.Telemetry
 
 internal actual fun generateUuid(): String = runCatching {
     UUID.randomUUID().toString()
-}.getOrElse {
-    Telemetry.error(tag = TAG, message = "Unable to get UUID type 4", throwable = it)
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to get UUID type 4", throwable = it) }.getOrElse {
     runCatching {
         val byteArray = ByteArray(size = 16).apply { SecureRandom().nextBytes(this) }
         UUID.nameUUIDFromBytes(byteArray).toString()
-    }.getOrElse { throwable ->
-        Telemetry.error(tag = TAG, message = "Unable to get UUID type 3", throwable = it)
+    }.onFailure { throwable -> Telemetry.error(tag = TAG, message = "Unable to get UUID type 3", throwable = throwable) }.getOrElse {
         "${System.currentTimeMillis()}-${System.nanoTime()}" // Not a real UUID, your device might be screwed...
     }
 }
