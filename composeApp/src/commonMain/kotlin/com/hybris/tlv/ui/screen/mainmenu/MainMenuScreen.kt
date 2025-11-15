@@ -23,7 +23,6 @@ import com.hybris.tlv.usecase.translation.model.Translation
 @Composable
 internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
-    val showNavigationInfo = storeState.showNavigationInfo
 
     val translationVersion by TranslationCache.stateFlow.collectAsState()
     val tutorialTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__new_game_tutorial") }
@@ -41,19 +40,6 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
                 supportUri = storeState.support
             )
         },
-        snackbarHost = {
-            if (showNavigationInfo && !isAndroid) Snackbar(
-                message = getTranslation(
-                    key = when {
-                        isDesktop -> "main_menu_screen__navigation_info_desktop"
-                        isIos -> "main_menu_screen__navigation_info_mobile"
-                        else -> "main_menu_screen__navigation_info"
-                    }
-                ),
-                buttonText = getTranslation(key = "main_menu_screen__navigation_info_button"),
-                onDismiss = { store.send(action = MainMenuAction.HideNavigationInfo) }
-            )
-        }
     ) {
         if (storeState.newGameDialog) {
             Dialog(

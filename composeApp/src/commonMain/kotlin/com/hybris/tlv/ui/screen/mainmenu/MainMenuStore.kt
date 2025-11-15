@@ -37,10 +37,8 @@ internal class MainMenuStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
-        val preferences = config.preferences
         val configs = config.remoteConfigs
         val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
-        val showNavigationInfo = preferences.showNavigationInfo
         val developerCorner = configs.developerCorner
         val support = configs.support
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
@@ -48,13 +46,11 @@ internal class MainMenuStore(
             it.copy(
                 loading = false,
                 newVersionBanner = newVersionBanner,
-                showNavigationInfo = showNavigationInfo,
                 developerCorner = developerCorner,
                 support = support,
                 ongoingGameSession = ongoingGameSession,
             )
         }
-        config.setPreferences { it.copy(showNavigationInfo = false) }.savePreferences()
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
@@ -79,7 +75,6 @@ internal class MainMenuStore(
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
             MainMenuAction.NewGame -> newGame()
-            MainMenuAction.HideNavigationInfo -> updateState { it.copy(showNavigationInfo = false) }
             MainMenuAction.HideNewGameDialog -> updateState { it.copy(newGameDialog = false) }
             MainMenuAction.NoNewGameDialog -> newGameWithoutTutorial()
             MainMenuAction.YesNewGameDialog -> newGameWithTutorial()

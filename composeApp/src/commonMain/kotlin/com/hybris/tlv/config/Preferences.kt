@@ -9,5 +9,4 @@ internal data class Preferences(
     val syncTime: String = distantPast(),
     val showIntro: Boolean = true,
     val showTutorial: Boolean = true,
-    val showNavigationInfo: Boolean = true,
 )

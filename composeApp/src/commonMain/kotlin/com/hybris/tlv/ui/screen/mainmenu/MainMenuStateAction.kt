@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.screen.mainmenu
 
 internal sealed interface MainMenuAction {
     data object NewGame: MainMenuAction
-    data object HideNavigationInfo: MainMenuAction
     data object YesNewGameDialog: MainMenuAction
     data object NoNewGameDialog: MainMenuAction
     data object HideNewGameDialog: MainMenuAction
@@ -21,7 +20,6 @@ internal sealed interface MainMenuStateBuilder {
 internal data class MainMenuState(
     val loading: Boolean = true,
     val newVersionBanner: Boolean = false,
-    val showNavigationInfo: Boolean = false,
     val developerCorner: String = "",
     val support: String = "",
     val ongoingGameSession: Boolean = false,
