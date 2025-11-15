@@ -172,5 +172,7 @@ private fun CreditListPreview() = AppTheme {
             "Credit 2",
             "Credit 3",
         ),
+        link = { "link" },
+        type = { CreditType.CREATOR }
     )
 }

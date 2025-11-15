@@ -51,7 +51,13 @@ internal data class ImageResource(
 
 @Preview
 @Composable
-private fun ImagePreview() = AppTheme {
+private fun ImagePathPreview() = AppTheme {
+    Image(image = ImageResource(path = "terrestrial_planet.jpg"))
+}
+
+@Preview
+@Composable
+private fun ImageDrawablePreview() = AppTheme {
     Image(image = ImageResource(drawable = Res.drawable.ic_launcher_foreground))
 }
 
