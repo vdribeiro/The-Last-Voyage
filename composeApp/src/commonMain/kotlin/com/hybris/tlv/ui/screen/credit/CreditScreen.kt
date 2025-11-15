@@ -15,6 +15,11 @@ import com.hybris.tlv.usecase.credit.model.CreditType
 @Composable
 internal fun CreditScreen(store: Store<CreditState, Unit>) {
     val storeState by store.stateFlow.collectAsState()
+    val creditsMap = storeState.credits.groupBy { it.type }
+    val creators = creditsMap[CreditType.CREATOR].orEmpty()
+    val sources = creditsMap[CreditType.SOURCE].orEmpty()
+    val musics = creditsMap[CreditType.MUSIC].orEmpty()
+    val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
 
     Screen(
         loading = storeState.loading,
@@ -24,10 +29,12 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
         onFeedbackClick = { store.feedback() },
     ) {
         CreditList(
-            credits = storeState.credits,
+            creators = creators,
+            sources = sources,
+            musics = musics,
+            supporters = supporters,
             id = { it.id },
             link = { it.link },
-            type = { it.type }
         )
     }
 }

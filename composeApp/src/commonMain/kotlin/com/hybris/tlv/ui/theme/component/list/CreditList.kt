@@ -25,24 +25,19 @@ import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.Card
 import com.hybris.tlv.ui.theme.component.text.Text
-import com.hybris.tlv.usecase.credit.model.CreditType
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal inline fun <T> CreditList(
     modifier: Modifier = Modifier,
-    credits: List<T> = emptyList(),
+    creators: List<T> = emptyList(),
+    sources: List<T> = emptyList(),
+    musics: List<T> = emptyList(),
+    supporters: List<T> = emptyList(),
     noinline id: (T) -> String = { generateUuid() },
     crossinline link: (T) -> String? = { null },
-    crossinline type: (T) -> CreditType? = { null },
 ) {
-    val creditsMap = credits.groupBy { type(it) }
-    val creators = creditsMap[CreditType.CREATOR].orEmpty()
-    val sources = creditsMap[CreditType.SOURCE].orEmpty()
-    val musics = creditsMap[CreditType.MUSIC].orEmpty()
-    val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
-
     val uriHandler = LocalUriHandler.current
     val translationVersion by TranslationCache.stateFlow.collectAsState()
     val creatorsTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__creators") }
@@ -64,7 +59,7 @@ internal inline fun <T> CreditList(
 
         // Creators
         if (creators.isNotEmpty()) {
-            item(key = CreditType.CREATOR, span = StaggeredGridItemSpan.FullLine) {
+            item(key = generateUuid(), span = StaggeredGridItemSpan.FullLine) {
                 Text(
                     modifier = Modifier
                         .padding(bottom = 8.dp),
@@ -87,7 +82,7 @@ internal inline fun <T> CreditList(
 
         // Data sources
         if (sources.isNotEmpty()) {
-            item(key = CreditType.SOURCE, span = StaggeredGridItemSpan.FullLine) {
+            item(key = generateUuid(), span = StaggeredGridItemSpan.FullLine) {
                 Text(
                     modifier = Modifier
                         .padding(top = 16.dp, bottom = 8.dp),
@@ -110,7 +105,7 @@ internal inline fun <T> CreditList(
 
         // Music authors
         if (musics.isNotEmpty()) {
-            item(key = CreditType.MUSIC, span = StaggeredGridItemSpan.FullLine) {
+            item(key = generateUuid(), span = StaggeredGridItemSpan.FullLine) {
                 Text(
                     modifier = Modifier
                         .padding(top = 16.dp, bottom = 8.dp),
@@ -133,7 +128,7 @@ internal inline fun <T> CreditList(
 
         // Supporters
         if (supporters.isNotEmpty()) {
-            item(key = CreditType.SUPPORTER, span = StaggeredGridItemSpan.FullLine) {
+            item(key = generateUuid(), span = StaggeredGridItemSpan.FullLine) {
                 Text(
                     modifier = Modifier
                         .padding(top = 16.dp, bottom = 8.dp),
@@ -167,12 +162,22 @@ internal inline fun <T> CreditList(
 @Composable
 private fun CreditListPreview() = AppTheme {
     CreditList(
-        credits = listOf(
-            "Credit 1",
-            "Credit 2",
-            "Credit 3",
+        creators = listOf(
+            "Creator 1",
+            "Creator 2",
+        ),
+        sources = listOf(
+            "Source 1",
+            "Source 2",
+        ),
+        musics = listOf(
+            "Music 1",
+            "Music 2",
+        ),
+        supporters = listOf(
+            "Supporter 1",
+            "Supporter 2",
         ),
         link = { "link" },
-        type = { CreditType.CREATOR }
     )
 }
