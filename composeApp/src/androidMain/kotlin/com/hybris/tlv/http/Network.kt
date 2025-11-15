@@ -12,9 +12,6 @@ internal actual suspend fun isInternetAvailable(): Boolean = runCatching {
     capabilities != null &&
             capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
             capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-}.getOrElse {
-    Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it)
-    false
-}
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = false)
 
 private const val TAG = "Network"

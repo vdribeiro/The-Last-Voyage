@@ -30,9 +30,7 @@ internal open class AudioPlayer {
             Action.Resume -> resume()
             Action.Toggle -> if (isPlaying()) pause() else resume()
         }
-    }.getOrElse {
-        Telemetry.error(tag = TAG, message = "Error with media action $action", throwable = it)
-    }
+    }.onFailure { Telemetry.error(tag = TAG, message = "Error with media action $action", throwable = it) }.getOrNull()
 
     protected open fun isPlaying(): Boolean = false
 

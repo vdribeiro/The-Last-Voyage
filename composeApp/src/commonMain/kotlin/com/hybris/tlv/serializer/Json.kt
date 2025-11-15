@@ -28,20 +28,14 @@ internal inline fun <reified T> decode(value: String?): T? = runCatching {
             }
         })
     }
-}.getOrElse {
-    Telemetry.error(tag = TAG, message = "Unable to decode value", throwable = it)
-    null
-}
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to decode value", throwable = it) }.getOrNull()
 
 /**
  * Safely encode to JSON string.
  */
 internal inline fun <reified T> encode(value: T?): String? = runCatching {
     value?.let { json.encodeToString(value = value) }
-}.getOrElse {
-    Telemetry.error(tag = TAG, message = "Unable to encode value", throwable = it)
-    null
-}
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to encode value", throwable = it) }.getOrNull()
 
 /**
  * Load a JSON file.

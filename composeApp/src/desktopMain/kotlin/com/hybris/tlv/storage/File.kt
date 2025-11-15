@@ -26,17 +26,11 @@ internal actual suspend fun saveFile(path: String, content: String): Boolean = r
     val file = File(appDataDir, path)
     file.writeText(text = content)
     true
-}.getOrElse {
-    Telemetry.error(tag = TAG, message = "Unable to save file", throwable = it)
-    false
-}
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to save file", throwable = it) }.getOrDefault(defaultValue = false)
 
 internal actual suspend fun loadFile(path: String): String? = runCatching {
     val file = File(appDataDir, path)
     if (file.exists() && file.isFile) file.readText() else null
-}.getOrElse {
-    Telemetry.error(tag = TAG, message = "Unable to load file", throwable = it)
-    null
-}
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to load file", throwable = it) }.getOrNull()
 
 private const val TAG = "File"
