@@ -17,7 +17,7 @@ internal sealed interface HelpAction {
 
 internal sealed interface HelpStateBuilder {
     data object Default: HelpStateBuilder
-    data class FromSavableState(val state: HelpState): HelpStateBuilder
+    data class FromState(val state: HelpState): HelpStateBuilder
 }
 
 internal data class HelpState(

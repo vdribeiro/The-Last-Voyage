@@ -27,7 +27,7 @@ internal class GameStore(
     initialState = when (stateBuilder) {
         GameStateBuilder.Default -> GameState()
         is GameStateBuilder.WithShip -> GameState(ship = stateBuilder.ship)
-        is GameStateBuilder.FromSavableState -> stateBuilder.state
+        is GameStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     @get:VisibleForTesting
@@ -37,12 +37,12 @@ internal class GameStore(
         when (stateBuilder) {
             GameStateBuilder.Default -> setup()
             is GameStateBuilder.WithShip -> setup()
-            is GameStateBuilder.FromSavableState -> gameSession = stateBuilder.gameSession
+            is GameStateBuilder.FromState -> gameSession = stateBuilder.gameSession
         }
     }
 
     override fun getSavableState(state: GameState): Any =
-        GameStateBuilder.FromSavableState(state = state, gameSession = gameSession)
+        GameStateBuilder.FromState(state = state, gameSession = gameSession)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")

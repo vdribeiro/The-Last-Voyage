@@ -20,18 +20,18 @@ internal class HelpStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         HelpStateBuilder.Default -> HelpState()
-        is HelpStateBuilder.FromSavableState -> stateBuilder.state
+        is HelpStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     init {
         when (stateBuilder) {
             HelpStateBuilder.Default -> setup()
-            is HelpStateBuilder.FromSavableState -> {}
+            is HelpStateBuilder.FromState -> {}
         }
     }
 
     override fun getSavableState(state: HelpState): Any =
-        HelpStateBuilder.FromSavableState(state = state)
+        HelpStateBuilder.FromState(state = state)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")

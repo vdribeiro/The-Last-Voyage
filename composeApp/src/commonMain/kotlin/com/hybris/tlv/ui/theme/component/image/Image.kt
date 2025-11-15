@@ -23,25 +23,27 @@ internal fun Image(
     contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.Crop,
 ) {
-    if (!LocalInspectionMode.current) {
-        val model = getUri(image) ?: getPainter(image) ?: image?.path
-        if (model == null) Box(modifier = modifier) else AsyncImage(
-            modifier = modifier,
-            model = model,
-            contentDescription = contentDescription,
-            contentScale = contentScale,
-            onError = { Telemetry.error(tag = TAG, message = "Unable to draw image", throwable = it.result.throwable) },
-            error = painterResource(resource = Res.drawable.ic_launcher_foreground)
-        )
-    } else {
-        val painter = getPainter(image)
-        if (painter == null) Box(modifier = modifier) else Image(
-            modifier = modifier,
-            painter = painter,
-            contentDescription = contentDescription,
-            contentScale = contentScale
-        )
+    if (LocalInspectionMode.current) {
+        val painter = getPainter(image = image)
+        if (painter == null) Box(modifier = modifier) else {
+            Image(
+                modifier = modifier,
+                painter = painter,
+                contentDescription = contentDescription,
+                contentScale = contentScale
+            )
+        }
+        return
     }
+
+    val model = getUri(image)
+    if (model == null) Box(modifier = modifier) else AsyncImage(
+        modifier = modifier,
+        model = model,
+        contentDescription = contentDescription,
+        contentScale = contentScale,
+        onError = { Telemetry.error(tag = TAG, message = "Unable to draw image", throwable = it.result.throwable) },
+    )
 }
 
 internal data class ImageResource(

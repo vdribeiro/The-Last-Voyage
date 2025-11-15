@@ -15,7 +15,7 @@ internal class TutorialStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         is TutorialStateBuilder.Default -> TutorialState()
-        is TutorialStateBuilder.FromSavableState -> stateBuilder.state
+        is TutorialStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     @get:VisibleForTesting
@@ -24,12 +24,12 @@ internal class TutorialStore(
     init {
         newGame = when (stateBuilder) {
             is TutorialStateBuilder.Default -> stateBuilder.newGame
-            is TutorialStateBuilder.FromSavableState -> stateBuilder.newGame
+            is TutorialStateBuilder.FromState -> stateBuilder.newGame
         }
     }
 
     override fun getSavableState(state: TutorialState): Any =
-        TutorialStateBuilder.FromSavableState(state = state, newGame = newGame)
+        TutorialStateBuilder.FromState(state = state, newGame = newGame)
 
     override fun reducer(state: TutorialState, action: TutorialAction) {
         when (action) {

@@ -27,7 +27,7 @@ internal class NewGameStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         NewGameStateBuilder.Default -> NewGameState()
-        is NewGameStateBuilder.FromSavableState -> stateBuilder.state
+        is NewGameStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     @VisibleForTesting
@@ -36,12 +36,12 @@ internal class NewGameStore(
     init {
         when (stateBuilder) {
             NewGameStateBuilder.Default -> setup()
-            is NewGameStateBuilder.FromSavableState -> selectedShip = stateBuilder.selectedShip
+            is NewGameStateBuilder.FromState -> selectedShip = stateBuilder.selectedShip
         }
     }
 
     override fun getSavableState(state: NewGameState): Any =
-        NewGameStateBuilder.FromSavableState(
+        NewGameStateBuilder.FromState(
             state = state,
             selectedShip = selectedShip,
         )

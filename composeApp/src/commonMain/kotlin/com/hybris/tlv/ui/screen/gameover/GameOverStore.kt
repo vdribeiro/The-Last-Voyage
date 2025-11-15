@@ -23,7 +23,7 @@ internal class GameOverStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         GameOverStateBuilder.Default -> GameOverState()
-        is GameOverStateBuilder.FromSavableState -> stateBuilder.state
+        is GameOverStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     @get:VisibleForTesting
@@ -34,7 +34,7 @@ internal class GameOverStore(
     init {
         when (stateBuilder) {
             GameOverStateBuilder.Default -> setup()
-            is GameOverStateBuilder.FromSavableState -> {
+            is GameOverStateBuilder.FromState -> {
                 achievements = stateBuilder.achievements
                 index = stateBuilder.index
             }
@@ -42,7 +42,7 @@ internal class GameOverStore(
     }
 
     override fun getSavableState(state: GameOverState): Any =
-        GameOverStateBuilder.FromSavableState(state = state, achievements = achievements.orEmpty(), index = index)
+        GameOverStateBuilder.FromState(state = state, achievements = achievements.orEmpty(), index = index)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")

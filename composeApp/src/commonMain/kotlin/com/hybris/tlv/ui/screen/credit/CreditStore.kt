@@ -17,18 +17,18 @@ internal class CreditStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         CreditStateBuilder.Default -> CreditState()
-        is CreditStateBuilder.FromSavableState -> stateBuilder.state
+        is CreditStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     init {
         when (stateBuilder) {
             CreditStateBuilder.Default -> setup()
-            is CreditStateBuilder.FromSavableState -> {}
+            is CreditStateBuilder.FromState -> {}
         }
     }
 
     override fun getSavableState(state: CreditState): Any =
-        CreditStateBuilder.FromSavableState(state = state)
+        CreditStateBuilder.FromState(state = state)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")

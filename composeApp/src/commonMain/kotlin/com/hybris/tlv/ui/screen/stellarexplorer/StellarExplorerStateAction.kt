@@ -21,7 +21,7 @@ internal sealed interface StellarExplorerAction {
 
 internal sealed interface StellarExplorerStateBuilder {
     data object Default: StellarExplorerStateBuilder
-    data class FromSavableState(
+    data class FromState(
         val currentContent: Content,
         val listIndex: LazyListState,
         val selectedStellarHost: StellarHost?,

@@ -20,7 +20,7 @@ internal class StellarExplorerStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         StellarExplorerStateBuilder.Default -> StellarExplorerState()
-        is StellarExplorerStateBuilder.FromSavableState -> StellarExplorerState(
+        is StellarExplorerStateBuilder.FromState -> StellarExplorerState(
             currentContent = stateBuilder.currentContent,
             listState = stateBuilder.listIndex,
             selectedStellarHost = stateBuilder.selectedStellarHost,
@@ -41,7 +41,7 @@ internal class StellarExplorerStore(
     }
 
     override fun getSavableState(state: StellarExplorerState): Any =
-        StellarExplorerStateBuilder.FromSavableState(
+        StellarExplorerStateBuilder.FromState(
             currentContent = state.currentContent,
             listIndex = state.listState,
             selectedStellarHost = state.selectedStellarHost,

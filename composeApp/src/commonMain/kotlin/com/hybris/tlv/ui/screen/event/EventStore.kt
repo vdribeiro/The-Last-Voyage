@@ -25,7 +25,7 @@ internal class EventStore(
     initialState = when (stateBuilder) {
         EventStateBuilder.Default -> EventState()
         is EventStateBuilder.WithShip -> EventState(ship = stateBuilder.ship)
-        is EventStateBuilder.FromSavableState -> stateBuilder.state
+        is EventStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     @get:VisibleForTesting
@@ -37,7 +37,7 @@ internal class EventStore(
         when (stateBuilder) {
             EventStateBuilder.Default -> setup()
             is EventStateBuilder.WithShip -> setup()
-            is EventStateBuilder.FromSavableState -> {
+            is EventStateBuilder.FromState -> {
                 gameSession = stateBuilder.gameSession
                 eventChain = stateBuilder.eventChain
             }
@@ -45,7 +45,7 @@ internal class EventStore(
     }
 
     override fun getSavableState(state: EventState): Any =
-        EventStateBuilder.FromSavableState(state = state, gameSession = gameSession, eventChain = eventChain.orEmpty())
+        EventStateBuilder.FromState(state = state, gameSession = gameSession, eventChain = eventChain.orEmpty())
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")

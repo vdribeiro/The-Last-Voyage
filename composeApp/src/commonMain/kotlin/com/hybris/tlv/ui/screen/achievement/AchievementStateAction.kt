@@ -4,7 +4,7 @@ import com.hybris.tlv.usecase.achievement.model.Achievement
 
 internal sealed interface AchievementStateBuilder {
     data object Default: AchievementStateBuilder
-    data class FromSavableState(val state: AchievementState): AchievementStateBuilder
+    data class FromState(val state: AchievementState): AchievementStateBuilder
 }
 
 internal data class AchievementState(

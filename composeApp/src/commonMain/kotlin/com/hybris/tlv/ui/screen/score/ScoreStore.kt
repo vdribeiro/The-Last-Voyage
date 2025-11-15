@@ -18,18 +18,18 @@ internal class ScoreStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         ScoreStateBuilder.Default -> ScoreState()
-        is ScoreStateBuilder.FromSavableState -> stateBuilder.state
+        is ScoreStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     init {
         when (stateBuilder) {
             ScoreStateBuilder.Default -> setup()
-            is ScoreStateBuilder.FromSavableState -> {}
+            is ScoreStateBuilder.FromState -> {}
         }
     }
 
     override fun getSavableState(state: ScoreState): Any =
-        ScoreStateBuilder.FromSavableState(state = state)
+        ScoreStateBuilder.FromState(state = state)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")

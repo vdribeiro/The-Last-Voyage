@@ -17,18 +17,18 @@ internal class AchievementStore(
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         AchievementStateBuilder.Default -> AchievementState()
-        is AchievementStateBuilder.FromSavableState -> stateBuilder.state
+        is AchievementStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     init {
         when (stateBuilder) {
             AchievementStateBuilder.Default -> setup()
-            is AchievementStateBuilder.FromSavableState -> {}
+            is AchievementStateBuilder.FromState -> {}
         }
     }
 
     override fun getSavableState(state: AchievementState): Any =
-        AchievementStateBuilder.FromSavableState(state = state)
+        AchievementStateBuilder.FromState(state = state)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")

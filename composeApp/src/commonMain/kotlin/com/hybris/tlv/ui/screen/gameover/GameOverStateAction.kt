@@ -11,7 +11,7 @@ internal sealed interface GameOverAction {
 
 internal sealed interface GameOverStateBuilder {
     data object Default: GameOverStateBuilder
-    data class FromSavableState(
+    data class FromState(
         val state: GameOverState,
         val achievements: List<Achievement>,
         val index: Int
