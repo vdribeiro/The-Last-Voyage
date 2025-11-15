@@ -22,26 +22,16 @@ internal fun Image(
 ) {
     val model = runCatching {
         image?.path?.let { Res.getUri(path = "drawable/$it") }
-    }.getOrElse {
-        Telemetry.error(tag = TAG, message = "Unable to get path", throwable = it)
-        null
-    } ?: runCatching {
+    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get path", throwable = it) }.getOrNull() ?: runCatching {
         image?.drawable?.let { painterResource(resource = it) }
-    }.getOrElse {
-        Telemetry.error(tag = TAG, message = "Unable to get painter", throwable = it)
-        null
-    }
-    runCatching {
-        AsyncImage(
-            modifier = modifier,
-            model = model,
-            contentDescription = contentDescription,
-            contentScale = contentScale,
-        )
-    }.getOrElse {
-        Telemetry.error(tag = TAG, message = "Unable to draw image", throwable = it)
-        Box(modifier = modifier)
-    }
+    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get painter", throwable = it) }.getOrNull()
+    if (model != null) AsyncImage(
+        modifier = modifier,
+        model = model,
+        contentDescription = contentDescription,
+        contentScale = contentScale,
+        onError = { Telemetry.error(tag = TAG, message = "Unable to draw image", throwable = it.result.throwable) }
+    ) else Box(modifier = modifier)
 }
 
 internal data class ImageResource(
