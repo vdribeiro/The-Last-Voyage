@@ -58,6 +58,13 @@ internal class ShipGateway(
         val fuel = if (ship.fuel < 0) 0 else ship.fuel
         val cryopods = if (ship.cryopods < 0) 0 else ship.cryopods
 
+        if (config.preferences.cheats) return ship.copy(
+            integrity = 100,
+            materials = 1000,
+            fuel = 2000,
+            cryopods = 1000
+        )
+
         if (integrity <= 0) {
             // Attempt to repair the ship
             val repairAmount = abs(n = integrity) + 1
