@@ -41,7 +41,7 @@ internal fun NavigationHelp(
         item {
             PropertyCard(
                 name = navigationTranslation,
-                description = navigationDescriptionTranslation,
+                description = navigationDescriptionTranslation
             )
         }
     }

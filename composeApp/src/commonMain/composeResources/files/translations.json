@@ -2807,17 +2807,17 @@
   {
     "languageIso": "en",
     "key": "main_menu_screen__navigation_info",
-    "value": "Press escape to navigate back"
+    "value": "Press escape to navigate back.\nA wise astronaut also once said that Konami gives you courage."
   },
   {
     "languageIso": "en",
     "key": "main_menu_screen__navigation_info_desktop",
-    "value": "Press escape or mouse back button to navigate back"
+    "value": "Press escape or mouse back button to navigate back.\nA wise astronaut also once said that Konami gives you courage."
   },
   {
     "languageIso": "en",
     "key": "main_menu_screen__navigation_info_mobile",
-    "value": "Swipe left or right from the corner to navigate back"
+    "value": "If gestures are enabled, swipe left or right from the corner to navigate back.\nA wise astronaut also once said that Konami gives you courage."
   },
   {
     "languageIso": "en",
