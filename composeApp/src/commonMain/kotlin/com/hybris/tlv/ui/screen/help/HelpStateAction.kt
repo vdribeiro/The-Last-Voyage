@@ -9,6 +9,7 @@ import com.hybris.tlv.usecase.space.model.Score
 import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal sealed interface HelpAction {
+    data object Navigation: HelpAction
     data object HostDefinition: HelpAction
     data object PlanetDefinition: HelpAction
     data object Mechanics: HelpAction
@@ -111,6 +112,7 @@ internal data class HelpState(
 
 internal enum class Content {
     LEARN_MENU,
+    NAVIGATION,
     HOST_DEFINITION,
     PLANET_DEFINITION,
     HABITABILITY,

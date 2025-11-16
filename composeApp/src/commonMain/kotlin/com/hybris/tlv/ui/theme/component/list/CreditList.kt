@@ -59,7 +59,7 @@ internal inline fun <T> CreditList(
 
         // Creators
         if (creators.isNotEmpty()) {
-            item(key = generateUuid(), span = StaggeredGridItemSpan.FullLine) {
+            item(span = StaggeredGridItemSpan.FullLine) {
                 Text(
                     modifier = Modifier
                         .padding(bottom = 8.dp),
@@ -82,7 +82,7 @@ internal inline fun <T> CreditList(
 
         // Data sources
         if (sources.isNotEmpty()) {
-            item(key = generateUuid(), span = StaggeredGridItemSpan.FullLine) {
+            item(span = StaggeredGridItemSpan.FullLine) {
                 Text(
                     modifier = Modifier
                         .padding(top = 16.dp, bottom = 8.dp),
@@ -105,7 +105,7 @@ internal inline fun <T> CreditList(
 
         // Music authors
         if (musics.isNotEmpty()) {
-            item(key = generateUuid(), span = StaggeredGridItemSpan.FullLine) {
+            item(span = StaggeredGridItemSpan.FullLine) {
                 Text(
                     modifier = Modifier
                         .padding(top = 16.dp, bottom = 8.dp),
@@ -128,7 +128,7 @@ internal inline fun <T> CreditList(
 
         // Supporters
         if (supporters.isNotEmpty()) {
-            item(key = generateUuid(), span = StaggeredGridItemSpan.FullLine) {
+            item(span = StaggeredGridItemSpan.FullLine) {
                 Text(
                     modifier = Modifier
                         .padding(top = 16.dp, bottom = 8.dp),

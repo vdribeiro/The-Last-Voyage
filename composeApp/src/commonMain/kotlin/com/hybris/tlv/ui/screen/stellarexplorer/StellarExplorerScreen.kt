@@ -108,7 +108,6 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 StellarHostList(
                     listState = listState,
                     showPlanet = currentContent == Content.DETAIL_PLANETS && planet != null,
-                    planetId = planet?.id,
                     planetName = visiblePlanetProperties.ifContains(element = PlanetProperty.NAME, value = planet?.name),
                     planetStatus = visiblePlanetProperties.ifContains(element = PlanetProperty.STATUS, value = planet?.status?.displayName),
                     planetHabitability = visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABILITY, value = planet?.score?.habitabilityScore),
@@ -178,7 +177,6 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 PlanetList(
                     listState = listState,
                     showStellarHost = currentContent == Content.DETAIL_HOSTS && stellarHost != null,
-                    stellarHostId = stellarHost?.id,
                     stellarHostName = visibleStellarHostProperties.ifContains(element = StellarHostProperty.NAME, value = stellarHost?.name),
                     stellarHostSystemName = visibleStellarHostProperties.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = stellarHost?.systemName),
                     stellarHostPlanetCount = visibleStellarHostProperties.ifContains(element = StellarHostProperty.PLANET_COUNT, value = stellarHost?.planets?.size),

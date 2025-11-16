@@ -9,6 +9,7 @@ import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.HostDefinition
 import com.hybris.tlv.ui.theme.component.container.LearnMenu
+import com.hybris.tlv.ui.theme.component.container.NavigationHelp
 import com.hybris.tlv.ui.theme.component.container.PlanetDefinition
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.HabitabilityList
@@ -33,12 +34,14 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
     ) {
         when (currentContent) {
             Content.LEARN_MENU -> LearnMenu(
+                onNavigationClick = { store.send(action = HelpAction.Navigation) },
                 onHostDefinitionClick = { store.send(action = HelpAction.HostDefinition) },
                 onPlanetDefinitionClick = { store.send(action = HelpAction.PlanetDefinition) },
                 onHabitabilityClick = { store.send(action = HelpAction.Habitability) },
                 onMechanicsClick = { store.send(action = HelpAction.Mechanics) }
             )
 
+            Content.NAVIGATION -> NavigationHelp()
             Content.HOST_DEFINITION -> {
                 val stellarHost = storeState.stellarHost
                 HostDefinition(

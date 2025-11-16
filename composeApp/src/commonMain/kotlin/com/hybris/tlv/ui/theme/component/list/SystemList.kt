@@ -25,7 +25,6 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal inline fun <T> SystemList(
     modifier: Modifier = Modifier,
-    stellarHostId: String? = null,
     stellarHostName: String? = null,
     stellarHostSpectralType: String? = null,
     stellarHostSpectralImage: ImageResource? = null,
@@ -62,7 +61,7 @@ internal inline fun <T> SystemList(
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp)
     ) {
-        item(key = stellarHostId) {
+        item {
             StellarHostCard(
                 name = stellarHostName,
                 spectralType = stellarHostSpectralType,
@@ -95,7 +94,6 @@ internal inline fun <T> SystemList(
 @Composable
 private fun SystemListPreview() = AppTheme {
     SystemList(
-        stellarHostId = "Host",
         stellarHostName = "Host",
         planets = listOf(
             "Planet 1",

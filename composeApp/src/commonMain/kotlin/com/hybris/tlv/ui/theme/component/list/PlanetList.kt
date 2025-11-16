@@ -22,7 +22,6 @@ internal inline fun <T> PlanetList(
     modifier: Modifier = Modifier,
     listState: LazyListState = LazyListState(),
     showStellarHost: Boolean = false,
-    stellarHostId: String? = null,
     stellarHostName: String? = null,
     stellarHostDescription: String? = null,
     stellarHostSystemName: String? = null,
@@ -92,7 +91,7 @@ internal inline fun <T> PlanetList(
         state = listState
     ) {
         if (showStellarHost) {
-            item(key = stellarHostId) {
+            item {
                 StellarHostCard(
                     name = stellarHostName,
                     description = stellarHostDescription,

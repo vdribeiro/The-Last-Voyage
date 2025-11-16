@@ -22,6 +22,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun LearnMenu(
     modifier: Modifier = Modifier,
+    onNavigationClick: () -> Unit = {},
     onHostDefinitionClick: () -> Unit = {},
     onPlanetDefinitionClick: () -> Unit = {},
     onHabitabilityClick: () -> Unit = {},
@@ -29,6 +30,7 @@ internal fun LearnMenu(
 ) {
     val translationVersion by TranslationCache.stateFlow.collectAsState()
     val helpTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__learn") }
+    val navigationTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__navigation") }
     val hostDefinitionTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__host_definition") }
     val planetDefinitionTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__planet_definition") }
     val habitabilityTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__habitability") }
@@ -50,6 +52,14 @@ internal fun LearnMenu(
                     .padding(all = 16.dp),
                 text = helpTranslation,
                 style = typography.displaySmall,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier
+                    .clickable { onNavigationClick() },
+                text = navigationTranslation,
+                style = typography.headlineMedium,
             )
         }
         item {

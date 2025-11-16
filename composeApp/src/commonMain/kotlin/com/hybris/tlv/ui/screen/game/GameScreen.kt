@@ -72,7 +72,6 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
             Content.SYSTEM -> {
                 val stellarHost = storeState.currentStellarHost ?: return@Screen
                 SystemList(
-                    stellarHostId = stellarHost.id,
                     stellarHostName = stellarHost.name,
                     stellarHostSpectralType = stellarHost.spectralType,
                     stellarHostSpectralImage = stellarHost.spectralType.spectralTypeToImage(),

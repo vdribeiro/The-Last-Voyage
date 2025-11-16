@@ -51,6 +51,7 @@ internal class HelpStore(
     override fun goBack(state: HelpState) {
         when (state.currentContent) {
             Content.LEARN_MENU -> super.goBack(state = state)
+            Content.NAVIGATION,
             Content.HOST_DEFINITION,
             Content.PLANET_DEFINITION,
             Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
@@ -59,6 +60,7 @@ internal class HelpStore(
 
     override fun reducer(state: HelpState, action: HelpAction) {
         when (action) {
+            HelpAction.Navigation -> updateState { it.copy(currentContent = Content.NAVIGATION) }
             HelpAction.HostDefinition -> updateState { it.copy(currentContent = Content.HOST_DEFINITION) }
             HelpAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
             HelpAction.Mechanics -> navigate(screen = Screen.Tutorial)
