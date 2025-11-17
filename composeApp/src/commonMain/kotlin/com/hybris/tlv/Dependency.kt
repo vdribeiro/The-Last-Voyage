@@ -51,5 +51,3 @@ internal data class Dependency(
         private const val TAG = "Dependency"
     }
 }
-
-internal val dependency: Dependency by lazy { Dependency() }

@@ -14,17 +14,18 @@ import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.theme.AppTheme
 
 @Composable
-internal fun App() = AppTheme {
+internal fun App(dependency: Dependency) = AppTheme {
     // Setup Navigation
     val navigation = dependency.navigation
     val navigationState by navigation.stateFlow.collectAsState()
-    val screenBuilder = dependency.screenBuilder
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .enableCheats()
+            .enableCheats(config = dependency.config)
             .backNavigation { navigation.back() }) {
         // Render Screen
+        val screenBuilder = dependency.screenBuilder
         screenBuilder.Screen(navigationState = navigationState)
     }
 

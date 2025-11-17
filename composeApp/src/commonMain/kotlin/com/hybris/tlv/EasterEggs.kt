@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.flow.launch
 import com.hybris.tlv.telemetry.Telemetry
@@ -23,16 +24,15 @@ private val konamiGestureCode = listOf(
     Gesture.TAP, Gesture.TAP, Gesture.TAP
 )
 
-private fun setKonamiCode() {
-    Telemetry.feedback(message = "Konami Code!")
+private fun setKonamiCode(config: ConfigManager) =
     Dispatcher.Default.launch {
-        dependency.config.setPreferences { it.copy(cheats = !it.cheats) }.savePreferences()
+        Telemetry.feedback(message = "Konami Code!")
+        config.setPreferences { it.copy(cheats = !it.cheats) }.savePreferences()
     }
-}
 
 @Composable
-internal fun rememberCheats(): (KeyEvent) -> Boolean =
-    rememberKeySequence(sequence = konamiCode) { setKonamiCode() }
+internal fun rememberCheats(config: ConfigManager): (KeyEvent) -> Boolean =
+    rememberKeySequence(sequence = konamiCode) { setKonamiCode(config = config) }
 
-internal fun Modifier.enableCheats(): Modifier =
-    onGesture(sequence = konamiGestureCode) { setKonamiCode() }
+internal fun Modifier.enableCheats(config: ConfigManager): Modifier =
+    onGesture(sequence = konamiGestureCode) { setKonamiCode(config = config) }
