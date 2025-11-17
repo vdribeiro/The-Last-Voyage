@@ -1,12 +1,12 @@
 [
   {
-    "appVersion": 5,
+    "appVersion": 6,
     "translationsVersion": 5,
     "learningsVersion": 1,
     "catastrophesVersion": 1,
     "enginesVersion": 1,
-    "stellarHostsVersion": 1,
-    "planetsVersion": 1,
+    "stellarHostsVersion": 2,
+    "planetsVersion": 2,
     "eventsVersion": 1,
     "achievementsVersion": 1,
     "creditsVersion": 1,

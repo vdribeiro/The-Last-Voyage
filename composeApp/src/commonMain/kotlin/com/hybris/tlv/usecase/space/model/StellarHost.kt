@@ -1,6 +1,7 @@
 package com.hybris.tlv.usecase.space.model
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
 internal data class StellarHost(
@@ -22,7 +23,10 @@ internal data class StellarHost(
     val ra: Double?,                   // Right Ascension in degrees
     val dec: Double?,                  // Declination in degrees
 ) {
+    @Transient
     val planets: MutableList<Planet> = mutableListOf()
+    @Transient
     var travelOutcome: TravelOutcome? = null
+    @Transient
     var score: Score? = null
 }

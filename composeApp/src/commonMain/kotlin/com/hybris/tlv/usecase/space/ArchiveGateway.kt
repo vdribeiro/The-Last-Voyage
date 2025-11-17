@@ -8,10 +8,10 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.platform.Property
-import com.hybris.tlv.serializer.PLANETS_JSON
+import com.hybris.tlv.serializer.ARCHIVE_PLANETS_JSON
+import com.hybris.tlv.serializer.ARCHIVE_STELLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
-import com.hybris.tlv.serializer.STELLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.serializer.saveJsonFile
 import com.hybris.tlv.telemetry.Telemetry
@@ -103,8 +103,8 @@ internal class ArchiveGateway(
                 val planetsJson = derivedPlanets.map { it.copy() }
 
                 // Save to file
-                val hostsFile = saveJsonFile(path = STELLAR_HOSTS_JSON, content = stellarHostsJson)
-                val planetsFile = saveJsonFile(path = PLANETS_JSON, content = planetsJson)
+                val hostsFile = saveJsonFile(path = ARCHIVE_STELLAR_HOSTS_JSON, content = stellarHostsJson)
+                val planetsFile = saveJsonFile(path = ARCHIVE_PLANETS_JSON, content = planetsJson)
                 Telemetry.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
             }
         }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get archive", throwable = it) }

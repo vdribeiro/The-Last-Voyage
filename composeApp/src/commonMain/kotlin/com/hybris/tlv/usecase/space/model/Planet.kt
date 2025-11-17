@@ -1,6 +1,7 @@
 package com.hybris.tlv.usecase.space.model
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
 internal data class Planet(
@@ -20,5 +21,6 @@ internal data class Planet(
     val inclination: Double?,            // degrees
     val obliquity: Double?,              // degrees
 ) {
+    @Transient
     var score: Score? = null
 }
