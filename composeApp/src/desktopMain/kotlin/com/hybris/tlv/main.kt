@@ -16,17 +16,14 @@ import com.hybris.tlv.usecase.translation.getTranslation
 import javafx.embed.swing.JFXPanel
 
 private const val TAG = "APP"
-
+private val dependency: Dependency by lazy { Dependency() }
 private val initializeJfx by lazy {
     runCatching {
         JFXPanel()
         true
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to start JavaFX", throwable = it) }.getOrDefault(defaultValue = false)
 }
-
 internal val LocalWindowState = staticCompositionLocalOf<WindowState> { error("No LocalWindowState provided") }
-
-private val dependency: Dependency by lazy { Dependency() }
 
 fun main() = application {
     Telemetry.init()
