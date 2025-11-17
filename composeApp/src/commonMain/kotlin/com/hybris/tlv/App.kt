@@ -14,7 +14,7 @@ import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.theme.AppTheme
 
 @Composable
-internal fun App(dependency: Dependency) = AppTheme {
+internal fun App() = AppTheme {
     // Setup Navigation
     val navigation = dependency.navigation
     val navigationState by navigation.stateFlow.collectAsState()
