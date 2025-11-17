@@ -4,8 +4,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
+import com.hybris.tlv.getUseCases
 import com.hybris.tlv.reset
-import com.hybris.tlv.testDependency
 
 internal class CreditUseCasesTest {
 
@@ -14,8 +14,8 @@ internal class CreditUseCasesTest {
 
     @Test
     fun `sync and get credits`() = runBlocking {
-        assertTrue(actual = testDependency.useCases.credit.getCredits().isEmpty())
-        testDependency.useCases.credit.syncCredits()
-        assertTrue(actual = testDependency.useCases.credit.getCredits().isNotEmpty())
+        assertTrue(actual = getUseCases().credit.getCredits().isEmpty())
+        getUseCases().credit.syncCredits()
+        assertTrue(actual = getUseCases().credit.getCredits().isNotEmpty())
     }
 }

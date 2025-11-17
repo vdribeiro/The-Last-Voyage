@@ -4,8 +4,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
-import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.testDependency
+import com.hybris.tlv.getStoreFactory
+import com.hybris.tlv.reset
 import com.hybris.tlv.ui.theme.AppTheme
 
 // TODO
@@ -14,12 +14,12 @@ internal class FeedbackScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        testDependency.sqlDriver.clearDatabase()
+        reset()
     }
 
     @Test
     fun feedback() = runComposeUiTest {
-        val store = testDependency.storeFactory.createFeedbackStore()
+        val store = getStoreFactory().createFeedbackStore()
         setContent {
             AppTheme {
                 FeedbackScreen(store = store)
@@ -43,7 +43,7 @@ internal class FeedbackScreenTest {
 
     @Test
     fun feedbackError() = runComposeUiTest {
-        val store = testDependency.storeFactory.createFeedbackStore(
+        val store = getStoreFactory().createFeedbackStore(
             stateBuilder = FeedbackStateBuilder.Error(
                 tag = "TAG",
                 message = "MESSAGE"

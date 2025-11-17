@@ -5,19 +5,20 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import com.hybris.tlv.getNavigation
+import com.hybris.tlv.getStoreFactory
 import com.hybris.tlv.reset
-import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class SplashStoreTest {
 
-    private val store: SplashStore get() = testDependency.storeFactory.createSplashStore()
+    private val store: SplashStore get() = getStoreFactory().createSplashStore()
 
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Splash))
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Splash))
     }
 
     @Test

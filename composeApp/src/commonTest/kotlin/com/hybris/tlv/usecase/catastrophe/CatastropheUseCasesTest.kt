@@ -5,8 +5,8 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlinx.coroutines.runBlocking
+import com.hybris.tlv.getUseCases
 import com.hybris.tlv.reset
-import com.hybris.tlv.testDependency
 
 internal class CatastropheUseCasesTest {
 
@@ -15,8 +15,8 @@ internal class CatastropheUseCasesTest {
 
     @Test
     fun `sync and get catastrophes`() = runBlocking {
-        assertNull(actual = testDependency.useCases.catastrophe.getRandomCatastrophe())
-        testDependency.useCases.catastrophe.syncCatastrophes()
-        assertNotNull(actual = testDependency.useCases.catastrophe.getRandomCatastrophe()).let {}
+        assertNull(actual = getUseCases().catastrophe.getRandomCatastrophe())
+        getUseCases().catastrophe.syncCatastrophes()
+        assertNotNull(actual = getUseCases().catastrophe.getRandomCatastrophe()).let {}
     }
 }

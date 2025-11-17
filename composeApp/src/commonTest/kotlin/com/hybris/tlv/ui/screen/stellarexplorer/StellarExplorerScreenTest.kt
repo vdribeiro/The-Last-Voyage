@@ -5,8 +5,9 @@ import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
-import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.testDependency
+import com.hybris.tlv.getStoreFactory
+import com.hybris.tlv.getUseCases
+import com.hybris.tlv.reset
 import com.hybris.tlv.ui.theme.AppTheme
 
 @OptIn(ExperimentalTestApi::class)
@@ -14,12 +15,12 @@ internal class StellarExplorerScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        testDependency.sqlDriver.clearDatabase()
+        reset()
     }
 
     @Test
     fun stellarExplorerWithoutData() = runComposeUiTest {
-        val store = testDependency.storeFactory.createStellarExplorerStore()
+        val store = getStoreFactory().createStellarExplorerStore()
         setContent {
             AppTheme {
                 StellarExplorerScreen(store = store)
@@ -40,10 +41,10 @@ internal class StellarExplorerScreenTest {
     @Test
     fun stellarExplorerWithData() = runComposeUiTest {
         runBlocking {
-            testDependency.useCases.space.syncStellarHosts()
-            testDependency.useCases.space.syncPlanets()
+            getUseCases().space.syncStellarHosts()
+            getUseCases().space.syncPlanets()
         }
-        val store = testDependency.storeFactory.createStellarExplorerStore()
+        val store = getStoreFactory().createStellarExplorerStore()
         setContent {
             AppTheme {
                 StellarExplorerScreen(store = store)

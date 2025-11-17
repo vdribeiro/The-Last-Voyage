@@ -6,8 +6,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.events
+import com.hybris.tlv.getUseCases
 import com.hybris.tlv.reset
-import com.hybris.tlv.testDependency
 
 internal class EventUseCasesTest {
 
@@ -16,15 +16,15 @@ internal class EventUseCasesTest {
 
     @Test
     fun `sync and get events`() = runBlocking {
-        assertTrue(actual = testDependency.useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
-        testDependency.useCases.event.syncEvents()
-        assertTrue(actual = testDependency.useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
+        assertTrue(actual = getUseCases().event.getRandomEvent(ids = emptySet()).isEmpty())
+        getUseCases().event.syncEvents()
+        assertTrue(actual = getUseCases().event.getRandomEvent(ids = emptySet()).isNotEmpty())
         val ids = events.map { it.id }.toSet()
-        assertTrue(actual = testDependency.useCases.event.getRandomEvent(ids = ids).isEmpty())
+        assertTrue(actual = getUseCases().event.getRandomEvent(ids = ids).isEmpty())
         val event = events.first { it.parentId == null }
         assertEquals(
             expected = listOf(element = event),
-            actual = testDependency.useCases.event.getRandomEvent(ids = ids - event.id).filter { it.parentId == null }
+            actual = getUseCases().event.getRandomEvent(ids = ids - event.id).filter { it.parentId == null }
         )
     }
 }

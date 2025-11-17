@@ -5,9 +5,10 @@ import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.testDependency
+import com.hybris.tlv.getStoreFactory
+import com.hybris.tlv.getUseCases
+import com.hybris.tlv.reset
 import com.hybris.tlv.ui.theme.AppTheme
 
 @OptIn(ExperimentalTestApi::class)
@@ -15,12 +16,12 @@ internal class EventScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        testDependency.sqlDriver.clearDatabase()
+        reset()
     }
 
     @Test
     fun eventWithoutData() = runComposeUiTest {
-        val store = testDependency.storeFactory.createEventStore()
+        val store = getStoreFactory().createEventStore()
         setContent {
             AppTheme {
                 EventScreen(store = store)
@@ -35,10 +36,10 @@ internal class EventScreenTest {
     @Test
     fun eventWithData() = runComposeUiTest {
         runBlocking {
-            testDependency.useCases.event.syncEvents()
-            testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+            getUseCases().event.syncEvents()
+            getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         }
-        val store = testDependency.storeFactory.createEventStore()
+        val store = getStoreFactory().createEventStore()
         setContent {
             AppTheme {
                 EventScreen(store = store)

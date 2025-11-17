@@ -4,8 +4,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
+import com.hybris.tlv.getUseCases
 import com.hybris.tlv.reset
-import com.hybris.tlv.testDependency
 import com.hybris.tlv.translations
 
 internal class TranslationUseCasesTest {
@@ -20,7 +20,7 @@ internal class TranslationUseCasesTest {
     fun `sync and get translations`() = runBlocking {
         val translation = translations.random()
         assertEquals(expected = translation.key, actual = TranslationCache.get(translation.key))
-        testDependency.useCases.translation.syncTranslations()
+        getUseCases().translation.syncTranslations()
         assertEquals(expected = translation.key, actual = TranslationCache.get(translation.key))
     }
 }

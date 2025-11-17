@@ -2,6 +2,7 @@ package com.hybris.tlv
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
+import androidx.annotation.VisibleForTesting
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.config.Config
 import com.hybris.tlv.config.ConfigManager
@@ -23,19 +24,19 @@ import database.AppDatabase
  * Dependency index.
  */
 internal data class Dependency(
-    val sqlDriver: SqlDriver = createSqlDriver(),
-    val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,
-    val httpEngine: HttpClientEngine? = null,
-    val httpClient: HttpClient = HttpClientFactory(engine = httpEngine).httpClient,
+    @get:VisibleForTesting val sqlDriver: SqlDriver = createSqlDriver(),
+    private val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,
+    private val httpEngine: HttpClientEngine? = null,
+    private val httpClient: HttpClient = HttpClientFactory(engine = httpEngine).httpClient,
     val config: ConfigManager = Config(httpClient = httpClient),
-    val useCases: UseCases = Gateways(
+    @get:VisibleForTesting val useCases: UseCases = Gateways(
         config = config,
         httpClient = httpClient,
         database = database
     ),
     val audioPlayer: AudioPlayer = createAudioPlayer(),
     val navigation: NavigationManager = NavigationManager(initialState = NavigationState()),
-    val storeFactory: StoreFactory = StoreFactory(
+    @get:VisibleForTesting val storeFactory: StoreFactory = StoreFactory(
         navigation = navigation,
         audioPlayer = audioPlayer,
         config = config,

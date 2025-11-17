@@ -5,8 +5,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
+import com.hybris.tlv.getUseCases
 import com.hybris.tlv.reset
-import com.hybris.tlv.testDependency
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 
@@ -17,9 +17,9 @@ internal class ShipUseCasesTest {
 
     @Test
     fun `sync and get engines`() = runBlocking {
-        assertTrue(actual = testDependency.useCases.ship.getEngines().isEmpty())
-        testDependency.useCases.ship.syncEngines()
-        assertTrue(actual = testDependency.useCases.ship.getEngines().isNotEmpty())
+        assertTrue(actual = getUseCases().ship.getEngines().isEmpty())
+        getUseCases().ship.syncEngines()
+        assertTrue(actual = getUseCases().ship.getEngines().isNotEmpty())
     }
 
     @Test
@@ -41,7 +41,7 @@ internal class ShipUseCasesTest {
             materials = 50,
             cryopods = 50,
         )
-        val repairedShipIntegrity = testDependency.useCases.ship.repairShip(ship = shipNoIntegrity)
+        val repairedShipIntegrity = getUseCases().ship.repairShip(ship = shipNoIntegrity)
         assertEquals(expected = 1, actual = repairedShipIntegrity.integrity)
         assertEquals(expected = 49, actual = repairedShipIntegrity.materials)
         val shipNoMaterials = Ship(
@@ -61,7 +61,7 @@ internal class ShipUseCasesTest {
             materials = -1,
             cryopods = 50,
         )
-        val repairedShipMaterials = testDependency.useCases.ship.repairShip(ship = shipNoMaterials)
+        val repairedShipMaterials = getUseCases().ship.repairShip(ship = shipNoMaterials)
         assertEquals(expected = 9, actual = repairedShipMaterials.integrity)
         assertEquals(expected = 0, actual = repairedShipMaterials.materials)
     }

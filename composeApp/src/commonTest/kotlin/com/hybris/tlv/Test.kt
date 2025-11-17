@@ -34,7 +34,7 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.translation.model.Translation
 
-internal val testDependency: Dependency by lazy {
+private val testDependency: Dependency by lazy {
     Dependency(
         sqlDriver = createSqlDriver(inMemory = true),
         httpEngine = TestEngines.testEngine,
@@ -49,6 +49,12 @@ internal fun reset() {
         testDependency.config.setConfigs { Configs() }
     }
 }
+
+internal fun getUseCases() = testDependency.useCases
+
+internal fun getStoreFactory() = testDependency.storeFactory
+
+internal fun getNavigation() = testDependency.navigation
 
 internal val configs: List<Configs> by lazy {
     runBlocking { loadFromJsonResource(path = CONFIGS_JSON) }

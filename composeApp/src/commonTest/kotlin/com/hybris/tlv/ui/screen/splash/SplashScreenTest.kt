@@ -4,8 +4,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
-import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.testDependency
+import com.hybris.tlv.getStoreFactory
+import com.hybris.tlv.reset
 import com.hybris.tlv.ui.theme.AppTheme
 
 @OptIn(ExperimentalTestApi::class)
@@ -13,12 +13,12 @@ internal class SplashScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        testDependency.sqlDriver.clearDatabase()
+        reset()
     }
 
     @Test
     fun splash() = runComposeUiTest {
-        val store = testDependency.storeFactory.createSplashStore()
+        val store = getStoreFactory().createSplashStore()
         setContent {
             AppTheme {
                 SplashScreen(store = store)

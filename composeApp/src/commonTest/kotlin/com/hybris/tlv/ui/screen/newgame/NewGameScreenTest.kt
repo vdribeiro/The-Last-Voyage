@@ -5,8 +5,9 @@ import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
-import com.hybris.tlv.database.clearDatabase
-import com.hybris.tlv.testDependency
+import com.hybris.tlv.getStoreFactory
+import com.hybris.tlv.getUseCases
+import com.hybris.tlv.reset
 import com.hybris.tlv.ui.theme.AppTheme
 
 @OptIn(ExperimentalTestApi::class)
@@ -14,12 +15,12 @@ internal class NewGameScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        testDependency.sqlDriver.clearDatabase()
+        reset()
     }
 
     @Test
     fun newGameWithoutData() = runComposeUiTest {
-        val store = testDependency.storeFactory.createNewGameStore()
+        val store = getStoreFactory().createNewGameStore()
         setContent {
             AppTheme {
                 NewGameScreen(store = store)
@@ -39,9 +40,9 @@ internal class NewGameScreenTest {
     @Test
     fun newGameWithData() = runComposeUiTest {
         runBlocking {
-            testDependency.useCases.catastrophe.syncCatastrophes()
+            getUseCases().catastrophe.syncCatastrophes()
         }
-        val store = testDependency.storeFactory.createNewGameStore()
+        val store = getStoreFactory().createNewGameStore()
         setContent {
             AppTheme {
                 NewGameScreen(store = store)

@@ -5,9 +5,10 @@ import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.testDependency
+import com.hybris.tlv.getStoreFactory
+import com.hybris.tlv.getUseCases
+import com.hybris.tlv.reset
 import com.hybris.tlv.ui.theme.AppTheme
 
 @OptIn(ExperimentalTestApi::class)
@@ -15,12 +16,12 @@ internal class ScoreScreenTest {
 
     @BeforeTest
     fun setup() = runComposeUiTest {
-        testDependency.sqlDriver.clearDatabase()
+        reset()
     }
 
     @Test
     fun scoreWithoutData() = runComposeUiTest {
-        val store = testDependency.storeFactory.createScoreStore()
+        val store = getStoreFactory().createScoreStore()
         setContent {
             AppTheme {
                 ScoreScreen(store = store)
@@ -37,11 +38,11 @@ internal class ScoreScreenTest {
     @Test
     fun scoreWithData() = runComposeUiTest {
         runBlocking {
-            testDependency.useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-            val gameSession = testDependency.useCases.gameSession.getLatestGameSession()!!
-            testDependency.useCases.gameSession.updateGameSession(gameSession = gameSession.copy(score = 9000.0))
+            getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+            val gameSession = getUseCases().gameSession.getLatestGameSession()!!
+            getUseCases().gameSession.updateGameSession(gameSession = gameSession.copy(score = 9000.0))
         }
-        val store = testDependency.storeFactory.createScoreStore()
+        val store = getStoreFactory().createScoreStore()
         setContent {
             AppTheme {
                 ScoreScreen(store = store)

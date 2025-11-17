@@ -5,36 +5,38 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.achievements
+import com.hybris.tlv.getNavigation
+import com.hybris.tlv.getStoreFactory
+import com.hybris.tlv.getUseCases
 import com.hybris.tlv.reset
-import com.hybris.tlv.testDependency
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class AchievementStoreTest {
 
-    private val store: AchievementStore get() = testDependency.storeFactory.createAchievementStore()
+    private val store: AchievementStore get() = getStoreFactory().createAchievementStore()
 
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Splash))
-        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.MainMenu))
-        testDependency.navigation.navigate(navigationState = NavigationState(screen = Screen.Achievement))
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Splash))
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.MainMenu))
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Achievement))
     }
 
     @Test
     fun `init`() = runBlocking {
-        testDependency.useCases.achievement.syncAchievements()
+        getUseCases().achievement.syncAchievements()
         val achievementStore = store
         assertEquals(expected = achievements, actual = achievementStore.stateFlow.value.achievements)
     }
 
     @Test
     fun `send action back`() = runBlocking {
-        testDependency.useCases.achievement.syncAchievements()
+        getUseCases().achievement.syncAchievements()
         store
-        assertEquals(expected = Screen.Achievement, actual = testDependency.navigation.stateFlow.value.screen)
-        testDependency.navigation.back()
-        assertEquals(expected = Screen.MainMenu, actual = testDependency.navigation.stateFlow.value.screen)
+        assertEquals(expected = Screen.Achievement, actual = getNavigation().stateFlow.value.screen)
+        getNavigation().back()
+        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
     }
 }
