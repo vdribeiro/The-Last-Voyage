@@ -19,6 +19,9 @@ import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
 import com.hybris.tlv.serializer.TRANSLATIONS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.store.StoreFactory
+import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.credit.model.Credit
@@ -50,11 +53,11 @@ internal fun reset() {
     }
 }
 
-internal fun getUseCases() = testDependency.useCases
+internal fun getUseCases(): UseCases = testDependency.useCases
 
-internal fun getStoreFactory() = testDependency.storeFactory
+internal fun getStoreFactory(): StoreFactory = testDependency.storeFactory
 
-internal fun getNavigation() = testDependency.navigation
+internal fun getNavigation(): NavigationManager = testDependency.navigation
 
 internal val configs: List<Configs> by lazy {
     runBlocking { loadFromJsonResource(path = CONFIGS_JSON) }

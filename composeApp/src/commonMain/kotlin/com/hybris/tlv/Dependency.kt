@@ -24,19 +24,19 @@ import database.AppDatabase
  * Dependency index.
  */
 internal data class Dependency(
-    @get:VisibleForTesting val sqlDriver: SqlDriver = createSqlDriver(),
+    @get:VisibleForTesting internal val sqlDriver: SqlDriver = createSqlDriver(),
     private val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,
     private val httpEngine: HttpClientEngine? = null,
     private val httpClient: HttpClient = HttpClientFactory(engine = httpEngine).httpClient,
     val config: ConfigManager = Config(httpClient = httpClient),
-    @get:VisibleForTesting val useCases: UseCases = Gateways(
+    @get:VisibleForTesting internal val useCases: UseCases = Gateways(
         config = config,
         httpClient = httpClient,
         database = database
     ),
     val audioPlayer: AudioPlayer = createAudioPlayer(),
     val navigation: NavigationManager = NavigationManager(initialState = NavigationState()),
-    @get:VisibleForTesting val storeFactory: StoreFactory = StoreFactory(
+    @get:VisibleForTesting internal val storeFactory: StoreFactory = StoreFactory(
         navigation = navigation,
         audioPlayer = audioPlayer,
         config = config,
