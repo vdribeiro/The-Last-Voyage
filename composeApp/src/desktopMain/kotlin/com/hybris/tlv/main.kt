@@ -27,6 +27,7 @@ internal val LocalWindowState = staticCompositionLocalOf<WindowState> { error("N
 
 fun main() = application {
     Telemetry.init()
+    Telemetry.info(tag = TAG, message = "App started")
     Telemetry.info(tag = TAG, message = "JavaFX = $initializeJfx")
 
     val translationVersion by TranslationCache.stateFlow.collectAsState()

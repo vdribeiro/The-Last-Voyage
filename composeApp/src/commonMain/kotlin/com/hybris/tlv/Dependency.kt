@@ -11,7 +11,6 @@ import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.media.createAudioPlayer
-import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.ScreenBuilder
@@ -23,7 +22,7 @@ import database.AppDatabase
 /**
  * Dependency index.
  */
-internal data class Dependency(
+internal class Dependency(
     @get:VisibleForTesting internal val sqlDriver: SqlDriver = createSqlDriver(),
     private val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,
     private val httpEngine: HttpClientEngine? = null,
@@ -43,12 +42,4 @@ internal data class Dependency(
         useCases = useCases
     ),
     val screenBuilder: ScreenBuilder = ScreenBuilder(storeFactory = storeFactory)
-) {
-    init {
-        Telemetry.info(tag = TAG, message = "Dependencies setup complete")
-    }
-
-    companion object {
-        private const val TAG = "Dependency"
-    }
-}
+)
