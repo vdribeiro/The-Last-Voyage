@@ -6,34 +6,38 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.lifecycle.Register
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.media.AudioPlayer.Action
 import com.hybris.tlv.media.getTracks
+import com.hybris.tlv.ui.navigation.NavigationManager
+import com.hybris.tlv.ui.navigation.ScreenBuilder
 import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.theme.AppTheme
 
 @Composable
-internal fun App() = AppTheme {
+internal fun App(
+    config: ConfigManager,
+    navigation: NavigationManager,
+    screenBuilder: ScreenBuilder,
+    audioPlayer: AudioPlayer,
+) = AppTheme {
     // Setup Navigation
-    val navigation = dependency.navigation
     val navigationState by navigation.stateFlow.collectAsState()
-
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .enableCheats(config = dependency.config)
+            .enableCheats(config = config)
             .backNavigation { navigation.back() }) {
         // Render Screen
-        val screenBuilder = dependency.screenBuilder
         screenBuilder.Screen(navigationState = navigationState)
     }
 
     // Setup Audio Player
-    val audioPlayer = dependency.audioPlayer
-    val screen = navigationState.screen
-    LifecycleCoroutine(screen) {
-        val playlist = getTracks(screen = screen)
+    LifecycleCoroutine(navigationState.screen) {
+        val playlist = getTracks(screen = navigationState.screen)
         if (playlist != null) audioPlayer.action(action = Action.Play(playlist = playlist))
     }
     Register(

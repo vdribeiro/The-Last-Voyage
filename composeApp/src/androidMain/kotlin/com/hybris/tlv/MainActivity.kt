@@ -6,11 +6,20 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.hybris.tlv.telemetry.Telemetry
 
+private val dependency: Dependency by lazy { Dependency() }
+
 class MainActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Telemetry.init()
         enableEdgeToEdge()
-        setContent { App() }
+        setContent {
+            App(
+                config = dependency.config,
+                navigation = dependency.navigation,
+                screenBuilder = dependency.screenBuilder,
+                audioPlayer = dependency.audioPlayer
+            )
+        }
     }
 }

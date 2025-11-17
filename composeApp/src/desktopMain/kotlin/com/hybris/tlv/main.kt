@@ -26,6 +26,8 @@ private val initializeJfx by lazy {
 
 internal val LocalWindowState = staticCompositionLocalOf<WindowState> { error("No LocalWindowState provided") }
 
+private val dependency: Dependency by lazy { Dependency() }
+
 fun main() = application {
     Telemetry.init()
     Telemetry.info(tag = TAG, message = "JavaFX = $initializeJfx")
@@ -40,6 +42,13 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         onPreviewKeyEvent = rememberCheats(config = dependency.config)
     ) {
-        CompositionLocalProvider(value = LocalWindowState provides windowState) { App() }
+        CompositionLocalProvider(value = LocalWindowState provides windowState) {
+            App(
+                config = dependency.config,
+                navigation = dependency.navigation,
+                screenBuilder = dependency.screenBuilder,
+                audioPlayer = dependency.audioPlayer
+            )
+        }
     }
 }
