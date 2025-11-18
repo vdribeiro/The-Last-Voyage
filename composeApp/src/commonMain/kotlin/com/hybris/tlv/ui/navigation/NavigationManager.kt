@@ -67,7 +67,6 @@ internal open class NavigationManager(initialState: NavigationState) {
         if (index != -1) stack.subList(fromIndex = index, toIndex = stack.size).clear()
     }
 
-
     companion object {
         private const val TAG = "NavigationManager"
     }
