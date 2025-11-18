@@ -29,7 +29,7 @@ internal fun App(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .enableCheats(config = config)
+            .enableGestureCheats(config = config)
             .backNavigation { navigation.back() }) {
         // Render Screen
         screenBuilder.Screen(navigationState = navigationState)

@@ -1,12 +1,16 @@
 package com.hybris.tlv
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.flow.launch
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.theme.modifier.Gesture
 import com.hybris.tlv.ui.theme.modifier.onGesture
@@ -24,15 +28,19 @@ private val konamiGestureCode = listOf(
     Gesture.TAP, Gesture.TAP, Gesture.TAP
 )
 
-private fun setKonamiCode(config: ConfigManager) =
-    Dispatcher.Default.launch {
+private fun setKonamiCode(scope: CoroutineScope, config: ConfigManager): Job =
+    scope.launch(context = Dispatcher.IO) {
         Telemetry.feedback(message = "Konami Code!")
         config.setPreferences { it.copy(cheats = !it.cheats) }.savePreferences()
     }
 
 @Composable
-internal fun rememberCheats(config: ConfigManager): (KeyEvent) -> Boolean =
-    rememberKeySequence(sequence = konamiCode) { setKonamiCode(config = config) }
+internal fun rememberKeySequenceCheats(config: ConfigManager): (KeyEvent) -> Boolean {
+    val scope = rememberCoroutineScope()
+    return rememberKeySequence(sequence = konamiCode) { setKonamiCode(scope = scope, config = config) }
+}
 
-internal fun Modifier.enableCheats(config: ConfigManager): Modifier =
-    onGesture(sequence = konamiGestureCode) { setKonamiCode(config = config) }
+internal fun Modifier.enableGestureCheats(config: ConfigManager): Modifier = composed {
+    val scope = rememberCoroutineScope()
+    onGesture(sequence = konamiGestureCode) { setKonamiCode(scope = scope, config = config) }
+}
