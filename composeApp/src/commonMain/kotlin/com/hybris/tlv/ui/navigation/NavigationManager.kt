@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.navigation
 
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,44 +23,50 @@ internal open class NavigationManager(initialState: NavigationState) {
     val stateFlow: StateFlow<NavigationState> = _stateFlow.asStateFlow()
 
     /**
-     * A callback for the back action, handled by the App's [BackHandler].
+     * Callback for the back action used by the [BackHandler].
      */
     var back: () -> Unit = { goBack() }
 
     /**
      * Goes back to the previous screen.
      */
-    fun goBack() {
-        Dispatcher.Main.launch {
-            mutex.withLock {
-                stack.removeLastOrNull()
-                stack.lastOrNull()?.let { navigationState -> _stateFlow.update { navigationState } }
-                Telemetry.info(tag = TAG, message = "Go back to ${_stateFlow.value}")
-            }
+    fun goBack(): Job = Dispatcher.Main.launch {
+        mutex.withLock {
+            stack.removeLastOrNull()
+            stack.lastOrNull()?.let { navigationState -> _stateFlow.update { navigationState } }
+            Telemetry.info(tag = TAG, message = "Go back to ${_stateFlow.value}")
         }
     }
 
     /**
-     * Updates the [currentState] of the screen and then navigates to the new [navigationState].
+     * Updates the [state] of the current screen.
      */
-    fun navigate(navigationState: NavigationState, currentState: Any? = null) {
-        Dispatcher.Main.launch {
-            mutex.withLock {
-                // Reset back callback
-                back = { goBack() }
-                // If the screen is already in the stack, truncate from that element onwards, otherwise edit the last element of the stack
-                val index = stack.indexOfFirst { navigationState.screen == it.screen }
-                when {
-                    index != -1 -> stack.subList(fromIndex = index, toIndex = stack.size).clear()
-                    else -> stack.removeLastOrNull()?.let { navigationState -> stack.add(element = navigationState.copy(stateBuilder = currentState)) }
-                }
-                stack.add(element = navigationState)
-                // Update state
-                _stateFlow.update { navigationState }
-                Telemetry.info(tag = TAG, message = "Navigate to ${_stateFlow.value}")
-            }
+    fun saveState(state: Any?): Job = Dispatcher.Main.launch {
+        mutex.withLock {
+            stack.removeLastOrNull()?.let { navigationState -> stack.add(element = navigationState.copy(state = state)) }
         }
     }
+
+    /**
+     * Navigates to the new [navigationState].
+     */
+    fun navigate(navigationState: NavigationState): Job = Dispatcher.Main.launch {
+        mutex.withLock {
+            clean(navigationState = navigationState)
+            stack.add(element = navigationState)
+            _stateFlow.update { navigationState }
+            Telemetry.info(tag = TAG, message = "Navigate to ${_stateFlow.value}")
+        }
+    }
+
+    private fun clean(navigationState: NavigationState) {
+        // Reset back callback
+        back = { goBack() }
+        // If the screen is already in the stack, truncate from that element onwards
+        val index = stack.indexOfFirst { navigationState.screen == it.screen }
+        if (index != -1) stack.subList(fromIndex = index, toIndex = stack.size).clear()
+    }
+
 
     companion object {
         private const val TAG = "NavigationManager"
