@@ -47,18 +47,23 @@ internal open class Store<State, Action>(
     /**
      * Overridable back navigation.
      */
-    protected open fun goBack(state: State) = navigation.goBack()
+    protected open fun goBack(state: State) {
+        navigation.goBack()
+    }
 
     /**
      * Clean up the store and navigate to a new [screen] given an optional [stateBuilder].
      */
     protected fun navigate(screen: Screen, stateBuilder: Any? = null) {
         jobs.forEach { it.cancel() }
-        navigation.navigate(
-            navigationState = NavigationState(screen = screen, stateBuilder = stateBuilder),
-            currentState = getSavableState(state = _stateFlow.value)
-        )
+        saveState()
+        navigation.navigate(navigationState = NavigationState(screen = screen, stateBuilder = stateBuilder))
     }
+
+    /**
+     * Save the current state of the store to the navigation stack.
+     */
+    private fun saveState(): Job = navigation.saveState(stateBuilder = getSavableState(state = _stateFlow.value))
 
     /**
      * Sends an [Action] to the Store.
@@ -75,7 +80,10 @@ internal open class Store<State, Action>(
      * Updates the current [State].
      */
     protected fun updateState(body: (State) -> State): Job =
-        Dispatcher.Main.launch { _stateFlow.update { body(_stateFlow.value) } }
+        Dispatcher.Main.launch {
+            _stateFlow.update { body(_stateFlow.value) }
+            saveState()
+        }
 
     /**
      * Launches a coroutine and adds it to the list of jobs.

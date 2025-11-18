@@ -43,3 +43,5 @@ internal class Dependency(
     ),
     val screenBuilder: ScreenBuilder = ScreenBuilder(storeFactory = storeFactory)
 )
+
+internal val dependency: Dependency by lazy { Dependency() }

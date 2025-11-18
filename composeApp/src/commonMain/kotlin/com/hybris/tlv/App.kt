@@ -18,12 +18,12 @@ import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.theme.AppTheme
 
 @Composable
-internal fun App(
-    config: ConfigManager,
-    navigation: NavigationManager,
-    screenBuilder: ScreenBuilder,
-    audioPlayer: AudioPlayer,
-) = AppTheme {
+internal fun App(dependency: Dependency) = AppTheme {
+    val config = dependency.config
+    val audioPlayer = dependency.audioPlayer
+    val navigation = dependency.navigation
+    val screenBuilder = dependency.screenBuilder
+
     // Setup Navigation
     val navigationState by navigation.stateFlow.collectAsState()
     Box(
