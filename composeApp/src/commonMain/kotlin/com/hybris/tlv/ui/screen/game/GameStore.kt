@@ -5,7 +5,7 @@ import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.Route
 import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
@@ -58,7 +58,7 @@ internal class GameStore(
         gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
 
         if (gameSessionUseCases.isGameOver(gameSession = updatedGameSession)) {
-            navigate(screen = Screen.GameOver)
+            navigate(route = Route.GameOver)
             return@launch
         }
 
@@ -128,7 +128,7 @@ internal class GameStore(
         }
 
         this@GameStore.gameSession = gameSessionUseCases.travel(gameSession = gameSession, stellarHost = stellarHost)
-        navigate(screen = Screen.Event, stateBuilder = EventStateBuilder.WithShip(ship = gameSession.ship))
+        navigate(route = Route.Event, stateBuilder = EventStateBuilder.WithShip(ship = gameSession.ship))
     }
 
     private fun settle(action: GameAction.Settle): Job = launch {
@@ -140,11 +140,11 @@ internal class GameStore(
         }
 
         this@GameStore.gameSession = gameSessionUseCases.settle(gameSession = gameSession, planet = action.planet)
-        navigate(screen = Screen.GameOver)
+        navigate(route = Route.GameOver)
     }
 
     override fun goBack(state: GameState) {
-        navigate(screen = Screen.MainMenu)
+        navigate(route = Route.MainMenu)
     }
 
     override fun reducer(state: GameState, action: GameAction) {

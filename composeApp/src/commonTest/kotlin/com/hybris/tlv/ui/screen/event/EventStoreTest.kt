@@ -14,7 +14,7 @@ import com.hybris.tlv.getStoreFactory
 import com.hybris.tlv.getUseCases
 import com.hybris.tlv.reset
 import com.hybris.tlv.ui.navigation.NavigationState
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.Route
 
 internal class EventStoreTest {
 
@@ -23,7 +23,7 @@ internal class EventStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Event))
+        getNavigation().navigate(navigationState = NavigationState(route = Route.Event))
     }
 
     @Test
@@ -41,10 +41,10 @@ internal class EventStoreTest {
 
     @Test
     fun `init without game session`() = runBlocking {
-        assertEquals(expected = Screen.Event, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = Route.Event, actual = getNavigation().stateFlow.value.route)
         val eventStore = store
         assertNull(actual = eventStore.stateFlow.value.ship)
-        assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = Route.Feedback, actual = getNavigation().stateFlow.value.route)
     }
 
     @Test
@@ -60,9 +60,9 @@ internal class EventStoreTest {
         getUseCases().event.syncEvents()
         getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         store
-        assertEquals(expected = Screen.Event, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = Route.Event, actual = getNavigation().stateFlow.value.route)
         getNavigation().back()
-        assertEquals(expected = Screen.Event, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = Route.Event, actual = getNavigation().stateFlow.value.route)
     }
 
     @Test
@@ -77,16 +77,16 @@ internal class EventStoreTest {
 
     @Test
     fun `send action select without game session`() = runBlocking {
-        assertEquals(expected = Screen.Event, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = Route.Event, actual = getNavigation().stateFlow.value.route)
         val eventStore = store
         val event = events.random()
         eventStore.send(action = EventAction.Select(event = event))
-        assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = Route.Feedback, actual = getNavigation().stateFlow.value.route)
     }
 
     @Test
     fun `send action select without selected event`() = runBlocking {
-        assertEquals(expected = Screen.Event, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = Route.Event, actual = getNavigation().stateFlow.value.route)
         getUseCases().event.syncEvents()
         getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val eventStore = store

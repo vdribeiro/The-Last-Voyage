@@ -6,7 +6,7 @@ import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.Route
 import com.hybris.tlv.ui.store.Store
 
 internal class FeedbackStore(
@@ -55,7 +55,7 @@ internal class FeedbackStore(
         delay(timeMillis = 2000L)
         Telemetry.info(tag = TAG, message = "Navigate away")
         when {
-            state.isError -> navigate(screen = Screen.Splash)
+            state.isError -> navigate(route = Route.Splash)
             else -> goBack(state = state)
         }
     }

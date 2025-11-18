@@ -5,7 +5,7 @@ import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.Route
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.learning.LearningUseCases
 
@@ -63,7 +63,7 @@ internal class HelpStore(
             HelpAction.Navigation -> updateState { it.copy(currentContent = Content.NAVIGATION) }
             HelpAction.HostDefinition -> updateState { it.copy(currentContent = Content.HOST_DEFINITION) }
             HelpAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
-            HelpAction.Mechanics -> navigate(screen = Screen.Tutorial)
+            HelpAction.Mechanics -> navigate(route = Route.Tutorial)
             HelpAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
         }
     }

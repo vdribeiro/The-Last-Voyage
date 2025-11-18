@@ -5,7 +5,7 @@ import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.Route
 import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.event.EventUseCases
@@ -96,7 +96,7 @@ internal class EventStore(
 
         Telemetry.info(tag = TAG, message = "Check if event chain has ended")
         if (action.event == stopEvent) {
-            navigate(screen = Screen.Game, stateBuilder = GameStateBuilder.WithShip(ship = gameSession.ship))
+            navigate(route = Route.Game, stateBuilder = GameStateBuilder.WithShip(ship = gameSession.ship))
             return@launch
         }
 

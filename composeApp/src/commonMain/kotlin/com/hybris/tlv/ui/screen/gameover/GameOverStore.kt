@@ -6,7 +6,7 @@ import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.Route
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.achievement.model.Achievement
@@ -85,7 +85,7 @@ internal class GameOverStore(
                     )
                 }
 
-                Content.SCORE -> navigate(screen = Screen.MainMenu)
+                Content.SCORE -> navigate(route = Route.MainMenu)
             }
 
             GameOverAction.NextAchievement -> {

@@ -8,7 +8,7 @@ import com.hybris.tlv.getNavigation
 import com.hybris.tlv.getStoreFactory
 import com.hybris.tlv.reset
 import com.hybris.tlv.ui.navigation.NavigationState
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.Route
 
 internal class FeedbackStoreTest {
 
@@ -17,15 +17,15 @@ internal class FeedbackStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Splash))
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Feedback))
+        getNavigation().navigate(navigationState = NavigationState(route = Route.Splash))
+        getNavigation().navigate(navigationState = NavigationState(route = Route.Feedback))
     }
 
     @Test
     fun `send action back`() = runBlocking {
         store
-        assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = Route.Feedback, actual = getNavigation().stateFlow.value.route)
         getNavigation().back()
-        assertEquals(expected = Screen.Splash, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = Route.Splash, actual = getNavigation().stateFlow.value.route)
     }
 }

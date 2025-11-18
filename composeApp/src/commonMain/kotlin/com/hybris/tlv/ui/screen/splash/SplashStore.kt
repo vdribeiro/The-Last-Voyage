@@ -9,7 +9,7 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.Route
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
@@ -96,7 +96,7 @@ internal class SplashStore(
         config
             .savePreferences()
             .saveConfigs()
-        navigate(screen = Screen.MainMenu)
+        navigate(route = Route.MainMenu)
     }
 
     override fun goBack(state: SplashState) {}

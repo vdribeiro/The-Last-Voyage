@@ -12,7 +12,7 @@ import com.hybris.tlv.planets
 import com.hybris.tlv.reset
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.ui.navigation.NavigationState
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.Route
 
 internal class StellarExplorerStoreTest {
 
@@ -21,9 +21,9 @@ internal class StellarExplorerStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Splash))
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.MainMenu))
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.StellarExplorer))
+        getNavigation().navigate(navigationState = NavigationState(route = Route.Splash))
+        getNavigation().navigate(navigationState = NavigationState(route = Route.MainMenu))
+        getNavigation().navigate(navigationState = NavigationState(route = Route.StellarExplorer))
     }
 
     @Test
@@ -39,7 +39,7 @@ internal class StellarExplorerStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         val stellarExplorerStore = store
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.StellarExplorer))
+        getNavigation().navigate(navigationState = NavigationState(route = Route.StellarExplorer))
 
         stellarExplorerStore.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHosts.first()))
         assertEquals(expected = Content.DETAIL_HOSTS, actual = stellarExplorerStore.stateFlow.value.currentContent)
@@ -52,7 +52,7 @@ internal class StellarExplorerStoreTest {
         getNavigation().back()
         assertEquals(expected = Content.LIST_PLANETS, actual = stellarExplorerStore.stateFlow.value.currentContent)
         getNavigation().back()
-        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = Route.MainMenu, actual = getNavigation().stateFlow.value.route)
     }
 
     @Test

@@ -5,7 +5,7 @@ import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.Route
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
@@ -105,13 +105,13 @@ internal class NewGameStore(
                         formula = Formula()
                     )
                 )
-                navigate(screen = Screen.Game)
+                navigate(route = Route.Game)
             }
         }
     }
 
     override fun goBack(state: NewGameState) {
-        navigate(screen = Screen.MainMenu)
+        navigate(route = Route.MainMenu)
     }
 
     override fun reducer(state: NewGameState, action: NewGameAction) {

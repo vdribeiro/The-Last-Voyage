@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.screen.tutorial
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.Route
 import com.hybris.tlv.ui.store.Store
 
 internal class TutorialStore(
@@ -39,7 +39,7 @@ internal class TutorialStore(
                 Tutorial.SYSTEM -> updateState { it.copy(tutorialStep = Tutorial.TRAVEL) }
                 Tutorial.TRAVEL -> updateState { it.copy(tutorialStep = Tutorial.GAME_OVER) }
                 Tutorial.GAME_OVER -> when {
-                    newGame -> navigate(screen = Screen.NewGame)
+                    newGame -> navigate(route = Route.NewGame)
                     else -> goBack(state = state)
                 }
             }
