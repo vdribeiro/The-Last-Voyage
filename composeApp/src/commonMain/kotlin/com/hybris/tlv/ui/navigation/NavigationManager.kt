@@ -39,11 +39,11 @@ internal open class NavigationManager(initialState: NavigationState) {
     }
 
     /**
-     * Updates the [state] of the current screen.
+     * Updates the [stateBuilder] of the current screen.
      */
-    fun saveState(state: Any?): Job = Dispatcher.Main.launch {
+    fun saveState(stateBuilder: Any?): Job = Dispatcher.Main.launch {
         mutex.withLock {
-            stack.removeLastOrNull()?.let { navigationState -> stack.add(element = navigationState.copy(state = state)) }
+            stack.removeLastOrNull()?.let { navigationState -> stack.add(element = navigationState.copy(stateBuilder = stateBuilder)) }
         }
     }
 
