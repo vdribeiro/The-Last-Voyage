@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.navigation
 import kotlinx.serialization.Serializable
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -36,10 +37,17 @@ internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.
     val args = entry.toRoute<S>()
     val store = viewModel { store(args) }
     LifecycleCoroutine(store) {
+        print(navController)
         store.effect.collect { screen ->
             when (screen) {
                 Back -> navController.popBackStack()
-                else -> navController.navigate(route = screen)
+                else -> {
+                    val existingEntry = navController.currentBackStack.value
+                        .lastOrNull { it.destination.hasRoute(route = screen::class) }
+                    navController.navigate(route = screen) {
+                        if (existingEntry != null) popUpTo(route = existingEntry.destination.id) { inclusive = true }
+                    }
+                }
             }
         }
     }
