@@ -1,7 +1,11 @@
 package com.hybris.tlv.ui.navigation
 
 import kotlinx.serialization.Serializable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraphBuilder
@@ -29,6 +33,7 @@ internal interface Screen
  * Adds to the [NavGraphBuilder] a [screen] composable with its [store], and sets the [Back] and forward navigation,
  * with the latter replacing the existing screen if it is already in the stack.
  */
+@OptIn(ExperimentalComposeUiApi::class)
 internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.graph(
     navController: NavHostController,
     crossinline store: (S) -> T,
@@ -37,7 +42,6 @@ internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.
     val args = entry.toRoute<S>()
     val store = viewModel { store(args) }
     LifecycleCoroutine(store) {
-        print(navController)
         store.effect.collect { screen ->
             when (screen) {
                 Back -> navController.popBackStack()
@@ -51,5 +55,5 @@ internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.
             }
         }
     }
-    screen(store)
+    Box(modifier = Modifier.backNavigation { store.back() }) { screen(store) }
 }

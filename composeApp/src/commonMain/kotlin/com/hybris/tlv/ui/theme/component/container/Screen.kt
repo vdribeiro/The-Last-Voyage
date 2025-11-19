@@ -33,7 +33,6 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.lifecycle.LifecycleCoroutine
-import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.Button
@@ -74,7 +73,6 @@ internal fun Screen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .statusBarsPadding()
-                    .then(other = if (onBackClick != null) Modifier.backNavigation { onBackClick() } else Modifier),
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),

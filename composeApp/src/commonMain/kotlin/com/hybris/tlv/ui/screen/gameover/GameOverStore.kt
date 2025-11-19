@@ -64,6 +64,8 @@ internal class GameOverStore(
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
+    override fun back(state: GameOverState) {}
+
     override fun reducer(state: GameOverState, action: GameOverAction) {
         when (action) {
             GameOverAction.Next -> when (state.currentContent) {

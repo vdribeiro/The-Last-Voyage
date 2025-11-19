@@ -35,7 +35,7 @@ import com.hybris.tlv.lifecycle.LifecycleCoroutine
  */
 internal fun Modifier.onGesture(
     sequence: List<Gesture>,
-    delay: Long = 1000L,
+    delay: Long = 1500L,
     thresholdDp: Dp = 60.dp,
     leniency: Double = 2.0,
     onSequenceComplete: () -> Unit

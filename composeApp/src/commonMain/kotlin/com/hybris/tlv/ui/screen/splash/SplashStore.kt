@@ -93,6 +93,8 @@ internal class SplashStore(
         navigate(screen = MainMenuScreen)
     }
 
+    override fun back(state: SplashState) {}
+
     override fun reducer(state: SplashState, action: SplashAction) {
         when (action) {
             SplashAction.Next -> next()

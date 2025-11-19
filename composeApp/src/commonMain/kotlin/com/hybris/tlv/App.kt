@@ -4,6 +4,7 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.config.ConfigManager
@@ -28,7 +29,9 @@ internal fun App(
     // Setup Navigation
     val navController = rememberNavController()
     NavHost(
-        modifier = Modifier.enableGestureCheats(config = config),
+        modifier = Modifier
+            .enableGestureCheats(config = config)
+            .enableKeyCheats(config = config),
         navController = navController,
         startDestination = SplashScreen,
         enterTransition = { EnterTransition.None },
