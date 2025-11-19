@@ -4,30 +4,33 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.lifecycle.Register
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.media.getTracks
 import com.hybris.tlv.ui.navigation.MainMenuScreen
 import com.hybris.tlv.ui.navigation.SplashScreen
-import com.hybris.tlv.ui.navigation.eventGraph
+import com.hybris.tlv.ui.navigation.eventScreen
+import com.hybris.tlv.ui.navigation.splashScreen
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.UseCases
 
 @Composable
 internal fun App(
-    modifier: Modifier = Modifier,
+    config: ConfigManager,
     useCases: UseCases,
     audioPlayer: AudioPlayer
 ) = AppTheme {
     // Setup Navigation
     val navController = rememberNavController()
     NavHost(
-        modifier = modifier,
+        modifier = Modifier.enableGestureCheats(config = config),
         navController = navController,
         startDestination = SplashScreen
     ) {
-        eventGraph(navController = navController, useCases = useCases)
+        splashScreen(navController = navController, useCases = useCases, config = config)
+        eventScreen(navController = navController, useCases = useCases)
     }
 
     // Setup Audio Player

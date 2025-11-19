@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.ui.navigation.Back
 import com.hybris.tlv.ui.navigation.FeedbackScreen
 import com.hybris.tlv.ui.navigation.HelpScreen
 import com.hybris.tlv.ui.navigation.Screen
@@ -72,19 +73,13 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      * Overridable back navigation.
      */
     protected open fun goBack(state: State) {
+        navigate(screen = Back)
     }
 
     /**
      * Navigate back.
      */
-    fun back() {}
-
-    /**
-     * Toggle audio player.
-     */
-    fun toggleAudio() {
-//        audioPlayer.action(action = AudioPlayer.Action.Toggle)
-    }
+    fun back() = goBack(state = _stateFlow.value)
 
     /**
      * Navigate to [HelpScreen] screen.
@@ -103,4 +98,11 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
         tag: String,
         message: String
     ): Job = navigate(screen = FeedbackScreen(stateBuilder = FeedbackStateBuilder.Error(tag = tag, message = message)))
+
+    /**
+     * Toggle audio player.
+     */
+    fun toggleAudio() {
+        // TODO - audioPlayer.action(action = AudioPlayer.Action.Toggle)
+    }
 }

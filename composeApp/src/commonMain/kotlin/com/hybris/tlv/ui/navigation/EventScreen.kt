@@ -10,7 +10,7 @@ import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.screen.event.EventStore
 import com.hybris.tlv.usecase.UseCases
 
-internal fun NavGraphBuilder.eventGraph(
+internal fun NavGraphBuilder.eventScreen(
     navController: NavHostController,
     useCases: UseCases
 ) {

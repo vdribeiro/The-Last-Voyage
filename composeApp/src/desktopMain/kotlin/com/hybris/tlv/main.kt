@@ -41,6 +41,7 @@ fun main() = application {
     ) {
         CompositionLocalProvider(value = LocalWindowState provides windowState) {
             App(
+                config = dependency.config,
                 useCases = dependency.useCases,
                 audioPlayer = dependency.audioPlayer,
             )

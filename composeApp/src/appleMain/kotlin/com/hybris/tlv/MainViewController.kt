@@ -14,7 +14,7 @@ fun MainViewController() = ComposeUIViewController {
     Telemetry.info(tag = TAG, message = "App started")
 
     App(
-        modifier = Modifier.enableGestureCheats(config = dependency.config),
+        config = dependency.config,
         useCases = dependency.useCases,
         audioPlayer = dependency.audioPlayer,
     )
