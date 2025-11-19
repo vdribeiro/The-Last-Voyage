@@ -2,9 +2,9 @@ package com.hybris.tlv.ui.screen.newgame
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.GameScreen
+import com.hybris.tlv.ui.navigation.MainMenuScreen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
@@ -15,13 +15,11 @@ import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 
 internal class NewGameStore(
-    audioPlayer: AudioPlayer,
     stateBuilder: NewGameStateBuilder,
     private val shipUseCases: ShipUseCases,
     private val catastropheUseCases: CatastropheUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameState, NewGameAction>(
-    audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         NewGameStateBuilder.Default -> NewGameState()
         is NewGameStateBuilder.FromState -> stateBuilder.state
@@ -96,13 +94,13 @@ internal class NewGameStore(
                         formula = Formula()
                     )
                 )
-                navigate(screen = Screen.Game())
+                navigate(screen = GameScreen())
             }
         }
     }
 
     override fun goBack(state: NewGameState) {
-        navigate(screen = Screen.MainMenu)
+        navigate(screen = MainMenuScreen)
     }
 
     override fun reducer(state: NewGameState, action: NewGameAction) {

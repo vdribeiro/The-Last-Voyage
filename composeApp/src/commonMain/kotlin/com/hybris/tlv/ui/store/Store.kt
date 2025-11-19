@@ -14,7 +14,8 @@ import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.ui.navigation.FeedbackScreen
+import com.hybris.tlv.ui.navigation.HelpScreen
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 
@@ -24,10 +25,7 @@ import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
  * After it receives the result from the Use Case, it combines it with the current [State], and emits a new [State].
  * A key rule is that the UI only observes the Store's [State] and never modifies it directly.
  */
-internal open class Store<State, Action>(
-    private val audioPlayer: AudioPlayer,
-    initialState: State
-): ViewModel() {
+internal open class Store<State, Action>(initialState: State): ViewModel() {
 
     /**
      * The current state of the screen.
@@ -84,22 +82,25 @@ internal open class Store<State, Action>(
     /**
      * Toggle audio player.
      */
-    fun toggleAudio() = audioPlayer.action(action = AudioPlayer.Action.Toggle)
+    fun toggleAudio() {
+//        audioPlayer.action(action = AudioPlayer.Action.Toggle)
+    }
 
     /**
-     * Navigate to [Screen.Help] screen.
+     * Navigate to [HelpScreen] screen.
      */
-    fun help() = navigate(screen = Screen.Help)
+    fun help(): Job = navigate(screen = HelpScreen)
 
     /**
-     * Navigate to [Screen.Feedback] screen asking for feedback.
+     * Navigate to [FeedbackScreen] screen asking for feedback.
      */
-    fun feedback() =
-        navigate(screen = Screen.Feedback(stateBuilder = FeedbackStateBuilder.Default),)
+    fun feedback(): Job = navigate(screen = FeedbackScreen(stateBuilder = FeedbackStateBuilder.Default))
 
     /**
-     * Navigate to [Screen.Feedback] screen with error.
+     * Navigate to [FeedbackScreen] screen with error.
      */
-    fun error(tag: String, message: String) =
-        navigate(screen = Screen.Feedback(stateBuilder = FeedbackStateBuilder.Error(tag = tag, message = message)),)
+    fun error(
+        tag: String,
+        message: String
+    ): Job = navigate(screen = FeedbackScreen(stateBuilder = FeedbackStateBuilder.Error(tag = tag, message = message)))
 }

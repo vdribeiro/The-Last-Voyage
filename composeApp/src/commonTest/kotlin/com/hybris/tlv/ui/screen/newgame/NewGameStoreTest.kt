@@ -21,7 +21,7 @@ internal class NewGameStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.NewGame))
+        getNavigation().navigate(navigationState = NavigationState(screen = NewGameScreen))
     }
 
     @Test
@@ -37,21 +37,21 @@ internal class NewGameStoreTest {
         getUseCases().catastrophe.syncCatastrophes()
         getUseCases().ship.syncEngines()
         val newGameStore = store
-        assertEquals(expected = Screen.NewGame, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = NewGameScreen, actual = getNavigation().stateFlow.value.screen)
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
         getNavigation().back()
-        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
 
         newGameStore.send(action = NewGameAction.Next)
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
         getNavigation().back()
-        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
 
         newGameStore.send(action = NewGameAction.Next)
         assertEquals(expected = Content.START, actual = newGameStore.stateFlow.value.currentContent)
         assertNotNull(actual = newGameStore.stateFlow.value.selectedCatastrophe)
         getNavigation().back()
-        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
     }
 
     @Test
@@ -73,7 +73,7 @@ internal class NewGameStoreTest {
 
     @Test
     fun `send action start game`() = runBlocking {
-        assertEquals(expected = Screen.NewGame, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = NewGameScreen, actual = getNavigation().stateFlow.value.screen)
         getUseCases().catastrophe.syncCatastrophes()
         getUseCases().ship.syncEngines()
         val newGameStore = store
@@ -87,12 +87,12 @@ internal class NewGameStoreTest {
         newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype))
         newGameStore.send(action = NewGameAction.SelectEngine(engine = engines.first()))
         newGameStore.send(action = NewGameAction.Next)
-        assertEquals(expected = Screen.Game, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameScreen, actual = getNavigation().stateFlow.value.screen)
     }
 
     @Test
     fun `send action start game without selected ship`() = runBlocking {
-        assertEquals(expected = Screen.NewGame, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = NewGameScreen, actual = getNavigation().stateFlow.value.screen)
         val newGameStore = store
         newGameStore.send(action = NewGameAction.Next)
         assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)

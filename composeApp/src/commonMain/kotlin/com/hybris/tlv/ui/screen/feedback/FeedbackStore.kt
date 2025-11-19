@@ -3,16 +3,13 @@ package com.hybris.tlv.ui.screen.feedback
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.SplashScreen
 import com.hybris.tlv.ui.store.Store
 
 internal class FeedbackStore(
-    audioPlayer: AudioPlayer,
     stateBuilder: FeedbackStateBuilder,
 ): Store<FeedbackState, FeedbackAction>(
-    audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         FeedbackStateBuilder.Default -> FeedbackState()
         is FeedbackStateBuilder.Error -> FeedbackState(isError = true)
@@ -52,7 +49,7 @@ internal class FeedbackStore(
         delay(timeMillis = 2000L)
         Telemetry.info(tag = TAG, message = "Navigate away")
         when {
-            state.isError -> navigate(screen = Screen.Splash)
+            state.isError -> navigate(screen = SplashScreen)
             else -> goBack(state = state)
         }
     }

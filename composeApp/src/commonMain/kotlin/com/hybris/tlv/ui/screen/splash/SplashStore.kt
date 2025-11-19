@@ -5,10 +5,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.supervisorScope
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.MainMenuScreen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
@@ -21,7 +20,6 @@ import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 
 internal class SplashStore(
-    audioPlayer: AudioPlayer,
     private val config: ConfigManager,
     private val archiveUseCases: ArchiveUseCases,
     private val translateUseCases: TranslationUseCases,
@@ -33,7 +31,6 @@ internal class SplashStore(
     private val achievementUseCases: AchievementUseCases,
     private val creditUseCases: CreditUseCases
 ): Store<SplashState, SplashAction>(
-    audioPlayer = audioPlayer,
     initialState = SplashState()
 ) {
     init {
@@ -93,7 +90,7 @@ internal class SplashStore(
         config
             .savePreferences()
             .saveConfigs()
-        navigate(screen = Screen.MainMenu)
+        navigate(screen = MainMenuScreen)
     }
 
     override fun goBack(state: SplashState) {}

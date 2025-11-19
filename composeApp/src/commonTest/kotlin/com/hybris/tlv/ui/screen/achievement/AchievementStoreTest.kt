@@ -9,7 +9,6 @@ import com.hybris.tlv.getNavigation
 import com.hybris.tlv.getStoreFactory
 import com.hybris.tlv.getUseCases
 import com.hybris.tlv.reset
-import com.hybris.tlv.ui.navigation.Screen
 
 internal class AchievementStoreTest {
 
@@ -18,9 +17,9 @@ internal class AchievementStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Splash))
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.MainMenu))
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Achievement))
+        getNavigation().navigate(navigationState = NavigationState(screen = SplashScreen))
+        getNavigation().navigate(navigationState = NavigationState(screen = MainMenuScreen))
+        getNavigation().navigate(navigationState = NavigationState(screen = AchievementScreen))
     }
 
     @Test
@@ -34,8 +33,8 @@ internal class AchievementStoreTest {
     fun `send action back`() = runBlocking {
         getUseCases().achievement.syncAchievements()
         store
-        assertEquals(expected = Screen.Achievement, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = AchievementScreen, actual = getNavigation().stateFlow.value.screen)
         getNavigation().back()
-        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
     }
 }

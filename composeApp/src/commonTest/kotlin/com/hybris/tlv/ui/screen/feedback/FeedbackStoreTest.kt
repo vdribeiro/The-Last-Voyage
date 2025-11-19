@@ -16,7 +16,7 @@ internal class FeedbackStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Splash))
+        getNavigation().navigate(navigationState = NavigationState(screen = SplashScreen))
         getNavigation().navigate(navigationState = NavigationState(screen = Screen.Feedback))
     }
 
@@ -25,6 +25,6 @@ internal class FeedbackStoreTest {
         store
         assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
         getNavigation().back()
-        assertEquals(expected = Screen.Splash, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = SplashScreen, actual = getNavigation().stateFlow.value.screen)
     }
 }

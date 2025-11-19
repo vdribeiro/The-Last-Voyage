@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.navigation
 
 import kotlinx.serialization.Serializable
-import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
@@ -9,31 +8,29 @@ import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
 /**
  * All possible screens in the app.
  */
-internal sealed interface Screen {
-    @Serializable
-    data object Splash: Screen
-    @Serializable
-    data object MainMenu: Screen
-    @Serializable
-    data object Help: Screen
-    @Serializable
-    data class Feedback(val stateBuilder: FeedbackStateBuilder): Screen
-    @Serializable
-    data object NewGame: Screen
-    @Serializable
-    data class Tutorial(val stateBuilder: TutorialStateBuilder = TutorialStateBuilder.Default(newGame = false)): Screen
-    @Serializable
-    data class Game(val stateBuilder: GameStateBuilder = GameStateBuilder.Default): Screen
-    @Serializable
-    data class Event(val stateBuilder: EventStateBuilder = EventStateBuilder.Default): Screen
-    @Serializable
-    data object GameOver: Screen
-    @Serializable
-    data object StellarExplorer: Screen
-    @Serializable
-    data object Score: Screen
-    @Serializable
-    data object Achievement: Screen
-    @Serializable
-    data object Credit: Screen
-}
+@Serializable
+internal data object SplashScreen: Screen
+@Serializable
+internal data object MainMenuScreen: Screen
+@Serializable
+internal data object HelpScreen: Screen
+@Serializable
+internal data class FeedbackScreen(val stateBuilder: FeedbackStateBuilder): Screen
+@Serializable
+internal data object NewGameScreen: Screen
+@Serializable
+internal data class TutorialScreen(val stateBuilder: TutorialStateBuilder = TutorialStateBuilder.Default(newGame = false)): Screen
+@Serializable
+internal data class GameScreen(val stateBuilder: GameStateBuilder = GameStateBuilder.Default): Screen
+@Serializable
+internal data object GameOverScreen: Screen
+@Serializable
+internal data object StellarExplorerScreen: Screen
+@Serializable
+internal data object ScoreScreen: Screen
+@Serializable
+internal data object AchievementScreen: Screen
+@Serializable
+internal data object CreditScreen: Screen
+
+internal interface Screen

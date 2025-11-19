@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlinx.coroutines.Job
 import androidx.compose.foundation.lazy.LazyListState
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.SpaceUseCases
@@ -10,11 +9,9 @@ import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
 
 internal class StellarExplorerStore(
-    audioPlayer: AudioPlayer,
     stateBuilder: StellarExplorerStateBuilder,
     private val spaceUseCases: SpaceUseCases,
 ): Store<StellarExplorerState, StellarExplorerAction>(
-    audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         StellarExplorerStateBuilder.Default -> StellarExplorerState()
         is StellarExplorerStateBuilder.FromState -> StellarExplorerState(

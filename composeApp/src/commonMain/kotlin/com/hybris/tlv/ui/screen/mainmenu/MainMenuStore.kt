@@ -2,21 +2,24 @@ package com.hybris.tlv.ui.screen.mainmenu
 
 import kotlinx.coroutines.Job
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.AchievementScreen
+import com.hybris.tlv.ui.navigation.CreditScreen
+import com.hybris.tlv.ui.navigation.GameScreen
+import com.hybris.tlv.ui.navigation.NewGameScreen
+import com.hybris.tlv.ui.navigation.ScoreScreen
+import com.hybris.tlv.ui.navigation.StellarExplorerScreen
+import com.hybris.tlv.ui.navigation.TutorialScreen
 import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal class MainMenuStore(
-    audioPlayer: AudioPlayer,
     stateBuilder: MainMenuStateBuilder,
     private val config: ConfigManager,
     private val gameSessionUseCases: GameSessionUseCases,
 ): Store<MainMenuState, MainMenuAction>(
-    audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         MainMenuStateBuilder.Default -> MainMenuState()
         is MainMenuStateBuilder.FromState -> stateBuilder.state
@@ -28,6 +31,7 @@ internal class MainMenuStore(
             is MainMenuStateBuilder.FromState -> {}
         }
     }
+
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
         val configs = config.remoteConfigs
@@ -49,18 +53,18 @@ internal class MainMenuStore(
 
     private fun newGame(): Job = launch {
         Telemetry.info(tag = TAG, message = "New game")
-        if (config.preferences.showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = Screen.NewGame)
+        if (config.preferences.showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = NewGameScreen)
     }
 
     private fun newGameWithoutTutorial(): Job = launch {
         config.setPreferences { it.copy(showTutorial = false) }.savePreferences()
-        navigate(screen = Screen.NewGame)
+        navigate(screen = NewGameScreen)
     }
 
     private fun newGameWithTutorial(): Job = launch {
         Telemetry.info(tag = TAG, message = "Show tutorial")
         config.setPreferences { it.copy(showTutorial = false) }.savePreferences()
-        navigate(screen = Screen.Tutorial(stateBuilder = TutorialStateBuilder.Default(newGame = true)))
+        navigate(screen = TutorialScreen(stateBuilder = TutorialStateBuilder.Default(newGame = true)))
     }
 
     override fun goBack(state: MainMenuState) {}
@@ -71,11 +75,11 @@ internal class MainMenuStore(
             MainMenuAction.HideNewGameDialog -> updateState { it.copy(newGameDialog = false) }
             MainMenuAction.NoNewGameDialog -> newGameWithoutTutorial()
             MainMenuAction.YesNewGameDialog -> newGameWithTutorial()
-            MainMenuAction.Next -> navigate(screen = Screen.Game())
-            MainMenuAction.Scores -> navigate(screen = Screen.Score)
-            MainMenuAction.Achievements -> navigate(screen = Screen.Achievement)
-            MainMenuAction.Credits -> navigate(screen = Screen.Credit)
-            MainMenuAction.StellarExplorer -> navigate(screen = Screen.StellarExplorer)
+            MainMenuAction.Next -> navigate(screen = GameScreen())
+            MainMenuAction.Scores -> navigate(screen = ScoreScreen)
+            MainMenuAction.Achievements -> navigate(screen = AchievementScreen)
+            MainMenuAction.Credits -> navigate(screen = CreditScreen)
+            MainMenuAction.StellarExplorer -> navigate(screen = StellarExplorerScreen)
         }
     }
 

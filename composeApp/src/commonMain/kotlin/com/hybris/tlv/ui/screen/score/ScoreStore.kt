@@ -2,17 +2,14 @@ package com.hybris.tlv.ui.screen.score
 
 import kotlinx.coroutines.Job
 import com.hybris.tlv.locale.getLocalDateTime
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal class ScoreStore(
-    audioPlayer: AudioPlayer,
     stateBuilder: ScoreStateBuilder,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<ScoreState, Unit>(
-    audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         ScoreStateBuilder.Default -> ScoreState()
         is ScoreStateBuilder.FromState -> stateBuilder.state

@@ -2,9 +2,10 @@ package com.hybris.tlv.ui.screen.game
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.EventScreen
+import com.hybris.tlv.ui.navigation.GameOverScreen
+import com.hybris.tlv.ui.navigation.MainMenuScreen
 import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
@@ -14,13 +15,11 @@ import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 
 internal class GameStore(
-    audioPlayer: AudioPlayer,
     stateBuilder: GameStateBuilder,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameState, GameAction>(
-    audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         GameStateBuilder.Default -> GameState()
         is GameStateBuilder.WithShip -> GameState(ship = stateBuilder.ship)
@@ -52,7 +51,7 @@ internal class GameStore(
         gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
 
         if (gameSessionUseCases.isGameOver(gameSession = updatedGameSession)) {
-            navigate(screen = Screen.GameOver)
+            navigate(screen = GameOverScreen)
             return@launch
         }
 
@@ -122,7 +121,7 @@ internal class GameStore(
         }
 
         this@GameStore.gameSession = gameSessionUseCases.travel(gameSession = gameSession, stellarHost = stellarHost)
-        navigate(screen = Screen.Event(stateBuilder = EventStateBuilder.WithShip(ship = gameSession.ship)))
+        navigate(screen = EventScreen(stateBuilder = EventStateBuilder.WithShip(ship = gameSession.ship)))
     }
 
     private fun settle(action: GameAction.Settle): Job = launch {
@@ -134,11 +133,11 @@ internal class GameStore(
         }
 
         this@GameStore.gameSession = gameSessionUseCases.settle(gameSession = gameSession, planet = action.planet)
-        navigate(screen = Screen.GameOver)
+        navigate(screen = GameOverScreen)
     }
 
     override fun goBack(state: GameState) {
-        navigate(screen = Screen.MainMenu)
+        navigate(screen = MainMenuScreen)
     }
 
     override fun reducer(state: GameState, action: GameAction) {

@@ -23,7 +23,7 @@ internal class GameStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Game))
+        getNavigation().navigate(navigationState = NavigationState(screen = GameScreen))
     }
 
     @Test
@@ -43,7 +43,7 @@ internal class GameStoreTest {
 
     @Test
     fun `init without game session`() = runBlocking {
-        assertEquals(expected = Screen.Game, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameScreen, actual = getNavigation().stateFlow.value.screen)
         val gameStore = store
         assertNull(actual = gameStore.stateFlow.value.ship)
         assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
@@ -63,25 +63,25 @@ internal class GameStoreTest {
 
     @Test
     fun `game over by integrity`() = runBlocking {
-        assertEquals(expected = Screen.Game, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameScreen, actual = getNavigation().stateFlow.value.screen)
         getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameSession = getUseCases().gameSession.getLatestGameSession()!!
         getUseCases().gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(integrity = 0, materials = 0)))
         store
-        assertEquals(expected = Screen.GameOver, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameOverScreen, actual = getNavigation().stateFlow.value.screen)
     }
 
     @Test
     fun `game over by fuel`() = runBlocking {
-        assertEquals(expected = Screen.Game, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameScreen, actual = getNavigation().stateFlow.value.screen)
         getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype.copy(ship = gameSessionPrototype.ship.copy(fuel = 0)))
         store
-        assertEquals(expected = Screen.GameOver, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameOverScreen, actual = getNavigation().stateFlow.value.screen)
     }
 
     @Test
     fun `init without stellar host`() = runBlocking {
-        assertEquals(expected = Screen.Game, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameScreen, actual = getNavigation().stateFlow.value.screen)
         getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         assertNull(actual = gameStore.stateFlow.value.ship)
@@ -94,9 +94,9 @@ internal class GameStoreTest {
         getUseCases().space.syncPlanets()
         getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         store
-        assertEquals(expected = Screen.Game, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameScreen, actual = getNavigation().stateFlow.value.screen)
         getNavigation().back()
-        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
     }
 
     @Test
@@ -118,16 +118,16 @@ internal class GameStoreTest {
     fun `send action travel`() = runBlocking {
         getUseCases().space.syncStellarHosts()
         getUseCases().space.syncPlanets()
-        assertEquals(expected = Screen.Game, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameScreen, actual = getNavigation().stateFlow.value.screen)
         getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         gameStore.send(action = GameAction.Travel(stellarHost = stellarHosts[1]))
-        assertEquals(expected = Screen.Event, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = EventScreen, actual = getNavigation().stateFlow.value.screen)
     }
 
     @Test
     fun `send action travel without game session`() = runBlocking {
-        assertEquals(expected = Screen.Game, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameScreen, actual = getNavigation().stateFlow.value.screen)
         val gameStore = store
         gameStore.send(action = GameAction.Travel(stellarHost = stellarHosts.first()))
         assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
@@ -135,7 +135,7 @@ internal class GameStoreTest {
 
     @Test
     fun `send action travel without stellar host`() = runBlocking {
-        assertEquals(expected = Screen.Game, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameScreen, actual = getNavigation().stateFlow.value.screen)
         getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         gameStore.send(action = GameAction.Travel(stellarHost = stellarHosts.first()))
@@ -146,16 +146,16 @@ internal class GameStoreTest {
     fun `send action settle`() = runBlocking {
         getUseCases().space.syncStellarHosts()
         getUseCases().space.syncPlanets()
-        assertEquals(expected = Screen.Game, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameScreen, actual = getNavigation().stateFlow.value.screen)
         getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameStore = store
         gameStore.send(action = GameAction.Settle(planet = planets.first()))
-        assertEquals(expected = Screen.GameOver, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameOverScreen, actual = getNavigation().stateFlow.value.screen)
     }
 
     @Test
     fun `send action settle without game session`() = runBlocking {
-        assertEquals(expected = Screen.Game, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameScreen, actual = getNavigation().stateFlow.value.screen)
         val gameStore = store
         gameStore.send(action = GameAction.Settle(planet = planets.first()))
         assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
