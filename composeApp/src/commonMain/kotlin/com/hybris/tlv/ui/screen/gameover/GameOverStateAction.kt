@@ -9,15 +9,6 @@ internal sealed interface GameOverAction {
     data object NextAchievement: GameOverAction
 }
 
-internal sealed interface GameOverStateBuilder {
-    data object Default: GameOverStateBuilder
-    data class FromState(
-        val state: GameOverState,
-        val achievements: List<Achievement>,
-        val index: Int
-    ): GameOverStateBuilder
-}
-
 internal data class GameOverState(
     val loading: Boolean = true,
     val currentContent: Content = Content.MESSAGE,

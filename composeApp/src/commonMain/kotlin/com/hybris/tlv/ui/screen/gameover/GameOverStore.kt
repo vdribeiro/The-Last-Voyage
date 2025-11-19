@@ -11,14 +11,10 @@ import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal class GameOverStore(
-    stateBuilder: GameOverStateBuilder,
     private val gameSessionUseCases: GameSessionUseCases,
     private val achievementUseCases: AchievementUseCases
 ): Store<GameOverState, GameOverAction>(
-    initialState = when (stateBuilder) {
-        GameOverStateBuilder.Default -> GameOverState()
-        is GameOverStateBuilder.FromState -> stateBuilder.state
-    }
+    initialState = GameOverState()
 ) {
     @get:VisibleForTesting
     internal var achievements: List<Achievement>? = null
@@ -26,13 +22,7 @@ internal class GameOverStore(
     internal var index: Int = 0
 
     init {
-        when (stateBuilder) {
-            GameOverStateBuilder.Default -> setup()
-            is GameOverStateBuilder.FromState -> {
-                achievements = stateBuilder.achievements
-                index = stateBuilder.index
-            }
-        }
+        setup()
     }
 
     private fun setup(): Job = launch {

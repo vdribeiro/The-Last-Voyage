@@ -10,7 +10,7 @@ import com.hybris.tlv.ui.screen.feedback.FeedbackStore
 internal fun NavGraphBuilder.feedbackScreen(navController: NavHostController) =
     graph<FeedbackScreen, FeedbackStore>(
         navController = navController,
-        store = { FeedbackStore(stateBuilder = FeedbackStateBuilder.Feedback) },
+        store = { FeedbackStore(stateBuilder = it.stateBuilder) },
         screen = { FeedbackScreen(store = it) }
     )
 

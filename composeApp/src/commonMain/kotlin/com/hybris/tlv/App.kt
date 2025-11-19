@@ -41,7 +41,7 @@ internal fun App(
         splashScreen(navController = navController, useCases = useCases, config = config)
         mainMenuScreen(navController = navController, useCases = useCases, config = config)
         helpScreen(navController = navController, useCases = useCases, config = config)
-//        feedbackScreen()
+//        feedbackScreen(navController = navController)
 //        newGameScreen(useCases = useCases)
 //        tutorialScreen()
 //        gameScreen(useCases = useCases)

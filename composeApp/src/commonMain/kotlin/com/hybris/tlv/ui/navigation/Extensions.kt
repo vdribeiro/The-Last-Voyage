@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.navigation
 
 import kotlinx.serialization.Serializable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -14,19 +15,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.hybris.tlv.ui.store.Store
 
-internal data object GameOverScreen: Screen
-@Serializable
-internal data object StellarExplorerScreen: Screen
-@Serializable
-internal data object ScoreScreen: Screen
-@Serializable
-internal data object AchievementScreen: Screen
-@Serializable
-internal data object CreditScreen: Screen
-
+internal interface Screen
 @Serializable
 internal data object Back: Screen
-internal interface Screen
 
 /**
  * Adds to the [NavGraphBuilder] a [screen] composable with its [store], and sets the [Back] and forward navigation,
@@ -54,5 +45,5 @@ internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.
             }
         }
     }
-    Box(modifier = Modifier.backNavigation { store.back() }) { screen(store) }
+    Box(modifier = Modifier.fillMaxSize().backNavigation { store.back() }) { screen(store) }
 }

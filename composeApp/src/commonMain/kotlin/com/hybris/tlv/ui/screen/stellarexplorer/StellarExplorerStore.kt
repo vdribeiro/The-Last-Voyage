@@ -9,26 +9,9 @@ import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
 
 internal class StellarExplorerStore(
-    stateBuilder: StellarExplorerStateBuilder,
     private val spaceUseCases: SpaceUseCases,
 ): Store<StellarExplorerState, StellarExplorerAction>(
-    initialState = when (stateBuilder) {
-        StellarExplorerStateBuilder.Default -> StellarExplorerState()
-        is StellarExplorerStateBuilder.FromState -> StellarExplorerState(
-            currentContent = stateBuilder.currentContent,
-            listState = stateBuilder.listIndex,
-            selectedStellarHost = stateBuilder.selectedStellarHost,
-            selectedPlanet = stateBuilder.selectedPlanet,
-            search = stateBuilder.search,
-            sortStellarHostProperty = stateBuilder.sortStellarHostProperty,
-            sortPlanetProperty = stateBuilder.sortPlanetProperty,
-            sortAscending = stateBuilder.sortAscending,
-            visibleStellarHostProperties = stateBuilder.visibleStellarHostProperties,
-            visiblePlanetProperties = stateBuilder.visiblePlanetProperties,
-            searchableStellarHostProperties = stateBuilder.searchableStellarHostProperties,
-            searchablePlanetProperties = stateBuilder.searchablePlanetProperties
-        )
-    }
+    initialState = StellarExplorerState()
 ) {
     init {
         setup()
