@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme.modifier
 
 import kotlinx.coroutines.delay
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -13,7 +14,6 @@ import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
-import com.hybris.tlv.lifecycle.LifecycleCoroutine
 
 /**
  * A [Modifier] that listens for a specific [sequence] of [Key] stokes and triggers the [onSequenceComplete] callback upon completion.
@@ -25,7 +25,7 @@ internal fun Modifier.onKeySequence(
     onSequenceComplete: () -> Unit
 ): Modifier = composed {
     var progress by remember { mutableStateOf(value = 0) }
-    LifecycleCoroutine(progress) {
+    LaunchedEffect(key1 = progress) {
         if (progress > 0) {
             delay(timeMillis = delay)
             progress = 0

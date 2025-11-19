@@ -2,7 +2,6 @@
 
 package com.hybris.tlv
 
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
 import com.hybris.tlv.telemetry.Telemetry
 

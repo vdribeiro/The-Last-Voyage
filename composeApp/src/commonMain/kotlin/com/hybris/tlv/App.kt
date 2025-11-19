@@ -3,11 +3,11 @@ package com.hybris.tlv
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.lifecycle.Register
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.media.getTracks
@@ -50,7 +50,7 @@ internal fun App(
 
     // Setup Audio Player
     val currentScreen = navController.currentDestination as? Screen
-    LifecycleCoroutine(currentScreen) {
+    LaunchedEffect(key1 = currentScreen) {
         val playlist = currentScreen?.let { getTracks(screen = it) }
         if (playlist != null) audioPlayer.action(action = AudioPlayer.Action.Play(playlist = playlist))
     }

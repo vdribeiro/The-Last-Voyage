@@ -1,6 +1,7 @@
 package com.hybris.tlv.lifecycle
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -12,7 +13,7 @@ internal actual fun Register(
     onForeground: () -> Unit,
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    DisposableLifecycleCoroutine(lifecycleOwner, key) {
+    DisposableEffect(key1 = lifecycleOwner, key2 = key) {
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
                 Lifecycle.Event.ON_PAUSE -> onBackground()

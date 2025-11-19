@@ -3,16 +3,15 @@ package com.hybris.tlv.ui.navigation
 import kotlinx.serialization.Serializable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.ui.store.Store
 
 internal data object GameOverScreen: Screen
@@ -41,7 +40,7 @@ internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.
 ) = composable<S> { entry ->
     val args = entry.toRoute<S>()
     val store = viewModel { store(args) }
-    LifecycleCoroutine(store) {
+    LaunchedEffect(key1 = store) {
         store.effect.collect { screen ->
             when (screen) {
                 Back -> navController.popBackStack()

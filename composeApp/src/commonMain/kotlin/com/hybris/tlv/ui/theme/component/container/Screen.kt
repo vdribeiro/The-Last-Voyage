@@ -19,18 +19,12 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.AutoFixHigh
-import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.BugReport
-import androidx.compose.material.icons.filled.ElectricBolt
-import androidx.compose.material.icons.filled.Fireplace
-import androidx.compose.material.icons.filled.Key
-import androidx.compose.material.icons.filled.LocalFireDepartment
+import androidx.compose.material.icons.filled.LogoDev
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.QuestionMark
-import androidx.compose.material.icons.filled.Science
-import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,8 +35,6 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.Button
@@ -113,7 +105,10 @@ internal fun Screen(
                     // Cheat button
                     onCheatClick?.let {
                         Button(hapticFeedback = HapticFeedbackType.Reject, onClick = it) {
-                            Text(text = "\uD83D\uDC79")
+                            Icon(
+                                imageVector = Icons.Default.LogoDev,
+                                contentDescription = "Cheat"
+                            )
                         }
                     }
                     // Help button
@@ -167,7 +162,7 @@ internal fun Screen(
             val isPreview = LocalInspectionMode.current
             var show by remember { mutableStateOf(value = isPreview) }
             var loaderShownMark by remember { mutableStateOf<TimeMark?>(value = null) }
-            LifecycleCoroutine(loading) {
+            LaunchedEffect(key1 = loading) {
                 when {
                     loading -> {
                         delay(timeMillis = loadingDelayMillis)
@@ -202,7 +197,7 @@ internal fun Screen(
 
 @Preview
 @Composable
-private fun ScreenPreview() = AppTheme {
+private fun ScreenLoadingPreview() = AppTheme {
     Screen(
         loading = true,
         loadingDelayMillis = 0L,
@@ -213,5 +208,20 @@ private fun ScreenPreview() = AppTheme {
         onHelpClick = {},
         onMusicClick = {},
         onFeedbackClick = {},
+    )
+}
+
+@Preview
+@Composable
+private fun ScreenPreview() = AppTheme {
+    Screen(
+        loading = false,
+        banner = "Banner",
+        onBackClick = {},
+        onCheatClick = {},
+        onHelpClick = {},
+        onMusicClick = {},
+        onFeedbackClick = {},
+        content = { Text(text = "Text") }
     )
 }

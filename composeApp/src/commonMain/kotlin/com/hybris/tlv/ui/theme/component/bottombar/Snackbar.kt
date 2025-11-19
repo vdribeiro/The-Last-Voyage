@@ -4,9 +4,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.ui.theme.AppTheme
 
 @Composable
@@ -17,7 +17,7 @@ internal fun Snackbar(
     onDismiss: () -> Unit = {},
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-    LifecycleCoroutine(message) {
+    LaunchedEffect(key1 = message) {
         snackbarHostState.showSnackbar(
             message = message,
             actionLabel = buttonText,

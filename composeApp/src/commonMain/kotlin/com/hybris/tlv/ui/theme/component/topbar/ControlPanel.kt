@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,7 +36,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -76,7 +76,7 @@ internal fun ControlPanel(
 
     var searchQuery by remember { mutableStateOf(value = search) }
 
-    LifecycleCoroutine(Unit) {
+    LaunchedEffect(key1 = Unit) {
         snapshotFlow { searchQuery }
             .debounce(timeoutMillis = 300L)
             .distinctUntilChanged()
