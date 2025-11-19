@@ -59,13 +59,13 @@ internal class MainMenuStore(
     }
 
     private fun newGameWithoutTutorial(): Job = launch {
-        config.setPreferences { it.copy(showTutorial = false) }.savePreferences()
+        config.setPreferences { it.copy(showTutorial = false) }
         navigate(screen = NewGameScreen)
     }
 
     private fun newGameWithTutorial(): Job = launch {
         Telemetry.info(tag = TAG, message = "Show tutorial")
-        config.setPreferences { it.copy(showTutorial = false) }.savePreferences()
+        config.setPreferences { it.copy(showTutorial = false) }
         navigate(screen = TutorialScreen(stateBuilder = TutorialStateBuilder.Default(newGame = true)))
     }
 

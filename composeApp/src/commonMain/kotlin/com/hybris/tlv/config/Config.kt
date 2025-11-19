@@ -38,18 +38,17 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     private val remoteInterval: Duration = if (isDebug) ZERO else 1.hours
 
     override suspend fun setup(): ConfigManager = apply {
-        mutex.withLock {
-            _preferences.value = loadJsonFile(path = PREFERENCES_JSON) ?: Preferences()
-            _localConfigs.value = loadJsonFile(path = CONFIGS_JSON) ?: Configs()
-        }
+        val preferences = mutex.withLock { loadJsonFile(path = PREFERENCES_JSON) ?: Preferences() }
+        setPreferences { preferences }
+        val localConfigs = mutex.withLock { loadJsonFile(path = CONFIGS_JSON) ?: Configs() }
+        _localConfigs.update { localConfigs }
         fetchRemoteConfigs()
-        savePreferences()
         saveConfigs()
     }
 
     override suspend fun fetchRemoteConfigs(): ConfigManager = apply {
         if (!hasTimePassed(dateTime = _preferences.value.syncTime, duration = remoteInterval)) return@apply
-        _preferences.update { it.copy(syncTime = now()) }
+        setPreferences { it.copy(syncTime = now()) }
 
         when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
             is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get remote configs", throwable = result.error)
@@ -72,14 +71,11 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
 
     override suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager = apply {
         _preferences.update { preferences(it) }
+        mutex.withLock { saveJsonFile(path = PREFERENCES_JSON, content = _preferences.value) }
     }
 
     override suspend fun setConfigs(configs: (Configs) -> Configs): ConfigManager = apply {
         _localConfigs.update { configs(it) }
-    }
-
-    override suspend fun savePreferences(): ConfigManager = apply {
-        mutex.withLock { saveJsonFile(path = PREFERENCES_JSON, content = _preferences.value) }
     }
 
     override suspend fun saveConfigs(): ConfigManager = apply {

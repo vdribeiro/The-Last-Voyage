@@ -46,7 +46,7 @@ internal class SplashStore(
         Telemetry.info(tag = TAG, message = "App version: remote version: $remoteVersion, local version: $localVersion")
         config.setConfigs { it.copy(appVersion = remoteVersion) }
         if (localVersion == 0L || Property.APP_VERSION_NUMBER == remoteVersion) sync()
-        config.savePreferences().saveConfigs()
+        config.saveConfigs()
         translateUseCases.refreshCache()
 
         Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences.value}")
@@ -56,7 +56,7 @@ internal class SplashStore(
         Telemetry.info(tag = TAG, message = "Setup complete")
 
         if (config.preferences.value.showIntro) {
-            config.setPreferences { it.copy(showIntro = false) }.savePreferences()
+            config.setPreferences { it.copy(showIntro = false) }
             updateState { it.copy(loading = false, currentContent = Content.INTRO) }
         } else navigate(screen = MainMenuScreen)
     }

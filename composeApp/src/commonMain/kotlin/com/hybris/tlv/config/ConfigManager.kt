@@ -33,7 +33,7 @@ internal interface ConfigManager {
     suspend fun fetchRemoteConfigs(): ConfigManager
 
     /**
-     * Update preferences cache.
+     * Update preferences cache and save to storage.
      */
     suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager
 
@@ -41,11 +41,6 @@ internal interface ConfigManager {
      * Update configs cache.
      */
     suspend fun setConfigs(configs: (Configs) -> Configs): ConfigManager
-
-    /**
-     * Save preferences to storage.
-     */
-    suspend fun savePreferences(): ConfigManager
 
     /**
      * Save configs to storage.

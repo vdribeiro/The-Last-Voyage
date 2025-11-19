@@ -46,7 +46,7 @@ internal fun Modifier.enableKeyCheats(config: ConfigManager): Modifier = compose
 
 internal suspend fun ConfigManager.cheats(enabled: Boolean) {
     Telemetry.info(tag = "God", message = "Cheats: $enabled")
-    setPreferences { it.copy(cheats = enabled) }.savePreferences()
+    setPreferences { it.copy(cheats = enabled) }
 }
 
 internal val cheatHapticFeedback: HapticFeedbackType = HapticFeedbackType.Reject
