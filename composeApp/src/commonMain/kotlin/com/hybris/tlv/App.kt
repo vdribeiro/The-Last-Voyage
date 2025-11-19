@@ -1,28 +1,29 @@
 package com.hybris.tlv
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.SplashScreen
-import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.navigation.eventGraph
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.usecase.UseCases
 
 @Composable
-internal fun App(dependency: Dependency) = AppTheme {
+internal fun App(
+    modifier: Modifier = Modifier,
+    useCases: UseCases,
+    audioPlayer: AudioPlayer
+) = AppTheme {
     // Setup Navigation
     val navController = rememberNavController()
     NavHost(
-        modifier = Modifier
-            .fillMaxSize()
-            .enableGestureCheats(config = dependency.config)
-            .backNavigation { navController.popBackStack() },
+        modifier = modifier,
         navController = navController,
         startDestination = SplashScreen
     ) {
-        eventGraph(navController = navController, useCases = dependency.useCases)
+        eventGraph(navController = navController, useCases = useCases)
     }
 
     // Setup Audio Player

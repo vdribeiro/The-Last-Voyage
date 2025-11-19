@@ -31,5 +31,3 @@ internal class Dependency(
     ),
     val audioPlayer: AudioPlayer = createAudioPlayer()
 )
-
-internal val dependency: Dependency by lazy { Dependency() }
