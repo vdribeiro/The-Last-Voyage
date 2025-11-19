@@ -12,7 +12,6 @@ import com.hybris.tlv.ui.navigation.NewGameScreen
 import com.hybris.tlv.ui.navigation.ScoreScreen
 import com.hybris.tlv.ui.navigation.StellarExplorerScreen
 import com.hybris.tlv.ui.navigation.TutorialScreen
-import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
@@ -66,7 +65,7 @@ internal class MainMenuStore(
     private fun newGameWithTutorial(): Job = launch {
         Telemetry.info(tag = TAG, message = "Show tutorial")
         config.setPreferences { it.copy(showTutorial = false) }
-        navigate(screen = TutorialScreen(stateBuilder = TutorialStateBuilder.Default(newGame = true)))
+        navigate(screen = TutorialScreen(newGame = true))
     }
 
     private fun disableCheats(): Job = launch {

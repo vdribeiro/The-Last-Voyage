@@ -13,9 +13,18 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.media.getTracks
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.SplashScreen
+import com.hybris.tlv.ui.navigation.achievementScreen
+import com.hybris.tlv.ui.navigation.creditScreen
+import com.hybris.tlv.ui.navigation.feedbackScreen
+import com.hybris.tlv.ui.navigation.gameOverScreen
+import com.hybris.tlv.ui.navigation.gameScreen
 import com.hybris.tlv.ui.navigation.helpScreen
 import com.hybris.tlv.ui.navigation.mainMenuScreen
+import com.hybris.tlv.ui.navigation.newGameScreen
+import com.hybris.tlv.ui.navigation.scoreScreen
 import com.hybris.tlv.ui.navigation.splashScreen
+import com.hybris.tlv.ui.navigation.stellarExplorerScreen
+import com.hybris.tlv.ui.navigation.tutorialScreen
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.UseCases
 
@@ -42,10 +51,15 @@ internal fun App(
         mainMenuScreen(navController = navController, useCases = useCases, config = config)
         helpScreen(navController = navController, useCases = useCases, config = config)
 //        feedbackScreen(navController = navController)
-//        newGameScreen(useCases = useCases)
-//        tutorialScreen()
-//        gameScreen(useCases = useCases)
-//        eventScreen(useCases = useCases)
+        newGameScreen(navController = navController, useCases = useCases)
+        tutorialScreen(navController = navController)
+//        gameScreen(navController = navController, useCases = useCases)
+//        eventScreen(navController = navController, useCases = useCases)
+        gameOverScreen(navController = navController, useCases = useCases)
+        stellarExplorerScreen(navController = navController, useCases = useCases)
+        scoreScreen(navController = navController, useCases = useCases)
+        achievementScreen(navController = navController, useCases = useCases)
+        creditScreen(navController = navController, useCases = useCases)
     }
 
     // Setup Audio Player

@@ -1,22 +1,13 @@
 package com.hybris.tlv.ui.screen.tutorial
 
-import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.ui.navigation.NewGameScreen
 import com.hybris.tlv.ui.store.Store
 
 internal class TutorialStore(
-    stateBuilder: TutorialStateBuilder,
+    private val newGame: Boolean,
 ): Store<TutorialState, TutorialAction>(
     initialState = TutorialState()
 ) {
-    @get:VisibleForTesting
-    internal var newGame: Boolean = false
-
-    init {
-        newGame = when (stateBuilder) {
-            is TutorialStateBuilder.Default -> stateBuilder.newGame
-        }
-    }
 
     override fun reducer(state: TutorialState, action: TutorialAction) {
         when (action) {

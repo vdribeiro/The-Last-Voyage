@@ -7,10 +7,6 @@ internal sealed interface TutorialAction {
     data object Next: TutorialAction
 }
 
-internal sealed interface TutorialStateBuilder {
-    data class Default(val newGame: Boolean): TutorialStateBuilder
-}
-
 internal data class TutorialState(
     val tutorialStep: Tutorial = Tutorial.GOAL,
     val ship: Ship = Ship(
