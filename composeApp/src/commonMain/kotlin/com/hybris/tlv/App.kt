@@ -11,7 +11,7 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.media.getTracks
 import com.hybris.tlv.ui.navigation.MainMenuScreen
 import com.hybris.tlv.ui.navigation.SplashScreen
-import com.hybris.tlv.ui.navigation.eventScreen
+import com.hybris.tlv.ui.navigation.mainMenuScreen
 import com.hybris.tlv.ui.navigation.splashScreen
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.UseCases
@@ -30,7 +30,8 @@ internal fun App(
         startDestination = SplashScreen
     ) {
         splashScreen(navController = navController, useCases = useCases, config = config)
-        eventScreen(navController = navController, useCases = useCases)
+        mainMenuScreen(navController = navController, useCases = useCases, config = config)
+//        eventScreen(navController = navController, useCases = useCases)
     }
 
     // Setup Audio Player

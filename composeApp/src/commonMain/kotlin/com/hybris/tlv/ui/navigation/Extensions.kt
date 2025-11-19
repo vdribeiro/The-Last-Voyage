@@ -14,8 +14,6 @@ import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
 import com.hybris.tlv.ui.store.Store
 
 @Serializable
-internal data object MainMenuScreen: Screen
-@Serializable
 internal data object HelpScreen: Screen
 @Serializable
 internal data class FeedbackScreen(val stateBuilder: FeedbackStateBuilder): Screen
