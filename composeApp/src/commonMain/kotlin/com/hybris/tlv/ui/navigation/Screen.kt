@@ -33,4 +33,6 @@ internal data object AchievementScreen: Screen
 @Serializable
 internal data object CreditScreen: Screen
 
+@Serializable
+internal data object Back: Screen
 internal interface Screen

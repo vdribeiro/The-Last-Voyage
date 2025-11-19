@@ -6,6 +6,8 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
@@ -14,6 +16,7 @@ import com.hybris.tlv.ui.theme.AppTheme
 internal fun Input(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    focusRequester: FocusRequester = FocusRequester.Default,
     value: String = "",
     onValueChange: (String) -> Unit = {},
     maxLines: Int = Int.MAX_VALUE,
@@ -21,7 +24,9 @@ internal fun Input(
     leadingIcon: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(
-        modifier = modifier.defaultMinSize(minHeight = 60.dp),
+        modifier = modifier
+            .focusRequester(focusRequester = focusRequester)
+            .defaultMinSize(minHeight = 60.dp),
         enabled = enabled,
         value = value,
         onValueChange = onValueChange,

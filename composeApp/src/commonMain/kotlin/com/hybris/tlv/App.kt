@@ -12,20 +12,17 @@ import com.hybris.tlv.ui.theme.AppTheme
 
 @Composable
 internal fun App(dependency: Dependency) = AppTheme {
-    val config = dependency.config
-    dependency.audioPlayer
-
     // Setup Navigation
     val navController = rememberNavController()
     NavHost(
         modifier = Modifier
             .fillMaxSize()
-            .enableGestureCheats(config = config)
+            .enableGestureCheats(config = dependency.config)
             .backNavigation { navController.popBackStack() },
         navController = navController,
         startDestination = SplashScreen
     ) {
-        eventGraph(navController = navController)
+        eventGraph(navController = navController, useCases = dependency.useCases)
     }
 
     // Setup Audio Player
@@ -97,49 +94,11 @@ internal fun App(dependency: Dependency) = AppTheme {
 //        }
 //    }
 //}
-//
-//
-///**
-// * Generic Effect Handler to reduce boilerplate in NavGraphBuilder.
-// */
-//@Composable
-//inline fun <reified E : StandardEffect> HandleEffects(
-//    store: BaseStore<*, *, E>,
-//    navController: NavController,
-//    crossinline onCustomEffect: (E) -> Unit
-//) {
-//    LaunchedEffect(store) {
-//        store.effect.collect { effect ->
-//            when (effect) {
-//                is StandardEffect.NavigateBack -> navController.popBackStack()
-//                is StandardEffect.NavigateToHelp -> navController.navigateSingleStack(Route.Help)
-//                is StandardEffect.NavigateToFeedback -> navController.navigateSingleStack(Route.Feedback)
-//                is StandardEffect.ShowError -> println("Global Error: ${effect.message}")
-//                else -> onCustomEffect(effect)
-//            }
-//        }
-//    }
-//}
-//
 ///**
 // * Navigates to a route, replacing the existing one if it's already in the stack.
 // */
 //inline fun <reified T : Any> NavController.navigateSingleStack(route: T) {
 //    navigate(route) {
 //        popUpTo<T> { inclusive = true }
-//    }
-//}
-//
-///**
-// * Global Mouse Handler.
-// * Detects Mouse Button 4 (Back) or Right Click and delegates to the provided lambda.
-// */
-//fun Modifier.mapMouseToSystemBack(onBack: () -> Unit): Modifier = composed {
-//    onPointerEvent(eventType = PointerEventType.Press) {
-//        with(it.buttons) {
-//            if (isBackPressed || isSecondaryPressed) {
-//                onBack()
-//            }
-//        }
 //    }
 //}
