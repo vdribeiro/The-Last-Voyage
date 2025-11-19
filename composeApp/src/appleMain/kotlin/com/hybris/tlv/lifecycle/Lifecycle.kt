@@ -5,6 +5,7 @@ import platform.Foundation.NSOperationQueue
 import platform.UIKit.UIApplicationDidBecomeActiveNotification
 import platform.UIKit.UIApplicationWillResignActiveNotification
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 
 @Composable
 internal actual fun Register(
@@ -13,7 +14,7 @@ internal actual fun Register(
     onForeground: () -> Unit,
 ) {
     val lifecycleOwner = NSNotificationCenter.defaultCenter
-    DisposableLifecycleCoroutine(key) {
+    DisposableEffect(key1 = key) {
         val pauseObserver = lifecycleOwner.observe(
             name = UIApplicationWillResignActiveNotification,
             onObserve = onBackground
