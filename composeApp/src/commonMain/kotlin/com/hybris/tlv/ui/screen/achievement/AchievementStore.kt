@@ -6,19 +6,12 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 
 internal class AchievementStore(
-    stateBuilder: AchievementStateBuilder,
     private val achievementUseCases: AchievementUseCases
 ): Store<AchievementState, Unit>(
-    initialState = when (stateBuilder) {
-        AchievementStateBuilder.Default -> AchievementState()
-        is AchievementStateBuilder.FromState -> stateBuilder.state
-    }
+    initialState = AchievementState()
 ) {
     init {
-        when (stateBuilder) {
-            AchievementStateBuilder.Default -> setup()
-            is AchievementStateBuilder.FromState -> {}
-        }
+        setup()
     }
 
     private fun setup(): Job = launch {

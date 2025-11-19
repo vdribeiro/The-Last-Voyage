@@ -29,7 +29,7 @@ internal fun MainMenu(
     ongoingGameSession: Boolean = false,
     onOngoingGameSessionClick: () -> Unit = {},
 ) {
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val appNameTranslation = remember(key1 = translationVersion) { getTranslation(key = "app_name") }
     val newGameTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__new_game") }
     val continueTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__continue") }

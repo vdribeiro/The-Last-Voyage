@@ -54,7 +54,7 @@ internal inline fun <T, S> HostDefinition(
     crossinline stellarHostDescription: (S) -> String? = { null },
     crossinline stellarHostImage: (S) -> ImageResource? = { null },
 ) {
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val exampleTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_example") }
     val propertiesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_properties") }
     val typesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_types") }

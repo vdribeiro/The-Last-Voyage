@@ -39,7 +39,7 @@ internal inline fun <T> CreditList(
     crossinline link: (T) -> String? = { null },
 ) {
     val uriHandler = LocalUriHandler.current
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val creatorsTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__creators") }
     val sourcesTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__sources") }
     val musicTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__music") }

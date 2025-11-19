@@ -6,19 +6,12 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.credit.CreditUseCases
 
 internal class CreditStore(
-    stateBuilder: CreditStateBuilder,
     private val creditUseCases: CreditUseCases
 ): Store<CreditState, Unit>(
-    initialState = when (stateBuilder) {
-        CreditStateBuilder.Default -> CreditState()
-        is CreditStateBuilder.FromState -> stateBuilder.state
-    }
+    initialState = CreditState()
 ) {
     init {
-        when (stateBuilder) {
-            CreditStateBuilder.Default -> setup()
-            is CreditStateBuilder.FromState -> {}
-        }
+        setup()
     }
 
     private fun setup(): Job = launch {

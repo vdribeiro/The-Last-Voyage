@@ -68,7 +68,7 @@ internal fun PlanetCard(
 ) {
     val typography = LocalTypography.current
     val shapes = LocalShapes.current
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val planetStatusTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_status") }
     val planetHabitabilityTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_habitability") }
     val planetConfidenceTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_confidence") }

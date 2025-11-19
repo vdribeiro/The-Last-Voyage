@@ -7,19 +7,12 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal class ScoreStore(
-    stateBuilder: ScoreStateBuilder,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<ScoreState, Unit>(
-    initialState = when (stateBuilder) {
-        ScoreStateBuilder.Default -> ScoreState()
-        is ScoreStateBuilder.FromState -> stateBuilder.state
-    }
+    initialState = ScoreState()
 ) {
     init {
-        when (stateBuilder) {
-            ScoreStateBuilder.Default -> setup()
-            is ScoreStateBuilder.FromState -> {}
-        }
+        setup()
     }
 
     private fun setup(): Job = launch {

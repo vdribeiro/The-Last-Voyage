@@ -1,12 +1,9 @@
 package com.hybris.tlv.ui.store
 
-import com.hybris.tlv.ui.screen.achievement.AchievementStateBuilder
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
-import com.hybris.tlv.ui.screen.credit.CreditStateBuilder
 import com.hybris.tlv.ui.screen.credit.CreditStore
 import com.hybris.tlv.ui.screen.gameover.GameOverStateBuilder
 import com.hybris.tlv.ui.screen.gameover.GameOverStore
-import com.hybris.tlv.ui.screen.score.ScoreStateBuilder
 import com.hybris.tlv.ui.screen.score.ScoreStore
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStateBuilder
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
@@ -30,17 +27,14 @@ internal class StoreFactory(
     )
 
     fun createScoreStore(stateBuilder: Any? = null): ScoreStore = ScoreStore(
-        stateBuilder = stateBuilder as? ScoreStateBuilder ?: ScoreStateBuilder.Default,
         gameSessionUseCases = useCases.gameSession
     )
 
     fun createAchievementStore(stateBuilder: Any? = null): AchievementStore = AchievementStore(
-        stateBuilder = stateBuilder as? AchievementStateBuilder ?: AchievementStateBuilder.Default,
         achievementUseCases = useCases.achievement
     )
 
     fun createCreditStore(stateBuilder: Any? = null): CreditStore = CreditStore(
-        stateBuilder = stateBuilder as? CreditStateBuilder ?: CreditStateBuilder.Default,
         creditUseCases = useCases.credit
     )
 }

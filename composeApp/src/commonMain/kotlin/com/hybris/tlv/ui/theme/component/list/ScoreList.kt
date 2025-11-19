@@ -48,7 +48,7 @@ internal inline fun <T> ScoreList(
 ) {
     val expandedItems = remember { expandedItems.toMutableStateList() }
 
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "score_screen__title") }
 
     val typography = LocalTypography.current

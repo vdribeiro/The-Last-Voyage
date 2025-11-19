@@ -30,7 +30,7 @@ internal class MainMenuStore(
         Telemetry.info(tag = TAG, message = "Setup")
         val configs = config.remoteConfigs
         val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
-        val cheatsEnabled = config.preferences.cheats
+        val cheatsEnabled = config.preferences.value.cheats
         val developerCorner = configs.developerCorner
         val support = configs.support
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
@@ -49,7 +49,7 @@ internal class MainMenuStore(
 
     private fun newGame(): Job = launch {
         Telemetry.info(tag = TAG, message = "New game")
-        if (config.preferences.showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = NewGameScreen)
+        if (config.preferences.value.showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = NewGameScreen)
     }
 
     private fun newGameWithoutTutorial(): Job = launch {
@@ -65,7 +65,6 @@ internal class MainMenuStore(
 
     private fun disableCheats(): Job = launch {
         config.cheats(enabled = false)
-        updateState { it.copy(cheatsEnabled = false) }
     }
 
     override fun back(state: MainMenuState) {}

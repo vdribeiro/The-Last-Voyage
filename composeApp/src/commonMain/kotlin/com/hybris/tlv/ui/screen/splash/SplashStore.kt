@@ -57,7 +57,7 @@ internal class SplashStore(
         delay(timeMillis = 1000L)
         Telemetry.info(tag = TAG, message = "Setup complete")
 
-        if (!config.preferences.showIntro) next() else {
+        if (!config.preferences.value.showIntro) next() else {
             config.setPreferences { it.copy(showIntro = false) }
             updateState { it.copy(loading = false, currentContent = Content.INTRO) }
         }

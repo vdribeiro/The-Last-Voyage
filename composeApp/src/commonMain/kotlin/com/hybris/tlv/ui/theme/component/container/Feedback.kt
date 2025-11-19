@@ -36,7 +36,7 @@ internal fun Feedback(
 ) {
     var feedbackText by remember { mutableStateOf(value = feedback) }
 
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = if (isError) "error_screen__title" else "error_screen__title_alt") }
     val descriptionTranslation = remember(key1 = translationVersion) { getTranslation(key = if (isError) "error_screen__description" else "error_screen__description_alt") }
     val buttonTranslation = remember(key1 = translationVersion) { getTranslation(key = "error_screen__button") }

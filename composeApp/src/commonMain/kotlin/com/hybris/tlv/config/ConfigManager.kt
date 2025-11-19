@@ -1,5 +1,7 @@
 package com.hybris.tlv.config
 
+import kotlinx.coroutines.flow.StateFlow
+
 /**
  * User preferences and remote configurations.
  */
@@ -8,7 +10,7 @@ internal interface ConfigManager {
     /**
      * Cached preferences.
      */
-    val preferences: Preferences
+    val preferences: StateFlow<Preferences>
 
     /**
      * Cached local configs.

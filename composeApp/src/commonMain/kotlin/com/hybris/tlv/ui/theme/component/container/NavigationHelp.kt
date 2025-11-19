@@ -21,7 +21,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun NavigationHelp(
     modifier: Modifier = Modifier,
 ) {
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val navigationTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__navigation") }
     val navigationDescriptionTranslation = remember(key1 = translationVersion) {
         getTranslation(
