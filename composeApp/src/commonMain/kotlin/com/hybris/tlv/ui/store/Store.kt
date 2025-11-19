@@ -72,14 +72,14 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     /**
      * Overridable back navigation.
      */
-    protected open fun goBack(state: State) {
+    protected open fun back(state: State) {
         navigate(screen = Back)
     }
 
     /**
      * Navigate back.
      */
-    fun back() = goBack(state = _stateFlow.value)
+    fun back() = back(state = _stateFlow.value)
 
     /**
      * Navigate to [HelpScreen] screen.

@@ -136,7 +136,7 @@ internal class GameStore(
         navigate(screen = GameOverScreen)
     }
 
-    override fun goBack(state: GameState) {
+    override fun back(state: GameState) {
         navigate(screen = MainMenuScreen)
     }
 

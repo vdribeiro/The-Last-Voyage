@@ -39,9 +39,9 @@ internal class HelpStore(
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    override fun goBack(state: HelpState) {
+    override fun back(state: HelpState) {
         when (state.currentContent) {
-            Content.LEARN_MENU -> super.goBack(state = state)
+            Content.LEARN_MENU -> super.back(state = state)
             Content.NAVIGATION,
             Content.HOST_DEFINITION,
             Content.PLANET_DEFINITION,

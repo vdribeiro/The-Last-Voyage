@@ -31,7 +31,7 @@ internal class TutorialStore(
                 Tutorial.TRAVEL -> updateState { it.copy(tutorialStep = Tutorial.GAME_OVER) }
                 Tutorial.GAME_OVER -> when {
                     newGame -> navigate(screen = NewGameScreen)
-                    else -> goBack(state = state)
+                    else -> back(state = state)
                 }
             }
         }

@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
@@ -38,23 +38,26 @@ internal data object CreditScreen: Screen
 internal data object Back: Screen
 internal interface Screen
 
+/**
+ * Adds to the [NavGraphBuilder] a [screen] composable with its [store],
+ * and sets the [Back] and forward navigation, with the latter replacing the existing screen if it is already in the stack.
+ */
 internal inline fun <reified S: Screen, State, Action> NavGraphBuilder.graph(
-    navController: NavHostController,
-    crossinline createStore: (S) -> Store<State, Action>,
-    crossinline content: @Composable (Store<State, Action>) -> Unit,
+    crossinline store: (S) -> Store<State, Action>,
+    crossinline screen: @Composable (Store<State, Action>) -> Unit,
 ) {
     composable<S> { entry ->
+        val navController = rememberNavController()
         val args = entry.toRoute<S>()
-        val store = viewModel { createStore(args) }
+        val store = viewModel { store(args) }
         LifecycleCoroutine(store) {
             store.effect.collect { screen ->
                 when (screen) {
                     Back -> navController.popBackStack()
-                    // Replacing the existing screen if it is already in the stack
                     else -> navController.navigate(route = screen) { popUpTo<S> { inclusive = true } }
                 }
             }
         }
-        content(store)
+        screen(store)
     }
 }

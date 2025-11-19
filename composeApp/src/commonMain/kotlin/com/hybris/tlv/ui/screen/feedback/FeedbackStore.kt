@@ -50,7 +50,7 @@ internal class FeedbackStore(
         Telemetry.info(tag = TAG, message = "Navigate away")
         when {
             state.isError -> navigate(screen = SplashScreen)
-            else -> goBack(state = state)
+            else -> back(state = state)
         }
     }
 

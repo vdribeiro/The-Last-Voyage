@@ -67,8 +67,6 @@ internal class MainMenuStore(
         navigate(screen = TutorialScreen(stateBuilder = TutorialStateBuilder.Default(newGame = true)))
     }
 
-    override fun goBack(state: MainMenuState) {}
-
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
             MainMenuAction.NewGame -> newGame()

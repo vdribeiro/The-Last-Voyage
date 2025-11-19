@@ -1,5 +1,8 @@
 package com.hybris.tlv.usecase.ship.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 internal data class Ship(
     val id: String,
     val engine: Engine,

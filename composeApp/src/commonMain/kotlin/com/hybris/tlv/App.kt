@@ -23,15 +23,14 @@ internal fun App(
     audioPlayer: AudioPlayer
 ) = AppTheme {
     // Setup Navigation
-    val navController = rememberNavController()
     NavHost(
         modifier = Modifier.enableGestureCheats(config = config),
-        navController = navController,
+        navController = rememberNavController(),
         startDestination = SplashScreen
     ) {
-        splashScreen(navController = navController, useCases = useCases, config = config)
-        mainMenuScreen(navController = navController, useCases = useCases, config = config)
-//        eventScreen(navController = navController, useCases = useCases)
+        splashScreen(useCases = useCases, config = config)
+        mainMenuScreen(useCases = useCases, config = config)
+//        eventScreen(useCases = useCases)
     }
 
     // Setup Audio Player
