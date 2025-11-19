@@ -26,25 +26,31 @@ internal class MainMenuStore(
         setup()
     }
 
-    private fun setup(): Job = launch {
-        Telemetry.info(tag = TAG, message = "Setup")
-        val configs = config.remoteConfigs
-        val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
-        val cheatsEnabled = config.preferences.value.cheats
-        val developerCorner = configs.developerCorner
-        val support = configs.support
-        val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
-        updateState {
-            it.copy(
-                loading = false,
-                newVersionBanner = newVersionBanner,
-                cheatsEnabled = cheatsEnabled,
-                developerCorner = developerCorner,
-                support = support,
-                ongoingGameSession = ongoingGameSession,
-            )
+    private fun setup() {
+        launch {
+            config.preferences.collect { preferences ->
+                val cheatsEnabled = preferences.cheats
+                updateState { it.copy(cheatsEnabled = cheatsEnabled) }
+            }
         }
-        Telemetry.info(tag = TAG, message = "Setup complete")
+        launch {
+            Telemetry.info(tag = TAG, message = "Setup")
+            val configs = config.localConfigs.value
+            val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
+            val developerCorner = configs.developerCorner
+            val support = configs.support
+            val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
+            updateState {
+                it.copy(
+                    loading = false,
+                    newVersionBanner = newVersionBanner,
+                    developerCorner = developerCorner,
+                    support = support,
+                    ongoingGameSession = ongoingGameSession,
+                )
+            }
+            Telemetry.info(tag = TAG, message = "Setup complete")
+        }
     }
 
     private fun newGame(): Job = launch {

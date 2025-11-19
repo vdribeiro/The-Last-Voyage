@@ -15,30 +15,35 @@ internal interface ConfigManager {
     /**
      * Cached local configs.
      */
-    val localConfigs: Configs
+    val localConfigs: StateFlow<Configs>
 
     /**
      * Cached remote configs.
      */
-    val remoteConfigs: Configs
+    val remoteConfigs: StateFlow<Configs>
 
     /**
-     * Fetch configs and refresh all caches.
+     * Setup all caches.
      */
-    suspend fun refresh(): ConfigManager
+    suspend fun setup(): ConfigManager
 
     /**
-     * Set user preferences.
+     * Fetch remote configs.
+     */
+    suspend fun fetchRemoteConfigs(): ConfigManager
+
+    /**
+     * Update preferences cache.
      */
     suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager
 
     /**
-     * Set configs.
+     * Update configs cache.
      */
     suspend fun setConfigs(configs: (Configs) -> Configs): ConfigManager
 
     /**
-     * Save configs to storage.
+     * Save preferences to storage.
      */
     suspend fun savePreferences(): ConfigManager
 

@@ -21,8 +21,8 @@ internal class CatastropheGateway(
     private val catastropheDao = database.catastropheQueries
 
     override suspend fun syncCatastrophes() {
-        val remoteVersion = config.remoteConfigs.catastrophesVersion
-        val localVersion = config.localConfigs.catastrophesVersion
+        val remoteVersion = config.remoteConfigs.value.catastrophesVersion
+        val localVersion = config.localConfigs.value.catastrophesVersion
         Telemetry.info(tag = TAG, message = "Syncing catastrophes: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Catastrophe>(path = CATASTROPHES_URL)) {

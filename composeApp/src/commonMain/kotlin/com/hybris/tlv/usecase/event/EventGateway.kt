@@ -24,8 +24,8 @@ internal class EventGateway(
     private val eventDao = database.eventQueries
 
     override suspend fun syncEvents() {
-        val remoteVersion = config.remoteConfigs.eventsVersion
-        val localVersion = config.localConfigs.eventsVersion
+        val remoteVersion = config.remoteConfigs.value.eventsVersion
+        val localVersion = config.localConfigs.value.eventsVersion
         Telemetry.info(tag = TAG, message = "Syncing events: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Event>(path = EVENTS_URL)) {

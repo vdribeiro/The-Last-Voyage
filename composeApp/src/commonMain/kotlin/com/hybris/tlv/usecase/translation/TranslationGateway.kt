@@ -21,8 +21,8 @@ internal class TranslationGateway(
     private val translationDao = database.translationQueries
 
     override suspend fun syncTranslations() {
-        val remoteVersion = config.remoteConfigs.translationsVersion
-        val localVersion = config.localConfigs.translationsVersion
+        val remoteVersion = config.remoteConfigs.value.translationsVersion
+        val localVersion = config.localConfigs.value.translationsVersion
         Telemetry.info(tag = TAG, message = "Syncing translations: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Translation>(path = TRANSLATIONS_URL)) {

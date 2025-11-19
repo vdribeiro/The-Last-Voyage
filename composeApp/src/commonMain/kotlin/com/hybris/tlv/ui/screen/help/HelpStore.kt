@@ -19,7 +19,7 @@ internal class HelpStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
-        val configs = config.remoteConfigs
+        val configs = config.localConfigs.value
         val learningsMap = learningUseCases.getLearnings().groupBy { it.type }
 
         updateState {

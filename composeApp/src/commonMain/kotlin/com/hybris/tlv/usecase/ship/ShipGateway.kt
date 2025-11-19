@@ -23,8 +23,8 @@ internal class ShipGateway(
     private val engineDao = database.engineQueries
 
     override suspend fun syncEngines() {
-        val remoteVersion = config.remoteConfigs.enginesVersion
-        val localVersion = config.localConfigs.enginesVersion
+        val remoteVersion = config.remoteConfigs.value.enginesVersion
+        val localVersion = config.localConfigs.value.enginesVersion
         Telemetry.info(tag = TAG, message = "Syncing engines: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Engine>(path = ENGINES_URL)) {
