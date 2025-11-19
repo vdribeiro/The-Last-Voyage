@@ -7,7 +7,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
@@ -88,7 +87,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
 @Composable
 private fun GameOverLoadingPreview() = AppTheme {
     GameOverScreen(
-        store = getStore(
+        store = Store(
             initialState = GameOverState(
                 loading = true,
                 currentContent = Content.MESSAGE,
@@ -120,7 +119,7 @@ private fun GameOverMessagePreview() = AppTheme {
         )
     )
     GameOverScreen(
-        store = getStore(
+        store = Store(
             initialState = GameOverState(
                 loading = false,
                 currentContent = Content.MESSAGE,
@@ -147,7 +146,7 @@ private fun GameOverScorePreview() = AppTheme {
         )
     )
     GameOverScreen(
-        store = getStore(
+        store = Store(
             initialState = GameOverState(
                 loading = false,
                 currentContent = Content.SCORE,

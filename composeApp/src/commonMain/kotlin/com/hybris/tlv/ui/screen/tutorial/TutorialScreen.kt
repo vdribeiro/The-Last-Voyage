@@ -11,7 +11,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.GameNavigation
 import com.hybris.tlv.ui.theme.component.container.Screen
@@ -98,7 +97,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
 private fun TutorialGoalPreview() {
     AppTheme {
         TutorialScreen(
-            store = getStore(
+            store = Store(
                 initialState = TutorialState(
                     tutorialStep = Tutorial.GOAL,
                 )
@@ -111,7 +110,7 @@ private fun TutorialGoalPreview() {
 @Composable
 private fun TutorialShipPreview() = AppTheme {
     TutorialScreen(
-        store = getStore(
+        store = Store(
             initialState = TutorialState(
                 tutorialStep = Tutorial.SHIP,
             )
@@ -123,7 +122,7 @@ private fun TutorialShipPreview() = AppTheme {
 @Composable
 private fun TutorialSystemPreview() = AppTheme {
     TutorialScreen(
-        store = getStore(
+        store = Store(
             initialState = TutorialState(
                 tutorialStep = Tutorial.SYSTEM,
             )
@@ -135,7 +134,7 @@ private fun TutorialSystemPreview() = AppTheme {
 @Composable
 private fun TutorialTravelPreview() = AppTheme {
     TutorialScreen(
-        store = getStore(
+        store = Store(
             initialState = TutorialState(
                 tutorialStep = Tutorial.TRAVEL,
             )
@@ -147,7 +146,7 @@ private fun TutorialTravelPreview() = AppTheme {
 @Composable
 private fun TutorialGameOverPreview() = AppTheme {
     TutorialScreen(
-        store = getStore(
+        store = Store(
             initialState = TutorialState(
                 tutorialStep = Tutorial.GAME_OVER,
             )

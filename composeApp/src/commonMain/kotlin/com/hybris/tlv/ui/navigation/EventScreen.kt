@@ -8,15 +8,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.hybris.tlv.dependency
 import com.hybris.tlv.lifecycle.LifecycleCoroutine
-import com.hybris.tlv.ui.EventScreen.EventStateBuilder
-import com.hybris.tlv.ui.EventScreen.EventStore
+import com.hybris.tlv.ui.screen.event.EventScreen
+import com.hybris.tlv.ui.screen.event.EventStateBuilder
+import com.hybris.tlv.ui.screen.event.EventStore
 
 internal fun NavGraphBuilder.eventGraph(navController: NavHostController) {
     composable<EventScreen> { entry ->
         val args = entry.toRoute<EventScreen>()
         val store = viewModel {
             EventStore(
-                audioPlayer = dependency.audioPlayer,
                 stateBuilder = args.stateBuilder,
                 eventUseCases = dependency.useCases.event,
                 gameSessionUseCases = dependency.useCases.gameSession,

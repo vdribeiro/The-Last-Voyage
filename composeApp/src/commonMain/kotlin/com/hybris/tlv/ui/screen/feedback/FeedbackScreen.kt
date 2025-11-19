@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Feedback
 import com.hybris.tlv.ui.theme.component.container.Screen
@@ -49,7 +48,7 @@ private fun FeedbackPreview() = AppTheme {
         )
     )
     FeedbackScreen(
-        store = getStore(
+        store = Store(
             initialState = FeedbackState(
                 isError = false,
                 feedback = "This game is awesome!",
@@ -83,7 +82,7 @@ private fun FeedbackThanksPreview() = AppTheme {
         )
     )
     FeedbackScreen(
-        store = getStore(
+        store = Store(
             initialState = FeedbackState(
                 isError = false,
                 feedback = "This game is awesome!",
@@ -113,7 +112,7 @@ private fun FeedbackErrorPreview() = AppTheme {
         )
     )
     FeedbackScreen(
-        store = getStore(
+        store = Store(
             initialState = FeedbackState(
                 isError = true,
                 feedback = "",

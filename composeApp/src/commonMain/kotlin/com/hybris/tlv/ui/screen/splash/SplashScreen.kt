@@ -9,7 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.text.FadeInText
@@ -52,7 +51,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
 @Composable
 private fun SplashZeroPreview() = AppTheme {
     SplashScreen(
-        store = getStore(
+        store = Store(
             initialState = SplashState(
                 progress = 0.0f
             )
@@ -64,7 +63,7 @@ private fun SplashZeroPreview() = AppTheme {
 @Composable
 private fun SplashHalfwayPreview() = AppTheme {
     SplashScreen(
-        store = getStore(
+        store = Store(
             initialState = SplashState(
                 progress = 0.5f
             )
@@ -76,7 +75,7 @@ private fun SplashHalfwayPreview() = AppTheme {
 @Composable
 private fun SplashFullPreview() = AppTheme {
     SplashScreen(
-        store = getStore(
+        store = Store(
             initialState = SplashState(
                 progress = 1.0f
             )

@@ -6,7 +6,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.MainNavigation
 import com.hybris.tlv.ui.theme.component.container.MainMenu
@@ -68,7 +67,7 @@ private fun MainMenuLoadingPreview() = AppTheme {
         )
     )
     MainMenuScreen(
-        store = getStore(
+        store = Store(
             initialState = MainMenuState(
                 loading = true,
                 developerCorner = "Developer Corner",
@@ -108,7 +107,7 @@ private fun MainMenuAllPreview() = AppTheme {
         )
     )
     MainMenuScreen(
-        store = getStore(
+        store = Store(
             initialState = MainMenuState(
                 loading = false,
                 developerCorner = "Developer Corner",
@@ -152,7 +151,7 @@ private fun MainMenuContinuePreview() = AppTheme {
         )
     )
     MainMenuScreen(
-        store = getStore(
+        store = Store(
             initialState = MainMenuState(
                 loading = false,
                 developerCorner = "Developer Corner",
