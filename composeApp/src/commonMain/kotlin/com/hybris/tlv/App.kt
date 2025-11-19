@@ -11,8 +11,13 @@ import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.media.getTracks
 import com.hybris.tlv.ui.navigation.MainMenuScreen
 import com.hybris.tlv.ui.navigation.SplashScreen
+import com.hybris.tlv.ui.navigation.feedbackScreen
+import com.hybris.tlv.ui.navigation.gameScreen
+import com.hybris.tlv.ui.navigation.helpScreen
 import com.hybris.tlv.ui.navigation.mainMenuScreen
+import com.hybris.tlv.ui.navigation.newGameScreen
 import com.hybris.tlv.ui.navigation.splashScreen
+import com.hybris.tlv.ui.navigation.tutorialScreen
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.UseCases
 
@@ -30,6 +35,11 @@ internal fun App(
     ) {
         splashScreen(useCases = useCases, config = config)
         mainMenuScreen(useCases = useCases, config = config)
+        helpScreen(useCases = useCases, config = config)
+        feedbackScreen()
+        newGameScreen(useCases = useCases)
+        tutorialScreen()
+        gameScreen(useCases = useCases)
 //        eventScreen(useCases = useCases)
     }
 
