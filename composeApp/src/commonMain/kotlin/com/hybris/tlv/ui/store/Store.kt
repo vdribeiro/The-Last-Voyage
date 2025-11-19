@@ -103,6 +103,6 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      * Toggle audio player.
      */
     fun toggleAudio() {
-        // TODO - audioPlayer.action(action = AudioPlayer.Action.Toggle)
+        // TODO: audioPlayer.action(action = AudioPlayer.Action.Toggle)
     }
 }
