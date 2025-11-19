@@ -9,8 +9,7 @@ import com.hybris.tlv.getNavigation
 import com.hybris.tlv.getStoreFactory
 import com.hybris.tlv.getUseCases
 import com.hybris.tlv.reset
-import com.hybris.tlv.ui.navigation.NavigationState
-import com.hybris.tlv.ui.navigation.Route
+import com.hybris.tlv.ui.navigation.Screen
 
 internal class ScoreStoreTest {
 
@@ -19,9 +18,9 @@ internal class ScoreStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(route = Route.Splash))
-        getNavigation().navigate(navigationState = NavigationState(route = Route.MainMenu))
-        getNavigation().navigate(navigationState = NavigationState(route = Route.Score))
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Splash))
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.MainMenu))
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Score))
     }
 
     @Test
@@ -36,8 +35,8 @@ internal class ScoreStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         store
-        assertEquals(expected = Route.Score, actual = getNavigation().stateFlow.value.route)
+        assertEquals(expected = Screen.Score, actual = getNavigation().stateFlow.value.screen)
         getNavigation().back()
-        assertEquals(expected = Route.MainMenu, actual = getNavigation().stateFlow.value.route)
+        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
     }
 }

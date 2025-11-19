@@ -4,8 +4,7 @@ import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Route
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.event.EventUseCases
@@ -14,13 +13,11 @@ import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 
 internal class EventStore(
-    navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: EventStateBuilder,
     private val eventUseCases: EventUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<EventState, EventAction>(
-    navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         EventStateBuilder.Default -> EventState()
@@ -43,9 +40,6 @@ internal class EventStore(
             }
         }
     }
-
-    override fun getSavableState(state: EventState): Any =
-        EventStateBuilder.FromState(state = state, gameSession = gameSession, eventChain = eventChain.orEmpty())
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
@@ -96,7 +90,7 @@ internal class EventStore(
 
         Telemetry.info(tag = TAG, message = "Check if event chain has ended")
         if (action.event == stopEvent) {
-            navigate(route = Route.Game, stateBuilder = GameStateBuilder.WithShip(ship = gameSession.ship))
+            navigate(screen = Screen.Game(stateBuilder = GameStateBuilder.WithShip(ship = gameSession.ship)))
             return@launch
         }
 

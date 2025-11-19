@@ -3,18 +3,19 @@ package com.hybris.tlv.ui.store
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.NavigationState
-import com.hybris.tlv.ui.navigation.Route
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 
 /**
@@ -24,7 +25,6 @@ import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
  * A key rule is that the UI only observes the Store's [State] and never modifies it directly.
  */
 internal open class Store<State, Action>(
-    private val navigation: NavigationManager,
     private val audioPlayer: AudioPlayer,
     initialState: State
 ): ViewModel() {
@@ -35,34 +35,11 @@ internal open class Store<State, Action>(
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = initialState)
     val stateFlow: StateFlow<State> = _stateFlow.asStateFlow()
 
-    init {
-        navigation.back = { goBack(state = _stateFlow.value) }
-    }
-
     /**
-     * Get the savable state of the store.
+     * Effect for navigation.
      */
-    protected open fun getSavableState(state: State): Any? = null
-
-    /**
-     * Overridable back navigation.
-     */
-    protected open fun goBack(state: State) {
-        navigation.goBack()
-    }
-
-    /**
-     * Clean up the store and navigate to a new [route] given an optional [stateBuilder].
-     */
-    protected fun navigate(route: Route, stateBuilder: Any? = null) {
-        saveState()
-        navigation.navigate(navigationState = NavigationState(route = route, stateBuilder = stateBuilder))
-    }
-
-    /**
-     * Save the current state of the store to the navigation stack.
-     */
-    private fun saveState(): Job = navigation.saveState(stateBuilder = getSavableState(state = _stateFlow.value))
+    private val _effect: Channel<Screen> = Channel()
+    val effect: Flow<Screen> = _effect.receiveAsFlow()
 
     /**
      * Sends an [Action] to the Store.
@@ -78,20 +55,31 @@ internal open class Store<State, Action>(
     /**
      * Updates the current [State].
      */
-    protected fun updateState(body: (State) -> State): Job = viewModelScope.launch {
-        _stateFlow.update { body(_stateFlow.value) }
-        saveState()
-    }
+    protected fun updateState(body: (State) -> State): Job =
+        viewModelScope.launch { _stateFlow.update { body(_stateFlow.value) } }
 
-    protected fun launch(
-        context: CoroutineContext = Dispatcher.IO,
-        block: suspend CoroutineScope.() -> Unit
-    ): Job = viewModelScope.launch(context = context) { block() }
+    /**
+     * Navigate to a new [screen].
+     */
+    protected fun navigate(screen: Screen) =
+        viewModelScope.launch { _effect.send(element = screen) }
+
+    /**
+     * Launches a coroutine.
+     */
+    protected fun launch(context: CoroutineContext = Dispatcher.IO, block: suspend CoroutineScope.() -> Unit): Job =
+        viewModelScope.launch(context = context) { block() }
+
+    /**
+     * Overridable back navigation.
+     */
+    protected open fun goBack(state: State) {
+    }
 
     /**
      * Navigate back.
      */
-    fun back() = navigation.back()
+    fun back() {}
 
     /**
      * Toggle audio player.
@@ -99,23 +87,19 @@ internal open class Store<State, Action>(
     fun toggleAudio() = audioPlayer.action(action = AudioPlayer.Action.Toggle)
 
     /**
-     * Navigate to [Route.Help] screen.
+     * Navigate to [Screen.Help] screen.
      */
-    fun help() = navigate(route = Route.Help)
+    fun help() = navigate(screen = Screen.Help)
 
     /**
-     * Navigate to [Route.Feedback] screen asking for feedback.
+     * Navigate to [Screen.Feedback] screen asking for feedback.
      */
-    fun feedback() = navigate(
-        route = Route.Feedback,
-        stateBuilder = FeedbackStateBuilder.Default
-    )
+    fun feedback() =
+        navigate(screen = Screen.Feedback(stateBuilder = FeedbackStateBuilder.Default),)
 
     /**
-     * Navigate to [Route.Feedback] screen with error.
+     * Navigate to [Screen.Feedback] screen with error.
      */
-    fun error(tag: String, message: String) = navigate(
-        route = Route.Feedback,
-        stateBuilder = FeedbackStateBuilder.Error(tag = tag, message = message)
-    )
+    fun error(tag: String, message: String) =
+        navigate(screen = Screen.Feedback(stateBuilder = FeedbackStateBuilder.Error(tag = tag, message = message)),)
 }

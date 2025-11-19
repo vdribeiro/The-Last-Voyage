@@ -19,7 +19,6 @@ import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
 import com.hybris.tlv.serializer.TRANSLATIONS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
-import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.StoreFactory
 import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.achievement.model.Achievement

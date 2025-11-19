@@ -20,22 +20,22 @@ internal class ScreenBuilder(private val storeFactory: StoreFactory) {
     /**
      * The main composable responsible for rendering the current screen based on the navigation state.
      */
-    @Composable
-    fun Screen(navigationState: NavigationState) {
-        when (navigationState.route) {
-            Route.Splash -> SplashScreen(store = storeFactory.createSplashStore())
-            Route.MainMenu -> MainMenuScreen(store = storeFactory.createMainMenuStore(stateBuilder = navigationState.stateBuilder))
-            Route.Help -> HelpScreen(store = storeFactory.createHelpStore(stateBuilder = navigationState.stateBuilder))
-            Route.Feedback -> FeedbackScreen(store = storeFactory.createFeedbackStore(stateBuilder = navigationState.stateBuilder))
-            Route.NewGame -> NewGameScreen(store = storeFactory.createNewGameStore(stateBuilder = navigationState.stateBuilder))
-            Route.Tutorial -> TutorialScreen(store = storeFactory.createTutorialStore(stateBuilder = navigationState.stateBuilder))
-            Route.Game -> GameScreen(store = storeFactory.createGameStore(stateBuilder = navigationState.stateBuilder))
-            Route.Event -> EventScreen(store = storeFactory.createEventStore(stateBuilder = navigationState.stateBuilder))
-            Route.GameOver -> GameOverScreen(store = storeFactory.createGameOverStore(stateBuilder = navigationState.stateBuilder))
-            Route.StellarExplorer -> StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(stateBuilder = navigationState.stateBuilder))
-            Route.Score -> ScoreScreen(store = storeFactory.createScoreStore(stateBuilder = navigationState.stateBuilder))
-            Route.Achievement -> AchievementScreen(store = storeFactory.createAchievementStore(stateBuilder = navigationState.stateBuilder))
-            Route.Credit -> CreditScreen(store = storeFactory.createCreditStore(stateBuilder = navigationState.stateBuilder))
-        }
-    }
+//    @Composable
+//    fun Screen(navigationState: NavigationState) {
+//        when (navigationState.screen) {
+//            Screen.Splash -> SplashScreen(store = storeFactory.createSplashStore())
+//            Screen.MainMenu -> MainMenuScreen(store = storeFactory.createMainMenuStore(stateBuilder = navigationState.stateBuilder))
+//            Screen.Help -> HelpScreen(store = storeFactory.createHelpStore(stateBuilder = navigationState.stateBuilder))
+//            Screen.Feedback -> FeedbackScreen(store = storeFactory.createFeedbackStore(stateBuilder = navigationState.stateBuilder))
+//            Screen.NewGame -> NewGameScreen(store = storeFactory.createNewGameStore(stateBuilder = navigationState.stateBuilder))
+//            Screen.Tutorial -> TutorialScreen(store = storeFactory.createTutorialStore(stateBuilder = navigationState.stateBuilder))
+//            Screen.Game -> GameScreen(store = storeFactory.createGameStore(stateBuilder = navigationState.stateBuilder))
+//            Screen.Event -> EventScreen(store = storeFactory.createEventStore(stateBuilder = navigationState.stateBuilder))
+//            Screen.GameOver -> GameOverScreen(store = storeFactory.createGameOverStore(stateBuilder = navigationState.stateBuilder))
+//            Screen.StellarExplorer -> StellarExplorerScreen(store = storeFactory.createStellarExplorerStore(stateBuilder = navigationState.stateBuilder))
+//            Screen.Score -> ScoreScreen(store = storeFactory.createScoreStore(stateBuilder = navigationState.stateBuilder))
+//            Screen.Achievement -> AchievementScreen(store = storeFactory.createAchievementStore(stateBuilder = navigationState.stateBuilder))
+//            Screen.Credit -> CreditScreen(store = storeFactory.createCreditStore(stateBuilder = navigationState.stateBuilder))
+//        }
+//    }
 }

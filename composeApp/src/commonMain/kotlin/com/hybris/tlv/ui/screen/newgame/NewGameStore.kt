@@ -4,8 +4,7 @@ import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Route
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
@@ -16,14 +15,12 @@ import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 
 internal class NewGameStore(
-    navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: NewGameStateBuilder,
     private val shipUseCases: ShipUseCases,
     private val catastropheUseCases: CatastropheUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameState, NewGameAction>(
-    navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         NewGameStateBuilder.Default -> NewGameState()
@@ -39,12 +36,6 @@ internal class NewGameStore(
             is NewGameStateBuilder.FromState -> selectedShip = stateBuilder.selectedShip
         }
     }
-
-    override fun getSavableState(state: NewGameState): Any =
-        NewGameStateBuilder.FromState(
-            state = state,
-            selectedShip = selectedShip,
-        )
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
@@ -105,13 +96,13 @@ internal class NewGameStore(
                         formula = Formula()
                     )
                 )
-                navigate(route = Route.Game)
+                navigate(screen = Screen.Game())
             }
         }
     }
 
     override fun goBack(state: NewGameState) {
-        navigate(route = Route.MainMenu)
+        navigate(screen = Screen.MainMenu)
     }
 
     override fun reducer(state: NewGameState, action: NewGameAction) {

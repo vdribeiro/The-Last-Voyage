@@ -4,19 +4,16 @@ import kotlinx.coroutines.Job
 import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
 
 internal class StellarExplorerStore(
-    navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: StellarExplorerStateBuilder,
     private val spaceUseCases: SpaceUseCases,
 ): Store<StellarExplorerState, StellarExplorerAction>(
-    navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         StellarExplorerStateBuilder.Default -> StellarExplorerState()
@@ -39,22 +36,6 @@ internal class StellarExplorerStore(
     init {
         setup()
     }
-
-    override fun getSavableState(state: StellarExplorerState): Any =
-        StellarExplorerStateBuilder.FromState(
-            currentContent = state.currentContent,
-            listIndex = state.listState,
-            selectedStellarHost = state.selectedStellarHost,
-            selectedPlanet = state.selectedPlanet,
-            search = state.search,
-            sortStellarHostProperty = state.sortStellarHostProperty,
-            sortPlanetProperty = state.sortPlanetProperty,
-            sortAscending = state.sortAscending,
-            visibleStellarHostProperties = state.visibleStellarHostProperties,
-            visiblePlanetProperties = state.visiblePlanetProperties,
-            searchableStellarHostProperties = state.searchableStellarHostProperties,
-            searchablePlanetProperties = state.searchablePlanetProperties
-        )
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")

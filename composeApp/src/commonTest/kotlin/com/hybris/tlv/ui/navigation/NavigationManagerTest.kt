@@ -9,39 +9,39 @@ internal class NavigationManagerTest {
 
     @Test
     fun navigate() = runBlocking {
-        assertEquals(expected = Route.Splash, actual = getNavigation().stateFlow.value.route)
+        assertEquals(expected = Screen.Splash, actual = getNavigation().stateFlow.value.screen)
 
-        getNavigation().navigate(navigationState = NavigationState(route = Route.Feedback))
-        assertEquals(expected = Route.Feedback, actual = getNavigation().stateFlow.value.route)
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Feedback))
+        assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
 
-        getNavigation().navigate(navigationState = NavigationState(route = Route.Splash))
-        assertEquals(expected = Route.Splash, actual = getNavigation().stateFlow.value.route)
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Splash))
+        assertEquals(expected = Screen.Splash, actual = getNavigation().stateFlow.value.screen)
 
-        getNavigation().navigate(navigationState = NavigationState(route = Route.MainMenu))
-        assertEquals(expected = Route.MainMenu, actual = getNavigation().stateFlow.value.route)
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.MainMenu))
+        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
 
-        getNavigation().navigate(navigationState = NavigationState(route = Route.NewGame))
-        assertEquals(expected = Route.NewGame, actual = getNavigation().stateFlow.value.route)
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.NewGame))
+        assertEquals(expected = Screen.NewGame, actual = getNavigation().stateFlow.value.screen)
 
-        getNavigation().navigate(navigationState = NavigationState(route = Route.Game))
-        assertEquals(expected = Route.Game, actual = getNavigation().stateFlow.value.route)
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Game))
+        assertEquals(expected = Screen.Game, actual = getNavigation().stateFlow.value.screen)
 
-        getNavigation().navigate(navigationState = NavigationState(route = Route.Event))
-        assertEquals(expected = Route.Event, actual = getNavigation().stateFlow.value.route)
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Event))
+        assertEquals(expected = Screen.Event, actual = getNavigation().stateFlow.value.screen)
 
-        getNavigation().navigate(navigationState = NavigationState(route = Route.GameOver))
-        assertEquals(expected = Route.GameOver, actual = getNavigation().stateFlow.value.route)
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.GameOver))
+        assertEquals(expected = Screen.GameOver, actual = getNavigation().stateFlow.value.screen)
 
-        getNavigation().navigate(navigationState = NavigationState(route = Route.StellarExplorer))
-        assertEquals(expected = Route.StellarExplorer, actual = getNavigation().stateFlow.value.route)
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.StellarExplorer))
+        assertEquals(expected = Screen.StellarExplorer, actual = getNavigation().stateFlow.value.screen)
 
-        getNavigation().navigate(navigationState = NavigationState(route = Route.Score))
-        assertEquals(expected = Route.Score, actual = getNavigation().stateFlow.value.route)
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Score))
+        assertEquals(expected = Screen.Score, actual = getNavigation().stateFlow.value.screen)
 
-        getNavigation().navigate(navigationState = NavigationState(route = Route.Achievement))
-        assertEquals(expected = Route.Achievement, actual = getNavigation().stateFlow.value.route)
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Achievement))
+        assertEquals(expected = Screen.Achievement, actual = getNavigation().stateFlow.value.screen)
 
-        getNavigation().navigate(navigationState = NavigationState(route = Route.Credit))
-        assertEquals(expected = Route.Credit, actual = getNavigation().stateFlow.value.route)
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Credit))
+        assertEquals(expected = Screen.Credit, actual = getNavigation().stateFlow.value.screen)
     }
 }

@@ -11,8 +11,7 @@ import com.hybris.tlv.getNavigation
 import com.hybris.tlv.getStoreFactory
 import com.hybris.tlv.getUseCases
 import com.hybris.tlv.reset
-import com.hybris.tlv.ui.navigation.NavigationState
-import com.hybris.tlv.ui.navigation.Route
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 
 internal class NewGameStoreTest {
@@ -22,7 +21,7 @@ internal class NewGameStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(route = Route.NewGame))
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.NewGame))
     }
 
     @Test
@@ -38,21 +37,21 @@ internal class NewGameStoreTest {
         getUseCases().catastrophe.syncCatastrophes()
         getUseCases().ship.syncEngines()
         val newGameStore = store
-        assertEquals(expected = Route.NewGame, actual = getNavigation().stateFlow.value.route)
+        assertEquals(expected = Screen.NewGame, actual = getNavigation().stateFlow.value.screen)
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
         getNavigation().back()
-        assertEquals(expected = Route.MainMenu, actual = getNavigation().stateFlow.value.route)
+        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
 
         newGameStore.send(action = NewGameAction.Next)
         assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
         getNavigation().back()
-        assertEquals(expected = Route.MainMenu, actual = getNavigation().stateFlow.value.route)
+        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
 
         newGameStore.send(action = NewGameAction.Next)
         assertEquals(expected = Content.START, actual = newGameStore.stateFlow.value.currentContent)
         assertNotNull(actual = newGameStore.stateFlow.value.selectedCatastrophe)
         getNavigation().back()
-        assertEquals(expected = Route.MainMenu, actual = getNavigation().stateFlow.value.route)
+        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
     }
 
     @Test
@@ -74,7 +73,7 @@ internal class NewGameStoreTest {
 
     @Test
     fun `send action start game`() = runBlocking {
-        assertEquals(expected = Route.NewGame, actual = getNavigation().stateFlow.value.route)
+        assertEquals(expected = Screen.NewGame, actual = getNavigation().stateFlow.value.screen)
         getUseCases().catastrophe.syncCatastrophes()
         getUseCases().ship.syncEngines()
         val newGameStore = store
@@ -88,14 +87,14 @@ internal class NewGameStoreTest {
         newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype))
         newGameStore.send(action = NewGameAction.SelectEngine(engine = engines.first()))
         newGameStore.send(action = NewGameAction.Next)
-        assertEquals(expected = Route.Game, actual = getNavigation().stateFlow.value.route)
+        assertEquals(expected = Screen.Game, actual = getNavigation().stateFlow.value.screen)
     }
 
     @Test
     fun `send action start game without selected ship`() = runBlocking {
-        assertEquals(expected = Route.NewGame, actual = getNavigation().stateFlow.value.route)
+        assertEquals(expected = Screen.NewGame, actual = getNavigation().stateFlow.value.screen)
         val newGameStore = store
         newGameStore.send(action = NewGameAction.Next)
-        assertEquals(expected = Route.Feedback, actual = getNavigation().stateFlow.value.route)
+        assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
     }
 }

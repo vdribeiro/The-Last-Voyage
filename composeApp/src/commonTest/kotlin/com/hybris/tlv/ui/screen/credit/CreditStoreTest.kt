@@ -9,8 +9,7 @@ import com.hybris.tlv.getNavigation
 import com.hybris.tlv.getStoreFactory
 import com.hybris.tlv.getUseCases
 import com.hybris.tlv.reset
-import com.hybris.tlv.ui.navigation.NavigationState
-import com.hybris.tlv.ui.navigation.Route
+import com.hybris.tlv.ui.navigation.Screen
 
 internal class CreditStoreTest {
 
@@ -19,7 +18,7 @@ internal class CreditStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(route = Route.Credit))
+        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Credit))
     }
 
     @Test
@@ -33,8 +32,8 @@ internal class CreditStoreTest {
     fun `send action back`() = runBlocking {
         getUseCases().credit.syncCredits()
         store
-        assertEquals(expected = Route.Credit, actual = getNavigation().stateFlow.value.route)
+        assertEquals(expected = Screen.Credit, actual = getNavigation().stateFlow.value.screen)
         getNavigation().back()
-        assertEquals(expected = Route.MainMenu, actual = getNavigation().stateFlow.value.route)
+        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
     }
 }

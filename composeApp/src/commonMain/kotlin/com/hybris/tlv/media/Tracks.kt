@@ -1,24 +1,24 @@
 package com.hybris.tlv.media
 
-import com.hybris.tlv.ui.navigation.Route
+import com.hybris.tlv.ui.navigation.Screen
 
-internal fun getTracks(route: Route): List<String>? = when (route) {
-    Route.Help,
-    Route.Feedback,
-    Route.Tutorial -> null
+internal fun getTracks(screen: Screen): List<String>? = when (screen) {
+    Screen.Help,
+    Screen.Feedback,
+    Screen.Tutorial -> null
 
-    Route.Splash,
-    Route.MainMenu,
-    Route.NewGame,
-    Route.StellarExplorer,
-    Route.Score,
-    Route.Achievement,
-    Route.Credit -> listOf(
+    Screen.Splash,
+    Screen.MainMenu,
+    Screen.NewGame,
+    Screen.StellarExplorer,
+    Screen.Score,
+    Screen.Achievement,
+    Screen.Credit -> listOf(
         "tracks/ville_seppanen-1_g.mp3",
     )
 
-    Route.Game,
-    Route.Event -> listOf(
+    Screen.Game,
+    Screen.Event -> listOf(
         "tracks/blind_shift.mp3",
         "tracks/graduality.mp3",
         "tracks/led_twilight.mp3",
@@ -28,7 +28,12 @@ internal fun getTracks(route: Route): List<String>? = when (route) {
         "tracks/space_gras.mp3",
     )
 
-    Route.GameOver -> listOf(
+    Screen.GameOver -> listOf(
         "tracks/space.mp3",
     )
+
+    is Screen.Feedback -> null
+    is Screen.Event -> null
+    is Screen.Game -> null
+    is Screen.Tutorial -> null
 }

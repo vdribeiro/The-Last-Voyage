@@ -2,16 +2,13 @@ package com.hybris.tlv.ui.screen.tutorial
 
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Route
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 
 internal class TutorialStore(
-    navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     stateBuilder: TutorialStateBuilder,
 ): Store<TutorialState, TutorialAction>(
-    navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = when (stateBuilder) {
         is TutorialStateBuilder.Default -> TutorialState()
@@ -28,9 +25,6 @@ internal class TutorialStore(
         }
     }
 
-    override fun getSavableState(state: TutorialState): Any =
-        TutorialStateBuilder.FromState(state = state, newGame = newGame)
-
     override fun reducer(state: TutorialState, action: TutorialAction) {
         when (action) {
             TutorialAction.Next -> when (state.tutorialStep) {
@@ -39,7 +33,7 @@ internal class TutorialStore(
                 Tutorial.SYSTEM -> updateState { it.copy(tutorialStep = Tutorial.TRAVEL) }
                 Tutorial.TRAVEL -> updateState { it.copy(tutorialStep = Tutorial.GAME_OVER) }
                 Tutorial.GAME_OVER -> when {
-                    newGame -> navigate(route = Route.NewGame)
+                    newGame -> navigate(screen = Screen.NewGame)
                     else -> goBack(state = state)
                 }
             }

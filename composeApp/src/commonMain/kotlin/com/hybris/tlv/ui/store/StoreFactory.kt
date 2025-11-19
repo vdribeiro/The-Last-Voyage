@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.store
 
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.ui.navigation.NavigationManager
 import com.hybris.tlv.ui.screen.achievement.AchievementStateBuilder
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.credit.CreditStateBuilder
@@ -34,13 +33,11 @@ import com.hybris.tlv.usecase.UseCases
  * Store creator.
  */
 internal class StoreFactory(
-    private val navigation: NavigationManager,
     private val audioPlayer: AudioPlayer,
     private val config: ConfigManager,
     private val useCases: UseCases
 ) {
     fun createSplashStore(): SplashStore = SplashStore(
-        navigation = navigation,
         audioPlayer = audioPlayer,
         config = config,
         archiveUseCases = useCases.archive,
@@ -55,7 +52,6 @@ internal class StoreFactory(
     )
 
     fun createMainMenuStore(stateBuilder: Any? = null): MainMenuStore = MainMenuStore(
-        navigation = navigation,
         audioPlayer = audioPlayer,
         stateBuilder = stateBuilder as? MainMenuStateBuilder ?: MainMenuStateBuilder.Default,
         config = config,
@@ -63,7 +59,6 @@ internal class StoreFactory(
     )
 
     fun createHelpStore(stateBuilder: Any? = null): HelpStore = HelpStore(
-        navigation = navigation,
         audioPlayer = audioPlayer,
         stateBuilder = stateBuilder as? HelpStateBuilder ?: HelpStateBuilder.Default,
         config = config,
@@ -71,13 +66,11 @@ internal class StoreFactory(
     )
 
     fun createFeedbackStore(stateBuilder: Any? = null): FeedbackStore = FeedbackStore(
-        navigation = navigation,
         audioPlayer = audioPlayer,
         stateBuilder = stateBuilder as? FeedbackStateBuilder ?: FeedbackStateBuilder.Default
     )
 
     fun createNewGameStore(stateBuilder: Any? = null): NewGameStore = NewGameStore(
-        navigation = navigation,
         audioPlayer = audioPlayer,
         stateBuilder = stateBuilder as? NewGameStateBuilder ?: NewGameStateBuilder.Default,
         shipUseCases = useCases.ship,
@@ -86,13 +79,11 @@ internal class StoreFactory(
     )
 
     fun createTutorialStore(stateBuilder: Any? = null): TutorialStore = TutorialStore(
-        navigation = navigation,
         audioPlayer = audioPlayer,
         stateBuilder = stateBuilder as? TutorialStateBuilder ?: TutorialStateBuilder.Default(newGame = false)
     )
 
     fun createGameStore(stateBuilder: Any? = null): GameStore = GameStore(
-        navigation = navigation,
         audioPlayer = audioPlayer,
         shipUseCases = useCases.ship,
         spaceUseCases = useCases.space,
@@ -101,7 +92,6 @@ internal class StoreFactory(
     )
 
     fun createEventStore(stateBuilder: Any? = null): EventStore = EventStore(
-        navigation = navigation,
         audioPlayer = audioPlayer,
         eventUseCases = useCases.event,
         stateBuilder = stateBuilder as? EventStateBuilder ?: EventStateBuilder.Default,
@@ -109,7 +99,6 @@ internal class StoreFactory(
     )
 
     fun createGameOverStore(stateBuilder: Any? = null): GameOverStore = GameOverStore(
-        navigation = navigation,
         audioPlayer = audioPlayer,
         stateBuilder = stateBuilder as? GameOverStateBuilder ?: GameOverStateBuilder.Default,
         gameSessionUseCases = useCases.gameSession,
@@ -117,28 +106,24 @@ internal class StoreFactory(
     )
 
     fun createStellarExplorerStore(stateBuilder: Any? = null): StellarExplorerStore = StellarExplorerStore(
-        navigation = navigation,
         audioPlayer = audioPlayer,
         stateBuilder = stateBuilder as? StellarExplorerStateBuilder ?: StellarExplorerStateBuilder.Default,
         spaceUseCases = useCases.space
     )
 
     fun createScoreStore(stateBuilder: Any? = null): ScoreStore = ScoreStore(
-        navigation = navigation,
         audioPlayer = audioPlayer,
         stateBuilder = stateBuilder as? ScoreStateBuilder ?: ScoreStateBuilder.Default,
         gameSessionUseCases = useCases.gameSession
     )
 
     fun createAchievementStore(stateBuilder: Any? = null): AchievementStore = AchievementStore(
-        navigation = navigation,
         audioPlayer = audioPlayer,
         stateBuilder = stateBuilder as? AchievementStateBuilder ?: AchievementStateBuilder.Default,
         achievementUseCases = useCases.achievement
     )
 
     fun createCreditStore(stateBuilder: Any? = null): CreditStore = CreditStore(
-        navigation = navigation,
         audioPlayer = audioPlayer,
         stateBuilder = stateBuilder as? CreditStateBuilder ?: CreditStateBuilder.Default,
         creditUseCases = useCases.credit

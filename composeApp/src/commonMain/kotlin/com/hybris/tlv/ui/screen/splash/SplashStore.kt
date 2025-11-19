@@ -8,8 +8,7 @@ import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Route
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
@@ -22,7 +21,6 @@ import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 
 internal class SplashStore(
-    navigation: NavigationManager,
     audioPlayer: AudioPlayer,
     private val config: ConfigManager,
     private val archiveUseCases: ArchiveUseCases,
@@ -35,7 +33,6 @@ internal class SplashStore(
     private val achievementUseCases: AchievementUseCases,
     private val creditUseCases: CreditUseCases
 ): Store<SplashState, SplashAction>(
-    navigation = navigation,
     audioPlayer = audioPlayer,
     initialState = SplashState()
 ) {
@@ -96,7 +93,7 @@ internal class SplashStore(
         config
             .savePreferences()
             .saveConfigs()
-        navigate(route = Route.MainMenu)
+        navigate(screen = Screen.MainMenu)
     }
 
     override fun goBack(state: SplashState) {}

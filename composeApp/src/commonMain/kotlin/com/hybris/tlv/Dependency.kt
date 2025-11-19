@@ -3,8 +3,6 @@ package com.hybris.tlv
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import androidx.annotation.VisibleForTesting
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.config.Config
 import com.hybris.tlv.config.ConfigManager
@@ -28,12 +26,17 @@ internal class Dependency(
     private val httpEngine: HttpClientEngine? = null,
     private val httpClient: HttpClient = HttpClientFactory(engine = httpEngine).httpClient,
     val config: ConfigManager = Config(httpClient = httpClient),
-    val useCases: UseCases = Gateways(
+    @get:VisibleForTesting internal val useCases: UseCases = Gateways(
         config = config,
         httpClient = httpClient,
         database = database
     ),
     val audioPlayer: AudioPlayer = createAudioPlayer(),
+    @get:VisibleForTesting internal val storeFactory: StoreFactory = StoreFactory(
+        audioPlayer = audioPlayer,
+        config = config,
+        useCases = useCases
+    ),
 )
 
 internal val dependency: Dependency by lazy { Dependency() }
