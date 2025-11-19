@@ -89,7 +89,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     /**
      * Navigate to [FeedbackScreen] screen asking for feedback.
      */
-    fun feedback(): Job = navigate(screen = FeedbackScreen(stateBuilder = FeedbackStateBuilder.Default))
+    fun feedback(): Job = navigate(screen = FeedbackScreen(stateBuilder = FeedbackStateBuilder.Feedback))
 
     /**
      * Navigate to [FeedbackScreen] screen with error.

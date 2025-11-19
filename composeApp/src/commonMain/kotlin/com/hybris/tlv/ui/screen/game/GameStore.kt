@@ -23,18 +23,13 @@ internal class GameStore(
     initialState = when (stateBuilder) {
         GameStateBuilder.Default -> GameState()
         is GameStateBuilder.WithShip -> GameState(ship = stateBuilder.ship)
-        is GameStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     @get:VisibleForTesting
     internal var gameSession: GameSession? = null
 
     init {
-        when (stateBuilder) {
-            GameStateBuilder.Default -> setup()
-            is GameStateBuilder.WithShip -> setup()
-            is GameStateBuilder.FromState -> gameSession = stateBuilder.gameSession
-        }
+        setup()
     }
 
     private fun setup(): Job = launch {

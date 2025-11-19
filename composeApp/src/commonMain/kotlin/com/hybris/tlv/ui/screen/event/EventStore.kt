@@ -19,7 +19,6 @@ internal class EventStore(
     initialState = when (stateBuilder) {
         EventStateBuilder.Default -> EventState()
         is EventStateBuilder.WithShip -> EventState(ship = stateBuilder.ship)
-        is EventStateBuilder.FromState -> stateBuilder.state
     }
 ) {
     @get:VisibleForTesting
@@ -28,14 +27,7 @@ internal class EventStore(
     internal var eventChain: List<Event>? = null
 
     init {
-        when (stateBuilder) {
-            EventStateBuilder.Default -> setup()
-            is EventStateBuilder.WithShip -> setup()
-            is EventStateBuilder.FromState -> {
-                gameSession = stateBuilder.gameSession
-                eventChain = stateBuilder.eventChain
-            }
-        }
+        setup()
     }
 
     private fun setup(): Job = launch {

@@ -16,20 +16,13 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal class MainMenuStore(
-    stateBuilder: MainMenuStateBuilder,
     private val config: ConfigManager,
     private val gameSessionUseCases: GameSessionUseCases,
 ): Store<MainMenuState, MainMenuAction>(
-    initialState = when (stateBuilder) {
-        MainMenuStateBuilder.Default -> MainMenuState()
-        is MainMenuStateBuilder.FromState -> stateBuilder.state
-    }
+    initialState = MainMenuState()
 ) {
     init {
-        when (stateBuilder) {
-            MainMenuStateBuilder.Default -> setup()
-            is MainMenuStateBuilder.FromState -> {}
-        }
+        setup()
     }
 
     private fun setup(): Job = launch {

@@ -12,11 +12,6 @@ internal sealed interface MainMenuAction {
     data object StellarExplorer: MainMenuAction
 }
 
-internal sealed interface MainMenuStateBuilder {
-    data object Default: MainMenuStateBuilder
-    data class FromState(val state: MainMenuState): MainMenuStateBuilder
-}
-
 internal data class MainMenuState(
     val loading: Boolean = true,
     val newVersionBanner: Boolean = false,

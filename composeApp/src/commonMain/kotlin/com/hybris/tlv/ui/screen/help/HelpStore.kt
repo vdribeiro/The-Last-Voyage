@@ -8,20 +8,13 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.learning.LearningUseCases
 
 internal class HelpStore(
-    stateBuilder: HelpStateBuilder,
     private val config: ConfigManager,
     private val learningUseCases: LearningUseCases
 ): Store<HelpState, HelpAction>(
-    initialState = when (stateBuilder) {
-        HelpStateBuilder.Default -> HelpState()
-        is HelpStateBuilder.FromState -> stateBuilder.state
-    }
+    initialState = HelpState()
 ) {
     init {
-        when (stateBuilder) {
-            HelpStateBuilder.Default -> setup()
-            is HelpStateBuilder.FromState -> {}
-        }
+        setup()
     }
 
     private fun setup(): Job = launch {

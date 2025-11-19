@@ -15,24 +15,17 @@ import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 
 internal class NewGameStore(
-    stateBuilder: NewGameStateBuilder,
     private val shipUseCases: ShipUseCases,
     private val catastropheUseCases: CatastropheUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameState, NewGameAction>(
-    initialState = when (stateBuilder) {
-        NewGameStateBuilder.Default -> NewGameState()
-        is NewGameStateBuilder.FromState -> stateBuilder.state
-    }
+    initialState = NewGameState()
 ) {
     @VisibleForTesting
     internal var selectedShip: ShipPrototype? = null
 
     init {
-        when (stateBuilder) {
-            NewGameStateBuilder.Default -> setup()
-            is NewGameStateBuilder.FromState -> selectedShip = stateBuilder.selectedShip
-        }
+        setup()
     }
 
     private fun setup(): Job = launch {

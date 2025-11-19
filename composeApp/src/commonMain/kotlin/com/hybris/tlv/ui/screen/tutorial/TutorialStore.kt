@@ -7,10 +7,7 @@ import com.hybris.tlv.ui.store.Store
 internal class TutorialStore(
     stateBuilder: TutorialStateBuilder,
 ): Store<TutorialState, TutorialAction>(
-    initialState = when (stateBuilder) {
-        is TutorialStateBuilder.Default -> TutorialState()
-        is TutorialStateBuilder.FromState -> stateBuilder.state
-    }
+    initialState = TutorialState()
 ) {
     @get:VisibleForTesting
     internal var newGame: Boolean = false
@@ -18,7 +15,6 @@ internal class TutorialStore(
     init {
         newGame = when (stateBuilder) {
             is TutorialStateBuilder.Default -> stateBuilder.newGame
-            is TutorialStateBuilder.FromState -> stateBuilder.newGame
         }
     }
 

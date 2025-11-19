@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.ui.store.Store
@@ -29,17 +29,17 @@ internal interface Screen
  * with the latter replacing the existing screen if it is already in the stack.
  */
 internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.graph(
+    navController: NavHostController,
     crossinline store: (S) -> T,
     crossinline screen: @Composable (T) -> Unit,
 ) = composable<S> { entry ->
-    val navController = rememberNavController()
     val args = entry.toRoute<S>()
     val store = viewModel { store(args) }
     LifecycleCoroutine(store) {
         store.effect.collect { screen ->
             when (screen) {
                 Back -> navController.popBackStack()
-                else -> navController.navigate(route = screen) { popUpTo<S> { inclusive = true } }
+                else -> navController.navigate(route = screen)
             }
         }
     }

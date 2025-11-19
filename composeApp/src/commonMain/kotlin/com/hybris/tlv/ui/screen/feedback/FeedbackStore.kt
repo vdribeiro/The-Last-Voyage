@@ -11,7 +11,7 @@ internal class FeedbackStore(
     stateBuilder: FeedbackStateBuilder,
 ): Store<FeedbackState, FeedbackAction>(
     initialState = when (stateBuilder) {
-        FeedbackStateBuilder.Default -> FeedbackState()
+        FeedbackStateBuilder.Feedback -> FeedbackState()
         is FeedbackStateBuilder.Error -> FeedbackState(isError = true)
     }
 ) {
@@ -22,7 +22,7 @@ internal class FeedbackStore(
 
     init {
         when (stateBuilder) {
-            FeedbackStateBuilder.Default -> {}
+            FeedbackStateBuilder.Feedback -> {}
             is FeedbackStateBuilder.Error -> {
                 tag = stateBuilder.tag
                 message = stateBuilder.message

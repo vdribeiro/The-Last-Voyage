@@ -1,6 +1,6 @@
 package com.hybris.tlv.ui.screen.game
 
-import com.hybris.tlv.usecase.gamesession.model.GameSession
+import kotlinx.serialization.Serializable
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
@@ -11,10 +11,12 @@ internal sealed interface GameAction {
     data class Settle(val planet: Planet): GameAction
 }
 
+@Serializable
 internal sealed interface GameStateBuilder {
+    @Serializable
     data object Default: GameStateBuilder
+    @Serializable
     data class WithShip(val ship: Ship): GameStateBuilder
-    data class FromState(val state: GameState, val gameSession: GameSession?): GameStateBuilder
 }
 
 internal data class GameState(

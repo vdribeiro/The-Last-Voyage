@@ -4,8 +4,6 @@ import com.hybris.tlv.ui.screen.achievement.AchievementStateBuilder
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.credit.CreditStateBuilder
 import com.hybris.tlv.ui.screen.credit.CreditStore
-import com.hybris.tlv.ui.screen.event.EventStateBuilder
-import com.hybris.tlv.ui.screen.event.EventStore
 import com.hybris.tlv.ui.screen.gameover.GameOverStateBuilder
 import com.hybris.tlv.ui.screen.gameover.GameOverStore
 import com.hybris.tlv.ui.screen.score.ScoreStateBuilder
@@ -20,12 +18,6 @@ import com.hybris.tlv.usecase.UseCases
 internal class StoreFactory(
     private val useCases: UseCases
 ) {
-    fun createEventStore(stateBuilder: Any? = null): EventStore = EventStore(
-        eventUseCases = useCases.event,
-        stateBuilder = stateBuilder as? EventStateBuilder ?: EventStateBuilder.Default,
-        gameSessionUseCases = useCases.gameSession
-    )
-
     fun createGameOverStore(stateBuilder: Any? = null): GameOverStore = GameOverStore(
         stateBuilder = stateBuilder as? GameOverStateBuilder ?: GameOverStateBuilder.Default,
         gameSessionUseCases = useCases.gameSession,
