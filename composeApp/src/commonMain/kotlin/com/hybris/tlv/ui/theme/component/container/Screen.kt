@@ -19,9 +19,17 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.AutoFixHigh
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.ElectricBolt
+import androidx.compose.material.icons.filled.Fireplace
+import androidx.compose.material.icons.filled.Key
+import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.QuestionMark
+import androidx.compose.material.icons.filled.Science
+import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,9 +37,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -58,6 +68,7 @@ internal fun Screen(
     loadingProgress: Float? = null,
     banner: String? = null,
     onBackClick: (() -> Unit)? = null,
+    onCheatClick: (() -> Unit)? = null,
     onHelpClick: (() -> Unit)? = null,
     onMusicClick: (() -> Unit)? = null,
     onFeedbackClick: (() -> Unit)? = null,
@@ -99,6 +110,12 @@ internal fun Screen(
                         )
                     }
                     Spacer(modifier = Modifier.weight(weight = 1f))
+                    // Cheat button
+                    onCheatClick?.let {
+                        Button(hapticFeedback = HapticFeedbackType.Reject, onClick = it) {
+                            Text(text = "\uD83D\uDC79")
+                        }
+                    }
                     // Help button
                     onHelpClick?.let {
                         Button(onClick = it) {
@@ -192,6 +209,7 @@ private fun ScreenPreview() = AppTheme {
         loadingText = "Loading...",
         loadingProgress = 0.5f,
         onBackClick = {},
+        onCheatClick = {},
         onHelpClick = {},
         onMusicClick = {},
         onFeedbackClick = {},

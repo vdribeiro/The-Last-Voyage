@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import kotlinx.coroutines.Job
+import com.hybris.tlv.cheats
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
@@ -29,6 +30,7 @@ internal class MainMenuStore(
         Telemetry.info(tag = TAG, message = "Setup")
         val configs = config.remoteConfigs
         val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
+        val cheatsEnabled = config.preferences.cheats
         val developerCorner = configs.developerCorner
         val support = configs.support
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
@@ -36,6 +38,7 @@ internal class MainMenuStore(
             it.copy(
                 loading = false,
                 newVersionBanner = newVersionBanner,
+                cheatsEnabled = cheatsEnabled,
                 developerCorner = developerCorner,
                 support = support,
                 ongoingGameSession = ongoingGameSession,
@@ -60,6 +63,11 @@ internal class MainMenuStore(
         navigate(screen = TutorialScreen(stateBuilder = TutorialStateBuilder.Default(newGame = true)))
     }
 
+    private fun disableCheats(): Job = launch {
+        config.cheats(enabled = false)
+        updateState { it.copy(cheatsEnabled = false) }
+    }
+
     override fun back(state: MainMenuState) {}
 
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
@@ -73,6 +81,7 @@ internal class MainMenuStore(
             MainMenuAction.Achievements -> navigate(screen = AchievementScreen)
             MainMenuAction.Credits -> navigate(screen = CreditScreen)
             MainMenuAction.StellarExplorer -> navigate(screen = StellarExplorerScreen)
+            MainMenuAction.DisableCheats -> disableCheats()
         }
     }
 

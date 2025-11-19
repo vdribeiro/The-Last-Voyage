@@ -1,7 +1,5 @@
 package com.hybris.tlv
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -26,18 +24,17 @@ private val konamiGestureCode = listOf(
     Gesture.TAP, Gesture.TAP, Gesture.TAP
 )
 
-private fun setKonamiCode(scope: CoroutineScope, config: ConfigManager): Job =
-    scope.launch(context = Dispatcher.IO) {
-        Telemetry.feedback(message = "Konami Code!")
-        config.setPreferences { it.copy(cheats = !it.cheats) }.savePreferences()
-    }
-
 internal fun Modifier.enableGestureCheats(config: ConfigManager): Modifier = composed {
     val scope = rememberCoroutineScope()
-    onGesture(sequence = konamiGestureCode) { setKonamiCode(scope = scope, config = config) }
+    onGesture(sequence = konamiGestureCode) { scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) } }
 }
 
 internal fun Modifier.enableKeyCheats(config: ConfigManager): Modifier = composed {
     val scope = rememberCoroutineScope()
-    onKeySequence(sequence = konamiCode) { setKonamiCode(scope = scope, config = config) }
+    onKeySequence(sequence = konamiCode) { scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) } }
+}
+
+internal suspend fun ConfigManager.cheats(enabled: Boolean) {
+    Telemetry.info(tag = "God", message = "Cheats: $enabled")
+    setPreferences { it.copy(cheats = enabled) }.savePreferences()
 }

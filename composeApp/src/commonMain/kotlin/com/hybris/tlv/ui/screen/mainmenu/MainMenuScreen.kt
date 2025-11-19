@@ -25,6 +25,9 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
     Screen(
         loading = storeState.loading,
         banner = if (storeState.newVersionBanner) storeState.developerCorner else null,
+        onCheatClick = if (storeState.cheatsEnabled) {
+            { store.send(action = MainMenuAction.DisableCheats) }
+        } else null,
         onHelpClick = { store.help() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },

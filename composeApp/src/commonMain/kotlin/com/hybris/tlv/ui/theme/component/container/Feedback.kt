@@ -73,9 +73,9 @@ internal fun Feedback(
 
         // Send feedback button
         Button(
+            enabled = feedbackText.isNotBlank() && !showThanks,
             text = buttonTranslation,
             onClick = { sendFeedback(feedbackText) },
-            enabled = feedbackText.isNotBlank() && !showThanks,
         )
 
         if (showThanks) {
