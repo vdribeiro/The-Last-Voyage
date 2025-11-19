@@ -31,10 +31,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.cheatHapticFeedback
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.Button
@@ -104,7 +104,7 @@ internal fun Screen(
                     Spacer(modifier = Modifier.weight(weight = 1f))
                     // Cheat button
                     onCheatClick?.let {
-                        Button(hapticFeedback = HapticFeedbackType.Reject, onClick = it) {
+                        Button(hapticFeedback = cheatHapticFeedback, onClick = it) {
                             Icon(
                                 imageVector = Icons.Default.LogoDev,
                                 contentDescription = "Cheat"

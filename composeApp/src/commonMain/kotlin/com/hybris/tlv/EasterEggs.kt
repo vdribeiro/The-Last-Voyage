@@ -4,7 +4,9 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.platform.LocalHapticFeedback
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
@@ -25,16 +27,26 @@ private val konamiGestureCode = listOf(
 )
 
 internal fun Modifier.enableGestureCheats(config: ConfigManager): Modifier = composed {
+    val haptics = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
-    onGesture(sequence = konamiGestureCode) { scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) } }
+    onGesture(sequence = konamiGestureCode) {
+        haptics.performHapticFeedback(hapticFeedbackType = cheatHapticFeedback)
+        scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) }
+    }
 }
 
 internal fun Modifier.enableKeyCheats(config: ConfigManager): Modifier = composed {
+    val haptics = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
-    onKeySequence(sequence = konamiCode) { scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) } }
+    onKeySequence(sequence = konamiCode) {
+        haptics.performHapticFeedback(hapticFeedbackType = cheatHapticFeedback)
+        scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) }
+    }
 }
 
 internal suspend fun ConfigManager.cheats(enabled: Boolean) {
     Telemetry.info(tag = "God", message = "Cheats: $enabled")
     setPreferences { it.copy(cheats = enabled) }.savePreferences()
 }
+
+internal val cheatHapticFeedback: HapticFeedbackType = HapticFeedbackType.Reject
