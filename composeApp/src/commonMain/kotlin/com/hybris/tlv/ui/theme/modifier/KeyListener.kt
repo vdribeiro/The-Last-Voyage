@@ -1,29 +1,29 @@
 package com.hybris.tlv.ui.theme.modifier
 
 import kotlinx.coroutines.delay
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 
 /**
- * A [Modifier] that listens for a specific [sequence] of [Key] stokes and triggers the [onSequenceComplete] callback upon completion.
+ * Listens for a specific [sequence] of [Key] stokes and triggers the [onSequenceComplete] callback upon completion.
  * The sequence progress will automatically reset if the user pauses for longer than the specified [delay].
  */
-internal fun Modifier.onKeySequence(
+
+@Composable
+internal fun rememberKeySequence(
     sequence: List<Key>,
     delay: Long = 1500L,
     onSequenceComplete: () -> Unit
-): Modifier = composed {
+): (KeyEvent) -> Boolean {
     var progress by remember { mutableStateOf(value = 0) }
     LaunchedEffect(key1 = progress) {
         if (progress > 0) {
@@ -31,7 +31,7 @@ internal fun Modifier.onKeySequence(
             progress = 0
         }
     }
-    onPreviewKeyEvent(onPreviewKeyEvent = remember(key1 = sequence, key2 = onSequenceComplete) {
+    return remember(key1 = sequence, key2 = onSequenceComplete) {
         { keyEvent ->
             progress = keyEvent.onSequence(
                 sequence = sequence,
@@ -40,7 +40,7 @@ internal fun Modifier.onKeySequence(
             )
             false
         }
-    })
+    }
 }
 
 /**

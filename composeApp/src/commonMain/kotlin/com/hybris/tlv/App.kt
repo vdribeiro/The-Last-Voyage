@@ -25,7 +25,6 @@ internal fun App(
         useCases = useCases,
     )
 
-    // Setup Audio Player
     val screen = navController.currentDestination as? Screen
     AudioPlayer(
         audioPlayer = audioPlayer,
