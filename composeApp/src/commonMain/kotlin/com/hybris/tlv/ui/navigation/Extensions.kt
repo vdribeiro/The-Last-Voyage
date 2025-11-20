@@ -22,7 +22,10 @@ import com.hybris.tlv.serializer.decode
 import com.hybris.tlv.serializer.decodeURL
 import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.serializer.encodeURL
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.store.Store
+
+private const val TAG = "Navigation"
 
 internal interface Screen
 @Serializable
@@ -38,21 +41,21 @@ internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.
     crossinline store: (S) -> T,
     crossinline screen: @Composable (T) -> Unit,
     typeMap: Map<KType, NavType<*>> = emptyMap(),
-) = composable<S>(typeMap) { entry ->
+) = composable<S>(typeMap = typeMap) { entry ->
     val args = entry.toRoute<S>()
     val store = viewModel { store(args) }
     LaunchedEffect(key1 = store) {
         store.effect.collect { screen ->
+            Telemetry.info(tag = TAG, message = "Navigating to: $screen")
             when (screen) {
                 Back -> navController.popBackStack()
                 else -> {
-                    val existingEntry = navController.currentBackStack.value
-                        .lastOrNull { it.destination.hasRoute(route = screen::class) }
-                    navController.navigate(route = screen) {
-                        if (existingEntry != null) popUpTo(route = existingEntry.destination.id) { inclusive = true }
-                    }
+                    val currentBackStack = navController.currentBackStack.value
+                    val existingEntry = currentBackStack.lastOrNull { it.destination.hasRoute(route = screen::class) }
+                    navController.navigate(route = screen) { if (existingEntry != null) popUpTo(route = screen) { inclusive = true } }
                 }
             }
+            Telemetry.info(tag = TAG, message = "Navigation current destination: ${navController.currentDestination}")
         }
     }
     Box(modifier = Modifier.fillMaxSize().backNavigation { store.back() }) { screen(store) }
