@@ -13,6 +13,7 @@ import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
+import com.hybris.tlv.usecase.space.formula.SUN
 
 internal class GameStore(
     navigation: NavigationManager,
