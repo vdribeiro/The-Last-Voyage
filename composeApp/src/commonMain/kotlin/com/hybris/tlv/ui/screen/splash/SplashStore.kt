@@ -45,28 +45,26 @@ internal class SplashStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
-        config
-            .refresh()
-            .savePreferences()
-            .saveConfigs()
+        config.setup()
 
-        val remoteVersion = config.remoteConfigs.appVersion
-        val localVersion = config.localConfigs.appVersion
+        val remoteVersion = config.remoteConfigs.value.appVersion
+        val localVersion = config.localConfigs.value.appVersion
         Telemetry.info(tag = TAG, message = "App version: remote version: $remoteVersion, local version: $localVersion")
         config.setConfigs { it.copy(appVersion = remoteVersion) }
         if (localVersion == 0L || Property.APP_VERSION_NUMBER == remoteVersion) sync()
-
+        config.saveConfigs()
         translateUseCases.refreshCache()
-        Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences}")
-        Telemetry.info(tag = TAG, message = "Local Configs\n${config.localConfigs}")
-        Telemetry.info(tag = TAG, message = "Remote Configs\n${config.remoteConfigs}")
+
+        Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences.value}")
+        Telemetry.info(tag = TAG, message = "Local Configs\n${config.localConfigs.value}")
+        Telemetry.info(tag = TAG, message = "Remote Configs\n${config.remoteConfigs.value}")
         delay(timeMillis = 1000L)
         Telemetry.info(tag = TAG, message = "Setup complete")
 
-        if (!config.preferences.showIntro) next() else {
+        if (config.preferences.value.showIntro) {
             config.setPreferences { it.copy(showIntro = false) }
             updateState { it.copy(loading = false, currentContent = Content.INTRO) }
-        }
+        } else navigate(screen = Screen.MainMenu)
     }
 
     private suspend fun sync() = supervisorScope {
@@ -89,21 +87,13 @@ internal class SplashStore(
             }.onFailure { Telemetry.error(tag = TAG, message = "Sync task failed.", throwable = it) }.getOrNull()
             updateState { it.copy(progress = (index + 1).toFloat() / total) }
         }
-        config.saveConfigs()
-    }
-
-    private fun next(): Job = launch {
-        config
-            .savePreferences()
-            .saveConfigs()
-        navigate(screen = Screen.MainMenu)
     }
 
     override fun back(state: SplashState) {}
 
     override fun reducer(state: SplashState, action: SplashAction) {
         when (action) {
-            SplashAction.Next -> next()
+            SplashAction.Next -> navigate(screen = Screen.MainMenu)
         }
     }
 
