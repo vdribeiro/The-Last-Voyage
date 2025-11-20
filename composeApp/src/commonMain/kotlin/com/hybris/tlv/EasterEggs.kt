@@ -28,20 +28,20 @@ private val konamiGestureCode = listOf(
     Gesture.TAP, Gesture.TAP, Gesture.TAP
 )
 
-internal fun Modifier.enableGestureCheats(config: ConfigManager): Modifier = composed {
-    val haptics = LocalHapticFeedback.current
-    val scope = rememberCoroutineScope()
-    onGesture(sequence = konamiGestureCode) {
-        haptics.performHapticFeedback(hapticFeedbackType = cheatHapticFeedback)
-        scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) }
-    }
-}
-
 @Composable
 internal fun rememberKeySequenceCheats(config: ConfigManager): (KeyEvent) -> Boolean {
     val haptics = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
     return rememberKeySequence(sequence = konamiCode) {
+        haptics.performHapticFeedback(hapticFeedbackType = cheatHapticFeedback)
+        scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) }
+    }
+}
+
+internal fun Modifier.enableGestureCheats(config: ConfigManager): Modifier = composed {
+    val haptics = LocalHapticFeedback.current
+    val scope = rememberCoroutineScope()
+    onGesture(sequence = konamiGestureCode) {
         haptics.performHapticFeedback(hapticFeedbackType = cheatHapticFeedback)
         scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) }
     }
