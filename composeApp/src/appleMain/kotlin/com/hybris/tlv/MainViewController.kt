@@ -2,6 +2,7 @@
 
 package com.hybris.tlv
 
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
 import com.hybris.tlv.telemetry.Telemetry
 
@@ -13,6 +14,7 @@ fun MainViewController() = ComposeUIViewController {
     Telemetry.info(tag = TAG, message = "App started")
 
     App(
+        modifier = Modifier.enableGestureCheats(config = dependency.config),
         config = dependency.config,
         useCases = dependency.useCases,
         audioPlayer = dependency.audioPlayer,

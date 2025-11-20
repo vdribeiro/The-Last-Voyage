@@ -35,7 +35,6 @@ internal fun Modifier.enableGestureCheats(config: ConfigManager): Modifier = com
     }
 }
 
-// TODO: not working
 internal fun Modifier.enableKeyCheats(config: ConfigManager): Modifier = composed {
     val haptics = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()

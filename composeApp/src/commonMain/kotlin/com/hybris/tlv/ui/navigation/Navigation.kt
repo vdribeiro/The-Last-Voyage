@@ -2,27 +2,66 @@ package com.hybris.tlv.ui.navigation
 
 import kotlin.reflect.KType
 import kotlinx.serialization.Serializable
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import androidx.savedstate.SavedState
 import androidx.savedstate.read
 import androidx.savedstate.write
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.serializer.decode
 import com.hybris.tlv.serializer.decodeURL
 import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.serializer.encodeURL
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.UseCases
 
-private const val TAG = "Navigation"
+/**
+ * Set the Navigation graph.
+ */
+@Composable
+internal fun Navigation(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    config: ConfigManager,
+    useCases: UseCases,
+) {
+    NavHost(
+        modifier = modifier,
+        navController = navController,
+        startDestination = SplashScreen,
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
+        popEnterTransition = { EnterTransition.None },
+        popExitTransition = { ExitTransition.None }
+    ) {
+        splashScreen(navController = navController, config = config, useCases = useCases)
+        mainMenuScreen(navController = navController, config = config, useCases = useCases)
+        helpScreen(navController = navController, config = config, useCases = useCases)
+        feedbackScreen(navController = navController)
+        newGameScreen(navController = navController, useCases = useCases)
+        tutorialScreen(navController = navController)
+        gameScreen(navController = navController, useCases = useCases)
+        eventScreen(navController = navController, useCases = useCases)
+        gameOverScreen(navController = navController, useCases = useCases)
+        stellarExplorerScreen(navController = navController, useCases = useCases)
+        scoreScreen(navController = navController, useCases = useCases)
+        achievementScreen(navController = navController, useCases = useCases)
+        creditScreen(navController = navController, useCases = useCases)
+    }
+}
 
 internal interface Screen
 @Serializable
@@ -52,7 +91,6 @@ internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.
                     navController.navigate(route = screen) { if (existingEntry != null) popUpTo(route = screen) { inclusive = true } }
                 }
             }
-            Telemetry.info(tag = TAG, message = "Navigation stack: ${navController.currentBackStack.value}")
         }
     }
     screen(store)
@@ -77,3 +115,5 @@ internal inline fun <reified T> serializableType(): NavType<T> {
             decodeURL<T>(value = value) as T
     }
 }
+
+private const val TAG = "Navigation"

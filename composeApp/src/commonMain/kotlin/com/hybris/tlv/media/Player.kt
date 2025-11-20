@@ -1,5 +1,8 @@
 package com.hybris.tlv.media
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import com.hybris.tlv.lifecycle.Register
 import com.hybris.tlv.ui.navigation.AchievementScreen
 import com.hybris.tlv.ui.navigation.CreditScreen
 import com.hybris.tlv.ui.navigation.EventScreen
@@ -15,7 +18,22 @@ import com.hybris.tlv.ui.navigation.SplashScreen
 import com.hybris.tlv.ui.navigation.StellarExplorerScreen
 import com.hybris.tlv.ui.navigation.TutorialScreen
 
-internal fun getTracks(screen: Screen): List<String>? = when (screen) {
+@Composable
+internal fun AudioPlayer(
+    audioPlayer: AudioPlayer,
+    screen: Screen?
+) {
+    LaunchedEffect(key1 = screen) {
+        val playlist = getTracks(screen = screen)
+        if (playlist != null) audioPlayer.action(action = AudioPlayer.Action.Play(playlist = playlist))
+    }
+    Register(
+        onBackground = { audioPlayer.action(action = AudioPlayer.Action.Pause) },
+        onForeground = { audioPlayer.action(action = AudioPlayer.Action.Resume) },
+    )
+}
+
+private fun getTracks(screen: Screen?): List<String>? = when (screen) {
     SplashScreen,
     MainMenuScreen,
     NewGameScreen,

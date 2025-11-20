@@ -14,7 +14,7 @@ internal fun NavGraphBuilder.eventScreen(
     useCases: UseCases
 ) = graph<EventScreen, EventStore>(
     navController = navController,
-    typeMap = mapOf(typeOf<Ship?>() to serializableType<Ship?>()),
+    typeMap = mapOf(pair = typeOf<Ship?>() to serializableType<Ship?>()),
     store = {
         EventStore(
             ship = it.ship,
