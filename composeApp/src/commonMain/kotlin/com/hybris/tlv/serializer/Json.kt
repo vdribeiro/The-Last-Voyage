@@ -2,19 +2,28 @@ package com.hybris.tlv.serializer
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import io.ktor.http.decodeURLQueryComponent
+import io.ktor.http.encodeURLQueryComponent
 import com.hybris.tlv.storage.loadFile
 import com.hybris.tlv.storage.saveFile
 import com.hybris.tlv.telemetry.Telemetry
 import thelastvoyage.composeapp.generated.resources.Res
 
 @OptIn(ExperimentalSerializationApi::class)
-val json = Json {
+internal val json = Json {
     ignoreUnknownKeys = true
     isLenient = true
     prettyPrint = true
     encodeDefaults = true
     allowTrailingComma = true
 }
+
+/**
+ * Safely encode to JSON string.
+ */
+internal inline fun <reified T> encode(value: T?): String? = runCatching {
+    value?.let { json.encodeToString(value = value) }
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to encode value", throwable = it) }.getOrNull()
 
 /**
  * Safely decode a JSON string.
@@ -31,11 +40,25 @@ internal inline fun <reified T> decode(value: String?): T? = runCatching {
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to decode value", throwable = it) }.getOrNull()
 
 /**
- * Safely encode to JSON string.
+ * Safely encode to URL string.
  */
-internal inline fun <reified T> encode(value: T?): String? = runCatching {
-    value?.let { json.encodeToString(value = value) }
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to encode value", throwable = it) }.getOrNull()
+internal inline fun <reified T> encodeURL(value: T?): String = runCatching {
+    encode(value = value)?.encodeURLQueryComponent()
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to encode URL value", throwable = it) }.getOrNull() ?: "null"
+
+/**
+ * Safely decode a URL string.
+ */
+internal inline fun <reified T> decodeURL(value: String?): T? = runCatching {
+    if (value == "null") return null
+    decode<T>(value = value?.decodeURLQueryComponent())
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to decode URL value", throwable = it) }.getOrNull()
+
+/**
+ * Save a JSON file.
+ */
+internal suspend inline fun <reified T> saveJsonFile(path: String, content: T): Boolean =
+    encode<T>(value = content)?.let { saveFile(path = path, content = it) } ?: false
 
 /**
  * Load a JSON file.
@@ -44,14 +67,11 @@ internal suspend inline fun <reified T> loadJsonFile(path: String): T? =
     loadFile(path = path)?.let { decode<T>(value = it) }
 
 /**
- * Save a JSON file.
+ * Load a JSON resource.
  */
-internal suspend inline fun <reified T> saveJsonFile(path: String, content: T): Boolean =
-    encode<T>(value = content)?.let { saveFile(path = path, content = it) } ?: false
-
 internal suspend inline fun <reified T> loadFromJsonResource(path: String): List<T> = runCatching {
-    json.decodeFromString<List<T>>(string = Res.readBytes(path = path).decodeToString())
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to load resource", throwable = it) }.getOrDefault(defaultValue = emptyList())
+    decode<List<T>>(value = Res.readBytes(path = path).decodeToString())
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to load resource", throwable = it) }.getOrNull().orEmpty()
 
 private const val TAG = "JSON"
 

@@ -18,7 +18,6 @@ import com.hybris.tlv.ui.navigation.Back
 import com.hybris.tlv.ui.navigation.FeedbackScreen
 import com.hybris.tlv.ui.navigation.HelpScreen
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 
 /**
  * The central hub for a screen's [State]. It's the single source of truth for the UI.
@@ -87,17 +86,12 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     fun help(): Job = navigate(screen = HelpScreen)
 
     /**
-     * Navigate to [FeedbackScreen] screen asking for feedback.
+     * Navigate to [FeedbackScreen] screen.
      */
-    fun feedback(): Job = navigate(screen = FeedbackScreen(stateBuilder = FeedbackStateBuilder.Feedback))
-
-    /**
-     * Navigate to [FeedbackScreen] screen with error.
-     */
-    fun error(
-        tag: String,
-        message: String
-    ): Job = navigate(screen = FeedbackScreen(stateBuilder = FeedbackStateBuilder.Error(tag = tag, message = message)))
+    fun feedback(
+        tag: String? = null,
+        message: String? = null
+    ): Job = navigate(screen = FeedbackScreen(tag = tag, message = message))
 
     /**
      * Toggle audio player.

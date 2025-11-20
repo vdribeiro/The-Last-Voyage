@@ -29,7 +29,7 @@ internal class GameOverStore(
         Telemetry.info(tag = TAG, message = "Setup")
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            error(tag = TAG, message = "Invalid state: missing game session on setup()")
+            feedback(tag = TAG, message = "Invalid state: missing game session on setup()")
             return@launch
         }
 

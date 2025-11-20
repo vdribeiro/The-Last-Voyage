@@ -4,22 +4,19 @@ import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.GameScreen
-import com.hybris.tlv.ui.screen.game.GameStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
+import com.hybris.tlv.usecase.ship.model.Ship
 
 internal class EventStore(
-    stateBuilder: EventStateBuilder,
+    ship: Ship?,
     private val eventUseCases: EventUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<EventState, EventAction>(
-    initialState = when (stateBuilder) {
-        EventStateBuilder.Default -> EventState()
-        is EventStateBuilder.WithShip -> EventState(ship = stateBuilder.ship)
-    }
+    initialState = EventState(ship = ship)
 ) {
     @get:VisibleForTesting
     internal var gameSession: GameSession? = null
@@ -34,7 +31,7 @@ internal class EventStore(
         Telemetry.info(tag = TAG, message = "Setup")
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            error(tag = TAG, message = "Invalid state: missing game session on setup()")
+            feedback(tag = TAG, message = "Invalid state: missing game session on setup()")
             return@launch
         }
 
@@ -45,7 +42,7 @@ internal class EventStore(
 
         val parentEvent = eventChain.find { it.parentId == null }
         if (parentEvent == null) {
-            error(tag = TAG, message = "Invalid state: missing parent event on setup()")
+            feedback(tag = TAG, message = "Invalid state: missing parent event on setup()")
             return@launch
         }
         Telemetry.info(tag = TAG, message = "Get children events and guarantee at least 1 event")
@@ -73,13 +70,13 @@ internal class EventStore(
         Telemetry.info(tag = TAG, message = "Selected event ${action.event}")
         val gameSession = this@EventStore.gameSession
         if (gameSession == null) {
-            error(tag = TAG, message = "Invalid state: missing game session on select()")
+            feedback(tag = TAG, message = "Invalid state: missing game session on select()")
             return@launch
         }
 
         Telemetry.info(tag = TAG, message = "Check if event chain has ended")
         if (action.event == stopEvent) {
-            navigate(screen = GameScreen(stateBuilder = GameStateBuilder.WithShip(ship = gameSession.ship)))
+            navigate(screen = GameScreen(ship = gameSession.ship))
             return@launch
         }
 

@@ -6,24 +6,21 @@ import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.EventScreen
 import com.hybris.tlv.ui.navigation.GameOverScreen
 import com.hybris.tlv.ui.navigation.MainMenuScreen
-import com.hybris.tlv.ui.screen.event.EventStateBuilder
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.ShipUseCases
+import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 
 internal class GameStore(
-    stateBuilder: GameStateBuilder,
+    ship: Ship?,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameState, GameAction>(
-    initialState = when (stateBuilder) {
-        GameStateBuilder.Default -> GameState()
-        is GameStateBuilder.WithShip -> GameState(ship = stateBuilder.ship)
-    }
+    initialState = GameState(ship = ship)
 ) {
     @get:VisibleForTesting
     internal var gameSession: GameSession? = null
@@ -36,7 +33,7 @@ internal class GameStore(
         Telemetry.info(tag = TAG, message = "Setup")
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            error(tag = TAG, message = "Invalid state: missing game session on setup()")
+            feedback(tag = TAG, message = "Invalid state: missing game session on setup()")
             return@launch
         }
 
@@ -63,7 +60,7 @@ internal class GameStore(
             }
         }
         if (currentStellarHost == null) {
-            error(tag = TAG, message = "Invalid state: missing stellar host on setup()")
+            feedback(tag = TAG, message = "Invalid state: missing stellar host on setup()")
             return@launch
         }
 
@@ -105,25 +102,25 @@ internal class GameStore(
         Telemetry.info(tag = TAG, message = "Travelled to ${action.stellarHost}")
         val gameSession = this@GameStore.gameSession
         if (gameSession == null) {
-            error(tag = TAG, message = "Invalid state: missing game session on travel()")
+            feedback(tag = TAG, message = "Invalid state: missing game session on travel()")
             return@launch
         }
 
         val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }
         if (stellarHost == null) {
-            error(tag = TAG, message = "Invalid state: missing stellar host on travel()")
+            feedback(tag = TAG, message = "Invalid state: missing stellar host on travel()")
             return@launch
         }
 
         this@GameStore.gameSession = gameSessionUseCases.travel(gameSession = gameSession, stellarHost = stellarHost)
-        navigate(screen = EventScreen(stateBuilder = EventStateBuilder.WithShip(ship = gameSession.ship)))
+        navigate(screen = EventScreen(ship = gameSession.ship))
     }
 
     private fun settle(action: GameAction.Settle): Job = launch {
         Telemetry.info(tag = TAG, message = "Settled on ${action.planet}")
         val gameSession = this@GameStore.gameSession
         if (gameSession == null) {
-            error(tag = TAG, message = "Invalid state: missing game session on settle()")
+            feedback(tag = TAG, message = "Invalid state: missing game session on settle()")
             return@launch
         }
 

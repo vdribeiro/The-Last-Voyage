@@ -11,14 +11,6 @@ internal sealed interface GameAction {
     data class Settle(val planet: Planet): GameAction
 }
 
-@Serializable
-internal sealed interface GameStateBuilder {
-    @Serializable
-    data object Default: GameStateBuilder
-    @Serializable
-    data class WithShip(val ship: Ship): GameStateBuilder
-}
-
 internal data class GameState(
     val loading: Boolean = true,
     val currentContent: Content = Content.SYSTEM,

@@ -15,6 +15,7 @@ import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.SplashScreen
 import com.hybris.tlv.ui.navigation.achievementScreen
 import com.hybris.tlv.ui.navigation.creditScreen
+import com.hybris.tlv.ui.navigation.eventScreen
 import com.hybris.tlv.ui.navigation.feedbackScreen
 import com.hybris.tlv.ui.navigation.gameOverScreen
 import com.hybris.tlv.ui.navigation.gameScreen
@@ -50,11 +51,11 @@ internal fun App(
         splashScreen(navController = navController, useCases = useCases, config = config)
         mainMenuScreen(navController = navController, useCases = useCases, config = config)
         helpScreen(navController = navController, useCases = useCases, config = config)
-//        feedbackScreen(navController = navController)
+        feedbackScreen(navController = navController)
         newGameScreen(navController = navController, useCases = useCases)
         tutorialScreen(navController = navController)
-//        gameScreen(navController = navController, useCases = useCases)
-//        eventScreen(navController = navController, useCases = useCases)
+        gameScreen(navController = navController, useCases = useCases)
+        eventScreen(navController = navController, useCases = useCases)
         gameOverScreen(navController = navController, useCases = useCases)
         stellarExplorerScreen(navController = navController, useCases = useCases)
         scoreScreen(navController = navController, useCases = useCases)

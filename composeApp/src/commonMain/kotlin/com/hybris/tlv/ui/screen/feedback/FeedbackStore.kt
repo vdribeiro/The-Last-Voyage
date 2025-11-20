@@ -8,28 +8,11 @@ import com.hybris.tlv.ui.navigation.SplashScreen
 import com.hybris.tlv.ui.store.Store
 
 internal class FeedbackStore(
-    stateBuilder: FeedbackStateBuilder,
+    private val tag: String?,
+    private val message: String?
 ): Store<FeedbackState, FeedbackAction>(
-    initialState = when (stateBuilder) {
-        FeedbackStateBuilder.Feedback -> FeedbackState()
-        is FeedbackStateBuilder.Error -> FeedbackState(isError = true)
-    }
+    initialState = FeedbackState(isError = tag != null || message != null)
 ) {
-    @get:VisibleForTesting
-    internal var tag: String? = null
-    @get:VisibleForTesting
-    internal var message: String? = null
-
-    init {
-        when (stateBuilder) {
-            FeedbackStateBuilder.Feedback -> {}
-            is FeedbackStateBuilder.Error -> {
-                tag = stateBuilder.tag
-                message = stateBuilder.message
-            }
-        }
-    }
-
     private fun sendFeedback(state: FeedbackState, action: FeedbackAction.SendFeedback): Job = launch {
         updateState {
             it.copy(

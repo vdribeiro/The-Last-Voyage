@@ -8,14 +8,6 @@ internal sealed interface EventAction {
     data class Select(val event: Event): EventAction
 }
 
-@Serializable
-internal sealed interface EventStateBuilder {
-    @Serializable
-    data object Default: EventStateBuilder
-    @Serializable
-    data class WithShip(val ship: Ship): EventStateBuilder
-}
-
 internal data class EventState(
     val loading: Boolean = true,
     val ship: Ship? = null,
