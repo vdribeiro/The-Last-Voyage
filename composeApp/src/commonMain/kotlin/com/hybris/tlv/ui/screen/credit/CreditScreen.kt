@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.CreditList
@@ -43,7 +42,7 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
 @Composable
 private fun CreditLoadingPreview() = AppTheme {
     CreditScreen(
-        store = getStore(
+        store = Store(
             initialState = CreditState(
                 loading = true,
                 credits = emptyList()
@@ -56,7 +55,7 @@ private fun CreditLoadingPreview() = AppTheme {
 @Composable
 private fun CreditListPreview() = AppTheme {
     CreditScreen(
-        store = getStore(
+        store = Store(
             initialState = CreditState(
                 loading = false,
                 credits = listOf(

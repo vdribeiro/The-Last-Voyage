@@ -7,7 +7,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.GameNavigation
 import com.hybris.tlv.ui.theme.component.container.Screen
@@ -127,7 +126,7 @@ private fun GameLoadingPreview() = AppTheme {
         )
     )
     GameScreen(
-        store = getStore(
+        store = Store(
             initialState = GameState(
                 loading = true,
                 currentContent = Content.SYSTEM,
@@ -159,7 +158,7 @@ private fun GameShipPreview() = AppTheme {
         )
     )
     GameScreen(
-        store = getStore(
+        store = Store(
             initialState = GameState(
                 loading = false,
                 currentContent = Content.SHIP,
@@ -207,7 +206,7 @@ private fun GameSystemPreview() = AppTheme {
         )
     )
     GameScreen(
-        store = getStore(
+        store = Store(
             initialState = GameState(
                 loading = false,
                 currentContent = Content.SYSTEM,
@@ -293,7 +292,7 @@ private fun GameTravelPreview() = AppTheme {
         )
     )
     GameScreen(
-        store = getStore(
+        store = Store(
             initialState = GameState(
                 loading = false,
                 currentContent = Content.TRAVEL,

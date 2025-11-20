@@ -1,21 +1,10 @@
 package com.hybris.tlv.ui.screen.event
 
 import com.hybris.tlv.usecase.event.model.Event
-import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.model.Ship
 
 internal sealed interface EventAction {
     data class Select(val event: Event): EventAction
-}
-
-internal sealed interface EventStateBuilder {
-    data object Default: EventStateBuilder
-    data class WithShip(val ship: Ship): EventStateBuilder
-    data class FromState(
-        val state: EventState,
-        val gameSession: GameSession?,
-        val eventChain: List<Event>
-    ): EventStateBuilder
 }
 
 internal data class EventState(

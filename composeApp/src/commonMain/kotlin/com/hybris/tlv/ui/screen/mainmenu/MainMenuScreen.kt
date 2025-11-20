@@ -6,7 +6,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.MainNavigation
 import com.hybris.tlv.ui.theme.component.container.MainMenu
@@ -26,6 +25,9 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
     Screen(
         loading = storeState.loading,
         banner = if (storeState.newVersionBanner) storeState.developerCorner else null,
+        onCheatClick = if (storeState.cheatsEnabled) {
+            { store.send(action = MainMenuAction.DisableCheats) }
+        } else null,
         onHelpClick = { store.help() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
@@ -68,7 +70,7 @@ private fun MainMenuLoadingPreview() = AppTheme {
         )
     )
     MainMenuScreen(
-        store = getStore(
+        store = Store(
             initialState = MainMenuState(
                 loading = true,
                 developerCorner = "Developer Corner",
@@ -108,7 +110,7 @@ private fun MainMenuAllPreview() = AppTheme {
         )
     )
     MainMenuScreen(
-        store = getStore(
+        store = Store(
             initialState = MainMenuState(
                 loading = false,
                 developerCorner = "Developer Corner",
@@ -152,7 +154,7 @@ private fun MainMenuContinuePreview() = AppTheme {
         )
     )
     MainMenuScreen(
-        store = getStore(
+        store = Store(
             initialState = MainMenuState(
                 loading = false,
                 developerCorner = "Developer Corner",

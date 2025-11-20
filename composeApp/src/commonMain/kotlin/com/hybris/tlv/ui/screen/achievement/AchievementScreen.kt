@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.AchievementList
@@ -36,7 +35,7 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
 @Composable
 private fun AchievementLoadingPreview() = AppTheme {
     AchievementScreen(
-        store = getStore(
+        store = Store(
             initialState = AchievementState(
                 loading = true,
                 achievements = emptyList()
@@ -49,7 +48,7 @@ private fun AchievementLoadingPreview() = AppTheme {
 @Composable
 private fun AchievementListPreview() = AppTheme {
     AchievementScreen(
-        store = getStore(
+        store = Store(
             initialState = AchievementState(
                 loading = false,
                 achievements = listOf(

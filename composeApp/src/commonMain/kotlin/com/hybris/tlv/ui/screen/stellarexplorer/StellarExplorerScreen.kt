@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.PlanetList
@@ -256,7 +255,7 @@ private fun StellarExplorerLoadingPreview() = AppTheme {
         )
     )
     StellarExplorerScreen(
-        store = getStore(
+        store = Store(
             initialState = StellarExplorerState(
                 loading = true,
                 currentContent = Content.LIST_HOSTS,
@@ -292,7 +291,7 @@ private fun StellarExplorerHostListPreview() = AppTheme {
         )
     )
     StellarExplorerScreen(
-        store = getStore(
+        store = Store(
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.LIST_HOSTS,
@@ -367,7 +366,7 @@ private fun StellarExplorerHostDetailPreview() = AppTheme {
         )
     )
     StellarExplorerScreen(
-        store = getStore(
+        store = Store(
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.DETAIL_HOSTS,
@@ -456,7 +455,7 @@ private fun StellarExplorerSearchHostsPreview() = AppTheme {
         )
     )
     StellarExplorerScreen(
-        store = getStore(
+        store = Store(
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.LIST_HOSTS,
@@ -492,7 +491,7 @@ private fun StellarExplorerPlanetListPreview() = AppTheme {
         )
     )
     StellarExplorerScreen(
-        store = getStore(
+        store = Store(
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.LIST_PLANETS,
@@ -563,7 +562,7 @@ private fun StellarExplorerPlanetDetailPreview() = AppTheme {
         )
     )
     StellarExplorerScreen(
-        store = getStore(
+        store = Store(
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.DETAIL_PLANETS,
@@ -635,7 +634,7 @@ private fun StellarExplorerSearchPlanetPreview() = AppTheme {
         )
     )
     StellarExplorerScreen(
-        store = getStore(
+        store = Store(
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.LIST_PLANETS,

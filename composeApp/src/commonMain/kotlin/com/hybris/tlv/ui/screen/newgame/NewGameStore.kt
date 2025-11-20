@@ -2,70 +2,60 @@ package com.hybris.tlv.ui.screen.newgame
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.GameScreen
+import com.hybris.tlv.ui.navigation.MainMenuScreen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.ShipUseCases
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_FUEL
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_MATERIALS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_SENSOR_RANGE
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MIN_CRYOPODS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MIN_FUEL
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MIN_MATERIALS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MIN_SENSOR_RANGE
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 
 internal class NewGameStore(
-    navigation: NavigationManager,
-    audioPlayer: AudioPlayer,
-    stateBuilder: NewGameStateBuilder,
     private val shipUseCases: ShipUseCases,
     private val catastropheUseCases: CatastropheUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameState, NewGameAction>(
-    navigation = navigation,
-    audioPlayer = audioPlayer,
-    initialState = when (stateBuilder) {
-        NewGameStateBuilder.Default -> NewGameState()
-        is NewGameStateBuilder.FromState -> stateBuilder.state
-    }
+    initialState = NewGameState()
 ) {
     @VisibleForTesting
     internal var selectedShip: ShipPrototype? = null
 
     init {
-        when (stateBuilder) {
-            NewGameStateBuilder.Default -> setup()
-            is NewGameStateBuilder.FromState -> selectedShip = stateBuilder.selectedShip
-        }
+        setup()
     }
-
-    override fun getSavableState(state: NewGameState): Any =
-        NewGameStateBuilder.FromState(
-            state = state,
-            selectedShip = selectedShip,
-        )
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
 
         val engines = shipUseCases.getEngines()
         if (engines.isEmpty()) {
-            error(tag = TAG, message = "Invalid state: no engines on setup()")
+            feedback(tag = TAG, message = "Invalid state: no engines on setup()")
             return@launch
         }
         val shipState = ShipState(
             totalPoints = 25,
-            sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 4),
-            fuel = AttributePoint(max = 2000, min = 100, interval = 100, initialValue = 1000),
-            materials = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 500),
-            cryopods = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 500),
+            sensorRange = AttributePoint(max = MAX_SENSOR_RANGE, min = MIN_SENSOR_RANGE, interval = 1, initialValue = 4),
+            fuel = AttributePoint(max = MAX_FUEL, min = MIN_FUEL, interval = 100, initialValue = 1000),
+            materials = AttributePoint(max = MAX_MATERIALS, min = MIN_MATERIALS, interval = 100, initialValue = 500),
+            cryopods = AttributePoint(max = MAX_CRYOPODS, min = MIN_CRYOPODS, interval = 100, initialValue = 500),
             engine = engines.find { it.cost == 5 } ?: engines.first()
         )
 
         val selectedCatastrophe = catastropheUseCases.getRandomCatastrophe()
         if (selectedCatastrophe == null) {
-            error(tag = TAG, message = "Invalid state: missing catastrophe on setup()")
+            feedback(tag = TAG, message = "Invalid state: missing catastrophe on setup()")
             return@launch
         }
 
@@ -87,31 +77,31 @@ internal class NewGameStore(
                 Telemetry.info(tag = TAG, message = "Start game")
                 val selectedShip = this@NewGameStore.selectedShip
                 if (selectedShip == null) {
-                    error(tag = TAG, message = "Invalid state: missing ship prototype on startGame()")
+                    feedback(tag = TAG, message = "Invalid state: missing ship prototype on startGame()")
                     return@launch
                 }
 
                 val selectedEngine = state.shipState?.engine
                 if (selectedEngine == null) {
-                    error(tag = TAG, message = "Invalid state: missing engine on startGame()")
+                    feedback(tag = TAG, message = "Invalid state: missing engine on startGame()")
                     return@launch
                 }
 
-                Telemetry.info(tag = TAG, message = "Selected ship: $selectedShip")
-                gameSessionUseCases.startGame(
+                val gameSession = gameSessionUseCases.startGame(
                     GameSessionPrototype(
                         ship = selectedShip,
                         engine = selectedEngine,
                         formula = Formula()
                     )
                 )
-                navigate(screen = Screen.Game)
+                Telemetry.info(tag = TAG, message = "New session: $gameSession")
+                navigate(screen = GameScreen())
             }
         }
     }
 
     override fun back(state: NewGameState) {
-        navigate(screen = Screen.MainMenu)
+        navigate(screen = MainMenuScreen)
     }
 
     override fun reducer(state: NewGameState, action: NewGameAction) {

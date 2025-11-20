@@ -6,7 +6,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.ScoreList
@@ -49,7 +48,7 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
 @Composable
 private fun ScoreLoadingPreview() = AppTheme {
     ScoreScreen(
-        store = getStore(
+        store = Store(
             initialState = ScoreState(
                 loading = true,
                 gameSessions = emptyList()
@@ -62,7 +61,7 @@ private fun ScoreLoadingPreview() = AppTheme {
 @Composable
 private fun ScoreListPreview() = AppTheme {
     ScoreScreen(
-        store = getStore(
+        store = Store(
             initialState = ScoreState(
                 loading = false,
                 gameSessions = listOf(

@@ -10,16 +10,13 @@ internal sealed interface MainMenuAction {
     data object Achievements: MainMenuAction
     data object Credits: MainMenuAction
     data object StellarExplorer: MainMenuAction
-}
-
-internal sealed interface MainMenuStateBuilder {
-    data object Default: MainMenuStateBuilder
-    data class FromState(val state: MainMenuState): MainMenuStateBuilder
+    data object DisableCheats: MainMenuAction
 }
 
 internal data class MainMenuState(
     val loading: Boolean = true,
     val newVersionBanner: Boolean = false,
+    val cheatsEnabled: Boolean = false,
     val developerCorner: String = "",
     val support: String = "",
     val ongoingGameSession: Boolean = false,

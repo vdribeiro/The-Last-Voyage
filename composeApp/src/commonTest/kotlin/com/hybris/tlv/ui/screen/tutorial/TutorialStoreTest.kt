@@ -7,8 +7,6 @@ import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.getNavigation
 import com.hybris.tlv.getStoreFactory
 import com.hybris.tlv.reset
-import com.hybris.tlv.ui.navigation.NavigationState
-import com.hybris.tlv.ui.navigation.Screen
 
 internal class TutorialStoreTest {
 
@@ -17,9 +15,9 @@ internal class TutorialStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Splash))
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.MainMenu))
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Tutorial))
+        getNavigation().navigate(navigationState = NavigationState(screen = SplashScreen))
+        getNavigation().navigate(navigationState = NavigationState(screen = MainMenuScreen))
+        getNavigation().navigate(navigationState = NavigationState(screen = TutorialScreen))
     }
 
     @Test
@@ -41,8 +39,8 @@ internal class TutorialStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         store
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Tutorial))
+        getNavigation().navigate(navigationState = NavigationState(screen = TutorialScreen))
         getNavigation().back()
-        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
     }
 }

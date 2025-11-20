@@ -2,54 +2,39 @@ package com.hybris.tlv.ui.screen.game
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.event.EventStateBuilder
+import com.hybris.tlv.ui.navigation.EventScreen
+import com.hybris.tlv.ui.navigation.GameOverScreen
+import com.hybris.tlv.ui.navigation.MainMenuScreen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.ShipUseCases
+import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.formula.SUN
 
 internal class GameStore(
-    navigation: NavigationManager,
-    audioPlayer: AudioPlayer,
-    stateBuilder: GameStateBuilder,
+    ship: Ship?,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameState, GameAction>(
-    navigation = navigation,
-    audioPlayer = audioPlayer,
-    initialState = when (stateBuilder) {
-        GameStateBuilder.Default -> GameState()
-        is GameStateBuilder.WithShip -> GameState(ship = stateBuilder.ship)
-        is GameStateBuilder.FromState -> stateBuilder.state
-    }
+    initialState = GameState(ship = ship)
 ) {
     @get:VisibleForTesting
     internal var gameSession: GameSession? = null
 
     init {
-        when (stateBuilder) {
-            GameStateBuilder.Default -> setup()
-            is GameStateBuilder.WithShip -> setup()
-            is GameStateBuilder.FromState -> gameSession = stateBuilder.gameSession
-        }
+        setup()
     }
-
-    override fun getSavableState(state: GameState): Any =
-        GameStateBuilder.FromState(state = state, gameSession = gameSession)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            error(tag = TAG, message = "Invalid state: missing game session on setup()")
+            feedback(tag = TAG, message = "Invalid state: missing game session on setup()")
             return@launch
         }
 
@@ -59,7 +44,7 @@ internal class GameStore(
         gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
 
         if (gameSessionUseCases.isGameOver(gameSession = updatedGameSession)) {
-            navigate(screen = Screen.GameOver)
+            navigate(screen = GameOverScreen)
             return@launch
         }
         Telemetry.info(tag = TAG, message = "Ship repaired: $ship")
@@ -78,7 +63,7 @@ internal class GameStore(
             }
         }
         if (currentStellarHost == null) {
-            error(tag = TAG, message = "Invalid state: missing stellar host on setup()")
+            feedback(tag = TAG, message = "Invalid state: missing stellar host on setup()")
             return@launch
         }
 
@@ -122,34 +107,34 @@ internal class GameStore(
 
         val gameSession = this@GameStore.gameSession
         if (gameSession == null) {
-            error(tag = TAG, message = "Invalid state: missing game session on travel()")
+            feedback(tag = TAG, message = "Invalid state: missing game session on travel()")
             return@launch
         }
 
         val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }
         if (stellarHost == null) {
-            error(tag = TAG, message = "Invalid state: missing stellar host on travel()")
+            feedback(tag = TAG, message = "Invalid state: missing stellar host on travel()")
             return@launch
         }
 
         this@GameStore.gameSession = gameSessionUseCases.travel(gameSession = gameSession, stellarHost = stellarHost)
-        navigate(screen = Screen.Event, stateBuilder = EventStateBuilder.WithShip(ship = gameSession.ship))
+        navigate(screen = EventScreen(ship = gameSession.ship))
     }
 
     private fun settle(action: GameAction.Settle): Job = launch {
         Telemetry.info(tag = TAG, message = "Settled on ${action.planet}")
         val gameSession = this@GameStore.gameSession
         if (gameSession == null) {
-            error(tag = TAG, message = "Invalid state: missing game session on settle()")
+            feedback(tag = TAG, message = "Invalid state: missing game session on settle()")
             return@launch
         }
 
         this@GameStore.gameSession = gameSessionUseCases.settle(gameSession = gameSession, planet = action.planet)
-        navigate(screen = Screen.GameOver)
+        navigate(screen = GameOverScreen)
     }
 
     override fun back(state: GameState) {
-        navigate(screen = Screen.MainMenu)
+        navigate(screen = MainMenuScreen)
     }
 
     override fun reducer(state: GameState, action: GameAction) {

@@ -7,7 +7,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.container.Screen
@@ -53,7 +52,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
     ) {
         TypewriterContent(
             title = event?.let { getTranslation(key = it.id) },
-            text = event?.let { "${getTranslation(key = it.description)}${it.outcome?.getTranslation()}" },
+            text = event?.let { "${getTranslation(key = it.description)}${it.outcome?.getTranslation().orEmpty()}" },
         )
     }
 }
@@ -62,7 +61,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
 @Composable
 private fun EventLoadingPreview() = AppTheme {
     EventScreen(
-        store = getStore(
+        store = Store(
             initialState = EventState(
                 loading = true,
                 ship = null,
@@ -89,7 +88,7 @@ private fun EventRandomPreview() = AppTheme {
         )
     )
     EventScreen(
-        store = getStore(
+        store = Store(
             initialState = EventState(
                 loading = false,
                 ship = Ship(

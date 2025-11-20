@@ -8,8 +8,6 @@ import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.getNavigation
 import com.hybris.tlv.getStoreFactory
 import com.hybris.tlv.reset
-import com.hybris.tlv.ui.navigation.NavigationState
-import com.hybris.tlv.ui.navigation.Screen
 
 internal class SplashStoreTest {
 
@@ -18,7 +16,7 @@ internal class SplashStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Splash))
+        getNavigation().navigate(navigationState = NavigationState(screen = SplashScreen))
     }
 
     @Test

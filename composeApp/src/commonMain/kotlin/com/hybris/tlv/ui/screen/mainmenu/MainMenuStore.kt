@@ -1,43 +1,33 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import kotlinx.coroutines.Job
+import com.hybris.tlv.cheats
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.tutorial.TutorialStateBuilder
+import com.hybris.tlv.ui.navigation.AchievementScreen
+import com.hybris.tlv.ui.navigation.CreditScreen
+import com.hybris.tlv.ui.navigation.GameScreen
+import com.hybris.tlv.ui.navigation.NewGameScreen
+import com.hybris.tlv.ui.navigation.ScoreScreen
+import com.hybris.tlv.ui.navigation.StellarExplorerScreen
+import com.hybris.tlv.ui.navigation.TutorialScreen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal class MainMenuStore(
-    navigation: NavigationManager,
-    audioPlayer: AudioPlayer,
-    stateBuilder: MainMenuStateBuilder,
     private val config: ConfigManager,
     private val gameSessionUseCases: GameSessionUseCases,
 ): Store<MainMenuState, MainMenuAction>(
-    navigation = navigation,
-    audioPlayer = audioPlayer,
-    initialState = when (stateBuilder) {
-        MainMenuStateBuilder.Default -> MainMenuState()
-        is MainMenuStateBuilder.FromState -> stateBuilder.state
-    }
+    initialState = MainMenuState()
 ) {
     init {
-        when (stateBuilder) {
-            MainMenuStateBuilder.Default -> setup()
-            is MainMenuStateBuilder.FromState -> {}
-        }
+        setup()
     }
-
-    override fun getSavableState(state: MainMenuState): Any =
-        MainMenuStateBuilder.FromState(state = state.copy(newGameDialog = false))
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
-        val configs = config.remoteConfigs.value
+        val configs = config.localConfigs.value
         val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
         val developerCorner = configs.developerCorner
         val support = configs.support
@@ -52,22 +42,33 @@ internal class MainMenuStore(
             )
         }
         Telemetry.info(tag = TAG, message = "Setup complete")
+    }.also {
+        launch {
+            config.preferences.collect { preferences ->
+                val cheatsEnabled = preferences.cheats
+                updateState { it.copy(cheatsEnabled = cheatsEnabled) }
+            }
+        }
     }
 
     private fun newGame(): Job = launch {
         Telemetry.info(tag = TAG, message = "New game")
-        if (config.preferences.value.showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = Screen.NewGame)
+        if (config.preferences.value.showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = NewGameScreen)
     }
 
     private fun newGameWithoutTutorial(): Job = launch {
         config.setPreferences { it.copy(showTutorial = false) }
-        navigate(screen = Screen.NewGame)
+        navigate(screen = NewGameScreen)
     }
 
     private fun newGameWithTutorial(): Job = launch {
         Telemetry.info(tag = TAG, message = "Show tutorial")
         config.setPreferences { it.copy(showTutorial = false) }
-        navigate(screen = Screen.Tutorial, stateBuilder = TutorialStateBuilder.Default(newGame = true))
+        navigate(screen = TutorialScreen(newGame = true))
+    }
+
+    private fun disableCheats(): Job = launch {
+        config.cheats(enabled = false)
     }
 
     override fun back(state: MainMenuState) {}
@@ -78,11 +79,12 @@ internal class MainMenuStore(
             MainMenuAction.HideNewGameDialog -> updateState { it.copy(newGameDialog = false) }
             MainMenuAction.NoNewGameDialog -> newGameWithoutTutorial()
             MainMenuAction.YesNewGameDialog -> newGameWithTutorial()
-            MainMenuAction.Next -> navigate(screen = Screen.Game)
-            MainMenuAction.Scores -> navigate(screen = Screen.Score)
-            MainMenuAction.Achievements -> navigate(screen = Screen.Achievement)
-            MainMenuAction.Credits -> navigate(screen = Screen.Credit)
-            MainMenuAction.StellarExplorer -> navigate(screen = Screen.StellarExplorer)
+            MainMenuAction.Next -> navigate(screen = GameScreen())
+            MainMenuAction.Scores -> navigate(screen = ScoreScreen)
+            MainMenuAction.Achievements -> navigate(screen = AchievementScreen)
+            MainMenuAction.Credits -> navigate(screen = CreditScreen)
+            MainMenuAction.StellarExplorer -> navigate(screen = StellarExplorerScreen)
+            MainMenuAction.DisableCheats -> disableCheats()
         }
     }
 

@@ -6,7 +6,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
@@ -93,7 +92,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
 @Composable
 private fun NewGameLoadingPreview() = AppTheme {
     NewGameScreen(
-        store = getStore(
+        store = Store(
             initialState = NewGameState(
                 loading = true,
                 currentContent = Content.SHIP,
@@ -108,7 +107,7 @@ private fun NewGameLoadingPreview() = AppTheme {
 @Composable
 private fun NewGameShipPreview() = AppTheme {
     NewGameScreen(
-        store = getStore(
+        store = Store(
             initialState = NewGameState(
                 loading = false,
                 currentContent = Content.SHIP,
@@ -136,7 +135,7 @@ private fun NewGameShipPreview() = AppTheme {
 @Composable
 private fun NewGameStartPreview() = AppTheme {
     NewGameScreen(
-        store = getStore(
+        store = Store(
             initialState = NewGameState(
                 loading = false,
                 currentContent = Content.START,

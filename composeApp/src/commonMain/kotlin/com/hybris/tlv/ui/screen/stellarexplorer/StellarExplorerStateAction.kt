@@ -19,24 +19,6 @@ internal sealed interface StellarExplorerAction {
     data class ChangePlanetSearchable(val property: PlanetProperty): StellarExplorerAction
 }
 
-internal sealed interface StellarExplorerStateBuilder {
-    data object Default: StellarExplorerStateBuilder
-    data class FromState(
-        val currentContent: Content,
-        val listIndex: LazyListState,
-        val selectedStellarHost: StellarHost?,
-        val selectedPlanet: Planet?,
-        val search: String,
-        val sortStellarHostProperty: StellarHostProperty,
-        val sortPlanetProperty: PlanetProperty,
-        val sortAscending: Boolean,
-        val visibleStellarHostProperties: Set<StellarHostProperty>,
-        val visiblePlanetProperties: Set<PlanetProperty>,
-        val searchableStellarHostProperties: Set<StellarHostProperty>,
-        val searchablePlanetProperties: Set<PlanetProperty>
-    ): StellarExplorerStateBuilder
-}
-
 internal data class StellarExplorerState(
     val loading: Boolean = true,
     val currentContent: Content = Content.LIST_HOSTS,

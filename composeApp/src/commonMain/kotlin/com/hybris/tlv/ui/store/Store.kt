@@ -1,18 +1,23 @@
 package com.hybris.tlv.ui.store
 
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.flow.launch
-import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.NavigationState
+import com.hybris.tlv.ui.navigation.Back
+import com.hybris.tlv.ui.navigation.FeedbackScreen
+import com.hybris.tlv.ui.navigation.HelpScreen
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
 
 /**
  * The central hub for a screen's [State]. It's the single source of truth for the UI.
@@ -20,50 +25,19 @@ import com.hybris.tlv.ui.screen.feedback.FeedbackStateBuilder
  * After it receives the result from the Use Case, it combines it with the current [State], and emits a new [State].
  * A key rule is that the UI only observes the Store's [State] and never modifies it directly.
  */
-internal open class Store<State, Action>(
-    private val navigation: NavigationManager,
-    private val audioPlayer: AudioPlayer,
-    initialState: State
-) {
+internal open class Store<State, Action>(initialState: State): ViewModel() {
+
     /**
      * The current state of the screen.
      */
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = initialState)
     val stateFlow: StateFlow<State> = _stateFlow.asStateFlow()
-    /**
-     * The list of jobs launched by the Store.
-     */
-    private val jobs = mutableListOf<Job>()
-
-    init {
-        navigation.back = { back(state = _stateFlow.value) }
-    }
 
     /**
-     * Get the savable state of the store.
+     * Effect for navigation.
      */
-    protected open fun getSavableState(state: State): Any? = null
-
-    /**
-     * Overridable back navigation.
-     */
-    protected open fun back(state: State) {
-        navigation.goBack()
-    }
-
-    /**
-     * Clean up the store and navigate to a new [screen] given an optional [stateBuilder].
-     */
-    protected fun navigate(screen: Screen, stateBuilder: Any? = null) {
-        jobs.forEach { it.cancel() }
-        saveState()
-        navigation.navigate(navigationState = NavigationState(screen = screen, stateBuilder = stateBuilder))
-    }
-
-    /**
-     * Save the current state of the store to the navigation stack.
-     */
-    private fun saveState(): Job = navigation.saveState(stateBuilder = getSavableState(state = _stateFlow.value))
+    private val _effect: Channel<Screen> = Channel()
+    val effect: Flow<Screen> = _effect.receiveAsFlow()
 
     /**
      * Sends an [Action] to the Store.
@@ -80,45 +54,49 @@ internal open class Store<State, Action>(
      * Updates the current [State].
      */
     protected fun updateState(body: (State) -> State): Job =
-        Dispatcher.Main.launch {
-            _stateFlow.update { body(_stateFlow.value) }
-            saveState()
-        }
+        viewModelScope.launch { _stateFlow.update { body(_stateFlow.value) } }
 
     /**
-     * Launches a coroutine and adds it to the list of jobs.
+     * Navigate to a new [screen].
      */
-    protected fun launch(block: suspend CoroutineScope.() -> Unit): Job =
-        Dispatcher.IO.launch { block() }.also { jobs.add(element = it) }
+    protected fun navigate(screen: Screen) =
+        viewModelScope.launch { _effect.send(element = screen) }
+
+    /**
+     * Launches a coroutine.
+     */
+    protected fun launch(context: CoroutineContext = Dispatcher.IO, block: suspend CoroutineScope.() -> Unit): Job =
+        viewModelScope.launch(context = context) { block() }
+
+    /**
+     * Overridable back navigation.
+     */
+    protected open fun back(state: State) {
+        navigate(screen = Back)
+    }
 
     /**
      * Navigate back.
      */
-    fun back() = navigation.back()
+    fun back() = back(state = _stateFlow.value)
+
+    /**
+     * Navigate to [HelpScreen] screen.
+     */
+    fun help(): Job = navigate(screen = HelpScreen)
+
+    /**
+     * Navigate to [FeedbackScreen] screen.
+     */
+    fun feedback(
+        tag: String? = null,
+        message: String? = null
+    ): Job = navigate(screen = FeedbackScreen(tag = tag, message = message))
 
     /**
      * Toggle audio player.
      */
-    fun toggleAudio() = audioPlayer.action(action = AudioPlayer.Action.Toggle)
-
-    /**
-     * Navigate to [Screen.Help] screen.
-     */
-    fun help() = navigate(screen = Screen.Help)
-
-    /**
-     * Navigate to [Screen.Feedback] screen asking for feedback.
-     */
-    fun feedback() = navigate(
-        screen = Screen.Feedback,
-        stateBuilder = FeedbackStateBuilder.Default
-    )
-
-    /**
-     * Navigate to [Screen.Feedback] screen with error.
-     */
-    fun error(tag: String, message: String) = navigate(
-        screen = Screen.Feedback,
-        stateBuilder = FeedbackStateBuilder.Error(tag = tag, message = message)
-    )
+    fun toggleAudio() {
+        // TODO: audioPlayer.action(action = AudioPlayer.Action.Toggle)
+    }
 }

@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.cheatHapticFeedback
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.Button
@@ -59,6 +60,7 @@ internal fun Screen(
     loadingProgress: Float? = null,
     banner: String? = null,
     onBackClick: (() -> Unit)? = null,
+    onCheatClick: (() -> Unit)? = null,
     onHelpClick: (() -> Unit)? = null,
     onMusicClick: (() -> Unit)? = null,
     onFeedbackClick: (() -> Unit)? = null,
@@ -100,6 +102,15 @@ internal fun Screen(
                         )
                     }
                     Spacer(modifier = Modifier.weight(weight = 1f))
+                    // Cheat button
+                    onCheatClick?.let {
+                        Button(hapticFeedback = cheatHapticFeedback, onClick = it) {
+                            Icon(
+                                imageVector = Icons.Default.LogoDev,
+                                contentDescription = "Cheat"
+                            )
+                        }
+                    }
                     // Help button
                     onHelpClick?.let {
                         Button(onClick = it) {
@@ -193,6 +204,7 @@ private fun ScreenLoadingPreview() = AppTheme {
         loadingText = "Loading...",
         loadingProgress = 0.5f,
         onBackClick = {},
+        onCheatClick = {},
         onHelpClick = {},
         onMusicClick = {},
         onFeedbackClick = {},
@@ -206,6 +218,7 @@ private fun ScreenPreview() = AppTheme {
         loading = false,
         banner = "Banner",
         onBackClick = {},
+        onCheatClick = {},
         onHelpClick = {},
         onMusicClick = {},
         onFeedbackClick = {},

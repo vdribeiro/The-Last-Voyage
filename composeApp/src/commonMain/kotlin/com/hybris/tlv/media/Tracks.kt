@@ -1,24 +1,33 @@
 package com.hybris.tlv.media
 
+import com.hybris.tlv.ui.navigation.AchievementScreen
+import com.hybris.tlv.ui.navigation.CreditScreen
+import com.hybris.tlv.ui.navigation.EventScreen
+import com.hybris.tlv.ui.navigation.FeedbackScreen
+import com.hybris.tlv.ui.navigation.GameOverScreen
+import com.hybris.tlv.ui.navigation.GameScreen
+import com.hybris.tlv.ui.navigation.HelpScreen
+import com.hybris.tlv.ui.navigation.MainMenuScreen
+import com.hybris.tlv.ui.navigation.NewGameScreen
+import com.hybris.tlv.ui.navigation.ScoreScreen
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.SplashScreen
+import com.hybris.tlv.ui.navigation.StellarExplorerScreen
+import com.hybris.tlv.ui.navigation.TutorialScreen
 
 internal fun getTracks(screen: Screen): List<String>? = when (screen) {
-    Screen.Help,
-    Screen.Feedback,
-    Screen.Tutorial -> null
-
-    Screen.Splash,
-    Screen.MainMenu,
-    Screen.NewGame,
-    Screen.StellarExplorer,
-    Screen.Score,
-    Screen.Achievement,
-    Screen.Credit -> listOf(
+    SplashScreen,
+    MainMenuScreen,
+    NewGameScreen,
+    StellarExplorerScreen,
+    ScoreScreen,
+    AchievementScreen,
+    CreditScreen -> listOf(
         "tracks/ville_seppanen-1_g.mp3",
     )
 
-    Screen.Game,
-    Screen.Event -> listOf(
+    GameScreen,
+    EventScreen -> listOf(
         "tracks/blind_shift.mp3",
         "tracks/graduality.mp3",
         "tracks/led_twilight.mp3",
@@ -28,7 +37,13 @@ internal fun getTracks(screen: Screen): List<String>? = when (screen) {
         "tracks/space_gras.mp3",
     )
 
-    Screen.GameOver -> listOf(
+    GameOverScreen -> listOf(
         "tracks/space.mp3",
     )
+
+    HelpScreen,
+    FeedbackScreen,
+    TutorialScreen -> null
+
+    else -> null
 }

@@ -3,28 +3,18 @@ package com.hybris.tlv.ui.screen.gameover
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.locale.getLocalDateTime
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.MainMenuScreen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal class GameOverStore(
-    navigation: NavigationManager,
-    audioPlayer: AudioPlayer,
-    stateBuilder: GameOverStateBuilder,
     private val gameSessionUseCases: GameSessionUseCases,
     private val achievementUseCases: AchievementUseCases
 ): Store<GameOverState, GameOverAction>(
-    navigation = navigation,
-    audioPlayer = audioPlayer,
-    initialState = when (stateBuilder) {
-        GameOverStateBuilder.Default -> GameOverState()
-        is GameOverStateBuilder.FromState -> stateBuilder.state
-    }
+    initialState = GameOverState()
 ) {
     @get:VisibleForTesting
     internal var achievements: List<Achievement>? = null
@@ -32,23 +22,14 @@ internal class GameOverStore(
     internal var index: Int = 0
 
     init {
-        when (stateBuilder) {
-            GameOverStateBuilder.Default -> setup()
-            is GameOverStateBuilder.FromState -> {
-                achievements = stateBuilder.achievements
-                index = stateBuilder.index
-            }
-        }
+        setup()
     }
-
-    override fun getSavableState(state: GameOverState): Any =
-        GameOverStateBuilder.FromState(state = state, achievements = achievements.orEmpty(), index = index)
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            error(tag = TAG, message = "Invalid state: missing game session on setup()")
+            feedback(tag = TAG, message = "Invalid state: missing game session on setup()")
             return@launch
         }
 
@@ -85,7 +66,7 @@ internal class GameOverStore(
                     )
                 }
 
-                Content.SCORE -> navigate(screen = Screen.MainMenu)
+                Content.SCORE -> navigate(screen = MainMenuScreen)
             }
 
             GameOverAction.NextAchievement -> {

@@ -11,7 +11,6 @@ import com.hybris.tlv.getNavigation
 import com.hybris.tlv.getStoreFactory
 import com.hybris.tlv.getUseCases
 import com.hybris.tlv.reset
-import com.hybris.tlv.ui.navigation.NavigationState
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class GameOverStoreTest {
@@ -21,7 +20,7 @@ internal class GameOverStoreTest {
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(screen = Screen.GameOver))
+        getNavigation().navigate(navigationState = NavigationState(screen = GameOverScreen))
     }
 
     @Test
@@ -35,7 +34,7 @@ internal class GameOverStoreTest {
 
     @Test
     fun `init without game session`() = runBlocking {
-        assertEquals(expected = Screen.GameOver, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameOverScreen, actual = getNavigation().stateFlow.value.screen)
         val gameOverStore = store
         assertNull(actual = gameOverStore.stateFlow.value.gameSession)
         assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
@@ -45,21 +44,21 @@ internal class GameOverStoreTest {
     fun `send action back`() = runBlocking {
         getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         store
-        assertEquals(expected = Screen.GameOver, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameOverScreen, actual = getNavigation().stateFlow.value.screen)
         getNavigation().back()
-        assertEquals(expected = Screen.GameOver, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameOverScreen, actual = getNavigation().stateFlow.value.screen)
     }
 
     @Test
     fun `send action continue`() = runBlocking {
-        assertEquals(expected = Screen.GameOver, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = GameOverScreen, actual = getNavigation().stateFlow.value.screen)
         getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameOverStore = store
         assertEquals(expected = Content.MESSAGE, actual = gameOverStore.stateFlow.value.currentContent)
         gameOverStore.send(action = GameOverAction.Next)
         assertEquals(expected = Content.SCORE, actual = gameOverStore.stateFlow.value.currentContent)
         gameOverStore.send(action = GameOverAction.Next)
-        assertEquals(expected = Screen.MainMenu, actual = getNavigation().stateFlow.value.screen)
+        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
     }
 
     @Test

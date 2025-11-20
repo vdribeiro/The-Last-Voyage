@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.ui.store.getStore
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.HostDefinition
 import com.hybris.tlv.ui.theme.component.container.LearnMenu
@@ -155,7 +154,7 @@ private fun HelpPreview() = AppTheme {
         )
     )
     HelpScreen(
-        store = getStore(
+        store = Store(
             initialState = HelpState(
                 loading = false,
                 formula = "Formula",
@@ -170,7 +169,7 @@ private fun HelpPreview() = AppTheme {
 @Composable
 private fun HelpHostDefinitionPreview() = AppTheme {
     HelpScreen(
-        store = getStore(
+        store = Store(
             initialState = HelpState(
                 loading = false,
                 formula = "Formula",
@@ -204,7 +203,7 @@ private fun HelpHostDefinitionPreview() = AppTheme {
 @Composable
 private fun HelpPlanetDefinitionPreview() = AppTheme {
     HelpScreen(
-        store = getStore(
+        store = Store(
             initialState = HelpState(
                 loading = false,
                 formula = "Formula",
@@ -238,7 +237,7 @@ private fun HelpPlanetDefinitionPreview() = AppTheme {
 @Composable
 private fun HelpHabitabilityPreview() = AppTheme {
     HelpScreen(
-        store = getStore(
+        store = Store(
             initialState = HelpState(
                 loading = false,
                 formula = "Formula",

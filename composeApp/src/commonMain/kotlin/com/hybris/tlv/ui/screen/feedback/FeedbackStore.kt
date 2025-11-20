@@ -2,40 +2,16 @@ package com.hybris.tlv.ui.screen.feedback
 
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.NavigationManager
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.SplashScreen
 import com.hybris.tlv.ui.store.Store
 
 internal class FeedbackStore(
-    navigation: NavigationManager,
-    audioPlayer: AudioPlayer,
-    stateBuilder: FeedbackStateBuilder,
+    private val tag: String?,
+    private val message: String?
 ): Store<FeedbackState, FeedbackAction>(
-    navigation = navigation,
-    audioPlayer = audioPlayer,
-    initialState = when (stateBuilder) {
-        FeedbackStateBuilder.Default -> FeedbackState()
-        is FeedbackStateBuilder.Error -> FeedbackState(isError = true)
-    }
+    initialState = FeedbackState(isError = tag != null || message != null)
 ) {
-    @get:VisibleForTesting
-    internal var tag: String? = null
-    @get:VisibleForTesting
-    internal var message: String? = null
-
-    init {
-        when (stateBuilder) {
-            FeedbackStateBuilder.Default -> {}
-            is FeedbackStateBuilder.Error -> {
-                tag = stateBuilder.tag
-                message = stateBuilder.message
-            }
-        }
-    }
-
     private fun sendFeedback(state: FeedbackState, action: FeedbackAction.SendFeedback): Job = launch {
         updateState {
             it.copy(
@@ -55,7 +31,7 @@ internal class FeedbackStore(
         delay(timeMillis = 2000L)
         Telemetry.info(tag = TAG, message = "Navigate away")
         when {
-            state.isError -> navigate(screen = Screen.Splash)
+            state.isError -> navigate(screen = SplashScreen)
             else -> back(state = state)
         }
     }
