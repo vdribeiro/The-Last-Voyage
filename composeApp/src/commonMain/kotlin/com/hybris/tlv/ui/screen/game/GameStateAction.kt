@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.game
 
-import kotlinx.serialization.Serializable
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost

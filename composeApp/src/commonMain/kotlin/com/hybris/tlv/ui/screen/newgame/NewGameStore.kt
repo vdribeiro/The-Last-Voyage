@@ -11,6 +11,14 @@ import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.ShipUseCases
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_FUEL
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_MATERIALS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_SENSOR_RANGE
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MIN_CRYOPODS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MIN_FUEL
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MIN_MATERIALS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MIN_SENSOR_RANGE
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 
@@ -38,10 +46,10 @@ internal class NewGameStore(
         }
         val shipState = ShipState(
             totalPoints = 25,
-            sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 4),
-            fuel = AttributePoint(max = 2000, min = 100, interval = 100, initialValue = 1000),
-            materials = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 500),
-            cryopods = AttributePoint(max = 1000, min = 100, interval = 100, initialValue = 500),
+            sensorRange = AttributePoint(max = MAX_SENSOR_RANGE, min = MIN_SENSOR_RANGE, interval = 1, initialValue = 4),
+            fuel = AttributePoint(max = MAX_FUEL, min = MIN_FUEL, interval = 100, initialValue = 1000),
+            materials = AttributePoint(max = MAX_MATERIALS, min = MIN_MATERIALS, interval = 100, initialValue = 500),
+            cryopods = AttributePoint(max = MAX_CRYOPODS, min = MIN_CRYOPODS, interval = 100, initialValue = 500),
             engine = engines.find { it.cost == 5 } ?: engines.first()
         )
 
@@ -79,14 +87,14 @@ internal class NewGameStore(
                     return@launch
                 }
 
-                Telemetry.info(tag = TAG, message = "Selected ship: $selectedShip")
-                gameSessionUseCases.startGame(
+                val gameSession = gameSessionUseCases.startGame(
                     GameSessionPrototype(
                         ship = selectedShip,
                         engine = selectedEngine,
                         formula = Formula()
                     )
                 )
+                Telemetry.info(tag = TAG, message = "New session: $gameSession")
                 navigate(screen = GameScreen())
             }
         }

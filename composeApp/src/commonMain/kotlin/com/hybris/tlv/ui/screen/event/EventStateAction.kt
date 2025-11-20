@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.event
 
-import kotlinx.serialization.Serializable
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.ship.model.Ship
 

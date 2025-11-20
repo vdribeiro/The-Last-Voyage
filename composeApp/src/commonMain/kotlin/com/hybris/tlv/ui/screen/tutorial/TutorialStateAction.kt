@@ -2,6 +2,11 @@ package com.hybris.tlv.ui.screen.tutorial
 
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_FUEL
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_INTEGRITY
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_MATERIALS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_SENSOR_RANGE
 
 internal sealed interface TutorialAction {
     data object Next: TutorialAction
@@ -20,11 +25,11 @@ internal data class TutorialState(
         ),
         assignedPoints = 0,
         yearsTraveled = 0.0,
-        sensorRange = (1..5).random(),
-        integrity = (50..100).random(),
-        fuel = (50..1000).random(),
-        materials = (50..1000).random(),
-        cryopods = (50..1000).random(),
+        sensorRange = (1..MAX_SENSOR_RANGE).random(),
+        integrity = (1..MAX_INTEGRITY).random(),
+        fuel = (1..MAX_FUEL).random(),
+        materials = (1..MAX_MATERIALS).random(),
+        cryopods = (1..MAX_CRYOPODS).random(),
     )
 )
 

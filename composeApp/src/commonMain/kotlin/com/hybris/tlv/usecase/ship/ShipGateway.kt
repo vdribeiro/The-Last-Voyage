@@ -53,17 +53,17 @@ internal class ShipGateway(
         engineDao.getEngines().executeAsList().map { it.toEngine() }.sortedBy { it.velocity }
 
     override suspend fun repairShip(ship: Ship): Ship {
-        var integrity = ship.integrity
-        var materials = ship.materials
-        val fuel = if (ship.fuel < 0) 0 else ship.fuel
-        val cryopods = if (ship.cryopods < 0) 0 else ship.cryopods
-
         if (config.preferences.value.cheats) return ship.copy(
             integrity = 100,
             materials = 1000,
             fuel = 2000,
             cryopods = 1000
         )
+
+        var integrity = ship.integrity
+        var materials = ship.materials
+        val fuel = if (ship.fuel < 0) 0 else ship.fuel
+        val cryopods = if (ship.cryopods < 0) 0 else ship.cryopods
 
         if (integrity <= 0) {
             // Attempt to repair the ship

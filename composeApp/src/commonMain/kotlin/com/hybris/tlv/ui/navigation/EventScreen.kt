@@ -26,4 +26,4 @@ internal fun NavGraphBuilder.eventScreen(
 )
 
 @Serializable
-internal data class EventScreen(val ship: Ship? = null) : Screen
+internal data class EventScreen(val ship: Ship? = null): Screen
