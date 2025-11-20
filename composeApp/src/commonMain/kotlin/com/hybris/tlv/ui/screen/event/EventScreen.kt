@@ -52,7 +52,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
     ) {
         TypewriterContent(
             title = event?.let { getTranslation(key = it.id) },
-            text = event?.let { "${getTranslation(key = it.description)}${it.outcome?.getTranslation()}" },
+            text = event?.let { "${getTranslation(key = it.description)}${it.outcome?.getTranslation().orEmpty()}" },
         )
     }
 }

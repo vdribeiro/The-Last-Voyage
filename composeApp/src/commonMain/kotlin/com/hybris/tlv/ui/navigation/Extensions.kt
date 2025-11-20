@@ -55,7 +55,7 @@ internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.
                     navController.navigate(route = screen) { if (existingEntry != null) popUpTo(route = screen) { inclusive = true } }
                 }
             }
-            Telemetry.info(tag = TAG, message = "Navigation current destination: ${navController.currentDestination}")
+            Telemetry.info(tag = TAG, message = "Navigation stack: ${navController.currentBackStack.value}")
         }
     }
     Box(modifier = Modifier.fillMaxSize().backNavigation { store.back() }) { screen(store) }
