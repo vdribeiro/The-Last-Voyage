@@ -1,14 +1,11 @@
 package com.hybris.tlv.ui.screen.tutorial
 
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 
 internal class TutorialStore(
     private val newGame: Boolean,
-    config: ConfigManager
 ): Store<TutorialState, TutorialAction>(
-    config = config,
     initialState = TutorialState()
 ) {
     override fun reducer(state: TutorialState, action: TutorialAction) {

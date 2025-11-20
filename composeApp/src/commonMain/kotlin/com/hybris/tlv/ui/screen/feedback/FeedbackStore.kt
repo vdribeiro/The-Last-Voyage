@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.feedback
 
 import kotlinx.coroutines.Job
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
@@ -9,9 +8,7 @@ import com.hybris.tlv.ui.store.Store
 internal class FeedbackStore(
     private val tag: String?,
     private val message: String?,
-    config: ConfigManager,
 ): Store<FeedbackState, FeedbackAction>(
-    config = config,
     initialState = FeedbackState(isError = tag != null || message != null)
 ) {
     private fun sendFeedback(action: FeedbackAction.SendFeedback): Job = launch {

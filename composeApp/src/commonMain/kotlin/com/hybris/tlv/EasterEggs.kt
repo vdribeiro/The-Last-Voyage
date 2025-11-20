@@ -16,13 +16,13 @@ import com.hybris.tlv.ui.theme.modifier.Gesture
 import com.hybris.tlv.ui.theme.modifier.onGesture
 import com.hybris.tlv.ui.theme.modifier.rememberKeySequence
 
-private val konamiCode = listOf(
+internal val konamiCode = listOf(
     Key.DirectionUp, Key.DirectionUp, Key.DirectionDown, Key.DirectionDown,
     Key.DirectionLeft, Key.DirectionRight, Key.DirectionLeft, Key.DirectionRight,
     Key.B, Key.A, Key.Enter
 )
 
-private val konamiGestureCode = listOf(
+internal val konamiGestureCode = listOf(
     Gesture.SWIPE_UP, Gesture.SWIPE_UP, Gesture.SWIPE_DOWN, Gesture.SWIPE_DOWN,
     Gesture.SWIPE_LEFT, Gesture.SWIPE_RIGHT, Gesture.SWIPE_LEFT, Gesture.SWIPE_RIGHT,
     Gesture.TAP, Gesture.TAP, Gesture.TAP
@@ -30,9 +30,11 @@ private val konamiGestureCode = listOf(
 
 @Composable
 internal fun rememberKeySequenceCheats(config: ConfigManager): (KeyEvent) -> Boolean {
+    val haptics = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
     return rememberKeySequence(sequence = konamiCode) {
-        scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) }
+        haptics.performHapticFeedback(hapticFeedbackType = cheatHapticFeedback)
+        scope.launch(context = Dispatcher.IO) { enableCheats(config = config) }
     }
 }
 
@@ -41,13 +43,13 @@ internal fun Modifier.enableGestureCheats(config: ConfigManager): Modifier = com
     val scope = rememberCoroutineScope()
     onGesture(sequence = konamiGestureCode) {
         haptics.performHapticFeedback(hapticFeedbackType = cheatHapticFeedback)
-        scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) }
+        scope.launch(context = Dispatcher.IO) { enableCheats(config = config) }
     }
 }
 
-internal suspend fun ConfigManager.cheats(enabled: Boolean) {
-    Telemetry.info(tag = "God", message = "Cheats: $enabled")
-    setPreferences { it.copy(cheats = enabled) }
+private suspend fun enableCheats(config: ConfigManager) {
+    config.setPreferences { it.copy(cheats = true) }
+    Telemetry.info(tag = "God", message = "Cheats!")
 }
 
 internal val cheatHapticFeedback: HapticFeedbackType = HapticFeedbackType.Reject

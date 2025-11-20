@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.Action as GlobalAction
@@ -24,10 +23,7 @@ import com.hybris.tlv.ui.navigation.Action as GlobalAction
  * After it receives the result from the Use Case, it combines it with the current [State], and emits a new [State].
  * A key rule is that the UI only observes the Store's [State] and never modifies it directly.
  */
-internal open class Store<State, Action>(
-    private val config: ConfigManager,
-    initialState: State
-): ViewModel() {
+internal open class Store<State, Action>(initialState: State): ViewModel() {
 
     /**
      * The current state of the screen.
@@ -73,7 +69,7 @@ internal open class Store<State, Action>(
     /**
      * Send an [action].
      */
-    private fun action(action: GlobalAction): Job =
+    protected fun action(action: GlobalAction): Job =
         viewModelScope.launch { _action.send(element = action) }
 
     /**
@@ -112,5 +108,12 @@ internal open class Store<State, Action>(
      */
     fun toggleAudio() {
         action(action = GlobalAction.ToggleAudio)
+    }
+
+    /**
+     * Toggle cheats.
+     */
+    fun toggleCheats() {
+        action(action = GlobalAction.DisableCheats)
     }
 }

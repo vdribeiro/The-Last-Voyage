@@ -31,7 +31,6 @@ internal class SplashStore(
     private val achievementUseCases: AchievementUseCases,
     private val creditUseCases: CreditUseCases
 ): Store<SplashState, SplashAction>(
-    config = config,
     initialState = SplashState()
 ) {
     init {

@@ -2,9 +2,7 @@ package com.hybris.tlv.ui.screen.game
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.GameOver
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
@@ -17,12 +15,10 @@ import com.hybris.tlv.usecase.space.formula.SUN
 
 internal class GameStore(
     ship: Ship?,
-    config: ConfigManager,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameState, GameAction>(
-    config = config,
     initialState = GameState(ship = ship)
 ) {
     @get:VisibleForTesting
@@ -46,7 +42,7 @@ internal class GameStore(
         gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
 
         if (gameSessionUseCases.isGameOver(gameSession = updatedGameSession)) {
-            navigate(screen = GameOver)
+            navigate(screen = Screen.GameOver)
             return@launch
         }
         Telemetry.info(tag = TAG, message = "Ship repaired: $ship")
@@ -132,7 +128,7 @@ internal class GameStore(
         }
 
         this@GameStore.gameSession = gameSessionUseCases.settle(gameSession = gameSession, planet = action.planet)
-        navigate(screen = GameOver)
+        navigate(screen = Screen.GameOver)
     }
 
     override fun back(state: GameState) {

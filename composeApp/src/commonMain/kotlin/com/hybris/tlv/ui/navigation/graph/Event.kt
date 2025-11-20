@@ -3,7 +3,6 @@ package com.hybris.tlv.ui.navigation.graph
 import kotlin.reflect.typeOf
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.graph
 import com.hybris.tlv.ui.navigation.serializableType
@@ -14,7 +13,6 @@ import com.hybris.tlv.usecase.ship.model.Ship
 
 internal fun NavGraphBuilder.eventScreen(
     navController: NavHostController,
-    config: ConfigManager,
     useCases: UseCases
 ) = graph<Screen.Event, EventStore>(
     navController = navController,
@@ -22,7 +20,6 @@ internal fun NavGraphBuilder.eventScreen(
     store = {
         EventStore(
             ship = it.ship,
-            config = config,
             eventUseCases = useCases.event,
             gameSessionUseCases = useCases.gameSession,
         )

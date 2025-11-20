@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.screen.help
 import kotlinx.coroutines.Job
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.Tutorial
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.learning.LearningUseCases
 
@@ -11,7 +11,6 @@ internal class HelpStore(
     private val config: ConfigManager,
     private val learningUseCases: LearningUseCases
 ): Store<HelpState, HelpAction>(
-    config = config,
     initialState = HelpState()
 ) {
     init {
@@ -48,7 +47,7 @@ internal class HelpStore(
             HelpAction.Navigation -> updateState { it.copy(currentContent = Content.NAVIGATION) }
             HelpAction.HostDefinition -> updateState { it.copy(currentContent = Content.HOST_DEFINITION) }
             HelpAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
-            HelpAction.Mechanics -> navigate(screen = Tutorial())
+            HelpAction.Mechanics -> navigate(screen = Screen.Tutorial())
             HelpAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
         }
     }

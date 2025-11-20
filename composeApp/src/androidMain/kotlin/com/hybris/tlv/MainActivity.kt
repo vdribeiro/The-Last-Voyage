@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.ui.Modifier
 import com.hybris.tlv.telemetry.Telemetry
 
 private const val TAG = "APP"
@@ -17,13 +16,6 @@ class MainActivity: ComponentActivity() {
         Telemetry.info(tag = TAG, message = "App started")
 
         enableEdgeToEdge()
-        setContent {
-            App(
-                modifier = Modifier.enableGestureCheats(config = dependency.config),
-                config = dependency.config,
-                useCases = dependency.useCases,
-                audioPlayer = dependency.audioPlayer,
-            )
-        }
+        setContent { App(dependency = dependency) }
     }
 }

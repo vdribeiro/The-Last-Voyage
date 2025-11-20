@@ -40,11 +40,7 @@ fun main() = application {
         onPreviewKeyEvent = rememberKeySequenceCheats(config = dependency.config)
     ) {
         CompositionLocalProvider(value = LocalWindowState provides windowState) {
-            App(
-                config = dependency.config,
-                useCases = dependency.useCases,
-                audioPlayer = dependency.audioPlayer,
-            )
+            App(dependency = dependency)
         }
     }
 }

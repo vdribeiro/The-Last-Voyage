@@ -18,7 +18,7 @@ import androidx.navigation.toRoute
 import androidx.savedstate.SavedState
 import androidx.savedstate.read
 import androidx.savedstate.write
-import com.hybris.tlv.config.ConfigManager
+import com.hybris.tlv.Dependency
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.serializer.decode
 import com.hybris.tlv.serializer.decodeURL
@@ -39,7 +39,6 @@ import com.hybris.tlv.ui.navigation.graph.splashScreen
 import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.UseCases
 
 /**
  * Set the Navigation graph.
@@ -48,8 +47,7 @@ import com.hybris.tlv.usecase.UseCases
 internal fun Navigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    config: ConfigManager,
-    useCases: UseCases,
+    dependency: Dependency
 ) {
     NavHost(
         modifier = modifier,
@@ -60,32 +58,33 @@ internal fun Navigation(
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None }
     ) {
-        splashScreen(navController = navController, config = config, useCases = useCases)
-        mainMenuScreen(navController = navController, config = config, useCases = useCases)
-        helpScreen(navController = navController, config = config, useCases = useCases)
-        feedbackScreen(navController = navController, config = config)
-        newGameScreen(navController = navController, config = config, useCases = useCases)
-        tutorialScreen(navController = navController, config = config)
-        gameScreen(navController = navController, config = config, useCases = useCases)
-        eventScreen(navController = navController, config = config, useCases = useCases)
-        gameOverScreen(navController = navController, config = config, useCases = useCases)
-        stellarExplorerScreen(navController = navController, config = config, useCases = useCases)
-        scoreScreen(navController = navController, config = config, useCases = useCases)
-        achievementScreen(navController = navController, config = config, useCases = useCases)
-        creditScreen(navController = navController, config = config, useCases = useCases)
+        splashScreen(navController = navController, dependency = dependency)
+        mainMenuScreen(navController = navController, dependency = dependency)
+        helpScreen(navController = navController, dependency = dependency)
+        feedbackScreen(navController = navController, dependency = dependency)
+        newGameScreen(navController = navController, dependency = dependency)
+        tutorialScreen(navController = navController, dependency = dependency)
+        gameScreen(navController = navController, dependency = dependency)
+        eventScreen(navController = navController, dependency = dependency)
+        gameOverScreen(navController = navController, dependency = dependency)
+        stellarExplorerScreen(navController = navController, dependency = dependency)
+        scoreScreen(navController = navController, dependency = dependency)
+        achievementScreen(navController = navController, dependency = dependency)
+        creditScreen(navController = navController, dependency = dependency)
     }
 }
 
 /**
- * Adds to the [NavGraphBuilder] a [screen] composable with its [store], and sets the [Back] and forward navigation,
+ * Adds to the [NavGraphBuilder] a [screen] composable with its [store], and sets the back and forward navigation,
  * with the latter replacing the existing screen if it is already in the stack.
  */
 @OptIn(ExperimentalComposeUiApi::class)
 internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.graph(
     navController: NavHostController,
+    typeMap: Map<KType, NavType<*>> = emptyMap(),
     crossinline store: (S) -> T,
     crossinline screen: @Composable (T) -> Unit,
-    typeMap: Map<KType, NavType<*>> = emptyMap(),
+    crossinline block: () -> Unit = {}
 ) = composable<S>(typeMap = typeMap) { entry ->
     val args = entry.toRoute<S>()
     val store = viewModel { store(args) }
@@ -101,11 +100,12 @@ internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.
         store.action.collect { action ->
             when (action) {
                 Action.Back -> navController.popBackStack()
-                Action.ToggleAudio -> audioPlayer.action(action = AudioPlayer.Action.Toggle)
+                Action.ToggleAudio -> dependency.audioPlayer.action(action = AudioPlayer.Action.Toggle)
+                Action.DisableCheats -> dependency.config.setPreferences { it.copy(cheats = false) }
             }
         }
     }
-
+    block()
     screen(store)
 }
 
