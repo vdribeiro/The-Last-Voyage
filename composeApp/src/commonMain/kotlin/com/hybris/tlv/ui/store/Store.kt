@@ -36,7 +36,7 @@ internal open class Store<State, Action>(
     private val jobs = mutableListOf<Job>()
 
     init {
-        navigation.back = { goBack(state = _stateFlow.value) }
+        navigation.back = { back(state = _stateFlow.value) }
     }
 
     /**
@@ -47,7 +47,7 @@ internal open class Store<State, Action>(
     /**
      * Overridable back navigation.
      */
-    protected open fun goBack(state: State) {
+    protected open fun back(state: State) {
         navigation.goBack()
     }
 

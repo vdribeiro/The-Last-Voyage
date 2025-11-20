@@ -110,7 +110,7 @@ internal class NewGameStore(
         }
     }
 
-    override fun goBack(state: NewGameState) {
+    override fun back(state: NewGameState) {
         navigate(screen = Screen.MainMenu)
     }
 

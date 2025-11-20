@@ -99,7 +99,7 @@ internal class SplashStore(
         navigate(screen = Screen.MainMenu)
     }
 
-    override fun goBack(state: SplashState) {}
+    override fun back(state: SplashState) {}
 
     override fun reducer(state: SplashState, action: SplashAction) {
         when (action) {

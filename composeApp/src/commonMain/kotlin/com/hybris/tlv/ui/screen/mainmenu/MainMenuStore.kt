@@ -37,7 +37,7 @@ internal class MainMenuStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
-        val configs = config.remoteConfigs
+        val configs = config.remoteConfigs.value
         val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
         val developerCorner = configs.developerCorner
         val support = configs.support
@@ -56,21 +56,21 @@ internal class MainMenuStore(
 
     private fun newGame(): Job = launch {
         Telemetry.info(tag = TAG, message = "New game")
-        if (config.preferences.showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = Screen.NewGame)
+        if (config.preferences.value.showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = Screen.NewGame)
     }
 
     private fun newGameWithoutTutorial(): Job = launch {
-        config.setPreferences { it.copy(showTutorial = false) }.savePreferences()
+        config.setPreferences { it.copy(showTutorial = false) }
         navigate(screen = Screen.NewGame)
     }
 
     private fun newGameWithTutorial(): Job = launch {
         Telemetry.info(tag = TAG, message = "Show tutorial")
-        config.setPreferences { it.copy(showTutorial = false) }.savePreferences()
+        config.setPreferences { it.copy(showTutorial = false) }
         navigate(screen = Screen.Tutorial, stateBuilder = TutorialStateBuilder.Default(newGame = true))
     }
 
-    override fun goBack(state: MainMenuState) {}
+    override fun back(state: MainMenuState) {}
 
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
