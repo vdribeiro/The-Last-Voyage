@@ -7,6 +7,7 @@ import androidx.navigation.toRoute
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.toScreen
 import com.hybris.tlv.ui.theme.AppTheme
 
 @Composable
@@ -19,7 +20,7 @@ internal fun App(dependency: Dependency) = AppTheme {
         useCases = dependency.useCases,
     )
 
-    val screen = navController.currentBackStackEntry?.toRoute<Screen>()
+    val screen = navController.toScreen()
     AudioPlayer(
         audioPlayer = dependency.audioPlayer,
         screen = screen

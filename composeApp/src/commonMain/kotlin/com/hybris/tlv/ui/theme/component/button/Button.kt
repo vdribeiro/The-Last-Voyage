@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.theme.component.button
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
@@ -22,7 +21,6 @@ internal fun Button(
     enabled: Boolean = true,
     hapticFeedback: HapticFeedbackType? = null,
     text: String = "",
-    colors: ButtonColors = ButtonDefaults.outlinedButtonColors(),
     onClick: () -> Unit = {},
 ) {
     val haptics = LocalHapticFeedback.current

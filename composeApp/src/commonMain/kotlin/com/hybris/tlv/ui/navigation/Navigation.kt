@@ -8,6 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -130,12 +131,6 @@ internal inline fun <reified T> serializableType(): NavType<T> {
         override fun parseValue(value: String): T =
             decodeURL<T>(value = value) as T
     }
-}
-
-internal fun NavHostController.getCurrentScreen(): Screen? {
-    currentBackStackEntry?.destination ?: return null
-
-    return null
 }
 
 private const val TAG = "Navigation"
