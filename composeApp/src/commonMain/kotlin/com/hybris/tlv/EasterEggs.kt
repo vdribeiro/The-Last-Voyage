@@ -14,7 +14,6 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.theme.modifier.Gesture
 import com.hybris.tlv.ui.theme.modifier.onGesture
-import com.hybris.tlv.ui.theme.modifier.onKeySequence
 import com.hybris.tlv.ui.theme.modifier.rememberKeySequence
 
 private val konamiCode = listOf(
@@ -40,16 +39,9 @@ internal fun Modifier.enableGestureCheats(config: ConfigManager): Modifier = com
 
 @Composable
 internal fun rememberKeySequenceCheats(config: ConfigManager): (KeyEvent) -> Boolean {
-    val scope = rememberCoroutineScope()
-    return rememberKeySequence(sequence = konamiCode) {
-        scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) }
-    }
-}
-
-internal fun Modifier.enableKeyCheats(config: ConfigManager): Modifier = composed {
     val haptics = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
-    onKeySequence(sequence = konamiCode) {
+    return rememberKeySequence(sequence = konamiCode) {
         haptics.performHapticFeedback(hapticFeedbackType = cheatHapticFeedback)
         scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) }
     }
