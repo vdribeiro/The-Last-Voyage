@@ -25,30 +25,29 @@ internal class MainMenuStore(
         setup()
     }
 
-    private fun setup() {
+    private fun setup(): Job = launch {
+        Telemetry.info(tag = TAG, message = "Setup")
+        val configs = config.localConfigs.value
+        val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
+        val developerCorner = configs.developerCorner
+        val support = configs.support
+        val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
+        updateState {
+            it.copy(
+                loading = false,
+                newVersionBanner = newVersionBanner,
+                developerCorner = developerCorner,
+                support = support,
+                ongoingGameSession = ongoingGameSession,
+            )
+        }
+        Telemetry.info(tag = TAG, message = "Setup complete")
+    }.also {
         launch {
             config.preferences.collect { preferences ->
                 val cheatsEnabled = preferences.cheats
                 updateState { it.copy(cheatsEnabled = cheatsEnabled) }
             }
-        }
-        launch {
-            Telemetry.info(tag = TAG, message = "Setup")
-            val configs = config.localConfigs.value
-            val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
-            val developerCorner = configs.developerCorner
-            val support = configs.support
-            val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
-            updateState {
-                it.copy(
-                    loading = false,
-                    newVersionBanner = newVersionBanner,
-                    developerCorner = developerCorner,
-                    support = support,
-                    ongoingGameSession = ongoingGameSession,
-                )
-            }
-            Telemetry.info(tag = TAG, message = "Setup complete")
         }
     }
 
