@@ -2,9 +2,10 @@ package com.hybris.tlv.ui.screen.newgame
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.GameScreen
-import com.hybris.tlv.ui.navigation.MainMenuScreen
+import com.hybris.tlv.ui.navigation.Game
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
@@ -23,10 +24,12 @@ import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.space.model.Formula
 
 internal class NewGameStore(
+    config: ConfigManager,
     private val shipUseCases: ShipUseCases,
     private val catastropheUseCases: CatastropheUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameState, NewGameAction>(
+    config = config,
     initialState = NewGameState()
 ) {
     @VisibleForTesting
@@ -95,13 +98,13 @@ internal class NewGameStore(
                     )
                 )
                 Telemetry.info(tag = TAG, message = "New session: $gameSession")
-                navigate(screen = GameScreen())
+                navigate(screen = Game())
             }
         }
     }
 
     override fun back(state: NewGameState) {
-        navigate(screen = MainMenuScreen)
+        navigate(screen = Screen.MainMenu)
     }
 
     override fun reducer(state: NewGameState, action: NewGameAction) {

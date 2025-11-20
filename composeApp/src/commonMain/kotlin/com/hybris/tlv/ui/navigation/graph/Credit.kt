@@ -1,20 +1,25 @@
-package com.hybris.tlv.ui.navigation
+package com.hybris.tlv.ui.navigation.graph
 
-import kotlinx.serialization.Serializable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import com.hybris.tlv.config.ConfigManager
+import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.graph
 import com.hybris.tlv.ui.screen.credit.CreditScreen
 import com.hybris.tlv.ui.screen.credit.CreditStore
 import com.hybris.tlv.usecase.UseCases
 
 internal fun NavGraphBuilder.creditScreen(
     navController: NavHostController,
+    config: ConfigManager,
     useCases: UseCases
-) = graph<CreditScreen, CreditStore>(
+) = graph<Screen.Credit, CreditStore>(
     navController = navController,
-    store = { CreditStore(creditUseCases = useCases.credit) },
+    store = {
+        CreditStore(
+            config = config,
+            creditUseCases = useCases.credit
+        )
+    },
     screen = { CreditScreen(store = it) }
 )
-
-@Serializable
-internal data object CreditScreen: Screen

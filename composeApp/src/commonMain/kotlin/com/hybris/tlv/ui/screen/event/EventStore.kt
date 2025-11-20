@@ -2,8 +2,9 @@ package com.hybris.tlv.ui.screen.event
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.GameScreen
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
@@ -13,9 +14,11 @@ import com.hybris.tlv.usecase.ship.model.Ship
 
 internal class EventStore(
     ship: Ship?,
+    config: ConfigManager,
     private val eventUseCases: EventUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<EventState, EventAction>(
+    config = config,
     initialState = EventState(ship = ship)
 ) {
     @get:VisibleForTesting
@@ -77,7 +80,7 @@ internal class EventStore(
 
         Telemetry.info(tag = TAG, message = "Check if event chain has ended")
         if (action.event == stopEvent) {
-            navigate(screen = GameScreen(ship = gameSession.ship))
+            navigate(screen = Screen.Game(ship = gameSession.ship))
             return@launch
         }
 

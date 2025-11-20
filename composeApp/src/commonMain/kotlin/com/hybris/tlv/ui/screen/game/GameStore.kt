@@ -2,10 +2,10 @@ package com.hybris.tlv.ui.screen.game
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.EventScreen
-import com.hybris.tlv.ui.navigation.GameOverScreen
-import com.hybris.tlv.ui.navigation.MainMenuScreen
+import com.hybris.tlv.ui.navigation.GameOver
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
@@ -17,10 +17,12 @@ import com.hybris.tlv.usecase.space.formula.SUN
 
 internal class GameStore(
     ship: Ship?,
+    config: ConfigManager,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<GameState, GameAction>(
+    config = config,
     initialState = GameState(ship = ship)
 ) {
     @get:VisibleForTesting
@@ -44,7 +46,7 @@ internal class GameStore(
         gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
 
         if (gameSessionUseCases.isGameOver(gameSession = updatedGameSession)) {
-            navigate(screen = GameOverScreen)
+            navigate(screen = GameOver)
             return@launch
         }
         Telemetry.info(tag = TAG, message = "Ship repaired: $ship")
@@ -118,7 +120,7 @@ internal class GameStore(
         }
 
         this@GameStore.gameSession = gameSessionUseCases.travel(gameSession = gameSession, stellarHost = stellarHost)
-        navigate(screen = EventScreen(ship = gameSession.ship))
+        navigate(screen = Screen.Event(ship = gameSession.ship))
     }
 
     private fun settle(action: GameAction.Settle): Job = launch {
@@ -130,11 +132,11 @@ internal class GameStore(
         }
 
         this@GameStore.gameSession = gameSessionUseCases.settle(gameSession = gameSession, planet = action.planet)
-        navigate(screen = GameOverScreen)
+        navigate(screen = GameOver)
     }
 
     override fun back(state: GameState) {
-        navigate(screen = MainMenuScreen)
+        navigate(screen = Screen.MainMenu)
     }
 
     override fun reducer(state: GameState, action: GameAction) {

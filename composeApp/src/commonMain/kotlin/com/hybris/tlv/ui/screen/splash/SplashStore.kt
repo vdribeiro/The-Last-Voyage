@@ -7,7 +7,7 @@ import kotlinx.coroutines.supervisorScope
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.MainMenuScreen
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
@@ -31,6 +31,7 @@ internal class SplashStore(
     private val achievementUseCases: AchievementUseCases,
     private val creditUseCases: CreditUseCases
 ): Store<SplashState, SplashAction>(
+    config = config,
     initialState = SplashState()
 ) {
     init {
@@ -58,7 +59,7 @@ internal class SplashStore(
         if (config.preferences.value.showIntro) {
             config.setPreferences { it.copy(showIntro = false) }
             updateState { it.copy(loading = false, currentContent = Content.INTRO) }
-        } else navigate(screen = MainMenuScreen)
+        } else navigate(screen = Screen.MainMenu)
     }
 
     private suspend fun sync() = supervisorScope {
@@ -87,7 +88,7 @@ internal class SplashStore(
 
     override fun reducer(state: SplashState, action: SplashAction) {
         when (action) {
-            SplashAction.Next -> navigate(screen = MainMenuScreen)
+            SplashAction.Next -> navigate(screen = Screen.MainMenu)
         }
     }
 

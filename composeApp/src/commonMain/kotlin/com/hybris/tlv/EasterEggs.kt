@@ -30,10 +30,8 @@ private val konamiGestureCode = listOf(
 
 @Composable
 internal fun rememberKeySequenceCheats(config: ConfigManager): (KeyEvent) -> Boolean {
-    val haptics = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
     return rememberKeySequence(sequence = konamiCode) {
-        haptics.performHapticFeedback(hapticFeedbackType = cheatHapticFeedback)
         scope.launch(context = Dispatcher.IO) { config.cheats(enabled = true) }
     }
 }

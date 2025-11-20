@@ -13,10 +13,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.ui.navigation.Back
-import com.hybris.tlv.ui.navigation.FeedbackScreen
-import com.hybris.tlv.ui.navigation.HelpScreen
 import com.hybris.tlv.ui.navigation.Screen
 
 /**
@@ -25,7 +23,10 @@ import com.hybris.tlv.ui.navigation.Screen
  * After it receives the result from the Use Case, it combines it with the current [State], and emits a new [State].
  * A key rule is that the UI only observes the Store's [State] and never modifies it directly.
  */
-internal open class Store<State, Action>(initialState: State): ViewModel() {
+internal open class Store<State, Action>(
+    private val config: ConfigManager,
+    initialState: State
+): ViewModel() {
 
     /**
      * The current state of the screen.
@@ -34,10 +35,16 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     val stateFlow: StateFlow<State> = _stateFlow.asStateFlow()
 
     /**
-     * Effect for navigation.
+     * Navigation channel.
      */
-    private val _effect: Channel<Screen> = Channel()
-    val effect: Flow<Screen> = _effect.receiveAsFlow()
+    private val _navigation: Channel<Screen> = Channel()
+    val navigation: Flow<Screen> = _navigation.receiveAsFlow()
+
+    /**
+     * Actions channel.
+     */
+    private val _action: Channel<Screen> = Channel()
+    val action: Flow<Screen> = _action.receiveAsFlow()
 
     /**
      * Sends an [Action] to the Store.
@@ -60,7 +67,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      * Navigate to a new [screen].
      */
     protected fun navigate(screen: Screen) =
-        viewModelScope.launch { _effect.send(element = screen) }
+        viewModelScope.launch { _navigation.send(element = screen) }
 
     /**
      * Launches a coroutine.
@@ -72,7 +79,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      * Overridable back navigation.
      */
     protected open fun back(state: State) {
-        navigate(screen = Back)
+        navigate(screen = Screen.Back)
     }
 
     /**
@@ -81,22 +88,22 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     fun back() = back(state = _stateFlow.value)
 
     /**
-     * Navigate to [HelpScreen] screen.
+     * Navigate to [Screen.Help].
      */
-    fun help(): Job = navigate(screen = HelpScreen)
+    fun help(): Job = navigate(screen = Screen.Help)
 
     /**
-     * Navigate to [FeedbackScreen] screen.
+     * Navigate to [Screen.Feedback].
      */
     fun feedback(
         tag: String? = null,
         message: String? = null
-    ): Job = navigate(screen = FeedbackScreen(tag = tag, message = message))
+    ): Job = navigate(screen = Screen.Feedback(tag = tag, message = message))
 
     /**
      * Toggle audio player.
      */
     fun toggleAudio() {
-        // TODO: audioPlayer.action(action = AudioPlayer.Action.Toggle)
+
     }
 }

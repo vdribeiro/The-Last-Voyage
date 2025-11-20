@@ -3,6 +3,7 @@ package com.hybris.tlv
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.Navigation
@@ -25,7 +26,7 @@ internal fun App(
         useCases = useCases,
     )
 
-    val screen = navController.currentDestination as? Screen
+    val screen = navController.currentBackStackEntry?.toRoute<Screen>()
     AudioPlayer(
         audioPlayer = audioPlayer,
         screen = screen

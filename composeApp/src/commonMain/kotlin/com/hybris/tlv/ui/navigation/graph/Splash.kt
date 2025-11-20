@@ -1,9 +1,10 @@
-package com.hybris.tlv.ui.navigation
+package com.hybris.tlv.ui.navigation.graph
 
-import kotlinx.serialization.Serializable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import com.hybris.tlv.config.ConfigManager
+import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.graph
 import com.hybris.tlv.ui.screen.splash.SplashScreen
 import com.hybris.tlv.ui.screen.splash.SplashStore
 import com.hybris.tlv.usecase.UseCases
@@ -12,7 +13,7 @@ internal fun NavGraphBuilder.splashScreen(
     navController: NavHostController,
     config: ConfigManager,
     useCases: UseCases
-) = graph<SplashScreen, SplashStore>(
+) = graph<Screen.Splash, SplashStore>(
     navController = navController,
     store = {
         SplashStore(
@@ -30,6 +31,3 @@ internal fun NavGraphBuilder.splashScreen(
     },
     screen = { SplashScreen(store = it) }
 )
-
-@Serializable
-internal data object SplashScreen: Screen

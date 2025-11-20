@@ -2,18 +2,22 @@ package com.hybris.tlv.ui.screen.gameover
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.MainMenuScreen
+import com.hybris.tlv.ui.navigation.MainMenu
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal class GameOverStore(
+    config: ConfigManager,
     private val gameSessionUseCases: GameSessionUseCases,
     private val achievementUseCases: AchievementUseCases
 ): Store<GameOverState, GameOverAction>(
+    config = config,
     initialState = GameOverState()
 ) {
     @get:VisibleForTesting
@@ -66,7 +70,7 @@ internal class GameOverStore(
                     )
                 }
 
-                Content.SCORE -> navigate(screen = MainMenuScreen)
+                Content.SCORE -> navigate(screen = Screen.MainMenu)
             }
 
             GameOverAction.NextAchievement -> {

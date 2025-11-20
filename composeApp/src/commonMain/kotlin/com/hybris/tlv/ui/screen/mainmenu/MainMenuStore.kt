@@ -5,13 +5,12 @@ import com.hybris.tlv.cheats
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.AchievementScreen
-import com.hybris.tlv.ui.navigation.CreditScreen
-import com.hybris.tlv.ui.navigation.GameScreen
-import com.hybris.tlv.ui.navigation.NewGameScreen
-import com.hybris.tlv.ui.navigation.ScoreScreen
-import com.hybris.tlv.ui.navigation.StellarExplorerScreen
-import com.hybris.tlv.ui.navigation.TutorialScreen
+import com.hybris.tlv.ui.navigation.Game
+import com.hybris.tlv.ui.navigation.NewGame
+import com.hybris.tlv.ui.navigation.Score
+import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.StellarExplorer
+import com.hybris.tlv.ui.navigation.Tutorial
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
@@ -19,6 +18,7 @@ internal class MainMenuStore(
     private val config: ConfigManager,
     private val gameSessionUseCases: GameSessionUseCases,
 ): Store<MainMenuState, MainMenuAction>(
+    config = config,
     initialState = MainMenuState()
 ) {
     init {
@@ -53,18 +53,18 @@ internal class MainMenuStore(
 
     private fun newGame(): Job = launch {
         Telemetry.info(tag = TAG, message = "New game")
-        if (config.preferences.value.showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = NewGameScreen)
+        if (config.preferences.value.showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = NewGame)
     }
 
     private fun newGameWithoutTutorial(): Job = launch {
         config.setPreferences { it.copy(showTutorial = false) }
-        navigate(screen = NewGameScreen)
+        navigate(screen = NewGame)
     }
 
     private fun newGameWithTutorial(): Job = launch {
         Telemetry.info(tag = TAG, message = "Show tutorial")
         config.setPreferences { it.copy(showTutorial = false) }
-        navigate(screen = TutorialScreen(newGame = true))
+        navigate(screen = Tutorial(newGame = true))
     }
 
     private fun disableCheats(): Job = launch {
@@ -79,11 +79,11 @@ internal class MainMenuStore(
             MainMenuAction.HideNewGameDialog -> updateState { it.copy(newGameDialog = false) }
             MainMenuAction.NoNewGameDialog -> newGameWithoutTutorial()
             MainMenuAction.YesNewGameDialog -> newGameWithTutorial()
-            MainMenuAction.Next -> navigate(screen = GameScreen())
-            MainMenuAction.Scores -> navigate(screen = ScoreScreen)
-            MainMenuAction.Achievements -> navigate(screen = AchievementScreen)
-            MainMenuAction.Credits -> navigate(screen = CreditScreen)
-            MainMenuAction.StellarExplorer -> navigate(screen = StellarExplorerScreen)
+            MainMenuAction.Next -> navigate(screen = Game())
+            MainMenuAction.Scores -> navigate(screen = Score)
+            MainMenuAction.Achievements -> navigate(screen = Screen.Achievement)
+            MainMenuAction.Credits -> navigate(screen = Screen.Credit)
+            MainMenuAction.StellarExplorer -> navigate(screen = StellarExplorer)
             MainMenuAction.DisableCheats -> disableCheats()
         }
     }

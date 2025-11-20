@@ -1,18 +1,20 @@
 package com.hybris.tlv.ui.screen.feedback
 
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.SplashScreen
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 
 internal class FeedbackStore(
     private val tag: String?,
-    private val message: String?
+    private val message: String?,
+    config: ConfigManager,
 ): Store<FeedbackState, FeedbackAction>(
+    config = config,
     initialState = FeedbackState(isError = tag != null || message != null)
 ) {
-    private fun sendFeedback(state: FeedbackState, action: FeedbackAction.SendFeedback): Job = launch {
+    private fun sendFeedback(action: FeedbackAction.SendFeedback): Job = launch {
         updateState {
             it.copy(
                 feedback = action.message,
@@ -28,17 +30,18 @@ internal class FeedbackStore(
         Telemetry.info(tag = TAG, message = "Send feedback")
         Telemetry.feedback(message = feedback)
         Telemetry.info(tag = TAG, message = "Wait a small time to properly thank the user")
-        delay(timeMillis = 2000L)
-        Telemetry.info(tag = TAG, message = "Navigate away")
+    }
+
+    override fun back(state: FeedbackState) {
         when {
-            state.isError -> navigate(screen = SplashScreen)
+            state.isError -> navigate(screen = Screen.Splash)
             else -> back(state = state)
         }
     }
 
     override fun reducer(state: FeedbackState, action: FeedbackAction) {
         when (action) {
-            is FeedbackAction.SendFeedback -> sendFeedback(state = state, action = action)
+            is FeedbackAction.SendFeedback -> sendFeedback(action = action)
         }
     }
 
