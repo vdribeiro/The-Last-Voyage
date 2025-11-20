@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.cheatHapticFeedback
+import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.Button
@@ -70,7 +71,9 @@ internal fun Screen(
     content: @Composable BoxScope.() -> Unit = {}
 ) {
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .backNavigation { onBackClick?.invoke() },
         topBar = {
             Column(
                 modifier = Modifier

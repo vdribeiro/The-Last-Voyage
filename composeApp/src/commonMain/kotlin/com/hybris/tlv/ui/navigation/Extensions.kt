@@ -2,12 +2,9 @@ package com.hybris.tlv.ui.navigation
 
 import kotlin.reflect.KType
 import kotlinx.serialization.Serializable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraphBuilder
@@ -58,7 +55,7 @@ internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.
             Telemetry.info(tag = TAG, message = "Navigation stack: ${navController.currentBackStack.value}")
         }
     }
-    Box(modifier = Modifier.fillMaxSize().backNavigation { store.back() }) { screen(store) }
+    screen(store)
 }
 
 /**
