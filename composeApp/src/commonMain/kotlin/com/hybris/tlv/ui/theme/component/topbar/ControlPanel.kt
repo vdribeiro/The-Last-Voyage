@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,9 +33,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -53,6 +54,7 @@ import com.hybris.tlv.ui.theme.component.text.Text
 internal fun ControlPanel(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    focusRequester: FocusRequester = FocusRequester.Default,
     search: String = "",
     onSearch: (String) -> Unit = {},
     viewName: String = "",
@@ -74,7 +76,7 @@ internal fun ControlPanel(
 
     var searchQuery by remember { mutableStateOf(value = search) }
 
-    LifecycleCoroutine(Unit) {
+    LaunchedEffect(key1 = Unit) {
         snapshotFlow { searchQuery }
             .debounce(timeoutMillis = 300L)
             .distinctUntilChanged()
@@ -94,6 +96,7 @@ internal fun ControlPanel(
                     modifier = Modifier
                         .weight(weight = 1f)
                         .padding(horizontal = 8.dp),
+                    focusRequester = focusRequester,
                     enabled = enabled,
                     value = searchQuery,
                     onValueChange = { searchQuery = it },

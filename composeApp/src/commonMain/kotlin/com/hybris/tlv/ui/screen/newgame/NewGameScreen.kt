@@ -22,7 +22,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val continueTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__continue") }
     val startTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__start") }
 

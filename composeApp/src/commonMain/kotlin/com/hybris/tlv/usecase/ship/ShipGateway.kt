@@ -12,6 +12,10 @@ import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_FUEL
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_INTEGRITY
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_MATERIALS
 import database.AppDatabase
 
 internal class ShipGateway(
@@ -23,8 +27,8 @@ internal class ShipGateway(
     private val engineDao = database.engineQueries
 
     override suspend fun syncEngines() {
-        val remoteVersion = config.remoteConfigs.enginesVersion
-        val localVersion = config.localConfigs.enginesVersion
+        val remoteVersion = config.remoteConfigs.value.enginesVersion
+        val localVersion = config.localConfigs.value.enginesVersion
         Telemetry.info(tag = TAG, message = "Syncing engines: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Engine>(path = ENGINES_URL)) {
@@ -53,17 +57,17 @@ internal class ShipGateway(
         engineDao.getEngines().executeAsList().map { it.toEngine() }.sortedBy { it.velocity }
 
     override suspend fun repairShip(ship: Ship): Ship {
+        if (config.preferences.value.cheats) return ship.copy(
+            integrity = MAX_INTEGRITY,
+            materials = MAX_MATERIALS,
+            fuel = MAX_FUEL,
+            cryopods = MAX_CRYOPODS
+        )
+
         var integrity = ship.integrity
         var materials = ship.materials
         val fuel = if (ship.fuel < 0) 0 else ship.fuel
         val cryopods = if (ship.cryopods < 0) 0 else ship.cryopods
-
-        if (config.preferences.cheats) return ship.copy(
-            integrity = 100,
-            materials = 1000,
-            fuel = 2000,
-            cryopods = 1000
-        )
 
         if (integrity <= 0) {
             // Attempt to repair the ship

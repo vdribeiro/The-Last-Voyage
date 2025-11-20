@@ -35,7 +35,7 @@ internal fun ShipStats(
     materials: Int? = null,
     cryopods: Int? = null
 ) {
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val yearsTraveledTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_years_traveled") }
     val sensorTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_sensor") }
     val speedTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_speed") }

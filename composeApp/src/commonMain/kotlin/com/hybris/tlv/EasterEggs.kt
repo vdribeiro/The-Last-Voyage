@@ -31,7 +31,7 @@ private val konamiGestureCode = listOf(
 private fun setKonamiCode(scope: CoroutineScope, config: ConfigManager): Job =
     scope.launch(context = Dispatcher.IO) {
         Telemetry.feedback(message = "Konami Code!")
-        config.setPreferences { it.copy(cheats = !it.cheats) }.savePreferences()
+        config.setPreferences { it.copy(cheats = !it.cheats) }
     }
 
 @Composable

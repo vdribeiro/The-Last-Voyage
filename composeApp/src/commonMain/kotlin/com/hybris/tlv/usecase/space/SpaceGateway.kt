@@ -33,8 +33,8 @@ internal class SpaceGateway(
     private val planetDao = database.planetQueries
 
     override suspend fun syncStellarHosts() {
-        val remoteVersion = config.remoteConfigs.stellarHostsVersion
-        val localVersion = config.localConfigs.stellarHostsVersion
+        val remoteVersion = config.remoteConfigs.value.stellarHostsVersion
+        val localVersion = config.localConfigs.value.stellarHostsVersion
         Telemetry.info(tag = TAG, message = "Syncing stellar hosts: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<StellarHost>(path = STELLAR_HOSTS_URL)) {
@@ -60,8 +60,8 @@ internal class SpaceGateway(
     }
 
     override suspend fun syncPlanets() {
-        val remoteVersion = config.remoteConfigs.planetsVersion
-        val localVersion = config.localConfigs.planetsVersion
+        val remoteVersion = config.remoteConfigs.value.planetsVersion
+        val localVersion = config.localConfigs.value.planetsVersion
         Telemetry.info(tag = TAG, message = "Syncing planets: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Planet>(path = PLANETS_URL)) {

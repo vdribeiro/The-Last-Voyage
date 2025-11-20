@@ -25,8 +25,8 @@ internal class AchievementGateway(
     private val achievementDao = database.achievementQueries
 
     override suspend fun syncAchievements() {
-        val remoteVersion = config.remoteConfigs.achievementsVersion
-        val localVersion = config.localConfigs.achievementsVersion
+        val remoteVersion = config.remoteConfigs.value.achievementsVersion
+        val localVersion = config.localConfigs.value.achievementsVersion
         Telemetry.info(tag = TAG, message = "Syncing achievements: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Achievement>(path = ACHIEVEMENTS_URL)) {

@@ -28,7 +28,7 @@ internal fun LearnMenu(
     onHabitabilityClick: () -> Unit = {},
     onMechanicsClick: () -> Unit = {}
 ) {
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val helpTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__learn") }
     val navigationTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__navigation") }
     val hostDefinitionTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__host_definition") }

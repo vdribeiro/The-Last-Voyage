@@ -44,7 +44,7 @@ internal inline fun <T> ShipConfiguration(
     crossinline cost: (T) -> Int? = { null },
     crossinline onEngineClick: (T) -> Unit = {}
 ) {
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val shipPointsTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__ship_points") }
     val sensorTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_sensor") }
     val fuelTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_fuel") }

@@ -32,7 +32,7 @@ internal fun SelectableAttribute(
     fuel: Double? = null,
     points: Int? = null,
 ) {
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val engineSpeedTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__engine_speed") }
     val engineFuelTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__engine_fuel") }
 

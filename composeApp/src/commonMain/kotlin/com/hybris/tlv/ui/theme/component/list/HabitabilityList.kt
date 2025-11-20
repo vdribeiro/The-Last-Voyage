@@ -33,7 +33,7 @@ internal inline fun <T> HabitabilityList(
     formula: String = "",
 ) {
     val uriHandler = LocalUriHandler.current
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val formulaTranslation = remember(key1 = translationVersion) { getTranslation(key = "formula") }
 
     val typography = LocalTypography.current

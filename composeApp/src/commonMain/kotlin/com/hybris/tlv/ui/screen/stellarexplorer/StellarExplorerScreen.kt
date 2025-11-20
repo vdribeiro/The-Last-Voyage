@@ -37,7 +37,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     val stellarHostProperties = remember { StellarHostProperty.entries.associateWith { getTranslation(key = it.displayName) } }
     val planetProperties = remember { PlanetProperty.entries.associateWith { getTranslation(key = it.displayName) } }
 
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val hostListTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_explorer_screen__host_list") }
     val planetListTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_explorer_screen__planet_list") }
 

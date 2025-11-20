@@ -36,9 +36,9 @@ internal fun ButtonsBar(
             ) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = it.second != null,
                     text = it.first,
                     onClick = it.second ?: {},
-                    enabled = it.second != null
                 )
             }
         }

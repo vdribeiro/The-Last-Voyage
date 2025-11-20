@@ -30,7 +30,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
     val ship = gameSession?.ship
     val achievement = storeState.achievement
 
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val gameOverTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_over_screen__game_over") }
     val messageTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_over_screen__score") }
     val scoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_over_screen__end") }

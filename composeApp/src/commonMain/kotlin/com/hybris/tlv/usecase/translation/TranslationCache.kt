@@ -29,14 +29,16 @@ internal object TranslationCache {
         ),
     ).toTranslationCacheMap()
 
-    // Trigger updates for cache listeners
-    private val _stateFlow: MutableStateFlow<Int> = MutableStateFlow(value = 0)
-    val stateFlow: StateFlow<Int> = _stateFlow.asStateFlow()
+    /**
+     * Trigger updates for cache listeners.
+     */
+    private val _versionFlow: MutableStateFlow<Int> = MutableStateFlow(value = 0)
+    val versionFlow: StateFlow<Int> = _versionFlow.asStateFlow()
 
     fun set(translations: List<Translation>) {
         languageIso = getLanguage()
         translationsCache = translations.toTranslationCacheMap()
-        _stateFlow.value++
+        _versionFlow.value++
     }
 
     fun get(key: String): String =

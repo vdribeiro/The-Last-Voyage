@@ -37,37 +37,28 @@ internal fun MainNavigation(
     supportUri: String = "",
 ) {
     val uriHandler = LocalUriHandler.current
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val websiteTranslation = remember(key1 = translationVersion) { getTranslation(key = "website") }
     val creditsTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__credits") }
 
     val typography = LocalTypography.current
 
-    if (!isIos) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                modifier = Modifier
-                    .size(size = 100.dp)
-                    .wrapContentHeight(align = Alignment.CenterVertically)
-                    .clickable { uriHandler.openUri(uri = developerCornerUri) },
-                text = websiteTranslation,
-                style = typography.labelLarge,
-            )
-            Text(
-                modifier = Modifier
-                    .size(size = 100.dp)
-                    .wrapContentHeight(align = Alignment.CenterVertically)
-                    .clickable(onClick = onCreditsClick),
-                text = creditsTranslation,
-                style = typography.labelLarge,
-                textAlign = TextAlign.Center
-            )
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 32.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier
+                .size(size = 100.dp)
+                .wrapContentHeight(align = Alignment.CenterVertically)
+                .clickable { uriHandler.openUri(uri = developerCornerUri) },
+            text = websiteTranslation,
+            style = typography.labelLarge,
+        )
+        if (!isIos) {
             Image(
                 modifier = Modifier
                     .size(size = 100.dp)
@@ -81,23 +72,15 @@ internal fun MainNavigation(
                 contentScale = ContentScale.Fit,
             )
         }
-    } else {
-        Row(
-            modifier = modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                modifier = Modifier
-                    .size(size = 100.dp)
-                    .wrapContentHeight(align = Alignment.CenterVertically)
-                    .clickable(onClick = onCreditsClick),
-                text = creditsTranslation,
-                style = typography.labelLarge,
-                textAlign = TextAlign.Center
-            )
-        }
+        Text(
+            modifier = Modifier
+                .size(size = 100.dp)
+                .wrapContentHeight(align = Alignment.CenterVertically)
+                .clickable(onClick = onCreditsClick),
+            text = creditsTranslation,
+            style = typography.labelLarge,
+            textAlign = TextAlign.Center
+        )
     }
 }
 

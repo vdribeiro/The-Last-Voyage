@@ -23,14 +23,13 @@ private val initializeJfx by lazy {
         true
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to start JavaFX", throwable = it) }.getOrDefault(defaultValue = false)
 }
-internal val LocalWindowState = staticCompositionLocalOf<WindowState> { error("No LocalWindowState provided") }
+internal val LocalWindowState = staticCompositionLocalOf<WindowState> { error(message = "No LocalWindowState provided") }
 
 fun main() = application {
     Telemetry.init()
-    Telemetry.info(tag = TAG, message = "App started")
-    Telemetry.info(tag = TAG, message = "JavaFX = $initializeJfx")
+    Telemetry.info(tag = TAG, message = "App started\nJavaFX = $initializeJfx")
 
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val appNameTranslation = remember(key1 = translationVersion) { getTranslation(key = "app_name") }
 
     val windowState = rememberWindowState(placement = WindowPlacement.Maximized)

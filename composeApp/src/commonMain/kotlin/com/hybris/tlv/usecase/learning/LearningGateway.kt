@@ -21,8 +21,8 @@ internal class LearningGateway(
     private val learningDao = database.learningQueries
 
     override suspend fun syncLearnings() {
-        val remoteVersion = config.remoteConfigs.learningsVersion
-        val localVersion = config.localConfigs.learningsVersion
+        val remoteVersion = config.remoteConfigs.value.learningsVersion
+        val localVersion = config.localConfigs.value.learningsVersion
         Telemetry.info(tag = TAG, message = "Syncing learnings: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Learning>(path = LEARNINGS_URL)) {

@@ -31,7 +31,7 @@ internal inline fun <T> AchievementList(
     crossinline description: (T) -> String? = { null },
     crossinline done: (T) -> Boolean = { false }
 ) {
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "achievements_screen__title") }
 
     val typography = LocalTypography.current

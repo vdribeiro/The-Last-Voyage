@@ -21,8 +21,8 @@ internal class CreditGateway(
     private val creditDao = database.creditQueries
 
     override suspend fun syncCredits() {
-        val remoteVersion = config.remoteConfigs.creditsVersion
-        val localVersion = config.localConfigs.creditsVersion
+        val remoteVersion = config.remoteConfigs.value.creditsVersion
+        val localVersion = config.localConfigs.value.creditsVersion
         Telemetry.info(tag = TAG, message = "Syncing credits: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             when (val result = httpClient.getStream<Credit>(path = CREDITS_URL)) {

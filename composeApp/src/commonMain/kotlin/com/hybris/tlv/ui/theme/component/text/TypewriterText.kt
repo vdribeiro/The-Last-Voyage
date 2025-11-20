@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,7 +16,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
-import com.hybris.tlv.lifecycle.LifecycleCoroutine
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 
@@ -30,7 +30,7 @@ internal fun TypewriterText(
     val words = remember(key1 = text) { text.split(' ') }
     var visibleWordsCount by remember(key1 = text) { mutableStateOf(value = 0) }
     var isRevealed by remember(key1 = text) { mutableStateOf(value = isPreview) }
-    LifecycleCoroutine(text) {
+    LaunchedEffect(key1 = text) {
         visibleWordsCount = 0
         isRevealed = false
         while (visibleWordsCount < words.size && !isRevealed) {

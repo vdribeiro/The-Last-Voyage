@@ -21,7 +21,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     val storeState by store.stateFlow.collectAsState()
     val currentContent = storeState.currentContent
 
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
     val loadingTranslation = remember(key1 = translationVersion) { getTranslation(key = "splash_screen__loading") }
 
     Screen(

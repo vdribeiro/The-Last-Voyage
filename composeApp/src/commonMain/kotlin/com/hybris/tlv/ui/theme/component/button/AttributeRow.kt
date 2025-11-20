@@ -50,7 +50,7 @@ internal fun AttributeRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Button(onClick = { attributePoint.decrement() }, enabled = value > attributePoint.min) {
+            Button(enabled = value > attributePoint.min, onClick = { attributePoint.decrement() }) {
                 Icon(
                     modifier = Modifier.size(size = 36.dp),
                     imageVector = Icons.Default.RemoveCircle,
@@ -72,7 +72,7 @@ internal fun AttributeRow(
                 )
             }
 
-            Button(onClick = { attributePoint.increment() }, enabled = canIncrement && value < attributePoint.max) {
+            Button(enabled = canIncrement && value < attributePoint.max, onClick = { attributePoint.increment() }) {
                 Icon(
                     modifier = Modifier.size(size = 36.dp),
                     imageVector = Icons.Default.AddCircle,

@@ -24,7 +24,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
     val storeState by store.stateFlow.collectAsState()
     val ship = storeState.ship
-    val translationVersion by TranslationCache.stateFlow.collectAsState()
+    val translationVersion by TranslationCache.versionFlow.collectAsState()
 
     Screen(
         modifier = Modifier
