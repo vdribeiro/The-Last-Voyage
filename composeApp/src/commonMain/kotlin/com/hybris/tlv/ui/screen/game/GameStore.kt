@@ -13,6 +13,7 @@ import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
+import com.hybris.tlv.usecase.space.formula.SUN
 
 internal class GameStore(
     ship: Ship?,
@@ -46,9 +47,11 @@ internal class GameStore(
             navigate(screen = GameOverScreen)
             return@launch
         }
+        Telemetry.info(tag = TAG, message = "Ship repaired: $ship")
 
-        Telemetry.info(tag = TAG, message = "Get the current stellar host the player is in")
-        val currentStellarHostId = updatedGameSession.currentStellarHostId ?: "sol"
+        val currentStellarHostId = updatedGameSession.currentStellarHostId ?: SUN
+        Telemetry.info(tag = TAG, message = "Current stellar host the player is in: $currentStellarHostId")
+
         Telemetry.info(tag = TAG, message = "Calculate the habitability for each planet of the current stellar host")
         val currentStellarHost = spaceUseCases.getStellarHost(id = currentStellarHostId)?.apply {
             planets.forEach { planet ->
@@ -66,6 +69,7 @@ internal class GameStore(
 
         Telemetry.info(tag = TAG, message = "Get and set the visited stellar hosts")
         var visited = updatedGameSession.visitedStellarHosts.ifEmpty { setOf(currentStellarHostId) }
+
         Telemetry.info(tag = TAG, message = "Get the stars nearest to the current stellar host by sensor range")
         val nearStellarHosts = spaceUseCases.getNearestStars(
             stellarHost = currentStellarHost,
@@ -100,6 +104,7 @@ internal class GameStore(
 
     private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
         Telemetry.info(tag = TAG, message = "Travelled to ${action.stellarHost}")
+
         val gameSession = this@GameStore.gameSession
         if (gameSession == null) {
             feedback(tag = TAG, message = "Invalid state: missing game session on travel()")

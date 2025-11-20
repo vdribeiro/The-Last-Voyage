@@ -45,12 +45,13 @@ internal class EventStore(
             feedback(tag = TAG, message = "Invalid state: missing parent event on setup()")
             return@launch
         }
+
         Telemetry.info(tag = TAG, message = "Get children events and guarantee at least 1 event")
         val childrenEvents = eventChain.filter { it.parentId == parentEvent.id }.ifEmpty {
             listOf(element = stopEvent)
         }
 
-        Telemetry.info(tag = TAG, message = "Launch event")
+        Telemetry.info(tag = TAG, message = "Launch event: $parentEvent")
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = parentEvent)
 
         this@EventStore.gameSession = updatedGameSession
@@ -84,7 +85,8 @@ internal class EventStore(
         val childrenEvents = this@EventStore.eventChain.orEmpty().filter { it.parentId == action.event.id }.ifEmpty {
             listOf(element = stopEvent)
         }
-        Telemetry.info(tag = TAG, message = "Launch event")
+
+        Telemetry.info(tag = TAG, message = "Launch event: ${action.event}")
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = action.event)
 
         this@EventStore.gameSession = updatedGameSession
