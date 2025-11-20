@@ -70,7 +70,7 @@ internal fun Double.roundTo(decimalPlaces: Int): Double {
 
 internal fun Double?.sanitize(): Double? = when {
     this == null -> null
-    isNaN() || isInfinite() || this == Double.NEGATIVE_INFINITY || this == Double.POSITIVE_INFINITY || this == Double.NaN -> null
+    isNaN() || isInfinite() || this == Double.NEGATIVE_INFINITY || this == Double.POSITIVE_INFINITY -> null
     else -> this
 }
 
@@ -144,3 +144,5 @@ internal fun PlanetType?.toImage(): ImageResource =
         PlanetType.ELLIPSOID_PLANET -> ImageResource(path = "ellipsoid_planet.jpg", drawable = Res.drawable.ellipsoid_planet)
         PlanetType.UNKNOWN, null -> ImageResource(path = "barren_planet.jpg", drawable = Res.drawable.barren_planet)
     }
+
+internal const val SUN = "sol"
