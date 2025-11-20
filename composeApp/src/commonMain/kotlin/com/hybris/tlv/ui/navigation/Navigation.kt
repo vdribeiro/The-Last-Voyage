@@ -19,6 +19,7 @@ import androidx.savedstate.SavedState
 import androidx.savedstate.read
 import androidx.savedstate.write
 import com.hybris.tlv.Dependency
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.serializer.decode
 import com.hybris.tlv.serializer.decodeURL
@@ -39,6 +40,7 @@ import com.hybris.tlv.ui.navigation.graph.splashScreen
 import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.UseCases
 
 /**
  * Set the Navigation graph.
@@ -47,7 +49,8 @@ import com.hybris.tlv.ui.store.Store
 internal fun Navigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    dependency: Dependency
+    config: ConfigManager,
+    useCases: UseCases,
 ) {
     NavHost(
         modifier = modifier,
@@ -58,19 +61,19 @@ internal fun Navigation(
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None }
     ) {
-        splashScreen(navController = navController, dependency = dependency)
-        mainMenuScreen(navController = navController, dependency = dependency)
-        helpScreen(navController = navController, dependency = dependency)
-        feedbackScreen(navController = navController, dependency = dependency)
-        newGameScreen(navController = navController, dependency = dependency)
-        tutorialScreen(navController = navController, dependency = dependency)
-        gameScreen(navController = navController, dependency = dependency)
-        eventScreen(navController = navController, dependency = dependency)
-        gameOverScreen(navController = navController, dependency = dependency)
-        stellarExplorerScreen(navController = navController, dependency = dependency)
-        scoreScreen(navController = navController, dependency = dependency)
-        achievementScreen(navController = navController, dependency = dependency)
-        creditScreen(navController = navController, dependency = dependency)
+        splashScreen(navController = navController, config = config, useCases = useCases)
+        mainMenuScreen(navController = navController, config = config, useCases = useCases)
+        helpScreen(navController = navController, config = config, useCases = useCases)
+        feedbackScreen(navController = navController)
+        newGameScreen(navController = navController, useCases = useCases)
+        tutorialScreen(navController = navController)
+        gameScreen(navController = navController, useCases = useCases)
+        eventScreen(navController = navController, useCases = useCases)
+        gameOverScreen(navController = navController, useCases = useCases)
+        stellarExplorerScreen(navController = navController, useCases = useCases)
+        scoreScreen(navController = navController, useCases = useCases)
+        achievementScreen(navController = navController, useCases = useCases)
+        creditScreen(navController = navController, useCases = useCases)
     }
 }
 
@@ -100,8 +103,8 @@ internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.
         store.action.collect { action ->
             when (action) {
                 Action.Back -> navController.popBackStack()
-                Action.ToggleAudio -> dependency.audioPlayer.action(action = AudioPlayer.Action.Toggle)
-                Action.DisableCheats -> dependency.config.setPreferences { it.copy(cheats = false) }
+                Action.ToggleAudio -> {}//dependency.audioPlayer.action(action = AudioPlayer.Action.Toggle)
+                Action.DisableCheats -> {}//dependency.config.setPreferences { it.copy(cheats = false) }
             }
         }
     }
