@@ -19,6 +19,7 @@ import androidx.savedstate.SavedState
 import androidx.savedstate.read
 import androidx.savedstate.write
 import com.hybris.tlv.config.ConfigManager
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.serializer.decode
 import com.hybris.tlv.serializer.decodeURL
 import com.hybris.tlv.serializer.encode
@@ -96,15 +97,14 @@ internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.
             navController.navigate(route = screen) { if (existingEntry != null) popUpTo(route = screen) { inclusive = true } }
         }
     }
-
-    when (screen) {
-        Screen.Back -> navController.popBackStack()
-        else -> {
-
+    LaunchedEffect(key1 = store) {
+        store.action.collect { action ->
+            when (action) {
+                Action.Back -> navController.popBackStack()
+                Action.ToggleAudio -> audioPlayer.action(action = AudioPlayer.Action.Toggle)
+            }
         }
     }
-
-    // TODO: audioPlayer.action(action = AudioPlayer.Action.Toggle)
 
     screen(store)
 }
@@ -130,7 +130,7 @@ internal inline fun <reified T> serializableType(): NavType<T> {
 }
 
 internal fun NavHostController.getCurrentScreen(): Screen? {
-    val destination = currentBackStackEntry?.destination ?: return null
+    currentBackStackEntry?.destination ?: return null
 
     return null
 }

@@ -16,6 +16,7 @@ import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.Action as GlobalAction
 
 /**
  * The central hub for a screen's [State]. It's the single source of truth for the UI.
@@ -43,8 +44,8 @@ internal open class Store<State, Action>(
     /**
      * Actions channel.
      */
-    private val _action: Channel<Screen> = Channel()
-    val action: Flow<Screen> = _action.receiveAsFlow()
+    private val _action: Channel<GlobalAction> = Channel()
+    val action: Flow<GlobalAction> = _action.receiveAsFlow()
 
     /**
      * Sends an [Action] to the Store.
@@ -66,8 +67,14 @@ internal open class Store<State, Action>(
     /**
      * Navigate to a new [screen].
      */
-    protected fun navigate(screen: Screen) =
+    protected fun navigate(screen: Screen): Job =
         viewModelScope.launch { _navigation.send(element = screen) }
+
+    /**
+     * Send an [action].
+     */
+    private fun action(action: GlobalAction): Job =
+        viewModelScope.launch { _action.send(element = action) }
 
     /**
      * Launches a coroutine.
@@ -79,7 +86,7 @@ internal open class Store<State, Action>(
      * Overridable back navigation.
      */
     protected open fun back(state: State) {
-        navigate(screen = Screen.Back)
+        action(action = GlobalAction.Back)
     }
 
     /**
@@ -104,6 +111,6 @@ internal open class Store<State, Action>(
      * Toggle audio player.
      */
     fun toggleAudio() {
-
+        action(action = GlobalAction.ToggleAudio)
     }
 }
