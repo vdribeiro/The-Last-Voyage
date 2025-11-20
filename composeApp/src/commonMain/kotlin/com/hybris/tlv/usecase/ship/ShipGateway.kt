@@ -12,6 +12,10 @@ import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_FUEL
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_INTEGRITY
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_MATERIALS
 import database.AppDatabase
 
 internal class ShipGateway(
@@ -54,10 +58,10 @@ internal class ShipGateway(
 
     override suspend fun repairShip(ship: Ship): Ship {
         if (config.preferences.value.cheats) return ship.copy(
-            integrity = 100,
-            materials = 1000,
-            fuel = 2000,
-            cryopods = 1000
+            integrity = MAX_INTEGRITY,
+            materials = MAX_MATERIALS,
+            fuel = MAX_FUEL,
+            cryopods = MAX_CRYOPODS
         )
 
         var integrity = ship.integrity
