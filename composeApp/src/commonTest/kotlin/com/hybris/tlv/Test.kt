@@ -19,6 +19,20 @@ import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
 import com.hybris.tlv.serializer.TRANSLATIONS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
+import com.hybris.tlv.ui.screen.achievement.AchievementStore
+import com.hybris.tlv.ui.screen.cheat.CheatStore
+import com.hybris.tlv.ui.screen.credit.CreditStore
+import com.hybris.tlv.ui.screen.event.EventStore
+import com.hybris.tlv.ui.screen.feedback.FeedbackStore
+import com.hybris.tlv.ui.screen.game.GameStore
+import com.hybris.tlv.ui.screen.gameover.GameOverStore
+import com.hybris.tlv.ui.screen.help.HelpStore
+import com.hybris.tlv.ui.screen.mainmenu.MainMenuStore
+import com.hybris.tlv.ui.screen.newgame.NewGameStore
+import com.hybris.tlv.ui.screen.score.ScoreStore
+import com.hybris.tlv.ui.screen.splash.SplashStore
+import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
+import com.hybris.tlv.ui.screen.tutorial.TutorialStore
 import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
@@ -51,11 +65,85 @@ internal fun reset() {
     }
 }
 
-internal fun getUseCases(): UseCases = dependency.useCases
+internal val useCases: UseCases = dependency.useCases
 
-internal fun getStoreFactory(): StoreFactory = dependency.storeFactory
+internal fun getSplashStore(): SplashStore =
+    SplashStore(
+        config = dependency.config,
+        archiveUseCases = useCases.archive,
+        translateUseCases = useCases.translation,
+        learningUseCases = useCases.learning,
+        catastropheUseCases = useCases.catastrophe,
+        shipUseCases = useCases.ship,
+        spaceUseCases = useCases.space,
+        eventUseCases = useCases.event,
+        achievementUseCases = useCases.achievement,
+        creditUseCases = useCases.credit
+    )
 
-internal fun getNavigation(): NavigationManager = dependency.navigation
+internal fun getCheatStore(): CheatStore =
+    CheatStore(config = dependency.config)
+
+internal fun getMainMenuStore(): MainMenuStore =
+    MainMenuStore(
+        config = dependency.config,
+        gameSessionUseCases = useCases.gameSession,
+    )
+
+internal fun getHelpStore(): HelpStore =
+    HelpStore(
+        config = dependency.config,
+        learningUseCases = useCases.learning
+    )
+
+internal fun getFeedbackStore(tag: String? = null, message: String? = null) =
+    FeedbackStore(
+        tag = tag,
+        message = message,
+    )
+
+internal fun getNewGameStore(): NewGameStore =
+    NewGameStore(
+        shipUseCases = useCases.ship,
+        catastropheUseCases = useCases.catastrophe,
+        gameSessionUseCases = useCases.gameSession
+    )
+
+internal fun getTutorialStore(newGame: Boolean = false): TutorialStore =
+    TutorialStore(newGame = newGame)
+
+internal fun getGameStore(ship: Ship? = com.hybris.tlv.ship): GameStore =
+    GameStore(
+        ship = ship,
+        shipUseCases = useCases.ship,
+        spaceUseCases = useCases.space,
+        gameSessionUseCases = useCases.gameSession
+    )
+
+internal fun getEventStore(ship: Ship? = com.hybris.tlv.ship): EventStore =
+    EventStore(
+        ship = ship,
+        eventUseCases = useCases.event,
+        gameSessionUseCases = useCases.gameSession,
+    )
+
+internal fun getGameOverStore(): GameOverStore =
+    GameOverStore(
+        gameSessionUseCases = useCases.gameSession,
+        achievementUseCases = useCases.achievement
+    )
+
+internal fun getStellarExplorerStore(): StellarExplorerStore =
+    StellarExplorerStore(spaceUseCases = useCases.space)
+
+internal fun getScoreStore(): ScoreStore =
+    ScoreStore(gameSessionUseCases = useCases.gameSession)
+
+internal fun getAchievementStore(): AchievementStore =
+    AchievementStore(achievementUseCases = useCases.achievement)
+
+internal fun getCreditStore(): CreditStore =
+    CreditStore(creditUseCases = useCases.credit)
 
 internal val configs: List<Configs> by lazy {
     runBlocking { loadFromJsonResource(path = CONFIGS_JSON) }
