@@ -1,10 +1,11 @@
 package com.hybris.tlv.ui.navigation.graph
 
 import kotlin.reflect.typeOf
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.navigation.graph
 import com.hybris.tlv.ui.navigation.serializableType
 import com.hybris.tlv.ui.screen.event.EventScreen
 import com.hybris.tlv.ui.screen.event.EventStore
@@ -12,17 +13,16 @@ import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.ship.model.Ship
 
 internal fun NavGraphBuilder.eventScreen(
-    navController: NavHostController,
     useCases: UseCases
-) = graph<Screen.Event, EventStore>(
-    navController = navController,
-    typeMap = mapOf(pair = typeOf<Ship?>() to serializableType<Ship?>()),
-    store = {
+) = composable<Screen.Event>(
+    typeMap = mapOf(pair = typeOf<Ship?>() to serializableType<Ship?>())
+) {
+    val screen = it.toRoute<Screen.Event>()
+    EventScreen(store = viewModel {
         EventStore(
-            ship = it.ship,
+            ship = screen.ship,
             eventUseCases = useCases.event,
             gameSessionUseCases = useCases.gameSession,
         )
-    },
-    screen = { EventScreen(store = it) }
-)
+    })
+}

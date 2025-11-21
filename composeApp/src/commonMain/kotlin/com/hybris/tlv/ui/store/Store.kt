@@ -32,12 +32,6 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     val stateFlow: StateFlow<State> = _stateFlow.asStateFlow()
 
     /**
-     * Navigation channel.
-     */
-    private val _navigation: Channel<Screen> = Channel()
-    val navigation: Flow<Screen> = _navigation.receiveAsFlow()
-
-    /**
      * Sends an [Action] to the Store.
      */
     fun send(action: Action) = reducer(state = _stateFlow.value, action = action)
@@ -58,13 +52,13 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      * Navigate to a new [screen].
      */
     protected fun navigate(screen: Screen): Job =
-        viewModelScope.launch { _navigation.send(element = screen) }
+        viewModelScope.launch { navigationChannel.send(element = screen) }
 
     /**
      * Send an [action].
      */
     protected fun action(action: GlobalAction): Job =
-        viewModelScope.launch { _action.send(element = action) }
+        viewModelScope.launch { actionChannel.send(element = action) }
 
     /**
      * Launches a coroutine.
@@ -106,7 +100,13 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
 }
 
 /**
+ * Navigation channel.
+ */
+private val navigationChannel: Channel<Screen> = Channel()
+internal val navigation: Flow<Screen> = navigationChannel.receiveAsFlow()
+
+/**
  * Actions channel.
  */
-private val _action: Channel<GlobalAction> = Channel()
-internal val action: Flow<GlobalAction> = _action.receiveAsFlow()
+private val actionChannel: Channel<GlobalAction> = Channel()
+internal val action: Flow<GlobalAction> = actionChannel.receiveAsFlow()

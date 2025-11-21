@@ -15,7 +15,7 @@ import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 import javafx.embed.swing.JFXPanel
 
-private const val TAG = "APP"
+private const val TAG = "App"
 private val dependency: Dependency by lazy { Dependency() }
 private val initializeJfx by lazy {
     runCatching {
@@ -40,7 +40,11 @@ fun main() = application {
         onPreviewKeyEvent = rememberKeySequenceCheats(config = dependency.config)
     ) {
         CompositionLocalProvider(value = LocalWindowState provides windowState) {
-            App(dependency = dependency)
+            App(
+                config = dependency.config,
+                useCases = dependency.useCases,
+                audioPlayer = dependency.audioPlayer,
+            )
         }
     }
 }

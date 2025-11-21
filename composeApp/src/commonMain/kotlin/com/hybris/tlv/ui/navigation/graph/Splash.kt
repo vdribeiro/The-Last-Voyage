@@ -1,21 +1,19 @@
 package com.hybris.tlv.ui.navigation.graph
 
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.navigation.graph
 import com.hybris.tlv.ui.screen.splash.SplashScreen
 import com.hybris.tlv.ui.screen.splash.SplashStore
 import com.hybris.tlv.usecase.UseCases
 
 internal fun NavGraphBuilder.splashScreen(
-    navController: NavHostController,
     config: ConfigManager,
     useCases: UseCases
-) = graph<Screen.Splash, SplashStore>(
-    navController = navController,
-    store = {
+) = composable<Screen.Splash> {
+    SplashScreen(store = viewModel {
         SplashStore(
             config = config,
             archiveUseCases = useCases.archive,
@@ -28,6 +26,5 @@ internal fun NavGraphBuilder.splashScreen(
             achievementUseCases = useCases.achievement,
             creditUseCases = useCases.credit
         )
-    },
-    screen = { SplashScreen(store = it) }
-)
+    })
+}

@@ -2,8 +2,8 @@ package com.hybris.tlv.ui.navigation.graph
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.navigation.graph
 import com.hybris.tlv.ui.screen.gameover.GameOverScreen
 import com.hybris.tlv.ui.screen.gameover.GameOverStore
 import com.hybris.tlv.usecase.UseCases
@@ -11,7 +11,7 @@ import com.hybris.tlv.usecase.UseCases
 internal fun NavGraphBuilder.gameOverScreen(
     navController: NavHostController,
     useCases: UseCases
-) = graph<Screen.GameOver, GameOverStore>(
+) = composable<Screen.GameOver, GameOverStore>(
     navController = navController,
     store = {
         GameOverStore(
@@ -19,5 +19,5 @@ internal fun NavGraphBuilder.gameOverScreen(
             achievementUseCases = useCases.achievement
         )
     },
-    screen = { GameOverScreen(store = it) }
+    GameOverScreen(store = viewModel { }
 )
