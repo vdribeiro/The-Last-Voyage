@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.button.Toggle
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
@@ -36,6 +37,11 @@ internal fun CheatSheet(
 ) {
     val translationVersion by TranslationCache.versionFlow.collectAsState()
     val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "cheats_screen__title") }
+    val integrityTranslation = remember(key1 = translationVersion) { getTranslation(key = "cheats_screen__integrity") }
+    val sensorRangeTranslation = remember(key1 = translationVersion) { getTranslation(key = "cheats_screen__sensor_range") }
+    val fuelTranslation = remember(key1 = translationVersion) { getTranslation(key = "cheats_screen__fuel") }
+    val materialsTranslation = remember(key1 = translationVersion) { getTranslation(key = "cheats_screen__materials") }
+    val cryopodsTranslation = remember(key1 = translationVersion) { getTranslation(key = "cheats_screen__cryopods") }
 
     val typography = LocalTypography.current
 
@@ -58,7 +64,41 @@ internal fun CheatSheet(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
-
+            item {
+                Toggle(
+                    text = integrityTranslation,
+                    checked = integrity,
+                    onCheckedChange = { onIntegrityClick() }
+                )
+            }
+            item {
+                Toggle(
+                    text = sensorRangeTranslation,
+                    checked = sensorRange,
+                    onCheckedChange = { onSensorRangeClick() }
+                )
+            }
+            item {
+                Toggle(
+                    text = fuelTranslation,
+                    checked = fuel,
+                    onCheckedChange = { onFuelClick() }
+                )
+            }
+            item {
+                Toggle(
+                    text = materialsTranslation,
+                    checked = materials,
+                    onCheckedChange = { onMaterialsClick() }
+                )
+            }
+            item {
+                Toggle(
+                    text = cryopodsTranslation,
+                    checked = cryopods,
+                    onCheckedChange = { onCryopodsClick() }
+                )
+            }
         }
     }
 }

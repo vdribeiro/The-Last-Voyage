@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +20,7 @@ import com.hybris.tlv.ui.theme.component.text.Text
 @Composable
 internal fun Toggle(
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     text: String? = null,
     checked: Boolean = false,
     onCheckedChange: (Boolean) -> Unit = {},
@@ -31,12 +31,13 @@ internal fun Toggle(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onCheckedChange(!checked) }
-            .padding(vertical = 8.dp),
+            .padding(all = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         text?.let { Text(text = it, style = typography.bodyLarge) }
         Switch(
+            enabled = enabled,
             checked = checked,
             onCheckedChange = onCheckedChange
         )
@@ -47,6 +48,7 @@ internal fun Toggle(
 @Composable
 private fun TogglePreview() = AppTheme {
     Toggle(
+        text = "Toggle",
         checked = true,
         onCheckedChange = {}
     )

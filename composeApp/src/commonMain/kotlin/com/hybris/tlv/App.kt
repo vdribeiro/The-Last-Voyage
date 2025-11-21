@@ -14,7 +14,6 @@ import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Action
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.actionChannel
