@@ -29,13 +29,13 @@ internal val konamiGestureCode = listOf(
 internal fun rememberKeySequenceCheats(): (KeyEvent) -> Boolean {
     val scope = rememberCoroutineScope()
     return rememberKeySequence(sequence = konamiCode) {
-        scope.launch { navigationChannel.send(element = Screen.Cheats) }
+        scope.launch { navigationChannel.send(element = Screen.Cheat) }
     }
 }
 
 internal fun Modifier.enableGestureCheats(): Modifier = composed {
     val scope = rememberCoroutineScope()
     onGesture(sequence = konamiGestureCode) {
-        scope.launch { navigationChannel.send(element = Screen.Cheats) }
+        scope.launch { navigationChannel.send(element = Screen.Cheat) }
     }
 }

@@ -19,6 +19,7 @@ import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.serializer.encodeURL
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.graph.achievementScreen
+import com.hybris.tlv.ui.navigation.graph.cheatScreen
 import com.hybris.tlv.ui.navigation.graph.creditScreen
 import com.hybris.tlv.ui.navigation.graph.eventScreen
 import com.hybris.tlv.ui.navigation.graph.feedbackScreen
@@ -59,6 +60,7 @@ internal fun Navigation(
         popExitTransition = { ExitTransition.None }
     ) {
         splashScreen(config = config, useCases = useCases)
+        cheatScreen(config = config)
         mainMenuScreen(config = config, useCases = useCases)
         helpScreen(config = config, useCases = useCases)
         feedbackScreen()
