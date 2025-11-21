@@ -1,11 +1,9 @@
 package com.hybris.tlv.ui.navigation
 
-import kotlinx.coroutines.channels.Channel
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -33,15 +31,6 @@ import com.hybris.tlv.ui.navigation.graph.splashScreen
 import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
 import com.hybris.tlv.usecase.UseCases
-
-/**
- * Navigation channel.
- */
-internal val navigationChannel: Channel<Screen> = Channel()
-/**
- * Actions channel.
- */
-internal val actionChannel: Channel<Action> = Channel()
 
 @Composable
 internal fun Navigation(
@@ -80,11 +69,9 @@ internal fun Navigation(
  * Navigate to the given [screen].
  * If it is already in the stack, replace the existing one and truncate onwards.
  */
-internal fun NavHostController.navigate(screen: Screen) {
+internal inline fun <reified S: Screen> NavHostController.navigate(screen: S) {
     Telemetry.info(tag = TAG, message = "Navigating to: $screen")
-    val currentBackStack = currentBackStack.value
-    val existingEntry = currentBackStack.lastOrNull { it.destination.hasRoute(route = screen::class) }
-    navigate(route = screen) { if (existingEntry != null) popUpTo(route = screen) { inclusive = true } }
+    navigate(route = screen) { popUpTo(route = S::class) { inclusive = true } }
 }
 
 /**
