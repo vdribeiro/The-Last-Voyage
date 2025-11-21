@@ -46,6 +46,7 @@ private fun getTracks(screen: Screen?): List<String>? = when (screen) {
         "tracks/space.mp3",
     )
 
+    Screen.Cheats,
     Screen.Help,
     is Screen.Feedback,
     is Screen.Tutorial,

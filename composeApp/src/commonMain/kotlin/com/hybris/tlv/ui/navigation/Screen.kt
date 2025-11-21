@@ -12,6 +12,8 @@ internal sealed interface Screen {
     @Serializable
     data object Splash: Screen
     @Serializable
+    data object Cheats: Screen
+    @Serializable
     data object MainMenu: Screen
     @Serializable
     data object Help: Screen
@@ -40,6 +42,7 @@ internal sealed interface Screen {
 internal fun NavBackStackEntry.toScreen(): Screen? = runCatching {
     when {
         destination.hasRoute<Screen.Splash>() -> toRoute<Screen.Splash>()
+        destination.hasRoute<Screen.Cheats>() -> toRoute<Screen.Cheats>()
         destination.hasRoute<Screen.MainMenu>() -> toRoute<Screen.MainMenu>()
         destination.hasRoute<Screen.Help>() -> toRoute<Screen.Help>()
         destination.hasRoute<Screen.Feedback>() -> toRoute<Screen.Feedback>()

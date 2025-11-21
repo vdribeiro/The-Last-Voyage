@@ -33,7 +33,6 @@ internal fun App(
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val screen = remember(key1 = navBackStackEntry) { navBackStackEntry?.toScreen() }
-    val haptics = LocalHapticFeedback.current
 
     Navigation(
         modifier = modifier,
@@ -51,10 +50,6 @@ internal fun App(
             when (action) {
                 Action.Back -> navController.popBackStack()
                 Action.ToggleAudio -> audioPlayer.action(action = AudioPlayer.Action.Toggle)
-                is Action.Cheats -> withContext(context = Dispatcher.IO) {
-                    haptics.performHapticFeedback(hapticFeedbackType = HapticFeedbackType.Reject)
-                    //TODO
-                }
             }
         }
     }

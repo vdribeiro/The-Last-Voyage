@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
-import com.hybris.tlv.ui.navigation.Action
-import com.hybris.tlv.ui.navigation.actionChannel
+import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.navigationChannel
 import com.hybris.tlv.ui.theme.modifier.Gesture
 import com.hybris.tlv.ui.theme.modifier.onGesture
 import com.hybris.tlv.ui.theme.modifier.rememberKeySequence
@@ -29,13 +29,13 @@ internal val konamiGestureCode = listOf(
 internal fun rememberKeySequenceCheats(): (KeyEvent) -> Boolean {
     val scope = rememberCoroutineScope()
     return rememberKeySequence(sequence = konamiCode) {
-        scope.launch { actionChannel.send(element = Action.Cheats(enabled = true)) }
+        scope.launch { navigationChannel.send(element = Screen.Cheats) }
     }
 }
 
 internal fun Modifier.enableGestureCheats(): Modifier = composed {
     val scope = rememberCoroutineScope()
     onGesture(sequence = konamiGestureCode) {
-        scope.launch { actionChannel.send(element = Action.Cheats(enabled = true)) }
+        scope.launch { navigationChannel.send(element = Screen.Cheats) }
     }
 }
