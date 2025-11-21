@@ -38,12 +38,6 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     val navigation: Flow<Screen> = _navigation.receiveAsFlow()
 
     /**
-     * Actions channel.
-     */
-    private val _action: Channel<GlobalAction> = Channel()
-    val action: Flow<GlobalAction> = _action.receiveAsFlow()
-
-    /**
      * Sends an [Action] to the Store.
      */
     fun send(action: Action) = reducer(state = _stateFlow.value, action = action)
@@ -79,6 +73,11 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
         viewModelScope.launch(context = context) { block() }
 
     /**
+     * Navigate back.
+     */
+    fun back() = back(state = _stateFlow.value)
+
+    /**
      * Overridable back navigation.
      */
     protected open fun back(state: State) {
@@ -86,9 +85,11 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     }
 
     /**
-     * Navigate back.
+     * Toggle audio player.
      */
-    fun back() = back(state = _stateFlow.value)
+    fun toggleAudio() {
+        action(action = GlobalAction.ToggleAudio)
+    }
 
     /**
      * Navigate to [Screen.Help].
@@ -102,18 +103,10 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
         tag: String? = null,
         message: String? = null
     ): Job = navigate(screen = Screen.Feedback(tag = tag, message = message))
-
-    /**
-     * Toggle audio player.
-     */
-    fun toggleAudio() {
-        action(action = GlobalAction.ToggleAudio)
-    }
-
-    /**
-     * Toggle cheats.
-     */
-    fun toggleCheats() {
-        action(action = GlobalAction.DisableCheats)
-    }
 }
+
+/**
+ * Actions channel.
+ */
+private val _action: Channel<GlobalAction> = Channel()
+internal val action: Flow<GlobalAction> = _action.receiveAsFlow()

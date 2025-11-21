@@ -19,6 +19,7 @@ import androidx.savedstate.SavedState
 import androidx.savedstate.read
 import androidx.savedstate.write
 import com.hybris.tlv.config.ConfigManager
+import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.serializer.decode
 import com.hybris.tlv.serializer.decodeURL
 import com.hybris.tlv.serializer.encode
@@ -38,6 +39,7 @@ import com.hybris.tlv.ui.navigation.graph.splashScreen
 import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.store.action
 import com.hybris.tlv.usecase.UseCases
 
 /**
@@ -95,15 +97,6 @@ internal inline fun <reified S: Screen, reified T: Store<*, *>> NavGraphBuilder.
             val currentBackStack = navController.currentBackStack.value
             val existingEntry = currentBackStack.lastOrNull { it.destination.hasRoute(route = screen::class) }
             navController.navigate(route = screen) { if (existingEntry != null) popUpTo(route = screen) { inclusive = true } }
-        }
-    }
-    LaunchedEffect(key1 = store) {
-        store.action.collect { action ->
-            when (action) {
-                Action.Back -> navController.popBackStack()
-                Action.ToggleAudio -> {}//dependency.audioPlayer.action(action = AudioPlayer.Action.Toggle)
-                Action.DisableCheats -> {}//dependency.config.setPreferences { it.copy(cheats = false) }
-            }
         }
     }
     block()
