@@ -40,7 +40,7 @@ internal fun Modifier.enableGestureCheats(config: ConfigManager): Modifier = com
     val haptics = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
     onGesture(sequence = konamiGestureCode) {
-        haptics.performHapticFeedback(hapticFeedbackType = cheatHapticFeedback)
+        haptics.performHapticFeedback(hapticFeedbackType = HapticFeedbackType.Reject)
         scope.launch(context = Dispatcher.IO) { enableCheats(config = config) }
     }
 }
@@ -49,5 +49,3 @@ private suspend fun enableCheats(config: ConfigManager) {
     config.setPreferences { it.copy(cheats = true) }
     Telemetry.info(tag = "God", message = "Cheats!")
 }
-
-internal val cheatHapticFeedback: HapticFeedbackType = HapticFeedbackType.Reject

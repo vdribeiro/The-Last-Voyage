@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.BugReport
-import androidx.compose.material.icons.filled.LogoDev
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.runtime.Composable
@@ -34,7 +33,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.cheatHapticFeedback
 import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -61,7 +59,6 @@ internal fun Screen(
     loadingProgress: Float? = null,
     banner: String? = null,
     onBackClick: (() -> Unit)? = null,
-    onCheatClick: (() -> Unit)? = null,
     onHelpClick: (() -> Unit)? = null,
     onMusicClick: (() -> Unit)? = null,
     onFeedbackClick: (() -> Unit)? = null,
@@ -105,15 +102,6 @@ internal fun Screen(
                         )
                     }
                     Spacer(modifier = Modifier.weight(weight = 1f))
-                    // Cheat button
-                    onCheatClick?.let {
-                        Button(hapticFeedback = cheatHapticFeedback, onClick = it) {
-                            Icon(
-                                imageVector = Icons.Default.LogoDev,
-                                contentDescription = "Cheat"
-                            )
-                        }
-                    }
                     // Help button
                     onHelpClick?.let {
                         Button(onClick = it) {
@@ -207,7 +195,6 @@ private fun ScreenLoadingPreview() = AppTheme {
         loadingText = "Loading...",
         loadingProgress = 0.5f,
         onBackClick = {},
-        onCheatClick = {},
         onHelpClick = {},
         onMusicClick = {},
         onFeedbackClick = {},
@@ -221,7 +208,6 @@ private fun ScreenPreview() = AppTheme {
         loading = false,
         banner = "Banner",
         onBackClick = {},
-        onCheatClick = {},
         onHelpClick = {},
         onMusicClick = {},
         onFeedbackClick = {},
