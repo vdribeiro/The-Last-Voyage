@@ -3,18 +3,17 @@ package com.hybris.tlv.ui.store
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.actionChannel
+import com.hybris.tlv.ui.navigation.navigationChannel
 import com.hybris.tlv.ui.navigation.Action as GlobalAction
 
 /**
@@ -98,15 +97,3 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
         message: String? = null
     ): Job = navigate(screen = Screen.Feedback(tag = tag, message = message))
 }
-
-/**
- * Navigation channel.
- */
-private val navigationChannel: Channel<Screen> = Channel()
-internal val navigation: Flow<Screen> = navigationChannel.receiveAsFlow()
-
-/**
- * Actions channel.
- */
-private val actionChannel: Channel<GlobalAction> = Channel()
-internal val action: Flow<GlobalAction> = actionChannel.receiveAsFlow()
