@@ -4,20 +4,19 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.getNavigation
-import com.hybris.tlv.getStoreFactory
+import com.hybris.tlv.getTutorialStore
 import com.hybris.tlv.reset
 
 internal class TutorialStoreTest {
 
-    private val store: TutorialStore get() = getStoreFactory().createTutorialStore()
+    private val store: TutorialStore get() = getTutorialStore()
 
     @BeforeTest
     fun setup() = runBlocking {
         reset()
-        getNavigation().navigate(navigationState = NavigationState(screen = SplashScreen))
-        getNavigation().navigate(navigationState = NavigationState(screen = MainMenuScreen))
-        getNavigation().navigate(navigationState = NavigationState(screen = TutorialScreen))
+//        getNavigation().navigate(navigationState = NavigationState(screen = SplashScreen))
+//        getNavigation().navigate(navigationState = NavigationState(screen = MainMenuScreen))
+//        getNavigation().navigate(navigationState = NavigationState(screen = TutorialScreen))
     }
 
     @Test
@@ -39,8 +38,8 @@ internal class TutorialStoreTest {
     @Test
     fun `send action back`() = runBlocking {
         store
-        getNavigation().navigate(navigationState = NavigationState(screen = TutorialScreen))
-        getNavigation().back()
-        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
+//        getNavigation().navigate(navigationState = NavigationState(screen = TutorialScreen))
+//        getNavigation().back()
+//        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
     }
 }

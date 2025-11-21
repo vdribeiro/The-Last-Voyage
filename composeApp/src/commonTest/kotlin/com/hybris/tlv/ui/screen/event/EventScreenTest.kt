@@ -6,10 +6,10 @@ import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.getStoreFactory
-import com.hybris.tlv.getUseCases
+import com.hybris.tlv.getEventStore
 import com.hybris.tlv.reset
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.useCases
 
 @OptIn(ExperimentalTestApi::class)
 internal class EventScreenTest {
@@ -21,7 +21,7 @@ internal class EventScreenTest {
 
     @Test
     fun eventWithoutData() = runComposeUiTest {
-        val store = getStoreFactory().createEventStore()
+        val store = getEventStore()
         setContent {
             AppTheme {
                 EventScreen(store = store)
@@ -36,10 +36,10 @@ internal class EventScreenTest {
     @Test
     fun eventWithData() = runComposeUiTest {
         runBlocking {
-            getUseCases().event.syncEvents()
-            getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+            useCases.event.syncEvents()
+            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         }
-        val store = getStoreFactory().createEventStore()
+        val store = getEventStore()
         setContent {
             AppTheme {
                 EventScreen(store = store)

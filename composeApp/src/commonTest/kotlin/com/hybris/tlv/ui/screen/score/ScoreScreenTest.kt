@@ -6,10 +6,10 @@ import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.getStoreFactory
-import com.hybris.tlv.getUseCases
+import com.hybris.tlv.getScoreStore
 import com.hybris.tlv.reset
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.useCases
 
 @OptIn(ExperimentalTestApi::class)
 internal class ScoreScreenTest {
@@ -21,7 +21,7 @@ internal class ScoreScreenTest {
 
     @Test
     fun scoreWithoutData() = runComposeUiTest {
-        val store = getStoreFactory().createScoreStore()
+        val store = getScoreStore()
         setContent {
             AppTheme {
                 ScoreScreen(store = store)
@@ -38,11 +38,11 @@ internal class ScoreScreenTest {
     @Test
     fun scoreWithData() = runComposeUiTest {
         runBlocking {
-            getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-            val gameSession = getUseCases().gameSession.getLatestGameSession()!!
-            getUseCases().gameSession.updateGameSession(gameSession = gameSession.copy(score = 9000.0))
+            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+            val gameSession = useCases.gameSession.getLatestGameSession()!!
+            useCases.gameSession.updateGameSession(gameSession = gameSession.copy(score = 9000.0))
         }
-        val store = getStoreFactory().createScoreStore()
+        val store = getScoreStore()
         setContent {
             AppTheme {
                 ScoreScreen(store = store)

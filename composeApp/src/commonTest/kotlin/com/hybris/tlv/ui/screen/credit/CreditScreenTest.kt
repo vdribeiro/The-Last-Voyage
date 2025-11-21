@@ -13,10 +13,10 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.credits
-import com.hybris.tlv.getStoreFactory
-import com.hybris.tlv.getUseCases
+import com.hybris.tlv.getCreditStore
 import com.hybris.tlv.reset
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.useCases
 import com.hybris.tlv.usecase.credit.model.CreditType
 
 @OptIn(ExperimentalTestApi::class)
@@ -29,7 +29,7 @@ internal class CreditScreenTest {
 
     @Test
     fun creditWithoutData() = runComposeUiTest {
-        val store = getStoreFactory().createCreditStore()
+        val store = getCreditStore()
         setContent {
             AppTheme {
                 CreditScreen(store = store)
@@ -58,8 +58,8 @@ internal class CreditScreenTest {
             }
         }
 
-        runBlocking { getUseCases().credit.syncCredits() }
-        val store = getStoreFactory().createCreditStore()
+        runBlocking { useCases.credit.syncCredits() }
+        val store = getCreditStore()
         setContent {
             CompositionLocalProvider(value = LocalUriHandler provides mockUriHandler) {
                 AppTheme {

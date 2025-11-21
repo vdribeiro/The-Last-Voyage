@@ -5,10 +5,10 @@ import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
-import com.hybris.tlv.getStoreFactory
-import com.hybris.tlv.getUseCases
+import com.hybris.tlv.getAchievementStore
 import com.hybris.tlv.reset
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.useCases
 
 @OptIn(ExperimentalTestApi::class)
 internal class AchievementScreenTest {
@@ -20,7 +20,7 @@ internal class AchievementScreenTest {
 
     @Test
     fun achievementWithoutData() = runComposeUiTest {
-        val store = getStoreFactory().createAchievementStore()
+        val store = getAchievementStore()
         setContent {
             AppTheme {
                 AchievementScreen(store = store)
@@ -35,8 +35,8 @@ internal class AchievementScreenTest {
 
     @Test
     fun achievementWithData() = runComposeUiTest {
-        runBlocking { getUseCases().achievement.syncAchievements() }
-        val store = getStoreFactory().createAchievementStore()
+        runBlocking { useCases.achievement.syncAchievements() }
+        val store = getAchievementStore()
         setContent {
             AppTheme {
                 AchievementScreen(store = store)

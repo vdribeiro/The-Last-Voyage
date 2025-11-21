@@ -4,7 +4,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
-import com.hybris.tlv.getStoreFactory
+import com.hybris.tlv.getFeedbackStore
 import com.hybris.tlv.reset
 import com.hybris.tlv.ui.theme.AppTheme
 
@@ -19,7 +19,7 @@ internal class FeedbackScreenTest {
 
     @Test
     fun feedback() = runComposeUiTest {
-        val store = getStoreFactory().createFeedbackStore()
+        val store = getFeedbackStore()
         setContent {
             AppTheme {
                 FeedbackScreen(store = store)
@@ -43,11 +43,9 @@ internal class FeedbackScreenTest {
 
     @Test
     fun feedbackError() = runComposeUiTest {
-        val store = getStoreFactory().createFeedbackStore(
-            stateBuilder = FeedbackStateBuilder.Error(
-                tag = "TAG",
-                message = "MESSAGE"
-            )
+        val store = getFeedbackStore(
+            tag = "TAG",
+            message = "MESSAGE"
         )
         setContent {
             AppTheme {

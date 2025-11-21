@@ -6,10 +6,10 @@ import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.getStoreFactory
-import com.hybris.tlv.getUseCases
+import com.hybris.tlv.getGameOverStore
 import com.hybris.tlv.reset
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.useCases
 
 @OptIn(ExperimentalTestApi::class)
 internal class GameOverScreenTest {
@@ -21,7 +21,7 @@ internal class GameOverScreenTest {
 
     @Test
     fun gameOverWithoutData() = runComposeUiTest {
-        val store = getStoreFactory().createGameOverStore()
+        val store = getGameOverStore()
         setContent {
             AppTheme {
                 GameOverScreen(store = store)
@@ -35,8 +35,8 @@ internal class GameOverScreenTest {
 
     @Test
     fun gameOverWithData() = runComposeUiTest {
-        runBlocking { getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype) }
-        val store = getStoreFactory().createGameOverStore()
+        runBlocking { useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype) }
+        val store = getGameOverStore()
         setContent {
             AppTheme {
                 GameOverScreen(store = store)

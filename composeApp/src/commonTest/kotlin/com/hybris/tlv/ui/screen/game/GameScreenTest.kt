@@ -6,10 +6,10 @@ import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.getStoreFactory
-import com.hybris.tlv.getUseCases
+import com.hybris.tlv.getGameStore
 import com.hybris.tlv.reset
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.useCases
 
 @OptIn(ExperimentalTestApi::class)
 internal class GameScreenTest {
@@ -21,7 +21,7 @@ internal class GameScreenTest {
 
     @Test
     fun gameWithoutData() = runComposeUiTest {
-        val store = getStoreFactory().createGameStore()
+        val store = getGameStore()
         setContent {
             AppTheme {
                 GameScreen(store = store)
@@ -41,11 +41,11 @@ internal class GameScreenTest {
     @Test
     fun gameWithData() = runComposeUiTest {
         runBlocking {
-            getUseCases().space.syncStellarHosts()
-            getUseCases().space.syncPlanets()
-            getUseCases().gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+            useCases.space.syncStellarHosts()
+            useCases.space.syncPlanets()
+            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         }
-        val store = getStoreFactory().createGameStore()
+        val store = getGameStore()
         setContent {
             AppTheme {
                 GameScreen(store = store)
