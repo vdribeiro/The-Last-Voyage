@@ -33,7 +33,7 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
 
 @Preview
 @Composable
-private fun AchievementLoadingPreview() = AppTheme {
+private fun AchievementScreenLoadingPreview() = AppTheme {
     AchievementScreen(
         store = Store(
             initialState = AchievementState(
@@ -46,7 +46,7 @@ private fun AchievementLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun AchievementListPreview() = AppTheme {
+private fun AchievementScreenPreview() = AppTheme {
     AchievementScreen(
         store = Store(
             initialState = AchievementState(

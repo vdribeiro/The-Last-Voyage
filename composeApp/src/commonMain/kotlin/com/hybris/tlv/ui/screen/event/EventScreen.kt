@@ -59,7 +59,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
 
 @Preview
 @Composable
-private fun EventLoadingPreview() = AppTheme {
+private fun EventScreenLoadingPreview() = AppTheme {
     EventScreen(
         store = Store(
             initialState = EventState(
@@ -74,7 +74,7 @@ private fun EventLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun EventRandomPreview() = AppTheme {
+private fun EventScreenPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(

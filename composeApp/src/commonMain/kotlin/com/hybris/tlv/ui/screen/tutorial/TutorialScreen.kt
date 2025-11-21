@@ -94,7 +94,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
 
 @Preview
 @Composable
-private fun TutorialGoalPreview() {
+private fun TutorialScreenGoalPreview() {
     AppTheme {
         TutorialScreen(
             store = Store(
@@ -108,7 +108,7 @@ private fun TutorialGoalPreview() {
 
 @Preview
 @Composable
-private fun TutorialShipPreview() = AppTheme {
+private fun TutorialScreenShipPreview() = AppTheme {
     TutorialScreen(
         store = Store(
             initialState = TutorialState(
@@ -120,7 +120,7 @@ private fun TutorialShipPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun TutorialSystemPreview() = AppTheme {
+private fun TutorialScreenSystemPreview() = AppTheme {
     TutorialScreen(
         store = Store(
             initialState = TutorialState(
@@ -132,7 +132,7 @@ private fun TutorialSystemPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun TutorialTravelPreview() = AppTheme {
+private fun TutorialScreenTravelPreview() = AppTheme {
     TutorialScreen(
         store = Store(
             initialState = TutorialState(
@@ -144,7 +144,7 @@ private fun TutorialTravelPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun TutorialGameOverPreview() = AppTheme {
+private fun TutorialScreenGameOverPreview() = AppTheme {
     TutorialScreen(
         store = Store(
             initialState = TutorialState(

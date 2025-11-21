@@ -90,7 +90,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
 
 @Preview
 @Composable
-private fun NewGameLoadingPreview() = AppTheme {
+private fun NewGameScreenLoadingPreview() = AppTheme {
     NewGameScreen(
         store = Store(
             initialState = NewGameState(
@@ -105,7 +105,7 @@ private fun NewGameLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun NewGameShipPreview() = AppTheme {
+private fun NewGameScreenShipPreview() = AppTheme {
     NewGameScreen(
         store = Store(
             initialState = NewGameState(
@@ -133,7 +133,7 @@ private fun NewGameShipPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun NewGameStartPreview() = AppTheme {
+private fun NewGameScreenStartPreview() = AppTheme {
     NewGameScreen(
         store = Store(
             initialState = NewGameState(

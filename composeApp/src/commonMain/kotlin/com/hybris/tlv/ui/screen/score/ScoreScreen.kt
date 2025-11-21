@@ -46,7 +46,7 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
 
 @Preview
 @Composable
-private fun ScoreLoadingPreview() = AppTheme {
+private fun ScoreScreenLoadingPreview() = AppTheme {
     ScoreScreen(
         store = Store(
             initialState = ScoreState(
@@ -59,7 +59,7 @@ private fun ScoreLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun ScoreListPreview() = AppTheme {
+private fun ScoreScreenPreview() = AppTheme {
     ScoreScreen(
         store = Store(
             initialState = ScoreState(

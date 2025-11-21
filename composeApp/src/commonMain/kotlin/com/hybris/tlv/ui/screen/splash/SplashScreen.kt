@@ -49,7 +49,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
 
 @Preview
 @Composable
-private fun SplashZeroPreview() = AppTheme {
+private fun SplashScreenZeroPreview() = AppTheme {
     SplashScreen(
         store = Store(
             initialState = SplashState(
@@ -61,7 +61,7 @@ private fun SplashZeroPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun SplashHalfwayPreview() = AppTheme {
+private fun SplashScreenHalfwayPreview() = AppTheme {
     SplashScreen(
         store = Store(
             initialState = SplashState(
@@ -73,7 +73,7 @@ private fun SplashHalfwayPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun SplashFullPreview() = AppTheme {
+private fun SplashScreenFullPreview() = AppTheme {
     SplashScreen(
         store = Store(
             initialState = SplashState(

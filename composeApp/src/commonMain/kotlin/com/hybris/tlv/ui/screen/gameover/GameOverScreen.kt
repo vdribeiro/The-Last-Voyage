@@ -85,7 +85,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
 
 @Preview
 @Composable
-private fun GameOverLoadingPreview() = AppTheme {
+private fun GameOverScreenLoadingPreview() = AppTheme {
     GameOverScreen(
         store = Store(
             initialState = GameOverState(
@@ -100,7 +100,7 @@ private fun GameOverLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun GameOverMessagePreview() = AppTheme {
+private fun GameOverScreenMessagePreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -132,7 +132,7 @@ private fun GameOverMessagePreview() = AppTheme {
 
 @Preview
 @Composable
-private fun GameOverScorePreview() = AppTheme {
+private fun GameOverScreenScorePreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(

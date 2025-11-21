@@ -30,7 +30,7 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
 
 @Preview
 @Composable
-private fun FeedbackPreview() = AppTheme {
+private fun FeedbackScreenPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -60,7 +60,7 @@ private fun FeedbackPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun FeedbackThanksPreview() = AppTheme {
+private fun FeedbackScreenThanksPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -94,7 +94,7 @@ private fun FeedbackThanksPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun FeedbackErrorPreview() = AppTheme {
+private fun FeedbackScreenErrorPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(

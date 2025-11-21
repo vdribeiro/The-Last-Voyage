@@ -245,7 +245,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
 
 @Preview
 @Composable
-private fun StellarExplorerLoadingPreview() = AppTheme {
+private fun StellarExplorerScreenLoadingPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -281,7 +281,7 @@ private fun StellarExplorerLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerHostListPreview() = AppTheme {
+private fun StellarExplorerScreenHostListPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -356,7 +356,7 @@ private fun StellarExplorerHostListPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerHostDetailPreview() = AppTheme {
+private fun StellarExplorerScreenHostDetailPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -445,7 +445,7 @@ private fun StellarExplorerHostDetailPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerSearchHostsPreview() = AppTheme {
+private fun StellarExplorerScreenSearchHostsPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -481,7 +481,7 @@ private fun StellarExplorerSearchHostsPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerPlanetListPreview() = AppTheme {
+private fun StellarExplorerScreenPlanetListPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -552,7 +552,7 @@ private fun StellarExplorerPlanetListPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerPlanetDetailPreview() = AppTheme {
+private fun StellarExplorerScreenPlanetDetailPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -624,7 +624,7 @@ private fun StellarExplorerPlanetDetailPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerSearchPlanetPreview() = AppTheme {
+private fun StellarExplorerScreenSearchPlanetPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(

@@ -108,7 +108,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
 
 @Preview
 @Composable
-private fun GameLoadingPreview() = AppTheme {
+private fun GameScreenLoadingPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -140,7 +140,7 @@ private fun GameLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun GameShipPreview() = AppTheme {
+private fun GameScreenShipPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -188,7 +188,7 @@ private fun GameShipPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun GameSystemPreview() = AppTheme {
+private fun GameScreenSystemPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -274,7 +274,7 @@ private fun GameSystemPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun GameTravelPreview() = AppTheme {
+private fun GameScreenTravelPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(

@@ -57,7 +57,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
 
 @Preview
 @Composable
-private fun MainMenuLoadingPreview() = AppTheme {
+private fun MainMenuScreenLoadingPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -81,7 +81,7 @@ private fun MainMenuLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun MainMenuAllPreview() = AppTheme {
+private fun MainMenuScreenAllPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -121,7 +121,7 @@ private fun MainMenuAllPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun MainMenuContinuePreview() = AppTheme {
+private fun MainMenuScreenContinuePreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(

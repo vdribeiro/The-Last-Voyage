@@ -40,7 +40,7 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
 
 @Preview
 @Composable
-private fun CreditLoadingPreview() = AppTheme {
+private fun CreditScreenLoadingPreview() = AppTheme {
     CreditScreen(
         store = Store(
             initialState = CreditState(
@@ -53,7 +53,7 @@ private fun CreditLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun CreditListPreview() = AppTheme {
+private fun CreditScreenPreview() = AppTheme {
     CreditScreen(
         store = Store(
             initialState = CreditState(

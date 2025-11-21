@@ -112,7 +112,19 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
 
 @Preview
 @Composable
-private fun HelpPreview() = AppTheme {
+private fun HelpScreenLoadingPreview() = AppTheme {
+    HelpScreen(
+        store = Store(
+            initialState = HelpState(
+                loading = true,
+            )
+        )
+    )
+}
+
+@Preview
+@Composable
+private fun HelpScreenPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -167,7 +179,7 @@ private fun HelpPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun HelpHostDefinitionPreview() = AppTheme {
+private fun HelpScreenHostDefinitionPreview() = AppTheme {
     HelpScreen(
         store = Store(
             initialState = HelpState(
@@ -201,7 +213,7 @@ private fun HelpHostDefinitionPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun HelpPlanetDefinitionPreview() = AppTheme {
+private fun HelpScreenPlanetDefinitionPreview() = AppTheme {
     HelpScreen(
         store = Store(
             initialState = HelpState(
@@ -235,7 +247,7 @@ private fun HelpPlanetDefinitionPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun HelpHabitabilityPreview() = AppTheme {
+private fun HelpScreenHabitabilityPreview() = AppTheme {
     HelpScreen(
         store = Store(
             initialState = HelpState(

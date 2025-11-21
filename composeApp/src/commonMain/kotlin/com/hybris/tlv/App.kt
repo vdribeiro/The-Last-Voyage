@@ -54,8 +54,7 @@ internal fun App(
                 Action.ToggleAudio -> audioPlayer.action(action = AudioPlayer.Action.Toggle)
                 is Action.Cheats -> withContext(context = Dispatcher.IO) {
                     haptics.performHapticFeedback(hapticFeedbackType = HapticFeedbackType.Reject)
-                    config.setPreferences { it.copy(cheats = action.enabled) }
-                    Telemetry.info(tag = "God", message = "Cheats: ${action.enabled}")
+                    //TODO
                 }
             }
         }
