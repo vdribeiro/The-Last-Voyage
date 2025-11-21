@@ -42,22 +42,25 @@ internal fun App(
         config = config,
         useCases = useCases
     )
+
     LaunchedEffect(key1 = navBackStackEntry) {
         navigationChannel.receiveAsFlow().collect { screen -> navController.navigate(screen = screen) }
     }
+
     LaunchedEffect(key1 = navBackStackEntry) {
         actionChannel.receiveAsFlow().collect { action ->
             when (action) {
                 Action.Back -> navController.popBackStack()
                 Action.ToggleAudio -> audioPlayer.action(action = AudioPlayer.Action.Toggle)
                 is Action.Cheats -> withContext(context = Dispatcher.IO) {
+                    haptics.performHapticFeedback(hapticFeedbackType = HapticFeedbackType.Reject)
                     config.setPreferences { it.copy(cheats = action.enabled) }
                     Telemetry.info(tag = "God", message = "Cheats: ${action.enabled}")
-                    haptics.performHapticFeedback(hapticFeedbackType = HapticFeedbackType.Reject)
                 }
             }
         }
     }
+
     AudioPlayer(
         audioPlayer = audioPlayer,
         screen = screen
