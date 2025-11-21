@@ -4,7 +4,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Surface as MaterialSurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +17,7 @@ internal fun Surface(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit = {}
 ) {
-    Surface(modifier = modifier, content = content)
+    MaterialSurface(modifier = modifier, content = content)
 }
 
 @Preview

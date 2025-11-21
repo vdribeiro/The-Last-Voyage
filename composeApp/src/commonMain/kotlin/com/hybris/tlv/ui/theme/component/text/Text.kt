@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.theme.component.text
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.Text
+import androidx.compose.material3.Text as MaterialText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +23,7 @@ internal fun Text(
     color: Color = Color.Unspecified,
     fontWeight: FontWeight? = null,
 ) {
-    Text(
+    MaterialText(
         modifier = modifier,
         text = text,
         textAlign = textAlign,
@@ -45,7 +45,7 @@ internal fun Text(
     color: Color = Color.Unspecified,
     fontWeight: FontWeight? = null,
 ) {
-    Text(
+    MaterialText(
         modifier = modifier,
         text = text,
         textAlign = textAlign,

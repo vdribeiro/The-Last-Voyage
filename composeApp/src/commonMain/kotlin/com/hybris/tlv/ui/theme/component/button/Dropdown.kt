@@ -42,7 +42,7 @@ internal fun Dropdown(
 }
 
 internal data class DropdownItem(
-    val enabled: Boolean = false,
+    val enabled: Boolean = true,
     val text: String = "",
     val onClick: () -> Unit = {},
     val leadingIcon: @Composable (() -> Unit)? = null,

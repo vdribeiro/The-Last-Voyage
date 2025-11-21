@@ -34,7 +34,7 @@ internal fun CheatScreen(store: Store<CheatState, CheatAction>) {
 
 @Preview
 @Composable
-private fun CheatLoadingPreview() = AppTheme {
+private fun CheatScreenLoadingPreview() = AppTheme {
     CheatScreen(
         store = Store(
             initialState = CheatState(
@@ -46,7 +46,7 @@ private fun CheatLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun CheatListPreview() = AppTheme {
+private fun CheatScreenPreview() = AppTheme {
     CheatScreen(
         store = Store(
             initialState = CheatState(

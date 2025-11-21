@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.theme.component.card
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.material3.Card
+import androidx.compose.material3.Card as MaterialCard
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,7 +30,7 @@ internal fun Card(
         else -> null
     }
 
-    Card(
+    MaterialCard(
         modifier = modifier,
         shape = shapes.small,
         colors = colors,

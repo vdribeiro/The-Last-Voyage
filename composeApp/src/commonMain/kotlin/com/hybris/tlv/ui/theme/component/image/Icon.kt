@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.theme.component.image
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
-import androidx.compose.material3.Icon
+import androidx.compose.material3.Icon as MaterialIcon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,7 +18,7 @@ internal fun Icon(
     tint: Color = LocalContentColor.current,
     contentDescription: String = "Icon",
 ) {
-    Icon(
+    MaterialIcon(
         modifier = modifier,
         imageVector = imageVector,
         tint = tint,
