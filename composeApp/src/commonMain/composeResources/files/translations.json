@@ -2806,6 +2806,11 @@
   },
   {
     "languageIso": "en",
+    "key": "cheats_screen__title",
+    "value": "Cheat Sheet"
+  },
+  {
+    "languageIso": "en",
     "key": "main_menu_screen__navigation_info",
     "value": "Press escape to navigate back.\nA wise astronaut also once said that Konami gives you courage."
   },
