@@ -6,6 +6,11 @@
   },
   {
     "languageIso": "en",
+    "key": "version",
+    "value": "Version"
+  },
+  {
+    "languageIso": "en",
     "key": "new_version",
     "value": "New version available!"
   },
@@ -2817,7 +2822,7 @@
   {
     "languageIso": "en",
     "key": "cheats_screen__sensor_range",
-    "value": "All seeing sensors"
+    "value": "All Seeing Sensors"
   },
   {
     "languageIso": "en",
@@ -2992,12 +2997,12 @@
   {
     "languageIso": "en",
     "key": "habitability_description",
-    "value": "The assessment of a planet's potential to host life is a complex field, and as a result, several different models and indices are usually used to focus on different aspects of habitability. A truly universal formula is elusive because we only have one example of a planet that can sustain life: Earth.\nIn this game, the habitability score used is a weighted average of dozens of planetary and stellar characteristics based on real data and real models.\nThe individual scores range from 0.0 to 1.0. Because data availability is not constant across all celestial objects, this approach tries to derive missing data when possible, and null scores have a penalty, otherwise planets with missing data could outscore a well-rounded planet. This is done by applying a Bayesian adjustment with the Confidence Score, which is a percentage of the total possible weights of all scores.\nIf you really want to look under the hood, I invite you to go to the source code on GitHub."
+    "value": "The assessment of a planet's potential to host life is a complex field, and as a result, several different models and indices are usually used to focus on different aspects of habitability. A truly universal formula is elusive because we only have one example of a planet that can sustain life: Earth.\nThe habitability score used is a weighted average of dozens of planetary and stellar characteristics based on real data and real models.\nThe individual scores range from 0.0 to 1.0. Because data availability is not constant across all celestial objects, this approach tries to derive missing data when possible, and null scores have a penalty, otherwise planets with missing data could outscore a well-rounded planet. This is done by applying a Bayesian adjustment with the Confidence Score, which is a percentage of the total possible weights of all scores.\nIf you really want to look under the hood, I invite you to go to the source code on GitHub."
   },
   {
     "languageIso": "en",
     "key": "habitability_roche",
-    "value": "Is the planet safely outside the star's Roche Limit? (Roche Score)"
+    "value": "Is the planet safely outside the star's Roche Limit?\n(Roche Score)"
   },
   {
     "languageIso": "en",
@@ -3007,7 +3012,7 @@
   {
     "languageIso": "en",
     "key": "habitability_hz",
-    "value": "Is the planet in the right place for liquid water? (Kopparapu or Kasting score)"
+    "value": "Is the planet in the right place for liquid water?\n(Kopparapu or Kasting score)"
   },
   {
     "languageIso": "en",
@@ -3017,7 +3022,7 @@
   {
     "languageIso": "en",
     "key": "habitability_planet_density_radius",
-    "value": "Is the planet the right size and density to be rocky? (Planet Radius and Telluricity Score)"
+    "value": "Is the planet the right size and density to be rocky?\n(Planet Radius and Telluricity Score)"
   },
   {
     "languageIso": "en",
@@ -3027,7 +3032,7 @@
   {
     "languageIso": "en",
     "key": "habitability_planet_mass",
-    "value": "Can the planet hold an atmosphere and drive geology? (Planet Mass Score)"
+    "value": "Can the planet hold an atmosphere and drive geology?\n(Planet Mass Score)"
   },
   {
     "languageIso": "en",
@@ -3037,7 +3042,7 @@
   {
     "languageIso": "en",
     "key": "habitability_planet_eccentricity",
-    "value": "Does the planet have a stable, circular orbit for stable temperatures? (Eccentricity Score)"
+    "value": "Does the planet have a stable, circular orbit for stable temperatures?\n(Eccentricity Score)"
   },
   {
     "languageIso": "en",
@@ -3047,7 +3052,7 @@
   {
     "languageIso": "en",
     "key": "habitability_planet_temperature",
-    "value": "Does the planet have a reasonable baseline temperature? (Planet Temperature Score)"
+    "value": "Does the planet have a reasonable baseline temperature?\n(Planet Temperature Score)"
   },
   {
     "languageIso": "en",
@@ -3057,7 +3062,7 @@
   {
     "languageIso": "en",
     "key": "habitability_planet_obliquity",
-    "value": "Does the planet have stable seasons? (Obliquity Score)"
+    "value": "Does the planet have stable seasons?\n(Obliquity Score)"
   },
   {
     "languageIso": "en",
@@ -3067,7 +3072,7 @@
   {
     "languageIso": "en",
     "key": "habitability_planet_protection",
-    "value": "Can the planet shield itself? (Protection Score)"
+    "value": "Can the planet shield itself?\n(Protection Score)"
   },
   {
     "languageIso": "en",
@@ -3077,7 +3082,7 @@
   {
     "languageIso": "en",
     "key": "habitability_planet_tidal_locking",
-    "value": "Is the planet free from extreme temperature lock? (Tidal Locking Score)"
+    "value": "Is the planet free from extreme temperature lock?\n(Tidal Locking Score)"
   },
   {
     "languageIso": "en",
@@ -3087,7 +3092,7 @@
   {
     "languageIso": "en",
     "key": "habitability_planet_esi",
-    "value": "What is the planet's Earth Similarity Index? (ESI Score)"
+    "value": "What is the planet's Earth Similarity Index?\n(ESI Score)"
   },
   {
     "languageIso": "en",
@@ -3097,7 +3102,7 @@
   {
     "languageIso": "en",
     "key": "habitability_star_spectral_type",
-    "value": "Is the star stable and does it have a long, stable lifetime? (Star Mass and Spectral Type Score)"
+    "value": "Is the star stable and does it have a long, stable lifetime?\n(Star Mass and Spectral Type Score)"
   },
   {
     "languageIso": "en",
@@ -3107,7 +3112,7 @@
   {
     "languageIso": "en",
     "key": "habitability_star_age",
-    "value": "Is the star old enough for life, but not too old? (Age Score)"
+    "value": "Is the star old enough for life, but not too old?\n(Age Score)"
   },
   {
     "languageIso": "en",
@@ -3117,7 +3122,7 @@
   {
     "languageIso": "en",
     "key": "habitability_star_activity",
-    "value": "Is the star prone to violent flares? (Activity or Rotational Period Score)"
+    "value": "Is the star prone to violent flares?\n(Activity or Rotational Period Score)"
   },
   {
     "languageIso": "en",
@@ -3127,7 +3132,7 @@
   {
     "languageIso": "en",
     "key": "habitability_star_gravity",
-    "value": "Is the star a compact main-sequence star or a giant? (Gravity Score)"
+    "value": "Is the star a compact main-sequence star or a giant?\n(Gravity Score)"
   },
   {
     "languageIso": "en",
@@ -3137,7 +3142,7 @@
   {
     "languageIso": "en",
     "key": "habitability_star_metallicity",
-    "value": "Does the star have the right materials to form rocky planets? (Metallicity Score)"
+    "value": "Does the star have the right materials to form rocky planets?\n(Metallicity Score)"
   },
   {
     "languageIso": "en",
@@ -3147,7 +3152,7 @@
   {
     "languageIso": "en",
     "key": "habitability_star_effective_temperature",
-    "value": "Is the star's temperature ideal? (Star Temperature Score)"
+    "value": "Is the star's temperature ideal?\n(Star Temperature Score)"
   },
   {
     "languageIso": "en",
