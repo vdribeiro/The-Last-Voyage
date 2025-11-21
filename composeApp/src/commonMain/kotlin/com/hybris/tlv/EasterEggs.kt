@@ -5,13 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
-import androidx.compose.ui.platform.LocalHapticFeedback
-import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.ui.navigation.Action
+import com.hybris.tlv.ui.navigation.actionChannel
 import com.hybris.tlv.ui.theme.modifier.Gesture
 import com.hybris.tlv.ui.theme.modifier.onGesture
 import com.hybris.tlv.ui.theme.modifier.rememberKeySequence
@@ -29,23 +26,16 @@ internal val konamiGestureCode = listOf(
 )
 
 @Composable
-internal fun rememberKeySequenceCheats(config: ConfigManager): (KeyEvent) -> Boolean {
+internal fun rememberKeySequenceCheats(): (KeyEvent) -> Boolean {
     val scope = rememberCoroutineScope()
     return rememberKeySequence(sequence = konamiCode) {
-        scope.launch(context = Dispatcher.IO) { enableCheats(config = config) }
+        scope.launch { actionChannel.send(element = Action.Cheats(enabled = true)) }
     }
 }
 
-internal fun Modifier.enableGestureCheats(config: ConfigManager): Modifier = composed {
-    val haptics = LocalHapticFeedback.current
+internal fun Modifier.enableGestureCheats(): Modifier = composed {
     val scope = rememberCoroutineScope()
     onGesture(sequence = konamiGestureCode) {
-        haptics.performHapticFeedback(hapticFeedbackType = HapticFeedbackType.Reject)
-        scope.launch(context = Dispatcher.IO) { enableCheats(config = config) }
+        scope.launch { actionChannel.send(element = Action.Cheats(enabled = true)) }
     }
-}
-
-private suspend fun enableCheats(config: ConfigManager) {
-    config.setPreferences { it.copy(cheats = true) }
-    Telemetry.info(tag = "God", message = "Cheats!")
 }

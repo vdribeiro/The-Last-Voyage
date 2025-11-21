@@ -20,7 +20,7 @@ class MainActivity: ComponentActivity() {
         setContent {
             setContent {
                 App(
-                    modifier = Modifier.enableGestureCheats(config = dependency.config),
+                    modifier = Modifier.enableGestureCheats(),
                     config = dependency.config,
                     useCases = dependency.useCases,
                     audioPlayer = dependency.audioPlayer,

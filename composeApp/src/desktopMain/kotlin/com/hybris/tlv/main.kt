@@ -37,7 +37,7 @@ fun main() = application {
         title = appNameTranslation,
         state = windowState,
         onCloseRequest = ::exitApplication,
-        onPreviewKeyEvent = rememberKeySequenceCheats(config = dependency.config)
+        onPreviewKeyEvent = rememberKeySequenceCheats()
     ) {
         CompositionLocalProvider(value = LocalWindowState provides windowState) {
             App(
