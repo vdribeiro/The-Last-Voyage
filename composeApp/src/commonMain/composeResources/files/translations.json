@@ -2811,6 +2811,31 @@
   },
   {
     "languageIso": "en",
+    "key": "cheats_screen__integrity",
+    "value": "Unbreakable Hull"
+  },
+  {
+    "languageIso": "en",
+    "key": "cheats_screen__sensor_range",
+    "value": "All seeing sensors"
+  },
+  {
+    "languageIso": "en",
+    "key": "cheats_screen__fuel",
+    "value": "Fuelly Loaded"
+  },
+  {
+    "languageIso": "en",
+    "key": "cheats_screen__materials",
+    "value": "Space Hoarder"
+  },
+  {
+    "languageIso": "en",
+    "key": "cheats_screen__cryopods",
+    "value": "Schrödinger’s Crew"
+  },
+  {
+    "languageIso": "en",
     "key": "main_menu_screen__navigation_info",
     "value": "Press escape to navigate back.\nA wise astronaut also once said that Konami gives you courage."
   },
