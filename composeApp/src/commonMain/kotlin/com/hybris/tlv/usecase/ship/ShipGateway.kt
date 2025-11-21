@@ -12,6 +12,11 @@ import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_FUEL
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_INTEGRITY
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_MATERIALS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_SENSOR_RANGE
 import database.AppDatabase
 
 internal class ShipGateway(
@@ -53,18 +58,13 @@ internal class ShipGateway(
         engineDao.getEngines().executeAsList().map { it.toEngine() }.sortedBy { it.velocity }
 
     override suspend fun repairShip(ship: Ship): Ship {
-        // TODO
-//        if (config.preferences.value.cheats) return ship.copy(
-//            integrity = MAX_INTEGRITY,
-//            materials = MAX_MATERIALS,
-//            fuel = MAX_FUEL,
-//            cryopods = MAX_CRYOPODS
-//        )
+        val preferences = config.preferences.value
 
-        var integrity = ship.integrity
-        var materials = ship.materials
-        val fuel = if (ship.fuel < 0) 0 else ship.fuel
-        val cryopods = if (ship.cryopods < 0) 0 else ship.cryopods
+        val sensorRange = if (preferences.cheatSensorRange) 100 else ship.sensorRange
+        var integrity = if (preferences.cheatIntegrity) MAX_INTEGRITY else ship.integrity
+        var materials = if (preferences.cheatMaterials) MAX_MATERIALS else ship.materials
+        val fuel = if (preferences.cheatFuel) MAX_FUEL else ship.fuel.coerceAtLeast(minimumValue = 0)
+        val cryopods = if (preferences.cheatCryopods) MAX_CRYOPODS else ship.cryopods.coerceAtLeast(minimumValue = 0)
 
         if (integrity <= 0) {
             // Attempt to repair the ship
@@ -86,6 +86,7 @@ internal class ShipGateway(
         }
 
         return ship.copy(
+            sensorRange = sensorRange,
             integrity = integrity,
             materials = materials,
             fuel = fuel,
