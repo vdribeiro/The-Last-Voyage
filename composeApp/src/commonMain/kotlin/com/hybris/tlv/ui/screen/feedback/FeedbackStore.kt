@@ -32,7 +32,7 @@ internal class FeedbackStore(
     override fun back(state: FeedbackState) {
         when {
             state.isError -> navigate(screen = Screen.Splash)
-            else -> back(state = state)
+            else -> super.back(state = state)
         }
     }
 

@@ -8,7 +8,7 @@ import com.hybris.tlv.ui.navigation.Screen
 @Composable
 internal fun AudioPlayer(
     audioPlayer: AudioPlayer,
-    screen: Screen
+    screen: Screen?
 ) {
     LaunchedEffect(key1 = screen) {
         val playlist = getTracks(screen = screen)
@@ -20,7 +20,7 @@ internal fun AudioPlayer(
     )
 }
 
-private fun getTracks(screen: Screen): List<String>? = when (screen) {
+private fun getTracks(screen: Screen?): List<String>? = when (screen) {
     Screen.Splash,
     Screen.MainMenu,
     Screen.NewGame,
@@ -48,5 +48,6 @@ private fun getTracks(screen: Screen): List<String>? = when (screen) {
 
     Screen.Help,
     is Screen.Feedback,
-    is Screen.Tutorial -> null
+    is Screen.Tutorial,
+    null -> null
 }

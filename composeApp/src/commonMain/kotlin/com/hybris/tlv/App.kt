@@ -1,12 +1,13 @@
 package com.hybris.tlv
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import com.hybris.tlv.media.AudioPlayer
 import com.hybris.tlv.ui.navigation.Navigation
-import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.toScreen
 import com.hybris.tlv.ui.theme.AppTheme
 
@@ -20,7 +21,8 @@ internal fun App(dependency: Dependency) = AppTheme {
         useCases = dependency.useCases,
     )
 
-    val screen = navController.toScreen()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val screen = remember(key1 = navBackStackEntry) { navBackStackEntry?.toScreen() }
     AudioPlayer(
         audioPlayer = dependency.audioPlayer,
         screen = screen
