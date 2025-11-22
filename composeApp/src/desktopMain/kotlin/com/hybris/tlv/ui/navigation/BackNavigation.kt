@@ -13,6 +13,6 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 internal actual fun Modifier.backNavigation(onBack: () -> Unit): Modifier = composed {
     BackHandler(enabled = true, onBack = onBack)
     onPointerEvent(eventType = PointerEventType.Press) {
-        with(receiver = it.buttons) { if (isBackPressed || isSecondaryPressed) onBack() }
+        with(receiver = it.buttons) { if (isBackPressed) onBack() }
     }
 }

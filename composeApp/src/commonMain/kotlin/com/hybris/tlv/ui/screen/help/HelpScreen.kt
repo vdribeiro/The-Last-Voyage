@@ -31,7 +31,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
         onBackClick = { store.back() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
-        bottomBar = { HelpBar() }
+        bottomBar = { if (currentContent == Content.LEARN_MENU) HelpBar() }
     ) {
         when (currentContent) {
             Content.LEARN_MENU -> LearnMenu(

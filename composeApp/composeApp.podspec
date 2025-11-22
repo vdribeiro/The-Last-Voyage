@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'composeApp'
-    spec.version                  = '1.1.1'
+    spec.version                  = '1.1.2'
     spec.homepage                 = 'https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
