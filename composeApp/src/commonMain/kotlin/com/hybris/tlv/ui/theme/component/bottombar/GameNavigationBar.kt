@@ -15,7 +15,7 @@ import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
-internal fun GameNavigation(
+internal fun GameNavigationBar(
     modifier: Modifier = Modifier,
     shipEnabled: Boolean = true,
     shipSelected: Boolean = false,
@@ -62,6 +62,6 @@ internal fun GameNavigation(
 
 @Preview
 @Composable
-private fun BottomNavigationPreview() = AppTheme {
-    GameNavigation()
+private fun GameNavigationBarPreview() = AppTheme {
+    GameNavigationBar()
 }

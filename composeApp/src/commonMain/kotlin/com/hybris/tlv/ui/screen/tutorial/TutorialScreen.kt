@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.bottombar.GameNavigation
+import com.hybris.tlv.ui.theme.component.bottombar.GameNavigationBar
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.text.TitleDescription
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
@@ -47,7 +47,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
             )
         },
         bottomBar = {
-            GameNavigation(
+            GameNavigationBar(
                 shipEnabled = false,
                 shipSelected = storeState.tutorialStep == Tutorial.SHIP,
                 systemEnabled = false,

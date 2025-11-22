@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.bottombar.HelpBar
 import com.hybris.tlv.ui.theme.component.container.HostDefinition
 import com.hybris.tlv.ui.theme.component.container.LearnMenu
 import com.hybris.tlv.ui.theme.component.container.NavigationHelp
@@ -30,6 +31,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
         onBackClick = { store.back() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
+        bottomBar = { HelpBar() }
     ) {
         when (currentContent) {
             Content.LEARN_MENU -> LearnMenu(

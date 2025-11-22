@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.bottombar.GameNavigation
+import com.hybris.tlv.ui.theme.component.bottombar.GameNavigationBar
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.ShipStats
 import com.hybris.tlv.ui.theme.component.list.SystemList
@@ -47,7 +47,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
             )
         },
         bottomBar = {
-            GameNavigation(
+            GameNavigationBar(
                 shipSelected = storeState.currentContent == Content.SHIP,
                 shipOnClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 systemSelected = storeState.currentContent == Content.SYSTEM,

@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.platform.Property
 import com.hybris.tlv.platform.isIos
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -30,16 +31,12 @@ import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.kofi
 
 @Composable
-internal fun MainNavigation(
+internal fun HelpBar(
     modifier: Modifier = Modifier,
-    onCreditsClick: () -> Unit = {},
-    developerCornerUri: String = "",
-    supportUri: String = "",
+    version: String = Property.APP_VERSION,
 ) {
-    val uriHandler = LocalUriHandler.current
     val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val websiteTranslation = remember(key1 = translationVersion) { getTranslation(key = "website") }
-    val creditsTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__credits") }
+    val versionTranslation = remember(key1 = translationVersion) { getTranslation(key = "version") }
 
     val typography = LocalTypography.current
 
@@ -53,39 +50,15 @@ internal fun MainNavigation(
         Text(
             modifier = Modifier
                 .size(size = 100.dp)
-                .wrapContentHeight(align = Alignment.CenterVertically)
-                .clickable { uriHandler.openUri(uri = developerCornerUri) },
-            text = websiteTranslation,
+                .wrapContentHeight(align = Alignment.CenterVertically),
+            text = "$versionTranslation: $version",
             style = typography.labelLarge,
-        )
-        if (!isIos) {
-            Image(
-                modifier = Modifier
-                    .size(size = 100.dp)
-                    .wrapContentHeight(align = Alignment.CenterVertically)
-                    .clickable { uriHandler.openUri(uri = supportUri) },
-                image = ImageResource(
-                    path = "kofi.png",
-                    drawable = Res.drawable.kofi
-                ),
-                contentDescription = "Support",
-                contentScale = ContentScale.Fit,
-            )
-        }
-        Text(
-            modifier = Modifier
-                .size(size = 100.dp)
-                .wrapContentHeight(align = Alignment.CenterVertically)
-                .clickable(onClick = onCreditsClick),
-            text = creditsTranslation,
-            style = typography.labelLarge,
-            textAlign = TextAlign.Center
         )
     }
 }
 
 @Preview
 @Composable
-private fun MainBottomBarPreview() = AppTheme {
-    MainNavigation()
+private fun HelpBarPreview() = AppTheme {
+    HelpBar()
 }
