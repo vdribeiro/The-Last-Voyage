@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.platform.open
 import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
@@ -70,7 +71,7 @@ internal inline fun <T> CreditList(
             items(items = creators, key = id, span = { StaggeredGridItemSpan.FullLine }) { credit ->
                 Text(
                     modifier = Modifier
-                        .clickable { link(credit)?.let { uriHandler.openUri(uri = it) } },
+                        .clickable { link(credit)?.let { uriHandler.open(uri = it) } },
                     text = id(credit),
                     style = typography.bodyLarge.copy(
                         color = colorScheme.primary,
@@ -93,7 +94,7 @@ internal inline fun <T> CreditList(
             items(items = sources, key = id, span = { StaggeredGridItemSpan.FullLine }) { credit ->
                 Text(
                     modifier = Modifier
-                        .clickable { link(credit)?.let { uriHandler.openUri(uri = it) } },
+                        .clickable { link(credit)?.let { uriHandler.open(uri = it) } },
                     text = id(credit),
                     style = typography.bodyLarge.copy(
                         color = colorScheme.primary,
@@ -116,7 +117,7 @@ internal inline fun <T> CreditList(
             items(items = musics, key = id, span = { StaggeredGridItemSpan.FullLine }) { credit ->
                 Text(
                     modifier = Modifier
-                        .clickable { link(credit)?.let { uriHandler.openUri(uri = it) } },
+                        .clickable { link(credit)?.let { uriHandler.open(uri = it) } },
                     text = id(credit),
                     style = typography.bodyLarge.copy(
                         color = colorScheme.primary,
@@ -139,7 +140,7 @@ internal inline fun <T> CreditList(
             items(items = supporters) { credit ->
                 Card(
                     modifier = Modifier
-                        .clickable { link(credit)?.let { uriHandler.openUri(uri = it) } }
+                        .clickable { link(credit)?.let { uriHandler.open(uri = it) } }
                 ) {
                     Text(
                         modifier = Modifier

@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.platform.open
 import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -96,7 +97,7 @@ internal fun Screen(
                         Text(
                             modifier = Modifier
                                 .padding(horizontal = 8.dp)
-                                .clickable { uriHandler.openUri(uri = banner) },
+                                .clickable { uriHandler.open(uri = banner) },
                             text = getTranslation(key = "new_version"),
                             style = typography.labelLarge,
                         )

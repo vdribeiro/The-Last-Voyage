@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.platform.isIos
+import com.hybris.tlv.platform.open
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Image
@@ -54,7 +55,7 @@ internal fun MainBar(
             modifier = Modifier
                 .size(size = 100.dp)
                 .wrapContentHeight(align = Alignment.CenterVertically)
-                .clickable { uriHandler.openUri(uri = developerCornerUri) },
+                .clickable { uriHandler.open(uri = developerCornerUri) },
             text = websiteTranslation,
             style = typography.labelLarge,
         )
@@ -63,7 +64,7 @@ internal fun MainBar(
                 modifier = Modifier
                     .size(size = 100.dp)
                     .wrapContentHeight(align = Alignment.CenterVertically)
-                    .clickable { uriHandler.openUri(uri = supportUri) },
+                    .clickable { uriHandler.open(uri = supportUri) },
                 image = ImageResource(
                     path = "kofi.png",
                     drawable = Res.drawable.kofi
