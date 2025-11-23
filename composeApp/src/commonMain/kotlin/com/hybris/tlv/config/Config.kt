@@ -35,7 +35,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     private val _remoteConfigs: MutableStateFlow<Configs> = MutableStateFlow(value = Configs())
     override val remoteConfigs: StateFlow<Configs> = _remoteConfigs.asStateFlow()
 
-    private val remoteInterval: Duration = if (isDebug) ZERO else 1.hours
+    private val cacheTTL: Duration = if (isDebug) ZERO else 1.hours
 
     override suspend fun setup(): ConfigManager = apply {
         val preferences = mutex.withLock { loadJsonFile(path = PREFERENCES_JSON) ?: Preferences() }
@@ -47,7 +47,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     }
 
     override suspend fun fetchRemoteConfigs(): ConfigManager = apply {
-        if (!hasTimePassed(dateTime = _preferences.value.syncTime, duration = remoteInterval)) return@apply
+        if (!hasTimePassed(dateTime = _preferences.value.syncTime, duration = cacheTTL)) return@apply
         setPreferences { it.copy(syncTime = now()) }
 
         when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {

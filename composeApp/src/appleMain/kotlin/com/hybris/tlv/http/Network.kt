@@ -7,6 +7,8 @@ import kotlinx.cinterop.ptr
 import kotlinx.cinterop.reinterpret
 import kotlinx.cinterop.sizeOf
 import kotlinx.cinterop.value
+import platform.CoreFoundation.CFRelease
+import platform.CoreFoundation.CFTypeRef
 import platform.SystemConfiguration.SCNetworkReachabilityCreateWithAddress
 import platform.SystemConfiguration.SCNetworkReachabilityFlagsVar
 import platform.SystemConfiguration.SCNetworkReachabilityGetFlags
@@ -30,14 +32,24 @@ internal actual suspend fun isInternetAvailable(): Boolean = runCatching {
             address = zeroAddress.ptr.reinterpret()
         ) ?: return false
         // Network status
-        val networkStatus = alloc<SCNetworkReachabilityFlagsVar>()
-        val success = SCNetworkReachabilityGetFlags(target = reachability, flags = networkStatus.ptr)
-        if (!success) return false
-        val isReachable = (networkStatus.value and kSCNetworkReachabilityFlagsReachable) != 0u
-        val needsConnection = (networkStatus.value and kSCNetworkReachabilityFlagsConnectionRequired) != 0u
-
-        isReachable && !needsConnection
+        reachability.use {
+            val networkStatus = alloc<SCNetworkReachabilityFlagsVar>()
+            val success = SCNetworkReachabilityGetFlags(target = it, flags = networkStatus.ptr)
+            if (!success) return false
+            val isReachable = (networkStatus.value and kSCNetworkReachabilityFlagsReachable) != 0u
+            val needsConnection = (networkStatus.value and kSCNetworkReachabilityFlagsConnectionRequired) != 0u
+            isReachable && !needsConnection
+        }
     }
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = false)
+
+@OptIn(ExperimentalForeignApi::class)
+private inline fun <T: CFTypeRef?, R> T.use(block: (T) -> R): R {
+    try {
+        return block(this)
+    } finally {
+        if (this != null) CFRelease(cf = this)
+    }
+}
 
 private const val TAG = "Network"
