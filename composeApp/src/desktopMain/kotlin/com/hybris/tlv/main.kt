@@ -16,6 +16,7 @@ import com.hybris.tlv.usecase.translation.getTranslation
 import javafx.embed.swing.JFXPanel
 
 private const val TAG = "App"
+
 private val dependency: Dependency by lazy { Dependency() }
 private val initializeJfx by lazy {
     runCatching {

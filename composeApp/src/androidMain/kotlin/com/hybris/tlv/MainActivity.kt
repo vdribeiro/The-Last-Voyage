@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import com.hybris.tlv.telemetry.Telemetry
 
 private const val TAG = "App"
+
 private val dependency: Dependency by lazy { Dependency() }
 
 class MainActivity: ComponentActivity() {

@@ -7,6 +7,7 @@ import androidx.compose.ui.window.ComposeUIViewController
 import com.hybris.tlv.telemetry.Telemetry
 
 private const val TAG = "App"
+
 private val dependency: Dependency by lazy { Dependency() }
 
 fun MainViewController() = ComposeUIViewController {

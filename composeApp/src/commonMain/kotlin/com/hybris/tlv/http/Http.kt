@@ -52,10 +52,10 @@ private suspend fun isInternetAvailableDebounced(): Boolean = runCatching {
     }
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = false)
 
-private const val TAG = "Network"
-
 private val mutex = Mutex()
 private val cacheTTL: Duration = if (isDebug) ZERO else 5.seconds
 private val timeSource = TimeSource.Monotonic
 private var lastCheckTime: TimeMark? = null
 private var lastKnownStatus = false
+
+private const val TAG = "Network"
