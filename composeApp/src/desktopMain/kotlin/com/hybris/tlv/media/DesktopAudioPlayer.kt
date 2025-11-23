@@ -7,6 +7,7 @@ internal class DesktopAudioPlayer: AudioPlayer() {
 
     private var player: MediaPlayer? = null
     private var currentIndex = -1
+    private var paused: Boolean = false
 
     override fun isPlaying(): Boolean = player?.status == MediaPlayer.Status.PLAYING
 
@@ -16,17 +17,19 @@ internal class DesktopAudioPlayer: AudioPlayer() {
         val resourceUrl = Thread.currentThread().contextClassLoader.getResource(trackPath) ?: throw Throwable("Unable to get resource for $trackPath")
         player = MediaPlayer(Media(resourceUrl.toString())).apply {
             setOnEndOfMedia { this@DesktopAudioPlayer.play() }
-            this.play()
+            if (!paused) this.play()
         }
         currentIndex = nextIndex
     }
 
     override fun resume() {
         player?.play()
+        paused = false
     }
 
     override fun pause() {
         player?.pause()
+        paused = true
     }
 
     override fun stop() {

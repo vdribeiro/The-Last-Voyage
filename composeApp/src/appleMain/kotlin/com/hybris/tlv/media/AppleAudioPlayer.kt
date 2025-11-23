@@ -19,6 +19,7 @@ internal class AppleAudioPlayer: AudioPlayer() {
     }
     private var currentIndex = -1
     private var endOfSongObserver: NSObjectProtocol? = null
+    private var paused: Boolean = false
 
     override fun isPlaying(): Boolean = player.rate != 0.0f
 
@@ -37,16 +38,18 @@ internal class AppleAudioPlayer: AudioPlayer() {
             key = playerItem,
         ) { play() }
         player.replaceCurrentItemWithPlayerItem(item = playerItem)
-        player.play()
+        if (!paused) player.play()
         currentIndex = nextIndex
     }
 
     override fun resume() {
         player.play()
+        paused = false
     }
 
     override fun pause() {
         player.pause()
+        paused = true
     }
 
     override fun stop() {

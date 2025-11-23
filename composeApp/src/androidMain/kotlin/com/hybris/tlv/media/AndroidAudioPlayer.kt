@@ -11,6 +11,7 @@ internal class AndroidAudioPlayer: AudioPlayer() {
     private val player: ExoPlayer by lazy {
         ExoPlayer.Builder(applicationContext).build()
     }
+    private var paused: Boolean = false
 
     override fun isPlaying(): Boolean = player.isPlaying
 
@@ -23,15 +24,17 @@ internal class AndroidAudioPlayer: AudioPlayer() {
             playWhenReady = true
             prepare()
         }
-        resume()
+        if (!paused) player.play()
     }
 
     override fun resume() {
         player.play()
+        paused = false
     }
 
     override fun pause() {
         player.pause()
+        paused = true
     }
 
     override fun stop() {
