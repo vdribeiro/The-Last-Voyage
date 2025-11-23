@@ -1,4 +1,4 @@
-package com.hybris.tlv.usecase.space.formula
+package com.hybris.tlv.usecase.space
 
 import kotlin.math.log10
 import kotlin.math.pow

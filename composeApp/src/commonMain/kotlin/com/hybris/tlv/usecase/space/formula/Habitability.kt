@@ -44,6 +44,7 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetType
 import com.hybris.tlv.usecase.space.model.Score
 import com.hybris.tlv.usecase.space.model.StellarHost
+import com.hybris.tlv.usecase.space.sanitize
 
 internal object Habitability {
 

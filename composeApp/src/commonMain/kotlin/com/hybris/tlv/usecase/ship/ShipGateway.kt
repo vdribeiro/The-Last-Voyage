@@ -16,7 +16,6 @@ import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
 import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_FUEL
 import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_INTEGRITY
 import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_MATERIALS
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_SENSOR_RANGE
 import database.AppDatabase
 
 internal class ShipGateway(

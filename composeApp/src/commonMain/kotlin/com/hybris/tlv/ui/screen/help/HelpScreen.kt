@@ -15,9 +15,9 @@ import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.HabitabilityList
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
-import com.hybris.tlv.usecase.space.formula.spectralTypeToImage
-import com.hybris.tlv.usecase.space.formula.toImage
 import com.hybris.tlv.usecase.space.model.PlanetType
+import com.hybris.tlv.usecase.space.spectralTypeToImage
+import com.hybris.tlv.usecase.space.toImage
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
 

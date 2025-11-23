@@ -16,8 +16,6 @@ import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.serializer.saveJsonFile
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.space.formula.DerivedData
-import com.hybris.tlv.usecase.space.formula.parsecsToLightYears
-import com.hybris.tlv.usecase.space.formula.stellarHostGravityToSunGravity
 import com.hybris.tlv.usecase.space.model.ExoplanetJson
 import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_DENSITY
 import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_ECCENTRICITY

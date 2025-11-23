@@ -29,7 +29,6 @@ internal fun Dialog(
             Text(
                 text = title,
                 textAlign = TextAlign.Center,
-                maxLines = 1,
                 style = typography.titleLarge
             )
         },

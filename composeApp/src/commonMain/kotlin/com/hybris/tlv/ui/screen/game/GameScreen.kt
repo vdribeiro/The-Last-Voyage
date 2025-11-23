@@ -16,11 +16,11 @@ import com.hybris.tlv.ui.theme.component.list.TravelList
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
-import com.hybris.tlv.usecase.space.formula.spectralTypeToImage
-import com.hybris.tlv.usecase.space.formula.toImage
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
+import com.hybris.tlv.usecase.space.spectralTypeToImage
+import com.hybris.tlv.usecase.space.toImage
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
 

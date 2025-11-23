@@ -17,6 +17,7 @@ import com.hybris.tlv.usecase.space.formula.Constants.SUN_RADIUS_IN_EARTH_RADII
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_RADIUS_IN_METERS
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
+import com.hybris.tlv.usecase.space.sanitize
 
 internal object DerivedData {
 
