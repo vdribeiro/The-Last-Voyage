@@ -19,9 +19,11 @@ import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun MainMenu(
+    modifier: Modifier = Modifier,
     onScoresClick: () -> Unit = {},
     onAchievementsClick: () -> Unit = {},
     onStellarExplorerClick: () -> Unit = {},
@@ -40,7 +42,7 @@ internal fun MainMenu(
     val typography = LocalTypography.current
 
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
@@ -102,5 +104,33 @@ internal fun MainMenu(
 @Preview
 @Composable
 private fun MainMenuPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "app_name",
+                value = "TLV"
+            ),
+            Translation(
+                key = "main_menu_screen__new_game",
+                value = "New Game"
+            ),
+            Translation(
+                key = "main_menu_screen__continue",
+                value = "Continue"
+            ),
+            Translation(
+                key = "main_menu_screen__stellar_explorer",
+                value = "Explorer"
+            ),
+            Translation(
+                key = "main_menu_screen__scores",
+                value = "Scores"
+            ),
+            Translation(
+                key = "main_menu_screen__achievements",
+                value = "Achievements"
+            ),
+        )
+    )
     MainMenu(ongoingGameSession = true)
 }

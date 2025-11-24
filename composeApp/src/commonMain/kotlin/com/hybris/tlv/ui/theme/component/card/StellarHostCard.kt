@@ -91,11 +91,10 @@ internal fun StellarHostCard(
     val stellarHostMetallicityScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_metallicity_score") }
     val stellarHostEffectiveTemperatureScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_effective_temperature_score") }
 
-    Card(modifier = modifier.fillMaxWidth()) {
+    Card(modifier = modifier) {
         Row(
             modifier = Modifier
-                .padding(all = 12.dp)
-                .fillMaxWidth(),
+                .padding(all = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             spectralImage?.let {

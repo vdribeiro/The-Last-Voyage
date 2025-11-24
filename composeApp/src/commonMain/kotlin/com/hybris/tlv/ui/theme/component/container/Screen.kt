@@ -4,24 +4,14 @@ import kotlin.time.TimeMark
 import kotlin.time.TimeSource
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.BugReport
-import androidx.compose.material.icons.filled.MusicNote
-import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,17 +21,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.unit.dp
-import com.hybris.tlv.platform.open
 import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.image.AppLogo
-import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
-import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.ui.theme.component.topbar.TopBar
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 /**
  * A scaffold-based screen that handles displaying a loading indicator or the primary content.
@@ -78,59 +64,13 @@ internal fun Screen(
                     .fillMaxWidth()
                     .statusBarsPadding()
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    // Back button
-                    onBackClick?.let {
-                        Button(onClick = it) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Back"
-                            )
-                        }
-                    }
-                    banner?.let {
-                        val uriHandler = LocalUriHandler.current
-                        val typography = LocalTypography.current
-                        Text(
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .clickable { uriHandler.open(uri = banner) },
-                            text = getTranslation(key = "new_version"),
-                            style = typography.labelLarge,
-                        )
-                    }
-                    Spacer(modifier = Modifier.weight(weight = 1f))
-                    // Help button
-                    onHelpClick?.let {
-                        Button(onClick = it) {
-                            Icon(
-                                imageVector = Icons.Default.QuestionMark,
-                                contentDescription = "Help"
-                            )
-                        }
-                    }
-                    // Sound button
-                    onMusicClick?.let {
-                        Button(onClick = it) {
-                            Icon(
-                                imageVector = Icons.Default.MusicNote,
-                                contentDescription = "Music"
-                            )
-                        }
-                    }
-                    // Feedback button
-                    onFeedbackClick?.let {
-                        Button(onClick = it) {
-                            Icon(
-                                imageVector = Icons.Default.BugReport,
-                                contentDescription = "Feedback"
-                            )
-                        }
-                    }
-                }
+                TopBar(
+                    banner = banner,
+                    onBackClick = onBackClick,
+                    onHelpClick = onHelpClick,
+                    onMusicClick = onMusicClick,
+                    onFeedbackClick = onFeedbackClick
+                )
                 topBar()
             }
         },
@@ -138,7 +78,7 @@ internal fun Screen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .windowInsetsPadding(insets = WindowInsets.navigationBars),
+                    .navigationBarsPadding()
             ) {
                 bottomBar()
             }
@@ -205,6 +145,14 @@ private fun ScreenLoadingPreview() = AppTheme {
 @Preview
 @Composable
 private fun ScreenPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "new_version",
+                value = "New Version!"
+            ),
+        )
+    )
     Screen(
         loading = false,
         banner = "Banner",

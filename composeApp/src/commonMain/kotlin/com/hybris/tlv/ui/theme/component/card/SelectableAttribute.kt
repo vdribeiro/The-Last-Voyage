@@ -41,13 +41,12 @@ internal fun SelectableAttribute(
     val typography = LocalTypography.current
 
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         selected = selected
     ) {
         Row(
             modifier = Modifier
-                .padding(all = 12.dp)
-                .fillMaxWidth(),
+                .padding(all = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(weight = 1f)) {

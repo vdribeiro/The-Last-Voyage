@@ -24,6 +24,7 @@ import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal inline fun <T, S> HostDefinition(
@@ -132,6 +133,22 @@ internal inline fun <T, S> HostDefinition(
 @Preview
 @Composable
 private fun HostDefinitionPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "main_menu_screen__definition_example",
+                value = "Example"
+            ),
+            Translation(
+                key = "main_menu_screen__definition_properties",
+                value = "Properties"
+            ),
+            Translation(
+                key = "main_menu_screen__definition_types",
+                value = "Types"
+            ),
+        )
+    )
     HostDefinition(
         name = "Sun",
         properties = listOf(

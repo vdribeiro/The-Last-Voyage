@@ -1,13 +1,15 @@
 package com.hybris.tlv.ui.theme.component.card
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,37 +26,44 @@ import com.hybris.tlv.ui.theme.component.text.Text
 internal fun StatDisplay(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
-    label: String = "",
-    value: String = "",
+    label: String? = null,
+    value: String? = null,
 ) {
     val typography = LocalTypography.current
     val colorScheme = LocalColorScheme.current
 
-    Card(modifier = modifier.fillMaxWidth()) {
+    Card(modifier = modifier) {
         Row(
             modifier = Modifier.padding(all = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                modifier = Modifier.size(size = 40.dp),
-                imageVector = icon,
-                contentDescription = label,
-                tint = colorScheme.primary
-            )
-            Spacer(modifier = Modifier.width(16.dp))
+            icon?.let {
+                Icon(
+                    modifier = Modifier.size(size = 40.dp),
+                    imageVector = it,
+                    contentDescription = label,
+                    tint = colorScheme.primary,
+                    emptySize = 20.dp
+                )
+                Spacer(modifier = Modifier.width(width = 16.dp))
+            }
             Column(modifier = Modifier.weight(weight = 1f)) {
-                Text(
-                    text = label,
-                    style = typography.bodyLarge,
-                    color = colorScheme.onSurfaceVariant,
-                    maxLines = 1
-                )
-                Text(
-                    text = value,
-                    style = typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1
-                )
+                label?.let {
+                    Text(
+                        text = it,
+                        style = typography.bodyLarge,
+                        color = colorScheme.onSurfaceVariant,
+                        maxLines = 1
+                    )
+                }
+                value?.let {
+                    Text(
+                        text = it,
+                        style = typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1
+                    )
+                }
             }
         }
     }
@@ -63,8 +72,19 @@ internal fun StatDisplay(
 @Preview
 @Composable
 private fun Preview() = AppTheme {
-    StatDisplay(
-        label = "Stat",
-        value = "100"
-    )
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        StatDisplay(
+            icon = Icons.Filled.Check,
+            label = "Stat",
+            value = "100"
+        )
+        StatDisplay(label = "Stat", value = "100")
+        StatDisplay(icon = Icons.Filled.Check)
+        StatDisplay(icon = Icons.Filled.Check, label = "Stat")
+        StatDisplay(icon = Icons.Filled.Check, value = "100")
+        StatDisplay(value = "100")
+        StatDisplay(label = "Stat")
+        StatDisplay()
+    }
 }
+

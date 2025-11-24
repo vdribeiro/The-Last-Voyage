@@ -72,7 +72,6 @@ internal fun Score(
     Card(modifier = modifier) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(all = 16.dp)
         ) {
             if (score != null || utc != null) Row(verticalAlignment = Alignment.CenterVertically) {
@@ -102,7 +101,6 @@ internal fun Score(
                 exit = fadeOut(),
             ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(space = 4.dp)
                 ) {
                     if (score != null || utc != null) {

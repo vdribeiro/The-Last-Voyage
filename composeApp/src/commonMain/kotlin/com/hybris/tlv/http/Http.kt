@@ -43,7 +43,7 @@ internal suspend inline fun <reified T> HttpClient.getStream(
 
 private suspend fun isInternetAvailableDebounced(): Boolean = runCatching {
     mutex.withLock {
-        val now = timeSource.markNow()
+        val now = TimeSource.Monotonic.markNow()
         val previous = lastCheckTime?.elapsedNow() ?: INFINITE
         if (previous < cacheTTL) return@withLock lastKnownStatus
         lastKnownStatus = isInternetAvailable()
@@ -54,7 +54,6 @@ private suspend fun isInternetAvailableDebounced(): Boolean = runCatching {
 
 private val mutex = Mutex()
 private val cacheTTL: Duration = if (isDebug) ZERO else 5.seconds
-private val timeSource = TimeSource.Monotonic
 private var lastCheckTime: TimeMark? = null
 private var lastKnownStatus = false
 

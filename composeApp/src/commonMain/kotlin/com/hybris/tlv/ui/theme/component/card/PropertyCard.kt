@@ -29,11 +29,9 @@ internal fun PropertyCard(
 ) {
     val typography = LocalTypography.current
 
-    Card(modifier = modifier.fillMaxWidth()) {
+    Card(modifier = modifier) {
         Row(
-            modifier = Modifier
-                .padding(all = 12.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.padding(all = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(weight = 1f)) {

@@ -18,6 +18,7 @@ import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun LearnMenu(
@@ -100,5 +101,33 @@ internal fun LearnMenu(
 @Preview
 @Composable
 private fun LearnMenuPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "main_menu_screen__learn",
+                value = "Learn"
+            ),
+            Translation(
+                key = "main_menu_screen__navigation",
+                value = "Navigation"
+            ),
+            Translation(
+                key = "main_menu_screen__host_definition",
+                value = "Host Definition"
+            ),
+            Translation(
+                key = "main_menu_screen__planet_definition",
+                value = "Planet Definition"
+            ),
+            Translation(
+                key = "main_menu_screen__habitability",
+                value = "Habitability"
+            ),
+            Translation(
+                key = "main_menu_screen__mechanics",
+                value = "Tutorial"
+            ),
+        )
+    )
     LearnMenu()
 }
