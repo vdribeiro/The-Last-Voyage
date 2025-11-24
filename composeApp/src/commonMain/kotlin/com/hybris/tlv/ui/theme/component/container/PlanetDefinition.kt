@@ -22,8 +22,11 @@ import com.hybris.tlv.ui.theme.component.card.PropertyCard
 import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.usecase.space.model.PlanetType
+import com.hybris.tlv.usecase.space.toImage
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal inline fun <T, P> PlanetDefinition(
@@ -126,6 +129,22 @@ internal inline fun <T, P> PlanetDefinition(
 @Preview
 @Composable
 private fun PlanetDefinitionPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "main_menu_screen__definition_example",
+                value = "Example"
+            ),
+            Translation(
+                key = "main_menu_screen__definition_properties",
+                value = "Properties"
+            ),
+            Translation(
+                key = "main_menu_screen__definition_types",
+                value = "Types"
+            ),
+        )
+    )
     PlanetDefinition(
         name = "Earth",
         properties = listOf(
@@ -133,13 +152,15 @@ private fun PlanetDefinitionPreview() = AppTheme {
             "Property 2",
             "Property 3",
         ),
+        propertyId = { it },
         propertyDescription = { it },
         planets = listOf(
             "Planet 1",
             "Planet 2",
             "Planet 3",
         ),
+        planetId = { it },
         planetDescription = { it },
-        planetImage = { ImageResource(path = "terrestrial_planet.jpg") },
+        planetImage = { PlanetType.EARTH_ANALOG_PLANET.toImage() },
     )
 }

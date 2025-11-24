@@ -22,19 +22,20 @@ import com.hybris.tlv.ui.theme.LocalTypography
 @Composable
 internal fun TypewriterText(
     modifier: Modifier = Modifier,
-    text: String = ""
+    text: String? = null,
+    delay: Long = 50L
 ) {
     val isPreview = LocalInspectionMode.current
     val typography = LocalTypography.current
 
-    val words = remember(key1 = text) { text.split(' ') }
+    val words = remember(key1 = text) { text?.split(' ').orEmpty() }
     var visibleWordsCount by remember(key1 = text) { mutableStateOf(value = 0) }
     var isRevealed by remember(key1 = text) { mutableStateOf(value = isPreview) }
-    LaunchedEffect(key1 = text) {
+    if (!isPreview) LaunchedEffect(key1 = text) {
         visibleWordsCount = 0
         isRevealed = false
         while (visibleWordsCount < words.size && !isRevealed) {
-            delay(timeMillis = 50)
+            delay(timeMillis = delay)
             visibleWordsCount++
         }
         if (!isRevealed) isRevealed = true

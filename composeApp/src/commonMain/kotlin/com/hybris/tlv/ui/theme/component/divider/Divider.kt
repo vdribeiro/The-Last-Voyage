@@ -27,6 +27,5 @@ private fun DividerPreview() = AppTheme {
     Column {
         Divider(modifier = Modifier.padding(all = 4.dp))
         Divider(modifier = Modifier.padding(all = 4.dp), horizontal = false)
-        Divider(modifier = Modifier.padding(all = 4.dp), horizontal = true)
     }
 }

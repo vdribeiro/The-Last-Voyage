@@ -24,6 +24,7 @@ import com.hybris.tlv.ui.theme.component.card.PropertyCard
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal inline fun <T> HabitabilityList(
@@ -31,7 +32,7 @@ internal inline fun <T> HabitabilityList(
     properties: List<T> = emptyList(),
     noinline id: (T) -> String = { generateUuid() },
     crossinline description: (T) -> String? = { null },
-    formula: String = "",
+    formula: String? = null,
 ) {
     val uriHandler = LocalUriHandler.current
     val translationVersion by TranslationCache.versionFlow.collectAsState()
@@ -70,12 +71,21 @@ internal inline fun <T> HabitabilityList(
 @Preview
 @Composable
 private fun HabitabilityListPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "formula",
+                value = "Formula"
+            ),
+        )
+    )
     HabitabilityList(
         properties = listOf(
             "Property 1",
             "Property 2",
             "Property 3",
         ),
+        id = { it },
         description = { it }
     )
 }

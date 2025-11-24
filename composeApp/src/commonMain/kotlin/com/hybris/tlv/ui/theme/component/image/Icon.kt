@@ -1,7 +1,9 @@
 package com.hybris.tlv.ui.theme.component.image
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
@@ -34,5 +36,9 @@ internal fun Icon(
 @Preview
 @Composable
 private fun IconPreview() = AppTheme {
-    Icon(imageVector = Icons.Default.Apps)
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        Icon(imageVector = Icons.Default.Apps, tint = Color.Blue)
+        Icon()
+        Icon(imageVector = Icons.Default.Apps)
+    }
 }

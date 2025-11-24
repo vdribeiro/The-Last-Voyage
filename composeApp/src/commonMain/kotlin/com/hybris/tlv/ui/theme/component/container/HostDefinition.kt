@@ -22,6 +22,7 @@ import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.usecase.space.spectralTypeToImage
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
@@ -156,14 +157,15 @@ private fun HostDefinitionPreview() = AppTheme {
             "Property 2",
             "Property 3",
         ),
+        propertyId = { it },
         propertyDescription = { it },
         stellarHosts = listOf(
             "Stellar Host 1",
             "Stellar Host 2",
             "Stellar Host 3",
-            "Stellar Host 4",
         ),
+        stellarHostId = { it },
         stellarHostDescription = { it },
-        stellarHostImage = { ImageResource(path = "G.jpg") },
+        stellarHostImage = { "G".spectralTypeToImage() },
     )
 }

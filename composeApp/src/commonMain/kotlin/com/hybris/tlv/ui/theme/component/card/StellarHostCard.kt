@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme.component.card
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -30,6 +31,7 @@ import com.hybris.tlv.usecase.space.roundTo
 import com.hybris.tlv.usecase.space.spectralTypeToImage
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun StellarHostCard(
@@ -95,7 +97,8 @@ internal fun StellarHostCard(
         Row(
             modifier = Modifier
                 .padding(all = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.Start
         ) {
             spectralImage?.let {
                 Image(
@@ -109,7 +112,11 @@ internal fun StellarHostCard(
                 )
                 Spacer(modifier = Modifier.width(width = 16.dp))
             }
-            Column(modifier = Modifier.weight(weight = 1f)) {
+            Column(
+                modifier = Modifier.weight(weight = 1f),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start,
+            ) {
                 name?.let {
                     Text(text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(height = 4.dp))
@@ -147,9 +154,54 @@ internal fun StellarHostCard(
 @Preview
 @Composable
 private fun StellarHostCardPreview() = AppTheme {
-    StellarHostCard(
-        name = "Sun",
-        description = "Bright",
-        spectralImage = "G".spectralTypeToImage()
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "stellar_host_system_name",
+                value = "System Name"
+            ),
+            Translation(
+                key = "stellar_host_planet_count",
+                value = "Planet Count"
+            ),
+            Translation(
+                key = "stellar_host_type",
+                value = "Host Type"
+            ),
+            Translation(
+                key = "stellar_host_temperature",
+                value = "Temperature"
+            )
+        )
     )
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        StellarHostCard(
+            name = "Sun",
+            description = "Bright",
+            systemName = "Sol",
+            planetCount = 8,
+            spectralType = "G",
+            spectralImage = "G".spectralTypeToImage(),
+            effectiveTemperature = 255.0
+        )
+        StellarHostCard(
+            description = "Bright",
+            systemName = "Sol",
+            spectralImage = "G".spectralTypeToImage(),
+        )
+        StellarHostCard(
+            name = "Sun",
+            description = "Bright",
+            systemName = "Sol",
+            planetCount = 8,
+            spectralType = "G",
+            effectiveTemperature = 255.0
+        )
+        StellarHostCard(
+            planetCount = 8,
+            spectralType = "G",
+            spectralImage = "G".spectralTypeToImage(),
+            effectiveTemperature = 255.0
+        )
+    }
 }

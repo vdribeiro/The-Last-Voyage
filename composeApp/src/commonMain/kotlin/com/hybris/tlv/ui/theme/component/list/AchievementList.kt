@@ -82,6 +82,7 @@ private fun AchievementListPreview() = AppTheme {
             "Achievement 2",
             "Achievement 3",
         ),
+        id = { it },
         description = { it },
         done = { it != "Achievement 2" }
     )

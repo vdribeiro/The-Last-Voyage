@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.component.text.TypewriterText
 
@@ -38,7 +39,7 @@ internal fun TypewriterContent(
                 fontWeight = FontWeight.Bold
             )
         }
-        Spacer(modifier = Modifier.height(height = 16.dp))
+        if (title != null && text != null) Spacer(modifier = Modifier.height(height = 16.dp))
         text?.let {
             TypewriterText(
                 modifier = Modifier
@@ -57,5 +58,21 @@ private fun TypewriterContentPreview() = AppTheme {
     TypewriterContent(
         title = "Title",
         text = "Text"
+    )
+}
+
+@Preview
+@Composable
+private fun TypewriterContentTextPreview() = AppTheme {
+    TypewriterContent(text = "Text")
+}
+
+@Preview
+@Composable
+private fun TypewriterContentWithContentPreview() = AppTheme {
+    TypewriterContent(
+        title = "Title",
+        text = "Text",
+        content = { Button(text = "Click") }
     )
 }

@@ -26,6 +26,7 @@ import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal inline fun <T> ShipConfiguration(
@@ -143,15 +144,45 @@ internal inline fun <T> ShipConfiguration(
 @Preview
 @Composable
 private fun ShipConfigurationPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "new_game_screen__ship_points",
+                value = "Points"
+            ),
+            Translation(
+                key = "ship_sensor",
+                value = "Sensor Range"
+            ),
+            Translation(
+                key = "ship_cryopods",
+                value = "Cryopods"
+            ),
+            Translation(
+                key = "new_game_screen__engine_select",
+                value = "Engine"
+            ),
+            Translation(
+                key = "new_game_screen__engine_speed",
+                value = "Speed"
+            ),
+            Translation(
+                key = "new_game_screen__engine_fuel",
+                value = "Fuel"
+            ),
+        )
+    )
     ShipConfiguration(
         remainingPoints = 10,
         sensorRange = AttributePoint(),
+        cryopods = AttributePoint(),
         selectedEngineId = "1",
         engines = listOf(
             "Engine 1",
             "Engine 2",
             "Engine 3"
         ),
+        id = { it },
         description = { it },
         velocity = { 10.0 },
         fuelConsumption = { 10.0 },

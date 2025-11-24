@@ -100,11 +100,10 @@ internal fun PlanetCard(
     val planetProtectionScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_protection_score") }
     val planetTidalLockingScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_tidal_locking_score") }
 
-    Card(modifier = modifier.fillMaxWidth()) {
+    Card(modifier = modifier) {
         Row(
             modifier = Modifier
-                .padding(all = 12.dp)
-                .fillMaxWidth(),
+                .padding(all = 12.dp),
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.Start
         ) {
@@ -181,7 +180,7 @@ private fun PlanetCardPreview() = AppTheme {
             ),
         )
     )
-    Column {
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         PlanetCard(
             name = "Earth",
             description = "Beautiful",

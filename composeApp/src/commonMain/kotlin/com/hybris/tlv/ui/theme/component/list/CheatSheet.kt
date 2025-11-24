@@ -20,6 +20,7 @@ import com.hybris.tlv.ui.theme.component.button.Toggle
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun CheatSheet(
@@ -106,7 +107,33 @@ internal fun CheatSheet(
 @Preview
 @Composable
 private fun CheatSheetPreview() = AppTheme {
-    CheatSheet(
-
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "cheats_screen__title",
+                value = "Cheats"
+            ),
+            Translation(
+                key = "cheats_screen__integrity",
+                value = "Integrity"
+            ),
+            Translation(
+                key = "cheats_screen__sensor_range",
+                value = "Sensor Range"
+            ),
+            Translation(
+                key = "cheats_screen__fuel",
+                value = "Fuel"
+            ),
+            Translation(
+                key = "cheats_screen__materials",
+                value = "Materials"
+            ),
+            Translation(
+                key = "cheats_screen__cryopods",
+                value = "Cryopods"
+            ),
+        )
     )
+    CheatSheet(materials = true)
 }
