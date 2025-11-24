@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme.component.card
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +22,7 @@ import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun SelectableAttribute(
@@ -76,11 +78,46 @@ internal fun SelectableAttribute(
 @Preview
 @Composable
 private fun SelectableCardPreview() = AppTheme {
-    SelectableAttribute(
-        name = "Property",
-        description = "Hammer Time",
-        velocity = 1000.0,
-        fuel = 100.0,
-        points = 10
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "new_game_screen__engine_speed",
+                value = "Speed"
+            ),
+            Translation(
+                key = "new_game_screen__engine_fuel",
+                value = "Fuel"
+            ),
+        )
     )
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        SelectableAttribute(
+            selected = true,
+            name = "Property",
+            description = "Hammer Time",
+            velocity = 1000.0,
+            fuel = 100.0,
+            points = 10
+        )
+        SelectableAttribute(
+            name = "Property",
+            velocity = 1000.0,
+            fuel = 100.0,
+            points = 10
+        )
+        SelectableAttribute(
+            name = "Property",
+        )
+        SelectableAttribute(
+            velocity = 1000.0,
+            fuel = 100.0,
+            points = 10
+        )
+        SelectableAttribute(
+            velocity = 1000.0,
+        )
+        SelectableAttribute(
+            points = 10
+        )
+    }
 }

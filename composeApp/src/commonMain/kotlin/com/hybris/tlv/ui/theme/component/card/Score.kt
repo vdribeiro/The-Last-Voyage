@@ -163,26 +163,7 @@ private fun ScorePreview() = AppTheme {
             materials = 10,
         )
         Score(
-            score = 100.0,
             utc = getLocalDateTime(),
-            sensorRange = 10,
-            integrity = 10,
-            materials = 10,
-        )
-        Score(
-            utc = getLocalDateTime(),
-            sensorRange = 10,
-            integrity = 10,
-            materials = 10,
-        )
-        Score(
-            score = 100.0,
-            sensorRange = 10,
-            integrity = 10,
-            materials = 10,
-        )
-        Score(
-            isExpanded = true,
             sensorRange = 10,
             integrity = 10,
             materials = 10,
