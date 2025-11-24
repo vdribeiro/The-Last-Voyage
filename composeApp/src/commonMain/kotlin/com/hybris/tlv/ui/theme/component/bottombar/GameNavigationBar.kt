@@ -67,7 +67,6 @@ internal fun GameNavigationBar(
     )
 }
 
-
 private data class GameNavigationItem(
     val enabled: Boolean,
     val selected: Boolean,
