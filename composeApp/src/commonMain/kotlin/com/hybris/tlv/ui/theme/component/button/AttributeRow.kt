@@ -147,6 +147,7 @@ private fun AttributeRowPreview() = AppTheme {
             )
         )
         AttributeRow(
+            name = "Power",
             canIncrement = false,
             attributePoint = AttributePoint(
                 max = 10000,

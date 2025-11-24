@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -34,6 +35,7 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.space.roundTo
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun Score(
@@ -86,8 +88,10 @@ internal fun Score(
                         .padding(top = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(space = 4.dp)
                 ) {
-                    Divider()
-                    Spacer(modifier = Modifier.height(height = 8.dp))
+                    if (score != null && utc != null) {
+                        Divider()
+                        Spacer(modifier = Modifier.height(height = 8.dp))
+                    }
                     settledPlanet?.let { InfoRow(label = settledPlanetTranslation, value = it) }
                     habitability?.let { InfoRow(label = habitabilityTranslation, value = it.roundTo(decimalPlaces = 2)) }
                     engine?.let { InfoRow(label = engineTranslation, value = getTranslation(key = it)) }
@@ -106,8 +110,8 @@ internal fun Score(
 
 @Composable
 private fun ScoreHeader(
-    utc: String,
-    totalScore: String,
+    utc: String?,
+    totalScore: String?,
     isExpanded: Boolean?
 ) {
     val typography = LocalTypography.current
@@ -140,12 +144,53 @@ private fun ScoreHeader(
 @Preview
 @Composable
 private fun ScorePreview() = AppTheme {
-    Score(
-        isExpanded = true,
-        score = 100.0,
-        yearsTraveled = 10.0,
-        sensorRange = 10,
-        integrity = 10,
-        materials = 10,
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "ship_sensor",
+                value = "Sensor Range"
+            ),
+            Translation(
+                key = "ship_integrity",
+                value = "Integrity"
+            ),
+            Translation(
+                key = "ship_materials",
+                value = "Materials"
+            ),
+        )
     )
+    Column {
+        Score(
+            isExpanded = true,
+            score = 100.0,
+            utc = getLocalDateTime(),
+            sensorRange = 10,
+            integrity = 10,
+            materials = 10,
+        )
+        Score(
+            isExpanded = false,
+            score = 100.0,
+            utc = getLocalDateTime(),
+            sensorRange = 10,
+            integrity = 10,
+            materials = 10,
+        )
+        Score(
+            score = 100.0,
+            utc = getLocalDateTime(),
+            sensorRange = 10,
+            integrity = 10,
+            materials = 10,
+        )
+        Score(
+            score = 100.0,
+            sensorRange = 10,
+            integrity = 10,
+            materials = 10,
+        )
+        Score(sensorRange = 10)
+        Score()
+    }
 }

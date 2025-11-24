@@ -8,4 +8,4 @@ internal expect fun getLanguage(): String
 /**
  * Get the date time in the local format.
  */
-internal expect fun getLocalDateTime(utc: String): String
+internal expect fun getLocalDateTime(utc: String = now()): String

@@ -15,7 +15,7 @@ import com.hybris.tlv.ui.theme.LocalTypography
 @Composable
 internal fun InfoRow(
     modifier: Modifier = Modifier,
-    label: String = "",
+    label: String? = null,
     value: Any? = null,
     textAlign: TextAlign? = null,
     style: TextStyle = LocalTypography.current.bodyLarge

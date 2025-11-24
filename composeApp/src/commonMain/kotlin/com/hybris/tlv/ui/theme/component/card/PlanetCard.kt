@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme.component.card
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,6 +32,7 @@ import com.hybris.tlv.usecase.space.roundTo
 import com.hybris.tlv.usecase.space.toImage
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun PlanetCard(
@@ -103,7 +105,8 @@ internal fun PlanetCard(
             modifier = Modifier
                 .padding(all = 12.dp)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.Start
         ) {
             image?.let {
                 Image(
@@ -117,7 +120,11 @@ internal fun PlanetCard(
                 )
                 Spacer(modifier = Modifier.width(width = 16.dp))
             }
-            Column(modifier = Modifier.weight(weight = 1f)) {
+            Column(
+                modifier = Modifier.weight(weight = 1f),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start,
+            ) {
                 name?.let {
                     Text(text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(height = 4.dp))
@@ -158,9 +165,48 @@ internal fun PlanetCard(
 @Preview
 @Composable
 private fun PlanetCardPreview() = AppTheme {
-    PlanetCard(
-        name = "Earth",
-        description = "Beautiful",
-        image = PlanetType.EARTH_ANALOG_PLANET.toImage()
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "planet_habitability",
+                value = "Habitability"
+            ),
+            Translation(
+                key = "planet_radius",
+                value = "Radius"
+            ),
+            Translation(
+                key = "planet_mass",
+                value = "Mass"
+            ),
+        )
     )
+    Column {
+        PlanetCard(
+            name = "Earth",
+            description = "Beautiful",
+            image = PlanetType.EARTH_ANALOG_PLANET.toImage(),
+            habitability = 0.9,
+            mass = 1.0,
+            radius = 1.0
+        )
+        PlanetCard(
+            description = "Beautiful",
+            image = PlanetType.EARTH_ANALOG_PLANET.toImage(),
+            habitability = 0.9,
+        )
+        PlanetCard(
+            name = "Earth",
+            description = "Beautiful",
+            habitability = 0.9,
+            mass = 1.0,
+            radius = 1.0
+        )
+        PlanetCard(
+            image = PlanetType.EARTH_ANALOG_PLANET.toImage(),
+            habitability = 0.9,
+            mass = 1.0,
+            radius = 1.0
+        )
+    }
 }

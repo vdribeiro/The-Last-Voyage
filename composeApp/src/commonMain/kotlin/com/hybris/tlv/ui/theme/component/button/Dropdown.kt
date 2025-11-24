@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.theme.component.button
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material3.DropdownMenu
@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.container.Scaffold
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
 
@@ -54,27 +55,31 @@ internal inline fun <T> Dropdown(
 @Preview
 @Composable
 private fun DropdownPreview() = AppTheme {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter
-    ) {
-        Dropdown(
-            expanded = true,
-            items = listOf(
-                "Item 1",
-                "Item 2",
-                "Item 3",
-                "Item 4",
-            ),
-            enabled = { it != "Item 2" },
-            text = { it },
-            leadingIcon = {
-                if (it == "Item 1" || it == "Item 2") {
-                    { Icon(imageVector = Icons.Default.Apps) }
-                } else {
-                    { Icon(emptySize = 8.dp) }
-                }
+    Scaffold(
+        content = { innerPadding ->
+            Box(
+                modifier = Modifier.padding(paddingValues = innerPadding),
+                contentAlignment = Alignment.TopStart
+            ) {
+                Dropdown(
+                    expanded = true,
+                    items = listOf(
+                        "Item 1",
+                        "Item 2",
+                        "Item 3",
+                        "Item 4",
+                    ),
+                    enabled = { it != "Item 2" },
+                    text = { it },
+                    leadingIcon = {
+                        if (it == "Item 1" || it == "Item 2") {
+                            { Icon(imageVector = Icons.Default.Apps) }
+                        } else {
+                            { Icon(emptySize = 8.dp) }
+                        }
+                    }
+                )
             }
-        )
-    }
+        }
+    )
 }
