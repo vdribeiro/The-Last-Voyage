@@ -120,12 +120,12 @@ private fun ScoreListPreview() = AppTheme {
                 value = "Cryopods"
             ),
             Translation(
-                key = "new_game_screen__engine_select",
+                key = "engine",
                 value = "Engine"
             ),
             Translation(
-                key = "new_game_screen__engine_speed",
-                value = "Speed"
+                key = "points",
+                value = "Points"
             ),
         )
     )

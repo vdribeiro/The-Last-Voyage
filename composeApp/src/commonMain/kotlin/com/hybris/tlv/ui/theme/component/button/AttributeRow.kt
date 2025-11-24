@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -28,13 +29,12 @@ internal fun AttributeRow(
     modifier: Modifier = Modifier,
     name: String? = null,
     canIncrement: Boolean = true,
-    attributePoint: AttributePoint = AttributePoint()
+    attributePoint: AttributePoint? = null
 ) {
     val typography = LocalTypography.current
 
-    val value = attributePoint.value
     Column(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -45,38 +45,39 @@ internal fun AttributeRow(
             textAlign = TextAlign.Center,
             maxLines = 1
         )
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Button(enabled = value > attributePoint.min, onClick = { attributePoint.decrement() }) {
-                Icon(
-                    modifier = Modifier.size(size = 36.dp),
-                    imageVector = Icons.Default.RemoveCircle,
-                    contentDescription = "-$name",
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .size(size = 80.dp),
-                contentAlignment = Alignment.Center
+        attributePoint?.value?.let {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = "$value",
-                    style = typography.bodyLarge,
-                    textAlign = TextAlign.Center,
-                    maxLines = 1
-                )
-            }
+                Button(enabled = it > attributePoint.min, onClick = { attributePoint.decrement() }) {
+                    Icon(
+                        modifier = Modifier.size(size = 36.dp),
+                        imageVector = Icons.Default.RemoveCircle,
+                        contentDescription = "-$name",
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .size(size = 80.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = it.toString(),
+                        style = typography.bodyLarge,
+                        textAlign = TextAlign.Center,
+                        maxLines = 1
+                    )
+                }
 
-            Button(enabled = canIncrement && value < attributePoint.max, onClick = { attributePoint.increment() }) {
-                Icon(
-                    modifier = Modifier.size(size = 36.dp),
-                    imageVector = Icons.Default.AddCircle,
-                    contentDescription = "+$name",
-                )
+                Button(enabled = canIncrement && it < attributePoint.max, onClick = { attributePoint.increment() }) {
+                    Icon(
+                        modifier = Modifier.size(size = 36.dp),
+                        imageVector = Icons.Default.AddCircle,
+                        contentDescription = "+$name",
+                    )
+                }
             }
         }
     }
@@ -155,5 +156,6 @@ private fun AttributeRowPreview() = AppTheme {
                 initialValue = 0
             )
         )
+        AttributeRow(name = "Power")
     }
 }
