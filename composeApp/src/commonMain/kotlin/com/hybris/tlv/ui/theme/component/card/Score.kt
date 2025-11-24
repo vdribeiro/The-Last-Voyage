@@ -66,29 +66,47 @@ internal fun Score(
     val materialsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_materials") }
     val cryopodsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_cryopods") }
 
+    val typography = LocalTypography.current
+    val colorScheme = LocalColorScheme.current
+
     Card(modifier = modifier) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(all = 16.dp)
         ) {
-            if (score != null && utc != null) ScoreHeader(
-                utc = utc,
-                totalScore = score.roundTo(decimalPlaces = 2).toString(),
-                isExpanded = isExpanded
-            )
+            if (score != null || utc != null) Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    modifier = Modifier.weight(weight = 1f),
+                    text = utc,
+                    style = typography.titleLarge,
+                )
+                Text(
+                    text = score?.roundTo(decimalPlaces = 2)?.toString(),
+                    style = typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = colorScheme.primary
+                )
+                val arrowRotation by animateFloatAsState(targetValue = if (isExpanded == true) 180f else 0f)
+                Spacer(modifier = Modifier.width(width = 8.dp))
+                Icon(
+                    modifier = Modifier.rotate(degrees = arrowRotation),
+                    imageVector = if (isExpanded != null) Icons.Default.KeyboardArrowDown else null,
+                    contentDescription = "Expand",
+                    emptySize = 12.dp
+                )
+            }
             AnimatedVisibility(
                 visible = isExpanded != false,
                 enter = fadeIn(),
                 exit = fadeOut(),
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(space = 4.dp)
                 ) {
-                    if (score != null && utc != null) {
+                    if (score != null || utc != null) {
+                        Spacer(modifier = Modifier.height(height = 8.dp))
                         Divider()
                         Spacer(modifier = Modifier.height(height = 8.dp))
                     }
@@ -104,39 +122,6 @@ internal fun Score(
                     cryopods?.let { InfoRow(label = cryopodsTranslation, value = it) }
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun ScoreHeader(
-    utc: String?,
-    totalScore: String?,
-    isExpanded: Boolean?
-) {
-    val typography = LocalTypography.current
-    val colorScheme = LocalColorScheme.current
-
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(
-            modifier = Modifier.weight(weight = 1f),
-            text = utc,
-            style = typography.titleLarge,
-        )
-        Text(
-            text = totalScore,
-            style = typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            color = colorScheme.primary
-        )
-        if (isExpanded != null) {
-            val arrowRotation by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f)
-            Spacer(modifier = Modifier.width(width = 8.dp))
-            Icon(
-                modifier = Modifier.rotate(degrees = arrowRotation),
-                imageVector = Icons.Default.KeyboardArrowDown,
-                contentDescription = "Expand",
-            )
         }
     }
 }
@@ -160,7 +145,7 @@ private fun ScorePreview() = AppTheme {
             ),
         )
     )
-    Column {
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         Score(
             isExpanded = true,
             score = 100.0,
@@ -185,7 +170,24 @@ private fun ScorePreview() = AppTheme {
             materials = 10,
         )
         Score(
+            utc = getLocalDateTime(),
+            sensorRange = 10,
+            integrity = 10,
+            materials = 10,
+        )
+        Score(
             score = 100.0,
+            sensorRange = 10,
+            integrity = 10,
+            materials = 10,
+        )
+        Score(
+            isExpanded = true,
+            sensorRange = 10,
+            integrity = 10,
+            materials = 10,
+        )
+        Score(
             sensorRange = 10,
             integrity = 10,
             materials = 10,

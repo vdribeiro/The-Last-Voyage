@@ -48,7 +48,7 @@ internal fun Toggle(
 @Preview
 @Composable
 private fun TogglePreview() = AppTheme {
-    Column {
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         Toggle(
             text = "Toggle",
             checked = true,

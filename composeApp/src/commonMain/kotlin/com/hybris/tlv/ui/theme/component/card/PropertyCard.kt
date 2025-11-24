@@ -56,7 +56,7 @@ internal fun PropertyCard(
 @Preview
 @Composable
 private fun PropertyCardPreview() = AppTheme {
-    Column {
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         PropertyCard(
             name = "Property",
             description = "Hammer Time",

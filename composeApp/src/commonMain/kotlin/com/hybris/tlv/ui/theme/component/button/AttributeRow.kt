@@ -117,7 +117,7 @@ internal data class AttributePoint(
 @Preview
 @Composable
 private fun AttributeRowPreview() = AppTheme {
-    Column {
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         AttributeRow(
             name = "Power",
             canIncrement = true,
