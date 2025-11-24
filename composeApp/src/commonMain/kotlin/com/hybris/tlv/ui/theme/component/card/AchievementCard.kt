@@ -36,20 +36,16 @@ internal fun AchievementCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(weight = 1f)) {
-                name?.let {
-                    Text(
-                        text = it,
-                        style = typography.titleLarge,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.height(height = 4.dp))
-                }
-                description?.let { Text(text = it, style = typography.bodyLarge) }
+                Text(
+                    text = name,
+                    style = typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(height = 4.dp))
+                Text(text = description, style = typography.bodyLarge)
             }
             Spacer(modifier = Modifier.weight(weight = 0.1f))
-            if (done) Icon(
-                imageVector = Icons.Filled.Check,
-            )
+            if (done) Icon(imageVector = Icons.Filled.Check)
         }
     }
 }
@@ -67,6 +63,14 @@ private fun AchievementCardPreview() = AppTheme {
             name = "Achievement 2",
             description = "Achievement Description 2",
             done = true
+        )
+        AchievementCard(
+            name = "Achievement 3",
+            done = true
+        )
+        AchievementCard(
+            description = "Achievement Description 4",
+            done = false
         )
     }
 }

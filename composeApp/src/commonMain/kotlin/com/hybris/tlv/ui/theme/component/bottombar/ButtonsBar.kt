@@ -12,14 +12,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 
 @Composable
-internal fun ButtonsBar(
+internal inline fun <T> ButtonsBar(
     modifier: Modifier = Modifier,
-    buttons: List<Pair<String, (() -> Unit)?>> = emptyList(),
+    buttons: List<T> = emptyList(),
+    noinline id: (T) -> String = { generateUuid() },
+    crossinline enabled: (T) -> Boolean = { true },
+    crossinline text: (T) -> String? = { null },
+    crossinline onClick: (T) -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier.padding(top = 16.dp),
@@ -27,7 +32,7 @@ internal fun ButtonsBar(
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         scrollBar = false
     ) {
-        items(items = buttons, key = { it.first }) {
+        items(items = buttons, key = id) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -36,9 +41,9 @@ internal fun ButtonsBar(
             ) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    enabled = it.second != null,
-                    text = it.first,
-                    onClick = it.second ?: {},
+                    enabled = enabled(it),
+                    text = text(it),
+                    onClick = { onClick(it) },
                 )
             }
         }
@@ -51,9 +56,11 @@ internal fun ButtonsBar(
 private fun ButtonsBarPreview() = AppTheme {
     ButtonsBar(
         buttons = listOf(
-            "Button 1" to {},
-            "Button 2" to {},
-            "Button 3" to {},
-        )
+            "Button 1",
+            "Button 2",
+            "Button 3",
+        ),
+        enabled = { it != "Button 2" },
+        text = { it },
     )
 }

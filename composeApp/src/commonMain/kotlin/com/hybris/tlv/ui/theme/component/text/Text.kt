@@ -16,7 +16,7 @@ import androidx.compose.material3.Text as MaterialText
 @Composable
 internal fun Text(
     modifier: Modifier = Modifier,
-    text: String = "",
+    text: String? = null,
     textAlign: TextAlign? = null,
     maxLines: Int = Int.MAX_VALUE,
     style: TextStyle = LocalTextStyle.current,
@@ -25,7 +25,7 @@ internal fun Text(
 ) {
     MaterialText(
         modifier = modifier,
-        text = text,
+        text = text.orEmpty(),
         textAlign = textAlign,
         maxLines = maxLines,
         style = style,
@@ -38,7 +38,7 @@ internal fun Text(
 @Composable
 internal fun Text(
     modifier: Modifier = Modifier,
-    text: AnnotatedString = AnnotatedString(text = ""),
+    text: AnnotatedString? = null,
     textAlign: TextAlign? = null,
     maxLines: Int = Int.MAX_VALUE,
     style: TextStyle = LocalTextStyle.current,
@@ -47,7 +47,7 @@ internal fun Text(
 ) {
     MaterialText(
         modifier = modifier,
-        text = text,
+        text = text ?: AnnotatedString(text = ""),
         textAlign = textAlign,
         maxLines = maxLines,
         style = style,

@@ -20,6 +20,7 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun HelpBar(
@@ -51,5 +52,13 @@ internal fun HelpBar(
 @Preview
 @Composable
 private fun HelpBarPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "version",
+                value = "Version"
+            )
+        )
+    )
     HelpBar()
 }

@@ -18,13 +18,12 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
-import com.hybris.tlv.ui.theme.component.image.defaultIcon
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
 internal fun StatDisplay(
     modifier: Modifier = Modifier,
-    icon: ImageVector = defaultIcon,
+    icon: ImageVector? = null,
     label: String = "",
     value: String = "",
 ) {

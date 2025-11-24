@@ -32,15 +32,13 @@ internal fun PropertyCard(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start
         ) {
-            name?.let {
-                Text(
-                    text = it,
-                    style = typography.titleLarge,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(height = 4.dp))
-            }
-            description?.let { Text(text = it, style = typography.bodyLarge) }
+            Text(
+                text = name,
+                style = typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(height = 4.dp))
+            Text(text = description, style = typography.bodyLarge)
         }
     }
 }
@@ -48,8 +46,16 @@ internal fun PropertyCard(
 @Preview
 @Composable
 private fun PropertyCardPreview() = AppTheme {
-    PropertyCard(
-        name = "Property",
-        description = "Hammer Time",
-    )
+    Column {
+        PropertyCard(
+            name = "Property",
+            description = "Hammer Time",
+        )
+        PropertyCard(
+            name = "Property",
+        )
+        PropertyCard(
+            description = "Hammer Time",
+        )
+    }
 }

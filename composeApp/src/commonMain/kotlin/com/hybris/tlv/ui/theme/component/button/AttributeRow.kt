@@ -27,7 +27,7 @@ import com.hybris.tlv.ui.theme.component.text.Text
 @Composable
 internal fun AttributeRow(
     modifier: Modifier = Modifier,
-    name: String = "",
+    name: String? = null,
     canIncrement: Boolean = true,
     attributePoint: AttributePoint = AttributePoint()
 ) {
@@ -117,14 +117,43 @@ internal data class AttributePoint(
 @Preview
 @Composable
 private fun AttributeRowPreview() = AppTheme {
-    AttributeRow(
-        name = "Power",
-        canIncrement = true,
-        attributePoint = AttributePoint(
-            max = 10000,
-            min = 0,
-            interval = 100,
-            initialValue = 9000
+    Column {
+        AttributeRow(
+            name = "Power",
+            canIncrement = true,
+            attributePoint = AttributePoint(
+                max = 10000,
+                min = 0,
+                interval = 100,
+                initialValue = 9000
+            )
         )
-    )
+        AttributeRow(
+            canIncrement = false,
+            attributePoint = AttributePoint(
+                max = 10000,
+                min = 0,
+                interval = 100,
+                initialValue = 1000
+            )
+        )
+        AttributeRow(
+            canIncrement = true,
+            attributePoint = AttributePoint(
+                max = 10000,
+                min = 0,
+                interval = 100,
+                initialValue = 0
+            )
+        )
+        AttributeRow(
+            canIncrement = false,
+            attributePoint = AttributePoint(
+                max = 10000,
+                min = 0,
+                interval = 100,
+                initialValue = 0
+            )
+        )
+    }
 }

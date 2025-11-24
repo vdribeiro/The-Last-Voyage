@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.theme.component.button
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -35,7 +36,7 @@ internal fun Toggle(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        text?.let { Text(text = it, style = typography.bodyLarge) }
+        Text(text = text, style = typography.bodyLarge)
         Switch(
             enabled = enabled,
             checked = checked,
@@ -47,9 +48,20 @@ internal fun Toggle(
 @Preview
 @Composable
 private fun TogglePreview() = AppTheme {
-    Toggle(
-        text = "Toggle",
-        checked = true,
-        onCheckedChange = {}
-    )
+    Column {
+        Toggle(
+            text = "Toggle",
+            checked = true,
+        )
+        Toggle(
+            text = "Toggle",
+            checked = false,
+        )
+        Toggle(
+            enabled = false,
+            text = "Toggle",
+            checked = true,
+        )
+        Toggle(checked = true)
+    }
 }

@@ -10,9 +10,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun GameNavigationBar(
@@ -35,33 +37,63 @@ internal fun GameNavigationBar(
     NavigationBar(
         modifier = modifier,
         items = listOf(
-            NavigationItem(
-                label = shipTranslation,
-                icon = Icons.Filled.Rocket,
+            GameNavigationItem(
                 enabled = shipEnabled,
                 selected = shipSelected,
+                text = shipTranslation,
+                icon = Icons.Filled.Rocket,
                 onClick = shipOnClick
             ),
-            NavigationItem(
-                label = systemTranslation,
-                icon = Icons.Filled.Hub,
+            GameNavigationItem(
                 enabled = systemEnabled,
                 selected = systemSelected,
+                text = systemTranslation,
+                icon = Icons.Filled.Hub,
                 onClick = systemOnClick
             ),
-            NavigationItem(
-                label = travelTranslation,
-                icon = Icons.Filled.RocketLaunch,
+            GameNavigationItem(
                 enabled = travelEnabled,
                 selected = travelSelected,
+                text = travelTranslation,
+                icon = Icons.Filled.RocketLaunch,
                 onClick = travelOnClick
             )
-        )
+        ),
+        enabled = { it.enabled },
+        selected = { it.selected },
+        text = { it.text },
+        icon = { it.icon },
+        onClick = { it.onClick() }
     )
 }
+
+
+private data class GameNavigationItem(
+    val enabled: Boolean,
+    val selected: Boolean,
+    val text: String,
+    val icon: ImageVector,
+    val onClick: () -> Unit
+)
 
 @Preview
 @Composable
 private fun GameNavigationBarPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "game_screen__travel",
+                value = "Travel"
+            ),
+            Translation(
+                key = "game_screen__system",
+                value = "System"
+            ),
+            Translation(
+                key = "game_screen__ship",
+                value = "Ship"
+            ),
+        )
+    )
     GameNavigationBar()
 }

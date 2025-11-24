@@ -64,13 +64,11 @@ internal fun SelectableAttribute(
                 fuel?.let { InfoRow(label = engineFuelTranslation, value = it) }
             }
             Spacer(modifier = Modifier.weight(weight = 0.1f))
-            points?.let {
-                Text(
-                    text = it.toString(),
-                    style = typography.headlineSmall,
-                    fontWeight = FontWeight.Bold
-                )
-            }
+            Text(
+                text = points?.toString(),
+                style = typography.headlineSmall,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }

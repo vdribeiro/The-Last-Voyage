@@ -42,10 +42,8 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.alpha
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.button.Dropdown
-import com.hybris.tlv.ui.theme.component.button.DropdownItem
 import com.hybris.tlv.ui.theme.component.container.Surface
 import com.hybris.tlv.ui.theme.component.image.Icon
-import com.hybris.tlv.ui.theme.component.image.defaultIcon
 import com.hybris.tlv.ui.theme.component.text.Input
 import com.hybris.tlv.ui.theme.component.text.Text
 
@@ -58,7 +56,7 @@ internal fun ControlPanel(
     search: String = "",
     onSearch: (String) -> Unit = {},
     viewName: String = "",
-    viewIcon: ImageVector = defaultIcon,
+    viewIcon: ImageVector? = null,
     onChangeView: () -> Unit = {},
     count: String = "0",
     properties: List<String> = emptyList(),
@@ -218,6 +216,13 @@ private fun SearchMenu(
         )
     }
 }
+
+private data class DropdownItem(
+    val enabled: Boolean = true,
+    val text: String = "",
+    val onClick: () -> Unit = {},
+    val leadingIcon: @Composable (() -> Unit)? = null,
+)
 
 @Composable
 private fun SortMenu(

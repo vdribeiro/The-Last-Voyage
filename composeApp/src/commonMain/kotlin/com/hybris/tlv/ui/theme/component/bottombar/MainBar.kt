@@ -27,6 +27,7 @@ import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.kofi
 
@@ -34,8 +35,8 @@ import thelastvoyage.composeapp.generated.resources.kofi
 internal fun MainBar(
     modifier: Modifier = Modifier,
     onCreditsClick: () -> Unit = {},
-    developerCornerUri: String = "",
-    supportUri: String = "",
+    developerCornerUri: String? = null,
+    supportUri: String? = null,
 ) {
     val uriHandler = LocalUriHandler.current
     val translationVersion by TranslationCache.versionFlow.collectAsState()
@@ -88,5 +89,17 @@ internal fun MainBar(
 @Preview
 @Composable
 private fun MainBarPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "website",
+                value = "Website"
+            ),
+            Translation(
+                key = "main_menu_screen__credits",
+                value = "Credits"
+            )
+        )
+    )
     MainBar()
 }
