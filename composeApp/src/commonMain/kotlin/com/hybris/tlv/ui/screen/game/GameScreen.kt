@@ -1,11 +1,9 @@
 package com.hybris.tlv.ui.screen.game
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.GameNavigationBar
@@ -38,8 +36,6 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
-                modifier = Modifier
-                    .statusBarsPadding(),
                 hull = ship?.integrity?.toString(),
                 fuel = ship?.fuel?.toString(),
                 materials = ship?.materials?.toString(),

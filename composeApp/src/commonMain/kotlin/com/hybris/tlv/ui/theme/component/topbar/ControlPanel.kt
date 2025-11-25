@@ -43,7 +43,6 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.alpha
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.button.Dropdown
-import com.hybris.tlv.ui.theme.component.container.Surface
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Input
 import com.hybris.tlv.ui.theme.component.text.Text
@@ -82,103 +81,97 @@ internal fun ControlPanel(
             .collect { onSearch(it) }
     }
 
-    Surface(modifier = modifier.fillMaxWidth()) {
-        Column {
-            Row(
+    Column {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Input(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .weight(weight = 1f)
                     .padding(horizontal = 8.dp),
+                focusRequester = focusRequester,
+                enabled = enabled,
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Search"
+                    )
+                },
+                maxLines = 1,
+                style = typography.bodyLarge
+            )
+            if (properties.isNotEmpty()) SearchMenu(
+                enabled = enabled,
+                properties = properties,
+                selectedProperties = selectedProperties,
+                onFiltersChange = onFiltersChange
+            )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier
+                    .alpha(alpha = alpha(enabled = enabled))
+                    .clip(shape = shapes.large)
+                    .clickable(
+                        enabled = enabled,
+                        onClick = {
+                            onChangeView()
+                            searchQuery = ""
+                        },
+                    )
+                    .padding(all = 8.dp)
             ) {
-                Input(
-                    modifier = Modifier
-                        .weight(weight = 1f)
-                        .padding(horizontal = 8.dp),
-                    focusRequester = focusRequester,
-                    enabled = enabled,
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "Search"
-                        )
-                    },
-                    maxLines = 1,
-                    style = typography.bodyLarge
-                )
-                if (properties.isNotEmpty()) SearchMenu(
+                viewIcon?.let {
+                    Icon(
+                        imageVector = it,
+                        contentDescription = "View"
+                    )
+                }
+                if (viewIcon != null && viewName != null) Spacer(modifier = Modifier.width(width = 8.dp))
+                viewName?.let {
+                    Text(
+                        text = it,
+                        maxLines = 1,
+                        style = typography.labelLarge
+                    )
+                }
+            }
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                count?.toString()?.let {
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .alpha(alpha = alpha(enabled = enabled)),
+                        text = it,
+                        maxLines = 1,
+                        style = typography.labelLarge
+                    )
+                }
+                if (properties.isNotEmpty()) SortMenu(
                     enabled = enabled,
                     properties = properties,
-                    selectedProperties = selectedProperties,
-                    onFiltersChange = onFiltersChange
+                    selectedProperty = selectedProperty,
+                    ascending = ascending,
+                    onSortChange = onSortChange,
+                    onSortDirectionChange = onSortDirectionChange
+
                 )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .alpha(alpha = alpha(enabled = enabled))
-                        .clip(shape = shapes.large)
-                        .clickable(
-                            enabled = enabled,
-                            onClick = {
-                                onChangeView()
-                                searchQuery = ""
-                            },
-                        )
-                        .padding(all = 8.dp)
-                ) {
-                    viewIcon?.let {
-                        Icon(
-                            imageVector = it,
-                            contentDescription = "View"
-                        )
-                    }
-                    if (viewIcon != null && viewName != null) Spacer(modifier = Modifier.width(width = 8.dp))
-                    viewName?.let {
-                        Text(
-                            text = it,
-                            maxLines = 1,
-                            style = typography.labelLarge
-                        )
-                    }
-                }
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    count?.toString()?.let {
-                        Text(
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .alpha(alpha = alpha(enabled = enabled)),
-                            text = it,
-                            maxLines = 1,
-                            style = typography.labelLarge
-                        )
-                    }
-                    if (properties.isNotEmpty()) SortMenu(
-                        enabled = enabled,
-                        properties = properties,
-                        selectedProperty = selectedProperty,
-                        ascending = ascending,
-                        onSortChange = onSortChange,
-                        onSortDirectionChange = onSortDirectionChange
-
-                    )
-                    if (properties.isNotEmpty()) VisibilityMenu(
-                        enabled = enabled,
-                        properties = properties,
-                        visibleProperties = visibleProperties,
-                        onVisibilityChange = onVisibilityChange
-                    )
-                }
+                if (properties.isNotEmpty()) VisibilityMenu(
+                    enabled = enabled,
+                    properties = properties,
+                    visibleProperties = visibleProperties,
+                    onVisibilityChange = onVisibilityChange
+                )
             }
         }
     }

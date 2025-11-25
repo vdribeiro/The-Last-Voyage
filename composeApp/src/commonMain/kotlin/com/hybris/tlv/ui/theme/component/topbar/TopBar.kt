@@ -30,6 +30,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun TopBar(
+    modifier: Modifier = Modifier,
     banner: String? = null,
     onBackClick: (() -> Unit)? = null,
     onHelpClick: (() -> Unit)? = null,
@@ -37,7 +38,7 @@ internal fun TopBar(
     onFeedbackClick: (() -> Unit)? = null,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         onBackClick?.let {

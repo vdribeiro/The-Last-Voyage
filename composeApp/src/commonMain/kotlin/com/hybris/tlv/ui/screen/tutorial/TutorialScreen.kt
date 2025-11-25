@@ -3,7 +3,6 @@ package com.hybris.tlv.ui.screen.tutorial
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -36,8 +35,6 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
-                modifier = Modifier
-                    .statusBarsPadding(),
                 hull = ship.integrity.toString(),
                 fuel = ship.fuel.toString(),
                 materials = ship.materials.toString(),
