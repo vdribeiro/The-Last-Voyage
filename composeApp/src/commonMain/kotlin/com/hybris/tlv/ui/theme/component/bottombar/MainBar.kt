@@ -89,7 +89,7 @@ private fun MainBarPreview() = AppTheme {
         translations = listOf(
             Translation(
                 key = "website",
-                value = "Website"
+                value = "Website with large description"
             ),
             Translation(
                 key = "main_menu_screen__credits",
