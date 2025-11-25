@@ -16,14 +16,12 @@ import com.hybris.tlv.ui.theme.component.bottombar.GameNavigationBar
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.text.TitleDescription
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
 internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
     val storeState by store.stateFlow.collectAsState()
     val ship = storeState.ship
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
 
     Screen(
         modifier = Modifier
@@ -61,28 +59,28 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
         val description: String
         when (storeState.tutorialStep) {
             Tutorial.GOAL -> {
-                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_goal_title") }
-                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_goal_description") }
+                title = getTranslation(key = "tutorial_screen__mechanics_goal_title")
+                description = getTranslation(key = "tutorial_screen__mechanics_goal_description")
             }
 
             Tutorial.SHIP -> {
-                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_attributes_title") }
-                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_attributes_description") }
+                title = getTranslation(key = "tutorial_screen__mechanics_attributes_title")
+                description = getTranslation(key = "tutorial_screen__mechanics_attributes_description")
             }
 
             Tutorial.SYSTEM -> {
-                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_system_title") }
-                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_system_description") }
+                title = getTranslation(key = "tutorial_screen__mechanics_system_title")
+                description = getTranslation(key = "tutorial_screen__mechanics_system_description")
             }
 
             Tutorial.TRAVEL -> {
-                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_travel_title") }
-                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_travel_description") }
+                title = getTranslation(key = "tutorial_screen__mechanics_travel_title")
+                description = getTranslation(key = "tutorial_screen__mechanics_travel_description")
             }
 
             Tutorial.GAME_OVER -> {
-                title = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_game_over_title") }
-                description = remember(key1 = translationVersion) { getTranslation(key = "tutorial_screen__mechanics_game_over_description") }
+                title = getTranslation(key = "tutorial_screen__mechanics_game_over_title")
+                description = getTranslation(key = "tutorial_screen__mechanics_game_over_description")
             }
         }
         TitleDescription(

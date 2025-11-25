@@ -11,9 +11,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,8 +20,7 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
 internal inline fun <T> AchievementList(
@@ -34,8 +30,7 @@ internal inline fun <T> AchievementList(
     crossinline description: (T) -> String? = { null },
     crossinline done: (T) -> Boolean = { false }
 ) {
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "achievements_screen__title") }
+    val titleTranslation = getTranslation(key = "achievements_screen__title")
 
     val typography = LocalTypography.current
 

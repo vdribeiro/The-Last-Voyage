@@ -13,17 +13,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalTranslationState
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.PlanetList
 import com.hybris.tlv.ui.theme.component.list.StellarHostList
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.spectralTypeToImage
 import com.hybris.tlv.usecase.space.toImage
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
@@ -33,12 +34,13 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     val listState = storeState.listState
     val visibleStellarHostProperties = storeState.visibleStellarHostProperties
     val visiblePlanetProperties = storeState.visiblePlanetProperties
-    val stellarHostProperties = remember { StellarHostProperty.entries.associateWith { getTranslation(key = it.displayName) } }
-    val planetProperties = remember { PlanetProperty.entries.associateWith { getTranslation(key = it.displayName) } }
 
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val hostListTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_explorer_screen__host_list") }
-    val planetListTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_explorer_screen__planet_list") }
+    val state = LocalTranslationState.current
+    val stellarHostProperties = remember(key1 = state) { StellarHostProperty.entries.associateWith { TranslationCache.get(key = it.displayName) } }
+    val planetProperties = remember(key1 = state) { PlanetProperty.entries.associateWith { TranslationCache.get(key = it.displayName) } }
+
+    val hostListTranslation = getTranslation(key = "stellar_explorer_screen__host_list")
+    val planetListTranslation = getTranslation(key = "stellar_explorer_screen__planet_list")
 
     Screen(
         loading = storeState.loading,

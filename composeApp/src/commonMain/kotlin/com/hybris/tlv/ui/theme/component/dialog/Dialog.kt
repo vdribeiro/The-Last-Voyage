@@ -9,8 +9,8 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable

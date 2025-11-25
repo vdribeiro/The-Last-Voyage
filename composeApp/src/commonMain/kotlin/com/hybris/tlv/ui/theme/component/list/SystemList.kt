@@ -20,7 +20,7 @@ import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.dialog.Dialog
 import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.image.ImageResource
-import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
 internal inline fun <T> SystemList(

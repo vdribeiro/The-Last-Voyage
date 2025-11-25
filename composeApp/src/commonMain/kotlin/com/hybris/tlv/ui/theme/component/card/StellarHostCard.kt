@@ -5,15 +5,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,10 +23,10 @@ import com.hybris.tlv.ui.theme.component.image.Image
 import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.space.roundTo
 import com.hybris.tlv.usecase.space.spectralTypeToImage
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
@@ -66,32 +62,31 @@ internal fun StellarHostCard(
 ) {
     val typography = LocalTypography.current
     val shapes = LocalShapes.current
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val stellarHostSystemNameTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_system_name") }
-    val stellarHostPlanetCountTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_planet_count") }
-    val stellarHostTypeTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_type") }
-    val stellarHostTemperatureTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_temperature") }
-    val stellarHostRadiusTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_radius") }
-    val stellarHostMassTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_mass") }
-    val stellarHostMetallicityTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_metallicity") }
-    val stellarHostLuminosityTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_luminosity") }
-    val stellarHostGravityTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_gravity") }
-    val stellarHostAgeTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_age") }
-    val stellarHostDensityTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_density") }
-    val stellarHostRotationalVelocityTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_rotational_velocity") }
-    val stellarHostRotationalPeriodTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_rotational_period") }
-    val periodUnitTranslation = remember(key1 = translationVersion) { getTranslation(key = "period_unit") }
-    val stellarHostRaTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_ra") }
-    val stellarHostDecTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_dec") }
-    val stellarHostDistanceTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_distance") }
-    val stellarHostSpectralTypeScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_spectral_type_score") }
-    val stellarHostMassScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_mass_score") }
-    val stellarHostAgeScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_age_score") }
-    val stellarHostActivityScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_activity_score") }
-    val stellarHostRotationalPeriodScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_rotational_period_score") }
-    val stellarHostGravityScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_gravity_score") }
-    val stellarHostMetallicityScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_metallicity_score") }
-    val stellarHostEffectiveTemperatureScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_host_effective_temperature_score") }
+    val stellarHostSystemNameTranslation = getTranslation(key = "stellar_host_system_name")
+    val stellarHostPlanetCountTranslation = getTranslation(key = "stellar_host_planet_count")
+    val stellarHostTypeTranslation = getTranslation(key = "stellar_host_type")
+    val stellarHostTemperatureTranslation = getTranslation(key = "stellar_host_temperature")
+    val stellarHostRadiusTranslation = getTranslation(key = "stellar_host_radius")
+    val stellarHostMassTranslation = getTranslation(key = "stellar_host_mass")
+    val stellarHostMetallicityTranslation = getTranslation(key = "stellar_host_metallicity")
+    val stellarHostLuminosityTranslation = getTranslation(key = "stellar_host_luminosity")
+    val stellarHostGravityTranslation = getTranslation(key = "stellar_host_gravity")
+    val stellarHostAgeTranslation = getTranslation(key = "stellar_host_age")
+    val stellarHostDensityTranslation = getTranslation(key = "stellar_host_density")
+    val stellarHostRotationalVelocityTranslation = getTranslation(key = "stellar_host_rotational_velocity")
+    val stellarHostRotationalPeriodTranslation = getTranslation(key = "stellar_host_rotational_period")
+    val periodUnitTranslation = getTranslation(key = "period_unit")
+    val stellarHostRaTranslation = getTranslation(key = "stellar_host_ra")
+    val stellarHostDecTranslation = getTranslation(key = "stellar_host_dec")
+    val stellarHostDistanceTranslation = getTranslation(key = "stellar_host_distance")
+    val stellarHostSpectralTypeScoreTranslation = getTranslation(key = "stellar_host_spectral_type_score")
+    val stellarHostMassScoreTranslation = getTranslation(key = "stellar_host_mass_score")
+    val stellarHostAgeScoreTranslation = getTranslation(key = "stellar_host_age_score")
+    val stellarHostActivityScoreTranslation = getTranslation(key = "stellar_host_activity_score")
+    val stellarHostRotationalPeriodScoreTranslation = getTranslation(key = "stellar_host_rotational_period_score")
+    val stellarHostGravityScoreTranslation = getTranslation(key = "stellar_host_gravity_score")
+    val stellarHostMetallicityScoreTranslation = getTranslation(key = "stellar_host_metallicity_score")
+    val stellarHostEffectiveTemperatureScoreTranslation = getTranslation(key = "stellar_host_effective_temperature_score")
 
     Card(modifier = modifier) {
         Row(

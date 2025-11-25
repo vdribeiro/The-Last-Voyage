@@ -12,12 +12,12 @@ import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.container.TypewriterContent
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
@@ -50,10 +50,23 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
             )
         },
     ) {
-        TypewriterContent(
-            title = event?.let { getTranslation(key = it.id) },
-            text = event?.let { "${getTranslation(key = it.description)}${it.outcome?.getTranslation().orEmpty()}" },
-        )
+        event?.let { event ->
+            val outcome = event.outcome?.let {
+                with(receiver = it) {
+                    buildList {
+                        add("\n")
+                        if (integrity != null) add("${if (integrity > 0) "+" else ""}$integrity ${getTranslation(key = "ship_integrity")}")
+                        if (materials != null) add("${if (materials > 0) "+" else ""}$materials ${getTranslation(key = "ship_materials")}")
+                        if (fuel != null) add("${if (fuel > 0.0) "+" else ""}$fuel ${getTranslation(key = "ship_fuel")}")
+                        if (cryopods != null) add("${if (cryopods > 0) "+" else ""}$cryopods ${getTranslation(key = "ship_cryopods")}")
+                    }.joinToString(separator = "\n")
+                }
+            }.orEmpty()
+            TypewriterContent(
+                title = getTranslation(key = event.id),
+                text = "${getTranslation(key = event.description)}$outcome",
+            )
+        }
     }
 }
 

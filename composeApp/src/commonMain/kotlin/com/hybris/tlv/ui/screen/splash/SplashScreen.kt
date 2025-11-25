@@ -12,16 +12,14 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.text.FadeInText
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
 internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     val storeState by store.stateFlow.collectAsState()
     val currentContent = storeState.currentContent
 
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val loadingTranslation = remember(key1 = translationVersion) { getTranslation(key = "splash_screen__loading") }
+    val loadingTranslation = getTranslation(key = "splash_screen__loading")
 
     Screen(
         modifier = Modifier

@@ -5,15 +5,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,11 +23,11 @@ import com.hybris.tlv.ui.theme.component.image.Image
 import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.space.model.PlanetType
 import com.hybris.tlv.usecase.space.roundTo
 import com.hybris.tlv.usecase.space.toImage
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
@@ -70,35 +66,34 @@ internal fun PlanetCard(
 ) {
     val typography = LocalTypography.current
     val shapes = LocalShapes.current
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val planetStatusTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_status") }
-    val planetHabitabilityTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_habitability") }
-    val planetConfidenceTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_confidence") }
-    val planetTypeTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_type") }
-    val planetOrbitalPeriodTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_orbital_period") }
-    val periodUnitTranslation = remember(key1 = translationVersion) { getTranslation(key = "period_unit") }
-    val planetOrbitAxisTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_orbit_axis") }
-    val planetRadiusTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_radius") }
-    val planetMassTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_mass") }
-    val planetDensityTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_density") }
-    val planetEccentricityTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_eccentricity") }
-    val planetInsolationFluxTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_insolation_flux") }
-    val planetTemperatureTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_temperature") }
-    val planetOccultationDepthTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_occultation_depth") }
-    val planetInclinationTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_inclination") }
-    val planetObliquityTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_obliquity") }
-    val planetRocheScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_roche_score") }
-    val planetHabitableZoneKopparapuScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_habitable_zone_kopparapu_score") }
-    val planetHabitableZoneKastingScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_habitable_zone_kasting_score") }
-    val planetRadiusScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_radius_score") }
-    val planetMassScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_mass_score") }
-    val planetTelluricityScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_telluricity_score") }
-    val planetEccentricityScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_eccentricity_score") }
-    val planetTemperatureScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_temperature_score") }
-    val planetObliquityScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_obliquity_score") }
-    val planetEsiScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_esi_score") }
-    val planetProtectionScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_protection_score") }
-    val planetTidalLockingScoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "planet_tidal_locking_score") }
+    val planetStatusTranslation = getTranslation(key = "planet_status")
+    val planetHabitabilityTranslation = getTranslation(key = "planet_habitability")
+    val planetConfidenceTranslation = getTranslation(key = "planet_confidence")
+    val planetTypeTranslation = getTranslation(key = "planet_type")
+    val planetOrbitalPeriodTranslation = getTranslation(key = "planet_orbital_period")
+    val periodUnitTranslation = getTranslation(key = "period_unit")
+    val planetOrbitAxisTranslation = getTranslation(key = "planet_orbit_axis")
+    val planetRadiusTranslation = getTranslation(key = "planet_radius")
+    val planetMassTranslation = getTranslation(key = "planet_mass")
+    val planetDensityTranslation = getTranslation(key = "planet_density")
+    val planetEccentricityTranslation = getTranslation(key = "planet_eccentricity")
+    val planetInsolationFluxTranslation = getTranslation(key = "planet_insolation_flux")
+    val planetTemperatureTranslation = getTranslation(key = "planet_temperature")
+    val planetOccultationDepthTranslation = getTranslation(key = "planet_occultation_depth")
+    val planetInclinationTranslation = getTranslation(key = "planet_inclination")
+    val planetObliquityTranslation = getTranslation(key = "planet_obliquity")
+    val planetRocheScoreTranslation = getTranslation(key = "planet_roche_score")
+    val planetHabitableZoneKopparapuScoreTranslation = getTranslation(key = "planet_habitable_zone_kopparapu_score")
+    val planetHabitableZoneKastingScoreTranslation = getTranslation(key = "planet_habitable_zone_kasting_score")
+    val planetRadiusScoreTranslation = getTranslation(key = "planet_radius_score")
+    val planetMassScoreTranslation = getTranslation(key = "planet_mass_score")
+    val planetTelluricityScoreTranslation = getTranslation(key = "planet_telluricity_score")
+    val planetEccentricityScoreTranslation = getTranslation(key = "planet_eccentricity_score")
+    val planetTemperatureScoreTranslation = getTranslation(key = "planet_temperature_score")
+    val planetObliquityScoreTranslation = getTranslation(key = "planet_obliquity_score")
+    val planetEsiScoreTranslation = getTranslation(key = "planet_esi_score")
+    val planetProtectionScoreTranslation = getTranslation(key = "planet_protection_score")
+    val planetTidalLockingScoreTranslation = getTranslation(key = "planet_tidal_locking_score")
 
     Card(modifier = modifier) {
         Row(

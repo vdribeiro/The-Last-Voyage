@@ -6,14 +6,11 @@ import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Rocket
 import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
@@ -29,10 +26,9 @@ internal fun GameNavigationBar(
     travelSelected: Boolean = false,
     travelOnClick: () -> Unit = {},
 ) {
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val travelTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_screen__travel") }
-    val systemTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_screen__system") }
-    val shipTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_screen__ship") }
+    val travelTranslation = getTranslation(key = "game_screen__travel")
+    val systemTranslation = getTranslation(key = "game_screen__system")
+    val shipTranslation = getTranslation(key = "game_screen__ship")
 
     NavigationBar(
         modifier = modifier,

@@ -4,7 +4,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
@@ -13,13 +12,13 @@ import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
 import com.hybris.tlv.ui.theme.component.card.Score
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.container.TypewriterContent
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
@@ -29,11 +28,10 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
     val ship = gameSession?.ship
     val achievement = storeState.achievement
 
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val gameOverTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_over_screen__game_over") }
-    val messageTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_over_screen__score") }
-    val scoreTranslation = remember(key1 = translationVersion) { getTranslation(key = "game_over_screen__end") }
-    val newAchievementTranslation = remember(key1 = translationVersion) { getTranslation(key = "achievements_screen__new") }
+    val gameOverTranslation = getTranslation(key = "game_over_screen__game_over")
+    val messageTranslation = getTranslation(key = "game_over_screen__score")
+    val scoreTranslation = getTranslation(key = "game_over_screen__end")
+    val newAchievementTranslation = getTranslation(key = "achievements_screen__new")
 
     Screen(
         loading = storeState.loading,

@@ -4,7 +4,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
@@ -12,18 +11,16 @@ import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.container.TypewriterContent
 import com.hybris.tlv.ui.theme.component.list.ShipConfiguration
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val continueTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__continue") }
-    val startTranslation = remember(key1 = translationVersion) { getTranslation(key = "new_game_screen__start") }
+    val continueTranslation = getTranslation(key = "new_game_screen__continue")
+    val startTranslation = getTranslation(key = "new_game_screen__start")
 
     Screen(
         loading = storeState.loading,

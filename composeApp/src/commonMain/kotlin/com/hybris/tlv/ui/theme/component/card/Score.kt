@@ -16,9 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -32,9 +30,9 @@ import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.space.roundTo
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
@@ -54,17 +52,16 @@ internal fun Score(
     materials: Int? = null,
     cryopods: Int? = null
 ) {
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val settledPlanetTranslation = remember(key1 = translationVersion) { getTranslation(key = "settled_planet") }
-    val habitabilityTranslation = remember(key1 = translationVersion) { getTranslation(key = "final_habitability") }
-    val engineTranslation = remember(key1 = translationVersion) { getTranslation(key = "engine") }
-    val assignedPointsTranslation = remember(key1 = translationVersion) { getTranslation(key = "points") }
-    val yearsTraveledTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_years_traveled") }
-    val sensorTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_sensor") }
-    val integrityTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_integrity") }
-    val fuelTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_fuel") }
-    val materialsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_materials") }
-    val cryopodsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_cryopods") }
+    val settledPlanetTranslation = getTranslation(key = "settled_planet")
+    val habitabilityTranslation = getTranslation(key = "final_habitability")
+    val engineTranslation = getTranslation(key = "engine")
+    val assignedPointsTranslation = getTranslation(key = "points")
+    val yearsTraveledTranslation = getTranslation(key = "ship_years_traveled")
+    val sensorTranslation = getTranslation(key = "ship_sensor")
+    val integrityTranslation = getTranslation(key = "ship_integrity")
+    val fuelTranslation = getTranslation(key = "ship_fuel")
+    val materialsTranslation = getTranslation(key = "ship_materials")
+    val cryopodsTranslation = getTranslation(key = "ship_cryopods")
 
     val typography = LocalTypography.current
     val colorScheme = LocalColorScheme.current

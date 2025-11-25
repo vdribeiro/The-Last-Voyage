@@ -4,23 +4,21 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.MainBar
 import com.hybris.tlv.ui.theme.component.container.MainMenu
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.dialog.Dialog
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
 
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val tutorialTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__new_game_tutorial") }
+    val tutorialTranslation = getTranslation(key = "main_menu_screen__new_game_tutorial")
 
     Screen(
         loading = storeState.loading,
