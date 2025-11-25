@@ -18,13 +18,9 @@ import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 
 @Composable
-internal inline fun <T> ButtonsBar(
+internal fun ButtonsBar(
     modifier: Modifier = Modifier,
-    buttons: List<T> = emptyList(),
-    noinline id: (T) -> String = { generateUuid() },
-    crossinline enabled: (T) -> Boolean = { true },
-    crossinline text: (T) -> String? = { null },
-    crossinline onClick: (T) -> Unit = {}
+    buttons: List<BottomButton> = emptyList(),
 ) {
     LazyColumn(
         modifier = modifier.padding(top = 16.dp),
@@ -32,7 +28,7 @@ internal inline fun <T> ButtonsBar(
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         scrollBar = false
     ) {
-        items(items = buttons, key = id) {
+        items(items = buttons, key = { it.id }) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -41,9 +37,9 @@ internal inline fun <T> ButtonsBar(
             ) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    enabled = enabled(it),
-                    text = text(it),
-                    onClick = { onClick(it) },
+                    enabled = it.enabled,
+                    text = it.text,
+                    onClick = { it.onClick() },
                 )
             }
         }
@@ -56,11 +52,16 @@ internal inline fun <T> ButtonsBar(
 private fun ButtonsBarPreview() = AppTheme {
     ButtonsBar(
         buttons = listOf(
-            "Button 1",
-            "Button 2",
-            "Button 3",
+            BottomButton(text = "Button 1"),
+            BottomButton(enabled = false, text = "Button 2"),
+            BottomButton(),
         ),
-        enabled = { it != "Button 2" },
-        text = { it },
     )
 }
+
+internal data class BottomButton(
+    val id: String = generateUuid(),
+    val enabled: Boolean = true,
+    val text: String? = null,
+    val onClick: () -> Unit = {}
+)

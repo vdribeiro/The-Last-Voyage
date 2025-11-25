@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.ui.theme.component.container.Screen
@@ -19,6 +20,7 @@ import com.hybris.tlv.usecase.ship.model.ShipPrototype
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
+    storeState.selectedCatastrophe
     val continueTranslation = getTranslation(key = "new_game_screen__continue")
     val startTranslation = getTranslation(key = "new_game_screen__start")
 
@@ -31,11 +33,15 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
         bottomBar = {
             ButtonsBar(
                 buttons = when (storeState.currentContent) {
-                    Content.SHIP -> buildList {
+                    Content.SHIP -> {
                         val shipState = storeState.shipState
-                        val onClick = when {
-                            shipState?.remainingPoints != null && shipState.remainingPoints >= 0 -> {
-                                {
+                        listOf(
+                            BottomButton(
+                                id = continueTranslation,
+                                enabled = shipState != null && shipState.remainingPoints >= 0,
+                                text = continueTranslation,
+                                onClick = {
+                                    if (shipState == null) return@BottomButton
                                     val shipPrototype = ShipPrototype(
                                         assignedPoints = shipState.assignedPoints,
                                         sensorRange = shipState.sensorRange.value,
@@ -45,15 +51,18 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
                                     )
                                     store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
                                 }
-                            }
-
-                            else -> null
-                        }
-                        add(element = continueTranslation to onClick)
+                            )
+                        )
                     }
 
-                    Content.START -> listOf(startTranslation to { store.send(action = NewGameAction.Next) })
-                }
+                    Content.START -> listOf(
+                        BottomButton(
+                            id = startTranslation,
+                            text = startTranslation,
+                            onClick = { store.send(action = NewGameAction.Next) }
+                        )
+                    )
+                },
             )
         },
     ) {

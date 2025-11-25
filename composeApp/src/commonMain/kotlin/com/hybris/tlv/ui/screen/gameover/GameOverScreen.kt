@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
 import com.hybris.tlv.ui.theme.component.card.Score
@@ -39,12 +40,17 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         bottomBar = {
+            val text = when (storeState.currentContent) {
+                Content.MESSAGE -> messageTranslation
+                Content.SCORE -> scoreTranslation
+            }
             ButtonsBar(
                 buttons = listOf(
-                    when (storeState.currentContent) {
-                        Content.MESSAGE -> messageTranslation
-                        Content.SCORE -> scoreTranslation
-                    } to { store.send(action = GameOverAction.Next) }
+                    BottomButton(
+                        id = text,
+                        text = text,
+                        onClick = { store.send(action = GameOverAction.Next) }
+                    )
                 )
             )
         },

@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.container.TypewriterContent
@@ -45,7 +46,11 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
         bottomBar = {
             ButtonsBar(
                 buttons = storeState.childrenEvents.map {
-                    getTranslation(key = it.id) to { store.send(action = EventAction.Select(event = it)) }
+                    BottomButton(
+                        id = it.id,
+                        text = getTranslation(key = it.id),
+                        onClick = { store.send(action = EventAction.Select(event = it)) }
+                    )
                 }
             )
         },
