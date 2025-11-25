@@ -53,7 +53,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             val isHostView = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS)
             val viewName = if (isHostView) hostListTranslation else planetListTranslation
             val viewIcon = if (isHostView) Icons.Default.Flare else Icons.Default.Public
-            val count = if (isHostView) storeState.filteredStellarHosts.size.toString() else storeState.filteredPlanets.size.toString()
+            val count = if (isHostView) storeState.filteredStellarHosts.size else storeState.filteredPlanets.size
             val properties: List<String>
             val selectedProperty: String
             val onSortChange: (String) -> Unit
