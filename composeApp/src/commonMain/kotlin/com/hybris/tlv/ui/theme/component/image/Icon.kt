@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalColorScheme
 import androidx.compose.material3.Icon as MaterialIcon
 
 @Composable
@@ -37,7 +38,8 @@ internal fun Icon(
 @Composable
 private fun IconPreview() = AppTheme {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
-        Icon(imageVector = Icons.Default.Apps, tint = Color.Blue)
+        val colorScheme = LocalColorScheme.current
+        Icon(imageVector = Icons.Default.Apps, tint = colorScheme.primary)
         Icon()
         Icon(imageVector = Icons.Default.Apps)
     }

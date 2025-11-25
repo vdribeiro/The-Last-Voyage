@@ -1,6 +1,8 @@
 package com.hybris.tlv.ui.theme.component.text
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,7 +12,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalColorScheme
 import androidx.compose.material3.Text as MaterialText
 
 @Composable
@@ -59,5 +63,22 @@ internal fun Text(
 @Preview
 @Composable
 private fun TextPreview() = AppTheme {
-    Text(text = "Text")
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        val colorScheme = LocalColorScheme.current
+        Text(text = "Text")
+        Text(text = AnnotatedString(text = "Text"))
+        Text(
+            text = "Text",
+            textAlign = TextAlign.End
+        )
+        Text(
+            text = "Text",
+            maxLines = 1,
+            color = colorScheme.primary
+        )
+        Text(
+            text = "Text",
+            fontWeight = FontWeight.Bold
+        )
+    }
 }

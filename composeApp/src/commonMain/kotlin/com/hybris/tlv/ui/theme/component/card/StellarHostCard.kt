@@ -161,7 +161,7 @@ private fun StellarHostCardPreview() = AppTheme {
             ),
             Translation(
                 key = "stellar_host_type",
-                value = "Host Type"
+                value = "Host"
             ),
             Translation(
                 key = "stellar_host_temperature",

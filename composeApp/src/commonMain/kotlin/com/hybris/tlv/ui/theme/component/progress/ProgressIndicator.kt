@@ -2,11 +2,14 @@ package com.hybris.tlv.ui.theme.component.progress
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 
 @Composable
@@ -33,5 +36,8 @@ internal fun ProgressIndicator(
 @Preview
 @Composable
 private fun ProgressIndicatorPreview() = AppTheme {
-    ProgressIndicator()
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        ProgressIndicator(progress = 0.5f)
+        ProgressIndicator()
+    }
 }

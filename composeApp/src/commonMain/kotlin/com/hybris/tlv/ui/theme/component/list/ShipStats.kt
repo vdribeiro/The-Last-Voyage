@@ -19,6 +19,8 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.card.StatDisplay
 import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.space.roundTo
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun ShipStats(
@@ -115,6 +117,38 @@ internal fun ShipStats(
 @Preview
 @Composable
 private fun ShipStatsPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "ship_years_traveled",
+                value = "Years Travelled"
+            ),
+            Translation(
+                key = "ship_speed",
+                value = "Speed"
+            ),
+            Translation(
+                key = "ship_integrity",
+                value = "Integrity"
+            ),
+            Translation(
+                key = "ship_sensor",
+                value = "Sensor Range"
+            ),
+            Translation(
+                key = "ship_fuel",
+                value = "Fuel"
+            ),
+            Translation(
+                key = "ship_materials",
+                value = "Materials"
+            ),
+            Translation(
+                key = "ship_cryopods",
+                value = "Cryopods"
+            ),
+        )
+    )
     ShipStats(
         velocity = 1.0,
         yearsTraveled = 10.0,

@@ -20,6 +20,7 @@ import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.runtime.Composable
@@ -55,12 +56,12 @@ internal fun ControlPanel(
     focusRequester: FocusRequester = FocusRequester.Default,
     search: String = "",
     onSearch: (String) -> Unit = {},
-    viewName: String = "",
+    viewName: String? = null,
     viewIcon: ImageVector? = null,
     onChangeView: () -> Unit = {},
-    count: String = "0",
+    count: Int? = null,
     properties: List<String> = emptyList(),
-    selectedProperty: String = "",
+    selectedProperty: String? = null,
     ascending: Boolean = true,
     onSortChange: (String) -> Unit = {},
     onSortDirectionChange: () -> Unit = {},
@@ -107,7 +108,7 @@ internal fun ControlPanel(
                     maxLines = 1,
                     style = typography.bodyLarge
                 )
-                SearchMenu(
+                if (properties.isNotEmpty()) SearchMenu(
                     enabled = enabled,
                     properties = properties,
                     selectedProperties = selectedProperties,
@@ -135,28 +136,34 @@ internal fun ControlPanel(
                         )
                         .padding(all = 8.dp)
                 ) {
-                    Icon(
-                        imageVector = viewIcon,
-                        contentDescription = "View"
-                    )
-                    Spacer(modifier = Modifier.width(width = 8.dp))
-                    Text(
-                        text = viewName,
-                        maxLines = 1,
-                        style = typography.labelLarge
-                    )
+                    viewIcon?.let {
+                        Icon(
+                            imageVector = it,
+                            contentDescription = "View"
+                        )
+                    }
+                    if (viewIcon != null && viewName != null) Spacer(modifier = Modifier.width(width = 8.dp))
+                    viewName?.let {
+                        Text(
+                            text = it,
+                            maxLines = 1,
+                            style = typography.labelLarge
+                        )
+                    }
                 }
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .alpha(alpha = alpha(enabled = enabled)),
-                        text = count,
-                        maxLines = 1,
-                        style = typography.labelLarge
-                    )
-                    SortMenu(
+                    count?.toString()?.let {
+                        Text(
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .alpha(alpha = alpha(enabled = enabled)),
+                            text = it,
+                            maxLines = 1,
+                            style = typography.labelLarge
+                        )
+                    }
+                    if (properties.isNotEmpty()) SortMenu(
                         enabled = enabled,
                         properties = properties,
                         selectedProperty = selectedProperty,
@@ -165,7 +172,7 @@ internal fun ControlPanel(
                         onSortDirectionChange = onSortDirectionChange
 
                     )
-                    VisibilityMenu(
+                    if (properties.isNotEmpty()) VisibilityMenu(
                         enabled = enabled,
                         properties = properties,
                         visibleProperties = visibleProperties,
@@ -176,6 +183,13 @@ internal fun ControlPanel(
         }
     }
 }
+
+private data class DropdownItem(
+    val enabled: Boolean = true,
+    val text: String? = null,
+    val onClick: () -> Unit = {},
+    val leadingIcon: @Composable (() -> Unit)? = null,
+)
 
 @Composable
 private fun SearchMenu(
@@ -217,18 +231,11 @@ private fun SearchMenu(
     }
 }
 
-private data class DropdownItem(
-    val enabled: Boolean = true,
-    val text: String = "",
-    val onClick: () -> Unit = {},
-    val leadingIcon: @Composable (() -> Unit)? = null,
-)
-
 @Composable
 private fun SortMenu(
     enabled: Boolean,
     properties: List<String>,
-    selectedProperty: String,
+    selectedProperty: String?,
     ascending: Boolean,
     onSortChange: (String) -> Unit,
     onSortDirectionChange: () -> Unit
@@ -324,5 +331,36 @@ private fun VisibilityMenu(
 @Preview
 @Composable
 private fun ControlPanelPreview() = AppTheme {
-    ControlPanel()
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        ControlPanel(
+            enabled = true,
+            search = "Search",
+            viewName = "Planets",
+            viewIcon = Icons.Default.Public,
+            count = 2000,
+            properties = listOf("Name", "Status", "Habitability", "Confidence"),
+            selectedProperty = "Name",
+            ascending = true,
+            visibleProperties = listOf("Name", "Status"),
+            selectedProperties = listOf("Status")
+        )
+        ControlPanel(
+            enabled = false,
+            search = "Search",
+            viewName = "Planets",
+            viewIcon = Icons.Default.Public,
+            count = 2000,
+            properties = listOf("Name", "Status", "Habitability", "Confidence"),
+            ascending = true,
+        )
+        ControlPanel(
+            enabled = true,
+            search = "Search",
+            viewName = "Planets",
+            count = 2000,
+            ascending = false,
+        )
+        ControlPanel(viewIcon = Icons.Default.Public)
+        ControlPanel()
+    }
 }
