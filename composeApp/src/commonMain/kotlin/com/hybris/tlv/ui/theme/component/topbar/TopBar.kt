@@ -2,6 +2,8 @@ package com.hybris.tlv.ui.theme.component.topbar
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -96,11 +98,22 @@ private fun HostDefinitionPreview() = AppTheme {
             ),
         )
     )
-    TopBar(
-        banner = "Banner",
-        onBackClick = {},
-        onHelpClick = {},
-        onMusicClick = {},
-        onFeedbackClick = {},
-    )
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        TopBar(
+            banner = "Banner",
+            onBackClick = {},
+            onHelpClick = {},
+            onMusicClick = {},
+            onFeedbackClick = {},
+        )
+        TopBar(
+            onBackClick = {},
+            onFeedbackClick = {},
+        )
+        TopBar(
+            onHelpClick = {},
+            onMusicClick = {},
+        )
+        TopBar()
+    }
 }
