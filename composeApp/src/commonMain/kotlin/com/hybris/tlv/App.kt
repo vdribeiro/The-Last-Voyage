@@ -10,13 +10,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.ui.Application
 import com.hybris.tlv.ui.navigation.Action
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.actionChannel
 import com.hybris.tlv.ui.navigation.navigate
 import com.hybris.tlv.ui.navigation.navigationChannel
 import com.hybris.tlv.ui.navigation.toScreen
+import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.UseCases
 
 @Composable
@@ -25,7 +25,7 @@ internal fun App(
     config: ConfigManager,
     useCases: UseCases,
     audioPlayer: AudioPlayer
-) = Application {
+) = AppTheme {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val screen = remember(key1 = navBackStackEntry) { navBackStackEntry?.toScreen() }

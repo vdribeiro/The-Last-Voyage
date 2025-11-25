@@ -1,9 +1,6 @@
 package com.hybris.tlv
 
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
@@ -11,8 +8,7 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.ui.theme.getTranslation
 import javafx.embed.swing.JFXPanel
 
 private const val TAG = "App"
@@ -30,9 +26,7 @@ fun main() = application {
     Telemetry.init()
     Telemetry.info(tag = TAG, message = "App started\nJavaFX = $initializeJfx")
 
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val appNameTranslation = getTranslation(key = "app_name") }
-
+    val appNameTranslation = getTranslation(key = "app_name")
     val windowState = rememberWindowState(placement = WindowPlacement.Maximized)
     Window(
         title = appNameTranslation,

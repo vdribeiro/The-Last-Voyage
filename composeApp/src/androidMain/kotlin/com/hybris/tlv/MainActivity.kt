@@ -19,14 +19,12 @@ class MainActivity: ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            setContent {
-                App(
-                    modifier = Modifier.enableGestureCheats(),
-                    config = dependency.config,
-                    useCases = dependency.useCases,
-                    audioPlayer = dependency.audioPlayer,
-                )
-            }
+            App(
+                modifier = Modifier.enableGestureCheats(),
+                config = dependency.config,
+                useCases = dependency.useCases,
+                audioPlayer = dependency.audioPlayer,
+            )
         }
     }
 }
