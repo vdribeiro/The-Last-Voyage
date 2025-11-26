@@ -5,13 +5,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -25,8 +21,9 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Image
 import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.kofi
 
@@ -34,20 +31,17 @@ import thelastvoyage.composeapp.generated.resources.kofi
 internal fun MainBar(
     modifier: Modifier = Modifier,
     onCreditsClick: () -> Unit = {},
-    developerCornerUri: String = "",
-    supportUri: String = "",
+    developerCornerUri: String? = null,
+    supportUri: String? = null,
 ) {
     val uriHandler = LocalUriHandler.current
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val websiteTranslation = remember(key1 = translationVersion) { getTranslation(key = "website") }
-    val creditsTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__credits") }
+    val websiteTranslation = getTranslation(key = "website")
+    val creditsTranslation = getTranslation(key = "main_menu_screen__credits")
 
     val typography = LocalTypography.current
 
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 32.dp),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -88,5 +82,17 @@ internal fun MainBar(
 @Preview
 @Composable
 private fun MainBarPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "website",
+                value = "Website with large description"
+            ),
+            Translation(
+                key = "main_menu_screen__credits",
+                value = "Credits"
+            )
+        )
+    )
     MainBar()
 }

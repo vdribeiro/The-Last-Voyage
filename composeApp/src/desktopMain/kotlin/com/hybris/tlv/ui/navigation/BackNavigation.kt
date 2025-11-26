@@ -6,7 +6,6 @@ import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.composed
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.isBackPressed
-import androidx.compose.ui.input.pointer.isSecondaryPressed
 import androidx.compose.ui.input.pointer.onPointerEvent
 
 @OptIn(ExperimentalComposeUiApi::class)

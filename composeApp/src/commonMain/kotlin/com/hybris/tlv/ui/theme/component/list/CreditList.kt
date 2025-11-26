@@ -11,9 +11,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
@@ -26,8 +23,9 @@ import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.Card
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal inline fun <T> CreditList(
@@ -40,11 +38,10 @@ internal inline fun <T> CreditList(
     crossinline link: (T) -> String? = { null },
 ) {
     val uriHandler = LocalUriHandler.current
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val creatorsTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__creators") }
-    val sourcesTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__sources") }
-    val musicTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__music") }
-    val supportersTranslation = remember(key1 = translationVersion) { getTranslation(key = "credit_screen__supporters") }
+    val creatorsTranslation = getTranslation(key = "credit_screen__creators")
+    val sourcesTranslation = getTranslation(key = "credit_screen__sources")
+    val musicTranslation = getTranslation(key = "credit_screen__music")
+    val supportersTranslation = getTranslation(key = "credit_screen__supporters")
 
     val typography = LocalTypography.current
     val colorScheme = LocalColorScheme.current
@@ -162,6 +159,26 @@ internal inline fun <T> CreditList(
 @Preview
 @Composable
 private fun CreditListPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "credit_screen__creators",
+                value = "Creators"
+            ),
+            Translation(
+                key = "credit_screen__sources",
+                value = "Sources"
+            ),
+            Translation(
+                key = "credit_screen__music",
+                value = "Music"
+            ),
+            Translation(
+                key = "credit_screen__supporters",
+                value = "Supporters"
+            )
+        )
+    )
     CreditList(
         creators = listOf(
             "Creator 1",
@@ -177,8 +194,18 @@ private fun CreditListPreview() = AppTheme {
         ),
         supporters = listOf(
             "Supporter 1",
-            "Supporter 2",
+            "Supporter with a very long name",
+            "Supporter lala",
+            "Carl Sagan",
+            "Johannes Kepler",
+            "Isaac Newton",
+            "Edwin Hubble",
+            "Another supporter with a very long name",
+            "Galileo Galilei",
+            "Stephen Hawking",
+            "Albert Einstein",
         ),
+        id = { it },
         link = { "link" },
     )
 }

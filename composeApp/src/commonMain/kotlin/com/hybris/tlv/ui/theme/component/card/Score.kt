@@ -16,14 +16,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -31,9 +30,10 @@ import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.space.roundTo
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun Score(
@@ -52,17 +52,19 @@ internal fun Score(
     materials: Int? = null,
     cryopods: Int? = null
 ) {
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val settledPlanetTranslation = remember(key1 = translationVersion) { getTranslation(key = "settled_planet") }
-    val habitabilityTranslation = remember(key1 = translationVersion) { getTranslation(key = "final_habitability") }
-    val engineTranslation = remember(key1 = translationVersion) { getTranslation(key = "engine") }
-    val assignedPointsTranslation = remember(key1 = translationVersion) { getTranslation(key = "points") }
-    val yearsTraveledTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_years_traveled") }
-    val sensorTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_sensor") }
-    val integrityTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_integrity") }
-    val fuelTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_fuel") }
-    val materialsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_materials") }
-    val cryopodsTranslation = remember(key1 = translationVersion) { getTranslation(key = "ship_cryopods") }
+    val settledPlanetTranslation = getTranslation(key = "settled_planet")
+    val habitabilityTranslation = getTranslation(key = "final_habitability")
+    val engineTranslation = getTranslation(key = "engine")
+    val assignedPointsTranslation = getTranslation(key = "points")
+    val yearsTraveledTranslation = getTranslation(key = "ship_years_traveled")
+    val sensorTranslation = getTranslation(key = "ship_sensor")
+    val integrityTranslation = getTranslation(key = "ship_integrity")
+    val fuelTranslation = getTranslation(key = "ship_fuel")
+    val materialsTranslation = getTranslation(key = "ship_materials")
+    val cryopodsTranslation = getTranslation(key = "ship_cryopods")
+
+    val typography = LocalTypography.current
+    val colorScheme = LocalColorScheme.current
 
     Card(modifier = modifier) {
         Column(
@@ -70,24 +72,40 @@ internal fun Score(
                 .fillMaxWidth()
                 .padding(all = 16.dp)
         ) {
-            if (score != null && utc != null) ScoreHeader(
-                utc = utc,
-                totalScore = score.roundTo(decimalPlaces = 2).toString(),
-                isExpanded = isExpanded
-            )
+            if (score != null || utc != null) Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    modifier = Modifier.weight(weight = 1f),
+                    text = utc,
+                    style = typography.titleLarge,
+                )
+                Text(
+                    text = score?.roundTo(decimalPlaces = 2)?.toString(),
+                    style = typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = colorScheme.primary
+                )
+                val arrowRotation by animateFloatAsState(targetValue = if (isExpanded == true) 180f else 0f)
+                Spacer(modifier = Modifier.width(width = 8.dp))
+                Icon(
+                    modifier = Modifier.rotate(degrees = arrowRotation),
+                    imageVector = if (isExpanded != null) Icons.Default.KeyboardArrowDown else null,
+                    contentDescription = "Expand",
+                    emptySize = 12.dp
+                )
+            }
             AnimatedVisibility(
                 visible = isExpanded != false,
                 enter = fadeIn(),
                 exit = fadeOut(),
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(space = 4.dp)
                 ) {
-                    Divider()
-                    Spacer(modifier = Modifier.height(height = 8.dp))
+                    if (score != null || utc != null) {
+                        Spacer(modifier = Modifier.height(height = 8.dp))
+                        Divider()
+                        Spacer(modifier = Modifier.height(height = 8.dp))
+                    }
                     settledPlanet?.let { InfoRow(label = settledPlanetTranslation, value = it) }
                     habitability?.let { InfoRow(label = habitabilityTranslation, value = it.roundTo(decimalPlaces = 2)) }
                     engine?.let { InfoRow(label = engineTranslation, value = getTranslation(key = it)) }
@@ -104,48 +122,54 @@ internal fun Score(
     }
 }
 
-@Composable
-private fun ScoreHeader(
-    utc: String,
-    totalScore: String,
-    isExpanded: Boolean?
-) {
-    val typography = LocalTypography.current
-    val colorScheme = LocalColorScheme.current
-
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(
-            modifier = Modifier.weight(weight = 1f),
-            text = utc,
-            style = typography.titleLarge,
-        )
-        Text(
-            text = totalScore,
-            style = typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            color = colorScheme.primary
-        )
-        if (isExpanded != null) {
-            val arrowRotation by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f)
-            Spacer(modifier = Modifier.width(width = 8.dp))
-            Icon(
-                modifier = Modifier.rotate(degrees = arrowRotation),
-                imageVector = Icons.Default.KeyboardArrowDown,
-                contentDescription = "Expand",
-            )
-        }
-    }
-}
-
 @Preview
 @Composable
 private fun ScorePreview() = AppTheme {
-    Score(
-        isExpanded = true,
-        score = 100.0,
-        yearsTraveled = 10.0,
-        sensorRange = 10,
-        integrity = 10,
-        materials = 10,
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "ship_sensor",
+                value = "Sensor Range"
+            ),
+            Translation(
+                key = "ship_integrity",
+                value = "Integrity"
+            ),
+            Translation(
+                key = "ship_materials",
+                value = "Materials"
+            ),
+        )
     )
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        Score(
+            isExpanded = true,
+            score = 100.0,
+            utc = getLocalDateTime(),
+            sensorRange = 10,
+            integrity = 10,
+            materials = 10,
+        )
+        Score(
+            isExpanded = false,
+            score = 100.0,
+            utc = getLocalDateTime(),
+            sensorRange = 10,
+            integrity = 10,
+            materials = 10,
+        )
+        Score(
+            utc = getLocalDateTime(),
+            sensorRange = 10,
+            integrity = 10,
+            materials = 10,
+        )
+        Score(
+            sensorRange = 10,
+            integrity = 10,
+            materials = 10,
+        )
+        Score(sensorRange = 10)
+        Score()
+    }
 }

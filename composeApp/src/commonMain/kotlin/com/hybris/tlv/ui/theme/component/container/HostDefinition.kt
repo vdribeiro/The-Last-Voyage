@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -22,8 +19,10 @@ import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
+import com.hybris.tlv.usecase.space.spectralTypeToImage
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal inline fun <T, S> HostDefinition(
@@ -54,10 +53,9 @@ internal inline fun <T, S> HostDefinition(
     crossinline stellarHostDescription: (S) -> String? = { null },
     crossinline stellarHostImage: (S) -> ImageResource? = { null },
 ) {
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val exampleTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_example") }
-    val propertiesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_properties") }
-    val typesTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__definition_types") }
+    val exampleTranslation = getTranslation(key = "main_menu_screen__definition_example")
+    val propertiesTranslation = getTranslation(key = "main_menu_screen__definition_properties")
+    val typesTranslation = getTranslation(key = "main_menu_screen__definition_types")
 
     val typography = LocalTypography.current
 
@@ -132,6 +130,22 @@ internal inline fun <T, S> HostDefinition(
 @Preview
 @Composable
 private fun HostDefinitionPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "main_menu_screen__definition_example",
+                value = "Example"
+            ),
+            Translation(
+                key = "main_menu_screen__definition_properties",
+                value = "Properties"
+            ),
+            Translation(
+                key = "main_menu_screen__definition_types",
+                value = "Types"
+            ),
+        )
+    )
     HostDefinition(
         name = "Sun",
         properties = listOf(
@@ -139,14 +153,15 @@ private fun HostDefinitionPreview() = AppTheme {
             "Property 2",
             "Property 3",
         ),
+        propertyId = { it },
         propertyDescription = { it },
         stellarHosts = listOf(
             "Stellar Host 1",
             "Stellar Host 2",
             "Stellar Host 3",
-            "Stellar Host 4",
         ),
+        stellarHostId = { it },
         stellarHostDescription = { it },
-        stellarHostImage = { ImageResource(path = "G.jpg") },
+        stellarHostImage = { "G".spectralTypeToImage() },
     )
 }

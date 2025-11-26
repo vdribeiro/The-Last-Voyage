@@ -11,21 +11,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.locale.now
+import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.Score
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal inline fun <T> ScoreList(
@@ -48,8 +47,7 @@ internal inline fun <T> ScoreList(
 ) {
     val expandedItems = remember { expandedItems.toMutableStateList() }
 
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = "score_screen__title") }
+    val titleTranslation = getTranslation(key = "score_screen__title")
 
     val typography = LocalTypography.current
 
@@ -103,6 +101,30 @@ internal inline fun <T> ScoreList(
 @Preview
 @Composable
 private fun ScoreListPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "score_screen__title",
+                value = "Score"
+            ),
+            Translation(
+                key = "ship_sensor",
+                value = "Sensor Range"
+            ),
+            Translation(
+                key = "ship_cryopods",
+                value = "Cryopods"
+            ),
+            Translation(
+                key = "engine",
+                value = "Engine"
+            ),
+            Translation(
+                key = "points",
+                value = "Points"
+            ),
+        )
+    )
     ScoreList(
         scores = listOf(
             "Score 1",
@@ -110,17 +132,12 @@ private fun ScoreListPreview() = AppTheme {
             "Score 3",
         ),
         expandedItems = listOf("Score 2"),
+        id = { it },
         scorePoints = { 100.0 },
-        utc = { now() },
-        settledPlanet = { "Earth" },
-        habitability = { 80.0 },
+        utc = { getLocalDateTime() },
         engine = { "BFE" },
         assignedPoints = { 10 },
-        yearsTraveled = { 10.0 },
         sensorRange = { 1 },
-        integrity = { 100 },
-        materials = { 100 },
-        fuel = { 100 },
         cryopods = { 100 }
     )
 }

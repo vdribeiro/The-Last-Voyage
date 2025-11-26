@@ -16,6 +16,11 @@ import com.hybris.tlv.ui.theme.component.card.PlanetCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.image.ImageResource
+import com.hybris.tlv.usecase.space.model.PlanetType
+import com.hybris.tlv.usecase.space.spectralTypeToImage
+import com.hybris.tlv.usecase.space.toImage
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal inline fun <T> PlanetList(
@@ -166,15 +171,51 @@ internal inline fun <T> PlanetList(
 @Preview
 @Composable
 private fun PlanetListPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "stellar_host_system_name",
+                value = "System Name"
+            ),
+            Translation(
+                key = "stellar_host_planet_count",
+                value = "Planet Count"
+            ),
+            Translation(
+                key = "stellar_host_type",
+                value = "Host"
+            ),
+            Translation(
+                key = "planet_habitability",
+                value = "Habitability"
+            ),
+            Translation(
+                key = "planet_radius",
+                value = "Radius"
+            ),
+            Translation(
+                key = "planet_mass",
+                value = "Mass"
+            ),
+        )
+    )
     PlanetList(
         showStellarHost = true,
         stellarHostName = "Host",
+        stellarHostDescription = "Description",
+        stellarHostSystemName = "System",
+        stellarHostPlanetCount = 1,
+        stellarHostSpectralType = "G",
+        stellarHostSpectralImage = "G".spectralTypeToImage(),
         planets = listOf(
             "Planet 1",
             "Planet 2",
             "Planet 3",
         ),
         planetName = { it },
-        planetImage = { ImageResource(path = "terrestrial_planet.jpg") },
+        planetImage = { PlanetType.EARTH_ANALOG_PLANET.toImage() },
+        planetHabitability = { 0.9 },
+        planetRadius = { 1.0 },
+        planetMass = { 1.0 }
     )
 }

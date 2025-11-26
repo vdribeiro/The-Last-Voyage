@@ -1,6 +1,10 @@
 package com.hybris.tlv.ui.theme.component.image
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material3.LocalContentColor
@@ -8,28 +12,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalColorScheme
 import androidx.compose.material3.Icon as MaterialIcon
 
 @Composable
 internal fun Icon(
     modifier: Modifier = Modifier,
-    imageVector: ImageVector = defaultIcon,
+    imageVector: ImageVector? = null,
     tint: Color = LocalContentColor.current,
-    contentDescription: String = "Icon",
+    contentDescription: String? = null,
+    emptySize: Dp = 16.dp
 ) {
-    MaterialIcon(
+    if (imageVector != null) MaterialIcon(
         modifier = modifier,
         imageVector = imageVector,
         tint = tint,
         contentDescription = contentDescription
-    )
+    ) else Box(modifier = Modifier.padding(all = emptySize))
 }
-
-internal val defaultIcon = Icons.Default.Apps
 
 @Preview
 @Composable
 private fun IconPreview() = AppTheme {
-    Icon()
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        val colorScheme = LocalColorScheme.current
+        Icon(imageVector = Icons.Default.Apps, tint = colorScheme.primary)
+        Icon()
+        Icon(imageVector = Icons.Default.Apps)
+    }
 }

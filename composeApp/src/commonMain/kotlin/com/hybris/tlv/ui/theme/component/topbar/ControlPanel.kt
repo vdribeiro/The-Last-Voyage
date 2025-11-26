@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -20,6 +20,7 @@ import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.runtime.Composable
@@ -42,10 +43,7 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.alpha
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.button.Dropdown
-import com.hybris.tlv.ui.theme.component.button.DropdownItem
-import com.hybris.tlv.ui.theme.component.container.Surface
 import com.hybris.tlv.ui.theme.component.image.Icon
-import com.hybris.tlv.ui.theme.component.image.defaultIcon
 import com.hybris.tlv.ui.theme.component.text.Input
 import com.hybris.tlv.ui.theme.component.text.Text
 
@@ -57,12 +55,12 @@ internal fun ControlPanel(
     focusRequester: FocusRequester = FocusRequester.Default,
     search: String = "",
     onSearch: (String) -> Unit = {},
-    viewName: String = "",
-    viewIcon: ImageVector = defaultIcon,
+    viewName: String? = null,
+    viewIcon: ImageVector? = null,
     onChangeView: () -> Unit = {},
-    count: String = "0",
+    count: Int? = null,
     properties: List<String> = emptyList(),
-    selectedProperty: String = "",
+    selectedProperty: String? = null,
     ascending: Boolean = true,
     onSortChange: (String) -> Unit = {},
     onSortDirectionChange: () -> Unit = {},
@@ -83,81 +81,83 @@ internal fun ControlPanel(
             .collect { onSearch(it) }
     }
 
-    Surface(modifier = modifier.fillMaxWidth()) {
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Input(
-                    modifier = Modifier
-                        .weight(weight = 1f)
-                        .padding(horizontal = 8.dp),
-                    focusRequester = focusRequester,
-                    enabled = enabled,
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "Search"
-                        )
-                    },
-                    maxLines = 1,
-                    style = typography.bodyLarge
-                )
-                SearchMenu(
-                    enabled = enabled,
-                    properties = properties,
-                    selectedProperties = selectedProperties,
-                    onFiltersChange = onFiltersChange
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .alpha(alpha = alpha(enabled = enabled))
-                        .clip(shape = shapes.large)
-                        .clickable(
-                            enabled = enabled,
-                            onClick = {
-                                onChangeView()
-                                searchQuery = ""
-                            },
-                        )
-                        .padding(all = 8.dp)
-                ) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Input(
+                modifier = Modifier.weight(weight = 1f),
+                focusRequester = focusRequester,
+                enabled = enabled,
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                leadingIcon = {
                     Icon(
-                        imageVector = viewIcon,
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Search"
+                    )
+                },
+                maxLines = 1,
+                style = typography.bodyLarge
+            )
+            if (properties.isNotEmpty()) SearchMenu(
+                enabled = enabled,
+                properties = properties,
+                selectedProperties = selectedProperties,
+                onFiltersChange = onFiltersChange
+            )
+        }
+        if (viewIcon != null || viewName != null || count != null || properties.isNotEmpty()) Spacer(modifier = Modifier.height(height = 4.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .alpha(alpha = alpha(enabled = enabled))
+                    .clip(shape = shapes.large)
+                    .clickable(
+                        enabled = enabled,
+                        onClick = {
+                            onChangeView()
+                            searchQuery = ""
+                        },
+                    )
+            ) {
+                viewIcon?.let {
+                    Icon(
+                        imageVector = it,
                         contentDescription = "View"
                     )
-                    Spacer(modifier = Modifier.width(width = 8.dp))
+                }
+                if (viewIcon != null && viewName != null) Spacer(modifier = Modifier.width(width = 8.dp))
+                viewName?.let {
                     Text(
-                        text = viewName,
+                        text = it,
                         maxLines = 1,
                         style = typography.labelLarge
                     )
                 }
+            }
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                count?.toString()?.let {
                     Text(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .alpha(alpha = alpha(enabled = enabled)),
-                        text = count,
+                        modifier = Modifier.alpha(alpha = alpha(enabled = enabled)),
+                        text = it,
                         maxLines = 1,
                         style = typography.labelLarge
                     )
+                }
+                if (count != null && properties.isNotEmpty()) Spacer(modifier = Modifier.width(width = 8.dp))
+                if (properties.isNotEmpty()) {
                     SortMenu(
                         enabled = enabled,
                         properties = properties,
@@ -178,6 +178,13 @@ internal fun ControlPanel(
         }
     }
 }
+
+private data class DropdownItem(
+    val enabled: Boolean = true,
+    val text: String? = null,
+    val onClick: () -> Unit = {},
+    val leadingIcon: @Composable (() -> Unit)? = null,
+)
 
 @Composable
 private fun SearchMenu(
@@ -223,7 +230,7 @@ private fun SearchMenu(
 private fun SortMenu(
     enabled: Boolean,
     properties: List<String>,
-    selectedProperty: String,
+    selectedProperty: String?,
     ascending: Boolean,
     onSortChange: (String) -> Unit,
     onSortDirectionChange: () -> Unit
@@ -319,5 +326,36 @@ private fun VisibilityMenu(
 @Preview
 @Composable
 private fun ControlPanelPreview() = AppTheme {
-    ControlPanel()
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        ControlPanel(
+            enabled = true,
+            search = "Search",
+            viewName = "Planets",
+            viewIcon = Icons.Default.Public,
+            count = 2000,
+            properties = listOf("Name", "Status", "Habitability", "Confidence"),
+            selectedProperty = "Name",
+            ascending = true,
+            visibleProperties = listOf("Name", "Status"),
+            selectedProperties = listOf("Status")
+        )
+        ControlPanel(
+            enabled = false,
+            search = "Search",
+            viewName = "Planets",
+            viewIcon = Icons.Default.Public,
+            count = 2000,
+            properties = listOf("Name", "Status", "Habitability", "Confidence"),
+            ascending = true,
+        )
+        ControlPanel(
+            enabled = true,
+            search = "Search",
+            viewName = "Planets",
+            count = 2000,
+            ascending = false,
+        )
+        ControlPanel(viewIcon = Icons.Default.Public)
+        ControlPanel()
+    }
 }

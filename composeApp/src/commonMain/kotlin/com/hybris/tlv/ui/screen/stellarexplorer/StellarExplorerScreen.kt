@@ -1,7 +1,7 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
@@ -11,19 +11,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalTranslationState
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.PlanetList
 import com.hybris.tlv.ui.theme.component.list.StellarHostList
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.spectralTypeToImage
 import com.hybris.tlv.usecase.space.toImage
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
@@ -33,12 +35,13 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     val listState = storeState.listState
     val visibleStellarHostProperties = storeState.visibleStellarHostProperties
     val visiblePlanetProperties = storeState.visiblePlanetProperties
-    val stellarHostProperties = remember { StellarHostProperty.entries.associateWith { getTranslation(key = it.displayName) } }
-    val planetProperties = remember { PlanetProperty.entries.associateWith { getTranslation(key = it.displayName) } }
 
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val hostListTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_explorer_screen__host_list") }
-    val planetListTranslation = remember(key1 = translationVersion) { getTranslation(key = "stellar_explorer_screen__planet_list") }
+    val state = LocalTranslationState.current
+    val stellarHostProperties = remember(key1 = state) { StellarHostProperty.entries.associateWith { TranslationCache.get(key = it.displayName) } }
+    val planetProperties = remember(key1 = state) { PlanetProperty.entries.associateWith { TranslationCache.get(key = it.displayName) } }
+
+    val hostListTranslation = getTranslation(key = "stellar_explorer_screen__host_list")
+    val planetListTranslation = getTranslation(key = "stellar_explorer_screen__planet_list")
 
     Screen(
         loading = storeState.loading,
@@ -51,7 +54,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             val isHostView = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS)
             val viewName = if (isHostView) hostListTranslation else planetListTranslation
             val viewIcon = if (isHostView) Icons.Default.Flare else Icons.Default.Public
-            val count = if (isHostView) storeState.filteredStellarHosts.size.toString() else storeState.filteredPlanets.size.toString()
+            val count = if (isHostView) storeState.filteredStellarHosts.size else storeState.filteredPlanets.size
             val properties: List<String>
             val selectedProperty: String
             val onSortChange: (String) -> Unit
@@ -81,7 +84,11 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 }
             }
             ControlPanel(
-                modifier = Modifier.statusBarsPadding(),
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 8.dp
+                ),
                 enabled = currentContent in listOf(Content.LIST_HOSTS, Content.LIST_PLANETS),
                 search = storeState.search,
                 onSearch = { store.send(action = StellarExplorerAction.Search(search = it)) },

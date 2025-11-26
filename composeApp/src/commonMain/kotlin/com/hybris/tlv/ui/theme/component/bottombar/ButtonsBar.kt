@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
@@ -19,15 +20,15 @@ import com.hybris.tlv.ui.theme.component.list.LazyColumn
 @Composable
 internal fun ButtonsBar(
     modifier: Modifier = Modifier,
-    buttons: List<Pair<String, (() -> Unit)?>> = emptyList(),
+    buttons: List<BottomButton> = emptyList(),
 ) {
     LazyColumn(
-        modifier = modifier.padding(top = 16.dp),
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         scrollBar = false
     ) {
-        items(items = buttons, key = { it.first }) {
+        items(items = buttons, key = { it.id }) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -36,9 +37,9 @@ internal fun ButtonsBar(
             ) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    enabled = it.second != null,
-                    text = it.first,
-                    onClick = it.second ?: {},
+                    enabled = it.enabled,
+                    text = it.text,
+                    onClick = { it.onClick() },
                 )
             }
         }
@@ -51,9 +52,16 @@ internal fun ButtonsBar(
 private fun ButtonsBarPreview() = AppTheme {
     ButtonsBar(
         buttons = listOf(
-            "Button 1" to {},
-            "Button 2" to {},
-            "Button 3" to {},
-        )
+            BottomButton(text = "Button 1"),
+            BottomButton(enabled = false, text = "Button 2"),
+            BottomButton(),
+        ),
     )
 }
+
+internal data class BottomButton(
+    val id: String = generateUuid(),
+    val enabled: Boolean = true,
+    val text: String? = null,
+    val onClick: () -> Unit = {}
+)

@@ -1,21 +1,32 @@
 package com.hybris.tlv.ui.theme.component.button
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.container.Scaffold
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
-internal fun Dropdown(
+internal inline fun <T> Dropdown(
     modifier: Modifier = Modifier,
     expanded: Boolean = false,
-    onDismissRequest: () -> Unit = {},
-    items: List<DropdownItem> = emptyList()
+    noinline onDismissRequest: () -> Unit = {},
+    items: List<T> = emptyList(),
+    crossinline enabled: (T) -> Boolean = { true },
+    crossinline text: (T) -> String? = { null },
+    crossinline onClick: (T) -> Unit = {},
+    crossinline leadingIcon: (T) -> @Composable (() -> Unit) = { { Icon(emptySize = 8.dp) } }
 ) {
     val typography = LocalTypography.current
 
@@ -26,36 +37,49 @@ internal fun Dropdown(
     ) {
         items.forEach { item ->
             DropdownMenuItem(
-                enabled = item.enabled,
+                enabled = enabled(item),
                 text = {
                     Text(
-                        text = item.text,
+                        text = text(item),
                         maxLines = 1,
                         style = typography.labelLarge
                     )
                 },
-                onClick = item.onClick,
-                leadingIcon = item.leadingIcon
+                onClick = { onClick(item) },
+                leadingIcon = leadingIcon(item)
             )
         }
     }
 }
 
-internal data class DropdownItem(
-    val enabled: Boolean = true,
-    val text: String = "",
-    val onClick: () -> Unit = {},
-    val leadingIcon: @Composable (() -> Unit)? = null,
-)
-
 @Preview
 @Composable
 private fun DropdownPreview() = AppTheme {
-    Dropdown(
-        expanded = true,
-        items = listOf(
-            DropdownItem(text = "Item 1"),
-            DropdownItem(text = "Item 2", leadingIcon = { Icon() }),
-        )
+    Scaffold(
+        content = { innerPadding ->
+            Box(
+                modifier = Modifier.padding(paddingValues = innerPadding),
+                contentAlignment = Alignment.TopStart
+            ) {
+                Dropdown(
+                    expanded = true,
+                    items = listOf(
+                        "Item 1",
+                        "Item 2",
+                        "Item 3",
+                        "Item 4",
+                    ),
+                    enabled = { it != "Item 2" },
+                    text = { it },
+                    leadingIcon = {
+                        if (it == "Item 1" || it == "Item 2") {
+                            { Icon(imageVector = Icons.Default.Apps) }
+                        } else {
+                            { Icon(emptySize = 8.dp) }
+                        }
+                    }
+                )
+            }
+        }
     )
 }

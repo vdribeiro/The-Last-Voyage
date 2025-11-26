@@ -17,8 +17,8 @@ import com.hybris.tlv.ui.theme.LocalTypography
 @Composable
 internal fun TitleDescription(
     modifier: Modifier = Modifier,
-    title: String = "",
-    description: String = "",
+    title: String? = null,
+    description: String? = null,
 ) {
     val typography = LocalTypography.current
     Column(
@@ -26,23 +26,27 @@ internal fun TitleDescription(
             .fillMaxSize()
             .padding(all = 32.dp),
     ) {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(all = 8.dp),
-            style = typography.titleLarge,
-            text = title,
-            textAlign = TextAlign.Center,
-        )
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(state = rememberScrollState())
-                .padding(all = 8.dp),
-            style = typography.bodyLarge,
-            text = description,
-            textAlign = TextAlign.Start,
-        )
+        title?.let {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(all = 8.dp),
+                style = typography.titleLarge,
+                text = it,
+                textAlign = TextAlign.Center,
+            )
+        }
+        description?.let {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(state = rememberScrollState())
+                    .padding(all = 8.dp),
+                style = typography.bodyLarge,
+                text = it,
+                textAlign = TextAlign.Start,
+            )
+        }
     }
 }
 
@@ -53,4 +57,22 @@ private fun TitleDescriptionPreview() = AppTheme {
         title = "Title",
         description = "Description"
     )
+}
+
+@Preview
+@Composable
+private fun TitleDescriptionTitleOnlyPreview() = AppTheme {
+    TitleDescription(title = "Title")
+}
+
+@Preview
+@Composable
+private fun TitleDescriptionDescriptionOnlyPreview() = AppTheme {
+    TitleDescription(description = "Description")
+}
+
+@Preview
+@Composable
+private fun TitleDescriptionEmptyPreview() = AppTheme {
+    TitleDescription()
 }

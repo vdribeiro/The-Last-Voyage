@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme.component.image
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
@@ -26,7 +27,7 @@ internal fun AppLogo(
     showBackground: Boolean = false,
     progress: Float? = null,
     showProgress: Boolean = progress != null,
-    text: String = "",
+    text: String? = null,
 ) {
     val typography = LocalTypography.current
 
@@ -76,10 +77,18 @@ internal fun AppLogo(
 @Preview
 @Composable
 private fun AppLogoPreview() = AppTheme {
-    AppLogo(
-        showBackground = true,
-        showProgress = true,
-        progress = 0.5f,
-        text = "Loading"
-    )
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        AppLogo(
+            showBackground = true,
+            progress = 0.5f,
+            showProgress = true,
+            text = "Loading"
+        )
+        AppLogo(
+            showBackground = false,
+            progress = null,
+            showProgress = true,
+        )
+        AppLogo()
+    }
 }

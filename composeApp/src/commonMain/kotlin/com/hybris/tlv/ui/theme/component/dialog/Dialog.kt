@@ -9,20 +9,24 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.text.Text
-import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.ui.theme.getTranslation
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun Dialog(
     modifier: Modifier = Modifier,
-    title: String = "",
-    confirmText: String = getTranslation(key = "app_yes"),
-    dismissText: String = getTranslation(key = "app_no"),
+    title: String? = null,
+    confirmText: String? = null,
+    dismissText: String? = null,
     onConfirm: () -> Unit = {},
     onDismiss: () -> Unit = {},
     onDismissRequest: () -> Unit = {},
 ) {
     val typography = LocalTypography.current
 
+    val confirmText: String = confirmText ?: getTranslation(key = "app_yes")
+    val dismissText: String = dismissText ?: getTranslation(key = "app_no")
     AlertDialog(
         modifier = modifier,
         title = {
@@ -41,5 +45,17 @@ internal fun Dialog(
 @Preview
 @Composable
 private fun DialogPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "app_yes",
+                value = "Yes"
+            ),
+            Translation(
+                key = "app_no",
+                value = "No"
+            )
+        )
+    )
     Dialog(title = "Title")
 }

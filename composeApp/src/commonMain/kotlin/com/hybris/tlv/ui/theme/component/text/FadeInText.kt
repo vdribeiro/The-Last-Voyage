@@ -4,6 +4,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -23,7 +25,7 @@ import com.hybris.tlv.ui.theme.LocalTypography
 @Composable
 internal fun FadeInText(
     modifier: Modifier = Modifier,
-    text: String = ""
+    text: String? = null
 ) {
     val typography = LocalTypography.current
 
@@ -48,5 +50,8 @@ internal fun FadeInText(
 @Preview
 @Composable
 private fun FadeInTextPreview() = AppTheme {
-    FadeInText(text = "Fading Text")
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        FadeInText(text = "Fade Text")
+        FadeInText()
+    }
 }

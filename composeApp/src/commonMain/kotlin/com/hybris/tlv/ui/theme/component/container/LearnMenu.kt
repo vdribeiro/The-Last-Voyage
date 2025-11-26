@@ -6,9 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -16,8 +13,9 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun LearnMenu(
@@ -28,13 +26,12 @@ internal fun LearnMenu(
     onHabitabilityClick: () -> Unit = {},
     onMechanicsClick: () -> Unit = {}
 ) {
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val helpTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__learn") }
-    val navigationTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__navigation") }
-    val hostDefinitionTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__host_definition") }
-    val planetDefinitionTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__planet_definition") }
-    val habitabilityTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__habitability") }
-    val mechanicsTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__mechanics") }
+    val helpTranslation = getTranslation(key = "main_menu_screen__learn")
+    val navigationTranslation = getTranslation(key = "main_menu_screen__navigation")
+    val hostDefinitionTranslation = getTranslation(key = "main_menu_screen__host_definition")
+    val planetDefinitionTranslation = getTranslation(key = "main_menu_screen__planet_definition")
+    val habitabilityTranslation = getTranslation(key = "main_menu_screen__habitability")
+    val mechanicsTranslation = getTranslation(key = "main_menu_screen__mechanics")
 
     val typography = LocalTypography.current
 
@@ -100,5 +97,33 @@ internal fun LearnMenu(
 @Preview
 @Composable
 private fun LearnMenuPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "main_menu_screen__learn",
+                value = "Learn"
+            ),
+            Translation(
+                key = "main_menu_screen__navigation",
+                value = "Navigation"
+            ),
+            Translation(
+                key = "main_menu_screen__host_definition",
+                value = "Host Definition"
+            ),
+            Translation(
+                key = "main_menu_screen__planet_definition",
+                value = "Planet Definition"
+            ),
+            Translation(
+                key = "main_menu_screen__habitability",
+                value = "Habitability"
+            ),
+            Translation(
+                key = "main_menu_screen__mechanics",
+                value = "Tutorial"
+            ),
+        )
+    )
     LearnMenu()
 }

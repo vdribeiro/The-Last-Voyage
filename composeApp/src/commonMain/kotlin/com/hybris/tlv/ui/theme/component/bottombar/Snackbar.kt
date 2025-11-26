@@ -8,18 +8,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.container.Scaffold
 
 @Composable
 internal fun Snackbar(
     modifier: Modifier = Modifier,
-    message: String = "",
+    message: String? = null,
     buttonText: String? = null,
     onDismiss: () -> Unit = {},
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(key1 = message) {
         snackbarHostState.showSnackbar(
-            message = message,
+            message = message.orEmpty(),
             actionLabel = buttonText,
         )
         onDismiss()
@@ -33,5 +34,24 @@ internal fun Snackbar(
 @Preview
 @Composable
 private fun SnackbarPreview() = AppTheme {
-    Snackbar(message = "Snackbar")
+    Scaffold(
+        snackbarHost = {
+            Snackbar(
+                message = "Snackbar"
+            )
+        }
+    )
+}
+
+@Preview
+@Composable
+private fun SnackbarWithButtonPreview() = AppTheme {
+    Scaffold(
+        snackbarHost = {
+            Snackbar(
+                message = "Snackbar",
+                buttonText = "Action"
+            )
+        }
+    )
 }

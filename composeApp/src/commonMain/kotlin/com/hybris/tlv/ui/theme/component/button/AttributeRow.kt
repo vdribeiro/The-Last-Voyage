@@ -27,13 +27,12 @@ import com.hybris.tlv.ui.theme.component.text.Text
 @Composable
 internal fun AttributeRow(
     modifier: Modifier = Modifier,
-    name: String = "",
+    name: String? = null,
     canIncrement: Boolean = true,
-    attributePoint: AttributePoint = AttributePoint()
+    attributePoint: AttributePoint? = null
 ) {
     val typography = LocalTypography.current
 
-    val value = attributePoint.value
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
@@ -46,38 +45,39 @@ internal fun AttributeRow(
             textAlign = TextAlign.Center,
             maxLines = 1
         )
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Button(enabled = value > attributePoint.min, onClick = { attributePoint.decrement() }) {
-                Icon(
-                    modifier = Modifier.size(size = 36.dp),
-                    imageVector = Icons.Default.RemoveCircle,
-                    contentDescription = "-$name",
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .size(size = 80.dp),
-                contentAlignment = Alignment.Center
+        attributePoint?.value?.let {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = "$value",
-                    style = typography.bodyLarge,
-                    textAlign = TextAlign.Center,
-                    maxLines = 1
-                )
-            }
+                Button(enabled = it > attributePoint.min, onClick = { attributePoint.decrement() }) {
+                    Icon(
+                        modifier = Modifier.size(size = 36.dp),
+                        imageVector = Icons.Default.RemoveCircle,
+                        contentDescription = "-$name",
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .size(size = 80.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = it.toString(),
+                        style = typography.bodyLarge,
+                        textAlign = TextAlign.Center,
+                        maxLines = 1
+                    )
+                }
 
-            Button(enabled = canIncrement && value < attributePoint.max, onClick = { attributePoint.increment() }) {
-                Icon(
-                    modifier = Modifier.size(size = 36.dp),
-                    imageVector = Icons.Default.AddCircle,
-                    contentDescription = "+$name",
-                )
+                Button(enabled = canIncrement && it < attributePoint.max, onClick = { attributePoint.increment() }) {
+                    Icon(
+                        modifier = Modifier.size(size = 36.dp),
+                        imageVector = Icons.Default.AddCircle,
+                        contentDescription = "+$name",
+                    )
+                }
             }
         }
     }
@@ -117,14 +117,45 @@ internal data class AttributePoint(
 @Preview
 @Composable
 private fun AttributeRowPreview() = AppTheme {
-    AttributeRow(
-        name = "Power",
-        canIncrement = true,
-        attributePoint = AttributePoint(
-            max = 10000,
-            min = 0,
-            interval = 100,
-            initialValue = 9000
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        AttributeRow(
+            name = "Power",
+            canIncrement = true,
+            attributePoint = AttributePoint(
+                max = 10000,
+                min = 0,
+                interval = 100,
+                initialValue = 9000
+            )
         )
-    )
+        AttributeRow(
+            canIncrement = false,
+            attributePoint = AttributePoint(
+                max = 10000,
+                min = 0,
+                interval = 100,
+                initialValue = 1000
+            )
+        )
+        AttributeRow(
+            canIncrement = true,
+            attributePoint = AttributePoint(
+                max = 10000,
+                min = 0,
+                interval = 100,
+                initialValue = 0
+            )
+        )
+        AttributeRow(
+            name = "Power",
+            canIncrement = false,
+            attributePoint = AttributePoint(
+                max = 10000,
+                min = 0,
+                interval = 100,
+                initialValue = 0
+            )
+        )
+        AttributeRow(name = "Power")
+    }
 }

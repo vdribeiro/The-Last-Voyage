@@ -13,6 +13,9 @@ import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.image.ImageResource
+import com.hybris.tlv.usecase.space.spectralTypeToImage
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal inline fun <T> TravelList(
@@ -49,6 +52,22 @@ internal inline fun <T> TravelList(
 @Preview
 @Composable
 private fun TravelListPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "stellar_host_planet_count",
+                value = "Planet Count"
+            ),
+            Translation(
+                key = "stellar_host_type",
+                value = "Host"
+            ),
+            Translation(
+                key = "stellar_host_distance",
+                value = "Distance"
+            )
+        )
+    )
     TravelList(
         stellarHosts = listOf(
             "Host 1",
@@ -58,7 +77,7 @@ private fun TravelListPreview() = AppTheme {
         name = { it },
         planetCount = { 2 },
         spectralType = { "A" },
-        spectralImage = { ImageResource(path = "G.jpg") },
+        spectralImage = { "A".spectralTypeToImage() },
         distance = { 10.0 },
     )
 }
