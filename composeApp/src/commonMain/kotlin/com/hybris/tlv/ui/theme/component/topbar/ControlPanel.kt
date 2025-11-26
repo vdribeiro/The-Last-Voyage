@@ -81,16 +81,14 @@ internal fun ControlPanel(
             .collect { onSearch(it) }
     }
 
-    Column {
+    Column(modifier = modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Input(
-                modifier = Modifier
-                    .weight(weight = 1f)
-                    .padding(horizontal = 8.dp),
+                modifier = Modifier.weight(weight = 1f),
                 focusRequester = focusRequester,
                 enabled = enabled,
                 value = searchQuery,
@@ -128,7 +126,6 @@ internal fun ControlPanel(
                             searchQuery = ""
                         },
                     )
-                    .padding(all = 8.dp)
             ) {
                 viewIcon?.let {
                     Icon(
@@ -149,9 +146,7 @@ internal fun ControlPanel(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 count?.toString()?.let {
                     Text(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .alpha(alpha = alpha(enabled = enabled)),
+                        modifier = Modifier.alpha(alpha = alpha(enabled = enabled)),
                         text = it,
                         maxLines = 1,
                         style = typography.labelLarge

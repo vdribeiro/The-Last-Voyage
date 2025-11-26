@@ -23,7 +23,7 @@ internal fun ButtonsBar(
     buttons: List<BottomButton> = emptyList(),
 ) {
     LazyColumn(
-        modifier = modifier.padding(top = 16.dp),
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         scrollBar = false

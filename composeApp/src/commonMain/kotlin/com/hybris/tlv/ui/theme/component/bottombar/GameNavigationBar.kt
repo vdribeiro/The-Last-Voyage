@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme.component.bottombar
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Rocket
@@ -31,7 +32,7 @@ internal fun GameNavigationBar(
     val shipTranslation = getTranslation(key = "game_screen__ship")
 
     NavigationBar(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         items = listOf(
             GameNavigationItem(
                 enabled = shipEnabled,

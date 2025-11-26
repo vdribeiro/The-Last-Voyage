@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
@@ -9,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTranslationState
@@ -81,6 +84,11 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 }
             }
             ControlPanel(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 8.dp
+                ),
                 enabled = currentContent in listOf(Content.LIST_HOSTS, Content.LIST_PLANETS),
                 search = storeState.search,
                 onSearch = { store.send(action = StellarExplorerAction.Search(search = it)) },

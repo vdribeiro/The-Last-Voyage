@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme.component.bottombar
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material3.NavigationBar
@@ -27,7 +28,7 @@ internal inline fun <T> NavigationBar(
 ) {
     val typography = LocalTypography.current
 
-    NavigationBar(modifier = modifier) {
+    NavigationBar(modifier = modifier.fillMaxWidth()) {
         items.forEach { item ->
             val text = text(item)
             val icon = icon(item)

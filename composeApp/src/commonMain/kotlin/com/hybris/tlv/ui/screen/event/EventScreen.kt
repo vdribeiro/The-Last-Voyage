@@ -1,9 +1,12 @@
 package com.hybris.tlv.ui.screen.event
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
@@ -33,6 +36,11 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 8.dp
+                ),
                 hull = ship?.integrity?.toString(),
                 fuel = ship?.fuel?.toString(),
                 materials = ship?.materials?.toString(),

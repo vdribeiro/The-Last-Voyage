@@ -42,9 +42,7 @@ internal fun MainBar(
     val typography = LocalTypography.current
 
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 32.dp),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

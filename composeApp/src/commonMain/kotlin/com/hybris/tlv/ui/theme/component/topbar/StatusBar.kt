@@ -39,32 +39,28 @@ internal fun StatusBar(
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         StatusBarItem(
-            modifier = Modifier.weight(weight = 1f),
             enabled = hullEnabled,
             icon = Icons.Outlined.Shield,
             value = hull,
             contentDescription = "Hull Integrity"
         )
         StatusBarItem(
-            modifier = Modifier.weight(weight = 1f),
             enabled = fuelEnabled,
             icon = Icons.Outlined.LocalGasStation,
             value = fuel,
             contentDescription = "Fuel"
         )
         StatusBarItem(
-            modifier = Modifier.weight(weight = 1f),
             enabled = materialsEnabled,
             icon = Icons.Outlined.Construction,
             value = materials,
             contentDescription = "Materials"
         )
         StatusBarItem(
-            modifier = Modifier.weight(weight = 1f),
             enabled = cryopodsEnabled,
             icon = Icons.Outlined.BedroomParent,
             value = cryopods,
@@ -75,7 +71,6 @@ internal fun StatusBar(
 
 @Composable
 private fun StatusBarItem(
-    modifier: Modifier,
     enabled: Boolean,
     icon: ImageVector,
     value: String?,
@@ -85,7 +80,7 @@ private fun StatusBarItem(
     val colorScheme = LocalColorScheme.current
 
     Row(
-        modifier = modifier.alpha(alpha = alpha(enabled = enabled)),
+        modifier = Modifier.alpha(alpha = alpha(enabled = enabled)),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(space = 4.dp)
     ) {

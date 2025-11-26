@@ -1,9 +1,12 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.MainBar
@@ -28,6 +31,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
         onFeedbackClick = { store.feedback() },
         bottomBar = {
             MainBar(
+                modifier = Modifier.padding(horizontal = 16.dp),
                 onCreditsClick = { store.send(action = MainMenuAction.Credits) },
                 developerCornerUri = storeState.developerCorner,
                 supportUri = storeState.support
@@ -58,6 +62,10 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
 private fun MainMenuScreenLoadingPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
+            Translation(
+                key = "website",
+                value = "Website"
+            ),
             Translation(
                 key = "main_menu_screen__credits",
                 value = "Credits"
@@ -97,6 +105,14 @@ private fun MainMenuScreenAllPreview() = AppTheme {
             Translation(
                 key = "main_menu_screen__scores",
                 value = "Scores"
+            ),
+            Translation(
+                key = "main_menu_screen__achievements",
+                value = "Achievements"
+            ),
+            Translation(
+                key = "website",
+                value = "Website"
             ),
             Translation(
                 key = "main_menu_screen__credits",
@@ -141,6 +157,14 @@ private fun MainMenuScreenContinuePreview() = AppTheme {
             Translation(
                 key = "main_menu_screen__scores",
                 value = "Scores"
+            ),
+            Translation(
+                key = "main_menu_screen__achievements",
+                value = "Achievements"
+            ),
+            Translation(
+                key = "website",
+                value = "Website"
             ),
             Translation(
                 key = "main_menu_screen__credits",

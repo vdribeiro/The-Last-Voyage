@@ -40,6 +40,7 @@ internal fun TopBar(
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
     ) {
         onBackClick?.let {
             Button(onClick = it) {
