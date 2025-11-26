@@ -17,12 +17,12 @@ internal fun Snackbar(
     modifier: Modifier = Modifier,
     message: String? = null,
     buttonText: String? = null,
-    duration: Long = if (buttonText != null) Long.MAX_VALUE else 3000L,
+    durationMillis: Long = if (buttonText != null) Long.MAX_VALUE else 3000L,
     onDismiss: () -> Unit = {},
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(key1 = message) {
-        withTimeoutOrNull(timeMillis = duration) {
+        withTimeoutOrNull(timeMillis = durationMillis) {
             snackbarHostState.showSnackbar(
                 message = message.orEmpty(),
                 actionLabel = buttonText,

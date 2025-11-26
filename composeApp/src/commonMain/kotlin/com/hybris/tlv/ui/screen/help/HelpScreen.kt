@@ -63,7 +63,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 )
                 Snackbar(
                     message = message,
-                    duration = 5000L,
+                    durationMillis = 5000L,
                     onDismiss = { store.send(action = HelpAction.VersionClick(reset = true)) }
                 )
             }
