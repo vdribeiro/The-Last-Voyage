@@ -98,7 +98,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
 
 @Preview
 @Composable
-private fun TutorialScreenGoalPreview() {
+private fun TutorialScreenGoalPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
@@ -111,15 +111,13 @@ private fun TutorialScreenGoalPreview() {
             ),
         )
     )
-    AppTheme {
-        TutorialScreen(
-            store = Store(
-                initialState = TutorialState(
-                    tutorialStep = Tutorial.GOAL,
-                )
+    TutorialScreen(
+        store = Store(
+            initialState = TutorialState(
+                tutorialStep = Tutorial.GOAL,
             )
         )
-    }
+    )
 }
 
 @Preview
