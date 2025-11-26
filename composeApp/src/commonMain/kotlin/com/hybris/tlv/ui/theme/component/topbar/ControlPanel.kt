@@ -218,7 +218,11 @@ private fun SearchMenu(
                         } else Spacer(modifier = Modifier.size(size = 24.dp))
                     }
                 )
-            }
+            },
+            enabled = { it.enabled },
+            text = { it.text },
+            onClick = { it.onClick() },
+            leadingIcon = { it.leadingIcon }
         )
     }
 }
@@ -275,7 +279,11 @@ private fun SortMenu(
                         }
                     }
                 )
-            }
+            },
+            enabled = { it.enabled },
+            text = { it.text },
+            onClick = { it.onClick() },
+            leadingIcon = { it.leadingIcon }
         )
     }
 }
@@ -315,7 +323,11 @@ private fun VisibilityMenu(
                         } else Spacer(modifier = Modifier.size(size = 24.dp))
                     }
                 )
-            }
+            },
+            enabled = { it.enabled },
+            text = { it.text },
+            onClick = { it.onClick() },
+            leadingIcon = { it.leadingIcon }
         )
     }
 }
