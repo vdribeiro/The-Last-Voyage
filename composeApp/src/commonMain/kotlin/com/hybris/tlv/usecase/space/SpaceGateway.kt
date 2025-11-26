@@ -108,7 +108,7 @@ internal class SpaceGateway(
         val nearest = mutableListOf<Pair<StellarHost, Double>>()
         getExoplanets()
             .asSequence()
-            .filter { it.id != stellarHost.id && it.id !in visited }
+            .filter { it.id != stellarHost.id && it.id !in visited && it.planets.isNotEmpty() }
             .forEach { otherStellarHost ->
                 val otherStellarHostCP = otherStellarHost.toCartesian() ?: return@forEach
                 val distanceSquared = stellarHostCP.distanceSquaredBetween(cp = otherStellarHostCP)
