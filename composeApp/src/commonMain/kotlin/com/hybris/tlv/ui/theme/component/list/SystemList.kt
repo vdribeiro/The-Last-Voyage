@@ -21,6 +21,11 @@ import com.hybris.tlv.ui.theme.component.dialog.Dialog
 import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.getTranslation
+import com.hybris.tlv.usecase.space.model.PlanetType
+import com.hybris.tlv.usecase.space.spectralTypeToImage
+import com.hybris.tlv.usecase.space.toImage
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal inline fun <T> SystemList(
@@ -93,14 +98,44 @@ internal inline fun <T> SystemList(
 @Preview
 @Composable
 private fun SystemListPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "planet_habitability",
+                value = "Habitability"
+            ),
+            Translation(
+                key = "planet_radius",
+                value = "Radius"
+            ),
+            Translation(
+                key = "planet_mass",
+                value = "Mass"
+            ),
+            Translation(
+                key = "stellar_host_type",
+                value = "Host"
+            ),
+            Translation(
+                key = "stellar_host_temperature",
+                value = "Temperature"
+            )
+        )
+    )
     SystemList(
         stellarHostName = "Host",
+        stellarHostSpectralType = "G",
+        stellarHostSpectralImage = "G".spectralTypeToImage(),
+        stellarHostEffectiveTemperature = 4321.0,
         planets = listOf(
             "Planet 1",
             "Planet 2",
             "Planet 3",
         ),
         planetName = { it },
-        planetImage = { ImageResource(path = "terrestrial_planet.jpg") },
+        planetImage = { PlanetType.EARTH_ANALOG_PLANET.toImage() },
+        planetHabitability = { 0.9 },
+        planetRadius = { 1.0 },
+        planetMass = { 1.0 },
     )
 }

@@ -10,6 +10,8 @@ import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.CreditList
 import com.hybris.tlv.usecase.credit.model.Credit
 import com.hybris.tlv.usecase.credit.model.CreditType
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun CreditScreen(store: Store<CreditState, Unit>) {
@@ -54,6 +56,26 @@ private fun CreditScreenLoadingPreview() = AppTheme {
 @Preview
 @Composable
 private fun CreditScreenPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "credit_screen__creators",
+                value = "Creators"
+            ),
+            Translation(
+                key = "credit_screen__sources",
+                value = "Sources"
+            ),
+            Translation(
+                key = "credit_screen__music",
+                value = "Music"
+            ),
+            Translation(
+                key = "credit_screen__supporters",
+                value = "Supporters"
+            )
+        )
+    )
     CreditScreen(
         store = Store(
             initialState = CreditState(

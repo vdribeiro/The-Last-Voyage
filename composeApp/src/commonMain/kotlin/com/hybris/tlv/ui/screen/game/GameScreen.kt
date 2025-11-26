@@ -159,6 +159,34 @@ private fun GameScreenShipPreview() = AppTheme {
                 key = "game_screen__travel",
                 value = "Travel"
             ),
+            Translation(
+                key = "ship_years_traveled",
+                value = "Years Travelled"
+            ),
+            Translation(
+                key = "ship_speed",
+                value = "Speed"
+            ),
+            Translation(
+                key = "ship_integrity",
+                value = "Integrity"
+            ),
+            Translation(
+                key = "ship_sensor",
+                value = "Sensor Range"
+            ),
+            Translation(
+                key = "ship_fuel",
+                value = "Fuel"
+            ),
+            Translation(
+                key = "ship_materials",
+                value = "Materials"
+            ),
+            Translation(
+                key = "ship_cryopods",
+                value = "Cryopods"
+            ),
         )
     )
     GameScreen(
@@ -207,6 +235,42 @@ private fun GameScreenSystemPreview() = AppTheme {
                 key = "game_screen__travel",
                 value = "Travel"
             ),
+            Translation(
+                key = "planet_radius",
+                value = "Radius"
+            ),
+            Translation(
+                key = "planet_mass",
+                value = "Mass"
+            ),
+            Translation(
+                key = "planet_density",
+                value = "Density"
+            ),
+            Translation(
+                key = "planet_temperature",
+                value = "Temperature"
+            ),
+            Translation(
+                key = "stellar_host_type",
+                value = "Host"
+            ),
+            Translation(
+                key = "stellar_host_temperature",
+                value = "Temperature"
+            ),
+            Translation(
+                key = "stellar_host_radius",
+                value = "Radius"
+            ),
+            Translation(
+                key = "stellar_host_mass",
+                value = "Mass"
+            ),
+            Translation(
+                key = "stellar_host_age",
+                value = "Age"
+            )
         )
     )
     GameScreen(
@@ -293,6 +357,18 @@ private fun GameScreenTravelPreview() = AppTheme {
                 key = "game_screen__travel",
                 value = "Travel"
             ),
+            Translation(
+                key = "stellar_host_planet_count",
+                value = "Planet Count"
+            ),
+            Translation(
+                key = "stellar_host_type",
+                value = "Host"
+            ),
+            Translation(
+                key = "stellar_host_distance",
+                value = "Distance"
+            )
         )
     )
     GameScreen(

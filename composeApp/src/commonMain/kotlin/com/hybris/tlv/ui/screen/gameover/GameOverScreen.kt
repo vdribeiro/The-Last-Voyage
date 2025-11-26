@@ -4,6 +4,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
@@ -40,6 +41,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         bottomBar = {
+            if (storeState.loading) return@Screen
             val text = when (storeState.currentContent) {
                 Content.MESSAGE -> messageTranslation
                 Content.SCORE -> scoreTranslation
@@ -147,6 +149,46 @@ private fun GameOverScreenScorePreview() = AppTheme {
                 key = "game_over_screen__end",
                 value = "End"
             ),
+            Translation(
+                key = "settled_planet",
+                value = "Planet"
+            ),
+            Translation(
+                key = "final_habitability",
+                value = "Habitability"
+            ),
+            Translation(
+                key = "engine",
+                value = "Engine"
+            ),
+            Translation(
+                key = "points",
+                value = "Points"
+            ),
+            Translation(
+                key = "ship_years_traveled",
+                value = "Years"
+            ),
+            Translation(
+                key = "ship_sensor",
+                value = "Sensor Range"
+            ),
+            Translation(
+                key = "ship_integrity",
+                value = "Integrity"
+            ),
+            Translation(
+                key = "ship_materials",
+                value = "Materials"
+            ),
+            Translation(
+                key = "ship_fuel",
+                value = "Fuel"
+            ),
+            Translation(
+                key = "ship_cryopods",
+                value = "Cryopods"
+            ),
         )
     )
     GameOverScreen(
@@ -156,7 +198,7 @@ private fun GameOverScreenScorePreview() = AppTheme {
                 currentContent = Content.SCORE,
                 gameSession = GameSession(
                     id = "2",
-                    utc = now(),
+                    utc = getLocalDateTime(),
                     ship = Ship(
                         id = "1",
                         engine = Engine(

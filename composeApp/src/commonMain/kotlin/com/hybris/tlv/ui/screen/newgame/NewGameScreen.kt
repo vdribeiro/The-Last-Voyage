@@ -16,6 +16,8 @@ import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
@@ -31,6 +33,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
         bottomBar = {
+            if (storeState.loading) return@Screen
             ButtonsBar(
                 buttons = when (storeState.currentContent) {
                     Content.SHIP -> {
@@ -97,6 +100,14 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
 @Preview
 @Composable
 private fun NewGameScreenLoadingPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "new_game_screen__continue",
+                value = "Continue"
+            ),
+        )
+    )
     NewGameScreen(
         store = Store(
             initialState = NewGameState(
@@ -112,6 +123,42 @@ private fun NewGameScreenLoadingPreview() = AppTheme {
 @Preview
 @Composable
 private fun NewGameScreenShipPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "new_game_screen__ship_points",
+                value = "Points"
+            ),
+            Translation(
+                key = "ship_sensor",
+                value = "Sensor Range"
+            ),
+            Translation(
+                key = "ship_fuel",
+                value = "Fuel"
+            ),
+            Translation(
+                key = "ship_materials",
+                value = "Materials"
+            ),
+            Translation(
+                key = "ship_cryopods",
+                value = "Cryopods"
+            ),
+            Translation(
+                key = "new_game_screen__engine_select",
+                value = "Engine"
+            ),
+            Translation(
+                key = "new_game_screen__engine_speed",
+                value = "Speed"
+            ),
+            Translation(
+                key = "new_game_screen__engine_fuel",
+                value = "Fuel"
+            ),
+        )
+    )
     NewGameScreen(
         store = Store(
             initialState = NewGameState(
@@ -140,6 +187,14 @@ private fun NewGameScreenShipPreview() = AppTheme {
 @Preview
 @Composable
 private fun NewGameScreenStartPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "new_game_screen__start",
+                value = "Start"
+            ),
+        )
+    )
     NewGameScreen(
         store = Store(
             initialState = NewGameState(

@@ -4,6 +4,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
@@ -13,6 +14,8 @@ import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.space.model.Formula
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
@@ -60,6 +63,14 @@ private fun ScoreScreenLoadingPreview() = AppTheme {
 @Preview
 @Composable
 private fun ScoreScreenPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "score_screen__title",
+                value = "Score"
+            )
+        )
+    )
     ScoreScreen(
         store = Store(
             initialState = ScoreState(
@@ -67,7 +78,7 @@ private fun ScoreScreenPreview() = AppTheme {
                 gameSessions = listOf(
                     GameSession(
                         id = "2",
-                        utc = now(),
+                        utc = getLocalDateTime(),
                         ship = Ship(
                             id = "1",
                             engine = Engine(

@@ -10,6 +10,8 @@ import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.AchievementList
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
@@ -47,16 +49,31 @@ private fun AchievementScreenLoadingPreview() = AppTheme {
 @Preview
 @Composable
 private fun AchievementScreenPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "achievements_screen__title",
+                value = "Achievements"
+            ),
+        )
+    )
     AchievementScreen(
         store = Store(
             initialState = AchievementState(
                 loading = false,
                 achievements = listOf(
                     Achievement(
-                        id = "earth",
+                        id = "Homecoming",
                         description = "Settle on Earth",
                         preconditions = Precondition(
                             settledPlanetId = "earth"
+                        ),
+                    ),
+                    Achievement(
+                        id = "The Martian",
+                        description = "Settle on Mars",
+                        preconditions = Precondition(
+                            settledPlanetId = "mars"
                         ),
                     )
                 )
