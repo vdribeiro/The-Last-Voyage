@@ -54,25 +54,34 @@ internal class GameOverStore(
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
+    private fun nextContent(state: GameOverState): Job = launch {
+        when (state.currentContent) {
+            Content.MESSAGE -> {
+                val achievement = achievements?.firstOrNull()
+                updateState {
+                    it.copy(
+                        currentContent = Content.SCORE,
+                        achievement = achievement
+                    )
+                }
+            }
+
+            Content.SCORE -> navigate(screen = Screen.MainMenu)
+        }
+    }
+
+    private fun nextAchievement(): Job = launch {
+        index++
+        val achievement = achievements?.getOrNull(index = index)
+        updateState { it.copy(achievement = achievement) }
+    }
+
     override fun back(state: GameOverState) {}
 
     override fun reducer(state: GameOverState, action: GameOverAction) {
         when (action) {
-            GameOverAction.Next -> when (state.currentContent) {
-                Content.MESSAGE -> updateState {
-                    it.copy(
-                        currentContent = Content.SCORE,
-                        achievement = achievements?.firstOrNull()
-                    )
-                }
-
-                Content.SCORE -> navigate(screen = Screen.MainMenu)
-            }
-
-            GameOverAction.NextAchievement -> {
-                index++
-                updateState { it.copy(achievement = achievements?.getOrNull(index = index)) }
-            }
+            GameOverAction.Next -> nextContent(state = state)
+            GameOverAction.NextAchievement -> nextAchievement()
         }
     }
 
