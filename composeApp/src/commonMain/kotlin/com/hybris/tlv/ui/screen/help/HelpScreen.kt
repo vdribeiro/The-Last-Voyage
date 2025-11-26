@@ -2,12 +2,17 @@ package com.hybris.tlv.ui.screen.help
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.platform.isAndroid
+import com.hybris.tlv.platform.isDesktop
+import com.hybris.tlv.platform.isIos
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.HelpBar
@@ -20,6 +25,7 @@ import com.hybris.tlv.ui.theme.component.container.PlanetDefinition
 import com.hybris.tlv.ui.theme.component.container.PlanetTypes
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.HabitabilityList
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.space.model.PlanetType
@@ -41,13 +47,19 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
         bottomBar = {
             if (currentContent == Content.LEARN_MENU) HelpBar(
                 modifier = Modifier
-                    .clickable { store.send(action = HelpAction.VersionClick(reset = false)) }
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) { store.send(action = HelpAction.VersionClick(reset = false)) }
                     .padding(horizontal = 16.dp)
             )
         },
         snackbarHost = {
             if (storeState.showSnackbar) Snackbar(
-                message = "Snackbar",
+                message = when {
+                    isIos || isAndroid -> "konami_mobile"
+                    else -> "konami_desktop"
+                },
                 onDismiss = { store.send(action = HelpAction.VersionClick(reset = true)) }
             )
         }
