@@ -26,7 +26,7 @@ internal class AchievementGateway(
 
     private val achievementDao = database.achievementQueries
 
-    override suspend fun syncAchievements() = withContext(context = Dispatcher.IO){
+    override suspend fun syncAchievements() = withContext(context = Dispatcher.IO) {
         val remoteVersion = config.remoteConfigs.value.achievementsVersion
         val localVersion = config.localConfigs.value.achievementsVersion
         Telemetry.info(tag = TAG, message = "Syncing achievements: remote version: $remoteVersion, local version: $localVersion")

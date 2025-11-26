@@ -34,7 +34,7 @@ internal class SpaceGateway(
     private val stellarHostDao = database.stellarHostQueries
     private val planetDao = database.planetQueries
 
-    override suspend fun syncStellarHosts()= withContext(context = Dispatcher.IO) {
+    override suspend fun syncStellarHosts() = withContext(context = Dispatcher.IO) {
         val remoteVersion = config.remoteConfigs.value.stellarHostsVersion
         val localVersion = config.localConfigs.value.stellarHostsVersion
         Telemetry.info(tag = TAG, message = "Syncing stellar hosts: remote version: $remoteVersion, local version: $localVersion")
@@ -61,7 +61,7 @@ internal class SpaceGateway(
         stellarHosts.forEach { stellarHostDao.upsertStellarHost(StellarHost = it.toStellarHostSchema()) }
     }
 
-    override suspend fun syncPlanets()= withContext(context = Dispatcher.IO) {
+    override suspend fun syncPlanets() = withContext(context = Dispatcher.IO) {
         val remoteVersion = config.remoteConfigs.value.planetsVersion
         val localVersion = config.localConfigs.value.planetsVersion
         Telemetry.info(tag = TAG, message = "Syncing planets: remote version: $remoteVersion, local version: $localVersion")

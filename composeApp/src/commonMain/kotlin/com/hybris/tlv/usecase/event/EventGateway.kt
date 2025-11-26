@@ -25,7 +25,7 @@ internal class EventGateway(
 
     private val eventDao = database.eventQueries
 
-    override suspend fun syncEvents()= withContext(context = Dispatcher.IO) {
+    override suspend fun syncEvents() = withContext(context = Dispatcher.IO) {
         val remoteVersion = config.remoteConfigs.value.eventsVersion
         val localVersion = config.localConfigs.value.eventsVersion
         Telemetry.info(tag = TAG, message = "Syncing events: remote version: $remoteVersion, local version: $localVersion")

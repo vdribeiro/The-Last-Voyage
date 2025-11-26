@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.CONFIGS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
@@ -38,40 +40,46 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     private val cacheTTL: Duration = if (isDebug) ZERO else 1.hours
 
     override suspend fun setup(): ConfigManager = apply {
-        val preferences = mutex.withLock { loadJsonFile(path = PREFERENCES_JSON) ?: Preferences() }
-        setPreferences { preferences }
-        val localConfigs = mutex.withLock { loadJsonFile(path = CONFIGS_JSON) ?: Configs() }
-        _localConfigs.update { localConfigs }
-        fetchRemoteConfigs()
-        saveConfigs()
+        withContext(context = Dispatcher.IO) {
+            val preferences = mutex.withLock { loadJsonFile(path = PREFERENCES_JSON) ?: Preferences() }
+            setPreferences { preferences }
+            val localConfigs = mutex.withLock { loadJsonFile(path = CONFIGS_JSON) ?: Configs() }
+            _localConfigs.update { localConfigs }
+            fetchRemoteConfigs()
+            saveConfigs()
+        }
     }
 
     override suspend fun fetchRemoteConfigs(): ConfigManager = apply {
-        if (!hasTimePassed(dateTime = _preferences.value.syncTime, duration = cacheTTL)) return@apply
-        setPreferences { it.copy(syncTime = now()) }
+        withContext(context = Dispatcher.IO) {
+            if (!hasTimePassed(dateTime = _preferences.value.syncTime, duration = cacheTTL)) return@withContext
+            setPreferences { it.copy(syncTime = now()) }
 
-        when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
-            is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get remote configs", throwable = result.error)
-            is Result.Success -> {
-                val configs = result.list.firstOrNull()
-                if (configs != null) {
-                    Telemetry.info(tag = TAG, message = "Fetched remote configs")
-                    _remoteConfigs.update { configs }
-                    _localConfigs.update {
-                        it.copy(
-                            developerCorner = configs.developerCorner,
-                            support = configs.support,
-                            formula = configs.formula,
-                        )
-                    }
-                } else Telemetry.error(tag = TAG, message = "No remote configs set")
+            when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
+                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get remote configs", throwable = result.error)
+                is Result.Success -> {
+                    val configs = result.list.firstOrNull()
+                    if (configs != null) {
+                        Telemetry.info(tag = TAG, message = "Fetched remote configs")
+                        _remoteConfigs.update { configs }
+                        _localConfigs.update {
+                            it.copy(
+                                developerCorner = configs.developerCorner,
+                                support = configs.support,
+                                formula = configs.formula,
+                            )
+                        }
+                    } else Telemetry.error(tag = TAG, message = "No remote configs set")
+                }
             }
         }
     }
 
     override suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager = apply {
-        _preferences.update { preferences(it) }
-        mutex.withLock { saveJsonFile(path = PREFERENCES_JSON, content = _preferences.value) }
+        withContext(context = Dispatcher.IO) {
+            _preferences.update { preferences(it) }
+            mutex.withLock { saveJsonFile(path = PREFERENCES_JSON, content = _preferences.value) }
+        }
     }
 
     override suspend fun setConfigs(configs: (Configs) -> Configs): ConfigManager = apply {
@@ -79,7 +87,9 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     }
 
     override suspend fun saveConfigs(): ConfigManager = apply {
-        mutex.withLock { saveJsonFile(path = CONFIGS_JSON, content = _localConfigs.value) }
+        withContext(context = Dispatcher.IO) {
+            mutex.withLock { saveJsonFile(path = CONFIGS_JSON, content = _localConfigs.value) }
+        }
     }
 
     companion object Companion {

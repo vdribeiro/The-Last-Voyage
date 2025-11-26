@@ -69,7 +69,7 @@ internal class ArchiveGateway(
 
     private data class Exoplanets(val stellarHosts: List<StellarHost>, val planets: List<Planet>)
 
-    override suspend fun getArchive()= withContext(context = Dispatcher.IO) {
+    override suspend fun getArchive() = withContext(context = Dispatcher.IO) {
         runCatching {
             if (!Property.ARCHIVE) return@runCatching
             coroutineScope {

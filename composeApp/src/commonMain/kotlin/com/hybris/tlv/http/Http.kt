@@ -25,8 +25,9 @@ internal suspend inline fun <reified T> HttpClient.getStream(
     path: String,
     queryMap: Map<String, String> = emptyMap(),
     crossinline block: HttpRequestBuilder.() -> Unit = {}
-): Result<T> = runCatching {
-    withContext(context = Dispatcher.IO) {
+): Result<T> = withContext(context = Dispatcher.IO) {
+    if (isDebug) throw Throwable(message = "Debug mode on. Disabled network.")
+    runCatching {
         if (!isInternetAvailableDebounced()) throw Throwable(message = "No internet connection available.")
         prepareGet(urlString = path.encodeURLPath()) {
             queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
@@ -38,8 +39,8 @@ internal suspend inline fun <reified T> HttpClient.getStream(
             val list = decode<List<T>>(value = bytes.decodeToString()) ?: throw Throwable("Unable to decode response")
             Result.Success(list = list)
         }
-    }
-}.getOrElse { Result.Error(error = it) }
+    }.getOrElse { Result.Error(error = it) }
+}
 
 private suspend fun isInternetAvailableDebounced(): Boolean = runCatching {
     mutex.withLock {

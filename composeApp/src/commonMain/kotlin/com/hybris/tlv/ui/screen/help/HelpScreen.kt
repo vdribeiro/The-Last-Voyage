@@ -11,7 +11,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.platform.isAndroid
-import com.hybris.tlv.platform.isDesktop
 import com.hybris.tlv.platform.isIos
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
@@ -25,7 +24,6 @@ import com.hybris.tlv.ui.theme.component.container.PlanetDefinition
 import com.hybris.tlv.ui.theme.component.container.PlanetTypes
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.HabitabilityList
-import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.space.model.PlanetType
