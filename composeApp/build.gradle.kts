@@ -31,6 +31,7 @@ val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voya
 val appVersion: String = "1.1.3"
 val appVersionNumber: Long = 11
 val archive: Boolean = false // Toggle to get the latest NASA data
+val network: Boolean = true // Toggle to enable internet access
 val androidTarget: Int = 35
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
 val androidKeyPassword: String = localProperties.getProperty("android.keyPassword", "")
@@ -54,6 +55,8 @@ abstract class GeneratePropertiesTask: DefaultTask() {
     @get:Input
     abstract val taskArchive: Property<Boolean>
     @get:Input
+    abstract val taskNetwork: Property<Boolean>
+    @get:Input
     abstract val taskSentryDsn: Property<String>
     @get:OutputDirectory
     abstract val taskOutputDir: DirectoryProperty
@@ -65,6 +68,7 @@ abstract class GeneratePropertiesTask: DefaultTask() {
         val appVersion: String = taskAppVersion.get()
         val appVersionNumber: Long = taskAppVersionNumber.get()
         val archive: Boolean = taskArchive.get()
+        val network: Boolean = taskNetwork.get()
         // Basic obfuscation of Sentry DSN
         val sentryDsn = "byteArrayOf(${
             taskSentryDsn.get().toByteArray().mapIndexed { index, byte -> byte.xor(other = appId[index % appId.length].code.toByte()) }.joinToString(separator = ", ") { it.toString() }
@@ -88,6 +92,7 @@ abstract class GeneratePropertiesTask: DefaultTask() {
                     const val APP_VERSION: String = "$appVersion"
                     const val APP_VERSION_NUMBER: Long = $appVersionNumber
                     const val ARCHIVE: Boolean = $archive
+                    const val NETWORK: Boolean = $network
                     val sentry: String = $sentryDsn
                 }
             """.trimIndent()
@@ -101,6 +106,7 @@ val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "gene
     taskAppVersion.set(appVersion)
     taskAppVersionNumber.set(appVersionNumber)
     taskArchive.set(archive)
+    taskNetwork.set(network)
     taskSentryDsn.set(sentryDsn)
     taskOutputDir.set(layout.buildDirectory.dir("generated/source/property"))
 }
