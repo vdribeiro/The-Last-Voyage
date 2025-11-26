@@ -13,6 +13,8 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.text.FadeInText
 import com.hybris.tlv.ui.theme.getTranslation
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
@@ -48,6 +50,14 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
 @Preview
 @Composable
 private fun SplashScreenZeroPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "splash_screen__loading",
+                value = "Loading..."
+            ),
+        )
+    )
     SplashScreen(
         store = Store(
             initialState = SplashState(
@@ -60,6 +70,14 @@ private fun SplashScreenZeroPreview() = AppTheme {
 @Preview
 @Composable
 private fun SplashScreenHalfwayPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "splash_screen__loading",
+                value = "Loading..."
+            ),
+        )
+    )
     SplashScreen(
         store = Store(
             initialState = SplashState(
@@ -72,6 +90,14 @@ private fun SplashScreenHalfwayPreview() = AppTheme {
 @Preview
 @Composable
 private fun SplashScreenFullPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "splash_screen__loading",
+                value = "Loading..."
+            ),
+        )
+    )
     SplashScreen(
         store = Store(
             initialState = SplashState(

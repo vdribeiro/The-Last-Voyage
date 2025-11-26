@@ -18,6 +18,8 @@ import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.text.TitleDescription
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.ui.theme.getTranslation
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
@@ -97,6 +99,18 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
 @Preview
 @Composable
 private fun TutorialScreenGoalPreview() {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "tutorial_screen__mechanics_goal_title",
+                value = "Goal"
+            ),
+            Translation(
+                key = "tutorial_screen__mechanics_goal_description",
+                value = "Win the game!"
+            ),
+        )
+    )
     AppTheme {
         TutorialScreen(
             store = Store(
@@ -111,6 +125,18 @@ private fun TutorialScreenGoalPreview() {
 @Preview
 @Composable
 private fun TutorialScreenShipPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "tutorial_screen__mechanics_attributes_title",
+                value = "Ship"
+            ),
+            Translation(
+                key = "tutorial_screen__mechanics_attributes_description",
+                value = "Your ship is awesome!"
+            ),
+        )
+    )
     TutorialScreen(
         store = Store(
             initialState = TutorialState(
@@ -123,6 +149,18 @@ private fun TutorialScreenShipPreview() = AppTheme {
 @Preview
 @Composable
 private fun TutorialScreenSystemPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "tutorial_screen__mechanics_system_title",
+                value = "System"
+            ),
+            Translation(
+                key = "tutorial_screen__mechanics_system_description",
+                value = "There are so many!"
+            ),
+        )
+    )
     TutorialScreen(
         store = Store(
             initialState = TutorialState(
@@ -135,6 +173,18 @@ private fun TutorialScreenSystemPreview() = AppTheme {
 @Preview
 @Composable
 private fun TutorialScreenTravelPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "tutorial_screen__mechanics_travel_title",
+                value = "Travel"
+            ),
+            Translation(
+                key = "tutorial_screen__mechanics_travel_description",
+                value = "Warp speed, Captain."
+            ),
+        )
+    )
     TutorialScreen(
         store = Store(
             initialState = TutorialState(
@@ -147,6 +197,18 @@ private fun TutorialScreenTravelPreview() = AppTheme {
 @Preview
 @Composable
 private fun TutorialScreenGameOverPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "tutorial_screen__mechanics_game_over_title",
+                value = "Game Over"
+            ),
+            Translation(
+                key = "tutorial_screen__mechanics_game_over_description",
+                value = "Game over man! Game over!"
+            ),
+        )
+    )
     TutorialScreen(
         store = Store(
             initialState = TutorialState(
