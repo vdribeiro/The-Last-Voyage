@@ -34,7 +34,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
@@ -52,7 +51,6 @@ import com.hybris.tlv.ui.theme.component.text.Text
 internal fun ControlPanel(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    focusRequester: FocusRequester = FocusRequester.Default,
     search: String = "",
     onSearch: (String) -> Unit = {},
     viewName: String? = null,
@@ -89,7 +87,6 @@ internal fun ControlPanel(
         ) {
             Input(
                 modifier = Modifier.weight(weight = 1f),
-                focusRequester = focusRequester,
                 enabled = enabled,
                 value = searchQuery,
                 onValueChange = { searchQuery = it },

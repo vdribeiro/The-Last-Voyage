@@ -4,10 +4,12 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Feedback
 import com.hybris.tlv.ui.theme.component.container.Screen
+import com.hybris.tlv.ui.theme.modifier.clearFocus
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
 
@@ -16,6 +18,7 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
     val storeState by store.stateFlow.collectAsState()
 
     Screen(
+        modifier = Modifier.clearFocus(),
         onBackClick = { store.back() },
         onMusicClick = { store.toggleAudio() },
     ) {
