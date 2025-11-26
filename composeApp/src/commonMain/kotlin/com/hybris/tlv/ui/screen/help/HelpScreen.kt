@@ -24,6 +24,7 @@ import com.hybris.tlv.ui.theme.component.container.PlanetDefinition
 import com.hybris.tlv.ui.theme.component.container.PlanetTypes
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.HabitabilityList
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.space.model.PlanetType
@@ -54,10 +55,12 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
         },
         snackbarHost = {
             if (storeState.showSnackbar) Snackbar(
-                message = when {
-                    isIos || isAndroid -> "konami_mobile"
-                    else -> "konami_desktop"
-                },
+                message = getTranslation(
+                    key = when {
+                        isIos || isAndroid -> "konami_mobile"
+                        else -> "konami_desktop"
+                    }
+                ),
                 onDismiss = { store.send(action = HelpAction.VersionClick(reset = true)) }
             )
         }
