@@ -1,10 +1,12 @@
 package com.hybris.tlv.usecase.gamesession
 
 import kotlin.math.ceil
+import kotlinx.coroutines.withContext
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.database.FormulaSchema
 import com.hybris.tlv.database.GameSessionSchema
 import com.hybris.tlv.database.ShipSchema
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.usecase.event.model.Event
@@ -26,20 +28,22 @@ internal class GameSessionGateway(
     private val shipDao = database.shipQueries
     private val formulaDao = database.formulaQueries
 
-    override suspend fun startGame(gameSessionPrototype: GameSessionPrototype): GameSession {
+    override suspend fun startGame(gameSessionPrototype: GameSessionPrototype): GameSession = withContext(context = Dispatcher.IO) {
         val gameSession = gameSessionPrototype.toGameSession()
-        return updateGameSession(gameSession = gameSession)
+        updateGameSession(gameSession = gameSession)
     }
 
-    override suspend fun getGameSessions(): List<GameSession> =
+    override suspend fun getGameSessions(): List<GameSession> = withContext(context = Dispatcher.IO) {
         gameSessionDao.getGameSessions(mapper = gameSessionProjection).executeAsList()
+    }
 
-    override suspend fun getLatestGameSession(): GameSession? =
+    override suspend fun getLatestGameSession(): GameSession? = withContext(context = Dispatcher.IO) {
         gameSessionDao.getLatestGameSession(mapper = gameSessionProjection).executeAsOneOrNull()
+    }
 
-    override suspend fun isGameSessionOngoing(): Boolean {
+    override suspend fun isGameSessionOngoing(): Boolean = withContext(context = Dispatcher.IO) {
         val gameSession = getLatestGameSession()
-        return gameSession != null &&
+        gameSession != null &&
                 gameSession.settledPlanetId == null &&
                 gameSession.finalHabitability == null &&
                 gameSession.ship.integrity > 0 &&
@@ -50,14 +54,14 @@ internal class GameSessionGateway(
         gameSessionDao.upsertGameSession(GameSession = gameSession.toGameSessionSchema())
     }
 
-    override suspend fun updateGameSession(gameSession: GameSession): GameSession {
+    override suspend fun updateGameSession(gameSession: GameSession): GameSession = withContext(context = Dispatcher.IO) {
         upsertGameSession(gameSession = gameSession)
         shipDao.upsertShip(Ship = gameSession.ship.toShipSchema())
         formulaDao.upsertFormula(Formula = gameSession.formula.toFormulaSchema())
-        return gameSession
+        gameSession
     }
 
-    override suspend fun launchEvent(gameSession: GameSession, event: Event): GameSession {
+    override suspend fun launchEvent(gameSession: GameSession, event: Event): GameSession = withContext(context = Dispatcher.IO) {
         val integrity = gameSession.ship.integrity + (event.outcome?.integrity ?: 0)
         val materials = gameSession.ship.materials + (event.outcome?.materials ?: 0)
         val fuel = gameSession.ship.fuel + (event.outcome?.fuel ?: 0)
@@ -71,10 +75,10 @@ internal class GameSessionGateway(
             ),
             launchedEvents = gameSession.launchedEvents + event.id
         )
-        return updateGameSession(gameSession = updatedGameSession)
+        updateGameSession(gameSession = updatedGameSession)
     }
 
-    override suspend fun travel(gameSession: GameSession, stellarHost: StellarHost): GameSession {
+    override suspend fun travel(gameSession: GameSession, stellarHost: StellarHost): GameSession = withContext(context = Dispatcher.IO) {
         val distance = stellarHost.distance ?: 1.0
         val speed = gameSession.ship.engine.velocity
         val fuelConsumption = gameSession.ship.engine.fuelConsumption
@@ -91,19 +95,19 @@ internal class GameSessionGateway(
             currentStellarHostId = stellarHost.id,
             visitedStellarHosts = gameSession.visitedStellarHosts + stellarHost.id
         )
-        return updateGameSession(gameSession = updatedGameSession)
+        updateGameSession(gameSession = updatedGameSession)
     }
 
-    override suspend fun settle(gameSession: GameSession, planet: Planet): GameSession {
+    override suspend fun settle(gameSession: GameSession, planet: Planet): GameSession = withContext(context = Dispatcher.IO) {
         val updatedGameSession = gameSession.copy(
             settledPlanetId = planet.id,
             settledPlanetName = planet.name,
             finalHabitability = planet.score?.habitabilityScore?.times(other = 100.0)
         )
-        return updateGameSession(gameSession = updatedGameSession)
+        updateGameSession(gameSession = updatedGameSession)
     }
 
-    override suspend fun score(gameSession: GameSession, gameOver: GameOver): GameSession {
+    override suspend fun score(gameSession: GameSession, gameOver: GameOver): GameSession = withContext(context = Dispatcher.IO) {
         val ship = gameSession.ship
 
         // Base Score = Cryopod Score + Resource Score + Journey Score
@@ -122,11 +126,11 @@ internal class GameSessionGateway(
         val score = baseScore * challengeMultiplier * gameOverMultiplier
 
         val updatedGameSession = gameSession.copy(score = score)
-        return updateGameSession(gameSession = updatedGameSession)
+        updateGameSession(gameSession = updatedGameSession)
     }
 
     @VisibleForTesting
-    internal fun getGameOverMultiplier(gameOver: GameOver) =
+    internal fun getGameOverMultiplier(gameOver: GameOver): Double =
         when (gameOver) {
             // Ship is destroyed
             GameOver.INTEGRITY_ZERO,
@@ -226,9 +230,9 @@ internal class GameSessionGateway(
             GameOver.GAME_OVER -> 0.25
         }
 
-    override suspend fun getGameOver(gameSession: GameSession): GameOver {
+    override suspend fun getGameOver(gameSession: GameSession): GameOver = withContext(context = Dispatcher.Default) {
         val ship = gameSession.ship
-        return when {
+        when {
             // Ship is destroyed
             ship.integrity <= 0 -> when {
                 ship.yearsTraveled >= YEARS_LOTS && ship.cryopods >= CRYOPODS_LOTS -> GameOver.INTEGRITY_ZERO_YEARS_LOTS_CRYOPODS_BUSTLING
@@ -339,8 +343,9 @@ internal class GameSessionGateway(
         }
     }
 
-    override suspend fun isGameOver(gameSession: GameSession): Boolean =
+    override suspend fun isGameOver(gameSession: GameSession): Boolean = withContext(context = Dispatcher.Default) {
         gameSession.ship.integrity <= 0 || gameSession.ship.fuel <= 0 || gameSession.settledPlanetId != null
+    }
 
     private fun GameSessionPrototype.toGameSession(): GameSession {
         val id = generateUuid()

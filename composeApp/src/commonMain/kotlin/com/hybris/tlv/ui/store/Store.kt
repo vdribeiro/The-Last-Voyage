@@ -62,7 +62,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     /**
      * Launches a coroutine.
      */
-    protected fun launch(context: CoroutineContext = Dispatcher.IO, block: suspend CoroutineScope.() -> Unit): Job =
+    protected fun launch(context: CoroutineContext = Dispatcher.Default, block: suspend CoroutineScope.() -> Unit): Job =
         viewModelScope.launch(context = context) { block() }
 
     /**
