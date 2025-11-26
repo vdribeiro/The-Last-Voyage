@@ -56,10 +56,13 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
             )
         },
         snackbarHost = {
-            if (achievement != null) Snackbar(
-                message = achievement.let { "$newAchievementTranslation: ${getTranslation(key = achievement.id)}" },
-                onDismiss = { store.send(action = GameOverAction.NextAchievement) }
-            )
+            if (achievement != null) {
+                val message = achievement.let { "$newAchievementTranslation: ${getTranslation(key = it.id)}" }
+                Snackbar(
+                    message = message,
+                    onDismiss = { store.send(action = GameOverAction.NextAchievement) }
+                )
+            }
         }
     ) {
         when (storeState.currentContent) {
