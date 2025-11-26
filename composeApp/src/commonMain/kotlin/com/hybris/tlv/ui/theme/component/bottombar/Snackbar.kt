@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Scaffold
 
@@ -21,7 +20,6 @@ internal fun Snackbar(
     duration: Long = if (buttonText != null) Long.MAX_VALUE else 3000L,
     onDismiss: () -> Unit = {},
 ) {
-    Telemetry.info("SNACKBAR", "MESSAGE: $message")
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(key1 = message) {
         withTimeoutOrNull(timeMillis = duration) {
