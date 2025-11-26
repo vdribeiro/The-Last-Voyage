@@ -54,15 +54,19 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
             )
         },
         snackbarHost = {
-            if (storeState.showSnackbar) Snackbar(
-                message = getTranslation(
+            if (storeState.showSnackbar) {
+                val message = getTranslation(
                     key = when {
                         isIos || isAndroid -> "konami_mobile"
                         else -> "konami_desktop"
                     }
-                ),
-                onDismiss = { store.send(action = HelpAction.VersionClick(reset = true)) }
-            )
+                )
+                Snackbar(
+                    message = message,
+                    duration = 5000L,
+                    onDismiss = { store.send(action = HelpAction.VersionClick(reset = true)) }
+                )
+            }
         }
     ) {
         when (currentContent) {
