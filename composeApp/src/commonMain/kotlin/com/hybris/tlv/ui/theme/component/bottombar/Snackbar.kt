@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.theme.component.bottombar
 
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -10,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Scaffold
 
@@ -21,19 +21,16 @@ internal fun Snackbar(
     duration: Long = if (buttonText != null) Long.MAX_VALUE else 3000L,
     onDismiss: () -> Unit = {},
 ) {
+    Telemetry.info("SNACKBAR", "MESSAGE: $message")
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(key1 = message) {
-        snackbarHostState.currentSnackbarData?.dismiss()
-        val timerJob = launch {
-            delay(timeMillis = duration)
-            snackbarHostState.currentSnackbarData?.dismiss()
+        withTimeoutOrNull(timeMillis = duration) {
+            snackbarHostState.showSnackbar(
+                message = message.orEmpty(),
+                actionLabel = buttonText,
+                duration = SnackbarDuration.Indefinite
+            )
         }
-        snackbarHostState.showSnackbar(
-            message = message.orEmpty(),
-            actionLabel = buttonText,
-            duration = SnackbarDuration.Indefinite
-        )
-        timerJob.cancel()
         onDismiss()
     }
     SnackbarHost(

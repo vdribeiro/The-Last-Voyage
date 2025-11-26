@@ -10,6 +10,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.media.AudioPlayer
+import com.hybris.tlv.platform.isDebug
 import com.hybris.tlv.ui.navigation.Action
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.actionChannel
@@ -52,6 +53,6 @@ internal fun App(
 
     AudioPlayer(
         audioPlayer = audioPlayer,
-        screen = screen
+        screen = if (!isDebug) screen else null
     )
 }
