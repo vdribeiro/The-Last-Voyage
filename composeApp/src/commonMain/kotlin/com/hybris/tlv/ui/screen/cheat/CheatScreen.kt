@@ -6,8 +6,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.container.CheatSheet
 import com.hybris.tlv.ui.theme.component.container.Screen
-import com.hybris.tlv.ui.theme.component.list.CheatSheet
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
 

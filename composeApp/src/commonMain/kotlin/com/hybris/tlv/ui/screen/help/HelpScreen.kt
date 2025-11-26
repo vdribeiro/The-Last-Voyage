@@ -11,9 +11,11 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.HelpBar
 import com.hybris.tlv.ui.theme.component.container.HostDefinition
+import com.hybris.tlv.ui.theme.component.container.HostTypes
 import com.hybris.tlv.ui.theme.component.container.LearnMenu
 import com.hybris.tlv.ui.theme.component.container.NavigationHelp
 import com.hybris.tlv.ui.theme.component.container.PlanetDefinition
+import com.hybris.tlv.ui.theme.component.container.PlanetTypes
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.HabitabilityList
 import com.hybris.tlv.usecase.learning.model.Learning
@@ -70,12 +72,15 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                     properties = storeState.learningsMap[LearningType.HOST_PROPERTY].orEmpty(),
                     propertyId = { it.id },
                     propertyDescription = { it.description },
-                    stellarHosts = storeState.learningsMap[LearningType.HOST_TYPE].orEmpty(),
-                    stellarHostId = { it.id },
-                    stellarHostDescription = { it.description },
-                    stellarHostImage = { it.image.spectralTypeToImage() },
                 )
             }
+
+            Content.HOST_TYPE -> HostTypes(
+                stellarHosts = storeState.learningsMap[LearningType.HOST_TYPE].orEmpty(),
+                stellarHostId = { it.id },
+                stellarHostDescription = { it.description },
+                stellarHostImage = { it.image.spectralTypeToImage() },
+            )
 
             Content.PLANET_DEFINITION -> {
                 val planet = storeState.planet
@@ -98,12 +103,15 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                     properties = storeState.learningsMap[LearningType.PLANET_PROPERTY].orEmpty(),
                     propertyId = { it.id },
                     propertyDescription = { it.description },
-                    planets = storeState.learningsMap[LearningType.PLANET_TYPE].orEmpty(),
-                    planetId = { it.id },
-                    planetDescription = { it.description },
-                    planetImage = { PlanetType.fromValue(value = it.image.orEmpty()).toImage() }
                 )
             }
+
+            Content.PLANET_TYPE -> PlanetTypes(
+                planets = storeState.learningsMap[LearningType.PLANET_TYPE].orEmpty(),
+                planetId = { it.id },
+                planetDescription = { it.description },
+                planetImage = { PlanetType.fromValue(value = it.image.orEmpty()).toImage() }
+            )
 
             Content.HABITABILITY -> HabitabilityList(
                 properties = storeState.learningsMap[LearningType.FORMULA].orEmpty(),
@@ -133,8 +141,12 @@ private fun HelpScreenPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
-                key = "app_name",
-                value = "The Last Voyage"
+                key = "main_menu_screen__learn",
+                value = "Help"
+            ),
+            Translation(
+                key = "main_menu_screen__navigation",
+                value = "Navigation"
             ),
             Translation(
                 key = "main_menu_screen__host_definition",

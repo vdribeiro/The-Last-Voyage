@@ -10,8 +10,8 @@ import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.ui.theme.component.container.Screen
+import com.hybris.tlv.ui.theme.component.container.ShipConfiguration
 import com.hybris.tlv.ui.theme.component.container.TypewriterContent
-import com.hybris.tlv.ui.theme.component.list.ShipConfiguration
 import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.Engine

@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component.list
+package com.hybris.tlv.ui.theme.component.container
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.card.StatDisplay
+import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.space.roundTo
 import com.hybris.tlv.usecase.translation.TranslationCache

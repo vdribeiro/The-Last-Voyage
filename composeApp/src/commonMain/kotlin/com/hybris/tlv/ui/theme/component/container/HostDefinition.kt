@@ -20,12 +20,11 @@ import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
-import com.hybris.tlv.usecase.space.spectralTypeToImage
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
-internal inline fun <T, S> HostDefinition(
+internal inline fun <T> HostDefinition(
     modifier: Modifier = Modifier,
     name: String? = null,
     systemName: String? = null,
@@ -48,14 +47,9 @@ internal inline fun <T, S> HostDefinition(
     properties: List<T> = emptyList(),
     noinline propertyId: (T) -> String = { generateUuid() },
     crossinline propertyDescription: (T) -> String? = { null },
-    stellarHosts: List<S> = emptyList(),
-    noinline stellarHostId: (S) -> String = { generateUuid() },
-    crossinline stellarHostDescription: (S) -> String? = { null },
-    crossinline stellarHostImage: (S) -> ImageResource? = { null },
 ) {
     val exampleTranslation = getTranslation(key = "main_menu_screen__definition_example")
     val propertiesTranslation = getTranslation(key = "main_menu_screen__definition_properties")
-    val typesTranslation = getTranslation(key = "main_menu_screen__definition_types")
 
     val typography = LocalTypography.current
 
@@ -109,21 +103,6 @@ internal inline fun <T, S> HostDefinition(
                 description = propertyDescription(property)?.let { getTranslation(key = it) }
             )
         }
-        item {
-            Text(
-                text = typesTranslation,
-                style = typography.headlineMedium,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(height = 4.dp))
-        }
-        items(items = stellarHosts, key = stellarHostId) { stellarHost ->
-            StellarHostCard(
-                name = getTranslation(key = stellarHostId(stellarHost)),
-                description = stellarHostDescription(stellarHost),
-                spectralImage = stellarHostImage(stellarHost),
-            )
-        }
     }
 }
 
@@ -140,10 +119,6 @@ private fun HostDefinitionPreview() = AppTheme {
                 key = "main_menu_screen__definition_properties",
                 value = "Properties"
             ),
-            Translation(
-                key = "main_menu_screen__definition_types",
-                value = "Types"
-            ),
         )
     )
     HostDefinition(
@@ -155,13 +130,5 @@ private fun HostDefinitionPreview() = AppTheme {
         ),
         propertyId = { it },
         propertyDescription = { it },
-        stellarHosts = listOf(
-            "Stellar Host 1",
-            "Stellar Host 2",
-            "Stellar Host 3",
-        ),
-        stellarHostId = { it },
-        stellarHostDescription = { it },
-        stellarHostImage = { "G".spectralTypeToImage() },
     )
 }

@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component.list
+package com.hybris.tlv.ui.theme.component.container
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.Toggle
+import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache

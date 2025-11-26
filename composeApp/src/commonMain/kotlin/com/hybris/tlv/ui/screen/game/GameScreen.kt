@@ -11,7 +11,7 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.GameNavigationBar
 import com.hybris.tlv.ui.theme.component.container.Screen
-import com.hybris.tlv.ui.theme.component.list.ShipStats
+import com.hybris.tlv.ui.theme.component.container.ShipStats
 import com.hybris.tlv.ui.theme.component.list.SystemList
 import com.hybris.tlv.ui.theme.component.list.TravelList
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar

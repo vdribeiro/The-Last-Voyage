@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component.list
+package com.hybris.tlv.ui.theme.component.container
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
@@ -19,6 +19,7 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.ui.theme.component.button.AttributeRow
 import com.hybris.tlv.ui.theme.component.card.SelectableAttribute
+import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation

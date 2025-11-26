@@ -20,13 +20,11 @@ import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
-import com.hybris.tlv.usecase.space.model.PlanetType
-import com.hybris.tlv.usecase.space.toImage
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
-internal inline fun <T, P> PlanetDefinition(
+internal inline fun <T> PlanetDefinition(
     modifier: Modifier = Modifier,
     name: String? = null,
     status: String? = null,
@@ -45,15 +43,10 @@ internal inline fun <T, P> PlanetDefinition(
     image: ImageResource? = null,
     properties: List<T> = emptyList(),
     noinline propertyId: (T) -> String = { generateUuid() },
-    crossinline propertyDescription: (T) -> String? = { null },
-    planets: List<P> = emptyList(),
-    noinline planetId: (P) -> String = { generateUuid() },
-    crossinline planetDescription: (P) -> String? = { null },
-    crossinline planetImage: (P) -> ImageResource? = { null },
+    crossinline propertyDescription: (T) -> String? = { null }
 ) {
     val exampleTranslation = getTranslation(key = "main_menu_screen__definition_example")
     val propertiesTranslation = getTranslation(key = "main_menu_screen__definition_properties")
-    val typesTranslation = getTranslation(key = "main_menu_screen__definition_types")
 
     val typography = LocalTypography.current
 
@@ -104,21 +97,6 @@ internal inline fun <T, P> PlanetDefinition(
                 description = propertyDescription(property)?.let { getTranslation(key = it) },
             )
         }
-        item {
-            Text(
-                text = typesTranslation,
-                style = typography.headlineMedium,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(height = 4.dp))
-        }
-        items(items = planets, key = planetId) { planet ->
-            PlanetCard(
-                name = getTranslation(key = planetId(planet)),
-                description = planetDescription(planet),
-                image = planetImage(planet)
-            )
-        }
     }
 }
 
@@ -135,10 +113,6 @@ private fun PlanetDefinitionPreview() = AppTheme {
                 key = "main_menu_screen__definition_properties",
                 value = "Properties"
             ),
-            Translation(
-                key = "main_menu_screen__definition_types",
-                value = "Types"
-            ),
         )
     )
     PlanetDefinition(
@@ -149,14 +123,6 @@ private fun PlanetDefinitionPreview() = AppTheme {
             "Property 3",
         ),
         propertyId = { it },
-        propertyDescription = { it },
-        planets = listOf(
-            "Planet 1",
-            "Planet 2",
-            "Planet 3",
-        ),
-        planetId = { it },
-        planetDescription = { it },
-        planetImage = { PlanetType.EARTH_ANALOG_PLANET.toImage() },
+        propertyDescription = { it }
     )
 }

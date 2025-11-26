@@ -11,7 +11,9 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 internal sealed interface HelpAction {
     data object Navigation: HelpAction
     data object HostDefinition: HelpAction
+    data object HostType: HelpAction
     data object PlanetDefinition: HelpAction
+    data object PlanetType: HelpAction
     data object Mechanics: HelpAction
     data object Habitability: HelpAction
 }
@@ -109,6 +111,8 @@ internal enum class Content {
     LEARN_MENU,
     NAVIGATION,
     HOST_DEFINITION,
+    HOST_TYPE,
     PLANET_DEFINITION,
+    PLANET_TYPE,
     HABITABILITY,
 }

@@ -37,7 +37,9 @@ internal class HelpStore(
             Content.LEARN_MENU -> super.back(state = state)
             Content.NAVIGATION,
             Content.HOST_DEFINITION,
+            Content.HOST_TYPE,
             Content.PLANET_DEFINITION,
+            Content.PLANET_TYPE,
             Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
         }
     }
@@ -46,9 +48,11 @@ internal class HelpStore(
         when (action) {
             HelpAction.Navigation -> updateState { it.copy(currentContent = Content.NAVIGATION) }
             HelpAction.HostDefinition -> updateState { it.copy(currentContent = Content.HOST_DEFINITION) }
+            HelpAction.HostType -> updateState { it.copy(currentContent = Content.HOST_TYPE) }
             HelpAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
-            HelpAction.Mechanics -> navigate(screen = Screen.Tutorial())
+            HelpAction.PlanetType -> updateState { it.copy(currentContent = Content.PLANET_TYPE) }
             HelpAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
+            HelpAction.Mechanics -> navigate(screen = Screen.Tutorial())
         }
     }
 
