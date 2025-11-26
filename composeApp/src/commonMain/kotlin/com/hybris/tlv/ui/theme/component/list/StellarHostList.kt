@@ -16,6 +16,11 @@ import com.hybris.tlv.ui.theme.component.card.PlanetCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.image.ImageResource
+import com.hybris.tlv.usecase.space.model.PlanetType
+import com.hybris.tlv.usecase.space.spectralTypeToImage
+import com.hybris.tlv.usecase.space.toImage
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal inline fun <T> StellarHostList(
@@ -166,15 +171,50 @@ internal inline fun <T> StellarHostList(
 @Preview
 @Composable
 private fun StellarHostListPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "planet_habitability",
+                value = "Habitability"
+            ),
+            Translation(
+                key = "planet_radius",
+                value = "Radius"
+            ),
+            Translation(
+                key = "planet_mass",
+                value = "Mass"
+            ),
+            Translation(
+                key = "stellar_host_planet_count",
+                value = "Planet Count"
+            ),
+            Translation(
+                key = "stellar_host_type",
+                value = "Host"
+            ),
+            Translation(
+                key = "stellar_host_temperature",
+                value = "Temperature"
+            )
+        )
+    )
     StellarHostList(
         showPlanet = true,
         planetName = "Planet",
+        planetImage = PlanetType.EARTH_ANALOG_PLANET.toImage(),
+        planetHabitability = 0.9,
+        planetRadius = 1.0,
+        planetMass = 1.0,
         stellarHosts = listOf(
             "Host 1",
             "Host 2",
             "Host 3",
         ),
         stellarHostName = { it },
-        stellarHostSpectralImage = { ImageResource(path = "G.jpg") },
+        stellarHostPlanetCount = { 1 },
+        stellarHostSpectralType = { "G" },
+        stellarHostSpectralImage = { "G".spectralTypeToImage() },
+        stellarHostEffectiveTemperature = { 321.0 }
     )
 }

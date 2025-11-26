@@ -14,7 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,8 +28,8 @@ import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Input
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
@@ -43,11 +42,10 @@ internal fun Feedback(
 ) {
     var feedbackText by remember { mutableStateOf(value = feedback) }
 
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val titleTranslation = remember(key1 = translationVersion) { getTranslation(key = if (isError) "error_screen__title" else "error_screen__title_alt") }
-    val descriptionTranslation = remember(key1 = translationVersion) { getTranslation(key = if (isError) "error_screen__description" else "error_screen__description_alt") }
-    val buttonTranslation = remember(key1 = translationVersion) { getTranslation(key = "error_screen__button") }
-    val thanksTranslation = remember(key1 = translationVersion) { getTranslation(key = "error_screen__thanks") }
+    val titleTranslation = getTranslation(key = if (isError) "error_screen__title" else "error_screen__title_alt")
+    val descriptionTranslation = getTranslation(key = if (isError) "error_screen__description" else "error_screen__description_alt")
+    val buttonTranslation = getTranslation(key = "error_screen__button")
+    val thanksTranslation = getTranslation(key = "error_screen__thanks")
 
     val typography = LocalTypography.current
 

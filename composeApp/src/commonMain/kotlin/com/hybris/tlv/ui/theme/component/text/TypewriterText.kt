@@ -3,7 +3,9 @@ package com.hybris.tlv.ui.theme.component.text
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -16,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 
@@ -57,5 +60,8 @@ internal fun TypewriterText(
 @Preview
 @Composable
 private fun Preview() = AppTheme {
-    TypewriterText(text = "Text")
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        TypewriterText(text = "Text")
+        TypewriterText()
+    }
 }

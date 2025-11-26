@@ -58,6 +58,8 @@ internal class GameStore(
                     planet = planet,
                     formula = gameSession.formula
                 )
+                // Special case: Earth is inhabitable in-game
+                if (planet.id == "3earth") planet.score = planet.score?.copy(habitabilityScore = 0.0)
             }
         }
         if (currentStellarHost == null) {

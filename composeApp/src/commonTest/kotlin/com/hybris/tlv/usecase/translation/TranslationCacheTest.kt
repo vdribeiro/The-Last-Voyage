@@ -12,6 +12,5 @@ internal class TranslationCacheTest {
         val translation = translations.first()
         TranslationCache.set(translations = translations)
         assertEquals(expected = translation.value, actual = TranslationCache.get(key = translation.key))
-        assertEquals(expected = translation.value, actual = getTranslation(key = translation.key))
     }
 }

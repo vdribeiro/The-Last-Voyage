@@ -2,9 +2,9 @@ package com.hybris.tlv.ui.theme.component.topbar
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BedroomParent
@@ -22,7 +22,6 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.alpha
-import com.hybris.tlv.ui.theme.component.container.Surface
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
 
@@ -38,37 +37,35 @@ internal fun StatusBar(
     materials: String? = null,
     cryopods: String? = null
 ) {
-    Surface(modifier = modifier.fillMaxWidth()) {
-        Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            StatusBarItem(
-                enabled = hullEnabled,
-                icon = Icons.Outlined.Shield,
-                value = hull,
-                contentDescription = "Hull Integrity"
-            )
-            StatusBarItem(
-                enabled = fuelEnabled,
-                icon = Icons.Outlined.LocalGasStation,
-                value = fuel,
-                contentDescription = "Fuel"
-            )
-            StatusBarItem(
-                enabled = materialsEnabled,
-                icon = Icons.Outlined.Construction,
-                value = materials,
-                contentDescription = "Materials"
-            )
-            StatusBarItem(
-                enabled = cryopodsEnabled,
-                icon = Icons.Outlined.BedroomParent,
-                value = cryopods,
-                contentDescription = "Cryopods"
-            )
-        }
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        StatusBarItem(
+            enabled = hullEnabled,
+            icon = Icons.Outlined.Shield,
+            value = hull,
+            contentDescription = "Hull Integrity"
+        )
+        StatusBarItem(
+            enabled = fuelEnabled,
+            icon = Icons.Outlined.LocalGasStation,
+            value = fuel,
+            contentDescription = "Fuel"
+        )
+        StatusBarItem(
+            enabled = materialsEnabled,
+            icon = Icons.Outlined.Construction,
+            value = materials,
+            contentDescription = "Materials"
+        )
+        StatusBarItem(
+            enabled = cryopodsEnabled,
+            icon = Icons.Outlined.BedroomParent,
+            value = cryopods,
+            contentDescription = "Cryopods"
+        )
     }
 }
 
@@ -95,7 +92,7 @@ private fun StatusBarItem(
         )
         value?.let {
             Text(
-                text = it,
+                text = if (it.length > 5) "${it.take(n = 5)}…" else it,
                 style = typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1
@@ -107,5 +104,41 @@ private fun StatusBarItem(
 @Preview
 @Composable
 private fun StatusBarPreview() = AppTheme {
-    StatusBar(hull = "100")
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        StatusBar(
+            hullEnabled = true,
+            fuelEnabled = true,
+            materialsEnabled = true,
+            cryopodsEnabled = true,
+            hull = "100",
+            fuel = "1000",
+            materials = "1000",
+            cryopods = "1000"
+        )
+        StatusBar(
+            hullEnabled = true,
+            fuelEnabled = false,
+            materialsEnabled = false,
+            cryopodsEnabled = true,
+            hull = "100000",
+            fuel = "100000",
+            materials = "1000000",
+            cryopods = "1000000"
+        )
+        StatusBar(
+            hull = "100",
+            fuel = "1000",
+            materials = "10000",
+            cryopods = "100000"
+        )
+        StatusBar(
+            hullEnabled = false,
+            fuelEnabled = false,
+            materialsEnabled = false,
+            cryopodsEnabled = false,
+            hull = "100",
+            cryopods = "1000"
+        )
+        StatusBar()
+    }
 }

@@ -6,9 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,8 +14,8 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.AppLogo
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
@@ -31,13 +28,12 @@ internal fun MainMenu(
     ongoingGameSession: Boolean = false,
     onOngoingGameSessionClick: () -> Unit = {},
 ) {
-    val translationVersion by TranslationCache.versionFlow.collectAsState()
-    val appNameTranslation = remember(key1 = translationVersion) { getTranslation(key = "app_name") }
-    val newGameTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__new_game") }
-    val continueTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__continue") }
-    val stellarExplorerTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__stellar_explorer") }
-    val scoresTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__scores") }
-    val achievementsTranslation = remember(key1 = translationVersion) { getTranslation(key = "main_menu_screen__achievements") }
+    val appNameTranslation = getTranslation(key = "app_name")
+    val newGameTranslation = getTranslation(key = "main_menu_screen__new_game")
+    val continueTranslation = getTranslation(key = "main_menu_screen__continue")
+    val stellarExplorerTranslation = getTranslation(key = "main_menu_screen__stellar_explorer")
+    val scoresTranslation = getTranslation(key = "main_menu_screen__scores")
+    val achievementsTranslation = getTranslation(key = "main_menu_screen__achievements")
 
     val typography = LocalTypography.current
 

@@ -1,9 +1,12 @@
 package com.hybris.tlv.ui.screen.help
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.HelpBar
@@ -31,7 +34,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
         onBackClick = { store.back() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
-        bottomBar = { if (currentContent == Content.LEARN_MENU) HelpBar() }
+        bottomBar = { if (currentContent == Content.LEARN_MENU) HelpBar(modifier = Modifier.padding(horizontal = 16.dp)) }
     ) {
         when (currentContent) {
             Content.LEARN_MENU -> LearnMenu(

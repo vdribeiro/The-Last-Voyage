@@ -2,6 +2,8 @@ package com.hybris.tlv.ui.theme.component.topbar
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,12 +24,13 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.getTranslation
 import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun TopBar(
+    modifier: Modifier = Modifier,
     banner: String? = null,
     onBackClick: (() -> Unit)? = null,
     onHelpClick: (() -> Unit)? = null,
@@ -35,8 +38,9 @@ internal fun TopBar(
     onFeedbackClick: (() -> Unit)? = null,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
     ) {
         onBackClick?.let {
             Button(onClick = it) {
@@ -96,11 +100,22 @@ private fun HostDefinitionPreview() = AppTheme {
             ),
         )
     )
-    TopBar(
-        banner = "Banner",
-        onBackClick = {},
-        onHelpClick = {},
-        onMusicClick = {},
-        onFeedbackClick = {},
-    )
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        TopBar(
+            banner = "Banner",
+            onBackClick = {},
+            onHelpClick = {},
+            onMusicClick = {},
+            onFeedbackClick = {},
+        )
+        TopBar(
+            onBackClick = {},
+            onFeedbackClick = {},
+        )
+        TopBar(
+            onHelpClick = {},
+            onMusicClick = {},
+        )
+        TopBar()
+    }
 }

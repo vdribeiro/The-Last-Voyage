@@ -17,6 +17,7 @@ import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.usecase.space.model.PlanetType
+import com.hybris.tlv.usecase.space.spectralTypeToImage
 import com.hybris.tlv.usecase.space.toImage
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
@@ -182,7 +183,7 @@ private fun PlanetListPreview() = AppTheme {
             ),
             Translation(
                 key = "stellar_host_type",
-                value = "Host Type"
+                value = "Host"
             ),
             Translation(
                 key = "planet_habitability",
@@ -205,6 +206,7 @@ private fun PlanetListPreview() = AppTheme {
         stellarHostSystemName = "System",
         stellarHostPlanetCount = 1,
         stellarHostSpectralType = "G",
+        stellarHostSpectralImage = "G".spectralTypeToImage(),
         planets = listOf(
             "Planet 1",
             "Planet 2",

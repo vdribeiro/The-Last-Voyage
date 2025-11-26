@@ -28,11 +28,11 @@ import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.translations
 import com.hybris.tlv.usecase.space.lightYearsToParsecs
-import com.hybris.tlv.usecase.space.sunGravityToStellarHostGravity
 import com.hybris.tlv.usecase.space.model.ExoplanetJson
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.StellarHostJson
+import com.hybris.tlv.usecase.space.sunGravityToStellarHostGravity
 
 internal object TestEngines {
 

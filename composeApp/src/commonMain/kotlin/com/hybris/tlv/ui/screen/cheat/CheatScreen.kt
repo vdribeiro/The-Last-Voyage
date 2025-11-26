@@ -8,6 +8,8 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.CheatSheet
+import com.hybris.tlv.usecase.translation.TranslationCache
+import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun CheatScreen(store: Store<CheatState, CheatAction>) {
@@ -47,6 +49,34 @@ private fun CheatScreenLoadingPreview() = AppTheme {
 @Preview
 @Composable
 private fun CheatScreenPreview() = AppTheme {
+    TranslationCache.set(
+        translations = listOf(
+            Translation(
+                key = "cheats_screen__title",
+                value = "Cheats"
+            ),
+            Translation(
+                key = "cheats_screen__integrity",
+                value = "Integrity"
+            ),
+            Translation(
+                key = "cheats_screen__sensor_range",
+                value = "Sensor Range"
+            ),
+            Translation(
+                key = "cheats_screen__fuel",
+                value = "Fuel"
+            ),
+            Translation(
+                key = "cheats_screen__materials",
+                value = "Materials"
+            ),
+            Translation(
+                key = "cheats_screen__cryopods",
+                value = "Cryopods"
+            ),
+        )
+    )
     CheatScreen(
         store = Store(
             initialState = CheatState(

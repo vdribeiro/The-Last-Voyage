@@ -1,11 +1,12 @@
 package com.hybris.tlv.ui.screen.game
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.GameNavigationBar
@@ -38,8 +39,11 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
-                modifier = Modifier
-                    .statusBarsPadding(),
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 8.dp
+                ),
                 hull = ship?.integrity?.toString(),
                 fuel = ship?.fuel?.toString(),
                 materials = ship?.materials?.toString(),
@@ -155,6 +159,34 @@ private fun GameScreenShipPreview() = AppTheme {
                 key = "game_screen__travel",
                 value = "Travel"
             ),
+            Translation(
+                key = "ship_years_traveled",
+                value = "Years Travelled"
+            ),
+            Translation(
+                key = "ship_speed",
+                value = "Speed"
+            ),
+            Translation(
+                key = "ship_integrity",
+                value = "Integrity"
+            ),
+            Translation(
+                key = "ship_sensor",
+                value = "Sensor Range"
+            ),
+            Translation(
+                key = "ship_fuel",
+                value = "Fuel"
+            ),
+            Translation(
+                key = "ship_materials",
+                value = "Materials"
+            ),
+            Translation(
+                key = "ship_cryopods",
+                value = "Cryopods"
+            ),
         )
     )
     GameScreen(
@@ -203,6 +235,42 @@ private fun GameScreenSystemPreview() = AppTheme {
                 key = "game_screen__travel",
                 value = "Travel"
             ),
+            Translation(
+                key = "planet_radius",
+                value = "Radius"
+            ),
+            Translation(
+                key = "planet_mass",
+                value = "Mass"
+            ),
+            Translation(
+                key = "planet_density",
+                value = "Density"
+            ),
+            Translation(
+                key = "planet_temperature",
+                value = "Temperature"
+            ),
+            Translation(
+                key = "stellar_host_type",
+                value = "Host"
+            ),
+            Translation(
+                key = "stellar_host_temperature",
+                value = "Temperature"
+            ),
+            Translation(
+                key = "stellar_host_radius",
+                value = "Radius"
+            ),
+            Translation(
+                key = "stellar_host_mass",
+                value = "Mass"
+            ),
+            Translation(
+                key = "stellar_host_age",
+                value = "Age"
+            )
         )
     )
     GameScreen(
@@ -289,6 +357,18 @@ private fun GameScreenTravelPreview() = AppTheme {
                 key = "game_screen__travel",
                 value = "Travel"
             ),
+            Translation(
+                key = "stellar_host_planet_count",
+                value = "Planet Count"
+            ),
+            Translation(
+                key = "stellar_host_type",
+                value = "Host"
+            ),
+            Translation(
+                key = "stellar_host_distance",
+                value = "Distance"
+            )
         )
     )
     GameScreen(
