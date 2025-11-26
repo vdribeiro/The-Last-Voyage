@@ -22,14 +22,18 @@ internal fun LearnMenu(
     modifier: Modifier = Modifier,
     onNavigationClick: () -> Unit = {},
     onHostDefinitionClick: () -> Unit = {},
+    onHostTypesClick: () -> Unit = {},
     onPlanetDefinitionClick: () -> Unit = {},
+    onPlanetTypesClick: () -> Unit = {},
     onHabitabilityClick: () -> Unit = {},
     onMechanicsClick: () -> Unit = {}
 ) {
     val helpTranslation = getTranslation(key = "main_menu_screen__learn")
     val navigationTranslation = getTranslation(key = "main_menu_screen__navigation")
     val hostDefinitionTranslation = getTranslation(key = "main_menu_screen__host_definition")
+    val hostTypesTranslation = getTranslation(key = "main_menu_screen__host_types")
     val planetDefinitionTranslation = getTranslation(key = "main_menu_screen__planet_definition")
+    val planetTypesTranslation = getTranslation(key = "main_menu_screen__planet_types")
     val habitabilityTranslation = getTranslation(key = "main_menu_screen__habitability")
     val mechanicsTranslation = getTranslation(key = "main_menu_screen__mechanics")
 
@@ -70,8 +74,24 @@ internal fun LearnMenu(
         item {
             Text(
                 modifier = Modifier
+                    .clickable { onHostTypesClick() },
+                text = hostTypesTranslation,
+                style = typography.headlineMedium,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier
                     .clickable { onPlanetDefinitionClick() },
                 text = planetDefinitionTranslation,
+                style = typography.headlineMedium,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier
+                    .clickable { onPlanetTypesClick() },
+                text = planetTypesTranslation,
                 style = typography.headlineMedium,
             )
         }
@@ -114,6 +134,14 @@ private fun LearnMenuPreview() = AppTheme {
             Translation(
                 key = "main_menu_screen__planet_definition",
                 value = "Planet Definition"
+            ),
+            Translation(
+                key = "main_menu_screen__host_types",
+                value = "Host Types"
+            ),
+            Translation(
+                key = "main_menu_screen__planet_types",
+                value = "Planet Types"
             ),
             Translation(
                 key = "main_menu_screen__habitability",

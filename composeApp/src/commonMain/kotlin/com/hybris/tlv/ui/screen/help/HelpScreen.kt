@@ -42,7 +42,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
             Content.LEARN_MENU -> LearnMenu(
                 onNavigationClick = { store.send(action = HelpAction.Navigation) },
                 onHostDefinitionClick = { store.send(action = HelpAction.HostDefinition) },
+                onHostTypesClick = { store.send(action = HelpAction.HostType) },
                 onPlanetDefinitionClick = { store.send(action = HelpAction.PlanetDefinition) },
+                onPlanetTypesClick = { store.send(action = HelpAction.PlanetType) },
                 onHabitabilityClick = { store.send(action = HelpAction.Habitability) },
                 onMechanicsClick = { store.send(action = HelpAction.Mechanics) }
             )
