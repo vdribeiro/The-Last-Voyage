@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -109,6 +109,7 @@ internal fun ControlPanel(
                 onFiltersChange = onFiltersChange
             )
         }
+        if (viewIcon != null || viewName != null || count != null || properties.isNotEmpty()) Spacer(modifier = Modifier.height(height = 4.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -143,7 +144,10 @@ internal fun ControlPanel(
                 }
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 count?.toString()?.let {
                     Text(
                         modifier = Modifier.alpha(alpha = alpha(enabled = enabled)),
@@ -152,21 +156,24 @@ internal fun ControlPanel(
                         style = typography.labelLarge
                     )
                 }
-                if (properties.isNotEmpty()) SortMenu(
-                    enabled = enabled,
-                    properties = properties,
-                    selectedProperty = selectedProperty,
-                    ascending = ascending,
-                    onSortChange = onSortChange,
-                    onSortDirectionChange = onSortDirectionChange
+                if (count != null && properties.isNotEmpty()) Spacer(modifier = Modifier.width(width = 8.dp))
+                if (properties.isNotEmpty()) {
+                    SortMenu(
+                        enabled = enabled,
+                        properties = properties,
+                        selectedProperty = selectedProperty,
+                        ascending = ascending,
+                        onSortChange = onSortChange,
+                        onSortDirectionChange = onSortDirectionChange
 
-                )
-                if (properties.isNotEmpty()) VisibilityMenu(
-                    enabled = enabled,
-                    properties = properties,
-                    visibleProperties = visibleProperties,
-                    onVisibilityChange = onVisibilityChange
-                )
+                    )
+                    VisibilityMenu(
+                        enabled = enabled,
+                        properties = properties,
+                        visibleProperties = visibleProperties,
+                        onVisibilityChange = onVisibilityChange
+                    )
+                }
             }
         }
     }
