@@ -48,8 +48,7 @@ internal inline fun <T> HostDefinition(
     noinline propertyId: (T) -> String = { generateUuid() },
     crossinline propertyDescription: (T) -> String? = { null },
 ) {
-    val exampleTranslation = getTranslation(key = "main_menu_screen__definition_example")
-    val propertiesTranslation = getTranslation(key = "main_menu_screen__definition_properties")
+    val definitionTranslation = getTranslation(key = "main_menu_screen__host_definition")
 
     val typography = LocalTypography.current
 
@@ -61,7 +60,7 @@ internal inline fun <T> HostDefinition(
     ) {
         item {
             Text(
-                text = exampleTranslation,
+                text = definitionTranslation,
                 style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -88,14 +87,7 @@ internal inline fun <T> HostDefinition(
                 ra = ra,
                 dec = dec,
             )
-        }
-        item {
-            Text(
-                text = propertiesTranslation,
-                style = typography.headlineMedium,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(height = 4.dp))
+            Spacer(modifier = Modifier.height(height = 8.dp))
         }
         items(items = properties, key = propertyId) { property ->
             PropertyCard(
@@ -112,12 +104,8 @@ private fun HostDefinitionPreview() = AppTheme {
     TranslationCache.set(
         translations = listOf(
             Translation(
-                key = "main_menu_screen__definition_example",
-                value = "Example"
-            ),
-            Translation(
-                key = "main_menu_screen__definition_properties",
-                value = "Properties"
+                key = "main_menu_screen__host_definition",
+                value = "Definition"
             ),
         )
     )
