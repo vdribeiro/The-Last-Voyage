@@ -62,7 +62,7 @@ internal class GameOverStore(
                 Content.MESSAGE -> updateState {
                     it.copy(
                         currentContent = Content.SCORE,
-                        achievement = achievements?.getOrNull(index = index)
+                        achievement = achievements?.firstOrNull()
                     )
                 }
 
