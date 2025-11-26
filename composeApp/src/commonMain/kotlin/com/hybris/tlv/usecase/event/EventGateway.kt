@@ -1,8 +1,10 @@
 package com.hybris.tlv.usecase.event
 
+import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.EventSchema
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.EVENTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
@@ -23,7 +25,7 @@ internal class EventGateway(
 
     private val eventDao = database.eventQueries
 
-    override suspend fun syncEvents() {
+    override suspend fun syncEvents()= withContext(context = Dispatcher.IO) {
         val remoteVersion = config.remoteConfigs.value.eventsVersion
         val localVersion = config.localConfigs.value.eventsVersion
         Telemetry.info(tag = TAG, message = "Syncing events: remote version: $remoteVersion, local version: $localVersion")
@@ -34,7 +36,7 @@ internal class EventGateway(
                     rewriteEvents(events = result.list)
                     config.setConfigs { it.copy(eventsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful events sync")
-                    return
+                    return@withContext
                 }
             }
         }
@@ -50,8 +52,8 @@ internal class EventGateway(
         events.forEach { eventDao.upsertEvent(Event = it.toEventSchema()) }
     }
 
-    override suspend fun getRandomEvent(ids: Set<String>): List<Event> {
-        val event = eventDao.getRandomEvent(ids = ids).executeAsOneOrNull()?.toEvent() ?: return emptyList()
+    override suspend fun getRandomEvent(ids: Set<String>): List<Event> = withContext(context = Dispatcher.IO) {
+        val event = eventDao.getRandomEvent(ids = ids).executeAsOneOrNull()?.toEvent() ?: return@withContext emptyList()
         val treeNodes = mutableListOf(event)
         val nodesToVisit = mutableListOf(event.id)
         while (nodesToVisit.isNotEmpty()) {
@@ -62,7 +64,7 @@ internal class EventGateway(
                 nodesToVisit.addAll(elements = children.map { it.id })
             }
         }
-        return treeNodes
+        treeNodes
     }
 
     private fun Event.toEventSchema(): EventSchema =

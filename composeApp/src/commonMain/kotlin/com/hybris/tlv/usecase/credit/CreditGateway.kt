@@ -1,8 +1,10 @@
 package com.hybris.tlv.usecase.credit
 
+import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.CreditSchema
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.CREDITS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
@@ -20,7 +22,7 @@ internal class CreditGateway(
 
     private val creditDao = database.creditQueries
 
-    override suspend fun syncCredits() {
+    override suspend fun syncCredits() = withContext(context = Dispatcher.IO) {
         val remoteVersion = config.remoteConfigs.value.creditsVersion
         val localVersion = config.localConfigs.value.creditsVersion
         Telemetry.info(tag = TAG, message = "Syncing credits: remote version: $remoteVersion, local version: $localVersion")
@@ -31,7 +33,7 @@ internal class CreditGateway(
                     rewriteCredits(credits = result.list)
                     config.setConfigs { it.copy(creditsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful credits sync")
-                    return
+                    return@withContext
                 }
             }
         }
@@ -47,8 +49,9 @@ internal class CreditGateway(
         credits.forEach { creditDao.upsertCredit(Credit = it.toCreditSchema()) }
     }
 
-    override suspend fun getCredits(): List<Credit> =
+    override suspend fun getCredits(): List<Credit> = withContext(context = Dispatcher.IO) {
         creditDao.getCredits().executeAsList().map { it.toCredit() }
+    }
 
     private fun Credit.toCreditSchema(): CreditSchema =
         CreditSchema(

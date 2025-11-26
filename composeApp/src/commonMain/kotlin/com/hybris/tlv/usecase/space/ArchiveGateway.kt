@@ -2,8 +2,10 @@ package com.hybris.tlv.usecase.space
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.timeout
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
@@ -67,7 +69,7 @@ internal class ArchiveGateway(
 
     private data class Exoplanets(val stellarHosts: List<StellarHost>, val planets: List<Planet>)
 
-    override suspend fun getArchive() {
+    override suspend fun getArchive()= withContext(context = Dispatcher.IO) {
         runCatching {
             if (!Property.ARCHIVE) return@runCatching
             coroutineScope {
@@ -105,7 +107,7 @@ internal class ArchiveGateway(
                 val planetsFile = saveJsonFile(path = ARCHIVE_PLANETS_JSON, content = planetsJson)
                 Telemetry.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
             }
-        }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get archive", throwable = it) }
+        }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get archive", throwable = it) }.getOrDefault(defaultValue = Unit)
     }
 
     private suspend fun getArchive(limit: Int = pageSize, apiCall: suspend (Int, Int) -> Exoplanets): Exoplanets {

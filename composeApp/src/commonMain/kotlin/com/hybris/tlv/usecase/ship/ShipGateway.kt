@@ -1,9 +1,11 @@
 package com.hybris.tlv.usecase.ship
 
 import kotlin.math.abs
+import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.EngineSchema
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.ENGINES_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
@@ -26,7 +28,7 @@ internal class ShipGateway(
 
     private val engineDao = database.engineQueries
 
-    override suspend fun syncEngines() {
+    override suspend fun syncEngines() = withContext(context = Dispatcher.IO) {
         val remoteVersion = config.remoteConfigs.value.enginesVersion
         val localVersion = config.localConfigs.value.enginesVersion
         Telemetry.info(tag = TAG, message = "Syncing engines: remote version: $remoteVersion, local version: $localVersion")
@@ -37,7 +39,7 @@ internal class ShipGateway(
                     rewriteEngines(engines = result.list)
                     config.setConfigs { it.copy(enginesVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful engines sync")
-                    return
+                    return@withContext
                 }
             }
         }
@@ -53,10 +55,11 @@ internal class ShipGateway(
         engines.forEach { engineDao.upsertEngine(Engine = it.toEngineSchema()) }
     }
 
-    override suspend fun getEngines(): List<Engine> =
+    override suspend fun getEngines(): List<Engine> = withContext(context = Dispatcher.IO) {
         engineDao.getEngines().executeAsList().map { it.toEngine() }.sortedBy { it.velocity }
+    }
 
-    override suspend fun repairShip(ship: Ship): Ship {
+    override suspend fun repairShip(ship: Ship): Ship = withContext(context = Dispatcher.Default) {
         val preferences = config.preferences.value
 
         val sensorRange = if (preferences.cheatSensorRange) 100 else ship.sensorRange
@@ -84,7 +87,7 @@ internal class ShipGateway(
             materials = 0
         }
 
-        return ship.copy(
+        ship.copy(
             sensorRange = sensorRange,
             integrity = integrity,
             materials = materials,

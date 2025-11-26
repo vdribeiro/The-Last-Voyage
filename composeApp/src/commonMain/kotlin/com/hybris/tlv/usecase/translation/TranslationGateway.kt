@@ -1,8 +1,10 @@
 package com.hybris.tlv.usecase.translation
 
+import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.TranslationSchema
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.TRANSLATIONS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
@@ -20,7 +22,7 @@ internal class TranslationGateway(
 
     private val translationDao = database.translationQueries
 
-    override suspend fun syncTranslations() {
+    override suspend fun syncTranslations() = withContext(context = Dispatcher.IO) {
         val remoteVersion = config.remoteConfigs.value.translationsVersion
         val localVersion = config.localConfigs.value.translationsVersion
         Telemetry.info(tag = TAG, message = "Syncing translations: remote version: $remoteVersion, local version: $localVersion")
@@ -31,7 +33,7 @@ internal class TranslationGateway(
                     rewriteTranslations(translations = result.list)
                     config.setConfigs { it.copy(translationsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful translations sync")
-                    return
+                    return@withContext
                 }
             }
         }

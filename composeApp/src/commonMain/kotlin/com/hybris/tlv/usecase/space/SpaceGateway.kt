@@ -5,10 +5,12 @@ import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.PlanetSchema
 import com.hybris.tlv.database.StellarHostSchema
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.PLANETS_URL
 import com.hybris.tlv.http.HttpClientFactory.Companion.STELLAR_HOSTS_URL
 import com.hybris.tlv.http.Result
@@ -32,7 +34,7 @@ internal class SpaceGateway(
     private val stellarHostDao = database.stellarHostQueries
     private val planetDao = database.planetQueries
 
-    override suspend fun syncStellarHosts() {
+    override suspend fun syncStellarHosts()= withContext(context = Dispatcher.IO) {
         val remoteVersion = config.remoteConfigs.value.stellarHostsVersion
         val localVersion = config.localConfigs.value.stellarHostsVersion
         Telemetry.info(tag = TAG, message = "Syncing stellar hosts: remote version: $remoteVersion, local version: $localVersion")
@@ -43,7 +45,7 @@ internal class SpaceGateway(
                     rewriteStellarHosts(stellarHosts = result.list)
                     config.setConfigs { it.copy(stellarHostsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful stellar hosts sync")
-                    return
+                    return@withContext
                 }
             }
         }
@@ -59,7 +61,7 @@ internal class SpaceGateway(
         stellarHosts.forEach { stellarHostDao.upsertStellarHost(StellarHost = it.toStellarHostSchema()) }
     }
 
-    override suspend fun syncPlanets() {
+    override suspend fun syncPlanets()= withContext(context = Dispatcher.IO) {
         val remoteVersion = config.remoteConfigs.value.planetsVersion
         val localVersion = config.localConfigs.value.planetsVersion
         Telemetry.info(tag = TAG, message = "Syncing planets: remote version: $remoteVersion, local version: $localVersion")
@@ -70,7 +72,7 @@ internal class SpaceGateway(
                     rewritePlanets(planets = result.list)
                     config.setConfigs { it.copy(planetsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful planets sync")
-                    return
+                    return@withContext
                 }
             }
         }
@@ -86,14 +88,14 @@ internal class SpaceGateway(
         planets.forEach { planetDao.upsertPlanet(Planet = it.toPlanetSchema()) }
     }
 
-    override suspend fun getStellarHost(id: String): StellarHost? {
+    override suspend fun getStellarHost(id: String): StellarHost? = withContext(context = Dispatcher.IO) {
         val planets = planetDao.getPlanetsByStellarHost(stellarHostId = id).executeAsList().map { it.toPlanet() }
-        return stellarHostDao.getStellarHost(id = id).executeAsOneOrNull()?.toStellarHost()?.apply { this.planets.addAll(elements = planets) }
+        stellarHostDao.getStellarHost(id = id).executeAsOneOrNull()?.toStellarHost()?.apply { this.planets.addAll(elements = planets) }
     }
 
-    override suspend fun getExoplanets(): List<StellarHost> {
+    override suspend fun getExoplanets(): List<StellarHost> = withContext(context = Dispatcher.IO) {
         val planetMap = planetDao.getPlanets().executeAsList().map { it.toPlanet() }.groupBy { it.stellarHostId }
-        return stellarHostDao.getStellarHosts().executeAsList().map { it.toStellarHost() }.apply {
+        stellarHostDao.getStellarHosts().executeAsList().map { it.toStellarHost() }.apply {
             forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) }
         }
     }
@@ -102,9 +104,9 @@ internal class SpaceGateway(
         stellarHost: StellarHost,
         n: Int,
         visited: Set<String>
-    ): List<StellarHost> {
-        if (n <= 0) return emptyList()
-        val stellarHostCP = stellarHost.toCartesian() ?: return emptyList()
+    ): List<StellarHost> = withContext(context = Dispatcher.Default) {
+        if (n <= 0) return@withContext emptyList()
+        val stellarHostCP = stellarHost.toCartesian() ?: return@withContext emptyList()
         val nearest = mutableListOf<Pair<StellarHost, Double>>()
         getExoplanets()
             .asSequence()
@@ -127,7 +129,7 @@ internal class SpaceGateway(
                     }
                 }
             }
-        return nearest.map { (stellarHost, distanceSquared) ->
+        nearest.map { (stellarHost, distanceSquared) ->
             val finalDistance = sqrt(x = distanceSquared)
             stellarHost.copy(distance = finalDistance).apply {
                 planets.addAll(elements = stellarHost.planets)

@@ -1,8 +1,10 @@
 package com.hybris.tlv.usecase.learning
 
+import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.LearningSchema
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.LEARNINGS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
@@ -20,7 +22,7 @@ internal class LearningGateway(
 
     private val learningDao = database.learningQueries
 
-    override suspend fun syncLearnings() {
+    override suspend fun syncLearnings() = withContext(context = Dispatcher.IO) {
         val remoteVersion = config.remoteConfigs.value.learningsVersion
         val localVersion = config.localConfigs.value.learningsVersion
         Telemetry.info(tag = TAG, message = "Syncing learnings: remote version: $remoteVersion, local version: $localVersion")
@@ -31,7 +33,7 @@ internal class LearningGateway(
                     rewriteLearnings(learnings = result.list)
                     config.setConfigs { it.copy(learningsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful learnings sync")
-                    return
+                    return@withContext
                 }
             }
         }
@@ -47,8 +49,9 @@ internal class LearningGateway(
         learnings.forEach { learningDao.upsertLearning(Learning = it.toLearningSchema()) }
     }
 
-    override suspend fun getLearnings(): List<Learning> =
+    override suspend fun getLearnings(): List<Learning> = withContext(context = Dispatcher.IO) {
         learningDao.getLearnings().executeAsList().map { it.toLearning() }
+    }
 
     private fun Learning.toLearningSchema(): LearningSchema =
         LearningSchema(

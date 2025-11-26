@@ -1,8 +1,10 @@
 package com.hybris.tlv.usecase.catastrophe
 
+import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.CatastropheSchema
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.CATASTROPHES_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
@@ -20,7 +22,7 @@ internal class CatastropheGateway(
 
     private val catastropheDao = database.catastropheQueries
 
-    override suspend fun syncCatastrophes() {
+    override suspend fun syncCatastrophes()= withContext(context = Dispatcher.IO) {
         val remoteVersion = config.remoteConfigs.value.catastrophesVersion
         val localVersion = config.localConfigs.value.catastrophesVersion
         Telemetry.info(tag = TAG, message = "Syncing catastrophes: remote version: $remoteVersion, local version: $localVersion")
@@ -31,7 +33,7 @@ internal class CatastropheGateway(
                     rewriteCatastrophes(catastrophes = result.list)
                     config.setConfigs { it.copy(catastrophesVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful catastrophes sync")
-                    return
+                    return@withContext
                 }
             }
         }
@@ -47,8 +49,9 @@ internal class CatastropheGateway(
         catastrophes.forEach { catastropheDao.upsertCatastrophe(Catastrophe = it.toCatastropheSchema()) }
     }
 
-    override suspend fun getRandomCatastrophe(): Catastrophe? =
+    override suspend fun getRandomCatastrophe(): Catastrophe? = withContext(context = Dispatcher.IO) {
         catastropheDao.getRandomCatastrophe().executeAsOneOrNull()?.toCatastrophe()
+    }
 
     private fun Catastrophe.toCatastropheSchema(): CatastropheSchema =
         CatastropheSchema(

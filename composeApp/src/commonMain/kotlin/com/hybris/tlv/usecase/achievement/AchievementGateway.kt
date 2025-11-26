@@ -1,8 +1,10 @@
 package com.hybris.tlv.usecase.achievement
 
+import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.AchievementSchema
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.ACHIEVEMENTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
@@ -24,7 +26,7 @@ internal class AchievementGateway(
 
     private val achievementDao = database.achievementQueries
 
-    override suspend fun syncAchievements() {
+    override suspend fun syncAchievements() = withContext(context = Dispatcher.IO){
         val remoteVersion = config.remoteConfigs.value.achievementsVersion
         val localVersion = config.localConfigs.value.achievementsVersion
         Telemetry.info(tag = TAG, message = "Syncing achievements: remote version: $remoteVersion, local version: $localVersion")
@@ -35,7 +37,7 @@ internal class AchievementGateway(
                     rewriteAchievements(achievements = result.list)
                     config.setConfigs { it.copy(achievementsVersion = remoteVersion) }
                     Telemetry.info(tag = TAG, message = "Successful achievements sync")
-                    return
+                    return@withContext
                 }
             }
         }
@@ -51,13 +53,14 @@ internal class AchievementGateway(
         achievements.forEach { achievementDao.upsertAchievement(Achievement = it.toAchievementSchema()) }
     }
 
-    override suspend fun getAchievements(): List<Achievement> =
+    override suspend fun getAchievements(): List<Achievement> = withContext(context = Dispatcher.IO) {
         achievementDao.getAchievements().executeAsList().map { it.toAchievement() }
+    }
 
-    override suspend fun updateAchievements(gameSession: GameSession): List<Achievement> {
-        gameSession.currentStellarHostId ?: return emptyList()
-        gameSession.settledPlanetId ?: return emptyList()
-        gameSession.finalHabitability ?: return emptyList()
+    override suspend fun updateAchievements(gameSession: GameSession): List<Achievement> = withContext(context = Dispatcher.IO) {
+        gameSession.currentStellarHostId ?: return@withContext emptyList()
+        gameSession.settledPlanetId ?: return@withContext emptyList()
+        gameSession.finalHabitability ?: return@withContext emptyList()
 
         val achievements = mutableSetOf<Achievement>().apply {
             achievementDao.getAchievementsByDone(done = false).executeAsList().map { it.toAchievement() }.forEach { achievement ->
@@ -119,7 +122,7 @@ internal class AchievementGateway(
             }
         }
         achievementDao.transaction { achievements.forEach { achievementDao.upsertAchievement(Achievement = it.toAchievementSchema()) } }
-        return achievements.toList()
+        achievements.toList()
     }
 
     private fun Achievement.toAchievementSchema(): AchievementSchema =
