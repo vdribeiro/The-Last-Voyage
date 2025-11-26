@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.help
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -10,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.HelpBar
+import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
 import com.hybris.tlv.ui.theme.component.container.HostDefinition
 import com.hybris.tlv.ui.theme.component.container.HostTypes
 import com.hybris.tlv.ui.theme.component.container.LearnMenu
@@ -36,7 +38,19 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
         onBackClick = { store.back() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
-        bottomBar = { if (currentContent == Content.LEARN_MENU) HelpBar(modifier = Modifier.padding(horizontal = 16.dp)) }
+        bottomBar = {
+            if (currentContent == Content.LEARN_MENU) HelpBar(
+                modifier = Modifier
+                    .clickable { store.send(action = HelpAction.VersionClick(reset = false)) }
+                    .padding(horizontal = 16.dp)
+            )
+        },
+        snackbarHost = {
+            if (storeState.showSnackbar) Snackbar(
+                message = "Snackbar",
+                onDismiss = { store.send(action = HelpAction.VersionClick(reset = true)) }
+            )
+        }
     ) {
         when (currentContent) {
             Content.LEARN_MENU -> LearnMenu(
@@ -169,6 +183,14 @@ private fun HelpScreenPreview() = AppTheme {
             Translation(
                 key = "main_menu_screen__planet_definition",
                 value = "Planet Definition"
+            ),
+            Translation(
+                key = "main_menu_screen__host_types",
+                value = "Host Types"
+            ),
+            Translation(
+                key = "main_menu_screen__planet_types",
+                value = "Planet Types"
             ),
             Translation(
                 key = "main_menu_screen__habitability",

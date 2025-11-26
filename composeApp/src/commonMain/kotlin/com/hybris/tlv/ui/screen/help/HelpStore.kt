@@ -1,9 +1,10 @@
 package com.hybris.tlv.ui.screen.help
 
 import kotlinx.coroutines.Job
+import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.Screen.Tutorial
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.learning.LearningUseCases
 
@@ -13,6 +14,9 @@ internal class HelpStore(
 ): Store<HelpState, HelpAction>(
     initialState = HelpState()
 ) {
+    @get:VisibleForTesting
+    internal var versionClick: Int = 0
+
     init {
         setup()
     }
@@ -30,6 +34,11 @@ internal class HelpStore(
             )
         }
         Telemetry.info(tag = TAG, message = "Setup complete")
+    }
+
+    private fun versionClick(action: HelpAction.VersionClick) {
+        if (action.reset) versionClick = 0 else versionClick++
+        updateState { it.copy(showSnackbar = versionClick >= 5) }
     }
 
     override fun back(state: HelpState) {
@@ -52,7 +61,8 @@ internal class HelpStore(
             HelpAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
             HelpAction.PlanetType -> updateState { it.copy(currentContent = Content.PLANET_TYPE) }
             HelpAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
-            HelpAction.Mechanics -> navigate(screen = Screen.Tutorial())
+            HelpAction.Mechanics -> navigate(screen = Tutorial())
+            is HelpAction.VersionClick -> versionClick(action = action)
         }
     }
 

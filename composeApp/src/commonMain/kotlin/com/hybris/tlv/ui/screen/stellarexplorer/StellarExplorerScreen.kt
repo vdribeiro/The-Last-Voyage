@@ -20,6 +20,7 @@ import com.hybris.tlv.ui.theme.component.list.PlanetList
 import com.hybris.tlv.ui.theme.component.list.StellarHostList
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.ui.theme.getTranslation
+import com.hybris.tlv.ui.theme.modifier.clearFocus
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
 import com.hybris.tlv.usecase.space.model.StellarHost
@@ -44,6 +45,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     val planetListTranslation = getTranslation(key = "stellar_explorer_screen__planet_list")
 
     Screen(
+        modifier = Modifier.clearFocus(),
         loading = storeState.loading,
         onBackClick = { store.back() },
         onHelpClick = { store.help() },

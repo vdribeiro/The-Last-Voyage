@@ -16,6 +16,7 @@ internal sealed interface HelpAction {
     data object PlanetType: HelpAction
     data object Mechanics: HelpAction
     data object Habitability: HelpAction
+    data class VersionClick(val reset: Boolean): HelpAction
 }
 
 internal data class HelpState(
@@ -104,7 +105,8 @@ internal data class HelpState(
             planetProtectionScore = null,
             planetTidalLockingScore = null
         )
-    }
+    },
+    val showSnackbar: Boolean = false
 )
 
 internal enum class Content {
