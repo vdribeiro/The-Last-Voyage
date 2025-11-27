@@ -5,10 +5,7 @@ import io.ktor.client.engine.HttpClientEngine
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.config.Config
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.config.Configs
-import com.hybris.tlv.config.Preferences
 import com.hybris.tlv.database.DatabaseFactory
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.media.AudioPlayer
@@ -33,13 +30,6 @@ internal class Dependency(
     ),
     val audioPlayer: AudioPlayer = createAudioPlayer()
 ) {
-    suspend fun reset() {
-        sqlDriver.clearDatabase()
-        config.setPreferences { Preferences() }
-        config.setConfigs { Configs() }
-    }
-
-    // Debug helpers
     companion object {
         /**
          * Reset local data.

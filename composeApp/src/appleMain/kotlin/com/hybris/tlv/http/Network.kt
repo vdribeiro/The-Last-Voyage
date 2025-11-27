@@ -13,6 +13,7 @@ import platform.CoreFoundation.CFTypeRef
 import platform.SystemConfiguration.SCNetworkReachabilityCreateWithAddress
 import platform.SystemConfiguration.SCNetworkReachabilityFlagsVar
 import platform.SystemConfiguration.SCNetworkReachabilityGetFlags
+import platform.SystemConfiguration.SCNetworkReachabilityRef
 import platform.SystemConfiguration.kSCNetworkReachabilityFlagsConnectionRequired
 import platform.SystemConfiguration.kSCNetworkReachabilityFlagsReachable
 import platform.posix.AF_INET
@@ -25,20 +26,20 @@ internal actual suspend fun isInternetAvailable(): Boolean = withContext(context
     runCatching {
         memScoped {
             // Create a IPv4 zero address
-            val zeroAddress = alloc<sockaddr_in>().apply {
+            val zeroAddress: sockaddr_in = alloc<sockaddr_in>().apply {
                 sin_len = sizeOf<sockaddr_in>().toUByte()
                 sin_family = AF_INET.toUByte()
             }
             // Check general internet reachability
-            val reachability = SCNetworkReachabilityCreateWithAddress(
+            val reachability: SCNetworkReachabilityRef = SCNetworkReachabilityCreateWithAddress(
                 allocator = null,
                 address = zeroAddress.ptr.reinterpret()
-            ) ?: return false
+            ) ?: return@withContext false
             // Network status
             reachability.use {
-                val networkStatus = alloc<SCNetworkReachabilityFlagsVar>()
+                val networkStatus: SCNetworkReachabilityFlagsVar = alloc<SCNetworkReachabilityFlagsVar>()
                 val success = SCNetworkReachabilityGetFlags(target = it, flags = networkStatus.ptr)
-                if (!success) return false
+                if (!success) return@withContext false
                 val isReachable = (networkStatus.value and kSCNetworkReachabilityFlagsReachable) != 0u
                 val needsConnection = (networkStatus.value and kSCNetworkReachabilityFlagsConnectionRequired) != 0u
                 isReachable && !needsConnection
