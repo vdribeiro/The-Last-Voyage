@@ -39,7 +39,12 @@ internal class Dependency(
         config.setConfigs { Configs() }
     }
 
+    // Debug helpers
     companion object {
+        /**
+         * Reset local data.
+         */
+        const val RESET = true
         /**
          * Enable or disable HTTP client.
          */

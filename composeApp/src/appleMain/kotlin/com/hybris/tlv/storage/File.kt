@@ -42,18 +42,31 @@ internal actual suspend fun saveFile(path: String, content: String): Boolean = r
         error = null
     )
     true
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to save file", throwable = it) }.getOrDefault(defaultValue = false)
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to save file $path", throwable = it) }.getOrDefault(defaultValue = false)
 
 @OptIn(ExperimentalForeignApi::class)
 internal actual suspend fun loadFile(path: String): String? = runCatching {
     val fullPath = appDataDir.stringByAppendingPathComponent(str = path)
-    if (NSFileManager.defaultManager.fileExistsAtPath(path = fullPath)) {
+    val fileManager = NSFileManager.defaultManager
+    if (fileManager.fileExistsAtPath(path = fullPath)) {
         NSString.stringWithContentsOfFile(
             path = fullPath,
             encoding = NSUTF8StringEncoding,
             error = null
         )
     } else null
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to load file", throwable = it) }.getOrNull()
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to load file $path", throwable = it) }.getOrNull()
+
+@OptIn(ExperimentalForeignApi::class)
+internal actual suspend fun deleteFile(path: String): Boolean = runCatching {
+    val fullPath = appDataDir.stringByAppendingPathComponent(str = path)
+    val fileManager = NSFileManager.defaultManager
+    if (fileManager.fileExistsAtPath(path = fullPath)) {
+        fileManager.removeItemAtPath(
+            path = fullPath,
+            error = null
+        )
+    } else true
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to delete file $path", throwable = it) }.getOrDefault(defaultValue = false)
 
 private const val TAG = "File"
