@@ -13,6 +13,7 @@ import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Speed
 import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
@@ -47,7 +48,8 @@ internal fun ShipStats(
         modifier = modifier
             .fillMaxSize()
             .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+        horizontalAlignment = Alignment.Start,
     ) {
         yearsTraveled?.let {
             item {

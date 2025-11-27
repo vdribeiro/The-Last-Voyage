@@ -114,7 +114,7 @@ internal fun StellarHostCard(
             ) {
                 name?.let { Text(text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold) }
                 if (name != null && description != null) Spacer(modifier = Modifier.height(height = 4.dp))
-                description?.let { Text(text = getTranslation(key = it), style = typography.bodyLarge) }
+                description?.let { Text(text = it, style = typography.bodyLarge) }
                 systemName?.let { InfoRow(label = stellarHostSystemNameTranslation, value = it) }
                 planetCount?.let { InfoRow(label = stellarHostPlanetCountTranslation, value = it) }
                 spectralType?.let { InfoRow(label = stellarHostTypeTranslation, value = it) }

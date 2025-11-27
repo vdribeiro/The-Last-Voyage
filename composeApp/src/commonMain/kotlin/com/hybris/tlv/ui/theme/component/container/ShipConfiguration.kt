@@ -57,6 +57,7 @@ internal inline fun <T> ShipConfiguration(
             .fillMaxSize()
             .padding(all = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
         // Remaining points
         InfoRow(

@@ -8,22 +8,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.platform.isAndroid
 import com.hybris.tlv.platform.isIos
+import com.hybris.tlv.platform.open
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalColorScheme
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.HelpBar
 import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
-import com.hybris.tlv.ui.theme.component.container.HostTypes
 import com.hybris.tlv.ui.theme.component.container.LearnMenu
 import com.hybris.tlv.ui.theme.component.container.NavigationHelp
-import com.hybris.tlv.ui.theme.component.container.PlanetTypes
-import com.hybris.tlv.ui.theme.component.container.PropertiesDefinition
+import com.hybris.tlv.ui.theme.component.container.PropertyList
 import com.hybris.tlv.ui.theme.component.container.Screen
-import com.hybris.tlv.ui.theme.component.list.HabitabilityList
+import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
@@ -80,42 +82,59 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 onMechanicsClick = { store.send(action = HelpAction.Mechanics) }
             )
 
-            Content.NAVIGATION -> NavigationHelp()
-            Content.HOST_DEFINITION -> PropertiesDefinition(
-                modifier = Modifier.align(alignment = Alignment.TopStart),
-                image = "G".spectralTypeToImage(),
+            Content.NAVIGATION -> NavigationHelp() // TODO - replace with property list
+            Content.HOST_DEFINITION -> PropertyList(
+                title = getTranslation(key = "main_menu_screen__host_definition"),
                 properties = storeState.learningsMap[LearningType.HOST_PROPERTY].orEmpty(),
-                propertyId = { it.id },
-                propertyDescription = { it.description },
+                id = { it.id },
+                description = { it.description },
             )
 
-            Content.HOST_TYPE -> HostTypes(
-                stellarHosts = storeState.learningsMap[LearningType.HOST_TYPE].orEmpty(),
-                stellarHostId = { it.id },
-                stellarHostDescription = { it.description },
-                stellarHostImage = { it.image.spectralTypeToImage() },
+            Content.HOST_TYPE -> PropertyList(
+                title = getTranslation(key = "main_menu_screen__host_types"),
+                properties = storeState.learningsMap[LearningType.HOST_TYPE].orEmpty(),
+                id = { it.id },
+                description = { it.description },
+                image = { it.image.spectralTypeToImage() },
             )
 
-            Content.PLANET_DEFINITION -> PropertiesDefinition(
-                modifier = Modifier.align(alignment = Alignment.TopStart),
-                image = PlanetType.SUPERHABITABLE_PLANET.toImage(),
+            Content.PLANET_DEFINITION -> PropertyList(
+                title = getTranslation(key = "main_menu_screen__planet_definition"),
                 properties = storeState.learningsMap[LearningType.PLANET_PROPERTY].orEmpty(),
-                propertyId = { it.id },
-                propertyDescription = { it.description }
+                id = { it.id },
+                description = { it.description }
             )
 
-            Content.PLANET_TYPE -> PlanetTypes(
-                planets = storeState.learningsMap[LearningType.PLANET_TYPE].orEmpty(),
-                planetId = { it.id },
-                planetDescription = { it.description },
-                planetImage = { PlanetType.fromValue(value = it.image.orEmpty()).toImage() }
+            Content.PLANET_TYPE -> PropertyList(
+                title = getTranslation(key = "main_menu_screen__planet_types"),
+                properties = storeState.learningsMap[LearningType.PLANET_TYPE].orEmpty(),
+                id = { it.id },
+                description = { it.description },
+                image = { PlanetType.fromValue(value = it.image.orEmpty()).toImage() }
             )
 
-            Content.HABITABILITY -> HabitabilityList(
+            Content.HABITABILITY -> PropertyList(
+                title = getTranslation(key = "main_menu_screen__habitability"),
                 properties = storeState.learningsMap[LearningType.FORMULA].orEmpty(),
                 id = { it.id },
                 description = { it.description },
-                formula = storeState.formula
+                footer = {
+                    storeState.formula?.let { formula ->
+                        val formulaTranslation = getTranslation(key = "formula")
+
+                        val uriHandler = LocalUriHandler.current
+                        val typography = LocalTypography.current
+                        val colorScheme = LocalColorScheme.current
+                        Text(
+                            modifier = Modifier.clickable { uriHandler.open(uri = formula) },
+                            text = formulaTranslation,
+                            style = typography.headlineSmall.copy(
+                                color = colorScheme.primary,
+                                textDecoration = TextDecoration.Underline
+                            )
+                        )
+                    }
+                }
             )
         }
     }
@@ -157,10 +176,6 @@ private fun HelpScreenPreview() = AppTheme {
             Translation(
                 key = "main_menu_screen__definition_properties",
                 value = "Properties"
-            ),
-            Translation(
-                key = "main_menu_screen__definition_types",
-                value = "Types"
             ),
             Translation(
                 key = "main_menu_screen__planet_definition",

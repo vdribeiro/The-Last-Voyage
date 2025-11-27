@@ -2936,11 +2936,6 @@
   },
   {
     "languageIso": "en",
-    "key": "main_menu_screen__definition_types",
-    "value": "Types"
-  },
-  {
-    "languageIso": "en",
     "key": "main_menu_screen__planet_definition",
     "value": "Planet Definition"
   },

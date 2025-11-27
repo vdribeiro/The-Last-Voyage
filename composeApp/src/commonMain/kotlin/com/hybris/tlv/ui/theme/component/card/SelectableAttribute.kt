@@ -44,7 +44,11 @@ internal fun SelectableAttribute(
                 .padding(all = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(modifier = Modifier.weight(weight = 1f)) {
+            Column(
+                modifier = Modifier.weight(weight = 1f),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start,
+            ) {
                 name?.let {
                     Text(
                         text = getTranslation(key = name),

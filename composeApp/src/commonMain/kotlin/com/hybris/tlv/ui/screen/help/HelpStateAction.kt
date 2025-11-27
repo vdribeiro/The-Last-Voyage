@@ -21,7 +21,7 @@ internal data class HelpState(
     val loading: Boolean = true,
     val currentContent: Content = Content.LEARN_MENU,
     val learningsMap: Map<LearningType, List<Learning>> = emptyMap(),
-    val formula: String = "",
+    val formula: String? = null,
     val stellarHost: StellarHost = StellarHost(
         id = "Valar",
         name = "Valar",

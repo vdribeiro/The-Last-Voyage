@@ -3,6 +3,7 @@ package com.hybris.tlv.media
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.hybris.tlv.lifecycle.Register
+import com.hybris.tlv.platform.isDebug
 import com.hybris.tlv.ui.navigation.Screen
 
 @Composable
@@ -13,6 +14,8 @@ internal fun AudioPlayer(
     LaunchedEffect(key1 = screen) {
         val playlist = getTracks(screen = screen)
         if (playlist != null) audioPlayer.action(action = AudioPlayer.Action.Play(playlist = playlist))
+        // Start with audio paused in Debug mode
+        if (isDebug) audioPlayer.action(action = AudioPlayer.Action.Pause)
     }
     Register(
         onBackground = { audioPlayer.action(action = AudioPlayer.Action.Pause) },

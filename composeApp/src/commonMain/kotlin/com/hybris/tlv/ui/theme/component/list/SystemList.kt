@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.security.generateUuid
@@ -64,7 +65,8 @@ internal inline fun <T> SystemList(
         modifier = modifier
             .fillMaxSize()
             .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+        horizontalAlignment = Alignment.Start,
     ) {
         item {
             StellarHostCard(

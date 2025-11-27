@@ -67,6 +67,7 @@ internal inline fun <T> ScoreList(
             modifier = Modifier
                 .fillMaxSize(),
             contentPadding = PaddingValues(all = 16.dp),
+            horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(space = 12.dp)
         ) {
             // Scores

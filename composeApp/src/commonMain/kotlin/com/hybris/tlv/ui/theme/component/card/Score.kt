@@ -70,7 +70,9 @@ internal fun Score(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(all = 16.dp)
+                .padding(all = 16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.Start,
         ) {
             if (score != null || utc != null) Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
@@ -99,7 +101,8 @@ internal fun Score(
                 exit = fadeOut(),
             ) {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(space = 4.dp)
+                    verticalArrangement = Arrangement.spacedBy(space = 4.dp),
+                    horizontalAlignment = Alignment.Start,
                 ) {
                     if (score != null || utc != null) {
                         Spacer(modifier = Modifier.height(height = 8.dp))
@@ -108,7 +111,7 @@ internal fun Score(
                     }
                     settledPlanet?.let { InfoRow(label = settledPlanetTranslation, value = it) }
                     habitability?.let { InfoRow(label = habitabilityTranslation, value = it.roundTo(decimalPlaces = 2)) }
-                    engine?.let { InfoRow(label = engineTranslation, value = getTranslation(key = it)) }
+                    engine?.let { InfoRow(label = engineTranslation, value = it) }
                     assignedPoints?.let { InfoRow(label = assignedPointsTranslation, value = it) }
                     yearsTraveled?.let { InfoRow(label = yearsTraveledTranslation, value = it.roundTo(decimalPlaces = 2)) }
                     sensorRange?.let { InfoRow(label = sensorTranslation, value = it) }

@@ -27,7 +27,6 @@ internal suspend inline fun <reified T> HttpClient.getStream(
     crossinline block: HttpRequestBuilder.() -> Unit = {}
 ): Result<T> = withContext(context = Dispatcher.IO) {
     runCatching {
-        if (isDebug) throw Throwable(message = "Network disabled")
         if (!isInternetAvailableDebounced()) throw Throwable(message = "No internet connection available")
         prepareGet(urlString = path.encodeURLPath()) {
             queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
