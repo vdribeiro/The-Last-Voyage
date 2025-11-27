@@ -2851,23 +2851,58 @@
   },
   {
     "languageIso": "en",
+    "key": "main_menu_screen__back_navigation",
+    "value": "Back"
+  },
+  {
+    "languageIso": "en",
     "key": "main_menu_screen__navigation_info",
-    "value": "Press escape to navigate back."
+    "value": "To navigate back, press the back arrow icon on the toolbar or the Escape key."
   },
   {
     "languageIso": "en",
     "key": "main_menu_screen__navigation_info_desktop",
-    "value": "Press escape or mouse back button to navigate back."
+    "value": "To navigate back, press the back arrow icon on the toolbar, the Escape key or the mouse back button."
   },
   {
     "languageIso": "en",
-    "key": "main_menu_screen__navigation_info_mobile",
-    "value": "If gestures are enabled, swipe left or right from the corner to navigate back."
+    "key": "main_menu_screen__navigation_info_android",
+    "value": "To navigate back, press the back arrow icon on the toolbar or use the system navigation: either the bottom back button or swipe from the corner of the screen if gestures are enabled."
   },
   {
     "languageIso": "en",
-    "key": "main_menu_screen__navigation_info_button",
-    "value": "Hide"
+    "key": "main_menu_screen__navigation_info_ios",
+    "value": "To navigate back, press the back arrow icon on the toolbar or swipe from the corner of the screen."
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__help_navigation",
+    "value": "Help"
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__help_navigation_description",
+    "value": "To open the help menu, press the question mark icon on the toolbar."
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__music_navigation",
+    "value": "Music"
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__music_navigation_description",
+    "value": "To toggle the ambient music on or off, press the music note icon on the toolbar."
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__feedback_navigation",
+    "value": "Feedback"
+  },
+  {
+    "languageIso": "en",
+    "key": "main_menu_screen__feedback_navigation_description",
+    "value": "To open the feedback form, press the bug icon on the toolbar."
   },
   {
     "languageIso": "en",
@@ -2913,11 +2948,6 @@
     "languageIso": "en",
     "key": "main_menu_screen__navigation",
     "value": "Navigation"
-  },
-  {
-    "languageIso": "en",
-    "key": "main_menu_screen__back_navigation",
-    "value": "Back"
   },
   {
     "languageIso": "en",

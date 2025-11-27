@@ -155,9 +155,25 @@ private val navigation = listOf(
         id = "main_menu_screen__back_navigation",
         description = when {
             isDesktop -> "main_menu_screen__navigation_info_desktop"
-            isIos || isAndroid -> "main_menu_screen__navigation_info_mobile"
+            isAndroid -> "main_menu_screen__navigation_info_android"
+            isIos -> "main_menu_screen__navigation_info_ios"
             else -> "main_menu_screen__navigation_info"
         },
+        image = null
+    ),
+    Property(
+        id = "main_menu_screen__help_navigation",
+        description = "main_menu_screen__help_navigation_description",
+        image = null
+    ),
+    Property(
+        id = "main_menu_screen__music_navigation",
+        description = "main_menu_screen__music_navigation_description",
+        image = null
+    ),
+    Property(
+        id = "main_menu_screen__feedback_navigation",
+        description = "main_menu_screen__feedback_navigation_description",
         image = null
     )
 )

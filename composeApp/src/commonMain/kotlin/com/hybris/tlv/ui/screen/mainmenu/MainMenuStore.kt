@@ -39,18 +39,11 @@ internal class MainMenuStore(
 
     private fun newGame(): Job = launch {
         Telemetry.info(tag = TAG, message = "New game")
-        if (config.preferences.value.showTutorial) updateState { it.copy(newGameDialog = true) } else navigate(screen = Screen.NewGame)
-    }
-
-    private fun newGameWithoutTutorial(): Job = launch {
-        config.setPreferences { it.copy(showTutorial = false) }
-        navigate(screen = Screen.NewGame)
-    }
-
-    private fun newGameWithTutorial(): Job = launch {
-        Telemetry.info(tag = TAG, message = "Show tutorial")
-        config.setPreferences { it.copy(showTutorial = false) }
-        navigate(screen = Screen.Tutorial(newGame = true))
+        if (!config.preferences.value.showTutorial) navigate(screen = Screen.NewGame) else {
+            Telemetry.info(tag = TAG, message = "Show tutorial")
+            config.setPreferences { it.copy(showTutorial = false) }
+            navigate(screen = Screen.Tutorial(newGame = true))
+        }
     }
 
     override fun back(state: MainMenuState) {}
@@ -58,9 +51,6 @@ internal class MainMenuStore(
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
             MainMenuAction.NewGame -> newGame()
-            MainMenuAction.HideNewGameDialog -> updateState { it.copy(newGameDialog = false) }
-            MainMenuAction.NoNewGameDialog -> newGameWithoutTutorial()
-            MainMenuAction.YesNewGameDialog -> newGameWithTutorial()
             MainMenuAction.Next -> navigate(screen = Screen.Game())
             MainMenuAction.Scores -> navigate(screen = Screen.Score)
             MainMenuAction.Achievements -> navigate(screen = Screen.Achievement)

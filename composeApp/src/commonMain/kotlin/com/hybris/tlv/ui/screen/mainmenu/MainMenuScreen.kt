@@ -12,7 +12,6 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.MainBar
 import com.hybris.tlv.ui.theme.component.container.MainMenu
 import com.hybris.tlv.ui.theme.component.container.Screen
-import com.hybris.tlv.ui.theme.component.dialog.Dialog
 import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
@@ -38,14 +37,6 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
             )
         },
     ) {
-        if (storeState.newGameDialog) {
-            Dialog(
-                title = tutorialTranslation,
-                onConfirm = { store.send(action = MainMenuAction.YesNewGameDialog) },
-                onDismiss = { store.send(action = MainMenuAction.NoNewGameDialog) },
-                onDismissRequest = { store.send(action = MainMenuAction.HideNewGameDialog) },
-            )
-        }
         MainMenu(
             onScoresClick = { store.send(action = MainMenuAction.Scores) },
             onAchievementsClick = { store.send(action = MainMenuAction.Achievements) },
@@ -79,7 +70,6 @@ private fun MainMenuScreenLoadingPreview() = AppTheme {
                 developerCorner = "Developer Corner",
                 support = "Support",
                 ongoingGameSession = false,
-                newGameDialog = false
             )
         )
     )
@@ -127,7 +117,6 @@ private fun MainMenuScreenAllPreview() = AppTheme {
                 developerCorner = "Developer Corner",
                 support = "Support",
                 ongoingGameSession = false,
-                newGameDialog = false
             )
         )
     )
@@ -179,7 +168,6 @@ private fun MainMenuScreenContinuePreview() = AppTheme {
                 developerCorner = "Developer Corner",
                 support = "Support",
                 ongoingGameSession = true,
-                newGameDialog = false
             )
         )
     )

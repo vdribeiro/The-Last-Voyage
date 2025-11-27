@@ -7,7 +7,6 @@ internal data class Configs(
     // Versioning
     val appVersion: Long = 0,
     val translationsVersion: Long = 0,
-    val learningsVersion: Long = 0,
     val catastrophesVersion: Long = 0,
     val enginesVersion: Long = 0,
     val stellarHostsVersion: Long = 0,
