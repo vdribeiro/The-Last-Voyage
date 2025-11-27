@@ -61,6 +61,8 @@ internal class DatabaseFactory(driver: SqlDriver) {
     )
 }
 
+internal const val DATABASE_FILE = "tlv_app.db"
+
 typealias TranslationSchema = Translation
 typealias StellarHostSchema = StellarHost
 typealias PlanetSchema = Planet

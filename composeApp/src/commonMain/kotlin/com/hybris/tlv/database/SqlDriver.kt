@@ -6,7 +6,7 @@ import app.cash.sqldelight.db.SqlSchema
 import database.AppDatabase
 
 internal expect fun createSqlDriver(
-    name: String = "tlv_app.db",
+    name: String = DATABASE_FILE,
     schema: SqlSchema<QueryResult.Value<Unit>> = AppDatabase.Schema,
     inMemory: Boolean = false
 ): SqlDriver
