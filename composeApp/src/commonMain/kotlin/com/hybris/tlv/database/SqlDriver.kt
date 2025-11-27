@@ -13,8 +13,3 @@ internal expect fun createSqlDriver(
     schema: SqlSchema<QueryResult.Value<Unit>> = AppDatabase.Schema,
     inMemory: Boolean = false
 ): SqlDriver
-
-/**
- * Deletes the database.
- */
-internal expect suspend fun deleteDatabase(name: String = DATABASE_FILE): Boolean
