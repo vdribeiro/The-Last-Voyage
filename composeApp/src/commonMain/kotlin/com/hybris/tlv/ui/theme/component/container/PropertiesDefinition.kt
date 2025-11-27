@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +24,6 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.Card
 import com.hybris.tlv.ui.theme.component.image.Image
 import com.hybris.tlv.ui.theme.component.image.ImageResource
-import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
@@ -77,16 +75,15 @@ internal inline fun <T> PropertiesDefinition(
                     )
                     Spacer(modifier = Modifier.width(width = 16.dp))
                 }
-                LazyColumn(
+                Column(
                     modifier = Modifier.weight(weight = 1f),
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.Start,
                 ) {
-                    items(items = properties, key = propertyId) { property ->
+                    properties.forEach { property ->
                         InfoRow(label = getTranslation(key = propertyId(property)), value = propertyDescription(property)?.let { getTranslation(key = it) })
                     }
                 }
-                Spacer(modifier = Modifier.weight(weight = 0.1f))
             }
         }
     }

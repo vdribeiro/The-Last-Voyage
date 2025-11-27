@@ -38,6 +38,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 @Composable
 internal fun Screen(
     modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.Center,
     loading: Boolean = false,
     loadingDelayMillis: Long = 300L,
     loadingMinDisplayTimeMillis: Long = 800L,
@@ -89,7 +90,7 @@ internal fun Screen(
             modifier = Modifier
                 .padding(paddingValues = innerPadding)
                 .fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = contentAlignment
         ) {
             val isPreview = LocalInspectionMode.current
             var show by remember { mutableStateOf(value = isPreview) }

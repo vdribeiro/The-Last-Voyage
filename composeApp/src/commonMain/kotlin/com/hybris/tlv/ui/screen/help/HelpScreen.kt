@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.platform.isAndroid
@@ -81,6 +82,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
 
             Content.NAVIGATION -> NavigationHelp()
             Content.HOST_DEFINITION -> PropertiesDefinition(
+                modifier = Modifier.align(alignment = Alignment.TopStart),
                 image = "G".spectralTypeToImage(),
                 properties = storeState.learningsMap[LearningType.HOST_PROPERTY].orEmpty(),
                 propertyId = { it.id },
@@ -95,6 +97,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
             )
 
             Content.PLANET_DEFINITION -> PropertiesDefinition(
+                modifier = Modifier.align(alignment = Alignment.TopStart),
                 image = PlanetType.SUPERHABITABLE_PLANET.toImage(),
                 properties = storeState.learningsMap[LearningType.PLANET_PROPERTY].orEmpty(),
                 propertyId = { it.id },
