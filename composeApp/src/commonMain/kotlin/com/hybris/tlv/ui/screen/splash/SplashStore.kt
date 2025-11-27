@@ -4,12 +4,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.supervisorScope
-import com.hybris.tlv.Dependency.Companion.RESET
+import com.hybris.tlv.TLV
+import com.hybris.tlv.TLV.RESET
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.platform.Property
-import com.hybris.tlv.serializer.CONFIGS_JSON
-import com.hybris.tlv.serializer.PREFERENCES_JSON
-import com.hybris.tlv.storage.deleteFile
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
@@ -43,10 +41,7 @@ internal class SplashStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
-        if (RESET) {
-            deleteFile(path = CONFIGS_JSON)
-            deleteFile(path = PREFERENCES_JSON)
-        }
+        if (RESET) TLV.reset()
         config.setup()
 
         val remoteVersion = config.remoteConfigs.value.appVersion

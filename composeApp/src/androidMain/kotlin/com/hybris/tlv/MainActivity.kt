@@ -5,11 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.Modifier
+import com.hybris.tlv.cheats.enableGestureCheats
 import com.hybris.tlv.telemetry.Telemetry
 
 private const val TAG = "App"
-
-private val dependency: Dependency by lazy { Dependency() }
 
 class MainActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,12 +18,7 @@ class MainActivity: ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            App(
-                modifier = Modifier.enableGestureCheats(),
-                config = dependency.config,
-                useCases = dependency.useCases,
-                audioPlayer = dependency.audioPlayer,
-            )
+            TLV.App(modifier = Modifier.enableGestureCheats())
         }
     }
 }

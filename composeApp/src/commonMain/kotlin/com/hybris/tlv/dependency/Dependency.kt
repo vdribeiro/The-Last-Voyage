@@ -1,4 +1,4 @@
-package com.hybris.tlv
+package com.hybris.tlv.dependency
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
@@ -18,7 +18,7 @@ import database.AppDatabase
  * Dependency index.
  */
 internal class Dependency(
-    private val sqlDriver: SqlDriver = createSqlDriver(),
+    val sqlDriver: SqlDriver = createSqlDriver(),
     private val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,
     private val httpEngine: HttpClientEngine? = null,
     private val httpClient: HttpClient = HttpClientFactory(engine = httpEngine).httpClient,
@@ -29,23 +29,4 @@ internal class Dependency(
         database = database
     ),
     val audioPlayer: AudioPlayer = createAudioPlayer()
-) {
-    companion object {
-        /**
-         * Reset local data.
-         */
-        const val RESET = true
-        /**
-         * Enable or disable HTTP client.
-         */
-        const val HTTP = true
-        /**
-         * Enable or disable getting exoplanet data from the NASA archive (only works if HTTP is enabled).
-         */
-        const val ARCHIVE = false
-        /**
-         * Enable or disable ambient music.
-         */
-        const val MUSIC = true
-    }
-}
+)

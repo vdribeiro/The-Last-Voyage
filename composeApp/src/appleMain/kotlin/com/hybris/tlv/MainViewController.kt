@@ -2,22 +2,17 @@
 
 package com.hybris.tlv
 
+import platform.UIKit.UIViewController
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
+import com.hybris.tlv.cheats.enableGestureCheats
 import com.hybris.tlv.telemetry.Telemetry
 
 private const val TAG = "App"
 
-private val dependency: Dependency by lazy { Dependency() }
-
-fun MainViewController() = ComposeUIViewController {
+fun MainViewController(): UIViewController = ComposeUIViewController {
     Telemetry.init()
     Telemetry.info(tag = TAG, message = "App started")
 
-    App(
-        modifier = Modifier.enableGestureCheats(),
-        config = dependency.config,
-        useCases = dependency.useCases,
-        audioPlayer = dependency.audioPlayer,
-    )
+    TLV.App(modifier = Modifier.enableGestureCheats())
 }

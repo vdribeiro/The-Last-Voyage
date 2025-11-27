@@ -7,13 +7,13 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import com.hybris.tlv.cheats.rememberKeySequenceCheats
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.theme.getTranslation
 import javafx.embed.swing.JFXPanel
 
 private const val TAG = "App"
 
-private val dependency: Dependency by lazy { Dependency() }
 private val initializeJfx by lazy {
     runCatching {
         JFXPanel()
@@ -35,11 +35,7 @@ fun main() = application {
         onPreviewKeyEvent = rememberKeySequenceCheats()
     ) {
         CompositionLocalProvider(value = LocalWindowState provides windowState) {
-            App(
-                config = dependency.config,
-                useCases = dependency.useCases,
-                audioPlayer = dependency.audioPlayer,
-            )
+            TLV.App()
         }
     }
 }

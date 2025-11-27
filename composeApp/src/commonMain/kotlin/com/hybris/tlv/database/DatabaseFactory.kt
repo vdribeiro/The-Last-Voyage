@@ -1,12 +1,9 @@
 package com.hybris.tlv.database
 
-import kotlinx.coroutines.withContext
 import app.cash.sqldelight.EnumColumnAdapter
 import app.cash.sqldelight.adapter.primitive.IntColumnAdapter
-import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.database.adapter.SetColumnAdapter
-import com.hybris.tlv.flow.Dispatcher
 import database.Achievement
 import database.AppDatabase
 import database.Catastrophe
@@ -62,31 +59,6 @@ internal class DatabaseFactory(private val driver: SqlDriver) {
         GameSessionAdapter = gameSessionAdapter,
         CreditAdapter = creditAdapter,
     )
-
-    suspend fun clearDatabase() = withContext(context = Dispatcher.IO) {
-        runCatching {
-            val query = "SELECT name FROM sqlite_master WHERE type='table' " +
-                    "AND name!='sqlite_sequence' AND name!='android_metadata'"
-            driver.executeQuery(
-                identifier = null,
-                sql = query,
-                mapper = { cursor ->
-                    QueryResult.Value(value = buildList {
-                        while (cursor.next().value) add(element = cursor.getString(index = 0))
-                    })
-                },
-                parameters = 0,
-                binders = null
-            ).value.forEach { table ->
-                driver.execute(
-                    identifier = null,
-                    sql = "DELETE FROM $table;",
-                    parameters = 0,
-                    binders = null
-                ).value
-            }
-        }
-    }
 }
 
 internal const val DATABASE_FILE = "tlv_app.db"

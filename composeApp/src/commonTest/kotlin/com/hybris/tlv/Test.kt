@@ -5,6 +5,7 @@ import com.hybris.tlv.config.Configs
 import com.hybris.tlv.config.Preferences
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.database.createSqlDriver
+import com.hybris.tlv.dependency.Dependency
 import com.hybris.tlv.http.TestEngines
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.media.AudioPlayer
