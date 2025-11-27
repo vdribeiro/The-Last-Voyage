@@ -11,10 +11,9 @@ import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.ui.navigation.Command
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.navigation.actionChannel
-import com.hybris.tlv.ui.navigation.navigationChannel
-import com.hybris.tlv.ui.navigation.Action as GlobalAction
+import com.hybris.tlv.ui.navigation.commandChannel
 
 /**
  * The central hub for a screen's [State]. It's the single source of truth for the UI.
@@ -48,22 +47,22 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
         viewModelScope.launch { _stateFlow.update { body(_stateFlow.value) } }
 
     /**
-     * Navigate to a new [screen].
-     */
-    protected fun navigate(screen: Screen): Job =
-        viewModelScope.launch { navigationChannel.send(element = screen) }
-
-    /**
-     * Send an [action].
-     */
-    protected fun action(action: GlobalAction): Job =
-        viewModelScope.launch { actionChannel.send(element = action) }
-
-    /**
      * Launches a coroutine.
      */
     protected fun launch(context: CoroutineContext = Dispatcher.Default, block: suspend CoroutineScope.() -> Unit): Job =
         viewModelScope.launch(context = context) { block() }
+
+    /**
+     * Issue a [command].
+     */
+    protected fun command(command: Command): Job =
+        viewModelScope.launch { commandChannel.send(element = command) }
+
+    /**
+     * Navigate to a new [screen].
+     */
+    protected fun navigate(screen: Screen, restore: Boolean = false): Job =
+        command(command = Command.Navigate(screen = screen, restore = restore))
 
     /**
      * Navigate back.
@@ -74,14 +73,14 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      * Overridable back navigation.
      */
     protected open fun back(state: State) {
-        action(action = GlobalAction.Back)
+        command(command = Command.Back)
     }
 
     /**
      * Toggle audio player.
      */
     fun toggleAudio() {
-        action(action = GlobalAction.ToggleAudio)
+        command(command = Command.ToggleAudio)
     }
 
     /**

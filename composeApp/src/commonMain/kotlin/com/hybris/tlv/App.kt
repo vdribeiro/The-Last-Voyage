@@ -10,11 +10,10 @@ import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.TLV.MUSIC
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.ui.navigation.Action
+import com.hybris.tlv.ui.navigation.Command
 import com.hybris.tlv.ui.navigation.Navigation
-import com.hybris.tlv.ui.navigation.actionChannel
+import com.hybris.tlv.ui.navigation.commandChannel
 import com.hybris.tlv.ui.navigation.navigate
-import com.hybris.tlv.ui.navigation.navigationChannel
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.UseCases
 
@@ -36,14 +35,11 @@ internal fun App(
     )
 
     LaunchedEffect(key1 = navBackStackEntry) {
-        navigationChannel.receiveAsFlow().collect { screen -> navController.navigate(screen = screen) }
-    }
-
-    LaunchedEffect(key1 = navBackStackEntry) {
-        actionChannel.receiveAsFlow().collect { action ->
-            when (action) {
-                Action.Back -> navController.popBackStack()
-                Action.ToggleAudio -> audioPlayer.action(action = AudioPlayer.Action.Toggle)
+        commandChannel.receiveAsFlow().collect { command->
+            when (command) {
+                is Command.Navigate -> navController.navigate(screen = command.screen, command.restore)
+                Command.Back -> navController.popBackStack()
+                Command.ToggleAudio -> audioPlayer.action(action = AudioPlayer.Action.Toggle)
             }
         }
     }

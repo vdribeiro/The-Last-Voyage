@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.navigation
 
+import kotlin.reflect.KType
+import kotlin.reflect.typeOf
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
@@ -67,18 +69,25 @@ internal fun Navigation(
 
 /**
  * Navigate to the given [screen].
- * If it is already in the stack, replace the existing one and truncate onwards.
+ * If the screen is not in the stack, add it to end of the stack.
+ * If the screen is already in the stack, eiter replace or restore it and truncate onwards.
  */
-internal inline fun <reified S: Screen> NavHostController.navigate(screen: S) {
+internal inline fun <reified S: Screen> NavHostController.navigate(screen: S, restore: Boolean) {
     Telemetry.info(tag = TAG, message = "Navigating to: $screen")
-    navigate(route = screen) { popUpTo(route = S::class) { inclusive = true } }
+    navigate(route = screen) {
+        popUpTo(route = S::class) { inclusive = !restore }
+        launchSingleTop = restore
+    }
 }
 
 /**
- * Creates a NavType for a serializable object of type [T].
+ * Creates a map of destination arguments with a NavType for a serializable object of type [T].
  */
-internal inline fun <reified T> serializableType(): NavType<T> {
-    return object: NavType<T>(isNullableAllowed = true) {
+internal inline fun <reified T> typeMapOf(): Map<KType, NavType<T?>> =
+    mapOf(pair = typeOf<T?>() to serializableType<T?>())
+
+private inline fun <reified T> serializableType(): NavType<T> =
+    object: NavType<T>(isNullableAllowed = true) {
         override fun put(bundle: SavedState, key: String, value: T) {
             encode(value = value)?.let { bundle.write { putString(key = key, value = it) } }
         }
@@ -92,6 +101,5 @@ internal inline fun <reified T> serializableType(): NavType<T> {
         override fun parseValue(value: String): T =
             decodeURL<T>(value = value) as T
     }
-}
 
 private const val TAG = "Navigation"

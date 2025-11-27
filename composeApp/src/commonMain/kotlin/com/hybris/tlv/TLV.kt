@@ -3,7 +3,6 @@ package com.hybris.tlv
 import kotlinx.coroutines.withContext
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.hybris.tlv.cheats.enableGestureCheats
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.dependency.Dependency
 import com.hybris.tlv.flow.Dispatcher
@@ -15,7 +14,7 @@ internal object TLV {
 
     private val dependency: Dependency = Dependency()
 
-    suspend fun reset() = withContext(context = Dispatcher.IO) {
+    suspend fun reset(dependency: Dependency = this.dependency) = withContext(context = Dispatcher.IO) {
         deleteFile(path = CONFIGS_JSON)
         deleteFile(path = PREFERENCES_JSON)
         dependency.sqlDriver.clearDatabase()
@@ -34,7 +33,6 @@ internal object TLV {
             audioPlayer = dependency.audioPlayer,
         )
     }
-
 
     /**
      * Reset local data.

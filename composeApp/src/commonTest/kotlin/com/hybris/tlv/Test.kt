@@ -2,8 +2,6 @@ package com.hybris.tlv
 
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.config.Configs
-import com.hybris.tlv.config.Preferences
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.dependency.Dependency
 import com.hybris.tlv.http.TestEngines
@@ -59,7 +57,7 @@ private val dependency: Dependency by lazy {
 }
 
 internal fun reset() {
-    runBlocking { dependency.reset() }
+    runBlocking { TLV.reset() }
 }
 
 internal val useCases: UseCases = dependency.useCases

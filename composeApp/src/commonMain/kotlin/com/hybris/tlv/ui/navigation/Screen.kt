@@ -35,5 +35,3 @@ internal sealed interface Screen {
     @Serializable
     data object Credit: Screen
 }
-
-internal val navigationChannel: Channel<Screen> = Channel()
