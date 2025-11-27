@@ -14,7 +14,7 @@ internal object TLV {
 
     private val dependency: Dependency = Dependency()
 
-    suspend fun reset(dependency: Dependency = this.dependency) = withContext(context = Dispatcher.IO) {
+    suspend fun reset() = withContext(context = Dispatcher.IO) {
         deleteFile(path = CONFIGS_JSON)
         deleteFile(path = PREFERENCES_JSON)
         dependency.sqlDriver.clearDatabase()
@@ -22,7 +22,6 @@ internal object TLV {
 
     /**
      * App entry point.
-     *
      */
     @Composable
     fun App(modifier: Modifier = Modifier) {
@@ -37,7 +36,7 @@ internal object TLV {
     /**
      * Reset local data.
      */
-    const val RESET = true
+    const val RESET = false
     /**
      * Enable or disable HTTP client.
      */

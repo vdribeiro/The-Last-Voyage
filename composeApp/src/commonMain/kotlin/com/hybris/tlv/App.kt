@@ -35,7 +35,7 @@ internal fun App(
     )
 
     LaunchedEffect(key1 = navBackStackEntry) {
-        commandChannel.receiveAsFlow().collect { command->
+        commandChannel.receiveAsFlow().collect { command ->
             when (command) {
                 is Command.Navigate -> navController.navigate(screen = command.screen, command.restore)
                 Command.Back -> navController.popBackStack()

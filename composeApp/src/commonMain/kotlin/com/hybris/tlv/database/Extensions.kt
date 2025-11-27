@@ -4,6 +4,7 @@ import kotlinx.coroutines.withContext
 import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.telemetry.Telemetry
 
 internal suspend fun SqlDriver.clearDatabase() = withContext(context = Dispatcher.IO) {
     runCatching {
@@ -27,5 +28,7 @@ internal suspend fun SqlDriver.clearDatabase() = withContext(context = Dispatche
                 binders = null
             ).value
         }
-    }
+    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to clear database", throwable = it) }.getOrDefault(defaultValue = Unit)
 }
+
+private const val TAG = "Database"

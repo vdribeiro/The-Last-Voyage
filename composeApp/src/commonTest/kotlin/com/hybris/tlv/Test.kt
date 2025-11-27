@@ -2,6 +2,7 @@ package com.hybris.tlv
 
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.config.Configs
+import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.dependency.Dependency
 import com.hybris.tlv.http.TestEngines
@@ -14,10 +15,12 @@ import com.hybris.tlv.serializer.CREDITS_JSON
 import com.hybris.tlv.serializer.ENGINES_JSON
 import com.hybris.tlv.serializer.EVENTS_JSON
 import com.hybris.tlv.serializer.LEARNINGS_JSON
+import com.hybris.tlv.serializer.PREFERENCES_JSON
 import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
 import com.hybris.tlv.serializer.TRANSLATIONS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
+import com.hybris.tlv.storage.deleteFile
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.cheat.CheatStore
 import com.hybris.tlv.ui.screen.credit.CreditStore
@@ -57,7 +60,11 @@ private val dependency: Dependency by lazy {
 }
 
 internal fun reset() {
-    runBlocking { TLV.reset() }
+    runBlocking {
+        deleteFile(path = CONFIGS_JSON)
+        deleteFile(path = PREFERENCES_JSON)
+        dependency.sqlDriver.clearDatabase()
+    }
 }
 
 internal val useCases: UseCases = dependency.useCases
