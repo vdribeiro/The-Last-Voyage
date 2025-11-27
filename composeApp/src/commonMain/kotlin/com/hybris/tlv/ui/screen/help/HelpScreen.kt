@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.platform.isAndroid
+import com.hybris.tlv.platform.isDesktop
 import com.hybris.tlv.platform.isIos
 import com.hybris.tlv.platform.open
 import com.hybris.tlv.ui.store.Store
@@ -22,7 +23,6 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.HelpBar
 import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
 import com.hybris.tlv.ui.theme.component.container.LearnMenu
-import com.hybris.tlv.ui.theme.component.container.NavigationHelp
 import com.hybris.tlv.ui.theme.component.container.PropertyList
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.text.Text
@@ -82,7 +82,15 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 onMechanicsClick = { store.send(action = HelpAction.Mechanics) }
             )
 
-            Content.NAVIGATION -> NavigationHelp() // TODO - replace with property list
+            Content.NAVIGATION -> PropertyList(
+                title = getTranslation(key = "main_menu_screen__navigation"),
+                name = "main_menu_screen__navigation",
+                description = when {
+                    isDesktop -> "main_menu_screen__navigation_info_desktop"
+                    isIos || isAndroid -> "main_menu_screen__navigation_info_mobile"
+                    else -> "main_menu_screen__navigation_info"
+                }
+            )
             Content.HOST_DEFINITION -> PropertyList(
                 title = getTranslation(key = "main_menu_screen__host_definition"),
                 properties = storeState.learningsMap[LearningType.HOST_PROPERTY].orEmpty(),

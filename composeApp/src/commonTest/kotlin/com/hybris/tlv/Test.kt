@@ -58,11 +58,7 @@ private val dependency: Dependency by lazy {
 }
 
 internal fun reset() {
-    runBlocking {
-        dependency.sqlDriver.clearDatabase()
-        dependency.config.setPreferences { Preferences() }
-        dependency.config.setConfigs { Configs() }
-    }
+    runBlocking { dependency.reset() }
 }
 
 internal val useCases: UseCases = dependency.useCases

@@ -30,7 +30,6 @@ val appVendor: String = "Hybris"
 val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb"
 val appVersion: String = "1.1.3"
 val appVersionNumber: Long = 11
-val archive: Boolean = false // Toggle to get the latest NASA data
 val androidTarget: Int = 35
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
 val androidKeyPassword: String = localProperties.getProperty("android.keyPassword", "")
@@ -52,8 +51,6 @@ abstract class GeneratePropertiesTask: DefaultTask() {
     @get:Input
     abstract val taskAppVersionNumber: Property<Long>
     @get:Input
-    abstract val taskArchive: Property<Boolean>
-    @get:Input
     abstract val taskSentryDsn: Property<String>
     @get:OutputDirectory
     abstract val taskOutputDir: DirectoryProperty
@@ -64,7 +61,6 @@ abstract class GeneratePropertiesTask: DefaultTask() {
         val appName: String = taskAppName.get()
         val appVersion: String = taskAppVersion.get()
         val appVersionNumber: Long = taskAppVersionNumber.get()
-        val archive: Boolean = taskArchive.get()
         // Basic obfuscation of Sentry DSN
         val sentryDsn = "byteArrayOf(${
             taskSentryDsn.get().toByteArray().mapIndexed { index, byte -> byte.xor(other = appId[index % appId.length].code.toByte()) }.joinToString(separator = ", ") { it.toString() }
@@ -87,7 +83,6 @@ abstract class GeneratePropertiesTask: DefaultTask() {
                     const val APP_NAME: String = "$appName"
                     const val APP_VERSION: String = "$appVersion"
                     const val APP_VERSION_NUMBER: Long = $appVersionNumber
-                    const val ARCHIVE: Boolean = $archive
                     val sentry: String = $sentryDsn
                 }
             """.trimIndent()
@@ -100,7 +95,6 @@ val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "gene
     taskAppName.set(appName)
     taskAppVersion.set(appVersion)
     taskAppVersionNumber.set(appVersionNumber)
-    taskArchive.set(archive)
     taskSentryDsn.set(sentryDsn)
     taskOutputDir.set(layout.buildDirectory.dir("generated/source/property"))
 }

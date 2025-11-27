@@ -14,8 +14,6 @@ internal fun AudioPlayer(
     LaunchedEffect(key1 = screen) {
         val playlist = getTracks(screen = screen)
         if (playlist != null) audioPlayer.action(action = AudioPlayer.Action.Play(playlist = playlist))
-        // Start with audio paused in Debug mode
-        if (isDebug) audioPlayer.action(action = AudioPlayer.Action.Pause)
     }
     Register(
         onBackground = { audioPlayer.action(action = AudioPlayer.Action.Pause) },
