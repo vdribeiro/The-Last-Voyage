@@ -18,11 +18,9 @@ import com.hybris.tlv.http.HttpClientFactory.Companion.CREDITS_URL
 import com.hybris.tlv.http.HttpClientFactory.Companion.ENGINES_URL
 import com.hybris.tlv.http.HttpClientFactory.Companion.EVENTS_URL
 import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
-import com.hybris.tlv.http.HttpClientFactory.Companion.LEARNINGS_URL
 import com.hybris.tlv.http.HttpClientFactory.Companion.PLANETS_URL
 import com.hybris.tlv.http.HttpClientFactory.Companion.STELLAR_HOSTS_URL
 import com.hybris.tlv.http.HttpClientFactory.Companion.TRANSLATIONS_URL
-import com.hybris.tlv.learnings
 import com.hybris.tlv.planets
 import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.stellarHosts
@@ -44,7 +42,6 @@ internal object TestEngines {
                 when {
                     path.startsWith(prefix = CONFIGS_URL) -> respond(content = encode(value = configs).orEmpty())
                     path.startsWith(prefix = TRANSLATIONS_URL) -> respond(content = encode(value = translations).orEmpty())
-                    path.startsWith(prefix = LEARNINGS_URL) -> respond(content = encode(value = learnings).orEmpty())
                     path.startsWith(prefix = CATASTROPHES_URL) -> respond(content = encode(value = catastrophes).orEmpty())
                     path.startsWith(prefix = ENGINES_URL) -> respond(content = encode(value = engines).orEmpty())
                     path.startsWith(prefix = STELLAR_HOSTS_URL) -> respond(content = encode(value = stellarHosts).orEmpty())

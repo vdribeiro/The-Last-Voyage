@@ -12,8 +12,6 @@ import com.hybris.tlv.usecase.event.EventGateway
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionGateway
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
-import com.hybris.tlv.usecase.learning.LearningGateway
-import com.hybris.tlv.usecase.learning.LearningUseCases
 import com.hybris.tlv.usecase.ship.ShipGateway
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.ArchiveGateway
@@ -36,11 +34,6 @@ internal class Gateways(
     )
     override val archive: ArchiveUseCases = ArchiveGateway(
         httpClient = httpClient,
-    )
-    override val learning: LearningUseCases = LearningGateway(
-        config = config,
-        httpClient = httpClient,
-        database = database
     )
     override val catastrophe: CatastropheUseCases = CatastropheGateway(
         config = config,

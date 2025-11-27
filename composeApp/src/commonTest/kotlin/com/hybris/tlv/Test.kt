@@ -14,7 +14,6 @@ import com.hybris.tlv.serializer.CONFIGS_JSON
 import com.hybris.tlv.serializer.CREDITS_JSON
 import com.hybris.tlv.serializer.ENGINES_JSON
 import com.hybris.tlv.serializer.EVENTS_JSON
-import com.hybris.tlv.serializer.LEARNINGS_JSON
 import com.hybris.tlv.serializer.PREFERENCES_JSON
 import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
@@ -42,7 +41,6 @@ import com.hybris.tlv.usecase.credit.model.Credit
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
-import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
@@ -74,7 +72,6 @@ internal fun getSplashStore(): SplashStore =
         config = dependency.config,
         archiveUseCases = useCases.archive,
         translateUseCases = useCases.translation,
-        learningUseCases = useCases.learning,
         catastropheUseCases = useCases.catastrophe,
         shipUseCases = useCases.ship,
         spaceUseCases = useCases.space,
@@ -93,10 +90,7 @@ internal fun getMainMenuStore(): MainMenuStore =
     )
 
 internal fun getHelpStore(): HelpStore =
-    HelpStore(
-        config = dependency.config,
-        learningUseCases = useCases.learning
-    )
+    HelpStore(config = dependency.config)
 
 internal fun getFeedbackStore(tag: String? = null, message: String? = null) =
     FeedbackStore(
@@ -152,9 +146,6 @@ internal val configs: List<Configs> by lazy {
 }
 internal val translations: List<Translation> by lazy {
     runBlocking { loadFromJsonResource(path = TRANSLATIONS_JSON) }
-}
-internal val learnings: List<Learning> by lazy {
-    runBlocking { loadFromJsonResource(path = LEARNINGS_JSON) }
 }
 internal val catastrophes: List<Catastrophe> by lazy {
     runBlocking { loadFromJsonResource(path = CATASTROPHES_JSON) }

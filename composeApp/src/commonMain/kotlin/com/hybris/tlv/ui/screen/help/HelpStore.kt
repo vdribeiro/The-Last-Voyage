@@ -6,11 +6,9 @@ import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen.Tutorial
 import com.hybris.tlv.ui.store.Store
-import com.hybris.tlv.usecase.learning.LearningUseCases
 
 internal class HelpStore(
     private val config: ConfigManager,
-    private val learningUseCases: LearningUseCases
 ): Store<HelpState, HelpAction>(
     initialState = HelpState()
 ) {
@@ -24,13 +22,11 @@ internal class HelpStore(
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
         val configs = config.localConfigs.value
-        val learningsMap = learningUseCases.getLearnings().groupBy { it.type }
 
         updateState {
             it.copy(
                 loading = false,
                 formula = configs.formula,
-                learningsMap = learningsMap,
             )
         }
         Telemetry.info(tag = TAG, message = "Setup complete")

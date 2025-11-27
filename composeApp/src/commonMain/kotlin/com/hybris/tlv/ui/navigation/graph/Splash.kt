@@ -18,7 +18,6 @@ internal fun NavGraphBuilder.splashScreen(
             config = config,
             archiveUseCases = useCases.archive,
             translateUseCases = useCases.translation,
-            learningUseCases = useCases.learning,
             catastropheUseCases = useCases.catastrophe,
             shipUseCases = useCases.ship,
             spaceUseCases = useCases.space,

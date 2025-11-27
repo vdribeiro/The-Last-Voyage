@@ -46,7 +46,6 @@ internal class MainMenuScreenTest {
     fun mainMenuWithData() = runComposeUiTest {
         runBlocking {
             useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-            useCases.learning.syncLearnings()
         }
         val store = getMainMenuStore()
         setContent {
@@ -80,7 +79,6 @@ internal class MainMenuScreenTest {
     fun mainMenuHostDefinitionContent() = runComposeUiTest {
         runBlocking {
             useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-            useCases.learning.syncLearnings()
         }
         val store = getMainMenuStore()
         setContent {
@@ -106,7 +104,6 @@ internal class MainMenuScreenTest {
     fun mainMenuPlanetDefinitionContent() = runComposeUiTest {
         runBlocking {
             useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-            useCases.learning.syncLearnings()
         }
         val store = getMainMenuStore()
         setContent {
@@ -132,7 +129,6 @@ internal class MainMenuScreenTest {
     fun mainMenuHabitabilityContent() = runComposeUiTest {
         runBlocking {
             useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-            useCases.learning.syncLearnings()
         }
         val store = getMainMenuStore()
         setContent {

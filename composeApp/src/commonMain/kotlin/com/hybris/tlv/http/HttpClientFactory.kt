@@ -45,7 +45,6 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
         const val EXOPLANET_ARCHIVE_URL = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
         const val CONFIGS_URL = "https://gist.githubusercontent.com/vdribeiro/eb23013b329c47317622981187df3f23/raw/configs.json"
         const val TRANSLATIONS_URL = "https://gist.githubusercontent.com/vdribeiro/90daf9ebde2b8e37ce893e49e8d7f7c7/raw/translations.json"
-        const val LEARNINGS_URL = "https://gist.githubusercontent.com/vdribeiro/f9ef3c647be7e4aaaa6b9c7af43db270/raw/learnings.json"
         const val CATASTROPHES_URL = "https://gist.githubusercontent.com/vdribeiro/27258c022708a20066f793996031d884/raw/catastrophes.json"
         const val ENGINES_URL = "https://gist.githubusercontent.com/vdribeiro/4168f14c15569dd6dd4a57af4ee37a99/raw/engines.json"
         const val STELLAR_HOSTS_URL = "https://gist.githubusercontent.com/vdribeiro/7e0ccc933aa6826bf1f427aa036f5793/raw/hosts.json"

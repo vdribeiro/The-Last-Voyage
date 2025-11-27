@@ -27,8 +27,6 @@ import com.hybris.tlv.ui.theme.component.container.PropertyList
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
-import com.hybris.tlv.usecase.learning.model.Learning
-import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.space.model.PlanetType
 import com.hybris.tlv.usecase.space.spectralTypeToImage
 import com.hybris.tlv.usecase.space.toImage
@@ -84,34 +82,21 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
 
             Content.NAVIGATION -> PropertyList(
                 title = getTranslation(key = "main_menu_screen__navigation"),
-                properties = listOf(
-                    Learning(
-                        id = getTranslation(key = "main_menu_screen__navigation"),
-                        description = getTranslation(
-                            key = when {
-                                isDesktop -> "main_menu_screen__navigation_info_desktop"
-                                isIos || isAndroid -> "main_menu_screen__navigation_info_mobile"
-                                else -> "main_menu_screen__navigation_info"
-                            }
-                        ),
-                        image = null,
-                        type = LearningType.FORMULA // TODO
-                    )
-                ),
+                properties = navigation,
                 id = { it.id },
                 description = { it.description }
             )
 
             Content.HOST_DEFINITION -> PropertyList(
                 title = getTranslation(key = "main_menu_screen__host_definition"),
-                properties = storeState.learningsMap[LearningType.HOST_PROPERTY].orEmpty(),
+                properties = hostProperty,
                 id = { it.id },
                 description = { it.description },
             )
 
             Content.HOST_TYPE -> PropertyList(
                 title = getTranslation(key = "main_menu_screen__host_types"),
-                properties = storeState.learningsMap[LearningType.HOST_TYPE].orEmpty(),
+                properties = hostType,
                 id = { it.id },
                 description = { it.description },
                 image = { it.image.spectralTypeToImage() },
@@ -119,14 +104,14 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
 
             Content.PLANET_DEFINITION -> PropertyList(
                 title = getTranslation(key = "main_menu_screen__planet_definition"),
-                properties = storeState.learningsMap[LearningType.PLANET_PROPERTY].orEmpty(),
+                properties = planetProperty,
                 id = { it.id },
                 description = { it.description }
             )
 
             Content.PLANET_TYPE -> PropertyList(
                 title = getTranslation(key = "main_menu_screen__planet_types"),
-                properties = storeState.learningsMap[LearningType.PLANET_TYPE].orEmpty(),
+                properties = planetType,
                 id = { it.id },
                 description = { it.description },
                 image = { PlanetType.fromValue(value = it.image.orEmpty()).toImage() }
@@ -134,7 +119,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
 
             Content.HABITABILITY -> PropertyList(
                 title = getTranslation(key = "main_menu_screen__habitability"),
-                properties = storeState.learningsMap[LearningType.FORMULA].orEmpty(),
+                properties = habitability,
                 id = { it.id },
                 description = { it.description },
                 footer = {
@@ -158,6 +143,554 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
         }
     }
 }
+
+private data class Property(
+    val id: String,
+    val description: String,
+    val image: String?,
+)
+
+private val navigation = listOf(
+    Property(
+        id = "main_menu_screen__back_navigation",
+        description = when {
+            isDesktop -> "main_menu_screen__navigation_info_desktop"
+            isIos || isAndroid -> "main_menu_screen__navigation_info_mobile"
+            else -> "main_menu_screen__navigation_info"
+        },
+        image = null,
+    )
+)
+
+private val hostType = listOf(
+    Property(
+        id = "stellar_host_type_o",
+        description = "stellar_host_type_o_description",
+        image = "O"
+    ),
+    Property(
+        id = "stellar_host_type_b",
+        description = "stellar_host_type_b_description",
+        image = "B"
+    ),
+    Property(
+        id = "stellar_host_type_a",
+        description = "stellar_host_type_a_description",
+        image = "A"
+    ),
+    Property(
+        id = "stellar_host_type_f",
+        description = "stellar_host_type_f_description",
+        image = "F"
+    ),
+    Property(
+        id = "stellar_host_type_g",
+        description = "stellar_host_type_g_description",
+        image = "G"
+    ),
+    Property(
+        id = "stellar_host_type_k",
+        description = "stellar_host_type_k_description",
+        image = "K"
+    ),
+    Property(
+        id = "stellar_host_type_m",
+        description = "stellar_host_type_m_description",
+        image = "M"
+    ),
+    Property(
+        id = "stellar_host_type_w",
+        description = "stellar_host_type_w_description",
+        image = "W"
+    ),
+    Property(
+        id = "stellar_host_type_l",
+        description = "stellar_host_type_l_description",
+        image = "L"
+    ),
+    Property(
+        id = "stellar_host_type_t",
+        description = "stellar_host_type_t_description",
+        image = "T"
+    ),
+    Property(
+        id = "stellar_host_type_y",
+        description = "stellar_host_type_y_description",
+        image = "Y"
+    ),
+    Property(
+        id = "stellar_host_type_c",
+        description = "stellar_host_type_c_description",
+        image = "C"
+    ),
+    Property(
+        id = "stellar_host_type_s",
+        description = "stellar_host_type_s_description",
+        image = "S"
+    ),
+    Property(
+        id = "stellar_host_type_d",
+        description = "stellar_host_type_d_description",
+        image = "D"
+    ),
+    Property(
+        id = "stellar_host_type_unknown",
+        description = "stellar_host_type_unknown_description",
+        image = "?"
+    )
+)
+
+private val planetType = listOf(
+    Property(
+        id = "planet_type_terrestrial_planet",
+        description = "planet_type_terrestrial_planet_description",
+        image = "TERRESTRIAL_PLANET"
+    ),
+    Property(
+        id = "planet_type_sub_earth",
+        description = "planet_type_sub_earth_description",
+        image = "SUB_EARTH"
+    ),
+    Property(
+        id = "planet_type_super_earth",
+        description = "planet_type_super_earth_description",
+        image = "SUPER_EARTH"
+    ),
+    Property(
+        id = "planet_type_mega_earth",
+        description = "planet_type_mega_earth_description",
+        image = "MEGA_EARTH"
+    ),
+    Property(
+        id = "planet_type_earth_like_planet",
+        description = "planet_type_earth_like_planet_description",
+        image = "EARTH_LIKE_PLANET"
+    ),
+    Property(
+        id = "planet_type_earth_analog_planet",
+        description = "planet_type_earth_analog_planet_description",
+        image = "EARTH_ANALOG_PLANET"
+    ),
+    Property(
+        id = "planet_type_superhabitable_planet",
+        description = "planet_type_superhabitable_planet_description",
+        image = "SUPERHABITABLE_PLANET"
+    ),
+    Property(
+        id = "planet_type_lava_planet",
+        description = "planet_type_lava_planet_description",
+        image = "LAVA_PLANET"
+    ),
+    Property(
+        id = "planet_type_desert_planet",
+        description = "planet_type_desert_planet_description",
+        image = "DESERT_PLANET"
+    ),
+    Property(
+        id = "planet_type_ice_planet",
+        description = "planet_type_ice_planet_description",
+        image = "ICE_PLANET"
+    ),
+    Property(
+        id = "planet_type_subsurface_ocean_planet",
+        description = "planet_type_subsurface_ocean_planet_description",
+        image = "SUBSURFACE_OCEAN_PLANET"
+    ),
+    Property(
+        id = "planet_type_ocean_planet",
+        description = "planet_type_ocean_planet_description",
+        image = "OCEAN_PLANET"
+    ),
+    Property(
+        id = "planet_type_iron_planet",
+        description = "planet_type_iron_planet_description",
+        image = "IRON_PLANET"
+    ),
+    Property(
+        id = "planet_type_eyeball_planet",
+        description = "planet_type_eyeball_planet_description",
+        image = "EYEBALL_PLANET"
+    ),
+    Property(
+        id = "planet_type_hot_eyeball_planet",
+        description = "planet_type_hot_eyeball_planet_description",
+        image = "HOT_EYEBALL_PLANET"
+    ),
+    Property(
+        id = "planet_type_cold_eyeball_planet",
+        description = "planet_type_cold_eyeball_planet_description",
+        image = "COLD_EYEBALL_PLANET"
+    ),
+    Property(
+        id = "planet_type_barren_planet",
+        description = "planet_type_barren_planet_description",
+        image = "BARREN_PLANET"
+    ),
+    Property(
+        id = "planet_type_crater_planet",
+        description = "planet_type_crater_planet_description",
+        image = "CRATER_PLANET"
+    ),
+    Property(
+        id = "planet_type_chthonian_planet",
+        description = "planet_type_chthonian_planet_description",
+        image = "CHTHONIAN_PLANET"
+    ),
+    Property(
+        id = "planet_type_mini_neptune",
+        description = "planet_type_mini_neptune_description",
+        image = "MINI_NEPTUNE"
+    ),
+    Property(
+        id = "planet_type_hot_neptune",
+        description = "planet_type_hot_neptune_description",
+        image = "HOT_NEPTUNE"
+    ),
+    Property(
+        id = "planet_type_ultra_hot_neptune",
+        description = "planet_type_ultra_hot_neptune_description",
+        image = "ULTRA_HOT_NEPTUNE"
+    ),
+    Property(
+        id = "planet_type_super_neptune",
+        description = "planet_type_super_neptune_description",
+        image = "SUPER_NEPTUNE"
+    ),
+    Property(
+        id = "planet_type_ice_giant",
+        description = "planet_type_ice_giant_description",
+        image = "ICE_GIANT"
+    ),
+    Property(
+        id = "planet_type_gas_giant",
+        description = "planet_type_gas_giant_description",
+        image = "GAS_GIANT"
+    ),
+    Property(
+        id = "planet_type_super_jupiter",
+        description = "planet_type_super_jupiter_description",
+        image = "SUPER_JUPITER"
+    ),
+    Property(
+        id = "planet_type_hot_jupiter",
+        description = "planet_type_hot_jupiter_description",
+        image = "HOT_JUPITER"
+    ),
+    Property(
+        id = "planet_type_ultra_hot_jupiter",
+        description = "planet_type_ultra_hot_jupiter_description",
+        image = "ULTRA_HOT_JUPITER"
+    ),
+    Property(
+        id = "planet_type_ammonia_clouds_gas_giant",
+        description = "planet_type_ammonia_clouds_gas_giant_description",
+        image = "AMMONIA_CLOUDS_GAS_GIANT"
+    ),
+    Property(
+        id = "planet_type_water_clouds_gas_giant",
+        description = "planet_type_water_clouds_gas_giant_description",
+        image = "WATER_CLOUDS_GAS_GIANT"
+    ),
+    Property(
+        id = "planet_type_cloudless_gas_giant",
+        description = "planet_type_cloudless_gas_giant_description",
+        image = "CLOUDLESS_GAS_GIANT"
+    ),
+    Property(
+        id = "planet_type_alkali_metal_clouds_gas_giant",
+        description = "planet_type_alkali_metal_clouds_gas_giant_description",
+        image = "ALKALI_METAL_CLOUDS_GAS_GIANT"
+    ),
+    Property(
+        id = "planet_type_silicate_clouds_gas_giant",
+        description = "planet_type_silicate_clouds_gas_giant_description",
+        image = "SILICATE_CLOUDS_GAS_GIANT"
+    ),
+    Property(
+        id = "planet_type_puffy_planet",
+        description = "planet_type_puffy_planet_description",
+        image = "PUFFY_PLANET"
+    ),
+    Property(
+        id = "planet_type_super_puff_planet",
+        description = "planet_type_super_puff_planet_description",
+        image = "SUPER_PUFF_PLANET"
+    ),
+    Property(
+        id = "planet_type_protoplanet",
+        description = "planet_type_protoplanet_description",
+        image = "PROTOPLANET"
+    ),
+    Property(
+        id = "planet_type_ultra_short_period_planet",
+        description = "planet_type_ultra_short_period_planet_description",
+        image = "ULTRA_SHORT_PERIOD_PLANET"
+    ),
+    Property(
+        id = "planet_type_disrupted_planet",
+        description = "planet_type_disrupted_planet_description",
+        image = "DISRUPTED_PLANET"
+    ),
+    Property(
+        id = "planet_type_ellipsoid_planet",
+        description = "planet_type_ellipsoid_planet_description",
+        image = "ELLIPSOID_PLANET"
+    ),
+    Property(
+        id = "planet_type_unknown",
+        description = "planet_type_unknown_description",
+        image = "?"
+    )
+)
+
+private val hostProperty = listOf(
+    Property(
+        id = "stellar_host_name",
+        description = "stellar_host_name_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_system_name",
+        description = "stellar_host_system_name_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_planet_count",
+        description = "stellar_host_planet_count_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_type",
+        description = "stellar_host_type_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_temperature",
+        description = "stellar_host_temperature_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_radius",
+        description = "stellar_host_radius_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_mass",
+        description = "stellar_host_mass_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_metallicity",
+        description = "stellar_host_metallicity_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_luminosity",
+        description = "stellar_host_luminosity_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_gravity",
+        description = "stellar_host_gravity_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_age",
+        description = "stellar_host_age_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_density",
+        description = "stellar_host_density_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_rotational_velocity",
+        description = "stellar_host_rotational_velocity_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_rotational_period",
+        description = "stellar_host_rotational_period_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_ra",
+        description = "stellar_host_ra_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_dec",
+        description = "stellar_host_dec_description",
+        image = null
+    ),
+    Property(
+        id = "stellar_host_distance",
+        description = "stellar_host_distance_description",
+        image = null
+    )
+)
+
+private val planetProperty = listOf(
+    Property(
+        id = "planet_name",
+        description = "planet_name_description",
+        image = null
+    ),
+    Property(
+        id = "planet_status",
+        description = "planet_status_description",
+        image = null
+    ),
+    Property(
+        id = "planet_type",
+        description = "planet_type_description",
+        image = null
+    ),
+    Property(
+        id = "planet_orbital_period",
+        description = "planet_orbital_period_description",
+        image = null
+    ),
+    Property(
+        id = "planet_orbit_axis",
+        description = "planet_orbit_axis_description",
+        image = null
+    ),
+    Property(
+        id = "planet_radius",
+        description = "planet_radius_description",
+        image = null
+    ),
+    Property(
+        id = "planet_mass",
+        description = "planet_mass_description",
+        image = null
+    ),
+    Property(
+        id = "planet_density",
+        description = "planet_density_description",
+        image = null
+    ),
+    Property(
+        id = "planet_eccentricity",
+        description = "planet_eccentricity_description",
+        image = null
+    ),
+    Property(
+        id = "planet_insolation_flux",
+        description = "planet_insolation_flux_description",
+        image = null
+    ),
+    Property(
+        id = "planet_temperature",
+        description = "planet_temperature_description",
+        image = null
+    ),
+    Property(
+        id = "planet_occultation_depth",
+        description = "planet_occultation_depth_description",
+        image = null
+    ),
+    Property(
+        id = "planet_inclination",
+        description = "planet_inclination_description",
+        image = null
+    ),
+    Property(
+        id = "planet_obliquity",
+        description = "planet_obliquity_description",
+        image = null
+    )
+)
+
+private val habitability = listOf(
+    Property(
+        id = "habitability",
+        description = "habitability_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_roche",
+        description = "habitability_roche_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_hz",
+        description = "habitability_hz_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_planet_density_radius",
+        description = "habitability_planet_density_radius_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_planet_mass",
+        description = "habitability_planet_mass_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_planet_eccentricity",
+        description = "habitability_planet_eccentricity_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_planet_temperature",
+        description = "habitability_planet_temperature_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_planet_obliquity",
+        description = "habitability_planet_obliquity_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_planet_protection",
+        description = "habitability_planet_protection_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_planet_tidal_locking",
+        description = "habitability_planet_tidal_locking_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_planet_esi",
+        description = "habitability_planet_esi_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_star_spectral_type",
+        description = "habitability_star_spectral_type_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_star_age",
+        description = "habitability_star_age_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_star_activity",
+        description = "habitability_star_activity_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_star_gravity",
+        description = "habitability_star_gravity_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_star_metallicity",
+        description = "habitability_star_metallicity_description",
+        image = null
+    ),
+    Property(
+        id = "habitability_star_effective_temperature",
+        description = "habitability_star_effective_temperature_description",
+        image = null
+    )
+)
 
 @Preview
 @Composable
@@ -227,8 +760,7 @@ private fun HelpScreenPreview() = AppTheme {
             initialState = HelpState(
                 loading = false,
                 formula = "Formula",
-                currentContent = Content.LEARN_MENU,
-                learningsMap = emptyMap(),
+                currentContent = Content.LEARN_MENU
             )
         )
     )
@@ -242,27 +774,7 @@ private fun HelpScreenHostDefinitionPreview() = AppTheme {
             initialState = HelpState(
                 loading = false,
                 formula = "Formula",
-                currentContent = Content.HOST_DEFINITION,
-                learningsMap = listOf(
-                    Learning(
-                        id = "Luminosity",
-                        description = "Shine on you crazy diamond",
-                        image = null,
-                        type = LearningType.HOST_PROPERTY
-                    ),
-                    Learning(
-                        id = "G",
-                        description = "Our Sun",
-                        image = "G",
-                        type = LearningType.HOST_TYPE
-                    ),
-                    Learning(
-                        id = "W",
-                        description = "Wolf-Rayet",
-                        image = "W",
-                        type = LearningType.HOST_TYPE
-                    ),
-                ).groupBy { it.type },
+                currentContent = Content.HOST_DEFINITION
             )
         )
     )
@@ -276,27 +788,7 @@ private fun HelpScreenPlanetDefinitionPreview() = AppTheme {
             initialState = HelpState(
                 loading = false,
                 formula = "Formula",
-                currentContent = Content.PLANET_DEFINITION,
-                learningsMap = listOf(
-                    Learning(
-                        id = "Mass",
-                        description = "Very Biggus",
-                        image = null,
-                        type = LearningType.PLANET_PROPERTY
-                    ),
-                    Learning(
-                        id = "Mars",
-                        description = "The Red Planet",
-                        image = "EARTH_LIKE_PLANET",
-                        type = LearningType.PLANET_TYPE
-                    ),
-                    Learning(
-                        id = "Mini Neptune",
-                        description = "Mini-Me",
-                        image = "MINI_NEPTUNE",
-                        type = LearningType.PLANET_TYPE
-                    ),
-                ).groupBy { it.type },
+                currentContent = Content.PLANET_DEFINITION
             )
         )
     )
@@ -310,23 +802,7 @@ private fun HelpScreenHabitabilityPreview() = AppTheme {
             initialState = HelpState(
                 loading = false,
                 formula = "Formula",
-                currentContent = Content.HABITABILITY,
-                learningsMap = listOf(
-                    Learning(
-                        id = "Roche",
-                        description = "The Roche limit",
-                        image = null,
-                        type = LearningType.FORMULA
-                    ),
-                    Learning(
-                        id = "CHZ",
-                        description = "The Circumstellar Habitable Zone (CHZ) is the region around a star where liquid water could exist on a planet's surface.\n" +
-                                "I use the Kopparapu model with a flat plateau of 1.0 across the entire conservative zone and then a smooth down slope through the optimistic zone, as a simple gradient peaked at the center unfairly penalizes planets like Earth, which is perfectly habitable but located near the inner edge of the Sun's conservative zone.\n" +
-                                "The host star's temperature is used to calculate the fluxes with the model's coefficients. If it is not available, the Kasting simple luminosity model is used instead but with a smaller weight.",
-                        image = null,
-                        type = LearningType.FORMULA
-                    ),
-                ).groupBy { it.type },
+                currentContent = Content.HABITABILITY
             )
         )
     )

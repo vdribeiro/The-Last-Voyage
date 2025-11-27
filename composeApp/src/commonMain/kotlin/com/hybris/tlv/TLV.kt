@@ -36,11 +36,11 @@ internal object TLV {
     /**
      * Reset local data.
      */
-    const val RESET = false
+    const val RESET = true
     /**
      * Enable or disable HTTP client.
      */
-    const val HTTP = true
+    const val HTTP = false
     /**
      * Enable or disable getting exoplanet data from the NASA archive (only works if HTTP is enabled).
      */
@@ -48,5 +48,5 @@ internal object TLV {
     /**
      * Enable or disable ambient music.
      */
-    const val MUSIC = true
+    const val MUSIC = false
 }

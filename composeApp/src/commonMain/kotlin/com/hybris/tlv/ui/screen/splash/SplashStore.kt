@@ -15,7 +15,6 @@ import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.usecase.credit.CreditUseCases
 import com.hybris.tlv.usecase.event.EventUseCases
-import com.hybris.tlv.usecase.learning.LearningUseCases
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.ArchiveUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
@@ -25,7 +24,6 @@ internal class SplashStore(
     private val config: ConfigManager,
     private val archiveUseCases: ArchiveUseCases,
     private val translateUseCases: TranslationUseCases,
-    private val learningUseCases: LearningUseCases,
     private val catastropheUseCases: CatastropheUseCases,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
@@ -68,7 +66,6 @@ internal class SplashStore(
         val tasks = listOf(
             suspend { archiveUseCases.getArchive() },
             suspend { translateUseCases.syncTranslations() },
-            suspend { learningUseCases.syncLearnings() },
             suspend { catastropheUseCases.syncCatastrophes() },
             suspend { shipUseCases.syncEngines() },
             suspend { spaceUseCases.syncStellarHosts() },

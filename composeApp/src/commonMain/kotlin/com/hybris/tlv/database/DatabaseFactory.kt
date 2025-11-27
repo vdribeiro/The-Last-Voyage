@@ -12,17 +12,12 @@ import database.Engine
 import database.Event
 import database.Formula
 import database.GameSession
-import database.Learning
 import database.Planet
 import database.Ship
 import database.StellarHost
 import database.Translation
 
 internal class DatabaseFactory(private val driver: SqlDriver) {
-
-    private val learningAdapter = Learning.Adapter(
-        typeAdapter = EnumColumnAdapter()
-    )
 
     private val shipAdapter = Ship.Adapter(
         assignedPointsAdapter = IntColumnAdapter,
@@ -52,16 +47,15 @@ internal class DatabaseFactory(private val driver: SqlDriver) {
 
     val database: AppDatabase = AppDatabase(
         driver = driver,
-        LearningAdapter = learningAdapter,
         ShipAdapter = shipAdapter,
         EngineAdapter = engineAdapter,
         PlanetAdapter = planetAdapter,
         GameSessionAdapter = gameSessionAdapter,
-        CreditAdapter = creditAdapter,
+        CreditAdapter = creditAdapter
     )
 }
 
-internal const val DATABASE_FILE = "tlv_app.db"
+internal const val DATABASE_FILE = "tlv_database.db"
 
 typealias TranslationSchema = Translation
 typealias StellarHostSchema = StellarHost
@@ -74,4 +68,3 @@ typealias GameSessionSchema = GameSession
 typealias EventSchema = Event
 typealias AchievementSchema = Achievement
 typealias CreditSchema = Credit
-typealias LearningSchema = Learning

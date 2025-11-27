@@ -21,21 +21,21 @@ import com.hybris.tlv.usecase.translation.model.Translation
 internal fun LearnMenu(
     modifier: Modifier = Modifier,
     onNavigationClick: () -> Unit = {},
+    onMechanicsClick: () -> Unit = {},
     onHostDefinitionClick: () -> Unit = {},
     onHostTypesClick: () -> Unit = {},
     onPlanetDefinitionClick: () -> Unit = {},
     onPlanetTypesClick: () -> Unit = {},
     onHabitabilityClick: () -> Unit = {},
-    onMechanicsClick: () -> Unit = {}
 ) {
     val helpTranslation = getTranslation(key = "main_menu_screen__learn")
     val navigationTranslation = getTranslation(key = "main_menu_screen__navigation")
+    val mechanicsTranslation = getTranslation(key = "main_menu_screen__mechanics")
     val hostDefinitionTranslation = getTranslation(key = "main_menu_screen__host_definition")
     val hostTypesTranslation = getTranslation(key = "main_menu_screen__host_types")
     val planetDefinitionTranslation = getTranslation(key = "main_menu_screen__planet_definition")
     val planetTypesTranslation = getTranslation(key = "main_menu_screen__planet_types")
     val habitabilityTranslation = getTranslation(key = "main_menu_screen__habitability")
-    val mechanicsTranslation = getTranslation(key = "main_menu_screen__mechanics")
 
     val typography = LocalTypography.current
 
@@ -60,6 +60,14 @@ internal fun LearnMenu(
                 modifier = Modifier
                     .clickable { onNavigationClick() },
                 text = navigationTranslation,
+                style = typography.headlineMedium,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier
+                    .clickable { onMechanicsClick() },
+                text = mechanicsTranslation,
                 style = typography.headlineMedium,
             )
         }
@@ -100,14 +108,6 @@ internal fun LearnMenu(
                 modifier = Modifier
                     .clickable { onHabitabilityClick() },
                 text = habitabilityTranslation,
-                style = typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onMechanicsClick() },
-                text = mechanicsTranslation,
                 style = typography.headlineMedium,
             )
         }

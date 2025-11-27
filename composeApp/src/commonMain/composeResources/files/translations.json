@@ -2916,6 +2916,11 @@
   },
   {
     "languageIso": "en",
+    "key": "main_menu_screen__back_navigation",
+    "value": "Back"
+  },
+  {
+    "languageIso": "en",
     "key": "main_menu_screen__host_definition",
     "value": "Star Definition"
   },
