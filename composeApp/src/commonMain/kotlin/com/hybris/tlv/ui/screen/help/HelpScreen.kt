@@ -158,7 +158,7 @@ private val navigation = listOf(
             isIos || isAndroid -> "main_menu_screen__navigation_info_mobile"
             else -> "main_menu_screen__navigation_info"
         },
-        image = null,
+        image = null
     )
 )
 
