@@ -49,14 +49,15 @@ internal inline fun <T> PropertiesDefinition(
         modifier = modifier
             .fillMaxWidth()
             .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start,
     ) {
         Text(
             text = definitionTranslation,
             style = typography.headlineMedium,
             fontWeight = FontWeight.Bold,
         )
-        Spacer(modifier = Modifier.height(height = 4.dp))
+        Spacer(modifier = Modifier.height(height = 16.dp))
 
         Card(modifier = modifier) {
             Row(

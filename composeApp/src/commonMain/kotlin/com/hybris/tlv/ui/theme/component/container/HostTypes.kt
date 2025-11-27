@@ -47,7 +47,7 @@ internal inline fun <T> HostTypes(
                 style = typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
-            Spacer(modifier = Modifier.height(height = 4.dp))
+            Spacer(modifier = Modifier.height(height = 16.dp))
         }
         items(items = stellarHosts, key = stellarHostId) { stellarHost ->
             StellarHostCard(
