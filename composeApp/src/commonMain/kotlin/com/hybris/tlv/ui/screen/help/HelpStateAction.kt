@@ -4,8 +4,6 @@ import com.hybris.tlv.usecase.learning.model.Learning
 import com.hybris.tlv.usecase.learning.model.LearningType
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
-import com.hybris.tlv.usecase.space.model.PlanetType
-import com.hybris.tlv.usecase.space.model.Score
 import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal sealed interface HelpAction {
@@ -61,49 +59,6 @@ internal data class HelpState(
                 inclination = null,
                 obliquity = null,
             )
-        )
-    },
-    val planet: Planet = Planet(
-        id = "Edoras",
-        name = "Edoras",
-        stellarHostId = "Valar",
-        status = PlanetStatus.CANDIDATE,
-        orbitalPeriod = 123.0,
-        orbitAxis = 1.2,
-        radius = 5.1,
-        mass = 2.3,
-        density = 3.2,
-        eccentricity = 0.5,
-        insolationFlux = 2.1,
-        equilibriumTemperature = 666.9,
-        occultationDepth = 0.01,
-        inclination = 1.8,
-        obliquity = 50.0,
-    ).apply {
-        score = Score(
-            habitabilityScore = 1.0,
-            confidenceScore = 1.0,
-            planetType = PlanetType.SUPERHABITABLE_PLANET,
-            rocheScore = null,
-            habitableZoneKopparapuScore = null,
-            habitableZoneKastingScore = null,
-            planetRadiusScore = null,
-            planetMassScore = null,
-            planetTelluricityScore = null,
-            planetEccentricityScore = null,
-            planetTemperatureScore = null,
-            planetObliquityScore = null,
-            planetEsiScore = null,
-            stellarSpectralTypeScore = null,
-            stellarMassScore = null,
-            stellarAgeScore = null,
-            stellarActivityScore = null,
-            stellarRotationalPeriodScore = null,
-            stellarGravityScore = null,
-            stellarMetallicityScore = null,
-            stellarEffectiveTemperatureScore = null,
-            planetProtectionScore = null,
-            planetTidalLockingScore = null
         )
     },
     val showSnackbar: Boolean = false

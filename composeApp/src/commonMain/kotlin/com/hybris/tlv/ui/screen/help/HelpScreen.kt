@@ -16,12 +16,11 @@ import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.HelpBar
 import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
-import com.hybris.tlv.ui.theme.component.container.HostDefinition
 import com.hybris.tlv.ui.theme.component.container.HostTypes
 import com.hybris.tlv.ui.theme.component.container.LearnMenu
 import com.hybris.tlv.ui.theme.component.container.NavigationHelp
-import com.hybris.tlv.ui.theme.component.container.PlanetDefinition
 import com.hybris.tlv.ui.theme.component.container.PlanetTypes
+import com.hybris.tlv.ui.theme.component.container.PropertiesDefinition
 import com.hybris.tlv.ui.theme.component.container.Screen
 import com.hybris.tlv.ui.theme.component.list.HabitabilityList
 import com.hybris.tlv.ui.theme.getTranslation
@@ -81,32 +80,12 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
             )
 
             Content.NAVIGATION -> NavigationHelp()
-            Content.HOST_DEFINITION -> {
-                val stellarHost = storeState.stellarHost
-                HostDefinition(
-                    name = stellarHost.name,
-                    systemName = stellarHost.systemName,
-                    planetCount = stellarHost.planets.size,
-                    spectralType = stellarHost.spectralType,
-                    spectralImage = stellarHost.spectralType.spectralTypeToImage(),
-                    effectiveTemperature = stellarHost.effectiveTemperature,
-                    radius = stellarHost.radius,
-                    mass = stellarHost.mass,
-                    metallicity = stellarHost.metallicity,
-                    luminosity = stellarHost.luminosity,
-                    gravity = stellarHost.gravity,
-                    age = stellarHost.age,
-                    density = stellarHost.density,
-                    rotationalVelocity = stellarHost.rotationalVelocity,
-                    rotationalPeriod = stellarHost.rotationalPeriod,
-                    distance = stellarHost.distance,
-                    ra = stellarHost.ra,
-                    dec = stellarHost.dec,
-                    properties = storeState.learningsMap[LearningType.HOST_PROPERTY].orEmpty(),
-                    propertyId = { it.id },
-                    propertyDescription = { it.description },
-                )
-            }
+            Content.HOST_DEFINITION -> PropertiesDefinition(
+                image = "G".spectralTypeToImage(),
+                properties = storeState.learningsMap[LearningType.HOST_PROPERTY].orEmpty(),
+                propertyId = { it.id },
+                propertyDescription = { it.description },
+            )
 
             Content.HOST_TYPE -> HostTypes(
                 stellarHosts = storeState.learningsMap[LearningType.HOST_TYPE].orEmpty(),
@@ -115,29 +94,12 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 stellarHostImage = { it.image.spectralTypeToImage() },
             )
 
-            Content.PLANET_DEFINITION -> {
-                val planet = storeState.planet
-                PlanetDefinition(
-                    name = planet.name,
-                    status = planet.status.displayName,
-                    orbitalPeriod = planet.orbitalPeriod,
-                    orbitAxis = planet.orbitAxis,
-                    radius = planet.radius,
-                    mass = planet.mass,
-                    density = planet.density,
-                    eccentricity = planet.eccentricity,
-                    insolationFlux = planet.insolationFlux,
-                    equilibriumTemperature = planet.equilibriumTemperature,
-                    occultationDepth = planet.occultationDepth,
-                    inclination = planet.inclination,
-                    obliquity = planet.obliquity,
-                    type = planet.score?.planetType?.displayName,
-                    image = planet.score?.planetType.toImage(),
-                    properties = storeState.learningsMap[LearningType.PLANET_PROPERTY].orEmpty(),
-                    propertyId = { it.id },
-                    propertyDescription = { it.description },
-                )
-            }
+            Content.PLANET_DEFINITION -> PropertiesDefinition(
+                image = PlanetType.SUPERHABITABLE_PLANET.toImage(),
+                properties = storeState.learningsMap[LearningType.PLANET_PROPERTY].orEmpty(),
+                propertyId = { it.id },
+                propertyDescription = { it.description }
+            )
 
             Content.PLANET_TYPE -> PlanetTypes(
                 planets = storeState.learningsMap[LearningType.PLANET_TYPE].orEmpty(),

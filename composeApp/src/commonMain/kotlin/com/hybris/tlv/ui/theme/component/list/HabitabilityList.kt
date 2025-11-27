@@ -46,8 +46,8 @@ internal inline fun <T> HabitabilityList(
     ) {
         items(items = properties, key = id) { property ->
             PropertyCard(
-                name = getTranslation(key = id(property)),
-                description = description(property)?.let { getTranslation(key = it) }
+                name = id(property),
+                description = description(property)
             )
         }
         item {

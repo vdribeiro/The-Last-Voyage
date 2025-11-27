@@ -13,7 +13,6 @@ import com.hybris.tlv.platform.isIos
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
-import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
 
@@ -21,14 +20,6 @@ import com.hybris.tlv.usecase.translation.model.Translation
 internal fun NavigationHelp(
     modifier: Modifier = Modifier
 ) {
-    val navigationTranslation = getTranslation(key = "main_menu_screen__navigation")
-    val navigationDescriptionTranslation = getTranslation(
-        key = when {
-            isDesktop -> "main_menu_screen__navigation_info_desktop"
-            isIos || isAndroid -> "main_menu_screen__navigation_info_mobile"
-            else -> "main_menu_screen__navigation_info"
-        }
-    )
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -37,8 +28,12 @@ internal fun NavigationHelp(
     ) {
         item {
             PropertyCard(
-                name = navigationTranslation,
-                description = navigationDescriptionTranslation
+                name = "main_menu_screen__navigation",
+                description = when {
+                    isDesktop -> "main_menu_screen__navigation_info_desktop"
+                    isIos || isAndroid -> "main_menu_screen__navigation_info_mobile"
+                    else -> "main_menu_screen__navigation_info"
+                }
             )
         }
     }

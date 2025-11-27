@@ -55,13 +55,11 @@ internal inline fun <T> AchievementList(
         ) {
             items(items = achievements, key = id) { achievement ->
                 PropertyCard(
-                    name = getTranslation(key = id(achievement)),
-                    description = description(achievement)?.let { getTranslation(key = it) },
+                    name = id(achievement),
+                    description = description(achievement),
                     icon = if (done(achievement)) {
                         { Icon(imageVector = Icons.Filled.Check) }
-                    } else {
-                        { Icon() }
-                    }
+                    } else null
                 )
             }
         }
