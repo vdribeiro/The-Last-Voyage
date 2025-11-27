@@ -1,9 +1,11 @@
 package com.hybris.tlv.serializer
 
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import io.ktor.http.decodeURLQueryComponent
 import io.ktor.http.encodeURLQueryComponent
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.storage.loadFile
 import com.hybris.tlv.storage.saveFile
 import com.hybris.tlv.telemetry.Telemetry
@@ -56,21 +58,25 @@ internal inline fun <reified T> decodeURL(value: String?): T? = runCatching {
 /**
  * Save a JSON file.
  */
-internal suspend inline fun <reified T> saveJsonFile(path: String, content: T): Boolean =
+internal suspend inline fun <reified T> saveJsonFile(path: String, content: T): Boolean = withContext(context = Dispatcher.IO) {
     encode<T>(value = content)?.let { saveFile(path = path, content = it) } ?: false
+}
 
 /**
  * Load a JSON file.
  */
-internal suspend inline fun <reified T> loadJsonFile(path: String): T? =
+internal suspend inline fun <reified T> loadJsonFile(path: String): T? = withContext(context = Dispatcher.IO) {
     loadFile(path = path)?.let { decode<T>(value = it) }
+}
 
 /**
  * Load a JSON resource.
  */
-internal suspend inline fun <reified T> loadFromJsonResource(path: String): List<T> = runCatching {
-    decode<List<T>>(value = Res.readBytes(path = path).decodeToString())
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to load resource", throwable = it) }.getOrNull().orEmpty()
+internal suspend inline fun <reified T> loadFromJsonResource(path: String): List<T> = withContext(context = Dispatcher.IO) {
+    runCatching {
+        decode<List<T>>(value = Res.readBytes(path = path).decodeToString())
+    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to load resource", throwable = it) }.getOrNull().orEmpty()
+}
 
 private const val TAG = "JSON"
 

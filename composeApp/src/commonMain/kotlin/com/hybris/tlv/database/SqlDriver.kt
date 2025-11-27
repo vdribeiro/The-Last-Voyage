@@ -5,8 +5,16 @@ import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.db.SqlSchema
 import database.AppDatabase
 
+/**
+ * Creates the database driver.
+ */
 internal expect fun createSqlDriver(
     name: String = DATABASE_FILE,
     schema: SqlSchema<QueryResult.Value<Unit>> = AppDatabase.Schema,
     inMemory: Boolean = false
 ): SqlDriver
+
+/**
+ * Deletes the database.
+ */
+internal expect suspend fun deleteDatabase(name: String = DATABASE_FILE): Boolean

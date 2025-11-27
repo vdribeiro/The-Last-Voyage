@@ -1,11 +1,14 @@
 package com.hybris.tlv.database
 
+import kotlinx.coroutines.withContext
 import androidx.sqlite.db.SupportSQLiteDatabase
 import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.db.SqlSchema
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.hybris.tlv.applicationContext
+import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.telemetry.Telemetry
 
 internal actual fun createSqlDriver(
     name: String,
@@ -22,3 +25,11 @@ internal actual fun createSqlDriver(
         }
     }
 )
+
+internal actual suspend fun deleteDatabase(name: String): Boolean = withContext(context = Dispatcher.IO) {
+    runCatching {
+        applicationContext.deleteDatabase(name)
+    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to delete database: $name", throwable = it) }.getOrDefault(defaultValue = false)
+}
+
+private const val TAG = "Database"
