@@ -84,13 +84,24 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
 
             Content.NAVIGATION -> PropertyList(
                 title = getTranslation(key = "main_menu_screen__navigation"),
-                name = "main_menu_screen__navigation",
-                description = when {
-                    isDesktop -> "main_menu_screen__navigation_info_desktop"
-                    isIos || isAndroid -> "main_menu_screen__navigation_info_mobile"
-                    else -> "main_menu_screen__navigation_info"
-                }
+                properties = listOf(
+                    Learning(
+                        id = getTranslation(key = "main_menu_screen__navigation"),
+                        description = getTranslation(
+                            key = when {
+                                isDesktop -> "main_menu_screen__navigation_info_desktop"
+                                isIos || isAndroid -> "main_menu_screen__navigation_info_mobile"
+                                else -> "main_menu_screen__navigation_info"
+                            }
+                        ),
+                        image = null,
+                        type = LearningType.FORMULA // TODO
+                    )
+                ),
+                id = { it.id },
+                description = { it.description }
             )
+
             Content.HOST_DEFINITION -> PropertyList(
                 title = getTranslation(key = "main_menu_screen__host_definition"),
                 properties = storeState.learningsMap[LearningType.HOST_PROPERTY].orEmpty(),
