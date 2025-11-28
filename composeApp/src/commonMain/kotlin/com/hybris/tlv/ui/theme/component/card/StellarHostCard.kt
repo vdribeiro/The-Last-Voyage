@@ -33,7 +33,6 @@ import com.hybris.tlv.usecase.translation.model.Translation
 internal fun StellarHostCard(
     modifier: Modifier = Modifier,
     name: String? = null,
-    description: String? = null,
     systemName: String? = null,
     planetCount: Int? = null,
     spectralType: String? = null,
@@ -113,8 +112,6 @@ internal fun StellarHostCard(
                 horizontalAlignment = Alignment.Start,
             ) {
                 name?.let { Text(text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold) }
-                if (name != null && description != null) Spacer(modifier = Modifier.height(height = 4.dp))
-                description?.let { Text(text = it, style = typography.bodyLarge) }
                 systemName?.let { InfoRow(label = stellarHostSystemNameTranslation, value = it) }
                 planetCount?.let { InfoRow(label = stellarHostPlanetCountTranslation, value = it) }
                 spectralType?.let { InfoRow(label = stellarHostTypeTranslation, value = it) }
@@ -170,7 +167,6 @@ private fun StellarHostCardPreview() = AppTheme {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         StellarHostCard(
             name = "Sun",
-            description = "Bright",
             systemName = "Sol",
             planetCount = 8,
             spectralType = "G",
@@ -178,13 +174,11 @@ private fun StellarHostCardPreview() = AppTheme {
             effectiveTemperature = 255.0
         )
         StellarHostCard(
-            description = "Bright",
             systemName = "Sol",
             spectralImage = "G".spectralTypeToImage(),
         )
         StellarHostCard(
             name = "Sun",
-            description = "Bright",
             systemName = "Sol",
             planetCount = 8,
             spectralType = "G",

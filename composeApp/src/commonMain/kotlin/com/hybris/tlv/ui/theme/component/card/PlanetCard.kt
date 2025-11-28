@@ -34,7 +34,6 @@ import com.hybris.tlv.usecase.translation.model.Translation
 internal fun PlanetCard(
     modifier: Modifier = Modifier,
     name: String? = null,
-    description: String? = null,
     status: String? = null,
     orbitalPeriod: Double? = null,
     orbitAxis: Double? = null,
@@ -120,12 +119,10 @@ internal fun PlanetCard(
                 horizontalAlignment = Alignment.Start,
             ) {
                 name?.let { Text(text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold) }
-                if (name != null && description != null) Spacer(modifier = Modifier.height(height = 4.dp))
-                description?.let { Text(text = it, style = typography.bodyLarge) }
-                status?.let { InfoRow(label = planetStatusTranslation, value = it) }
+                status?.let { InfoRow(label = planetStatusTranslation, value = getTranslation(key = it)) }
                 habitability?.let { InfoRow(label = planetHabitabilityTranslation, value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%") }
                 confidence?.let { InfoRow(label = planetConfidenceTranslation, value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%") }
-                type?.let { InfoRow(label = planetTypeTranslation, value = it) }
+                type?.let { InfoRow(label = planetTypeTranslation, value = getTranslation(key = it)) }
                 orbitalPeriod?.let { InfoRow(label = planetOrbitalPeriodTranslation, value = "${it.roundTo(decimalPlaces = 4)} $periodUnitTranslation") }
                 orbitAxis?.let { InfoRow(label = planetOrbitAxisTranslation, value = "${it.roundTo(decimalPlaces = 4)} au") }
                 radius?.let { InfoRow(label = planetRadiusTranslation, value = "${it.roundTo(decimalPlaces = 2)} R⊕") }
@@ -176,20 +173,17 @@ private fun PlanetCardPreview() = AppTheme {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         PlanetCard(
             name = "Earth",
-            description = "Beautiful",
             image = PlanetType.EARTH_ANALOG_PLANET.toImage(),
             habitability = 0.9,
             mass = 1.0,
             radius = 1.0
         )
         PlanetCard(
-            description = "Beautiful",
             image = PlanetType.EARTH_ANALOG_PLANET.toImage(),
             habitability = 0.9,
         )
         PlanetCard(
             name = "Earth",
-            description = "Beautiful",
             habitability = 0.9,
             mass = 1.0,
             radius = 1.0

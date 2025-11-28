@@ -29,7 +29,6 @@ internal inline fun <T> PlanetList(
     listState: LazyListState = LazyListState(),
     showStellarHost: Boolean = false,
     stellarHostName: String? = null,
-    stellarHostDescription: String? = null,
     stellarHostSystemName: String? = null,
     stellarHostPlanetCount: Int? = null,
     stellarHostSpectralType: String? = null,
@@ -58,7 +57,6 @@ internal inline fun <T> PlanetList(
     planets: List<T> = emptyList(),
     noinline planetId: (T) -> String = { generateUuid() },
     crossinline planetName: (T) -> String? = { null },
-    crossinline planetDescription: (T) -> String? = { null },
     crossinline planetStatus: (T) -> String? = { null },
     crossinline planetOrbitalPeriod: (T) -> Double? = { null },
     crossinline planetOrbitAxis: (T) -> Double? = { null },
@@ -101,7 +99,6 @@ internal inline fun <T> PlanetList(
             item {
                 StellarHostCard(
                     name = stellarHostName,
-                    description = stellarHostDescription,
                     systemName = stellarHostSystemName,
                     planetCount = stellarHostPlanetCount,
                     spectralType = stellarHostSpectralType,
@@ -136,7 +133,6 @@ internal inline fun <T> PlanetList(
                 modifier = Modifier
                     .clickable { onPlanetClick(planet) },
                 name = planetName(planet),
-                description = planetDescription(planet),
                 status = planetStatus(planet),
                 orbitalPeriod = planetOrbitalPeriod(planet),
                 orbitAxis = planetOrbitAxis(planet),
@@ -204,7 +200,6 @@ private fun PlanetListPreview() = AppTheme {
     PlanetList(
         showStellarHost = true,
         stellarHostName = "Host",
-        stellarHostDescription = "Description",
         stellarHostSystemName = "System",
         stellarHostPlanetCount = 1,
         stellarHostSpectralType = "G",
