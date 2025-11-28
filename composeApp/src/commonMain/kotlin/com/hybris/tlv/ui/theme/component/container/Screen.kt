@@ -31,7 +31,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 
 /**
  * A scaffold-based screen that handles displaying a loading indicator or the primary content.
- * This composable is designed to prevent UI flickers during data loading by employing a two-part strategy:
+ * This composable is designed to prevent UI flickering during data loading by employing a two-part strategy:
  * - An initial grace period [loadingDelayMillis] to avoid showing the loader for very fast operations.
  * - A minimum display time [loadingMinDisplayTimeMillis] to ensure that if the loader does appear, it remains on screen long enough to avoid the same problem.
  */
@@ -92,40 +92,55 @@ internal fun Screen(
                 .fillMaxSize(),
             contentAlignment = contentAlignment
         ) {
-            val isPreview = LocalInspectionMode.current
-            var show by remember { mutableStateOf(value = isPreview) }
-            var loaderShownMark by remember { mutableStateOf<TimeMark?>(value = null) }
-            LaunchedEffect(key1 = loading) {
-                when {
-                    loading -> {
-                        delay(timeMillis = loadingDelayMillis)
-                        loaderShownMark = TimeSource.Monotonic.markNow()
-                        show = true
-                    }
-
-                    else -> when (val shownMark = loaderShownMark) {
-                        null -> show = false
-                        else -> {
-                            val remainingTime = loadingMinDisplayTimeMillis - shownMark.elapsedNow().inWholeMilliseconds
-                            if (remainingTime > 0) delay(timeMillis = remainingTime)
-                            show = false
-                            loaderShownMark = null
-                        }
-                    }
-                }
-            }
-            when {
-                show -> AppLogo(
+            // Prevent UI flickering with a grace period and a minimum display time
+            val showLoading = showLoading(
+                loading = loading,
+                loadingDelayMillis = loadingDelayMillis,
+                loadingMinDisplayTimeMillis = loadingMinDisplayTimeMillis
+            )
+            when (showLoading) {
+                true -> AppLogo(
                     showBackground = loadingBackground,
                     showProgress = true,
                     progress = loadingProgress,
                     text = loadingText
                 )
 
-                else -> content()
+                false -> content()
             }
         }
     }
+}
+
+@Composable
+private fun showLoading(
+    loading: Boolean,
+    loadingDelayMillis: Long,
+    loadingMinDisplayTimeMillis: Long,
+): Boolean {
+    val isPreview = LocalInspectionMode.current
+    var show by remember { mutableStateOf(value = isPreview) }
+    var loaderShownMark by remember { mutableStateOf<TimeMark?>(value = null) }
+    LaunchedEffect(key1 = loading) {
+        when {
+            loading -> {
+                delay(timeMillis = loadingDelayMillis)
+                loaderShownMark = TimeSource.Monotonic.markNow()
+                show = true
+            }
+
+            else -> when (val shownMark = loaderShownMark) {
+                null -> show = false
+                else -> {
+                    val remainingTime = loadingMinDisplayTimeMillis - shownMark.elapsedNow().inWholeMilliseconds
+                    if (remainingTime > 0) delay(timeMillis = remainingTime)
+                    show = false
+                    loaderShownMark = null
+                }
+            }
+        }
+    }
+    return show
 }
 
 @Preview

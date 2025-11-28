@@ -46,9 +46,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
         when (currentContent) {
             Content.SPLASH -> {}
             Content.INTRO -> FadeInText(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(all = 16.dp),
+                modifier = Modifier.padding(all = 16.dp),
                 text = getTranslation(key = "splash_screen__intro")
             )
         }
