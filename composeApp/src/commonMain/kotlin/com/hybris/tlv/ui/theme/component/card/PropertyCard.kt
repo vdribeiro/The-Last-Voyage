@@ -11,12 +11,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -34,10 +36,10 @@ internal fun PropertyCard(
     modifier: Modifier = Modifier,
     name: String? = null,
     description: String? = null,
-    image: ImageResource? = null,
-    icon: @Composable (() -> Unit)? = null,
+    leadingImage: ImageResource? = null,
+    icon: ImageVector? = null,
+    trailingIcon: ImageVector? = null,
 ) {
-    val icon = icon ?: { Icon() }
     val typography = LocalTypography.current
 
     Card(modifier = modifier) {
@@ -47,7 +49,7 @@ internal fun PropertyCard(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.Start
         ) {
-            image?.let {
+            leadingImage?.let {
                 Image(
                     modifier = Modifier
                         .size(size = 72.dp)
@@ -64,12 +66,19 @@ internal fun PropertyCard(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start,
             ) {
-                name?.let { Text(text = getTranslation(key = it), style = typography.titleLarge, fontWeight = FontWeight.Bold) }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    name?.let { Text(text = getTranslation(key = it), style = typography.titleLarge, fontWeight = FontWeight.Bold) }
+                    if (name != null && icon != null) Spacer(modifier = Modifier.width(width = 4.dp))
+                    icon?.let { Icon(imageVector = it) }
+                }
                 if (name != null && description != null) Spacer(modifier = Modifier.height(height = 4.dp))
                 description?.let { Text(text = getTranslation(key = it), style = typography.bodyLarge) }
             }
             Spacer(modifier = Modifier.weight(weight = 0.1f))
-            Box(modifier.align(alignment = Alignment.CenterVertically)) { icon() }
+            trailingIcon?.let { Box(modifier.align(alignment = Alignment.CenterVertically)) { Icon(imageVector = it) } }
         }
     }
 }
@@ -81,20 +90,21 @@ private fun PropertyCardPreview() = AppTheme {
         PropertyCard(
             name = "Property",
             description = "Hammer Time",
-            image = "W".spectralTypeToImage(),
-            icon = { Icon(imageVector = Icons.Filled.Check) },
+            leadingImage = "W".spectralTypeToImage(),
+            icon = Icons.Filled.Apps,
+            trailingIcon = Icons.Filled.Check,
         )
         PropertyCard(name = "Property")
         PropertyCard(description = "Hammer Time")
         PropertyCard(
             name = "Property",
             description = "Hammer Time",
-            icon = { Icon(imageVector = Icons.Filled.Check) }
+            trailingIcon =  Icons.Filled.Check
         )
         PropertyCard(
             name = "Property",
-            icon = { Icon(imageVector = Icons.Filled.Check) }
+            trailingIcon = Icons.Filled.Check
         )
-        PropertyCard(icon = { Icon(imageVector = Icons.Filled.Check) })
+        PropertyCard(trailingIcon = Icons.Filled.Check)
     }
 }

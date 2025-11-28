@@ -4,11 +4,17 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -25,6 +31,7 @@ import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
 import com.hybris.tlv.ui.theme.component.container.LearnMenu
 import com.hybris.tlv.ui.theme.component.container.PropertyList
 import com.hybris.tlv.ui.theme.component.container.Screen
+import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.space.model.PlanetType
@@ -99,7 +106,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 properties = hostType,
                 id = { it.id },
                 description = { it.description },
-                image = { it.image.spectralTypeToImage() },
+                leadingImage = { it.image },
             )
 
             Content.PLANET_DEFINITION -> PropertyList(
@@ -114,7 +121,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 properties = planetType,
                 id = { it.id },
                 description = { it.description },
-                image = { PlanetType.fromValue(value = it.image.orEmpty()).toImage() }
+                leadingImage = { it.image }
             )
 
             Content.HABITABILITY -> PropertyList(
@@ -147,7 +154,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
 private data class Property(
     val id: String,
     val description: String,
-    val image: String?,
+    val image: ImageResource? = null,
+    val icon: ImageVector? = null
 )
 
 private val navigation = listOf(
@@ -159,22 +167,22 @@ private val navigation = listOf(
             isIos -> "main_menu_screen__navigation_info_ios"
             else -> "main_menu_screen__navigation_info"
         },
-        image = null
+        icon = Icons.AutoMirrored.Filled.ArrowBack,
     ),
     Property(
         id = "main_menu_screen__help_navigation",
         description = "main_menu_screen__help_navigation_description",
-        image = null
+        icon = Icons.Default.QuestionMark,
     ),
     Property(
         id = "main_menu_screen__music_navigation",
         description = "main_menu_screen__music_navigation_description",
-        image = null
+        icon = Icons.Default.MusicNote,
     ),
     Property(
         id = "main_menu_screen__feedback_navigation",
         description = "main_menu_screen__feedback_navigation_description",
-        image = null
+        icon = Icons.Default.BugReport,
     )
 )
 
@@ -182,77 +190,77 @@ private val hostType = listOf(
     Property(
         id = "stellar_host_type_o",
         description = "stellar_host_type_o_description",
-        image = "O"
+        image = "O".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_b",
         description = "stellar_host_type_b_description",
-        image = "B"
+        image = "B".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_a",
         description = "stellar_host_type_a_description",
-        image = "A"
+        image = "A".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_f",
         description = "stellar_host_type_f_description",
-        image = "F"
+        image = "F".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_g",
         description = "stellar_host_type_g_description",
-        image = "G"
+        image = "G".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_k",
         description = "stellar_host_type_k_description",
-        image = "K"
+        image = "K".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_m",
         description = "stellar_host_type_m_description",
-        image = "M"
+        image = "M".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_w",
         description = "stellar_host_type_w_description",
-        image = "W"
+        image = "W".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_l",
         description = "stellar_host_type_l_description",
-        image = "L"
+        image = "L".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_t",
         description = "stellar_host_type_t_description",
-        image = "T"
+        image = "T".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_y",
         description = "stellar_host_type_y_description",
-        image = "Y"
+        image = "Y".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_c",
         description = "stellar_host_type_c_description",
-        image = "C"
+        image = "C".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_s",
         description = "stellar_host_type_s_description",
-        image = "S"
+        image = "S".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_d",
         description = "stellar_host_type_d_description",
-        image = "D"
+        image = "D".spectralTypeToImage()
     ),
     Property(
         id = "stellar_host_type_unknown",
         description = "stellar_host_type_unknown_description",
-        image = "?"
+        image = "?".spectralTypeToImage()
     )
 )
 
@@ -260,202 +268,202 @@ private val planetType = listOf(
     Property(
         id = "planet_type_terrestrial_planet",
         description = "planet_type_terrestrial_planet_description",
-        image = "TERRESTRIAL_PLANET"
+        image = PlanetType.TERRESTRIAL_PLANET.toImage()
     ),
     Property(
         id = "planet_type_sub_earth",
         description = "planet_type_sub_earth_description",
-        image = "SUB_EARTH"
+        image = PlanetType.SUB_EARTH.toImage()
     ),
     Property(
         id = "planet_type_super_earth",
         description = "planet_type_super_earth_description",
-        image = "SUPER_EARTH"
+        image = PlanetType.SUPER_EARTH.toImage()
     ),
     Property(
         id = "planet_type_mega_earth",
         description = "planet_type_mega_earth_description",
-        image = "MEGA_EARTH"
+        image = PlanetType.MEGA_EARTH.toImage()
     ),
     Property(
         id = "planet_type_earth_like_planet",
         description = "planet_type_earth_like_planet_description",
-        image = "EARTH_LIKE_PLANET"
+        image = PlanetType.EARTH_LIKE_PLANET.toImage()
     ),
     Property(
         id = "planet_type_earth_analog_planet",
         description = "planet_type_earth_analog_planet_description",
-        image = "EARTH_ANALOG_PLANET"
+        image = PlanetType.EARTH_ANALOG_PLANET.toImage()
     ),
     Property(
         id = "planet_type_superhabitable_planet",
         description = "planet_type_superhabitable_planet_description",
-        image = "SUPERHABITABLE_PLANET"
+        image = PlanetType.SUPERHABITABLE_PLANET.toImage()
     ),
     Property(
         id = "planet_type_lava_planet",
         description = "planet_type_lava_planet_description",
-        image = "LAVA_PLANET"
+        image = PlanetType.LAVA_PLANET.toImage()
     ),
     Property(
         id = "planet_type_desert_planet",
         description = "planet_type_desert_planet_description",
-        image = "DESERT_PLANET"
+        image = PlanetType.DESERT_PLANET.toImage()
     ),
     Property(
         id = "planet_type_ice_planet",
         description = "planet_type_ice_planet_description",
-        image = "ICE_PLANET"
+        image = PlanetType.ICE_PLANET.toImage()
     ),
     Property(
         id = "planet_type_subsurface_ocean_planet",
         description = "planet_type_subsurface_ocean_planet_description",
-        image = "SUBSURFACE_OCEAN_PLANET"
+        image = PlanetType.SUBSURFACE_OCEAN_PLANET.toImage()
     ),
     Property(
         id = "planet_type_ocean_planet",
         description = "planet_type_ocean_planet_description",
-        image = "OCEAN_PLANET"
+        image = PlanetType.OCEAN_PLANET.toImage()
     ),
     Property(
         id = "planet_type_iron_planet",
         description = "planet_type_iron_planet_description",
-        image = "IRON_PLANET"
+        image = PlanetType.IRON_PLANET.toImage()
     ),
     Property(
         id = "planet_type_eyeball_planet",
         description = "planet_type_eyeball_planet_description",
-        image = "EYEBALL_PLANET"
+        image = PlanetType.EYEBALL_PLANET.toImage()
     ),
     Property(
         id = "planet_type_hot_eyeball_planet",
         description = "planet_type_hot_eyeball_planet_description",
-        image = "HOT_EYEBALL_PLANET"
+        image = PlanetType.HOT_EYEBALL_PLANET.toImage()
     ),
     Property(
         id = "planet_type_cold_eyeball_planet",
         description = "planet_type_cold_eyeball_planet_description",
-        image = "COLD_EYEBALL_PLANET"
+        image = PlanetType.COLD_EYEBALL_PLANET.toImage()
     ),
     Property(
         id = "planet_type_barren_planet",
         description = "planet_type_barren_planet_description",
-        image = "BARREN_PLANET"
+        image = PlanetType.BARREN_PLANET.toImage()
     ),
     Property(
         id = "planet_type_crater_planet",
         description = "planet_type_crater_planet_description",
-        image = "CRATER_PLANET"
+        image = PlanetType.CRATER_PLANET.toImage()
     ),
     Property(
         id = "planet_type_chthonian_planet",
         description = "planet_type_chthonian_planet_description",
-        image = "CHTHONIAN_PLANET"
+        image = PlanetType.CHTHONIAN_PLANET.toImage()
     ),
     Property(
         id = "planet_type_mini_neptune",
         description = "planet_type_mini_neptune_description",
-        image = "MINI_NEPTUNE"
+        image = PlanetType.MINI_NEPTUNE.toImage()
     ),
     Property(
         id = "planet_type_hot_neptune",
         description = "planet_type_hot_neptune_description",
-        image = "HOT_NEPTUNE"
+        image = PlanetType.HOT_NEPTUNE.toImage()
     ),
     Property(
         id = "planet_type_ultra_hot_neptune",
         description = "planet_type_ultra_hot_neptune_description",
-        image = "ULTRA_HOT_NEPTUNE"
+        image = PlanetType.ULTRA_HOT_NEPTUNE.toImage()
     ),
     Property(
         id = "planet_type_super_neptune",
         description = "planet_type_super_neptune_description",
-        image = "SUPER_NEPTUNE"
+        image = PlanetType.SUPER_NEPTUNE.toImage()
     ),
     Property(
         id = "planet_type_ice_giant",
         description = "planet_type_ice_giant_description",
-        image = "ICE_GIANT"
+        image = PlanetType.ICE_GIANT.toImage()
     ),
     Property(
         id = "planet_type_gas_giant",
         description = "planet_type_gas_giant_description",
-        image = "GAS_GIANT"
+        image = PlanetType.GAS_GIANT.toImage()
     ),
     Property(
         id = "planet_type_super_jupiter",
         description = "planet_type_super_jupiter_description",
-        image = "SUPER_JUPITER"
+        image = PlanetType.SUPER_JUPITER.toImage()
     ),
     Property(
         id = "planet_type_hot_jupiter",
         description = "planet_type_hot_jupiter_description",
-        image = "HOT_JUPITER"
+        image = PlanetType.HOT_JUPITER.toImage()
     ),
     Property(
         id = "planet_type_ultra_hot_jupiter",
         description = "planet_type_ultra_hot_jupiter_description",
-        image = "ULTRA_HOT_JUPITER"
+        image = PlanetType.ULTRA_HOT_JUPITER.toImage()
     ),
     Property(
         id = "planet_type_ammonia_clouds_gas_giant",
         description = "planet_type_ammonia_clouds_gas_giant_description",
-        image = "AMMONIA_CLOUDS_GAS_GIANT"
+        image = PlanetType.AMMONIA_CLOUDS_GAS_GIANT.toImage()
     ),
     Property(
         id = "planet_type_water_clouds_gas_giant",
         description = "planet_type_water_clouds_gas_giant_description",
-        image = "WATER_CLOUDS_GAS_GIANT"
+        image = PlanetType.WATER_CLOUDS_GAS_GIANT.toImage()
     ),
     Property(
         id = "planet_type_cloudless_gas_giant",
         description = "planet_type_cloudless_gas_giant_description",
-        image = "CLOUDLESS_GAS_GIANT"
+        image = PlanetType.CLOUDLESS_GAS_GIANT.toImage()
     ),
     Property(
         id = "planet_type_alkali_metal_clouds_gas_giant",
         description = "planet_type_alkali_metal_clouds_gas_giant_description",
-        image = "ALKALI_METAL_CLOUDS_GAS_GIANT"
+        image = PlanetType.ALKALI_METAL_CLOUDS_GAS_GIANT.toImage()
     ),
     Property(
         id = "planet_type_silicate_clouds_gas_giant",
         description = "planet_type_silicate_clouds_gas_giant_description",
-        image = "SILICATE_CLOUDS_GAS_GIANT"
+        image = PlanetType.SILICATE_CLOUDS_GAS_GIANT.toImage()
     ),
     Property(
         id = "planet_type_puffy_planet",
         description = "planet_type_puffy_planet_description",
-        image = "PUFFY_PLANET"
+        image = PlanetType.PUFFY_PLANET.toImage()
     ),
     Property(
         id = "planet_type_super_puff_planet",
         description = "planet_type_super_puff_planet_description",
-        image = "SUPER_PUFF_PLANET"
+        image = PlanetType.SUPER_PUFF_PLANET.toImage()
     ),
     Property(
         id = "planet_type_protoplanet",
         description = "planet_type_protoplanet_description",
-        image = "PROTOPLANET"
+        image = PlanetType.PROTOPLANET.toImage()
     ),
     Property(
         id = "planet_type_ultra_short_period_planet",
         description = "planet_type_ultra_short_period_planet_description",
-        image = "ULTRA_SHORT_PERIOD_PLANET"
+        image = PlanetType.ULTRA_SHORT_PERIOD_PLANET.toImage()
     ),
     Property(
         id = "planet_type_disrupted_planet",
         description = "planet_type_disrupted_planet_description",
-        image = "DISRUPTED_PLANET"
+        image = PlanetType.DISRUPTED_PLANET.toImage()
     ),
     Property(
         id = "planet_type_ellipsoid_planet",
         description = "planet_type_ellipsoid_planet_description",
-        image = "ELLIPSOID_PLANET"
+        image = PlanetType.ELLIPSOID_PLANET.toImage()
     ),
     Property(
         id = "planet_type_unknown",
         description = "planet_type_unknown_description",
-        image = "?"
+        image = PlanetType.UNKNOWN.toImage()
     )
 )
 
@@ -463,87 +471,70 @@ private val hostProperty = listOf(
     Property(
         id = "stellar_host_name",
         description = "stellar_host_name_description",
-        image = null
     ),
     Property(
         id = "stellar_host_system_name",
         description = "stellar_host_system_name_description",
-        image = null
     ),
     Property(
         id = "stellar_host_planet_count",
         description = "stellar_host_planet_count_description",
-        image = null
     ),
     Property(
         id = "stellar_host_type",
         description = "stellar_host_type_description",
-        image = null
     ),
     Property(
         id = "stellar_host_temperature",
         description = "stellar_host_temperature_description",
-        image = null
     ),
     Property(
         id = "stellar_host_radius",
         description = "stellar_host_radius_description",
-        image = null
     ),
     Property(
         id = "stellar_host_mass",
         description = "stellar_host_mass_description",
-        image = null
     ),
     Property(
         id = "stellar_host_metallicity",
         description = "stellar_host_metallicity_description",
-        image = null
     ),
     Property(
         id = "stellar_host_luminosity",
         description = "stellar_host_luminosity_description",
-        image = null
     ),
     Property(
         id = "stellar_host_gravity",
         description = "stellar_host_gravity_description",
-        image = null
     ),
     Property(
         id = "stellar_host_age",
         description = "stellar_host_age_description",
-        image = null
     ),
     Property(
         id = "stellar_host_density",
         description = "stellar_host_density_description",
-        image = null
     ),
     Property(
         id = "stellar_host_rotational_velocity",
         description = "stellar_host_rotational_velocity_description",
-        image = null
     ),
     Property(
         id = "stellar_host_rotational_period",
         description = "stellar_host_rotational_period_description",
-        image = null
     ),
     Property(
         id = "stellar_host_ra",
         description = "stellar_host_ra_description",
-        image = null
     ),
     Property(
         id = "stellar_host_dec",
         description = "stellar_host_dec_description",
-        image = null
     ),
     Property(
         id = "stellar_host_distance",
         description = "stellar_host_distance_description",
-        image = null
     )
 )
 
@@ -551,72 +542,58 @@ private val planetProperty = listOf(
     Property(
         id = "planet_name",
         description = "planet_name_description",
-        image = null
     ),
     Property(
         id = "planet_status",
         description = "planet_status_description",
-        image = null
     ),
     Property(
         id = "planet_type",
         description = "planet_type_description",
-        image = null
     ),
     Property(
         id = "planet_orbital_period",
         description = "planet_orbital_period_description",
-        image = null
     ),
     Property(
         id = "planet_orbit_axis",
         description = "planet_orbit_axis_description",
-        image = null
     ),
     Property(
         id = "planet_radius",
         description = "planet_radius_description",
-        image = null
     ),
     Property(
         id = "planet_mass",
         description = "planet_mass_description",
-        image = null
     ),
     Property(
         id = "planet_density",
         description = "planet_density_description",
-        image = null
     ),
     Property(
         id = "planet_eccentricity",
         description = "planet_eccentricity_description",
-        image = null
     ),
     Property(
         id = "planet_insolation_flux",
         description = "planet_insolation_flux_description",
-        image = null
     ),
     Property(
         id = "planet_temperature",
         description = "planet_temperature_description",
-        image = null
     ),
     Property(
         id = "planet_occultation_depth",
         description = "planet_occultation_depth_description",
-        image = null
     ),
     Property(
         id = "planet_inclination",
         description = "planet_inclination_description",
-        image = null
     ),
     Property(
         id = "planet_obliquity",
         description = "planet_obliquity_description",
-        image = null
     )
 )
 
@@ -624,87 +601,70 @@ private val habitability = listOf(
     Property(
         id = "habitability",
         description = "habitability_description",
-        image = null
     ),
     Property(
         id = "habitability_roche",
         description = "habitability_roche_description",
-        image = null
     ),
     Property(
         id = "habitability_hz",
         description = "habitability_hz_description",
-        image = null
     ),
     Property(
         id = "habitability_planet_density_radius",
         description = "habitability_planet_density_radius_description",
-        image = null
     ),
     Property(
         id = "habitability_planet_mass",
         description = "habitability_planet_mass_description",
-        image = null
     ),
     Property(
         id = "habitability_planet_eccentricity",
         description = "habitability_planet_eccentricity_description",
-        image = null
     ),
     Property(
         id = "habitability_planet_temperature",
         description = "habitability_planet_temperature_description",
-        image = null
     ),
     Property(
         id = "habitability_planet_obliquity",
         description = "habitability_planet_obliquity_description",
-        image = null
     ),
     Property(
         id = "habitability_planet_protection",
         description = "habitability_planet_protection_description",
-        image = null
     ),
     Property(
         id = "habitability_planet_tidal_locking",
         description = "habitability_planet_tidal_locking_description",
-        image = null
     ),
     Property(
         id = "habitability_planet_esi",
         description = "habitability_planet_esi_description",
-        image = null
     ),
     Property(
         id = "habitability_star_spectral_type",
         description = "habitability_star_spectral_type_description",
-        image = null
     ),
     Property(
         id = "habitability_star_age",
         description = "habitability_star_age_description",
-        image = null
     ),
     Property(
         id = "habitability_star_activity",
         description = "habitability_star_activity_description",
-        image = null
     ),
     Property(
         id = "habitability_star_gravity",
         description = "habitability_star_gravity_description",
-        image = null
     ),
     Property(
         id = "habitability_star_metallicity",
         description = "habitability_star_metallicity_description",
-        image = null
     ),
     Property(
         id = "habitability_star_effective_temperature",
         description = "habitability_star_effective_temperature_description",
-        image = null
     )
 )
 

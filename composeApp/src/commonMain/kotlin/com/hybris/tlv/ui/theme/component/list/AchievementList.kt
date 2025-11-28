@@ -57,9 +57,7 @@ internal inline fun <T> AchievementList(
                 PropertyCard(
                     name = id(achievement),
                     description = description(achievement),
-                    icon = if (done(achievement)) {
-                        { Icon(imageVector = Icons.Filled.Check) }
-                    } else null
+                    trailingIcon = if (done(achievement)) Icons.Filled.Check else null
                 )
             }
         }

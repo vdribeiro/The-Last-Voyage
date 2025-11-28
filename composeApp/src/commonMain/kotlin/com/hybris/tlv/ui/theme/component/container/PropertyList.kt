@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.security.generateUuid
@@ -27,8 +28,9 @@ internal inline fun <T> PropertyList(
     properties: List<T> = emptyList(),
     noinline id: (T) -> String = { generateUuid() },
     crossinline description: (T) -> String? = { null },
-    crossinline image: (T) -> ImageResource? = { null },
-    crossinline icon: (T) -> @Composable (() -> Unit)? = { null },
+    crossinline leadingImage: (T) -> ImageResource? = { null },
+    crossinline icon: (T) -> ImageVector? = { null },
+    crossinline trailingIcon: (T) -> ImageVector? = { null },
     noinline footer: @Composable (() -> Unit)? = null
 ) {
     val typography = LocalTypography.current
@@ -54,8 +56,9 @@ internal inline fun <T> PropertyList(
             PropertyCard(
                 name = id(property),
                 description = description(property),
-                image = image(property),
-                icon = icon(property)
+                leadingImage = leadingImage(property),
+                icon = icon(property),
+                trailingIcon = trailingIcon(property)
             )
         }
 
