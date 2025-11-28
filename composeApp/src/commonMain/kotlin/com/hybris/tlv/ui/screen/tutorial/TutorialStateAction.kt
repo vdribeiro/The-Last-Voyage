@@ -13,7 +13,7 @@ internal sealed interface TutorialAction {
 }
 
 internal data class TutorialState(
-    val tutorialStep: Tutorial = Tutorial.GOAL,
+    val currentContent: Content = Content.GOAL,
     val ship: Ship = Ship(
         id = "",
         engine = Engine(
@@ -24,7 +24,7 @@ internal data class TutorialState(
             cost = 0
         ),
         assignedPoints = 0,
-        yearsTraveled = 0.0,
+        yearsTraveled = (0..50000).random().toDouble(),
         sensorRange = (1..MAX_SENSOR_RANGE).random(),
         integrity = (1..MAX_INTEGRITY).random(),
         fuel = (1..MAX_FUEL).random(),
@@ -33,7 +33,7 @@ internal data class TutorialState(
     )
 )
 
-internal enum class Tutorial {
+internal enum class Content {
     GOAL,
     SHIP,
     SYSTEM,

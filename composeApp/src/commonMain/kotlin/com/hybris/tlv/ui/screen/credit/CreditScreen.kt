@@ -1,9 +1,13 @@
 package com.hybris.tlv.ui.screen.credit
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Screen
@@ -30,6 +34,9 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
         onFeedbackClick = { store.feedback() },
     ) {
         CreditList(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(all = 16.dp),
             creators = creators,
             sources = sources,
             musics = musics,

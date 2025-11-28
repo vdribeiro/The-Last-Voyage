@@ -52,10 +52,8 @@ internal fun Feedback(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
             .imePadding()
-            .verticalScroll(state = rememberScrollState())
-            .padding(all = 16.dp),
+            .verticalScroll(state = rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Column(

@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,8 +21,6 @@ import com.hybris.tlv.usecase.translation.model.Translation
 internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsState()
 
-    val tutorialTranslation = getTranslation(key = "main_menu_screen__new_game_tutorial")
-
     Screen(
         loading = storeState.loading,
         banner = if (storeState.newVersionBanner) storeState.developerCorner else null,
@@ -38,6 +37,9 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
         },
     ) {
         MainMenu(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(all = 16.dp),
             onScoresClick = { store.send(action = MainMenuAction.Scores) },
             onAchievementsClick = { store.send(action = MainMenuAction.Achievements) },
             onStellarExplorerClick = { store.send(action = MainMenuAction.StellarExplorer) },

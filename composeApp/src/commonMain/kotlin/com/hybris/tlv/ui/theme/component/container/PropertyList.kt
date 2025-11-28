@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.theme.component.container
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
@@ -37,9 +38,7 @@ internal inline fun <T> PropertyList(
     val typography = LocalTypography.current
 
     LazyColumn(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(all = 16.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         horizontalAlignment = Alignment.Start,
     ) {

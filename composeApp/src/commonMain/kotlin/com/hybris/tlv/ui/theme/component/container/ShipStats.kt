@@ -45,9 +45,7 @@ internal fun ShipStats(
 
     // Ship status with years traveled, sensor range, maximum speed, integrity, fuel, materials and cryopods
     LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         horizontalAlignment = Alignment.Start,
     ) {

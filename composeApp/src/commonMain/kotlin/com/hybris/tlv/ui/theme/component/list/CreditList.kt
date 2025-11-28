@@ -47,9 +47,7 @@ internal inline fun <T> CreditList(
     val colorScheme = LocalColorScheme.current
 
     LazyVerticalStaggeredGrid(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
+        modifier = modifier,
         columns = StaggeredGridCells.Adaptive(minSize = 100.dp),
         horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
         verticalItemSpacing = 8.dp

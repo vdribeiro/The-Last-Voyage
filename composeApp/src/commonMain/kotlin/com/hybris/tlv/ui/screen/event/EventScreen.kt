@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.event
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -72,6 +73,9 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
                 }
             }.orEmpty()
             TypewriterContent(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 title = getTranslation(key = event.id),
                 text = "${getTranslation(key = event.description)}$outcome",
             )

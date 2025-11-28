@@ -1,9 +1,13 @@
 package com.hybris.tlv.ui.screen.gameover
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
@@ -67,11 +71,19 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
     ) {
         when (storeState.currentContent) {
             Content.MESSAGE -> TypewriterContent(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 title = gameOverTranslation,
                 text = storeState.gameOver?.displayName?.let { getTranslation(key = it) },
             )
 
-            Content.SCORE -> TypewriterContent(title = gameOverTranslation) {
+            Content.SCORE -> TypewriterContent(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
+                title = gameOverTranslation
+            ) {
                 if (gameSession != null && ship != null) Score(
                     score = gameSession.score,
                     utc = gameSession.utc,

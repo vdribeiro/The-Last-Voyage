@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -90,6 +91,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
     ) {
         when (currentContent) {
             Content.LEARN_MENU -> LearnMenu(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 onNavigationClick = { store.send(action = HelpAction.Navigation) },
                 onPanelClick = { store.send(action = HelpAction.ControlPanel) },
                 onHostDefinitionClick = { store.send(action = HelpAction.HostDefinition) },
@@ -101,6 +105,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
             )
 
             Content.NAVIGATION -> PropertyList(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__navigation"),
                 properties = navigation,
                 id = { it.id },
@@ -109,6 +116,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
             )
 
             Content.CONTROL_PANEL -> PropertyList(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__control_panel"),
                 properties = panel,
                 id = { it.id },
@@ -133,6 +143,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
             )
 
             Content.HOST_DEFINITION -> PropertyList(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__host_definition"),
                 properties = hostProperty,
                 id = { it.id },
@@ -140,6 +153,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
             )
 
             Content.HOST_TYPE -> PropertyList(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__host_types"),
                 properties = hostType,
                 id = { it.id },
@@ -148,6 +164,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
             )
 
             Content.PLANET_DEFINITION -> PropertyList(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__planet_definition"),
                 properties = planetProperty,
                 id = { it.id },
@@ -155,6 +174,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
             )
 
             Content.PLANET_TYPE -> PropertyList(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__planet_types"),
                 properties = planetType,
                 id = { it.id },
@@ -163,6 +185,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
             )
 
             Content.HABITABILITY -> PropertyList(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__habitability"),
                 properties = habitability,
                 id = { it.id },

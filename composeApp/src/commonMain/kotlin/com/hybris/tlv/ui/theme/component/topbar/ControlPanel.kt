@@ -122,7 +122,6 @@ internal fun ControlPanel(
                 modifier = Modifier
                     .alpha(alpha = alpha(enabled = enabled))
                     .clip(shape = shapes.large)
-                    .padding(all = 4.dp)
                     .clickable(
                         enabled = enabled,
                         onClick = {
@@ -130,6 +129,7 @@ internal fun ControlPanel(
                             searchQuery = ""
                         },
                     )
+                    .padding(all = 4.dp)
             ) {
                 viewIcon?.let {
                     Icon(

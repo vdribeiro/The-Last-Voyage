@@ -27,9 +27,7 @@ internal fun TypewriterContent(
 ) {
     val typography = LocalTypography.current
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         title?.let {

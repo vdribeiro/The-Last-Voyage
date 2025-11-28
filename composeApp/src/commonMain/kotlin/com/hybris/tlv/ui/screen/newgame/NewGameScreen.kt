@@ -1,9 +1,13 @@
 package com.hybris.tlv.ui.screen.newgame
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
@@ -73,6 +77,9 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
             Content.SHIP -> {
                 val shipState = storeState.shipState ?: return@Screen
                 ShipConfiguration(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(all = 16.dp),
                     remainingPoints = shipState.remainingPoints,
                     sensorRange = shipState.sensorRange,
                     fuel = shipState.fuel,
@@ -90,6 +97,9 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
             }
 
             Content.START -> TypewriterContent(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 title = storeState.selectedCatastrophe?.let { getTranslation(key = it.id) },
                 text = storeState.selectedCatastrophe?.let { getTranslation(key = it.description) }
             )

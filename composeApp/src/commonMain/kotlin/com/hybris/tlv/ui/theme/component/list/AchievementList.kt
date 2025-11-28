@@ -35,9 +35,7 @@ internal inline fun <T> AchievementList(
     val typography = LocalTypography.current
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(height = 8.dp))

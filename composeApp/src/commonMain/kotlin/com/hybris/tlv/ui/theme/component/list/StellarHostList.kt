@@ -88,9 +88,7 @@ internal inline fun <T> StellarHostList(
     crossinline onStellarHostClick: (T) -> Unit = {}
 ) {
     LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         horizontalAlignment = Alignment.Start,
         state = listState

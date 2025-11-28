@@ -53,9 +53,7 @@ internal inline fun <T> ShipConfiguration(
     val typography = LocalTypography.current
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {

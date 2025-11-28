@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
@@ -114,6 +115,9 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             Content.LIST_HOSTS, Content.DETAIL_PLANETS -> {
                 val planet = storeState.selectedPlanet
                 StellarHostList(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(all = 16.dp),
                     listState = listState,
                     showPlanet = currentContent == Content.DETAIL_PLANETS && planet != null,
                     planetName = visiblePlanetProperties.ifContains(element = PlanetProperty.NAME, value = planet?.name),
@@ -183,6 +187,9 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             Content.LIST_PLANETS, Content.DETAIL_HOSTS -> {
                 val stellarHost = storeState.selectedStellarHost
                 PlanetList(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(all = 16.dp),
                     listState = listState,
                     showStellarHost = currentContent == Content.DETAIL_HOSTS && stellarHost != null,
                     stellarHostName = visibleStellarHostProperties.ifContains(element = StellarHostProperty.NAME, value = stellarHost?.name),

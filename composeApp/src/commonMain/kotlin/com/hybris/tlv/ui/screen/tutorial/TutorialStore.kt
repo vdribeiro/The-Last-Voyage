@@ -10,12 +10,12 @@ internal class TutorialStore(
 ) {
     override fun reducer(state: TutorialState, action: TutorialAction) {
         when (action) {
-            TutorialAction.Next -> when (state.tutorialStep) {
-                Tutorial.GOAL -> updateState { it.copy(tutorialStep = Tutorial.SHIP) }
-                Tutorial.SHIP -> updateState { it.copy(tutorialStep = Tutorial.SYSTEM) }
-                Tutorial.SYSTEM -> updateState { it.copy(tutorialStep = Tutorial.TRAVEL) }
-                Tutorial.TRAVEL -> updateState { it.copy(tutorialStep = Tutorial.GAME_OVER) }
-                Tutorial.GAME_OVER -> when {
+            TutorialAction.Next -> when (state.currentContent) {
+                Content.GOAL -> updateState { it.copy(currentContent = Content.SHIP) }
+                Content.SHIP -> updateState { it.copy(currentContent = Content.SYSTEM) }
+                Content.SYSTEM -> updateState { it.copy(currentContent = Content.TRAVEL) }
+                Content.TRAVEL -> updateState { it.copy(currentContent = Content.GAME_OVER) }
+                Content.GAME_OVER -> when {
                     newGame -> navigate(screen = Screen.NewGame)
                     else -> back(state = state)
                 }

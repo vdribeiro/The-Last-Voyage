@@ -38,9 +38,7 @@ internal fun MainMenu(
     val typography = LocalTypography.current
 
     LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         scrollBar = false

@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.game
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -63,6 +64,9 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
     ) {
         when (storeState.currentContent) {
             Content.SHIP -> ShipStats(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 velocity = ship?.engine?.velocity,
                 yearsTraveled = ship?.yearsTraveled,
                 sensorRange = ship?.sensorRange,
@@ -75,6 +79,9 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
             Content.SYSTEM -> {
                 val stellarHost = storeState.currentStellarHost ?: return@Screen
                 SystemList(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(all = 16.dp),
                     stellarHostName = stellarHost.name,
                     stellarHostSpectralType = stellarHost.spectralType,
                     stellarHostSpectralImage = stellarHost.spectralType.spectralTypeToImage(),
@@ -97,6 +104,9 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
             }
 
             Content.TRAVEL -> TravelList(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 stellarHosts = storeState.nearStellarHosts,
                 id = { it.id },
                 name = { it.name },
