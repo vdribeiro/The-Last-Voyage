@@ -2,12 +2,9 @@ package com.hybris.tlv.ui.theme.component.container
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.BedroomParent
 import androidx.compose.material.icons.outlined.Construction
-import androidx.compose.material.icons.outlined.Eco
+import androidx.compose.material.icons.outlined.Hotel
 import androidx.compose.material.icons.outlined.LocalGasStation
 import androidx.compose.material.icons.outlined.Opacity
 import androidx.compose.material.icons.outlined.Radar
@@ -53,6 +50,24 @@ internal fun ShipStats(
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         horizontalAlignment = Alignment.Start,
     ) {
+        yearsTraveled?.let {
+            item {
+                StatDisplay(
+                    icon = Icons.Outlined.Timer,
+                    label = yearsTraveledTranslation,
+                    value = it.roundTo(decimalPlaces = 2).toString()
+                )
+            }
+        }
+        sensorRange?.let {
+            item {
+                StatDisplay(
+                    icon = Icons.Outlined.Radar,
+                    label = sensorTranslation,
+                    value = it.toString()
+                )
+            }
+        }
         integrity?.let {
             item {
                 StatDisplay(
@@ -83,27 +98,9 @@ internal fun ShipStats(
         cryopods?.let {
             item {
                 StatDisplay(
-                    icon = Icons.Outlined.BedroomParent,
+                    icon = Icons.Outlined.Hotel,
                     label = cryopodsTranslation,
                     value = it.toString()
-                )
-            }
-        }
-        sensorRange?.let {
-            item {
-                StatDisplay(
-                    icon = Icons.Outlined.Radar,
-                    label = sensorTranslation,
-                    value = it.toString()
-                )
-            }
-        }
-        yearsTraveled?.let {
-            item {
-                StatDisplay(
-                    icon = Icons.Outlined.Timer,
-                    label = yearsTraveledTranslation,
-                    value = it.roundTo(decimalPlaces = 2).toString()
                 )
             }
         }

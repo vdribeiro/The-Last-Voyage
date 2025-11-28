@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.BedroomParent
 import androidx.compose.material.icons.outlined.Construction
+import androidx.compose.material.icons.outlined.Hotel
 import androidx.compose.material.icons.outlined.LocalGasStation
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.runtime.Composable
@@ -62,7 +62,7 @@ internal fun StatusBar(
         )
         StatusBarItem(
             enabled = cryopodsEnabled,
-            icon = Icons.Outlined.BedroomParent,
+            icon = Icons.Outlined.Hotel,
             value = cryopods,
             contentDescription = "Cryopods"
         )
