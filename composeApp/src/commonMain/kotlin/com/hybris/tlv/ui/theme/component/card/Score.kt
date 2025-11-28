@@ -111,7 +111,7 @@ internal fun Score(
                     }
                     settledPlanet?.let { InfoRow(label = settledPlanetTranslation, value = it) }
                     habitability?.let { InfoRow(label = habitabilityTranslation, value = it.roundTo(decimalPlaces = 2)) }
-                    engine?.let { InfoRow(label = engineTranslation, value = it) }
+                    engine?.let { InfoRow(label = engineTranslation, value = getTranslation(key = it)) }
                     assignedPoints?.let { InfoRow(label = assignedPointsTranslation, value = it) }
                     yearsTraveled?.let { InfoRow(label = yearsTraveledTranslation, value = it.roundTo(decimalPlaces = 2)) }
                     sensorRange?.let { InfoRow(label = sensorTranslation, value = it) }

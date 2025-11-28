@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BedroomParent
 import androidx.compose.material.icons.outlined.Construction
+import androidx.compose.material.icons.outlined.Eco
 import androidx.compose.material.icons.outlined.LocalGasStation
+import androidx.compose.material.icons.outlined.Opacity
 import androidx.compose.material.icons.outlined.Radar
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Speed
@@ -27,21 +29,23 @@ import com.hybris.tlv.usecase.translation.model.Translation
 @Composable
 internal fun ShipStats(
     modifier: Modifier = Modifier,
-    velocity: Double? = null,
-    yearsTraveled: Double? = null,
-    sensorRange: Int? = null,
     integrity: Int? = null,
     fuel: Int? = null,
     materials: Int? = null,
-    cryopods: Int? = null
+    cryopods: Int? = null,
+    sensorRange: Int? = null,
+    yearsTraveled: Double? = null,
+    velocity: Double? = null,
+    fuelConsumption: Double? = null,
 ) {
-    val yearsTraveledTranslation = getTranslation(key = "ship_years_traveled")
-    val sensorTranslation = getTranslation(key = "ship_sensor")
-    val speedTranslation = getTranslation(key = "ship_speed")
     val integrityTranslation = getTranslation(key = "ship_integrity")
     val fuelTranslation = getTranslation(key = "ship_fuel")
     val materialsTranslation = getTranslation(key = "ship_materials")
     val cryopodsTranslation = getTranslation(key = "ship_cryopods")
+    val sensorTranslation = getTranslation(key = "ship_sensor")
+    val yearsTraveledTranslation = getTranslation(key = "ship_years_traveled")
+    val speedTranslation = getTranslation(key = "ship_speed")
+    val fuelConsumptionTranslation = getTranslation(key = "ship_fuel_consumption")
 
     // Ship status with years traveled, sensor range, maximum speed, integrity, fuel, materials and cryopods
     LazyColumn(
@@ -49,33 +53,6 @@ internal fun ShipStats(
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         horizontalAlignment = Alignment.Start,
     ) {
-        yearsTraveled?.let {
-            item {
-                StatDisplay(
-                    icon = Icons.Outlined.Timer,
-                    label = yearsTraveledTranslation,
-                    value = it.roundTo(decimalPlaces = 2).toString()
-                )
-            }
-        }
-        sensorRange?.let {
-            item {
-                StatDisplay(
-                    icon = Icons.Outlined.Radar,
-                    label = sensorTranslation,
-                    value = it.toString()
-                )
-            }
-        }
-        velocity?.let {
-            item {
-                StatDisplay(
-                    icon = Icons.Outlined.Speed,
-                    label = speedTranslation,
-                    value = "${it}c"
-                )
-            }
-        }
         integrity?.let {
             item {
                 StatDisplay(
@@ -109,6 +86,42 @@ internal fun ShipStats(
                     icon = Icons.Outlined.BedroomParent,
                     label = cryopodsTranslation,
                     value = it.toString()
+                )
+            }
+        }
+        sensorRange?.let {
+            item {
+                StatDisplay(
+                    icon = Icons.Outlined.Radar,
+                    label = sensorTranslation,
+                    value = it.toString()
+                )
+            }
+        }
+        yearsTraveled?.let {
+            item {
+                StatDisplay(
+                    icon = Icons.Outlined.Timer,
+                    label = yearsTraveledTranslation,
+                    value = it.roundTo(decimalPlaces = 2).toString()
+                )
+            }
+        }
+        velocity?.let {
+            item {
+                StatDisplay(
+                    icon = Icons.Outlined.Speed,
+                    label = speedTranslation,
+                    value = "${it}c"
+                )
+            }
+        }
+        fuelConsumption?.let {
+            item {
+                StatDisplay(
+                    icon = Icons.Outlined.Opacity,
+                    label = fuelConsumptionTranslation,
+                    value = it.roundTo(decimalPlaces = 2).toString()
                 )
             }
         }
@@ -148,15 +161,20 @@ private fun ShipStatsPreview() = AppTheme {
                 key = "ship_cryopods",
                 value = "Cryopods"
             ),
+            Translation(
+                key = "ship_fuel_consumption",
+                value = "Fuel Consumption"
+            ),
         )
     )
     ShipStats(
-        velocity = 1.0,
-        yearsTraveled = 10.0,
-        sensorRange = 1,
         integrity = 100,
         fuel = 100,
         materials = 100,
-        cryopods = 100
+        cryopods = 100,
+        sensorRange = 1,
+        yearsTraveled = 10.0,
+        velocity = 1.0,
+        fuelConsumption = 35.0
     )
 }

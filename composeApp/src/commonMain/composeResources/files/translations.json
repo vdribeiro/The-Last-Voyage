@@ -1171,6 +1171,11 @@
   },
   {
     "languageIso": "en",
+    "key": "ship_fuel_consumption",
+    "value": "Fuel Consumption"
+  },
+  {
+    "languageIso": "en",
     "key": "ship_cryopods",
     "value": "Cryopods"
   },
@@ -3057,7 +3062,7 @@
   {
     "languageIso": "en",
     "key": "tutorial_screen__mechanics_attributes_description",
-    "value": "• Sensor Range: Determines how many star systems you can choose from for your next destination.\n• Fuel: Your starting fuel. Each travel consumes fuel depending on the distance traveled and type of engine.\n• Materials: Can be used to repair the ship but most of all are essential for colonizing a new world.\n• Cryopods: The number of colonists you carry. You must have enough to meet a planet's settlement requirements."
+    "value": "• Hull: Your ship's health. If it drops to zero the ship is lost.\n• Sensor Range: Determines how many star systems you can choose from for your next destination.\n• Maximum Speed: Affects the time it takes to travel to another system, adding to years travelled and therefore affecting hull integrity.\n• Fuel: Your starting fuel. Each travel consumes fuel depending on the distance traveled and type of engine.\n• Materials: Can be used to repair the ship but most of all are essential for colonizing a new world.\n• Cryopods: The number of colonists you carry. You must have enough to meet a planet's settlement requirements."
   },
   {
     "languageIso": "en",

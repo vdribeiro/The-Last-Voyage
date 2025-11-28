@@ -84,7 +84,7 @@ internal class GameSessionGateway(
         val fuelConsumption = gameSession.ship.engine.fuelConsumption
         val yearsTraveled = gameSession.ship.yearsTraveled + (distance / speed)
         val fuel = gameSession.ship.fuel - distance * fuelConsumption
-        val integrity = gameSession.ship.integrity - 1
+        val integrity = gameSession.ship.integrity - (yearsTraveled / 1000).toInt().coerceIn(minimumValue = 1, maximumValue = 100)
 
         val updatedGameSession = gameSession.copy(
             ship = gameSession.ship.copy(

@@ -18,11 +18,11 @@ internal data class Ship(
         const val MAX_INTEGRITY = 100
         const val MAX_SENSOR_RANGE = 10
         const val MIN_SENSOR_RANGE = 1
-        const val MAX_FUEL = 2000
+        const val MAX_FUEL = 5000
         const val MIN_FUEL = 100
-        const val MAX_MATERIALS = 1000
+        const val MAX_MATERIALS = 2000
         const val MIN_MATERIALS = 100
-        const val MAX_CRYOPODS = 1000
+        const val MAX_CRYOPODS = 2000
         const val MIN_CRYOPODS = 100
     }
 }

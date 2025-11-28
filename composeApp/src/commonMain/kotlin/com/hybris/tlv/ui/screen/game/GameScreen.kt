@@ -67,13 +67,14 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(all = 16.dp),
-                velocity = ship?.engine?.velocity,
-                yearsTraveled = ship?.yearsTraveled,
-                sensorRange = ship?.sensorRange,
                 integrity = ship?.integrity,
                 fuel = ship?.fuel,
                 materials = ship?.materials,
                 cryopods = ship?.cryopods,
+                sensorRange = ship?.sensorRange,
+                yearsTraveled = ship?.yearsTraveled,
+                velocity = ship?.engine?.velocity,
+                fuelConsumption = ship?.engine?.fuelConsumption
             )
 
             Content.SYSTEM -> {
