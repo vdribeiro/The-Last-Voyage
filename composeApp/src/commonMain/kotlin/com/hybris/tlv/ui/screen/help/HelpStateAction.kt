@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.help
 
 internal sealed interface HelpAction {
     data object Navigation: HelpAction
+    data object ControlPanel: HelpAction
     data object HostDefinition: HelpAction
     data object HostType: HelpAction
     data object PlanetDefinition: HelpAction
@@ -21,6 +22,7 @@ internal data class HelpState(
 internal enum class Content {
     LEARN_MENU,
     NAVIGATION,
+    CONTROL_PANEL,
     HOST_DEFINITION,
     HOST_TYPE,
     PLANET_DEFINITION,

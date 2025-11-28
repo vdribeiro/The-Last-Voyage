@@ -23,7 +23,7 @@ internal fun Input(
     onValueChange: (String) -> Unit = {},
     maxLines: Int = Int.MAX_VALUE,
     style: TextStyle = LocalTextStyle.current,
-    leadingIcon: @Composable (() -> Unit)? = null,
+    leadingIcon: (@Composable () -> Unit)? = null,
 ) {
     OutlinedTextField(
         modifier = modifier

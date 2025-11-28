@@ -26,7 +26,7 @@ internal inline fun <T> Dropdown(
     crossinline enabled: (T) -> Boolean = { true },
     crossinline text: (T) -> String? = { null },
     crossinline onClick: (T) -> Unit = {},
-    crossinline leadingIcon: (T) -> @Composable (() -> Unit)? = { null }
+    crossinline leadingIcon: (T) -> (@Composable () -> Unit)? = { null }
 ) {
     val typography = LocalTypography.current
 

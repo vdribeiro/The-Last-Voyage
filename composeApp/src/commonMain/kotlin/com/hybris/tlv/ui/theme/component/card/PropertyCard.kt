@@ -37,7 +37,7 @@ internal fun PropertyCard(
     name: String? = null,
     description: String? = null,
     leadingImage: ImageResource? = null,
-    icon: ImageVector? = null,
+    icon: (@Composable () -> Unit)? = null,
     trailingIcon: ImageVector? = null,
 ) {
     val typography = LocalTypography.current
@@ -71,8 +71,8 @@ internal fun PropertyCard(
                     horizontalArrangement = Arrangement.Start
                 ) {
                     name?.let { Text(text = getTranslation(key = it), style = typography.titleLarge, fontWeight = FontWeight.Bold) }
-                    if (name != null && icon != null) Spacer(modifier = Modifier.width(width = 4.dp))
-                    icon?.let { Icon(imageVector = it) }
+                    if (name != null && icon != null) Spacer(modifier = Modifier.width(width = 8.dp))
+                    icon?.let { it() }
                 }
                 if (name != null && description != null) Spacer(modifier = Modifier.height(height = 4.dp))
                 description?.let { Text(text = getTranslation(key = it), style = typography.bodyLarge) }
@@ -91,7 +91,7 @@ private fun PropertyCardPreview() = AppTheme {
             name = "Property",
             description = "Hammer Time",
             leadingImage = "W".spectralTypeToImage(),
-            icon = Icons.Filled.Apps,
+            icon = { Icon(imageVector = Icons.Filled.Apps) },
             trailingIcon = Icons.Filled.Check,
         )
         PropertyCard(name = "Property")
@@ -99,7 +99,7 @@ private fun PropertyCardPreview() = AppTheme {
         PropertyCard(
             name = "Property",
             description = "Hammer Time",
-            trailingIcon =  Icons.Filled.Check
+            trailingIcon = Icons.Filled.Check
         )
         PropertyCard(
             name = "Property",

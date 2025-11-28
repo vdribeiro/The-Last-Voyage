@@ -2951,6 +2951,61 @@
   },
   {
     "languageIso": "en",
+    "key": "main_menu_screen__control_panel",
+    "value": "Control Panel"
+  },
+  {
+    "languageIso": "en",
+    "key": "help_screen__control_panel_search",
+    "value": "Search and Scope"
+  },
+  {
+    "languageIso": "en",
+    "key": "help_screen__control_panel_search_description",
+    "value": "Search is applied specifically to the properties selected within the search dropdown menu. This allows you to narrow the scope rather than searching across the entire record."
+  },
+  {
+    "languageIso": "en",
+    "key": "help_screen__control_panel_view",
+    "value": "View"
+  },
+  {
+    "languageIso": "en",
+    "key": "help_screen__control_panel_view_description",
+    "value": "Switch between Stellar Hosts and Planets dataset."
+  },
+  {
+    "languageIso": "en",
+    "key": "help_screen__control_panel_count",
+    "value": "Count"
+  },
+  {
+    "languageIso": "en",
+    "key": "help_screen__control_panel_count_description",
+    "value": "Displays the total number of results currently loaded in the view."
+  },
+  {
+    "languageIso": "en",
+    "key": "help_screen__control_panel_sort",
+    "value": "Sorting"
+  },
+  {
+    "languageIso": "en",
+    "key": "help_screen__control_panel_sort_description",
+    "value": "Sorts the data ascending or descending according to the selected property."
+  },
+  {
+    "languageIso": "en",
+    "key": "help_screen__control_panel_visibility",
+    "value": "Visibility"
+  },
+  {
+    "languageIso": "en",
+    "key": "help_screen__control_panel_visibility_decription",
+    "value": "Show or hide the selected properties."
+  },
+  {
+    "languageIso": "en",
     "key": "main_menu_screen__host_definition",
     "value": "Star Definition"
   },

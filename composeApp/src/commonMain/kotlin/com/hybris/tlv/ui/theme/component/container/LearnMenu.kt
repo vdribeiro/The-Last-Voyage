@@ -21,6 +21,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 internal fun LearnMenu(
     modifier: Modifier = Modifier,
     onNavigationClick: () -> Unit = {},
+    onPanelClick: () -> Unit = {},
     onMechanicsClick: () -> Unit = {},
     onHostDefinitionClick: () -> Unit = {},
     onHostTypesClick: () -> Unit = {},
@@ -30,6 +31,7 @@ internal fun LearnMenu(
 ) {
     val helpTranslation = getTranslation(key = "main_menu_screen__learn")
     val navigationTranslation = getTranslation(key = "main_menu_screen__navigation")
+    val panelTranslation = getTranslation(key = "main_menu_screen__control_panel")
     val mechanicsTranslation = getTranslation(key = "main_menu_screen__mechanics")
     val hostDefinitionTranslation = getTranslation(key = "main_menu_screen__host_definition")
     val hostTypesTranslation = getTranslation(key = "main_menu_screen__host_types")
@@ -60,6 +62,14 @@ internal fun LearnMenu(
                 modifier = Modifier
                     .clickable { onNavigationClick() },
                 text = navigationTranslation,
+                style = typography.headlineMedium,
+            )
+        }
+        item {
+            Text(
+                modifier = Modifier
+                    .clickable { onPanelClick() },
+                text = panelTranslation,
                 style = typography.headlineMedium,
             )
         }
@@ -126,6 +136,10 @@ private fun LearnMenuPreview() = AppTheme {
             Translation(
                 key = "main_menu_screen__navigation",
                 value = "Navigation"
+            ),
+            Translation(
+                key = "main_menu_screen__control_panel",
+                value = "Control Panel"
             ),
             Translation(
                 key = "main_menu_screen__host_definition",

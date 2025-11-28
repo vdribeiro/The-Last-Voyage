@@ -3,18 +3,28 @@ package com.hybris.tlv.ui.screen.help
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ManageSearch
+import androidx.compose.material.icons.automirrored.filled.Sort
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.QuestionMark
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -31,8 +41,10 @@ import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
 import com.hybris.tlv.ui.theme.component.container.LearnMenu
 import com.hybris.tlv.ui.theme.component.container.PropertyList
 import com.hybris.tlv.ui.theme.component.container.Screen
+import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.space.model.PlanetType
 import com.hybris.tlv.usecase.space.spectralTypeToImage
@@ -79,6 +91,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
         when (currentContent) {
             Content.LEARN_MENU -> LearnMenu(
                 onNavigationClick = { store.send(action = HelpAction.Navigation) },
+                onPanelClick = { store.send(action = HelpAction.ControlPanel) },
                 onHostDefinitionClick = { store.send(action = HelpAction.HostDefinition) },
                 onHostTypesClick = { store.send(action = HelpAction.HostType) },
                 onPlanetDefinitionClick = { store.send(action = HelpAction.PlanetDefinition) },
@@ -91,7 +104,32 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 title = getTranslation(key = "main_menu_screen__navigation"),
                 properties = navigation,
                 id = { it.id },
-                description = { it.description }
+                description = { it.description },
+                icon = { it.icon }
+            )
+
+            Content.CONTROL_PANEL -> PropertyList(
+                title = getTranslation(key = "main_menu_screen__control_panel"),
+                properties = panel,
+                id = { it.id },
+                description = { it.description },
+                icon = { it.icon },
+                header = {
+                    val name = getTranslation(key = "planet_name")
+                    val habitability = getTranslation(key = "planet_habitability")
+                    var ascending by remember { mutableStateOf(value = true) }
+                    ControlPanel(
+                        viewName = getTranslation(key = "stellar_explorer_screen__planet_list"),
+                        viewIcon = Icons.Default.Public,
+                        count = 1234,
+                        properties = listOf(name, habitability),
+                        selectedProperty = name,
+                        ascending = ascending,
+                        onSortDirectionChange = { ascending = !ascending },
+                        visibleProperties = listOf(element = name),
+                        selectedProperties = listOf(element = name),
+                    )
+                }
             )
 
             Content.HOST_DEFINITION -> PropertyList(
@@ -155,7 +193,7 @@ private data class Property(
     val id: String,
     val description: String,
     val image: ImageResource? = null,
-    val icon: ImageVector? = null
+    val icon: (@Composable () -> Unit)? = null
 )
 
 private val navigation = listOf(
@@ -167,22 +205,65 @@ private val navigation = listOf(
             isIos -> "main_menu_screen__navigation_info_ios"
             else -> "main_menu_screen__navigation_info"
         },
-        icon = Icons.AutoMirrored.Filled.ArrowBack,
+        icon = { Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack) },
     ),
     Property(
         id = "main_menu_screen__help_navigation",
         description = "main_menu_screen__help_navigation_description",
-        icon = Icons.Default.QuestionMark,
+        icon = { Icon(imageVector = Icons.Default.QuestionMark) },
     ),
     Property(
         id = "main_menu_screen__music_navigation",
         description = "main_menu_screen__music_navigation_description",
-        icon = Icons.Default.MusicNote,
+        icon = { Icon(imageVector = Icons.Default.MusicNote) },
     ),
     Property(
         id = "main_menu_screen__feedback_navigation",
         description = "main_menu_screen__feedback_navigation_description",
-        icon = Icons.Default.BugReport,
+        icon = { Icon(imageVector = Icons.Default.BugReport) },
+    )
+)
+
+private val panel = listOf(
+    Property(
+        id = "help_screen__control_panel_search",
+        description = "help_screen__control_panel_search_description",
+        icon = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+            ) {
+                Icon(imageVector = Icons.Default.Search)
+                Icon(imageVector = Icons.AutoMirrored.Filled.ManageSearch)
+            }
+        }
+    ),
+    Property(
+        id = "help_screen__control_panel_view",
+        description = "help_screen__control_panel_view_description",
+        icon = { Icon(imageVector = Icons.Default.Public) }
+    ),
+    Property(
+        id = "help_screen__control_panel_count",
+        description = "help_screen__control_panel_count_description",
+    ),
+    Property(
+        id = "help_screen__control_panel_sort",
+        description = "help_screen__control_panel_sort_description",
+        icon = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+            ) {
+                Icon(imageVector = Icons.Default.ArrowUpward)
+                Icon(imageVector = Icons.AutoMirrored.Filled.Sort)
+            }
+        }
+    ),
+    Property(
+        id = "help_screen__control_panel_visibility",
+        description = "help_screen__control_panel_visibility_decription",
+        icon = { Icon(imageVector = Icons.Default.Visibility) }
     )
 )
 

@@ -29,9 +29,10 @@ internal inline fun <T> PropertyList(
     noinline id: (T) -> String = { generateUuid() },
     crossinline description: (T) -> String? = { null },
     crossinline leadingImage: (T) -> ImageResource? = { null },
-    crossinline icon: (T) -> ImageVector? = { null },
+    crossinline icon: (T) -> (@Composable () -> Unit)? = { null },
     crossinline trailingIcon: (T) -> ImageVector? = { null },
-    noinline footer: @Composable (() -> Unit)? = null
+    noinline header: (@Composable () -> Unit)? = null,
+    noinline footer: (@Composable () -> Unit)? = null
 ) {
     val typography = LocalTypography.current
 
@@ -51,6 +52,8 @@ internal inline fun <T> PropertyList(
                 )
             }
         }
+
+        if (header != null) item { header() }
 
         items(items = properties, key = id) { property ->
             PropertyCard(

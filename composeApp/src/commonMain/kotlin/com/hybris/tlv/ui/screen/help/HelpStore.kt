@@ -41,6 +41,7 @@ internal class HelpStore(
         when (state.currentContent) {
             Content.LEARN_MENU -> super.back(state = state)
             Content.NAVIGATION,
+            Content.CONTROL_PANEL,
             Content.HOST_DEFINITION,
             Content.HOST_TYPE,
             Content.PLANET_DEFINITION,
@@ -52,6 +53,7 @@ internal class HelpStore(
     override fun reducer(state: HelpState, action: HelpAction) {
         when (action) {
             HelpAction.Navigation -> updateState { it.copy(currentContent = Content.NAVIGATION) }
+            HelpAction.ControlPanel -> updateState { it.copy(currentContent = Content.CONTROL_PANEL) }
             HelpAction.HostDefinition -> updateState { it.copy(currentContent = Content.HOST_DEFINITION) }
             HelpAction.HostType -> updateState { it.copy(currentContent = Content.HOST_TYPE) }
             HelpAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }

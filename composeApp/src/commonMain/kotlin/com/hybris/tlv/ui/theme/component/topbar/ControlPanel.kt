@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -121,6 +122,7 @@ internal fun ControlPanel(
                 modifier = Modifier
                     .alpha(alpha = alpha(enabled = enabled))
                     .clip(shape = shapes.large)
+                    .padding(all = 4.dp)
                     .clickable(
                         enabled = enabled,
                         onClick = {
@@ -184,7 +186,7 @@ private data class DropdownItem(
     val enabled: Boolean = true,
     val text: String? = null,
     val onClick: () -> Unit = {},
-    val leadingIcon: @Composable (() -> Unit)? = null,
+    val leadingIcon: (@Composable () -> Unit)? = null,
 )
 
 @Composable
@@ -194,7 +196,7 @@ private fun SearchMenu(
     selectedProperties: List<String>,
     onFiltersChange: (String) -> Unit
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(value = false) }
     Box {
         Button(
             enabled = enabled,
@@ -240,7 +242,7 @@ private fun SortMenu(
     onSortChange: (String) -> Unit,
     onSortDirectionChange: () -> Unit
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(value = false) }
     val sortDirectionIcon = if (ascending) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward
     Box {
         Button(
@@ -299,7 +301,7 @@ private fun VisibilityMenu(
     visibleProperties: List<String>,
     onVisibilityChange: (String) -> Unit
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(value = false) }
     Box {
         Button(
             enabled = enabled,
