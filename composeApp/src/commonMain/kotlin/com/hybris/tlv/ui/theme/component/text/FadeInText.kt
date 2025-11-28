@@ -38,7 +38,6 @@ internal fun FadeInText(
     ) {
         Text(
             modifier = modifier
-                .padding(all = 16.dp)
                 .verticalScroll(state = rememberScrollState()),
             text = text,
             textAlign = TextAlign.Center,

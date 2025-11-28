@@ -22,17 +22,17 @@ internal class TutorialStoreTest {
     @Test
     fun `complete tutorial`() = runBlocking {
         val tutorialStore = store
-        assertEquals(expected = Tutorial.GOAL, actual = tutorialStore.stateFlow.value.tutorialStep)
+        assertEquals(expected = Content.GOAL, actual = tutorialStore.stateFlow.value.currentContent)
         tutorialStore.send(action = TutorialAction.Next)
-        assertEquals(expected = Tutorial.SHIP, actual = tutorialStore.stateFlow.value.tutorialStep)
+        assertEquals(expected = Content.SHIP, actual = tutorialStore.stateFlow.value.currentContent)
         tutorialStore.send(action = TutorialAction.Next)
-        assertEquals(expected = Tutorial.SYSTEM, actual = tutorialStore.stateFlow.value.tutorialStep)
+        assertEquals(expected = Content.SYSTEM, actual = tutorialStore.stateFlow.value.currentContent)
         tutorialStore.send(action = TutorialAction.Next)
-        assertEquals(expected = Tutorial.TRAVEL, actual = tutorialStore.stateFlow.value.tutorialStep)
+        assertEquals(expected = Content.TRAVEL, actual = tutorialStore.stateFlow.value.currentContent)
         tutorialStore.send(action = TutorialAction.Next)
-        assertEquals(expected = Tutorial.GAME_OVER, actual = tutorialStore.stateFlow.value.tutorialStep)
+        assertEquals(expected = Content.GAME_OVER, actual = tutorialStore.stateFlow.value.currentContent)
         tutorialStore.send(action = TutorialAction.Next)
-        assertEquals(expected = Tutorial.GAME_OVER, actual = tutorialStore.stateFlow.value.tutorialStep)
+        assertEquals(expected = Content.GAME_OVER, actual = tutorialStore.stateFlow.value.currentContent)
     }
 
     @Test
