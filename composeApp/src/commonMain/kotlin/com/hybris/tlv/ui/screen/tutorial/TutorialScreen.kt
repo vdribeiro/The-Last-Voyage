@@ -2,10 +2,15 @@ package com.hybris.tlv.ui.screen.tutorial
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowRight
 import androidx.compose.runtime.Composable
@@ -33,6 +38,7 @@ import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetStatus
+import com.hybris.tlv.usecase.space.model.PlanetType
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.spectralTypeToImage
 import com.hybris.tlv.usecase.space.toImage
@@ -114,56 +120,38 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     )
                 }
 
-                Content.TRAVEL -> {
+                Content.TRAVEL -> Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
                     Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp, vertical = 4.dp),
-                        text = getTranslation(key = "tutorial_screen__mechanics_travel_description"),
+                        text = getTranslation(key = "tutorial_screen__mechanics_travel_next"),
                         style = typography.bodyLarge
                     )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        Text(
-                            text = getTranslation(key = "tutorial_screen__mechanics_travel_next"),
-                            style = typography.bodyLarge
-                        )
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowRight,
-                            contentDescription = "Next"
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowRight,
+                        contentDescription = "Next"
+                    )
                 }
 
-                Content.SYSTEM -> {
+                Content.SYSTEM -> Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
                     Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp, vertical = 4.dp),
-                        text = getTranslation(key = "tutorial_screen__mechanics_system_description"),
+                        text = getTranslation(key = "tutorial_screen__mechanics_system_next"),
                         style = typography.bodyLarge
                     )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        Text(
-                            text = getTranslation(key = "tutorial_screen__mechanics_system_next"),
-                            style = typography.bodyLarge
-                        )
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowRight,
-                            contentDescription = "Next"
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowRight,
+                        contentDescription = "Next"
+                    )
                 }
 
                 Content.GAME_OVER -> Button(
@@ -211,80 +199,70 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                 tutorial = true
             )
 
-            Content.TRAVEL -> TravelList(
+            Content.TRAVEL -> Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(all = 16.dp),
-                stellarHosts = listOf(
-                    StellarHost(
-                        id = "proxima_centauri",
-                        name = "Proxima Centauri",
-                        systemName = "Alpha Centauri",
-                        spectralType = "M5.5V",
-                        effectiveTemperature = 2900.0,
-                        radius = 0.141,
-                        mass = 0.1221,
-                        metallicity = null,
-                        luminosity = -2.8,
-                        gravity = 5.3201025,
-                        age = null,
-                        density = 48.7626491,
-                        rotationalVelocity = null,
-                        rotationalPeriod = 90.0,
-                        distance = 4.2439092564,
-                        ra = 217.3934657,
-                        dec = -62.6761821
-                    ),
-                ),
-                id = { it.id },
-                name = { it.name },
-                planetCount = { it.planets.size },
-                spectralType = { it.spectralType },
-                spectralImage = { it.spectralType.spectralTypeToImage() },
-                distance = { it.distance },
-            )
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start
+            ) {
+                TravelList(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    stellarHosts = emptyList<String>(),
+                    name = { "Proxima Centauri" },
+                    planetCount = { 1 },
+                    spectralType = { "M5.5V" },
+                    spectralImage = { "M5.5V".spectralTypeToImage() },
+                    distance = { 4.24 },
+                )
+                Spacer(modifier = Modifier.height(height = 16.dp))
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(state = rememberScrollState()),
+                    text = getTranslation(key = "tutorial_screen__mechanics_travel_description"),
+                    style = typography.bodyLarge
+                )
+            }
 
-            Content.SYSTEM -> SystemList(
+            Content.SYSTEM -> Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(all = 16.dp),
-                stellarHostName = "Sol",
-                stellarHostSpectralType = "G2V",
-                stellarHostSpectralImage = "G2V".spectralTypeToImage(),
-                stellarHostEffectiveTemperature = 5778.0,
-                stellarHostRadius = 1.0,
-                stellarHostMass = 1.0,
-                stellarHostAge = 4.6,
-                planets = listOf(
-                    Planet(
-                        id = "mars",
-                        name = "Mars",
-                        stellarHostId = "sol",
-                        status = PlanetStatus.CONFIRMED,
-                        orbitalPeriod = 687.0,
-                        orbitAxis = 1.524,
-                        radius = 0.532,
-                        mass = 0.107,
-                        density = 3.934,
-                        eccentricity = 0.094,
-                        insolationFlux = 0.430,
-                        equilibriumTemperature = 210.0,
-                        occultationDepth = 0.000024,
-                        inclination = 1.85,
-                        obliquity = 25.2,
-                    ),
-                ),
-                planetId = { it.id },
-                planetName = { it.name },
-                planetRadius = { it.radius },
-                planetMass = { it.mass },
-                planetDensity = { it.density },
-                planetEquilibriumTemperature = { it.equilibriumTemperature },
-                planetHabitability = { it.score?.habitabilityScore },
-                planetType = { it.score?.planetType?.displayName },
-                planetImage = { it.score?.planetType.toImage() },
-                onClick = { store.send(action = TutorialAction.Next) }
-            )
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start
+            ) {
+                SystemList(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    stellarHostName = "Sol",
+                    stellarHostSpectralType = "G2V",
+                    stellarHostSpectralImage = "G2V".spectralTypeToImage(),
+                    stellarHostEffectiveTemperature = 5778.0,
+                    stellarHostRadius = 1.0,
+                    stellarHostMass = 1.0,
+                    stellarHostAge = 4.6,
+                    planets = emptyList<String>(),
+                    planetName = { "Mars"},
+                    planetRadius = { 0.532 },
+                    planetMass = { 0.107 },
+                    planetDensity = { 3.934 },
+                    planetEquilibriumTemperature = { 210.0 },
+                    planetHabitability = { 0.8 },
+                    planetType = { PlanetType.EARTH_LIKE_PLANET.displayName },
+                    planetImage = { PlanetType.EARTH_LIKE_PLANET.toImage() },
+                    onClick = { store.send(action = TutorialAction.Next) }
+                )
+                Spacer(modifier = Modifier.height(height = 16.dp))
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(state = rememberScrollState()),
+                    text = getTranslation(key = "tutorial_screen__mechanics_system_description"),
+                    style = typography.bodyLarge
+                )
+            }
 
             Content.GAME_OVER -> TitleDescription(
                 modifier = Modifier

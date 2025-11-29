@@ -58,7 +58,6 @@ internal fun StatDisplay(
                         text = it,
                         style = typography.bodyLarge,
                         color = colorScheme.onSurfaceVariant,
-                        maxLines = 1
                     )
                 }
                 value?.let {
