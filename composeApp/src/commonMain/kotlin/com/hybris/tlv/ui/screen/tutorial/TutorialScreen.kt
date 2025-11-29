@@ -18,6 +18,8 @@ import com.hybris.tlv.ui.screen.game.GameAction
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
+import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.bottombar.GameNavigationBar
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.container.Screen
@@ -46,14 +48,6 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
     val typography = LocalTypography.current
 
     Screen(
-        title = {
-            Text(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp),
-                text = getTranslation(key = "main_menu_screen__mechanics"),
-                style = typography.labelLarge,
-            )
-        },
         onBackClick = { store.back() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },
@@ -73,31 +67,104 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
         },
         bottomBar = {
             when (currentContent) {
-                Content.WELCOME -> Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp),
-                    text = getTranslation(key = "tutorial_screen__mechanics_welcome_start"),
-                    onClick = { store.send(action = TutorialAction.Next) }
+                Content.WELCOME -> ButtonsBar(
+                    buttons = listOf(
+                        BottomButton(
+                            text = getTranslation(key = "tutorial_screen__mechanics_welcome_start"),
+                            onClick = { store.send(action = TutorialAction.Next) }
+                        ),
+                        BottomButton(
+                            text = getTranslation(key = "tutorial_screen__mechanics_welcome_skip"),
+                            onClick = { store.send(action = TutorialAction.Skip) }
+                        )
+                    ),
                 )
 
-                Content.GOAL -> {}
-                Content.SHIP -> {}
-                Content.TRAVEL -> Text(
+                Content.GOAL -> Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 8.dp, vertical = 4.dp),
-                    text = getTranslation(key = "tutorial_screen__mechanics_travel_description"),
-                    style = typography.bodyLarge
-                )
+                        .padding(all = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Text(
+                        text = getTranslation(key = "tutorial_screen__mechanics_goal_next"),
+                        style = typography.bodyLarge
+                    )
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowRight,
+                        contentDescription = "Next"
+                    )
+                }
 
-                Content.SYSTEM -> Text(
+                Content.SHIP -> Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 8.dp, vertical = 4.dp),
-                    text = getTranslation(key = "tutorial_screen__mechanics_system_description"),
-                    style = typography.bodyLarge
-                )
+                        .padding(all = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Text(
+                        text = getTranslation(key = "tutorial_screen__mechanics_attributes_next"),
+                        style = typography.bodyLarge
+                    )
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowRight,
+                        contentDescription = "Next"
+                    )
+                }
+
+                Content.TRAVEL -> {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                        text = getTranslation(key = "tutorial_screen__mechanics_travel_description"),
+                        style = typography.bodyLarge
+                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Text(
+                            text = getTranslation(key = "tutorial_screen__mechanics_travel_next"),
+                            style = typography.bodyLarge
+                        )
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowRight,
+                            contentDescription = "Next"
+                        )
+                    }
+                }
+
+                Content.SYSTEM -> {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                        text = getTranslation(key = "tutorial_screen__mechanics_system_description"),
+                        style = typography.bodyLarge
+                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Text(
+                            text = getTranslation(key = "tutorial_screen__mechanics_system_next"),
+                            style = typography.bodyLarge
+                        )
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowRight,
+                            contentDescription = "Next"
+                        )
+                    }
+                }
 
                 Content.GAME_OVER -> Button(
                     modifier = Modifier
@@ -105,31 +172,6 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                         .padding(horizontal = 16.dp, vertical = 4.dp),
                     text = getTranslation(key = "tutorial_screen__mechanics_game_over_next"),
                     onClick = { store.send(action = TutorialAction.Next) }
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End
-            ) {
-                Text(
-                    text = getTranslation(
-                        key = when (currentContent) {
-                            Content.WELCOME -> "tutorial_screen__mechanics_welcome_next"
-                            Content.GOAL -> "tutorial_screen__mechanics_goal_next"
-                            Content.SHIP -> "tutorial_screen__mechanics_attributes_next"
-                            Content.TRAVEL -> "tutorial_screen__mechanics_travel_next"
-                            Content.SYSTEM -> "tutorial_screen__mechanics_system_next"
-                            Content.GAME_OVER -> ""
-                        }
-                    ),
-                    style = typography.bodyLarge
-                )
-                if (currentContent != Content.GAME_OVER) Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowRight,
-                    contentDescription = "Next"
                 )
             }
             GameNavigationBar(

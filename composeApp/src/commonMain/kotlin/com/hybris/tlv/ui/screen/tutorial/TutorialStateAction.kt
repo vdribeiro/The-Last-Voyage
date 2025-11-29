@@ -10,6 +10,7 @@ import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_SENSOR_RANGE
 
 internal sealed interface TutorialAction {
     data object Next: TutorialAction
+    data object Skip: TutorialAction
 }
 
 internal data class TutorialState(

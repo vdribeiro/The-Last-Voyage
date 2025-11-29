@@ -3096,13 +3096,13 @@
   },
   {
     "languageIso": "en",
-    "key": "tutorial_screen__mechanics_welcome_next",
-    "value": "Select 'Start Tutorial' to begin"
+    "key": "tutorial_screen__mechanics_welcome_start",
+    "value": "Start Tutorial"
   },
   {
     "languageIso": "en",
-    "key": "tutorial_screen__mechanics_welcome_start",
-    "value": "Start Tutorial"
+    "key": "tutorial_screen__mechanics_welcome_skip",
+    "value": "Skip"
   },
   {
     "languageIso": "en",
