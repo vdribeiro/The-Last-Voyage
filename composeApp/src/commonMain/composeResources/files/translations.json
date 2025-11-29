@@ -3097,7 +3097,12 @@
   {
     "languageIso": "en",
     "key": "tutorial_screen__mechanics_welcome_next",
-    "value": "Select 'Start Tutorial' Button to begin"
+    "value": "Select 'Start Tutorial' to begin"
+  },
+  {
+    "languageIso": "en",
+    "key": "tutorial_screen__mechanics_welcome_start",
+    "value": "Start Tutorial"
   },
   {
     "languageIso": "en",

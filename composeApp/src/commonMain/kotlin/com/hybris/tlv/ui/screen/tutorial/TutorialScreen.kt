@@ -77,7 +77,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 4.dp),
-                    text = getTranslation(key = "tutorial_screen__mechanics_travel_description"),
+                    text = getTranslation(key = "tutorial_screen__mechanics_welcome_next"),
                     onClick = { store.send(action = TutorialAction.Next) }
                 )
 
