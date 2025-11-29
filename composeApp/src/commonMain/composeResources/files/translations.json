@@ -3086,6 +3086,21 @@
   },
   {
     "languageIso": "en",
+    "key": "tutorial_screen__mechanics_welcome",
+    "value": "Welcome!"
+  },
+  {
+    "languageIso": "en",
+    "key": "tutorial_screen__mechanics_welcome_description",
+    "value": "In this tutorial, we’ll walk you through the basics, core mechanics and controls so you can enjoy the game to its fullest."
+  },
+  {
+    "languageIso": "en",
+    "key": "tutorial_screen__mechanics_welcome_next",
+    "value": "Select 'Start Tutorial' Button to begin"
+  },
+  {
+    "languageIso": "en",
     "key": "tutorial_screen__mechanics_goal_title",
     "value": "Goal"
   },

@@ -34,6 +34,7 @@ internal data class TutorialState(
 )
 
 internal enum class Content {
+    WELCOME,
     GOAL,
     SHIP,
     TRAVEL,

@@ -11,6 +11,7 @@ internal class TutorialStore(
     override fun reducer(state: TutorialState, action: TutorialAction) {
         when (action) {
             TutorialAction.Next -> when (state.currentContent) {
+                Content.WELCOME -> updateState { it.copy(currentContent = Content.GOAL) }
                 Content.GOAL -> updateState { it.copy(currentContent = Content.SHIP) }
                 Content.SHIP -> updateState { it.copy(currentContent = Content.TRAVEL) }
                 Content.TRAVEL -> updateState { it.copy(currentContent = Content.SYSTEM) }
