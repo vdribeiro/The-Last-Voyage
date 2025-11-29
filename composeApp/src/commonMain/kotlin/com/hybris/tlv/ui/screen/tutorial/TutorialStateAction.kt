@@ -36,7 +36,7 @@ internal data class TutorialState(
 internal enum class Content {
     GOAL,
     SHIP,
-    SYSTEM,
     TRAVEL,
+    SYSTEM,
     GAME_OVER
 }

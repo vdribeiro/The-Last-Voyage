@@ -1,18 +1,24 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.platform.open
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.MainBar
 import com.hybris.tlv.ui.theme.component.container.MainMenu
 import com.hybris.tlv.ui.theme.component.container.Screen
+import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
 
@@ -22,7 +28,19 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
 
     Screen(
         loading = storeState.loading,
-        banner = if (storeState.newVersionBanner) storeState.developerCorner else null,
+        title = if (storeState.newVersionBanner) {
+            {
+                val uriHandler = LocalUriHandler.current
+                val typography = LocalTypography.current
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .clickable { uriHandler.open(uri = storeState.developerCorner) },
+                    text = getTranslation(key = "new_version"),
+                    style = typography.labelLarge,
+                )
+            }
+        } else null,
         onHelpClick = { store.help() },
         onMusicClick = { store.toggleAudio() },
         onFeedbackClick = { store.feedback() },

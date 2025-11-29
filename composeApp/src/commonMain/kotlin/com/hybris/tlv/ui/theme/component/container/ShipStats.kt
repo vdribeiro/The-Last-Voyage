@@ -26,6 +26,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 @Composable
 internal fun ShipStats(
     modifier: Modifier = Modifier,
+    tutorial: Boolean = false,
     integrity: Int? = null,
     fuel: Int? = null,
     materials: Int? = null,
@@ -35,14 +36,14 @@ internal fun ShipStats(
     velocity: Double? = null,
     fuelConsumption: Double? = null,
 ) {
-    val integrityTranslation = getTranslation(key = "ship_integrity")
-    val fuelTranslation = getTranslation(key = "ship_fuel")
-    val materialsTranslation = getTranslation(key = "ship_materials")
-    val cryopodsTranslation = getTranslation(key = "ship_cryopods")
-    val sensorTranslation = getTranslation(key = "ship_sensor")
-    val yearsTraveledTranslation = getTranslation(key = "ship_years_traveled")
-    val speedTranslation = getTranslation(key = "ship_speed")
-    val fuelConsumptionTranslation = getTranslation(key = "ship_fuel_consumption")
+    val integrityTranslation = getTranslation(key = if (!tutorial) "ship_integrity" else "ship_integrity_tutorial")
+    val fuelTranslation = getTranslation(key = if (!tutorial) "ship_fuel" else "ship_fuel_tutorial")
+    val materialsTranslation = getTranslation(key = if (!tutorial) "ship_materials" else "ship_materials_tutorial")
+    val cryopodsTranslation = getTranslation(key = if (!tutorial) "ship_cryopods" else "ship_cryopods_tutorial")
+    val sensorTranslation = getTranslation(key = if (!tutorial) "ship_sensor" else "ship_sensor_tutorial")
+    val yearsTraveledTranslation = getTranslation(key = if (!tutorial) "ship_years_traveled" else "ship_years_traveled_tutorial")
+    val speedTranslation = getTranslation(key = if (!tutorial) "ship_speed" else "ship_speed_tutorial")
+    val fuelConsumptionTranslation = getTranslation(key = if (!tutorial) "ship_fuel_consumption" else "ship_fuel_consumption_tutorial")
 
     // Ship status with years traveled, sensor range, maximum speed, integrity, fuel, materials and cryopods
     LazyColumn(
@@ -50,77 +51,62 @@ internal fun ShipStats(
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         horizontalAlignment = Alignment.Start,
     ) {
-        yearsTraveled?.let {
-            item {
-                StatDisplay(
-                    icon = Icons.Outlined.Timer,
-                    label = yearsTraveledTranslation,
-                    value = it.roundTo(decimalPlaces = 2).toString()
-                )
-            }
+        item {
+            StatDisplay(
+                icon = Icons.Outlined.Timer,
+                label = yearsTraveledTranslation,
+                value = yearsTraveled?.roundTo(decimalPlaces = 2)?.toString()
+            )
         }
-        sensorRange?.let {
-            item {
-                StatDisplay(
-                    icon = Icons.Outlined.Radar,
-                    label = sensorTranslation,
-                    value = it.toString()
-                )
-            }
+        item {
+            StatDisplay(
+                icon = Icons.Outlined.Radar,
+                label = sensorTranslation,
+                value = sensorRange?.toString()
+            )
         }
-        integrity?.let {
-            item {
-                StatDisplay(
-                    icon = Icons.Outlined.Shield,
-                    label = integrityTranslation,
-                    value = "$it / 100",
-                )
-            }
+        item {
+            StatDisplay(
+                icon = Icons.Outlined.Shield,
+                label = integrityTranslation,
+                value = integrity?.let { "$it / 100" },
+            )
         }
-        fuel?.let {
-            item {
-                StatDisplay(
-                    icon = Icons.Outlined.LocalGasStation,
-                    label = fuelTranslation,
-                    value = it.toString()
-                )
-            }
+        item {
+            StatDisplay(
+                icon = Icons.Outlined.LocalGasStation,
+                label = fuelTranslation,
+                value = fuel?.toString()
+            )
         }
-        materials?.let {
-            item {
-                StatDisplay(
-                    icon = Icons.Outlined.Construction,
-                    label = materialsTranslation,
-                    value = it.toString()
-                )
-            }
+        item {
+            StatDisplay(
+                icon = Icons.Outlined.Construction,
+                label = materialsTranslation,
+                value = materials?.toString()
+            )
         }
-        cryopods?.let {
-            item {
-                StatDisplay(
-                    icon = Icons.Outlined.Hotel,
-                    label = cryopodsTranslation,
-                    value = it.toString()
-                )
-            }
+        item {
+            StatDisplay(
+                icon = Icons.Outlined.Hotel,
+                label = cryopodsTranslation,
+                value = cryopods?.toString()
+            )
         }
-        velocity?.let {
-            item {
-                StatDisplay(
-                    icon = Icons.Outlined.Speed,
-                    label = speedTranslation,
-                    value = "${it}c"
-                )
-            }
+
+        item {
+            StatDisplay(
+                icon = Icons.Outlined.Speed,
+                label = speedTranslation,
+                value = velocity?.let { "${it}c" }
+            )
         }
-        fuelConsumption?.let {
-            item {
-                StatDisplay(
-                    icon = Icons.Outlined.Opacity,
-                    label = fuelConsumptionTranslation,
-                    value = it.roundTo(decimalPlaces = 2).toString()
-                )
-            }
+        item {
+            StatDisplay(
+                icon = Icons.Outlined.Opacity,
+                label = fuelConsumptionTranslation,
+                value = fuelConsumption?.roundTo(decimalPlaces = 2)?.toString()
+            )
         }
     }
 }
@@ -172,6 +158,6 @@ private fun ShipStatsPreview() = AppTheme {
         sensorRange = 1,
         yearsTraveled = 10.0,
         velocity = 1.0,
-        fuelConsumption = 35.0
+        fuelConsumption = 35.0,
     )
 }

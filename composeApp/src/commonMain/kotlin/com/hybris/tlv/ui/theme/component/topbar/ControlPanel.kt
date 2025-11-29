@@ -118,7 +118,6 @@ internal fun ControlPanel(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .alpha(alpha = alpha(enabled = enabled))
                     .clip(shape = shapes.large)
@@ -129,7 +128,9 @@ internal fun ControlPanel(
                             searchQuery = ""
                         },
                     )
-                    .padding(all = 4.dp)
+                    .padding(all = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
             ) {
                 viewIcon?.let {
                     Icon(

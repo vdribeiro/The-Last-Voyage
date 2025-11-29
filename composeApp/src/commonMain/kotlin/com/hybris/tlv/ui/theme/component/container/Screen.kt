@@ -7,6 +7,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -21,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.image.AppLogo
@@ -45,13 +47,13 @@ internal fun Screen(
     loadingText: String = "",
     loadingBackground: Boolean = false,
     loadingProgress: Float? = null,
-    banner: String? = null,
     onBackClick: (() -> Unit)? = null,
     onHelpClick: (() -> Unit)? = null,
     onMusicClick: (() -> Unit)? = null,
     onFeedbackClick: (() -> Unit)? = null,
-    topBar: @Composable () -> Unit = {},
-    bottomBar: @Composable () -> Unit = {},
+    title: (@Composable () -> Unit)? = null,
+    topBar: @Composable ColumnScope.() -> Unit = {},
+    bottomBar: @Composable ColumnScope.() -> Unit = {},
     snackbarHost: @Composable () -> Unit = {},
     content: @Composable BoxScope.() -> Unit = {}
 ) {
@@ -66,7 +68,7 @@ internal fun Screen(
                     .statusBarsPadding()
             ) {
                 TopBar(
-                    banner = banner,
+                    title = title,
                     onBackClick = onBackClick,
                     onHelpClick = onHelpClick,
                     onMusicClick = onMusicClick,
@@ -171,7 +173,12 @@ private fun ScreenPreview() = AppTheme {
     )
     Screen(
         loading = false,
-        banner = "Banner",
+        title = {
+            Text(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                text = "Banner",
+            )
+        },
         onBackClick = {},
         onHelpClick = {},
         onMusicClick = {},

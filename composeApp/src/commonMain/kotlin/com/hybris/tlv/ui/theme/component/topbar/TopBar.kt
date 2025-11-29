@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.theme.component.topbar
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,22 +15,16 @@ import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.platform.open
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
-import com.hybris.tlv.ui.theme.getTranslation
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun TopBar(
     modifier: Modifier = Modifier,
-    banner: String? = null,
+    title: (@Composable () -> Unit)? = null,
     onBackClick: (() -> Unit)? = null,
     onHelpClick: (() -> Unit)? = null,
     onMusicClick: (() -> Unit)? = null,
@@ -50,17 +43,7 @@ internal fun TopBar(
                 )
             }
         }
-        banner?.let {
-            val uriHandler = LocalUriHandler.current
-            val typography = LocalTypography.current
-            Text(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .clickable { uriHandler.open(uri = banner) },
-                text = getTranslation(key = "new_version"),
-                style = typography.labelLarge,
-            )
-        }
+        if (title != null) title()
         Spacer(modifier = Modifier.weight(weight = 1f))
         onHelpClick?.let {
             Button(onClick = it) {
@@ -92,17 +75,14 @@ internal fun TopBar(
 @Preview
 @Composable
 private fun HostDefinitionPreview() = AppTheme {
-    TranslationCache.set(
-        translations = listOf(
-            Translation(
-                key = "new_version",
-                value = "New Version!"
-            ),
-        )
-    )
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         TopBar(
-            banner = "Banner",
+            title = {
+                Text(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    text = "Banner",
+                )
+            },
             onBackClick = {},
             onHelpClick = {},
             onMusicClick = {},

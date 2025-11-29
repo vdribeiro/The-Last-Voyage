@@ -74,7 +74,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
                 sensorRange = ship?.sensorRange,
                 yearsTraveled = ship?.yearsTraveled,
                 velocity = ship?.engine?.velocity,
-                fuelConsumption = ship?.engine?.fuelConsumption
+                fuelConsumption = ship?.engine?.fuelConsumption,
             )
 
             Content.SYSTEM -> {

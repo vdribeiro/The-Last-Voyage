@@ -35,7 +35,8 @@ internal fun StatDisplay(
     Card(modifier = modifier) {
         Row(
             modifier = Modifier.padding(all = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             icon?.let {
                 Icon(
@@ -47,7 +48,11 @@ internal fun StatDisplay(
                 )
                 Spacer(modifier = Modifier.width(width = 16.dp))
             }
-            Column(modifier = Modifier.weight(weight = 1f)) {
+            Column(
+                modifier = Modifier.weight(weight = 1f),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start,
+            ) {
                 label?.let {
                     Text(
                         text = it,
