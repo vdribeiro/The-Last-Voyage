@@ -13,7 +13,7 @@ internal sealed interface TutorialAction {
 }
 
 internal data class TutorialState(
-    val currentContent: Content = Content.GOAL,
+    val currentContent: Content = Content.WELCOME,
     val ship: Ship = Ship(
         id = "",
         engine = Engine(
