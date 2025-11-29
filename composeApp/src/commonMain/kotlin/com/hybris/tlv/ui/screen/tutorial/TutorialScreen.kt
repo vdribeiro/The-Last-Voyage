@@ -209,7 +209,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                 TravelList(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    stellarHosts = emptyList<String>(),
+                    stellarHosts = listOf("proxima_centauri"),
                     name = { "Proxima Centauri" },
                     planetCount = { 1 },
                     spectralType = { "M5.5V" },
@@ -243,7 +243,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     stellarHostRadius = 1.0,
                     stellarHostMass = 1.0,
                     stellarHostAge = 4.6,
-                    planets = emptyList<String>(),
+                    planets = listOf("mars"),
                     planetName = { "Mars"},
                     planetRadius = { 0.532 },
                     planetMass = { 0.107 },
