@@ -34,12 +34,12 @@ internal fun AttributeRow(
     val typography = LocalTypography.current
 
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            modifier = Modifier.padding(all = 2.dp),
             text = name,
             style = typography.titleLarge,
             textAlign = TextAlign.Center,

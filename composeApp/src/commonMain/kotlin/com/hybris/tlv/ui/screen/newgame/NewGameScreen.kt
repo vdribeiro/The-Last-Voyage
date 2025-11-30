@@ -26,7 +26,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsState()
-    storeState.selectedCatastrophe
+    val selectedCatastrophe = storeState.selectedCatastrophe
     val continueTranslation = getTranslation(key = "new_game_screen__continue")
     val startTranslation = getTranslation(key = "new_game_screen__start")
 
@@ -100,8 +100,8 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(all = 16.dp),
-                title = storeState.selectedCatastrophe?.let { getTranslation(key = it.id) },
-                text = storeState.selectedCatastrophe?.let { getTranslation(key = it.description) }
+                title = selectedCatastrophe?.let { getTranslation(key = it.id) },
+                text = selectedCatastrophe?.let { getTranslation(key = it.description) }
             )
         }
     }

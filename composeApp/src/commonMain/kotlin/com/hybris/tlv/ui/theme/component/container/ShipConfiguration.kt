@@ -4,6 +4,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -53,12 +54,13 @@ internal inline fun <T> ShipConfiguration(
 
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
         // Remaining points
         InfoRow(
-            modifier = Modifier.padding(bottom = 16.dp),
+            modifier = Modifier
+                .padding(bottom = 16.dp),
             label = shipPointsTranslation,
             value = remainingPoints,
             textAlign = TextAlign.Center,
@@ -68,10 +70,10 @@ internal inline fun <T> ShipConfiguration(
         // Attributes for sensor range, fuel, materials and cryopods
         LazyColumn(
             modifier = Modifier
-                .padding(all = 16.dp)
+                .fillMaxSize()
                 .weight(weight = 1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(space = 4.dp, alignment = Alignment.CenterVertically),
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val canIncrement = remainingPoints > 0
             sensorRange?.let {
@@ -112,7 +114,9 @@ internal inline fun <T> ShipConfiguration(
             }
             item {
                 Text(
-                    modifier = Modifier.padding(all = 16.dp),
+                    modifier = Modifier
+                        .padding(all = 16.dp)
+                        .align(alignment = Alignment.Start),
                     text = engineSelectTranslation,
                     style = typography.headlineMedium,
                     fontWeight = FontWeight.Bold,

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -41,8 +42,10 @@ internal fun SelectableAttribute(
     ) {
         Row(
             modifier = Modifier
-                .padding(all = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxWidth()
+                .padding(all = 16.dp),
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.Start
         ) {
             Column(
                 modifier = Modifier.weight(weight = 1f),
@@ -66,7 +69,7 @@ internal fun SelectableAttribute(
             Spacer(modifier = Modifier.weight(weight = 0.1f))
             Text(
                 text = points?.toString(),
-                style = typography.headlineSmall,
+                style = typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
         }
