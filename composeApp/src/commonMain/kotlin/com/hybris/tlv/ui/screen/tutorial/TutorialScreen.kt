@@ -171,7 +171,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
             Content.WELCOME -> TitleDescription(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(all = 32.dp),
+                    .padding(all = 16.dp),
                 title = getTranslation(key = "tutorial_screen__mechanics_welcome"),
                 description = getTranslation(key = "tutorial_screen__mechanics_welcome_description")
             )
@@ -179,7 +179,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
             Content.GOAL -> TitleDescription(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(all = 32.dp),
+                    .padding(all = 16.dp),
                 title = getTranslation(key = "tutorial_screen__mechanics_goal_title"),
                 description = getTranslation(key = "tutorial_screen__mechanics_goal_description")
             )
@@ -261,7 +261,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
             Content.GAME_OVER -> TitleDescription(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(all = 32.dp),
+                    .padding(all = 16.dp),
                 title = getTranslation(key = "tutorial_screen__mechanics_game_over_title"),
                 description = getTranslation(key = "tutorial_screen__mechanics_game_over_description")
             )

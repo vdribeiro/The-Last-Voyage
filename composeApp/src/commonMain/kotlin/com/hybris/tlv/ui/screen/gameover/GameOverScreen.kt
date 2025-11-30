@@ -1,7 +1,9 @@
 package com.hybris.tlv.ui.screen.gameover
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -84,20 +86,23 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
                     .padding(all = 16.dp),
                 title = gameOverTranslation
             ) {
-                if (gameSession != null && ship != null) Score(
-                    score = gameSession.score,
-                    utc = gameSession.utc,
-                    settledPlanet = gameSession.settledPlanetName,
-                    habitability = gameSession.finalHabitability,
-                    engine = gameSession.ship.engine.id,
-                    assignedPoints = gameSession.ship.assignedPoints,
-                    yearsTraveled = ship.yearsTraveled,
-                    sensorRange = ship.sensorRange,
-                    integrity = ship.integrity,
-                    materials = ship.materials,
-                    fuel = ship.fuel,
-                    cryopods = ship.cryopods,
-                )
+                if (gameSession != null && ship != null) {
+                    Spacer(modifier = Modifier.height(height = 16.dp))
+                    Score(
+                        score = gameSession.score,
+                        utc = gameSession.utc,
+                        settledPlanet = gameSession.settledPlanetName,
+                        habitability = gameSession.finalHabitability,
+                        engine = gameSession.ship.engine.id,
+                        assignedPoints = gameSession.ship.assignedPoints,
+                        yearsTraveled = ship.yearsTraveled,
+                        sensorRange = ship.sensorRange,
+                        integrity = ship.integrity,
+                        materials = ship.materials,
+                        fuel = ship.fuel,
+                        cryopods = ship.cryopods,
+                    )
+                }
             }
         }
     }

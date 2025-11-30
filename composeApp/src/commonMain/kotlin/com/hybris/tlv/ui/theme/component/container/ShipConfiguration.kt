@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -115,12 +116,12 @@ internal inline fun <T> ShipConfiguration(
             item {
                 Text(
                     modifier = Modifier
-                        .padding(all = 16.dp)
-                        .align(alignment = Alignment.Start),
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp),
                     text = engineSelectTranslation,
                     style = typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Start
                 )
             }
             items(items = engines, key = id) { engine ->
