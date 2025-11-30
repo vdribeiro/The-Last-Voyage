@@ -1,13 +1,24 @@
 package com.hybris.tlv.ui.screen.tutorial
 
+import kotlinx.coroutines.Job
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
 
 internal class TutorialStore(
     private val newGame: Boolean,
+    private val config: ConfigManager,
 ): Store<TutorialState, TutorialAction>(
     initialState = TutorialState()
 ) {
+
+    private fun finish(state: TutorialState): Job = launch {
+        config.setPreferences { it.copy(showTutorial = false) }
+        when {
+            newGame -> navigate(screen = Screen.NewGame)
+            else -> back(state = state)
+        }
+    }
 
     private fun next(state: TutorialState) {
         when (state.currentContent) {
@@ -16,20 +27,14 @@ internal class TutorialStore(
             Content.SHIP -> updateState { it.copy(currentContent = Content.TRAVEL) }
             Content.TRAVEL -> updateState { it.copy(currentContent = Content.SYSTEM) }
             Content.SYSTEM -> updateState { it.copy(currentContent = Content.GAME_OVER) }
-            Content.GAME_OVER -> when {
-                newGame -> navigate(screen = Screen.NewGame)
-                else -> back(state = state)
-            }
+            Content.GAME_OVER -> finish(state = state)
         }
     }
 
     override fun reducer(state: TutorialState, action: TutorialAction) {
         when (action) {
             TutorialAction.Next -> next(state = state)
-            TutorialAction.Skip -> when {
-                newGame -> navigate(screen = Screen.NewGame)
-                else -> back(state = state)
-            }
+            TutorialAction.Skip -> finish(state = state)
         }
     }
 }

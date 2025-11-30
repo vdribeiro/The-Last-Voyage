@@ -27,6 +27,7 @@ internal fun LearnMenu(
     onPlanetDefinitionClick: () -> Unit = {},
     onPlanetTypesClick: () -> Unit = {},
     onHabitabilityClick: () -> Unit = {},
+    onScoreClick: () -> Unit = {},
 ) {
     val helpTranslation = getTranslation(key = "main_menu_screen__learn")
     val navigationTranslation = getTranslation(key = "main_menu_screen__navigation")
@@ -37,6 +38,7 @@ internal fun LearnMenu(
     val planetDefinitionTranslation = getTranslation(key = "main_menu_screen__planet_definition")
     val planetTypesTranslation = getTranslation(key = "main_menu_screen__planet_types")
     val habitabilityTranslation = getTranslation(key = "main_menu_screen__habitability")
+    val scoreTranslation = getTranslation(key = "main_menu_screen__score")
 
     val typography = LocalTypography.current
 
@@ -118,6 +120,14 @@ internal fun LearnMenu(
                 style = typography.headlineMedium,
             )
         }
+        item {
+            Text(
+                modifier = Modifier
+                    .clickable { onScoreClick() },
+                text = scoreTranslation,
+                style = typography.headlineMedium,
+            )
+        }
     }
 }
 
@@ -157,6 +167,10 @@ private fun LearnMenuPreview() = AppTheme {
             Translation(
                 key = "main_menu_screen__habitability",
                 value = "Habitability"
+            ),
+            Translation(
+                key = "main_menu_screen__score",
+                value = "Score Formula"
             ),
             Translation(
                 key = "main_menu_screen__mechanics",

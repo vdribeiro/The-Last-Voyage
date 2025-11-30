@@ -9,6 +9,7 @@ internal sealed interface HelpAction {
     data object PlanetType: HelpAction
     data object Mechanics: HelpAction
     data object Habitability: HelpAction
+    data object Score: HelpAction
     data class VersionClick(val reset: Boolean): HelpAction
 }
 
@@ -28,4 +29,5 @@ internal enum class Content {
     PLANET_DEFINITION,
     PLANET_TYPE,
     HABITABILITY,
+    SCORE
 }

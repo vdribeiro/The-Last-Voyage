@@ -46,7 +46,8 @@ internal class HelpStore(
             Content.HOST_TYPE,
             Content.PLANET_DEFINITION,
             Content.PLANET_TYPE,
-            Content.HABITABILITY -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
+            Content.HABITABILITY,
+            Content.SCORE -> updateState { it.copy(currentContent = Content.LEARN_MENU) }
         }
     }
 
@@ -59,6 +60,7 @@ internal class HelpStore(
             HelpAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
             HelpAction.PlanetType -> updateState { it.copy(currentContent = Content.PLANET_TYPE) }
             HelpAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
+            HelpAction.Score -> updateState { it.copy(currentContent = Content.SCORE) }
             HelpAction.Mechanics -> navigate(screen = Tutorial())
             is HelpAction.VersionClick -> versionClick(action = action)
         }

@@ -40,8 +40,6 @@ internal class MainMenuStore(
     private fun newGame(): Job = launch {
         Telemetry.info(tag = TAG, message = "New game")
         if (!config.preferences.value.showTutorial) navigate(screen = Screen.NewGame) else {
-            Telemetry.info(tag = TAG, message = "Show tutorial")
-            config.setPreferences { it.copy(showTutorial = false) }
             navigate(screen = Screen.Tutorial(newGame = true))
         }
     }

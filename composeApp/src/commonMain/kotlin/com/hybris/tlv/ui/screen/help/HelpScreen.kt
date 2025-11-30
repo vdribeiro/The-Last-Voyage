@@ -101,6 +101,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 onPlanetDefinitionClick = { store.send(action = HelpAction.PlanetDefinition) },
                 onPlanetTypesClick = { store.send(action = HelpAction.PlanetType) },
                 onHabitabilityClick = { store.send(action = HelpAction.Habitability) },
+                onScoreClick = { store.send(action = HelpAction.Score) },
                 onMechanicsClick = { store.send(action = HelpAction.Mechanics) }
             )
 
@@ -210,6 +211,17 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                     }
                 }
             )
+
+            Content.SCORE -> PropertyList(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
+                title = getTranslation(key = "main_menu_screen__score"),
+                properties = score,
+                id = { it.id },
+                description = { it.description },
+                leadingImage = { it.image }
+            )
         }
     }
 }
@@ -248,7 +260,6 @@ private val navigation = listOf(
         icon = { Icon(imageVector = Icons.Default.BugReport) },
     )
 )
-
 private val panel = listOf(
     Property(
         id = "help_screen__control_panel_search",
@@ -291,7 +302,6 @@ private val panel = listOf(
         icon = { Icon(imageVector = Icons.Default.Visibility) }
     )
 )
-
 private val hostType = listOf(
     Property(
         id = "stellar_host_type_o",
@@ -369,7 +379,6 @@ private val hostType = listOf(
         image = "?".spectralTypeToImage()
     )
 )
-
 private val planetType = listOf(
     Property(
         id = "planet_type_terrestrial_planet",
@@ -572,7 +581,6 @@ private val planetType = listOf(
         image = PlanetType.UNKNOWN.toImage()
     )
 )
-
 private val hostProperty = listOf(
     Property(
         id = "stellar_host_name",
@@ -643,7 +651,6 @@ private val hostProperty = listOf(
         description = "stellar_host_distance_description",
     )
 )
-
 private val planetProperty = listOf(
     Property(
         id = "planet_name",
@@ -702,7 +709,6 @@ private val planetProperty = listOf(
         description = "planet_obliquity_description",
     )
 )
-
 private val habitability = listOf(
     Property(
         id = "habitability",
@@ -772,6 +778,12 @@ private val habitability = listOf(
         id = "habitability_star_effective_temperature",
         description = "habitability_star_effective_temperature_description",
     )
+)
+private val score = listOf(
+    Property(
+        id = "habitability",
+        description = "habitability_description",
+    ),
 )
 
 @Preview
