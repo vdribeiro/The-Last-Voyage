@@ -3161,8 +3161,23 @@
   },
   {
     "languageIso": "en",
-    "key": "tutorial_screen__mechanics_settle",
-    "value": "\nWhen settling on a planet the habitability modifier is taken into account plus the ship's stats and resources. You can either survive in a primitive state, defy the odds or perfectly settle on a new world.There are special cases where you can defy the odds with insufficient materials but enough population, if you have plenty of fuel to use the engine as a makeshift energy source, or ship integrity to cannibalize the ship for materials.\n• Uninhabitable Worlds (below 40%): Instant failure.\n• Harsh Worlds (41-60%): Require significant resources (300 materials + 200 cryopods).\n• Tolerable Worlds (61-80%): Require moderate resources (100 materials + 100 cryopods).\n• Paradise Worlds (81-100%): Are the easiest to colonize (50 materials + 50 cryopods).\n• Score = Base Score * Challenge Multiplier * Game Over Multiplier\n• Base Score = (Cryopods * 100) + (Materials * 2) + (fuel * 1) + (Years Traveled * 5)\n• Challenge Multiplier = 1.0 + (15 - Assigned Points) + 0.05\n• \nGame Over Multiplier is based on several factors: 0.25 if the ship disintegrates, runs out of fuel or you don't leave the Solar System;"
+    "key": "help_screen__score_formula",
+    "value": "Score"
+  },
+  {
+    "languageIso": "en",
+    "key": "help_screen__score_formula_description",
+    "value": "Score = Base * Challenge Multiplier * Game Over Multiplier\n• Base Score = (Cryopods * %1$s) + (fuel * %2$s) + (Materials * %3$s) + (Years Traveled * %3$s)\n• Challenge Multiplier = 1.0 + (15 - Assigned Points) + 0.05\n• Game Over Multiplier is based on several factors: 0.25 if the ship disintegrates, runs out of fuel or you don't leave the Solar System; When settling on a planet this becomes the Habitability Modifier."
+  },
+  {
+    "languageIso": "en",
+    "key": "help_screen__score_habitability",
+    "value": "Habitability Modifier"
+  },
+  {
+    "languageIso": "en",
+    "key": "help_screen__score_habitability_description",
+    "value": ". You can either survive in a primitive state, defy the odds or perfectly settle on a new world.\\n\"\n\n• Uninhabitable Worlds (below 40%): Instant failure.\n• Harsh Worlds (41-60%): Require significant resources (300 materials + 200 cryopods).\n• Tolerable Worlds (61-80%): Require moderate resources (100 materials + 100 cryopods).\n• Paradise Worlds (81-100%): Are the easiest to colonize (50 materials + 50 cryopods).\nThere are special cases where you can defy the odds with insufficient materials but enough population, if you have plenty of fuel to use the engine as a makeshift energy source, or ship integrity to cannibalize the ship for materials."
   },
   {
     "languageIso": "en",

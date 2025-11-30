@@ -27,6 +27,7 @@ internal inline fun <T> TravelList(
     crossinline spectralImage: (T) -> ImageResource? = { null },
     crossinline distance: (T) -> Double? = { null },
     crossinline onClick: (T) -> Unit = {},
+    noinline footer: (@Composable () -> Unit)? = null
 ) {
     LazyColumn(
         modifier = modifier,
@@ -44,6 +45,8 @@ internal inline fun <T> TravelList(
                 distance = distance(stellarHost),
             )
         }
+
+        if (footer != null) item { footer() }
     }
 }
 

@@ -6,6 +6,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -201,7 +202,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                         val typography = LocalTypography.current
                         val colorScheme = LocalColorScheme.current
                         Text(
-                            modifier = Modifier.clickable { uriHandler.open(uri = formula) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { uriHandler.open(uri = formula) },
                             text = formulaTranslation,
                             style = typography.headlineSmall.copy(
                                 color = colorScheme.primary,
@@ -219,8 +222,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 title = getTranslation(key = "main_menu_screen__score"),
                 properties = score,
                 id = { it.id },
-                description = { it.description },
-                leadingImage = { it.image }
+                description = { it.description }
             )
         }
     }
@@ -781,8 +783,12 @@ private val habitability = listOf(
 )
 private val score = listOf(
     Property(
-        id = "habitability",
-        description = "habitability_description",
+        id = "help_screen__score_formula",
+        description = "help_screen__score_formula_description",
+    ),
+    Property(
+        id = "help_screen__score_habitability",
+        description = "help_screen__score_habitability_description",
     ),
 )
 

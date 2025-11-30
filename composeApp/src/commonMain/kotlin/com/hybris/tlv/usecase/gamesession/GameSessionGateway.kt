@@ -110,15 +110,14 @@ internal class GameSessionGateway(
     override suspend fun score(gameSession: GameSession, gameOver: GameOver): GameSession = withContext(context = Dispatcher.IO) {
         val ship = gameSession.ship
 
-        // Base Score = Cryopod Score + Resource Score + Journey Score
-        val cryopodScore = ship.cryopods * 100
-        val resourceScore = ship.materials * 2 + ship.fuel * 1
-        val journeyScore = ship.yearsTraveled * 5
-        val baseScore = cryopodScore + resourceScore + journeyScore
-
+        // Base Score = Cryopod Score + Fuel Score + Materials Score + Journey Score
+        val cryopodScore = ship.cryopods * CRYOPODS_MULTIPLIER
+        val fuelScore = ship.fuel * FUEL_MULTIPLIER
+        val materialsScore = ship.materials * MATERIALS_MULTIPLIER
+        val journeyScore = ship.yearsTraveled * YEARS_MULTIPLIER
+        val baseScore = cryopodScore + fuelScore + materialsScore + journeyScore
         // Challenge Multiplier
         val challengeMultiplier = (1.0 + (15 - ship.assignedPoints) + 0.05).coerceIn(minimumValue = 0.01, maximumValue = 10.0)
-
         // Game Over Multiplier
         val gameOverMultiplier = getGameOverMultiplier(gameOver = gameOver)
 
@@ -541,6 +540,10 @@ internal class GameSessionGateway(
     }
 
     companion object {
+        private const val CRYOPODS_MULTIPLIER = 10
+        private const val FUEL_MULTIPLIER = 5
+        private const val MATERIALS_MULTIPLIER = 2
+        private const val YEARS_MULTIPLIER = 5
         private const val INTEGRITY_HIGH = 80
         private const val INTEGRITY_MID = 50
         private const val INTEGRITY_LOW = 20

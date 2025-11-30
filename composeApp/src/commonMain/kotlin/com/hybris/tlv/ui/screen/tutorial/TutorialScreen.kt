@@ -215,14 +215,13 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     spectralType = { "M5.5V" },
                     spectralImage = { "M5.5V".spectralTypeToImage() },
                     distance = { 4.24 },
-                )
-                Spacer(modifier = Modifier.height(height = 16.dp))
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(state = rememberScrollState()),
-                    text = getTranslation(key = "tutorial_screen__mechanics_travel_description"),
-                    style = typography.bodyLarge
+                    footer = {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = getTranslation(key = "tutorial_screen__mechanics_travel_description"),
+                            style = typography.bodyLarge
+                        )
+                    }
                 )
             }
 
@@ -244,7 +243,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     stellarHostMass = 1.0,
                     stellarHostAge = 4.6,
                     planets = listOf("mars"),
-                    planetName = { "Mars"},
+                    planetName = { "Mars" },
                     planetRadius = { 0.532 },
                     planetMass = { 0.107 },
                     planetDensity = { 3.934 },
@@ -252,15 +251,14 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     planetHabitability = { 0.8 },
                     planetType = { PlanetType.EARTH_LIKE_PLANET.displayName },
                     planetImage = { PlanetType.EARTH_LIKE_PLANET.toImage() },
-                    onClick = { store.send(action = TutorialAction.Next) }
-                )
-                Spacer(modifier = Modifier.height(height = 16.dp))
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(state = rememberScrollState()),
-                    text = getTranslation(key = "tutorial_screen__mechanics_system_description"),
-                    style = typography.bodyLarge
+                    onClick = { store.send(action = TutorialAction.Next) },
+                    footer = {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = getTranslation(key = "tutorial_screen__mechanics_system_description"),
+                            style = typography.bodyLarge
+                        )
+                    }
                 )
             }
 

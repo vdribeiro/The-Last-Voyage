@@ -47,7 +47,8 @@ internal inline fun <T> SystemList(
     crossinline planetHabitability: (T) -> Double? = { null },
     crossinline planetType: (T) -> String? = { null },
     crossinline planetImage: (T) -> ImageResource? = { null },
-    crossinline onClick: (T) -> Unit = {}
+    crossinline onClick: (T) -> Unit = {},
+    noinline footer: (@Composable () -> Unit)? = null
 ) {
     var planetToSettle: T? by remember { mutableStateOf(value = null) }
 
@@ -91,6 +92,8 @@ internal inline fun <T> SystemList(
                 image = planetImage(planet)
             )
         }
+
+        if (footer != null) item { footer() }
     }
 }
 
