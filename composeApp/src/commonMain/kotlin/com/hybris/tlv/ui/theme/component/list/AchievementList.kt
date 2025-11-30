@@ -35,19 +35,19 @@ internal inline fun <T> AchievementList(
 
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(height = 8.dp))
         Text(
+            modifier = Modifier
+                .padding(bottom = 16.dp),
             text = titleTranslation,
             style = typography.headlineMedium,
         )
-        Spacer(modifier = Modifier.height(height = 16.dp))
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
             items(items = achievements, key = id) { achievement ->

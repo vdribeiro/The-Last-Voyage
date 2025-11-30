@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -45,23 +46,25 @@ internal fun CheatSheet(
 
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(height = 8.dp))
         Text(
+            modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
             text = titleTranslation,
             style = typography.headlineMedium,
         )
-        Spacer(modifier = Modifier.height(height = 16.dp))
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(all = 16.dp),
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
             item {
                 Toggle(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     text = integrityTranslation,
                     checked = integrity,
                     onCheckedChange = { onIntegrityClick() }
@@ -69,6 +72,9 @@ internal fun CheatSheet(
             }
             item {
                 Toggle(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     text = sensorRangeTranslation,
                     checked = sensorRange,
                     onCheckedChange = { onSensorRangeClick() }
@@ -76,6 +82,9 @@ internal fun CheatSheet(
             }
             item {
                 Toggle(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     text = fuelTranslation,
                     checked = fuel,
                     onCheckedChange = { onFuelClick() }
@@ -83,6 +92,9 @@ internal fun CheatSheet(
             }
             item {
                 Toggle(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     text = materialsTranslation,
                     checked = materials,
                     onCheckedChange = { onMaterialsClick() }
@@ -90,6 +102,9 @@ internal fun CheatSheet(
             }
             item {
                 Toggle(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     text = cryopodsTranslation,
                     checked = cryopods,
                     onCheckedChange = { onCryopodsClick() }

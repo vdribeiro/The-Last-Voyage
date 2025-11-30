@@ -52,6 +52,7 @@ internal fun MainBar(
                 .clickable { uriHandler.open(uri = developerCornerUri) },
             text = websiteTranslation,
             style = typography.labelLarge,
+            textAlign = TextAlign.Start
         )
         if (!isIos) {
             Image(
@@ -74,7 +75,7 @@ internal fun MainBar(
                 .clickable(onClick = onCreditsClick),
             text = creditsTranslation,
             style = typography.labelLarge,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.End
         )
     }
 }

@@ -12,4 +12,5 @@
     rm Podfile.lock
     pod install
 # Compile
-    ./gradlew clean bundleRelease packageDmg
+    ./gradlew clean bundleRelease
+    ./gradlew clean packageDmg

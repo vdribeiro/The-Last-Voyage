@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -52,22 +53,21 @@ internal inline fun <T> ScoreList(
 
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(height = 8.dp))
         Text(
+            modifier = Modifier
+                .padding(bottom = 16.dp),
             text = titleTranslation,
             style = typography.headlineMedium,
         )
-        Spacer(modifier = Modifier.height(height = 16.dp))
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize(),
-            contentPadding = PaddingValues(all = 16.dp),
             horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(space = 12.dp)
+            verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
-            // Scores
             items(items = scores, key = id) { score ->
                 val scoreId = id(score)
                 Score(
