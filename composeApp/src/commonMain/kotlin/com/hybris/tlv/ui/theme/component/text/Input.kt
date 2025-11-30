@@ -26,8 +26,7 @@ internal fun Input(
     leadingIcon: (@Composable () -> Unit)? = null,
 ) {
     OutlinedTextField(
-        modifier = modifier
-            .defaultMinSize(minHeight = 60.dp),
+        modifier = modifier,
         enabled = enabled,
         value = value,
         onValueChange = onValueChange,

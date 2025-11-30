@@ -50,7 +50,8 @@ internal fun CheatSheet(
         verticalArrangement = Arrangement.Top
     ) {
         Text(
-            modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
+            modifier = Modifier
+                .padding(bottom = 16.dp),
             text = titleTranslation,
             style = typography.headlineMedium,
         )

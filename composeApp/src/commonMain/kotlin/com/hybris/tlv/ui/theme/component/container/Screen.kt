@@ -40,7 +40,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 @Composable
 internal fun Screen(
     modifier: Modifier = Modifier,
-    contentAlignment: Alignment = Alignment.Center,
+    contentAlignment: Alignment = Alignment.TopStart,
     loading: Boolean = false,
     loadingDelayMillis: Long = 300L,
     loadingMinDisplayTimeMillis: Long = 800L,
@@ -102,6 +102,7 @@ internal fun Screen(
             )
             when (showLoading) {
                 true -> AppLogo(
+                    modifier = Modifier.align(alignment = Alignment.Center),
                     showBackground = loadingBackground,
                     showProgress = true,
                     progress = loadingProgress,

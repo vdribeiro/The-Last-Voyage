@@ -4,6 +4,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
@@ -50,36 +51,30 @@ internal fun Feedback(
     val typography = LocalTypography.current
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .imePadding()
             .verticalScroll(state = rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Column(
-            modifier = modifier.padding(bottom = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Icon(
-                modifier = Modifier.size(size = 64.dp),
-                imageVector = Icons.Outlined.BugReport,
-                contentDescription = "Feedback Icon",
-            )
-            Text(
-                modifier = Modifier.padding(
-                    top = 16.dp,
-                    bottom = 8.dp
-                ),
-                text = titleTranslation,
-                style = typography.titleLarge
-            )
-            Text(
-                text = descriptionTranslation,
-                style = typography.bodyLarge,
-                textAlign = TextAlign.Center,
-            )
-        }
-
+        Icon(
+            modifier = Modifier
+                .size(size = 64.dp),
+            imageVector = Icons.Outlined.BugReport,
+            contentDescription = "Feedback Icon",
+        )
+        Text(
+            modifier = Modifier
+                .padding(top = 16.dp, bottom = 16.dp),
+            text = titleTranslation,
+            style = typography.titleLarge
+        )
+        Text(
+            modifier = Modifier
+                .padding(bottom = 16.dp),
+            text = descriptionTranslation,
+            style = typography.bodyLarge,
+            textAlign = TextAlign.Center,
+        )
         Input(
             modifier = Modifier
                 .fillMaxWidth()
@@ -88,14 +83,12 @@ internal fun Feedback(
             value = feedbackText,
             onValueChange = { feedbackText = it },
         )
-        Spacer(modifier = Modifier.height(height = 24.dp))
-
+        Spacer(modifier = Modifier.height(height = 16.dp))
         Button(
             enabled = feedbackText.isNotBlank() && !showThanks,
             text = buttonTranslation,
             onClick = { sendFeedback(feedbackText) },
         )
-
         if (showThanks) {
             // Thank you message
             Spacer(modifier = Modifier.height(height = 16.dp))
