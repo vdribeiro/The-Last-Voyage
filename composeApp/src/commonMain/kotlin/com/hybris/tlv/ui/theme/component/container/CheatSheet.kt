@@ -46,7 +46,7 @@ internal fun CheatSheet(
 
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
         Text(

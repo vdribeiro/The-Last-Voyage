@@ -3,6 +3,9 @@ package com.hybris.tlv.ui.theme.component.container
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -10,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.card.Card
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
@@ -41,92 +45,168 @@ internal fun LearnMenu(
     val scoreTranslation = getTranslation(key = "main_menu_screen__score")
 
     val typography = LocalTypography.current
-
-    LazyColumn(
+    Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        scrollBar = false
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Top
     ) {
-        item {
-            Text(
-                modifier = Modifier
-                    .padding(all = 16.dp),
-                text = helpTranslation,
-                style = typography.displaySmall,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onNavigationClick() },
-                text = navigationTranslation,
-                style = typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onPanelClick() },
-                text = panelTranslation,
-                style = typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onMechanicsClick() },
-                text = mechanicsTranslation,
-                style = typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onHostDefinitionClick() },
-                text = hostDefinitionTranslation,
-                style = typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onHostTypesClick() },
-                text = hostTypesTranslation,
-                style = typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onPlanetDefinitionClick() },
-                text = planetDefinitionTranslation,
-                style = typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onPlanetTypesClick() },
-                text = planetTypesTranslation,
-                style = typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onHabitabilityClick() },
-                text = habitabilityTranslation,
-                style = typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onScoreClick() },
-                text = scoreTranslation,
-                style = typography.headlineMedium,
-            )
+        Text(
+            modifier = Modifier
+                .padding(bottom = 16.dp),
+            text = helpTranslation,
+            style = typography.headlineMedium,
+        )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+            scrollBar = false
+        ) {
+            item {
+                Card(modifier = Modifier.clickable { onNavigationClick() }) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 16.dp),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.Start,
+                    ) {
+                        Text(
+                            text = navigationTranslation,
+                            style = typography.headlineSmall,
+                        )
+                    }
+                }
+            }
+            item {
+                Card(modifier = Modifier.clickable { onPanelClick() }) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 16.dp),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.Start,
+                    ) {
+                        Text(
+                            text = panelTranslation,
+                            style = typography.headlineSmall,
+                        )
+                    }
+                }
+            }
+            item {
+                Card(modifier = Modifier.clickable { onMechanicsClick() }) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 16.dp),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.Start,
+                    ) {
+                        Text(
+                            text = mechanicsTranslation,
+                            style = typography.headlineSmall,
+                        )
+                    }
+                }
+            }
+            item {
+                Card(modifier = Modifier.clickable { onHostDefinitionClick() }) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 16.dp),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.Start,
+                    ) {
+                        Text(
+                            text = hostDefinitionTranslation,
+                            style = typography.headlineSmall,
+                        )
+                    }
+                }
+            }
+            item {
+                Card(modifier = Modifier.clickable { onHostTypesClick() }) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 16.dp),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.Start,
+                    ) {
+                        Text(
+                            text = hostTypesTranslation,
+                            style = typography.headlineSmall,
+                        )
+                    }
+                }
+            }
+            item {
+                Card(modifier = Modifier.clickable { onPlanetDefinitionClick() }) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 16.dp),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.Start,
+                    ) {
+                        Text(
+                            text = planetDefinitionTranslation,
+                            style = typography.headlineSmall,
+                        )
+                    }
+                }
+            }
+            item {
+                Card(modifier = Modifier.clickable { onPlanetTypesClick() }) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 16.dp),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.Start,
+                    ) {
+                        Text(
+                            text = planetTypesTranslation,
+                            style = typography.headlineSmall,
+                        )
+                    }
+                }
+            }
+            item {
+                Card(modifier = Modifier.clickable { onHabitabilityClick() }) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 16.dp),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.Start,
+                    ) {
+                        Text(
+                            text = habitabilityTranslation,
+                            style = typography.headlineSmall,
+                        )
+                    }
+                }
+            }
+            item {
+                Card(modifier = Modifier.clickable { onScoreClick() }) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 16.dp),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.Start,
+                    ) {
+                        Text(
+                            text = scoreTranslation,
+                            style = typography.headlineSmall,
+                        )
+                    }
+                }
+            }
         }
     }
 }

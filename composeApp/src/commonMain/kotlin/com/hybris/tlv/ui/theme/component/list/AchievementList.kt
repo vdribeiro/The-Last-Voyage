@@ -35,7 +35,7 @@ internal inline fun <T> AchievementList(
 
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
         Text(

@@ -2,6 +2,9 @@ package com.hybris.tlv.ui.theme.component.container
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,34 +37,36 @@ internal inline fun <T> PropertyList(
 ) {
     val typography = LocalTypography.current
 
-    LazyColumn(
+    Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Top
     ) {
-        title?.let {
-            item {
-                Text(
-                    text = it,
-                    style = typography.headlineMedium,
-                    fontWeight = FontWeight.Bold,
+        Text(
+            modifier = Modifier
+                .padding(bottom = 16.dp),
+            text = title,
+            style = typography.headlineMedium,
+        )
+        if (header != null) header()
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+        ) {
+            items(items = properties, key = id) { property ->
+                PropertyCard(
+                    name = id(property),
+                    description = description(property),
+                    leadingImage = leadingImage(property),
+                    icon = icon(property),
+                    trailingIcon = trailingIcon(property)
                 )
             }
+
+            if (footer != null) item { footer() }
         }
-
-        if (header != null) item { header() }
-
-        items(items = properties, key = id) { property ->
-            PropertyCard(
-                name = id(property),
-                description = description(property),
-                leadingImage = leadingImage(property),
-                icon = icon(property),
-                trailingIcon = trailingIcon(property)
-            )
-        }
-
-        if (footer != null) item { footer() }
     }
 }
 

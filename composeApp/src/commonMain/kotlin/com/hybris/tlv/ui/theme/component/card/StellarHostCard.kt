@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -89,7 +90,8 @@ internal fun StellarHostCard(
     Card(modifier = modifier) {
         Row(
             modifier = Modifier
-                .padding(all = 12.dp),
+                .fillMaxWidth()
+                .padding(all = 16.dp),
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.Start
         ) {

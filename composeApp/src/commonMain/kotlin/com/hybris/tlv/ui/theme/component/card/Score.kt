@@ -78,11 +78,11 @@ internal fun Score(
                 Text(
                     modifier = Modifier.weight(weight = 1f),
                     text = utc,
-                    style = typography.titleLarge,
+                    style = typography.bodyLarge,
                 )
                 Text(
                     text = score?.roundTo(decimalPlaces = 2)?.toString(),
-                    style = typography.titleLarge,
+                    style = typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
                     color = colorScheme.primary
                 )

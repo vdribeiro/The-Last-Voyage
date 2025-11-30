@@ -53,7 +53,7 @@ internal inline fun <T> ScoreList(
 
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
         Text(
