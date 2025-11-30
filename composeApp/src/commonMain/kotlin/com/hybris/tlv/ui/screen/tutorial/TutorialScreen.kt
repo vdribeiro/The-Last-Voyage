@@ -217,7 +217,9 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     distance = { 4.24 },
                     footer = {
                         Text(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(all = 8.dp),
                             text = getTranslation(key = "tutorial_screen__mechanics_travel_description"),
                             style = typography.bodyLarge
                         )
@@ -254,7 +256,9 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     onClick = { store.send(action = TutorialAction.Next) },
                     footer = {
                         Text(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(all = 8.dp),
                             text = getTranslation(key = "tutorial_screen__mechanics_system_description"),
                             style = typography.bodyLarge
                         )

@@ -790,6 +790,10 @@ private val score = listOf(
         id = "help_screen__score_habitability",
         description = "help_screen__score_habitability_description",
     ),
+    Property(
+        id = "help_screen__score_habitability_requirements",
+        description = "help_screen__score_habitability_requirements_description",
+    ),
 )
 
 @Preview
