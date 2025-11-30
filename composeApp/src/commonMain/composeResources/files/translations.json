@@ -3167,7 +3167,7 @@
   {
     "languageIso": "en",
     "key": "help_screen__score_formula_description",
-    "value": "Score = Base * Challenge Multiplier * Game Over Multiplier\n• Base Score = (Cryopods * 10) + (fuel * 5) + (Materials * 2) + (Years Traveled * 5)\n• Challenge Multiplier = 1.0 + (15 - Assigned Points) + 0.05\n• Game Over Multiplier is based on several factors: 0.25 if the ship disintegrates, runs out of fuel or you don't leave the Solar System; When settling on a planet this becomes the Habitability Modifier which also takes into account the resources."
+    "value": "Score = Base Score * Challenge Multiplier * Game Over Multiplier\n• Base Score = (Cryopods * 10) + (fuel * 5) + (Materials * 2) + (Years Traveled * 5)\n• Challenge Multiplier = 1.0 + (15 - Assigned Points) + 0.05\n• Game Over Multiplier is based on several factors: 0.25 if the ship disintegrates, runs out of fuel or you don't leave the Solar System; When settling on a planet this becomes the Habitability Modifier which also takes into account the resources."
   },
   {
     "languageIso": "en",
@@ -3177,7 +3177,7 @@
   {
     "languageIso": "en",
     "key": "help_screen__score_habitability_description",
-    "value": "• Deadly Worlds (below 20%): 0.25 and instant failure.\n• Uninhabitable Worlds (below 21-40%): 0.5 and also instant failure.\n• Harsh Worlds (41-60%): 0.75 but requires significant resources to survive (300 materials + 200 cryopods). A bonus modifier of 1.0 can be applied (see exceptions).\n• Tolerable Worlds (61-80%): 1.25 but require moderate resources to not end up in a primitive state (100 materials + 100 cryopods). A bonus modifier of 1.5, 1.75 or 2.0 can be applied (see exceptions).\n• Paradise Worlds (81-100%): 2.25 and are the easiest to colonize (50 materials + 50 cryopods). Worst case scenario, you end up in a primitive state."
+    "value": "• Deadly Worlds (below 20%): 0.25 and instant failure.\n• Uninhabitable Worlds (below 21-40%): 0.5 and also instant failure.\n• Harsh Worlds (41-60%): 0.75 but requires significant resources to survive (300 materials + 200 cryopods). A bonus modifier of 1.0 can be applied (see exceptions).\n• Tolerable Worlds (61-80%): 1.25 but require moderate resources to survive (100 materials + 100 cryopods). A bonus modifier of 1.5, 1.75 or 2.0 can be applied (see exceptions).\n• Paradise Worlds (81-100%): 2.25 and are the easiest to colonize (50 materials + 50 cryopods). Worst case scenario, you end up in a primitive state."
   },
   {
     "languageIso": "en",
@@ -3187,7 +3187,7 @@
   {
     "languageIso": "en",
     "key": "help_screen__score_habitability_requirements_description",
-    "value": "There are special cases where you can defy the odds with insufficient materials but enough population, if you have plenty of fuel to use the engine as a makeshift energy source, or ship integrity to cannibalize the ship for materials. In some worlds with enough habitability you also survive in a primitive state if the resources are insufficient."
+    "value": "There are special cases where you can defy the odds with insufficient materials but enough population, if you have plenty of fuel to use the engine as a makeshift energy source, or ship integrity to cannibalize the ship for materials. In some worlds with enough habitability you can also survive in a primitive state if the resources are insufficient.\nConversely, if you have an abundance of resources on a habitable planet, you will also get a bonus modifier."
   },
   {
     "languageIso": "en",
