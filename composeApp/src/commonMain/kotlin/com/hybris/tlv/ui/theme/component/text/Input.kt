@@ -3,7 +3,6 @@ package com.hybris.tlv.ui.theme.component.text
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.LocalTextStyle
