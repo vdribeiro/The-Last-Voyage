@@ -49,7 +49,6 @@ internal fun HelpBar(
         )
     }
 
-
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,

@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.screen.splash
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -37,6 +38,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
                     Content.INTRO -> store.send(action = SplashAction.Next)
                 }
             },
+        contentAlignment = Alignment.Center,
         loading = storeState.loading,
         loadingDelayMillis = 0L,
         loadingText = loadingTranslation,
@@ -46,9 +48,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
         when (currentContent) {
             Content.SPLASH -> {}
             Content.INTRO -> FadeInText(
-                modifier = Modifier
-                    .padding(all = 16.dp)
-                    .align(alignment = Alignment.Center),
+                modifier = Modifier.padding(all = 16.dp),
                 text = getTranslation(key = "splash_screen__intro")
             )
         }
