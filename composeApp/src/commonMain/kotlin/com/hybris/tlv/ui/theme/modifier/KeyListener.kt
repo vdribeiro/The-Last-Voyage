@@ -21,7 +21,7 @@ import androidx.compose.ui.input.key.type
 @Composable
 internal fun rememberKeySequence(
     sequence: List<Key>,
-    delay: Long = 1500L,
+    delay: Long = 2000L,
     onSequenceComplete: () -> Unit
 ): (KeyEvent) -> Boolean {
     var progress by remember { mutableStateOf(value = 0) }

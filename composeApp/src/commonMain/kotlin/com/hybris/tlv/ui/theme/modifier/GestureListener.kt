@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
  */
 internal fun Modifier.onGesture(
     sequence: List<Gesture>,
-    delay: Long = 1500L,
+    delay: Long = 2000L,
     thresholdDp: Dp = 60.dp,
     leniency: Double = 2.0,
     onSequenceComplete: () -> Unit
