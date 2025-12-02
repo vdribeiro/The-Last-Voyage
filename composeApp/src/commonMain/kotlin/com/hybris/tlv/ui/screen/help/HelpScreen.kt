@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.screen.help
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -66,12 +65,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
         onFeedbackClick = { store.feedback() },
         bottomBar = {
             if (currentContent == Content.LEARN_MENU) HelpBar(
-                modifier = Modifier
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null
-                    ) { store.send(action = HelpAction.VersionClick(reset = false)) }
-                    .padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp),
+                onVersionClick = { store.send(action = HelpAction.VersionClick(reset = false)) },
+                onResetClick = { store.send(action = HelpAction.Reset) }
             )
         },
         snackbarHost = {

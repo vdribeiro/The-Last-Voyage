@@ -31,6 +31,16 @@
   },
   {
     "languageIso": "en",
+    "key": "reset",
+    "value": "Reset"
+  },
+  {
+    "languageIso": "en",
+    "key": "reset_confirm",
+    "value": "Reset"
+  },
+  {
+    "languageIso": "en",
     "key": "konami_mobile",
     "value": "Swipe ↑ ↑ ↓ ↓ ← → ← → Tap Tap Tap"
   },

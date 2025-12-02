@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.store.Store
@@ -45,7 +46,9 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
         when (currentContent) {
             Content.SPLASH -> {}
             Content.INTRO -> FadeInText(
-                modifier = Modifier.padding(all = 16.dp),
+                modifier = Modifier
+                    .padding(all = 16.dp)
+                    .align(alignment = Alignment.Center),
                 text = getTranslation(key = "splash_screen__intro")
             )
         }

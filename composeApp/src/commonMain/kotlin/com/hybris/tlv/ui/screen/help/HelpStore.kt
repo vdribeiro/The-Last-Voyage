@@ -2,8 +2,10 @@ package com.hybris.tlv.ui.screen.help
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
+import com.hybris.tlv.TLV
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.Screen.Tutorial
 import com.hybris.tlv.ui.store.Store
 
@@ -37,6 +39,11 @@ internal class HelpStore(
         updateState { it.copy(showSnackbar = versionClick >= 5) }
     }
 
+    private fun reset(): Job = launch {
+        TLV.reset()
+        navigate(screen = Screen.Splash)
+    }
+
     override fun back(state: HelpState) {
         when (state.currentContent) {
             Content.LEARN_MENU -> super.back(state = state)
@@ -63,6 +70,7 @@ internal class HelpStore(
             HelpAction.Score -> updateState { it.copy(currentContent = Content.SCORE) }
             HelpAction.Mechanics -> navigate(screen = Tutorial())
             is HelpAction.VersionClick -> versionClick(action = action)
+            HelpAction.Reset -> reset()
         }
     }
 

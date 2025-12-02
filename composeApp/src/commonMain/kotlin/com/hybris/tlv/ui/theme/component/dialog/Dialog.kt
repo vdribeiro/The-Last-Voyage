@@ -17,6 +17,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 internal fun Dialog(
     modifier: Modifier = Modifier,
     title: String? = null,
+    text: String? = null,
     confirmText: String? = null,
     dismissText: String? = null,
     onConfirm: () -> Unit = {},
@@ -30,11 +31,22 @@ internal fun Dialog(
     AlertDialog(
         modifier = modifier,
         title = {
-            Text(
-                text = title,
-                textAlign = TextAlign.Center,
-                style = typography.titleLarge
-            )
+            title?.let {
+                Text(
+                    text = it,
+                    textAlign = TextAlign.Center,
+                    style = typography.titleLarge
+                )
+            }
+        },
+        text = {
+            text?.let {
+                Text(
+                    text = it,
+                    textAlign = TextAlign.Center,
+                    style = typography.bodyLarge
+                )
+            }
         },
         confirmButton = { Button(text = confirmText, onClick = onConfirm) },
         dismissButton = { Button(text = dismissText, onClick = onDismiss) },
@@ -57,5 +69,8 @@ private fun DialogPreview() = AppTheme {
             )
         )
     )
-    Dialog(title = "Title")
+    Dialog(
+        title = "Title",
+        text = "Text"
+    )
 }
