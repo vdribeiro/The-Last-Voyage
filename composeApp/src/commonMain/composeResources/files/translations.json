@@ -32,12 +32,12 @@
   {
     "languageIso": "en",
     "key": "reset",
-    "value": "Reset"
+    "value": "Reset Storage"
   },
   {
     "languageIso": "en",
     "key": "reset_confirm",
-    "value": "Reset"
+    "value": "Are you sure you wish to delete all data?"
   },
   {
     "languageIso": "en",
