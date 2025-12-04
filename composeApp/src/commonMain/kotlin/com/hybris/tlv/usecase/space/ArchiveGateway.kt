@@ -92,10 +92,7 @@ internal class ArchiveGateway(
                         k2PlanetsResult.planets).mergePlanets()
 
                 // Derive missing data
-                val planetMap = planets.groupBy { it.stellarHostId }
-                val derivedStellarHosts = DerivedData.derive(stellarHosts = stellarHosts.apply {
-                    forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) }
-                })
+                val derivedStellarHosts = DerivedData.derive(stellarHosts = stellarHosts.addPlanets(planets = planets))
                 val derivedPlanets = derivedStellarHosts.map { it.planets }.flatten()
 
                 // Strip member properties so only constructor properties are serialized

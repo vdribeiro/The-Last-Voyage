@@ -5,8 +5,13 @@ import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.PlanetSchema
 import com.hybris.tlv.database.StellarHostSchema
@@ -94,10 +99,20 @@ internal class SpaceGateway(
     }
 
     override suspend fun getExoplanets(): List<StellarHost> = withContext(context = Dispatcher.IO) {
-        val planetMap = planetDao.getPlanets().executeAsList().map { it.toPlanet() }.groupBy { it.stellarHostId }
-        stellarHostDao.getStellarHosts().executeAsList().map { it.toStellarHost() }.apply {
-            forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) }
-        }
+        val planets = planetDao.getPlanets().executeAsList().map { it.toPlanet() }
+        stellarHostDao.getStellarHosts().executeAsList().map { it.toStellarHost() }.addPlanets(planets = planets)
+    }
+
+    override fun observeHosts(): Flow<List<StellarHost>> {
+        val planetsFlow = planetDao.getPlanets()
+            .asFlow()
+            .mapToList(context = Dispatcher.IO)
+        val stellarHostsFlow = stellarHostDao.getStellarHosts()
+            .asFlow()
+            .mapToList(context = Dispatcher.IO)
+        return combine(flow = stellarHostsFlow, flow2 = planetsFlow) { stellarHosts, planets ->
+            stellarHosts.map { it.toStellarHost() }.addPlanets(planets = planets.map { it.toPlanet() })
+        }.flowOn(context = Dispatcher.Default)
     }
 
     override suspend fun getNearestStars(

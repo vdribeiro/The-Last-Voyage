@@ -6,7 +6,9 @@ import kotlin.math.round
 import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.usecase.space.formula.Constants.PARSEC
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY
+import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.PlanetType
+import com.hybris.tlv.usecase.space.model.StellarHost
 import thelastvoyage.composeapp.generated.resources.A
 import thelastvoyage.composeapp.generated.resources.B
 import thelastvoyage.composeapp.generated.resources.C
@@ -144,5 +146,10 @@ internal fun PlanetType?.toImage(): ImageResource =
         PlanetType.ELLIPSOID_PLANET -> ImageResource(path = "ellipsoid_planet.jpg", drawable = Res.drawable.ellipsoid_planet)
         PlanetType.UNKNOWN, null -> ImageResource(path = "barren_planet.jpg", drawable = Res.drawable.barren_planet)
     }
+
+internal fun List<StellarHost>.addPlanets(planets: List<Planet>): List<StellarHost> {
+    val planetMap = planets.groupBy { it.stellarHostId }
+    return apply { forEach { it.planets.addAll(elements = planetMap[it.id].orEmpty()) } }
+}
 
 internal const val SUN = "sol"

@@ -1,5 +1,6 @@
 package com.hybris.tlv.usecase.space
 
+import kotlinx.coroutines.flow.Flow
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 
@@ -24,6 +25,11 @@ internal interface SpaceUseCases {
      * Get exoplanets.
      */
     suspend fun getExoplanets(): List<StellarHost>
+
+    /**
+     * Observe exoplanets.
+     */
+    fun observeHosts(): Flow<List<StellarHost>>
 
     /**
      * Get the nearest [n] stellar hosts with planets of the given [stellarHost] by Euclidean distance excluding the [visited].
