@@ -66,10 +66,10 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     /**
      * Collects the upstream [Flow] in a lifecycle-aware manner, ensuring execution only occurs while the UI is actively observing the [stateFlow].
      * This function acts as a resource safeguard, bridging the gap between the [ViewModel] scope which can persist in the backstack and the UI lifecycle which pauses when hidden.
-     * It accepts a [timeout] in milliseconds which is a grace period to wait after the last subscriber disappears before cancelling the upstream flow. The reason for this is
-     * to keep the connection alive when the subscription count drops to zero temporarily (screen rotation, configuration changes, rapid navigation, etc...), preventing
-     * the flow from restarting unnecessarily.
-     * The suspending lambda [block] is executed on the [viewModelScope] whenever the upstream flow emits a value, which makes it safe for calling [updateState].
+     * The calling flow runs in the provided [context] and a [timeout] in milliseconds is used as a grace period to wait after the last subscriber disappears before cancelling the upstream flow.
+     * The reason for this is to keep the connection alive when the subscription count drops to zero temporarily (screen rotation, configuration changes, rapid navigation, etc...),
+     * preventing the flow from restarting unnecessarily.
+     * The suspending lambda [block] is executed on the [viewModelScope] whenever the upstream flow emits a value.
      * Finally, a [Job] is retuned representing the active collection logic, scoped to the [viewModelScope].
      */
     @OptIn(ExperimentalCoroutinesApi::class)

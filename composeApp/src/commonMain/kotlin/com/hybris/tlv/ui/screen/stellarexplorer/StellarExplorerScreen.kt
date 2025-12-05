@@ -8,11 +8,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTranslationState
@@ -32,7 +32,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExplorerAction>) {
-    val storeState by store.stateFlow.collectAsState()
+    val storeState by store.stateFlow.collectAsStateWithLifecycle()
     val currentContent = storeState.currentContent
     val listState = storeState.listState
     val visibleStellarHostProperties = storeState.visibleStellarHostProperties

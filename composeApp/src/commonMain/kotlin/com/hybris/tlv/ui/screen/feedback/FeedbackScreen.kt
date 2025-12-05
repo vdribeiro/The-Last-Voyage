@@ -4,10 +4,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Feedback
@@ -18,7 +18,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
-    val storeState by store.stateFlow.collectAsState()
+    val storeState by store.stateFlow.collectAsStateWithLifecycle()
 
     Screen(
         modifier = Modifier.clearFocus(),

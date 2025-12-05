@@ -19,7 +19,6 @@ import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.platform.isAndroid
 import com.hybris.tlv.platform.isDesktop
 import com.hybris.tlv.platform.isIos
@@ -55,7 +55,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
-    val storeState by store.stateFlow.collectAsState()
+    val storeState by store.stateFlow.collectAsStateWithLifecycle()
     val currentContent = storeState.currentContent
 
     Screen(

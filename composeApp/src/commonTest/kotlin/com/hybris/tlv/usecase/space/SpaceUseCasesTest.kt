@@ -4,6 +4,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.reset
 import com.hybris.tlv.stellarHosts
@@ -16,10 +17,10 @@ internal class SpaceUseCasesTest {
 
     @Test
     fun `sync and get exoplanets`() = runBlocking {
-        assertTrue(actual = useCases.space.getExoplanets().isEmpty())
+        assertTrue(actual = useCases.space.observeExoplanets().first().isEmpty())
         useCases.space.syncStellarHosts()
         useCases.space.syncPlanets()
-        val stellarHosts = useCases.space.getExoplanets()
+        val stellarHosts = useCases.space.observeExoplanets().first()
         assertTrue(actual = stellarHosts.isNotEmpty())
         assertTrue(actual = stellarHosts.map { it.planets }.flatten().isNotEmpty())
     }

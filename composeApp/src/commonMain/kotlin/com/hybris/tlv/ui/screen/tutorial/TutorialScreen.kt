@@ -10,11 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowRight
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -39,7 +39,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
-    val storeState by store.stateFlow.collectAsState()
+    val storeState by store.stateFlow.collectAsStateWithLifecycle()
     val ship = storeState.ship
     val currentContent = storeState.currentContent
 

@@ -5,12 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Screen
@@ -21,7 +21,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 
 @Composable
 internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
-    val storeState by store.stateFlow.collectAsState()
+    val storeState by store.stateFlow.collectAsStateWithLifecycle()
     val currentContent = storeState.currentContent
 
     val loadingTranslation = getTranslation(key = "splash_screen__loading")

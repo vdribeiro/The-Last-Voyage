@@ -106,7 +106,10 @@ internal fun getNewGameStore(): NewGameStore =
     )
 
 internal fun getTutorialStore(newGame: Boolean = false): TutorialStore =
-    TutorialStore(newGame = newGame)
+    TutorialStore(
+        newGame = newGame,
+        config = dependency.config
+    )
 
 internal fun getGameStore(ship: Ship? = com.hybris.tlv.ship): GameStore =
     GameStore(
