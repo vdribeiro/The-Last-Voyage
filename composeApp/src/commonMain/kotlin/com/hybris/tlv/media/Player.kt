@@ -2,19 +2,20 @@ package com.hybris.tlv.media
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import com.hybris.tlv.lifecycle.Register
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen
 
 @Composable
 internal fun AudioPlayer(
     audioPlayer: AudioPlayer,
-    navBackStackEntry: NavBackStackEntry?
+    destination: NavDestination?
 ) {
-    LaunchedEffect(key1 = navBackStackEntry) {
-        val playlist = getTracks(navBackStackEntry = navBackStackEntry)
-        if (playlist != null) audioPlayer.action(action = AudioPlayer.Action.Play(playlist = playlist))
+    val playlist = getTracks(destination = destination)
+    LaunchedEffect(key1 = playlist) {
+        audioPlayer.action(action = AudioPlayer.Action.Play(playlist = playlist))
     }
     Register(
         onBackground = { audioPlayer.action(action = AudioPlayer.Action.Pause) },
@@ -22,10 +23,9 @@ internal fun AudioPlayer(
     )
 }
 
-private fun getTracks(navBackStackEntry: NavBackStackEntry?): List<String>? {
-    val destination = navBackStackEntry?.destination ?: return null
-
-    return when {
+private fun getTracks(destination: NavDestination?): List<String>? = runCatching {
+    when {
+        destination == null -> null
         destination.hasRoute<Screen.Splash>() ||
                 destination.hasRoute<Screen.MainMenu>() ||
                 destination.hasRoute<Screen.NewGame>() ||
@@ -53,4 +53,6 @@ private fun getTracks(navBackStackEntry: NavBackStackEntry?): List<String>? {
 
         else -> null
     }
-}
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to get tracks", throwable = it) }.getOrNull()
+
+private const val TAG = "AudioPlayer"

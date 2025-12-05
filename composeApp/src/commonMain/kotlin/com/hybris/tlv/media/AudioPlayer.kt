@@ -10,7 +10,7 @@ internal open class AudioPlayer {
     protected var playlist = listOf<String>()
 
     sealed interface Action {
-        data class Play(val playlist: List<String>): Action
+        data class Play(val playlist: List<String>?): Action
         data object Pause: Action
         data object Resume: Action
         data object Toggle: Action
@@ -20,8 +20,11 @@ internal open class AudioPlayer {
         runCatching {
             when (action) {
                 is Action.Play -> {
+                    // Check if the playlist is not the same as the current playlist
+                    if (action.playlist == null) return@runCatching
                     val sortedPlaylist = action.playlist.sorted()
                     if (playlist.sorted() == sortedPlaylist) return@runCatching
+                    // Play
                     playlist = sortedPlaylist.shuffled()
                     stop()
                     play()

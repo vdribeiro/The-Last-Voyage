@@ -25,7 +25,6 @@ internal fun App(
     audioPlayer: AudioPlayer
 ) = AppTheme {
     val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     Navigation(
         modifier = modifier,
@@ -34,7 +33,7 @@ internal fun App(
         useCases = useCases
     )
 
-    LaunchedEffect(key1 = navBackStackEntry) {
+    LaunchedEffect(key1 = Unit) {
         commandChannel.receiveAsFlow().collect { command ->
             when (command) {
                 is Command.Navigate -> navController.navigate(screen = command.screen, command.restore)
@@ -44,8 +43,11 @@ internal fun App(
         }
     }
 
-    if (MUSIC) AudioPlayer(
-        audioPlayer = audioPlayer,
-        navBackStackEntry = navBackStackEntry
-    )
+    if (MUSIC) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        AudioPlayer(
+            audioPlayer = audioPlayer,
+            destination = navBackStackEntry?.destination
+        )
+    }
 }
