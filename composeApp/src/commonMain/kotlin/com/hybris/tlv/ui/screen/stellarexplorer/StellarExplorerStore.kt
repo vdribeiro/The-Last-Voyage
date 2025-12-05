@@ -1,27 +1,49 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import androidx.compose.foundation.lazy.LazyListState
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
+import com.hybris.tlv.usecase.space.model.Planet
+import com.hybris.tlv.usecase.space.model.StellarHost
 
 internal class StellarExplorerStore(
     private val spaceUseCases: SpaceUseCases,
 ): Store<StellarExplorerState, StellarExplorerAction>(
     initialState = StellarExplorerState()
 ) {
+    private val formula = Formula()
+
     init {
         setup()
     }
 
-    private fun setup(): Job = launch {
+    private fun setup() {
         Telemetry.info(tag = TAG, message = "Setup")
-        val stellarHosts = spaceUseCases.getExoplanets().apply {
-            val formula = Formula()
-            forEach { stellarHost ->
+
+        observeExoplanets().observe { (stellarHosts, planets) ->
+            updateState {
+                it.copy(
+                    loading = false,
+                    stellarHosts = stellarHosts,
+                    planets = planets,
+                ).applyFilters()
+            }
+        }
+
+        Telemetry.info(tag = TAG, message = "Setup complete")
+    }
+
+    private fun observeExoplanets(): Flow<Pair<List<StellarHost>, List<Planet>>> =
+        spaceUseCases.observeExoplanets().map { stellarHosts ->
+            stellarHosts.forEach { stellarHost ->
                 stellarHost.score = Habitability.calculateScores(
                     stellarHost = stellarHost,
                     planet = null,
@@ -35,51 +57,8 @@ internal class StellarExplorerStore(
                     )
                 }
             }
-        }
-        val planets = stellarHosts.map { it.planets }.flatten()
-
-        updateState {
-            it.copy(
-                loading = false,
-                stellarHosts = stellarHosts,
-                planets = planets,
-            )
-        }.join()
-        refresh()
-        Telemetry.info(tag = TAG, message = "Setup complete")
-    }
-
-    /**
-     * Apply filters to the data and refresh the state.
-     */
-    private fun refresh() {
-        val state = stateFlow.value
-        when (state.currentContent) {
-            Content.LIST_HOSTS -> {
-                val filteredStellarHosts = state.stellarHosts.searchStellarHosts(
-                    search = state.search,
-                    searchable = state.searchableStellarHostProperties,
-                ).sortStellarHosts(
-                    sort = state.sortStellarHostProperty,
-                    ascending = state.sortAscending
-                )
-                updateState { it.copy(filteredStellarHosts = filteredStellarHosts) }
-            }
-
-            Content.LIST_PLANETS -> {
-                val filteredPlanets = state.planets.searchPlanets(
-                    search = state.search,
-                    searchable = state.searchablePlanetProperties
-                ).sortPlanets(
-                    sort = state.sortPlanetProperty,
-                    ascending = state.sortAscending
-                )
-                updateState { it.copy(filteredPlanets = filteredPlanets) }
-            }
-
-            Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
-        }
-    }
+            Pair(first = stellarHosts, second = stellarHosts.flatMap { it.planets })
+        }.flowOn(context = Dispatcher.Default)
 
     private fun changeView(state: StellarExplorerState): Job = launch {
         Telemetry.info(tag = TAG, message = "Changed view")
@@ -90,9 +69,8 @@ internal class StellarExplorerStore(
                         currentContent = Content.LIST_PLANETS,
                         listState = LazyListState(),
                         search = ""
-                    )
-                }.join()
-                refresh()
+                    ).applyFilters()
+                }
             }
 
             Content.LIST_PLANETS -> {
@@ -101,9 +79,8 @@ internal class StellarExplorerStore(
                         currentContent = Content.LIST_HOSTS,
                         listState = LazyListState(),
                         search = ""
-                    )
-                }.join()
-                refresh()
+                    ).applyFilters()
+                }
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -119,9 +96,8 @@ internal class StellarExplorerStore(
                     it.copy(
                         listState = LazyListState(),
                         search = action.search
-                    )
-                }.join()
-                refresh()
+                    ).applyFilters()
+                }
             }
 
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
@@ -157,11 +133,7 @@ internal class StellarExplorerStore(
     private fun sortStellarHosts(state: StellarExplorerState, action: StellarExplorerAction.SortStellarHosts): Job = launch {
         Telemetry.info(tag = TAG, message = "Sorting stellar hosts by ${action.sort}")
         when (state.currentContent) {
-            Content.LIST_HOSTS, Content.LIST_PLANETS -> {
-                updateState { it.copy(sortStellarHostProperty = action.sort) }.join()
-                refresh()
-            }
-
+            Content.LIST_HOSTS, Content.LIST_PLANETS -> updateState { it.copy(sortStellarHostProperty = action.sort).applyFilters() }
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
         }
     }
@@ -169,25 +141,16 @@ internal class StellarExplorerStore(
     private fun sortPlanets(state: StellarExplorerState, action: StellarExplorerAction.SortPlanets): Job = launch {
         Telemetry.info(tag = TAG, message = "Sorting planets by ${action.sort}")
         when (state.currentContent) {
-            Content.LIST_HOSTS, Content.LIST_PLANETS -> {
-                updateState { it.copy(sortPlanetProperty = action.sort) }.join()
-                refresh()
-            }
-
+            Content.LIST_HOSTS, Content.LIST_PLANETS -> updateState { it.copy(sortPlanetProperty = action.sort).applyFilters() }
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
         }
-        refresh()
     }
 
     private fun changeSortDirection(state: StellarExplorerState): Job = launch {
         val ascending = !state.sortAscending
         Telemetry.info(tag = TAG, message = "Changed sort direction to ${if (ascending) "ascending" else "descending"}")
         when (state.currentContent) {
-            Content.LIST_HOSTS, Content.LIST_PLANETS -> {
-                updateState { it.copy(sortAscending = ascending) }.join()
-                refresh()
-            }
-
+            Content.LIST_HOSTS, Content.LIST_PLANETS -> updateState { it.copy(sortAscending = ascending).applyFilters() }
             Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> {}
         }
     }
@@ -207,26 +170,13 @@ internal class StellarExplorerStore(
     private fun changeStellarHostsSearchable(state: StellarExplorerState, action: StellarExplorerAction.ChangeStellarHostsSearchable): Job = launch {
         Telemetry.info(tag = TAG, message = "Changing stellar host searchable property ${action.property}")
         val searchableStellarHostProperties = state.searchableStellarHostProperties.plusOrMinus(element = action.property)
-        updateState {
-            it.copy(
-                listState = LazyListState(),
-                searchableStellarHostProperties = searchableStellarHostProperties
-            )
-        }.join()
-        refresh()
+        updateState { it.copy(listState = LazyListState(), searchableStellarHostProperties = searchableStellarHostProperties).applyFilters() }
     }
 
     private fun changePlanetSearchable(state: StellarExplorerState, action: StellarExplorerAction.ChangePlanetSearchable): Job = launch {
         Telemetry.info(tag = TAG, message = "Changing planet searchable property ${action.property}")
         val searchablePlanetProperties = state.searchablePlanetProperties.plusOrMinus(element = action.property)
-        updateState {
-            it.copy(
-                listState = LazyListState(),
-                searchablePlanetProperties = searchablePlanetProperties
-
-            )
-        }.join()
-        refresh()
+        updateState { it.copy(listState = LazyListState(), searchablePlanetProperties = searchablePlanetProperties).applyFilters() }
     }
 
     override fun back(state: StellarExplorerState) {
@@ -235,23 +185,11 @@ internal class StellarExplorerStore(
             Content.LIST_PLANETS -> super.back(state = state)
 
             Content.DETAIL_HOSTS -> launch {
-                updateState {
-                    it.copy(
-                        currentContent = Content.LIST_HOSTS,
-                        selectedStellarHost = null
-                    )
-                }.join()
-                refresh()
+                updateState { it.copy(currentContent = Content.LIST_HOSTS, selectedStellarHost = null).applyFilters() }
             }
 
             Content.DETAIL_PLANETS -> launch {
-                updateState {
-                    it.copy(
-                        currentContent = Content.LIST_PLANETS,
-                        selectedPlanet = null
-                    )
-                }.join()
-                refresh()
+                updateState { it.copy(currentContent = Content.LIST_PLANETS, selectedPlanet = null).applyFilters() }
             }
         }
     }

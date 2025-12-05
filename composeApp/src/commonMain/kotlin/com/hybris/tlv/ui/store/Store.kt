@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -53,7 +54,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     /**
      * Updates the current [State].
      */
-    protected fun updateState(body: (State) -> State): Job =
+    protected fun updateState(body: suspend CoroutineScope.(State) -> State): Job =
         viewModelScope.launch { _stateFlow.update { body(_stateFlow.value) } }
 
     /**
@@ -73,6 +74,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     protected fun <T> Flow<T>.observe(
+        context: CoroutineContext = Dispatcher.IO,
         timeout: Long = 5000L,
         block: suspend (T) -> Unit
     ): Job = _stateFlow.subscriptionCount
@@ -84,7 +86,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
                 emit(value = false)
             }
         }
-        .flatMapLatest { isVisible -> if (isVisible) this else emptyFlow() }
+        .flatMapLatest { isVisible -> if (isVisible) flowOn(context = context) else emptyFlow() }
         .onEach { data -> block(data) }
         .launchIn(scope = viewModelScope)
 
