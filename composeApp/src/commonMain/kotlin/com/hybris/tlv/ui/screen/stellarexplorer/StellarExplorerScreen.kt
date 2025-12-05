@@ -57,7 +57,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             val isHostView = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS)
             val viewName = if (isHostView) hostListTranslation else planetListTranslation
             val viewIcon = if (isHostView) Icons.Default.Flare else Icons.Default.Public
-            val count = if (isHostView) storeState.filteredStellarHosts.size else storeState.filteredPlanets.size
+            val count = if (isHostView) storeState.stellarHosts.size else storeState.planets.size
             val properties: List<String>
             val selectedProperty: String
             val onSortChange: (String) -> Unit
@@ -149,7 +149,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                     planetEsiScore = visiblePlanetProperties.ifContains(element = PlanetProperty.ESI_SCORE, value = planet?.score?.planetEsiScore),
                     planetProtectionScore = visiblePlanetProperties.ifContains(element = PlanetProperty.PROTECTION_SCORE, value = planet?.score?.planetProtectionScore),
                     planetTidalLockingScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TIDAL_LOCKING_SCORE, value = planet?.score?.planetTidalLockingScore),
-                    stellarHosts = storeState.filteredStellarHosts,
+                    stellarHosts = storeState.stellarHosts,
                     stellarHostId = { it.id },
                     stellarHostName = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.NAME, value = it.name) },
                     stellarHostSystemName = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = it.systemName) },
@@ -218,7 +218,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                     stellarHostGravityScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.GRAVITY_SCORE, value = stellarHost?.score?.stellarGravityScore),
                     stellarHostMetallicityScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.METALLICITY_SCORE, value = stellarHost?.score?.stellarMetallicityScore),
                     stellarHostEffectiveTemperatureScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE, value = stellarHost?.score?.stellarEffectiveTemperatureScore),
-                    planets = storeState.filteredPlanets,
+                    planets = storeState.planets,
                     planetId = { it.id },
                     planetName = { visiblePlanetProperties.ifContains(element = PlanetProperty.NAME, value = it.name) },
                     planetStatus = { visiblePlanetProperties.ifContains(element = PlanetProperty.STATUS, value = it.status.displayName) },
@@ -278,8 +278,6 @@ private fun StellarExplorerScreenLoadingPreview() = AppTheme {
                 listState = LazyListState(),
                 stellarHosts = emptyList(),
                 planets = emptyList(),
-                filteredStellarHosts = emptyList(),
-                filteredPlanets = emptyList(),
                 selectedStellarHost = null,
                 selectedPlanet = null,
                 search = "",
@@ -312,9 +310,7 @@ private fun StellarExplorerScreenHostListPreview() = AppTheme {
                 loading = false,
                 currentContent = Content.LIST_HOSTS,
                 listState = LazyListState(),
-                stellarHosts = emptyList(),
-                planets = emptyList(),
-                filteredStellarHosts = listOf(
+                stellarHosts = listOf(
                     StellarHost(
                         id = "sol",
                         name = "Sol",
@@ -354,7 +350,7 @@ private fun StellarExplorerScreenHostListPreview() = AppTheme {
                         dec = -62.6761821
                     ),
                 ),
-                filteredPlanets = emptyList(),
+                planets = emptyList(),
                 selectedStellarHost = null,
                 selectedPlanet = null,
                 search = "",
@@ -388,9 +384,7 @@ private fun StellarExplorerScreenHostDetailPreview() = AppTheme {
                 currentContent = Content.DETAIL_HOSTS,
                 listState = LazyListState(),
                 stellarHosts = emptyList(),
-                planets = emptyList(),
-                filteredStellarHosts = emptyList(),
-                filteredPlanets = listOf(
+                planets = listOf(
                     Planet(
                         id = "earth",
                         name = "Earth",
@@ -478,8 +472,6 @@ private fun StellarExplorerScreenSearchHostsPreview() = AppTheme {
                 listState = LazyListState(),
                 stellarHosts = emptyList(),
                 planets = emptyList(),
-                filteredStellarHosts = emptyList(),
-                filteredPlanets = emptyList(),
                 selectedStellarHost = null,
                 selectedPlanet = null,
                 search = "Kepler",
@@ -513,9 +505,7 @@ private fun StellarExplorerScreenPlanetListPreview() = AppTheme {
                 currentContent = Content.LIST_PLANETS,
                 listState = LazyListState(),
                 stellarHosts = emptyList(),
-                planets = emptyList(),
-                filteredStellarHosts = emptyList(),
-                filteredPlanets = listOf(
+                planets = listOf(
                     Planet(
                         id = "earth",
                         name = "Earth",
@@ -583,9 +573,7 @@ private fun StellarExplorerScreenPlanetDetailPreview() = AppTheme {
                 loading = false,
                 currentContent = Content.DETAIL_PLANETS,
                 listState = LazyListState(),
-                stellarHosts = emptyList(),
-                planets = emptyList(),
-                filteredStellarHosts = listOf(
+                stellarHosts = listOf(
                     StellarHost(
                         id = "sol",
                         name = "Sol",
@@ -606,7 +594,7 @@ private fun StellarExplorerScreenPlanetDetailPreview() = AppTheme {
                         dec = 0.0
                     ),
                 ),
-                filteredPlanets = emptyList(),
+                planets = emptyList(),
                 selectedStellarHost = null,
                 selectedPlanet = Planet(
                     id = "earth",
@@ -657,8 +645,6 @@ private fun StellarExplorerScreenSearchPlanetPreview() = AppTheme {
                 listState = LazyListState(),
                 stellarHosts = emptyList(),
                 planets = emptyList(),
-                filteredStellarHosts = emptyList(),
-                filteredPlanets = emptyList(),
                 selectedStellarHost = null,
                 selectedPlanet = null,
                 search = "Kepler",

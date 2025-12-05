@@ -4,6 +4,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
@@ -19,7 +20,12 @@ internal class StellarExplorerStore(
 ): Store<StellarExplorerState, StellarExplorerAction>(
     initialState = StellarExplorerState()
 ) {
-    private val formula = Formula()
+    @get:VisibleForTesting
+    internal var formula: Formula? = null
+    @get:VisibleForTesting
+    internal var stellarHosts: List<StellarHost>? = null
+    @get:VisibleForTesting
+    internal var planets: List<Planet>? = null
 
     init {
         setup()
@@ -29,6 +35,15 @@ internal class StellarExplorerStore(
         Telemetry.info(tag = TAG, message = "Setup")
 
         observeExoplanets().observe { (stellarHosts, planets) ->
+            this@StellarExplorerStore.stellarHosts = stellarHosts
+            this@StellarExplorerStore.planets = planets
+
+
+            val filteredStellarHosts = stellarHosts.searchAndSortStellarHosts(
+
+            )
+            val filteredPlanets: List<Planet> = emptyList(),
+
             updateState {
                 it.copy(
                     loading = false,

@@ -25,8 +25,6 @@ internal data class StellarExplorerState(
     val listState: LazyListState = LazyListState(),
     val stellarHosts: List<StellarHost> = emptyList(),
     val planets: List<Planet> = emptyList(),
-    val filteredStellarHosts: List<StellarHost> = emptyList(),
-    val filteredPlanets: List<Planet> = emptyList(),
     val selectedStellarHost: StellarHost? = null,
     val selectedPlanet: Planet? = null,
     val search: String = "",

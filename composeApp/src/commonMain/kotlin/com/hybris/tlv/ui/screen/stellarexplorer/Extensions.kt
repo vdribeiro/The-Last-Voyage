@@ -8,7 +8,7 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 internal suspend fun StellarExplorerState.applyFilters(): StellarExplorerState = withContext(context = Dispatcher.Default) {
     when (currentContent) {
         Content.LIST_HOSTS -> copy(
-            filteredStellarHosts = stellarHosts.searchStellarHosts(
+            stellarHosts = stellarHosts.searchStellarHosts(
                 search = search,
                 searchable = searchableStellarHostProperties,
             ).sortStellarHosts(
@@ -18,7 +18,7 @@ internal suspend fun StellarExplorerState.applyFilters(): StellarExplorerState =
         )
 
         Content.LIST_PLANETS -> copy(
-            filteredPlanets = planets.searchPlanets(
+            planets = planets.searchPlanets(
                 search = search,
                 searchable = searchablePlanetProperties
             ).sortPlanets(
@@ -30,6 +30,32 @@ internal suspend fun StellarExplorerState.applyFilters(): StellarExplorerState =
         else -> this@applyFilters
     }
 }
+
+internal fun List<StellarHost>.searchAndSortStellarHosts(
+    search: String,
+    searchable: Set<StellarHostProperty>,
+    sort: StellarHostProperty,
+    ascending: Boolean
+): List<StellarHost> = searchStellarHosts(
+    search = search,
+    searchable = searchable,
+).sortStellarHosts(
+    sort = sort,
+    ascending = ascending
+)
+
+internal fun List<Planet>.searchAndSortPlanets(
+    search: String,
+    searchable: Set<PlanetProperty>,
+    sort: PlanetProperty,
+    ascending: Boolean
+): List<Planet> = searchPlanets(
+    search = search,
+    searchable = searchable
+).sortPlanets(
+    sort = sort,
+    ascending = ascending
+)
 
 private fun List<StellarHost>.searchStellarHosts(search: String, searchable: Set<StellarHostProperty>): List<StellarHost> =
     if (search.isNotBlank()) {

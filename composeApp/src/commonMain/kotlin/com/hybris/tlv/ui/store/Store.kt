@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.transformLatest
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -54,8 +54,8 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     /**
      * Updates the current [State].
      */
-    protected fun updateState(body: suspend CoroutineScope.(State) -> State): Job =
-        viewModelScope.launch { _stateFlow.update { body(_stateFlow.value) } }
+    protected fun updateState(body: (State) -> State): State =
+        _stateFlow.updateAndGet(function = body)
 
     /**
      * Launches a coroutine.

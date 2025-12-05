@@ -38,14 +38,13 @@ internal class CheatStore(
 
     override fun reducer(state: CheatState, action: CheatAction) {
         launch {
-            when (action) {
+            val state = when (action) {
                 CheatAction.ToggleIntegrity -> updateState { it.copy(integrity = !it.integrity) }
                 CheatAction.ToggleSensorRange -> updateState { it.copy(sensorRange = !it.sensorRange) }
                 CheatAction.ToggleFuel -> updateState { it.copy(fuel = !it.fuel) }
                 CheatAction.ToggleMaterials -> updateState { it.copy(materials = !it.materials) }
                 CheatAction.ToggleCryopods -> updateState { it.copy(cryopods = !it.cryopods) }
-            }.join()
-            val state = stateFlow.value
+            }
             config.setPreferences {
                 it.copy(
                     cheatIntegrity = state.integrity,
