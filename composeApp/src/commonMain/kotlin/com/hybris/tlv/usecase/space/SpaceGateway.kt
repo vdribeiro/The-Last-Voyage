@@ -98,12 +98,7 @@ internal class SpaceGateway(
         stellarHostDao.getStellarHost(id = id).executeAsOneOrNull()?.toStellarHost()?.apply { this.planets.addAll(elements = planets) }
     }
 
-    override suspend fun getExoplanets(): List<StellarHost> = withContext(context = Dispatcher.IO) {
-        val planets = planetDao.getPlanets().executeAsList().map { it.toPlanet() }
-        stellarHostDao.getStellarHosts().executeAsList().map { it.toStellarHost() }.addPlanets(planets = planets)
-    }
-
-    override fun observeHosts(): Flow<List<StellarHost>> {
+    override fun observeExoplanets(): Flow<List<StellarHost>> {
         val planetsFlow = planetDao.getPlanets()
             .asFlow()
             .mapToList(context = Dispatcher.IO)
@@ -123,7 +118,8 @@ internal class SpaceGateway(
         if (n <= 0) return@withContext emptyList()
         val stellarHostCP = stellarHost.toCartesian() ?: return@withContext emptyList()
         val nearest = mutableListOf<Pair<StellarHost, Double>>()
-        getExoplanets()
+        stellarHostDao.getStellarHosts().executeAsList().map { it.toStellarHost() }
+            .addPlanets(planets = planetDao.getPlanets().executeAsList().map { it.toPlanet() })
             .asSequence()
             .filter { it.id != stellarHost.id && it.id !in visited && it.planets.isNotEmpty() }
             .forEach { otherStellarHost ->

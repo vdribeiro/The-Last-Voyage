@@ -22,14 +22,9 @@ internal interface SpaceUseCases {
     suspend fun getStellarHost(id: String): StellarHost?
 
     /**
-     * Get exoplanets.
-     */
-    suspend fun getExoplanets(): List<StellarHost>
-
-    /**
      * Observe exoplanets.
      */
-    fun observeHosts(): Flow<List<StellarHost>>
+    fun observeExoplanets(): Flow<List<StellarHost>>
 
     /**
      * Get the nearest [n] stellar hosts with planets of the given [stellarHost] by Euclidean distance excluding the [visited].

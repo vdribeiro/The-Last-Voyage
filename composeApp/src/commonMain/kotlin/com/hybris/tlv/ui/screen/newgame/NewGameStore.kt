@@ -30,6 +30,8 @@ internal class NewGameStore(
 ) {
     @VisibleForTesting
     internal var selectedShip: ShipPrototype? = null
+    @VisibleForTesting
+    internal var selectedFormula: Formula? = null
 
     init {
         setup()
@@ -86,11 +88,14 @@ internal class NewGameStore(
                     return@launch
                 }
 
+                // TODO - allow formula selection in 'Advanced Screen'
+                val selectedFormula = this@NewGameStore.selectedFormula ?: Formula()
+
                 val gameSession = gameSessionUseCases.startGame(
                     GameSessionPrototype(
                         ship = selectedShip,
                         engine = selectedEngine,
-                        formula = Formula()
+                        formula = selectedFormula
                     )
                 )
                 Telemetry.info(tag = TAG, message = "New session: $gameSession")
