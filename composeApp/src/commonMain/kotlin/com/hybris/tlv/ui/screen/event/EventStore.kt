@@ -21,7 +21,7 @@ internal class EventStore(
     @get:VisibleForTesting
     internal var gameSession: GameSession? = null
     @get:VisibleForTesting
-    internal var eventChain: List<Event>? = null
+    internal var eventChain: List<Event> = emptyList()
 
     init {
         setup()
@@ -82,7 +82,7 @@ internal class EventStore(
         }
 
         Telemetry.info(tag = TAG, message = "Continue event chain")
-        val childrenEvents = this@EventStore.eventChain.orEmpty().filter { it.parentId == action.event.id }.ifEmpty {
+        val childrenEvents = this@EventStore.eventChain.filter { it.parentId == action.event.id }.ifEmpty {
             listOf(element = stopEvent)
         }
 

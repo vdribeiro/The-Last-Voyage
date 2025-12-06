@@ -30,7 +30,7 @@ internal class StellarExplorerStoreTest {
         val stellarExplorerStore = store
         val state = stellarExplorerStore.stateFlow.value
         assertEquals(expected = Content.LIST_HOSTS, actual = state.currentContent)
-        assertEquals(expected = emptyList(), actual = state.filteredPlanets)
+        assertEquals(expected = emptyList(), actual = state.planets)
     }
 
     @Test
@@ -67,11 +67,11 @@ internal class StellarExplorerStoreTest {
         val stellarExplorerStore = store
 
         stellarExplorerStore.send(action = StellarExplorerAction.Search(search = stellarHosts.first().name))
-        assertEquals(expected = listOf(stellarHosts.first()), actual = stellarExplorerStore.stateFlow.value.filteredStellarHosts)
+        assertEquals(expected = listOf(stellarHosts.first()), actual = stellarExplorerStore.stateFlow.value.stellarHosts)
 
         stellarExplorerStore.send(action = StellarExplorerAction.ChangeView)
         stellarExplorerStore.send(action = StellarExplorerAction.Search(search = planets.first().name))
-        assertEquals(expected = listOf(planets.first()), actual = stellarExplorerStore.stateFlow.value.filteredPlanets)
+        assertEquals(expected = listOf(planets.first()), actual = stellarExplorerStore.stateFlow.value.planets)
     }
 
     @Test

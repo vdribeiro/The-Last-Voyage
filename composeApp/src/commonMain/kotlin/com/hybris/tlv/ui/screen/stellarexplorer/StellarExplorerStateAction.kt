@@ -137,3 +137,14 @@ internal enum class PlanetProperty(val displayName: String) {
     PROTECTION_SCORE(displayName = "planet_protection_score"),
     TIDAL_LOCKING_SCORE(displayName = "planet_tidal_locking_score")
 }
+
+internal data class FilterCriteria(
+    val currentContent: Content,
+    val search: String,
+    val sortStellarHostProperty: StellarHostProperty,
+    val sortPlanetProperty: PlanetProperty,
+    val sortAscending: Boolean,
+    val searchableStellarHostProperties: Set<StellarHostProperty>,
+    val searchablePlanetProperties: Set<PlanetProperty>,
+    val stellarHosts: List<StellarHost>
+)

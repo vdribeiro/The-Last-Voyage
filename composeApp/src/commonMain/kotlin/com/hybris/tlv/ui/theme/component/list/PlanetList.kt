@@ -123,7 +123,7 @@ internal inline fun <T> PlanetList(
                     effectiveTemperatureScore = stellarHostEffectiveTemperatureScore
                 )
             }
-            item { Divider(modifier = Modifier.padding(vertical = 8.dp)) }
+            if (planets.isNotEmpty()) item { Divider(modifier = Modifier.padding(vertical = 8.dp)) }
         }
         items(items = planets, key = planetId) { planet ->
             PlanetCard(

@@ -1,35 +1,7 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
-import kotlinx.coroutines.withContext
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
-
-internal suspend fun StellarExplorerState.applyFilters(): StellarExplorerState = withContext(context = Dispatcher.Default) {
-    when (currentContent) {
-        Content.LIST_HOSTS -> copy(
-            stellarHosts = stellarHosts.searchStellarHosts(
-                search = search,
-                searchable = searchableStellarHostProperties,
-            ).sortStellarHosts(
-                sort = sortStellarHostProperty,
-                ascending = sortAscending
-            )
-        )
-
-        Content.LIST_PLANETS -> copy(
-            planets = planets.searchPlanets(
-                search = search,
-                searchable = searchablePlanetProperties
-            ).sortPlanets(
-                sort = sortPlanetProperty,
-                ascending = sortAscending
-            )
-        )
-
-        else -> this@applyFilters
-    }
-}
 
 internal fun List<StellarHost>.searchAndSortStellarHosts(
     search: String,

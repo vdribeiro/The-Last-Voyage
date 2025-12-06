@@ -8,4 +8,4 @@ internal sealed class Command {
     data object ToggleAudio: Command()
 }
 
-internal val commandChannel: Channel<Command> = Channel()
+internal val commandChannel: Channel<Command> = Channel(capacity = Channel.BUFFERED)

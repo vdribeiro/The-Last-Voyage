@@ -17,7 +17,7 @@ internal class GameOverStore(
     initialState = GameOverState()
 ) {
     @get:VisibleForTesting
-    internal var achievements: List<Achievement>? = null
+    internal var achievements: List<Achievement> = emptyList()
     @get:VisibleForTesting
     internal var index: Int = 0
 
@@ -57,7 +57,7 @@ internal class GameOverStore(
     private fun nextContent(state: GameOverState): Job = launch {
         when (state.currentContent) {
             Content.MESSAGE -> {
-                val achievement = achievements?.firstOrNull()
+                val achievement = achievements.firstOrNull()
                 updateState {
                     it.copy(
                         currentContent = Content.SCORE,
@@ -72,7 +72,7 @@ internal class GameOverStore(
 
     private fun nextAchievement(): Job = launch {
         index++
-        val achievement = achievements?.getOrNull(index = index)
+        val achievement = achievements.getOrNull(index = index)
         updateState { it.copy(achievement = achievement) }
     }
 
