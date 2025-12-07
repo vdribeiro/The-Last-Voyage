@@ -16,6 +16,7 @@ internal class AchievementStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
+
         val achievements = achievementUseCases.getAchievements()
         updateState {
             it.copy(
@@ -23,7 +24,6 @@ internal class AchievementStore(
                 achievements = achievements
             )
         }
-        Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
     companion object {

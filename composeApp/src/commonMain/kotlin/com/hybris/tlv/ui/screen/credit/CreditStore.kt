@@ -16,6 +16,7 @@ internal class CreditStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
+
         val credits = creditUseCases.getCredits()
         updateState {
             it.copy(
@@ -23,7 +24,6 @@ internal class CreditStore(
                 credits = credits
             )
         }
-        Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
     companion object {
