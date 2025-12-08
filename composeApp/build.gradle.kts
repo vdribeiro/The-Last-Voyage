@@ -38,6 +38,7 @@ val androidStorePassword: String = localProperties.getProperty("android.storePas
 val iosTarget: String = "16.0"
 val macIdentity: String = localProperties.getProperty("mac.sign.identity", "")
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
+val isRelease: Boolean get() = project.gradle.startParameter.taskNames.any { it.contains(other = "package", ignoreCase = true) }
 //endregion
 
 //region Generate Property.kt file
@@ -280,7 +281,6 @@ compose.desktop {
     application {
         mainClass = "$appId.MainKt"
         javaHome = System.getenv("JAVA_HOME").orEmpty()
-        val isRelease = project.gradle.startParameter.taskNames.any { it.contains(other = "package", ignoreCase = true) }
 
         jvmArgs += listOf(
             "-Ddebug=${!isRelease}",
@@ -336,8 +336,10 @@ compose.desktop {
 
 // Module paths have to run after, otherwise it breaks the configuration
 project.afterEvaluate {
-    compose.desktop.application.jvmArgs += "--module-path=$javafxModulePath"
-    compose.desktop.application.jvmArgs += "--add-modules=$javafxModules"
+    if (!isRelease) {
+        compose.desktop.application.jvmArgs += "--module-path=$javafxModulePath"
+        compose.desktop.application.jvmArgs += "--add-modules=$javafxModules"
+    }
 }
 
 sqldelight {
