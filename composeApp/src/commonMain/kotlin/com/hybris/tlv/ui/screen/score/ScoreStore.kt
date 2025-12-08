@@ -15,8 +15,9 @@ internal class ScoreStore(
         setup()
     }
 
-    private fun setup(): Job = launch {
+    private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
+
         val gameSessions = gameSessionUseCases.getGameSessions()
             .filter { it.score != null }
             .map { it.copy(utc = getLocalDateTime(utc = it.utc)) }
@@ -27,6 +28,7 @@ internal class ScoreStore(
                 gameSessions = gameSessions
             )
         }
+
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 

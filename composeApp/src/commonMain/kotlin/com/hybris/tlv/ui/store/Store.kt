@@ -40,6 +40,9 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = initialState)
     val stateFlow: StateFlow<State> = _stateFlow.asStateFlow()
 
+    /**
+     * Active jobs launched by the Store.
+     */
     private val activeJobs = mutableMapOf<String, Job>()
 
     /**
@@ -60,18 +63,23 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
         _stateFlow.updateAndGet(function = body)
 
     /**
-     * Launches a coroutine.
-     * If an [id] is provided, then only one job with this id runs at a time.
-     * Subsequent requests with the same id are ignored until the first one completes.
+     * Launches a coroutine given an optional unique identifier [id].
+     * The parameter [replace] only works with an [id]. If it is true and a job with [id] is already active, the existing job
+     * will be cancelled and replaced by the new one, otherise the new request is ignored and the existing job is returned.
      */
     protected fun launch(
         id: String? = null,
+        replace: Boolean = false,
         context: CoroutineContext = Dispatcher.Default,
         block: suspend CoroutineScope.() -> Unit
     ): Job = if (id == null) viewModelScope.launch(context = context, block = block) else {
-        activeJobs[id]?.takeIf { it.isActive } ?: viewModelScope.launch(context = context, block = block).also { job ->
-            activeJobs[id] = job
-            job.invokeOnCompletion { if (activeJobs[id] === job) activeJobs.remove(key = id) }
+        val job = activeJobs[id]?.takeIf { it.isActive }
+        if (job != null && !replace) job else {
+            job?.cancel()
+            viewModelScope.launch(context = context, block = block).also { job ->
+                activeJobs[id] = job
+                job.invokeOnCompletion { if (activeJobs[id] === job) activeJobs.remove(key = id) }
+            }
         }
     }
 
