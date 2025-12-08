@@ -27,6 +27,8 @@ internal class CheatStore(
 
         setInitialState()
         observeState()
+
+        Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
     private fun setInitialState(): Job = launch {

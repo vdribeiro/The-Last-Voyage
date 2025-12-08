@@ -37,6 +37,7 @@ internal fun ButtonsBar(
             ) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
+                    loading = it.loading,
                     enabled = it.enabled,
                     text = it.text,
                     onClick = { it.onClick() },
@@ -61,6 +62,7 @@ private fun ButtonsBarPreview() = AppTheme {
 
 internal data class BottomButton(
     val id: String = generateUuid(),
+    val loading: Boolean = false,
     val enabled: Boolean = true,
     val text: String? = null,
     val onClick: () -> Unit = {}

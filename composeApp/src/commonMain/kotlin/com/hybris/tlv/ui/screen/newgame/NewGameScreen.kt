@@ -1,10 +1,14 @@
 package com.hybris.tlv.ui.screen.newgame
 
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -29,6 +33,8 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val selectedCatastrophe = storeState.selectedCatastrophe
     val continueTranslation = getTranslation(key = "new_game_screen__continue")
     val startTranslation = getTranslation(key = "new_game_screen__start")
+    var loading by remember { mutableStateOf(false) }
+
 
     Screen(
         loading = storeState.loading,
@@ -45,10 +51,12 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
                         listOf(
                             BottomButton(
                                 id = continueTranslation,
+                                loading = loading,
                                 enabled = shipState != null && shipState.remainingPoints >= 0,
                                 text = continueTranslation,
                                 onClick = {
                                     if (shipState == null) return@BottomButton
+                                    loading = true
                                     val shipPrototype = ShipPrototype(
                                         assignedPoints = shipState.assignedPoints,
                                         sensorRange = shipState.sensorRange.value,

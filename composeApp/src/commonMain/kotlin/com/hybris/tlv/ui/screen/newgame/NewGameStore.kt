@@ -68,13 +68,14 @@ internal class NewGameStore(
                 selectedCatastrophe = selectedCatastrophe,
             )
         }
+
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    private fun next(state: NewGameState): Job = launch {
+    private fun next(state: NewGameState) {
         when (state.currentContent) {
             Content.SHIP -> updateState { it.copy(currentContent = Content.START) }
-            Content.START -> {
+            Content.START -> launch {
                 Telemetry.info(tag = TAG, message = "Start game")
                 val selectedShip = this@NewGameStore.selectedShip
                 if (selectedShip == null) {

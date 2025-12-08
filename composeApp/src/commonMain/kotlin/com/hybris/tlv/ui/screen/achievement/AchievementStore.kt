@@ -24,6 +24,8 @@ internal class AchievementStore(
                 achievements = achievements
             )
         }
+
+        Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
     companion object {

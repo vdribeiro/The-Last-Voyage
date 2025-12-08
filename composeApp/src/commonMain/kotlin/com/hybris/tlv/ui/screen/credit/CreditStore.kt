@@ -24,6 +24,8 @@ internal class CreditStore(
                 credits = credits
             )
         }
+
+        Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
     companion object {

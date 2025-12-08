@@ -3,9 +3,11 @@ package com.hybris.tlv.ui.theme.component.button
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
@@ -16,11 +18,13 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
+import com.hybris.tlv.ui.theme.component.progress.showLoading
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
 internal fun Button(
     modifier: Modifier = Modifier,
+    loading: Boolean = false,
     enabled: Boolean = true,
     text: String? = null,
     onClick: () -> Unit = {},
@@ -30,13 +34,13 @@ internal fun Button(
     OutlinedButton(
         modifier = modifier,
         onClick = { onClick() },
-        enabled = enabled,
+        enabled = enabled && !loading,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
             contentColor = Color.White
         ),
         content = {
-            Text(
+            if (showLoading(loading = loading)) CircularProgressIndicator(modifier = Modifier.size(size = 24.dp)) else Text(
                 text = text,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
@@ -68,6 +72,7 @@ private fun ButtonPreview() = AppTheme {
         Button(text = "Button")
         Button(text = "Button", enabled = false)
         Button(text = null)
+        Button(loading = true)
     }
 }
 

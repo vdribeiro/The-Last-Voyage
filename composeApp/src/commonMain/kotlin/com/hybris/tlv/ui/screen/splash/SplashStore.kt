@@ -39,6 +39,7 @@ internal class SplashStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
+
         if (RESET) TLV.reset()
         config.setup()
 
@@ -54,6 +55,7 @@ internal class SplashStore(
         Telemetry.info(tag = TAG, message = "Local Configs\n${config.localConfigs.value}")
         Telemetry.info(tag = TAG, message = "Remote Configs\n${config.remoteConfigs.value}")
         delay(timeMillis = 1000L)
+
         Telemetry.info(tag = TAG, message = "Setup complete")
 
         if (config.preferences.value.showIntro) {

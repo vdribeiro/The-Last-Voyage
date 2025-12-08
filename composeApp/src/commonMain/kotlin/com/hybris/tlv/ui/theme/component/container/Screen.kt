@@ -1,8 +1,5 @@
 package com.hybris.tlv.ui.theme.component.container
 
-import kotlin.time.TimeMark
-import kotlin.time.TimeSource
-import kotlinx.coroutines.delay
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -14,18 +11,13 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.image.AppLogo
+import com.hybris.tlv.ui.theme.component.progress.showLoading
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.component.topbar.TopBar
 import com.hybris.tlv.usecase.translation.TranslationCache
@@ -113,37 +105,6 @@ internal fun Screen(
             }
         }
     }
-}
-
-@Composable
-private fun showLoading(
-    loading: Boolean,
-    loadingDelayMillis: Long,
-    loadingMinDisplayTimeMillis: Long,
-): Boolean {
-    val isPreview = LocalInspectionMode.current
-    var show by remember { mutableStateOf(value = isPreview) }
-    var loaderShownMark by remember { mutableStateOf<TimeMark?>(value = null) }
-    LaunchedEffect(key1 = loading) {
-        when {
-            loading -> {
-                delay(timeMillis = loadingDelayMillis)
-                loaderShownMark = TimeSource.Monotonic.markNow()
-                show = true
-            }
-
-            else -> when (val shownMark = loaderShownMark) {
-                null -> show = false
-                else -> {
-                    val remainingTime = loadingMinDisplayTimeMillis - shownMark.elapsedNow().inWholeMilliseconds
-                    if (remainingTime > 0) delay(timeMillis = remainingTime)
-                    show = false
-                    loaderShownMark = null
-                }
-            }
-        }
-    }
-    return show
 }
 
 @Preview

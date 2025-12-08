@@ -29,6 +29,7 @@ internal class EventStore(
 
     private fun setup(): Job = launch {
         Telemetry.info(tag = TAG, message = "Setup")
+
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             feedback(tag = TAG, message = "Invalid state: missing game session on setup()")
@@ -64,6 +65,7 @@ internal class EventStore(
                 childrenEvents = childrenEvents,
             )
         }
+
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
