@@ -21,16 +21,17 @@ internal class HelpStore(
         setup()
     }
 
-    private fun setup(): Job = launch {
+    private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
-        val configs = config.localConfigs.value
 
+        val configs = config.localConfigs.value
         updateState {
             it.copy(
                 loading = false,
                 formula = configs.formula,
             )
         }
+
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
@@ -39,7 +40,7 @@ internal class HelpStore(
         updateState { it.copy(showSnackbar = versionClick >= 5) }
     }
 
-    private fun reset(): Job = launch {
+    private fun reset(): Job = launch(id = "reset") {
         TLV.reset()
         navigate(screen = Screen.Splash)
     }

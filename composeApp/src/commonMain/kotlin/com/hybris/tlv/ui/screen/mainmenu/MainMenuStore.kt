@@ -18,7 +18,7 @@ internal class MainMenuStore(
         setup()
     }
 
-    private fun setup(): Job = launch {
+    private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
         val configs = config.localConfigs.value

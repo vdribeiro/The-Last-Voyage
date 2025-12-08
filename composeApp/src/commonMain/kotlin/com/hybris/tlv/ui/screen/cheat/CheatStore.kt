@@ -31,7 +31,7 @@ internal class CheatStore(
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    private fun setInitialState(): Job = launch {
+    private fun setInitialState(): Job = launch(id = "setInitialState") {
         val preferences = config.preferences.value
         updateState {
             it.copy(

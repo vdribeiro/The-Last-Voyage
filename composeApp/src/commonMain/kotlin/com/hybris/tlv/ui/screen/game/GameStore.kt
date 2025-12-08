@@ -28,8 +28,9 @@ internal class GameStore(
         setup()
     }
 
-    private fun setup(): Job = launch {
+    private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
+
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             feedback(tag = TAG, message = "Invalid state: missing game session on setup()")
@@ -99,10 +100,11 @@ internal class GameStore(
                 nearStellarHosts = nearStellarHosts,
             )
         }
+
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    private fun travel(state: GameState, action: GameAction.Travel): Job = launch {
+    private fun travel(state: GameState, action: GameAction.Travel): Job = launch(id = "travel") {
         Telemetry.info(tag = TAG, message = "Travelled to ${action.stellarHost}")
 
         val gameSession = this@GameStore.gameSession
@@ -121,7 +123,7 @@ internal class GameStore(
         navigate(screen = Screen.Event(ship = gameSession.ship))
     }
 
-    private fun settle(action: GameAction.Settle): Job = launch {
+    private fun settle(action: GameAction.Settle): Job = launch(id = "settle") {
         Telemetry.info(tag = TAG, message = "Settled on ${action.planet}")
         val gameSession = this@GameStore.gameSession
         if (gameSession == null) {

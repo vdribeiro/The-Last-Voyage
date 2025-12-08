@@ -14,7 +14,7 @@ internal class CreditStore(
         setup()
     }
 
-    private fun setup(): Job = launch {
+    private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
         val credits = creditUseCases.getCredits()

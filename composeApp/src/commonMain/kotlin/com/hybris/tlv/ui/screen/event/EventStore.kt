@@ -27,7 +27,7 @@ internal class EventStore(
         setup()
     }
 
-    private fun setup(): Job = launch {
+    private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
         val gameSession = gameSessionUseCases.getLatestGameSession()
@@ -69,7 +69,7 @@ internal class EventStore(
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    private fun select(action: EventAction.Select): Job = launch {
+    private fun select(action: EventAction.Select): Job = launch(id = "select") {
         Telemetry.info(tag = TAG, message = "Selected event ${action.event}")
         val gameSession = this@EventStore.gameSession
         if (gameSession == null) {

@@ -11,14 +11,13 @@ internal class FeedbackStore(
 ): Store<FeedbackState, FeedbackAction>(
     initialState = FeedbackState(isError = tag != null || message != null)
 ) {
-    private fun sendFeedback(action: FeedbackAction.SendFeedback): Job = launch {
+    private fun sendFeedback(action: FeedbackAction.SendFeedback): Job = launch(id = "sendFeedback") {
         updateState {
             it.copy(
                 feedback = action.message,
                 showThanks = true
             )
         }
-        Telemetry.info(tag = TAG, message = "Construct the feedback message with all the components")
         val feedback = buildList {
             tag?.let { add(element = "Identifier: $it") }
             message?.let { add(element = "Message: $it") }
@@ -26,7 +25,6 @@ internal class FeedbackStore(
         }.joinToString(separator = "\n")
         Telemetry.info(tag = TAG, message = "Send feedback")
         Telemetry.feedback(message = feedback)
-        Telemetry.info(tag = TAG, message = "Wait a small time to properly thank the user")
     }
 
     override fun back(state: FeedbackState) {

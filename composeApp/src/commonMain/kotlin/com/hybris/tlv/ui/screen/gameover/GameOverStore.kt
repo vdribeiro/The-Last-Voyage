@@ -25,8 +25,9 @@ internal class GameOverStore(
         setup()
     }
 
-    private fun setup(): Job = launch {
+    private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
+
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
             feedback(tag = TAG, message = "Invalid state: missing game session on setup()")
@@ -51,19 +52,17 @@ internal class GameOverStore(
                 gameOver = gameOver,
             )
         }
+
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    private fun nextContent(state: GameOverState): Job = launch {
+    private fun nextContent(state: GameOverState) {
         when (state.currentContent) {
-            Content.MESSAGE -> {
-                val achievement = achievements.firstOrNull()
-                updateState {
-                    it.copy(
-                        currentContent = Content.SCORE,
-                        achievement = achievement
-                    )
-                }
+            Content.MESSAGE -> updateState {
+                it.copy(
+                    currentContent = Content.SCORE,
+                    achievement = achievements.firstOrNull()
+                )
             }
 
             Content.SCORE -> navigate(screen = Screen.MainMenu)
