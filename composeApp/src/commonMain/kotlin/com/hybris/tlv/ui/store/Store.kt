@@ -40,6 +40,8 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = initialState)
     val stateFlow: StateFlow<State> = _stateFlow.asStateFlow()
 
+    private val activeJobs = mutableMapOf<String, Job>()
+
     /**
      * Sends an [Action] to the Store.
      */
@@ -59,9 +61,19 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
 
     /**
      * Launches a coroutine.
+     * If an [id] is provided, then only one job with this id runs at a time.
+     * Subsequent requests with the same id are ignored until the first one completes.
      */
-    protected fun launch(context: CoroutineContext = Dispatcher.Default, block: suspend CoroutineScope.() -> Unit): Job =
-        viewModelScope.launch(context = context) { block() }
+    protected fun launch(
+        id: String? = null,
+        context: CoroutineContext = Dispatcher.Default,
+        block: suspend CoroutineScope.() -> Unit
+    ): Job = if (id == null) viewModelScope.launch(context = context, block = block) else {
+        activeJobs[id]?.takeIf { it.isActive } ?: viewModelScope.launch(context = context, block = block).also { job ->
+            activeJobs[id] = job
+            job.invokeOnCompletion { if (activeJobs[id] === job) activeJobs.remove(key = id) }
+        }
+    }
 
     /**
      * Collects the upstream [Flow] in a lifecycle-aware manner, ensuring execution only occurs while the UI is actively observing the [stateFlow].

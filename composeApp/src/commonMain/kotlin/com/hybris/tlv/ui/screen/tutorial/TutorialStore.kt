@@ -12,7 +12,7 @@ internal class TutorialStore(
     initialState = TutorialState()
 ) {
 
-    private fun finish(state: TutorialState): Job = launch {
+    private fun finish(state: TutorialState): Job = launch(id = "finish") {
         config.setPreferences { it.copy(showTutorial = false) }
         when {
             newGame -> navigate(screen = Screen.NewGame)
