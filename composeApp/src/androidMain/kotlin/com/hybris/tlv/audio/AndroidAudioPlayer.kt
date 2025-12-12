@@ -1,4 +1,4 @@
-package com.hybris.tlv.media
+package com.hybris.tlv.audio
 
 import androidx.core.net.toUri
 import androidx.media3.common.MediaItem

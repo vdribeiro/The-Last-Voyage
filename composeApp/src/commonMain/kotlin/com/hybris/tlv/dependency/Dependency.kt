@@ -3,13 +3,13 @@ package com.hybris.tlv.dependency
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import app.cash.sqldelight.db.SqlDriver
+import com.hybris.tlv.audio.AudioPlayer
+import com.hybris.tlv.audio.createAudioPlayer
 import com.hybris.tlv.config.Config
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.DatabaseFactory
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.http.HttpClientFactory
-import com.hybris.tlv.media.AudioPlayer
-import com.hybris.tlv.media.createAudioPlayer
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
 import database.AppDatabase

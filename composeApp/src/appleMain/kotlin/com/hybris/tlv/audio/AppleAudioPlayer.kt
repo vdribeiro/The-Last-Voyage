@@ -1,4 +1,4 @@
-package com.hybris.tlv.media
+package com.hybris.tlv.audio
 
 import platform.AVFoundation.AVPlayer
 import platform.AVFoundation.AVPlayerItem

@@ -1,4 +1,4 @@
-package com.hybris.tlv.media
+package com.hybris.tlv.audio
 
 import com.hybris.tlv.telemetry.Telemetry
 

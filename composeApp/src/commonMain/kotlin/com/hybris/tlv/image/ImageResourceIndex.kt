@@ -1,4 +1,4 @@
-package com.hybris.tlv.media
+package com.hybris.tlv.image
 
 import com.hybris.tlv.ui.theme.component.image.ImageResource
 import thelastvoyage.composeapp.generated.resources.A

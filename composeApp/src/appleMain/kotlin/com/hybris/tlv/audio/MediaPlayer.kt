@@ -1,3 +1,3 @@
-package com.hybris.tlv.media
+package com.hybris.tlv.audio
 
 internal actual fun createAudioPlayer(): AudioPlayer = AppleAudioPlayer()

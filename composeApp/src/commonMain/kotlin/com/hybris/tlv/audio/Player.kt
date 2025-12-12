@@ -1,4 +1,4 @@
-package com.hybris.tlv.media
+package com.hybris.tlv.audio
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
