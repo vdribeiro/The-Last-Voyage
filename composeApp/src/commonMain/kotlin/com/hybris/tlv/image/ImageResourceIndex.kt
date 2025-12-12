@@ -38,7 +38,6 @@ import thelastvoyage.composeapp.generated.resources.ic_launcher_foreground
 import thelastvoyage.composeapp.generated.resources.ice_giant
 import thelastvoyage.composeapp.generated.resources.ice_planet
 import thelastvoyage.composeapp.generated.resources.iron_planet
-import thelastvoyage.composeapp.generated.resources.kofi
 import thelastvoyage.composeapp.generated.resources.lava_planet
 import thelastvoyage.composeapp.generated.resources.mega_earth
 import thelastvoyage.composeapp.generated.resources.mini_neptune
@@ -62,7 +61,6 @@ import thelastvoyage.composeapp.generated.resources.water_clouds_gas_giant
 
 internal val LauncherBackground = ImageResource(path = "ic_launcher_background.png", drawable = Res.drawable.ic_launcher_background)
 internal val LauncherForeground = ImageResource(path = "ic_launcher_foreground.png", drawable = Res.drawable.ic_launcher_foreground)
-internal val Kofi = ImageResource(path = "kofi.png", drawable = Res.drawable.kofi)
 
 // Stellar Hosts
 internal val O = ImageResource(path = "O.jpg", drawable = Res.drawable.O)

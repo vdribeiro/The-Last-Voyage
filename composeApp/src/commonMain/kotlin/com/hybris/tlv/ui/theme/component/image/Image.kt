@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
 import coil3.compose.AsyncImage
@@ -24,19 +23,33 @@ internal fun Image(
     contentScale: ContentScale = ContentScale.Crop,
 ) {
     if (LocalInspectionMode.current) {
-        val painter = getPainter(image = image)
-        if (painter == null) Box(modifier = modifier) else {
-            Image(
-                modifier = modifier,
-                painter = painter,
-                contentDescription = contentDescription,
-                contentScale = contentScale
-            )
-        }
+        ImageWithResource(
+            modifier = modifier,
+            drawable = image?.drawable,
+            contentDescription = contentDescription,
+            contentScale = contentScale
+        )
         return
     }
 
-    val model = getUri(image)
+    ImageWithPath(
+        modifier = modifier,
+        path = image?.path,
+        contentDescription = contentDescription,
+        contentScale = contentScale
+    )
+}
+
+@Composable
+private fun ImageWithPath(
+    modifier: Modifier = Modifier,
+    path: String? = null,
+    contentDescription: String? = null,
+    contentScale: ContentScale = ContentScale.Crop,
+) {
+    val model = runCatching {
+        path?.let { Res.getUri(path = "drawable/$it") }
+    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get path", throwable = it) }.getOrNull()
     if (model == null) Box(modifier = modifier) else AsyncImage(
         modifier = modifier,
         model = model,
@@ -46,19 +59,30 @@ internal fun Image(
     )
 }
 
+@Composable
+private fun ImageWithResource(
+    modifier: Modifier = Modifier,
+    drawable: DrawableResource? = null,
+    contentDescription: String? = null,
+    contentScale: ContentScale = ContentScale.Crop,
+) {
+    val painter = runCatching {
+        drawable?.let { painterResource(resource = it) }
+    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get painter", throwable = it) }.getOrNull()
+    if (painter == null) Box(modifier = modifier) else {
+        Image(
+            modifier = modifier,
+            painter = painter,
+            contentDescription = contentDescription,
+            contentScale = contentScale,
+        )
+    }
+}
+
 internal data class ImageResource(
     val path: String? = null,
     val drawable: DrawableResource? = null
 )
-
-private fun getUri(image: ImageResource?): String? = runCatching {
-    image?.path?.let { Res.getUri(path = "drawable/$it") }
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to get path", throwable = it) }.getOrNull()
-
-@Composable
-private fun getPainter(image: ImageResource?): Painter? = runCatching {
-    image?.drawable?.let { painterResource(resource = it) }
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to get painter", throwable = it) }.getOrNull()
 
 @Preview
 @Composable
