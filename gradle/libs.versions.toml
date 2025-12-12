@@ -17,7 +17,7 @@ android-startup = "1.2.0"
 androidx-exoplayer = "1.8.0"
 android-test = "1.10.0"
 logging = "2.0.17"
-sentry = "0.23.0"
+sentry = "0.21.0"
 javafx = "21.0.9"
 
 [plugins]
