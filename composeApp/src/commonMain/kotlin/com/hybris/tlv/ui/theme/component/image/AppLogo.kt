@@ -13,13 +13,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.media.LauncherBackground
+import com.hybris.tlv.media.LauncherForeground
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.progress.ProgressIndicator
 import com.hybris.tlv.ui.theme.component.text.Text
-import thelastvoyage.composeapp.generated.resources.Res
-import thelastvoyage.composeapp.generated.resources.ic_launcher_background
-import thelastvoyage.composeapp.generated.resources.ic_launcher_foreground
 
 @Composable
 internal fun AppLogo(
@@ -44,10 +43,7 @@ internal fun AppLogo(
                     modifier = Modifier
                         .size(size = 160.dp)
                         .clip(shape = CircleShape),
-                    image = ImageResource(
-                        path = "ic_launcher_background.png",
-                        drawable = Res.drawable.ic_launcher_background
-                    ),
+                    image = LauncherBackground,
                     contentDescription = "Background",
                     contentScale = ContentScale.Crop,
                 )
@@ -56,10 +52,7 @@ internal fun AppLogo(
                 modifier = Modifier
                     .size(size = 200.dp)
                     .clip(shape = CircleShape),
-                image = ImageResource(
-                    path = "ic_launcher_foreground.png",
-                    drawable = Res.drawable.ic_launcher_foreground
-                ),
+                image = LauncherForeground,
                 contentDescription = "Logo",
                 contentScale = ContentScale.Crop,
             )

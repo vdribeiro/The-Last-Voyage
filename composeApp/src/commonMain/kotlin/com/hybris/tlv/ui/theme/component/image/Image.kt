@@ -11,10 +11,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
 import coil3.compose.AsyncImage
+import com.hybris.tlv.media.LauncherForeground
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.theme.AppTheme
 import thelastvoyage.composeapp.generated.resources.Res
-import thelastvoyage.composeapp.generated.resources.ic_launcher_foreground
 
 @Composable
 internal fun Image(
@@ -63,7 +63,7 @@ private fun getPainter(image: ImageResource?): Painter? = runCatching {
 @Preview
 @Composable
 private fun ImagePreview() = AppTheme {
-    Image(image = ImageResource(drawable = Res.drawable.ic_launcher_foreground))
+    Image(image = LauncherForeground)
 }
 
 private const val TAG = "Image"

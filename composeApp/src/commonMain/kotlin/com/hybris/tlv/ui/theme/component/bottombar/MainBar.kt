@@ -14,18 +14,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.media.Kofi
 import com.hybris.tlv.platform.isIos
 import com.hybris.tlv.platform.open
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Image
-import com.hybris.tlv.ui.theme.component.image.ImageResource
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
-import thelastvoyage.composeapp.generated.resources.Res
-import thelastvoyage.composeapp.generated.resources.kofi
 
 @Composable
 internal fun MainBar(
@@ -60,10 +58,7 @@ internal fun MainBar(
                     .size(size = 100.dp)
                     .wrapContentHeight(align = Alignment.CenterVertically)
                     .clickable { uriHandler.open(uri = supportUri) },
-                image = ImageResource(
-                    path = "kofi.png",
-                    drawable = Res.drawable.kofi
-                ),
+                image = Kofi,
                 contentDescription = "Support",
                 contentScale = ContentScale.Fit,
             )
