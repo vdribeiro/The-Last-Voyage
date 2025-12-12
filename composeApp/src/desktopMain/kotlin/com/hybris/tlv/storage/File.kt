@@ -5,11 +5,11 @@ import kotlinx.coroutines.withContext
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.Property
-import com.hybris.tlv.platform.getPlatform
+import com.hybris.tlv.platform.platform
 import com.hybris.tlv.telemetry.Telemetry
 
 internal val appDataDir: File by lazy {
-    val baseDir = when (getPlatform()) {
+    val baseDir = when (platform) {
         Platform.Windows -> System.getenv("APPDATA")
         Platform.Mac -> "${System.getProperty("user.home")}/Library/Application Support"
         Platform.Linux -> with(receiver = System.getenv("XDG_DATA_HOME")) {

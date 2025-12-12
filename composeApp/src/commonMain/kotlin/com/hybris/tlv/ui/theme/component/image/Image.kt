@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
+
 import coil3.compose.AsyncImage
 import com.hybris.tlv.image.LauncherForeground
 import com.hybris.tlv.platform.Platform
@@ -24,19 +25,14 @@ internal fun Image(
     contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.Crop,
 ) {
-    if (LocalInspectionMode.current || platform == Platform.Windows || platform == Platform.Mac || platform == Platform.Linux) {
-        ImageWithResource(
-            modifier = modifier,
-            drawable = image?.drawable,
-            contentDescription = contentDescription,
-            contentScale = contentScale
-        )
-        return
-    }
-
-    ImageWithPath(
+    if (!LocalInspectionMode.current && (platform == Platform.Android || platform == Platform.Ios)) ImageWithPath(
         modifier = modifier,
         path = image?.path,
+        contentDescription = contentDescription,
+        contentScale = contentScale
+    ) else ImageWithResource(
+        modifier = modifier,
+        drawable = image?.drawable,
         contentDescription = contentDescription,
         contentScale = contentScale
     )
