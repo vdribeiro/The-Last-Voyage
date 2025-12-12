@@ -24,14 +24,12 @@ internal class MainMenuStore(
         val configs = config.localConfigs.value
         val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
         val developerCorner = configs.developerCorner
-        val support = configs.support
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
         updateState {
             it.copy(
                 loading = false,
                 newVersionBanner = newVersionBanner,
                 developerCorner = developerCorner,
-                support = support,
                 ongoingGameSession = ongoingGameSession,
             )
         }

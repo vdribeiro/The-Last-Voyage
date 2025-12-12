@@ -63,6 +63,8 @@ import thelastvoyage.composeapp.generated.resources.water_clouds_gas_giant
 internal val LauncherBackground = ImageResource(path = "ic_launcher_background.png", drawable = Res.drawable.ic_launcher_background)
 internal val LauncherForeground = ImageResource(path = "ic_launcher_foreground.png", drawable = Res.drawable.ic_launcher_foreground)
 internal val Kofi = ImageResource(path = "kofi.png", drawable = Res.drawable.kofi)
+
+// Stellar Hosts
 internal val O = ImageResource(path = "O.jpg", drawable = Res.drawable.O)
 internal val B = ImageResource(path = "B.jpg", drawable = Res.drawable.B)
 internal val A = ImageResource(path = "A.jpg", drawable = Res.drawable.A)
@@ -78,6 +80,8 @@ internal val C = ImageResource(path = "C.jpg", drawable = Res.drawable.C)
 internal val S = ImageResource(path = "S.jpg", drawable = Res.drawable.S)
 internal val D = ImageResource(path = "D.jpg", drawable = Res.drawable.D)
 internal val Unknown = ImageResource(path = "unknown.jpg", drawable = Res.drawable.unknown)
+
+// Planets
 internal val SubEarth = ImageResource(path = "sub_earth.jpg", drawable = Res.drawable.sub_earth)
 internal val SuperEarth = ImageResource(path = "super_earth.jpg", drawable = Res.drawable.super_earth)
 internal val MegaEarth = ImageResource(path = "mega_earth.jpg", drawable = Res.drawable.mega_earth)

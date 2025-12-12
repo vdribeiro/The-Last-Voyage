@@ -29,9 +29,8 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.platform.isAndroid
-import com.hybris.tlv.platform.isDesktop
-import com.hybris.tlv.platform.isIos
+import com.hybris.tlv.platform.Platform
+import com.hybris.tlv.platform.getPlatform
 import com.hybris.tlv.platform.open
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
@@ -73,8 +72,10 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
         snackbarHost = {
             if (storeState.showSnackbar) {
                 val message = getTranslation(
-                    key = when {
-                        isIos || isAndroid -> "konami_mobile"
+                    key = when (getPlatform()) {
+                        Platform.Android,
+                        Platform.Ios -> "konami_mobile"
+
                         else -> "konami_desktop"
                     }
                 )
@@ -234,11 +235,10 @@ private data class Property(
 private val navigation = listOf(
     Property(
         id = "main_menu_screen__back_navigation",
-        description = when {
-            isDesktop -> "main_menu_screen__navigation_info_desktop"
-            isAndroid -> "main_menu_screen__navigation_info_android"
-            isIos -> "main_menu_screen__navigation_info_ios"
-            else -> "main_menu_screen__navigation_info"
+        description = when (getPlatform()) {
+            Platform.Android -> "main_menu_screen__navigation_info_android"
+            Platform.Ios -> "main_menu_screen__navigation_info_ios"
+            else -> "main_menu_screen__navigation_info_desktop"
         },
         icon = { Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack) },
     ),

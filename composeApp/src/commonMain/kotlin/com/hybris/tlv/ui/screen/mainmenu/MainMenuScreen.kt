@@ -49,7 +49,6 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
                 modifier = Modifier.padding(horizontal = 16.dp),
                 onCreditsClick = { store.send(action = MainMenuAction.Credits) },
                 developerCornerUri = storeState.developerCorner,
-                supportUri = storeState.support
             )
         },
     ) {
@@ -87,7 +86,6 @@ private fun MainMenuScreenLoadingPreview() = AppTheme {
             initialState = MainMenuState(
                 loading = true,
                 developerCorner = "Developer Corner",
-                support = "Support",
                 ongoingGameSession = false,
             )
         )
@@ -134,7 +132,6 @@ private fun MainMenuScreenAllPreview() = AppTheme {
             initialState = MainMenuState(
                 loading = false,
                 developerCorner = "Developer Corner",
-                support = "Support",
                 ongoingGameSession = false,
             )
         )
@@ -185,7 +182,6 @@ private fun MainMenuScreenContinuePreview() = AppTheme {
             initialState = MainMenuState(
                 loading = false,
                 developerCorner = "Developer Corner",
-                support = "Support",
                 ongoingGameSession = true,
             )
         )

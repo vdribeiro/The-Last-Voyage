@@ -13,6 +13,5 @@ internal data class MainMenuState(
     val loading: Boolean = true,
     val newVersionBanner: Boolean = false,
     val developerCorner: String = "",
-    val support: String = "",
     val ongoingGameSession: Boolean = false,
 )

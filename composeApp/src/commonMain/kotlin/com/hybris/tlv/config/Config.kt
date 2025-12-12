@@ -65,7 +65,6 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
                         _localConfigs.update {
                             it.copy(
                                 developerCorner = configs.developerCorner,
-                                support = configs.support,
                                 formula = configs.formula,
                             )
                         }

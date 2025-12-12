@@ -10,16 +10,12 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.media.Kofi
-import com.hybris.tlv.platform.isIos
 import com.hybris.tlv.platform.open
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.image.Image
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
@@ -30,7 +26,6 @@ internal fun MainBar(
     modifier: Modifier = Modifier,
     onCreditsClick: () -> Unit = {},
     developerCornerUri: String? = null,
-    supportUri: String? = null,
 ) {
     val uriHandler = LocalUriHandler.current
     val websiteTranslation = getTranslation(key = "website")
@@ -52,17 +47,6 @@ internal fun MainBar(
             style = typography.labelLarge,
             textAlign = TextAlign.Start
         )
-        if (!isIos) {
-            Image(
-                modifier = Modifier
-                    .size(size = 100.dp)
-                    .wrapContentHeight(align = Alignment.CenterVertically)
-                    .clickable { uriHandler.open(uri = supportUri) },
-                image = Kofi,
-                contentDescription = "Support",
-                contentScale = ContentScale.Fit,
-            )
-        }
         Text(
             modifier = Modifier
                 .size(size = 100.dp)

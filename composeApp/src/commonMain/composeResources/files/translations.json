@@ -2911,11 +2911,6 @@
   },
   {
     "languageIso": "en",
-    "key": "main_menu_screen__navigation_info",
-    "value": "To navigate back, press the back arrow icon on the toolbar or the Escape key."
-  },
-  {
-    "languageIso": "en",
     "key": "main_menu_screen__navigation_info_desktop",
     "value": "To navigate back, press the back arrow icon on the toolbar, the Escape key or the mouse back button."
   },
