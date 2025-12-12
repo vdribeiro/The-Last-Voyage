@@ -39,3 +39,5 @@ internal class DesktopAudioPlayer: AudioPlayer() {
         currentIndex = -1
     }
 }
+
+internal actual fun createAudioPlayer(): AudioPlayer = DesktopAudioPlayer()

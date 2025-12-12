@@ -41,3 +41,5 @@ internal class AndroidAudioPlayer: AudioPlayer() {
         player.stop()
     }
 }
+
+internal actual fun createAudioPlayer(): AudioPlayer = AndroidAudioPlayer()

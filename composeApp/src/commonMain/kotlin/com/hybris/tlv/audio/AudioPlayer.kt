@@ -63,3 +63,5 @@ internal open class AudioPlayer {
         private const val TAG = "AudioPlayer"
     }
 }
+
+internal expect fun createAudioPlayer(): AudioPlayer

@@ -60,3 +60,5 @@ internal class AppleAudioPlayer: AudioPlayer() {
         currentIndex = -1
     }
 }
+
+internal actual fun createAudioPlayer(): AudioPlayer = AppleAudioPlayer()
