@@ -6,4 +6,6 @@ internal actual val isDebug: Boolean by lazy {
     BuildConfig.DEBUG
 }
 
-internal actual fun getPlatform(): Platform = Platform.Android
+internal actual val platform: Platform by lazy {
+    Platform.Android
+}

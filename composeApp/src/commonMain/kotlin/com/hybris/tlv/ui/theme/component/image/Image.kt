@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import coil3.compose.AsyncImage
 import com.hybris.tlv.image.LauncherForeground
 import com.hybris.tlv.platform.Platform
-import com.hybris.tlv.platform.getPlatform
+import com.hybris.tlv.platform.platform
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.theme.AppTheme
 import thelastvoyage.composeapp.generated.resources.Res
@@ -24,8 +24,7 @@ internal fun Image(
     contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.Crop,
 ) {
-    val platform = getPlatform()
-    if (LocalInspectionMode.current || platform == Platform.Windows || platform == Platform.Linux) {
+    if (LocalInspectionMode.current || platform == Platform.Windows || platform == Platform.Mac || platform == Platform.Linux) {
         ImageWithResource(
             modifier = modifier,
             drawable = image?.drawable,

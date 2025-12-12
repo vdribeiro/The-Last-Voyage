@@ -11,4 +11,4 @@ internal sealed interface Platform {
 
 internal expect val isDebug: Boolean
 
-internal expect fun getPlatform(): Platform
+internal expect val platform: Platform

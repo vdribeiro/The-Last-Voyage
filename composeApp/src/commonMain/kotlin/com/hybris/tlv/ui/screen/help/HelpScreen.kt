@@ -30,8 +30,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.platform.Platform
-import com.hybris.tlv.platform.getPlatform
 import com.hybris.tlv.platform.open
+import com.hybris.tlv.platform.platform
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
@@ -72,10 +72,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
         snackbarHost = {
             if (storeState.showSnackbar) {
                 val message = getTranslation(
-                    key = when (getPlatform()) {
-                        Platform.Android,
-                        Platform.Ios -> "konami_mobile"
-
+                    key = when (platform) {
+                        Platform.Android, Platform.Ios -> "konami_mobile"
                         else -> "konami_desktop"
                     }
                 )
@@ -235,7 +233,7 @@ private data class Property(
 private val navigation = listOf(
     Property(
         id = "main_menu_screen__back_navigation",
-        description = when (getPlatform()) {
+        description = when (platform) {
             Platform.Android -> "main_menu_screen__navigation_info_android"
             Platform.Ios -> "main_menu_screen__navigation_info_ios"
             else -> "main_menu_screen__navigation_info_desktop"
