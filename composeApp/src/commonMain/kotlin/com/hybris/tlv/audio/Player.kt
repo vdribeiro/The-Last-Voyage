@@ -8,12 +8,16 @@ import com.hybris.tlv.lifecycle.Register
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen
 
+/**
+ * Composable that manages audio playback based on the current navigation destination and app lifecycle.
+ */
 @Composable
 internal fun AudioPlayer(
     audioPlayer: AudioPlayer,
     destination: NavDestination?
 ) {
     val playlist = getTracks(destination = destination)
+    // Updates playlist based on destination; null means that the playback remains unchanged
     LaunchedEffect(key1 = playlist) {
         audioPlayer.action(action = AudioPlayer.Action.Play(playlist = playlist))
     }
@@ -23,6 +27,9 @@ internal fun AudioPlayer(
     )
 }
 
+/**
+ * Determines the appropriate playlist based on the current navigation destination, or null if no tracks are associated with the current screen.
+ */
 private fun getTracks(destination: NavDestination?): List<String>? = runCatching {
     when {
         destination == null -> null

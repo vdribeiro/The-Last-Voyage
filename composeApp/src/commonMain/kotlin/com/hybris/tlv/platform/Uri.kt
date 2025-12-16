@@ -3,6 +3,10 @@ package com.hybris.tlv.platform
 import androidx.compose.ui.platform.UriHandler
 import com.hybris.tlv.telemetry.Telemetry
 
+/**
+ * Safely attempts to open a [uri] using the provided [UriHandler] preventing crashes
+ * caused by malformed URIs, null values, or missing applications.
+ */
 internal fun UriHandler.open(uri: String?) {
     runCatching {
         uri ?: throw IllegalArgumentException("Uri is null")

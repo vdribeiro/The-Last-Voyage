@@ -3,19 +3,42 @@ package com.hybris.tlv.audio
 import com.hybris.tlv.telemetry.Telemetry
 
 /**
- * Audio player.
+ * Audio player that provides basic audio playback functionality, including playing, pausing, resuming, and stopping audio.
+ * Mainly designed to be extended by platform-specific implementations.
  */
 internal open class AudioPlayer {
 
+    /**
+     * The current playlist.
+     */
     protected var playlist = listOf<String>()
 
+    /**
+     * Represents an action to be performed by the audio player.
+     */
     sealed interface Action {
+        /**
+         * Starts playback of a new playlist.
+         */
         data class Play(val playlist: List<String>?): Action
+        /**
+         * Pauses the current playback.
+         */
         data object Pause: Action
+        /**
+         * Resumes the current playback.
+         */
         data object Resume: Action
+        /**
+         * Toggles between resume and pause.
+         */
         data object Toggle: Action
     }
 
+    /**
+     * Performs the given audio player action.
+     * If the playlist is the same as the current playlist, then play does nothing.
+     */
     fun action(action: Action) {
         runCatching {
             when (action) {
@@ -37,15 +60,18 @@ internal open class AudioPlayer {
         }.onFailure { Telemetry.error(tag = TAG, message = "Error with media action $action", throwable = it) }
     }
 
+    /**
+     * Returns whether the audio player is currently playing.
+     */
     protected open fun isPlaying(): Boolean = false
 
     /**
-     * Play the playlist.
+     * Starts playing the current playlist.
      */
     protected open fun play() {}
 
     /**
-     * Resume playback.
+     * Resumes playback.
      */
     protected open fun resume() {}
 
@@ -55,7 +81,7 @@ internal open class AudioPlayer {
     protected open fun pause() {}
 
     /**
-     * Stop playback without resetting the playlist.
+     * Stops playback.
      */
     protected open fun stop() {}
 
@@ -64,4 +90,7 @@ internal open class AudioPlayer {
     }
 }
 
+/**
+ * Creates a new instance of [AudioPlayer].
+ */
 internal expect fun createAudioPlayer(): AudioPlayer
