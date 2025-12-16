@@ -24,11 +24,12 @@ internal interface ConfigManager {
 
     /**
      * Setup all caches.
+     * Loads preferences and local configs from disk to respective caches and calls [fetchRemoteConfigs].
      */
     suspend fun setup(): ConfigManager
 
     /**
-     * Fetch remote configs.
+     * Fetch remote configs. Updates both remote and local configs if successful.
      */
     suspend fun fetchRemoteConfigs(): ConfigManager
 
@@ -38,7 +39,7 @@ internal interface ConfigManager {
     suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager
 
     /**
-     * Update configs cache.
+     * Update configs cache. To persist the changes, call [saveConfigs].
      */
     suspend fun setConfigs(configs: (Configs) -> Configs): ConfigManager
 

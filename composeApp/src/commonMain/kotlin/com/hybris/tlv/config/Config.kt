@@ -47,10 +47,6 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
 
     private val cacheTTL: Duration = if (isDebug) ZERO else 1.hours
 
-    /**
-     * Setup all caches.
-     * Load preferences and local configs from disk to cache and fetch remote configs if needed from network to cache.
-     */
     override suspend fun setup(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
             val preferences = mutex.withLock { loadJsonFile(path = PREFERENCES_JSON) ?: Preferences() }
@@ -62,13 +58,10 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
         }
     }
 
-    /**
-     * Fetch remote configs.
-     * This method respects the [cacheTTL] to avoid excessive network requests.
-     * If new configs are fetched successfully, it updates both remote and local configs.
-     */
     override suspend fun fetchRemoteConfigs(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
+            // This method respects the [cacheTTL] to avoid excessive network requests.
+
             if (!hasTimePassed(dateTime = _preferences.value.syncTime, duration = cacheTTL)) return@withContext
             setPreferences { it.copy(syncTime = now()) }
 
@@ -91,9 +84,6 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
         }
     }
 
-    /**
-     * Update preferences cache and save to storage.
-     */
     override suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
             _preferences.update { preferences(it) }
@@ -101,17 +91,10 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
         }
     }
 
-    /**
-     * Update configs cache.
-     * This method only updates the in-memory local configs. To persist the changes, call [saveConfigs].
-     */
     override suspend fun setConfigs(configs: (Configs) -> Configs): ConfigManager = apply {
         _localConfigs.update { configs(it) }
     }
 
-    /**
-     * Save configs to storage.
-     */
     override suspend fun saveConfigs(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
             mutex.withLock { saveJsonFile(path = CONFIGS_JSON, content = _localConfigs.value) }
