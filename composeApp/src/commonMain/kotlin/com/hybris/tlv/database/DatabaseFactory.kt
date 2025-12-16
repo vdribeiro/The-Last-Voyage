@@ -48,6 +48,9 @@ internal class DatabaseFactory(private val driver: SqlDriver) {
         typeAdapter = EnumColumnAdapter()
     )
 
+    /**
+     * The configured [AppDatabase] instance.
+     */
     val database: AppDatabase = AppDatabase(
         driver = driver,
         ShipAdapter = shipAdapter,

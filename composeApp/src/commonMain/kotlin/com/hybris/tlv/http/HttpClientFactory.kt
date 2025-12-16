@@ -15,13 +15,14 @@ import com.hybris.tlv.platform.isDebug
 import com.hybris.tlv.serializer.json
 import com.hybris.tlv.telemetry.Telemetry
 
+/**
+ * A factory for creating and configuring [HttpClient] instances with the necessary plugins, given an optional [HttpClientEngine] to use for the client. If null, a default engine is used.
+ */
 internal class HttpClientFactory(engine: HttpClientEngine?) {
 
-    val httpClient: HttpClient = when (engine) {
-        null -> HttpClient { install() }
-        else -> HttpClient(engine = engine) { install() }
-    }
-
+    /**
+     * Installs and configures the necessary plugins for the [HttpClient], namely logging, timeouts, caching, content negotiation, and compression.
+     */
     private fun <T: HttpClientEngineConfig> HttpClientConfig<T>.install() {
         install(plugin = Logging) {
             logger = object: io.ktor.client.plugins.logging.Logger {
@@ -39,6 +40,14 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
         install(plugin = HttpCache)
         install(plugin = ContentNegotiation) { json(json = json) }
         install(plugin = ContentEncoding) { gzip(quality = 0.9F) }
+    }
+
+    /**
+     * The configured [HttpClient] instance.
+     */
+    val httpClient: HttpClient = when (engine) {
+        null -> HttpClient { install() }
+        else -> HttpClient(engine = engine) { install() }
     }
 
     companion object {
