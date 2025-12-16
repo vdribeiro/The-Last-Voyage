@@ -10,10 +10,19 @@ import com.hybris.tlv.serializer.CONFIGS_JSON
 import com.hybris.tlv.serializer.PREFERENCES_JSON
 import com.hybris.tlv.storage.deleteFile
 
+/**
+ * The main object for The Last Voyage application.
+ * This object serves as the central hub for the application, holding dependencies and providing top-level functions and feature flags.
+ * It encapsulates the dependency injection mechanism and offers a clean entry point for the UI.
+ */
 internal object TLV {
 
     private val dependency: Dependency = Dependency()
 
+    /**
+     * Resets all local data for the application.
+     * It deletes configuration and preferences files and clears the entire database.
+     */
     suspend fun reset() = withContext(context = Dispatcher.IO) {
         deleteFile(path = CONFIGS_JSON)
         deleteFile(path = PREFERENCES_JSON)
@@ -21,7 +30,8 @@ internal object TLV {
     }
 
     /**
-     * App entry point.
+     * The main composable entry point for the application UI.
+     * This function sets up and launches the app's user interface, given a [modifier] to be applied to the root composable.
      */
     @Composable
     fun App(modifier: Modifier = Modifier) {
@@ -33,20 +43,27 @@ internal object TLV {
         )
     }
 
+    // Development Flags
     /**
-     * Reset local data.
+     * Flag to trigger a full data reset on startup.
+     * This should be set to false for production builds.
      */
     const val RESET = false
     /**
-     * Enable or disable HTTP client.
+     * Flag to enable or disable all HTTP client network requests.
+     * When false, only local data is used and no network calls will be made by the application.
+     * This should be set to true for production builds.
      */
     const val HTTP = true
     /**
-     * Enable or disable getting exoplanet data from the NASA archive (only works if HTTP is enabled).
+     * Flag to enable or disable fetching exoplanet data from the NASA archive.
+     * This is only effective if [HTTP] is also true.
+     * This should be set to false for production builds.
      */
     const val ARCHIVE = false
     /**
-     * Enable or disable ambient music.
+     * Flag to enable or disable the ambient music in the application.
+     * This should be set to true for production builds.
      */
     const val MUSIC = true
 }

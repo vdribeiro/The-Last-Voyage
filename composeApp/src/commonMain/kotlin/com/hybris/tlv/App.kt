@@ -17,6 +17,10 @@ import com.hybris.tlv.ui.navigation.navigate
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.UseCases
 
+/**
+ * The main entry point of the application's UI.
+ * This composable sets up the theme, navigation, and audio.
+ */
 @Composable
 internal fun App(
     modifier: Modifier = Modifier,
