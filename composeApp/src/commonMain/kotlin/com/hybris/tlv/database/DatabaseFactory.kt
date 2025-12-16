@@ -17,6 +17,9 @@ import database.Ship
 import database.StellarHost
 import database.Translation
 
+/**
+ * Factory for creating and configuring the [AppDatabase] instance with the necessary column adapters for custom data types, given a [SqlDriver].
+ */
 internal class DatabaseFactory(private val driver: SqlDriver) {
 
     private val shipAdapter = Ship.Adapter(
@@ -57,6 +60,9 @@ internal class DatabaseFactory(private val driver: SqlDriver) {
 
 internal const val DATABASE_FILE = "tlv_database.db"
 
+/**
+ * Type aliases for the generated schema classes to provide more convenient names.
+ */
 typealias TranslationSchema = Translation
 typealias StellarHostSchema = StellarHost
 typealias PlanetSchema = Planet

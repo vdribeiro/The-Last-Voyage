@@ -6,18 +6,16 @@ import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
 
+/**
+ * Clear all tables in the database.
+ */
 internal suspend fun SqlDriver.clearDatabase() = withContext(context = Dispatcher.IO) {
     runCatching {
-        val query = "SELECT name FROM sqlite_master WHERE type='table' " +
-                "AND name NOT IN ('sqlite_sequence', 'android_metadata');"
+        val query = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT IN ('sqlite_sequence', 'android_metadata');"
         executeQuery(
             identifier = null,
             sql = query,
-            mapper = { cursor ->
-                QueryResult.Value(value = buildList {
-                    while (cursor.next().value) add(cursor.getString(index = 0))
-                })
-            },
+            mapper = { cursor -> QueryResult.Value(value = buildList { while (cursor.next().value) add(cursor.getString(index = 0)) }) },
             parameters = 0,
             binders = null
         ).value.forEach { table ->
