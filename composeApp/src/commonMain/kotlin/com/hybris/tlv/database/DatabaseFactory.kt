@@ -63,9 +63,7 @@ internal class DatabaseFactory(private val driver: SqlDriver) {
 
 internal const val DATABASE_FILE = "tlv_database.db"
 
-/**
- * Type aliases for the generated schema classes to provide more convenient names.
- */
+// Type aliases for the generated schema classes to provide more convenient names.
 typealias TranslationSchema = Translation
 typealias StellarHostSchema = StellarHost
 typealias PlanetSchema = Planet

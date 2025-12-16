@@ -59,6 +59,7 @@ import thelastvoyage.composeapp.generated.resources.ultra_short_period_planet
 import thelastvoyage.composeapp.generated.resources.unknown
 import thelastvoyage.composeapp.generated.resources.water_clouds_gas_giant
 
+// Index of all [ImageResource]s
 internal val LauncherBackground = ImageResource(path = "ic_launcher_background.png", drawable = Res.drawable.ic_launcher_background)
 internal val LauncherForeground = ImageResource(path = "ic_launcher_foreground.png", drawable = Res.drawable.ic_launcher_foreground)
 
