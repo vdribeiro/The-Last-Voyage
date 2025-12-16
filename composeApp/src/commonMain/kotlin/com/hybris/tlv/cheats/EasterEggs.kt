@@ -14,18 +14,27 @@ import com.hybris.tlv.ui.theme.modifier.Gesture
 import com.hybris.tlv.ui.theme.modifier.onGesture
 import com.hybris.tlv.ui.theme.modifier.rememberKeySequence
 
+/**
+ * [Key] sequence that represent the Konami code.
+ */
 internal val konamiCode = listOf(
     Key.DirectionUp, Key.DirectionUp, Key.DirectionDown, Key.DirectionDown,
     Key.DirectionLeft, Key.DirectionRight, Key.DirectionLeft, Key.DirectionRight,
     Key.B, Key.A, Key.Enter
 )
 
+/**
+ * [Gesture] sequence that represent a gesture-based version of the Konami code.
+ */
 internal val konamiGestureCode = listOf(
     Gesture.SWIPE_UP, Gesture.SWIPE_UP, Gesture.SWIPE_DOWN, Gesture.SWIPE_DOWN,
     Gesture.SWIPE_LEFT, Gesture.SWIPE_RIGHT, Gesture.SWIPE_LEFT, Gesture.SWIPE_RIGHT,
     Gesture.TAP, Gesture.TAP, Gesture.TAP
 )
 
+/**
+ * Composable function that remembers the [konamiCode] and triggers a navigation to the cheat screen.
+ */
 @Composable
 internal fun rememberKeySequenceCheats(): (KeyEvent) -> Boolean {
     val scope = rememberCoroutineScope()
@@ -34,6 +43,9 @@ internal fun rememberKeySequenceCheats(): (KeyEvent) -> Boolean {
     }
 }
 
+/**
+ * [Modifier] that enables [konamiGestureCode] detection and triggers a navigation to the cheat screen.
+ */
 internal fun Modifier.enableGestureCheats(): Modifier = composed {
     val scope = rememberCoroutineScope()
     onGesture(sequence = konamiGestureCode) {
