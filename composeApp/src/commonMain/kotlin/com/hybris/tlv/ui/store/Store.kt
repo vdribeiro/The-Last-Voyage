@@ -63,20 +63,19 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
         _stateFlow.updateAndGet(function = body)
 
     /**
-     * Launches a coroutine given an optional unique identifier [id].
-     * The parameter [replace] only works with an [id]. If it is true and a job with [id] is already active, the existing job
-     * will be cancelled and replaced by the new one, otherise the new request is ignored and the existing job is returned.
+     * Launches a [Job] returned by [block] given an unique identifier [id] and [replace] parameter.
+     * If [id] is null, then the job is launched in 'fire and forget' mode.
+     * If [replace] is true and a job with [id] is already active, the existing job will be cancelled and replaced by the new one, otherwise the new request is ignored and the existing job is returned.
      */
-    protected fun launch(
-        id: String? = null,
-        replace: Boolean = false,
-        context: CoroutineContext = Dispatcher.Default,
-        block: suspend CoroutineScope.() -> Unit
-    ): Job = if (id == null) viewModelScope.launch(context = context, block = block) else {
+    private fun launchJob(
+        id: String?,
+        replace: Boolean,
+        block: () -> Job
+    ): Job = if (id == null) block() else {
         val job = activeJobs[id]?.takeIf { it.isActive }
         if (job != null && !replace) job else {
             job?.cancel()
-            viewModelScope.launch(context = context, block = block).also { job ->
+            block().also { job ->
                 activeJobs[id] = job
                 job.invokeOnCompletion { if (activeJobs[id] === job) activeJobs.remove(key = id) }
             }
@@ -84,8 +83,25 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     }
 
     /**
+     * Launches a coroutine given an optional unique identifier [id].
+     * If [id] is provided, it ensures only one job with this id runs, otherwise the job is launched in 'fire and forget' mode.
+     * If [replace] is true and a job with [id] is already active, the existing job will be cancelled and replaced by the new one, otherwise the new request is ignored and the existing job is returned.
+     */
+    protected fun launch(
+        id: String? = null,
+        replace: Boolean = false,
+        context: CoroutineContext = Dispatcher.Default,
+        block: suspend CoroutineScope.() -> Unit
+    ): Job = launchJob(
+        id = id,
+        replace = replace,
+    ) { viewModelScope.launch(context = context, block = block) }
+
+    /**
      * Collects the upstream [Flow] in a lifecycle-aware manner, ensuring execution only occurs while the UI is actively observing the [stateFlow].
-     * This function acts as a resource safeguard, bridging the gap between the [ViewModel] scope which can persist in the backstack and the UI lifecycle which pauses when hidden.
+     * If [id] is provided, it ensures only one job with this id runs.
+     * If [replace] is true and a job with [id] is already active, the existing job will be cancelled and replaced by the new one, otherwise the new request is ignored and the existing job is returned.
+     * This function also acts as a resource safeguard, bridging the gap between the [ViewModel] scope which can persist in the backstack and the UI lifecycle which pauses when hidden.
      * The calling flow runs in the provided [context] and a [timeout] in milliseconds is used as a grace period to wait after the last subscriber disappears before cancelling the upstream flow.
      * The reason for this is to keep the connection alive when the subscription count drops to zero temporarily (screen rotation, configuration changes, rapid navigation, etc...),
      * preventing the flow from restarting unnecessarily.
@@ -94,21 +110,28 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     protected fun <T> Flow<T>.observe(
+        id: String? = null,
+        replace: Boolean = false,
         context: CoroutineContext = Dispatcher.IO,
         timeout: Long = 5000L,
         block: suspend (T) -> Unit
-    ): Job = _stateFlow.subscriptionCount
-        .map { count -> count > 0 }
-        .distinctUntilChanged()
-        .transformLatest { isVisible ->
-            if (isVisible) emit(value = true) else {
-                delay(timeMillis = timeout)
-                emit(value = false)
+    ): Job = launchJob(
+        id = id,
+        replace = replace,
+    ) {
+        _stateFlow.subscriptionCount
+            .map { count -> count > 0 }
+            .distinctUntilChanged()
+            .transformLatest { isVisible ->
+                if (isVisible) emit(value = true) else {
+                    delay(timeMillis = timeout)
+                    emit(value = false)
+                }
             }
-        }
-        .flatMapLatest { isVisible -> if (isVisible) flowOn(context = context) else emptyFlow() }
-        .onEach { data -> block(data) }
-        .launchIn(scope = viewModelScope)
+            .flatMapLatest { isVisible -> if (isVisible) flowOn(context = context) else emptyFlow() }
+            .onEach { data -> block(data) }
+            .launchIn(scope = viewModelScope)
+    }
 
     /**
      * Issue a [command].
