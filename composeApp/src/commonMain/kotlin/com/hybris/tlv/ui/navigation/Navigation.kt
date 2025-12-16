@@ -34,6 +34,11 @@ import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
 import com.hybris.tlv.usecase.UseCases
 
+/**
+ * The main navigation host for the application.
+ * This composable sets up the [NavHost] and defines all the possible navigation destinations within the app,
+ * linking each [Screen] to its corresponding composable content.
+ */
 @Composable
 internal fun Navigation(
     modifier: Modifier = Modifier,
@@ -82,6 +87,13 @@ internal inline fun <reified S: Screen> NavHostController.navigate(screen: S, re
 }
 
 /**
+ * Prints the current navigation back stack in a reader-friendly format.
+ */
+private fun NavHostController.printBackStack() = runCatching {
+    currentBackStack.value.joinToString { it.destination.toString().substringAfterLast(delimiter = ".") }.substringAfter(delimiter = ",").trim()
+}.onFailure { Telemetry.error(tag = TAG, message = "Error printing backstack", throwable = it) }.getOrDefault(defaultValue = "")
+
+/**
  * Creates a map of destination arguments with a NavType for a serializable object of type [T].
  */
 internal inline fun <reified T> typeMapOf(): Map<KType, NavType<T?>> =
@@ -102,12 +114,5 @@ private inline fun <reified T> serializableType(): NavType<T> =
         override fun parseValue(value: String): T =
             decodeURL<T>(value = value) as T
     }
-
-/**
- * Print the current backstack in reader friendly format.
- */
-private fun NavHostController.printBackStack() = runCatching {
-    currentBackStack.value.joinToString { it.destination.toString().substringAfterLast(delimiter = ".") }.substringAfter(delimiter = ",").trim()
-}.onFailure { Telemetry.error(tag = TAG, message = "Error printing backstack", throwable = it) }.getOrDefault(defaultValue = "")
 
 private const val TAG = "Navigation"

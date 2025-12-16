@@ -3,6 +3,12 @@ package com.hybris.tlv.ui.navigation
 import kotlinx.serialization.Serializable
 import com.hybris.tlv.usecase.ship.model.Ship
 
+/**
+ * All possible screens in the application.
+ * This is used by the navigation component to define the different destinations.
+ * Each object or data class represents a distinct screen and can carry arguments required by that screen.
+ * All screens must be [Serializable] to support being passed as navigation arguments.
+ */
 @Serializable
 internal sealed interface Screen {
     @Serializable
