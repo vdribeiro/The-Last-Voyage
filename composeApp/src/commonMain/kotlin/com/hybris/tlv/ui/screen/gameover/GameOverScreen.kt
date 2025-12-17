@@ -13,7 +13,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.ui.navigation.Command
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.navigation.sendCommand
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
@@ -46,7 +45,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
     Screen(
         loading = storeState.loading,
         onHelpClick = { store.navigate(screen = Screen.Help) },
-        onMusicClick = { sendCommand(command = Command.ToggleAudio) },
+        onMusicClick = { store.command(command = Command.ToggleAudio) },
         onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
         bottomBar = {
             if (storeState.loading) return@Screen

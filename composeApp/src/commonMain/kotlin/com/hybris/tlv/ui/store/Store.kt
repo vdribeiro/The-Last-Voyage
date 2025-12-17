@@ -134,12 +134,6 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     }
 
     /**
-     * Navigate to a new [screen].
-     */
-    fun navigate(screen: Screen, restore: Boolean = false): Boolean =
-        sendCommand(command = Command.Navigate(screen = screen, restore = restore))
-
-    /**
      * Navigate back.
      */
     fun back() = back(state = _stateFlow.value)
@@ -148,6 +142,17 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      * Overridable back navigation.
      */
     protected open fun back(state: State) {
-        sendCommand(command = Command.Back)
+        command(command = Command.Back)
     }
+
+    /**
+     * Navigate to a new [screen].
+     */
+    fun navigate(screen: Screen, restore: Boolean = false): Boolean =
+        command(command = Command.Navigate(screen = screen, restore = restore))
+
+    /**
+     * Send a [command].
+     */
+    fun command(command: Command): Boolean = sendCommand(command = command)
 }

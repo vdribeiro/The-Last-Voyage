@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.ui.navigation.Command
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.navigation.sendCommand
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTranslationState
@@ -53,7 +52,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
         loading = storeState.loading,
         onBackClick = { store.back() },
         onHelpClick = { store.navigate(screen = Screen.Help) },
-        onMusicClick = { sendCommand(command = Command.ToggleAudio) },
+        onMusicClick = { store.command(command = Command.ToggleAudio) },
         onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
         topBar = {
             // Control panel definitions according to selected view
