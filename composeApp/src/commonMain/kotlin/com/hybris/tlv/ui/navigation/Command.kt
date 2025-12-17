@@ -1,6 +1,10 @@
 package com.hybris.tlv.ui.navigation
 
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.onFailure
+import kotlinx.coroutines.flow.receiveAsFlow
+import com.hybris.tlv.telemetry.Telemetry
 
 /**
  * A navigation command that can be sent.
@@ -25,4 +29,17 @@ internal sealed class Command {
  * It is used for decoupled communication between different parts of the application and the main navigation logic.
  * It is buffered to prevent senders from being suspended if the receiver is not immediately available.
  */
-internal val commandChannel: Channel<Command> = Channel(capacity = Channel.BUFFERED)
+private val commandChannel: Channel<Command> = Channel(
+    capacity = Channel.BUFFERED,
+    onBufferOverflow = BufferOverflow.DROP_OLDEST
+)
+
+internal fun sendCommand(command: Command): Boolean =
+    commandChannel.trySend(element = command)
+        .onFailure { Telemetry.error(tag = TAG, message = "Unable to send command $command", throwable = it) }.isSuccess
+
+internal suspend fun receiveCommand(block: (Command) -> Unit) {
+    commandChannel.receiveAsFlow().collect { block(it) }
+}
+
+private const val TAG = "Command"

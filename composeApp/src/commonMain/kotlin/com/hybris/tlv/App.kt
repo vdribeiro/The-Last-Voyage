@@ -1,6 +1,5 @@
 package com.hybris.tlv
 
-import kotlinx.coroutines.flow.receiveAsFlow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -12,8 +11,8 @@ import com.hybris.tlv.audio.AudioPlayer
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.ui.navigation.Command
 import com.hybris.tlv.ui.navigation.Navigation
-import com.hybris.tlv.ui.navigation.commandChannel
 import com.hybris.tlv.ui.navigation.navigate
+import com.hybris.tlv.ui.navigation.receiveCommand
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.UseCases
 
@@ -38,7 +37,7 @@ internal fun App(
     )
 
     LaunchedEffect(key1 = Unit) {
-        commandChannel.receiveAsFlow().collect { command ->
+        receiveCommand { command ->
             when (command) {
                 is Command.Navigate -> navController.navigate(screen = command.screen, command.restore)
                 Command.Back -> navController.popBackStack()
