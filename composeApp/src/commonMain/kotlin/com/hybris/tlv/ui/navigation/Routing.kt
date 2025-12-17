@@ -18,19 +18,27 @@ import com.hybris.tlv.telemetry.Telemetry
  * If the screen is not in the stack, add it to end of the stack.
  * If the screen is already in the stack, eiter replace or restore it and truncate onwards.
  */
-internal inline fun <reified S: Screen> NavHostController.navigate(screen: S, restore: Boolean) {
+internal inline fun <reified S: Screen> NavHostController.navigate(screen: S, restore: Boolean) = runCatching {
     Telemetry.info(tag = TAG, message = "Navigating to: $screen")
     navigate(route = screen) {
         popUpTo(route = S::class) { inclusive = !restore }
         launchSingleTop = restore
     }
     Telemetry.info(tag = TAG, message = "Navigation stack: ${printBackStack()}")
-}
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to ${if (restore) "restore" else "navigate"} to screen $screen", throwable = it) }.getOrDefault(defaultValue = Unit)
+
+/**
+ * Pop to the previous destination.
+ */
+internal fun NavHostController.back(): Boolean = runCatching {
+    Telemetry.info(tag = TAG, message = "Navigating back")
+    popBackStack().also { Telemetry.info(tag = TAG, message = "Navigation stack: ${printBackStack()}") }
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to go back", throwable = it) }.getOrDefault(defaultValue = false)
 
 /**
  * Prints the current navigation back stack in a reader-friendly format.
  */
-private fun NavHostController.printBackStack() = runCatching {
+private fun NavHostController.printBackStack(): String = runCatching {
     currentBackStack.value.joinToString { it.destination.toString().substringAfterLast(delimiter = ".") }.substringAfter(delimiter = ",").trim()
 }.onFailure { Telemetry.error(tag = TAG, message = "Error printing backstack", throwable = it) }.getOrDefault(defaultValue = "")
 

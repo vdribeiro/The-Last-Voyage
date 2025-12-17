@@ -11,6 +11,7 @@ import com.hybris.tlv.audio.AudioPlayer
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.ui.navigation.Command
 import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.navigation.back
 import com.hybris.tlv.ui.navigation.navigate
 import com.hybris.tlv.ui.navigation.receiveCommand
 import com.hybris.tlv.ui.theme.AppTheme
@@ -39,8 +40,8 @@ internal fun App(
     LaunchedEffect(key1 = Unit) {
         receiveCommand { command ->
             when (command) {
-                is Command.Navigate -> navController.navigate(screen = command.screen, command.restore)
-                Command.Back -> navController.popBackStack()
+                is Command.Navigate -> navController.navigate(screen = command.screen, restore = command.restore)
+                Command.Back -> navController.back()
                 Command.ToggleAudio -> audioPlayer.action(action = AudioPlayer.Action.Toggle)
             }
         }
