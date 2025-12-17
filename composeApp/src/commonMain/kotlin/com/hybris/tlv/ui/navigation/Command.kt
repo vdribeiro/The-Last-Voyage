@@ -27,7 +27,6 @@ internal sealed class Command {
 /**
  * Channel for sending and receiving [Command] objects.
  * It is used for decoupled communication between different parts of the application and the main navigation logic.
- * It is buffered to prevent senders from being suspended if the receiver is not immediately available.
  */
 private val commandChannel: Channel<Command> = Channel(
     capacity = Channel.BUFFERED,
