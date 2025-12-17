@@ -12,5 +12,8 @@ CREATE TABLE IF NOT EXISTS Ship (
     cryopods INTEGER AS Int NOT NULL
 );
 
+truncateShip:
+DELETE FROM Ship;
+
 upsertShip:
 INSERT OR REPLACE INTO Ship VALUES ?;

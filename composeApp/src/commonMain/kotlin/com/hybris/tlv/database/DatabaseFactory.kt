@@ -1,9 +1,12 @@
 package com.hybris.tlv.database
 
+import kotlinx.coroutines.withContext
 import app.cash.sqldelight.EnumColumnAdapter
 import app.cash.sqldelight.adapter.primitive.IntColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.database.adapter.SetColumnAdapter
+import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.telemetry.Telemetry
 import database.Achievement
 import database.AppDatabase
 import database.Catastrophe
@@ -75,3 +78,23 @@ typealias GameSessionSchema = GameSession
 typealias EventSchema = Event
 typealias AchievementSchema = Achievement
 typealias CreditSchema = Credit
+
+private const val TAG = "Database"
+
+internal suspend fun AppDatabase.clearDatabase() = withContext(context = Dispatcher.IO) {
+    runCatching {
+        transaction {
+            translationQueries.truncateTranslation()
+            stellarHostQueries.truncateStellarHost()
+            planetQueries.truncatePlanet()
+            formulaQueries.truncateFormula()
+            catastropheQueries.truncateCatastrophe()
+            engineQueries.truncateEngine()
+            shipQueries.truncateShip()
+            gameSessionQueries.truncateGameSession()
+            eventQueries.truncateEvent()
+            achievementQueries.truncateAchievement()
+            creditQueries.truncateCredit()
+        }
+    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to clear database", throwable = it) }.getOrDefault(defaultValue = Unit)
+}

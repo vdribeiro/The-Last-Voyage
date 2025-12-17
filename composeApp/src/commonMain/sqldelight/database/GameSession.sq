@@ -13,6 +13,9 @@ CREATE TABLE IF NOT EXISTS GameSession (
     score REAL
 );
 
+truncateGameSession:
+DELETE FROM GameSession;
+
 upsertGameSession:
 INSERT OR REPLACE INTO GameSession VALUES ?;
 

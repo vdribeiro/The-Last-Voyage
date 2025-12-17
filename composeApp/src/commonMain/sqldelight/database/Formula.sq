@@ -29,5 +29,8 @@ CREATE TABLE IF NOT EXISTS Formula (
     stellarHostEffectiveTemperatureMaxDeviation REAL NOT NULL
 );
 
+truncateFormula:
+DELETE FROM Formula;
+
 upsertFormula:
 INSERT OR REPLACE INTO Formula VALUES ?;
