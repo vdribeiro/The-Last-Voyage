@@ -79,8 +79,6 @@ typealias EventSchema = Event
 typealias AchievementSchema = Achievement
 typealias CreditSchema = Credit
 
-private const val TAG = "Database"
-
 internal suspend fun AppDatabase.clearDatabase() = withContext(context = Dispatcher.IO) {
     runCatching {
         transaction {
@@ -98,3 +96,5 @@ internal suspend fun AppDatabase.clearDatabase() = withContext(context = Dispatc
         }
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to clear database", throwable = it) }.getOrDefault(defaultValue = Unit)
 }
+
+private const val TAG = "Database"

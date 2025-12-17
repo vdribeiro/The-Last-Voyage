@@ -18,15 +18,15 @@ import database.AppDatabase
  * Dependency index.
  */
 internal class Dependency(
-    val sqlDriver: SqlDriver = createSqlDriver(),
+    private val sqlDriver: SqlDriver = createSqlDriver(),
     private val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,
     private val httpEngine: HttpClientEngine? = null,
     private val httpClient: HttpClient = HttpClientFactory(engine = httpEngine).httpClient,
     val config: ConfigManager = Config(httpClient = httpClient),
     val useCases: UseCases = Gateways(
         config = config,
+        database = database,
         httpClient = httpClient,
-        database = database
     ),
     val audioPlayer: AudioPlayer = createAudioPlayer()
 )

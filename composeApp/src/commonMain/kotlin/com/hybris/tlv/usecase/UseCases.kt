@@ -8,6 +8,7 @@ import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.ArchiveUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
+import com.hybris.tlv.usecase.sync.SyncUseCases
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 
 /**
@@ -23,4 +24,5 @@ internal interface UseCases {
     val gameSession: GameSessionUseCases
     val achievement: AchievementUseCases
     val credit: CreditUseCases
+    val sync: SyncUseCases
 }

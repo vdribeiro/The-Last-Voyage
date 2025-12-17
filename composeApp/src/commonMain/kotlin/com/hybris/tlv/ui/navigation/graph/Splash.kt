@@ -16,14 +16,7 @@ internal fun NavGraphBuilder.splashScreen(
     SplashScreen(store = viewModel {
         SplashStore(
             config = config,
-            archiveUseCases = useCases.archive,
-            translationUseCases = useCases.translation,
-            catastropheUseCases = useCases.catastrophe,
-            shipUseCases = useCases.ship,
-            spaceUseCases = useCases.space,
-            eventUseCases = useCases.event,
-            achievementUseCases = useCases.achievement,
-            creditUseCases = useCases.credit
+            syncUseCases = useCases.sync
         )
     })
 }

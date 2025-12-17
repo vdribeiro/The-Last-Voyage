@@ -18,14 +18,16 @@ import com.hybris.tlv.usecase.space.ArchiveGateway
 import com.hybris.tlv.usecase.space.ArchiveUseCases
 import com.hybris.tlv.usecase.space.SpaceGateway
 import com.hybris.tlv.usecase.space.SpaceUseCases
+import com.hybris.tlv.usecase.sync.SyncGateway
+import com.hybris.tlv.usecase.sync.SyncUseCases
 import com.hybris.tlv.usecase.translation.TranslationGateway
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 import database.AppDatabase
 
 internal class Gateways(
     config: ConfigManager,
-    httpClient: HttpClient,
     database: AppDatabase,
+    httpClient: HttpClient
 ): UseCases {
     override val translation: TranslationUseCases = TranslationGateway(
         config = config,
@@ -65,5 +67,17 @@ internal class Gateways(
         config = config,
         httpClient = httpClient,
         database = database
+    )
+    override val sync: SyncUseCases = SyncGateway(
+        config = config,
+        database = database,
+        translationUseCases = translation,
+        archiveUseCases = archive,
+        catastropheUseCases = catastrophe,
+        shipUseCases = ship,
+        spaceUseCases = space,
+        eventUseCases = event,
+        achievementUseCases = achievement,
+        creditUseCases = credit
     )
 }

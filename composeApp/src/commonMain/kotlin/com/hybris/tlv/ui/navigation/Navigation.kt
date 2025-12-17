@@ -58,7 +58,7 @@ internal fun Navigation(
         splashScreen(config = config, useCases = useCases)
         cheatScreen(config = config)
         mainMenuScreen(config = config, useCases = useCases)
-        helpScreen(config = config)
+        helpScreen(config = config, useCases = useCases)
         feedbackScreen()
         newGameScreen(useCases = useCases)
         tutorialScreen(config = config)

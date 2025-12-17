@@ -1,34 +1,17 @@
 package com.hybris.tlv
 
-import kotlinx.coroutines.withContext
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.TLV.HTTP
-import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.dependency.Dependency
-import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.serializer.CONFIGS_JSON
-import com.hybris.tlv.serializer.PREFERENCES_JSON
-import com.hybris.tlv.storage.deleteFile
 
 /**
  * The main object for The Last Voyage application.
- * This object serves as the central hub for the application, holding dependencies and providing top-level functions and feature flags.
- * It encapsulates the dependency injection mechanism and offers a clean entry point for the UI.
+ * This object serves as the central hub for the application, holding dependencies, feature flags and a clean entry point for the UI.
  */
 internal object TLV {
 
     private val dependency: Dependency = Dependency()
-
-    /**
-     * Resets all local data for the application.
-     * It deletes configuration and preferences files and clears the entire database.
-     */
-    suspend fun reset() = withContext(context = Dispatcher.IO) {
-        deleteFile(path = CONFIGS_JSON)
-        deleteFile(path = PREFERENCES_JSON)
-        dependency.sqlDriver.clearDatabase()
-    }
 
     /**
      * The main composable entry point for the application UI.

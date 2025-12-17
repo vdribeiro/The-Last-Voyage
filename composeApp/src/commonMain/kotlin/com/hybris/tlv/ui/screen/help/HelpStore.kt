@@ -2,15 +2,16 @@ package com.hybris.tlv.ui.screen.help
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.TLV
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.Screen.Tutorial
 import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.usecase.sync.SyncUseCases
 
 internal class HelpStore(
     private val config: ConfigManager,
+    private val syncUseCases: SyncUseCases
 ): Store<HelpState, HelpAction>(
     initialState = HelpState()
 ) {
@@ -41,7 +42,7 @@ internal class HelpStore(
     }
 
     private fun reset(): Job = launch(id = "reset") {
-        TLV.reset()
+        syncUseCases.reset()
         navigate(screen = Screen.Splash)
     }
 
