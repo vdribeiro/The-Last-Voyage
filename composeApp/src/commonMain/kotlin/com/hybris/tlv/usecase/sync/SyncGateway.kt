@@ -3,8 +3,7 @@ package com.hybris.tlv.usecase.sync
 import kotlinx.coroutines.async
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
-import com.hybris.tlv.TLV.ARCHIVE
-import com.hybris.tlv.TLV.RESET
+import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.clearDatabase
 import com.hybris.tlv.flow.Dispatcher
@@ -43,7 +42,7 @@ internal class SyncGateway(
     }
 
     override suspend fun sync(progress: (Float) -> Unit) = withContext(context = Dispatcher.Default) {
-        if (RESET) reset()
+        if (flag.reset) reset()
         config.setup()
 
         val remoteVersion = config.remoteConfigs.value.appVersion
@@ -61,7 +60,7 @@ internal class SyncGateway(
 
     private suspend fun syncAll(progress: (Float) -> Unit) = supervisorScope {
         val tasks = listOf(
-            suspend { if (ARCHIVE) archiveUseCases.getArchive() },
+            suspend { if (flag.archive) archiveUseCases.getArchive() },
             suspend { syncTranslations() },
             suspend { syncCatastrophes() },
             suspend { syncEngines() },

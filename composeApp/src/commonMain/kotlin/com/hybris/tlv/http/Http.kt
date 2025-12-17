@@ -16,7 +16,7 @@ import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.encodeURLPath
 import io.ktor.http.isSuccess
 import io.ktor.utils.io.toByteArray
-import com.hybris.tlv.TLV.HTTP
+import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.platform.isDebug
 import com.hybris.tlv.serializer.decode
@@ -36,7 +36,7 @@ internal suspend inline fun <reified T> HttpClient.getStream(
     crossinline block: HttpRequestBuilder.() -> Unit = {}
 ): Result<T> = withContext(context = Dispatcher.IO) {
     runCatching {
-        if (!HTTP) throw Throwable(message = "Network disabled")
+        if (!flag.http) throw Throwable(message = "Network disabled")
         if (!isInternetAvailableDebounced()) throw Throwable(message = "No internet connection available")
         prepareGet(urlString = path.encodeURLPath()) {
             queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
