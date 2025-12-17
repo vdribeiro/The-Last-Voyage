@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.game
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.store.Store
@@ -9,12 +10,17 @@ import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.ship.model.Ship
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_FUEL
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_INTEGRITY
+import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_MATERIALS
 import com.hybris.tlv.usecase.space.SUN
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 
 internal class GameStore(
     ship: Ship?,
+    private val config: ConfigManager,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
     private val gameSessionUseCases: GameSessionUseCases
@@ -37,8 +43,18 @@ internal class GameStore(
             return@launch
         }
 
+        val preferences = config.preferences.value
         Telemetry.info(tag = TAG, message = "Attempt to repair the ship if the integrity is critically low")
-        val ship = shipUseCases.repairShip(ship = gameSession.ship)
+        val ship = shipUseCases.repairShip(ship = gameSession.ship).let { ship ->
+            ship.copy(
+                sensorRange = if (preferences.cheatSensorRange) 100 else ship.sensorRange,
+                integrity = if (preferences.cheatIntegrity) MAX_INTEGRITY else ship.integrity,
+                materials = if (preferences.cheatMaterials) MAX_MATERIALS else ship.materials,
+                fuel = if (preferences.cheatFuel) MAX_FUEL else ship.fuel,
+                cryopods = if (preferences.cheatCryopods) MAX_CRYOPODS else ship.cryopods
+            )
+        }
+
         val updatedGameSession = gameSession.copy(ship = ship)
         gameSessionUseCases.updateGameSession(gameSession = updatedGameSession)
 

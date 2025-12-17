@@ -62,7 +62,7 @@ internal fun Navigation(
         feedbackScreen()
         newGameScreen(useCases = useCases)
         tutorialScreen(config = config)
-        gameScreen(useCases = useCases)
+        gameScreen(config = config, useCases = useCases)
         eventScreen(useCases = useCases)
         gameOverScreen(useCases = useCases)
         stellarExplorerScreen(useCases = useCases)

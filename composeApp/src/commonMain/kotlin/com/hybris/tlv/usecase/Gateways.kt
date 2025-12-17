@@ -52,7 +52,9 @@ internal class Gateways(
         httpClient = httpClient,
         database = database
     )
-    override val gameSession: GameSessionUseCases = GameSessionGateway(database = database)
+    override val gameSession: GameSessionUseCases = GameSessionGateway(
+        database = database
+    )
     override val achievement: AchievementUseCases = AchievementGateway(
         httpClient = httpClient,
         database = database

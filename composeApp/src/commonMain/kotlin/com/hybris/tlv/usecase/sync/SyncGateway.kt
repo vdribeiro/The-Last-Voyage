@@ -61,8 +61,8 @@ internal class SyncGateway(
 
     private suspend fun syncAll(progress: (Float) -> Unit) = supervisorScope {
         val tasks = listOf(
-            suspend { syncTranslations() },
             suspend { if (ARCHIVE) archiveUseCases.getArchive() },
+            suspend { syncTranslations() },
             suspend { syncCatastrophes() },
             suspend { syncEngines() },
             suspend { syncStellarHosts() },

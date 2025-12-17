@@ -13,10 +13,6 @@ import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_FUEL
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_INTEGRITY
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_MATERIALS
 import database.AppDatabase
 
 internal class ShipGateway(
@@ -59,13 +55,11 @@ internal class ShipGateway(
     }
 
     override suspend fun repairShip(ship: Ship): Ship = withContext(context = Dispatcher.Default) {
-        val preferences = config.preferences.value
-
-        val sensorRange = if (preferences.cheatSensorRange) 100 else ship.sensorRange
-        var integrity = if (preferences.cheatIntegrity) MAX_INTEGRITY else ship.integrity
-        var materials = if (preferences.cheatMaterials) MAX_MATERIALS else ship.materials
-        val fuel = if (preferences.cheatFuel) MAX_FUEL else ship.fuel.coerceAtLeast(minimumValue = 0)
-        val cryopods = if (preferences.cheatCryopods) MAX_CRYOPODS else ship.cryopods.coerceAtLeast(minimumValue = 0)
+        val sensorRange = ship.sensorRange
+        var integrity = ship.integrity
+        var materials = ship.materials
+        val fuel = ship.fuel.coerceAtLeast(minimumValue = 0)
+        val cryopods = ship.cryopods.coerceAtLeast(minimumValue = 0)
 
         if (integrity <= 0) {
             // Attempt to repair the ship
