@@ -134,16 +134,10 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     }
 
     /**
-     * Issue a [command].
-     */
-    protected fun command(command: Command): Job =
-        viewModelScope.launch { sendCommand(command = command) }
-
-    /**
      * Navigate to a new [screen].
      */
-    protected fun navigate(screen: Screen, restore: Boolean = false): Job =
-        command(command = Command.Navigate(screen = screen, restore = restore))
+    fun navigate(screen: Screen, restore: Boolean = false): Boolean =
+        sendCommand(command = Command.Navigate(screen = screen, restore = restore))
 
     /**
      * Navigate back.
@@ -154,26 +148,6 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      * Overridable back navigation.
      */
     protected open fun back(state: State) {
-        command(command = Command.Back)
+        sendCommand(command = Command.Back)
     }
-
-    /**
-     * Toggle audio player.
-     */
-    fun toggleAudio() {
-        command(command = Command.ToggleAudio)
-    }
-
-    /**
-     * Navigate to [Screen.Help].
-     */
-    fun help(): Job = navigate(screen = Screen.Help)
-
-    /**
-     * Navigate to [Screen.Feedback].
-     */
-    fun feedback(
-        tag: String? = null,
-        message: String? = null
-    ): Job = navigate(screen = Screen.Feedback(tag = tag, message = message))
 }

@@ -8,6 +8,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hybris.tlv.ui.navigation.Command
+import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.sendCommand
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
@@ -31,9 +34,9 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
 
     Screen(
         loading = storeState.loading,
-        onHelpClick = { store.help() },
-        onMusicClick = { store.toggleAudio() },
-        onFeedbackClick = { store.feedback() },
+        onHelpClick = { store.navigate(screen = Screen.Help) },
+        onMusicClick = { sendCommand(command = Command.ToggleAudio) },
+        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(

@@ -42,7 +42,7 @@ internal class NewGameStore(
 
         val engines = shipUseCases.getEngines()
         if (engines.isEmpty()) {
-            feedback(tag = TAG, message = "Invalid state: no engines on setup()")
+            navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: no engines on setup()"))
             return@launch
         }
         val shipState = ShipState(
@@ -56,7 +56,7 @@ internal class NewGameStore(
 
         val selectedCatastrophe = catastropheUseCases.getRandomCatastrophe()
         if (selectedCatastrophe == null) {
-            feedback(tag = TAG, message = "Invalid state: missing catastrophe on setup()")
+            navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing catastrophe on setup()"))
             return@launch
         }
 
@@ -79,13 +79,13 @@ internal class NewGameStore(
                 Telemetry.info(tag = TAG, message = "Start game")
                 val selectedShip = this@NewGameStore.selectedShip
                 if (selectedShip == null) {
-                    feedback(tag = TAG, message = "Invalid state: missing ship prototype on startGame()")
+                    navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing ship prototype on startGame()"))
                     return@launch
                 }
 
                 val selectedEngine = state.shipState?.engine
                 if (selectedEngine == null) {
-                    feedback(tag = TAG, message = "Invalid state: missing engine on startGame()")
+                    navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing engine on startGame()"))
                     return@launch
                 }
 

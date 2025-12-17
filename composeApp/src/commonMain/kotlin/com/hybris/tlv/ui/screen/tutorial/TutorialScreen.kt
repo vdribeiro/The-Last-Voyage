@@ -15,6 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hybris.tlv.ui.navigation.Command
+import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.sendCommand
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -47,8 +50,8 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
 
     Screen(
         onBackClick = { store.back() },
-        onMusicClick = { store.toggleAudio() },
-        onFeedbackClick = { store.feedback() },
+        onMusicClick = { sendCommand(command = Command.ToggleAudio) },
+        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(

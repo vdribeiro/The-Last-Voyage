@@ -32,7 +32,7 @@ internal class EventStore(
 
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            feedback(tag = TAG, message = "Invalid state: missing game session on setup()")
+            navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 
@@ -43,7 +43,7 @@ internal class EventStore(
 
         val parentEvent = eventChain.find { it.parentId == null }
         if (parentEvent == null) {
-            feedback(tag = TAG, message = "Invalid state: missing parent event on setup()")
+            navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing parent event on setup()"))
             return@launch
         }
 
@@ -73,7 +73,7 @@ internal class EventStore(
         Telemetry.info(tag = TAG, message = "Selected event ${action.event}")
         val gameSession = this@EventStore.gameSession
         if (gameSession == null) {
-            feedback(tag = TAG, message = "Invalid state: missing game session on select()")
+            navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing game session on select()"))
             return@launch
         }
 

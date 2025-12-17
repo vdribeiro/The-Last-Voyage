@@ -8,6 +8,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hybris.tlv.ui.navigation.Command
+import com.hybris.tlv.ui.navigation.sendCommand
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Feedback
@@ -23,7 +25,7 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
     Screen(
         modifier = Modifier.clearFocus(),
         onBackClick = { store.back() },
-        onMusicClick = { store.toggleAudio() },
+        onMusicClick = { sendCommand(command = Command.ToggleAudio) },
     ) {
         Feedback(
             modifier = Modifier

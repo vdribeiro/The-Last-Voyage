@@ -13,6 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hybris.tlv.ui.navigation.Command
+import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.sendCommand
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTranslationState
@@ -49,9 +52,9 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
         modifier = Modifier.clearFocus(),
         loading = storeState.loading,
         onBackClick = { store.back() },
-        onHelpClick = { store.help() },
-        onMusicClick = { store.toggleAudio() },
-        onFeedbackClick = { store.feedback() },
+        onHelpClick = { store.navigate(screen = Screen.Help) },
+        onMusicClick = { sendCommand(command = Command.ToggleAudio) },
+        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
         topBar = {
             // Control panel definitions according to selected view
             val isHostView = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS)

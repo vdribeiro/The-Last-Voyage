@@ -32,6 +32,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.open
 import com.hybris.tlv.platform.platform
+import com.hybris.tlv.ui.navigation.Command
+import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.sendCommand
 import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalColorScheme
@@ -60,8 +63,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
     Screen(
         loading = storeState.loading,
         onBackClick = { store.back() },
-        onMusicClick = { store.toggleAudio() },
-        onFeedbackClick = { store.feedback() },
+        onMusicClick = { sendCommand(command = Command.ToggleAudio) },
+        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
         bottomBar = {
             if (currentContent == Content.LEARN_MENU) HelpBar(
                 modifier = Modifier.padding(horizontal = 16.dp),

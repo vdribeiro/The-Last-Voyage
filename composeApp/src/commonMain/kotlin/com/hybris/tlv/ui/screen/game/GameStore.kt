@@ -39,7 +39,7 @@ internal class GameStore(
 
         val gameSession = gameSessionUseCases.getLatestGameSession()
         if (gameSession == null) {
-            feedback(tag = TAG, message = "Invalid state: missing game session on setup()")
+            navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing game session on setup()"))
             return@launch
         }
 
@@ -80,7 +80,7 @@ internal class GameStore(
             }
         }
         if (currentStellarHost == null) {
-            feedback(tag = TAG, message = "Invalid state: missing stellar host on setup()")
+            navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing stellar host on setup()"))
             return@launch
         }
 
@@ -125,13 +125,13 @@ internal class GameStore(
 
         val gameSession = this@GameStore.gameSession
         if (gameSession == null) {
-            feedback(tag = TAG, message = "Invalid state: missing game session on travel()")
+            navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing game session on travel()"))
             return@launch
         }
 
         val stellarHost = state.nearStellarHosts.find { it.id == action.stellarHost.id }
         if (stellarHost == null) {
-            feedback(tag = TAG, message = "Invalid state: missing stellar host on travel()")
+            navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing stellar host on travel()"))
             return@launch
         }
 
@@ -143,7 +143,7 @@ internal class GameStore(
         Telemetry.info(tag = TAG, message = "Settled on ${action.planet}")
         val gameSession = this@GameStore.gameSession
         if (gameSession == null) {
-            feedback(tag = TAG, message = "Invalid state: missing game session on settle()")
+            navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing game session on settle()"))
             return@launch
         }
 
