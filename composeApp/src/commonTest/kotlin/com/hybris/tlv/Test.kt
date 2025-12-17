@@ -65,14 +65,7 @@ internal val useCases: UseCases = dependency.useCases
 internal fun getSplashStore(): SplashStore =
     SplashStore(
         config = dependency.config,
-        archiveUseCases = useCases.archive,
-        translationUseCases = useCases.translation,
-        catastropheUseCases = useCases.catastrophe,
-        shipUseCases = useCases.ship,
-        spaceUseCases = useCases.space,
-        eventUseCases = useCases.event,
-        achievementUseCases = useCases.achievement,
-        creditUseCases = useCases.credit
+        syncUseCases = dependency.useCases.sync
     )
 
 internal fun getCheatStore(): CheatStore =
@@ -85,7 +78,10 @@ internal fun getMainMenuStore(): MainMenuStore =
     )
 
 internal fun getHelpStore(): HelpStore =
-    HelpStore(config = dependency.config)
+    HelpStore(
+        config = dependency.config,
+        syncUseCases = dependency.useCases.sync
+    )
 
 internal fun getFeedbackStore(tag: String? = null, message: String? = null) =
     FeedbackStore(
@@ -109,6 +105,7 @@ internal fun getTutorialStore(newGame: Boolean = false): TutorialStore =
 internal fun getGameStore(ship: Ship? = com.hybris.tlv.ship): GameStore =
     GameStore(
         ship = ship,
+        config = dependency.config,
         shipUseCases = useCases.ship,
         spaceUseCases = useCases.space,
         gameSessionUseCases = useCases.gameSession
