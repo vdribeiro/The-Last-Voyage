@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase.event
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.EventSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.EVENTS_URL
@@ -18,28 +17,28 @@ import com.hybris.tlv.usecase.space.model.TravelOutcome
 import database.AppDatabase
 
 internal class EventGateway(
-    private val config: ConfigManager,
     private val httpClient: HttpClient,
     database: AppDatabase
 ): EventUseCases {
 
     private val eventDao = database.eventQueries
 
-    override suspend fun syncEvents() = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.eventsVersion
-        val localVersion = config.localConfigs.value.eventsVersion
-        Telemetry.info(tag = TAG, message = "Syncing events: remote version: $remoteVersion, local version: $localVersion")
-        if (remoteVersion > localVersion) {
-            when (val result = httpClient.getStream<Event>(path = EVENTS_URL)) {
-                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get events", throwable = result.error)
-                is Result.Success -> {
-                    rewriteEvents(events = result.list)
-                    config.setConfigs { it.copy(eventsVersion = remoteVersion) }
-                    Telemetry.info(tag = TAG, message = "Successful events sync")
-                    return@withContext
-                }
+    override suspend fun syncEvents(): Boolean = withContext(context = Dispatcher.IO) {
+        when (val result = httpClient.getStream<Event>(path = EVENTS_URL)) {
+            is Result.Error -> {
+                Telemetry.error(tag = TAG, message = "Unable to get events", throwable = result.error)
+                false
+            }
+
+            is Result.Success -> {
+                rewriteEvents(events = result.list)
+                Telemetry.info(tag = TAG, message = "Successful events sync")
+                true
             }
         }
+    }
+
+    override suspend fun prepopulateEvents() {
         if (eventDao.isEventEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating events")
             val events: List<Event> = loadFromJsonResource(path = EVENTS_JSON)

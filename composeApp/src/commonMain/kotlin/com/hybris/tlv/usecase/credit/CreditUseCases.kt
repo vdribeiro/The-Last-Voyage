@@ -7,7 +7,12 @@ internal interface CreditUseCases {
     /**
      * Sync [Credit]s.
      */
-    suspend fun syncCredits()
+    suspend fun syncCredits(): Boolean
+
+    /**
+     * Prepopulate [Credit]s.
+     */
+    suspend fun prepopulateCredits()
 
     /**
      * Get all [Credit]s.

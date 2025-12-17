@@ -8,7 +8,12 @@ internal interface AchievementUseCases {
     /**
      * Sync [Achievement]s.
      */
-    suspend fun syncAchievements()
+    suspend fun syncAchievements(): Boolean
+
+    /**
+     * Prepopulate [Achievement]s.
+     */
+    suspend fun prepopulateAchievements()
 
     /**
      * Get all [Achievement]s.

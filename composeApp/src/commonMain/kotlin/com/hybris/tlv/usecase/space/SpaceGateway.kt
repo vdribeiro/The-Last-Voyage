@@ -12,7 +12,6 @@ import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.PlanetSchema
 import com.hybris.tlv.database.StellarHostSchema
 import com.hybris.tlv.flow.Dispatcher
@@ -31,7 +30,6 @@ import com.hybris.tlv.usecase.space.model.TravelOutcome
 import database.AppDatabase
 
 internal class SpaceGateway(
-    private val config: ConfigManager,
     private val httpClient: HttpClient,
     database: AppDatabase
 ): SpaceUseCases {
@@ -39,21 +37,22 @@ internal class SpaceGateway(
     private val stellarHostDao = database.stellarHostQueries
     private val planetDao = database.planetQueries
 
-    override suspend fun syncStellarHosts() = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.stellarHostsVersion
-        val localVersion = config.localConfigs.value.stellarHostsVersion
-        Telemetry.info(tag = TAG, message = "Syncing stellar hosts: remote version: $remoteVersion, local version: $localVersion")
-        if (remoteVersion > localVersion) {
-            when (val result = httpClient.getStream<StellarHost>(path = STELLAR_HOSTS_URL)) {
-                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get stellar hosts", throwable = result.error)
-                is Result.Success -> {
-                    rewriteStellarHosts(stellarHosts = result.list)
-                    config.setConfigs { it.copy(stellarHostsVersion = remoteVersion) }
-                    Telemetry.info(tag = TAG, message = "Successful stellar hosts sync")
-                    return@withContext
-                }
+    override suspend fun syncStellarHosts(): Boolean = withContext(context = Dispatcher.IO) {
+        when (val result = httpClient.getStream<StellarHost>(path = STELLAR_HOSTS_URL)) {
+            is Result.Error -> {
+                Telemetry.error(tag = TAG, message = "Unable to get stellar hosts", throwable = result.error)
+                false
+            }
+
+            is Result.Success -> {
+                rewriteStellarHosts(stellarHosts = result.list)
+                Telemetry.info(tag = TAG, message = "Successful stellar hosts sync")
+                true
             }
         }
+    }
+
+    override suspend fun prepopulateStellarHosts() {
         if (stellarHostDao.isStellarHostEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating stellar hosts")
             val stellarHosts: List<StellarHost> = loadFromJsonResource(path = STELLAR_HOSTS_JSON)
@@ -66,21 +65,23 @@ internal class SpaceGateway(
         stellarHosts.forEach { stellarHostDao.upsertStellarHost(StellarHost = it.toStellarHostSchema()) }
     }
 
-    override suspend fun syncPlanets() = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.planetsVersion
-        val localVersion = config.localConfigs.value.planetsVersion
-        Telemetry.info(tag = TAG, message = "Syncing planets: remote version: $remoteVersion, local version: $localVersion")
-        if (remoteVersion > localVersion) {
-            when (val result = httpClient.getStream<Planet>(path = PLANETS_URL)) {
-                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get planets", throwable = result.error)
-                is Result.Success -> {
-                    rewritePlanets(planets = result.list)
-                    config.setConfigs { it.copy(planetsVersion = remoteVersion) }
-                    Telemetry.info(tag = TAG, message = "Successful planets sync")
-                    return@withContext
-                }
+    override suspend fun syncPlanets(): Boolean = withContext(context = Dispatcher.IO) {
+        when (val result = httpClient.getStream<Planet>(path = PLANETS_URL)) {
+            is Result.Error -> {
+                Telemetry.error(tag = TAG, message = "Unable to get planets", throwable = result.error)
+                false
+            }
+
+            is Result.Success -> {
+                rewritePlanets(planets = result.list)
+                Telemetry.info(tag = TAG, message = "Successful planets sync")
+                true
             }
         }
+
+    }
+
+    override suspend fun prepopulatePlanets() {
         if (planetDao.isPlanetEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating planets")
             val planets: List<Planet> = loadFromJsonResource(path = PLANETS_JSON)

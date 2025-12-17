@@ -7,7 +7,12 @@ internal interface EventUseCases {
     /**
      * Sync [Event]s.
      */
-    suspend fun syncEvents()
+    suspend fun syncEvents(): Boolean
+
+    /**
+     * Prepopulate [Event]s.
+     */
+    suspend fun prepopulateEvents()
 
     /**
      * Get a random [Event] and its children given an exclusion list of [ids].

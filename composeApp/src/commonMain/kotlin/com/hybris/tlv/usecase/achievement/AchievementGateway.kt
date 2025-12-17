@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase.achievement
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.AchievementSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.ACHIEVEMENTS_URL
@@ -19,28 +18,28 @@ import com.hybris.tlv.usecase.gamesession.model.GameSession
 import database.AppDatabase
 
 internal class AchievementGateway(
-    private val config: ConfigManager,
     private val httpClient: HttpClient,
     database: AppDatabase
 ): AchievementUseCases {
 
     private val achievementDao = database.achievementQueries
 
-    override suspend fun syncAchievements() = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.achievementsVersion
-        val localVersion = config.localConfigs.value.achievementsVersion
-        Telemetry.info(tag = TAG, message = "Syncing achievements: remote version: $remoteVersion, local version: $localVersion")
-        if (remoteVersion > localVersion) {
-            when (val result = httpClient.getStream<Achievement>(path = ACHIEVEMENTS_URL)) {
-                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get achievements", throwable = result.error)
-                is Result.Success -> {
-                    rewriteAchievements(achievements = result.list)
-                    config.setConfigs { it.copy(achievementsVersion = remoteVersion) }
-                    Telemetry.info(tag = TAG, message = "Successful achievements sync")
-                    return@withContext
-                }
+    override suspend fun syncAchievements(): Boolean = withContext(context = Dispatcher.IO) {
+        when (val result = httpClient.getStream<Achievement>(path = ACHIEVEMENTS_URL)) {
+            is Result.Error -> {
+                Telemetry.error(tag = TAG, message = "Unable to get achievements", throwable = result.error)
+                false
+            }
+
+            is Result.Success -> {
+                rewriteAchievements(achievements = result.list)
+                Telemetry.info(tag = TAG, message = "Successful achievements sync")
+                true
             }
         }
+    }
+
+    override suspend fun prepopulateAchievements() {
         if (achievementDao.isAchievementEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating achievements")
             val achievements: List<Achievement> = loadFromJsonResource(path = ACHIEVEMENTS_JSON)

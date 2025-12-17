@@ -3,7 +3,6 @@ package com.hybris.tlv.usecase.ship
 import kotlin.math.abs
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.EngineSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.ENGINES_URL
@@ -21,28 +20,28 @@ import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_MATERIALS
 import database.AppDatabase
 
 internal class ShipGateway(
-    private val config: ConfigManager,
     private val httpClient: HttpClient,
     database: AppDatabase
 ): ShipUseCases {
 
     private val engineDao = database.engineQueries
 
-    override suspend fun syncEngines() = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.enginesVersion
-        val localVersion = config.localConfigs.value.enginesVersion
-        Telemetry.info(tag = TAG, message = "Syncing engines: remote version: $remoteVersion, local version: $localVersion")
-        if (remoteVersion > localVersion) {
-            when (val result = httpClient.getStream<Engine>(path = ENGINES_URL)) {
-                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get engines", throwable = result.error)
-                is Result.Success -> {
-                    rewriteEngines(engines = result.list)
-                    config.setConfigs { it.copy(enginesVersion = remoteVersion) }
-                    Telemetry.info(tag = TAG, message = "Successful engines sync")
-                    return@withContext
-                }
+    override suspend fun syncEngines(): Boolean = withContext(context = Dispatcher.IO) {
+        when (val result = httpClient.getStream<Engine>(path = ENGINES_URL)) {
+            is Result.Error -> {
+                Telemetry.error(tag = TAG, message = "Unable to get engines", throwable = result.error)
+                false
+            }
+
+            is Result.Success -> {
+                rewriteEngines(engines = result.list)
+                Telemetry.info(tag = TAG, message = "Successful engines sync")
+                true
             }
         }
+    }
+
+    override suspend fun prepopulateEngines() {
         if (engineDao.isEngineEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating engines")
             val engines: List<Engine> = loadFromJsonResource(path = ENGINES_JSON)

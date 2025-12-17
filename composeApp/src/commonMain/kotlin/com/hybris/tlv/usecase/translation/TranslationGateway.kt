@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase.translation
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.TranslationSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.TRANSLATIONS_URL
@@ -15,28 +14,28 @@ import com.hybris.tlv.usecase.translation.model.Translation
 import database.AppDatabase
 
 internal class TranslationGateway(
-    private val config: ConfigManager,
     private val httpClient: HttpClient,
     database: AppDatabase
 ): TranslationUseCases {
 
     private val translationDao = database.translationQueries
 
-    override suspend fun syncTranslations() = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.translationsVersion
-        val localVersion = config.localConfigs.value.translationsVersion
-        Telemetry.info(tag = TAG, message = "Syncing translations: remote version: $remoteVersion, local version: $localVersion")
-        if (remoteVersion > localVersion) {
-            when (val result = httpClient.getStream<Translation>(path = TRANSLATIONS_URL)) {
-                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
-                is Result.Success -> {
-                    rewriteTranslations(translations = result.list)
-                    config.setConfigs { it.copy(translationsVersion = remoteVersion) }
-                    Telemetry.info(tag = TAG, message = "Successful translations sync")
-                    return@withContext
-                }
+    override suspend fun syncTranslations(): Boolean = withContext(context = Dispatcher.IO) {
+        when (val result = httpClient.getStream<Translation>(path = TRANSLATIONS_URL)) {
+            is Result.Error -> {
+                Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
+                false
+            }
+
+            is Result.Success -> {
+                rewriteTranslations(translations = result.list)
+                Telemetry.info(tag = TAG, message = "Successful translations sync")
+                true
             }
         }
+    }
+
+    override suspend fun prepopulateTranslations() {
         if (translationDao.isTranslationEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating translations")
             val translations: List<Translation> = loadFromJsonResource(path = TRANSLATIONS_JSON)

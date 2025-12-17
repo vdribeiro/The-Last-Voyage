@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase.catastrophe
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.CatastropheSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.CATASTROPHES_URL
@@ -15,28 +14,28 @@ import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import database.AppDatabase
 
 internal class CatastropheGateway(
-    private val config: ConfigManager,
     private val httpClient: HttpClient,
     database: AppDatabase
 ): CatastropheUseCases {
 
     private val catastropheDao = database.catastropheQueries
 
-    override suspend fun syncCatastrophes() = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.catastrophesVersion
-        val localVersion = config.localConfigs.value.catastrophesVersion
-        Telemetry.info(tag = TAG, message = "Syncing catastrophes: remote version: $remoteVersion, local version: $localVersion")
-        if (remoteVersion > localVersion) {
-            when (val result = httpClient.getStream<Catastrophe>(path = CATASTROPHES_URL)) {
-                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get catastrophes", throwable = result.error)
-                is Result.Success -> {
-                    rewriteCatastrophes(catastrophes = result.list)
-                    config.setConfigs { it.copy(catastrophesVersion = remoteVersion) }
-                    Telemetry.info(tag = TAG, message = "Successful catastrophes sync")
-                    return@withContext
-                }
+    override suspend fun syncCatastrophes(): Boolean = withContext(context = Dispatcher.IO) {
+        when (val result = httpClient.getStream<Catastrophe>(path = CATASTROPHES_URL)) {
+            is Result.Error -> {
+                Telemetry.error(tag = TAG, message = "Unable to get catastrophes", throwable = result.error)
+                false
+            }
+
+            is Result.Success -> {
+                rewriteCatastrophes(catastrophes = result.list)
+                Telemetry.info(tag = TAG, message = "Successful catastrophes sync")
+                true
             }
         }
+    }
+
+    override suspend fun prepopulateCatastrophes() {
         if (catastropheDao.isCatastropheEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating catastrophes")
             val catastrophes: List<Catastrophe> = loadFromJsonResource(path = CATASTROPHES_JSON)

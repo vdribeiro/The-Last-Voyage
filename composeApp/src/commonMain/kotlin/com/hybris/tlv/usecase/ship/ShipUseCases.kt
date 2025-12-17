@@ -8,7 +8,12 @@ internal interface ShipUseCases {
     /**
      * Sync [Engine]s.
      */
-    suspend fun syncEngines()
+    suspend fun syncEngines(): Boolean
+
+    /**
+     * Prepopulate [Engine]s.
+     */
+    suspend fun prepopulateEngines()
 
     /**
      * Get all [Engine]s.

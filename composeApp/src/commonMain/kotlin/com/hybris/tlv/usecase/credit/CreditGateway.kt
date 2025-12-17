@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase.credit
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
-import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.CreditSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.CREDITS_URL
@@ -15,7 +14,6 @@ import com.hybris.tlv.usecase.credit.model.Credit
 import database.AppDatabase
 
 internal class CreditGateway(
-    private val config: ConfigManager,
     private val httpClient: HttpClient,
     database: AppDatabase
 ): CreditUseCases {
@@ -23,20 +21,21 @@ internal class CreditGateway(
     private val creditDao = database.creditQueries
 
     override suspend fun syncCredits() = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.creditsVersion
-        val localVersion = config.localConfigs.value.creditsVersion
-        Telemetry.info(tag = TAG, message = "Syncing credits: remote version: $remoteVersion, local version: $localVersion")
-        if (remoteVersion > localVersion) {
-            when (val result = httpClient.getStream<Credit>(path = CREDITS_URL)) {
-                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get credits", throwable = result.error)
-                is Result.Success -> {
-                    rewriteCredits(credits = result.list)
-                    config.setConfigs { it.copy(creditsVersion = remoteVersion) }
-                    Telemetry.info(tag = TAG, message = "Successful credits sync")
-                    return@withContext
-                }
+        when (val result = httpClient.getStream<Credit>(path = CREDITS_URL)) {
+            is Result.Error -> {
+                Telemetry.error(tag = TAG, message = "Unable to get credits", throwable = result.error)
+                false
+            }
+
+            is Result.Success -> {
+                rewriteCredits(credits = result.list)
+                Telemetry.info(tag = TAG, message = "Successful credits sync")
+                true
             }
         }
+    }
+
+    override suspend fun prepopulateCredits() {
         if (creditDao.isCreditEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating credits")
             val credits: List<Credit> = loadFromJsonResource(path = CREDITS_JSON)

@@ -30,7 +30,6 @@ internal class Gateways(
     httpClient: HttpClient
 ): UseCases {
     override val translation: TranslationUseCases = TranslationGateway(
-        config = config,
         httpClient = httpClient,
         database = database
     )
@@ -38,41 +37,35 @@ internal class Gateways(
         httpClient = httpClient,
     )
     override val catastrophe: CatastropheUseCases = CatastropheGateway(
-        config = config,
         httpClient = httpClient,
         database = database
     )
     override val ship: ShipUseCases = ShipGateway(
-        config = config,
         httpClient = httpClient,
         database = database
     )
     override val space: SpaceUseCases = SpaceGateway(
-        config = config,
         httpClient = httpClient,
         database = database
     )
     override val event: EventUseCases = EventGateway(
-        config = config,
         httpClient = httpClient,
         database = database
     )
     override val gameSession: GameSessionUseCases = GameSessionGateway(database = database)
     override val achievement: AchievementUseCases = AchievementGateway(
-        config = config,
         httpClient = httpClient,
         database = database
     )
     override val credit: CreditUseCases = CreditGateway(
-        config = config,
         httpClient = httpClient,
         database = database
     )
     override val sync: SyncUseCases = SyncGateway(
         config = config,
         database = database,
-        translationUseCases = translation,
         archiveUseCases = archive,
+        translationUseCases = translation,
         catastropheUseCases = catastrophe,
         shipUseCases = ship,
         spaceUseCases = space,

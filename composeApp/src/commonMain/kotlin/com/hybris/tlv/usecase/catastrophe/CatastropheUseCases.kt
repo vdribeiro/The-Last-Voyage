@@ -7,7 +7,12 @@ internal interface CatastropheUseCases {
     /**
      * Sync [Catastrophe]s.
      */
-    suspend fun syncCatastrophes()
+    suspend fun syncCatastrophes(): Boolean
+
+    /**
+     * Prepopulate [Catastrophe]s.
+     */
+    suspend fun prepopulateCatastrophes()
 
     /**
      * Get a random [Catastrophe].
