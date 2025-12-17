@@ -5,7 +5,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.timeout
-import com.hybris.tlv.TLV.ARCHIVE
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
@@ -71,7 +70,6 @@ internal class ArchiveGateway(
 
     override suspend fun getArchive() = withContext(context = Dispatcher.IO) {
         runCatching {
-            if (!ARCHIVE) return@runCatching
             coroutineScope {
                 // Get archive
                 val stellarHostsJob = async { getArchive { offset, limit -> getStellarHostsArchive(offset, limit) } }

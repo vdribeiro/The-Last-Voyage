@@ -71,7 +71,7 @@ internal fun getSplashStore(): SplashStore =
     SplashStore(
         config = dependency.config,
         archiveUseCases = useCases.archive,
-        translateUseCases = useCases.translation,
+        translationUseCases = useCases.translation,
         catastropheUseCases = useCases.catastrophe,
         shipUseCases = useCases.ship,
         spaceUseCases = useCases.space,

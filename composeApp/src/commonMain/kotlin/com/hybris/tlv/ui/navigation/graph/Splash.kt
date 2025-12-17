@@ -17,7 +17,7 @@ internal fun NavGraphBuilder.splashScreen(
         SplashStore(
             config = config,
             archiveUseCases = useCases.archive,
-            translateUseCases = useCases.translation,
+            translationUseCases = useCases.translation,
             catastropheUseCases = useCases.catastrophe,
             shipUseCases = useCases.ship,
             spaceUseCases = useCases.space,

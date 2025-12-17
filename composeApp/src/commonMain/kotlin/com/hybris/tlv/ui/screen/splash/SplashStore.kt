@@ -5,6 +5,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.supervisorScope
 import com.hybris.tlv.TLV
+import com.hybris.tlv.TLV.ARCHIVE
 import com.hybris.tlv.TLV.RESET
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.platform.Property
@@ -23,7 +24,7 @@ import com.hybris.tlv.usecase.translation.TranslationUseCases
 internal class SplashStore(
     private val config: ConfigManager,
     private val archiveUseCases: ArchiveUseCases,
-    private val translateUseCases: TranslationUseCases,
+    private val translationUseCases: TranslationUseCases,
     private val catastropheUseCases: CatastropheUseCases,
     private val shipUseCases: ShipUseCases,
     private val spaceUseCases: SpaceUseCases,
@@ -49,7 +50,7 @@ internal class SplashStore(
         config.setConfigs { it.copy(appVersion = remoteVersion) }
         if (localVersion == 0L || Property.APP_VERSION_NUMBER == remoteVersion) sync()
         config.saveConfigs()
-        translateUseCases.refreshCache()
+        translationUseCases.refreshCache()
 
         Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences.value}")
         Telemetry.info(tag = TAG, message = "Local Configs\n${config.localConfigs.value}")
@@ -66,8 +67,8 @@ internal class SplashStore(
 
     private suspend fun sync() = supervisorScope {
         val tasks = listOf(
-            suspend { archiveUseCases.getArchive() },
-            suspend { translateUseCases.syncTranslations() },
+            suspend { if (ARCHIVE) archiveUseCases.getArchive() },
+            suspend { translationUseCases.syncTranslations() },
             suspend { catastropheUseCases.syncCatastrophes() },
             suspend { shipUseCases.syncEngines() },
             suspend { spaceUseCases.syncStellarHosts() },
