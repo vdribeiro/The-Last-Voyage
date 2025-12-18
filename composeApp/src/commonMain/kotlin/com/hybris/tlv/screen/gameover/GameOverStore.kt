@@ -4,8 +4,8 @@ import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.navigation.Screen
-import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.screen.Store
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases

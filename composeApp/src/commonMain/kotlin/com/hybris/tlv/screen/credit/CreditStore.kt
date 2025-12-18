@@ -1,8 +1,8 @@
 package com.hybris.tlv.screen.credit
 
 import kotlinx.coroutines.Job
-import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.screen.Store
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.credit.CreditUseCases
 
 internal class CreditStore(

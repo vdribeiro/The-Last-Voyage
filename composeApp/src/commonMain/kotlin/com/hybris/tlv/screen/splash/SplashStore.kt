@@ -4,8 +4,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.navigation.Screen
-import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.screen.Store
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.sync.SyncUseCases
 
 internal class SplashStore(

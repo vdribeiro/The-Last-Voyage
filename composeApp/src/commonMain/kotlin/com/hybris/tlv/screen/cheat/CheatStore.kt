@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.onEach
 import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.screen.Store
+import com.hybris.tlv.telemetry.Telemetry
 
 internal class CheatStore(
     private val config: ConfigManager

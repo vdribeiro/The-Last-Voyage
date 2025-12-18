@@ -2,8 +2,8 @@ package com.hybris.tlv.screen.score
 
 import kotlinx.coroutines.Job
 import com.hybris.tlv.locale.getLocalDateTime
-import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.screen.Store
+import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 
 internal class ScoreStore(
