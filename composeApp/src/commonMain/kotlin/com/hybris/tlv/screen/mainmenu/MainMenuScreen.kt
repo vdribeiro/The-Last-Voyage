@@ -10,15 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.command.Command
-import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.platform.open
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.LocalTypography
 import com.hybris.tlv.theme.component.bottombar.MainBar
 import com.hybris.tlv.theme.component.container.MainMenu
-import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.text.Text
 import com.hybris.tlv.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache

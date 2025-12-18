@@ -11,9 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
-import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.text.FadeInText
 import com.hybris.tlv.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache

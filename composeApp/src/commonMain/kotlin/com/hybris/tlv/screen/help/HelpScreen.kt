@@ -29,11 +29,10 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.command.Command
-import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.open
 import com.hybris.tlv.platform.platform
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.LocalColorScheme
@@ -42,7 +41,6 @@ import com.hybris.tlv.theme.component.bottombar.HelpBar
 import com.hybris.tlv.theme.component.bottombar.Snackbar
 import com.hybris.tlv.theme.component.container.LearnMenu
 import com.hybris.tlv.theme.component.container.PropertyList
-import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.image.Icon
 import com.hybris.tlv.theme.component.image.ImageResource
 import com.hybris.tlv.theme.component.text.Text

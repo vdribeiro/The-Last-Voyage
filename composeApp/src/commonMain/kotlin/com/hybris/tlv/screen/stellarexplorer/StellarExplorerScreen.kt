@@ -13,12 +13,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.command.Command
-import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.LocalTranslationState
-import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.list.PlanetList
 import com.hybris.tlv.theme.component.list.StellarHostList
 import com.hybris.tlv.theme.component.topbar.ControlPanel
