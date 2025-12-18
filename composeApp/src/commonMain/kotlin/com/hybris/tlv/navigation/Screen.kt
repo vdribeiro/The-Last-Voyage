@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.navigation
+package com.hybris.tlv.navigation
 
 import kotlinx.serialization.Serializable
 import com.hybris.tlv.usecase.ship.model.Ship

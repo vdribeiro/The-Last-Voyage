@@ -7,9 +7,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
-import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.Command
-import com.hybris.tlv.ui.screen.sendCommand
+import com.hybris.tlv.command.Command
+import com.hybris.tlv.command.sendCommand
+import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.ui.theme.modifier.Gesture
 import com.hybris.tlv.ui.theme.modifier.onGesture
 import com.hybris.tlv.ui.theme.modifier.rememberKeySequence

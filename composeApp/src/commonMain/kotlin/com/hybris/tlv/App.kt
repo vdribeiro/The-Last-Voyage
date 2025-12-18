@@ -8,12 +8,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.audio.AudioPlayer
+import com.hybris.tlv.command.Command
+import com.hybris.tlv.command.receiveCommand
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.ui.navigation.Navigation
-import com.hybris.tlv.ui.navigation.back
-import com.hybris.tlv.ui.navigation.navigate
-import com.hybris.tlv.ui.screen.Command
-import com.hybris.tlv.ui.screen.receiveCommand
+import com.hybris.tlv.navigation.Navigation
+import com.hybris.tlv.navigation.back
+import com.hybris.tlv.navigation.navigate
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.UseCases
 

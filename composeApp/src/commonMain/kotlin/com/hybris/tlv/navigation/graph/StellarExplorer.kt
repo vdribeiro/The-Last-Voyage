@@ -1,9 +1,9 @@
-package com.hybris.tlv.ui.navigation.graph
+package com.hybris.tlv.navigation.graph
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerScreen
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
 import com.hybris.tlv.usecase.UseCases

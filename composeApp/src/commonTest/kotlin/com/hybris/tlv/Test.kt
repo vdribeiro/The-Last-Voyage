@@ -13,13 +13,13 @@ import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.audio.AudioPlayer
+import com.hybris.tlv.command.Command
+import com.hybris.tlv.command.receiveCommand
+import com.hybris.tlv.command.sendCommand
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.dependency.Dependency
 import com.hybris.tlv.http.TestEngines
-import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.Command
-import com.hybris.tlv.ui.screen.receiveCommand
-import com.hybris.tlv.ui.screen.sendCommand
+import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.usecase.UseCases
 
 internal val dependency: Dependency by lazy {

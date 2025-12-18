@@ -21,8 +21,10 @@ import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hybris.tlv.command.Command
+import com.hybris.tlv.command.sendCommand
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.navigation.Screen
 
 /**
  * The central hub for a screen's [State]. It's the single source of truth for the UI.
