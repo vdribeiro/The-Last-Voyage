@@ -42,7 +42,7 @@ import com.hybris.tlv.theme.component.bottombar.HelpBar
 import com.hybris.tlv.theme.component.bottombar.Snackbar
 import com.hybris.tlv.theme.component.container.LearnMenu
 import com.hybris.tlv.theme.component.container.PropertyList
-import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.image.Icon
 import com.hybris.tlv.theme.component.image.ImageResource
 import com.hybris.tlv.theme.component.text.Text
@@ -60,10 +60,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
     val currentContent = storeState.currentContent
 
     Screen(
+        store = store,
         loading = storeState.loading,
-        onBackClick = { store.back() },
-        onMusicClick = { store.command(command = Command.ToggleAudio) },
-        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
+        help = false,
         bottomBar = {
             if (currentContent == Content.LEARN_MENU) HelpBar(
                 modifier = Modifier.padding(horizontal = 16.dp),

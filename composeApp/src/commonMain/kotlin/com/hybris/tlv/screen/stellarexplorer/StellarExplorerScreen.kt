@@ -18,7 +18,7 @@ import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.LocalTranslationState
-import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.list.PlanetList
 import com.hybris.tlv.theme.component.list.StellarHostList
 import com.hybris.tlv.theme.component.topbar.ControlPanel
@@ -48,12 +48,9 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     val planetListTranslation = getTranslation(key = "stellar_explorer_screen__planet_list")
 
     Screen(
+        store = store,
         modifier = Modifier.clearFocus(),
         loading = storeState.loading,
-        onBackClick = { store.back() },
-        onHelpClick = { store.navigate(screen = Screen.Help) },
-        onMusicClick = { store.command(command = Command.ToggleAudio) },
-        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
         topBar = {
             // Control panel definitions according to selected view
             val isHostView = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS)

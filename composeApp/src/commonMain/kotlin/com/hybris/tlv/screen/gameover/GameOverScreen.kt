@@ -19,7 +19,7 @@ import com.hybris.tlv.theme.component.bottombar.BottomButton
 import com.hybris.tlv.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.theme.component.bottombar.Snackbar
 import com.hybris.tlv.theme.component.card.Score
-import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.container.TypewriterContent
 import com.hybris.tlv.theme.getTranslation
 import com.hybris.tlv.usecase.gamesession.model.GameOver
@@ -43,10 +43,9 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
     val newAchievementTranslation = getTranslation(key = "achievements_screen__new")
 
     Screen(
+        store = store,
         loading = storeState.loading,
-        onHelpClick = { store.navigate(screen = Screen.Help) },
-        onMusicClick = { store.command(command = Command.ToggleAudio) },
-        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
+        back = false,
         bottomBar = {
             if (storeState.loading) return@Screen
             val text = when (storeState.currentContent) {

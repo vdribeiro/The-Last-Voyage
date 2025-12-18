@@ -142,17 +142,12 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      * Overridable back navigation.
      */
     protected open fun back(state: State) {
-        command(command = Command.Back)
+        sendCommand(command = Command.Back)
     }
 
     /**
      * Navigate to a new [screen].
      */
-    fun navigate(screen: Screen, restore: Boolean = false): Boolean =
-        command(command = Command.Navigate(screen = screen, restore = restore))
-
-    /**
-     * Send a [command].
-     */
-    fun command(command: Command): Boolean = sendCommand(command = command)
+    protected fun navigate(screen: Screen, restore: Boolean = false): Boolean =
+        sendCommand(command = Command.Navigate(screen = screen, restore = restore))
 }

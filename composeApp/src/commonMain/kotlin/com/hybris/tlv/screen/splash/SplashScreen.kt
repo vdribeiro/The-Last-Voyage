@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
-import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.text.FadeInText
 import com.hybris.tlv.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
@@ -27,6 +27,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     val loadingTranslation = getTranslation(key = "splash_screen__loading")
 
     Screen(
+        store = store,
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },

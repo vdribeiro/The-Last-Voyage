@@ -12,7 +12,7 @@ import com.hybris.tlv.command.Command
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.component.container.Feedback
-import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.modifier.clearFocus
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
@@ -22,9 +22,10 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
 
     Screen(
+        store = store,
         modifier = Modifier.clearFocus(),
-        onBackClick = { store.back() },
-        onMusicClick = { store.command(command = Command.ToggleAudio) },
+        help = false,
+        feedback = false
     ) {
         Feedback(
             modifier = Modifier

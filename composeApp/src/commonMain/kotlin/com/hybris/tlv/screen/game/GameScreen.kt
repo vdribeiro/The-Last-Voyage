@@ -13,7 +13,7 @@ import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.component.bottombar.GameNavigationBar
-import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.container.ShipStats
 import com.hybris.tlv.theme.component.list.SystemList
 import com.hybris.tlv.theme.component.list.TravelList
@@ -34,11 +34,8 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
     val ship = storeState.ship
 
     Screen(
+        store = store,
         loading = storeState.loading,
-        onBackClick = { store.back() },
-        onHelpClick = { store.navigate(screen = Screen.Help) },
-        onMusicClick = { store.command(command = Command.ToggleAudio) },
-        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(

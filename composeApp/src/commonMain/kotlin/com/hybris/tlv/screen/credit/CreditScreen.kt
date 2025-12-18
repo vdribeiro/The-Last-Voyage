@@ -12,7 +12,7 @@ import com.hybris.tlv.command.Command
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
-import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.list.CreditList
 import com.hybris.tlv.usecase.credit.model.Credit
 import com.hybris.tlv.usecase.credit.model.CreditType
@@ -29,11 +29,8 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
     val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
 
     Screen(
+        store = store,
         loading = storeState.loading,
-        onBackClick = { store.back() },
-        onHelpClick = { store.navigate(screen = Screen.Help) },
-        onMusicClick = { store.command(command = Command.ToggleAudio) },
-        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
     ) {
         CreditList(
             modifier = Modifier

@@ -24,7 +24,7 @@ import com.hybris.tlv.theme.component.bottombar.BottomButton
 import com.hybris.tlv.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.theme.component.bottombar.GameNavigationBar
 import com.hybris.tlv.theme.component.button.Button
-import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.container.ShipStats
 import com.hybris.tlv.theme.component.image.Icon
 import com.hybris.tlv.theme.component.list.SystemList
@@ -48,9 +48,8 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
     val typography = LocalTypography.current
 
     Screen(
-        onBackClick = { store.back() },
-        onMusicClick = { store.command(command = Command.ToggleAudio) },
-        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
+        store = store,
+        help = false,
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(

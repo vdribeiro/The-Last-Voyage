@@ -15,7 +15,7 @@ import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.component.bottombar.BottomButton
 import com.hybris.tlv.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.theme.component.button.AttributePoint
-import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.container.ShipConfiguration
 import com.hybris.tlv.theme.component.container.TypewriterContent
 import com.hybris.tlv.theme.getTranslation
@@ -33,11 +33,8 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val startTranslation = getTranslation(key = "new_game_screen__start")
 
     Screen(
+        store = store,
         loading = storeState.loading,
-        onBackClick = { store.back() },
-        onHelpClick = { store.navigate(screen = Screen.Help) },
-        onMusicClick = { store.command(command = Command.ToggleAudio) },
-        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
         bottomBar = {
             if (storeState.loading) return@Screen
             ButtonsBar(

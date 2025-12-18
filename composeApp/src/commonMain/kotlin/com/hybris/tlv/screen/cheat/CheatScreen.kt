@@ -11,7 +11,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.component.container.CheatSheet
-import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
 
@@ -20,8 +20,11 @@ internal fun CheatScreen(store: Store<CheatState, CheatAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
 
     Screen(
+        store = store,
         loading = storeState.loading,
-        onBackClick = { store.back() },
+        help = false,
+        music = false,
+        feedback = false
     ) {
         CheatSheet(
             modifier = Modifier

@@ -14,7 +14,7 @@ import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.component.bottombar.BottomButton
 import com.hybris.tlv.theme.component.bottombar.ButtonsBar
-import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.container.TypewriterContent
 import com.hybris.tlv.theme.component.topbar.StatusBar
 import com.hybris.tlv.theme.getTranslation
@@ -32,10 +32,9 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
     val event = storeState.parentEvent
 
     Screen(
+        store = store,
         loading = storeState.loading,
-        onHelpClick = { store.navigate(screen = Screen.Help) },
-        onMusicClick = { store.command(command = Command.ToggleAudio) },
-        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
+        back = false,
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(

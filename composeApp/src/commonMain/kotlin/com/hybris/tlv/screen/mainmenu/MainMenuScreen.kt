@@ -18,7 +18,7 @@ import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.LocalTypography
 import com.hybris.tlv.theme.component.bottombar.MainBar
 import com.hybris.tlv.theme.component.container.MainMenu
-import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.theme.component.text.Text
 import com.hybris.tlv.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
@@ -29,6 +29,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
 
     Screen(
+        store = store,
         loading = storeState.loading,
         title = if (storeState.newVersionBanner) {
             {
@@ -43,9 +44,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
                 )
             }
         } else null,
-        onHelpClick = { store.navigate(screen = Screen.Help) },
-        onMusicClick = { store.command(command = Command.ToggleAudio) },
-        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
+        back = false,
         bottomBar = {
             MainBar(
                 modifier = Modifier.padding(horizontal = 16.dp),

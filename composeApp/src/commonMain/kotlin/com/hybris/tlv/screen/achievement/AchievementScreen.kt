@@ -8,11 +8,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.command.Command
-import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
-import com.hybris.tlv.theme.component.container.Screen
 import com.hybris.tlv.theme.component.list.AchievementList
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
@@ -24,11 +22,8 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
 
     Screen(
+        store = store,
         loading = storeState.loading,
-        onBackClick = { store.back() },
-        onHelpClick = { store.navigate(screen = Screen.Help) },
-        onMusicClick = { store.command(command = Command.ToggleAudio) },
-        onFeedbackClick = { store.navigate(screen = Screen.Feedback()) },
     ) {
         AchievementList(
             modifier = Modifier
