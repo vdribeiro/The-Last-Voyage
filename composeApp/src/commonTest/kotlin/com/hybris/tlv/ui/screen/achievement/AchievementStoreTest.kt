@@ -1,39 +1,22 @@
 package com.hybris.tlv.ui.screen.achievement
 
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.hybris.tlv.TestCase
 import com.hybris.tlv.achievements
 import com.hybris.tlv.getAchievementStore
-import com.hybris.tlv.reset
+import com.hybris.tlv.state
 import com.hybris.tlv.useCases
 
-internal class AchievementStoreTest {
+internal class AchievementStoreTest: TestCase() {
 
-    private val store: AchievementStore get() = getAchievementStore()
-
-    @BeforeTest
-    fun setup() = runBlocking {
-        reset()
-//        getNavigation().navigate(navigationState = NavigationState(screen = SplashScreen))
-//        getNavigation().navigate(navigationState = NavigationState(screen = MainMenuScreen))
-//        getNavigation().navigate(navigationState = NavigationState(screen = AchievementScreen))
-    }
-
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `init`() = runBlocking {
+    fun `init`() = runUnitTest {
         useCases.achievement.syncAchievements()
-        val achievementStore = store
-        assertEquals(expected = achievements, actual = achievementStore.stateFlow.value.achievements)
-    }
-
-    @Test
-    fun `send action back`() = runBlocking {
-        useCases.achievement.syncAchievements()
-        store
-//        assertEquals(expected = AchievementScreen, actual = getNavigation().stateFlow.value.screen)
-//        getNavigation().back()
-//        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
+        val achievementStore = getAchievementStore()
+        assertEquals(expected = false, actual = achievementStore.state().loading)
+        assertEquals(expected = achievements, actual = achievementStore.state().achievements)
     }
 }
