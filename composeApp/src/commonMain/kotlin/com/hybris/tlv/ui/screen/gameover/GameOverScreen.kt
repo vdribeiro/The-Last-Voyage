@@ -13,7 +13,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.ui.navigation.Command
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar

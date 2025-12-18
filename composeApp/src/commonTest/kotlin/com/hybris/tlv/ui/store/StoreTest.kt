@@ -4,6 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.screen.Store
 
 internal class StoreTest: TestCase() {
 

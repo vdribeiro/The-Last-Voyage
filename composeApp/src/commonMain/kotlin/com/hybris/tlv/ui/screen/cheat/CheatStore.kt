@@ -11,7 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.screen.Store
 
 internal class CheatStore(
     private val config: ConfigManager

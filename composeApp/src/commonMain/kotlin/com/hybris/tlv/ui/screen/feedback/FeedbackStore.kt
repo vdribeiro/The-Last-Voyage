@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.screen.feedback
 import kotlinx.coroutines.Job
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.screen.Store
 
 internal class FeedbackStore(
     private val tag: String?,

@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.store
+package com.hybris.tlv.ui.screen
 
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
@@ -98,7 +98,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     ) { viewModelScope.launch(context = context, block = block) }
 
     /**
-     * Collects the upstream [Flow] in a lifecycle-aware manner, ensuring execution only occurs while the UI is actively observing the [stateFlow].
+     * Collects the upstream [kotlinx.coroutines.flow.Flow] in a lifecycle-aware manner, ensuring execution only occurs while the UI is actively observing the [stateFlow].
      * If [id] is provided, it ensures only one job with this id runs.
      * If [replace] is true and a job with [id] is already active, the existing job will be cancelled and replaced by the new one, otherwise the new request is ignored and the existing job is returned.
      * This function also acts as a resource safeguard, bridging the gap between the [ViewModel] scope which can persist in the backstack and the UI lifecycle which pauses when hidden.

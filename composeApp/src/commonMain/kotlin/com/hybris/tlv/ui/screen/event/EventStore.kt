@@ -4,7 +4,7 @@ import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases

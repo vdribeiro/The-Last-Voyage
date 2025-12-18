@@ -16,7 +16,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula

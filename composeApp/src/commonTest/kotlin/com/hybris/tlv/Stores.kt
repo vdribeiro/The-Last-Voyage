@@ -1,5 +1,6 @@
 package com.hybris.tlv
 
+import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.cheat.CheatStore
 import com.hybris.tlv.ui.screen.credit.CreditStore
@@ -14,7 +15,6 @@ import com.hybris.tlv.ui.screen.score.ScoreStore
 import com.hybris.tlv.ui.screen.splash.SplashStore
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
 import com.hybris.tlv.ui.screen.tutorial.TutorialStore
-import com.hybris.tlv.ui.store.Store
 import com.hybris.tlv.usecase.ship.model.Ship
 
 internal fun <State, Action> Store<State, Action>.state(): State = stateFlow.value

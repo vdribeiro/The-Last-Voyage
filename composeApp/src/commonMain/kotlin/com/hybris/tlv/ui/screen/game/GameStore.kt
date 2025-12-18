@@ -5,7 +5,7 @@ import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.store.Store
+import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.ShipUseCases
