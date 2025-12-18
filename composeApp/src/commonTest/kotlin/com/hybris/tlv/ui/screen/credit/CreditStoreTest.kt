@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.credit
+package com.hybris.tlv.screen.credit
 
 import kotlin.test.BeforeTest
 import kotlin.test.Test

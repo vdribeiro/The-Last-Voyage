@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.stellarexplorer
+package com.hybris.tlv.screen.stellarexplorer
 
 import kotlin.test.BeforeTest
 import kotlin.test.Test

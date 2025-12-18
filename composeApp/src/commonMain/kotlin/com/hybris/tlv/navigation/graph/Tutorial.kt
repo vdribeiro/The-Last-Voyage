@@ -6,8 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.navigation.Screen
-import com.hybris.tlv.ui.screen.tutorial.TutorialScreen
-import com.hybris.tlv.ui.screen.tutorial.TutorialStore
+import com.hybris.tlv.screen.tutorial.TutorialScreen
+import com.hybris.tlv.screen.tutorial.TutorialStore
 
 internal fun NavGraphBuilder.tutorialScreen(
     config: ConfigManager

@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.tutorial
+package com.hybris.tlv.screen.tutorial
 
 import kotlin.test.BeforeTest
 import kotlin.test.Test

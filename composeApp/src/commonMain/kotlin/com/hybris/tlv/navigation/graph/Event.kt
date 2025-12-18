@@ -6,8 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.navigation.typeMapOf
-import com.hybris.tlv.ui.screen.event.EventScreen
-import com.hybris.tlv.ui.screen.event.EventStore
+import com.hybris.tlv.screen.event.EventScreen
+import com.hybris.tlv.screen.event.EventStore
 import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.ship.model.Ship
 

@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.gameover
+package com.hybris.tlv.screen.gameover
 
 import kotlin.test.BeforeTest
 import kotlin.test.Test

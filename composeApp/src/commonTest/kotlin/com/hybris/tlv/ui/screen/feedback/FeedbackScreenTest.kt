@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.feedback
+package com.hybris.tlv.screen.feedback
 
 import kotlin.test.BeforeTest
 import kotlin.test.Test

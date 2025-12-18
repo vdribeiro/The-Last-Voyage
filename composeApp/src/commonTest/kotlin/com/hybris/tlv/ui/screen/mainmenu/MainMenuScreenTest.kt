@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.mainmenu
+package com.hybris.tlv.screen.mainmenu
 
 import kotlin.test.BeforeTest
 import kotlin.test.Test

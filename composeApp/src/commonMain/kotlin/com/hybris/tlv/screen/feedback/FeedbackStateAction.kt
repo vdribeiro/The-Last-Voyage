@@ -1,0 +1,11 @@
+package com.hybris.tlv.screen.feedback
+
+internal sealed interface FeedbackAction {
+    data class SendFeedback(val message: String): FeedbackAction
+}
+
+internal data class FeedbackState(
+    val isError: Boolean = false,
+    val feedback: String = "",
+    val showThanks: Boolean = false
+)

@@ -5,8 +5,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.navigation.Screen
-import com.hybris.tlv.ui.screen.mainmenu.MainMenuScreen
-import com.hybris.tlv.ui.screen.mainmenu.MainMenuStore
+import com.hybris.tlv.screen.mainmenu.MainMenuScreen
+import com.hybris.tlv.screen.mainmenu.MainMenuStore
 import com.hybris.tlv.usecase.UseCases
 
 internal fun NavGraphBuilder.mainMenuScreen(

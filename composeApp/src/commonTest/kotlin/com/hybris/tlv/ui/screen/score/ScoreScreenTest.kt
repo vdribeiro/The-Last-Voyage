@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.score
+package com.hybris.tlv.screen.score
 
 import kotlin.test.BeforeTest
 import kotlin.test.Test

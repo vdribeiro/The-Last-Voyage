@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.splash
+package com.hybris.tlv.screen.splash
 
 import kotlin.test.BeforeTest
 import kotlin.test.Test

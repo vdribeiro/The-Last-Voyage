@@ -5,8 +5,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.hybris.tlv.navigation.Screen
-import com.hybris.tlv.ui.screen.feedback.FeedbackScreen
-import com.hybris.tlv.ui.screen.feedback.FeedbackStore
+import com.hybris.tlv.screen.feedback.FeedbackScreen
+import com.hybris.tlv.screen.feedback.FeedbackStore
 
 internal fun NavGraphBuilder.feedbackScreen() =
     composable<Screen.Feedback> {

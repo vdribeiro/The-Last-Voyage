@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.newgame
+package com.hybris.tlv.screen.newgame
 
 import kotlin.test.BeforeTest
 import kotlin.test.Test

@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.screen.event
+package com.hybris.tlv.screen.event
 
 import kotlin.test.BeforeTest
 import kotlin.test.Test
