@@ -1,17 +1,18 @@
-package com.hybris.tlv.ui.navigation
+package com.hybris.tlv.ui.screen
 
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.flow.receiveAsFlow
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.ui.navigation.Screen
 
 /**
  * A navigation command that can be sent.
  */
 internal sealed class Command {
     /**
-     * Navigates to a specific [Screen] indicating if it should be restored from the navigation stack or created anew.
+     * Navigates to a specific [com.hybris.tlv.ui.navigation.Screen] indicating if it should be restored from the navigation stack or created anew.
      */
     data class Navigate(val screen: Screen, val restore: Boolean = false): Command()
     /**

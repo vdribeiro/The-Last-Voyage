@@ -9,11 +9,11 @@ import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.audio.AudioPlayer
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.ui.navigation.Command
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.navigation.back
 import com.hybris.tlv.ui.navigation.navigate
-import com.hybris.tlv.ui.navigation.receiveCommand
+import com.hybris.tlv.ui.screen.Command
+import com.hybris.tlv.ui.screen.receiveCommand
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.usecase.UseCases
 

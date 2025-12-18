@@ -16,10 +16,10 @@ import com.hybris.tlv.audio.AudioPlayer
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.dependency.Dependency
 import com.hybris.tlv.http.TestEngines
-import com.hybris.tlv.ui.navigation.Command
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.navigation.receiveCommand
-import com.hybris.tlv.ui.navigation.sendCommand
+import com.hybris.tlv.ui.screen.Command
+import com.hybris.tlv.ui.screen.receiveCommand
+import com.hybris.tlv.ui.screen.sendCommand
 import com.hybris.tlv.usecase.UseCases
 
 internal val dependency: Dependency by lazy {
