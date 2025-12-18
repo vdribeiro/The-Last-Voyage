@@ -1,4 +1,8 @@
+@file:ShadowedInTesting
+
 package com.hybris.tlv.locale
+
+import com.hybris.tlv.test.ShadowedInTesting
 
 /**
  * Get the ISO 639-1 language.

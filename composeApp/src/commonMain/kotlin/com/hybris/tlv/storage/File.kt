@@ -1,4 +1,8 @@
+@file:ShadowedInTesting
+
 package com.hybris.tlv.storage
+
+import com.hybris.tlv.test.ShadowedInTesting
 
 /**
  * Save file to device storage. Return true on success, false otherwise.

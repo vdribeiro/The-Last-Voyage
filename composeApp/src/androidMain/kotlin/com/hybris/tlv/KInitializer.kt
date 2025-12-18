@@ -1,9 +1,10 @@
 package com.hybris.tlv
 
 import android.content.Context
+import android.content.ContextWrapper
 import androidx.startup.Initializer
 
-internal lateinit var applicationContext: Context
+internal var applicationContext: Context = ContextWrapper(null)
     private set
 
 class KInitializer: Initializer<Unit> {

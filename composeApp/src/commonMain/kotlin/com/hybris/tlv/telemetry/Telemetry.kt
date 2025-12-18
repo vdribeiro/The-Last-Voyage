@@ -1,7 +1,10 @@
+@file:ShadowedInTesting
+
 package com.hybris.tlv.telemetry
 
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.platform.isDebug
+import com.hybris.tlv.test.ShadowedInTesting
 
 /**
  * A centralized object for handling telemetry, including logging and error reporting.
