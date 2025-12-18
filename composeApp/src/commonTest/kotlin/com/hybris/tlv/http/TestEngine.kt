@@ -32,9 +32,9 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.StellarHostJson
 import com.hybris.tlv.usecase.space.sunGravityToStellarHostGravity
 
-internal object TestEngines {
+internal object TestEngine {
 
-    val testEngine = MockEngine { request ->
+    val mock = MockEngine { request ->
         when {
             request.method == HttpMethod.Get -> {
                 val path = request.url.toString()
