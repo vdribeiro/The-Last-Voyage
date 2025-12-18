@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.store
+package com.hybris.tlv.screen
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

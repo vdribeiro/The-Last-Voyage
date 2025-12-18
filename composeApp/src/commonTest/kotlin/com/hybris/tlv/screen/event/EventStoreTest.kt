@@ -1,5 +1,6 @@
 package com.hybris.tlv.screen.event
 
+import kotlin.collections.orEmpty
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
