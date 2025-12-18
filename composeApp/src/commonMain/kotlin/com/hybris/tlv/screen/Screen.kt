@@ -10,6 +10,10 @@ import com.hybris.tlv.command.sendCommand
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.theme.component.container.Screen as ScreenContainer
 
+/**
+ * A composable that handles displaying a loading indicator or the primary content.
+ * @see ScreenContainer
+ */
 @Composable
 internal fun <State, Action> Screen(
     store: Store<State, Action>,
