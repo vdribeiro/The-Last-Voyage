@@ -64,7 +64,7 @@ private val productionFlags: Flag = Flag(
 )
 
 private val debugFlags: Flag = Flag(
-    reset = true,
+    reset = false,
     http = true,
     archive = false,
     music = true
