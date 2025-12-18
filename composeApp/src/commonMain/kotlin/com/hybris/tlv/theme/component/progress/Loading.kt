@@ -1,0 +1,48 @@
+package com.hybris.tlv.theme.component.progress
+
+import kotlin.time.TimeMark
+import kotlin.time.TimeSource
+import kotlinx.coroutines.delay
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalInspectionMode
+
+/**
+ * Calculate if loading should be shown to prevent UI flickering by employing a two-part strategy:
+ * - An initial grace period [loadingDelayMillis] to avoid showing the loader for very fast operations.
+ * - A minimum display time [loadingMinDisplayTimeMillis] to ensure that if the loader does appear, it remains on screen long enough to avoid the same problem.
+ */
+@Composable
+internal fun showLoading(
+    loading: Boolean = true,
+    loadingDelayMillis: Long = 300L,
+    loadingMinDisplayTimeMillis: Long = 800L,
+): Boolean {
+    val isPreview = LocalInspectionMode.current
+    var show by remember { mutableStateOf(value = isPreview) }
+    var loaderShownMark by remember { mutableStateOf<TimeMark?>(value = null) }
+    LaunchedEffect(key1 = loading) {
+        when {
+            loading -> {
+                delay(timeMillis = loadingDelayMillis)
+                loaderShownMark = TimeSource.Monotonic.markNow()
+                show = true
+            }
+
+            else -> when (val shownMark = loaderShownMark) {
+                null -> show = false
+                else -> {
+                    val remainingTime = loadingMinDisplayTimeMillis - shownMark.elapsedNow().inWholeMilliseconds
+                    if (remainingTime > 0) delay(timeMillis = remainingTime)
+                    show = false
+                    loaderShownMark = null
+                }
+            }
+        }
+    }
+    return show
+}

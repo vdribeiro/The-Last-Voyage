@@ -6,7 +6,7 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.getFeedbackStore
 import com.hybris.tlv.reset
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.theme.AppTheme
 
 // TODO
 @OptIn(ExperimentalTestApi::class)

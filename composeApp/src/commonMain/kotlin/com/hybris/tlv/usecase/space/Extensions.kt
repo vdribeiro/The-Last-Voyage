@@ -57,7 +57,7 @@ import com.hybris.tlv.image.Unknown
 import com.hybris.tlv.image.W
 import com.hybris.tlv.image.WaterCloudsGasGiant
 import com.hybris.tlv.image.Y
-import com.hybris.tlv.ui.theme.component.image.ImageResource
+import com.hybris.tlv.theme.component.image.ImageResource
 import com.hybris.tlv.usecase.space.formula.Constants.PARSEC
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY
 import com.hybris.tlv.usecase.space.model.Planet

@@ -11,9 +11,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.container.Screen
-import com.hybris.tlv.ui.theme.component.list.AchievementList
+import com.hybris.tlv.theme.AppTheme
+import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.theme.component.list.AchievementList
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
 import com.hybris.tlv.usecase.translation.TranslationCache

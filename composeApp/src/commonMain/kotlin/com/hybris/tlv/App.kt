@@ -14,7 +14,7 @@ import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.navigation.Navigation
 import com.hybris.tlv.navigation.back
 import com.hybris.tlv.navigation.navigate
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.usecase.UseCases
 
 /**

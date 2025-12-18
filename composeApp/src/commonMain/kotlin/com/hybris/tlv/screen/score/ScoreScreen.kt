@@ -12,9 +12,9 @@ import com.hybris.tlv.command.Command
 import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.component.container.Screen
-import com.hybris.tlv.ui.theme.component.list.ScoreList
+import com.hybris.tlv.theme.AppTheme
+import com.hybris.tlv.theme.component.container.Screen
+import com.hybris.tlv.theme.component.list.ScoreList
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship

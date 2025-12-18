@@ -1,6 +1,6 @@
 package com.hybris.tlv.image
 
-import com.hybris.tlv.ui.theme.component.image.ImageResource
+import com.hybris.tlv.theme.component.image.ImageResource
 import thelastvoyage.composeapp.generated.resources.A
 import thelastvoyage.composeapp.generated.resources.B
 import thelastvoyage.composeapp.generated.resources.C

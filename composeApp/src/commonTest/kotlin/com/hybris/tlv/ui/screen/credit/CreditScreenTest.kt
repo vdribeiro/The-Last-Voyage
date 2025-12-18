@@ -15,7 +15,7 @@ import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.credits
 import com.hybris.tlv.getCreditStore
 import com.hybris.tlv.reset
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.useCases
 import com.hybris.tlv.usecase.credit.model.CreditType
 

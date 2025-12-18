@@ -8,7 +8,7 @@ import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.getGameStore
 import com.hybris.tlv.reset
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.useCases
 
 @OptIn(ExperimentalTestApi::class)

@@ -10,9 +10,9 @@ import androidx.compose.ui.input.key.KeyEvent
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.command.sendCommand
 import com.hybris.tlv.navigation.Screen
-import com.hybris.tlv.ui.theme.modifier.Gesture
-import com.hybris.tlv.ui.theme.modifier.onGesture
-import com.hybris.tlv.ui.theme.modifier.rememberKeySequence
+import com.hybris.tlv.theme.modifier.Gesture
+import com.hybris.tlv.theme.modifier.onGesture
+import com.hybris.tlv.theme.modifier.rememberKeySequence
 
 /**
  * [Key] sequence that represent the Konami code.

@@ -9,7 +9,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.hybris.tlv.cheats.rememberKeySequenceCheats
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.ui.theme.getTranslation
+import com.hybris.tlv.theme.getTranslation
 import javafx.embed.swing.JFXPanel
 
 private const val TAG = "App"

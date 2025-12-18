@@ -1,0 +1,76 @@
+package com.hybris.tlv.theme.component.container
+
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import com.hybris.tlv.theme.AppTheme
+import com.hybris.tlv.theme.LocalTypography
+import com.hybris.tlv.theme.component.button.Button
+import com.hybris.tlv.theme.component.text.Text
+import com.hybris.tlv.theme.component.text.TypewriterText
+
+@Composable
+internal fun TypewriterContent(
+    modifier: Modifier = Modifier,
+    title: String? = null,
+    text: String? = null,
+    content: @Composable () -> Unit = {}
+) {
+    val typography = LocalTypography.current
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Top
+    ) {
+        title?.let {
+            Text(
+                text = it,
+                style = typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        if (title != null && text != null) Spacer(modifier = Modifier.height(height = 16.dp))
+        text?.let {
+            TypewriterText(
+                modifier = Modifier
+                    .weight(weight = 1f)
+                    .fillMaxWidth(),
+                text = it
+            )
+        }
+        content()
+    }
+}
+
+@Preview
+@Composable
+private fun TypewriterContentPreview() = AppTheme {
+    TypewriterContent(
+        title = "Title",
+        text = "Text"
+    )
+}
+
+@Preview
+@Composable
+private fun TypewriterContentTextPreview() = AppTheme {
+    TypewriterContent(text = "Text")
+}
+
+@Preview
+@Composable
+private fun TypewriterContentWithContentPreview() = AppTheme {
+    TypewriterContent(
+        title = "Title",
+        text = "Text",
+        content = { Button(text = "Click") }
+    )
+}
