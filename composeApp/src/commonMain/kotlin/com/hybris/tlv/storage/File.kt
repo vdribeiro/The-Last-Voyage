@@ -5,6 +5,11 @@ package com.hybris.tlv.storage
 import com.hybris.tlv.test.ShadowedInTesting
 
 /**
+ * Get the app data absolute path.
+ */
+internal expect val appDataPath: String
+
+/**
  * Save file to device storage. Return true on success, false otherwise.
  */
 internal expect suspend fun saveFile(path: String, content: String): Boolean

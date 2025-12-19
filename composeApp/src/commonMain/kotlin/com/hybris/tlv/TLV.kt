@@ -11,7 +11,7 @@ import com.hybris.tlv.platform.isDebug
  */
 internal object TLV {
 
-    private val dependency: Dependency = Dependency()
+    private val dependency: Dependency by lazy { Dependency() }
 
     /**
      * The main composable entry point for the application UI.
@@ -28,7 +28,7 @@ internal object TLV {
     }
 
     // Feature Flags
-    val flag: Flag = if (isDebug) debugFlags else productionFlags
+    val flag: Flag by lazy { if (isDebug) debugFlags else productionFlags }
 }
 
 internal data class Flag(

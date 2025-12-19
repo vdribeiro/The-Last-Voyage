@@ -1,8 +1,10 @@
-@file:Suppress("RedundantSuspendModifier", "unused")
+@file:Suppress("RedundantSuspendModifier", "unused", "MayBeConstant")
 
 package com.hybris.tlv.storage
 
 private val map = mutableMapOf<String, String>()
+
+internal val appDataPath: String = ""
 
 internal suspend fun saveFile(path: String, content: String): Boolean {
     map[path] = content

@@ -1,5 +1,6 @@
 package com.hybris.tlv
 
+import kotlin.test.assertEquals
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -99,7 +100,7 @@ internal abstract class TestCase {
     }
 
     protected fun assertNavigationBackstack(list: List<Screen>) {
-        // TODO
+        assertEquals(expected = list.map { it::class }, actual = screens.map { it::class })
     }
 
     /**

@@ -1,5 +1,3 @@
-@file:Suppress("CAST_NEVER_SUCCEEDS")
-@file:OptIn(ExperimentalForeignApi::class)
 
 package com.hybris.tlv.storage
 
@@ -13,11 +11,13 @@ import platform.Foundation.NSUTF8StringEncoding
 import platform.Foundation.NSUserDomainMask
 import platform.Foundation.stringByAppendingPathComponent
 import platform.Foundation.stringWithContentsOfFile
+import platform.Foundation.stringWithString
 import platform.Foundation.writeToFile
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
 
-private val appDataDir: NSString by lazy {
+@OptIn(ExperimentalForeignApi::class)
+internal actual val appDataPath: String by lazy {
     (NSSearchPathForDirectoriesInDomains(
         directory = NSDocumentDirectory,
         domainMask = NSUserDomainMask,
@@ -32,13 +32,17 @@ private val appDataDir: NSString by lazy {
                 error = null
             )
         }
-    }
+    }.toString()
 }
 
+@Suppress("CAST_NEVER_SUCCEEDS")
+private fun String.toNSString(): NSString = this as NSString
+
+@OptIn(ExperimentalForeignApi::class)
 internal actual suspend fun saveFile(path: String, content: String): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {
-        val file = appDataDir.stringByAppendingPathComponent(str = path)
-        (content as NSString).writeToFile(
+        val file = appDataPath.toNSString().stringByAppendingPathComponent(str = path)
+        content.toNSString().writeToFile(
             path = file,
             atomically = true,
             encoding = NSUTF8StringEncoding,
@@ -51,7 +55,7 @@ internal actual suspend fun saveFile(path: String, content: String): Boolean = w
 @OptIn(ExperimentalForeignApi::class)
 internal actual suspend fun loadFile(path: String): String? = withContext(context = Dispatcher.IO) {
     runCatching {
-        val fullPath = appDataDir.stringByAppendingPathComponent(str = path)
+        val fullPath = appDataPath.toNSString().stringByAppendingPathComponent(str = path)
         val fileManager = NSFileManager.defaultManager
         if (fileManager.fileExistsAtPath(path = fullPath)) {
             NSString.stringWithContentsOfFile(
@@ -66,7 +70,7 @@ internal actual suspend fun loadFile(path: String): String? = withContext(contex
 @OptIn(ExperimentalForeignApi::class)
 internal actual suspend fun deleteFile(path: String): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {
-        val fullPath = appDataDir.stringByAppendingPathComponent(str = path)
+        val fullPath = appDataPath.toNSString().stringByAppendingPathComponent(str = path)
         val fileManager = NSFileManager.defaultManager
         if (fileManager.fileExistsAtPath(path = fullPath)) {
             fileManager.removeItemAtPath(
