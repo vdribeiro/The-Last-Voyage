@@ -10,7 +10,7 @@ import com.hybris.tlv.navigation.Screen
 internal class CreditStoreTest: TestCase() {
 
     @Test
-    fun initStore() = runUnitTest {
+    fun init() = runUnitTest {
         useCases.credit.prepopulateCredits()
         val store = storeFactory.getCreditStore()
         assertEquals(expected = false, actual = store.state().loading)
@@ -18,12 +18,19 @@ internal class CreditStoreTest: TestCase() {
     }
 
     @Test
-    fun `send action back`() = runUnitTest {
-        assertTrue(actual = screens.isEmpty())
+    fun initWithoutCredits() = runUnitTest {
+        val store = storeFactory.getCreditStore()
+        assertEquals(expected = false, actual = store.state().loading)
+        assertEquals(expected = emptyList(), actual = store.state().credits)
+    }
+
+    @Test
+    fun navigateBack() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
         navigate(screen = Screen.Credit)
-        assertEquals(expected = listOf(element = Screen.Credit), actual = screens)
+        assertNavigationBackstack(list = listOf(element = Screen.Credit))
         val store = storeFactory.getCreditStore()
         store.back()
-        assertTrue(actual = screens.isEmpty())
+        assertNavigationBackstack(list = emptyList())
     }
 }

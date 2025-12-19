@@ -18,6 +18,9 @@ import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.runComposeUiTest
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.hybris.tlv.audio.AudioPlayer
 import com.hybris.tlv.command.Command
@@ -26,7 +29,6 @@ import com.hybris.tlv.command.sendCommand
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.dependency.Dependency
 import com.hybris.tlv.http.TestEngine
-import com.hybris.tlv.lifecycle.TestLifecycle
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.screen.StoreFactory
@@ -63,8 +65,7 @@ internal abstract class TestCase {
     /**
      * List with the simulated navigation backstack.
      */
-    private val _screens: MutableList<Screen> = mutableListOf()
-    protected val screens: List<Screen> get() = _screens
+    private val screens: MutableList<Screen> = mutableListOf()
 
     /**
      * Background loop that listens to the global [Command] channel.
@@ -72,8 +73,8 @@ internal abstract class TestCase {
     private suspend fun receiveCommands() {
         receiveCommand { command ->
             when (command) {
-                is Command.Navigate -> _screens.addOrTruncate(element = command.screen)
-                Command.Back -> _screens.removeLastOrNull()
+                is Command.Navigate -> screens.addOrTruncate(element = command.screen)
+                Command.Back -> screens.removeLastOrNull()
                 Command.ToggleAudio -> {}
             }
         }
@@ -97,6 +98,10 @@ internal abstract class TestCase {
         sendCommand(command = Command.Navigate(screen = screen))
     }
 
+    protected fun assertNavigationBackstack(list: List<Screen>) {
+        // TODO
+    }
+
     /**
      * Executes a unit test.
      * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
@@ -104,7 +109,7 @@ internal abstract class TestCase {
     protected fun runUnitTest(block: suspend TestScope.() -> Unit) {
         runTest {
             dependency.useCases.sync.reset()
-            _screens.clear()
+            screens.clear()
             backgroundScope.launch(context = UnconfinedTestDispatcher(scheduler = testScheduler)) { receiveCommands() }
             block()
         }
@@ -119,7 +124,7 @@ internal abstract class TestCase {
             val scope = CoroutineScope(context = UnconfinedTestDispatcher())
             try {
                 dependency.useCases.sync.reset()
-                _screens.clear()
+                screens.clear()
                 scope.launch { receiveCommands() }
                 block()
             } finally {
@@ -136,7 +141,15 @@ internal abstract class TestCase {
         vararg values: ProvidedValue<*>,
         content: @Composable () -> Unit
     ) {
-        val lifecycleOwner = withContext(context = Dispatchers.Main) { TestLifecycle() }
+        val lifecycleOwner = withContext(context = Dispatchers.Main) {
+            object: LifecycleOwner {
+                override val lifecycle: LifecycleRegistry = LifecycleRegistry(provider = this)
+
+                init {
+                    lifecycle.currentState = Lifecycle.State.RESUMED
+                }
+            }
+        }
         setContent {
             CompositionLocalProvider(LocalLifecycleOwner provides lifecycleOwner, *values) {
                 AppTheme {

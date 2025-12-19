@@ -10,7 +10,7 @@ import com.hybris.tlv.navigation.Screen
 internal class AchievementStoreTest: TestCase() {
 
     @Test
-    fun initStore() = runUnitTest {
+    fun init() = runUnitTest {
         useCases.achievement.prepopulateAchievements()
         val store = storeFactory.getAchievementStore()
         assertEquals(expected = false, actual = store.state().loading)
@@ -18,12 +18,19 @@ internal class AchievementStoreTest: TestCase() {
     }
 
     @Test
-    fun `send action back`() = runUnitTest {
-        assertTrue(actual = screens.isEmpty())
+    fun initWithoutAchievements() = runUnitTest {
+        val store = storeFactory.getAchievementStore()
+        assertEquals(expected = false, actual = store.state().loading)
+        assertEquals(expected = emptyList(), actual = store.state().achievements)
+    }
+
+    @Test
+    fun navigateBack() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
         navigate(screen = Screen.Achievement)
-        assertEquals(expected = listOf(element = Screen.Achievement), actual = screens)
+        assertNavigationBackstack(list = listOf(element = Screen.Achievement))
         val store = storeFactory.getAchievementStore()
         store.back()
-        assertTrue(actual = screens.isEmpty())
+        assertNavigationBackstack(list = emptyList())
     }
 }

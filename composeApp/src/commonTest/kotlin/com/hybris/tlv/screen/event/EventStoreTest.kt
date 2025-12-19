@@ -1,74 +1,78 @@
 package com.hybris.tlv.screen.event
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
+import com.hybris.tlv.gameSessionPrototype
+import com.hybris.tlv.navigation.Screen
 
-// TODO
 internal class EventStoreTest: TestCase() {
 
+    @Test
+    fun init() = runUnitTest {
+        useCases.event.syncEvents()
+        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val store = storeFactory.getEventStore(ship = null)
+        assertNotNull(actual = store.gameSession)
+        val events = store.eventChain
+        assertTrue(actual = events.isNotEmpty())
+        val event = events.find { it.parentId == null }
+        assertEquals(expected = event, actual = store.state().parentEvent)
+        assertEquals(expected = listOf(element = stopEvent), actual = store.state().childrenEvents)
+    }
+
+    @Test
+    fun initWithoutGameSession() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
+        storeFactory.getEventStore(ship = null)
+        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+    }
+
 //    @Test
-//    fun `init`() = runBlocking {
-//        useCases.event.syncEvents()
+//    fun `init without events`() = runUnitTest {
 //        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-//        val eventStore = store
-//        assertNotNull(actual = eventStore.gameSession)
-//        val events = eventStore.eventChain
-//        assertTrue(actual = events.orEmpty().isNotEmpty())
-//        val event = events.orEmpty().find { it.parentId == null }
-//        assertEquals(expected = event, actual = eventStore.stateFlow.value.parentEvent)
-//        assertEquals(expected = listOf(stopEvent), actual = eventStore.stateFlow.value.childrenEvents)
+//        val store = store
+//        assertNotNull(actual = store.state().ship)
+//        assertEquals(expected = defaultEvent, actual = store.state().parentEvent)
 //    }
 //
 //    @Test
-//    fun `init without game session`() = runBlocking {
-//        assertEquals(expected = EventScreen, actual = getNavigation().stateFlow.value.screen)
-//        val eventStore = store
-//        assertNull(actual = eventStore.stateFlow.value.ship)
-//        assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
-//    }
-//
-//    @Test
-//    fun `init without events`() = runBlocking {
-//        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-//        val eventStore = store
-//        assertNotNull(actual = eventStore.stateFlow.value.ship)
-//        assertEquals(expected = defaultEvent, actual = eventStore.stateFlow.value.parentEvent)
-//    }
-//
-//    @Test
-//    fun `send action back`() = runBlocking {
+//    fun `send action back`() = runUnitTest {
 //        useCases.event.syncEvents()
 //        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
 //        store
-//        assertEquals(expected = EventScreen, actual = getNavigation().stateFlow.value.screen)
+//        assertEquals(expected = EventScreen, actual = getNavigation().state().screen)
 //        getNavigation().back()
-//        assertEquals(expected = EventScreen, actual = getNavigation().stateFlow.value.screen)
+//        assertEquals(expected = EventScreen, actual = getNavigation().state().screen)
 //    }
 //
 //    @Test
-//    fun `send action select`() = runBlocking {
+//    fun `send action select`() = runUnitTest {
 //        useCases.event.syncEvents()
 //        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-//        val eventStore = store
+//        val store = store
 //        val event = events.random()
-//        eventStore.send(action = EventAction.Select(event = event))
-//        assertEquals(expected = event, actual = eventStore.stateFlow.value.parentEvent)
+//        store.send(action = EventAction.Select(event = event))
+//        assertEquals(expected = event, actual = store.state().parentEvent)
 //    }
 //
 //    @Test
-//    fun `send action select without game session`() = runBlocking {
-//        assertEquals(expected = EventScreen, actual = getNavigation().stateFlow.value.screen)
-//        val eventStore = store
+//    fun `send action select without game session`() = runUnitTest {
+//        assertEquals(expected = EventScreen, actual = getNavigation().state().screen)
+//        val store = store
 //        val event = events.random()
-//        eventStore.send(action = EventAction.Select(event = event))
-//        assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
+//        store.send(action = EventAction.Select(event = event))
+//        assertEquals(expected = Screen.Feedback, actual = getNavigation().state().screen)
 //    }
 //
 //    @Test
-//    fun `send action select without selected event`() = runBlocking {
-//        assertEquals(expected = EventScreen, actual = getNavigation().stateFlow.value.screen)
+//    fun `send action select without selected event`() = runUnitTest {
+//        assertEquals(expected = EventScreen, actual = getNavigation().state().screen)
 //        useCases.event.syncEvents()
 //        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-//        val eventStore = store
-//        eventStore.send(action = EventAction.Select(event = defaultEvent))
+//        val store = store
+//        store.send(action = EventAction.Select(event = defaultEvent))
 //    }
 }

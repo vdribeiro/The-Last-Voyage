@@ -9,7 +9,7 @@ import com.hybris.tlv.navigation.Screen
 internal class CheatStoreTest: TestCase() {
 
     @Test
-    fun initStore() = runUnitTest {
+    fun init() = runUnitTest {
         val store = storeFactory.getCheatStore()
         assertEquals(expected = false, actual = store.state().loading)
         assertEquals(expected = false, actual = store.state().integrity)
@@ -56,12 +56,12 @@ internal class CheatStoreTest: TestCase() {
     }
 
     @Test
-    fun `send action back`() = runUnitTest {
-        assertTrue(actual = screens.isEmpty())
+    fun navigateBack() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
         navigate(screen = Screen.Cheat)
-        assertEquals(expected = listOf(element = Screen.Cheat), actual = screens)
+        assertNavigationBackstack(list = listOf(element = Screen.Cheat))
         val store = storeFactory.getCheatStore()
         store.back()
-        assertTrue(actual = screens.isEmpty())
+        assertNavigationBackstack(list = emptyList())
     }
 }
