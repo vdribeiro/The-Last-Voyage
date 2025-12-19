@@ -27,9 +27,22 @@ import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.translation.model.Translation
 
-internal val configs: List<Configs> by lazy {
-    runBlocking { loadFromJsonResource(path = CONFIGS_JSON) }
+internal val configs: Configs by lazy {
+    Configs(
+        appVersion = Long.MAX_VALUE,
+        translationsVersion = Long.MAX_VALUE,
+        catastrophesVersion = Long.MAX_VALUE,
+        enginesVersion = Long.MAX_VALUE,
+        stellarHostsVersion = Long.MAX_VALUE,
+        planetsVersion = Long.MAX_VALUE,
+        eventsVersion = Long.MAX_VALUE,
+        achievementsVersion = Long.MAX_VALUE,
+        creditsVersion = Long.MAX_VALUE,
+        developerCorner = "",
+        formula = "",
+    )
 }
+
 internal val translations: List<Translation> by lazy {
     runBlocking { loadFromJsonResource(path = TRANSLATIONS_JSON) }
 }

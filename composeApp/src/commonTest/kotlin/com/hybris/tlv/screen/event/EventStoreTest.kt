@@ -12,7 +12,7 @@ internal class EventStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        useCases.event.syncEvents()
+        useCases.event.prepopulateEvents()
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val store = storeFactory.getEventStore(ship = null)
         assertNotNull(actual = store.gameSession)

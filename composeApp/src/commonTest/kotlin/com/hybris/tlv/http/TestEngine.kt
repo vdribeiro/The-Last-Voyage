@@ -40,7 +40,7 @@ internal object TestEngine {
                 val path = request.url.toString()
                 val parameters = request.url.parameters.toString()
                 when {
-                    path.startsWith(prefix = CONFIGS_URL) -> respond(content = encode(value = configs).orEmpty())
+                    path.startsWith(prefix = CONFIGS_URL) -> respond(content = encode(value = listOf(element = configs)).orEmpty())
                     path.startsWith(prefix = TRANSLATIONS_URL) -> respond(content = encode(value = translations).orEmpty())
                     path.startsWith(prefix = CATASTROPHES_URL) -> respond(content = encode(value = catastrophes).orEmpty())
                     path.startsWith(prefix = ENGINES_URL) -> respond(content = encode(value = engines).orEmpty())

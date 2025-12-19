@@ -61,7 +61,6 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     override suspend fun fetchRemoteConfigs(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
             // This method respects the [cacheTTL] to avoid excessive network requests.
-
             if (!hasTimePassed(dateTime = _preferences.value.syncTime, duration = cacheTTL)) return@withContext
             setPreferences { it.copy(syncTime = now()) }
 
