@@ -68,7 +68,7 @@ internal class ArchiveGateway(
 
     private data class Exoplanets(val stellarHosts: List<StellarHost>, val planets: List<Planet>)
 
-    override suspend fun getArchive() = withContext(context = Dispatcher.IO) {
+    override suspend fun getArchive(): Boolean = withContext(context = Dispatcher.IO) {
         runCatching {
             coroutineScope {
                 // Get archive
@@ -101,8 +101,9 @@ internal class ArchiveGateway(
                 val hostsFile = saveJsonFile(path = ARCHIVE_STELLAR_HOSTS_JSON, content = stellarHostsJson)
                 val planetsFile = saveJsonFile(path = ARCHIVE_PLANETS_JSON, content = planetsJson)
                 Telemetry.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
+                hostsFile && planetsFile
             }
-        }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get archive", throwable = it) }.getOrDefault(defaultValue = Unit)
+        }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get archive", throwable = it) }.getOrDefault(defaultValue = false)
     }
 
     private suspend fun getArchive(limit: Int = pageSize, apiCall: suspend (Int, Int) -> Exoplanets): Exoplanets {

@@ -13,6 +13,9 @@ CREATE TABLE IF NOT EXISTS GameSession (
     score REAL
 );
 
+isGameSessionEmpty:
+SELECT GameSession.id FROM GameSession LIMIT 1;
+
 truncateGameSession:
 DELETE FROM GameSession;
 

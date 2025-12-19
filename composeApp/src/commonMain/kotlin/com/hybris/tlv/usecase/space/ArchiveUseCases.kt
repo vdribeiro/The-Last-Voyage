@@ -5,5 +5,5 @@ internal interface ArchiveUseCases {
     /**
      * Get exoplanet data from the NASA archive.
      */
-    suspend fun getArchive()
+    suspend fun getArchive(): Boolean
 }

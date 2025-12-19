@@ -64,6 +64,16 @@ internal abstract class TestCase {
     protected val storeFactory = StoreFactory(dependency = dependency)
 
     /**
+     * Feature flags for testing.
+     */
+    protected val testFlag = Flag(
+        reset = true,
+        http = true,
+        archive = true,
+        music = false
+    )
+
+    /**
      * List with the simulated navigation backstack.
      */
     private val screens: MutableList<Screen> = mutableListOf()
@@ -109,6 +119,7 @@ internal abstract class TestCase {
      */
     protected fun runUnitTest(block: suspend TestScope.() -> Unit) {
         runTest {
+            TLV.flag = testFlag
             dependency.useCases.sync.reset()
             screens.clear()
             backgroundScope.launch(context = UnconfinedTestDispatcher(scheduler = testScheduler)) { receiveCommands() }
@@ -122,6 +133,7 @@ internal abstract class TestCase {
      */
     protected fun runUITest(block: suspend ComposeUiTest.() -> Unit) {
         runComposeUiTest {
+            TLV.flag = testFlag
             val scope = CoroutineScope(context = UnconfinedTestDispatcher())
             try {
                 dependency.useCases.sync.reset()

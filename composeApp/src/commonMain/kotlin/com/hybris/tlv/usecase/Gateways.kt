@@ -29,12 +29,12 @@ internal class Gateways(
     database: AppDatabase,
     httpClient: HttpClient
 ): UseCases {
+    override val archive: ArchiveUseCases = ArchiveGateway(
+        httpClient = httpClient,
+    )
     override val translation: TranslationUseCases = TranslationGateway(
         httpClient = httpClient,
         database = database
-    )
-    override val archive: ArchiveUseCases = ArchiveGateway(
-        httpClient = httpClient,
     )
     override val catastrophe: CatastropheUseCases = CatastropheGateway(
         httpClient = httpClient,

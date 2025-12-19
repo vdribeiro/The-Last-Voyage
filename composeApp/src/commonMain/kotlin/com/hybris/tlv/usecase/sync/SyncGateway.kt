@@ -9,6 +9,7 @@ import kotlinx.coroutines.withContext
 import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.database.isEmpty
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.serializer.CONFIGS_JSON
@@ -46,6 +47,9 @@ internal class SyncGateway(
         database.clearDatabase()
     }
 
+    override suspend fun isEmpty(): Boolean =
+        database.isEmpty()
+
     override suspend fun sync(progress: (Float) -> Unit): SyncResult = withContext(context = Dispatcher.Default) {
         if (flag.reset) reset()
         config.setup()
@@ -55,6 +59,7 @@ internal class SyncGateway(
         Telemetry.info(tag = TAG, message = "App version: remote version: $remoteVersion, local version: $localVersion")
         config.setConfigs { it.copy(appVersion = remoteVersion) }
         val result = if (localVersion == 0L || Property.APP_VERSION_NUMBER == remoteVersion) syncAll(progress = progress) else SyncResult(
+            archive = DataSource.NONE,
             translations = DataSource.NONE,
             catastrophes = DataSource.NONE,
             engines = DataSource.NONE,
@@ -97,8 +102,8 @@ internal class SyncGateway(
         val achievementsDeferred = asyncWithProgress { syncAchievements() }
         val creditsDeferred = asyncWithProgress { syncCredits() }
 
-        archiveDeferred.tryAwait(task = "archive")
         SyncResult(
+            archive = archiveDeferred.tryAwait(task = "archive"),
             translations = translationsDeferred.tryAwait(task = "translation"),
             catastrophes = catastrophesDeferred.tryAwait(task = "catastrophe"),
             engines = enginesDeferred.tryAwait(task = "engine"),
@@ -115,13 +120,8 @@ internal class SyncGateway(
             Telemetry.error(tag = TAG, message = "Sync task $task failed.", throwable = it)
         }.getOrDefault(defaultValue = DataSource.NONE)
 
-    private suspend fun getArchive(): DataSource {
-        if (flag.archive) {
-            archiveUseCases.getArchive()
-            return DataSource.REMOTE
-        }
-        return DataSource.NONE
-    }
+    private suspend fun getArchive(): DataSource =
+        if (flag.archive && archiveUseCases.getArchive()) DataSource.REMOTE else DataSource.NONE
 
     private suspend fun syncTranslations(): DataSource {
         val remoteVersion = config.remoteConfigs.value.translationsVersion

@@ -15,8 +15,8 @@ import com.hybris.tlv.usecase.translation.TranslationUseCases
  * A central interface that groups together all the use cases of the application.
  */
 internal interface UseCases {
-    val translation: TranslationUseCases
     val archive: ArchiveUseCases
+    val translation: TranslationUseCases
     val catastrophe: CatastropheUseCases
     val ship: ShipUseCases
     val space: SpaceUseCases

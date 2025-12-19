@@ -12,6 +12,9 @@ CREATE TABLE IF NOT EXISTS Ship (
     cryopods INTEGER AS Int NOT NULL
 );
 
+isShipEmpty:
+SELECT Ship.id FROM Ship LIMIT 1;
+
 truncateShip:
 DELETE FROM Ship;
 
