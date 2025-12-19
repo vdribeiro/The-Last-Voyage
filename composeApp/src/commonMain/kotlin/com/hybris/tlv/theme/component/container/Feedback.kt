@@ -83,7 +83,7 @@ internal fun Feedback(
         )
         Spacer(modifier = Modifier.height(height = 16.dp))
         Button(
-            enabled = feedbackText.isNotBlank() && !showThanks,
+            enabled = !showThanks && (isError || feedbackText.isNotBlank()),
             text = buttonTranslation,
             onClick = { sendFeedback(feedbackText) },
         )
