@@ -2,13 +2,13 @@ package com.hybris.tlv.usecase.translation
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.runBlocking
+import com.hybris.tlv.TestCase
 import com.hybris.tlv.translations
 
-internal class TranslationCacheTest {
+internal class TranslationCacheTest: TestCase() {
 
     @Test
-    fun `write and get translations`() = runBlocking {
+    fun `write and get translations`() = runUnitTest {
         val translation = translations.first()
         TranslationCache.set(translations = translations)
         assertEquals(expected = translation.value, actual = TranslationCache.get(key = translation.key))

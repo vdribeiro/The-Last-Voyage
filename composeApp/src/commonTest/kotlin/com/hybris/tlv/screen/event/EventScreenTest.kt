@@ -1,51 +1,32 @@
 package com.hybris.tlv.screen.event
 
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.runComposeUiTest
+import com.hybris.tlv.TestCase
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.getEventStore
-import com.hybris.tlv.reset
-import com.hybris.tlv.theme.AppTheme
-import com.hybris.tlv.useCases
+import com.hybris.tlv.ship
 
 @OptIn(ExperimentalTestApi::class)
-internal class EventScreenTest {
-
-    @BeforeTest
-    fun setup() = runComposeUiTest {
-        reset()
-    }
+internal class EventScreenTest: TestCase() {
 
     @Test
-    fun eventWithoutData() = runComposeUiTest {
-        val store = getEventStore()
-        setContent {
-            AppTheme {
-                EventScreen(store = store)
-            }
-        }
-        waitForIdle()
+    fun eventWithoutData() = runUITest {
+        val store = storeFactory.getEventStore(ship = ship)
+        setScreen { EventScreen(store = store) }
 
 //        onNodeWithTag(testTag = EVENT_SCREEN).assertExists()
 //        onNodeWithTag(testTag = EVENT_SCREEN_STATUS_BAR).assertExists()
     }
 
     @Test
-    fun eventWithData() = runComposeUiTest {
+    fun eventWithData() = runUITest {
         runBlocking {
             useCases.event.syncEvents()
             useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         }
-        val store = getEventStore()
-        setContent {
-            AppTheme {
-                EventScreen(store = store)
-            }
-        }
-        waitForIdle()
+        val store = storeFactory.getEventStore(ship = ship)
+        setScreen { EventScreen(store = store) }
 
 //        onNodeWithTag(testTag = EVENT_SCREEN).assertExists()
 //        onNodeWithTag(testTag = EVENT_SCREEN_STATUS_BAR).assertExists()

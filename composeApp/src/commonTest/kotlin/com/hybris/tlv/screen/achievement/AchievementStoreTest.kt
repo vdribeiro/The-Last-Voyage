@@ -2,21 +2,28 @@ package com.hybris.tlv.screen.achievement
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.achievements
-import com.hybris.tlv.getAchievementStore
-import com.hybris.tlv.state
-import com.hybris.tlv.useCases
+import com.hybris.tlv.navigation.Screen
 
 internal class AchievementStoreTest: TestCase() {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `init`() = runUnitTest {
-        useCases.achievement.syncAchievements()
-        val achievementStore = getAchievementStore()
-        assertEquals(expected = false, actual = achievementStore.state().loading)
-        assertEquals(expected = achievements, actual = achievementStore.state().achievements)
+    fun initStore() = runUnitTest {
+        useCases.achievement.prepopulateAchievements()
+        val store = storeFactory.getAchievementStore()
+        assertEquals(expected = false, actual = store.state().loading)
+        assertEquals(expected = achievements, actual = store.state().achievements)
+    }
+
+    @Test
+    fun `send action back`() = runUnitTest {
+        assertTrue(actual = screens.isEmpty())
+        navigate(screen = Screen.Achievement)
+        assertEquals(expected = listOf(element = Screen.Achievement), actual = screens)
+        val store = storeFactory.getAchievementStore()
+        store.back()
+        assertTrue(actual = screens.isEmpty())
     }
 }

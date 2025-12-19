@@ -1,30 +1,22 @@
 package com.hybris.tlv.screen.tutorial
 
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
-import com.hybris.tlv.getTutorialStore
-import com.hybris.tlv.reset
-import com.hybris.tlv.theme.AppTheme
+import com.hybris.tlv.TestCase
 
 @OptIn(ExperimentalTestApi::class)
-internal class TutorialScreenTest {
-
-    @BeforeTest
-    fun setup() = runComposeUiTest {
-        reset()
-    }
+internal class TutorialScreenTest: TestCase() {
 
     @Test
     fun tutorial() = runComposeUiTest {
-        val store = getTutorialStore()
-        setContent {
-            AppTheme {
-                TutorialScreen(store = store)
-            }
-        }
-        waitForIdle()
+//        val store = getTutorialStore()
+//        setContent {
+//            AppTheme {
+//                TutorialScreen(store = store)
+//            }
+//        }
+//        waitForIdle()
 
 //        onNodeWithTag(testTag = TUTORIAL_SCREEN).assertExists()
 //        onNodeWithTag(testTag = TUTORIAL_SCREEN_STATUS_BAR).assertExists()

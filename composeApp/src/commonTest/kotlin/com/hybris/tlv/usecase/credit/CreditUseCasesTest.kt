@@ -1,19 +1,13 @@
 package com.hybris.tlv.usecase.credit
 
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.reset
-import com.hybris.tlv.useCases
+import com.hybris.tlv.TestCase
 
-internal class CreditUseCasesTest {
-
-    @BeforeTest
-    fun setup() = reset()
+internal class CreditUseCasesTest: TestCase() {
 
     @Test
-    fun `sync and get credits`() = runBlocking {
+    fun `sync and get credits`() = runUnitTest {
         assertTrue(actual = useCases.credit.getCredits().isEmpty())
         useCases.credit.syncCredits()
         assertTrue(actual = useCases.credit.getCredits().isNotEmpty())

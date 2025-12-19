@@ -363,16 +363,14 @@ kover {
 
             filters {
                 excludes {
+                    annotatedBy("com.hybris.tlv.test.ExcludeFromTesting")
                     annotatedBy("kotlinx.serialization.Serializable")
+                    annotatedBy("androidx.compose.ui.tooling.preview.Preview")
                     packages(
                         "*.generated*",
-                        "database",
-                        "${appId}.flow",
                     )
                     classes(
-                        "${appId}.Debug",
-                        "${appId}.KInitializer*",
-                        "${appId}.Main*",
+                        "*.ComposableSingletons*"
                     )
                 }
             }

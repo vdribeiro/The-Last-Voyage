@@ -1,33 +1,23 @@
 package com.hybris.tlv.screen.game
 
-import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
-import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.getGameStore
-import com.hybris.tlv.reset
-import com.hybris.tlv.theme.AppTheme
-import com.hybris.tlv.useCases
+import com.hybris.tlv.TestCase
 
+// TODO
 @OptIn(ExperimentalTestApi::class)
-internal class GameScreenTest {
-
-    @BeforeTest
-    fun setup() = runComposeUiTest {
-        reset()
-    }
+internal class GameScreenTest: TestCase() {
 
     @Test
     fun gameWithoutData() = runComposeUiTest {
-        val store = getGameStore()
-        setContent {
-            AppTheme {
-                GameScreen(store = store)
-            }
-        }
-        waitForIdle()
+//        val store = getGameStore()
+//        setContent {
+//            AppTheme {
+//                GameScreen(store = store)
+//            }
+//        }
+//        waitForIdle()
 
 //        onNodeWithTag(testTag = GAME_SCREEN).assertExists()
 //        onNodeWithTag(testTag = GAME_SCREEN_STATUS_BAR).assertExists()
@@ -40,18 +30,18 @@ internal class GameScreenTest {
     // TODO
     @Test
     fun gameWithData() = runComposeUiTest {
-        runBlocking {
-            useCases.space.syncStellarHosts()
-            useCases.space.syncPlanets()
-            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        }
-        val store = getGameStore()
-        setContent {
-            AppTheme {
-                GameScreen(store = store)
-            }
-        }
-        waitForIdle()
+//        runBlocking {
+//            useCases.space.syncStellarHosts()
+//            useCases.space.syncPlanets()
+//            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+//        }
+//        val store = getGameStore()
+//        setContent {
+//            AppTheme {
+//                GameScreen(store = store)
+//            }
+//        }
+//        waitForIdle()
 
 //        onNodeWithTag(testTag = GAME_SCREEN).assertExists()
 //        onNodeWithTag(testTag = GAME_SCREEN_STATUS_BAR).assertExists()

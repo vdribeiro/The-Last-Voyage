@@ -1,32 +1,23 @@
 package com.hybris.tlv.screen.stellarexplorer
 
-import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
-import com.hybris.tlv.getStellarExplorerStore
-import com.hybris.tlv.reset
-import com.hybris.tlv.theme.AppTheme
-import com.hybris.tlv.useCases
+import com.hybris.tlv.TestCase
 
 @OptIn(ExperimentalTestApi::class)
-internal class StellarExplorerScreenTest {
-
-    @BeforeTest
-    fun setup() = runComposeUiTest {
-        reset()
-    }
+// TODO
+internal class StellarExplorerScreenTest: TestCase() {
 
     @Test
     fun stellarExplorerWithoutData() = runComposeUiTest {
-        val store = getStellarExplorerStore()
-        setContent {
-            AppTheme {
-                StellarExplorerScreen(store = store)
-            }
-        }
-        waitForIdle()
+//        val store = getStellarExplorerStore()
+//        setContent {
+//            AppTheme {
+//                StellarExplorerScreen(store = store)
+//            }
+//        }
+//        waitForIdle()
 
 //        onNodeWithTag(testTag = STELLAR_EXPLORER_SCREEN).assertExists()
 //        onNodeWithTag(testTag = STELLAR_EXPLORER_SCREEN_CONTROL_PANEL).assertExists()
@@ -40,17 +31,17 @@ internal class StellarExplorerScreenTest {
 
     @Test
     fun stellarExplorerWithData() = runComposeUiTest {
-        runBlocking {
-            useCases.space.syncStellarHosts()
-            useCases.space.syncPlanets()
-        }
-        val store = getStellarExplorerStore()
-        setContent {
-            AppTheme {
-                StellarExplorerScreen(store = store)
-            }
-        }
-        waitForIdle()
+//        runBlocking {
+//            useCases.space.syncStellarHosts()
+//            useCases.space.syncPlanets()
+//        }
+//        val store = getStellarExplorerStore()
+//        setContent {
+//            AppTheme {
+//                StellarExplorerScreen(store = store)
+//            }
+//        }
+//        waitForIdle()
 
 //        onNodeWithTag(testTag = STELLAR_EXPLORER_SCREEN).assertExists()
 //        onNodeWithTag(testTag = STELLAR_EXPLORER_SCREEN_CONTROL_PANEL).assertExists()

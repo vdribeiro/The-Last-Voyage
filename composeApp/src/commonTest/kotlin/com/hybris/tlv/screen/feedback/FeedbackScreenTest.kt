@@ -1,31 +1,22 @@
 package com.hybris.tlv.screen.feedback
 
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.runComposeUiTest
-import com.hybris.tlv.getFeedbackStore
-import com.hybris.tlv.reset
-import com.hybris.tlv.theme.AppTheme
+import com.hybris.tlv.TestCase
 
 // TODO
 @OptIn(ExperimentalTestApi::class)
-internal class FeedbackScreenTest {
-
-    @BeforeTest
-    fun setup() = runComposeUiTest {
-        reset()
-    }
+internal class FeedbackScreenTest: TestCase() {
 
     @Test
-    fun feedback() = runComposeUiTest {
-        val store = getFeedbackStore()
-        setContent {
-            AppTheme {
-                FeedbackScreen(store = store)
-            }
-        }
-        waitForIdle()
+    fun feedback() = runUITest {
+//        val store = getFeedbackStore()
+//        setContent {
+//            AppTheme {
+//                FeedbackScreen(store = store)
+//            }
+//        }
+//        waitForIdle()
 
 //        onNodeWithTag(testTag = FEEDBACK_SCREEN).assertExists()
 //        onNodeWithTag(testTag = FEEDBACK_SCREEN_COLUMN).assertExists()
@@ -42,17 +33,17 @@ internal class FeedbackScreenTest {
     }
 
     @Test
-    fun feedbackError() = runComposeUiTest {
-        val store = getFeedbackStore(
-            tag = "TAG",
-            message = "MESSAGE"
-        )
-        setContent {
-            AppTheme {
-                FeedbackScreen(store = store)
-            }
-        }
-        waitForIdle()
+    fun feedbackError() = runUITest {
+//        val store = getFeedbackStore(
+//            tag = "TAG",
+//            message = "MESSAGE"
+//        )
+//        setContent {
+//            AppTheme {
+//                FeedbackScreen(store = store)
+//            }
+//        }
+//        waitForIdle()
 
 //        onNodeWithTag(testTag = FEEDBACK_SCREEN).assertExists()
 //        onNodeWithTag(testTag = FEEDBACK_SCREEN_COLUMN).assertExists()

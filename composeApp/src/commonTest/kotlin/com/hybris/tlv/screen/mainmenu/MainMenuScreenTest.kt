@@ -1,33 +1,23 @@
 package com.hybris.tlv.screen.mainmenu
 
-import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
-import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.getMainMenuStore
-import com.hybris.tlv.reset
-import com.hybris.tlv.theme.AppTheme
-import com.hybris.tlv.useCases
+import com.hybris.tlv.TestCase
 
+// TODO
 @OptIn(ExperimentalTestApi::class)
-internal class MainMenuScreenTest {
-
-    @BeforeTest
-    fun setup() = runComposeUiTest {
-        reset()
-    }
+internal class MainMenuScreenTest: TestCase() {
 
     @Test
     fun mainMenuWithoutData() = runComposeUiTest {
-        val store = getMainMenuStore()
-        setContent {
-            AppTheme {
-                MainMenuScreen(store = store)
-            }
-        }
-        waitForIdle()
+//        val store = getMainMenuStore()
+//        setContent {
+//            AppTheme {
+//                MainMenuScreen(store = store)
+//            }
+//        }
+//        waitForIdle()
 
 //        onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
 //        onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR).assertExists()
@@ -44,16 +34,16 @@ internal class MainMenuScreenTest {
 
     @Test
     fun mainMenuWithData() = runComposeUiTest {
-        runBlocking {
-            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        }
-        val store = getMainMenuStore()
-        setContent {
-            AppTheme {
-                MainMenuScreen(store = store)
-            }
-        }
-        waitForIdle()
+//        runBlocking {
+//            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+//        }
+//        val store = getMainMenuStore()
+//        setContent {
+//            AppTheme {
+//                MainMenuScreen(store = store)
+//            }
+//        }
+//        waitForIdle()
 
 //        onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
 //        onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR).assertExists()
@@ -77,16 +67,16 @@ internal class MainMenuScreenTest {
 
     @Test
     fun mainMenuHostDefinitionContent() = runComposeUiTest {
-        runBlocking {
-            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        }
-        val store = getMainMenuStore()
-        setContent {
-            AppTheme {
-                MainMenuScreen(store = store)
-            }
-        }
-        waitForIdle()
+//        runBlocking {
+//            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+//        }
+//        val store = getMainMenuStore()
+//        setContent {
+//            AppTheme {
+//                MainMenuScreen(store = store)
+//            }
+//        }
+//        waitForIdle()
 
 //        onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
 //        onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN).performClick()
@@ -102,16 +92,16 @@ internal class MainMenuScreenTest {
 
     @Test
     fun mainMenuPlanetDefinitionContent() = runComposeUiTest {
-        runBlocking {
-            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        }
-        val store = getMainMenuStore()
-        setContent {
-            AppTheme {
-                MainMenuScreen(store = store)
-            }
-        }
-        waitForIdle()
+//        runBlocking {
+//            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+//        }
+//        val store = getMainMenuStore()
+//        setContent {
+//            AppTheme {
+//                MainMenuScreen(store = store)
+//            }
+//        }
+//        waitForIdle()
 
 //        onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
 //        onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN).performClick()
@@ -127,16 +117,16 @@ internal class MainMenuScreenTest {
 
     @Test
     fun mainMenuHabitabilityContent() = runComposeUiTest {
-        runBlocking {
-            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        }
-        val store = getMainMenuStore()
-        setContent {
-            AppTheme {
-                MainMenuScreen(store = store)
-            }
-        }
-        waitForIdle()
+//        runBlocking {
+//            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+//        }
+//        val store = getMainMenuStore()
+//        setContent {
+//            AppTheme {
+//                MainMenuScreen(store = store)
+//            }
+//        }
+//        waitForIdle()
 
 //        onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
 //        onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN).performClick()

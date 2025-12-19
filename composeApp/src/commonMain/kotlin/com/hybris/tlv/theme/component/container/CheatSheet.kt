@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.LocalTypography
@@ -55,6 +56,7 @@ internal fun CheatSheet(
         )
         LazyColumn(
             modifier = Modifier
+                .testTag(tag = "cheat_list")
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)

@@ -1,36 +1,29 @@
 package com.hybris.tlv.screen.credit
 
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.runBlocking
+import kotlin.test.assertTrue
+import com.hybris.tlv.TestCase
 import com.hybris.tlv.credits
-import com.hybris.tlv.getCreditStore
-import com.hybris.tlv.reset
+import com.hybris.tlv.navigation.Screen
 
-internal class CreditStoreTest {
+internal class CreditStoreTest: TestCase() {
 
-    private val store: CreditStore get() = getCreditStore()
-
-    @BeforeTest
-    fun setup() = runBlocking {
-        reset()
-//        getNavigation().navigate(navigationState = NavigationState(screen = CreditScreen))
+    @Test
+    fun initStore() = runUnitTest {
+        useCases.credit.prepopulateCredits()
+        val store = storeFactory.getCreditStore()
+        assertEquals(expected = false, actual = store.state().loading)
+        assertEquals(expected = credits, actual = store.state().credits)
     }
 
     @Test
-    fun `init`() = runBlocking {
-//        useCases.credit.syncCredits()
-        val creditStore = store
-        assertEquals(expected = credits, actual = creditStore.stateFlow.value.credits)
-    }
-
-    @Test
-    fun `send action back`() = runBlocking {
-//        useCases.credit.syncCredits()
-        store
-//        assertEquals(expected = CreditScreen, actual = getNavigation().stateFlow.value.screen)
-//        getNavigation().back()
-//        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
+    fun `send action back`() = runUnitTest {
+        assertTrue(actual = screens.isEmpty())
+        navigate(screen = Screen.Credit)
+        assertEquals(expected = listOf(element = Screen.Credit), actual = screens)
+        val store = storeFactory.getCreditStore()
+        store.back()
+        assertTrue(actual = screens.isEmpty())
     }
 }

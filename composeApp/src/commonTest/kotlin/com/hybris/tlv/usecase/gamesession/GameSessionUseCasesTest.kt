@@ -2,31 +2,25 @@ package com.hybris.tlv.usecase.gamesession
 
 import kotlin.math.ceil
 import kotlin.random.Random
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import com.hybris.tlv.TestCase
 import com.hybris.tlv.events
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.hostsWithPlanets
 import com.hybris.tlv.planets
-import com.hybris.tlv.reset
 import com.hybris.tlv.stellarHosts
-import com.hybris.tlv.useCases
 import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
 
-internal class GameSessionUseCasesTest {
-
-    @BeforeTest
-    fun setup() = reset()
+internal class GameSessionUseCasesTest: TestCase() {
 
     @Test
-    fun `write and get game sessions`() = runBlocking {
+    fun `write and get game sessions`() = runUnitTest {
         assertNull(actual = useCases.gameSession.getLatestGameSession())
         assertTrue(actual = useCases.gameSession.getGameSessions().isEmpty())
         assertFalse(actual = useCases.gameSession.isGameSessionOngoing())
@@ -40,7 +34,7 @@ internal class GameSessionUseCasesTest {
     }
 
     @Test
-    fun `do event`() = runBlocking {
+    fun `do event`() = runUnitTest {
         val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val event = events.find { it.outcome != null }!!
         event.outcome!!
@@ -52,7 +46,7 @@ internal class GameSessionUseCasesTest {
     }
 
     @Test
-    fun travel() = runBlocking {
+    fun travel() = runUnitTest {
         val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val stellarHost = stellarHosts.random()
         val newGameSession = useCases.gameSession.travel(gameSession = gameSession, stellarHost = stellarHost)
@@ -66,7 +60,7 @@ internal class GameSessionUseCasesTest {
     }
 
     @Test
-    fun settle() = runBlocking {
+    fun settle() = runUnitTest {
         val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val stellarHost = hostsWithPlanets.filter { it.planets.isNotEmpty() }.random()
         val planet = stellarHost.planets.random().apply {
@@ -83,7 +77,7 @@ internal class GameSessionUseCasesTest {
     }
 
     @Test
-    fun score() = runBlocking {
+    fun score() = runUnitTest {
         val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameOver = GameOver.entries.random()
         val newGameSession = useCases.gameSession.score(gameSession = gameSession, gameOver = gameOver)
@@ -101,7 +95,7 @@ internal class GameSessionUseCasesTest {
     }
 
     @Test
-    fun `is game over`() = runBlocking {
+    fun `is game over`() = runUnitTest {
         val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         assertFalse(actual = useCases.gameSession.isGameOver(gameSession = gameSession))
 

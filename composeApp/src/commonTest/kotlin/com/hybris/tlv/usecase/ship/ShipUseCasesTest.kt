@@ -1,29 +1,23 @@
 package com.hybris.tlv.usecase.ship
 
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.reset
-import com.hybris.tlv.useCases
+import com.hybris.tlv.TestCase
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 
-internal class ShipUseCasesTest {
-
-    @BeforeTest
-    fun setup() = reset()
+internal class ShipUseCasesTest: TestCase() {
 
     @Test
-    fun `sync and get engines`() = runBlocking {
+    fun `sync and get engines`() = runUnitTest {
         assertTrue(actual = useCases.ship.getEngines().isEmpty())
         useCases.ship.syncEngines()
         assertTrue(actual = useCases.ship.getEngines().isNotEmpty())
     }
 
     @Test
-    fun `repair ship`() = runBlocking {
+    fun `repair ship`() = runUnitTest {
         val shipNoIntegrity = Ship(
             id = "",
             engine = Engine(

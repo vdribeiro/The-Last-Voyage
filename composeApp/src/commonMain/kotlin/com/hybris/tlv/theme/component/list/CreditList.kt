@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -46,7 +47,7 @@ internal inline fun <T> CreditList(
     val colorScheme = LocalColorScheme.current
 
     LazyVerticalStaggeredGrid(
-        modifier = modifier,
+        modifier = modifier.testTag(tag = "credits_grid"),
         columns = StaggeredGridCells.Adaptive(minSize = 100.dp),
         horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
         verticalItemSpacing = 8.dp

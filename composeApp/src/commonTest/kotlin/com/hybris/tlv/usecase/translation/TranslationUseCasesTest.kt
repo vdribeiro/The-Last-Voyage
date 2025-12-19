@@ -1,23 +1,15 @@
 package com.hybris.tlv.usecase.translation
 
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.reset
+import com.hybris.tlv.TestCase
 import com.hybris.tlv.translations
-import com.hybris.tlv.useCases
 
-internal class TranslationUseCasesTest {
-
-    @BeforeTest
-    fun setup() {
-        reset()
-        TranslationCache.set(translations = emptyList())
-    }
+internal class TranslationUseCasesTest: TestCase() {
 
     @Test
-    fun `sync and get translations`() = runBlocking {
+    fun `sync and get translations`() = runUnitTest {
+        TranslationCache.set(translations = emptyList())
         val translation = translations.random()
         assertEquals(expected = translation.key, actual = TranslationCache.get(translation.key))
         useCases.translation.syncTranslations()

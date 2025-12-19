@@ -1,21 +1,15 @@
 package com.hybris.tlv.usecase.event
 
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
+import com.hybris.tlv.TestCase
 import com.hybris.tlv.events
-import com.hybris.tlv.reset
-import com.hybris.tlv.useCases
 
-internal class EventUseCasesTest {
-
-    @BeforeTest
-    fun setup() = reset()
+internal class EventUseCasesTest: TestCase() {
 
     @Test
-    fun `sync and get events`() = runBlocking {
+    fun `sync and get events`() = runUnitTest {
         assertTrue(actual = useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
         useCases.event.syncEvents()
         assertTrue(actual = useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())

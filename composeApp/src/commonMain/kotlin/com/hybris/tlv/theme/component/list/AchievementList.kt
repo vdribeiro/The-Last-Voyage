@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.theme.AppTheme
@@ -44,6 +45,7 @@ internal inline fun <T> AchievementList(
         )
         LazyColumn(
             modifier = Modifier
+                .testTag(tag = "achievement_list")
                 .fillMaxSize(),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
