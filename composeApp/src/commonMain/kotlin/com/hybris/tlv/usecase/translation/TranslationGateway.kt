@@ -35,12 +35,13 @@ internal class TranslationGateway(
         }
     }
 
-    override suspend fun prepopulateTranslations() {
+    override suspend fun prepopulateTranslations(): Boolean = withContext(context = Dispatcher.IO) {
         if (translationDao.isTranslationEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating translations")
             val translations: List<Translation> = loadFromJsonResource(path = TRANSLATIONS_JSON)
             rewriteTranslations(translations = translations)
-        }
+            true
+        } else false
     }
 
     private fun rewriteTranslations(translations: List<Translation>) = translationDao.transaction {

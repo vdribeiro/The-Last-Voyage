@@ -52,12 +52,13 @@ internal class SpaceGateway(
         }
     }
 
-    override suspend fun prepopulateStellarHosts() {
+    override suspend fun prepopulateStellarHosts(): Boolean = withContext(context = Dispatcher.IO) {
         if (stellarHostDao.isStellarHostEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating stellar hosts")
             val stellarHosts: List<StellarHost> = loadFromJsonResource(path = STELLAR_HOSTS_JSON)
             rewriteStellarHosts(stellarHosts = stellarHosts)
-        }
+            true
+        } else false
     }
 
     private fun rewriteStellarHosts(stellarHosts: List<StellarHost>) = stellarHostDao.transaction {
@@ -81,12 +82,13 @@ internal class SpaceGateway(
 
     }
 
-    override suspend fun prepopulatePlanets() {
+    override suspend fun prepopulatePlanets(): Boolean = withContext(context = Dispatcher.IO) {
         if (planetDao.isPlanetEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating planets")
             val planets: List<Planet> = loadFromJsonResource(path = PLANETS_JSON)
             rewritePlanets(planets = planets)
-        }
+            true
+        } else false
     }
 
     private fun rewritePlanets(planets: List<Planet>) = planetDao.transaction {

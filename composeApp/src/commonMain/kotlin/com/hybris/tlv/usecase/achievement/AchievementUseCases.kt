@@ -13,7 +13,7 @@ internal interface AchievementUseCases {
     /**
      * Prepopulate [Achievement]s.
      */
-    suspend fun prepopulateAchievements()
+    suspend fun prepopulateAchievements(): Boolean
 
     /**
      * Get all [Achievement]s.

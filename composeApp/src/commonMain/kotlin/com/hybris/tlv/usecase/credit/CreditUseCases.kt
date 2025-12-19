@@ -12,7 +12,7 @@ internal interface CreditUseCases {
     /**
      * Prepopulate [Credit]s.
      */
-    suspend fun prepopulateCredits()
+    suspend fun prepopulateCredits(): Boolean
 
     /**
      * Get all [Credit]s.

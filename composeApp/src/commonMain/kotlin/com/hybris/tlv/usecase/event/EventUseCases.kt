@@ -12,7 +12,7 @@ internal interface EventUseCases {
     /**
      * Prepopulate [Event]s.
      */
-    suspend fun prepopulateEvents()
+    suspend fun prepopulateEvents(): Boolean
 
     /**
      * Get a random [Event] and its children given an exclusion list of [ids].

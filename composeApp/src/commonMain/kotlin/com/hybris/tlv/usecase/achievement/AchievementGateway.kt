@@ -39,12 +39,13 @@ internal class AchievementGateway(
         }
     }
 
-    override suspend fun prepopulateAchievements() {
+    override suspend fun prepopulateAchievements(): Boolean = withContext(context = Dispatcher.IO) {
         if (achievementDao.isAchievementEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating achievements")
             val achievements: List<Achievement> = loadFromJsonResource(path = ACHIEVEMENTS_JSON)
             rewriteAchievements(achievements = achievements)
-        }
+            true
+        } else false
     }
 
     private fun rewriteAchievements(achievements: List<Achievement>) = achievementDao.transaction {

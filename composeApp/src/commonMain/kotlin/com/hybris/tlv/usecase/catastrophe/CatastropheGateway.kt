@@ -35,12 +35,13 @@ internal class CatastropheGateway(
         }
     }
 
-    override suspend fun prepopulateCatastrophes() {
+    override suspend fun prepopulateCatastrophes(): Boolean = withContext(context = Dispatcher.IO) {
         if (catastropheDao.isCatastropheEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating catastrophes")
             val catastrophes: List<Catastrophe> = loadFromJsonResource(path = CATASTROPHES_JSON)
             rewriteCatastrophes(catastrophes = catastrophes)
-        }
+            true
+        } else false
     }
 
     private fun rewriteCatastrophes(catastrophes: List<Catastrophe>) = catastropheDao.transaction {

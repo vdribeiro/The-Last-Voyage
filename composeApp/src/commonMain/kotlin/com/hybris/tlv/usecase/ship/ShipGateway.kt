@@ -37,12 +37,13 @@ internal class ShipGateway(
         }
     }
 
-    override suspend fun prepopulateEngines() {
+    override suspend fun prepopulateEngines(): Boolean = withContext(context = Dispatcher.IO) {
         if (engineDao.isEngineEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating engines")
             val engines: List<Engine> = loadFromJsonResource(path = ENGINES_JSON)
             rewriteEngines(engines = engines)
-        }
+            true
+        } else false
     }
 
     private fun rewriteEngines(engines: List<Engine>) = engineDao.transaction {

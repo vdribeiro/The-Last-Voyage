@@ -35,12 +35,13 @@ internal class CreditGateway(
         }
     }
 
-    override suspend fun prepopulateCredits() {
+    override suspend fun prepopulateCredits(): Boolean = withContext(context = Dispatcher.IO) {
         if (creditDao.isCreditEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating credits")
             val credits: List<Credit> = loadFromJsonResource(path = CREDITS_JSON)
             rewriteCredits(credits = credits)
-        }
+            true
+        } else false
     }
 
     private fun rewriteCredits(credits: List<Credit>) = creditDao.transaction {

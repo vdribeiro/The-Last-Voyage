@@ -13,7 +13,7 @@ internal interface ShipUseCases {
     /**
      * Prepopulate [Engine]s.
      */
-    suspend fun prepopulateEngines()
+    suspend fun prepopulateEngines(): Boolean
 
     /**
      * Get all [Engine]s.

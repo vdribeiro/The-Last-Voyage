@@ -38,12 +38,13 @@ internal class EventGateway(
         }
     }
 
-    override suspend fun prepopulateEvents() {
+    override suspend fun prepopulateEvents(): Boolean = withContext(context = Dispatcher.IO) {
         if (eventDao.isEventEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating events")
             val events: List<Event> = loadFromJsonResource(path = EVENTS_JSON)
             rewriteEvents(events = events)
-        }
+            true
+        } else false
     }
 
     private fun rewriteEvents(events: List<Event>) = eventDao.transaction {

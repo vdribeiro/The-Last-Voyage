@@ -12,7 +12,7 @@ internal interface TranslationUseCases {
     /**
      * Prepopulate [Translation]s.
      */
-    suspend fun prepopulateTranslations()
+    suspend fun prepopulateTranslations(): Boolean
 
     /**
      * Refresh translations cache.
