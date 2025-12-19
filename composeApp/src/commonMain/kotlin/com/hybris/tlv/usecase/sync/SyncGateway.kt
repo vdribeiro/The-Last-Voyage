@@ -79,108 +79,122 @@ internal class SyncGateway(
         }
     }
 
-    private suspend fun syncTranslations() {
+    enum class DataSource {
+        REMOTE,
+        LOCAL,
+        NONE
+    }
+
+    private suspend fun syncTranslations(): DataSource {
         val remoteVersion = config.remoteConfigs.value.translationsVersion
         val localVersion = config.localConfigs.value.translationsVersion
         Telemetry.info(tag = TAG, message = "Syncing translations: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (translationUseCases.syncTranslations()) {
                 config.setConfigs { it.copy(translationsVersion = remoteVersion) }
-                return
+                return DataSource.REMOTE
             }
         }
-        translationUseCases.prepopulateTranslations()
+        if (translationUseCases.prepopulateTranslations()) return DataSource.LOCAL
+        return DataSource.NONE
     }
 
-    private suspend fun syncCatastrophes() {
+    private suspend fun syncCatastrophes(): DataSource {
         val remoteVersion = config.remoteConfigs.value.catastrophesVersion
         val localVersion = config.localConfigs.value.catastrophesVersion
         Telemetry.info(tag = TAG, message = "Syncing catastrophes: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (catastropheUseCases.syncCatastrophes()) {
                 config.setConfigs { it.copy(catastrophesVersion = remoteVersion) }
-                return
+                return DataSource.REMOTE
             }
         }
-        catastropheUseCases.prepopulateCatastrophes()
+        if (catastropheUseCases.prepopulateCatastrophes()) return DataSource.LOCAL
+        return DataSource.NONE
     }
 
-    private suspend fun syncEngines() {
+    private suspend fun syncEngines(): DataSource {
         val remoteVersion = config.remoteConfigs.value.enginesVersion
         val localVersion = config.localConfigs.value.enginesVersion
         Telemetry.info(tag = TAG, message = "Syncing engines: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (shipUseCases.syncEngines()) {
                 config.setConfigs { it.copy(enginesVersion = remoteVersion) }
-                return
+                return DataSource.REMOTE
             }
         }
-        shipUseCases.prepopulateEngines()
+        if (shipUseCases.prepopulateEngines()) return DataSource.LOCAL
+        return DataSource.NONE
     }
 
-    private suspend fun syncStellarHosts() {
+    private suspend fun syncStellarHosts(): DataSource {
         val remoteVersion = config.remoteConfigs.value.stellarHostsVersion
         val localVersion = config.localConfigs.value.stellarHostsVersion
         Telemetry.info(tag = TAG, message = "Syncing stellar hosts: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (spaceUseCases.syncStellarHosts()) {
                 config.setConfigs { it.copy(stellarHostsVersion = remoteVersion) }
-                return
+                return DataSource.REMOTE
             }
         }
-        spaceUseCases.prepopulateStellarHosts()
+        if (spaceUseCases.prepopulateStellarHosts()) return DataSource.LOCAL
+        return DataSource.NONE
     }
 
-    private suspend fun syncPlanets() {
+    private suspend fun syncPlanets(): DataSource {
         val remoteVersion = config.remoteConfigs.value.planetsVersion
         val localVersion = config.localConfigs.value.planetsVersion
         Telemetry.info(tag = TAG, message = "Syncing planets: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (spaceUseCases.syncPlanets()) {
                 config.setConfigs { it.copy(planetsVersion = remoteVersion) }
-                return
+                return DataSource.REMOTE
             }
         }
-        spaceUseCases.prepopulatePlanets()
+        if (spaceUseCases.prepopulatePlanets()) return DataSource.LOCAL
+        return DataSource.NONE
     }
 
-    private suspend fun syncEvents() {
+    private suspend fun syncEvents(): DataSource {
         val remoteVersion = config.remoteConfigs.value.eventsVersion
         val localVersion = config.localConfigs.value.eventsVersion
         Telemetry.info(tag = TAG, message = "Syncing events: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (eventUseCases.syncEvents()) {
                 config.setConfigs { it.copy(eventsVersion = remoteVersion) }
-                return
+                return DataSource.REMOTE
             }
         }
-        eventUseCases.prepopulateEvents()
+        if (eventUseCases.prepopulateEvents()) return DataSource.LOCAL
+        return DataSource.NONE
     }
 
-    private suspend fun syncAchievements() {
+    private suspend fun syncAchievements(): DataSource {
         val remoteVersion = config.remoteConfigs.value.achievementsVersion
         val localVersion = config.localConfigs.value.achievementsVersion
         Telemetry.info(tag = TAG, message = "Syncing achievements: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (achievementUseCases.syncAchievements()) {
                 config.setConfigs { it.copy(achievementsVersion = remoteVersion) }
-                return
+                return DataSource.REMOTE
             }
         }
-        achievementUseCases.prepopulateAchievements()
+        if (achievementUseCases.prepopulateAchievements()) return DataSource.LOCAL
+        return DataSource.NONE
     }
 
-    private suspend fun syncCredits() {
+    private suspend fun syncCredits(): DataSource {
         val remoteVersion = config.remoteConfigs.value.creditsVersion
         val localVersion = config.localConfigs.value.creditsVersion
         Telemetry.info(tag = TAG, message = "Syncing credits: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (creditUseCases.syncCredits()) {
                 config.setConfigs { it.copy(creditsVersion = remoteVersion) }
-                return
+                return DataSource.REMOTE
             }
         }
-        creditUseCases.prepopulateCredits()
+        if (creditUseCases.prepopulateCredits()) return DataSource.LOCAL
+        return DataSource.NONE
     }
 
     companion object Companion {
