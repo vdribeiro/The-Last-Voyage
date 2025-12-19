@@ -1,7 +1,10 @@
 package com.hybris.tlv.usecase.sync
 
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.supervisorScope
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.config.ConfigManager
@@ -19,6 +22,8 @@ import com.hybris.tlv.usecase.event.EventUseCases
 import com.hybris.tlv.usecase.ship.ShipUseCases
 import com.hybris.tlv.usecase.space.ArchiveUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
+import com.hybris.tlv.usecase.sync.model.DataSource
+import com.hybris.tlv.usecase.sync.model.SyncResult
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 import database.AppDatabase
 
@@ -41,7 +46,7 @@ internal class SyncGateway(
         database.clearDatabase()
     }
 
-    override suspend fun sync(progress: (Float) -> Unit) = withContext(context = Dispatcher.Default) {
+    override suspend fun sync(progress: (Float) -> Unit): SyncResult = withContext(context = Dispatcher.Default) {
         if (flag.reset) reset()
         config.setup()
 
@@ -49,41 +54,66 @@ internal class SyncGateway(
         val localVersion = config.localConfigs.value.appVersion
         Telemetry.info(tag = TAG, message = "App version: remote version: $remoteVersion, local version: $localVersion")
         config.setConfigs { it.copy(appVersion = remoteVersion) }
-        if (localVersion == 0L || Property.APP_VERSION_NUMBER == remoteVersion) syncAll(progress = progress)
+        val result = if (localVersion == 0L || Property.APP_VERSION_NUMBER == remoteVersion) syncAll(progress = progress) else SyncResult(
+            translations = DataSource.NONE,
+            catastrophes = DataSource.NONE,
+            engines = DataSource.NONE,
+            stellarHosts = DataSource.NONE,
+            planets = DataSource.NONE,
+            events = DataSource.NONE,
+            achievements = DataSource.NONE,
+            credits = DataSource.NONE
+        )
         config.saveConfigs()
         translationUseCases.refreshCache()
 
         Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences.value}")
         Telemetry.info(tag = TAG, message = "Local Configs\n${config.localConfigs.value}")
         Telemetry.info(tag = TAG, message = "Remote Configs\n${config.remoteConfigs.value}")
+
+        return@withContext result
     }
 
-    private suspend fun syncAll(progress: (Float) -> Unit) = supervisorScope {
-        val tasks = listOf(
-            suspend { getArchive() },
-            suspend { syncTranslations() },
-            suspend { syncCatastrophes() },
-            suspend { syncEngines() },
-            suspend { syncStellarHosts() },
-            suspend { syncPlanets() },
-            suspend { syncEvents() },
-            suspend { syncAchievements() },
-            suspend { syncCredits() }
-        )
-        val total = tasks.size.toFloat()
-        tasks.map { task -> async { task() } }.forEachIndexed { index, job ->
-            runCatching {
-                job.await()
-            }.onFailure { Telemetry.error(tag = TAG, message = "Sync task failed.", throwable = it) }.getOrNull()
-            progress((index + 1).toFloat() / total)
+    private suspend fun syncAll(progress: (Float) -> Unit): SyncResult = supervisorScope {
+        val mutex = Mutex()
+        var completedTasks = 0f
+        val totalTasks = 9f
+        fun asyncWithProgress(task: suspend () -> DataSource): Deferred<DataSource> = async {
+            task().also {
+                mutex.withLock {
+                    completedTasks++
+                    progress(completedTasks / totalTasks)
+                }
+            }
         }
+
+        val archiveDeferred = asyncWithProgress { getArchive() }
+        val translationsDeferred = asyncWithProgress { syncTranslations() }
+        val catastrophesDeferred = asyncWithProgress { syncCatastrophes() }
+        val enginesDeferred = asyncWithProgress { syncEngines() }
+        val stellarHostsDeferred = asyncWithProgress { syncStellarHosts() }
+        val planetsDeferred = asyncWithProgress { syncPlanets() }
+        val eventsDeferred = asyncWithProgress { syncEvents() }
+        val achievementsDeferred = asyncWithProgress { syncAchievements() }
+        val creditsDeferred = asyncWithProgress { syncCredits() }
+
+        archiveDeferred.tryAwait(task = "archive")
+        SyncResult(
+            translations = translationsDeferred.tryAwait(task = "translation"),
+            catastrophes = catastrophesDeferred.tryAwait(task = "catastrophe"),
+            engines = enginesDeferred.tryAwait(task = "engine"),
+            stellarHosts = stellarHostsDeferred.tryAwait(task = "stellarHost"),
+            planets = planetsDeferred.tryAwait(task = "planet"),
+            events = eventsDeferred.tryAwait(task = "event"),
+            achievements = achievementsDeferred.tryAwait(task = "achievement"),
+            credits = creditsDeferred.tryAwait(task = "credit")
+        )
     }
 
-    enum class DataSource {
-        REMOTE,
-        LOCAL,
-        NONE
-    }
+    private suspend fun Deferred<DataSource>.tryAwait(task: String): DataSource =
+        runCatching { await() }.onFailure {
+            Telemetry.error(tag = TAG, message = "Sync task $task failed.", throwable = it)
+        }.getOrDefault(defaultValue = DataSource.NONE)
 
     private suspend fun getArchive(): DataSource {
         if (flag.archive) {

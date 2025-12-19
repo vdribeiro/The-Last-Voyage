@@ -1,5 +1,8 @@
 package com.hybris.tlv.usecase.sync
 
+import com.hybris.tlv.usecase.sync.model.DataSource
+import com.hybris.tlv.usecase.sync.model.SyncResult
+
 internal interface SyncUseCases {
 
     /**
@@ -10,5 +13,5 @@ internal interface SyncUseCases {
     /**
      * Sync all data.
      */
-    suspend fun sync(progress: (Float) -> Unit = {})
+    suspend fun sync(progress: (Float) -> Unit = {}): SyncResult
 }
