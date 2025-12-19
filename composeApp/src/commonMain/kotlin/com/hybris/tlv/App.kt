@@ -6,7 +6,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.audio.AudioPlayer
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.command.receiveCommand
@@ -47,11 +46,9 @@ internal fun App(
         }
     }
 
-    if (flag.music) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        AudioPlayer(
-            audioPlayer = audioPlayer,
-            destination = navBackStackEntry?.destination
-        )
-    }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    AudioPlayer(
+        audioPlayer = audioPlayer,
+        destination = navBackStackEntry?.destination
+    )
 }

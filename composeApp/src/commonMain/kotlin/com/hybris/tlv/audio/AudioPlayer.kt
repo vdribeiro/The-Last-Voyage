@@ -1,5 +1,6 @@
 package com.hybris.tlv.audio
 
+import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.telemetry.Telemetry
 
 /**
@@ -41,6 +42,11 @@ internal open class AudioPlayer {
      */
     fun action(action: Action) {
         runCatching {
+            if (!flag.music) {
+                stop()
+                return
+            }
+
             when (action) {
                 is Action.Play -> {
                     // Check if the playlist is not the same as the current playlist

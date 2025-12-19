@@ -3,7 +3,6 @@ package com.hybris.tlv
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.dependency.Dependency
-import com.hybris.tlv.platform.isDebug
 
 /**
  * The main object for The Last Voyage application.
@@ -28,24 +27,27 @@ internal object TLV {
     }
 
     // Feature Flags
-    val flag: Flag by lazy { if (isDebug) debugFlags else productionFlags }
+    var flag: Flag = Flag(
+        reset = false,
+        http = true,
+        archive = false,
+        music = true
+    )
 }
 
 internal data class Flag(
     /**
-     * Flag to trigger a full data reset on startup.
-     * This should be set to false for production builds.
-     */
-    val reset: Boolean,
-    /**
-     * Flag to enable or disable all HTTP client network requests.
-     * When false, only local data is used and no network calls will be made by the application.
+     * Flag to enable or disable HTTP client. When false, network calls will fail.
      * This should be set to true for production builds.
      */
     val http: Boolean,
     /**
-     * Flag to enable or disable fetching exoplanet data from the NASA archive.
-     * This is only effective if [http] is also true.
+     * Flag to enable or disable a full data reset before syncing data.
+     * This should be set to false for production builds.
+     */
+    val reset: Boolean,
+    /**
+     * Flag to enable or disable fetching exoplanet data directly from the NASA archive when syncing data.
      * This should be set to false for production builds.
      */
     val archive: Boolean,
@@ -54,18 +56,4 @@ internal data class Flag(
      * This should be set to true for production builds.
      */
     val music: Boolean
-)
-
-private val productionFlags: Flag = Flag(
-    reset = false,
-    http = true,
-    archive = false,
-    music = true
-)
-
-private val debugFlags: Flag = Flag(
-    reset = false,
-    http = true,
-    archive = false,
-    music = true
 )
