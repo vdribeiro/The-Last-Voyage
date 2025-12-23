@@ -66,7 +66,7 @@ internal abstract class TestCase {
     /**
      * Feature flags for testing.
      */
-    protected val testFlag = Flag(
+    private val testFlag = Flag(
         reset = true,
         http = true,
         archive = true,
@@ -109,8 +109,23 @@ internal abstract class TestCase {
         sendCommand(command = Command.Navigate(screen = screen))
     }
 
+    /**
+     * Compares the navigation backstack with the given screen [list].
+     */
     protected fun assertNavigationBackstack(list: List<Screen>) {
         assertEquals(expected = list.map { it::class }, actual = screens.map { it::class })
+    }
+
+    /**
+     * Resets all local data.
+     */
+    protected suspend fun reset() = dependency.useCases.sync.reset()
+
+    /**
+     * Sets feature flags.
+     */
+    protected fun setFlag(flag: (Flag) -> Flag = { it }) {
+        TLV.flag = flag(testFlag)
     }
 
     /**
@@ -119,8 +134,8 @@ internal abstract class TestCase {
      */
     protected fun runUnitTest(block: suspend TestScope.() -> Unit) {
         runTest {
-            TLV.flag = testFlag
-            dependency.useCases.sync.reset()
+            setFlag()
+            reset()
             screens.clear()
             backgroundScope.launch(context = UnconfinedTestDispatcher(scheduler = testScheduler)) { receiveCommands() }
             block()
@@ -133,7 +148,7 @@ internal abstract class TestCase {
      */
     protected fun runUITest(block: suspend ComposeUiTest.() -> Unit) {
         runComposeUiTest {
-            TLV.flag = testFlag
+            setFlag()
             val scope = CoroutineScope(context = UnconfinedTestDispatcher())
             try {
                 dependency.useCases.sync.reset()

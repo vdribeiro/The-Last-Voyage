@@ -14,7 +14,7 @@ internal class SyncUseCasesTest: TestCase() {
     @Test
     fun `sync and reset`() = runUnitTest {
         assertTrue(actual = useCases.sync.isEmpty())
-        TLV.flag = testFlag.copy(http = false)
+        setFlag { it.copy(http = false) }
         assertEquals(
             expected = SyncResult(
                 archive = DataSource.NONE,
@@ -29,9 +29,9 @@ internal class SyncUseCasesTest: TestCase() {
             ), actual = useCases.sync.sync()
         )
         assertFalse(actual = useCases.sync.isEmpty())
-        useCases.sync.reset()
+        reset()
         assertTrue(actual = useCases.sync.isEmpty())
-        TLV.flag = testFlag.copy(http = true)
+        setFlag { it.copy(http = true) }
         assertEquals(
             expected = SyncResult(
                 archive = DataSource.REMOTE,
