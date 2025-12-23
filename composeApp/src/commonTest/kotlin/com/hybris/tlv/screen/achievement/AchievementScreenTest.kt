@@ -2,7 +2,6 @@ package com.hybris.tlv.screen.achievement
 
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onChildren
@@ -33,6 +32,6 @@ internal class AchievementScreenTest: TestCase() {
         setScreen { AchievementScreen(store = store) }
         onNodeWithText(text = "achievements_screen__title").assertIsDisplayed()
         onNodeWithTag(testTag = "achievement_list").assertIsDisplayed()
-        onNodeWithTag(testTag = "achievement_list").assert(matcher = hasCount(count = achievements.size))
+        onNodeWithTag(testTag = "achievement_list").count(count = achievements.size)
     }
 }

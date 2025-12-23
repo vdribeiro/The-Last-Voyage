@@ -18,6 +18,8 @@ import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -105,16 +107,14 @@ internal abstract class TestCase {
     /**
      * Simulates a navigation event.
      */
-    protected fun navigate(screen: Screen) {
+    protected fun navigate(screen: Screen): Boolean =
         sendCommand(command = Command.Navigate(screen = screen))
-    }
 
     /**
      * Compares the navigation backstack with the given screen [list].
      */
-    protected fun assertNavigationBackstack(list: List<Screen>) {
+    protected fun assertNavigationBackstack(list: List<Screen>) =
         assertEquals(expected = list.map { it::class }, actual = screens.map { it::class })
-    }
 
     /**
      * Resets all local data.
@@ -151,7 +151,7 @@ internal abstract class TestCase {
             setFlag()
             val scope = CoroutineScope(context = UnconfinedTestDispatcher())
             try {
-                dependency.useCases.sync.reset()
+                reset()
                 screens.clear()
                 scope.launch { receiveCommands() }
                 block()
@@ -194,10 +194,11 @@ internal abstract class TestCase {
     protected fun <State, Action> Store<State, Action>.state(): State = stateFlow.value
 
     /**
-     * Creates a [SemanticsMatcher] to verify the number of items in a collection.
+     * Verify the number of items in a collection.
      */
-    protected fun hasCount(count: Int): SemanticsMatcher = SemanticsMatcher(description = "Has $count items") { node ->
-        val collectionInfo = node.config.getOrNull(key = SemanticsProperties.CollectionInfo)
-        collectionInfo != null && (collectionInfo.rowCount == count || collectionInfo.columnCount == count)
-    }
+    protected fun SemanticsNodeInteraction.count(count: Int): SemanticsNodeInteraction =
+        assert(matcher = SemanticsMatcher(description = "Has $count items") { node ->
+            val collectionInfo = node.config.getOrNull(key = SemanticsProperties.CollectionInfo)
+            collectionInfo != null && (collectionInfo.rowCount == count || collectionInfo.columnCount == count)
+        })
 }
