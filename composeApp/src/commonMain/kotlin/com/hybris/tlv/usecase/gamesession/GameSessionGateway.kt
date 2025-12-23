@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase.gamesession
 
 import kotlin.math.ceil
 import kotlinx.coroutines.withContext
-import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.database.FormulaSchema
 import com.hybris.tlv.database.GameSessionSchema
 import com.hybris.tlv.database.ShipSchema
@@ -21,7 +20,7 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 import database.AppDatabase
 
 internal class GameSessionGateway(
-    database: AppDatabase,
+    database: AppDatabase
 ): GameSessionUseCases {
 
     private val gameSessionDao = database.gameSessionQueries
@@ -118,116 +117,12 @@ internal class GameSessionGateway(
         val baseScore = cryopodScore + fuelScore + materialsScore + journeyScore
         // Challenge Multiplier
         val challengeMultiplier = (1.0 + (15 - ship.assignedPoints) + 0.05).coerceIn(minimumValue = 0.01, maximumValue = 10.0)
-        // Game Over Multiplier
-        val gameOverMultiplier = getGameOverMultiplier(gameOver = gameOver)
-
         // Final Score = Base Score * Challenge Multiplier * Game Over Multiplier
-        val score = baseScore * challengeMultiplier * gameOverMultiplier
+        val score = baseScore * challengeMultiplier * gameOver.multiplier
 
         val updatedGameSession = gameSession.copy(score = score)
         updateGameSession(gameSession = updatedGameSession)
     }
-
-    @VisibleForTesting
-    internal fun getGameOverMultiplier(gameOver: GameOver): Double =
-        when (gameOver) {
-            // Ship is destroyed
-            GameOver.INTEGRITY_ZERO,
-            GameOver.INTEGRITY_ZERO_YEARS_FEW,
-            GameOver.INTEGRITY_ZERO_YEARS_SOME,
-            GameOver.INTEGRITY_ZERO_YEARS_LOTS,
-            GameOver.INTEGRITY_ZERO_CRYOPODS_ZERO,
-            GameOver.INTEGRITY_ZERO_CRYOPODS_ONE,
-            GameOver.INTEGRITY_ZERO_CRYOPODS_LOW,
-            GameOver.INTEGRITY_ZERO_CRYOPODS_ENOUGH,
-            GameOver.INTEGRITY_ZERO_FUEL_LOW,
-            GameOver.INTEGRITY_ZERO_FUEL_SOME,
-            GameOver.INTEGRITY_ZERO_FUEL_PLENTY,
-            GameOver.INTEGRITY_ZERO_YEARS_LOTS_CRYOPODS_BUSTLING -> 0.25
-
-            // Ship ran out of fuel
-            GameOver.FUEL_ZERO,
-            GameOver.FUEL_ZERO_YEARS_FEW,
-            GameOver.FUEL_ZERO_YEARS_SOME,
-            GameOver.FUEL_ZERO_YEARS_LOTS,
-            GameOver.FUEL_ZERO_MATERIALS_ZERO,
-            GameOver.FUEL_ZERO_MATERIALS_LOW,
-            GameOver.FUEL_ZERO_MATERIALS_ENOUGH,
-            GameOver.FUEL_ZERO_CRYOPODS_ZERO,
-            GameOver.FUEL_ZERO_CRYOPODS_ONE,
-            GameOver.FUEL_ZERO_CRYOPODS_LOW,
-            GameOver.FUEL_ZERO_CRYOPODS_ENOUGH,
-            GameOver.FUEL_ZERO_INTEGRITY_LOW,
-            GameOver.FUEL_ZERO_INTEGRITY_ENOUGH,
-            GameOver.FUEL_ZERO_INTEGRITY_PRISTINE,
-            GameOver.FUEL_ZERO_MATERIALS_PLENTY_CRYOPODS_BUSTLING,
-            GameOver.FUEL_ZERO_INTEGRITY_ENOUGH_MATERIALS_ENOUGH_CRYOPODS_BUSTLING -> 0.25
-
-            // Solar System Planets
-            GameOver.MERCURY,
-            GameOver.VENUS,
-            GameOver.EARTH,
-            GameOver.MARS,
-            GameOver.JUPITER,
-            GameOver.SATURN,
-            GameOver.URANUS,
-            GameOver.NEPTUNE -> 0.25
-
-            // Habitability: Deadly
-            GameOver.HABITABILITY_DEADLY,
-            GameOver.HABITABILITY_DEADLY_CRYOPODS_ENOUGH,
-            GameOver.HABITABILITY_DEADLY_INTEGRITY_LOW,
-            GameOver.HABITABILITY_DEADLY_INTEGRITY_MID_LOW_MATERIALS_ENOUGH -> 0.25
-
-            // Habitability: Very Low
-            GameOver.HABITABILITY_VERY_LOW,
-            GameOver.HABITABILITY_VERY_LOW_CRYOPODS_ENOUGH_MATERIALS_ENOUGH,
-            GameOver.HABITABILITY_VERY_LOW_CRYOPODS_MID_MATERIALS_ENOUGH,
-            GameOver.HABITABILITY_VERY_LOW_INTEGRITY_LOW -> 0.5
-
-            // Habitability: Low
-            GameOver.HABITABILITY_LOW,
-            GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_LOW,
-            GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ZERO,
-            GameOver.HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_ENOUGH,
-            GameOver.HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_LOW,
-            GameOver.HABITABILITY_LOW_MATERIALS_LOW_CRYOPODS_ZERO -> 0.75
-
-            GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH,
-            GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_INTEGRITY_PRISTINE,
-            GameOver.HABITABILITY_LOW_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_FUEL_PLENTY -> 1.0
-
-            // Habitability: Medium
-            GameOver.HABITABILITY_MEDIUM,
-            GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_LOW,
-            GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ZERO,
-            GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_LOW,
-            GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ZERO -> 1.25
-
-            GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ENOUGH -> 1.5
-            GameOver.HABITABILITY_MEDIUM_MATERIALS_LOW_CRYOPODS_ENOUGH_INTEGRITY_ENOUGH -> 1.75
-
-            GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH,
-            GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS,
-            GameOver.HABITABILITY_MEDIUM_MATERIALS_ENOUGH_CRYOPODS_BUSTLING -> 2.0
-
-            // Habitability: High
-            GameOver.HABITABILITY_HIGH,
-            GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_LOW,
-            GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ZERO,
-            GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_LOW,
-            GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ZERO -> 2.25
-
-            GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ENOUGH -> 2.5
-            GameOver.HABITABILITY_HIGH_MATERIALS_LOW_CRYOPODS_ENOUGH_INTEGRITY_ENOUGH -> 2.75
-
-            GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH,
-            GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_ENOUGH_YEARS_LOTS,
-            GameOver.HABITABILITY_HIGH_MATERIALS_ENOUGH_CRYOPODS_BUSTLING -> 3.0
-
-            // Default
-            GameOver.GAME_OVER -> 0.25
-        }
 
     override suspend fun getGameOver(gameSession: GameSession): GameOver = withContext(context = Dispatcher.Default) {
         val ship = gameSession.ship
