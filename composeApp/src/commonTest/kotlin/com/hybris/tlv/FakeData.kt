@@ -2,10 +2,8 @@ package com.hybris.tlv
 
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.config.Configs
-import com.hybris.tlv.locale.now
 import com.hybris.tlv.serializer.ACHIEVEMENTS_JSON
 import com.hybris.tlv.serializer.CATASTROPHES_JSON
-import com.hybris.tlv.serializer.CONFIGS_JSON
 import com.hybris.tlv.serializer.CREDITS_JSON
 import com.hybris.tlv.serializer.ENGINES_JSON
 import com.hybris.tlv.serializer.EVENTS_JSON
@@ -17,11 +15,11 @@ import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.credit.model.Credit
 import com.hybris.tlv.usecase.event.model.Event
-import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
+import com.hybris.tlv.usecase.space.addPlanets
 import com.hybris.tlv.usecase.space.model.Formula
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
@@ -68,13 +66,7 @@ internal val planets: List<Planet> by lazy {
     runBlocking { loadFromJsonResource(path = SOLAR_PLANETS_JSON) }
 }
 internal val hostsWithPlanets: List<StellarHost> by lazy {
-    val planetsMap = planets.groupBy { it.stellarHostId }
-    stellarHosts.apply {
-        forEach { it.planets.addAll(elements = planetsMap[it.id].orEmpty()) }
-    }.sortedWith(comparator = compareBy<StellarHost, Double?>(comparator = nullsLast()) { it.distance }.thenBy { it.id })
-}
-internal val formula: Formula by lazy {
-    Formula(id = "1")
+    stellarHosts.addPlanets(planets = planets)
 }
 internal val shipPrototype: ShipPrototype by lazy {
     ShipPrototype(
@@ -102,21 +94,6 @@ internal val gameSessionPrototype: GameSessionPrototype by lazy {
     GameSessionPrototype(
         ship = shipPrototype,
         engine = engines.random(),
-        formula = formula
-    )
-}
-internal val gameSession: GameSession by lazy {
-    GameSession(
-        id = "1",
-        utc = now(),
-        currentStellarHostId = stellarHosts.random().id,
-        visitedStellarHosts = emptySet(),
-        launchedEvents = emptySet(),
-        settledPlanetId = null,
-        settledPlanetName = null,
-        finalHabitability = null,
-        score = null,
-        ship = ship,
-        formula = formula
+        formula = Formula(id = "1")
     )
 }

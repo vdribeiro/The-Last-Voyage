@@ -4,16 +4,22 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
+import com.hybris.tlv.engines
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship
 
 internal class ShipUseCasesTest: TestCase() {
 
     @Test
-    fun `sync and get engines`() = runUnitTest {
+    fun `prepopulate and sync engines`() = runUnitTest {
+        assertTrue(actual = useCases.ship.getEngines().isEmpty())
+        useCases.ship.prepopulateEngines()
+        assertEquals(expected = engines.sortedBy { it.id }, actual = useCases.ship.getEngines().sortedBy { it.id })
+
+        reset()
         assertTrue(actual = useCases.ship.getEngines().isEmpty())
         useCases.ship.syncEngines()
-        assertTrue(actual = useCases.ship.getEngines().isNotEmpty())
+        assertEquals(expected = engines.sortedBy { it.id }, actual = useCases.ship.getEngines().sortedBy { it.id })
     }
 
     @Test
