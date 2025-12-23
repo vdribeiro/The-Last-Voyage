@@ -8,13 +8,10 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.database.clearDatabase
+import com.hybris.tlv.database.reset
 import com.hybris.tlv.database.isEmpty
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.platform.Property
-import com.hybris.tlv.serializer.CONFIGS_JSON
-import com.hybris.tlv.serializer.PREFERENCES_JSON
-import com.hybris.tlv.storage.deleteFile
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
@@ -25,6 +22,7 @@ import com.hybris.tlv.usecase.space.ArchiveUseCases
 import com.hybris.tlv.usecase.space.SpaceUseCases
 import com.hybris.tlv.usecase.sync.model.DataSource
 import com.hybris.tlv.usecase.sync.model.SyncResult
+import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 import database.AppDatabase
 
@@ -42,9 +40,9 @@ internal class SyncGateway(
 ): SyncUseCases {
 
     override suspend fun reset() = withContext(context = Dispatcher.IO) {
-        deleteFile(path = CONFIGS_JSON)
-        deleteFile(path = PREFERENCES_JSON)
-        database.clearDatabase()
+        config.reset()
+        database.reset()
+        TranslationCache.reset()
     }
 
     override suspend fun isEmpty(): Boolean =

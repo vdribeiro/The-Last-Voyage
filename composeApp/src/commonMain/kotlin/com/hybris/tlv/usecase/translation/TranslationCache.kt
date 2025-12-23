@@ -16,26 +16,30 @@ internal object TranslationCache {
 
     data class CacheState(
         val languageIso: String = DEFAULT_LANGUAGE,
-        val translations: Map<String, String> = listOf(
-            Translation(
-                languageIso = "en",
-                key = "app_name",
-                value = Property.APP_NAME
-            ),
-            Translation(
-                languageIso = "en",
-                key = "splash_screen__loading",
-                value = "Loading..."
-            ),
-        ).toTranslationCacheMap()
+        val translations: Map<String, String> = defaultTranslations
     )
+
+    private val defaultTranslations = listOf(
+        Translation(
+            languageIso = "en",
+            key = "app_name",
+            value = Property.APP_NAME
+        ),
+        Translation(
+            languageIso = "en",
+            key = "splash_screen__loading",
+            value = "Loading..."
+        ),
+    ).toTranslationCacheMap()
 
     private val _cacheState = MutableStateFlow(value = CacheState())
     val cacheState: StateFlow<CacheState> = _cacheState.asStateFlow()
 
+    fun reset() = _cacheState.update { CacheState() }
+
     fun set(translations: List<Translation>) {
         val languageIso = getLanguage()
-        val translationMap = translations.toTranslationCacheMap()
+        val translationMap = translations.toTranslationCacheMap().ifEmpty { defaultTranslations }
         _cacheState.update { currentState -> currentState.copy(languageIso = languageIso, translations = translationMap) }
     }
 

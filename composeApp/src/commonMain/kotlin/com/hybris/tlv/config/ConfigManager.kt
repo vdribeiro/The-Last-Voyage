@@ -23,6 +23,11 @@ internal interface ConfigManager {
     val remoteConfigs: StateFlow<Configs>
 
     /**
+     * Delete configuration and preferences files and reset all caches.
+     */
+    suspend fun reset(): ConfigManager
+
+    /**
      * Setup all caches.
      * Loads preferences and local configs from disk to respective caches and calls [fetchRemoteConfigs].
      */

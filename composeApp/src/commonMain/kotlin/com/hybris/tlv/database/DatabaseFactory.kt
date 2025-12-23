@@ -79,7 +79,10 @@ typealias EventSchema = Event
 typealias AchievementSchema = Achievement
 typealias CreditSchema = Credit
 
-internal suspend fun AppDatabase.clearDatabase() = withContext(context = Dispatcher.IO) {
+/**
+ * Clears all tables in the database.
+ */
+internal suspend fun AppDatabase.reset() = withContext(context = Dispatcher.IO) {
     runCatching {
         transaction {
             translationQueries.truncateTranslation()
@@ -97,6 +100,9 @@ internal suspend fun AppDatabase.clearDatabase() = withContext(context = Dispatc
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to clear database", throwable = it) }.getOrDefault(defaultValue = Unit)
 }
 
+/**
+ * Checks if the database is empty.
+ */
 internal suspend fun AppDatabase.isEmpty(): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {
         transactionWithResult {

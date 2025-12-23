@@ -22,6 +22,7 @@ import com.hybris.tlv.serializer.CONFIGS_JSON
 import com.hybris.tlv.serializer.PREFERENCES_JSON
 import com.hybris.tlv.serializer.loadJsonFile
 import com.hybris.tlv.serializer.saveJsonFile
+import com.hybris.tlv.storage.deleteFile
 import com.hybris.tlv.telemetry.Telemetry
 
 /**
@@ -46,6 +47,18 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     override val remoteConfigs: StateFlow<Configs> = _remoteConfigs.asStateFlow()
 
     private val cacheTTL: Duration = if (isDebug) ZERO else 1.hours
+
+    override suspend fun reset(): ConfigManager = apply {
+        withContext(context = Dispatcher.IO) {
+            mutex.withLock {
+                deleteFile(path = CONFIGS_JSON)
+                deleteFile(path = PREFERENCES_JSON)
+            }
+            _preferences.update { Preferences() }
+            _localConfigs.update { Configs() }
+            _remoteConfigs.update { Configs() }
+        }
+    }
 
     override suspend fun setup(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
