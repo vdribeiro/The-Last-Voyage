@@ -5,6 +5,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.achievements
+import com.hybris.tlv.gameSessionPrototype
+import com.hybris.tlv.usecase.space.SUN
 
 internal class AchievementUseCasesTest: TestCase() {
 
@@ -23,7 +25,12 @@ internal class AchievementUseCasesTest: TestCase() {
     @Test
     fun `update achievements`() = runUnitTest {
         useCases.achievement.prepopulateAchievements()
-
-        // TODO
+        val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val newGameSession = gameSession.copy(
+            currentStellarHostId = SUN,
+            settledPlanetId = "3earth",
+            finalHabitability = 0.9
+        )
+        assertTrue(actual = useCases.achievement.updateAchievements(gameSession = newGameSession).isNotEmpty())
     }
 }
