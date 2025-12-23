@@ -9,10 +9,18 @@ internal class TranslationUseCasesTest: TestCase() {
 
     @Test
     fun `sync and get translations`() = runUnitTest {
-        TranslationCache.set(translations = emptyList())
-        val translation = translations.random()
-        assertEquals(expected = translation.key, actual = TranslationCache.get(translation.key))
+        // Get map
+        TranslationCache.set(translations = translations)
+        val translations = TranslationCache.cacheState.value.translations
+        TranslationCache.reset()
+
+        useCases.translation.prepopulateTranslations()
+        useCases.translation.refreshCache()
+        assertEquals(expected = translations, actual = TranslationCache.cacheState.value.translations)
+
+        TranslationCache.reset()
         useCases.translation.syncTranslations()
-        assertEquals(expected = translation.key, actual = TranslationCache.get(translation.key))
+        useCases.translation.refreshCache()
+        assertEquals(expected = translations, actual = TranslationCache.cacheState.value.translations)
     }
 }
