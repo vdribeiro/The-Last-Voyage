@@ -24,17 +24,19 @@ internal class GameSessionUseCasesTest: TestCase() {
         assertNull(actual = useCases.gameSession.getLatestGameSession())
         assertTrue(actual = useCases.gameSession.getGameSessions().isEmpty())
         assertFalse(actual = useCases.gameSession.isGameSessionOngoing())
+
         val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        assertTrue(actual = useCases.gameSession.isGameSessionOngoing())
         assertEquals(expected = gameSession, actual = useCases.gameSession.getLatestGameSession())
-        assertTrue(actual = useCases.gameSession.getGameSessions().isNotEmpty())
+        assertEquals(expected = listOf(gameSession), actual = useCases.gameSession.getGameSessions())
+        assertTrue(actual = useCases.gameSession.isGameSessionOngoing())
+
         val newGameSession = gameSession.copy(score = 9000.0)
         useCases.gameSession.updateGameSession(gameSession = newGameSession)
         assertEquals(expected = newGameSession, actual = useCases.gameSession.getLatestGameSession())
     }
 
     @Test
-    fun `do event`() = runUnitTest {
+    fun `launch event`() = runUnitTest {
         val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val event = events.find { it.outcome != null }!!
         event.outcome!!
