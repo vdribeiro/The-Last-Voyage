@@ -2,18 +2,14 @@ package com.hybris.tlv.usecase.achievement
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
-import com.hybris.tlv.database.AchievementSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.ACHIEVEMENTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.ACHIEVEMENTS_JSON
-import com.hybris.tlv.serializer.decode
-import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.achievement.model.Achievement
-import com.hybris.tlv.usecase.achievement.model.Precondition
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import database.AppDatabase
 
@@ -124,22 +120,6 @@ internal class AchievementGateway(
         achievementDao.transaction { achievements.forEach { achievementDao.upsertAchievement(Achievement = it.toAchievementSchema()) } }
         achievements.toList()
     }
-
-    private fun Achievement.toAchievementSchema(): AchievementSchema =
-        AchievementSchema(
-            id = id,
-            description = description,
-            preconditions = encode(value = preconditions).orEmpty(),
-            done = done
-        )
-
-    private fun AchievementSchema.toAchievement(): Achievement =
-        Achievement(
-            id = id,
-            description = description,
-            preconditions = decode<Precondition>(value = preconditions) ?: Precondition(),
-            done = done
-        )
 
     companion object Companion {
         private const val TAG = "Achievement"

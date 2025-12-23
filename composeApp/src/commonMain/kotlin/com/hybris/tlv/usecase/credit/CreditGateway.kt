@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase.credit
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
-import com.hybris.tlv.database.CreditSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.CREDITS_URL
 import com.hybris.tlv.http.Result
@@ -52,20 +51,6 @@ internal class CreditGateway(
     override suspend fun getCredits(): List<Credit> = withContext(context = Dispatcher.IO) {
         creditDao.getCredits().executeAsList().map { it.toCredit() }
     }
-
-    private fun Credit.toCreditSchema(): CreditSchema =
-        CreditSchema(
-            id = id,
-            link = link,
-            type = type
-        )
-
-    private fun CreditSchema.toCredit(): Credit =
-        Credit(
-            id = id,
-            link = link,
-            type = type
-        )
 
     companion object Companion {
         private const val TAG = "Credit"

@@ -3,7 +3,6 @@ package com.hybris.tlv.usecase.ship
 import kotlin.math.abs
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
-import com.hybris.tlv.database.EngineSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.ENGINES_URL
 import com.hybris.tlv.http.Result
@@ -89,24 +88,6 @@ internal class ShipGateway(
             cryopods = cryopods
         )
     }
-
-    private fun Engine.toEngineSchema(): EngineSchema =
-        EngineSchema(
-            id = id,
-            description = description,
-            velocity = velocity,
-            fuelConsumption = fuelConsumption,
-            cost = cost
-        )
-
-    private fun EngineSchema.toEngine(): Engine =
-        Engine(
-            id = id,
-            description = description,
-            velocity = velocity,
-            fuelConsumption = fuelConsumption,
-            cost = cost
-        )
 
     companion object Companion {
         private const val TAG = "Ship"

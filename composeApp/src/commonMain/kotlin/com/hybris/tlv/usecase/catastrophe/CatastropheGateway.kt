@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase.catastrophe
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
-import com.hybris.tlv.database.CatastropheSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.CATASTROPHES_URL
 import com.hybris.tlv.http.Result
@@ -52,18 +51,6 @@ internal class CatastropheGateway(
     override suspend fun getRandomCatastrophe(): Catastrophe? = withContext(context = Dispatcher.IO) {
         catastropheDao.getRandomCatastrophe().executeAsOneOrNull()?.toCatastrophe()
     }
-
-    private fun Catastrophe.toCatastropheSchema(): CatastropheSchema =
-        CatastropheSchema(
-            id = id,
-            description = description,
-        )
-
-    private fun CatastropheSchema.toCatastrophe(): Catastrophe =
-        Catastrophe(
-            id = id,
-            description = description,
-        )
 
     companion object {
         private const val TAG = "Catastrophe"

@@ -2,7 +2,6 @@ package com.hybris.tlv.usecase.translation
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
-import com.hybris.tlv.database.TranslationSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.TRANSLATIONS_URL
 import com.hybris.tlv.http.Result
@@ -54,20 +53,6 @@ internal class TranslationGateway(
         TranslationCache.set(translations = translations)
         Telemetry.info(tag = TAG, message = "Refreshed translations cache")
     }
-
-    private fun Translation.toTranslationSchema(): TranslationSchema =
-        TranslationSchema(
-            languageIso = languageIso,
-            key = key,
-            value_ = value
-        )
-
-    private fun TranslationSchema.toTranslation(): Translation =
-        Translation(
-            languageIso = languageIso,
-            key = key,
-            value = value_
-        )
 
     companion object {
         private const val TAG = "Translation"

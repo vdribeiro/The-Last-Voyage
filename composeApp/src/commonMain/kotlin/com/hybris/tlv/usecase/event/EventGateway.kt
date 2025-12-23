@@ -2,18 +2,14 @@ package com.hybris.tlv.usecase.event
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
-import com.hybris.tlv.database.EventSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.EVENTS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.EVENTS_JSON
-import com.hybris.tlv.serializer.decode
-import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.event.model.Event
-import com.hybris.tlv.usecase.space.model.TravelOutcome
 import database.AppDatabase
 
 internal class EventGateway(
@@ -66,22 +62,6 @@ internal class EventGateway(
         }
         treeNodes
     }
-
-    private fun Event.toEventSchema(): EventSchema =
-        EventSchema(
-            id = id,
-            description = description,
-            parentId = parentId,
-            outcome = encode(value = outcome)
-        )
-
-    private fun EventSchema.toEvent(): Event =
-        Event(
-            id = id,
-            description = description,
-            parentId = parentId,
-            outcome = decode<TravelOutcome>(value = outcome)
-        )
 
     companion object Companion {
         private const val TAG = "Event"
