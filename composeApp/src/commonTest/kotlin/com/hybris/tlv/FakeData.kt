@@ -94,6 +94,6 @@ internal val gameSessionPrototype: GameSessionPrototype by lazy {
     GameSessionPrototype(
         ship = shipPrototype,
         engine = engines.random(),
-        formula = Formula(id = "1")
+        formula = Formula()
     )
 }
