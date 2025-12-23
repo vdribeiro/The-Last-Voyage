@@ -1,9 +1,6 @@
 package com.hybris.tlv.usecase.space
 
-import kotlin.math.PI
 import kotlin.math.ceil
-import kotlin.math.cos
-import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -12,8 +9,6 @@ import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import com.hybris.tlv.database.PlanetSchema
-import com.hybris.tlv.database.StellarHostSchema
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.PLANETS_URL
 import com.hybris.tlv.http.HttpClientFactory.Companion.STELLAR_HOSTS_URL
@@ -23,7 +18,6 @@ import com.hybris.tlv.serializer.PLANETS_JSON
 import com.hybris.tlv.serializer.STELLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.usecase.space.model.CartesianPoint
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 import com.hybris.tlv.usecase.space.model.TravelOutcome
@@ -151,97 +145,6 @@ internal class SpaceGateway(
             }
         }
     }
-
-    private fun StellarHost.toCartesian(): CartesianPoint? {
-        if (ra == null || dec == null || distance == null) return null
-        val raRad = ra * PI / 180.0
-        val decRad = dec * PI / 180.0
-        return CartesianPoint(
-            x = distance * cos(x = decRad) * cos(x = raRad),
-            y = distance * cos(x = decRad) * sin(x = raRad),
-            z = distance * sin(x = decRad)
-        )
-    }
-
-    private fun StellarHost.toStellarHostSchema(): StellarHostSchema =
-        StellarHostSchema(
-            id = id,
-            name = name,
-            systemName = systemName,
-            spectralType = spectralType,
-            effectiveTemperature = effectiveTemperature,
-            radius = radius,
-            mass = mass,
-            metallicity = metallicity,
-            luminosity = luminosity,
-            gravity = gravity,
-            age = age,
-            density = density,
-            rotationalVelocity = rotationalVelocity,
-            rotationalPeriod = rotationalPeriod,
-            distance = distance,
-            ra = ra,
-            dec = dec
-        )
-
-    private fun StellarHostSchema.toStellarHost(): StellarHost =
-        StellarHost(
-            id = id,
-            name = name,
-            systemName = systemName,
-            spectralType = spectralType,
-            effectiveTemperature = effectiveTemperature,
-            radius = radius,
-            mass = mass,
-            metallicity = metallicity,
-            luminosity = luminosity,
-            gravity = gravity,
-            age = age,
-            density = density,
-            rotationalVelocity = rotationalVelocity,
-            rotationalPeriod = rotationalPeriod,
-            distance = distance,
-            ra = ra,
-            dec = dec
-        )
-
-    private fun Planet.toPlanetSchema(): PlanetSchema =
-        PlanetSchema(
-            id = id,
-            name = name,
-            stellarHostId = stellarHostId,
-            status = status,
-            orbitalPeriod = orbitalPeriod,
-            orbitAxis = orbitAxis,
-            radius = radius,
-            mass = mass,
-            density = density,
-            eccentricity = eccentricity,
-            insolationFlux = insolationFlux,
-            equilibriumTemperature = equilibriumTemperature,
-            occultationDepth = occultationDepth,
-            inclination = inclination,
-            obliquity = obliquity,
-        )
-
-    private fun PlanetSchema.toPlanet(): Planet =
-        Planet(
-            id = id,
-            name = name,
-            stellarHostId = stellarHostId,
-            status = status,
-            orbitalPeriod = orbitalPeriod,
-            orbitAxis = orbitAxis,
-            radius = radius,
-            mass = mass,
-            density = density,
-            eccentricity = eccentricity,
-            insolationFlux = insolationFlux,
-            equilibriumTemperature = equilibriumTemperature,
-            occultationDepth = occultationDepth,
-            inclination = inclination,
-            obliquity = obliquity,
-        )
 
     companion object Companion {
         private const val TAG = "Space"
