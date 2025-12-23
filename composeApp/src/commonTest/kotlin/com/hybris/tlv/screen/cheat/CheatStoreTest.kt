@@ -2,7 +2,6 @@ package com.hybris.tlv.screen.cheat
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.navigation.Screen
 

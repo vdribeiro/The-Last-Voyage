@@ -1,4 +1,3 @@
-
 package com.hybris.tlv.storage
 
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -11,7 +10,6 @@ import platform.Foundation.NSUTF8StringEncoding
 import platform.Foundation.NSUserDomainMask
 import platform.Foundation.stringByAppendingPathComponent
 import platform.Foundation.stringWithContentsOfFile
-import platform.Foundation.stringWithString
 import platform.Foundation.writeToFile
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry

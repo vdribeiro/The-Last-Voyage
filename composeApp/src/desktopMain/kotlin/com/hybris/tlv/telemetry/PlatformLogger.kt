@@ -1,5 +1,8 @@
 package com.hybris.tlv.telemetry
 
+import com.hybris.tlv.test.ExcludeFromTesting
+
+@ExcludeFromTesting
 internal actual object PlatformLogger {
 
     actual fun info(tag: String, message: String) {

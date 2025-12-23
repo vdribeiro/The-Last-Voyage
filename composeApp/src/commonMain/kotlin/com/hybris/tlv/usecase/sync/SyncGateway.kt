@@ -8,8 +8,8 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.database.reset
 import com.hybris.tlv.database.isEmpty
+import com.hybris.tlv.database.reset
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.telemetry.Telemetry

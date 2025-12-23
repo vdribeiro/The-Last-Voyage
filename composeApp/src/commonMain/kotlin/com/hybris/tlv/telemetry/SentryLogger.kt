@@ -1,6 +1,7 @@
 package com.hybris.tlv.telemetry
 
 import com.hybris.tlv.platform.Property
+import com.hybris.tlv.test.ExcludeFromTesting
 import io.sentry.kotlin.multiplatform.Sentry
 import io.sentry.kotlin.multiplatform.SentryLevel
 import io.sentry.kotlin.multiplatform.protocol.Breadcrumb
@@ -9,6 +10,7 @@ import io.sentry.kotlin.multiplatform.protocol.UserFeedback
 /**
  * Sentry logger.
  */
+@ExcludeFromTesting
 internal object SentryLogger {
 
     /**

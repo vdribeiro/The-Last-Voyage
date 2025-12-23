@@ -7,6 +7,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.yield
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.events
 import com.hybris.tlv.gameSessionPrototype
@@ -14,6 +15,7 @@ import com.hybris.tlv.hostsWithPlanets
 import com.hybris.tlv.planets
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.usecase.gamesession.model.GameOver
+import com.hybris.tlv.usecase.space.SUN
 import com.hybris.tlv.usecase.space.formula.Habitability
 import com.hybris.tlv.usecase.space.model.Formula
 
@@ -21,11 +23,13 @@ internal class GameSessionUseCasesTest: TestCase() {
 
     @Test
     fun `write and get game sessions`() = runUnitTest {
+        useCases.ship.prepopulateEngines()
         assertNull(actual = useCases.gameSession.getLatestGameSession())
         assertTrue(actual = useCases.gameSession.getGameSessions().isEmpty())
         assertFalse(actual = useCases.gameSession.isGameSessionOngoing())
 
         val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        yield()
         assertEquals(expected = gameSession, actual = useCases.gameSession.getLatestGameSession())
         assertEquals(expected = listOf(gameSession), actual = useCases.gameSession.getGameSessions())
         assertTrue(actual = useCases.gameSession.isGameSessionOngoing())
@@ -50,7 +54,7 @@ internal class GameSessionUseCasesTest: TestCase() {
     @Test
     fun travel() = runUnitTest {
         val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        val stellarHost = stellarHosts.random()
+        val stellarHost = stellarHosts.filter { it.id != SUN }.random()
 
         val newGameSession = useCases.gameSession.travel(gameSession = gameSession, stellarHost = stellarHost)
         assertEquals(expected = stellarHost.id, actual = newGameSession.currentStellarHostId)

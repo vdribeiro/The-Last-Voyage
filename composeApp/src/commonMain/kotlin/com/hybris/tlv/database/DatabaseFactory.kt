@@ -107,16 +107,16 @@ internal suspend fun AppDatabase.isEmpty(): Boolean = withContext(context = Disp
     runCatching {
         transactionWithResult {
             translationQueries.isTranslationEmpty().executeAsList().isEmpty() &&
-            stellarHostQueries.isStellarHostEmpty().executeAsList().isEmpty() &&
-            planetQueries.isPlanetEmpty().executeAsList().isEmpty() &&
-            formulaQueries.isFormulaEmpty().executeAsList().isEmpty() &&
-            catastropheQueries.isCatastropheEmpty().executeAsList().isEmpty() &&
-            engineQueries.isEngineEmpty().executeAsList().isEmpty() &&
-            shipQueries.isShipEmpty().executeAsList().isEmpty() &&
-            gameSessionQueries.isGameSessionEmpty().executeAsList().isEmpty() &&
-            eventQueries.isEventEmpty().executeAsList().isEmpty() &&
-            achievementQueries.isAchievementEmpty().executeAsList().isEmpty() &&
-            creditQueries.isCreditEmpty().executeAsList().isEmpty()
+                    stellarHostQueries.isStellarHostEmpty().executeAsList().isEmpty() &&
+                    planetQueries.isPlanetEmpty().executeAsList().isEmpty() &&
+                    formulaQueries.isFormulaEmpty().executeAsList().isEmpty() &&
+                    catastropheQueries.isCatastropheEmpty().executeAsList().isEmpty() &&
+                    engineQueries.isEngineEmpty().executeAsList().isEmpty() &&
+                    shipQueries.isShipEmpty().executeAsList().isEmpty() &&
+                    gameSessionQueries.isGameSessionEmpty().executeAsList().isEmpty() &&
+                    eventQueries.isEventEmpty().executeAsList().isEmpty() &&
+                    achievementQueries.isAchievementEmpty().executeAsList().isEmpty() &&
+                    creditQueries.isCreditEmpty().executeAsList().isEmpty()
         }
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to clear database", throwable = it) }.getOrDefault(defaultValue = false)
 }

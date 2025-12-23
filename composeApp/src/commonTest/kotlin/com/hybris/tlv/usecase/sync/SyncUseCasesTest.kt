@@ -4,7 +4,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import com.hybris.tlv.TLV
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.usecase.sync.model.DataSource
 import com.hybris.tlv.usecase.sync.model.SyncResult

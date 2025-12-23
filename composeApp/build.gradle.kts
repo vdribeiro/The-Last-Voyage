@@ -367,10 +367,10 @@ kover {
                     annotatedBy("kotlinx.serialization.Serializable")
                     annotatedBy("androidx.compose.ui.tooling.preview.Preview")
                     packages(
-                        "*.generated*",
+                        "*.generated.*",
                     )
                     classes(
-                        "*.ComposableSingletons*"
+                        "*ComposableSingletons"
                     )
                 }
             }
