@@ -34,7 +34,9 @@ internal class SpaceUseCasesTest: TestCase() {
     @Test
     fun `get nearest stars`() = runUnitTest {
         useCases.space.prepopulateStellarHosts()
-        val stellarHosts = useCases.space.getNearestStars(stellarHost = stellarHosts.first { it.id == SUN }, n = 1, visited = emptySet())
-        assertEquals(expected = SUN, actual = stellarHosts.first().id)
+        useCases.space.prepopulatePlanets()
+        val sun = stellarHosts.first { it.id == SUN }
+        val stellarHosts = useCases.space.getNearestStars(stellarHost = sun, n = 1, visited = emptySet())
+        assertEquals(expected = "proxima_cen", actual = stellarHosts.first().id)
     }
 }

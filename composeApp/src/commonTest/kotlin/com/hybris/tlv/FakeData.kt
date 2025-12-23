@@ -7,8 +7,8 @@ import com.hybris.tlv.serializer.CATASTROPHES_JSON
 import com.hybris.tlv.serializer.CREDITS_JSON
 import com.hybris.tlv.serializer.ENGINES_JSON
 import com.hybris.tlv.serializer.EVENTS_JSON
-import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
-import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
+import com.hybris.tlv.serializer.PLANETS_JSON
+import com.hybris.tlv.serializer.STELLAR_HOSTS_JSON
 import com.hybris.tlv.serializer.TRANSLATIONS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.usecase.achievement.model.Achievement
@@ -60,10 +60,10 @@ internal val credits: List<Credit> by lazy {
     runBlocking { loadFromJsonResource(path = CREDITS_JSON) }
 }
 internal val stellarHosts: List<StellarHost> by lazy {
-    runBlocking { loadFromJsonResource(path = SOLAR_HOSTS_JSON) }
+    runBlocking { loadFromJsonResource(path = STELLAR_HOSTS_JSON) }
 }
 internal val planets: List<Planet> by lazy {
-    runBlocking { loadFromJsonResource(path = SOLAR_PLANETS_JSON) }
+    runBlocking { loadFromJsonResource(path = PLANETS_JSON) }
 }
 internal val hostsWithPlanets: List<StellarHost> by lazy {
     stellarHosts.addPlanets(planets = planets)
