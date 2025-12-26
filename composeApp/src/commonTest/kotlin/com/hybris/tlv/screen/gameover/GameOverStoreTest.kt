@@ -1,60 +1,60 @@
 package com.hybris.tlv.screen.gameover
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import com.hybris.tlv.TestCase
+import com.hybris.tlv.gameSessionPrototype
+import com.hybris.tlv.navigation.Screen
 
-// TODO
 internal class GameOverStoreTest: TestCase() {
 
-//    private val store: GameOverStore get() = getGameOverStore()
-//
-//    @BeforeTest
-//    fun setup() = runBlocking {
-//        reset()
-//        getNavigation().navigate(navigationState = NavigationState(screen = GameOverScreen))
-//    }
-//
-//    @Test
-//    fun `init`() = runBlocking {
-//        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-//        val gameOverStore = store
-//        assertNotNull(actual = gameOverStore.stateFlow.value.gameSession)
-//        assertNotNull(actual = gameOverStore.stateFlow.value.gameOver)
-//        assertEquals(expected = Content.MESSAGE, actual = gameOverStore.stateFlow.value.currentContent)
-//    }
-//
-//    @Test
-//    fun `init without game session`() = runBlocking {
-//        assertEquals(expected = GameOverScreen, actual = getNavigation().stateFlow.value.screen)
-//        val gameOverStore = store
-//        assertNull(actual = gameOverStore.stateFlow.value.gameSession)
-//        assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
-//    }
-//
-//    @Test
-//    fun `send action back`() = runBlocking {
-//        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-//        store
-//        assertEquals(expected = GameOverScreen, actual = getNavigation().stateFlow.value.screen)
-//        getNavigation().back()
-//        assertEquals(expected = GameOverScreen, actual = getNavigation().stateFlow.value.screen)
-//    }
-//
-//    @Test
-//    fun `send action continue`() = runBlocking {
-//        assertEquals(expected = GameOverScreen, actual = getNavigation().stateFlow.value.screen)
-//        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-//        val gameOverStore = store
-//        assertEquals(expected = Content.MESSAGE, actual = gameOverStore.stateFlow.value.currentContent)
-//        gameOverStore.send(action = GameOverAction.Next)
-//        assertEquals(expected = Content.SCORE, actual = gameOverStore.stateFlow.value.currentContent)
-//        gameOverStore.send(action = GameOverAction.Next)
-//        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
-//    }
-//
-//    @Test
-//    fun `send action continue without game session`() = runBlocking {
-//        val gameOverStore = store
-//        gameOverStore.send(action = GameOverAction.Next)
-//        assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
-//    }
+    @Test
+    fun init() = runUnitTest {
+        useCases.ship.prepopulateEngines()
+        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val store = storeFactory.getGameOverStore()
+        assertNotNull(actual = store.state.gameSession)
+        assertNotNull(actual = store.state.gameOver)
+        assertEquals(expected = Content.MESSAGE, actual = store.state.currentContent)
+    }
+
+    @Test
+    fun initWithoutGameSession() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
+        storeFactory.getGameOverStore()
+        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+    }
+
+    @Test
+    fun nextContent() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
+        useCases.ship.prepopulateEngines()
+        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val store = storeFactory.getGameOverStore()
+        assertEquals(expected = Content.MESSAGE, actual = store.state.currentContent)
+        store.send(action = GameOverAction.Next)
+        assertEquals(expected = Content.SCORE, actual = store.state.currentContent)
+        store.send(action = GameOverAction.Next)
+        assertNavigationBackstack(list = listOf(element = Screen.MainMenu))
+    }
+
+    @Test
+    fun nextContentWithoutGameSession() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
+        val store = storeFactory.getGameOverStore()
+        store.send(action = GameOverAction.Next)
+        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+    }
+
+    @Test
+    fun navigateBack() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
+        navigate(screen = Screen.GameOver)
+        assertNavigationBackstack(list = listOf(element = Screen.GameOver))
+        useCases.ship.prepopulateEngines()
+        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        storeFactory.getGameOverStore().back()
+        assertNavigationBackstack(list = listOf(element = Screen.GameOver))
+    }
 }
