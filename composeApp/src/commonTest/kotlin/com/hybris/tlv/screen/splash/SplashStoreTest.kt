@@ -2,6 +2,7 @@ package com.hybris.tlv.screen.splash
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.yield
 import com.hybris.tlv.TestCase
 
 internal class SplashStoreTest: TestCase() {
@@ -9,6 +10,7 @@ internal class SplashStoreTest: TestCase() {
     @Test
     fun init() = runUnitTest {
         val store = storeFactory.getSplashStore(reset = true)
+        yield()
         assertEquals(expected = 1f, actual = store.state.progress)
     }
 }
