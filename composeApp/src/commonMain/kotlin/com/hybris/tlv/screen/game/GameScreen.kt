@@ -38,13 +38,11 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
-                modifier = Modifier
-                    .testTag(tag = "game_status_bar")
-                    .padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        top = 8.dp
-                    ),
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 8.dp
+                ),
                 hull = ship?.integrity?.toString(),
                 fuel = ship?.fuel?.toString(),
                 materials = ship?.materials?.toString(),
@@ -53,7 +51,6 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
         },
         bottomBar = {
             GameNavigationBar(
-                modifier = Modifier.testTag(tag = "game_navigation_bar"),
                 shipSelected = storeState.currentContent == Content.SHIP,
                 shipOnClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 systemSelected = storeState.currentContent == Content.SYSTEM,

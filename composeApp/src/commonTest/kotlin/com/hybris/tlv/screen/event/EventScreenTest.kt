@@ -3,6 +3,7 @@ package com.hybris.tlv.screen.event
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.gameSessionPrototype
@@ -21,7 +22,11 @@ internal class EventScreenTest: TestCase() {
         onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
 
-        onNodeWithTag(testTag = "event_status_bar").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Hull Integrity").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Fuel").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Materials").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Cryopods").assertIsDisplayed()
+
         onNodeWithTag(testTag = "event_buttons_bar").assertIsDisplayed()
         onNodeWithTag(testTag = "event_content").assertDoesNotExist()
     }
@@ -39,7 +44,11 @@ internal class EventScreenTest: TestCase() {
         onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
 
-        onNodeWithTag(testTag = "event_status_bar").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Hull Integrity").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Fuel").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Materials").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Cryopods").assertIsDisplayed()
+
         onNodeWithTag(testTag = "event_buttons_bar").assertIsDisplayed()
         onNodeWithTag(testTag = "event_content").assertIsDisplayed()
     }

@@ -3,7 +3,10 @@ package com.hybris.tlv.screen.game
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.gameSessionPrototype
 
@@ -20,8 +23,15 @@ internal class GameScreenTest: TestCase() {
         onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
 
-        onNodeWithTag(testTag = "game_status_bar").assertIsDisplayed()
-        onNodeWithTag(testTag = "game_navigation_bar").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Hull Integrity").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Fuel").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Materials").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Cryopods").assertIsDisplayed()
+
+        onNodeWithText(text = "game_screen__travel").assertIsDisplayed()
+        onNodeWithText(text = "game_screen__system").assertIsDisplayed()
+        onNodeWithText(text = "game_screen__ship").assertIsDisplayed()
+
         onNodeWithTag(testTag = "game_ship_stats").assertDoesNotExist()
         onNodeWithTag(testTag = "game_system_list").assertDoesNotExist()
         onNodeWithTag(testTag = "game_travel_list").assertDoesNotExist()
@@ -41,14 +51,26 @@ internal class GameScreenTest: TestCase() {
         onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
 
-        onNodeWithTag(testTag = "game_status_bar").assertIsDisplayed()
-        onNodeWithTag(testTag = "game_navigation_bar").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Hull Integrity").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Fuel").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Materials").assertIsDisplayed()
+        onNodeWithContentDescription(label = "Cryopods").assertIsDisplayed()
+
+        onNodeWithText(text = "game_screen__travel").assertIsDisplayed()
+        onNodeWithText(text = "game_screen__system").assertIsDisplayed()
+        onNodeWithText(text = "game_screen__ship").assertIsDisplayed()
+
         onNodeWithTag(testTag = "game_ship_stats").assertDoesNotExist()
         onNodeWithTag(testTag = "game_system_list").assertIsDisplayed()
         onNodeWithTag(testTag = "game_travel_list").assertDoesNotExist()
 
-//        onAllNodesWithTag(testTag = GAME_SCREEN_SYSTEM_CONTENT_PLANET).onLast().assertIsDisplayed()
-//
+        onNodeWithTag(testTag = "game_system_list").count(count = 3)
+
+        onNodeWithText(text = "game_screen__travel").performClick()
+        onNodeWithTag(testTag = "game_ship_stats").assertIsDisplayed()
+        onNodeWithTag(testTag = "game_system_list").assertDoesNotExist()
+        onNodeWithTag(testTag = "game_travel_list").assertDoesNotExist()
+
 //        onNodeWithTag(testTag = GAME_SCREEN_NAVIGATION_BAR_ITEM_SHIP).performClick()
 //        onNodeWithTag(testTag = GAME_SCREEN_SHIP_CONTENT).assertExists()
 //        onNodeWithTag(testTag = GAME_SCREEN_SHIP_CONTENT_YEARS_TRAVELED).assertExists().assertTextContains("ship_years_traveled")
