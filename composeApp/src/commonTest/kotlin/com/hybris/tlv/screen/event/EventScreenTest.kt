@@ -1,8 +1,9 @@
 package com.hybris.tlv.screen.event
 
 import kotlin.test.Test
-import kotlinx.coroutines.runBlocking
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.onNodeWithTag
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.ship
@@ -15,20 +16,31 @@ internal class EventScreenTest: TestCase() {
         val store = storeFactory.getEventStore(ship = ship)
         setScreen { EventScreen(store = store) }
 
-//        onNodeWithTag(testTag = EVENT_SCREEN).assertExists()
-//        onNodeWithTag(testTag = EVENT_SCREEN_STATUS_BAR).assertExists()
+        onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
+
+        onNodeWithTag(testTag = "event_status_bar").assertIsDisplayed()
+        onNodeWithTag(testTag = "event_buttons_bar").assertIsDisplayed()
+        onNodeWithTag(testTag = "event_content").assertDoesNotExist()
     }
 
     @Test
     fun eventWithData() = runUITest {
-        runBlocking {
-            useCases.event.syncEvents()
-            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        }
+        useCases.event.prepopulateEvents()
+        useCases.ship.prepopulateEngines()
+        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val store = storeFactory.getEventStore(ship = ship)
         setScreen { EventScreen(store = store) }
 
-//        onNodeWithTag(testTag = EVENT_SCREEN).assertExists()
-//        onNodeWithTag(testTag = EVENT_SCREEN_STATUS_BAR).assertExists()
+        onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
+
+        onNodeWithTag(testTag = "event_status_bar").assertIsDisplayed()
+        onNodeWithTag(testTag = "event_buttons_bar").assertIsDisplayed()
+        onNodeWithTag(testTag = "event_content").assertIsDisplayed()
     }
 }

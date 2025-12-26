@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.screen.Screen
@@ -37,7 +38,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
                 modifier = Modifier
-
+                    .testTag(tag = "event_status_bar")
                     .padding(
                         start = 16.dp,
                         end = 16.dp,
@@ -51,6 +52,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
         },
         bottomBar = {
             ButtonsBar(
+                modifier = Modifier.testTag(tag = "event_buttons_bar"),
                 buttons = storeState.childrenEvents.map {
                     BottomButton(
                         id = it.id,
@@ -75,6 +77,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
             }.orEmpty()
             TypewriterContent(
                 modifier = Modifier
+                    .testTag(tag = "event_content")
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 title = getTranslation(key = event.id),

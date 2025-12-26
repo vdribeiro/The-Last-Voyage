@@ -24,6 +24,11 @@ internal class CreditScreenTest: TestCase() {
         val store = storeFactory.getCreditStore()
         setScreen { CreditScreen(store = store) }
 
+        onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
+
         onNodeWithText(text = "credit_screen__creators").assertDoesNotExist()
         onNodeWithText(text = "credit_screen__sources").assertDoesNotExist()
         onNodeWithText(text = "credit_screen__music").assertDoesNotExist()
@@ -46,6 +51,11 @@ internal class CreditScreenTest: TestCase() {
         useCases.credit.prepopulateCredits()
         val store = storeFactory.getCreditStore()
         setScreen(LocalUriHandler provides mockUriHandler) { CreditScreen(store = store) }
+
+        onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
 
         onNodeWithText(text = "credit_screen__creators").assertIsDisplayed()
         onNodeWithText(text = "credit_screen__sources").assertIsDisplayed()

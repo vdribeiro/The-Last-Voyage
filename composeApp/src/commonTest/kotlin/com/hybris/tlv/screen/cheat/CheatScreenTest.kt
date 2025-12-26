@@ -19,6 +19,11 @@ internal class CheatScreenTest: TestCase() {
         val store = storeFactory.getCheatStore()
         setScreen { CheatScreen(store = store) }
 
+        onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_help").assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_music").assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_feedback").assertDoesNotExist()
+
         onNodeWithText(text = "cheats_screen__title").assertIsDisplayed()
         onNodeWithText(text = "cheats_screen__integrity").assertIsDisplayed()
         onNodeWithText(text = "cheats_screen__sensor_range").assertIsDisplayed()
