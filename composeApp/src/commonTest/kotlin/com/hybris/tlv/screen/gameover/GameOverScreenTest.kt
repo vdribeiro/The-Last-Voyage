@@ -50,7 +50,14 @@ internal class GameOverScreenTest: TestCase() {
         onNodeWithTag(testTag = "game_over_score").assertDoesNotExist()
 
         onNodeWithText(text = "game_over_screen__score").performClick()
+
         onNodeWithText(text = "game_over_screen__score").assertDoesNotExist()
         onNodeWithText(text = "game_over_screen__end").assertIsDisplayed()
+
+        onNodeWithTag(testTag = "game_over_message_content").assertDoesNotExist()
+        onNodeWithTag(testTag = "game_over_score_content").assertIsDisplayed()
+        onNodeWithTag(testTag = "game_over_score").assertIsDisplayed()
+
+        onNodeWithText(text = "game_over_screen__end").performClick()
     }
 }
