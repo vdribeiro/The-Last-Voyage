@@ -2,48 +2,35 @@ package com.hybris.tlv.screen.mainmenu
 
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import com.hybris.tlv.TestCase
+import com.hybris.tlv.gameSessionPrototype
 
-// TODO
 @OptIn(ExperimentalTestApi::class)
 internal class MainMenuScreenTest: TestCase() {
 
     @Test
-    fun mainMenuWithoutData() = runComposeUiTest {
-//        val store = getMainMenuStore()
-//        setContent {
-//            AppTheme {
-//                MainMenuScreen(store = store)
-//            }
-//        }
-//        waitForIdle()
+    fun mainMenuWithoutData() = runUITest {
+        val store = storeFactory.getMainMenuStore()
+        setScreen { MainMenuScreen(store = store) }
 
-//        onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
-//        onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR).assertExists()
-//        onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT).assertExists()
-//        onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_NEW_GAME).assertExists()
-//        onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_CONTINUE).assertDoesNotExist()
-//        onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_LEARN).assertExists()
-//        onNodeWithTag(testTag = MAIN_MENU_SCREEN_MAIN_MENU_CONTENT_SCORES).assertExists()
-//        onNodeWithTag(testTag = MAIN_MENU_SCREEN_LEARN_CONTENT).assertDoesNotExist()
-//        onNodeWithTag(testTag = MAIN_MENU_SCREEN_HOST_DEFINITION_CONTENT).assertDoesNotExist()
-//        onNodeWithTag(testTag = MAIN_MENU_SCREEN_PLANET_DEFINITION_CONTENT).assertDoesNotExist()
-//        onNodeWithTag(testTag = MAIN_MENU_SCREEN_HABITABILITY_CONTENT).assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
+
+        onNodeWithText(text = "website").assertIsDisplayed()
+        onNodeWithText(text = "main_menu_screen__credits").assertIsDisplayed()
     }
 
     @Test
-    fun mainMenuWithData() = runComposeUiTest {
-//        runBlocking {
-//            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-//        }
-//        val store = getMainMenuStore()
-//        setContent {
-//            AppTheme {
-//                MainMenuScreen(store = store)
-//            }
-//        }
-//        waitForIdle()
+    fun mainMenuWithData() = runUITest {
+        useCases.ship.prepopulateEngines()
+        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val store = storeFactory.getMainMenuStore()
+        setScreen { MainMenuScreen(store = store) }
 
 //        onNodeWithTag(testTag = MAIN_MENU_SCREEN).assertExists()
 //        onNodeWithTag(testTag = MAIN_MENU_SCREEN_BOTTOM_BAR).assertExists()
@@ -66,7 +53,7 @@ internal class MainMenuScreenTest: TestCase() {
     }
 
     @Test
-    fun mainMenuHostDefinitionContent() = runComposeUiTest {
+    fun mainMenuHostDefinitionContent() = runUITest {
 //        runBlocking {
 //            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
 //        }
@@ -91,7 +78,7 @@ internal class MainMenuScreenTest: TestCase() {
     }
 
     @Test
-    fun mainMenuPlanetDefinitionContent() = runComposeUiTest {
+    fun mainMenuPlanetDefinitionContent() = runUITest {
 //        runBlocking {
 //            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
 //        }
@@ -116,7 +103,7 @@ internal class MainMenuScreenTest: TestCase() {
     }
 
     @Test
-    fun mainMenuHabitabilityContent() = runComposeUiTest {
+    fun mainMenuHabitabilityContent() = runUITest {
 //        runBlocking {
 //            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
 //        }

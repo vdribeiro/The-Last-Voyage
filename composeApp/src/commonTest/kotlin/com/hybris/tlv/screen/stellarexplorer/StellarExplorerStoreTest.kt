@@ -78,9 +78,9 @@ internal class StellarExplorerStoreTest: TestCase() {
 //        stellarExplorerStore.send(action = StellarExplorerAction.SortPlanets(sort = PlanetProperty.NAME))
 //        assertEquals(expected = PlanetProperty.NAME, actual = stellarExplorerStore.stateFlow.value.sortPlanetProperty)
 //
-//        assertEquals(expected = true, actual = stellarExplorerStore.stateFlow.value.sortAscending)
+//        assertTrue(actual = stellarExplorerStore.stateFlow.value.sortAscending)
 //        stellarExplorerStore.send(action = StellarExplorerAction.ChangeSortDirection)
-//        assertEquals(expected = false, actual = stellarExplorerStore.stateFlow.value.sortAscending)
+//        assertFalse(actual = stellarExplorerStore.stateFlow.value.sortAscending)
 //    }
 //
 //    @Test

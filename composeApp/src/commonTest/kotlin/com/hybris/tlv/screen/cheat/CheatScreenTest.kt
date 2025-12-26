@@ -1,7 +1,8 @@
 package com.hybris.tlv.screen.cheat
 
 import kotlin.test.Test
-import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
@@ -31,34 +32,34 @@ internal class CheatScreenTest: TestCase() {
         onNodeWithTag(testTag = "cheat_list").assertIsDisplayed()
         onNodeWithTag(testTag = "cheat_list").count(count = 5)
 
-        assertEquals(expected = false, actual = store.state.integrity)
+        assertFalse(actual = store.state.integrity)
         onNodeWithText(text = "cheats_screen__integrity").performClick()
-        assertEquals(expected = true, actual = store.state.integrity)
+        assertTrue(actual = store.state.integrity)
         onNodeWithText(text = "cheats_screen__integrity").performClick()
-        assertEquals(expected = false, actual = store.state.integrity)
+        assertFalse(actual = store.state.integrity)
 
-        assertEquals(expected = false, actual = store.state.sensorRange)
+        assertFalse(actual = store.state.sensorRange)
         onNodeWithText(text = "cheats_screen__sensor_range").performClick()
-        assertEquals(expected = true, actual = store.state.sensorRange)
+        assertTrue(actual = store.state.sensorRange)
         onNodeWithText(text = "cheats_screen__sensor_range").performClick()
-        assertEquals(expected = false, actual = store.state.sensorRange)
+        assertFalse(actual = store.state.sensorRange)
 
-        assertEquals(expected = false, actual = store.state.fuel)
+        assertFalse(actual = store.state.fuel)
         onNodeWithText(text = "cheats_screen__fuel").performClick()
-        assertEquals(expected = true, actual = store.state.fuel)
+        assertTrue(actual = store.state.fuel)
         onNodeWithText(text = "cheats_screen__fuel").performClick()
-        assertEquals(expected = false, actual = store.state.fuel)
+        assertFalse(actual = store.state.fuel)
 
-        assertEquals(expected = false, actual = store.state.materials)
+        assertFalse(actual = store.state.materials)
         onNodeWithText(text = "cheats_screen__materials").performClick()
-        assertEquals(expected = true, actual = store.state.materials)
+        assertTrue(actual = store.state.materials)
         onNodeWithText(text = "cheats_screen__materials").performClick()
-        assertEquals(expected = false, actual = store.state.materials)
+        assertFalse(actual = store.state.materials)
 
-        assertEquals(expected = false, actual = store.state.cryopods)
+        assertFalse(actual = store.state.cryopods)
         onNodeWithText(text = "cheats_screen__cryopods").performClick()
-        assertEquals(expected = true, actual = store.state.cryopods)
+        assertTrue(actual = store.state.cryopods)
         onNodeWithText(text = "cheats_screen__cryopods").performClick()
-        assertEquals(expected = false, actual = store.state.cryopods)
+        assertFalse(actual = store.state.cryopods)
     }
 }
