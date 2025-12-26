@@ -12,15 +12,15 @@ internal class AchievementStoreTest: TestCase() {
     fun init() = runUnitTest {
         useCases.achievement.prepopulateAchievements()
         val store = storeFactory.getAchievementStore()
-        assertEquals(expected = false, actual = store.state().loading)
-        assertEquals(expected = achievements, actual = store.state().achievements)
+        assertEquals(expected = false, actual = store.state.loading)
+        assertEquals(expected = achievements, actual = store.state.achievements)
     }
 
     @Test
     fun initWithoutAchievements() = runUnitTest {
         val store = storeFactory.getAchievementStore()
-        assertEquals(expected = false, actual = store.state().loading)
-        assertEquals(expected = emptyList(), actual = store.state().achievements)
+        assertEquals(expected = false, actual = store.state.loading)
+        assertEquals(expected = emptyList(), actual = store.state.achievements)
     }
 
     @Test

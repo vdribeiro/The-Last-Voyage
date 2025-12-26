@@ -98,7 +98,7 @@ internal abstract class TestCase {
      * If the [element] does not exist, then it is appended to the list, otherwise all screens after it are cleared.
      */
     private fun MutableList<Screen>.addOrTruncate(element: Screen) {
-        val index = indexOf(element = element)
+        val index = indexOfFirst { it::class == element::class }
         if (index == -1) add(element = element) else {
             if (index + 1 < size) subList(fromIndex = index + 1, toIndex = size).clear()
         }
@@ -191,7 +191,7 @@ internal abstract class TestCase {
     /**
      * Syntactic sugar for store.stateFlow.value.
      */
-    protected fun <State, Action> Store<State, Action>.state(): State = stateFlow.value
+    protected val <State, Action> Store<State, Action>.state: State get() = stateFlow.value
 
     /**
      * Verify the number of items in a collection.

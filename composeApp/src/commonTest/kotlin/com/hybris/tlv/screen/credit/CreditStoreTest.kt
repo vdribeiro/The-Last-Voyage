@@ -12,15 +12,15 @@ internal class CreditStoreTest: TestCase() {
     fun init() = runUnitTest {
         useCases.credit.prepopulateCredits()
         val store = storeFactory.getCreditStore()
-        assertEquals(expected = false, actual = store.state().loading)
-        assertEquals(expected = credits, actual = store.state().credits)
+        assertEquals(expected = false, actual = store.state.loading)
+        assertEquals(expected = credits, actual = store.state.credits)
     }
 
     @Test
     fun initWithoutCredits() = runUnitTest {
         val store = storeFactory.getCreditStore()
-        assertEquals(expected = false, actual = store.state().loading)
-        assertEquals(expected = emptyList(), actual = store.state().credits)
+        assertEquals(expected = false, actual = store.state.loading)
+        assertEquals(expected = emptyList(), actual = store.state.credits)
     }
 
     @Test

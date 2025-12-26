@@ -353,26 +353,27 @@ sqldelight {
 
 kover {
     reports {
+        filters {
+            excludes {
+                annotatedBy(
+                    "com.hybris.tlv.test.ExcludeFromTesting",
+                    "kotlinx.serialization.Serializable",
+                    "androidx.compose.ui.tooling.preview.Preview"
+                )
+                packages(
+                    "*.generated.*"
+                )
+                classes(
+                    "**ComposableSingletons**",
+                )
+            }
+        }
         total {
             html { onCheck = true }
             log { onCheck = true }
             verify {
                 onCheck = true
                 rule { bound { minValue = 80 } } // minimum 80% coverage
-            }
-
-            filters {
-                excludes {
-                    annotatedBy("com.hybris.tlv.test.ExcludeFromTesting")
-                    annotatedBy("kotlinx.serialization.Serializable")
-                    annotatedBy("androidx.compose.ui.tooling.preview.Preview")
-                    packages(
-                        "*.generated.*",
-                    )
-                    classes(
-                        "*ComposableSingletons"
-                    )
-                }
             }
         }
     }
