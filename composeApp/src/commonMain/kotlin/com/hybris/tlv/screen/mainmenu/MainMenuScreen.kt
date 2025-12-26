@@ -39,7 +39,6 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
                         .padding(horizontal = 8.dp)
                         .clickable { uriHandler.open(uri = storeState.developerCorner) },
                     text = getTranslation(key = "new_version"),
-                    textAlign = TextAlign.Center,
                     style = typography.labelLarge,
                 )
             }
