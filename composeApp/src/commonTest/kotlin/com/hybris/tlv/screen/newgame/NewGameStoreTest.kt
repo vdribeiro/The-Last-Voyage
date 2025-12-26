@@ -1,89 +1,84 @@
 package com.hybris.tlv.screen.newgame
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 import com.hybris.tlv.TestCase
+import com.hybris.tlv.engines
+import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.shipPrototype
 
-// TODO
 internal class NewGameStoreTest: TestCase() {
 
-//    private val store: NewGameStore get() = getNewGameStore()
-//
-//    @BeforeTest
-//    fun setup() = runBlocking {
-//        reset()
-//        getNavigation().navigate(navigationState = NavigationState(screen = NewGameScreen))
-//    }
-//
-//    @Test
-//    fun `init`() = runBlocking {
-//        useCases.catastrophe.syncCatastrophes()
-//        useCases.ship.syncEngines()
-//        val newGameStore = store
-//        assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
-//    }
-//
-//    @Test
-//    fun `send action back`() = runBlocking {
-//        useCases.catastrophe.syncCatastrophes()
-//        useCases.ship.syncEngines()
-//        val newGameStore = store
-//        assertEquals(expected = NewGameScreen, actual = getNavigation().stateFlow.value.screen)
-//        assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
-//        getNavigation().back()
-//        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
-//
-//        newGameStore.send(action = NewGameAction.Next)
-//        assertEquals(expected = Content.SHIP, actual = newGameStore.stateFlow.value.currentContent)
-//        getNavigation().back()
-//        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
-//
-//        newGameStore.send(action = NewGameAction.Next)
-//        assertEquals(expected = Content.START, actual = newGameStore.stateFlow.value.currentContent)
-//        assertNotNull(actual = newGameStore.stateFlow.value.selectedCatastrophe)
-//        getNavigation().back()
-//        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
-//    }
-//
-//    @Test
-//    fun `send action select ship`() = runBlocking {
-//        useCases.catastrophe.syncCatastrophes()
-//        useCases.ship.syncEngines()
-//        val newGameStore = store
-//        assertNull(actual = newGameStore.selectedShip)
-//        val shipPrototype = ShipPrototype(
-//            assignedPoints = 1,
-//            sensorRange = 1,
-//            materials = 1,
-//            fuel = 1,
-//            cryopods = 1
-//        )
-//        newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype))
-//        assertEquals(expected = shipPrototype, actual = newGameStore.selectedShip)
-//    }
-//
-//    @Test
-//    fun `send action start game`() = runBlocking {
-//        assertEquals(expected = NewGameScreen, actual = getNavigation().stateFlow.value.screen)
-//        useCases.catastrophe.syncCatastrophes()
-//        useCases.ship.syncEngines()
-//        val newGameStore = store
-//        val shipPrototype = ShipPrototype(
-//            assignedPoints = 1,
-//            sensorRange = 1,
-//            materials = 1,
-//            fuel = 1,
-//            cryopods = 1
-//        )
-//        newGameStore.send(action = NewGameAction.SelectShip(ship = shipPrototype))
-//        newGameStore.send(action = NewGameAction.SelectEngine(engine = engines.first()))
-//        newGameStore.send(action = NewGameAction.Next)
-//        assertEquals(expected = GameScreen, actual = getNavigation().stateFlow.value.screen)
-//    }
-//
-//    @Test
-//    fun `send action start game without selected ship`() = runBlocking {
-//        assertEquals(expected = NewGameScreen, actual = getNavigation().stateFlow.value.screen)
-//        val newGameStore = store
-//        newGameStore.send(action = NewGameAction.Next)
-//        assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
-//    }
+    @Test
+    fun init() = runUnitTest {
+        useCases.catastrophe.syncCatastrophes()
+        useCases.ship.syncEngines()
+        val store = storeFactory.getNewGameStore()
+        assertEquals(expected = Content.SHIP, actual = store.state.currentContent)
+    }
+
+    @Test
+    fun initWithoutEngines() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
+        useCases.catastrophe.syncCatastrophes()
+        storeFactory.getNewGameStore()
+        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+    }
+
+    @Test
+    fun initWithoutCatastrophes() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
+        useCases.ship.syncEngines()
+        storeFactory.getNewGameStore()
+        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+    }
+
+    @Test
+    fun selectShip() = runUnitTest {
+        useCases.catastrophe.syncCatastrophes()
+        useCases.ship.syncEngines()
+        val store = storeFactory.getNewGameStore()
+        assertNull(actual = store.selectedShip)
+        store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
+        assertEquals(expected = shipPrototype, actual = store.selectedShip)
+        val engine = engines.random()
+        store.send(action = NewGameAction.SelectEngine(engine = engine))
+        assertEquals(expected = engine, actual = store.state.shipState?.engine)
+    }
+
+    @Test
+    fun startGame() = runUnitTest {
+        useCases.catastrophe.syncCatastrophes()
+        useCases.ship.syncEngines()
+        val store = storeFactory.getNewGameStore()
+        store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
+        store.send(action = NewGameAction.SelectEngine(engine = engines.random()))
+        assertNavigationBackstack(list = emptyList())
+        store.send(action = NewGameAction.Next)
+        store.send(action = NewGameAction.Next)
+        assertNavigationBackstack(list = listOf(element = Screen.Game()))
+    }
+
+    @Test
+    fun startGameWithoutShip() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
+        val store = storeFactory.getNewGameStore()
+        store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
+        store.send(action = NewGameAction.SelectEngine(engine = engines.random()))
+        store.send(action = NewGameAction.Next)
+        store.send(action = NewGameAction.Next)
+        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+    }
+
+    @Test
+    fun navigateBack() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
+        navigate(screen = Screen.NewGame)
+        assertNavigationBackstack(list = listOf(element = Screen.NewGame))
+        useCases.catastrophe.syncCatastrophes()
+        useCases.ship.syncEngines()
+        storeFactory.getNewGameStore().back()
+        assertNavigationBackstack(list = listOf(Screen.NewGame, Screen.MainMenu))
+    }
 }

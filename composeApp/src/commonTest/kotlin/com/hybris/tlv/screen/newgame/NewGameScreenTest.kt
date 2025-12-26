@@ -2,64 +2,69 @@ package com.hybris.tlv.screen.newgame
 
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import com.hybris.tlv.TestCase
+import com.hybris.tlv.engines
 
-// TODO
 @OptIn(ExperimentalTestApi::class)
 internal class NewGameScreenTest: TestCase() {
 
     @Test
-    fun newGameWithoutData() = runComposeUiTest {
-//        val store = getNewGameStore()
-//        setContent {
-//            AppTheme {
-//                NewGameScreen(store = store)
-//            }
-//        }
-//        waitForIdle()
+    fun newGameWithoutData() = runUITest {
+        val store = storeFactory.getNewGameStore()
+        setScreen { NewGameScreen(store = store) }
 
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN).assertExists()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT).assertDoesNotExist()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT).assertDoesNotExist()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS).assertDoesNotExist()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT).assertDoesNotExist()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE).assertDoesNotExist()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE_DESCRIPTION).assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
+
+        onNodeWithText(text = "new_game_screen__continue").assertDoesNotExist()
+        onNodeWithText(text = "new_game_screen__start").assertDoesNotExist()
+
+        onNodeWithText(text = "ship_sensor").assertDoesNotExist()
+        onNodeWithText(text = "ship_fuel").assertDoesNotExist()
+        onNodeWithText(text = "ship_materials").assertDoesNotExist()
+        onNodeWithText(text = "ship_cryopods").assertDoesNotExist()
+        onNodeWithText(text = "new_game_screen__engine_select").assertDoesNotExist()
+        onNodeWithTag(testTag = "new_game_content").assertDoesNotExist()
     }
 
     @Test
-    fun newGameWithData() = runComposeUiTest {
-//        runBlocking {
-//            useCases.catastrophe.syncCatastrophes()
-//        }
-//        val store = getNewGameStore()
-//        setContent {
-//            AppTheme {
-//                NewGameScreen(store = store)
-//            }
-//        }
-//        waitForIdle()
+    fun newGameWithData() = runUITest {
+        useCases.catastrophe.syncCatastrophes()
+        useCases.ship.syncEngines()
+        val store = storeFactory.getNewGameStore()
+        setScreen { NewGameScreen(store = store) }
 
-        // TODO
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN).assertExists()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT).assertExists()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT).assertExists()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS).assertExists()
-        //onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_BUTTON).assertExists()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT).assertDoesNotExist()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE).assertDoesNotExist()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE_DESCRIPTION).assertDoesNotExist()
-        //onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_BUTTON).assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
 
-        //onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_BUTTON).performClick()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT).assertDoesNotExist()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS_TEXT).assertDoesNotExist()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_POINTS).assertDoesNotExist()
-        //onNodeWithTag(testTag = NEW_GAME_SCREEN_NEW_GAME_CONTENT_BUTTON).assertDoesNotExist()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT).assertExists()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE).assertExists()
-//        onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_CATASTROPHE_DESCRIPTION).assertExists()
-        //onNodeWithTag(testTag = NEW_GAME_SCREEN_START_CONTENT_BUTTON).assertExists()
+        onNodeWithText(text = "new_game_screen__continue").assertIsDisplayed()
+        onNodeWithText(text = "new_game_screen__start").assertDoesNotExist()
+
+        onNodeWithText(text = "ship_sensor").assertIsDisplayed()
+        onNodeWithText(text = "ship_fuel").assertIsDisplayed()
+        onNodeWithText(text = "ship_materials").assertIsDisplayed()
+        onNodeWithText(text = "ship_cryopods").assertIsDisplayed()
+        onNodeWithText(text = "new_game_screen__engine_select").assertIsDisplayed()
+        onNodeWithTag(testTag = "new_game_content").assertDoesNotExist()
+
+        onNodeWithText(text = "new_game_screen__continue").performClick()
+
+        onNodeWithText(text = "new_game_screen__continue").assertDoesNotExist()
+        onNodeWithText(text = "new_game_screen__start").assertIsDisplayed()
+
+        onNodeWithText(text = "ship_sensor").assertDoesNotExist()
+        onNodeWithText(text = "ship_fuel").assertDoesNotExist()
+        onNodeWithText(text = "ship_materials").assertDoesNotExist()
+        onNodeWithText(text = "ship_cryopods").assertDoesNotExist()
+        onNodeWithText(text = "new_game_screen__engine_select").assertDoesNotExist()
+        onNodeWithTag(testTag = "new_game_content").assertIsDisplayed()
     }
 }

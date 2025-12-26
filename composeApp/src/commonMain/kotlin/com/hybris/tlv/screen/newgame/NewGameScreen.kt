@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.screen.Screen
@@ -95,6 +96,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
 
             Content.START -> TypewriterContent(
                 modifier = Modifier
+                    .testTag(tag = "new_game_content")
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 title = selectedCatastrophe?.let { getTranslation(key = it.id) },
