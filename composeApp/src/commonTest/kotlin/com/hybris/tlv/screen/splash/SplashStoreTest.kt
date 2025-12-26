@@ -9,6 +9,6 @@ internal class SplashStoreTest: TestCase() {
     @Test
     fun init() = runUnitTest {
         val store = storeFactory.getSplashStore(reset = true)
-        assertEquals(expected = 1f, actual = store.stateFlow.value.progress)
+        assertEquals(expected = 1f, actual = store.state.progress)
     }
 }
