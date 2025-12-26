@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.LocalTypography
@@ -33,6 +34,7 @@ internal fun TypewriterContent(
         title?.let {
             Text(
                 text = it,
+                textAlign = TextAlign.Start,
                 style = typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
