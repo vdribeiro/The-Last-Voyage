@@ -30,6 +30,5 @@ internal class EventScreenTest: TestCase() {
 
 //        onNodeWithTag(testTag = EVENT_SCREEN).assertExists()
 //        onNodeWithTag(testTag = EVENT_SCREEN_STATUS_BAR).assertExists()
-        // TODO
     }
 }

@@ -36,7 +36,9 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
-                modifier = Modifier.padding(
+                modifier = Modifier
+
+                    .padding(
                     start = 16.dp,
                     end = 16.dp,
                     top = 8.dp

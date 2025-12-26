@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.component.button.Button
@@ -36,7 +37,10 @@ internal fun TopBar(
         horizontalArrangement = Arrangement.Start
     ) {
         onBackClick?.let {
-            Button(onClick = it) {
+            Button(
+                modifier = Modifier.testTag(tag = "topbar_back"),
+                onClick = it
+            ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back"
@@ -46,7 +50,10 @@ internal fun TopBar(
         if (title != null) title()
         Spacer(modifier = Modifier.weight(weight = 1f))
         onHelpClick?.let {
-            Button(onClick = it) {
+            Button(
+                modifier = Modifier.testTag(tag = "topbar_help"),
+                onClick = it
+            ) {
                 Icon(
                     imageVector = Icons.Default.QuestionMark,
                     contentDescription = "Help"
@@ -54,7 +61,10 @@ internal fun TopBar(
             }
         }
         onMusicClick?.let {
-            Button(onClick = it) {
+            Button(
+                modifier = Modifier.testTag(tag = "topbar_music"),
+                onClick = it
+            ) {
                 Icon(
                     imageVector = Icons.Default.MusicNote,
                     contentDescription = "Music"
@@ -62,7 +72,10 @@ internal fun TopBar(
             }
         }
         onFeedbackClick?.let {
-            Button(onClick = it) {
+            Button(
+                modifier = Modifier.testTag(tag = "topbar_feedback"),
+                onClick = it
+            ) {
                 Icon(
                     imageVector = Icons.Default.BugReport,
                     contentDescription = "Feedback"

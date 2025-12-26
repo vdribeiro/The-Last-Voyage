@@ -18,11 +18,14 @@ internal class AchievementScreenTest: TestCase() {
         val store = storeFactory.getAchievementStore()
         setScreen { AchievementScreen(store = store) }
 
+        onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
+
         onNodeWithText(text = "achievements_screen__title").assertIsDisplayed()
         onNodeWithTag(testTag = "achievement_list").assertIsDisplayed()
-        onNodeWithTag(testTag = "achievement_list")
-            .onChildren()
-            .assertCountEquals(expectedSize = 0)
+        onNodeWithTag(testTag = "achievement_list").count(count = 0)
     }
 
     @Test
@@ -30,6 +33,12 @@ internal class AchievementScreenTest: TestCase() {
         useCases.achievement.prepopulateAchievements()
         val store = storeFactory.getAchievementStore()
         setScreen { AchievementScreen(store = store) }
+
+        onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
+
         onNodeWithText(text = "achievements_screen__title").assertIsDisplayed()
         onNodeWithTag(testTag = "achievement_list").assertIsDisplayed()
         onNodeWithTag(testTag = "achievement_list").count(count = achievements.size)

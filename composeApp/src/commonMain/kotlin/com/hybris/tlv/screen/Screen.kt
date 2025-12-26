@@ -42,10 +42,18 @@ internal fun <State, Action> Screen(
         loadingText = loadingText,
         loadingBackground = loadingBackground,
         loadingProgress = loadingProgress,
-        onBackClick = { if (back) store.back() },
-        onHelpClick = { if (help) sendCommand(command = Command.Navigate(screen = Screen.Help)) },
-        onMusicClick = { if (music) sendCommand(command = Command.ToggleAudio) },
-        onFeedbackClick = { if (feedback) sendCommand(command = Command.Navigate(screen = Screen.Feedback())) },
+        onBackClick = if (back) {
+            { store.back() }
+        } else null,
+        onHelpClick = if (help) {
+            { sendCommand(command = Command.Navigate(screen = Screen.Help)) }
+        } else null,
+        onMusicClick = if (music) {
+            { sendCommand(command = Command.ToggleAudio) }
+        } else null,
+        onFeedbackClick = if (feedback) {
+            { sendCommand(command = Command.Navigate(screen = Screen.Feedback())) }
+        } else null,
         title = title,
         topBar = topBar,
         bottomBar = bottomBar,
