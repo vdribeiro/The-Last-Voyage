@@ -11,7 +11,7 @@ import com.hybris.tlv.usecase.sync.model.SyncResult
 internal class SyncUseCasesTest: TestCase() {
 
     @Test
-    fun `sync and reset`() = runUnitTest {
+    fun syncAndReset() = runUnitTest {
         assertTrue(actual = useCases.sync.isEmpty())
         setFlag { it.copy(http = false) }
         assertEquals(

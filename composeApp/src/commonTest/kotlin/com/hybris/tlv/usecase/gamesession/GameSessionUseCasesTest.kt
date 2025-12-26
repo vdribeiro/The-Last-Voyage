@@ -22,7 +22,7 @@ import com.hybris.tlv.usecase.space.model.Formula
 internal class GameSessionUseCasesTest: TestCase() {
 
     @Test
-    fun `write and get game sessions`() = runUnitTest {
+    fun writeAndGetGameSessions() = runUnitTest {
         useCases.ship.prepopulateEngines()
         assertNull(actual = useCases.gameSession.getLatestGameSession())
         assertTrue(actual = useCases.gameSession.getGameSessions().isEmpty())
@@ -40,7 +40,7 @@ internal class GameSessionUseCasesTest: TestCase() {
     }
 
     @Test
-    fun `launch event`() = runUnitTest {
+    fun launchEvent() = runUnitTest {
         val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val event = events.first { it.outcome != null }
 
@@ -91,7 +91,7 @@ internal class GameSessionUseCasesTest: TestCase() {
     }
 
     @Test
-    fun `is game over`() = runUnitTest {
+    fun isGameOver() = runUnitTest {
         val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         assertFalse(actual = useCases.gameSession.isGameOver(gameSession = gameSession))
 

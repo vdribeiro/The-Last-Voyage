@@ -15,7 +15,7 @@ import com.hybris.tlv.usecase.space.model.StellarHost
 internal class ArchiveUseCasesTest: TestCase() {
 
     @Test
-    fun `get archive`() = runUnitTest {
+    fun getArchive() = runUnitTest {
         deleteFile(path = ARCHIVE_STELLAR_HOSTS_JSON)
         deleteFile(path = ARCHIVE_PLANETS_JSON)
 

@@ -8,7 +8,7 @@ import com.hybris.tlv.translations
 internal class TranslationCacheTest: TestCase() {
 
     @Test
-    fun `write and get translations`() = runUnitTest {
+    fun WriteAndGetTranslations() = runUnitTest {
         val translation = translations.first()
         TranslationCache.set(translations = translations)
         assertEquals(expected = translation.value, actual = TranslationCache.get(key = translation.key))
