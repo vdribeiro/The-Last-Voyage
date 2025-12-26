@@ -358,7 +358,7 @@ kover {
                 annotatedBy(
                     "com.hybris.tlv.test.ExcludeFromTesting",
                     "kotlinx.serialization.Serializable",
-                    "androidx.compose.ui.tooling.preview.Preview"
+                    "org.jetbrains.compose.ui.tooling.preview.Preview"
                 )
                 packages(
                     "*.generated.*"
