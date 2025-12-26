@@ -19,8 +19,9 @@ import com.hybris.tlv.usecase.ship.model.Ship
 
 internal class StoreFactory(private val dependency: Dependency) {
 
-    fun getSplashStore(): SplashStore =
+    fun getSplashStore(reset: Boolean): SplashStore =
         SplashStore(
+            reset = reset,
             config = dependency.config,
             syncUseCases = dependency.useCases.sync
         )
@@ -35,10 +36,7 @@ internal class StoreFactory(private val dependency: Dependency) {
         )
 
     fun getHelpStore(): HelpStore =
-        HelpStore(
-            config = dependency.config,
-            syncUseCases = dependency.useCases.sync
-        )
+        HelpStore(config = dependency.config)
 
     fun getFeedbackStore(tag: String?, message: String?): FeedbackStore =
         FeedbackStore(

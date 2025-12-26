@@ -38,7 +38,7 @@ internal fun Navigation(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Screen.Splash,
+        startDestination = Screen.Splash(),
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
         popEnterTransition = { EnterTransition.None },
@@ -47,7 +47,7 @@ internal fun Navigation(
         splashScreen(config = config, useCases = useCases)
         cheatScreen(config = config)
         mainMenuScreen(config = config, useCases = useCases)
-        helpScreen(config = config, useCases = useCases)
+        helpScreen(config = config)
         feedbackScreen()
         newGameScreen(useCases = useCases)
         tutorialScreen(config = config)

@@ -3,6 +3,7 @@ package com.hybris.tlv.navigation.graph
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.screen.splash.SplashScreen
@@ -13,8 +14,10 @@ internal fun NavGraphBuilder.splashScreen(
     config: ConfigManager,
     useCases: UseCases
 ) = composable<Screen.Splash> {
+    val screen = it.toRoute<Screen.Splash>()
     SplashScreen(store = viewModel {
         SplashStore(
+            reset = screen.reset,
             config = config,
             syncUseCases = useCases.sync
         )

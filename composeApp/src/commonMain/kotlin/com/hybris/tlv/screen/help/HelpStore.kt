@@ -7,11 +7,9 @@ import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.navigation.Screen.Tutorial
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.telemetry.Telemetry
-import com.hybris.tlv.usecase.sync.SyncUseCases
 
 internal class HelpStore(
     private val config: ConfigManager,
-    private val syncUseCases: SyncUseCases
 ): Store<HelpState, HelpAction>(
     initialState = HelpState()
 ) {
@@ -42,8 +40,7 @@ internal class HelpStore(
     }
 
     private fun reset(): Job = launch(id = "reset") {
-        syncUseCases.reset()
-        navigate(screen = Screen.Splash)
+        navigate(screen = Screen.Splash(reset = true))
     }
 
     override fun back(state: HelpState) {

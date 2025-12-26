@@ -9,6 +9,7 @@ import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.sync.SyncUseCases
 
 internal class SplashStore(
+    private val reset: Boolean,
     private val config: ConfigManager,
     private val syncUseCases: SyncUseCases
 ): Store<SplashState, SplashAction>(
@@ -21,7 +22,7 @@ internal class SplashStore(
     private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
-        syncUseCases.sync { progress -> updateState { it.copy(progress = progress) } }
+        syncUseCases.sync(reset = reset) { progress -> updateState { it.copy(progress = progress) } }
         delay(timeMillis = 1000L) // prevent UI flickering for fast syncs and also allow user to see the sweet 100% for a short time
 
         Telemetry.info(tag = TAG, message = "Setup complete")

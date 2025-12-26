@@ -7,16 +7,11 @@ import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.screen.help.HelpScreen
 import com.hybris.tlv.screen.help.HelpStore
-import com.hybris.tlv.usecase.UseCases
 
 internal fun NavGraphBuilder.helpScreen(
-    config: ConfigManager,
-    useCases: UseCases
+    config: ConfigManager
 ) = composable<Screen.Help> {
     HelpScreen(store = viewModel {
-        HelpStore(
-            config = config,
-            syncUseCases = useCases.sync
-        )
+        HelpStore(config = config)
     })
 }

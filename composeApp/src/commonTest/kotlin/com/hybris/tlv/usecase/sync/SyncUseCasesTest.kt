@@ -25,7 +25,7 @@ internal class SyncUseCasesTest: TestCase() {
                 events = DataSource.LOCAL,
                 achievements = DataSource.LOCAL,
                 credits = DataSource.LOCAL
-            ), actual = useCases.sync.sync()
+            ), actual = useCases.sync.sync(reset = true)
         )
         assertFalse(actual = useCases.sync.isEmpty())
         reset()
@@ -42,7 +42,7 @@ internal class SyncUseCasesTest: TestCase() {
                 events = DataSource.REMOTE,
                 achievements = DataSource.REMOTE,
                 credits = DataSource.REMOTE
-            ), actual = useCases.sync.sync()
+            ), actual = useCases.sync.sync(reset = true)
         )
     }
 }
