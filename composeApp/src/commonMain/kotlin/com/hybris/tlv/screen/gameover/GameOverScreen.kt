@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.locale.getLocalDateTime
@@ -73,6 +74,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
         when (storeState.currentContent) {
             Content.MESSAGE -> TypewriterContent(
                 modifier = Modifier
+                    .testTag(tag = "game_over_message_content")
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 title = gameOverTranslation,
@@ -81,6 +83,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
 
             Content.SCORE -> TypewriterContent(
                 modifier = Modifier
+                    .testTag(tag = "game_over_score_content")
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 title = gameOverTranslation
@@ -88,6 +91,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
                 if (gameSession != null && ship != null) {
                     Spacer(modifier = Modifier.height(height = 16.dp))
                     Score(
+                        modifier = Modifier.testTag(tag = "game_over_score"),
                         score = gameSession.score,
                         utc = gameSession.utc,
                         settledPlanet = gameSession.settledPlanetName,
