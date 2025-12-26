@@ -3,9 +3,7 @@ package com.hybris.tlv.screen.cheat
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -31,9 +29,7 @@ internal class CheatScreenTest: TestCase() {
         onNodeWithText(text = "cheats_screen__materials").assertIsDisplayed()
         onNodeWithText(text = "cheats_screen__cryopods").assertIsDisplayed()
         onNodeWithTag(testTag = "cheat_list").assertIsDisplayed()
-        onNodeWithTag(testTag = "cheat_list")
-            .onChildren()
-            .assertCountEquals(expectedSize = 5)
+        onNodeWithTag(testTag = "cheat_list").count(count = 5)
 
         assertEquals(expected = false, actual = store.state.integrity)
         onNodeWithText(text = "cheats_screen__integrity").performClick()

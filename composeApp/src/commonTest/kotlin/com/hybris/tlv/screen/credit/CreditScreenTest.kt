@@ -5,9 +5,7 @@ import kotlin.test.assertEquals
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -34,9 +32,7 @@ internal class CreditScreenTest: TestCase() {
         onNodeWithText(text = "credit_screen__music").assertDoesNotExist()
         onNodeWithText(text = "credit_screen__supporters").assertDoesNotExist()
         onNodeWithTag(testTag = "credits_grid").assertIsDisplayed()
-        onNodeWithTag(testTag = "credits_grid")
-            .onChildren()
-            .assertCountEquals(expectedSize = 0)
+        onNodeWithTag(testTag = "credits_grid").count(count = 0)
     }
 
     @Test
@@ -62,9 +58,7 @@ internal class CreditScreenTest: TestCase() {
         onNodeWithText(text = "credit_screen__music").assertIsDisplayed()
         onNodeWithText(text = "credit_screen__supporters").assertIsDisplayed()
         onNodeWithTag(testTag = "credits_grid").assertIsDisplayed()
-        onNodeWithTag(testTag = "credits_grid")
-            .onChildren()
-            .assertCountEquals(expectedSize = 9)
+        onNodeWithTag(testTag = "credits_grid").count(count = 9)
 
         val creditsMap = credits.groupBy { it.type }
         creditsMap[CreditType.CREATOR].orEmpty()

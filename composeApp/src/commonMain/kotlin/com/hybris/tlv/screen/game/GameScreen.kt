@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.screen.Screen
@@ -37,11 +38,13 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(
-                modifier = Modifier.padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 8.dp
-                ),
+                modifier = Modifier
+                    .testTag(tag = "game_status_bar")
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 8.dp
+                    ),
                 hull = ship?.integrity?.toString(),
                 fuel = ship?.fuel?.toString(),
                 materials = ship?.materials?.toString(),
@@ -50,6 +53,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
         },
         bottomBar = {
             GameNavigationBar(
+                modifier = Modifier.testTag(tag = "game_navigation_bar"),
                 shipSelected = storeState.currentContent == Content.SHIP,
                 shipOnClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 systemSelected = storeState.currentContent == Content.SYSTEM,
@@ -62,6 +66,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
         when (storeState.currentContent) {
             Content.SHIP -> ShipStats(
                 modifier = Modifier
+                    .testTag(tag = "game_ship_stats")
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 integrity = ship?.integrity,
@@ -78,6 +83,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
                 val stellarHost = storeState.currentStellarHost ?: return@Screen
                 SystemList(
                     modifier = Modifier
+                        .testTag(tag = "game_system_list")
                         .fillMaxSize()
                         .padding(all = 16.dp),
                     stellarHostName = stellarHost.name,
@@ -103,6 +109,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
 
             Content.TRAVEL -> TravelList(
                 modifier = Modifier
+                    .testTag(tag = "game_travel_list")
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 stellarHosts = storeState.nearStellarHosts,

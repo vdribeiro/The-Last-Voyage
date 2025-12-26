@@ -20,6 +20,8 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -197,8 +199,9 @@ internal abstract class TestCase {
      * Verify the number of items in a collection.
      */
     protected fun SemanticsNodeInteraction.count(count: Int): SemanticsNodeInteraction =
-        assert(matcher = SemanticsMatcher(description = "Has $count items") { node ->
-            val collectionInfo = node.config.getOrNull(key = SemanticsProperties.CollectionInfo)
-            collectionInfo != null && (collectionInfo.rowCount == count || collectionInfo.columnCount == count)
-        })
+        if (runCatching { onChildren().assertCountEquals(expectedSize = count) }.isSuccess) this else
+            assert(matcher = SemanticsMatcher(description = "Has $count items") { node ->
+                val collectionInfo = node.config.getOrNull(key = SemanticsProperties.CollectionInfo)
+                collectionInfo != null && (collectionInfo.rowCount == count || collectionInfo.columnCount == count)
+            })
 }
