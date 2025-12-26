@@ -36,12 +36,12 @@ internal fun ShipStats(
     velocity: Double? = null,
     fuelConsumption: Double? = null,
 ) {
+    val yearsTraveledTranslation = getTranslation(key = if (!tutorial) "ship_years_traveled" else "ship_years_traveled_tutorial")
+    val sensorTranslation = getTranslation(key = if (!tutorial) "ship_sensor" else "ship_sensor_tutorial")
     val integrityTranslation = getTranslation(key = if (!tutorial) "ship_integrity" else "ship_integrity_tutorial")
     val fuelTranslation = getTranslation(key = if (!tutorial) "ship_fuel" else "ship_fuel_tutorial")
     val materialsTranslation = getTranslation(key = if (!tutorial) "ship_materials" else "ship_materials_tutorial")
     val cryopodsTranslation = getTranslation(key = if (!tutorial) "ship_cryopods" else "ship_cryopods_tutorial")
-    val sensorTranslation = getTranslation(key = if (!tutorial) "ship_sensor" else "ship_sensor_tutorial")
-    val yearsTraveledTranslation = getTranslation(key = if (!tutorial) "ship_years_traveled" else "ship_years_traveled_tutorial")
     val speedTranslation = getTranslation(key = if (!tutorial) "ship_speed" else "ship_speed_tutorial")
     val fuelConsumptionTranslation = getTranslation(key = if (!tutorial) "ship_fuel_consumption" else "ship_fuel_consumption_tutorial")
 

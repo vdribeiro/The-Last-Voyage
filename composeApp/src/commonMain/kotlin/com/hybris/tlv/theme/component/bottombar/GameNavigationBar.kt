@@ -27,9 +27,9 @@ internal fun GameNavigationBar(
     travelSelected: Boolean = false,
     travelOnClick: () -> Unit = {},
 ) {
-    val travelTranslation = getTranslation(key = "game_screen__travel")
-    val systemTranslation = getTranslation(key = "game_screen__system")
     val shipTranslation = getTranslation(key = "game_screen__ship")
+    val systemTranslation = getTranslation(key = "game_screen__system")
+    val travelTranslation = getTranslation(key = "game_screen__travel")
 
     NavigationBar(
         modifier = modifier.fillMaxWidth(),

@@ -51,6 +51,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
         },
         bottomBar = {
             GameNavigationBar(
+                modifier = Modifier.testTag(tag = "game_navigation_bar"),
                 shipSelected = storeState.currentContent == Content.SHIP,
                 shipOnClick = { store.send(action = GameAction.ChangeTab(content = Content.SHIP)) },
                 systemSelected = storeState.currentContent == Content.SYSTEM,
