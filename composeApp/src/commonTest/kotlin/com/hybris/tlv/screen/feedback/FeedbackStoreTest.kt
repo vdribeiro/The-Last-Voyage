@@ -1,27 +1,28 @@
 package com.hybris.tlv.screen.feedback
 
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.navigation.Screen
 
 internal class FeedbackStoreTest: TestCase() {
 
-//    private val store: FeedbackStore get() = getFeedbackStore()
-//
-//    @BeforeTest
-//    fun setup() = runBlocking {
-//        reset()
-//        getNavigation().navigate(navigationState = NavigationState(screen = SplashScreen))
-//        getNavigation().navigate(navigationState = NavigationState(screen = Screen.Feedback))
-//    }
-//
-//    @Test
-//    fun `send action back`() = runBlocking {
-//        store
-//        assertEquals(expected = Screen.Feedback, actual = getNavigation().stateFlow.value.screen)
-//        getNavigation().back()
-//        assertEquals(expected = SplashScreen, actual = getNavigation().stateFlow.value.screen)
-//    }
+    @Test
+    fun init() = runUnitTest {
+        val store = storeFactory.getFeedbackStore(tag = null, message = null)
+        assertEquals(expected = false, actual = store.state.isError)
+        assertEquals(expected = "", actual = store.state.feedback)
+        assertEquals(expected = false, actual = store.state.showThanks)
+    }
+
+    @Test
+    fun sendFeedback() = runUnitTest {
+        val store = storeFactory.getFeedbackStore(tag = "tag", message = "message")
+        store.send(action = FeedbackAction.SendFeedback(message = "feedback"))
+        assertEquals(expected = true, actual = store.state.isError)
+        assertEquals(expected = "tag\nmessage\nfeedback", actual = store.state.feedback)
+        assertEquals(expected = true, actual = store.state.showThanks)
+    }
 
     @Test
     fun navigateBack() = runUnitTest {
