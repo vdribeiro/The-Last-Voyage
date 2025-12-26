@@ -34,7 +34,7 @@ internal fun Dialog(
             title?.let {
                 Text(
                     text = it,
-                    textAlign = TextAlign.Center,
+                    textAlign = TextAlign.Start,
                     style = typography.titleLarge
                 )
             }
@@ -43,7 +43,7 @@ internal fun Dialog(
             text?.let {
                 Text(
                     text = it,
-                    textAlign = TextAlign.Center,
+                    textAlign = TextAlign.Start,
                     style = typography.bodyLarge
                 )
             }
