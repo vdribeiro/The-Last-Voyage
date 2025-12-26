@@ -11,7 +11,7 @@ import com.hybris.tlv.usecase.ship.model.Ship
 internal class ShipUseCasesTest: TestCase() {
 
     @Test
-    fun `prepopulate and sync engines`() = runUnitTest {
+    fun prepopulateAndSyncEngines() = runUnitTest {
         assertTrue(actual = useCases.ship.getEngines().isEmpty())
         useCases.ship.prepopulateEngines()
         assertEquals(expected = engines.sortedBy { it.id }, actual = useCases.ship.getEngines().sortedBy { it.id })
@@ -23,7 +23,7 @@ internal class ShipUseCasesTest: TestCase() {
     }
 
     @Test
-    fun `repair ship`() = runUnitTest {
+    fun repairShip() = runUnitTest {
         val shipNoIntegrity = Ship(
             id = "",
             engine = Engine(

@@ -11,7 +11,7 @@ import com.hybris.tlv.usecase.space.SUN
 internal class AchievementUseCasesTest: TestCase() {
 
     @Test
-    fun `prepopulate and sync achievements`() = runUnitTest {
+    fun prepopulateAndSyncAchievements() = runUnitTest {
         assertTrue(actual = useCases.achievement.getAchievements().isEmpty())
         useCases.achievement.prepopulateAchievements()
         assertEquals(expected = achievements.sortedBy { it.id }, actual = useCases.achievement.getAchievements().sortedBy { it.id })
@@ -23,7 +23,7 @@ internal class AchievementUseCasesTest: TestCase() {
     }
 
     @Test
-    fun `update achievements`() = runUnitTest {
+    fun updateAchievements() = runUnitTest {
         useCases.achievement.prepopulateAchievements()
         val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val newGameSession = gameSession.copy(

@@ -8,7 +8,7 @@ import com.hybris.tlv.translations
 internal class TranslationUseCasesTest: TestCase() {
 
     @Test
-    fun `prepopulate and sync translations`() = runUnitTest {
+    fun prepopulateAndSyncTranslations() = runUnitTest {
         TranslationCache.set(translations = translations)
         val translations = TranslationCache.cacheState.value.translations
 

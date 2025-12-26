@@ -8,7 +8,7 @@ import com.hybris.tlv.TestCase
 internal class CatastropheUseCasesTest: TestCase() {
 
     @Test
-    fun `prepopulate and sync catastrophes`() = runUnitTest {
+    fun prepopulateAndSyncCatastrophes() = runUnitTest {
         assertNull(actual = useCases.catastrophe.getRandomCatastrophe())
         useCases.catastrophe.prepopulateCatastrophes()
         assertNotNull(actual = useCases.catastrophe.getRandomCatastrophe())

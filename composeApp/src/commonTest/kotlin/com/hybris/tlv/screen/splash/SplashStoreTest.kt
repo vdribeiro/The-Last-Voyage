@@ -1,22 +1,14 @@
 package com.hybris.tlv.screen.splash
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import com.hybris.tlv.TestCase
 
-// TODO
 internal class SplashStoreTest: TestCase() {
 
-//    private val store: SplashStore get() = getSplashStore()
-//
-//    @BeforeTest
-//    fun setup() = runBlocking {
-//        reset()
-//        getNavigation().navigate(navigationState = NavigationState(screen = SplashScreen))
-//    }
-//
-//    @Test
-//    fun `init`() = runBlocking {
-//        val splashStore = store
-//        delay(timeMillis = 100L)
-//        assertEquals(expected = 1f, actual = splashStore.stateFlow.value.progress)
-//    }
+    @Test
+    fun init() = runUnitTest {
+        val store = storeFactory.getSplashStore(reset = true)
+        assertEquals(expected = 1f, actual = store.stateFlow.value.progress)
+    }
 }

@@ -9,7 +9,7 @@ import com.hybris.tlv.credits
 internal class CreditUseCasesTest: TestCase() {
 
     @Test
-    fun `prepopulate and sync credits`() = runUnitTest {
+    fun prepopulateAndSyncCredits() = runUnitTest {
         assertTrue(actual = useCases.credit.getCredits().isEmpty())
         useCases.credit.prepopulateCredits()
         assertEquals(expected = credits.sortedBy { it.id }, actual = useCases.credit.getCredits().sortedBy { it.id })

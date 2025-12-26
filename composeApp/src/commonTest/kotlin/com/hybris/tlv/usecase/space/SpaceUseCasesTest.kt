@@ -11,7 +11,7 @@ import com.hybris.tlv.stellarHosts
 internal class SpaceUseCasesTest: TestCase() {
 
     @Test
-    fun `prepopulate and sync exoplanets`() = runUnitTest {
+    fun prepopulateAndSyncExoplanets() = runUnitTest {
         assertTrue(actual = useCases.space.observeExoplanets().first().isEmpty())
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
@@ -25,14 +25,14 @@ internal class SpaceUseCasesTest: TestCase() {
     }
 
     @Test
-    fun `get stellar host`() = runUnitTest {
+    fun getStellarHost() = runUnitTest {
         useCases.space.prepopulateStellarHosts()
         val stellarHost = useCases.space.getStellarHost(id = SUN)
         assertEquals(expected = SUN, actual = stellarHost?.id)
     }
 
     @Test
-    fun `get nearest stars`() = runUnitTest {
+    fun getNearestStars() = runUnitTest {
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
         val sun = stellarHosts.first { it.id == SUN }

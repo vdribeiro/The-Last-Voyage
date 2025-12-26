@@ -9,7 +9,7 @@ import com.hybris.tlv.events
 internal class EventUseCasesTest: TestCase() {
 
     @Test
-    fun `prepopulate and sync events`() = runUnitTest {
+    fun prepopulateAndSyncEvents() = runUnitTest {
         assertTrue(actual = useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
         useCases.event.prepopulateEvents()
         assertTrue(actual = useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
