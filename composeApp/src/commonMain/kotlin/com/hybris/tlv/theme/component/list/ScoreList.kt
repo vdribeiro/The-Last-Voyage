@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.security.generateUuid
@@ -61,6 +62,7 @@ internal inline fun <T> ScoreList(
         )
         LazyColumn(
             modifier = Modifier
+                .testTag(tag = "score_list")
                 .fillMaxSize(),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)

@@ -2,47 +2,46 @@ package com.hybris.tlv.screen.score
 
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import com.hybris.tlv.TestCase
+import com.hybris.tlv.gameSessionPrototype
 
-// TODO
 @OptIn(ExperimentalTestApi::class)
 internal class ScoreScreenTest: TestCase() {
 
     @Test
-    fun scoreWithoutData() = runComposeUiTest {
-//        val store = getScoreStore()
-//        setContent {
-//            AppTheme {
-//                ScoreScreen(store = store)
-//            }
-//        }
-//        waitForIdle()
+    fun scoreWithoutData() = runUITest {
+        val store = storeFactory.getScoreStore()
+        setScreen { ScoreScreen(store = store) }
 
-//        onNodeWithTag(testTag = SCORE_SCREEN).assertExists()
-//        onNodeWithTag(testTag = SCORE_SCREEN_TITLE).assertExists()
-//        onNodeWithTag(testTag = SCORE_SCREEN_SCORES).assertExists()
-//        onNodeWithTag(testTag = SCORE_SCREEN_SCORE).assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
+
+        onNodeWithText(text = "score_screen__title").assertIsDisplayed()
+        onNodeWithTag(testTag = "score_list").assertIsDisplayed()
+        onNodeWithTag(testTag = "score_list").count(count = 0)
     }
 
     @Test
-    fun scoreWithData() = runComposeUiTest {
-//        runBlocking {
-//            useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-//            val gameSession = useCases.gameSession.getLatestGameSession()!!
-//            useCases.gameSession.updateGameSession(gameSession = gameSession.copy(score = 9000.0))
-//        }
-//        val store = getScoreStore()
-//        setContent {
-//            AppTheme {
-//                ScoreScreen(store = store)
-//            }
-//        }
-//        waitForIdle()
+    fun scoreWithData() = runUITest {
+        useCases.ship.prepopulateEngines()
+        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val latestGameSession = useCases.gameSession.getLatestGameSession()!!
+        useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
+        val store = storeFactory.getScoreStore()
+        setScreen { ScoreScreen(store = store) }
 
-//        onNodeWithTag(testTag = SCORE_SCREEN).assertExists()
-//        onNodeWithTag(testTag = SCORE_SCREEN_TITLE).assertExists()
-//        onNodeWithTag(testTag = SCORE_SCREEN_SCORES).assertExists()
-//        onNodeWithTag(testTag = SCORE_SCREEN_SCORE).assertExists()
+        onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
+
+        onNodeWithText(text = "score_screen__title").assertIsDisplayed()
+        onNodeWithTag(testTag = "score_list").assertIsDisplayed()
+        onNodeWithTag(testTag = "score_list").count(count = 1)
     }
 }
