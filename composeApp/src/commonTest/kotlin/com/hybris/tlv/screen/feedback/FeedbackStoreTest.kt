@@ -20,7 +20,7 @@ internal class FeedbackStoreTest: TestCase() {
         val store = storeFactory.getFeedbackStore(tag = "tag", message = "message")
         store.send(action = FeedbackAction.SendFeedback(message = "feedback"))
         assertEquals(expected = true, actual = store.state.isError)
-        assertEquals(expected = "tag\nmessage\nfeedback", actual = store.state.feedback)
+        assertEquals(expected = "feedback", actual = store.state.feedback)
         assertEquals(expected = true, actual = store.state.showThanks)
     }
 
