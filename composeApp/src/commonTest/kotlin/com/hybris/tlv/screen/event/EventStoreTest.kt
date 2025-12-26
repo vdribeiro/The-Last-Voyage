@@ -20,7 +20,7 @@ internal class EventStoreTest: TestCase() {
         assertNotNull(actual = store.gameSession)
         val events = store.eventChain
         assertTrue(actual = events.isNotEmpty())
-        val event = events.find { it.parentId == null }
+        val event = events.first { it.parentId == null && it.id != stopEvent.id }
         assertEquals(expected = event, actual = store.state.parentEvent)
         assertEquals(expected = listOf(element = stopEvent), actual = store.state.childrenEvents)
     }
@@ -69,8 +69,7 @@ internal class EventStoreTest: TestCase() {
         useCases.event.prepopulateEvents()
         useCases.ship.prepopulateEngines()
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        val store = storeFactory.getEventStore(ship = null)
-        store.back()
+        storeFactory.getEventStore(ship = null).back()
         assertNavigationBackstack(list = listOf(element = Screen.Event()))
     }
 }

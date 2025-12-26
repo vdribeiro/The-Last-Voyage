@@ -59,8 +59,7 @@ internal class CheatStoreTest: TestCase() {
         assertNavigationBackstack(list = emptyList())
         navigate(screen = Screen.Cheat)
         assertNavigationBackstack(list = listOf(element = Screen.Cheat))
-        val store = storeFactory.getCheatStore()
-        store.back()
+        storeFactory.getCheatStore().back()
         assertNavigationBackstack(list = emptyList())
     }
 }

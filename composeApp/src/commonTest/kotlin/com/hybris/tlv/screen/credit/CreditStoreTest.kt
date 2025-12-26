@@ -28,8 +28,7 @@ internal class CreditStoreTest: TestCase() {
         assertNavigationBackstack(list = emptyList())
         navigate(screen = Screen.Credit)
         assertNavigationBackstack(list = listOf(element = Screen.Credit))
-        val store = storeFactory.getCreditStore()
-        store.back()
+        storeFactory.getCreditStore().back()
         assertNavigationBackstack(list = emptyList())
     }
 }

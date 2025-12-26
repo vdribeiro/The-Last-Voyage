@@ -28,8 +28,7 @@ internal class AchievementStoreTest: TestCase() {
         assertNavigationBackstack(list = emptyList())
         navigate(screen = Screen.Achievement)
         assertNavigationBackstack(list = listOf(element = Screen.Achievement))
-        val store = storeFactory.getAchievementStore()
-        store.back()
+        storeFactory.getAchievementStore().back()
         assertNavigationBackstack(list = emptyList())
     }
 }
