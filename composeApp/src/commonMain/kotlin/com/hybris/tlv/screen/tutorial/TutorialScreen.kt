@@ -217,7 +217,6 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                                 .fillMaxWidth()
                                 .padding(all = 8.dp),
                             text = getTranslation(key = "tutorial_screen__mechanics_travel_description"),
-                            textAlign = TextAlign.Justify,
                             style = typography.bodyLarge
                         )
                     }
@@ -257,7 +256,6 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                                 .fillMaxWidth()
                                 .padding(all = 8.dp),
                             text = getTranslation(key = "tutorial_screen__mechanics_system_description"),
-                            textAlign = TextAlign.Justify,
                             style = typography.bodyLarge
                         )
                     }

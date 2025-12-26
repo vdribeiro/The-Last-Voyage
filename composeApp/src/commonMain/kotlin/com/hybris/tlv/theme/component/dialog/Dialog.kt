@@ -43,7 +43,7 @@ internal fun Dialog(
             text?.let {
                 Text(
                     text = it,
-                    textAlign = TextAlign.Justify,
+                    textAlign = TextAlign.Start,
                     style = typography.bodyLarge
                 )
             }

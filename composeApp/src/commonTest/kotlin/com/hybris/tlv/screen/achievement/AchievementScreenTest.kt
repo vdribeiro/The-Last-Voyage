@@ -2,9 +2,7 @@ package com.hybris.tlv.screen.achievement
 
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import com.hybris.tlv.TestCase

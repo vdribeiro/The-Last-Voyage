@@ -17,5 +17,8 @@ internal interface SyncUseCases {
     /**
      * Sync all data.
      */
-    suspend fun sync(progress: (Float) -> Unit = {}): SyncResult
+    suspend fun sync(
+        reset: Boolean,
+        progress: (Float) -> Unit = {}
+    ): SyncResult
 }

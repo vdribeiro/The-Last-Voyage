@@ -48,8 +48,11 @@ internal class SyncGateway(
     override suspend fun isEmpty(): Boolean =
         database.isEmpty()
 
-    override suspend fun sync(progress: (Float) -> Unit): SyncResult = withContext(context = Dispatcher.Default) {
-        if (flag.reset) reset()
+    override suspend fun sync(
+        reset: Boolean,
+        progress: (Float) -> Unit
+    ): SyncResult = withContext(context = Dispatcher.Default) {
+        if (reset) reset()
         config.setup()
 
         val remoteVersion = config.remoteConfigs.value.appVersion

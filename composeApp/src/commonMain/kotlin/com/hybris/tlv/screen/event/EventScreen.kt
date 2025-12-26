@@ -39,10 +39,10 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
                 modifier = Modifier
 
                     .padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 8.dp
-                ),
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 8.dp
+                    ),
                 hull = ship?.integrity?.toString(),
                 fuel = ship?.fuel?.toString(),
                 materials = ship?.materials?.toString(),

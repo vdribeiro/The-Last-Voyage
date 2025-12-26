@@ -45,7 +45,6 @@ internal fun TitleDescription(
                     .padding(all = 8.dp),
                 style = typography.bodyLarge,
                 text = it,
-                textAlign = TextAlign.Justify,
             )
         }
     }

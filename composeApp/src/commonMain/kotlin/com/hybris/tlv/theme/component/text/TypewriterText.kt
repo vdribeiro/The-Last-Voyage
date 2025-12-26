@@ -18,7 +18,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.LocalTypography
@@ -53,7 +52,6 @@ internal fun TypewriterText(
                 .fillMaxWidth()
                 .verticalScroll(state = rememberScrollState()),
             text = if (isRevealed) text else words.take(n = visibleWordsCount).joinToString(separator = " "),
-            textAlign = TextAlign.Justify,
             style = typography.bodyLarge
         )
     }
