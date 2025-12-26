@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.screen.Screen
@@ -86,6 +87,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                 ) {
                     Text(
                         text = getTranslation(key = "tutorial_screen__mechanics_goal_next"),
+                        textAlign = TextAlign.End,
                         style = typography.bodyLarge
                     )
                     Icon(
@@ -103,6 +105,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                 ) {
                     Text(
                         text = getTranslation(key = "tutorial_screen__mechanics_attributes_next"),
+                        textAlign = TextAlign.End,
                         style = typography.bodyLarge
                     )
                     Icon(
@@ -120,6 +123,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                 ) {
                     Text(
                         text = getTranslation(key = "tutorial_screen__mechanics_travel_next"),
+                        textAlign = TextAlign.End,
                         style = typography.bodyLarge
                     )
                     Icon(
@@ -137,6 +141,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                 ) {
                     Text(
                         text = getTranslation(key = "tutorial_screen__mechanics_system_next"),
+                        textAlign = TextAlign.End,
                         style = typography.bodyLarge
                     )
                     Icon(
@@ -212,6 +217,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                                 .fillMaxWidth()
                                 .padding(all = 8.dp),
                             text = getTranslation(key = "tutorial_screen__mechanics_travel_description"),
+                            textAlign = TextAlign.Justify,
                             style = typography.bodyLarge
                         )
                     }
@@ -251,6 +257,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                                 .fillMaxWidth()
                                 .padding(all = 8.dp),
                             text = getTranslation(key = "tutorial_screen__mechanics_system_description"),
+                            textAlign = TextAlign.Justify,
                             style = typography.bodyLarge
                         )
                     }

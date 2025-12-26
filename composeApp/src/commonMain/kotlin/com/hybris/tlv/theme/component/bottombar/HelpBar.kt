@@ -43,9 +43,11 @@ internal fun HelpBar(
     if (reset) {
         Dialog(
             text = resetConfirmTranslation,
-            onConfirm = onResetClick,
+            onConfirm = {
+                reset = false
+                onResetClick()
+            },
             onDismiss = { reset = false },
-            onDismissRequest = { reset = false },
         )
     }
 
@@ -60,6 +62,7 @@ internal fun HelpBar(
                 .wrapContentHeight(align = Alignment.CenterVertically)
                 .clickable(onClick = onVersionClick),
             text = "$versionTranslation: $version",
+            textAlign = TextAlign.Start,
             style = typography.labelLarge,
         )
         Text(
@@ -68,8 +71,8 @@ internal fun HelpBar(
                 .wrapContentHeight(align = Alignment.CenterVertically)
                 .clickable { reset = true },
             text = resetTranslation,
+            textAlign = TextAlign.End,
             style = typography.labelLarge,
-            textAlign = TextAlign.End
         )
     }
 }

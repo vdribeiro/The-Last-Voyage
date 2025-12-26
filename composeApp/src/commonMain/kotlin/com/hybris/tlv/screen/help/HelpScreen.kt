@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -200,6 +201,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                                 .fillMaxWidth()
                                 .clickable { uriHandler.open(uri = formula) },
                             text = formulaTranslation,
+                            textAlign = TextAlign.Start,
                             style = typography.headlineSmall.copy(
                                 color = colorScheme.primary,
                                 textDecoration = TextDecoration.Underline

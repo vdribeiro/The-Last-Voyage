@@ -55,9 +55,11 @@ internal inline fun <T> SystemList(
     planetToSettle?.let {
         Dialog(
             title = getTranslation(key = "game_screen__settle", planetName(it).orEmpty()),
-            onConfirm = { onClick(it) },
+            onConfirm = {
+                planetToSettle = null
+                onClick(it)
+            },
             onDismiss = { planetToSettle = null },
-            onDismissRequest = { planetToSettle = null },
         )
     }
 

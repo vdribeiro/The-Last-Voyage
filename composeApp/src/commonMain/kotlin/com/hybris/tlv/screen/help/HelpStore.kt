@@ -1,6 +1,7 @@
 package com.hybris.tlv.screen.help
 
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.navigation.Screen

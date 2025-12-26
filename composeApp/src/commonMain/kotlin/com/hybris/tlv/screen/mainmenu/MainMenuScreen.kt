@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.platform.open
@@ -38,6 +39,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
                         .padding(horizontal = 8.dp)
                         .clickable { uriHandler.open(uri = storeState.developerCorner) },
                     text = getTranslation(key = "new_version"),
+                    textAlign = TextAlign.Center,
                     style = typography.labelLarge,
                 )
             }

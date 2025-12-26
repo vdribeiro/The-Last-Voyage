@@ -22,7 +22,7 @@ internal fun Dialog(
     dismissText: String? = null,
     onConfirm: () -> Unit = {},
     onDismiss: () -> Unit = {},
-    onDismissRequest: () -> Unit = {},
+    onDismissRequest: () -> Unit = onDismiss,
 ) {
     val typography = LocalTypography.current
 
