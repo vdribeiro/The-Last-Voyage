@@ -2,60 +2,63 @@ package com.hybris.tlv.screen.feedback
 
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import com.hybris.tlv.TestCase
 
-// TODO
 @OptIn(ExperimentalTestApi::class)
 internal class FeedbackScreenTest: TestCase() {
 
     @Test
     fun feedback() = runUITest {
-//        val store = getFeedbackStore()
-//        setContent {
-//            AppTheme {
-//                FeedbackScreen(store = store)
-//            }
-//        }
-//        waitForIdle()
+        val store = storeFactory.getFeedbackStore(tag = null, message = null)
+        setScreen { FeedbackScreen(store = store) }
 
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN).assertExists()
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_COLUMN).assertExists()
-        //onNodeWithTag(testTag = FEEDBACK_SCREEN_ICON).assertExists()
-        //onNodeWithTag(testTag = FEEDBACK_SCREEN_TITLE).assertExists().assertTextEquals("error_screen__title_alt")
-        //onNodeWithTag(testTag = FEEDBACK_SCREEN_DESCRIPTION).assertExists().assertTextEquals("error_screen__description_alt")
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_INPUT).assertExists()
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_BUTTON).assertExists().assertTextEquals("error_screen__button")
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_THANKS).assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_help").assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_feedback").assertDoesNotExist()
 
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_INPUT).performTextInput(text = "MESSAGE")
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_BUTTON).performClick()
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_THANKS).assertExists().assertTextEquals("error_screen__thanks")
+        onNodeWithContentDescription(label = "Feedback Icon").assertIsDisplayed()
+        onNodeWithText(text = "error_screen__title_alt").assertIsDisplayed()
+        onNodeWithText(text = "error_screen__description_alt").assertIsDisplayed()
+        onNodeWithTag(testTag = "feedback_input").assertIsDisplayed()
+        onNodeWithText(text = "error_screen__button").assertIsDisplayed()
+        onNodeWithText(text = "error_screen__button").assertIsNotEnabled()
+        onNodeWithText(text = "error_screen__thanks").assertDoesNotExist()
+
+        onNodeWithTag(testTag = "feedback_input").performTextInput(text = "Feedback message")
+        onNodeWithText(text = "error_screen__button").assertIsEnabled()
+        onNodeWithText(text = "error_screen__button").performClick()
+        onNodeWithText(text = "error_screen__thanks").assertIsDisplayed()
     }
 
     @Test
     fun feedbackError() = runUITest {
-//        val store = getFeedbackStore(
-//            tag = "TAG",
-//            message = "MESSAGE"
-//        )
-//        setContent {
-//            AppTheme {
-//                FeedbackScreen(store = store)
-//            }
-//        }
-//        waitForIdle()
+        val store = storeFactory.getFeedbackStore(tag = "tag", message = "message")
+        setScreen { FeedbackScreen(store = store) }
 
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN).assertExists()
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_COLUMN).assertExists()
-        //onNodeWithTag(testTag = FEEDBACK_SCREEN_ICON).assertExists()
-        //onNodeWithTag(testTag = FEEDBACK_SCREEN_TITLE).assertExists().assertTextEquals("error_screen__title")
-        //onNodeWithTag(testTag = FEEDBACK_SCREEN_DESCRIPTION).assertExists().assertTextEquals("error_screen__description")
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_INPUT).assertExists()
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_BUTTON).assertExists().assertTextEquals("error_screen__button")
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_THANKS).assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_help").assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
+        onNodeWithTag(testTag = "topbar_feedback").assertDoesNotExist()
 
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_INPUT).performTextInput(text = "MESSAGE")
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_BUTTON).performClick()
-//        onNodeWithTag(testTag = FEEDBACK_SCREEN_THANKS).assertExists().assertTextEquals("error_screen__thanks")
+        onNodeWithContentDescription(label = "Feedback Icon").assertIsDisplayed()
+        onNodeWithText(text = "error_screen__title").assertIsDisplayed()
+        onNodeWithText(text = "error_screen__description").assertIsDisplayed()
+        onNodeWithTag(testTag = "feedback_input").assertIsDisplayed()
+        onNodeWithText(text = "error_screen__button").assertIsDisplayed()
+        onNodeWithText(text = "error_screen__button").assertIsEnabled()
+        onNodeWithText(text = "error_screen__thanks").assertDoesNotExist()
+
+        onNodeWithTag(testTag = "feedback_input").performTextInput(text = "Feedback message")
+        onNodeWithText(text = "error_screen__button").performClick()
+        onNodeWithText(text = "error_screen__thanks").assertIsDisplayed()
     }
 }

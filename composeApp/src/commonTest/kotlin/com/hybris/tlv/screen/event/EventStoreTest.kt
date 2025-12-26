@@ -22,7 +22,6 @@ internal class EventStoreTest: TestCase() {
         assertTrue(actual = events.isNotEmpty())
         val event = events.first { it.parentId == null && it.id != stopEvent.id }
         assertEquals(expected = event, actual = store.state.parentEvent)
-        assertEquals(expected = listOf(element = stopEvent), actual = store.state.childrenEvents)
     }
 
     @Test

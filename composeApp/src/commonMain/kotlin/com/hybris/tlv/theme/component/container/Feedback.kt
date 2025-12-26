@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.theme.AppTheme
@@ -75,6 +76,7 @@ internal fun Feedback(
         )
         Input(
             modifier = Modifier
+                .testTag(tag = "feedback_input")
                 .fillMaxWidth()
                 .height(height = 120.dp),
             enabled = !showThanks,
