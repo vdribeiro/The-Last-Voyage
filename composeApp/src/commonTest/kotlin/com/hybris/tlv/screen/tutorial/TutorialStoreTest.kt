@@ -1,39 +1,52 @@
 package com.hybris.tlv.screen.tutorial
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import com.hybris.tlv.TestCase
+import com.hybris.tlv.navigation.Screen
 
-// TODO
 internal class TutorialStoreTest: TestCase() {
 
-//    @BeforeTest
-//    fun setup() = runBlocking {
-//        reset()
-//        getNavigation().navigate(navigationState = NavigationState(screen = SplashScreen))
-//        getNavigation().navigate(navigationState = NavigationState(screen = MainMenuScreen))
-//        getNavigation().navigate(navigationState = NavigationState(screen = TutorialScreen))
-//    }
-//
-//    @Test
-//    fun `complete tutorial`() = runBlocking {
-//        val tutorialStore = store
-//        assertEquals(expected = Content.GOAL, actual = tutorialStore.stateFlow.value.currentContent)
-//        tutorialStore.send(action = TutorialAction.Next)
-//        assertEquals(expected = Content.SHIP, actual = tutorialStore.stateFlow.value.currentContent)
-//        tutorialStore.send(action = TutorialAction.Next)
-//        assertEquals(expected = Content.SYSTEM, actual = tutorialStore.stateFlow.value.currentContent)
-//        tutorialStore.send(action = TutorialAction.Next)
-//        assertEquals(expected = Content.TRAVEL, actual = tutorialStore.stateFlow.value.currentContent)
-//        tutorialStore.send(action = TutorialAction.Next)
-//        assertEquals(expected = Content.GAME_OVER, actual = tutorialStore.stateFlow.value.currentContent)
-//        tutorialStore.send(action = TutorialAction.Next)
-//        assertEquals(expected = Content.GAME_OVER, actual = tutorialStore.stateFlow.value.currentContent)
-//    }
-//
-//    @Test
-//    fun `send action back`() = runBlocking {
-//        store
-//        getNavigation().navigate(navigationState = NavigationState(screen = TutorialScreen))
-//        getNavigation().back()
-//        assertEquals(expected = MainMenuScreen, actual = getNavigation().stateFlow.value.screen)
-//    }
+    @Test
+    fun completeTutorial() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
+        navigate(screen = Screen.Tutorial())
+        assertNavigationBackstack(list = listOf(element = Screen.Tutorial()))
+        
+        val store = storeFactory.getTutorialStore(newGame = false)
+        assertEquals(expected = Content.WELCOME, actual = store.state.currentContent)
+        store.send(action = TutorialAction.Next)
+        assertEquals(expected = Content.GOAL, actual = store.state.currentContent)
+        store.send(action = TutorialAction.Next)
+        assertEquals(expected = Content.SHIP, actual = store.state.currentContent)
+        store.send(action = TutorialAction.Next)
+        assertEquals(expected = Content.TRAVEL, actual = store.state.currentContent)
+        store.send(action = TutorialAction.Next)
+        assertEquals(expected = Content.SYSTEM, actual = store.state.currentContent)
+        store.send(action = TutorialAction.Next)
+        assertEquals(expected = Content.GAME_OVER, actual = store.state.currentContent)
+        store.send(action = TutorialAction.Next)
+        assertEquals(expected = Content.GAME_OVER, actual = store.state.currentContent)
+        assertNavigationBackstack(list = emptyList())
+    }
+
+    @Test
+    fun skipTutorial() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
+        navigate(screen = Screen.Tutorial())
+        assertNavigationBackstack(list = listOf(element = Screen.Tutorial()))
+
+        val store = storeFactory.getTutorialStore(newGame = false)
+        store.send(action = TutorialAction.Skip)
+        assertNavigationBackstack(list = emptyList())
+    }
+
+    @Test
+    fun navigateBack() = runUnitTest {
+        assertNavigationBackstack(list = emptyList())
+        navigate(screen = Screen.Tutorial())
+        assertNavigationBackstack(list = listOf(element = Screen.Tutorial()))
+        storeFactory.getTutorialStore(newGame = false).back()
+        assertNavigationBackstack(list = emptyList())
+    }
 }
