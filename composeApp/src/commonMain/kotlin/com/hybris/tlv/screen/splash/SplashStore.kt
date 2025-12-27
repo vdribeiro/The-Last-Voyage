@@ -2,6 +2,7 @@ package com.hybris.tlv.screen.splash
 
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.screen.Store
@@ -15,8 +16,11 @@ internal class SplashStore(
 ): Store<SplashState, SplashAction>(
     initialState = SplashState()
 ) {
+    @get:VisibleForTesting
+    internal var setupJob: Job? = null
+
     init {
-        setup()
+        setupJob = setup()
     }
 
     private fun setup(): Job = launch(id = "setup") {

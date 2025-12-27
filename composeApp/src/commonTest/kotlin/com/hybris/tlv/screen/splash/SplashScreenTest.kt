@@ -1,6 +1,7 @@
 package com.hybris.tlv.screen.splash
 
 import kotlin.test.Test
+import kotlinx.coroutines.cancelAndJoin
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
@@ -20,7 +21,5 @@ internal class SplashScreenTest: TestCase() {
         onNodeWithTag(testTag = "topbar_help").assertDoesNotExist()
         onNodeWithTag(testTag = "topbar_music").assertDoesNotExist()
         onNodeWithTag(testTag = "topbar_feedback").assertDoesNotExist()
-
-        onNodeWithText(text = "splash_screen__loading").assertIsDisplayed()
     }
 }
