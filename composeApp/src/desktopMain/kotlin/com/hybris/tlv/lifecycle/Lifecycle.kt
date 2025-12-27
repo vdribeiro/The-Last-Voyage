@@ -3,7 +3,9 @@ package com.hybris.tlv.lifecycle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import com.hybris.tlv.LocalWindowState
+import com.hybris.tlv.test.ExcludeFromTesting
 
+@ExcludeFromTesting
 @Composable
 internal actual fun Register(
     key: Any,

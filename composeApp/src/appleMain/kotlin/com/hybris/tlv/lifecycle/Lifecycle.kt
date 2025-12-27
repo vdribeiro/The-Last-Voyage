@@ -6,7 +6,9 @@ import platform.UIKit.UIApplicationDidBecomeActiveNotification
 import platform.UIKit.UIApplicationWillResignActiveNotification
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import com.hybris.tlv.test.ExcludeFromTesting
 
+@ExcludeFromTesting
 @Composable
 internal actual fun Register(
     key: Any,

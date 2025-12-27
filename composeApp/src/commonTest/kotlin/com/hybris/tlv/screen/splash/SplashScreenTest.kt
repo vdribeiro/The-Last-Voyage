@@ -2,23 +2,16 @@ package com.hybris.tlv.screen.splash
 
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.runComposeUiTest
 import com.hybris.tlv.TestCase
+import com.hybris.tlv.screen.stellarexplorer.StellarExplorerScreen
 
-// TODO
 @OptIn(ExperimentalTestApi::class)
 internal class SplashScreenTest: TestCase() {
 
     @Test
-    fun splash() = runComposeUiTest {
-//        val store = getSplashStore()
-//        setContent {
-//            AppTheme {
-//                SplashScreen(store = store)
-//            }
-//        }
-//        waitForIdle()
+    fun splash() = runUITest {
+        val store = storeFactory.getSplashStore(reset = true)
+        setScreen { SplashScreen(store = store) }
 
-//        onNodeWithTag(testTag = SPLASH_SCREEN).assertExists()
     }
 }

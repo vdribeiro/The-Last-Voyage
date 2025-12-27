@@ -5,7 +5,9 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.hybris.tlv.test.ExcludeFromTesting
 
+@ExcludeFromTesting
 @Composable
 internal actual fun Register(
     key: Any,
