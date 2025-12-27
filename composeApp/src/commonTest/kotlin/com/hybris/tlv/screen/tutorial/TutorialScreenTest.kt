@@ -163,5 +163,7 @@ internal class TutorialScreenTest: TestCase() {
         onNodeWithText(text = "tutorial_screen__mechanics_system_description").assertDoesNotExist()
         onNodeWithText(text = "tutorial_screen__mechanics_game_over_title").assertIsDisplayed()
         onNodeWithText(text = "tutorial_screen__mechanics_game_over_description").assertIsDisplayed()
+
+        onNodeWithText(text = "tutorial_screen__mechanics_game_over_next").performClick()
     }
 }
