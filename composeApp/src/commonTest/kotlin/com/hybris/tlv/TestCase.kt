@@ -33,6 +33,7 @@ import com.hybris.tlv.command.receiveCommand
 import com.hybris.tlv.command.sendCommand
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.dependency.Dependency
+import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.TestEngine
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.screen.Store
@@ -136,11 +137,18 @@ internal abstract class TestCase {
      */
     protected fun runUnitTest(block: suspend TestScope.() -> Unit) {
         runTest {
-            setFlag()
-            reset()
-            screens.clear()
-            backgroundScope.launch(context = UnconfinedTestDispatcher(scheduler = testScheduler)) { receiveCommands() }
-            block()
+            val testDispatcher = UnconfinedTestDispatcher(scheduler = testScheduler)
+            Dispatcher.setTestDispatcher(dispatcher = testDispatcher)
+            try {
+                setFlag()
+                reset()
+                screens.clear()
+                backgroundScope.launch(context = testDispatcher) { receiveCommands() }
+                block()
+                testScheduler.advanceUntilIdle()
+            } finally {
+                Dispatcher.reset()
+            }
         }
     }
 
@@ -150,15 +158,19 @@ internal abstract class TestCase {
      */
     protected fun runUITest(block: suspend ComposeUiTest.() -> Unit) {
         runComposeUiTest {
-            setFlag()
-            val scope = CoroutineScope(context = UnconfinedTestDispatcher())
+            val testDispatcher = UnconfinedTestDispatcher()
+            Dispatcher.setTestDispatcher(dispatcher = testDispatcher)
+            val scope = CoroutineScope(context = testDispatcher)
             try {
+                setFlag()
                 reset()
                 screens.clear()
                 scope.launch { receiveCommands() }
                 block()
+                waitForIdle()
             } finally {
                 scope.cancel()
+                Dispatcher.reset()
             }
         }
     }
