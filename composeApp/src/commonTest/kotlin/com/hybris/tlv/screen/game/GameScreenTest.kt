@@ -58,14 +58,13 @@ internal class GameScreenTest: TestCase() {
         onNodeWithContentDescription(label = "Cryopods").assertIsDisplayed()
 
         onNodeWithTag(testTag = "game_navigation_bar").assertIsDisplayed()
+        val navButtons = onAllNodes(matcher = hasAnyAncestor(matcher = hasTestTag(testTag = "game_navigation_bar")) and hasClickAction())
 
         onNodeWithTag(testTag = "game_ship_stats").assertDoesNotExist()
         onNodeWithTag(testTag = "game_system_list").assertIsDisplayed()
         onNodeWithTag(testTag = "game_travel_list").assertDoesNotExist()
 
         onNodeWithTag(testTag = "game_system_list").count(count = 3)
-
-        val navButtons = onAllNodes(matcher = hasAnyAncestor(matcher = hasTestTag(testTag = "game_navigation_bar")) and hasClickAction())
 
         navButtons[0].performClick()
         onNodeWithTag(testTag = "game_ship_stats").assertIsDisplayed()

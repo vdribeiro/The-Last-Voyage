@@ -160,6 +160,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                 )
             }
             GameNavigationBar(
+                modifier = Modifier.testTag(tag = "tutorial_navigation_bar"),
                 shipEnabled = currentContent == Content.GOAL,
                 shipSelected = currentContent == Content.SHIP,
                 shipOnClick = { store.send(action = TutorialAction.Next) },
