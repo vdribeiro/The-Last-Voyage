@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -190,6 +191,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
 
             Content.SHIP -> ShipStats(
                 modifier = Modifier
+                    .testTag(tag = "tutorial_ship_stats")
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 tutorial = true
@@ -204,6 +206,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
             ) {
                 TravelList(
                     modifier = Modifier
+                        .testTag(tag = "tutorial_travel_list")
                         .fillMaxWidth(),
                     stellarHosts = listOf("proxima_centauri"),
                     name = { "Proxima Centauri" },
@@ -232,6 +235,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
             ) {
                 SystemList(
                     modifier = Modifier
+                        .testTag(tag = "tutorial_system_list")
                         .fillMaxWidth(),
                     stellarHostName = "Sol",
                     stellarHostSpectralType = "G2V",
