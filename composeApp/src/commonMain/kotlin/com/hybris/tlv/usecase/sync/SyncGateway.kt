@@ -77,6 +77,7 @@ internal class SyncGateway(
         Telemetry.info(tag = TAG, message = "Local Configs\n${config.localConfigs.value}")
         Telemetry.info(tag = TAG, message = "Remote Configs\n${config.remoteConfigs.value}")
 
+        progress(1f)
         return@withContext result
     }
 

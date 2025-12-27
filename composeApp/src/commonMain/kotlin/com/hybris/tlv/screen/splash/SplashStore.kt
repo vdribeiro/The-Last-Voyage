@@ -24,7 +24,6 @@ internal class SplashStore(
 
         val result = syncUseCases.sync(reset = reset) { progress -> updateState { it.copy(progress = progress) } }
         Telemetry.info(tag = TAG, message = "Sync result: $result")
-        updateState { it.copy(progress = 1.0f) }
         delay(timeMillis = 1000L) // prevent UI flickering for fast syncs and also allow user to see the sweet 100% for a short time
 
         Telemetry.info(tag = TAG, message = "Setup complete")
