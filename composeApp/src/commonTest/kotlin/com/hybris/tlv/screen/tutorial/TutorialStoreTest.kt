@@ -12,7 +12,7 @@ internal class TutorialStoreTest: TestCase() {
         assertNavigationBackstack(list = emptyList())
         navigate(screen = Screen.Tutorial())
         assertNavigationBackstack(list = listOf(element = Screen.Tutorial()))
-        
+
         val store = storeFactory.getTutorialStore(newGame = false)
         assertEquals(expected = Content.WELCOME, actual = store.state.currentContent)
         store.send(action = TutorialAction.Next)

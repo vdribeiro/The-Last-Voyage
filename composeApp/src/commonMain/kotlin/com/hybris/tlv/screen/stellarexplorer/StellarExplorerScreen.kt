@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.screen.Screen
@@ -84,11 +85,13 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 }
             }
             ControlPanel(
-                modifier = Modifier.padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 8.dp
-                ),
+                modifier = Modifier
+                    .testTag(tag = "stellar_explorer_control_panel")
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 8.dp
+                    ),
                 enabled = currentContent in listOf(Content.LIST_HOSTS, Content.LIST_PLANETS),
                 search = storeState.search,
                 onSearch = { store.send(action = StellarExplorerAction.Search(search = it)) },
@@ -113,6 +116,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 val planet = storeState.selectedPlanet
                 StellarHostList(
                     modifier = Modifier
+                        .testTag(tag = "stellar_explorer_host_list")
                         .fillMaxSize()
                         .padding(all = 16.dp),
                     listState = listState,
@@ -185,6 +189,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 val stellarHost = storeState.selectedStellarHost
                 PlanetList(
                     modifier = Modifier
+                        .testTag(tag = "stellar_explorer_planet_list")
                         .fillMaxSize()
                         .padding(all = 16.dp),
                     listState = listState,

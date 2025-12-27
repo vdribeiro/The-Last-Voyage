@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.LocalShapes
@@ -122,6 +123,7 @@ internal fun ControlPanel(
         ) {
             Row(
                 modifier = Modifier
+                    .testTag(tag = "control_panel_view_change")
                     .alpha(alpha = alpha(enabled = enabled))
                     .clip(shape = shapes.large)
                     .clickable(
