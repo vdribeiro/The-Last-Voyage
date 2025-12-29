@@ -1,3 +1,5 @@
+@file:ExcludeFromTesting
+
 package com.hybris.tlv.lifecycle
 
 import androidx.compose.runtime.Composable
@@ -7,7 +9,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.hybris.tlv.test.ExcludeFromTesting
 
-@ExcludeFromTesting
 @Composable
 internal actual fun Register(
     key: Any,

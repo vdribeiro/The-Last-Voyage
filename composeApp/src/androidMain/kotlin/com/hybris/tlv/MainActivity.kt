@@ -1,3 +1,5 @@
+@file:ExcludeFromTesting
+
 package com.hybris.tlv
 
 import android.os.Bundle
@@ -7,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.cheats.enableGestureCheats
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.test.ExcludeFromTesting
 
 private const val TAG = "App"
 

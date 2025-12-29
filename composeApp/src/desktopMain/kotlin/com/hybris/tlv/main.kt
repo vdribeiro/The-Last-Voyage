@@ -1,3 +1,5 @@
+@file:ExcludeFromTesting
+
 package com.hybris.tlv
 
 import androidx.compose.runtime.CompositionLocalProvider
@@ -9,6 +11,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.hybris.tlv.cheats.rememberKeySequenceCheats
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.theme.getTranslation
 import javafx.embed.swing.JFXPanel
 

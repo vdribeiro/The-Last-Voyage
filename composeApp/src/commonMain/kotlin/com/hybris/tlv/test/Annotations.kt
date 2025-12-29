@@ -4,10 +4,7 @@ package com.hybris.tlv.test
  * Indicates that this element should not be included in testing.
  */
 @Retention(value = AnnotationRetention.BINARY)
-@Target(
-    AnnotationTarget.CLASS,
-    AnnotationTarget.FUNCTION,
-)
+@Target(AnnotationTarget.FILE)
 internal annotation class ExcludeFromTesting
 
 /**

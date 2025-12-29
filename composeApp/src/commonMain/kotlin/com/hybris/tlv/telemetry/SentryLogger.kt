@@ -1,3 +1,5 @@
+@file:ExcludeFromTesting
+
 package com.hybris.tlv.telemetry
 
 import com.hybris.tlv.platform.Property
@@ -10,7 +12,6 @@ import io.sentry.kotlin.multiplatform.protocol.UserFeedback
 /**
  * Sentry logger.
  */
-@ExcludeFromTesting
 internal object SentryLogger {
 
     /**

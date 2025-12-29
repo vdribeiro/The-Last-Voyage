@@ -1,4 +1,5 @@
 @file:Suppress("unused", "FunctionName")
+@file:ExcludeFromTesting
 
 package com.hybris.tlv
 
@@ -7,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
 import com.hybris.tlv.cheats.enableGestureCheats
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.test.ExcludeFromTesting
 
 private const val TAG = "App"
 
