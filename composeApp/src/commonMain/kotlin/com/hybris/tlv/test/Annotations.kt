@@ -13,6 +13,6 @@ internal annotation class ExcludeFromTesting
 /**
  * Indicates that this file must be shadowed in testing.
  */
-@Retention(value = AnnotationRetention.SOURCE)
+@Retention(value = AnnotationRetention.BINARY)
 @Target(AnnotationTarget.FILE)
 internal annotation class ShadowedInTesting

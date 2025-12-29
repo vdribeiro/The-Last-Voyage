@@ -357,6 +357,7 @@ kover {
             excludes {
                 annotatedBy(
                     "com.hybris.tlv.test.ExcludeFromTesting",
+                    "com.hybris.tlv.test.ShadowedInTesting",
                     "kotlinx.serialization.Serializable",
                     "org.jetbrains.compose.ui.tooling.preview.Preview"
                 )

@@ -1,3 +1,5 @@
+@file:ShadowedInTesting
+
 package com.hybris.tlv.storage
 
 import java.io.File
@@ -7,6 +9,7 @@ import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.platform.platform
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual val appDataPath: String by lazy {
     val baseDir = when (platform) {

@@ -1,3 +1,5 @@
+@file:ShadowedInTesting
+
 package com.hybris.tlv.storage
 
 import java.io.File
@@ -5,6 +7,7 @@ import kotlinx.coroutines.withContext
 import com.hybris.tlv.applicationContext
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual val appDataPath: String by lazy {
     applicationContext.filesDir.also { if (!it.exists()) it.mkdirs() }.absolutePath

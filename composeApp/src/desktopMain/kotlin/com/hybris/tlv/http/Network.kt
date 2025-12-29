@@ -1,3 +1,5 @@
+@file:ShadowedInTesting
+
 package com.hybris.tlv.http
 
 import java.net.InetSocketAddress
@@ -5,6 +7,7 @@ import java.net.Socket
 import kotlinx.coroutines.withContext
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual suspend fun isInternetAvailable(): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {

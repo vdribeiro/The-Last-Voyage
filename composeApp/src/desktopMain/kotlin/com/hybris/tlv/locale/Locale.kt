@@ -1,3 +1,5 @@
+@file:ShadowedInTesting
+
 package com.hybris.tlv.locale
 
 import java.time.format.DateTimeFormatter
@@ -9,6 +11,7 @@ import kotlin.time.toJavaInstant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaZoneId
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual fun getLanguage(): String = runCatching {
     Locale.getDefault().language.take(n = 2).lowercase()

@@ -1,3 +1,5 @@
+@file:ShadowedInTesting
+
 package com.hybris.tlv.locale
 
 import java.time.format.DateTimeFormatter
@@ -9,6 +11,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaZoneId
 import com.hybris.tlv.applicationContext
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual fun getLanguage(): String = runCatching {
     val language = applicationContext.resources.configuration.locales[0].language

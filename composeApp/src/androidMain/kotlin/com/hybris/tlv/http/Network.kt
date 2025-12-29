@@ -1,3 +1,5 @@
+@file:ShadowedInTesting
+
 package com.hybris.tlv.http
 
 import kotlinx.coroutines.withContext
@@ -7,6 +9,7 @@ import android.net.NetworkCapabilities
 import com.hybris.tlv.applicationContext
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual suspend fun isInternetAvailable(): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {

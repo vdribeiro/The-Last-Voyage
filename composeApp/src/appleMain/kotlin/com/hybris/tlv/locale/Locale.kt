@@ -1,3 +1,5 @@
+@file:ShadowedInTesting
+
 package com.hybris.tlv.locale
 
 import kotlin.time.ExperimentalTime
@@ -12,6 +14,7 @@ import platform.Foundation.NSTimeZone
 import platform.Foundation.preferredLanguages
 import platform.Foundation.timeZoneForSecondsFromGMT
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual fun getLanguage(): String = runCatching {
     (NSLocale.preferredLanguages.first() as String).take(n = 2).lowercase()

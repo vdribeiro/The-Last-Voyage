@@ -1,3 +1,5 @@
+@file:ShadowedInTesting
+
 package com.hybris.tlv.http
 
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -20,6 +22,7 @@ import platform.posix.AF_INET
 import platform.posix.sockaddr_in
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.test.ShadowedInTesting
 
 @OptIn(ExperimentalForeignApi::class)
 internal actual suspend fun isInternetAvailable(): Boolean = withContext(context = Dispatcher.IO) {
