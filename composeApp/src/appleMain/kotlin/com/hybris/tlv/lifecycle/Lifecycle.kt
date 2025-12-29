@@ -1,4 +1,4 @@
-@file:ExcludeFromTesting
+@file:ShadowedInTesting
 
 package com.hybris.tlv.lifecycle
 
@@ -8,7 +8,7 @@ import platform.UIKit.UIApplicationDidBecomeActiveNotification
 import platform.UIKit.UIApplicationWillResignActiveNotification
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import com.hybris.tlv.test.ExcludeFromTesting
+import com.hybris.tlv.test.ShadowedInTesting
 
 @Composable
 internal actual fun Register(

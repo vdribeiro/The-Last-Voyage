@@ -23,9 +23,6 @@ import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.runComposeUiTest
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.hybris.tlv.audio.AudioPlayer
 import com.hybris.tlv.command.Command
@@ -36,6 +33,7 @@ import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.dependency.Dependency
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.TestEngine
+import com.hybris.tlv.lifecycle.lifecycleOwner
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.screen.StoreFactory
@@ -140,7 +138,7 @@ internal abstract class TestCase {
      * Executes a unit test.
      * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
      */
-    protected fun runUnitTest(block: suspend TestScope.() -> Unit) {
+    protected fun runUnitTest(mockNavigation: Boolean = true, block: suspend TestScope.() -> Unit) {
         runTest {
             val testDispatcher = UnconfinedTestDispatcher(scheduler = testScheduler)
             Dispatcher.setTestDispatcher(dispatcher = testDispatcher)
@@ -148,7 +146,7 @@ internal abstract class TestCase {
                 setFlag()
                 reset()
                 screens.clear()
-                backgroundScope.launch(context = testDispatcher) { receiveCommands() }
+                if (mockNavigation) backgroundScope.launch(context = testDispatcher) { receiveCommands() }
                 block()
                 testScheduler.advanceUntilIdle()
             } finally {
@@ -161,7 +159,7 @@ internal abstract class TestCase {
      * Executes a UI test.
      * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
      */
-    protected fun runUITest(block: suspend ComposeUiTest.() -> Unit) {
+    protected fun runUITest(mockNavigation: Boolean = true, block: suspend ComposeUiTest.() -> Unit) {
         runComposeUiTest {
             val testDispatcher = UnconfinedTestDispatcher()
             Dispatcher.setTestDispatcher(dispatcher = testDispatcher)
@@ -170,7 +168,7 @@ internal abstract class TestCase {
                 setFlag()
                 reset()
                 screens.clear()
-                scope.launch { receiveCommands() }
+                if (mockNavigation) scope.launch { receiveCommands() }
                 block()
                 waitForIdle()
             } finally {
@@ -188,15 +186,7 @@ internal abstract class TestCase {
         vararg values: ProvidedValue<*>,
         content: @Composable () -> Unit
     ) {
-        val lifecycleOwner = withContext(context = Dispatchers.Main) {
-            object: LifecycleOwner {
-                override val lifecycle: LifecycleRegistry = LifecycleRegistry(provider = this)
-
-                init {
-                    lifecycle.currentState = Lifecycle.State.RESUMED
-                }
-            }
-        }
+        val lifecycleOwner = withContext(context = Dispatchers.Main) { lifecycleOwner }
         setContent {
             CompositionLocalProvider(LocalLifecycleOwner provides lifecycleOwner, *values) {
                 AppTheme {

@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
-
 import coil3.compose.AsyncImage
 import com.hybris.tlv.image.LauncherForeground
 import com.hybris.tlv.platform.Platform
@@ -64,13 +63,10 @@ private fun ImageWithResource(
     contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.Crop,
 ) {
-    val painter = runCatching {
-        drawable?.let { painterResource(resource = it) }
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get painter", throwable = it) }.getOrNull()
-    if (painter == null) Box(modifier = modifier) else {
+    if (drawable == null) Box(modifier = modifier) else {
         Image(
             modifier = modifier,
-            painter = painter,
+            painter = painterResource(resource = drawable),
             contentDescription = contentDescription,
             contentScale = contentScale,
         )

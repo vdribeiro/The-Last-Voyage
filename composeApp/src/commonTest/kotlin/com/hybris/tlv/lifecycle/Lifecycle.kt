@@ -1,19 +1,18 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.lifecycle
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.hybris.tlv.test.ShadowedInTesting
 
 @Composable
-internal actual fun Register(
-    key: Any,
-    onBackground: () -> Unit,
-    onForeground: () -> Unit,
+internal fun Register(
+    key: Any = Unit,
+    onBackground: () -> Unit = {},
+    onForeground: () -> Unit = {},
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(key1 = lifecycleOwner, key2 = key) {
@@ -31,3 +30,12 @@ internal actual fun Register(
         }
     }
 }
+
+internal val lifecycleOwner: LifecycleOwner
+    get() = object: LifecycleOwner {
+        override val lifecycle: LifecycleRegistry = LifecycleRegistry(provider = this)
+
+        init {
+            lifecycle.currentState = Lifecycle.State.RESUMED
+        }
+    }
