@@ -3,11 +3,13 @@ package com.hybris.tlv
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.dependency.Dependency
+import com.hybris.tlv.test.ExcludeFromTesting
 
 /**
  * The main object for The Last Voyage application.
  * This object serves as the central hub for the application, holding dependencies, feature flags and a clean entry point for the UI.
  */
+@ExcludeFromTesting
 internal object TLV {
 
     private val dependency: Dependency by lazy { Dependency() }
