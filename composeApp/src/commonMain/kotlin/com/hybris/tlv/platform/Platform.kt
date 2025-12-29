@@ -1,8 +1,4 @@
-@file:ExcludeFromTesting
-
 package com.hybris.tlv.platform
-
-import com.hybris.tlv.test.ExcludeFromTesting
 
 /**
  * Defines the possible platforms that the application can run on.
