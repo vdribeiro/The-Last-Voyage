@@ -363,12 +363,8 @@ kover {
                     "kotlinx.serialization.Serializable",
                     "org.jetbrains.compose.ui.tooling.preview.Preview"
                 )
-                packages(
-                    "*.generated.*"
-                )
-                classes(
-                    "**ComposableSingletons**",
-                )
+                packages("*.generated.*")
+                classes("**ComposableSingletons**")
             }
         }
         total {
