@@ -9,6 +9,7 @@ import com.hybris.tlv.TestCase
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.planets
 import com.hybris.tlv.stellarHosts
+import com.hybris.tlv.usecase.space.model.Formula
 
 internal class StellarExplorerStoreTest: TestCase() {
 
@@ -19,6 +20,7 @@ internal class StellarExplorerStoreTest: TestCase() {
         val store = storeFactory.getStellarExplorerStore()
         assertEquals(expected = Content.LIST_HOSTS, actual = store.state.currentContent)
         assertFalse(store.state.loading)
+        assertEquals(expected = Formula(id = store.formula.id), actual = store.formula)
         assertTrue(actual = store.stellarHostsFlow.value.isNotEmpty())
     }
 
