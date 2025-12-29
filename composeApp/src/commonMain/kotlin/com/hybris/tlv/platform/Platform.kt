@@ -1,3 +1,5 @@
+@file:ExcludeFromTesting
+
 package com.hybris.tlv.platform
 
 import com.hybris.tlv.test.ExcludeFromTesting
@@ -5,7 +7,6 @@ import com.hybris.tlv.test.ExcludeFromTesting
 /**
  * Defines the possible platforms that the application can run on.
  */
-@ExcludeFromTesting
 internal sealed interface Platform {
     data object Android: Platform
     data object Ios: Platform
