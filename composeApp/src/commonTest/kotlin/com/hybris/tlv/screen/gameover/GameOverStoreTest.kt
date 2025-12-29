@@ -69,6 +69,7 @@ internal class GameOverStoreTest: TestCase() {
 
         store.achievements.forEachIndexed { index, _ ->
             assertEquals(expected = store.achievements.getOrNull(index = index), actual = store.state.achievement)
+            assertEquals(expected = index, actual = store.index)
             store.send(action = GameOverAction.NextAchievement)
         }
     }
