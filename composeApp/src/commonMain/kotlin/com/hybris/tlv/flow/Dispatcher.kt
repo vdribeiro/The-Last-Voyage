@@ -1,5 +1,3 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.flow
 
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,6 +14,7 @@ import com.hybris.tlv.test.ShadowedInTesting
  * The [Default] dispatcher is used for CPU-intensive operations.
  * The [IO] dispatcher is used for I/O-related operations.
  */
+@ShadowedInTesting
 internal object Dispatcher {
     val Main: CoroutineDispatcher = Dispatchers.Main
     val Default: CoroutineDispatcher = Dispatchers.Default

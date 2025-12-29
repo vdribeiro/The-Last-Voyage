@@ -4,12 +4,12 @@ package com.hybris.tlv.platform
  * Defines the possible platforms that the application can run on.
  */
 internal sealed interface Platform {
-    object Android: Platform
-    object Ios: Platform
-    object Windows: Platform
-    object Mac: Platform
-    object Linux: Platform
-    object Unknown: Platform
+    data object Android: Platform
+    data object Ios: Platform
+    data object Windows: Platform
+    data object Mac: Platform
+    data object Linux: Platform
+    data object Unknown: Platform
 }
 
 /**
