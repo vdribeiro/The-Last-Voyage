@@ -3,6 +3,7 @@ package com.hybris.tlv.screen.help
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.navigation.Screen
 
@@ -37,6 +38,24 @@ internal class HelpStoreTest: TestCase() {
         assertEquals(expected = Content.SCORE, actual = store.state.currentContent)
         store.send(action = HelpAction.Mechanics)
         assertNavigationBackstack(list = listOf(element = Screen.Tutorial()))
+    }
+
+    @Test
+    fun versionClick() = runUnitTest {
+        val store = storeFactory.getHelpStore()
+        assertFalse(actual = store.state.showSnackbar)
+        assertEquals(expected = 0, actual = store.versionClick)
+
+        store.send(action = HelpAction.VersionClick(reset = false))
+        assertEquals(expected = 1, actual = store.versionClick)
+        store.send(action = HelpAction.VersionClick(reset = true))
+        assertEquals(expected = 0, actual = store.versionClick)
+
+        for (i in 1..5) {
+            store.send(action = HelpAction.VersionClick(reset = false))
+            assertEquals(expected = i, actual = store.versionClick)
+        }
+        assertTrue(actual = store.state.showSnackbar)
     }
 
     @Test

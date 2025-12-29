@@ -36,7 +36,7 @@ internal class HelpStore(
 
     private fun versionClick(action: HelpAction.VersionClick) {
         if (action.reset) versionClick = 0 else versionClick++
-        updateState { it.copy(showSnackbar = versionClick >= 5) }
+        updateState { it.copy(showSnackbar = versionClick >= CLICKS_FOR_HINTS) }
     }
 
     private fun reset(): Job = launch(id = "reset") {
@@ -75,5 +75,6 @@ internal class HelpStore(
 
     companion object Companion {
         private const val TAG = "Help"
+        private const val CLICKS_FOR_HINTS = 5
     }
 }
