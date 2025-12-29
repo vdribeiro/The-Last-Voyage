@@ -21,14 +21,14 @@ internal class GameOverStoreTest: TestCase() {
 
     @Test
     fun initWithoutGameSession() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         storeFactory.getGameOverStore()
-        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(element = Screen.Feedback()))
     }
 
     @Test
     fun nextContent() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         useCases.ship.prepopulateEngines()
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val store = storeFactory.getGameOverStore()
@@ -36,25 +36,25 @@ internal class GameOverStoreTest: TestCase() {
         store.send(action = GameOverAction.Next)
         assertEquals(expected = Content.SCORE, actual = store.state.currentContent)
         store.send(action = GameOverAction.Next)
-        assertNavigationBackstack(list = listOf(element = Screen.MainMenu))
+        assertNavigation(list = listOf(element = Screen.MainMenu))
     }
 
     @Test
     fun nextContentWithoutGameSession() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         val store = storeFactory.getGameOverStore()
         store.send(action = GameOverAction.Next)
-        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(element = Screen.Feedback()))
     }
 
     @Test
     fun navigateBack() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         navigate(screen = Screen.GameOver)
-        assertNavigationBackstack(list = listOf(element = Screen.GameOver))
+        assertNavigation(list = listOf(element = Screen.GameOver))
         useCases.ship.prepopulateEngines()
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         storeFactory.getGameOverStore().back()
-        assertNavigationBackstack(list = listOf(element = Screen.GameOver))
+        assertNavigation(list = listOf(element = Screen.GameOver))
     }
 }

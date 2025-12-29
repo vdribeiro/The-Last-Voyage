@@ -134,9 +134,9 @@ internal class StellarExplorerStoreTest: TestCase() {
 
     @Test
     fun navigateBack() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         navigate(screen = Screen.StellarExplorer)
-        assertNavigationBackstack(list = listOf(element = Screen.StellarExplorer))
+        assertNavigation(list = listOf(element = Screen.StellarExplorer))
         val store = storeFactory.getStellarExplorerStore()
 
         store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHosts.first()))
@@ -150,6 +150,6 @@ internal class StellarExplorerStoreTest: TestCase() {
         store.back()
         assertEquals(expected = Content.LIST_PLANETS, actual = store.state.currentContent)
         store.back()
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
     }
 }

@@ -20,18 +20,18 @@ internal class NewGameStoreTest: TestCase() {
 
     @Test
     fun initWithoutEngines() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         useCases.catastrophe.syncCatastrophes()
         storeFactory.getNewGameStore()
-        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(element = Screen.Feedback()))
     }
 
     @Test
     fun initWithoutCatastrophes() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         useCases.ship.syncEngines()
         storeFactory.getNewGameStore()
-        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(element = Screen.Feedback()))
     }
 
     @Test
@@ -54,31 +54,31 @@ internal class NewGameStoreTest: TestCase() {
         val store = storeFactory.getNewGameStore()
         store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
         store.send(action = NewGameAction.SelectEngine(engine = engines.random()))
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         store.send(action = NewGameAction.Next)
         store.send(action = NewGameAction.Next)
-        assertNavigationBackstack(list = listOf(element = Screen.Game()))
+        assertNavigation(list = listOf(element = Screen.Game()))
     }
 
     @Test
     fun startGameWithoutShip() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         val store = storeFactory.getNewGameStore()
         store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
         store.send(action = NewGameAction.SelectEngine(engine = engines.random()))
         store.send(action = NewGameAction.Next)
         store.send(action = NewGameAction.Next)
-        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(element = Screen.Feedback()))
     }
 
     @Test
     fun navigateBack() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         navigate(screen = Screen.NewGame)
-        assertNavigationBackstack(list = listOf(element = Screen.NewGame))
+        assertNavigation(list = listOf(element = Screen.NewGame))
         useCases.catastrophe.syncCatastrophes()
         useCases.ship.syncEngines()
         storeFactory.getNewGameStore().back()
-        assertNavigationBackstack(list = listOf(Screen.NewGame, Screen.MainMenu))
+        assertNavigation(list = listOf(Screen.NewGame, Screen.MainMenu))
     }
 }

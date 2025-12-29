@@ -29,10 +29,10 @@ internal class ScoreStoreTest: TestCase() {
 
     @Test
     fun navigateBack() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         navigate(screen = Screen.Score)
-        assertNavigationBackstack(list = listOf(element = Screen.Score))
+        assertNavigation(list = listOf(element = Screen.Score))
         storeFactory.getScoreStore().back()
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
     }
 }

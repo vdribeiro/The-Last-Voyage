@@ -2,7 +2,7 @@ package com.hybris.tlv.screen.mainmenu
 
 internal sealed interface MainMenuAction {
     data object NewGame: MainMenuAction
-    data object Next: MainMenuAction
+    data object Game: MainMenuAction
     data object Scores: MainMenuAction
     data object Achievements: MainMenuAction
     data object Credits: MainMenuAction

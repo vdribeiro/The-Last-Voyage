@@ -57,10 +57,10 @@ internal class CheatStoreTest: TestCase() {
 
     @Test
     fun navigateBack() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         navigate(screen = Screen.Cheat)
-        assertNavigationBackstack(list = listOf(element = Screen.Cheat))
+        assertNavigation(list = listOf(element = Screen.Cheat))
         storeFactory.getCheatStore().back()
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
     }
 }

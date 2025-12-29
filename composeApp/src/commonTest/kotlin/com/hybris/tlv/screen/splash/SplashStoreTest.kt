@@ -17,19 +17,19 @@ internal class SplashStoreTest: TestCase() {
 
     @Test
     fun next() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         val store = storeFactory.getSplashStore(reset = true)
         store.setupJob?.join()
         store.send(action = SplashAction.Next)
-        assertNavigationBackstack(list = listOf(element = Screen.MainMenu))
+        assertNavigation(list = listOf(element = Screen.MainMenu))
     }
 
     @Test
     fun navigateBack() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         navigate(screen = Screen.Splash())
-        assertNavigationBackstack(list = listOf(element = Screen.Splash()))
+        assertNavigation(list = listOf(element = Screen.Splash()))
         storeFactory.getSplashStore(reset = false).back()
-        assertNavigationBackstack(list = listOf(element = Screen.Splash()))
+        assertNavigation(list = listOf(element = Screen.Splash()))
     }
 }

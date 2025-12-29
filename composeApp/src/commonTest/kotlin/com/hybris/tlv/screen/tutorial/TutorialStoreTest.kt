@@ -9,9 +9,9 @@ internal class TutorialStoreTest: TestCase() {
 
     @Test
     fun completeTutorial() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         navigate(screen = Screen.Tutorial())
-        assertNavigationBackstack(list = listOf(element = Screen.Tutorial()))
+        assertNavigation(list = listOf(element = Screen.Tutorial()))
 
         val store = storeFactory.getTutorialStore(newGame = false)
         assertEquals(expected = Content.WELCOME, actual = store.state.currentContent)
@@ -27,26 +27,26 @@ internal class TutorialStoreTest: TestCase() {
         assertEquals(expected = Content.GAME_OVER, actual = store.state.currentContent)
         store.send(action = TutorialAction.Next)
         assertEquals(expected = Content.GAME_OVER, actual = store.state.currentContent)
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
     }
 
     @Test
     fun skipTutorial() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         navigate(screen = Screen.Tutorial())
-        assertNavigationBackstack(list = listOf(element = Screen.Tutorial()))
+        assertNavigation(list = listOf(element = Screen.Tutorial()))
 
         val store = storeFactory.getTutorialStore(newGame = false)
         store.send(action = TutorialAction.Skip)
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
     }
 
     @Test
     fun navigateBack() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         navigate(screen = Screen.Tutorial())
-        assertNavigationBackstack(list = listOf(element = Screen.Tutorial()))
+        assertNavigation(list = listOf(element = Screen.Tutorial()))
         storeFactory.getTutorialStore(newGame = false).back()
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
     }
 }

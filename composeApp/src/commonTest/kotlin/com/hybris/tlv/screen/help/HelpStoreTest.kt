@@ -37,7 +37,7 @@ internal class HelpStoreTest: TestCase() {
         store.send(action = HelpAction.Score)
         assertEquals(expected = Content.SCORE, actual = store.state.currentContent)
         store.send(action = HelpAction.Mechanics)
-        assertNavigationBackstack(list = listOf(element = Screen.Tutorial()))
+        assertNavigation(list = listOf(element = Screen.Tutorial()))
     }
 
     @Test
@@ -59,11 +59,24 @@ internal class HelpStoreTest: TestCase() {
     }
 
     @Test
+    fun resetAll() = runUnitTest {
+        assertNavigation(list = emptyList())
+        val store = storeFactory.getHelpStore()
+        store.send(action = HelpAction.Reset)
+        assertNavigation(list = listOf(element = Screen.Splash(reset = true)))
+    }
+
+    @Test
     fun navigateBack() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         navigate(screen = Screen.Help)
-        assertNavigationBackstack(list = listOf(element = Screen.Help))
-        storeFactory.getHelpStore().back()
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = listOf(element = Screen.Help))
+        val store = storeFactory.getHelpStore()
+        store.send(action = HelpAction.Score)
+        assertEquals(expected = Content.SCORE, actual = store.state.currentContent)
+        store.back()
+        assertEquals(expected = Content.LEARN_MENU, actual = store.state.currentContent)
+        store.back()
+        assertNavigation(list = emptyList())
     }
 }

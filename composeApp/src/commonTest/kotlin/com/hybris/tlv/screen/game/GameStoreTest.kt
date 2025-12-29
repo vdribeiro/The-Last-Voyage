@@ -26,17 +26,17 @@ internal class GameStoreTest: TestCase() {
 
     @Test
     fun initWithoutGameSession() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         storeFactory.getGameStore(ship = null)
-        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(element = Screen.Feedback()))
     }
 
     @Test
     fun initWithoutStellarHost() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         storeFactory.getGameStore(ship = null)
-        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(element = Screen.Feedback()))
     }
 
     @Test
@@ -60,9 +60,9 @@ internal class GameStoreTest: TestCase() {
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameSession = useCases.gameSession.getLatestGameSession()!!
         useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(integrity = 0, materials = 0)))
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         storeFactory.getGameStore(ship = null)
-        assertNavigationBackstack(list = listOf(element = Screen.GameOver))
+        assertNavigation(list = listOf(element = Screen.GameOver))
 
     }
 
@@ -74,9 +74,9 @@ internal class GameStoreTest: TestCase() {
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val gameSession = useCases.gameSession.getLatestGameSession()!!
         useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(fuel = 0)))
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         storeFactory.getGameStore(ship = null)
-        assertNavigationBackstack(list = listOf(element = Screen.GameOver))
+        assertNavigation(list = listOf(element = Screen.GameOver))
     }
 
     @Test
@@ -105,26 +105,26 @@ internal class GameStoreTest: TestCase() {
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val store = storeFactory.getGameStore(ship = null)
 
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         store.send(action = GameAction.Travel(stellarHost = stellarHosts.first { it.id == "proxima_cen" }))
-        assertNavigationBackstack(list = listOf(element = Screen.Event()))
+        assertNavigation(list = listOf(element = Screen.Event()))
     }
 
     @Test
     fun travelWithoutGameSession() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         val store = storeFactory.getGameStore(ship = null)
         store.send(action = GameAction.Travel(stellarHost = stellarHosts.first { it.id == "proxima_cen" }))
-        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(element = Screen.Feedback()))
     }
 
     @Test
     fun travelWithoutStellarHost() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val store = storeFactory.getGameStore(ship = null)
         store.send(action = GameAction.Travel(stellarHost = stellarHosts.first { it.id == "proxima_cen" }))
-        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(element = Screen.Feedback()))
     }
 
     @Test
@@ -135,29 +135,29 @@ internal class GameStoreTest: TestCase() {
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val store = storeFactory.getGameStore(ship = null)
 
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         store.send(action = GameAction.Settle(planet = planets.first()))
-        assertNavigationBackstack(list = listOf(element = Screen.GameOver))
+        assertNavigation(list = listOf(element = Screen.GameOver))
     }
 
     @Test
     fun settleWithoutGameSession() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         val store = storeFactory.getGameStore(ship = null)
         store.send(action = GameAction.Settle(planet = planets.first()))
-        assertNavigationBackstack(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(element = Screen.Feedback()))
     }
 
     @Test
     fun navigateBack() = runUnitTest {
-        assertNavigationBackstack(list = emptyList())
+        assertNavigation(list = emptyList())
         navigate(screen = Screen.Game())
-        assertNavigationBackstack(list = listOf(element = Screen.Game()))
+        assertNavigation(list = listOf(element = Screen.Game()))
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
         useCases.ship.prepopulateEngines()
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         storeFactory.getGameStore(ship = null).back()
-        assertNavigationBackstack(list = listOf(Screen.Game(), Screen.MainMenu))
+        assertNavigation(list = listOf(Screen.Game(), Screen.MainMenu))
     }
 }

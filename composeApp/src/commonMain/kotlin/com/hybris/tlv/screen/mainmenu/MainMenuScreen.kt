@@ -60,7 +60,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
             onStellarExplorerClick = { store.send(action = MainMenuAction.StellarExplorer) },
             onNewGameClick = { store.send(action = MainMenuAction.NewGame) },
             ongoingGameSession = storeState.ongoingGameSession,
-            onOngoingGameSessionClick = { store.send(action = MainMenuAction.Next) }
+            onOngoingGameSessionClick = { store.send(action = MainMenuAction.Game) }
         )
     }
 }

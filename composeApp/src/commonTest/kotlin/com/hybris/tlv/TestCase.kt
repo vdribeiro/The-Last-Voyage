@@ -116,13 +116,18 @@ internal abstract class TestCase {
     /**
      * Compares the navigation backstack with the given screen [list].
      */
-    protected fun assertNavigationBackstack(list: List<Screen>) =
+    protected fun assertNavigation(list: List<Screen>) =
         assertEquals(expected = list.map { it::class }, actual = screens.map { it::class })
 
     /**
      * Resets all local data.
      */
     protected suspend fun reset() = dependency.useCases.sync.reset()
+
+    /**
+     * Clears the navigation backstack.
+     */
+    protected fun clearNavigation() = screens.clear()
 
     /**
      * Sets feature flags.
