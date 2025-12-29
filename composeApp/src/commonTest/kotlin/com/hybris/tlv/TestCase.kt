@@ -31,6 +31,7 @@ import com.hybris.tlv.audio.AudioPlayer
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.command.receiveCommand
 import com.hybris.tlv.command.sendCommand
+import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.dependency.Dependency
 import com.hybris.tlv.flow.Dispatcher
@@ -59,6 +60,10 @@ internal abstract class TestCase {
             audioPlayer = AudioPlayer(),
         )
     }
+    /**
+     * Access point to config, derived from the test-specific [dependency].
+     */
+    protected val config: ConfigManager by lazy { dependency.config }
     /**
      * Access point to the use cases, derived from the test-specific [dependency].
      */
