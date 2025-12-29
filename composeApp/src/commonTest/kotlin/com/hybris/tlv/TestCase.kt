@@ -125,11 +125,6 @@ internal abstract class TestCase {
     protected suspend fun reset() = dependency.useCases.sync.reset()
 
     /**
-     * Clears the navigation backstack.
-     */
-    protected fun clearNavigation() = screens.clear()
-
-    /**
      * Sets feature flags.
      */
     protected fun setFlag(flag: (Flag) -> Flag = { it }) {
