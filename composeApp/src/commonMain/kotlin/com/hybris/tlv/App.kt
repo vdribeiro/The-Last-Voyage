@@ -36,6 +36,12 @@ internal fun App(
         useCases = useCases
     )
 
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    AudioPlayer(
+        audioPlayer = audioPlayer,
+        destination = navBackStackEntry?.destination
+    )
+
     LaunchedEffect(key1 = Unit) {
         receiveCommand { command ->
             when (command) {
@@ -45,10 +51,4 @@ internal fun App(
             }
         }
     }
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    AudioPlayer(
-        audioPlayer = audioPlayer,
-        destination = navBackStackEntry?.destination
-    )
 }

@@ -39,7 +39,15 @@ internal fun NavHostController.back(): Boolean = runCatching {
  * Prints the current navigation back stack in a reader-friendly format.
  */
 private fun NavHostController.printBackStack(): String = runCatching {
-    currentBackStack.value.joinToString { it.destination.toString().substringAfterLast(delimiter = ".") }.substringAfter(delimiter = ",").trim()
+    currentBackStack.value
+        .mapNotNull { it.destination.route }
+        .map { route ->
+            route.substringAfterLast(delimiter = ".")
+                .substringBefore(delimiter = "$")
+                .substringBefore(delimiter = "?")
+        }
+        .filter { it.isNotBlank() }
+        .joinToString(separator = " -> ")
 }.onFailure { Telemetry.error(tag = TAG, message = "Error printing backstack", throwable = it) }.getOrDefault(defaultValue = "")
 
 /**
