@@ -1,6 +1,9 @@
+@file:ExcludeFromTesting
+
 package com.hybris.tlv.platform
 
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.test.ExcludeFromTesting
 
 internal actual val isDebug: Boolean by lazy {
     runCatching {
