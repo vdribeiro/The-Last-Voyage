@@ -7,7 +7,7 @@
     configs.json
 # Update Gists
     cd composeApp/src/commonMain/composeResources/files
-    gh gist edit hash *.json
+    gh gist edit [hash] *.json
 # Pod Install
     cd iosApp
     rm -rf Pods
