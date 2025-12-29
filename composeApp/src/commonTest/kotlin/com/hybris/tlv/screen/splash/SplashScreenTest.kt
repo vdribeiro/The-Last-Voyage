@@ -1,13 +1,9 @@
 package com.hybris.tlv.screen.splash
 
 import kotlin.test.Test
-import kotlinx.coroutines.cancelAndJoin
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import com.hybris.tlv.TestCase
-import com.hybris.tlv.screen.stellarexplorer.StellarExplorerScreen
 
 @OptIn(ExperimentalTestApi::class)
 internal class SplashScreenTest: TestCase() {
