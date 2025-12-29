@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.audio.AudioPlayer
@@ -23,12 +24,11 @@ import com.hybris.tlv.usecase.UseCases
 @Composable
 internal fun App(
     modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
     config: ConfigManager,
     useCases: UseCases,
     audioPlayer: AudioPlayer
 ) = AppTheme {
-    val navController = rememberNavController()
-
     Navigation(
         modifier = modifier,
         navController = navController,
