@@ -148,6 +148,6 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     /**
      * Navigate to a new [screen].
      */
-    protected fun navigate(screen: Screen, restore: Boolean = false): Boolean =
-        sendCommand(command = Command.Navigate(screen = screen, restore = restore))
+    protected fun navigate(screen: Screen): Boolean =
+        sendCommand(command = Command.Navigate(screen = screen))
 }

@@ -45,7 +45,7 @@ internal fun App(
     LaunchedEffect(key1 = Unit) {
         receiveCommand { command ->
             when (command) {
-                is Command.Navigate -> navController.navigate(screen = command.screen, restore = command.restore)
+                is Command.Navigate -> navController.navigate(screen = command.screen)
                 Command.Back -> navController.back()
                 Command.ToggleAudio -> audioPlayer.action(action = AudioPlayer.Action.Toggle)
             }

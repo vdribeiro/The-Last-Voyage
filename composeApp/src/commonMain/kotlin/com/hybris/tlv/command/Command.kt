@@ -12,9 +12,9 @@ import com.hybris.tlv.telemetry.Telemetry
  */
 internal sealed class Command {
     /**
-     * Navigates to a specific [Screen] indicating if it should be restored from the navigation stack or created anew.
+     * Navigates to a specific [Screen].
      */
-    data class Navigate(val screen: Screen, val restore: Boolean = false): Command()
+    data class Navigate(val screen: Screen): Command()
     /**
      * Navigates back to the previous screen.
      */
