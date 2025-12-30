@@ -24,7 +24,6 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.hybris.tlv.audio.AudioPlayer
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.command.receiveCommand
 import com.hybris.tlv.command.sendCommand
@@ -55,7 +54,6 @@ internal abstract class TestCase {
         Dependency(
             sqlDriver = createSqlDriver(inMemory = true),
             httpEngine = TestEngine.mock,
-            audioPlayer = AudioPlayer(),
         )
     }
     /**
