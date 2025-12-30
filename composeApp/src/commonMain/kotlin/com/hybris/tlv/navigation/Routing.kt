@@ -2,6 +2,7 @@ package com.hybris.tlv.navigation
 
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.savedstate.SavedState
@@ -20,9 +21,8 @@ import com.hybris.tlv.telemetry.Telemetry
  */
 internal inline fun <reified S: Screen> NavHostController.navigate(screen: S) = runCatching {
     Telemetry.info(tag = TAG, message = "Navigating to: $screen")
-    navigate(route = screen) {
-        popUpTo(route = S::class) { inclusive = true }
-    }
+    currentBackStack.value.find { it.destination.hasRoute(route = screen::class) }?.destination?.route?.let { popBackStack(route = it, inclusive = true) }
+    navigate(route = screen)
     Telemetry.info(tag = TAG, message = "Navigation stack: ${printBackStack()}")
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to navigate to screen $screen", throwable = it) }.getOrDefault(defaultValue = Unit)
 
