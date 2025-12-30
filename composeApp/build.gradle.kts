@@ -372,7 +372,9 @@ kover {
             log { onCheck = true }
             verify {
                 onCheck = true
-                rule { bound { minValue = 80 } } // minimum 80% coverage
+                rule {
+                    bound { minValue = 80 }
+                }
             }
         }
     }
