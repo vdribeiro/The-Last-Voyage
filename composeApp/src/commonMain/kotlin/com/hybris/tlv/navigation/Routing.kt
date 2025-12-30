@@ -16,16 +16,15 @@ import com.hybris.tlv.telemetry.Telemetry
 /**
  * Navigate to the given [screen].
  * If the screen is not in the stack, add it to end of the stack.
- * If the screen is already in the stack, eiter replace or restore it and truncate onwards.
+ * If the screen is already in the stack, replace it and truncate onwards.
  */
-internal inline fun <reified S: Screen> NavHostController.navigate(screen: S, restore: Boolean) = runCatching {
+internal inline fun <reified S: Screen> NavHostController.navigate(screen: S) = runCatching {
     Telemetry.info(tag = TAG, message = "Navigating to: $screen")
     navigate(route = screen) {
-        popUpTo(route = S::class) { inclusive = !restore }
-        launchSingleTop = restore
+        popUpTo(route = S::class) { inclusive = true }
     }
     Telemetry.info(tag = TAG, message = "Navigation stack: ${printBackStack()}")
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to ${if (restore) "restore" else "navigate"} to screen $screen", throwable = it) }.getOrDefault(defaultValue = Unit)
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to navigate to screen $screen", throwable = it) }.getOrDefault(defaultValue = Unit)
 
 /**
  * Pop to the previous destination.
