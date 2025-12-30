@@ -1,8 +1,6 @@
 package com.hybris.tlv.cheats
 
-import kotlinx.coroutines.launch
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.input.key.Key
@@ -36,19 +34,16 @@ internal val konamiGestureCode = listOf(
  * Composable function that remembers the [konamiCode] and triggers a navigation to the cheat screen.
  */
 @Composable
-internal fun rememberKeySequenceCheats(): (KeyEvent) -> Boolean {
-    val scope = rememberCoroutineScope()
-    return rememberKeySequence(sequence = konamiCode) {
-        scope.launch { sendCommand(command = Command.Navigate(screen = Screen.Cheat)) }
+internal fun rememberKeySequenceCheats(): (KeyEvent) -> Boolean =
+    rememberKeySequence(sequence = konamiCode) {
+        sendCommand(command = Command.Navigate(screen = Screen.Cheat))
     }
-}
 
 /**
  * [Modifier] that enables [konamiGestureCode] detection and triggers a navigation to the cheat screen.
  */
 internal fun Modifier.enableGestureCheats(): Modifier = composed {
-    val scope = rememberCoroutineScope()
     onGesture(sequence = konamiGestureCode) {
-        scope.launch { sendCommand(command = Command.Navigate(screen = Screen.Cheat)) }
+        sendCommand(command = Command.Navigate(screen = Screen.Cheat))
     }
 }
