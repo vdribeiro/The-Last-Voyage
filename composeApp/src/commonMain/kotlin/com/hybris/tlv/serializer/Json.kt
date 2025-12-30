@@ -1,3 +1,5 @@
+@file:ExcludeFromTesting
+
 package com.hybris.tlv.serializer
 
 import kotlinx.coroutines.withContext
@@ -9,6 +11,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.storage.loadFile
 import com.hybris.tlv.storage.saveFile
 import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.test.ExcludeFromTesting
 import thelastvoyage.composeapp.generated.resources.Res
 
 /**

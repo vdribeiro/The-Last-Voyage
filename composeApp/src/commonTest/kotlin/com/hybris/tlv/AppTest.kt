@@ -94,6 +94,11 @@ internal class AppTest: TestCase() {
         onNodeWithTag(testTag = "app")
             .requestFocus()
             .performKeyInput {
+                konamiCode.take(n = 3).forEach { key ->
+                    keyDown(key = key)
+                    keyUp(key = key)
+                }
+
                 konamiCode.forEach { key ->
                     keyDown(key = key)
                     keyUp(key = key)
@@ -115,6 +120,11 @@ internal class AppTest: TestCase() {
                         Gesture.TAP -> click()
                     }
                 }
+
+                konamiGestureCode.take(n = 3).forEach { gesture ->
+                    performGesture(direction = gesture)
+                }
+
                 konamiGestureCode.forEach { gesture ->
                     performGesture(direction = gesture)
                 }
