@@ -9,18 +9,26 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.click
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performKeyInput
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.requestFocus
+import androidx.compose.ui.test.swipeDown
+import androidx.compose.ui.test.swipeLeft
+import androidx.compose.ui.test.swipeRight
+import androidx.compose.ui.test.swipeUp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.audio.AudioPlayer
 import com.hybris.tlv.cheats.enableGestureCheats
 import com.hybris.tlv.cheats.konamiCode
+import com.hybris.tlv.cheats.konamiGestureCode
 import com.hybris.tlv.cheats.rememberKeySequenceCheats
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.command.sendCommand
 import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.theme.modifier.Gesture
 
 @OptIn(ExperimentalTestApi::class)
 internal class AppTest: TestCase() {
@@ -95,6 +103,23 @@ internal class AppTest: TestCase() {
 
         sendCommand(command = Command.Back)
         assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
+        onNodeWithTag(testTag = "app")
+            .performTouchInput {
+                fun performGesture(direction: Gesture) {
+                    val distance = 200f
+                    when (direction) {
+                        Gesture.SWIPE_UP -> swipeUp(startY = 500f, endY = 500f - distance)
+                        Gesture.SWIPE_DOWN -> swipeDown(startY = 200f, endY = 200f + distance)
+                        Gesture.SWIPE_LEFT -> swipeLeft(startX = 500f, endX = 500f - distance)
+                        Gesture.SWIPE_RIGHT -> swipeRight(startX = 200f, endX = 200f + distance)
+                        Gesture.TAP -> click()
+                    }
+                }
+                konamiGestureCode.forEach { gesture ->
+                    performGesture(direction = gesture)
+                }
+            }
+        assertEquals(expected = listOf(Screen.Splash, Screen.Cheat).toStringList(), actual = navController.getScreens())
     }
 
     private fun <T> List<T>.toStringList(): List<String> = map {
