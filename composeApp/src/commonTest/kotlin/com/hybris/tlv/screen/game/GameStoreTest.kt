@@ -28,7 +28,7 @@ internal class GameStoreTest: TestCase() {
     fun initWithoutGameSession() = runUnitTest {
         assertNavigation(list = emptyList())
         storeFactory.getGameStore(ship = null)
-        assertNavigation(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
@@ -36,7 +36,7 @@ internal class GameStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         storeFactory.getGameStore(ship = null)
-        assertNavigation(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
@@ -62,7 +62,7 @@ internal class GameStoreTest: TestCase() {
         useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(integrity = 0, materials = 0)))
         assertNavigation(list = emptyList())
         storeFactory.getGameStore(ship = null)
-        assertNavigation(list = listOf(element = Screen.GameOver))
+        assertNavigation(list = listOf(Screen.GameOver))
 
     }
 
@@ -76,7 +76,7 @@ internal class GameStoreTest: TestCase() {
         useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(fuel = 0)))
         assertNavigation(list = emptyList())
         storeFactory.getGameStore(ship = null)
-        assertNavigation(list = listOf(element = Screen.GameOver))
+        assertNavigation(list = listOf(Screen.GameOver))
     }
 
     @Test
@@ -107,7 +107,7 @@ internal class GameStoreTest: TestCase() {
 
         assertNavigation(list = emptyList())
         store.send(action = GameAction.Travel(stellarHost = stellarHosts.first { it.id == "proxima_cen" }))
-        assertNavigation(list = listOf(element = Screen.Event()))
+        assertNavigation(list = listOf(Screen.Event()))
     }
 
     @Test
@@ -115,7 +115,7 @@ internal class GameStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         val store = storeFactory.getGameStore(ship = null)
         store.send(action = GameAction.Travel(stellarHost = stellarHosts.first { it.id == "proxima_cen" }))
-        assertNavigation(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
@@ -124,7 +124,7 @@ internal class GameStoreTest: TestCase() {
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val store = storeFactory.getGameStore(ship = null)
         store.send(action = GameAction.Travel(stellarHost = stellarHosts.first { it.id == "proxima_cen" }))
-        assertNavigation(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
@@ -137,7 +137,7 @@ internal class GameStoreTest: TestCase() {
 
         assertNavigation(list = emptyList())
         store.send(action = GameAction.Settle(planet = planets.first()))
-        assertNavigation(list = listOf(element = Screen.GameOver))
+        assertNavigation(list = listOf(Screen.GameOver))
     }
 
     @Test
@@ -145,14 +145,14 @@ internal class GameStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         val store = storeFactory.getGameStore(ship = null)
         store.send(action = GameAction.Settle(planet = planets.first()))
-        assertNavigation(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
     fun navigateBack() = runUnitTest {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Game())
-        assertNavigation(list = listOf(element = Screen.Game()))
+        assertNavigation(list = listOf(Screen.Game()))
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
         useCases.ship.prepopulateEngines()

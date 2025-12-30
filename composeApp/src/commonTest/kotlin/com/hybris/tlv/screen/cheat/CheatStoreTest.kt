@@ -59,7 +59,7 @@ internal class CheatStoreTest: TestCase() {
     fun navigateBack() = runUnitTest {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Cheat)
-        assertNavigation(list = listOf(element = Screen.Cheat))
+        assertNavigation(list = listOf(Screen.Cheat))
         storeFactory.getCheatStore().back()
         assertNavigation(list = emptyList())
     }

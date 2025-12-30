@@ -17,7 +17,7 @@ internal class ScoreStoreTest: TestCase() {
         useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
         val store = storeFactory.getScoreStore()
         assertFalse(actual = store.state.loading)
-        assertEquals(expected = listOf(element = useCases.gameSession.getLatestGameSession()), actual = store.state.gameSessions)
+        assertEquals(expected = listOf(useCases.gameSession.getLatestGameSession()), actual = store.state.gameSessions)
     }
 
     @Test
@@ -31,7 +31,7 @@ internal class ScoreStoreTest: TestCase() {
     fun navigateBack() = runUnitTest {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Score)
-        assertNavigation(list = listOf(element = Screen.Score))
+        assertNavigation(list = listOf(Screen.Score))
         storeFactory.getScoreStore().back()
         assertNavigation(list = emptyList())
     }

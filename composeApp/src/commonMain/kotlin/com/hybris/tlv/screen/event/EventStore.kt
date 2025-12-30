@@ -38,7 +38,7 @@ internal class EventStore(
 
         Telemetry.info(tag = TAG, message = "Get event chain and guarantee at least 1 event")
         val eventChain = eventUseCases.getRandomEvent(ids = gameSession.launchedEvents).ifEmpty {
-            listOf(element = defaultEvent)
+            listOf(defaultEvent)
         }
 
         val parentEvent = eventChain.find { it.parentId == null }
@@ -49,7 +49,7 @@ internal class EventStore(
 
         Telemetry.info(tag = TAG, message = "Get children events and guarantee at least 1 event")
         val childrenEvents = eventChain.filter { it.parentId == parentEvent.id }.ifEmpty {
-            listOf(element = stopEvent)
+            listOf(stopEvent)
         }
 
         Telemetry.info(tag = TAG, message = "Launch event: $parentEvent")
@@ -85,7 +85,7 @@ internal class EventStore(
 
         Telemetry.info(tag = TAG, message = "Continue event chain")
         val childrenEvents = this@EventStore.eventChain.filter { it.parentId == action.event.id }.ifEmpty {
-            listOf(element = stopEvent)
+            listOf(stopEvent)
         }
 
         Telemetry.info(tag = TAG, message = "Launch event: ${action.event}")

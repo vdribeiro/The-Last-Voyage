@@ -24,7 +24,7 @@ internal class GameOverStoreTest: TestCase() {
     fun initWithoutGameSession() = runUnitTest {
         assertNavigation(list = emptyList())
         storeFactory.getGameOverStore()
-        assertNavigation(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
@@ -37,7 +37,7 @@ internal class GameOverStoreTest: TestCase() {
         store.send(action = GameOverAction.Next)
         assertEquals(expected = Content.SCORE, actual = store.state.currentContent)
         store.send(action = GameOverAction.Next)
-        assertNavigation(list = listOf(element = Screen.MainMenu))
+        assertNavigation(list = listOf(Screen.MainMenu))
     }
 
     @Test
@@ -45,7 +45,7 @@ internal class GameOverStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         val store = storeFactory.getGameOverStore()
         store.send(action = GameOverAction.Next)
-        assertNavigation(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
@@ -78,10 +78,10 @@ internal class GameOverStoreTest: TestCase() {
     fun navigateBack() = runUnitTest {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.GameOver)
-        assertNavigation(list = listOf(element = Screen.GameOver))
+        assertNavigation(list = listOf(Screen.GameOver))
         useCases.ship.prepopulateEngines()
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         storeFactory.getGameOverStore().back()
-        assertNavigation(list = listOf(element = Screen.GameOver))
+        assertNavigation(list = listOf(Screen.GameOver))
     }
 }

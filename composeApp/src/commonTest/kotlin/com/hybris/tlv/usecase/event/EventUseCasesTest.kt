@@ -23,6 +23,6 @@ internal class EventUseCasesTest: TestCase() {
         assertTrue(actual = useCases.event.getRandomEvent(ids = ids).isEmpty())
 
         val event = events.first { it.parentId == null }
-        assertEquals(expected = listOf(element = event), actual = useCases.event.getRandomEvent(ids = ids - event.id).filter { it.parentId == null })
+        assertEquals(expected = listOf(event), actual = useCases.event.getRandomEvent(ids = ids - event.id).filter { it.parentId == null })
     }
 }

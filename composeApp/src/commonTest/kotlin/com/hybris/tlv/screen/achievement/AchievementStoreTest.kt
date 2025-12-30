@@ -28,7 +28,7 @@ internal class AchievementStoreTest: TestCase() {
     fun navigateBack() = runUnitTest {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Achievement)
-        assertNavigation(list = listOf(element = Screen.Achievement))
+        assertNavigation(list = listOf(Screen.Achievement))
         storeFactory.getAchievementStore().back()
         assertNavigation(list = emptyList())
     }

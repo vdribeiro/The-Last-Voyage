@@ -138,7 +138,7 @@ internal class StellarExplorerStoreTest: TestCase() {
     fun navigateBack() = runUnitTest {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.StellarExplorer)
-        assertNavigation(list = listOf(element = Screen.StellarExplorer))
+        assertNavigation(list = listOf(Screen.StellarExplorer))
         val store = storeFactory.getStellarExplorerStore()
 
         store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = stellarHosts.first()))

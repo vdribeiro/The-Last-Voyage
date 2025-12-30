@@ -30,14 +30,14 @@ internal class FeedbackStoreTest: TestCase() {
     fun navigateBack() = runUnitTest {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Feedback())
-        assertNavigation(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback()))
         storeFactory.getFeedbackStore(tag = null, message = null).back()
         assertNavigation(list = emptyList())
 
         val tag = "tag"
         val message = "message"
         navigate(screen = Screen.Feedback(tag = tag, message = message))
-        assertNavigation(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback()))
         storeFactory.getFeedbackStore(tag = tag, message = message).back()
         assertNavigation(list = listOf(Screen.Feedback(), Screen.Splash()))
     }

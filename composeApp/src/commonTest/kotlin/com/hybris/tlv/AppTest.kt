@@ -2,17 +2,31 @@ package com.hybris.tlv
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import androidx.compose.foundation.focusable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performKeyInput
+import androidx.compose.ui.test.requestFocus
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.audio.AudioPlayer
+import com.hybris.tlv.cheats.enableGestureCheats
+import com.hybris.tlv.cheats.konamiCode
+import com.hybris.tlv.cheats.rememberKeySequenceCheats
+import com.hybris.tlv.command.Command
+import com.hybris.tlv.command.sendCommand
 import com.hybris.tlv.navigation.Screen
 
 @OptIn(ExperimentalTestApi::class)
 internal class AppTest: TestCase() {
 
     @Test
-    fun navigate() = runUITest(mockNavigation = false) {
+    fun command() = runUITest(mockNavigation = false) {
         setFlag {
             it.copy(
                 http = false,
@@ -31,6 +45,55 @@ internal class AppTest: TestCase() {
                 audioPlayer = AudioPlayer()
             )
         }
+        sendCommand(command = Command.ToggleAudio)
+        assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
+        sendCommand(command = Command.Navigate(screen = Screen.MainMenu))
+        assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu).toStringList(), actual = navController.getScreens())
+        sendCommand(command = Command.Navigate(screen = Screen.Game(ship = ship)))
+        assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu, Screen.Game).toStringList(), actual = navController.getScreens())
+        sendCommand(command = Command.Navigate(screen = Screen.MainMenu))
+        assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu).toStringList(), actual = navController.getScreens())
+        sendCommand(command = Command.Back)
+        assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
+    }
+
+    @Test
+    fun cheats() = runUITest(mockNavigation = false) {
+        setFlag {
+            it.copy(
+                http = false,
+                reset = false,
+                archive = false,
+                music = false
+            )
+        }
+        lateinit var navController: NavHostController
+        setScreen {
+            navController = rememberNavController()
+            App(
+                modifier = Modifier
+                    .testTag(tag = "app")
+                    .focusRequester(focusRequester = FocusRequester()).focusable()
+                    .onKeyEvent(onKeyEvent = rememberKeySequenceCheats())
+                    .enableGestureCheats(),
+                navController = navController,
+                config = config,
+                useCases = useCases,
+                audioPlayer = AudioPlayer()
+            )
+        }
+
+        onNodeWithTag(testTag = "app")
+            .requestFocus()
+            .performKeyInput {
+                konamiCode.forEach { key ->
+                    keyDown(key = key)
+                    keyUp(key = key)
+                }
+            }
+        assertEquals(expected = listOf(Screen.Splash, Screen.Cheat).toStringList(), actual = navController.getScreens())
+
+        sendCommand(command = Command.Back)
         assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
     }
 

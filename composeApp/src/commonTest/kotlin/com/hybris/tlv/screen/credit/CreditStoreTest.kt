@@ -28,7 +28,7 @@ internal class CreditStoreTest: TestCase() {
     fun navigateBack() = runUnitTest {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Credit)
-        assertNavigation(list = listOf(element = Screen.Credit))
+        assertNavigation(list = listOf(Screen.Credit))
         storeFactory.getCreditStore().back()
         assertNavigation(list = emptyList())
     }

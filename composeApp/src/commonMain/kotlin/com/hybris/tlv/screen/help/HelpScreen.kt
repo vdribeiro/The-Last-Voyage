@@ -136,8 +136,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                         selectedProperty = name,
                         ascending = ascending,
                         onSortDirectionChange = { ascending = !ascending },
-                        visibleProperties = listOf(element = name),
-                        selectedProperties = listOf(element = name),
+                        visibleProperties = listOf(name),
+                        selectedProperties = listOf(name),
                     )
                 }
             )

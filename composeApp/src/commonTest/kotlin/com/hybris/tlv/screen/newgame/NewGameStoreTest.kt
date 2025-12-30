@@ -23,7 +23,7 @@ internal class NewGameStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         useCases.catastrophe.syncCatastrophes()
         storeFactory.getNewGameStore()
-        assertNavigation(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
@@ -31,7 +31,7 @@ internal class NewGameStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         useCases.ship.syncEngines()
         storeFactory.getNewGameStore()
-        assertNavigation(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
@@ -57,7 +57,7 @@ internal class NewGameStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         store.send(action = NewGameAction.Next)
         store.send(action = NewGameAction.Next)
-        assertNavigation(list = listOf(element = Screen.Game()))
+        assertNavigation(list = listOf(Screen.Game()))
     }
 
     @Test
@@ -68,14 +68,14 @@ internal class NewGameStoreTest: TestCase() {
         store.send(action = NewGameAction.SelectEngine(engine = engines.random()))
         store.send(action = NewGameAction.Next)
         store.send(action = NewGameAction.Next)
-        assertNavigation(list = listOf(element = Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
     fun navigateBack() = runUnitTest {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.NewGame)
-        assertNavigation(list = listOf(element = Screen.NewGame))
+        assertNavigation(list = listOf(Screen.NewGame))
         useCases.catastrophe.syncCatastrophes()
         useCases.ship.syncEngines()
         storeFactory.getNewGameStore().back()
