@@ -23,6 +23,7 @@
 # SQLDelight
 # Keep generated database implementation and driver classes
 -keep class app.cash.sqldelight.** { *; }
+-dontwarn java.sql.JDBCType
 
 # Sentry
 -keep class io.sentry.** { *; }
