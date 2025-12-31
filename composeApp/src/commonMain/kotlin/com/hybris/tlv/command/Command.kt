@@ -20,7 +20,7 @@ internal sealed class Command {
      */
     data object Back: Command()
     /**
-     * Toggles the audio playback on or off.
+     * Toggles the audio player on or off.
      */
     data object ToggleAudio: Command()
 }

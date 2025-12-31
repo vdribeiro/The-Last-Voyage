@@ -10,6 +10,10 @@ import com.hybris.tlv.telemetry.Telemetry
 internal open class AudioPlayer {
 
     /**
+     * Whether the audio player is enabled or disabled.
+     */
+    protected var enabled: Boolean = true
+    /**
      * The current playlist.
      */
     protected var playlist = listOf<String>()
@@ -31,7 +35,7 @@ internal open class AudioPlayer {
          */
         data object Resume: Action
         /**
-         * Toggles between resume and pause.
+         * Toggles the audio player on or off.
          */
         data object Toggle: Action
     }
@@ -57,11 +61,16 @@ internal open class AudioPlayer {
                     playlist = sortedPlaylist.shuffled()
                     stop()
                     play()
+                    // After setting up the playlist, check if the audio player is enabled
+                    if (!enabled) pause()
                 }
 
                 Action.Pause -> pause()
-                Action.Resume -> resume()
-                Action.Toggle -> if (!isPlaying()) resume() else pause()
+                Action.Resume -> if (enabled) resume()
+                Action.Toggle -> {
+                    enabled = !enabled
+                    if (!isPlaying()) resume() else pause()
+                }
             }
         }.onFailure { Telemetry.error(tag = TAG, message = "Error with media action $action", throwable = it) }
     }
