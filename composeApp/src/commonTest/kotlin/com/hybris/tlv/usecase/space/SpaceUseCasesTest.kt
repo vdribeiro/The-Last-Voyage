@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.first
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.hostsWithPlanets
 import com.hybris.tlv.stellarHosts
+import com.hybris.tlv.usecase.space.model.PlanetType
 
 internal class SpaceUseCasesTest: TestCase() {
 
@@ -38,5 +39,10 @@ internal class SpaceUseCasesTest: TestCase() {
         val sun = stellarHosts.first { it.id == SUN }
         val stellarHosts = useCases.space.getNearestStars(stellarHost = sun, n = 1, visited = emptySet())
         assertEquals(expected = "proxima_cen", actual = stellarHosts.first().id)
+    }
+
+    @Test
+    fun getPlanetType() = runUnitTest {
+        assertEquals(expected = PlanetType.EARTH_LIKE_PLANET, actual = PlanetType.fromValue(value = "EarTH_LikE_pLANet"))
     }
 }

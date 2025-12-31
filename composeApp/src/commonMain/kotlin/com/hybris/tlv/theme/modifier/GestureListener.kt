@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.platform
+import com.hybris.tlv.test.ExcludeFromTesting
 
 /**
  * A [Modifier] that listens for a specific [sequence] of [Gesture]s and triggers the [onSequenceComplete] callback upon completion.
@@ -59,99 +60,122 @@ internal fun Modifier.onGesture(
         }
     }
 
-    val threshold: Float = with(receiver = LocalDensity.current) { thresholdDp.toPx() }
-
     when (platform) {
-        Platform.Android, Platform.Ios -> {
-            var gestureDragTotal by remember { mutableStateOf(value = Offset.Zero) }
-            LaunchedEffect(key1 = gestureDragTotal) {
-                if (gestureDragTotal != Offset.Zero) {
-                    delay(timeMillis = 100)
-                    val gesture = onDragGestures(
-                        offset = gestureDragTotal,
-                        threshold = threshold,
-                        leniency = leniency
-                    )
-                    checkSequence(gesture = gesture)
-                    gestureDragTotal = Offset.Zero
-                }
-            }
+        Platform.Android, Platform.Ios -> mobileGestureListener(
+            thresholdDp = thresholdDp,
+            leniency = leniency,
+            checkSequence = ::checkSequence
+        )
 
-            val nestedScrollConnection = remember {
-                object: NestedScrollConnection {
-                    override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                        if (source == NestedScrollSource.UserInput) gestureDragTotal += available
-                        return Offset.Zero
-                    }
+        else -> desktopGestureListener(
+            thresholdDp = thresholdDp,
+            leniency = leniency,
+            checkSequence = ::checkSequence
+        )
+    }
+}
 
-                    override fun onPostScroll(
-                        consumed: Offset,
-                        available: Offset,
-                        source: NestedScrollSource
-                    ): Offset {
-                        if (source == NestedScrollSource.UserInput) gestureDragTotal += consumed
-                        return super.onPostScroll(consumed, available, source)
-                    }
-                }
-            }
-
-            this
-                .nestedScroll(connection = nestedScrollConnection)
-                .pointerInput(key1 = Unit) {
-                    coroutineScope {
-                        launch {
-                            detectTapGestures {
-                                checkSequence(gesture = Gesture.TAP)
-                            }
-                        }
-                        launch {
-                            awaitEachGesture {
-                                val down: PointerInputChange = awaitFirstDown(requireUnconsumed = false)
-                                var totalDrag = Offset.Zero
-                                val slopPassed = awaitTouchSlopOrCancellation(pointerId = down.id) { change, overSlop ->
-                                    change.consume()
-                                    totalDrag = overSlop
-                                }
-                                if (slopPassed == null) return@awaitEachGesture
-                                drag(pointerId = slopPassed.id) { change ->
-                                    totalDrag += change.position - change.previousPosition
-                                    change.consume()
-                                }
-                                val gesture = onDragGestures(
-                                    offset = totalDrag,
-                                    threshold = threshold,
-                                    leniency = leniency
-                                )
-                                checkSequence(gesture = gesture)
-                            }
-                        }
-                    }
-                }
+@ExcludeFromTesting
+private fun Modifier.mobileGestureListener(
+    thresholdDp: Dp = 60.dp,
+    leniency: Double = 2.0,
+    checkSequence: (Gesture?) -> Unit
+): Modifier = composed {
+    val threshold: Float = with(receiver = LocalDensity.current) { thresholdDp.toPx() }
+    var gestureDragTotal by remember { mutableStateOf(value = Offset.Zero) }
+    LaunchedEffect(key1 = gestureDragTotal) {
+        if (gestureDragTotal != Offset.Zero) {
+            delay(timeMillis = 100)
+            val gesture = onDragGestures(
+                offset = gestureDragTotal,
+                threshold = threshold,
+                leniency = leniency
+            )
+            checkSequence(gesture)
+            gestureDragTotal = Offset.Zero
         }
+    }
 
-        else -> this.pointerInput(key1 = Unit) {
-            awaitEachGesture {
-                val down = awaitFirstDown(requireUnconsumed = false)
-                var totalDrag = Offset.Zero
-                var isDrag = false
-                while (true) {
-                    val event = awaitPointerEvent()
-                    val change = event.changes.firstOrNull { it.id == down.id } ?: break
-                    if (change.pressed) {
-                        totalDrag += change.position - change.previousPosition
-                        if (totalDrag.getDistance() > viewConfiguration.touchSlop) isDrag = true
-                        change.consume()
-                    } else {
-                        if (!isDrag) checkSequence(gesture = Gesture.TAP) else {
-                            val gesture = onDragGestures(
-                                offset = totalDrag,
-                                threshold = threshold,
-                                leniency = leniency
-                            )
-                            checkSequence(gesture = gesture)
-                        }
-                        break
+    val nestedScrollConnection = remember {
+        object: NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                if (source == NestedScrollSource.UserInput) gestureDragTotal += available
+                return Offset.Zero
+            }
+
+            override fun onPostScroll(
+                consumed: Offset,
+                available: Offset,
+                source: NestedScrollSource
+            ): Offset {
+                if (source == NestedScrollSource.UserInput) gestureDragTotal += consumed
+                return super.onPostScroll(consumed, available, source)
+            }
+        }
+    }
+
+    this
+        .nestedScroll(connection = nestedScrollConnection)
+        .pointerInput(key1 = Unit) {
+            coroutineScope {
+                launch {
+                    detectTapGestures {
+                        checkSequence(Gesture.TAP)
                     }
+                }
+                launch {
+                    awaitEachGesture {
+                        val down: PointerInputChange = awaitFirstDown(requireUnconsumed = false)
+                        var totalDrag = Offset.Zero
+                        val slopPassed = awaitTouchSlopOrCancellation(pointerId = down.id) { change, overSlop ->
+                            change.consume()
+                            totalDrag = overSlop
+                        }
+                        if (slopPassed == null) return@awaitEachGesture
+                        drag(pointerId = slopPassed.id) { change ->
+                            totalDrag += change.position - change.previousPosition
+                            change.consume()
+                        }
+                        val gesture = onDragGestures(
+                            offset = totalDrag,
+                            threshold = threshold,
+                            leniency = leniency
+                        )
+                        checkSequence(gesture)
+                    }
+                }
+            }
+        }
+}
+
+private fun Modifier.desktopGestureListener(
+    thresholdDp: Dp = 60.dp,
+    leniency: Double = 2.0,
+    checkSequence: (Gesture?) -> Unit
+): Modifier = composed {
+    val threshold: Float = with(receiver = LocalDensity.current) { thresholdDp.toPx() }
+    this.pointerInput(key1 = Unit) {
+        awaitEachGesture {
+            val down = awaitFirstDown(requireUnconsumed = false)
+            var totalDrag = Offset.Zero
+            var isDrag = false
+            while (true) {
+                val event = awaitPointerEvent()
+                val change = event.changes.firstOrNull { it.id == down.id } ?: break
+                if (change.pressed) {
+                    totalDrag += change.position - change.previousPosition
+                    if (totalDrag.getDistance() > viewConfiguration.touchSlop) isDrag = true
+                    change.consume()
+                } else {
+                    if (!isDrag) checkSequence(Gesture.TAP) else {
+                        val gesture = onDragGestures(
+                            offset = totalDrag,
+                            threshold = threshold,
+                            leniency = leniency
+                        )
+                        checkSequence(gesture)
+                    }
+                    break
                 }
             }
         }
