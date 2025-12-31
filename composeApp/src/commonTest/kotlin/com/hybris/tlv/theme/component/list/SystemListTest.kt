@@ -38,7 +38,7 @@ internal class SystemListTest: TestCase() {
     }
 
     @Test
-    fun `system list renders host and planets`() = runUITest {
+    fun hostAndPlanets() = runUITest {
         val host = "Alpha Centauri"
         val planet = "Proxima b"
 
@@ -50,7 +50,7 @@ internal class SystemListTest: TestCase() {
             )
         }
 
-        onNodeWithText(host).assertIsDisplayed()
-        onNodeWithText(planet).assertIsDisplayed()
+        onNodeWithText(text = host).assertIsDisplayed()
+        onNodeWithText(text = planet).assertIsDisplayed()
     }
 }
