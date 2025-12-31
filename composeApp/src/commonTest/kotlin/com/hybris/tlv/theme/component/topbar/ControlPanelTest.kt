@@ -2,6 +2,7 @@ package com.hybris.tlv.theme.component.topbar
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.ui.test.ExperimentalTestApi
@@ -41,7 +42,7 @@ internal class ControlPanelTest: TestCase() {
         }
 
         onNodeWithContentDescription(label = "Sort Directions").performClick()
-        assertEquals(expected = false, actual = isAscending)
+        assertFalse(actual = isAscending)
     }
 
     @Test

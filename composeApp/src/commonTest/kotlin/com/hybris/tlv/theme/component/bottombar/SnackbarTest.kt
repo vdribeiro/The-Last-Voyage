@@ -2,6 +2,8 @@ package com.hybris.tlv.theme.component.bottombar
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onAllNodesWithText
@@ -27,10 +29,10 @@ internal class SnackbarTest: TestCase() {
         }
 
         onNodeWithText(text = message).assertIsDisplayed()
-        assertEquals(expected = false, actual = dismissCalled)
+        assertFalse(actual = dismissCalled)
         waitUntil(timeoutMillis = duration * 2) { onAllNodesWithText(text = message).fetchSemanticsNodes().isEmpty() && dismissCalled }
         onNodeWithText(text = message).assertDoesNotExist()
-        assertEquals(expected = true, actual = dismissCalled)
+        assertTrue(actual = dismissCalled)
     }
 
     @Test
