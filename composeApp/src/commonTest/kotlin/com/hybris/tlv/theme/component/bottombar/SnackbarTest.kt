@@ -1,7 +1,6 @@
 package com.hybris.tlv.theme.component.bottombar
 
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import androidx.compose.ui.test.ExperimentalTestApi
