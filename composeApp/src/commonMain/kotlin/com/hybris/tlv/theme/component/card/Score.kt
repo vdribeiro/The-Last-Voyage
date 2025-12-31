@@ -86,14 +86,15 @@ internal fun Score(
                     fontWeight = FontWeight.Bold,
                     color = colorScheme.primary
                 )
-                val arrowRotation by animateFloatAsState(targetValue = if (isExpanded == true) 180f else 0f)
-                Spacer(modifier = Modifier.width(width = 8.dp))
-                Icon(
-                    modifier = Modifier.rotate(degrees = arrowRotation),
-                    imageVector = if (isExpanded != null) Icons.Default.KeyboardArrowDown else null,
-                    contentDescription = "Expand",
-                    emptySize = 12.dp
-                )
+                if (isExpanded != null) {
+                    val arrowRotation by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f)
+                    Spacer(modifier = Modifier.width(width = 8.dp))
+                    Icon(
+                        modifier = Modifier.rotate(degrees = arrowRotation),
+                        imageVector = Icons.Default.KeyboardArrowDown,
+                        contentDescription = "Expand",
+                    )
+                }
             }
             AnimatedVisibility(
                 visible = isExpanded != false,
