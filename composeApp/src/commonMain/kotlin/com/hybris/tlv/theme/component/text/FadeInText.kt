@@ -24,7 +24,8 @@ import com.hybris.tlv.theme.LocalTypography
 @Composable
 internal fun FadeInText(
     modifier: Modifier = Modifier,
-    text: String? = null
+    text: String? = null,
+    duration: Int = 2500
 ) {
     val typography = LocalTypography.current
 
@@ -33,7 +34,7 @@ internal fun FadeInText(
     LaunchedEffect(key1 = Unit) { visible = true }
     AnimatedVisibility(
         visible = visible,
-        enter = fadeIn(animationSpec = tween(durationMillis = 2500))
+        enter = fadeIn(animationSpec = tween(durationMillis = duration))
     ) {
         Text(
             modifier = modifier

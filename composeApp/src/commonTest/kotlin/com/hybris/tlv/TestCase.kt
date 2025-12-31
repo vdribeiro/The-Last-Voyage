@@ -136,7 +136,7 @@ internal abstract class TestCase {
      * Executes a unit test.
      * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
      */
-    protected fun runUnitTest(mockNavigation: Boolean = true, block: suspend TestScope.() -> Unit) {
+    protected fun runUnitTest(block: suspend TestScope.() -> Unit) {
         runTest {
             val testDispatcher = UnconfinedTestDispatcher(scheduler = testScheduler)
             Dispatcher.setTestDispatcher(dispatcher = testDispatcher)
@@ -144,7 +144,7 @@ internal abstract class TestCase {
                 setFlag()
                 reset()
                 screens.clear()
-                if (mockNavigation) backgroundScope.launch(context = testDispatcher) { receiveCommands() }
+                backgroundScope.launch(context = testDispatcher) { receiveCommands() }
                 block()
                 testScheduler.advanceUntilIdle()
             } finally {
@@ -161,16 +161,16 @@ internal abstract class TestCase {
         runComposeUiTest {
             val testDispatcher = UnconfinedTestDispatcher()
             Dispatcher.setTestDispatcher(dispatcher = testDispatcher)
-            val scope = CoroutineScope(context = testDispatcher)
+            val scope = if (mockNavigation) CoroutineScope(context = testDispatcher) else null
             try {
                 setFlag()
                 reset()
                 screens.clear()
-                if (mockNavigation) scope.launch { receiveCommands() }
+                scope?.launch { receiveCommands() }
                 block()
                 waitForIdle()
             } finally {
-                scope.cancel()
+                scope?.cancel()
                 Dispatcher.reset()
             }
         }
