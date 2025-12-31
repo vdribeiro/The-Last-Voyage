@@ -20,7 +20,7 @@ internal class FadeInTextTest: TestCase() {
 
         setScreen {
             FadeInText(
-                modifier = Modifier.testTag(tag = "tag"),
+                modifier = Modifier.testTag(tag = tag),
                 text = text,
                 duration = duration
             )
@@ -28,7 +28,7 @@ internal class FadeInTextTest: TestCase() {
 
         mainClock.advanceTimeBy(milliseconds = (duration * 2).toLong())
 
-        onNodeWithTag(tag)
+        onNodeWithTag(testTag = tag)
             .assertExists()
             .assertTextEquals(text)
             .assertIsDisplayed()
