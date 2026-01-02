@@ -18,7 +18,7 @@ plugins {
     alias(notation = libs.plugins.kotlinSerialization)
 }
 
-//region Local Properties
+//region Properties
 val localProperties: Properties = Properties().apply {
     runCatching { rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use(block = this::load) }.getOrNull()
 }
@@ -30,6 +30,10 @@ val appVendor: String = "Hybris"
 val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb"
 val appVersion: String = "1.1.7"
 val appVersionNumber: Long = 15
+
+val jdkVersion = 21
+val jvmVersion = JvmTarget.JVM_21
+val javaVersion = JavaVersion.VERSION_21
 
 val androidTarget: Int = 35
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
@@ -48,9 +52,10 @@ val windowsId = "580991aa-c884-4661-9876-5f36272fd26b"
 val windowsLauncher: File get() = project.file("src/commonMain/composeResources/drawable/ic_launcher_win.ico")
 
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
-val isRelease: Boolean get() = project.gradle.startParameter.taskNames.any {
-    it.contains(other = "package", ignoreCase = true) || it.contains(other = "notarize", ignoreCase = true)
-}
+val isRelease: Boolean
+    get() = project.gradle.startParameter.taskNames.any {
+        it.contains(other = "package", ignoreCase = true) || it.contains(other = "notarize", ignoreCase = true)
+    }
 val launcher: File get() = project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png")
 
 //endregion
@@ -146,19 +151,21 @@ fun DependencyHandler.addJavaFx() {
 //endregion
 
 kotlin {
+    jvmToolchain(jdkVersion = jdkVersion)
+
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 
     androidTarget {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(jvmVersion)
         }
     }
 
     jvm(name = "desktop") {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(jvmVersion)
         }
     }
 
@@ -288,8 +295,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
     }
 }
 
