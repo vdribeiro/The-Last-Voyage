@@ -15,7 +15,7 @@
     pod install
 # Compile
     Android: ./gradlew clean bundleRelease
+    Ios:     xcode archive
     Windows: ./gradlew clean packageMsi
     Linux:   ./gradlew clean packageDeb
-    Mac:     ./gradlew clean packageDmg
-    Ios:     xcode archive
+    Mac:     ./gradlew clean notarizeDmg --no-configuration-cache

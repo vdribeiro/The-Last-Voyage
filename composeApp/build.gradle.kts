@@ -30,15 +30,26 @@ val appVendor: String = "Hybris"
 val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb"
 val appVersion: String = "1.1.7"
 val appVersionNumber: Long = 15
+
 val androidTarget: Int = 35
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
 val androidKeyPassword: String = localProperties.getProperty("android.keyPassword", "")
 val androidStoreFile: File? = runCatching { rootProject.file(localProperties.getProperty("android.storeFile", "")) }.getOrNull()
 val androidStorePassword: String = localProperties.getProperty("android.storePassword", "")
+
 val iosTarget: String = "16.0"
-val macIdentity: String = localProperties.getProperty("mac.sign.identity", "")
+val appleIdentity: String = localProperties.getProperty("mac.sign.identity", "")
+val appleTeamId: String = localProperties.getProperty("mac.notarization.teamId", "")
+val appleId: String = localProperties.getProperty("mac.notarization.appleId", "")
+val applePassword: String = localProperties.getProperty("mac.notarization.password", "")
+
+val windowsId = "580991aa-c884-4661-9876-5f36272fd26b"
+
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
-val isRelease: Boolean get() = project.gradle.startParameter.taskNames.any { it.contains(other = "package", ignoreCase = true) }
+val isRelease: Boolean get() = project.gradle.startParameter.taskNames.any {
+    it.contains(other = "package", ignoreCase = true) || it.contains(other = "notarize", ignoreCase = true)
+}
+
 //endregion
 
 //region Generate Property.kt file
@@ -313,24 +324,35 @@ compose.desktop {
             modules("java.sql")
 
             macOS {
-                iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns"))
                 bundleID = appId
+                iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns"))
                 if (isRelease) {
                     entitlementsFile.set(project.file("src/desktopMain/resources/entitlements.plist"))
                     signing {
                         sign.set(true)
-                        identity.set(macIdentity)
+                        identity.set(appleIdentity)
+                    }
+
+                    notarization {
+                        teamID.set(appleTeamId)
+                        appleID.set(appleId)
+                        password.set(applePassword)
                     }
                 }
             }
 
             windows {
+                upgradeUuid = windowsId
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.ico"))
                 shortcut = true
+                menu = true
+                menuGroup = appVendor
             }
 
             linux {
+                appCategory = "Game"
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png"))
+                shortcut = true
             }
         }
     }
