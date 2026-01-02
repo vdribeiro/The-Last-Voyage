@@ -2,6 +2,7 @@
 
 package com.hybris.tlv
 
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.window.Window
@@ -14,7 +15,6 @@ import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.theme.getTranslation
 import javafx.embed.swing.JFXPanel
-import org.jetbrains.compose.resources.painterResource
 import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.ic_launcher_round
 
