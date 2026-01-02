@@ -42,13 +42,16 @@ val appleIdentity: String = localProperties.getProperty("mac.sign.identity", "")
 val appleTeamId: String = localProperties.getProperty("mac.notarization.teamId", "")
 val appleId: String = localProperties.getProperty("mac.notarization.appleId", "")
 val applePassword: String = localProperties.getProperty("mac.notarization.password", "")
+val appleLauncher: File get() = project.file("src/commonMain/composeResources/drawable/ic_launcher_apple.icns")
 
 val windowsId = "580991aa-c884-4661-9876-5f36272fd26b"
+val windowsLauncher: File get() = project.file("src/commonMain/composeResources/drawable/ic_launcher_win.ico")
 
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
 val isRelease: Boolean get() = project.gradle.startParameter.taskNames.any {
     it.contains(other = "package", ignoreCase = true) || it.contains(other = "notarize", ignoreCase = true)
 }
+val launcher: File get() = project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png")
 
 //endregion
 
@@ -303,7 +306,7 @@ compose.desktop {
         )
         if (currentOS.isMacOsX) {
             jvmArgs += listOf(
-                "-Xdock:icon=${project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns").absolutePath}",
+                "-Xdock:icon=${appleLauncher.absolutePath}",
                 "-Xdock:name=$appName",
                 "-Dapple.awt.application.name=$appName"
             )
@@ -325,7 +328,7 @@ compose.desktop {
 
             macOS {
                 bundleID = appId
-                iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.icns"))
+                iconFile.set(appleLauncher)
                 if (isRelease) {
                     entitlementsFile.set(project.file("src/desktopMain/resources/entitlements.plist"))
                     signing {
@@ -343,7 +346,7 @@ compose.desktop {
 
             windows {
                 upgradeUuid = windowsId
-                iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.ico"))
+                iconFile.set(windowsLauncher)
                 shortcut = true
                 menu = true
                 menuGroup = appVendor
@@ -351,7 +354,7 @@ compose.desktop {
 
             linux {
                 appCategory = "Game"
-                iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png"))
+                iconFile.set(launcher)
                 shortcut = true
             }
         }

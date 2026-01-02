@@ -14,6 +14,9 @@ import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.theme.getTranslation
 import javafx.embed.swing.JFXPanel
+import org.jetbrains.compose.resources.painterResource
+import thelastvoyage.composeapp.generated.resources.Res
+import thelastvoyage.composeapp.generated.resources.ic_launcher_round
 
 private const val TAG = "App"
 
@@ -31,11 +34,13 @@ fun main() = application {
 
     val appNameTranslation = getTranslation(key = "app_name")
     val windowState = rememberWindowState(placement = WindowPlacement.Maximized)
+    val icon = painterResource(resource = Res.drawable.ic_launcher_round)
     val keyListener = rememberKeySequenceCheats()
 
     Window(
         title = appNameTranslation,
         state = windowState,
+        icon = icon,
         onPreviewKeyEvent = keyListener,
         onCloseRequest = ::exitApplication,
     ) {
