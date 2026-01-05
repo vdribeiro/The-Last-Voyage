@@ -1,26 +1,22 @@
 package com.hybris.tlv.http
 
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.INFINITE
-import kotlin.time.Duration.Companion.ZERO
-import kotlin.time.Duration.Companion.seconds
-import kotlin.time.TimeMark
-import kotlin.time.TimeSource
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.prepareGet
 import io.ktor.client.statement.bodyAsChannel
+import io.ktor.http.contentLength
 import io.ktor.http.encodeURLPath
 import io.ktor.http.isSuccess
-import io.ktor.utils.io.toByteArray
+import io.ktor.utils.io.core.BytePacketBuilder
+import io.ktor.utils.io.core.build
+import io.ktor.utils.io.core.size
+import io.ktor.utils.io.core.writePacket
+import io.ktor.utils.io.readRemaining
+import io.ktor.utils.io.readText
 import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.platform.isDebug
 import com.hybris.tlv.serializer.decode
-import com.hybris.tlv.telemetry.Telemetry
 
 /**
  * Performs a GET request to the URL [path], given a map of query parameters [queryMap] to be appended to the URL,
@@ -33,42 +29,33 @@ import com.hybris.tlv.telemetry.Telemetry
 internal suspend inline fun <reified T> HttpClient.getStream(
     path: String,
     queryMap: Map<String, String> = emptyMap(),
+    noinline onProgress: ((Float) -> Unit)? = null,
     crossinline block: HttpRequestBuilder.() -> Unit = {}
 ): Result<T> = withContext(context = Dispatcher.IO) {
     runCatching {
         if (!flag.http) throw Throwable(message = "Network disabled")
         if (!isInternetAvailableDebounced()) throw Throwable(message = "No internet connection available")
+
         prepareGet(urlString = path.encodeURLPath()) {
             queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
             block()
         }.execute { httpResponse ->
             if (!httpResponse.status.isSuccess()) throw Throwable(message = "Unsuccessful response: ${httpResponse.status}")
+
             val channel = httpResponse.bodyAsChannel()
-            val bytes = channel.toByteArray()
-            val list = decode<List<T>>(value = bytes.decodeToString()) ?: throw Throwable("Unable to decode response")
-            Result.Success(list = list)
+            val contentLength = httpResponse.contentLength() ?: -1L
+            val raw = BytePacketBuilder().use {
+                while (!channel.isClosedForRead) {
+                    val packet = channel.readRemaining(max = CHUNK_SIZE)
+                    it.writePacket(packet = packet)
+                    onProgress?.invoke(if (contentLength > 0) it.size.toFloat() / contentLength else -1F)
+                }
+                onProgress?.invoke(1f)
+                it.build().readText()
+            }
+            Result.Success(list = decode<List<T>>(value = raw) ?: throw Throwable("Unable to decode response"))
         }
     }.getOrElse { Result.Error(error = it) }
 }
 
-/**
- * Checks for internet availability with a debounce mechanism to avoid frequent checks.
- * This function uses a mutex to ensure thread safety and caches the internet status for a duration of [cacheTTL].
- */
-private suspend fun isInternetAvailableDebounced(): Boolean = runCatching {
-    mutex.withLock {
-        val now = TimeSource.Monotonic.markNow()
-        val previous = lastCheckTime?.elapsedNow() ?: INFINITE
-        if (previous < cacheTTL) return@withLock lastKnownStatus
-        lastKnownStatus = isInternetAvailable()
-        lastCheckTime = now
-        return@withLock lastKnownStatus
-    }
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = false)
-
-private val mutex = Mutex()
-private val cacheTTL: Duration = if (isDebug) ZERO else 5.seconds
-private var lastCheckTime: TimeMark? = null
-private var lastKnownStatus = false
-
-private const val TAG = "Network"
+private const val CHUNK_SIZE = 1024L * 8L

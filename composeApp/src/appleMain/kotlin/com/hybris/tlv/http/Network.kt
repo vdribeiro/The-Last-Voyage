@@ -17,6 +17,7 @@ import platform.SystemConfiguration.SCNetworkReachabilityFlagsVar
 import platform.SystemConfiguration.SCNetworkReachabilityGetFlags
 import platform.SystemConfiguration.SCNetworkReachabilityRef
 import platform.SystemConfiguration.kSCNetworkReachabilityFlagsConnectionRequired
+import platform.SystemConfiguration.kSCNetworkReachabilityFlagsIsWWAN
 import platform.SystemConfiguration.kSCNetworkReachabilityFlagsReachable
 import platform.posix.AF_INET
 import platform.posix.sockaddr_in
@@ -25,7 +26,7 @@ import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 
 @OptIn(ExperimentalForeignApi::class)
-internal actual suspend fun isInternetAvailable(): Boolean = withContext(context = Dispatcher.IO) {
+internal actual suspend fun getNetworkQuality(): NetworkQuality = withContext(context = Dispatcher.IO) {
     runCatching {
         memScoped {
             // Create a IPv4 zero address
@@ -37,18 +38,26 @@ internal actual suspend fun isInternetAvailable(): Boolean = withContext(context
             val reachability: SCNetworkReachabilityRef = SCNetworkReachabilityCreateWithAddress(
                 allocator = null,
                 address = zeroAddress.ptr.reinterpret()
-            ) ?: return@withContext false
+            ) ?: return@withContext NetworkQuality.Unknown
+
             // Network status
             reachability.use {
                 val networkStatus: SCNetworkReachabilityFlagsVar = alloc<SCNetworkReachabilityFlagsVar>()
                 val success = SCNetworkReachabilityGetFlags(target = it, flags = networkStatus.ptr)
-                if (!success) return@withContext false
+                if (!success) return@withContext NetworkQuality.Unknown
                 val isReachable = (networkStatus.value and kSCNetworkReachabilityFlagsReachable) != 0u
-                val needsConnection = (networkStatus.value and kSCNetworkReachabilityFlagsConnectionRequired) != 0u
-                isReachable && !needsConnection
+                val needConnection = (networkStatus.value and kSCNetworkReachabilityFlagsConnectionRequired) != 0u
+
+                if (isReachable && !needConnection) {
+                    val isCellular = (networkStatus.value and kSCNetworkReachabilityFlagsIsWWAN) != 0u
+                    when {
+                        isCellular -> NetworkQuality.Medium
+                        else -> NetworkQuality.Fast
+                    }
+                } else NetworkQuality.Unknown
             }
         }
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = false)
+    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = NetworkQuality.Unknown)
 }
 
 @OptIn(ExperimentalForeignApi::class)
