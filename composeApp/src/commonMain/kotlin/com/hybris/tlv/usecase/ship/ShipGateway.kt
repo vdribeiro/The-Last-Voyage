@@ -4,7 +4,7 @@ import kotlin.math.abs
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.HttpClientFactory.Companion.ENGINES_URL
+import com.hybris.tlv.http.ENGINES_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.ENGINES_JSON

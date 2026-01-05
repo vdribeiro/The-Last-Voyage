@@ -3,7 +3,7 @@ package com.hybris.tlv.usecase.credit
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.HttpClientFactory.Companion.CREDITS_URL
+import com.hybris.tlv.http.CREDITS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.CREDITS_JSON

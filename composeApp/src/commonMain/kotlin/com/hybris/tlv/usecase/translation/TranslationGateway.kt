@@ -3,8 +3,8 @@ package com.hybris.tlv.usecase.translation
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.HttpClientFactory.Companion.TRANSLATIONS_URL
 import com.hybris.tlv.http.Result
+import com.hybris.tlv.http.TRANSLATIONS_URL
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.TRANSLATIONS_JSON
 import com.hybris.tlv.serializer.loadFromJsonResource

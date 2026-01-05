@@ -4,7 +4,6 @@ import kotlin.test.Test
 import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.config.Configs
-import com.hybris.tlv.http.HttpClientFactory.Companion.CONFIGS_URL
 
 internal class HttpTest: TestCase() {
 

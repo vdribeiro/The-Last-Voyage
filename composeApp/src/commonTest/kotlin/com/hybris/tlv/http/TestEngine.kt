@@ -11,16 +11,6 @@ import com.hybris.tlv.configs
 import com.hybris.tlv.credits
 import com.hybris.tlv.engines
 import com.hybris.tlv.events
-import com.hybris.tlv.http.HttpClientFactory.Companion.ACHIEVEMENTS_URL
-import com.hybris.tlv.http.HttpClientFactory.Companion.CATASTROPHES_URL
-import com.hybris.tlv.http.HttpClientFactory.Companion.CONFIGS_URL
-import com.hybris.tlv.http.HttpClientFactory.Companion.CREDITS_URL
-import com.hybris.tlv.http.HttpClientFactory.Companion.ENGINES_URL
-import com.hybris.tlv.http.HttpClientFactory.Companion.EVENTS_URL
-import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
-import com.hybris.tlv.http.HttpClientFactory.Companion.PLANETS_URL
-import com.hybris.tlv.http.HttpClientFactory.Companion.STELLAR_HOSTS_URL
-import com.hybris.tlv.http.HttpClientFactory.Companion.TRANSLATIONS_URL
 import com.hybris.tlv.planets
 import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.stellarHosts

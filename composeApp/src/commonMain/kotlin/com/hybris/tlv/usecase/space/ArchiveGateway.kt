@@ -6,7 +6,7 @@ import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.timeout
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.HttpClientFactory.Companion.EXOPLANET_ARCHIVE_URL
+import com.hybris.tlv.http.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.serializer.ARCHIVE_PLANETS_JSON

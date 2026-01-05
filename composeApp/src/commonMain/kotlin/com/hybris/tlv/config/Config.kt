@@ -12,7 +12,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.HttpClientFactory.Companion.CONFIGS_URL
+import com.hybris.tlv.http.CONFIGS_URL
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.locale.hasTimePassed

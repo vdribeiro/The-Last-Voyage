@@ -49,17 +49,4 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
         null -> HttpClient { install() }
         else -> HttpClient(engine = engine) { install() }
     }
-
-    companion object {
-        const val EXOPLANET_ARCHIVE_URL = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
-        const val CONFIGS_URL = "https://gist.githubusercontent.com/vdribeiro/eb23013b329c47317622981187df3f23/raw/configs.json"
-        const val TRANSLATIONS_URL = "https://gist.githubusercontent.com/vdribeiro/90daf9ebde2b8e37ce893e49e8d7f7c7/raw/translations.json"
-        const val CATASTROPHES_URL = "https://gist.githubusercontent.com/vdribeiro/27258c022708a20066f793996031d884/raw/catastrophes.json"
-        const val ENGINES_URL = "https://gist.githubusercontent.com/vdribeiro/4168f14c15569dd6dd4a57af4ee37a99/raw/engines.json"
-        const val STELLAR_HOSTS_URL = "https://gist.githubusercontent.com/vdribeiro/7e0ccc933aa6826bf1f427aa036f5793/raw/hosts.json"
-        const val PLANETS_URL = "https://gist.githubusercontent.com/vdribeiro/95146e01cd2b5c322a5e49ee4b9e3261/raw/planets.json"
-        const val EVENTS_URL = "https://gist.githubusercontent.com/vdribeiro/c2cf6a30e9be34c512f77ceea583bc71/raw/events.json"
-        const val ACHIEVEMENTS_URL = "https://gist.githubusercontent.com/vdribeiro/bf676c0c196c64ed40a7a1e7635035ea/raw/achievements.json"
-        const val CREDITS_URL = "https://gist.githubusercontent.com/vdribeiro/a0dd7e6766e8bb40d1028a62d4d8f941/raw/credits.json"
-    }
 }
