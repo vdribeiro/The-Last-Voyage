@@ -4,19 +4,24 @@ package com.hybris.tlv.http
 
 import java.net.InetSocketAddress
 import java.net.Socket
+import kotlin.time.TimeSource
 import kotlinx.coroutines.withContext
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.http.ConnectivityManager.FAST_THRESHOLD_MILLIS
+import com.hybris.tlv.http.ConnectivityManager.MEDIUM_THRESHOLD_MILLIS
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 
+private val probeAddress by lazy { InetSocketAddress("8.8.8.8", 53) }
+
 internal actual suspend fun getNetworkQuality(): NetworkQuality = withContext(context = Dispatcher.IO) {
     runCatching {
-        val start = System.currentTimeMillis()
-        Socket().use { it.connect(InetSocketAddress("8.8.8.8", 53), TIMEOUT) }
-        val time = System.currentTimeMillis() - start
+        val mark = TimeSource.Monotonic.markNow()
+        Socket().use { it.connect(probeAddress, TIMEOUT) }
+        val elapsed = mark.elapsedNow().inWholeMilliseconds
         when {
-            time < FAST_MILLIS -> NetworkQuality.Fast
-            time < MEDIUM_MILLIS -> NetworkQuality.Medium
+            elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
+            elapsed < MEDIUM_THRESHOLD_MILLIS -> NetworkQuality.Medium
             else -> NetworkQuality.Slow
         }
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = NetworkQuality.Unknown)
@@ -24,5 +29,3 @@ internal actual suspend fun getNetworkQuality(): NetworkQuality = withContext(co
 
 private const val TAG = "Network"
 private const val TIMEOUT = 1500
-private const val FAST_MILLIS = 150
-private const val MEDIUM_MILLIS = 500
