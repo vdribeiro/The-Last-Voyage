@@ -1,21 +1,24 @@
-# Run Tests
-    ./gradlew clean koverHtmlReportDesktop
-# Bump Version in Files
+# Bump Version
     build.gradle.kts
     info.plist
     project.pbxproj
     configs.json
-# Update Gists
-    cd composeApp/src/commonMain/composeResources/files
-    gh gist edit [hash] *.json
 # Pod Install
     cd iosApp
     rm -rf Pods
     rm Podfile.lock
     pod install
+# Run Tests
+    ./gradlew clean koverHtmlReportDesktop
+# Git
+    create and push tag
 # Compile
     Android: ./gradlew clean bundleRelease
     Ios:     xcode archive
     Windows: ./gradlew clean packageMsi
     Linux:   ./gradlew clean packageDeb
-    Mac:     ./gradlew clean notarizeDmg --no-configuration-cache
+    Mac:     ./gradlew clean notarizeDmg
+# Update Gists
+    cd composeApp/src/commonMain/composeResources/files
+    gh gist edit [hash] *.json
+# Publish
