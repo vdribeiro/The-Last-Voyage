@@ -78,7 +78,10 @@ internal suspend inline fun <reified T> HttpClient.getStream(
             onProgress?.invoke(1f)
             Result.Success(list = decode<List<T>>(value = stringBuilder.toString()) ?: throw Throwable("Unable to decode response"))
         }
-    }.getOrElse { Result.Error(error = it) }
+    }.getOrElse {
+        invalidateCache()
+        Result.Error(error = it)
+    }
 }
 
 private fun HttpRequestBuilder.setTimeout(networkQuality: NetworkQuality) {
@@ -106,7 +109,13 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching
         val mark = TimeSource.Monotonic.markNow()
         when {
             isInternetAvailable() -> {
-                head(urlString = URL.Probe.path) { timeout { requestTimeoutMillis = 1500L } }
+                head(urlString = URL.Probe.path) {
+                    timeout {
+                        connectTimeoutMillis = PROBE_TIMEOUT
+                        socketTimeoutMillis = PROBE_TIMEOUT
+                        requestTimeoutMillis = PROBE_TIMEOUT
+                    }
+                }
                 val elapsed = mark.elapsedNow().inWholeMilliseconds
                 when {
                     elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
@@ -131,5 +140,6 @@ internal suspend fun invalidateCache() =
 
 private const val TAG = "Network"
 private const val CHUNK_SIZE = 1024L * 8L
+private const val PROBE_TIMEOUT = 5000L
 private const val FAST_THRESHOLD_MILLIS = 150
 private const val MEDIUM_THRESHOLD_MILLIS = 500
