@@ -135,7 +135,7 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching
 internal suspend fun invalidateCache() =
     mutex.withLock { lastCheckTime = null }
 
-private const val TAG = "ConnectivityManager"
+private const val TAG = "Network"
 private const val CHUNK_SIZE = 1024L * 8L
 private const val PROBE_ADDRESS = "http://connectivitycheck.gstatic.com/generate_204"
 private const val FAST_THRESHOLD_MILLIS = 150
