@@ -28,7 +28,7 @@ internal object TestEngine {
                 path.startsWith(prefix = URL.Probe.path) -> respondStatus(status = HttpStatusCode.NoContent)
                 else -> respondError(status = HttpStatusCode.NotFound, content = "Not found for path: ${request.url.encodedPath}")
             }
-            
+
             HttpMethod.Get -> when {
                 path.startsWith(prefix = URL.ExoplanetArchive.path) -> respondArchive(request = request)
                 path.startsWith(prefix = URL.Configs.path) -> respond(content = encode(value = listOf(configs)).orEmpty())

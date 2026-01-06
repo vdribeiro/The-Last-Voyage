@@ -93,13 +93,16 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching
         }
 
         val elapsed = lastTimeMark.elapsed().inWholeMilliseconds
+        Telemetry.info(tag = TAG, message = "Network quality elapsed time: $elapsed")
         when {
             elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
             elapsed < MEDIUM_THRESHOLD_MILLIS -> NetworkQuality.Medium
             else -> NetworkQuality.Slow
         }.also { lastNetworkQuality = it }
     }
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = NetworkQuality.Slow)
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = NetworkQuality.Slow).also {
+    Telemetry.info(tag = TAG, message = "Network quality: $it")
+}
 
 /**
  * Resets the cache to force a re-check on the next request.
@@ -129,6 +132,6 @@ private fun HttpRequestBuilder.setTimeout(networkQuality: NetworkQuality) {
 }
 
 private const val TAG = "Network"
-private const val FAST_THRESHOLD_MILLIS = 150L
-private const val MEDIUM_THRESHOLD_MILLIS = 500L
+private const val FAST_THRESHOLD_MILLIS = 500L
+private const val MEDIUM_THRESHOLD_MILLIS = 1000L
 private const val SLOW_THRESHOLD_MILLIS = 5000L
