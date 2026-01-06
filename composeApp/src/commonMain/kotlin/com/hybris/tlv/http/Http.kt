@@ -68,7 +68,7 @@ internal suspend inline fun <reified T> HttpClient.get(
 }
 
 /**
- * Checks for network quality. A debounce is used to avoid frequent checks.
+ * Checks for network quality with a debounce mechanism to avoid frequent checks.
  */
 private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching {
     mutex.withLock {
@@ -87,7 +87,7 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching
 
         // Check for Success or Redirect / Captive Portal
         if (!response.status.isSuccess() || !response.call.request.url.toString().contains(other = URL.Probe.path)) {
-            return@runCatching NetworkQuality.Unknown
+            return@withLock NetworkQuality.Unknown
         }
 
         val elapsed = lastTimeMark.elapsed().inWholeMilliseconds
@@ -96,9 +96,10 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching
             elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
             elapsed < MEDIUM_THRESHOLD_MILLIS -> NetworkQuality.Medium
             else -> NetworkQuality.Slow
-        }.also { lastNetworkQuality = it }
+        }
     }
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = NetworkQuality.Slow).also {
+    lastNetworkQuality = it
     Telemetry.info(tag = TAG, message = "Network quality: $it")
 }
 
