@@ -37,14 +37,16 @@ internal object ConnectivityManager {
             val previous = lastCheckTime?.elapsedNow() ?: INFINITE
             if (previous < cacheTTL) return@withLock lastKnownQuality
 
-            val requestMark = TimeSource.Monotonic.markNow()
-            head(urlString = PROBE_ADDRESS) { timeout { requestTimeoutMillis = 1500L } }
-            val elapsed = requestMark.elapsedNow().inWholeMilliseconds
-            val networkQuality = when {
-                elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
-                elapsed < MEDIUM_THRESHOLD_MILLIS -> NetworkQuality.Medium
-                else -> NetworkQuality.Slow
-            }
+            val networkQuality = if (isInternetAvailable()) {
+                val requestMark = TimeSource.Monotonic.markNow()
+                head(urlString = PROBE_ADDRESS) { timeout { requestTimeoutMillis = 1500L } }
+                val elapsed = requestMark.elapsedNow().inWholeMilliseconds
+                when {
+                    elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
+                    elapsed < MEDIUM_THRESHOLD_MILLIS -> NetworkQuality.Medium
+                    else -> NetworkQuality.Slow
+                }
+            } else NetworkQuality.Unknown
 
             lastKnownQuality = networkQuality
             lastCheckTime = cacheMark
