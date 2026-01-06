@@ -5,7 +5,7 @@ import io.ktor.client.HttpClient
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.URL
-import com.hybris.tlv.http.getStream
+import com.hybris.tlv.http.get
 import com.hybris.tlv.serializer.JsonResource
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
@@ -20,7 +20,7 @@ internal class CreditGateway(
     private val creditDao = database.creditQueries
 
     override suspend fun syncCredits() = withContext(context = Dispatcher.IO) {
-        when (val result = httpClient.getStream<Credit>(path = URL.Credits)) {
+        when (val result = httpClient.get<Credit>(path = URL.Credits)) {
             is Result.Error -> {
                 Telemetry.error(tag = TAG, message = "Unable to get credits", throwable = result.error)
                 false

@@ -14,7 +14,7 @@ import io.ktor.client.HttpClient
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.URL
-import com.hybris.tlv.http.getStream
+import com.hybris.tlv.http.get
 import com.hybris.tlv.locale.hasTimePassed
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.platform.isDebug
@@ -75,7 +75,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
             if (!hasTimePassed(dateTime = _preferences.value.syncTime, duration = cacheTTL)) return@withContext
             setPreferences { it.copy(syncTime = now()) }
 
-            when (val result = httpClient.getStream<Configs>(path = URL.Configs)) {
+            when (val result = httpClient.get<Configs>(path = URL.Configs)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get remote configs", throwable = result.error)
                 is Result.Success -> {
                     val configs = result.list.firstOrNull()

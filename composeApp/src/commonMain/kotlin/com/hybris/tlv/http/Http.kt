@@ -47,7 +47,7 @@ internal sealed interface NetworkQuality {
  * An additional lambda [block] can also be provided for further configuration of the [HttpRequestBuilder].
  */
 @OptIn(ExperimentalSerializationApi::class)
-internal suspend inline fun <reified T> HttpClient.getStream(
+internal suspend inline fun <reified T> HttpClient.get(
     path: URL,
     queryMap: Map<String, String> = emptyMap(),
     crossinline block: HttpRequestBuilder.() -> Unit = {}
@@ -127,7 +127,6 @@ private fun HttpRequestBuilder.setTimeout(networkQuality: NetworkQuality) {
 }
 
 private const val TAG = "Network"
-private const val CHUNK_SIZE = 1024 * 8
 private const val FAST_THRESHOLD_MILLIS = 150L
 private const val MEDIUM_THRESHOLD_MILLIS = 500L
 private const val SLOW_THRESHOLD_MILLIS = 5000L

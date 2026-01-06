@@ -5,7 +5,7 @@ import io.ktor.client.HttpClient
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.URL
-import com.hybris.tlv.http.getStream
+import com.hybris.tlv.http.get
 import com.hybris.tlv.serializer.JsonResource
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
@@ -20,7 +20,7 @@ internal class CatastropheGateway(
     private val catastropheDao = database.catastropheQueries
 
     override suspend fun syncCatastrophes(): Boolean = withContext(context = Dispatcher.IO) {
-        when (val result = httpClient.getStream<Catastrophe>(path = URL.Catastrophes)) {
+        when (val result = httpClient.get<Catastrophe>(path = URL.Catastrophes)) {
             is Result.Error -> {
                 Telemetry.error(tag = TAG, message = "Unable to get catastrophes", throwable = result.error)
                 false
