@@ -87,9 +87,9 @@ internal suspend inline fun <reified T> loadJsonFile(path: String): T? = withCon
  * Loads and decodes a JSON resource from the application's resources into a list of objects of type [T].
  * Returns an empty list if loading or decoding fails.
  */
-internal suspend inline fun <reified T> loadFromJsonResource(path: String): List<T> = withContext(context = Dispatcher.IO) {
+internal suspend inline fun <reified T> loadFromJsonResource(json: JsonResource): List<T> = withContext(context = Dispatcher.IO) {
     runCatching {
-        decode<List<T>>(value = Res.readBytes(path = path).decodeToString())
+        decode<List<T>>(value = Res.readBytes(path = json.path).decodeToString())
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to load resource", throwable = it) }.getOrNull().orEmpty()
 }
 

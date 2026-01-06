@@ -70,11 +70,11 @@ internal class ArchiveGateway(
                 val k2PlanetsResult = k2PlanetsJob.await()
 
                 // Data enrichment
-                val stellarHosts = (loadFromJsonResource<StellarHost>(path = SOLAR_HOSTS_JSON) +
+                val stellarHosts = (loadFromJsonResource<StellarHost>(json = SOLAR_HOSTS_JSON) +
                         stellarHostsResult.stellarHosts +
                         planetarySystemsCompositeResult.stellarHosts +
                         k2PlanetsResult.stellarHosts).mergeStellarHosts()
-                val planets = (loadFromJsonResource<Planet>(path = SOLAR_PLANETS_JSON) +
+                val planets = (loadFromJsonResource<Planet>(json = SOLAR_PLANETS_JSON) +
                         stellarHostsResult.planets +
                         planetarySystemsCompositeResult.planets +
                         k2PlanetsResult.planets).mergePlanets()

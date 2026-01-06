@@ -3,10 +3,10 @@ package com.hybris.tlv.usecase.credit
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.CREDITS_URL
 import com.hybris.tlv.http.Result
+import com.hybris.tlv.http.URL
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.serializer.CREDITS_JSON
+import com.hybris.tlv.serializer.JsonResource
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.credit.model.Credit
@@ -20,7 +20,7 @@ internal class CreditGateway(
     private val creditDao = database.creditQueries
 
     override suspend fun syncCredits() = withContext(context = Dispatcher.IO) {
-        when (val result = httpClient.getStream<Credit>(path = CREDITS_URL)) {
+        when (val result = httpClient.getStream<Credit>(path = URL.Credits)) {
             is Result.Error -> {
                 Telemetry.error(tag = TAG, message = "Unable to get credits", throwable = result.error)
                 false
@@ -37,7 +37,7 @@ internal class CreditGateway(
     override suspend fun prepopulateCredits(): Boolean = withContext(context = Dispatcher.IO) {
         if (creditDao.isCreditEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating credits")
-            val credits: List<Credit> = loadFromJsonResource(path = CREDITS_JSON)
+            val credits: List<Credit> = loadFromJsonResource(json = JsonResource.Credits)
             rewriteCredits(credits = credits)
             true
         } else false

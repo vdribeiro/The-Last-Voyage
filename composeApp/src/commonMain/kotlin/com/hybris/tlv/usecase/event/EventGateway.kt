@@ -3,10 +3,10 @@ package com.hybris.tlv.usecase.event
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.EVENTS_URL
 import com.hybris.tlv.http.Result
+import com.hybris.tlv.http.URL
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.serializer.EVENTS_JSON
+import com.hybris.tlv.serializer.JsonResource
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.event.model.Event
@@ -20,7 +20,7 @@ internal class EventGateway(
     private val eventDao = database.eventQueries
 
     override suspend fun syncEvents(): Boolean = withContext(context = Dispatcher.IO) {
-        when (val result = httpClient.getStream<Event>(path = EVENTS_URL)) {
+        when (val result = httpClient.getStream<Event>(path = URL.Events)) {
             is Result.Error -> {
                 Telemetry.error(tag = TAG, message = "Unable to get events", throwable = result.error)
                 false
@@ -37,7 +37,7 @@ internal class EventGateway(
     override suspend fun prepopulateEvents(): Boolean = withContext(context = Dispatcher.IO) {
         if (eventDao.isEventEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating events")
-            val events: List<Event> = loadFromJsonResource(path = EVENTS_JSON)
+            val events: List<Event> = loadFromJsonResource(json = JsonResource.Events)
             rewriteEvents(events = events)
             true
         } else false

@@ -42,28 +42,28 @@ internal val configs: Configs by lazy {
 }
 
 internal val translations: List<Translation> by lazy {
-    runBlocking { loadFromJsonResource(path = TRANSLATIONS_JSON) }
+    runBlocking { loadFromJsonResource(json = TRANSLATIONS_JSON) }
 }
 internal val catastrophes: List<Catastrophe> by lazy {
-    runBlocking { loadFromJsonResource(path = CATASTROPHES_JSON) }
+    runBlocking { loadFromJsonResource(json = CATASTROPHES_JSON) }
 }
 internal val engines: List<Engine> by lazy {
-    runBlocking { loadFromJsonResource(path = ENGINES_JSON) }
+    runBlocking { loadFromJsonResource(json = ENGINES_JSON) }
 }
 internal val events: List<Event> by lazy {
-    runBlocking { loadFromJsonResource(path = EVENTS_JSON) }
+    runBlocking { loadFromJsonResource(json = EVENTS_JSON) }
 }
 internal val achievements: List<Achievement> by lazy {
-    runBlocking { loadFromJsonResource(path = ACHIEVEMENTS_JSON) }
+    runBlocking { loadFromJsonResource(json = ACHIEVEMENTS_JSON) }
 }
 internal val credits: List<Credit> by lazy {
-    runBlocking { loadFromJsonResource(path = CREDITS_JSON) }
+    runBlocking { loadFromJsonResource(json = CREDITS_JSON) }
 }
 internal val stellarHosts: List<StellarHost> by lazy {
-    runBlocking { loadFromJsonResource(path = STELLAR_HOSTS_JSON) }
+    runBlocking { loadFromJsonResource(json = STELLAR_HOSTS_JSON) }
 }
 internal val planets: List<Planet> by lazy {
-    runBlocking { loadFromJsonResource(path = PLANETS_JSON) }
+    runBlocking { loadFromJsonResource(json = PLANETS_JSON) }
 }
 internal val hostsWithPlanets: List<StellarHost> by lazy {
     stellarHosts.addPlanets(planets = planets)
