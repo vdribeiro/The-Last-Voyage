@@ -6,13 +6,11 @@ import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.timeout
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.EXOPLANET_ARCHIVE_URL
 import com.hybris.tlv.http.Result
+import com.hybris.tlv.http.URL
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.serializer.ARCHIVE_PLANETS_JSON
-import com.hybris.tlv.serializer.ARCHIVE_STELLAR_HOSTS_JSON
-import com.hybris.tlv.serializer.SOLAR_HOSTS_JSON
-import com.hybris.tlv.serializer.SOLAR_PLANETS_JSON
+import com.hybris.tlv.serializer.JsonFile
+import com.hybris.tlv.serializer.JsonResource
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.serializer.saveJsonFile
 import com.hybris.tlv.telemetry.Telemetry
@@ -70,11 +68,11 @@ internal class ArchiveGateway(
                 val k2PlanetsResult = k2PlanetsJob.await()
 
                 // Data enrichment
-                val stellarHosts = (loadFromJsonResource<StellarHost>(json = SOLAR_HOSTS_JSON) +
+                val stellarHosts = (loadFromJsonResource<StellarHost>(json = JsonResource.SolarHosts) +
                         stellarHostsResult.stellarHosts +
                         planetarySystemsCompositeResult.stellarHosts +
                         k2PlanetsResult.stellarHosts).mergeStellarHosts()
-                val planets = (loadFromJsonResource<Planet>(json = SOLAR_PLANETS_JSON) +
+                val planets = (loadFromJsonResource<Planet>(json = JsonResource.SolarPlanets) +
                         stellarHostsResult.planets +
                         planetarySystemsCompositeResult.planets +
                         k2PlanetsResult.planets).mergePlanets()
@@ -88,8 +86,8 @@ internal class ArchiveGateway(
                 val planetsJson = derivedPlanets.map { it.copy() }
 
                 // Save to file
-                val hostsFile = saveJsonFile(path = ARCHIVE_STELLAR_HOSTS_JSON, content = stellarHostsJson)
-                val planetsFile = saveJsonFile(path = ARCHIVE_PLANETS_JSON, content = planetsJson)
+                val hostsFile = saveJsonFile(json = JsonFile.ArchiveStellarHosts, content = stellarHostsJson)
+                val planetsFile = saveJsonFile(json = JsonFile.ArchivePlanets, content = planetsJson)
                 Telemetry.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
                 hostsFile && planetsFile
             }
@@ -139,7 +137,7 @@ internal class ArchiveGateway(
         }
 
         return when (val response = httpClient.getStream<StellarHostJson>(
-            path = EXOPLANET_ARCHIVE_URL,
+            path = URL.ExoplanetArchive,
             queryMap = queryMap
         ) { timeout { requestTimeoutMillis = TIMEOUT } }) {
             is Result.Error<StellarHostJson> -> throw Throwable(message = "Unable to get stellar hosts archive", cause = response.error)
@@ -191,7 +189,7 @@ internal class ArchiveGateway(
             set(key = "format", value = "json")
         }
         return when (val response = httpClient.getStream<ExoplanetJson>(
-            path = EXOPLANET_ARCHIVE_URL,
+            path = URL.ExoplanetArchive,
             queryMap = queryMap
         ) { timeout { requestTimeoutMillis = TIMEOUT } }) {
             is Result.Error<ExoplanetJson> -> throw Throwable(message = "Unable to get planetary systems composite archive", cause = response.error)
@@ -244,7 +242,7 @@ internal class ArchiveGateway(
             set(key = "format", value = "json")
         }
         return when (val response = httpClient.getStream<ExoplanetJson>(
-            path = EXOPLANET_ARCHIVE_URL,
+            path = URL.ExoplanetArchive,
             queryMap = queryMap
         ) { timeout { requestTimeoutMillis = TIMEOUT } }) {
             is Result.Error<ExoplanetJson> -> throw Throwable(message = "Unable to get K2 Planets archive", cause = response.error)

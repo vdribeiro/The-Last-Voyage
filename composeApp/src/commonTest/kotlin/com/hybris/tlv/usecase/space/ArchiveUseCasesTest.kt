@@ -19,12 +19,12 @@ internal class ArchiveUseCasesTest: TestCase() {
         deleteFile(path = ARCHIVE_STELLAR_HOSTS_JSON)
         deleteFile(path = ARCHIVE_PLANETS_JSON)
 
-        assertNull(actual = loadJsonFile(path = ARCHIVE_STELLAR_HOSTS_JSON))
-        assertNull(actual = loadJsonFile(path = ARCHIVE_PLANETS_JSON))
+        assertNull(actual = loadJsonFile(json = ARCHIVE_STELLAR_HOSTS_JSON))
+        assertNull(actual = loadJsonFile(json = ARCHIVE_PLANETS_JSON))
 
         assertTrue(actual = useCases.archive.getArchive())
-        assertNotNull(actual = loadJsonFile<List<StellarHost>>(path = ARCHIVE_STELLAR_HOSTS_JSON))
-        assertNotNull(actual = loadJsonFile<List<Planet>>(path = ARCHIVE_PLANETS_JSON))
+        assertNotNull(actual = loadJsonFile<List<StellarHost>>(json = ARCHIVE_STELLAR_HOSTS_JSON))
+        assertNotNull(actual = loadJsonFile<List<Planet>>(json = ARCHIVE_PLANETS_JSON))
 
         deleteFile(path = ARCHIVE_STELLAR_HOSTS_JSON)
         deleteFile(path = ARCHIVE_PLANETS_JSON)
