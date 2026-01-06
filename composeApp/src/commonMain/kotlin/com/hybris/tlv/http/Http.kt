@@ -22,9 +22,6 @@ import io.ktor.utils.io.readRemaining
 import io.ktor.utils.io.readText
 import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.HttpClientFactory.Companion.CONNECT_TIMEOUT_MILLIS
-import com.hybris.tlv.http.HttpClientFactory.Companion.REQUEST_TIMEOUT_MILLIS
-import com.hybris.tlv.http.HttpClientFactory.Companion.SOCKET_TIMEOUT_MILLIS
 import com.hybris.tlv.platform.isDebug
 import com.hybris.tlv.serializer.decode
 import com.hybris.tlv.telemetry.Telemetry
@@ -57,10 +54,10 @@ internal suspend inline fun <reified T> HttpClient.getStream(
 ): Result<T> = withContext(context = Dispatcher.IO) {
     runCatching {
         if (!flag.http) throw Throwable(message = "Network disabled")
-        prepareGet(urlString = path.path.encodeURLPath()) {
-            val networkQuality = getNetworkQuality()
-            if (networkQuality is NetworkQuality.Unknown) throw Throwable(message = "No internet connection available")
+        val networkQuality = getNetworkQuality()
+        if (networkQuality is NetworkQuality.Unknown) throw Throwable(message = "No internet connection available")
 
+        prepareGet(urlString = path.path.encodeURLPath()) {
             queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
             block()
             setTimeout(networkQuality = networkQuality)
@@ -92,9 +89,9 @@ private fun HttpRequestBuilder.setTimeout(networkQuality: NetworkQuality) {
         NetworkQuality.Unknown -> 0L
     }
     timeout {
-        connectTimeoutMillis = (connectTimeoutMillis ?: CONNECT_TIMEOUT_MILLIS) * multiplier
-        socketTimeoutMillis = (socketTimeoutMillis ?: SOCKET_TIMEOUT_MILLIS) * multiplier
-        requestTimeoutMillis = (requestTimeoutMillis ?: REQUEST_TIMEOUT_MILLIS) * multiplier
+        connectTimeoutMillis = (connectTimeoutMillis ?: 0) * multiplier
+        socketTimeoutMillis = (socketTimeoutMillis ?: 0) * multiplier
+        requestTimeoutMillis = (requestTimeoutMillis ?: 0) * multiplier
     }
 }
 
@@ -108,12 +105,12 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching
 
         val mark = TimeSource.Monotonic.markNow()
         when {
-            isInternetAvailable() -> {
+            isInternetAvailable() -> runCatching {
                 head(urlString = URL.Probe.path) {
                     timeout {
-                        connectTimeoutMillis = PROBE_TIMEOUT
-                        socketTimeoutMillis = PROBE_TIMEOUT
-                        requestTimeoutMillis = PROBE_TIMEOUT
+                        connectTimeoutMillis = SLOW_THRESHOLD_MILLIS
+                        socketTimeoutMillis = SLOW_THRESHOLD_MILLIS
+                        requestTimeoutMillis = SLOW_THRESHOLD_MILLIS
                     }
                 }
                 val elapsed = mark.elapsedNow().inWholeMilliseconds
@@ -122,7 +119,7 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching
                     elapsed < MEDIUM_THRESHOLD_MILLIS -> NetworkQuality.Medium
                     else -> NetworkQuality.Slow
                 }
-            }
+            }.getOrDefault(defaultValue = NetworkQuality.Slow)
 
             else -> NetworkQuality.Unknown
         }.also {
@@ -140,6 +137,6 @@ internal suspend fun invalidateCache() =
 
 private const val TAG = "Network"
 private const val CHUNK_SIZE = 1024L * 8L
-private const val PROBE_TIMEOUT = 5000L
-private const val FAST_THRESHOLD_MILLIS = 150
-private const val MEDIUM_THRESHOLD_MILLIS = 500
+private const val FAST_THRESHOLD_MILLIS = 150L
+private const val MEDIUM_THRESHOLD_MILLIS = 500L
+private const val SLOW_THRESHOLD_MILLIS = 2000L
