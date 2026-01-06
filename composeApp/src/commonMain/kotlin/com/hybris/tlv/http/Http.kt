@@ -94,20 +94,6 @@ internal suspend inline fun <reified T> HttpClient.getStream(
     }
 }
 
-private fun HttpRequestBuilder.setTimeout(networkQuality: NetworkQuality) {
-    val multiplier = when (networkQuality) {
-        NetworkQuality.Fast -> 1L
-        NetworkQuality.Medium -> 2L
-        NetworkQuality.Slow -> 4L
-        NetworkQuality.Unknown -> 1L
-    }
-    timeout {
-        connectTimeoutMillis = (connectTimeoutMillis ?: CONNECT_TIMEOUT_MILLIS) * multiplier
-        socketTimeoutMillis = (socketTimeoutMillis ?: SOCKET_TIMEOUT_MILLIS) * multiplier
-        requestTimeoutMillis = (requestTimeoutMillis ?: REQUEST_TIMEOUT_MILLIS) * multiplier
-    }
-}
-
 /**
  * Checks for network quality. A debounce is used to avoid frequent checks.
  */
@@ -145,8 +131,25 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching
 /**
  * Resets the cache to force a re-check on the next request.
  */
-internal suspend fun invalidateCache() =
+private suspend fun invalidateCache() =
     mutex.withLock { lastCheckTime = null }
+
+/**
+ * Sets the timeout based on the [networkQuality].
+ */
+private fun HttpRequestBuilder.setTimeout(networkQuality: NetworkQuality) {
+    val multiplier = when (networkQuality) {
+        NetworkQuality.Fast -> 1L
+        NetworkQuality.Medium -> 2L
+        NetworkQuality.Slow -> 4L
+        NetworkQuality.Unknown -> 1L
+    }
+    timeout {
+        connectTimeoutMillis = (connectTimeoutMillis ?: CONNECT_TIMEOUT_MILLIS) * multiplier
+        socketTimeoutMillis = (socketTimeoutMillis ?: SOCKET_TIMEOUT_MILLIS) * multiplier
+        requestTimeoutMillis = (requestTimeoutMillis ?: REQUEST_TIMEOUT_MILLIS) * multiplier
+    }
+}
 
 private const val TAG = "Network"
 private const val CHUNK_SIZE = 1024 * 8

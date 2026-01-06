@@ -27,7 +27,6 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
      * Installs and configures the necessary plugins for the [HttpClient], namely logging, timeouts, caching, content negotiation, and compression.
      */
     private fun <T: HttpClientEngineConfig> HttpClientConfig<T>.install() {
-        followRedirects = false
         install(plugin = Logging) { configure() }
         install(plugin = HttpTimeout) { configure() }
         install(plugin = HttpCache)
