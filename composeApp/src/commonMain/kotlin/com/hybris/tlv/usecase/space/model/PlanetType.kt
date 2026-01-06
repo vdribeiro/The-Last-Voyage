@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.space.model
 
-enum class PlanetType(val displayName: String) {
+internal enum class PlanetType(val displayName: String) {
     // Size/Mass Based
     SUB_EARTH(displayName = "planet_type_sub_earth"),
     SUPER_EARTH(displayName = "planet_type_super_earth"),
@@ -55,9 +55,4 @@ enum class PlanetType(val displayName: String) {
     ELLIPSOID_PLANET(displayName = "planet_type_ellipsoid_planet"),
 
     UNKNOWN(displayName = "planet_type_unknown");
-
-    companion object {
-        private val map = entries.associateBy(keySelector = PlanetType::name)
-        fun fromValue(value: String): PlanetType = map[value.uppercase()] ?: UNKNOWN
-    }
 }
