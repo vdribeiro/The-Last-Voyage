@@ -9,6 +9,7 @@ import io.ktor.client.plugins.HttpTimeoutConfig
 import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.compression.ContentEncoding
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiationConfig
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -17,6 +18,7 @@ import io.ktor.client.plugins.logging.LoggingConfig
 import io.ktor.client.request.header
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
+import io.ktor.serialization.kotlinx.KotlinxSerializationConverter
 import io.ktor.serialization.kotlinx.json.json
 import com.hybris.tlv.platform.isDebug
 import com.hybris.tlv.serializer.json
@@ -34,7 +36,7 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
         install(plugin = Logging) { configure() }
         install(plugin = HttpTimeout) { configure() }
         install(plugin = HttpCache)
-        install(plugin = ContentNegotiation) { json(json = json) }
+        install(plugin = ContentNegotiation) { configure() }
         install(plugin = ContentEncoding) { gzip(quality = ZIP_QUALITY) }
         defaultRequest { header(key = HttpHeaders.Accept, value = ContentType.Application.Json) }
     }
@@ -52,6 +54,11 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
         connectTimeoutMillis = CONNECT_TIMEOUT_MILLIS
         socketTimeoutMillis = SOCKET_TIMEOUT_MILLIS
         requestTimeoutMillis = REQUEST_TIMEOUT_MILLIS
+    }
+
+    private fun ContentNegotiationConfig.configure() {
+        json(json = json, contentType = ContentType.Application.Json)
+        register(contentType = ContentType.Text.Plain, converter = KotlinxSerializationConverter(format = json))
     }
 
     /**

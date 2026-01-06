@@ -39,11 +39,9 @@ internal sealed interface NetworkQuality {
 }
 
 /**
- * Performs a GET request to the URL [path], given a map of query parameters [queryMap] to be appended to the URL,
- * and decodes the response body as a stream of objects of type [T].
+ * Performs a GET request to the URL [path], given a map of query parameters [queryMap] to be appended to the URL, and decodes the response body as a stream of objects of type [T].
  * This function handles network availability checks, URL encoding, query parameters, and JSON decoding.
- * It returns a [Result] object, which is either [Result.Success] containing the decoded list of objects,
- * or [Result.Error] containing the exception that occurred.
+ * It returns a [Result] object, which is either [Result.Success] containing the decoded list of objects, or [Result.Error] containing the exception that occurred.
  * An additional lambda [block] can also be provided for further configuration of the [HttpRequestBuilder].
  */
 @OptIn(ExperimentalSerializationApi::class)
@@ -81,33 +79,37 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching
         if (!isInternetAvailable()) return@withLock NetworkQuality.Unknown
 
         lastTimeMark = TimeSource.Monotonic.markNow()
-        runCatching {
-            head(urlString = URL.Probe.path) {
-                timeout {
-                    connectTimeoutMillis = SLOW_THRESHOLD_MILLIS
-                    socketTimeoutMillis = SLOW_THRESHOLD_MILLIS
-                    requestTimeoutMillis = SLOW_THRESHOLD_MILLIS
-                }
+        val response = head(urlString = URL.Probe.path) {
+            timeout {
+                connectTimeoutMillis = SLOW_THRESHOLD_MILLIS
+                socketTimeoutMillis = SLOW_THRESHOLD_MILLIS
+                requestTimeoutMillis = SLOW_THRESHOLD_MILLIS
             }
-            val elapsed = lastTimeMark.elapsed().inWholeMilliseconds
-            when {
-                elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
-                elapsed < MEDIUM_THRESHOLD_MILLIS -> NetworkQuality.Medium
-                else -> NetworkQuality.Slow
-            }
-        }.getOrDefault(defaultValue = NetworkQuality.Slow).also { lastNetworkQuality = it }
-    }
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = NetworkQuality.Unknown)
+        }
 
-/**
- * Returns the elapsed duration since the mark was set, or [INFINITE] if no mark has been set.
- */
-private fun TimeMark?.elapsed(): Duration = this?.elapsedNow() ?: INFINITE
+        // Check for Success or Redirect / Captive Portal
+        if (!response.status.isSuccess() || !response.call.request.url.toString().contains(other = URL.Probe.path)) {
+            return@runCatching NetworkQuality.Unknown
+        }
+
+        val elapsed = lastTimeMark.elapsed().inWholeMilliseconds
+        when {
+            elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
+            elapsed < MEDIUM_THRESHOLD_MILLIS -> NetworkQuality.Medium
+            else -> NetworkQuality.Slow
+        }.also { lastNetworkQuality = it }
+    }
+}.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = NetworkQuality.Slow)
 
 /**
  * Resets the cache to force a re-check on the next request.
  */
 private suspend fun invalidateCache() = mutex.withLock { lastTimeMark = null }
+
+/**
+ * Returns the elapsed duration since the mark was set, or [INFINITE] if no mark has been set.
+ */
+private fun TimeMark?.elapsed(): Duration = this?.elapsedNow() ?: INFINITE
 
 /**
  * Sets the timeout based on the [networkQuality].
