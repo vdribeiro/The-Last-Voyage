@@ -9,7 +9,6 @@ import kotlin.time.TimeSource
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.ExperimentalSerializationApi
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.timeout
@@ -44,7 +43,6 @@ internal sealed interface NetworkQuality {
  * It returns a [Result] object, which is either [Result.Success] containing the decoded list of objects, or [Result.Error] containing the exception that occurred.
  * An additional lambda [block] can also be provided for further configuration of the [HttpRequestBuilder].
  */
-@OptIn(ExperimentalSerializationApi::class)
 internal suspend inline fun <reified T> HttpClient.get(
     path: URL,
     queryMap: Map<String, String> = emptyMap(),
