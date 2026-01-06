@@ -22,7 +22,7 @@ import com.hybris.tlv.telemetry.Telemetry
 
 private val mutex = Mutex()
 private val cacheTTL: Duration = if (isDebug) ZERO else 1.minutes
-private var lastCheckTime: TimeMark? = null
+private var lastTimeMark: TimeMark? = null
 private var lastKnownStatus = false
 
 /**
@@ -55,9 +55,9 @@ internal suspend inline fun <reified T> HttpClient.get(
  */
 private suspend fun isInternetAvailableDebounced(): Boolean = runCatching {
     mutex.withLock {
-        val previous = lastCheckTime.elapsed()
+        val previous = lastTimeMark.elapsed()
         if (previous < cacheTTL) return@withLock lastKnownStatus
-        lastCheckTime = TimeSource.Monotonic.markNow()
+        lastTimeMark = TimeSource.Monotonic.markNow()
         return@withLock isInternetAvailable().also { lastKnownStatus = it }
     }
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = false)
