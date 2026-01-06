@@ -9,10 +9,16 @@ import io.ktor.client.plugins.HttpTimeoutConfig
 import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.compression.ContentEncoding
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiationConfig
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.LoggingConfig
+import io.ktor.client.request.header
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.serialization.kotlinx.KotlinxSerializationConverter
 import io.ktor.serialization.kotlinx.json.json
 import com.hybris.tlv.platform.isDebug
 import com.hybris.tlv.serializer.json
@@ -30,8 +36,9 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
         install(plugin = Logging) { configure() }
         install(plugin = HttpTimeout) { configure() }
         install(plugin = HttpCache)
-        install(plugin = ContentNegotiation) { json(json = json) }
-        install(plugin = ContentEncoding) { gzip(quality = 0.9F) }
+        install(plugin = ContentNegotiation) { configure() }
+        install(plugin = ContentEncoding) { gzip(quality = ZIP_QUALITY) }
+        defaultRequest { header(key = HttpHeaders.Accept, value = ContentType.Application.Json) }
     }
 
     private fun LoggingConfig.configure() {
@@ -49,6 +56,11 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
         requestTimeoutMillis = REQUEST_TIMEOUT_MILLIS
     }
 
+    private fun ContentNegotiationConfig.configure() {
+        json(json = json, contentType = ContentType.Application.Json)
+        register(contentType = ContentType.Text.Plain, converter = KotlinxSerializationConverter(format = json))
+    }
+
     /**
      * The configured [HttpClient] instance.
      */
@@ -59,6 +71,7 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
 
     companion object {
         private const val TAG = "HttpClient"
+        private const val ZIP_QUALITY = 0.9F
         const val CONNECT_TIMEOUT_MILLIS = 10_000L
         const val SOCKET_TIMEOUT_MILLIS = 20_000L
         const val REQUEST_TIMEOUT_MILLIS = 60_000L

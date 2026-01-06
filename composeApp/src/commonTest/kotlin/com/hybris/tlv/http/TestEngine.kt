@@ -22,22 +22,20 @@ import com.hybris.tlv.translations
 internal object TestEngine {
 
     val mock = MockEngine { request ->
+        val path = request.url.toString()
         when (request.method) {
-            HttpMethod.Get -> {
-                val path = request.url.toString()
-                when {
-                    path.startsWith(prefix = URL.Configs.path) -> respond(content = encode(value = listOf(configs)).orEmpty())
-                    path.startsWith(prefix = URL.Translations.path) -> respond(content = encode(value = translations).orEmpty())
-                    path.startsWith(prefix = URL.Catastrophes.path) -> respond(content = encode(value = catastrophes).orEmpty())
-                    path.startsWith(prefix = URL.Engines.path) -> respond(content = encode(value = engines).orEmpty())
-                    path.startsWith(prefix = URL.StellarHosts.path) -> respond(content = encode(value = stellarHosts).orEmpty())
-                    path.startsWith(prefix = URL.Planets.path) -> respond(content = encode(value = planets).orEmpty())
-                    path.startsWith(prefix = URL.Events.path) -> respond(content = encode(value = events).orEmpty())
-                    path.startsWith(prefix = URL.Achievements.path) -> respond(content = encode(value = achievements).orEmpty())
-                    path.startsWith(prefix = URL.Credits.path) -> respond(content = encode(value = credits).orEmpty())
-                    path.startsWith(prefix = URL.ExoplanetArchive.path) -> respondArchive(request = request)
-                    else -> respondError(status = HttpStatusCode.NotFound, content = "Resource not found for path: ${request.url.encodedPath}")
-                }
+            HttpMethod.Get -> when {
+                path.startsWith(prefix = URL.ExoplanetArchive.path) -> respondArchive(request = request)
+                path.startsWith(prefix = URL.Configs.path) -> respond(content = encode(value = listOf(configs)).orEmpty())
+                path.startsWith(prefix = URL.Translations.path) -> respond(content = encode(value = translations).orEmpty())
+                path.startsWith(prefix = URL.Catastrophes.path) -> respond(content = encode(value = catastrophes).orEmpty())
+                path.startsWith(prefix = URL.Engines.path) -> respond(content = encode(value = engines).orEmpty())
+                path.startsWith(prefix = URL.StellarHosts.path) -> respond(content = encode(value = stellarHosts).orEmpty())
+                path.startsWith(prefix = URL.Planets.path) -> respond(content = encode(value = planets).orEmpty())
+                path.startsWith(prefix = URL.Events.path) -> respond(content = encode(value = events).orEmpty())
+                path.startsWith(prefix = URL.Achievements.path) -> respond(content = encode(value = achievements).orEmpty())
+                path.startsWith(prefix = URL.Credits.path) -> respond(content = encode(value = credits).orEmpty())
+                else -> respondError(status = HttpStatusCode.NotFound, content = "Resource not found for path: ${request.url.encodedPath}")
             }
 
             else -> respondError(status = HttpStatusCode.BadRequest, content = "Method not found: ${request.method}")

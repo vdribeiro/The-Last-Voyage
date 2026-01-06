@@ -8,7 +8,7 @@ import io.ktor.client.plugins.timeout
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.URL
-import com.hybris.tlv.http.getStream
+import com.hybris.tlv.http.get
 import com.hybris.tlv.serializer.JsonFile
 import com.hybris.tlv.serializer.JsonResource
 import com.hybris.tlv.serializer.loadFromJsonResource
@@ -136,7 +136,7 @@ internal class ArchiveGateway(
             set(key = "format", value = "json")
         }
 
-        return when (val response = httpClient.getStream<StellarHostJson>(
+        return when (val response = httpClient.get<StellarHostJson>(
             path = URL.ExoplanetArchive,
             queryMap = queryMap
         ) { timeout { requestTimeoutMillis = TIMEOUT } }) {
@@ -188,7 +188,7 @@ internal class ArchiveGateway(
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }
-        return when (val response = httpClient.getStream<ExoplanetJson>(
+        return when (val response = httpClient.get<ExoplanetJson>(
             path = URL.ExoplanetArchive,
             queryMap = queryMap
         ) { timeout { requestTimeoutMillis = TIMEOUT } }) {
@@ -241,7 +241,7 @@ internal class ArchiveGateway(
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }
-        return when (val response = httpClient.getStream<ExoplanetJson>(
+        return when (val response = httpClient.get<ExoplanetJson>(
             path = URL.ExoplanetArchive,
             queryMap = queryMap
         ) { timeout { requestTimeoutMillis = TIMEOUT } }) {

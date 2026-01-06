@@ -12,7 +12,7 @@ import app.cash.sqldelight.coroutines.mapToList
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.URL
-import com.hybris.tlv.http.getStream
+import com.hybris.tlv.http.get
 import com.hybris.tlv.serializer.JsonResource
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
@@ -30,7 +30,7 @@ internal class SpaceGateway(
     private val planetDao = database.planetQueries
 
     override suspend fun syncStellarHosts(): Boolean = withContext(context = Dispatcher.IO) {
-        when (val result = httpClient.getStream<StellarHost>(path = URL.StellarHosts)) {
+        when (val result = httpClient.get<StellarHost>(path = URL.StellarHosts)) {
             is Result.Error -> {
                 Telemetry.error(tag = TAG, message = "Unable to get stellar hosts", throwable = result.error)
                 false
@@ -59,7 +59,7 @@ internal class SpaceGateway(
     }
 
     override suspend fun syncPlanets(): Boolean = withContext(context = Dispatcher.IO) {
-        when (val result = httpClient.getStream<Planet>(path = URL.Planets)) {
+        when (val result = httpClient.get<Planet>(path = URL.Planets)) {
             is Result.Error -> {
                 Telemetry.error(tag = TAG, message = "Unable to get planets", throwable = result.error)
                 false

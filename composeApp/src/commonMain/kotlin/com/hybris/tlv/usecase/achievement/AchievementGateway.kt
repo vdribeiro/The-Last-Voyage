@@ -5,7 +5,7 @@ import io.ktor.client.HttpClient
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.URL
-import com.hybris.tlv.http.getStream
+import com.hybris.tlv.http.get
 import com.hybris.tlv.serializer.JsonResource
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
@@ -21,7 +21,7 @@ internal class AchievementGateway(
     private val achievementDao = database.achievementQueries
 
     override suspend fun syncAchievements(): Boolean = withContext(context = Dispatcher.IO) {
-        when (val result = httpClient.getStream<Achievement>(path = URL.Achievements)) {
+        when (val result = httpClient.get<Achievement>(path = URL.Achievements)) {
             is Result.Error -> {
                 Telemetry.error(tag = TAG, message = "Unable to get achievements", throwable = result.error)
                 false
