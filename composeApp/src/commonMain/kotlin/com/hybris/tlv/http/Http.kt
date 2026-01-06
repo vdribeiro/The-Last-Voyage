@@ -81,7 +81,9 @@ internal suspend inline fun <reified T> HttpClient.getStream(
                 if (read <= 0) break
                 sink.write(source = chunks, startIndex = 0, endIndex = read)
                 totalRead += read
-                onProgress?.invoke(if (contentLength > 0) totalRead.toFloat() / contentLength else -1F)
+
+                val progress = if (contentLength > 0) totalRead.toFloat() / contentLength else -1F
+                onProgress?.invoke(progress)
             }
             onProgress?.invoke(1f)
             Result.Success(list = json.decodeFromSource<List<T>>(source = sink))
