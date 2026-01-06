@@ -5,6 +5,7 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.HttpTimeoutConfig
 import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.compression.ContentEncoding
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -27,7 +28,7 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
      */
     private fun <T: HttpClientEngineConfig> HttpClientConfig<T>.install() {
         install(plugin = Logging) { configure() }
-        install(plugin = HttpTimeout)
+        install(plugin = HttpTimeout) { configure() }
         install(plugin = HttpCache)
         install(plugin = ContentNegotiation) { json(json = json) }
         install(plugin = ContentEncoding) { gzip(quality = 0.9F) }
@@ -42,6 +43,12 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
         level = if (isDebug) LogLevel.ALL else LogLevel.INFO
     }
 
+    private fun HttpTimeoutConfig.configure() {
+        connectTimeoutMillis = CONNECT_TIMEOUT_MILLIS
+        socketTimeoutMillis = SOCKET_TIMEOUT_MILLIS
+        requestTimeoutMillis = REQUEST_TIMEOUT_MILLIS
+    }
+
     /**
      * The configured [HttpClient] instance.
      */
@@ -52,6 +59,8 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
 
     companion object {
         private const val TAG = "HttpClient"
-        private const val MAX_RETRIES = 3
+        const val CONNECT_TIMEOUT_MILLIS = 10_000L
+        const val SOCKET_TIMEOUT_MILLIS = 20_000L
+        const val REQUEST_TIMEOUT_MILLIS = 60_000L
     }
 }

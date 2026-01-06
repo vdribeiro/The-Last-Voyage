@@ -2,14 +2,7 @@ package com.hybris.tlv
 
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.config.Configs
-import com.hybris.tlv.serializer.ACHIEVEMENTS_JSON
-import com.hybris.tlv.serializer.CATASTROPHES_JSON
-import com.hybris.tlv.serializer.CREDITS_JSON
-import com.hybris.tlv.serializer.ENGINES_JSON
-import com.hybris.tlv.serializer.EVENTS_JSON
-import com.hybris.tlv.serializer.PLANETS_JSON
-import com.hybris.tlv.serializer.STELLAR_HOSTS_JSON
-import com.hybris.tlv.serializer.TRANSLATIONS_JSON
+import com.hybris.tlv.serializer.JsonResource
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
@@ -42,28 +35,28 @@ internal val configs: Configs by lazy {
 }
 
 internal val translations: List<Translation> by lazy {
-    runBlocking { loadFromJsonResource(path = TRANSLATIONS_JSON) }
+    runBlocking { loadFromJsonResource(json = JsonResource.Translations) }
 }
 internal val catastrophes: List<Catastrophe> by lazy {
-    runBlocking { loadFromJsonResource(path = CATASTROPHES_JSON) }
+    runBlocking { loadFromJsonResource(json = JsonResource.Catastrophes) }
 }
 internal val engines: List<Engine> by lazy {
-    runBlocking { loadFromJsonResource(path = ENGINES_JSON) }
+    runBlocking { loadFromJsonResource(json = JsonResource.Engines) }
 }
 internal val events: List<Event> by lazy {
-    runBlocking { loadFromJsonResource(path = EVENTS_JSON) }
+    runBlocking { loadFromJsonResource(json = JsonResource.Events) }
 }
 internal val achievements: List<Achievement> by lazy {
-    runBlocking { loadFromJsonResource(path = ACHIEVEMENTS_JSON) }
+    runBlocking { loadFromJsonResource(json = JsonResource.Achievements) }
 }
 internal val credits: List<Credit> by lazy {
-    runBlocking { loadFromJsonResource(path = CREDITS_JSON) }
+    runBlocking { loadFromJsonResource(json = JsonResource.Credits) }
 }
 internal val stellarHosts: List<StellarHost> by lazy {
-    runBlocking { loadFromJsonResource(path = STELLAR_HOSTS_JSON) }
+    runBlocking { loadFromJsonResource(json = JsonResource.StellarHosts) }
 }
 internal val planets: List<Planet> by lazy {
-    runBlocking { loadFromJsonResource(path = PLANETS_JSON) }
+    runBlocking { loadFromJsonResource(json = JsonResource.Planets) }
 }
 internal val hostsWithPlanets: List<StellarHost> by lazy {
     stellarHosts.addPlanets(planets = planets)

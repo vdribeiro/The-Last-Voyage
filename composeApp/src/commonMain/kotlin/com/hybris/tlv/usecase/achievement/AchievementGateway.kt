@@ -3,10 +3,10 @@ package com.hybris.tlv.usecase.achievement
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.ACHIEVEMENTS_URL
 import com.hybris.tlv.http.Result
+import com.hybris.tlv.http.URL
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.serializer.ACHIEVEMENTS_JSON
+import com.hybris.tlv.serializer.JsonResource
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.achievement.model.Achievement
@@ -21,7 +21,7 @@ internal class AchievementGateway(
     private val achievementDao = database.achievementQueries
 
     override suspend fun syncAchievements(): Boolean = withContext(context = Dispatcher.IO) {
-        when (val result = httpClient.getStream<Achievement>(path = ACHIEVEMENTS_URL)) {
+        when (val result = httpClient.getStream<Achievement>(path = URL.Achievements)) {
             is Result.Error -> {
                 Telemetry.error(tag = TAG, message = "Unable to get achievements", throwable = result.error)
                 false
@@ -38,7 +38,7 @@ internal class AchievementGateway(
     override suspend fun prepopulateAchievements(): Boolean = withContext(context = Dispatcher.IO) {
         if (achievementDao.isAchievementEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating achievements")
-            val achievements: List<Achievement> = loadFromJsonResource(path = ACHIEVEMENTS_JSON)
+            val achievements: List<Achievement> = loadFromJsonResource(json = JsonResource.Achievements)
             rewriteAchievements(achievements = achievements)
             true
         } else false

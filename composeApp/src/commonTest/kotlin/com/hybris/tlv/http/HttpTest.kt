@@ -10,14 +10,14 @@ internal class HttpTest: TestCase() {
     @Test
     fun networkFailure() = runUnitTest {
         val httpClient = HttpClientFactory(engine = TestEngine.mock).httpClient
-        val response = httpClient.getStream<String>(path = "Unknown")
+        val response = httpClient.getStream<String>(path = URL.Configs)
         assertTrue(actual = response is Result.Error)
     }
 
     @Test
     fun networkSuccess() = runUnitTest {
         val httpClient = HttpClientFactory(engine = TestEngine.mock).httpClient
-        val response = httpClient.getStream<Configs>(path = CONFIGS_URL)
+        val response = httpClient.getStream<Configs>(path = URL.Configs)
         assertTrue(actual = response is Result.Success)
     }
 }

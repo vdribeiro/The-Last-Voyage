@@ -12,17 +12,16 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.CONFIGS_URL
 import com.hybris.tlv.http.Result
+import com.hybris.tlv.http.URL
 import com.hybris.tlv.http.getStream
 import com.hybris.tlv.locale.hasTimePassed
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.platform.isDebug
-import com.hybris.tlv.serializer.CONFIGS_JSON
-import com.hybris.tlv.serializer.PREFERENCES_JSON
+import com.hybris.tlv.serializer.JsonFile
+import com.hybris.tlv.serializer.deleteJsonFile
 import com.hybris.tlv.serializer.loadJsonFile
 import com.hybris.tlv.serializer.saveJsonFile
-import com.hybris.tlv.storage.deleteFile
 import com.hybris.tlv.telemetry.Telemetry
 
 /**
@@ -51,8 +50,8 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     override suspend fun reset(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
             mutex.withLock {
-                deleteFile(path = CONFIGS_JSON)
-                deleteFile(path = PREFERENCES_JSON)
+                deleteJsonFile(json = JsonFile.Configs)
+                deleteJsonFile(json = JsonFile.Preferences)
             }
             _preferences.update { Preferences() }
             _localConfigs.update { Configs() }
@@ -62,9 +61,9 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
 
     override suspend fun setup(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
-            val preferences = mutex.withLock { loadJsonFile(path = PREFERENCES_JSON) ?: Preferences() }
+            val preferences = mutex.withLock { loadJsonFile(json = JsonFile.Preferences) ?: Preferences() }
             setPreferences { preferences }
-            val localConfigs = mutex.withLock { loadJsonFile(path = CONFIGS_JSON) ?: Configs() }
+            val localConfigs = mutex.withLock { loadJsonFile(json = JsonFile.Configs) ?: Configs() }
             _localConfigs.update { localConfigs }
             fetchRemoteConfigs()
             saveConfigs()
@@ -76,7 +75,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
             if (!hasTimePassed(dateTime = _preferences.value.syncTime, duration = cacheTTL)) return@withContext
             setPreferences { it.copy(syncTime = now()) }
 
-            when (val result = httpClient.getStream<Configs>(path = CONFIGS_URL)) {
+            when (val result = httpClient.getStream<Configs>(path = URL.Configs)) {
                 is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get remote configs", throwable = result.error)
                 is Result.Success -> {
                     val configs = result.list.firstOrNull()
@@ -98,7 +97,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     override suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
             _preferences.update { preferences(it) }
-            mutex.withLock { saveJsonFile(path = PREFERENCES_JSON, content = _preferences.value) }
+            mutex.withLock { saveJsonFile(json = JsonFile.Preferences, content = _preferences.value) }
         }
     }
 
@@ -108,7 +107,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
 
     override suspend fun saveConfigs(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
-            mutex.withLock { saveJsonFile(path = CONFIGS_JSON, content = _localConfigs.value) }
+            mutex.withLock { saveJsonFile(json = JsonFile.Configs, content = _localConfigs.value) }
         }
     }
 

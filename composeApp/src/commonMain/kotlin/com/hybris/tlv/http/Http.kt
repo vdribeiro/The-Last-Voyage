@@ -3,7 +3,7 @@ package com.hybris.tlv.http
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.INFINITE
 import kotlin.time.Duration.Companion.ZERO
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.TimeMark
 import kotlin.time.TimeSource
 import kotlinx.coroutines.sync.Mutex
@@ -22,6 +22,11 @@ import com.hybris.tlv.platform.isDebug
 import com.hybris.tlv.serializer.decode
 import com.hybris.tlv.telemetry.Telemetry
 
+private val mutex = Mutex()
+private val cacheTTL: Duration = if (isDebug) ZERO else 1.minutes
+private var lastCheckTime: TimeMark? = null
+private var lastKnownStatus = false
+
 /**
  * Performs a GET request to the URL [path], given a map of query parameters [queryMap] to be appended to the URL,
  * and decodes the response body as a stream of objects of type [T].
@@ -31,14 +36,14 @@ import com.hybris.tlv.telemetry.Telemetry
  * An additional lambda [block] can also be provided for further configuration of the [HttpRequestBuilder].
  */
 internal suspend inline fun <reified T> HttpClient.getStream(
-    path: String,
+    path: URL,
     queryMap: Map<String, String> = emptyMap(),
     crossinline block: HttpRequestBuilder.() -> Unit = {}
 ): Result<T> = withContext(context = Dispatcher.IO) {
     runCatching {
         if (!flag.http) throw Throwable(message = "Network disabled")
         if (!isInternetAvailableDebounced()) throw Throwable(message = "No internet connection available")
-        prepareGet(urlString = path.encodeURLPath()) {
+        prepareGet(urlString = path.path.encodeURLPath()) {
             queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
             block()
         }.execute { httpResponse ->
@@ -65,10 +70,5 @@ private suspend fun isInternetAvailableDebounced(): Boolean = runCatching {
         return@withLock lastKnownStatus
     }
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = false)
-
-private val mutex = Mutex()
-private val cacheTTL: Duration = if (isDebug) ZERO else 5.seconds
-private var lastCheckTime: TimeMark? = null
-private var lastKnownStatus = false
 
 private const val TAG = "Network"

@@ -10,12 +10,10 @@ import io.ktor.client.HttpClient
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.PLANETS_URL
 import com.hybris.tlv.http.Result
-import com.hybris.tlv.http.STELLAR_HOSTS_URL
+import com.hybris.tlv.http.URL
 import com.hybris.tlv.http.getStream
-import com.hybris.tlv.serializer.PLANETS_JSON
-import com.hybris.tlv.serializer.STELLAR_HOSTS_JSON
+import com.hybris.tlv.serializer.JsonResource
 import com.hybris.tlv.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.space.model.Planet
@@ -32,7 +30,7 @@ internal class SpaceGateway(
     private val planetDao = database.planetQueries
 
     override suspend fun syncStellarHosts(): Boolean = withContext(context = Dispatcher.IO) {
-        when (val result = httpClient.getStream<StellarHost>(path = STELLAR_HOSTS_URL)) {
+        when (val result = httpClient.getStream<StellarHost>(path = URL.StellarHosts)) {
             is Result.Error -> {
                 Telemetry.error(tag = TAG, message = "Unable to get stellar hosts", throwable = result.error)
                 false
@@ -49,7 +47,7 @@ internal class SpaceGateway(
     override suspend fun prepopulateStellarHosts(): Boolean = withContext(context = Dispatcher.IO) {
         if (stellarHostDao.isStellarHostEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating stellar hosts")
-            val stellarHosts: List<StellarHost> = loadFromJsonResource(path = STELLAR_HOSTS_JSON)
+            val stellarHosts: List<StellarHost> = loadFromJsonResource(json = JsonResource.StellarHosts)
             rewriteStellarHosts(stellarHosts = stellarHosts)
             true
         } else false
@@ -61,7 +59,7 @@ internal class SpaceGateway(
     }
 
     override suspend fun syncPlanets(): Boolean = withContext(context = Dispatcher.IO) {
-        when (val result = httpClient.getStream<Planet>(path = PLANETS_URL)) {
+        when (val result = httpClient.getStream<Planet>(path = URL.Planets)) {
             is Result.Error -> {
                 Telemetry.error(tag = TAG, message = "Unable to get planets", throwable = result.error)
                 false
@@ -79,7 +77,7 @@ internal class SpaceGateway(
     override suspend fun prepopulatePlanets(): Boolean = withContext(context = Dispatcher.IO) {
         if (planetDao.isPlanetEmpty().executeAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating planets")
-            val planets: List<Planet> = loadFromJsonResource(path = PLANETS_JSON)
+            val planets: List<Planet> = loadFromJsonResource(json = JsonResource.Planets)
             rewritePlanets(planets = planets)
             true
         } else false
