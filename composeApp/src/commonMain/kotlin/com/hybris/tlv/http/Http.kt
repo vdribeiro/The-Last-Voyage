@@ -9,6 +9,9 @@ import kotlin.time.TimeSource
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlinx.io.Buffer
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.io.decodeFromSource
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.timeout
 import io.ktor.client.request.HttpRequestBuilder
@@ -18,12 +21,14 @@ import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.contentLength
 import io.ktor.http.encodeURLPath
 import io.ktor.http.isSuccess
-import io.ktor.utils.io.readRemaining
-import io.ktor.utils.io.readText
+import io.ktor.utils.io.readAvailable
 import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.http.HttpClientFactory.Companion.CONNECT_TIMEOUT_MILLIS
+import com.hybris.tlv.http.HttpClientFactory.Companion.REQUEST_TIMEOUT_MILLIS
+import com.hybris.tlv.http.HttpClientFactory.Companion.SOCKET_TIMEOUT_MILLIS
 import com.hybris.tlv.platform.isDebug
-import com.hybris.tlv.serializer.decode
+import com.hybris.tlv.serializer.json
 import com.hybris.tlv.telemetry.Telemetry
 
 private val mutex = Mutex()
@@ -46,6 +51,7 @@ internal sealed interface NetworkQuality {
  * or [Result.Error] containing the exception that occurred.
  * An additional lambda [block] can also be provided for further configuration of the [HttpRequestBuilder].
  */
+@OptIn(ExperimentalSerializationApi::class)
 internal suspend inline fun <reified T> HttpClient.getStream(
     path: URL,
     queryMap: Map<String, String> = emptyMap(),
@@ -66,14 +72,19 @@ internal suspend inline fun <reified T> HttpClient.getStream(
 
             val channel = httpResponse.bodyAsChannel()
             val contentLength = httpResponse.contentLength() ?: -1L
-            val stringBuilder = StringBuilder()
+
+            val sink = Buffer()
+            val chunks = ByteArray(size = CHUNK_SIZE)
+            var totalRead = 0L
             while (!channel.isClosedForRead) {
-                val packet = channel.readRemaining(max = CHUNK_SIZE)
-                stringBuilder.append(packet.readText())
-                onProgress?.invoke(if (contentLength > 0) stringBuilder.length.toFloat() / contentLength else -1F)
+                val read = channel.readAvailable(buffer = chunks, offset = 0, length = chunks.size)
+                if (read <= 0) break
+                sink.write(source = chunks, startIndex = 0, endIndex = read)
+                totalRead += read
+                onProgress?.invoke(if (contentLength > 0) totalRead.toFloat() / contentLength else -1F)
             }
             onProgress?.invoke(1f)
-            Result.Success(list = decode<List<T>>(value = stringBuilder.toString()) ?: throw Throwable("Unable to decode response"))
+            Result.Success(list = json.decodeFromSource<List<T>>(source = sink))
         }
     }.getOrElse {
         invalidateCache()
@@ -86,12 +97,12 @@ private fun HttpRequestBuilder.setTimeout(networkQuality: NetworkQuality) {
         NetworkQuality.Fast -> 1L
         NetworkQuality.Medium -> 2L
         NetworkQuality.Slow -> 4L
-        NetworkQuality.Unknown -> 0L
+        NetworkQuality.Unknown -> 1L
     }
     timeout {
-        connectTimeoutMillis = (connectTimeoutMillis ?: 0) * multiplier
-        socketTimeoutMillis = (socketTimeoutMillis ?: 0) * multiplier
-        requestTimeoutMillis = (requestTimeoutMillis ?: 0) * multiplier
+        connectTimeoutMillis = (connectTimeoutMillis ?: CONNECT_TIMEOUT_MILLIS) * multiplier
+        socketTimeoutMillis = (socketTimeoutMillis ?: SOCKET_TIMEOUT_MILLIS) * multiplier
+        requestTimeoutMillis = (requestTimeoutMillis ?: REQUEST_TIMEOUT_MILLIS) * multiplier
     }
 }
 
@@ -136,7 +147,7 @@ internal suspend fun invalidateCache() =
     mutex.withLock { lastCheckTime = null }
 
 private const val TAG = "Network"
-private const val CHUNK_SIZE = 1024L * 8L
+private const val CHUNK_SIZE = 1024 * 8
 private const val FAST_THRESHOLD_MILLIS = 150L
 private const val MEDIUM_THRESHOLD_MILLIS = 500L
-private const val SLOW_THRESHOLD_MILLIS = 2000L
+private const val SLOW_THRESHOLD_MILLIS = 5000L
