@@ -74,9 +74,9 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching
     mutex.withLock {
         val previous = lastTimeMark.elapsed()
         if (previous < cacheTTL) return@withLock lastNetworkQuality
-        if (!isInternetAvailable()) return@withLock NetworkQuality.Unknown
-
         lastTimeMark = TimeSource.Monotonic.markNow()
+
+        if (!isInternetAvailable()) return@withLock NetworkQuality.Unknown
         val response = head(urlString = URL.Probe.path) {
             timeout {
                 connectTimeoutMillis = SLOW_THRESHOLD_MILLIS
