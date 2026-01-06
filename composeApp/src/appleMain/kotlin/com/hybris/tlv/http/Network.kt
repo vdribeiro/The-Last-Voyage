@@ -2,7 +2,6 @@
 
 package com.hybris.tlv.http
 
-import kotlin.time.TimeSource
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
@@ -21,18 +20,12 @@ import platform.SystemConfiguration.kSCNetworkReachabilityFlagsConnectionRequire
 import platform.SystemConfiguration.kSCNetworkReachabilityFlagsReachable
 import platform.posix.AF_INET
 import platform.posix.sockaddr_in
-import io.ktor.client.HttpClient
-import io.ktor.client.request.head
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.ConnectivityManager.FAST_THRESHOLD_MILLIS
-import com.hybris.tlv.http.ConnectivityManager.MEDIUM_THRESHOLD_MILLIS
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 
-private val probeClient by lazy { HttpClient() }
-
 @OptIn(ExperimentalForeignApi::class)
-internal actual suspend fun getNetworkQuality(): NetworkQuality = withContext(context = Dispatcher.IO) {
+internal actual suspend fun isInternetAvailable(): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {
         memScoped {
             // Create a IPv4 zero address
@@ -40,36 +33,22 @@ internal actual suspend fun getNetworkQuality(): NetworkQuality = withContext(co
                 sin_len = sizeOf<sockaddr_in>().toUByte()
                 sin_family = AF_INET.toUByte()
             }
-
             // Check general internet reachability
             val reachability: SCNetworkReachabilityRef = SCNetworkReachabilityCreateWithAddress(
                 allocator = null,
                 address = zeroAddress.ptr.reinterpret()
-            ) ?: return@withContext NetworkQuality.Unknown
-
+            ) ?: return@withContext false
             // Network status
             reachability.use {
                 val networkStatus: SCNetworkReachabilityFlagsVar = alloc<SCNetworkReachabilityFlagsVar>()
                 val success = SCNetworkReachabilityGetFlags(target = it, flags = networkStatus.ptr)
-                if (!success) return@withContext NetworkQuality.Unknown
-
+                if (!success) return@withContext false
                 val isReachable = (networkStatus.value and kSCNetworkReachabilityFlagsReachable) != 0u
-                val needConnection = (networkStatus.value and kSCNetworkReachabilityFlagsConnectionRequired) != 0u
-
-                if (isReachable && !needConnection) {
-                    // Performs a lightweight HEAD request to measure actual round-trip time
-                    val mark = TimeSource.Monotonic.markNow()
-                    probeClient.use { httpClient -> httpClient.head(urlString = "https://www.google.com") }
-                    val elapsed = mark.elapsedNow().inWholeMilliseconds
-                    when {
-                        elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
-                        elapsed < MEDIUM_THRESHOLD_MILLIS -> NetworkQuality.Medium
-                        else -> NetworkQuality.Slow
-                    }
-                } else NetworkQuality.Unknown
+                val needsConnection = (networkStatus.value and kSCNetworkReachabilityFlagsConnectionRequired) != 0u
+                isReachable && !needsConnection
             }
         }
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = NetworkQuality.Unknown)
+    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = false)
 }
 
 @OptIn(ExperimentalForeignApi::class)

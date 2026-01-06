@@ -8,13 +8,16 @@ import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.HttpRequestRetry
+import io.ktor.client.plugins.HttpRequestRetryConfig
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.compression.ContentEncoding
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.logging.LoggingConfig
 import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import com.hybris.tlv.platform.isDebug
@@ -31,32 +34,33 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
      */
     private fun <T: HttpClientEngineConfig> HttpClientConfig<T>.install() {
         expectSuccess = true
-        install(plugin = Logging) {
-            logger = object: io.ktor.client.plugins.logging.Logger {
-                override fun log(message: String) {
-                    Telemetry.info(tag = "Ktor", message = message)
-                }
-            }
-            level = if (isDebug) LogLevel.ALL else LogLevel.INFO
-        }
-        install(plugin = HttpTimeout) {
-            connectTimeoutMillis = 15_000L
-            socketTimeoutMillis = 30_000L
-            requestTimeoutMillis = 120_000L
-        }
+        followRedirects = false
+        install(plugin = Logging) { configure() }
+        install(plugin = HttpTimeout)
         install(plugin = HttpCache)
         install(plugin = ContentNegotiation) { json(json = json) }
         install(plugin = ContentEncoding) { gzip(quality = 0.9F) }
-        install(plugin = HttpRequestRetry) {
-            maxRetries = 3
-            exponentialDelay()
-            retryIf { _, response -> !response.status.isSuccess() }
-            retryOnExceptionIf { _, cause ->
-                cause is ConnectTimeoutException ||
-                        cause is SocketTimeoutException ||
-                        cause is HttpRequestTimeoutException ||
-                        cause is IOException
+        install(plugin = HttpRequestRetry) { configure() }
+    }
+
+    private fun LoggingConfig.configure() {
+        logger = object: Logger {
+            override fun log(message: String) {
+                Telemetry.info(tag = TAG, message = message)
             }
+        }
+        level = if (isDebug) LogLevel.ALL else LogLevel.INFO
+    }
+
+    private fun HttpRequestRetryConfig.configure() {
+        maxRetries = MAX_RETRIES
+        exponentialDelay()
+        retryIf { _, response -> !response.status.isSuccess() }
+        retryOnExceptionIf { _, cause ->
+            cause is ConnectTimeoutException ||
+                    cause is SocketTimeoutException ||
+                    cause is HttpRequestTimeoutException ||
+                    cause is IOException
         }
     }
 
@@ -66,5 +70,10 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
     val httpClient: HttpClient = when (engine) {
         null -> HttpClient { install() }
         else -> HttpClient(engine = engine) { install() }
+    }
+
+    companion object {
+        private const val TAG = "HttpClient"
+        private const val MAX_RETRIES = 3
     }
 }

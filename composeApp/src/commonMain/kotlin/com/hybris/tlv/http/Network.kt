@@ -4,14 +4,7 @@ package com.hybris.tlv.http
 
 import com.hybris.tlv.test.ShadowedInTesting
 
-internal sealed interface NetworkQuality {
-    data object Slow: NetworkQuality
-    data object Medium: NetworkQuality
-    data object Fast: NetworkQuality
-    data object Unknown: NetworkQuality
-}
-
 /**
- * Get network quality.
+ * Checks for internet availability.
  */
-internal expect suspend fun getNetworkQuality(): NetworkQuality
+internal expect suspend fun isInternetAvailable(): Boolean

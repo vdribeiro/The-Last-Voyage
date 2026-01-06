@@ -16,6 +16,7 @@ import io.ktor.utils.io.readRemaining
 import io.ktor.utils.io.readText
 import com.hybris.tlv.TLV.flag
 import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.http.ConnectivityManager.getNetworkQuality
 import com.hybris.tlv.serializer.decode
 
 /**
@@ -34,7 +35,12 @@ internal suspend inline fun <reified T> HttpClient.getStream(
 ): Result<T> = withContext(context = Dispatcher.IO) {
     runCatching {
         if (!flag.http) throw Throwable(message = "Network disabled")
-        if (!isInternetAvailableDebounced()) throw Throwable(message = "No internet connection available")
+        when (getNetworkQuality()) {
+            ConnectivityManager.NetworkQuality.Fast -> {}
+            ConnectivityManager.NetworkQuality.Medium -> {}
+            ConnectivityManager.NetworkQuality.Slow -> {}
+            ConnectivityManager.NetworkQuality.Unknown -> throw Throwable(message = "No internet connection available")
+        }
 
         prepareGet(urlString = path.encodeURLPath()) {
             queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
