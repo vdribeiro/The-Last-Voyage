@@ -18,10 +18,6 @@ import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.contentLength
 import io.ktor.http.encodeURLPath
 import io.ktor.http.isSuccess
-import io.ktor.utils.io.core.BytePacketBuilder
-import io.ktor.utils.io.core.build
-import io.ktor.utils.io.core.size
-import io.ktor.utils.io.core.writePacket
 import io.ktor.utils.io.readRemaining
 import io.ktor.utils.io.readText
 import com.hybris.tlv.TLV.flag
@@ -73,16 +69,14 @@ internal suspend inline fun <reified T> HttpClient.getStream(
 
             val channel = httpResponse.bodyAsChannel()
             val contentLength = httpResponse.contentLength() ?: -1L
-            val raw = BytePacketBuilder().use {
-                while (!channel.isClosedForRead) {
-                    val packet = channel.readRemaining(max = CHUNK_SIZE)
-                    it.writePacket(packet = packet)
-                    onProgress?.invoke(if (contentLength > 0) it.size.toFloat() / contentLength else -1F)
-                }
-                onProgress?.invoke(1f)
-                it.build().readText()
+            val stringBuilder = StringBuilder()
+            while (!channel.isClosedForRead) {
+                val packet = channel.readRemaining(max = CHUNK_SIZE)
+                stringBuilder.append(packet.readText())
+                onProgress?.invoke(if (contentLength > 0) stringBuilder.length.toFloat() / contentLength else -1F)
             }
-            Result.Success(list = decode<List<T>>(value = raw) ?: throw Throwable("Unable to decode response"))
+            onProgress?.invoke(1f)
+            Result.Success(list = decode<List<T>>(value = stringBuilder.toString()) ?: throw Throwable("Unable to decode response"))
         }
     }.getOrElse { Result.Error(error = it) }
 }
@@ -112,7 +106,7 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching
         val mark = TimeSource.Monotonic.markNow()
         when {
             isInternetAvailable() -> {
-                head(urlString = PROBE_ADDRESS) { timeout { requestTimeoutMillis = 1500L } }
+                head(urlString = URL.Probe.path) { timeout { requestTimeoutMillis = 1500L } }
                 val elapsed = mark.elapsedNow().inWholeMilliseconds
                 when {
                     elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
@@ -137,6 +131,5 @@ internal suspend fun invalidateCache() =
 
 private const val TAG = "Network"
 private const val CHUNK_SIZE = 1024L * 8L
-private const val PROBE_ADDRESS = "http://connectivitycheck.gstatic.com/generate_204"
 private const val FAST_THRESHOLD_MILLIS = 150
 private const val MEDIUM_THRESHOLD_MILLIS = 500
