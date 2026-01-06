@@ -55,12 +55,10 @@ internal suspend inline fun <reified T> HttpClient.get(
  */
 private suspend fun isInternetAvailableDebounced(): Boolean = runCatching {
     mutex.withLock {
-        val now = TimeSource.Monotonic.markNow()
         val previous = lastCheckTime.elapsed()
         if (previous < cacheTTL) return@withLock lastKnownStatus
-        lastKnownStatus = isInternetAvailable()
-        lastCheckTime = now
-        return@withLock lastKnownStatus
+        lastCheckTime = TimeSource.Monotonic.markNow()
+        return@withLock isInternetAvailable().also { lastKnownStatus = it }
     }
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = false)
 
