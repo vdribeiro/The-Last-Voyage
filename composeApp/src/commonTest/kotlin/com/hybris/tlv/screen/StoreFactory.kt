@@ -2,6 +2,7 @@ package com.hybris.tlv.screen
 
 import com.hybris.tlv.dependency.Dependency
 import com.hybris.tlv.screen.achievement.AchievementStore
+import com.hybris.tlv.screen.catastrophe.CatastropheStore
 import com.hybris.tlv.screen.cheat.CheatStore
 import com.hybris.tlv.screen.credit.CreditStore
 import com.hybris.tlv.screen.event.EventStore
@@ -47,8 +48,12 @@ internal class StoreFactory(private val dependency: Dependency) {
     fun getNewGameStore(): NewGameStore =
         NewGameStore(
             shipUseCases = dependency.useCases.ship,
-            catastropheUseCases = dependency.useCases.catastrophe,
             gameSessionUseCases = dependency.useCases.gameSession
+        )
+
+    fun getCatastropheStore(): CatastropheStore =
+        CatastropheStore(
+            catastropheUseCases = dependency.useCases.catastrophe,
         )
 
     fun getTutorialStore(newGame: Boolean): TutorialStore =

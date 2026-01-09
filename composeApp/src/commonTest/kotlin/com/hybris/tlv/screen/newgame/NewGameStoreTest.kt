@@ -12,10 +12,9 @@ internal class NewGameStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        useCases.catastrophe.syncCatastrophes()
         useCases.ship.syncEngines()
         val store = storeFactory.getNewGameStore()
-        assertEquals(expected = Content.SHIP, actual = store.state.currentContent)
+        assertEquals(expected = Content.SHIP, actual = store.state.)
     }
 
     @Test
