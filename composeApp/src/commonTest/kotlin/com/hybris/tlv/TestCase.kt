@@ -75,6 +75,7 @@ internal abstract class TestCase {
     private val testFlag = Flag(
         reset = true,
         http = true,
+        networkQuality = false,
         archive = true,
         music = false
     )

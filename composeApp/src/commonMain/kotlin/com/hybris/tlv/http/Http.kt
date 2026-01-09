@@ -74,6 +74,7 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = mutex.withL
     lastTimeMark = TimeSource.Monotonic.markNow()
 
     if (!isInternetAvailable()) return@withLock NetworkQuality.Unknown
+    if (!flag.networkQuality) return@withLock NetworkQuality.Fast
 
     val response = runCatching {
         // Add small timeout to allow the HTTP client to return its own error gracefully

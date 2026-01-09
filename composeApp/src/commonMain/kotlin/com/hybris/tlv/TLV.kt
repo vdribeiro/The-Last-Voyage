@@ -32,6 +32,7 @@ internal object TLV {
     var flag: Flag = Flag(
         reset = false,
         http = true,
+        networkQuality = true,
         archive = false,
         music = true
     )
@@ -39,15 +40,20 @@ internal object TLV {
 
 internal data class Flag(
     /**
+     * Flag to enable or disable a full data reset before syncing data.
+     * This should be set to false for production builds.
+     */
+    val reset: Boolean,
+    /**
      * Flag to enable or disable HTTP client. When false, network calls will fail.
      * This should be set to true for production builds.
      */
     val http: Boolean,
     /**
-     * Flag to enable or disable a full data reset before syncing data.
-     * This should be set to false for production builds.
+     * Flag to enable or disable network quality check. When false, the check is skipped.
+     * This should be set to true for production builds.
      */
-    val reset: Boolean,
+    val networkQuality: Boolean,
     /**
      * Flag to enable or disable fetching exoplanet data directly from the NASA archive when syncing data.
      * This should be set to false for production builds.
