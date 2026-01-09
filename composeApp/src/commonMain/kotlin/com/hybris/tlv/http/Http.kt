@@ -9,6 +9,7 @@ import kotlin.time.TimeSource
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.timeout
@@ -70,35 +71,37 @@ internal suspend inline fun <reified T> HttpClient.get(
 /**
  * Checks for network quality with a debounce mechanism to avoid frequent checks.
  */
-private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching {
-    mutex.withLock {
-        val previous = lastTimeMark.elapsed()
-        if (previous < cacheTTL) return@withLock lastNetworkQuality
-        lastTimeMark = TimeSource.Monotonic.markNow()
+private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = mutex.withLock {
+    val previous = lastTimeMark.elapsed()
+    if (previous < cacheTTL) return@withLock lastNetworkQuality
+    lastTimeMark = TimeSource.Monotonic.markNow()
 
-        if (!isInternetAvailable()) return@withLock NetworkQuality.Unknown
-        val response = head(urlString = URL.Probe.path) {
-            timeout {
-                connectTimeoutMillis = SLOW_THRESHOLD_MILLIS
-                socketTimeoutMillis = SLOW_THRESHOLD_MILLIS
-                requestTimeoutMillis = SLOW_THRESHOLD_MILLIS
+    if (!isInternetAvailable()) return@withLock NetworkQuality.Unknown
+    val response = runCatching {
+        withTimeout(timeMillis = SLOW_THRESHOLD_MILLIS) {
+            head(urlString = URL.Probe.path) {
+                timeout {
+                    connectTimeoutMillis = SLOW_THRESHOLD_MILLIS
+                    socketTimeoutMillis = SLOW_THRESHOLD_MILLIS
+                    requestTimeoutMillis = SLOW_THRESHOLD_MILLIS
+                }
             }
         }
+    }.getOrNull()
 
-        // Check for Success or Redirect / Captive Portal
-        if (!response.status.isSuccess() || !response.call.request.url.toString().contains(other = URL.Probe.path)) {
-            return@withLock NetworkQuality.Unknown
-        }
-
-        val elapsed = lastTimeMark.elapsed().inWholeMilliseconds
-        Telemetry.info(tag = TAG, message = "Network quality elapsed time: $elapsed")
-        when {
-            elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
-            elapsed < MEDIUM_THRESHOLD_MILLIS -> NetworkQuality.Medium
-            else -> NetworkQuality.Slow
-        }
+    // Check for Success or Redirect / Captive Portal
+    if (response == null || !response.status.isSuccess() || !response.call.request.url.toString().contains(other = URL.Probe.path)) {
+        return@withLock NetworkQuality.Unknown
     }
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to check connectivity", throwable = it) }.getOrDefault(defaultValue = NetworkQuality.Slow).also {
+
+    val elapsed = lastTimeMark.elapsed().inWholeMilliseconds
+    Telemetry.info(tag = TAG, message = "Network quality elapsed time: $elapsed")
+    when {
+        elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
+        elapsed < MEDIUM_THRESHOLD_MILLIS -> NetworkQuality.Medium
+        else -> NetworkQuality.Slow
+    }
+}.also {
     lastNetworkQuality = it
     Telemetry.info(tag = TAG, message = "Network quality: $it")
 }
@@ -106,12 +109,16 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = runCatching
 /**
  * Resets the cache to force a re-check on the next request.
  */
-private suspend fun invalidateCache() = mutex.withLock { lastTimeMark = null }
+private suspend fun invalidateCache() = mutex.withLock {
+    lastTimeMark = null
+}
 
 /**
  * Returns the elapsed duration since the mark was set, or [INFINITE] if no mark has been set.
  */
-private fun TimeMark?.elapsed(): Duration = this?.elapsedNow() ?: INFINITE
+private fun TimeMark?.elapsed(): Duration = runCatching {
+    this?.elapsedNow()
+}.getOrNull() ?: INFINITE
 
 /**
  * Sets the timeout based on the [networkQuality].
@@ -124,10 +131,11 @@ private fun HttpRequestBuilder.setTimeout(networkQuality: NetworkQuality) {
         NetworkQuality.Unknown -> 1L
     }
     timeout {
+        Telemetry.info(tag = TAG, message = "Timeouts before: $connectTimeoutMillis, $socketTimeoutMillis, $requestTimeoutMillis")
         connectTimeoutMillis = (connectTimeoutMillis ?: CONNECT_TIMEOUT_MILLIS) * multiplier
         socketTimeoutMillis = (socketTimeoutMillis ?: SOCKET_TIMEOUT_MILLIS) * multiplier
         requestTimeoutMillis = (requestTimeoutMillis ?: REQUEST_TIMEOUT_MILLIS) * multiplier
-        Telemetry.info(tag = TAG, message = "Timeouts: $connectTimeoutMillis, $socketTimeoutMillis, $requestTimeoutMillis")
+        Telemetry.info(tag = TAG, message = "Timeouts after: $connectTimeoutMillis, $socketTimeoutMillis, $requestTimeoutMillis")
     }
 }
 
