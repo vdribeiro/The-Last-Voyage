@@ -25,12 +25,21 @@ import com.hybris.tlv.serializer.json
 import com.hybris.tlv.telemetry.Telemetry
 
 /**
- * A factory for creating and configuring [HttpClient] instances with the necessary plugins, given an optional [HttpClientEngine] to use for the client. If null, a default engine is used.
+ * A factory for creating and configuring the [HttpClient] instance with the necessary plugins,
+ * given an optional [HttpClientEngine] to use for the client. If null, a default engine is used.
  */
 internal class HttpClientFactory(engine: HttpClientEngine?) {
 
     /**
-     * Installs and configures the necessary plugins for the [HttpClient], namely logging, timeouts, caching, content negotiation, and compression.
+     * The configured [HttpClient] instance.
+     */
+    val httpClient: HttpClient = when (engine) {
+        null -> HttpClient { install() }
+        else -> HttpClient(engine = engine) { install() }
+    }
+
+    /**
+     * Installs and configures the necessary plugins for the [HttpClient].
      */
     private fun <T: HttpClientEngineConfig> HttpClientConfig<T>.install() {
         install(plugin = Logging) { configure() }
@@ -59,14 +68,6 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
     private fun ContentNegotiationConfig.configure() {
         json(json = json, contentType = ContentType.Application.Json)
         register(contentType = ContentType.Text.Plain, converter = KotlinxSerializationConverter(format = json))
-    }
-
-    /**
-     * The configured [HttpClient] instance.
-     */
-    val httpClient: HttpClient = when (engine) {
-        null -> HttpClient { install() }
-        else -> HttpClient(engine = engine) { install() }
     }
 
     companion object {
