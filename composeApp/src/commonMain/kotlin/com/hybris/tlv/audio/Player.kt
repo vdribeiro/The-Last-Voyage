@@ -32,10 +32,16 @@ internal fun AudioPlayer(
  */
 private fun getTracks(destination: NavDestination?): List<String>? = runCatching {
     when {
-        destination == null -> null
+        destination == null ||
+                destination.hasRoute<Screen.Cheat>() ||
+                destination.hasRoute<Screen.Help>() ||
+                destination.hasRoute<Screen.Feedback>() ||
+                destination.hasRoute<Screen.Tutorial>() -> null
+
         destination.hasRoute<Screen.Splash>() ||
                 destination.hasRoute<Screen.MainMenu>() ||
                 destination.hasRoute<Screen.NewGame>() ||
+                destination.hasRoute<Screen.Catastrophe>() ||
                 destination.hasRoute<Screen.StellarExplorer>() ||
                 destination.hasRoute<Screen.Score>() ||
                 destination.hasRoute<Screen.Achievement>() ||

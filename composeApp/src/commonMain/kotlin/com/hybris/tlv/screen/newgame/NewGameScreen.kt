@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.screen.Screen
@@ -16,7 +15,6 @@ import com.hybris.tlv.theme.component.bottombar.BottomButton
 import com.hybris.tlv.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.theme.component.button.AttributePoint
 import com.hybris.tlv.theme.component.container.ShipConfiguration
-import com.hybris.tlv.theme.component.container.TypewriterContent
 import com.hybris.tlv.theme.getTranslation
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.Engine
@@ -27,8 +25,7 @@ import com.hybris.tlv.usecase.translation.model.Translation
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
-    val selectedCatastrophe = storeState.selectedCatastrophe
-    val continueTranslation = getTranslation(key = "new_game_screen__continue")
+    val shipState = storeState.shipState
     val startTranslation = getTranslation(key = "new_game_screen__start")
 
     Screen(
@@ -37,72 +34,46 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
         bottomBar = {
             if (storeState.loading) return@Screen
             ButtonsBar(
-                buttons = when (storeState.currentContent) {
-                    Content.SHIP -> {
-                        val shipState = storeState.shipState
-                        listOf(
-                            BottomButton(
-                                id = continueTranslation,
-                                enabled = shipState != null && shipState.remainingPoints >= 0,
-                                text = continueTranslation,
-                                onClick = {
-                                    if (shipState == null) return@BottomButton
-                                    val shipPrototype = ShipPrototype(
-                                        assignedPoints = shipState.assignedPoints,
-                                        sensorRange = shipState.sensorRange.value,
-                                        fuel = shipState.fuel.value,
-                                        materials = shipState.materials.value,
-                                        cryopods = shipState.cryopods.value,
-                                    )
-                                    store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
-                                }
+                buttons = listOf(
+                    BottomButton(
+                        id = startTranslation,
+                        enabled = shipState != null && shipState.remainingPoints >= 0,
+                        text = startTranslation,
+                        onClick = {
+                            if (shipState == null) return@BottomButton
+                            val shipPrototype = ShipPrototype(
+                                assignedPoints = shipState.assignedPoints,
+                                sensorRange = shipState.sensorRange.value,
+                                fuel = shipState.fuel.value,
+                                materials = shipState.materials.value,
+                                cryopods = shipState.cryopods.value,
                             )
-                        )
-                    }
-
-                    Content.START -> listOf(
-                        BottomButton(
-                            id = startTranslation,
-                            text = startTranslation,
-                            onClick = { store.send(action = NewGameAction.Next) }
-                        )
+                            store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
+                        }
                     )
-                },
+                )
             )
         },
     ) {
-        when (storeState.currentContent) {
-            Content.SHIP -> {
-                val shipState = storeState.shipState ?: return@Screen
-                ShipConfiguration(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(all = 16.dp),
-                    remainingPoints = shipState.remainingPoints,
-                    sensorRange = shipState.sensorRange,
-                    fuel = shipState.fuel,
-                    materials = shipState.materials,
-                    cryopods = shipState.cryopods,
-                    selectedEngineId = shipState.engine.id,
-                    engines = storeState.engines,
-                    id = { it.id },
-                    description = { it.description },
-                    velocity = { it.velocity },
-                    fuelConsumption = { it.fuelConsumption },
-                    cost = { it.cost },
-                    onEngineClick = { engine -> store.send(action = NewGameAction.SelectEngine(engine = engine)) }
-                )
-            }
-
-            Content.START -> TypewriterContent(
-                modifier = Modifier
-                    .testTag(tag = "new_game_content")
-                    .fillMaxSize()
-                    .padding(all = 16.dp),
-                title = selectedCatastrophe?.let { getTranslation(key = it.id) },
-                text = selectedCatastrophe?.let { getTranslation(key = it.description) }
-            )
-        }
+        if (shipState == null) return@Screen
+        ShipConfiguration(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(all = 16.dp),
+            remainingPoints = shipState.remainingPoints,
+            sensorRange = shipState.sensorRange,
+            fuel = shipState.fuel,
+            materials = shipState.materials,
+            cryopods = shipState.cryopods,
+            selectedEngineId = shipState.engine.id,
+            engines = storeState.engines,
+            id = { it.id },
+            description = { it.description },
+            velocity = { it.velocity },
+            fuelConsumption = { it.fuelConsumption },
+            cost = { it.cost },
+            onEngineClick = { engine -> store.send(action = NewGameAction.SelectEngine(engine = engine)) }
+        )
     }
 }
 
@@ -113,7 +84,7 @@ private fun NewGameScreenLoadingPreview() = AppTheme {
         translations = listOf(
             Translation(
                 key = "new_game_screen__continue",
-                value = "Continue"
+                value = "Start"
             ),
         )
     )
@@ -121,8 +92,6 @@ private fun NewGameScreenLoadingPreview() = AppTheme {
         store = Store(
             initialState = NewGameState(
                 loading = true,
-                currentContent = Content.SHIP,
-                selectedCatastrophe = null,
                 shipState = null,
             )
         )
@@ -172,8 +141,6 @@ private fun NewGameScreenShipPreview() = AppTheme {
         store = Store(
             initialState = NewGameState(
                 loading = false,
-                currentContent = Content.SHIP,
-                selectedCatastrophe = null,
                 shipState = ShipState(
                     totalPoints = 10,
                     sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 3),
@@ -188,32 +155,6 @@ private fun NewGameScreenShipPreview() = AppTheme {
                         cost = 1
                     )
                 ),
-            )
-        )
-    )
-}
-
-@Preview
-@Composable
-private fun NewGameScreenStartPreview() = AppTheme {
-    TranslationCache.set(
-        translations = listOf(
-            Translation(
-                key = "new_game_screen__start",
-                value = "Start"
-            ),
-        )
-    )
-    NewGameScreen(
-        store = Store(
-            initialState = NewGameState(
-                loading = false,
-                currentContent = Content.START,
-                selectedCatastrophe = Catastrophe(
-                    id = "Asteroid Impact",
-                    description = "A massive asteroid collides with Earth. The impact wipes out most life on the planet.",
-                ),
-                shipState = null,
             )
         )
     )

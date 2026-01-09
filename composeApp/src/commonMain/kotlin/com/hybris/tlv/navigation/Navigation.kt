@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.navigation.graph.achievementScreen
+import com.hybris.tlv.navigation.graph.catastropheScreen
 import com.hybris.tlv.navigation.graph.cheatScreen
 import com.hybris.tlv.navigation.graph.creditScreen
 import com.hybris.tlv.navigation.graph.eventScreen
@@ -50,6 +51,7 @@ internal fun Navigation(
         helpScreen(config = config)
         feedbackScreen()
         newGameScreen(useCases = useCases)
+        catastropheScreen(useCases = useCases)
         tutorialScreen(config = config)
         gameScreen(config = config, useCases = useCases)
         eventScreen(useCases = useCases)

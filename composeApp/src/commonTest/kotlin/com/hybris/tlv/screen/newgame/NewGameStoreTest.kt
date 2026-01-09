@@ -55,8 +55,8 @@ internal class NewGameStoreTest: TestCase() {
         store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
         store.send(action = NewGameAction.SelectEngine(engine = engines.random()))
         assertNavigation(list = emptyList())
-        store.send(action = NewGameAction.Next)
-        store.send(action = NewGameAction.Next)
+        store.send(action = NewGameAction.Start)
+        store.send(action = NewGameAction.Start)
         assertNavigation(list = listOf(Screen.Game()))
     }
 
@@ -66,8 +66,8 @@ internal class NewGameStoreTest: TestCase() {
         val store = storeFactory.getNewGameStore()
         store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
         store.send(action = NewGameAction.SelectEngine(engine = engines.random()))
-        store.send(action = NewGameAction.Next)
-        store.send(action = NewGameAction.Next)
+        store.send(action = NewGameAction.Start)
+        store.send(action = NewGameAction.Start)
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 

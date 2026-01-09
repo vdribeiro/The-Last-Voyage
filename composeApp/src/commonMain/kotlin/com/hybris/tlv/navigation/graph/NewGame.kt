@@ -14,7 +14,6 @@ internal fun NavGraphBuilder.newGameScreen(
     NewGameScreen(store = viewModel {
         NewGameStore(
             shipUseCases = useCases.ship,
-            catastropheUseCases = useCases.catastrophe,
             gameSessionUseCases = useCases.gameSession
         )
     })

@@ -27,6 +27,8 @@ internal sealed interface Screen {
     @Serializable
     data class Tutorial(val newGame: Boolean = false): Screen
     @Serializable
+    data object Catastrophe: Screen
+    @Serializable
     data class Game(val ship: Ship? = null): Screen
     @Serializable
     data class Event(val ship: Ship? = null): Screen

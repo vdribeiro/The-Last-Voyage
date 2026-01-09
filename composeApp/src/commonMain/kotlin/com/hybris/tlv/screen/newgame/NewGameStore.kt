@@ -6,7 +6,6 @@ import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.theme.component.button.AttributePoint
-import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.ShipUseCases
@@ -23,7 +22,6 @@ import com.hybris.tlv.usecase.space.model.Formula
 
 internal class NewGameStore(
     private val shipUseCases: ShipUseCases,
-    private val catastropheUseCases: CatastropheUseCases,
     private val gameSessionUseCases: GameSessionUseCases
 ): Store<NewGameState, NewGameAction>(
     initialState = NewGameState()
@@ -54,55 +52,43 @@ internal class NewGameStore(
             engine = engines.find { it.cost == 5 } ?: engines.first()
         )
 
-        val selectedCatastrophe = catastropheUseCases.getRandomCatastrophe()
-        if (selectedCatastrophe == null) {
-            navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing catastrophe on setup()"))
-            return@launch
-        }
-
         updateState {
             it.copy(
                 loading = false,
                 shipState = shipState,
                 engines = engines,
-                selectedCatastrophe = selectedCatastrophe,
             )
         }
 
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    private fun next(state: NewGameState) {
-        when (state.currentContent) {
-            Content.SHIP -> updateState { it.copy(currentContent = Content.START) }
-            Content.START -> launch(id = "start") {
-                Telemetry.info(tag = TAG, message = "Start game")
-                val selectedShip = this@NewGameStore.selectedShip
-                if (selectedShip == null) {
-                    navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing ship prototype on startGame()"))
-                    return@launch
-                }
-
-                val selectedEngine = state.shipState?.engine
-                if (selectedEngine == null) {
-                    navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing engine on startGame()"))
-                    return@launch
-                }
-
-                // TODO - allow formula selection in 'Advanced Screen'
-                val selectedFormula = this@NewGameStore.selectedFormula ?: Formula()
-
-                val gameSession = gameSessionUseCases.startGame(
-                    GameSessionPrototype(
-                        ship = selectedShip,
-                        engine = selectedEngine,
-                        formula = selectedFormula
-                    )
-                )
-                Telemetry.info(tag = TAG, message = "New session: $gameSession")
-                navigate(screen = Screen.Game())
-            }
+    private fun next(state: NewGameState) = launch(id = "start") {
+        Telemetry.info(tag = TAG, message = "Start game")
+        val selectedShip = this@NewGameStore.selectedShip
+        if (selectedShip == null) {
+            navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing ship prototype on startGame()"))
+            return@launch
         }
+
+        val selectedEngine = state.shipState?.engine
+        if (selectedEngine == null) {
+            navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing engine on startGame()"))
+            return@launch
+        }
+
+        // TODO - allow formula selection in 'Advanced Screen'
+        val selectedFormula = this@NewGameStore.selectedFormula ?: Formula()
+
+        val gameSession = gameSessionUseCases.startGame(
+            GameSessionPrototype(
+                ship = selectedShip,
+                engine = selectedEngine,
+                formula = selectedFormula
+            )
+        )
+        Telemetry.info(tag = TAG, message = "New session: $gameSession")
+        navigate(screen = Screen.Catastrophe)
     }
 
     override fun back(state: NewGameState) {
@@ -117,7 +103,7 @@ internal class NewGameStore(
             }
 
             is NewGameAction.SelectEngine -> updateState { it.copy(shipState = it.shipState?.copy(engine = action.engine)) }
-            NewGameAction.Next -> next(state = state)
+            NewGameAction.Start -> next(state = state)
         }
     }
 
