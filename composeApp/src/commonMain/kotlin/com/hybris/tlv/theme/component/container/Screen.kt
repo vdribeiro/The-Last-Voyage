@@ -97,7 +97,7 @@ internal fun Screen(
                     modifier = Modifier.align(alignment = Alignment.Center),
                     showBackground = loadingBackground,
                     showProgress = true,
-                    progress = if (loadingProgress == 0f) null else loadingProgress,
+                    progress = loadingProgress,
                     text = loadingText
                 )
 
