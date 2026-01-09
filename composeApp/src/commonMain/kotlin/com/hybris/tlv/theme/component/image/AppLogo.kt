@@ -25,6 +25,7 @@ internal fun AppLogo(
     modifier: Modifier = Modifier,
     showBackground: Boolean = false,
     progress: Float? = null,
+    showProgress: Boolean = progress != null,
     text: String? = null,
 ) {
     val typography = LocalTypography.current
@@ -55,7 +56,7 @@ internal fun AppLogo(
                 contentDescription = "Logo",
                 contentScale = ContentScale.Crop,
             )
-            if (progress != null) ProgressIndicator(modifier = Modifier.size(size = 160.dp), progress = progress)
+            if (showProgress) ProgressIndicator(modifier = Modifier.size(size = 160.dp), progress = progress)
         }
 
         Text(
@@ -74,11 +75,13 @@ private fun AppLogoPreview() = AppTheme {
         AppLogo(
             showBackground = true,
             progress = 0.5f,
+            showProgress = true,
             text = "Loading"
         )
         AppLogo(
             showBackground = false,
             progress = null,
+            showProgress = true,
         )
         AppLogo()
     }
