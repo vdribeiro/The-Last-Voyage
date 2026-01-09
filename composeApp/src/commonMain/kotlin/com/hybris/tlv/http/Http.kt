@@ -125,11 +125,9 @@ private fun HttpRequestBuilder.setTimeout(networkQuality: NetworkQuality) {
         NetworkQuality.Unknown -> 1L
     }
     timeout {
-        Telemetry.info(tag = TAG, message = "Timeouts before: $connectTimeoutMillis, $socketTimeoutMillis, $requestTimeoutMillis")
         connectTimeoutMillis = (connectTimeoutMillis ?: CONNECT_TIMEOUT_MILLIS) * multiplier
         socketTimeoutMillis = (socketTimeoutMillis ?: SOCKET_TIMEOUT_MILLIS) * multiplier
         requestTimeoutMillis = (requestTimeoutMillis ?: REQUEST_TIMEOUT_MILLIS) * multiplier
-        Telemetry.info(tag = TAG, message = "Timeouts after: $connectTimeoutMillis, $socketTimeoutMillis, $requestTimeoutMillis")
     }
 }
 
