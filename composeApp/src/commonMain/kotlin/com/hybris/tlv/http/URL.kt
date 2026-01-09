@@ -1,6 +1,7 @@
 package com.hybris.tlv.http
 
 internal sealed class URL(val path: String) {
+    data object Probe: URL(path = "https://connectivitycheck.gstatic.com/generate_204")
     data object ExoplanetArchive: URL(path = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync")
     data object Configs: URL(path = "https://gist.githubusercontent.com/vdribeiro/eb23013b329c47317622981187df3f23/raw/configs.json")
     data object Translations: URL(path = "https://gist.githubusercontent.com/vdribeiro/90daf9ebde2b8e37ce893e49e8d7f7c7/raw/translations.json")

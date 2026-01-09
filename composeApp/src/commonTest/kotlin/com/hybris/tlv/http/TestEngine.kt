@@ -24,6 +24,11 @@ internal object TestEngine {
     val mock = MockEngine { request ->
         val path = request.url.toString()
         when (request.method) {
+            HttpMethod.Head -> when {
+                path.startsWith(prefix = URL.Probe.path) -> respondStatus(status = HttpStatusCode.NoContent)
+                else -> respondError(status = HttpStatusCode.NotFound, content = "Not found for path: ${request.url.encodedPath}")
+            }
+
             HttpMethod.Get -> when {
                 path.startsWith(prefix = URL.ExoplanetArchive.path) -> respondArchive(request = request)
                 path.startsWith(prefix = URL.Configs.path) -> respond(content = encode(value = listOf(configs)).orEmpty())
@@ -41,6 +46,9 @@ internal object TestEngine {
             else -> respondError(status = HttpStatusCode.BadRequest, content = "Method not found: ${request.method}")
         }
     }
+
+    private fun MockRequestHandleScope.respondStatus(status: HttpStatusCode): HttpResponseData =
+        respond(content = "", status = status)
 
     private fun MockRequestHandleScope.respondArchive(request: HttpRequestData): HttpResponseData {
         val parameters = request.url.parameters.toString()
