@@ -132,6 +132,6 @@ private fun HttpRequestBuilder.setTimeout(networkQuality: NetworkQuality) {
 }
 
 private const val TAG = "Http"
-private const val FAST_THRESHOLD_MILLIS = 500L
-private const val MEDIUM_THRESHOLD_MILLIS = 1500L
-private const val SLOW_THRESHOLD_MILLIS = 2000L
+private const val FAST_THRESHOLD_MILLIS = 1000L
+private const val MEDIUM_THRESHOLD_MILLIS = 2000L
+private const val SLOW_THRESHOLD_MILLIS = 2500L

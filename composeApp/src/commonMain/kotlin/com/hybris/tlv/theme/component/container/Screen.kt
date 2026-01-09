@@ -96,8 +96,7 @@ internal fun Screen(
                 true -> AppLogo(
                     modifier = Modifier.align(alignment = Alignment.Center),
                     showBackground = loadingBackground,
-                    showProgress = true,
-                    progress = loadingProgress,
+                    progress = if (loadingProgress == 0f) null else loadingProgress,
                     text = loadingText
                 )
 
