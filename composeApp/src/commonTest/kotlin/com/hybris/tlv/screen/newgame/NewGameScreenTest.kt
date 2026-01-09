@@ -21,7 +21,6 @@ internal class NewGameScreenTest: TestCase() {
         onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
 
-        onNodeWithText(text = "new_game_screen__continue").assertDoesNotExist()
         onNodeWithText(text = "new_game_screen__start").assertDoesNotExist()
 
         onNodeWithText(text = "ship_sensor").assertDoesNotExist()
@@ -29,7 +28,6 @@ internal class NewGameScreenTest: TestCase() {
         onNodeWithText(text = "ship_materials").assertDoesNotExist()
         onNodeWithText(text = "ship_cryopods").assertDoesNotExist()
         onNodeWithText(text = "new_game_screen__engine_select").assertDoesNotExist()
-        onNodeWithTag(testTag = "new_game_content").assertDoesNotExist()
     }
 
     @Test
@@ -43,26 +41,14 @@ internal class NewGameScreenTest: TestCase() {
         onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
 
-        onNodeWithText(text = "new_game_screen__continue").assertIsDisplayed()
-        onNodeWithText(text = "new_game_screen__start").assertDoesNotExist()
+        onNodeWithText(text = "new_game_screen__start").assertIsDisplayed()
 
         onNodeWithText(text = "ship_sensor").assertIsDisplayed()
         onNodeWithText(text = "ship_fuel").assertIsDisplayed()
         onNodeWithText(text = "ship_materials").assertIsDisplayed()
         onNodeWithText(text = "ship_cryopods").assertIsDisplayed()
         onNodeWithText(text = "new_game_screen__engine_select").assertIsDisplayed()
-        onNodeWithTag(testTag = "new_game_content").assertDoesNotExist()
 
-        onNodeWithText(text = "new_game_screen__continue").performClick()
-
-        onNodeWithText(text = "new_game_screen__continue").assertDoesNotExist()
-        onNodeWithText(text = "new_game_screen__start").assertIsDisplayed()
-
-        onNodeWithText(text = "ship_sensor").assertDoesNotExist()
-        onNodeWithText(text = "ship_fuel").assertDoesNotExist()
-        onNodeWithText(text = "ship_materials").assertDoesNotExist()
-        onNodeWithText(text = "ship_cryopods").assertDoesNotExist()
-        onNodeWithText(text = "new_game_screen__engine_select").assertDoesNotExist()
-        onNodeWithTag(testTag = "new_game_content").assertIsDisplayed()
+        onNodeWithText(text = "new_game_screen__start").performClick()
     }
 }

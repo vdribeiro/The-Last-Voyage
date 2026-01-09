@@ -3,7 +3,7 @@ package com.hybris.tlv.screen.stellarexplorer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.TestCase
@@ -25,18 +25,59 @@ internal class StellarExplorerStoreTest: TestCase() {
         assertEquals(expected = Content.LIST_HOSTS, actual = store.state.currentContent)
         assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemIndex)
         assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemScrollOffset)
-        assertEquals(expected = emptyList(), actual = store.state.stellarHosts)
-        assertEquals(expected = emptyList(), actual = store.state.planets)
-        assertNotNull(actual = store.state.selectedStellarHost)
-        assertNotNull(actual = store.state.selectedPlanet)
-        assertEquals(expected = "", actual = store.state.search)
+        assertEquals(expected = stellarHosts.sortedBy { it.id }, actual = store.state.stellarHosts.sortedBy { it.id })
+        assertTrue(actual = store.state.planets.isEmpty())
+        assertNull(actual = store.state.selectedStellarHost)
+        assertNull(actual = store.state.selectedPlanet)
+        assertTrue(actual = store.state.search.isEmpty())
         assertEquals(expected = StellarHostProperty.DISTANCE, actual = store.state.sortStellarHostProperty)
         assertEquals(expected = PlanetProperty.HABITABILITY, actual = store.state.sortPlanetProperty)
         assertTrue(actual = store.state.sortAscending)
-        assertEquals(expected = emptySet(), actual = store.state.visibleStellarHostProperties)
-        assertEquals(expected = emptySet(), actual = store.state.visiblePlanetProperties)
-        assertEquals(expected = emptySet(), actual = store.state.searchableStellarHostProperties)
-        assertEquals(expected = emptySet(), actual = store.state.searchablePlanetProperties)
+        assertEquals(
+            expected = setOf(
+                StellarHostProperty.NAME,
+                StellarHostProperty.SYSTEM_NAME,
+                StellarHostProperty.PLANET_COUNT,
+                StellarHostProperty.SPECTRAL_TYPE,
+                StellarHostProperty.TEMPERATURE,
+                StellarHostProperty.RADIUS,
+                StellarHostProperty.MASS,
+                StellarHostProperty.METALLICITY,
+                StellarHostProperty.LUMINOSITY,
+                StellarHostProperty.GRAVITY,
+                StellarHostProperty.AGE,
+                StellarHostProperty.DENSITY,
+                StellarHostProperty.ROTATIONAL_VELOCITY,
+                StellarHostProperty.ROTATIONAL_PERIOD,
+                StellarHostProperty.DISTANCE,
+                StellarHostProperty.RA,
+                StellarHostProperty.DEC,
+            ),
+            actual = store.state.visibleStellarHostProperties
+        )
+        assertEquals(
+            expected = setOf(
+                PlanetProperty.NAME,
+                PlanetProperty.STATUS,
+                PlanetProperty.HABITABILITY,
+                PlanetProperty.CONFIDENCE,
+                PlanetProperty.TYPE,
+                PlanetProperty.ORBITAL_PERIOD,
+                PlanetProperty.ORBIT_AXIS,
+                PlanetProperty.RADIUS,
+                PlanetProperty.MASS,
+                PlanetProperty.DENSITY,
+                PlanetProperty.ECCENTRICITY,
+                PlanetProperty.INSOLATION_FLUX,
+                PlanetProperty.TEMPERATURE,
+                PlanetProperty.OCCULTATION_DEPTH,
+                PlanetProperty.INCLINATION,
+                PlanetProperty.OBLIQUITY,
+            ),
+            actual = store.state.visiblePlanetProperties
+        )
+        assertEquals(expected = setOf(StellarHostProperty.NAME), actual = store.state.searchableStellarHostProperties)
+        assertEquals(expected = setOf(PlanetProperty.NAME), actual = store.state.searchablePlanetProperties)
     }
 
     @Test

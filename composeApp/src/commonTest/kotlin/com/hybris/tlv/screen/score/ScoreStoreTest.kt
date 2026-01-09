@@ -3,6 +3,7 @@ package com.hybris.tlv.screen.score
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.navigation.Screen
@@ -24,7 +25,7 @@ internal class ScoreStoreTest: TestCase() {
     fun initWithoutScores() = runUnitTest {
         val store = storeFactory.getScoreStore()
         assertFalse(actual = store.state.loading)
-        assertEquals(expected = emptyList(), actual = store.state.gameSessions)
+        assertTrue(actual = store.state.gameSessions.isEmpty())
     }
 
     @Test

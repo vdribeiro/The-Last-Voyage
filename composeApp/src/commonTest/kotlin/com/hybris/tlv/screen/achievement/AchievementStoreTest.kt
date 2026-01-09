@@ -3,6 +3,7 @@ package com.hybris.tlv.screen.achievement
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.achievements
 import com.hybris.tlv.navigation.Screen
@@ -21,7 +22,7 @@ internal class AchievementStoreTest: TestCase() {
     fun initWithoutAchievements() = runUnitTest {
         val store = storeFactory.getAchievementStore()
         assertFalse(actual = store.state.loading)
-        assertEquals(expected = emptyList(), actual = store.state.achievements)
+        assertTrue(actual = store.state.achievements.isEmpty())
     }
 
     @Test

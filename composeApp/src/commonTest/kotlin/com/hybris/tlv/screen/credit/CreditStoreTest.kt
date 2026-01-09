@@ -3,6 +3,7 @@ package com.hybris.tlv.screen.credit
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.credits
 import com.hybris.tlv.navigation.Screen
@@ -21,7 +22,7 @@ internal class CreditStoreTest: TestCase() {
     fun initWithoutCredits() = runUnitTest {
         val store = storeFactory.getCreditStore()
         assertFalse(actual = store.state.loading)
-        assertEquals(expected = emptyList(), actual = store.state.credits)
+        assertTrue(actual = store.state.credits.isEmpty())
     }
 
     @Test
