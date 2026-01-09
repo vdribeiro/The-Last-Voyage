@@ -2,6 +2,8 @@ package com.hybris.tlv.screen.newgame
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.engines
@@ -14,7 +16,12 @@ internal class NewGameStoreTest: TestCase() {
     fun init() = runUnitTest {
         useCases.ship.syncEngines()
         val store = storeFactory.getNewGameStore()
-        assertEquals(expected = Content.SHIP, actual = store.state.)
+        assertNull(actual = store.selectedShip)
+        assertNull(actual = store.selectedFormula)
+
+        assertFalse(actual = store.state.loading)
+        assertNotNull(actual = store.state.shipState)
+        assertEquals(expected = engines, actual = store.state.engines)
     }
 
     @Test

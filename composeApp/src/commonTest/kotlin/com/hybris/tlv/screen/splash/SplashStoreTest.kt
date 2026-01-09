@@ -2,6 +2,8 @@ package com.hybris.tlv.screen.splash
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.navigation.Screen
 
@@ -10,7 +12,9 @@ internal class SplashStoreTest: TestCase() {
     @Test
     fun init() = runUnitTest {
         val store = storeFactory.getSplashStore(reset = true)
+        assertNotNull(actual = store.setupJob)
         store.setupJob?.join()
+        assertFalse(actual = store.state.loading)
         assertEquals(expected = 1f, actual = store.state.progress)
         assertEquals(expected = Content.INTRO, actual = store.state.currentContent)
     }

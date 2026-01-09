@@ -2,6 +2,7 @@ package com.hybris.tlv.screen.tutorial
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.navigation.Screen
 
@@ -14,6 +15,7 @@ internal class TutorialStoreTest: TestCase() {
         assertNavigation(list = listOf(Screen.Tutorial()))
 
         val store = storeFactory.getTutorialStore(newGame = false)
+        assertNotNull(actual = store.state.ship)
         assertEquals(expected = Content.WELCOME, actual = store.state.currentContent)
         store.send(action = TutorialAction.Next)
         assertEquals(expected = Content.GOAL, actual = store.state.currentContent)

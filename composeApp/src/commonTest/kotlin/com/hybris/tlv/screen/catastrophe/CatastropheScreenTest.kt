@@ -22,7 +22,7 @@ internal class CatastropheScreenTest: TestCase() {
         onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
 
         onNodeWithText(text = "new_game_screen__continue").assertDoesNotExist()
-        onNodeWithTag(testTag = "new_game_content").assertDoesNotExist()
+        onNodeWithTag(testTag = "new_game_content").assertIsDisplayed()
     }
 
     @Test

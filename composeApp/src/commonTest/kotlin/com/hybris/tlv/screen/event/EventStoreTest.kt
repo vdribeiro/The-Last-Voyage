@@ -2,6 +2,7 @@ package com.hybris.tlv.screen.event
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
@@ -18,10 +19,11 @@ internal class EventStoreTest: TestCase() {
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val store = storeFactory.getEventStore(ship = null)
         assertNotNull(actual = store.gameSession)
-        val events = store.eventChain
-        assertTrue(actual = events.isNotEmpty())
-        val event = events.first { it.parentId == null && it.id != stopEvent.id }
-        assertEquals(expected = event, actual = store.state.parentEvent)
+        assertTrue(actual = store.eventChain.isNotEmpty())
+        assertFalse(actual = store.state.loading)
+        assertNotNull(actual = store.state.ship)
+        assertEquals(expected = store.eventChain.first { it.parentId == null && it.id != stopEvent.id }, actual = store.state.parentEvent)
+        assertTrue(actual = store.state.childrenEvents.isNotEmpty())
     }
 
     @Test

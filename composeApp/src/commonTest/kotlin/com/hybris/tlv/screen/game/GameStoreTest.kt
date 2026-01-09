@@ -2,7 +2,9 @@ package com.hybris.tlv.screen.game
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.navigation.Screen
@@ -19,9 +21,11 @@ internal class GameStoreTest: TestCase() {
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val store = storeFactory.getGameStore(ship = null)
         assertNotNull(actual = store.gameSession)
-        assertNotNull(actual = store.state.ship)
+        assertFalse(actual = store.state.loading)
         assertEquals(expected = Content.SYSTEM, actual = store.state.currentContent)
+        assertNotNull(actual = store.state.ship)
         assertEquals(expected = stellarHosts.first(), actual = store.state.currentStellarHost)
+        assertTrue(actual = store.state.nearStellarHosts.isNotEmpty())
     }
 
     @Test

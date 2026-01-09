@@ -1,6 +1,7 @@
 package com.hybris.tlv.screen.mainmenu
 
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
@@ -14,6 +15,9 @@ internal class MainMenuStoreTest: TestCase() {
         useCases.ship.prepopulateEngines()
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val store = storeFactory.getMainMenuStore()
+        assertFalse(actual = store.state.loading)
+        assertFalse(actual = store.state.newVersionBanner)
+        assertEquals(expected = config.localConfigs.value.developerCorner, actual = store.state.developerCorner)
         assertTrue(actual = store.state.ongoingGameSession)
     }
 

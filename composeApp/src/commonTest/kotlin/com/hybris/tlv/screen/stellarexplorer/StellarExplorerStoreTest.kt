@@ -18,10 +18,18 @@ internal class StellarExplorerStoreTest: TestCase() {
         useCases.space.syncStellarHosts()
         useCases.space.syncPlanets()
         val store = storeFactory.getStellarExplorerStore()
-        assertEquals(expected = Content.LIST_HOSTS, actual = store.state.currentContent)
-        assertFalse(store.state.loading)
         assertEquals(expected = Formula(id = store.formula.id), actual = store.formula)
         assertTrue(actual = store.stellarHostsFlow.value.isNotEmpty())
+        assertFalse(store.state.loading)
+        assertEquals(expected = Content.LIST_HOSTS, actual = store.state.currentContent)
+        assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemIndex)
+        assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemScrollOffset)
+        assertEquals(expected = emptyList(), actual = store.state.stellarHosts)
+        assertEquals(expected = emptyList(), actual = store.state.planets)
+        assertEquals(expected = emptySet(), actual = store.state.visibleStellarHostProperties)
+        assertEquals(expected = emptySet(), actual = store.state.visiblePlanetProperties)
+        assertEquals(expected = emptySet(), actual = store.state.searchableStellarHostProperties)
+        assertEquals(expected = emptySet(), actual = store.state.searchablePlanetProperties)
     }
 
     @Test

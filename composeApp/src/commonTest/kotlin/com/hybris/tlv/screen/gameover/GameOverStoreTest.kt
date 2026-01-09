@@ -2,6 +2,7 @@ package com.hybris.tlv.screen.gameover
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
@@ -15,9 +16,13 @@ internal class GameOverStoreTest: TestCase() {
         useCases.ship.prepopulateEngines()
         useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
         val store = storeFactory.getGameOverStore()
+        assertTrue(store.achievements.isEmpty())
+        assertEquals(expected = 0, actual = store.index)
+        assertFalse(actual = store.state.loading)
+        assertEquals(expected = Content.MESSAGE, actual = store.state.currentContent)
         assertNotNull(actual = store.state.gameSession)
         assertNotNull(actual = store.state.gameOver)
-        assertEquals(expected = Content.MESSAGE, actual = store.state.currentContent)
+        assertNotNull(actual = store.state.achievement)
     }
 
     @Test

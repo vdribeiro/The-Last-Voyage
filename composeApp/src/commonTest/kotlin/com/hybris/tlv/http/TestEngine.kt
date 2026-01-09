@@ -1,5 +1,6 @@
 package com.hybris.tlv.http
 
+import kotlinx.coroutines.delay
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockRequestHandleScope
 import io.ktor.client.engine.mock.respond
@@ -22,6 +23,8 @@ import com.hybris.tlv.translations
 internal object TestEngine {
 
     val mock = MockEngine { request ->
+        // Simulate a small delay so the TimeMark actually records time
+        delay(timeMillis = 50)
         val path = request.url.toString()
         when (request.method) {
             HttpMethod.Head -> when {
