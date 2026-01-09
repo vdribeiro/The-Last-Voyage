@@ -16,7 +16,7 @@ import database.Ship
 import database.StellarHost
 import database.Translation
 
-// Type aliases for the generated schema classes to provide more convenient names.
+// Type aliases for the generated schema classes to provide more convenient names
 typealias TranslationSchema = Translation
 typealias StellarHostSchema = StellarHost
 typealias PlanetSchema = Planet
