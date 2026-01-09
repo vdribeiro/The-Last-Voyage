@@ -62,10 +62,7 @@ internal suspend inline fun <reified T> HttpClient.get(
 
         if (!response.status.isSuccess()) throw Throwable(message = "Unsuccessful response: ${response.status}")
         Result.Success(list = response.body<List<T>>())
-    }.getOrElse {
-        invalidateCache()
-        Result.Error(error = it)
-    }
+    }.getOrElse { Result.Error(error = it) }
 }
 
 /**
@@ -103,13 +100,6 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = mutex.withL
 }.also {
     lastNetworkQuality = it
     Telemetry.info(tag = TAG, message = "Network quality: $it")
-}
-
-/**
- * Resets the cache to force a re-check on the next request.
- */
-private suspend fun invalidateCache() = mutex.withLock {
-    lastTimeMark = null
 }
 
 /**
