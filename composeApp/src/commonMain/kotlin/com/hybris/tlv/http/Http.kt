@@ -118,19 +118,20 @@ private fun TimeMark?.elapsed(): Duration = this?.elapsedNow() ?: INFINITE
  */
 private fun HttpRequestBuilder.setTimeout(networkQuality: NetworkQuality) {
     val multiplier = when (networkQuality) {
-        NetworkQuality.Fast -> 1L
+        NetworkQuality.Slow -> 3L
         NetworkQuality.Medium -> 2L
-        NetworkQuality.Slow -> 4L
+        NetworkQuality.Fast,
         NetworkQuality.Unknown -> 1L
     }
     timeout {
         connectTimeoutMillis = (connectTimeoutMillis ?: CONNECT_TIMEOUT_MILLIS) * multiplier
         socketTimeoutMillis = (socketTimeoutMillis ?: SOCKET_TIMEOUT_MILLIS) * multiplier
         requestTimeoutMillis = (requestTimeoutMillis ?: REQUEST_TIMEOUT_MILLIS) * multiplier
+        Telemetry.info(tag = TAG, message = "Timeouts: $connectTimeoutMillis, $socketTimeoutMillis, $requestTimeoutMillis")
     }
 }
 
-private const val TAG = "Network"
+private const val TAG = "Http"
 private const val FAST_THRESHOLD_MILLIS = 500L
-private const val MEDIUM_THRESHOLD_MILLIS = 1000L
-private const val SLOW_THRESHOLD_MILLIS = 5000L
+private const val MEDIUM_THRESHOLD_MILLIS = 1500L
+private const val SLOW_THRESHOLD_MILLIS = 2000L
