@@ -77,6 +77,7 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = mutex.withL
     lastTimeMark = TimeSource.Monotonic.markNow()
 
     if (!isInternetAvailable()) return@withLock NetworkQuality.Unknown
+
     val response = runCatching {
         withTimeout(timeMillis = SLOW_THRESHOLD_MILLIS) {
             head(urlString = URL.Probe.path) {
@@ -90,9 +91,7 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = mutex.withL
     }.getOrNull()
 
     // Check for Success or Redirect / Captive Portal
-    if (response == null || !response.status.isSuccess() || !response.call.request.url.toString().contains(other = URL.Probe.path)) {
-        return@withLock NetworkQuality.Unknown
-    }
+    if (response == null || !response.status.isSuccess() || !response.call.request.url.toString().contains(other = URL.Probe.path)) return@withLock NetworkQuality.Unknown
 
     val elapsed = lastTimeMark.elapsed().inWholeMilliseconds
     Telemetry.info(tag = TAG, message = "Network quality elapsed time: $elapsed")
