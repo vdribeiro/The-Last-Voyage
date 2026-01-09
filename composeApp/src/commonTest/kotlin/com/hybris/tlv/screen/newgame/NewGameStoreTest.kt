@@ -18,24 +18,15 @@ internal class NewGameStoreTest: TestCase() {
         val store = storeFactory.getNewGameStore()
         assertNull(actual = store.selectedShip)
         assertNull(actual = store.selectedFormula)
-
         assertFalse(actual = store.state.loading)
         assertNotNull(actual = store.state.shipState)
-        assertEquals(expected = engines, actual = store.state.engines)
+        assertEquals(expected = engines.sortedBy { it.id }, actual = store.state.engines.sortedBy { it.id })
     }
 
     @Test
     fun initWithoutEngines() = runUnitTest {
         assertNavigation(list = emptyList())
         useCases.catastrophe.syncCatastrophes()
-        storeFactory.getNewGameStore()
-        assertNavigation(list = listOf(Screen.Feedback()))
-    }
-
-    @Test
-    fun initWithoutCatastrophes() = runUnitTest {
-        assertNavigation(list = emptyList())
-        useCases.ship.syncEngines()
         storeFactory.getNewGameStore()
         assertNavigation(list = listOf(Screen.Feedback()))
     }
@@ -55,25 +46,20 @@ internal class NewGameStoreTest: TestCase() {
 
     @Test
     fun startGame() = runUnitTest {
-        useCases.catastrophe.syncCatastrophes()
         useCases.ship.syncEngines()
         val store = storeFactory.getNewGameStore()
-        store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
-        store.send(action = NewGameAction.SelectEngine(engine = engines.random()))
         assertNavigation(list = emptyList())
-        store.send(action = NewGameAction.Start)
-        store.send(action = NewGameAction.Start)
-        assertNavigation(list = listOf(Screen.Game()))
+        store.send(action = NewGameAction.SelectEngine(engine = engines.random()))
+        store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
+        assertNavigation(list = listOf(Screen.Catastrophe))
     }
 
     @Test
     fun startGameWithoutShip() = runUnitTest {
         assertNavigation(list = emptyList())
         val store = storeFactory.getNewGameStore()
-        store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
         store.send(action = NewGameAction.SelectEngine(engine = engines.random()))
-        store.send(action = NewGameAction.Start)
-        store.send(action = NewGameAction.Start)
+        store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 

@@ -34,7 +34,6 @@ internal class NewGameScreenTest: TestCase() {
 
     @Test
     fun newGameWithData() = runUITest {
-        useCases.catastrophe.syncCatastrophes()
         useCases.ship.syncEngines()
         val store = storeFactory.getNewGameStore()
         setScreen { NewGameScreen(store = store) }

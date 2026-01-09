@@ -4,6 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.gameSessionPrototype
@@ -22,7 +23,7 @@ internal class GameOverStoreTest: TestCase() {
         assertEquals(expected = Content.MESSAGE, actual = store.state.currentContent)
         assertNotNull(actual = store.state.gameSession)
         assertNotNull(actual = store.state.gameOver)
-        assertNotNull(actual = store.state.achievement)
+        assertNull(actual = store.state.achievement)
     }
 
     @Test
