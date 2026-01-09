@@ -3,6 +3,7 @@ package com.hybris.tlv.screen.stellarexplorer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.TestCase
@@ -26,6 +27,12 @@ internal class StellarExplorerStoreTest: TestCase() {
         assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemScrollOffset)
         assertEquals(expected = emptyList(), actual = store.state.stellarHosts)
         assertEquals(expected = emptyList(), actual = store.state.planets)
+        assertNotNull(actual = store.state.selectedStellarHost)
+        assertNotNull(actual = store.state.selectedPlanet)
+        assertEquals(expected = "", actual = store.state.search)
+        assertEquals(expected = StellarHostProperty.DISTANCE, actual = store.state.sortStellarHostProperty)
+        assertEquals(expected = PlanetProperty.HABITABILITY, actual = store.state.sortPlanetProperty)
+        assertTrue(actual = store.state.sortAscending)
         assertEquals(expected = emptySet(), actual = store.state.visibleStellarHostProperties)
         assertEquals(expected = emptySet(), actual = store.state.visiblePlanetProperties)
         assertEquals(expected = emptySet(), actual = store.state.searchableStellarHostProperties)
