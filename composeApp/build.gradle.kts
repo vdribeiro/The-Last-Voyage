@@ -35,7 +35,7 @@ val jdkVersion = 21
 val jvmVersion = JvmTarget.JVM_21
 val javaVersion = JavaVersion.VERSION_21
 
-val androidTarget: Int = 35
+val androidTarget: Int = 36
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
 val androidKeyPassword: String = localProperties.getProperty("android.keyPassword", "")
 val androidStoreFile: File? = runCatching { rootProject.file(localProperties.getProperty("android.storeFile", "")) }.getOrNull()
@@ -57,7 +57,6 @@ val isRelease: Boolean
         it.contains(other = "package", ignoreCase = true) || it.contains(other = "notarize", ignoreCase = true)
     }
 val launcher: File get() = project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png")
-
 //endregion
 
 //region Generate Property.kt file
@@ -141,12 +140,24 @@ val osClassifier: String = when {
     else -> System.getProperty("os.name", "")
 }
 
-fun KotlinDependencyHandler.addJavaFx() {
-    javafxDependencies.forEach { implementation(dependency = it.get()) { artifact { this.classifier = osClassifier } } }
+fun MinimalExternalModuleDependency.setClassifier() {
+    artifact { this.classifier = osClassifier }
 }
 
-fun DependencyHandler.addJavaFx() {
-    javafxDependencies.forEach { add(configuration = "javafx", dependency = it.get()) { artifact { this.classifier = osClassifier } } }
+fun KotlinDependencyHandler.addJavaFx() = javafxDependencies.forEach {
+    implementation(dependency = it.get()) { setClassifier() }
+}
+
+fun DependencyHandler.addJavaFx() = javafxDependencies.forEach {
+    add(configuration = "javafx", dependency = it.get()) { setClassifier() }
+}
+
+// Module paths have to run after, otherwise it breaks the configuration
+project.afterEvaluate {
+    if (!isRelease) {
+        compose.desktop.application.jvmArgs += "--module-path=$javafxModulePath"
+        compose.desktop.application.jvmArgs += "--add-modules=$javafxModules"
+    }
 }
 //endregion
 
@@ -365,14 +376,6 @@ compose.desktop {
                 shortcut = true
             }
         }
-    }
-}
-
-// Module paths have to run after, otherwise it breaks the configuration
-project.afterEvaluate {
-    if (!isRelease) {
-        compose.desktop.application.jvmArgs += "--module-path=$javafxModulePath"
-        compose.desktop.application.jvmArgs += "--add-modules=$javafxModules"
     }
 }
 
