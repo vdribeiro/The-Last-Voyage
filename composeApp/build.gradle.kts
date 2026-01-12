@@ -7,15 +7,15 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 import org.gradle.internal.os.OperatingSystem
 
 plugins {
-    alias(notation = libs.plugins.kotlinMultiplatform)
+    alias(notation = libs.plugins.kotlin.multiplatform)
+    alias(notation = libs.plugins.kotlin.serialization)
     alias(notation = libs.plugins.cocoapods)
     alias(notation = libs.plugins.kover)
     alias(notation = libs.plugins.sentry)
-    alias(notation = libs.plugins.androidApplication)
-    alias(notation = libs.plugins.composeMultiplatform)
-    alias(notation = libs.plugins.composeCompiler)
+    alias(notation = libs.plugins.android.application)
+    alias(notation = libs.plugins.compose.multiplatform)
+    alias(notation = libs.plugins.compose.compiler)
     alias(notation = libs.plugins.sqldelight)
-    alias(notation = libs.plugins.kotlinSerialization)
 }
 
 //region Properties
