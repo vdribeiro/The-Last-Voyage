@@ -28,8 +28,8 @@ val appDescription: String = "An Educational Space Adventure"
 val appFramework = "TLV"
 val appVendor: String = "Hybris"
 val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb"
-val appVersion: String = "1.1.7"
-val appVersionNumber: Long = 15
+val appVersion: String = "1.1.8"
+val appVersionNumber: Long = 16
 
 val jdkVersion = 21
 val jvmVersion = JvmTarget.JVM_21
@@ -245,8 +245,8 @@ kotlin {
 }
 
 dependencies {
-    debugImplementation(compose.uiTooling)
-    debugImplementation(libs.androidx.test.manifest)
+    debugImplementation(dependencyNotation = compose.uiTooling)
+    debugImplementation(dependencyNotation = libs.androidx.test.manifest)
     addJavaFx()
 }
 
