@@ -36,9 +36,6 @@ internal actual val appDataPath: String by lazy {
     }.toString()
 }
 
-@Suppress("CAST_NEVER_SUCCEEDS")
-private fun String.toNSString(): NSString = this as NSString
-
 @OptIn(ExperimentalForeignApi::class)
 internal actual suspend fun saveFile(path: String, content: String): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {
