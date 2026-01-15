@@ -8,10 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.resource.ImageResource
 import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.component.card.StellarHostCard
-import com.hybris.tlv.theme.component.image.ImageResource
 import com.hybris.tlv.usecase.space.spectralTypeToImage
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation

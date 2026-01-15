@@ -16,7 +16,6 @@ import com.hybris.tlv.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.theme.component.button.AttributePoint
 import com.hybris.tlv.theme.component.container.ShipConfiguration
 import com.hybris.tlv.theme.getTranslation
-import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.usecase.translation.TranslationCache

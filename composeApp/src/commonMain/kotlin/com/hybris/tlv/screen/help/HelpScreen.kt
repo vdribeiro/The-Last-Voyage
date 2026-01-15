@@ -33,6 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.open
 import com.hybris.tlv.platform.platform
+import com.hybris.tlv.resource.ImageResource
 import com.hybris.tlv.screen.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
@@ -43,7 +44,6 @@ import com.hybris.tlv.theme.component.bottombar.Snackbar
 import com.hybris.tlv.theme.component.container.LearnMenu
 import com.hybris.tlv.theme.component.container.PropertyList
 import com.hybris.tlv.theme.component.image.Icon
-import com.hybris.tlv.theme.component.image.ImageResource
 import com.hybris.tlv.theme.component.text.Text
 import com.hybris.tlv.theme.component.topbar.ControlPanel
 import com.hybris.tlv.theme.getTranslation

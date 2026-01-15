@@ -14,11 +14,9 @@ import com.hybris.tlv.screen.Store
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.component.bottombar.BottomButton
 import com.hybris.tlv.theme.component.bottombar.ButtonsBar
-import com.hybris.tlv.theme.component.button.AttributePoint
 import com.hybris.tlv.theme.component.container.TypewriterContent
 import com.hybris.tlv.theme.getTranslation
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
-import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
 

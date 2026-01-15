@@ -1,14 +1,10 @@
 package com.hybris.tlv.screen.catastrophe
 
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 import com.hybris.tlv.TestCase
-import com.hybris.tlv.engines
 import com.hybris.tlv.navigation.Screen
-import com.hybris.tlv.shipPrototype
 
 internal class CatastropheStoreTest: TestCase() {
 

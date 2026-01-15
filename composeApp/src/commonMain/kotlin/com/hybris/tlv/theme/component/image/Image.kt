@@ -10,9 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
 import coil3.compose.AsyncImage
-import com.hybris.tlv.image.LauncherForeground
 import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.platform
+import com.hybris.tlv.resource.ImageResource
+import com.hybris.tlv.resource.LauncherForeground
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.theme.AppTheme
 import thelastvoyage.composeapp.generated.resources.Res
@@ -72,11 +73,6 @@ private fun ImageWithResource(
         )
     }
 }
-
-internal data class ImageResource(
-    val path: String? = null,
-    val drawable: DrawableResource? = null
-)
 
 @Preview
 @Composable

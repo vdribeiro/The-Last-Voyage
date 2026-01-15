@@ -16,11 +16,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.resource.ImageResource
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.LocalShapes
 import com.hybris.tlv.theme.LocalTypography
 import com.hybris.tlv.theme.component.image.Image
-import com.hybris.tlv.theme.component.image.ImageResource
 import com.hybris.tlv.theme.component.text.InfoRow
 import com.hybris.tlv.theme.component.text.Text
 import com.hybris.tlv.theme.getTranslation

@@ -1,6 +1,6 @@
-package com.hybris.tlv.image
+package com.hybris.tlv.resource
 
-import com.hybris.tlv.theme.component.image.ImageResource
+import org.jetbrains.compose.resources.DrawableResource
 import thelastvoyage.composeapp.generated.resources.A
 import thelastvoyage.composeapp.generated.resources.B
 import thelastvoyage.composeapp.generated.resources.C
@@ -59,7 +59,11 @@ import thelastvoyage.composeapp.generated.resources.ultra_short_period_planet
 import thelastvoyage.composeapp.generated.resources.unknown
 import thelastvoyage.composeapp.generated.resources.water_clouds_gas_giant
 
-// Index of all [ImageResource]s
+internal data class ImageResource(
+    val path: String? = null,
+    val drawable: DrawableResource? = null
+)
+
 internal val LauncherBackground = ImageResource(path = "ic_launcher_background.png", drawable = Res.drawable.ic_launcher_background)
 internal val LauncherForeground = ImageResource(path = "ic_launcher_foreground.png", drawable = Res.drawable.ic_launcher_foreground)
 

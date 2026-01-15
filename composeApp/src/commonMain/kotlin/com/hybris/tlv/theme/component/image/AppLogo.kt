@@ -13,8 +13,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.image.LauncherBackground
-import com.hybris.tlv.image.LauncherForeground
+import com.hybris.tlv.resource.LauncherBackground
+import com.hybris.tlv.resource.LauncherForeground
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.LocalTypography
 import com.hybris.tlv.theme.component.progress.ProgressIndicator

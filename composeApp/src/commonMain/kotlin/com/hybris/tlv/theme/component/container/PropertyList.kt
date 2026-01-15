@@ -11,11 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.resource.ImageResource
 import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.LocalTypography
 import com.hybris.tlv.theme.component.card.PropertyCard
-import com.hybris.tlv.theme.component.image.ImageResource
 import com.hybris.tlv.theme.component.list.LazyColumn
 import com.hybris.tlv.theme.component.text.Text
 import com.hybris.tlv.usecase.translation.TranslationCache
