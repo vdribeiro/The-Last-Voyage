@@ -6,6 +6,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import com.hybris.tlv.lifecycle.Register
 import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.resource.AudioResource
 import com.hybris.tlv.telemetry.Telemetry
 
 /**
@@ -30,7 +31,7 @@ internal fun AudioPlayer(
 /**
  * Determines the appropriate playlist based on the current navigation destination, or null if no tracks are associated with the current screen.
  */
-private fun getTracks(destination: NavDestination?): List<String>? = runCatching {
+private fun getTracks(destination: NavDestination?): List<AudioResource>? = runCatching {
     when {
         destination == null ||
                 destination.hasRoute<Screen.Cheat>() ||
@@ -46,21 +47,21 @@ private fun getTracks(destination: NavDestination?): List<String>? = runCatching
                 destination.hasRoute<Screen.Score>() ||
                 destination.hasRoute<Screen.Achievement>() ||
                 destination.hasRoute<Screen.Credit>() -> listOf(
-            "tracks/ville_seppanen-1_g.mp3"
+            AudioResource.VilleSeppanen
         )
 
         destination.hasRoute<Screen.Game>() ||
                 destination.hasRoute<Screen.Event>() -> listOf(
-            "tracks/blind_shift.mp3",
-            "tracks/graduality.mp3",
-            "tracks/led_twilight.mp3",
-            "tracks/neon_sky.mp3",
-            "tracks/rain_in_space.mp3",
-            "tracks/space_gras.mp3",
+            AudioResource.BlindShift,
+            AudioResource.Graduality,
+            AudioResource.LedTwilight,
+            AudioResource.NeonSky,
+            AudioResource.RainInSpace,
+            AudioResource.SpaceGras
         )
 
         destination.hasRoute<Screen.GameOver>() -> listOf(
-            "tracks/space.mp3"
+            AudioResource.Space
         )
 
         else -> null

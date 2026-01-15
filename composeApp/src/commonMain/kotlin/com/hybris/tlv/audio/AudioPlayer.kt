@@ -1,6 +1,7 @@
 package com.hybris.tlv.audio
 
 import com.hybris.tlv.TLV.flag
+import com.hybris.tlv.resource.AudioResource
 import com.hybris.tlv.telemetry.Telemetry
 
 /**
@@ -16,7 +17,7 @@ internal open class AudioPlayer {
     /**
      * The current playlist.
      */
-    protected var playlist = listOf<String>()
+    protected var playlist = listOf<AudioResource>()
 
     /**
      * Represents an action to be performed by the audio player.
@@ -25,7 +26,7 @@ internal open class AudioPlayer {
         /**
          * Starts playback of a new playlist.
          */
-        data class Play(val playlist: List<String>?): Action
+        data class Play(val playlist: List<AudioResource>?): Action
         /**
          * Pauses the current playback.
          */

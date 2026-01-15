@@ -59,9 +59,12 @@ import thelastvoyage.composeapp.generated.resources.ultra_short_period_planet
 import thelastvoyage.composeapp.generated.resources.unknown
 import thelastvoyage.composeapp.generated.resources.water_clouds_gas_giant
 
+/**
+ * Resource class for images.
+ */
 internal sealed class ImageResource(
-    val path: String?,
-    val drawable: DrawableResource?
+    val path: String,
+    val drawable: DrawableResource
 ) {
     // Icons
     data object LauncherBackground: ImageResource(path = "ic_launcher_background.png", drawable = Res.drawable.ic_launcher_background)

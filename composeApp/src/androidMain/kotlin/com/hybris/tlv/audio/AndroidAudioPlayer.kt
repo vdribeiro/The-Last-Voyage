@@ -16,7 +16,7 @@ internal class AndroidAudioPlayer: AudioPlayer() {
     override fun isPlaying(): Boolean = player.isPlaying
 
     override fun play() {
-        val mediaItems = playlist.map { MediaItem.fromUri("asset:///${it}".toUri()) }
+        val mediaItems = playlist.map { MediaItem.fromUri("asset:///${it.path}".toUri()) }
         player.apply {
             setMediaItems(mediaItems)
             shuffleModeEnabled = true
