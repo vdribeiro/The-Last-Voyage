@@ -20,6 +20,7 @@ import androidx.compose.ui.test.swipeRight
 import androidx.compose.ui.test.swipeUp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.hybris.tlv.TLV.setFlags
 import com.hybris.tlv.audio.AudioPlayer
 import com.hybris.tlv.cheats.enableGestureCheats
 import com.hybris.tlv.cheats.konamiCode
@@ -35,10 +36,10 @@ internal class AppTest: TestCase() {
 
     @Test
     fun command() = runUITest(mockNavigation = false) {
-        setFlag {
+        setFlags {
             it.copy(
-                http = false,
                 reset = false,
+                http = false,
                 archive = false,
                 music = true
             )
@@ -67,12 +68,11 @@ internal class AppTest: TestCase() {
 
     @Test
     fun cheats() = runUITest(mockNavigation = false) {
-        setFlag {
+        setFlags {
             it.copy(
-                http = false,
                 reset = false,
-                archive = false,
-                music = false
+                http = false,
+                archive = false
             )
         }
         lateinit var navController: NavHostController

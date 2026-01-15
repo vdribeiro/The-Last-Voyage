@@ -2,9 +2,9 @@
 
 package com.hybris.tlv.http
 
-import com.hybris.tlv.TLV.flag
+import com.hybris.tlv.TLV.flags
 
 /**
  * Checks for internet availability.
  */
-internal suspend fun isInternetAvailable(): Boolean = flag.http
+internal suspend fun isInternetAvailable(): Boolean = flags.value.http

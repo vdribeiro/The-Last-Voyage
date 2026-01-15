@@ -18,7 +18,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.head
 import io.ktor.http.encodeURLPath
 import io.ktor.http.isSuccess
-import com.hybris.tlv.TLV.flag
+import com.hybris.tlv.TLV.flags
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.CONNECT_TIMEOUT_MILLIS
 import com.hybris.tlv.http.HttpClientFactory.Companion.REQUEST_TIMEOUT_MILLIS
@@ -50,7 +50,7 @@ internal suspend inline fun <reified T> HttpClient.get(
     crossinline block: HttpRequestBuilder.() -> Unit = {}
 ): Result<T> = withContext(context = Dispatcher.IO) {
     runCatching {
-        if (!flag.http) throw Throwable(message = "Network disabled")
+        if (!flags.value.http) throw Throwable(message = "Network disabled")
         val networkQuality = getNetworkQuality()
         if (networkQuality is NetworkQuality.Unknown) throw Throwable(message = "No internet connection available")
 
@@ -74,7 +74,7 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = mutex.withL
     lastTimeMark = TimeSource.Monotonic.markNow()
 
     if (!isInternetAvailable()) return@withLock NetworkQuality.Unknown
-    if (!flag.networkQuality) return@withLock NetworkQuality.Fast
+    if (!flags.value.networkQuality) return@withLock NetworkQuality.Fast
 
     val response = runCatching {
         // Add small timeout to allow the HTTP client to return its own error gracefully

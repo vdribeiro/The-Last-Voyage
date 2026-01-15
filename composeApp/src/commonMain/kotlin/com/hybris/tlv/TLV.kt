@@ -1,5 +1,9 @@
 package com.hybris.tlv
 
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.dependency.Dependency
@@ -29,16 +33,26 @@ internal object TLV {
     }
 
     // Feature Flags
-    var flag: Flag = Flag(
-        reset = false,
-        http = true,
-        networkQuality = true,
-        archive = false,
-        music = true
+    private val _flags: MutableStateFlow<Flags> = MutableStateFlow(
+        value = Flags(
+            reset = false,
+            http = true,
+            networkQuality = true,
+            archive = false,
+            music = true
+        )
     )
+    val flags: StateFlow<Flags> = _flags.asStateFlow()
+
+    /**
+     * Sets feature flags.
+     */
+    fun setFlags(flags: (Flags) -> Flags): TLV = apply {
+        _flags.update { flags(it) }
+    }
 }
 
-internal data class Flag(
+internal data class Flags(
     /**
      * Flag to enable or disable a full data reset before syncing data.
      * This should be set to false for production builds.

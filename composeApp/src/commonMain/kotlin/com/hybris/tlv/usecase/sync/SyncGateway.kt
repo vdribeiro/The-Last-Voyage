@@ -6,7 +6,7 @@ import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import com.hybris.tlv.TLV.flag
+import com.hybris.tlv.TLV.flags
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.isEmpty
 import com.hybris.tlv.database.reset
@@ -123,7 +123,7 @@ internal class SyncGateway(
         }.getOrDefault(defaultValue = DataSource.NONE)
 
     private suspend fun getArchive(): DataSource =
-        if (flag.archive && archiveUseCases.getArchive()) DataSource.REMOTE else DataSource.NONE
+        if (flags.value.archive && archiveUseCases.getArchive()) DataSource.REMOTE else DataSource.NONE
 
     private suspend fun syncTranslations(): DataSource {
         val remoteVersion = config.remoteConfigs.value.translationsVersion

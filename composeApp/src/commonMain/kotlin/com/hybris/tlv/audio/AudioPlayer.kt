@@ -1,6 +1,6 @@
 package com.hybris.tlv.audio
 
-import com.hybris.tlv.TLV.flag
+import com.hybris.tlv.TLV.flags
 import com.hybris.tlv.resource.AudioResource
 import com.hybris.tlv.telemetry.Telemetry
 
@@ -47,7 +47,7 @@ internal open class AudioPlayer {
      */
     fun action(action: Action) {
         runCatching {
-            if (!flag.music) {
+            if (!flags.value.music) {
                 stop()
                 return
             }

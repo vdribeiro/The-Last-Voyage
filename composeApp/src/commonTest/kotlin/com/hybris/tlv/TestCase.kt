@@ -24,6 +24,7 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.hybris.tlv.TLV.setFlags
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.command.receiveCommand
 import com.hybris.tlv.command.sendCommand
@@ -72,7 +73,7 @@ internal abstract class TestCase {
     /**
      * Feature flags for testing.
      */
-    private val testFlag = Flag(
+    private val testFlags = Flags(
         reset = true,
         http = true,
         networkQuality = false,
@@ -127,13 +128,6 @@ internal abstract class TestCase {
     protected suspend fun reset() = dependency.useCases.sync.reset()
 
     /**
-     * Sets feature flags.
-     */
-    protected fun setFlag(flag: (Flag) -> Flag = { it }) {
-        TLV.flag = flag(testFlag)
-    }
-
-    /**
      * Executes a unit test.
      * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
      */
@@ -142,7 +136,7 @@ internal abstract class TestCase {
             val testDispatcher = UnconfinedTestDispatcher(scheduler = testScheduler)
             Dispatcher.setTestDispatcher(dispatcher = testDispatcher)
             try {
-                setFlag()
+                setFlags { testFlags }
                 reset()
                 screens.clear()
                 backgroundScope.launch(context = testDispatcher) { receiveCommands() }
@@ -164,7 +158,7 @@ internal abstract class TestCase {
             Dispatcher.setTestDispatcher(dispatcher = testDispatcher)
             val scope = if (mockNavigation) CoroutineScope(context = testDispatcher) else null
             try {
-                setFlag()
+                setFlags { testFlags }
                 reset()
                 screens.clear()
                 scope?.launch { receiveCommands() }
