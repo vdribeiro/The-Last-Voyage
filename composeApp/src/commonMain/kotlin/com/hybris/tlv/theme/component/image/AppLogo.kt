@@ -13,8 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.resource.LauncherBackground
-import com.hybris.tlv.resource.LauncherForeground
+import com.hybris.tlv.resource.ImageResource
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.LocalTypography
 import com.hybris.tlv.theme.component.progress.ProgressIndicator
@@ -43,7 +42,7 @@ internal fun AppLogo(
                     modifier = Modifier
                         .size(size = 160.dp)
                         .clip(shape = CircleShape),
-                    image = LauncherBackground,
+                    image = ImageResource.LauncherBackground,
                     contentDescription = "Background",
                     contentScale = ContentScale.Crop,
                 )
@@ -52,7 +51,7 @@ internal fun AppLogo(
                 modifier = Modifier
                     .size(size = 200.dp)
                     .clip(shape = CircleShape),
-                image = LauncherForeground,
+                image = ImageResource.LauncherForeground,
                 contentDescription = "Logo",
                 contentScale = ContentScale.Crop,
             )

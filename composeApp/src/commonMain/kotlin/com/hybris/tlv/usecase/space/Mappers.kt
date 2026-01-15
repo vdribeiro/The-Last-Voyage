@@ -8,61 +8,7 @@ import kotlin.math.round
 import kotlin.math.sin
 import com.hybris.tlv.database.PlanetSchema
 import com.hybris.tlv.database.StellarHostSchema
-import com.hybris.tlv.resource.A
-import com.hybris.tlv.resource.AlkaliMetalCloudsGasGiant
-import com.hybris.tlv.resource.AmmoniaCloudsGasGiant
-import com.hybris.tlv.resource.B
-import com.hybris.tlv.resource.BarrenPlanet
-import com.hybris.tlv.resource.C
-import com.hybris.tlv.resource.ChthonianPlanet
-import com.hybris.tlv.resource.CloudlessGasGiant
-import com.hybris.tlv.resource.ColdEyeballPlanet
-import com.hybris.tlv.resource.CraterPlanet
-import com.hybris.tlv.resource.D
-import com.hybris.tlv.resource.DesertPlanet
-import com.hybris.tlv.resource.DisruptedPlanet
-import com.hybris.tlv.resource.EarthAnalogPlanet
-import com.hybris.tlv.resource.EarthLikePlanet
-import com.hybris.tlv.resource.EllipsoidPlanet
-import com.hybris.tlv.resource.EyeballPlanet
-import com.hybris.tlv.resource.F
-import com.hybris.tlv.resource.G
-import com.hybris.tlv.resource.GasGiant
-import com.hybris.tlv.resource.HotEyeballPlanet
-import com.hybris.tlv.resource.HotJupiter
-import com.hybris.tlv.resource.HotNeptune
-import com.hybris.tlv.resource.IceGiant
-import com.hybris.tlv.resource.IcePlanet
 import com.hybris.tlv.resource.ImageResource
-import com.hybris.tlv.resource.IronPlanet
-import com.hybris.tlv.resource.K
-import com.hybris.tlv.resource.L
-import com.hybris.tlv.resource.LavaPlanet
-import com.hybris.tlv.resource.M
-import com.hybris.tlv.resource.MegaEarth
-import com.hybris.tlv.resource.MiniNeptune
-import com.hybris.tlv.resource.O
-import com.hybris.tlv.resource.OceanPlanet
-import com.hybris.tlv.resource.Protoplanet
-import com.hybris.tlv.resource.PuffyPlanet
-import com.hybris.tlv.resource.S
-import com.hybris.tlv.resource.SilicateCloudsGasGiant
-import com.hybris.tlv.resource.SubEarth
-import com.hybris.tlv.resource.SubsurfaceOceanPlanet
-import com.hybris.tlv.resource.SuperEarth
-import com.hybris.tlv.resource.SuperHabitablePlanet
-import com.hybris.tlv.resource.SuperJupiter
-import com.hybris.tlv.resource.SuperNeptune
-import com.hybris.tlv.resource.SuperPuffPlanet
-import com.hybris.tlv.resource.T
-import com.hybris.tlv.resource.TerrestrialPlanet
-import com.hybris.tlv.resource.UltraHotJupiter
-import com.hybris.tlv.resource.UltraHotNeptune
-import com.hybris.tlv.resource.UltraShortPeriodPlanet
-import com.hybris.tlv.resource.Unknown
-import com.hybris.tlv.resource.W
-import com.hybris.tlv.resource.WaterCloudsGasGiant
-import com.hybris.tlv.resource.Y
 import com.hybris.tlv.usecase.space.formula.Constants.PARSEC
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY
 import com.hybris.tlv.usecase.space.model.CartesianPoint
@@ -382,65 +328,65 @@ internal fun Double.lightYearsToParsecs(): Double = this / PARSEC
 
 internal fun String?.spectralTypeToImage(): ImageResource =
     when (this?.firstOrNull()?.uppercase()) {
-        "O" -> O
-        "B" -> B
-        "A" -> A
-        "F" -> F
-        "G" -> G
-        "K" -> K
-        "M" -> M
-        "W" -> W
-        "L" -> L
-        "T" -> T
-        "Y" -> Y
-        "C" -> C
-        "S" -> S
-        "D" -> D
-        else -> Unknown
+        "O" -> ImageResource.O
+        "B" -> ImageResource.B
+        "A" -> ImageResource.A
+        "F" -> ImageResource.F
+        "G" -> ImageResource.G
+        "K" -> ImageResource.K
+        "M" -> ImageResource.M
+        "W" -> ImageResource.W
+        "L" -> ImageResource.L
+        "T" -> ImageResource.T
+        "Y" -> ImageResource.Y
+        "C" -> ImageResource.C
+        "S" -> ImageResource.S
+        "D" -> ImageResource.D
+        else -> ImageResource.Unknown
     }
 
 internal fun PlanetType?.toImage(): ImageResource =
     when (this) {
-        PlanetType.SUB_EARTH -> SubEarth
-        PlanetType.SUPER_EARTH -> SuperEarth
-        PlanetType.MEGA_EARTH -> MegaEarth
-        PlanetType.MINI_NEPTUNE -> MiniNeptune
-        PlanetType.SUPER_NEPTUNE -> SuperNeptune
-        PlanetType.ICE_GIANT -> IceGiant
-        PlanetType.GAS_GIANT -> GasGiant
-        PlanetType.SUPER_JUPITER -> SuperJupiter
-        PlanetType.TERRESTRIAL_PLANET -> TerrestrialPlanet
-        PlanetType.IRON_PLANET -> IronPlanet
-        PlanetType.PUFFY_PLANET -> PuffyPlanet
-        PlanetType.SUPER_PUFF_PLANET -> SuperPuffPlanet
-        PlanetType.OCEAN_PLANET -> OceanPlanet
-        PlanetType.SUBSURFACE_OCEAN_PLANET -> SubsurfaceOceanPlanet
-        PlanetType.LAVA_PLANET -> LavaPlanet
-        PlanetType.DESERT_PLANET -> DesertPlanet
-        PlanetType.ICE_PLANET -> IcePlanet
-        PlanetType.HOT_JUPITER -> HotJupiter
-        PlanetType.ULTRA_HOT_JUPITER -> UltraHotJupiter
-        PlanetType.HOT_NEPTUNE -> HotNeptune
-        PlanetType.ULTRA_HOT_NEPTUNE -> UltraHotNeptune
-        PlanetType.ULTRA_SHORT_PERIOD_PLANET -> UltraShortPeriodPlanet
-        PlanetType.EYEBALL_PLANET -> EyeballPlanet
-        PlanetType.HOT_EYEBALL_PLANET -> HotEyeballPlanet
-        PlanetType.COLD_EYEBALL_PLANET -> ColdEyeballPlanet
-        PlanetType.AMMONIA_CLOUDS_GAS_GIANT -> AmmoniaCloudsGasGiant
-        PlanetType.WATER_CLOUDS_GAS_GIANT -> WaterCloudsGasGiant
-        PlanetType.CLOUDLESS_GAS_GIANT -> CloudlessGasGiant
-        PlanetType.ALKALI_METAL_CLOUDS_GAS_GIANT -> AlkaliMetalCloudsGasGiant
-        PlanetType.SILICATE_CLOUDS_GAS_GIANT -> SilicateCloudsGasGiant
-        PlanetType.BARREN_PLANET -> BarrenPlanet
-        PlanetType.EARTH_LIKE_PLANET -> EarthLikePlanet
-        PlanetType.EARTH_ANALOG_PLANET -> EarthAnalogPlanet
-        PlanetType.SUPERHABITABLE_PLANET -> SuperHabitablePlanet
-        PlanetType.PROTOPLANET -> Protoplanet
-        PlanetType.DISRUPTED_PLANET -> DisruptedPlanet
-        PlanetType.CHTHONIAN_PLANET -> ChthonianPlanet
-        PlanetType.CRATER_PLANET -> CraterPlanet
-        PlanetType.ELLIPSOID_PLANET -> EllipsoidPlanet
-        PlanetType.UNKNOWN, null -> BarrenPlanet
+        PlanetType.SUB_EARTH -> ImageResource.SubEarth
+        PlanetType.SUPER_EARTH -> ImageResource.SuperEarth
+        PlanetType.MEGA_EARTH -> ImageResource.MegaEarth
+        PlanetType.MINI_NEPTUNE -> ImageResource.MiniNeptune
+        PlanetType.SUPER_NEPTUNE -> ImageResource.SuperNeptune
+        PlanetType.ICE_GIANT -> ImageResource.IceGiant
+        PlanetType.GAS_GIANT -> ImageResource.GasGiant
+        PlanetType.SUPER_JUPITER -> ImageResource.SuperJupiter
+        PlanetType.TERRESTRIAL_PLANET -> ImageResource.TerrestrialPlanet
+        PlanetType.IRON_PLANET -> ImageResource.IronPlanet
+        PlanetType.PUFFY_PLANET -> ImageResource.PuffyPlanet
+        PlanetType.SUPER_PUFF_PLANET -> ImageResource.SuperPuffPlanet
+        PlanetType.OCEAN_PLANET -> ImageResource.OceanPlanet
+        PlanetType.SUBSURFACE_OCEAN_PLANET -> ImageResource.SubsurfaceOceanPlanet
+        PlanetType.LAVA_PLANET -> ImageResource.LavaPlanet
+        PlanetType.DESERT_PLANET -> ImageResource.DesertPlanet
+        PlanetType.ICE_PLANET -> ImageResource.IcePlanet
+        PlanetType.HOT_JUPITER -> ImageResource.HotJupiter
+        PlanetType.ULTRA_HOT_JUPITER -> ImageResource.UltraHotJupiter
+        PlanetType.HOT_NEPTUNE -> ImageResource.HotNeptune
+        PlanetType.ULTRA_HOT_NEPTUNE -> ImageResource.UltraHotNeptune
+        PlanetType.ULTRA_SHORT_PERIOD_PLANET -> ImageResource.UltraShortPeriodPlanet
+        PlanetType.EYEBALL_PLANET -> ImageResource.EyeballPlanet
+        PlanetType.HOT_EYEBALL_PLANET -> ImageResource.HotEyeballPlanet
+        PlanetType.COLD_EYEBALL_PLANET -> ImageResource.ColdEyeballPlanet
+        PlanetType.AMMONIA_CLOUDS_GAS_GIANT -> ImageResource.AmmoniaCloudsGasGiant
+        PlanetType.WATER_CLOUDS_GAS_GIANT -> ImageResource.WaterCloudsGasGiant
+        PlanetType.CLOUDLESS_GAS_GIANT -> ImageResource.CloudlessGasGiant
+        PlanetType.ALKALI_METAL_CLOUDS_GAS_GIANT -> ImageResource.AlkaliMetalCloudsGasGiant
+        PlanetType.SILICATE_CLOUDS_GAS_GIANT -> ImageResource.SilicateCloudsGasGiant
+        PlanetType.BARREN_PLANET -> ImageResource.BarrenPlanet
+        PlanetType.EARTH_LIKE_PLANET -> ImageResource.EarthLikePlanet
+        PlanetType.EARTH_ANALOG_PLANET -> ImageResource.EarthAnalogPlanet
+        PlanetType.SUPERHABITABLE_PLANET -> ImageResource.SuperHabitablePlanet
+        PlanetType.PROTOPLANET -> ImageResource.Protoplanet
+        PlanetType.DISRUPTED_PLANET -> ImageResource.DisruptedPlanet
+        PlanetType.CHTHONIAN_PLANET -> ImageResource.ChthonianPlanet
+        PlanetType.CRATER_PLANET -> ImageResource.CraterPlanet
+        PlanetType.ELLIPSOID_PLANET -> ImageResource.EllipsoidPlanet
+        PlanetType.UNKNOWN, null -> ImageResource.BarrenPlanet
     }
 
 internal fun List<StellarHost>.mergeStellarHosts(): List<StellarHost> =

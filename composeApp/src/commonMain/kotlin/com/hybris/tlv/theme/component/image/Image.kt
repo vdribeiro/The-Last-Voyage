@@ -13,7 +13,6 @@ import coil3.compose.AsyncImage
 import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.platform
 import com.hybris.tlv.resource.ImageResource
-import com.hybris.tlv.resource.LauncherForeground
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.theme.AppTheme
 import thelastvoyage.composeapp.generated.resources.Res
@@ -77,7 +76,7 @@ private fun ImageWithResource(
 @Preview
 @Composable
 private fun ImagePreview() = AppTheme {
-    Image(image = LauncherForeground)
+    Image(image = ImageResource.LauncherForeground)
 }
 
 private const val TAG = "Image"
