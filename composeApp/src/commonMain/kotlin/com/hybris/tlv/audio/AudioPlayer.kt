@@ -26,7 +26,7 @@ internal open class AudioPlayer {
         /**
          * Starts playback of a new playlist.
          */
-        data class Play(val playlist: List<AudioResource>?): Action
+        data class Play(val playlist: List<AudioResource>): Action
         /**
          * Pauses the current playback.
          */
@@ -55,7 +55,6 @@ internal open class AudioPlayer {
             when (action) {
                 is Action.Play -> {
                     // Check if the playlist is not the same as the current playlist
-                    if (action.playlist == null) return@runCatching
                     val sortedPlaylist = action.playlist.sortedBy { it.path }
                     if (playlist.sortedBy { it.path } == sortedPlaylist) return@runCatching
                     // Play

@@ -17,10 +17,11 @@ internal fun AudioPlayer(
     audioPlayer: AudioPlayer,
     destination: NavDestination?
 ) {
-    val playlist = getTracks(destination = destination)
-    // Updates playlist based on destination; null means that the playback remains unchanged
-    LaunchedEffect(key1 = playlist) {
-        audioPlayer.action(action = AudioPlayer.Action.Play(playlist = playlist))
+    // Updates playlist based on destination
+    getTracks(destination = destination)?.let { playlist ->
+        LaunchedEffect(key1 = playlist) {
+            audioPlayer.action(action = AudioPlayer.Action.Play(playlist = playlist))
+        }
     }
     Register(
         onBackground = { audioPlayer.action(action = AudioPlayer.Action.Pause) },
@@ -29,7 +30,8 @@ internal fun AudioPlayer(
 }
 
 /**
- * Determines the appropriate playlist based on the current navigation destination, or null if no tracks are associated with the current screen.
+ * Determines the appropriate playlist based on the current navigation destination.
+ * Null means that the playback should remain unchanged.
  */
 private fun getTracks(destination: NavDestination?): List<AudioResource>? = runCatching {
     when {
