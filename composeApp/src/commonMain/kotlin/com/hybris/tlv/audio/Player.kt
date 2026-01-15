@@ -2,6 +2,7 @@ package com.hybris.tlv.audio
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import com.hybris.tlv.lifecycle.Register
@@ -18,7 +19,7 @@ internal fun AudioPlayer(
     destination: NavDestination?
 ) {
     // Updates playlist based on destination
-    getTracks(destination = destination)?.let { playlist ->
+    remember(key1 = destination) { getTracks(destination = destination) }?.let { playlist ->
         LaunchedEffect(key1 = playlist) {
             audioPlayer.action(action = AudioPlayer.Action.Play(playlist = playlist))
         }
