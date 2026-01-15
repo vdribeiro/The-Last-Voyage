@@ -56,8 +56,8 @@ internal open class AudioPlayer {
                 is Action.Play -> {
                     // Check if the playlist is not the same as the current playlist
                     if (action.playlist == null) return@runCatching
-                    val sortedPlaylist = action.playlist.sorted()
-                    if (playlist.sorted() == sortedPlaylist) return@runCatching
+                    val sortedPlaylist = action.playlist.sortedBy { it.path }
+                    if (playlist.sortedBy { it.path } == sortedPlaylist) return@runCatching
                     // Play
                     playlist = sortedPlaylist.shuffled()
                     stop()
