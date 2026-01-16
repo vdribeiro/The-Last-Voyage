@@ -2,6 +2,7 @@
 
 package com.hybris.tlv.storage
 
+import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.withContext
 import platform.Foundation.NSDocumentDirectory
@@ -10,6 +11,7 @@ import platform.Foundation.NSSearchPathForDirectoriesInDomains
 import platform.Foundation.NSString
 import platform.Foundation.NSUTF8StringEncoding
 import platform.Foundation.NSUserDomainMask
+import platform.Foundation.create
 import platform.Foundation.stringByAppendingPathComponent
 import platform.Foundation.stringWithContentsOfFile
 import platform.Foundation.writeToFile
@@ -43,11 +45,11 @@ internal actual val appDataPath: String by lazy {
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get app data path", throwable = it) }.getOrDefault(defaultValue = "")
 }
 
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 internal actual suspend fun saveFile(path: String, content: String): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {
-        val file = appDataPath.toNSString().stringByAppendingPathComponent(str = path)
-        content.toNSString().writeToFile(
+        val file = NSString.create(string = appDataPath).stringByAppendingPathComponent(str = path)
+        NSString.create(string = content).writeToFile(
             path = file,
             atomically = true,
             encoding = NSUTF8StringEncoding,
@@ -57,10 +59,10 @@ internal actual suspend fun saveFile(path: String, content: String): Boolean = w
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to save file $path", throwable = it) }.getOrDefault(defaultValue = false)
 }
 
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 internal actual suspend fun loadFile(path: String): String? = withContext(context = Dispatcher.IO) {
     runCatching {
-        val fullPath = appDataPath.toNSString().stringByAppendingPathComponent(str = path)
+        val fullPath = NSString.create(string = appDataPath).stringByAppendingPathComponent(str = path)
         val fileManager = NSFileManager.defaultManager
         if (fileManager.fileExistsAtPath(path = fullPath)) {
             NSString.stringWithContentsOfFile(
@@ -72,10 +74,10 @@ internal actual suspend fun loadFile(path: String): String? = withContext(contex
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to load file $path", throwable = it) }.getOrNull()
 }
 
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 internal actual suspend fun deleteFile(path: String): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {
-        val fullPath = appDataPath.toNSString().stringByAppendingPathComponent(str = path)
+        val fullPath = NSString.create(string = appDataPath).stringByAppendingPathComponent(str = path)
         val fileManager = NSFileManager.defaultManager
         if (fileManager.fileExistsAtPath(path = fullPath)) {
             fileManager.removeItemAtPath(
