@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.dependency.Dependency
 import com.hybris.tlv.test.ExcludeFromTesting
 
@@ -26,6 +27,7 @@ internal object TLV {
     fun App(modifier: Modifier = Modifier) {
         App(
             modifier = modifier,
+            navController = rememberNavController(),
             config = dependency.config,
             useCases = dependency.useCases,
             audioPlayer = dependency.audioPlayer,
