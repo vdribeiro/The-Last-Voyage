@@ -1,7 +1,7 @@
 package com.hybris.tlv.navigation
 
 import kotlinx.serialization.Serializable
-import com.hybris.tlv.TLV
+import com.hybris.tlv.flag.FeatureFlags.flags
 import com.hybris.tlv.usecase.ship.model.Ship
 
 /**
@@ -13,7 +13,7 @@ import com.hybris.tlv.usecase.ship.model.Ship
 @Serializable
 internal sealed interface Screen {
     @Serializable
-    data class Splash(val reset: Boolean = TLV.flags.value.reset): Screen
+    data class Splash(val reset: Boolean = flags.value.reset): Screen
     @Serializable
     data object Cheat: Screen
     @Serializable

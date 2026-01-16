@@ -4,8 +4,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import com.hybris.tlv.TLV.setFlags
 import com.hybris.tlv.TestCase
+import com.hybris.tlv.flag.FeatureFlags
 import com.hybris.tlv.usecase.sync.model.DataSource
 import com.hybris.tlv.usecase.sync.model.SyncResult
 
@@ -14,7 +14,7 @@ internal class SyncUseCasesTest: TestCase() {
     @Test
     fun syncAndReset() = runUnitTest {
         assertTrue(actual = useCases.sync.isEmpty())
-        setFlags { it.copy(http = false) }
+        FeatureFlags.set { it.copy(http = false) }
         assertEquals(
             expected = SyncResult(
                 archive = DataSource.NONE,
@@ -31,7 +31,7 @@ internal class SyncUseCasesTest: TestCase() {
         assertFalse(actual = useCases.sync.isEmpty())
         reset()
         assertTrue(actual = useCases.sync.isEmpty())
-        setFlags { it.copy(http = true) }
+        FeatureFlags.set { it.copy(http = true) }
         assertEquals(
             expected = SyncResult(
                 archive = DataSource.REMOTE,

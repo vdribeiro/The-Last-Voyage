@@ -1,0 +1,26 @@
+package com.hybris.tlv.flag
+
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+
+internal object FeatureFlags {
+    private val _flags: MutableStateFlow<Flags> = MutableStateFlow(
+        value = Flags(
+            reset = false,
+            http = true,
+            networkQuality = true,
+            archive = false,
+            music = true
+        )
+    )
+    val flags: StateFlow<Flags> = _flags.asStateFlow()
+
+    /**
+     * Sets feature flags.
+     */
+    fun set(flags: (Flags) -> Flags): FeatureFlags = apply {
+        _flags.update { flags(it) }
+    }
+}

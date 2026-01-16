@@ -24,13 +24,14 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.hybris.tlv.TLV.setFlags
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.command.receiveCommand
 import com.hybris.tlv.command.sendCommand
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.createSqlDriver
 import com.hybris.tlv.dependency.Dependency
+import com.hybris.tlv.flag.FeatureFlags
+import com.hybris.tlv.flag.Flags
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.TestEngine
 import com.hybris.tlv.lifecycle.lifecycleOwner
@@ -136,7 +137,7 @@ internal abstract class TestCase {
             val testDispatcher = UnconfinedTestDispatcher(scheduler = testScheduler)
             Dispatcher.setTestDispatcher(dispatcher = testDispatcher)
             try {
-                setFlags { testFlags }
+                FeatureFlags.set { testFlags }
                 reset()
                 screens.clear()
                 backgroundScope.launch(context = testDispatcher) { receiveCommands() }
@@ -158,7 +159,7 @@ internal abstract class TestCase {
             Dispatcher.setTestDispatcher(dispatcher = testDispatcher)
             val scope = if (mockNavigation) CoroutineScope(context = testDispatcher) else null
             try {
-                setFlags { testFlags }
+                FeatureFlags.set { testFlags }
                 reset()
                 screens.clear()
                 scope?.launch { receiveCommands() }

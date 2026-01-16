@@ -1,9 +1,5 @@
 package com.hybris.tlv
 
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
@@ -33,51 +29,4 @@ internal object TLV {
             audioPlayer = dependency.audioPlayer,
         )
     }
-
-    // Feature Flags
-    private val _flags: MutableStateFlow<Flags> = MutableStateFlow(
-        value = Flags(
-            reset = false,
-            http = true,
-            networkQuality = true,
-            archive = false,
-            music = true
-        )
-    )
-    val flags: StateFlow<Flags> = _flags.asStateFlow()
-
-    /**
-     * Sets feature flags.
-     */
-    fun setFlags(flags: (Flags) -> Flags): TLV = apply {
-        _flags.update { flags(it) }
-    }
 }
-
-internal data class Flags(
-    /**
-     * Flag to enable or disable a full data reset before syncing data.
-     * This should be set to false for production builds.
-     */
-    val reset: Boolean,
-    /**
-     * Flag to enable or disable HTTP client. When false, network calls will fail.
-     * This should be set to true for production builds.
-     */
-    val http: Boolean,
-    /**
-     * Flag to enable or disable network quality check. When false, the check is skipped.
-     * This should be set to true for production builds.
-     */
-    val networkQuality: Boolean,
-    /**
-     * Flag to enable or disable fetching exoplanet data directly from the NASA archive when syncing data.
-     * This should be set to false for production builds.
-     */
-    val archive: Boolean,
-    /**
-     * Flag to enable or disable the ambient music in the application.
-     * This should be set to true for production builds.
-     */
-    val music: Boolean
-)

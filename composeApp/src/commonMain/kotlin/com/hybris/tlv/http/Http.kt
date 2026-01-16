@@ -18,7 +18,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.head
 import io.ktor.http.encodeURLPath
 import io.ktor.http.isSuccess
-import com.hybris.tlv.TLV.flags
+import com.hybris.tlv.flag.FeatureFlags.flags
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.HttpClientFactory.Companion.CONNECT_TIMEOUT_MILLIS
 import com.hybris.tlv.http.HttpClientFactory.Companion.REQUEST_TIMEOUT_MILLIS
