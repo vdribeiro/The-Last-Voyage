@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.translation
 
-import com.hybris.tlv.database.TranslationSchema
+import com.hybris.tlv.data.database.TranslationSchema
 import com.hybris.tlv.usecase.translation.model.Translation
 
 internal fun Translation.toTranslationSchema(): TranslationSchema =

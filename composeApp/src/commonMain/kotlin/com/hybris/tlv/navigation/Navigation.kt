@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.hybris.tlv.config.ConfigManager
+import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.navigation.graph.achievementScreen
 import com.hybris.tlv.navigation.graph.catastropheScreen
 import com.hybris.tlv.navigation.graph.cheatScreen

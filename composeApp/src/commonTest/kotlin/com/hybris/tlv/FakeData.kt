@@ -1,9 +1,9 @@
 package com.hybris.tlv
 
 import kotlinx.coroutines.runBlocking
-import com.hybris.tlv.config.Configs
-import com.hybris.tlv.serializer.JsonResource
-import com.hybris.tlv.serializer.loadFromJsonResource
+import com.hybris.tlv.data.config.Configs
+import com.hybris.tlv.data.serializer.JsonResource
+import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.credit.model.Credit

@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.achievement
 
-import com.hybris.tlv.database.AchievementSchema
-import com.hybris.tlv.serializer.decode
-import com.hybris.tlv.serializer.encode
+import com.hybris.tlv.data.database.AchievementSchema
+import com.hybris.tlv.data.serializer.decode
+import com.hybris.tlv.data.serializer.encode
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.achievement.model.Precondition
 

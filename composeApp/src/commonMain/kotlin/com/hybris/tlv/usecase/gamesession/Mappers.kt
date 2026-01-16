@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.gamesession
 
-import com.hybris.tlv.database.FormulaSchema
-import com.hybris.tlv.database.GameSessionSchema
-import com.hybris.tlv.database.ShipSchema
+import com.hybris.tlv.data.database.FormulaSchema
+import com.hybris.tlv.data.database.GameSessionSchema
+import com.hybris.tlv.data.database.ShipSchema
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.usecase.gamesession.model.GameSession

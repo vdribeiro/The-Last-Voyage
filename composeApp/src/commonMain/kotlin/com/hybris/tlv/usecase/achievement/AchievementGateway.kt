@@ -3,11 +3,11 @@ package com.hybris.tlv.usecase.achievement
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.Result
-import com.hybris.tlv.http.URL
-import com.hybris.tlv.http.get
-import com.hybris.tlv.serializer.JsonResource
-import com.hybris.tlv.serializer.loadFromJsonResource
+import com.hybris.tlv.data.http.Result
+import com.hybris.tlv.data.http.URL
+import com.hybris.tlv.data.http.get
+import com.hybris.tlv.data.serializer.JsonResource
+import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.achievement.model.Achievement
 import com.hybris.tlv.usecase.gamesession.model.GameSession

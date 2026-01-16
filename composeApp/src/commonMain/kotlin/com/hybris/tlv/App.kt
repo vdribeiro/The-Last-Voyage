@@ -13,11 +13,11 @@ import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.audio.AudioPlayer
 import com.hybris.tlv.audio.createAudioPlayer
 import com.hybris.tlv.command.CommandListener
-import com.hybris.tlv.config.Config
-import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.database.DatabaseFactory
-import com.hybris.tlv.database.createSqlDriver
-import com.hybris.tlv.http.HttpClientFactory
+import com.hybris.tlv.data.config.Config
+import com.hybris.tlv.data.config.ConfigManager
+import com.hybris.tlv.data.database.DatabaseFactory
+import com.hybris.tlv.data.database.createSqlDriver
+import com.hybris.tlv.data.http.HttpClientFactory
 import com.hybris.tlv.navigation.Navigation
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.theme.AppTheme

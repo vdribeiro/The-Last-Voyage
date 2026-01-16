@@ -6,8 +6,8 @@ import kotlin.math.log10
 import kotlin.math.pow
 import kotlin.math.round
 import kotlin.math.sin
-import com.hybris.tlv.database.PlanetSchema
-import com.hybris.tlv.database.StellarHostSchema
+import com.hybris.tlv.data.database.PlanetSchema
+import com.hybris.tlv.data.database.StellarHostSchema
 import com.hybris.tlv.resource.ImageResource
 import com.hybris.tlv.usecase.space.formula.Constants.PARSEC
 import com.hybris.tlv.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY

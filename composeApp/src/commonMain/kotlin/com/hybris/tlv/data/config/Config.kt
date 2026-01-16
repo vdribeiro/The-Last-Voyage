@@ -1,0 +1,117 @@
+package com.hybris.tlv.data.config
+
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.ZERO
+import kotlin.time.Duration.Companion.hours
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
+import io.ktor.client.HttpClient
+import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.data.http.Result
+import com.hybris.tlv.data.http.URL
+import com.hybris.tlv.data.http.get
+import com.hybris.tlv.locale.hasTimePassed
+import com.hybris.tlv.locale.now
+import com.hybris.tlv.platform.isDebug
+import com.hybris.tlv.data.serializer.JsonFile
+import com.hybris.tlv.data.serializer.deleteJsonFile
+import com.hybris.tlv.data.serializer.loadJsonFile
+import com.hybris.tlv.data.serializer.saveJsonFile
+import com.hybris.tlv.telemetry.Telemetry
+
+/**
+ * This class is responsible for:
+ * - Fetching remote configs.
+ * - Caching configs to minimize network requests.
+ * - Caching preferences and configs to minimize disk access.
+ * - Loading and saving preferences and configs from/to local storage.
+ * - Providing access to preferences and configs as StateFlows.
+ */
+internal class Config(private val httpClient: HttpClient): ConfigManager {
+
+    private val mutex = Mutex()
+
+    private val _preferences: MutableStateFlow<Preferences> = MutableStateFlow(value = Preferences())
+    override val preferences: StateFlow<Preferences> = _preferences.asStateFlow()
+
+    private val _localConfigs: MutableStateFlow<Configs> = MutableStateFlow(value = Configs())
+    override val localConfigs: StateFlow<Configs> = _localConfigs.asStateFlow()
+
+    private val _remoteConfigs: MutableStateFlow<Configs> = MutableStateFlow(value = Configs())
+    override val remoteConfigs: StateFlow<Configs> = _remoteConfigs.asStateFlow()
+
+    private val cacheTTL: Duration = if (isDebug) ZERO else 1.hours
+
+    override suspend fun reset(): ConfigManager = apply {
+        withContext(context = Dispatcher.IO) {
+            mutex.withLock {
+                deleteJsonFile(json = JsonFile.Configs)
+                deleteJsonFile(json = JsonFile.Preferences)
+            }
+            _preferences.update { Preferences() }
+            _localConfigs.update { Configs() }
+            _remoteConfigs.update { Configs() }
+        }
+    }
+
+    override suspend fun setup(): ConfigManager = apply {
+        withContext(context = Dispatcher.IO) {
+            val preferences = mutex.withLock { loadJsonFile(json = JsonFile.Preferences) ?: Preferences() }
+            setPreferences { preferences }
+            val localConfigs = mutex.withLock { loadJsonFile(json = JsonFile.Configs) ?: Configs() }
+            _localConfigs.update { localConfigs }
+            fetchRemoteConfigs()
+            saveConfigs()
+        }
+    }
+
+    override suspend fun fetchRemoteConfigs(): ConfigManager = apply {
+        withContext(context = Dispatcher.IO) {
+            if (!hasTimePassed(dateTime = _preferences.value.syncTime, duration = cacheTTL)) return@withContext
+            setPreferences { it.copy(syncTime = now()) }
+
+            when (val result = httpClient.get<Configs>(path = URL.Configs)) {
+                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get remote configs", throwable = result.error)
+                is Result.Success -> {
+                    val configs = result.list.firstOrNull()
+                    if (configs != null) {
+                        Telemetry.info(tag = TAG, message = "Fetched remote configs")
+                        _remoteConfigs.update { configs }
+                        _localConfigs.update {
+                            it.copy(
+                                developerCorner = configs.developerCorner,
+                                formula = configs.formula,
+                            )
+                        }
+                    } else Telemetry.error(tag = TAG, message = "No remote configs set")
+                }
+            }
+        }
+    }
+
+    override suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager = apply {
+        withContext(context = Dispatcher.IO) {
+            _preferences.update { preferences(it) }
+            mutex.withLock { saveJsonFile(json = JsonFile.Preferences, content = _preferences.value) }
+        }
+    }
+
+    override suspend fun setConfigs(configs: (Configs) -> Configs): ConfigManager = apply {
+        _localConfigs.update { configs(it) }
+    }
+
+    override suspend fun saveConfigs(): ConfigManager = apply {
+        withContext(context = Dispatcher.IO) {
+            mutex.withLock { saveJsonFile(json = JsonFile.Configs, content = _localConfigs.value) }
+        }
+    }
+
+    companion object Companion {
+        private const val TAG = "Config"
+    }
+}
