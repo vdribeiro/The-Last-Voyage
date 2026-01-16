@@ -1,21 +1,17 @@
 package com.hybris.tlv
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.audio.AudioPlayer
-import com.hybris.tlv.command.Command
-import com.hybris.tlv.command.receiveCommand
+import com.hybris.tlv.command.CommandListener
 import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.locale.observeLocaleChanges
 import com.hybris.tlv.navigation.Navigation
-import com.hybris.tlv.navigation.back
-import com.hybris.tlv.navigation.navigate
 import com.hybris.tlv.theme.AppTheme
+import com.hybris.tlv.theme.ObserveTranslations
 import com.hybris.tlv.usecase.UseCases
 
 /**
@@ -43,19 +39,12 @@ internal fun App(
         destination = navBackStackEntry?.destination
     )
 
-    LaunchedEffect(key1 = Unit) {
-        receiveCommand { command ->
-            when (command) {
-                is Command.Navigate -> navController.navigate(screen = command.screen)
-                Command.Back -> navController.back()
-                Command.ToggleAudio -> audioPlayer.action(action = AudioPlayer.Action.Toggle)
-            }
-        }
-    }
+    CommandListener(
+        navController = navController,
+        audioPlayer = audioPlayer
+    )
 
-    LaunchedEffect(key1 = Unit) {
-        observeLocaleChanges {
-            useCases.translation.refreshCache()
-        }
-    }
+    ObserveTranslations(
+        translation = useCases.translation
+    )
 }

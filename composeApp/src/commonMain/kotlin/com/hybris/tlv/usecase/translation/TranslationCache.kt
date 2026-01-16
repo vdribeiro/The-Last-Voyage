@@ -23,6 +23,9 @@ internal object TranslationCache {
 
     fun reset() = _cacheState.update { defaultTranslations }
 
+    /**
+     * Sets the translations for a specific language.
+     */
     fun set(translations: List<Translation>, languageIso: String = getLanguage()) {
         val translations = translations
             .filter { it.languageIso == languageIso }
@@ -31,6 +34,9 @@ internal object TranslationCache {
         _cacheState.update { translations }
     }
 
+    /**
+     * Gets a translation for a specific key.
+     */
     fun get(key: String, vararg args: String): String {
         val rawValue = _cacheState.value[key] ?: key
         if (args.isEmpty()) return rawValue
