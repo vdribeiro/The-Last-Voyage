@@ -11,8 +11,8 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.platform.open
-import com.hybris.tlv.screen.Screen
-import com.hybris.tlv.screen.Store
+import com.hybris.tlv.ui.screen.Screen
+import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.MainBar

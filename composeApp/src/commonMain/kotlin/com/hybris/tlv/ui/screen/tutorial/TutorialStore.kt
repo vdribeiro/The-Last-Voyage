@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.screen.tutorial
 import kotlinx.coroutines.Job
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.screen.Store
+import com.hybris.tlv.ui.screen.Store
 
 internal class TutorialStore(
     private val newGame: Boolean,

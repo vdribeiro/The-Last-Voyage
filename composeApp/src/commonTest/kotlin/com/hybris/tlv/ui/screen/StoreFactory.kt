@@ -1,21 +1,21 @@
 package com.hybris.tlv.ui.screen
 
 import com.hybris.tlv.Dependency
-import com.hybris.tlv.screen.achievement.AchievementStore
-import com.hybris.tlv.screen.catastrophe.CatastropheStore
-import com.hybris.tlv.screen.cheat.CheatStore
-import com.hybris.tlv.screen.credit.CreditStore
-import com.hybris.tlv.screen.event.EventStore
-import com.hybris.tlv.screen.feedback.FeedbackStore
-import com.hybris.tlv.screen.game.GameStore
-import com.hybris.tlv.screen.gameover.GameOverStore
-import com.hybris.tlv.screen.help.HelpStore
-import com.hybris.tlv.screen.mainmenu.MainMenuStore
-import com.hybris.tlv.screen.newgame.NewGameStore
-import com.hybris.tlv.screen.score.ScoreStore
-import com.hybris.tlv.screen.splash.SplashStore
-import com.hybris.tlv.screen.stellarexplorer.StellarExplorerStore
-import com.hybris.tlv.screen.tutorial.TutorialStore
+import com.hybris.tlv.ui.screen.achievement.AchievementStore
+import com.hybris.tlv.ui.screen.catastrophe.CatastropheStore
+import com.hybris.tlv.ui.screen.cheat.CheatStore
+import com.hybris.tlv.ui.screen.credit.CreditStore
+import com.hybris.tlv.ui.screen.event.EventStore
+import com.hybris.tlv.ui.screen.feedback.FeedbackStore
+import com.hybris.tlv.ui.screen.game.GameStore
+import com.hybris.tlv.ui.screen.gameover.GameOverStore
+import com.hybris.tlv.ui.screen.help.HelpStore
+import com.hybris.tlv.ui.screen.mainmenu.MainMenuStore
+import com.hybris.tlv.ui.screen.newgame.NewGameStore
+import com.hybris.tlv.ui.screen.score.ScoreStore
+import com.hybris.tlv.ui.screen.splash.SplashStore
+import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
+import com.hybris.tlv.ui.screen.tutorial.TutorialStore
 import com.hybris.tlv.usecase.ship.model.Ship
 
 internal class StoreFactory(private val dependency: Dependency) {
