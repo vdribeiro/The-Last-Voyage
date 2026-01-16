@@ -3,7 +3,6 @@ package com.hybris.tlv.screen.tutorial
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.screen.Screen
@@ -26,10 +24,10 @@ import com.hybris.tlv.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.theme.component.bottombar.GameNavigationBar
 import com.hybris.tlv.theme.component.button.Button
 import com.hybris.tlv.theme.component.container.ShipStats
-import com.hybris.tlv.theme.component.image.Icon
 import com.hybris.tlv.theme.component.list.SystemList
 import com.hybris.tlv.theme.component.list.TravelList
 import com.hybris.tlv.theme.component.text.Text
+import com.hybris.tlv.theme.component.text.TextIcon
 import com.hybris.tlv.theme.component.text.TitleDescription
 import com.hybris.tlv.theme.component.topbar.StatusBar
 import com.hybris.tlv.theme.getTranslation
@@ -79,77 +77,37 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     ),
                 )
 
-                Content.GOAL -> Row(
+                Content.GOAL -> TextIcon(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(all = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Text(
-                        text = getTranslation(key = "tutorial_screen__mechanics_goal_next"),
-                        textAlign = TextAlign.End,
-                        style = typography.bodyLarge
-                    )
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowRight,
-                        contentDescription = "Next"
-                    )
-                }
+                    text = getTranslation(key = "tutorial_screen__mechanics_goal_next"),
+                    imageVector = Icons.AutoMirrored.Filled.ArrowRight,
+                )
 
-                Content.SHIP -> Row(
+                Content.SHIP -> TextIcon(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(all = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Text(
-                        text = getTranslation(key = "tutorial_screen__mechanics_attributes_next"),
-                        textAlign = TextAlign.End,
-                        style = typography.bodyLarge
-                    )
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowRight,
-                        contentDescription = "Next"
-                    )
-                }
+                    text = getTranslation(key = "tutorial_screen__mechanics_attributes_next"),
+                    imageVector = Icons.AutoMirrored.Filled.ArrowRight,
+                )
 
-                Content.TRAVEL -> Row(
+                Content.TRAVEL -> TextIcon(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(all = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Text(
-                        text = getTranslation(key = "tutorial_screen__mechanics_travel_next"),
-                        textAlign = TextAlign.End,
-                        style = typography.bodyLarge
-                    )
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowRight,
-                        contentDescription = "Next"
-                    )
-                }
+                    text = getTranslation(key = "tutorial_screen__mechanics_travel_next"),
+                    imageVector = Icons.AutoMirrored.Filled.ArrowRight,
+                )
 
-                Content.SYSTEM -> Row(
+                Content.SYSTEM -> TextIcon(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(all = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Text(
-                        text = getTranslation(key = "tutorial_screen__mechanics_system_next"),
-                        textAlign = TextAlign.End,
-                        style = typography.bodyLarge
-                    )
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowRight,
-                        contentDescription = "Next"
-                    )
-                }
+                    text = getTranslation(key = "tutorial_screen__mechanics_system_next"),
+                    imageVector = Icons.AutoMirrored.Filled.ArrowRight,
+                )
 
                 Content.GAME_OVER -> Button(
                     modifier = Modifier
