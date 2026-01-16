@@ -1,22 +1,61 @@
 package com.hybris.tlv
 
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.HttpClientEngine
+import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import app.cash.sqldelight.db.SqlDriver
 import com.hybris.tlv.audio.AudioPlayer
+import com.hybris.tlv.audio.createAudioPlayer
 import com.hybris.tlv.command.CommandListener
+import com.hybris.tlv.config.Config
 import com.hybris.tlv.config.ConfigManager
+import com.hybris.tlv.database.DatabaseFactory
+import com.hybris.tlv.database.createSqlDriver
+import com.hybris.tlv.http.HttpClientFactory
 import com.hybris.tlv.navigation.Navigation
+import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.ObserveTranslations
+import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
+import database.AppDatabase
+
+/**
+ * The main object for The Last Voyage application.
+ * Serves as the central hub, holding dependencies and a clean entry point for the UI.
+ */
+@ExcludeFromTesting
+internal object TLV {
+
+    private val dependency: Dependency by lazy { Dependency() }
+
+    /**
+     * The main composable entry point for the application UI.
+     * This function sets up and launches the app's user interface, given a [modifier] to be applied to the root composable.
+     */
+    @Composable
+    fun App(modifier: Modifier) {
+        App(
+            modifier = modifier,
+            navController = rememberNavController(),
+            config = dependency.config,
+            useCases = dependency.useCases,
+            audioPlayer = dependency.audioPlayer,
+        )
+    }
+}
 
 /**
  * The main entry point of the application's UI.
- * This composable sets up the theme, navigation, and audio.
+ * Sets up the theme, navigation, audio and commands.
  */
+@VisibleForTesting
 @Composable
 internal fun App(
     modifier: Modifier = Modifier,
@@ -47,3 +86,20 @@ internal fun App(
         translation = useCases.translation
     )
 }
+
+/**
+ * Dependency index.
+ */
+internal class Dependency(
+    private val sqlDriver: SqlDriver = createSqlDriver(),
+    private val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,
+    private val httpEngine: HttpClientEngine? = null,
+    private val httpClient: HttpClient = HttpClientFactory(engine = httpEngine).httpClient,
+    val config: ConfigManager = Config(httpClient = httpClient),
+    val useCases: UseCases = Gateways(
+        config = config,
+        database = database,
+        httpClient = httpClient,
+    ),
+    val audioPlayer: AudioPlayer = createAudioPlayer()
+)

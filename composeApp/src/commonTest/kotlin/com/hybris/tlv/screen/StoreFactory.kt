@@ -1,6 +1,6 @@
 package com.hybris.tlv.screen
 
-import com.hybris.tlv.dependency.Dependency
+import com.hybris.tlv.Dependency
 import com.hybris.tlv.screen.achievement.AchievementStore
 import com.hybris.tlv.screen.catastrophe.CatastropheStore
 import com.hybris.tlv.screen.cheat.CheatStore

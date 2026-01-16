@@ -29,7 +29,6 @@ import com.hybris.tlv.command.receiveCommand
 import com.hybris.tlv.command.sendCommand
 import com.hybris.tlv.config.ConfigManager
 import com.hybris.tlv.database.createSqlDriver
-import com.hybris.tlv.dependency.Dependency
 import com.hybris.tlv.flag.FeatureFlags
 import com.hybris.tlv.flag.Flags
 import com.hybris.tlv.flow.Dispatcher

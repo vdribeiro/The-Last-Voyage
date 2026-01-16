@@ -2,7 +2,7 @@
 
 package com.hybris.tlv.http
 
-import com.hybris.tlv.TLV.flags
+import com.hybris.tlv.flag.FeatureFlags.flags
 
 /**
  * Checks for internet availability.
