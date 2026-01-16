@@ -10,7 +10,13 @@ import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual val appDataPath: String by lazy {
-    applicationContext.filesDir.also { if (!it.exists()) it.mkdirs() }.absolutePath
+    runCatching {
+        applicationContext.filesDir
+            .also { if (!it.exists()) it.mkdirs() }
+            .takeIf { it.exists() }
+            ?.absolutePath
+            ?: throw IllegalStateException("App data directory does not exist")
+    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get app data path", throwable = it) }.getOrDefault(defaultValue = "")
 }
 
 internal actual suspend fun saveFile(path: String, content: String): Boolean = withContext(context = Dispatcher.IO) {

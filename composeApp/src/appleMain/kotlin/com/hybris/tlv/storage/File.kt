@@ -19,21 +19,28 @@ import com.hybris.tlv.test.ShadowedInTesting
 
 @OptIn(ExperimentalForeignApi::class)
 internal actual val appDataPath: String by lazy {
-    (NSSearchPathForDirectoriesInDomains(
-        directory = NSDocumentDirectory,
-        domainMask = NSUserDomainMask,
-        expandTilde = true
-    ).first() as NSString).also {
+    runCatching {
         val fileManager = NSFileManager.defaultManager
-        if (!fileManager.fileExistsAtPath(path = it.toString())) {
-            fileManager.createDirectoryAtPath(
-                path = it.toString(),
-                withIntermediateDirectories = true,
-                attributes = null,
-                error = null
-            )
-        }
-    }.toString()
+        val paths = NSSearchPathForDirectoriesInDomains(
+            directory = NSDocumentDirectory,
+            domainMask = NSUserDomainMask,
+            expandTilde = true
+        )
+        paths.firstOrNull()?.let { it as String }
+            ?.also {
+                if (!fileManager.fileExistsAtPath(path = it)) {
+                    val success = fileManager.createDirectoryAtPath(
+                        path = it,
+                        withIntermediateDirectories = true,
+                        attributes = null,
+                        error = null
+                    )
+                    if (!success) throw IllegalStateException("Unable to create directory")
+                }
+            }
+            ?.takeIf { fileManager.fileExistsAtPath(path = it) }
+            ?: throw IllegalStateException("App data directory does not exist")
+    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get app data path", throwable = it) }.getOrDefault(defaultValue = "")
 }
 
 @OptIn(ExperimentalForeignApi::class)
