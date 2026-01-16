@@ -6,6 +6,7 @@ import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.http.Result
 import com.hybris.tlv.http.URL
 import com.hybris.tlv.http.get
+import com.hybris.tlv.locale.DEFAULT_LANGUAGE
 import com.hybris.tlv.locale.getLanguage
 import com.hybris.tlv.serializer.JsonResource
 import com.hybris.tlv.serializer.loadFromJsonResource
@@ -50,8 +51,11 @@ internal class TranslationGateway(
     }
 
     override suspend fun refreshCache() {
-        val languageIso = getLanguage()
-        val translations = translationDao.getTranslations(languageIso = languageIso).executeAsList().map { it.toTranslation() }
+        var languageIso = getLanguage()
+        val translations = translationDao.getTranslations(languageIso = languageIso).executeAsList().map { it.toTranslation() }.ifEmpty {
+            languageIso = DEFAULT_LANGUAGE
+            translationDao.getTranslations(languageIso = languageIso).executeAsList().map { it.toTranslation() }
+        }
         TranslationCache.set(translations = translations, languageIso = languageIso)
         Telemetry.info(tag = TAG, message = "Refreshed translations cache")
     }
