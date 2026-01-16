@@ -11,6 +11,7 @@ import com.hybris.tlv.audio.AudioPlayer
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.command.receiveCommand
 import com.hybris.tlv.config.ConfigManager
+import com.hybris.tlv.locale.observeLocaleChanges
 import com.hybris.tlv.navigation.Navigation
 import com.hybris.tlv.navigation.back
 import com.hybris.tlv.navigation.navigate
@@ -49,6 +50,12 @@ internal fun App(
                 Command.Back -> navController.back()
                 Command.ToggleAudio -> audioPlayer.action(action = AudioPlayer.Action.Toggle)
             }
+        }
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        observeLocaleChanges {
+            useCases.translation.refreshCache()
         }
     }
 }

@@ -52,12 +52,16 @@ internal class TranslationGateway(
 
     override suspend fun refreshCache() {
         var languageIso = getLanguage()
-        val translations = translationDao.getTranslations(languageIso = languageIso).executeAsList().map { it.toTranslation() }.ifEmpty {
+        val translations = getTranslations(languageIso = languageIso).ifEmpty {
             languageIso = DEFAULT_LANGUAGE
-            translationDao.getTranslations(languageIso = languageIso).executeAsList().map { it.toTranslation() }
+            getTranslations(languageIso = languageIso)
         }
         TranslationCache.set(translations = translations, languageIso = languageIso)
         Telemetry.info(tag = TAG, message = "Refreshed translations cache")
+    }
+
+    private suspend fun getTranslations(languageIso: String): List<Translation> = withContext(context = Dispatcher.IO) {
+        translationDao.getTranslations(languageIso = languageIso).executeAsList().map { it.toTranslation() }
     }
 
     companion object {
