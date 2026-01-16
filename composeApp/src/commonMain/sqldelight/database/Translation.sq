@@ -19,4 +19,5 @@ SELECT
     Translation.languageIso,
     Translation.key,
     Translation.value
-FROM Translation;
+FROM Translation
+WHERE Translation.languageIso = :languageIso;
