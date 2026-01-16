@@ -10,16 +10,16 @@ internal class TranslationUseCasesTest: TestCase() {
     @Test
     fun prepopulateAndSyncTranslations() = runUnitTest {
         TranslationCache.set(translations = translations)
-        val translations = TranslationCache.cacheState.value.translations
+        val translations = TranslationCache.cacheState.value
 
         reset()
         useCases.translation.prepopulateTranslations()
         useCases.translation.refreshCache()
-        assertEquals(expected = translations, actual = TranslationCache.cacheState.value.translations)
+        assertEquals(expected = translations, actual = TranslationCache.cacheState.value)
 
         reset()
         useCases.translation.syncTranslations()
         useCases.translation.refreshCache()
-        assertEquals(expected = translations, actual = TranslationCache.cacheState.value.translations)
+        assertEquals(expected = translations, actual = TranslationCache.cacheState.value)
     }
 }
