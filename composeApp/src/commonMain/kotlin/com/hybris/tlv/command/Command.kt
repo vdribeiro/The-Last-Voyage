@@ -1,15 +1,13 @@
 package com.hybris.tlv.command
 
-import com.hybris.tlv.navigation.Screen
-
 /**
  * A navigation command that can be sent.
  */
 internal sealed class Command {
     /**
-     * Navigates to a specific [Screen].
+     * Navigates to a specific [com.hybris.tlv.ui.navigation.Screen].
      */
-    data class Navigate(val screen: Screen): Command()
+    data class Navigate(val screen: com.hybris.tlv.ui.navigation.Screen): Command()
     /**
      * Navigates back to the previous screen.
      */

@@ -14,7 +14,7 @@ import androidx.compose.ui.window.rememberWindowState
 import com.hybris.tlv.cheats.rememberKeySequenceCheats
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.test.ExcludeFromTesting
-import com.hybris.tlv.theme.getTranslation
+import com.hybris.tlv.ui.theme.getTranslation
 import javafx.embed.swing.JFXPanel
 import thelastvoyage.composeapp.generated.resources.Res
 import thelastvoyage.composeapp.generated.resources.ic_launcher_round
