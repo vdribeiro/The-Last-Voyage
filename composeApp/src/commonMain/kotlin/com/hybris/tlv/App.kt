@@ -82,9 +82,10 @@ internal fun App(
         audioPlayer = audioPlayer
     )
 
-    ObserveTranslations(
-        translation = useCases.translation
-    )
+    // TODO
+//    ObserveTranslations(
+//        translation = useCases.translation
+//    )
 }
 
 /**
