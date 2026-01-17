@@ -1,4 +1,4 @@
-package com.hybris.tlv.audio
+package com.hybris.tlv.infrastructure.audio
 
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer

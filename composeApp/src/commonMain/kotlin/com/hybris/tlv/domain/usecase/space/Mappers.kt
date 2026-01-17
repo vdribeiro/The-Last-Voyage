@@ -17,7 +17,7 @@ import com.hybris.tlv.domain.usecase.space.model.PlanetStatus
 import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.space.model.StellarHostJson
-import com.hybris.tlv.resource.ImageResource
+import com.hybris.tlv.infrastructure.resource.ImageResource
 
 internal fun StellarHostJson.toStellarHost(): StellarHost =
     StellarHost(

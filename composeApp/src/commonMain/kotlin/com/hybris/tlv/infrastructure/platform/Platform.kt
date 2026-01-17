@@ -1,6 +1,6 @@
 @file:ShadowedInTesting
 
-package com.hybris.tlv.platform
+package com.hybris.tlv.infrastructure.platform
 
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.test.ShadowedInTesting

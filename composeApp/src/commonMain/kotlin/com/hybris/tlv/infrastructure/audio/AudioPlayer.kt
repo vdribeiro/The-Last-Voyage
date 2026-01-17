@@ -1,8 +1,8 @@
-package com.hybris.tlv.audio
+package com.hybris.tlv.infrastructure.audio
 
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
-import com.hybris.tlv.resource.AudioResource
+import com.hybris.tlv.infrastructure.resource.AudioResource
 
 /**
  * Audio player that provides basic audio playback functionality, including playing, pausing, resuming, and stopping audio.

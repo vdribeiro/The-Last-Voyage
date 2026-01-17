@@ -1,4 +1,4 @@
-package com.hybris.tlv.audio
+package com.hybris.tlv.infrastructure.audio
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -6,7 +6,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.resource.AudioResource
+import com.hybris.tlv.infrastructure.resource.AudioResource
 import com.hybris.tlv.ui.lifecycle.Register
 import com.hybris.tlv.ui.navigation.Screen
 

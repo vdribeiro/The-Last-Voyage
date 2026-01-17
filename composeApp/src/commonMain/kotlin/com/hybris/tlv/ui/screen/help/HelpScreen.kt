@@ -35,10 +35,10 @@ import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.platform.Platform
-import com.hybris.tlv.platform.open
-import com.hybris.tlv.platform.platform
-import com.hybris.tlv.resource.ImageResource
+import com.hybris.tlv.infrastructure.platform.Platform
+import com.hybris.tlv.infrastructure.platform.open
+import com.hybris.tlv.infrastructure.platform.platform
+import com.hybris.tlv.infrastructure.resource.ImageResource
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme

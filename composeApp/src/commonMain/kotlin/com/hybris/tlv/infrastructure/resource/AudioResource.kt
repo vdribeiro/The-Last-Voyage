@@ -1,4 +1,4 @@
-package com.hybris.tlv.resource
+package com.hybris.tlv.infrastructure.resource
 
 /**
  * Resource class for audio.

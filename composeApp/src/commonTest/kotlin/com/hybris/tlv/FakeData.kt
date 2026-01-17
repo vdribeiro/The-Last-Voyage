@@ -16,7 +16,7 @@ import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.resource.JsonResource
+import com.hybris.tlv.infrastructure.resource.JsonResource
 
 internal val configs: Configs by lazy {
     Configs(

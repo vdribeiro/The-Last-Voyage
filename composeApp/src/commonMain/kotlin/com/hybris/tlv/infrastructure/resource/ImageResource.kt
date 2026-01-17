@@ -1,4 +1,4 @@
-package com.hybris.tlv.resource
+package com.hybris.tlv.infrastructure.resource
 
 import org.jetbrains.compose.resources.DrawableResource
 import thelastvoyage.composeapp.generated.resources.A

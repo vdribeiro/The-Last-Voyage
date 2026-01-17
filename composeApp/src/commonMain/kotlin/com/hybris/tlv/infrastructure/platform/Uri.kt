@@ -1,4 +1,4 @@
-package com.hybris.tlv.platform
+package com.hybris.tlv.infrastructure.platform
 
 import androidx.compose.ui.platform.UriHandler
 import com.hybris.tlv.core.telemetry.Telemetry

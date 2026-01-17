@@ -48,7 +48,7 @@ import com.hybris.tlv.domain.usecase.space.model.JsonConstants.STELLAR_HOST_TEMP
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.space.model.StellarHostJson
-import com.hybris.tlv.resource.JsonResource
+import com.hybris.tlv.infrastructure.resource.JsonResource
 
 internal class ArchiveGateway(
     private val httpClient: HttpClient,

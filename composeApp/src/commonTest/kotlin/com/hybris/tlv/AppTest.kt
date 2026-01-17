@@ -20,7 +20,7 @@ import androidx.compose.ui.test.swipeRight
 import androidx.compose.ui.test.swipeUp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.hybris.tlv.audio.AudioPlayer
+import com.hybris.tlv.infrastructure.audio.AudioPlayer
 import com.hybris.tlv.domain.cheats.enableGestureCheats
 import com.hybris.tlv.domain.cheats.konamiCode
 import com.hybris.tlv.domain.cheats.konamiGestureCode

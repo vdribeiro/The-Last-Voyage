@@ -22,7 +22,7 @@ import com.hybris.tlv.data.serializer.JsonFile
 import com.hybris.tlv.data.serializer.deleteJsonFile
 import com.hybris.tlv.data.serializer.loadJsonFile
 import com.hybris.tlv.data.serializer.saveJsonFile
-import com.hybris.tlv.platform.isDebug
+import com.hybris.tlv.infrastructure.platform.isDebug
 
 /**
  * This class is responsible for:

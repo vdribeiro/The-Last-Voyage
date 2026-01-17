@@ -10,8 +10,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import app.cash.sqldelight.db.SqlDriver
-import com.hybris.tlv.audio.AudioPlayer
-import com.hybris.tlv.audio.createAudioPlayer
+import com.hybris.tlv.infrastructure.audio.AudioPlayer
+import com.hybris.tlv.infrastructure.audio.createAudioPlayer
 import com.hybris.tlv.data.config.Config
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.DatabaseFactory

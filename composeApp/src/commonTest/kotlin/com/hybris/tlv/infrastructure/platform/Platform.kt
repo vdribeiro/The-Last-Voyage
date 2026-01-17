@@ -1,6 +1,8 @@
 @file:Suppress("unused", "MayBeConstant")
 
-package com.hybris.tlv.platform
+package com.hybris.tlv.infrastructure.platform
+
+import com.hybris.tlv.infrastructure.platform.Platform
 
 /**
  * Indicates whether the application is running in a debug build.

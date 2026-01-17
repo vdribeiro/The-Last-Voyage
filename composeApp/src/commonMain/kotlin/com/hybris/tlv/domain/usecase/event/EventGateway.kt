@@ -9,7 +9,7 @@ import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.domain.usecase.event.model.Event
-import com.hybris.tlv.resource.JsonResource
+import com.hybris.tlv.infrastructure.resource.JsonResource
 import database.AppDatabase
 
 internal class EventGateway(
