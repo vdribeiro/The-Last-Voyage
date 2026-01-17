@@ -1,8 +1,8 @@
 package com.hybris.tlv.ui.screen.gameover
 
-import com.hybris.tlv.usecase.achievement.model.Achievement
-import com.hybris.tlv.usecase.gamesession.model.GameOver
-import com.hybris.tlv.usecase.gamesession.model.GameSession
+import com.hybris.tlv.domain.usecase.achievement.model.Achievement
+import com.hybris.tlv.domain.usecase.gamesession.model.GameOver
+import com.hybris.tlv.domain.usecase.gamesession.model.GameSession
 
 internal sealed interface GameOverAction {
     data object Next: GameOverAction

@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.navigation
 
 import kotlinx.serialization.Serializable
 import com.hybris.tlv.flag.FeatureFlags.flags
-import com.hybris.tlv.usecase.ship.model.Ship
+import com.hybris.tlv.domain.usecase.ship.model.Ship
 
 /**
  * All possible screens in the application.

@@ -1,7 +1,7 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
-import com.hybris.tlv.usecase.space.model.Planet
-import com.hybris.tlv.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.usecase.space.model.Planet
+import com.hybris.tlv.domain.usecase.space.model.StellarHost
 
 internal fun List<StellarHost>.searchAndSortStellarHosts(
     search: String,

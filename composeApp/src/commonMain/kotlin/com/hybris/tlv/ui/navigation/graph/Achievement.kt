@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.achievement.AchievementScreen
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
-import com.hybris.tlv.usecase.UseCases
+import com.hybris.tlv.domain.usecase.UseCases
 
 internal fun NavGraphBuilder.achievementScreen(
     useCases: UseCases

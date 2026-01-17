@@ -47,11 +47,11 @@ import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.ui.theme.getTranslation
-import com.hybris.tlv.usecase.space.model.PlanetType
-import com.hybris.tlv.usecase.space.spectralTypeToImage
-import com.hybris.tlv.usecase.space.toImage
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.model.Translation
+import com.hybris.tlv.domain.usecase.space.model.PlanetType
+import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
+import com.hybris.tlv.domain.usecase.space.toImage
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.model.Translation
 
 @Composable
 internal fun HelpScreen(store: Store<HelpState, HelpAction>) {

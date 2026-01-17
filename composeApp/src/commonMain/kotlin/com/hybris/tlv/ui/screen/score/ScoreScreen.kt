@@ -13,12 +13,12 @@ import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.list.ScoreList
-import com.hybris.tlv.usecase.gamesession.model.GameSession
-import com.hybris.tlv.usecase.ship.model.Engine
-import com.hybris.tlv.usecase.ship.model.Ship
-import com.hybris.tlv.usecase.space.model.Formula
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.model.Translation
+import com.hybris.tlv.domain.usecase.gamesession.model.GameSession
+import com.hybris.tlv.domain.usecase.ship.model.Engine
+import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.domain.usecase.space.model.Formula
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.model.Translation
 
 @Composable
 internal fun ScoreScreen(store: Store<ScoreState, Unit>) {

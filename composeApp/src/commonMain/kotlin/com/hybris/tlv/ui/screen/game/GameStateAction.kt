@@ -1,8 +1,8 @@
 package com.hybris.tlv.ui.screen.game
 
-import com.hybris.tlv.usecase.ship.model.Ship
-import com.hybris.tlv.usecase.space.model.Planet
-import com.hybris.tlv.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.domain.usecase.space.model.Planet
+import com.hybris.tlv.domain.usecase.space.model.StellarHost
 
 internal sealed interface GameAction {
     data class ChangeTab(val content: Content): GameAction

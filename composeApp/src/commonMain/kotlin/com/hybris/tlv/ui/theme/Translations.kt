@@ -8,8 +8,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.observeLocaleChanges
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.TranslationUseCases
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 
 /**
  * Observes the locale changes and refreshes the translations cache.

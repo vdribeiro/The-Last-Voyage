@@ -6,19 +6,19 @@ import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
-import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
-import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
-import com.hybris.tlv.usecase.ship.ShipUseCases
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_FUEL
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_MATERIALS
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_SENSOR_RANGE
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MIN_CRYOPODS
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MIN_FUEL
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MIN_MATERIALS
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MIN_SENSOR_RANGE
-import com.hybris.tlv.usecase.ship.model.ShipPrototype
-import com.hybris.tlv.usecase.space.model.Formula
+import com.hybris.tlv.domain.usecase.gamesession.GameSessionUseCases
+import com.hybris.tlv.domain.usecase.gamesession.model.GameSessionPrototype
+import com.hybris.tlv.domain.usecase.ship.ShipUseCases
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_FUEL
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_MATERIALS
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_SENSOR_RANGE
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_CRYOPODS
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_FUEL
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_MATERIALS
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_SENSOR_RANGE
+import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
+import com.hybris.tlv.domain.usecase.space.model.Formula
 
 internal class NewGameStore(
     private val shipUseCases: ShipUseCases,

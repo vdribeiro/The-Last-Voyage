@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.newgame.NewGameScreen
 import com.hybris.tlv.ui.screen.newgame.NewGameStore
-import com.hybris.tlv.usecase.UseCases
+import com.hybris.tlv.domain.usecase.UseCases
 
 internal fun NavGraphBuilder.newGameScreen(
     useCases: UseCases

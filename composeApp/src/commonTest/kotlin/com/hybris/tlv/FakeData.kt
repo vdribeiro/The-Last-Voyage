@@ -4,19 +4,19 @@ import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.data.config.Configs
 import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.resource.JsonResource
-import com.hybris.tlv.usecase.achievement.model.Achievement
-import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
-import com.hybris.tlv.usecase.credit.model.Credit
-import com.hybris.tlv.usecase.event.model.Event
-import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
-import com.hybris.tlv.usecase.ship.model.Engine
-import com.hybris.tlv.usecase.ship.model.Ship
-import com.hybris.tlv.usecase.ship.model.ShipPrototype
-import com.hybris.tlv.usecase.space.addPlanets
-import com.hybris.tlv.usecase.space.model.Formula
-import com.hybris.tlv.usecase.space.model.Planet
-import com.hybris.tlv.usecase.space.model.StellarHost
-import com.hybris.tlv.usecase.translation.model.Translation
+import com.hybris.tlv.domain.usecase.achievement.model.Achievement
+import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
+import com.hybris.tlv.domain.usecase.credit.model.Credit
+import com.hybris.tlv.domain.usecase.event.model.Event
+import com.hybris.tlv.domain.usecase.gamesession.model.GameSessionPrototype
+import com.hybris.tlv.domain.usecase.ship.model.Engine
+import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
+import com.hybris.tlv.domain.usecase.space.addPlanets
+import com.hybris.tlv.domain.usecase.space.model.Formula
+import com.hybris.tlv.domain.usecase.space.model.Planet
+import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.usecase.translation.model.Translation
 
 internal val configs: Configs by lazy {
     Configs(

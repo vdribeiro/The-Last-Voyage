@@ -1,0 +1,16 @@
+package com.hybris.tlv.domain.usecase.achievement.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+internal data class Precondition(
+    val settledHostId: String? = null,
+    val settledPlanetId: String? = null,
+    val habitability: String? = null,
+    val yearsTraveled: String? = null,
+    val integrity: String? = null,
+    val sensorRange: String? = null,
+    val materials: String? = null,
+    val fuel: String? = null,
+    val cryopods: String? = null,
+)

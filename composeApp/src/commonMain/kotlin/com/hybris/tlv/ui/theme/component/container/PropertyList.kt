@@ -18,8 +18,8 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.model.Translation
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.model.Translation
 
 @Composable
 internal inline fun <T> PropertyList(

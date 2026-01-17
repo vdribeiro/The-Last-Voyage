@@ -12,7 +12,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.credits
-import com.hybris.tlv.usecase.credit.model.CreditType
+import com.hybris.tlv.domain.usecase.credit.model.CreditType
 
 @OptIn(ExperimentalTestApi::class)
 internal class CreditScreenTest: TestCase() {

@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.screen.achievement
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.usecase.achievement.AchievementUseCases
+import com.hybris.tlv.domain.usecase.achievement.AchievementUseCases
 
 internal class AchievementStore(
     private val achievementUseCases: AchievementUseCases

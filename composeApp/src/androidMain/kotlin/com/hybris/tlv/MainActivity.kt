@@ -7,7 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.Modifier
-import com.hybris.tlv.cheats.enableGestureCheats
+import com.hybris.tlv.domain.cheats.enableGestureCheats
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ExcludeFromTesting
 

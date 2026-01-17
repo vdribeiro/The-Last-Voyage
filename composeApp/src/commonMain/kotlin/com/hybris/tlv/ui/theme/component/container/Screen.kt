@@ -20,8 +20,8 @@ import com.hybris.tlv.ui.theme.component.image.AppLogo
 import com.hybris.tlv.ui.theme.component.progress.showLoading
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.component.topbar.TopBar
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.model.Translation
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.model.Translation
 
 /**
  * A scaffold-based screen that handles displaying a loading indicator or the primary content.

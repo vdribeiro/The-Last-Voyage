@@ -30,7 +30,7 @@ import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.image.Image
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
-import com.hybris.tlv.usecase.space.spectralTypeToImage
+import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 
 @Composable
 internal fun PropertyCard(

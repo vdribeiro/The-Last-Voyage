@@ -1,6 +1,6 @@
 package com.hybris.tlv.ui.screen.catastrophe
 
-import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
+import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
 
 internal sealed interface CatastropheAction {
     data object Next: CatastropheAction

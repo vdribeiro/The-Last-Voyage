@@ -17,15 +17,15 @@ import com.hybris.tlv.ui.theme.component.container.ShipStats
 import com.hybris.tlv.ui.theme.component.list.SystemList
 import com.hybris.tlv.ui.theme.component.list.TravelList
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
-import com.hybris.tlv.usecase.ship.model.Engine
-import com.hybris.tlv.usecase.ship.model.Ship
-import com.hybris.tlv.usecase.space.model.Planet
-import com.hybris.tlv.usecase.space.model.PlanetStatus
-import com.hybris.tlv.usecase.space.model.StellarHost
-import com.hybris.tlv.usecase.space.spectralTypeToImage
-import com.hybris.tlv.usecase.space.toImage
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.model.Translation
+import com.hybris.tlv.domain.usecase.ship.model.Engine
+import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.domain.usecase.space.model.Planet
+import com.hybris.tlv.domain.usecase.space.model.PlanetStatus
+import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
+import com.hybris.tlv.domain.usecase.space.toImage
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.model.Translation
 
 @Composable
 internal fun GameScreen(store: Store<GameState, GameAction>) {

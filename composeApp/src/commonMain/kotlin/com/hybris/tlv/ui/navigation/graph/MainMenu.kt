@@ -7,7 +7,7 @@ import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuScreen
 import com.hybris.tlv.ui.screen.mainmenu.MainMenuStore
-import com.hybris.tlv.usecase.UseCases
+import com.hybris.tlv.domain.usecase.UseCases
 
 internal fun NavGraphBuilder.mainMenuScreen(
     config: ConfigManager,

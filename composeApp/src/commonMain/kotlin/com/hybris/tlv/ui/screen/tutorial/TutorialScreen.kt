@@ -31,11 +31,11 @@ import com.hybris.tlv.ui.theme.component.text.TextIcon
 import com.hybris.tlv.ui.theme.component.text.TitleDescription
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
 import com.hybris.tlv.ui.theme.getTranslation
-import com.hybris.tlv.usecase.space.model.PlanetType
-import com.hybris.tlv.usecase.space.spectralTypeToImage
-import com.hybris.tlv.usecase.space.toImage
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.model.Translation
+import com.hybris.tlv.domain.usecase.space.model.PlanetType
+import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
+import com.hybris.tlv.domain.usecase.space.toImage
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.model.Translation
 
 @Composable
 internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {

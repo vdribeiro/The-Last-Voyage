@@ -16,9 +16,9 @@ import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.container.TypewriterContent
 import com.hybris.tlv.ui.theme.getTranslation
-import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.model.Translation
+import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.model.Translation
 
 @Composable
 internal fun CatastropheScreen(store: Store<CatastropheState, CatastropheAction>) {

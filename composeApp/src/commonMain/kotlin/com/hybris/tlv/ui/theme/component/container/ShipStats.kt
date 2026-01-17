@@ -19,9 +19,9 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.card.StatDisplay
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.getTranslation
-import com.hybris.tlv.usecase.space.roundTo
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.model.Translation
+import com.hybris.tlv.domain.usecase.space.roundTo
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.model.Translation
 
 @Composable
 internal fun ShipStats(

@@ -16,10 +16,10 @@ import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.ui.theme.component.container.ShipConfiguration
 import com.hybris.tlv.ui.theme.getTranslation
-import com.hybris.tlv.usecase.ship.model.Engine
-import com.hybris.tlv.usecase.ship.model.ShipPrototype
-import com.hybris.tlv.usecase.translation.TranslationCache
-import com.hybris.tlv.usecase.translation.model.Translation
+import com.hybris.tlv.domain.usecase.ship.model.Engine
+import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.model.Translation
 
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {

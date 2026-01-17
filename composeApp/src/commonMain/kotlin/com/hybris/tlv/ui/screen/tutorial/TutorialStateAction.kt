@@ -1,12 +1,12 @@
 package com.hybris.tlv.ui.screen.tutorial
 
-import com.hybris.tlv.usecase.ship.model.Engine
-import com.hybris.tlv.usecase.ship.model.Ship
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_FUEL
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_INTEGRITY
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_MATERIALS
-import com.hybris.tlv.usecase.ship.model.Ship.Companion.MAX_SENSOR_RANGE
+import com.hybris.tlv.domain.usecase.ship.model.Engine
+import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_FUEL
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_INTEGRITY
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_MATERIALS
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_SENSOR_RANGE
 
 internal sealed interface TutorialAction {
     data object Next: TutorialAction

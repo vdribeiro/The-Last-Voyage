@@ -1,6 +1,6 @@
 package com.hybris.tlv.ui.screen.achievement
 
-import com.hybris.tlv.usecase.achievement.model.Achievement
+import com.hybris.tlv.domain.usecase.achievement.model.Achievement
 
 internal data class AchievementState(
     val loading: Boolean = true,

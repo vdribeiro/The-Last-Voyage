@@ -6,7 +6,7 @@ package com.hybris.tlv
 import platform.UIKit.UIViewController
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
-import com.hybris.tlv.cheats.enableGestureCheats
+import com.hybris.tlv.domain.cheats.enableGestureCheats
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ExcludeFromTesting
 

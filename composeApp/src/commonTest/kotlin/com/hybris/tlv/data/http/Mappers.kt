@@ -1,11 +1,11 @@
 package com.hybris.tlv.data.http
 
-import com.hybris.tlv.usecase.space.lightYearsToParsecs
-import com.hybris.tlv.usecase.space.model.ExoplanetJson
-import com.hybris.tlv.usecase.space.model.Planet
-import com.hybris.tlv.usecase.space.model.StellarHost
-import com.hybris.tlv.usecase.space.model.StellarHostJson
-import com.hybris.tlv.usecase.space.sunGravityToStellarHostGravity
+import com.hybris.tlv.domain.usecase.space.lightYearsToParsecs
+import com.hybris.tlv.domain.usecase.space.model.ExoplanetJson
+import com.hybris.tlv.domain.usecase.space.model.Planet
+import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.usecase.space.model.StellarHostJson
+import com.hybris.tlv.domain.usecase.space.sunGravityToStellarHostGravity
 
 internal fun StellarHost.toStellarHostJson(): StellarHostJson =
     StellarHostJson(

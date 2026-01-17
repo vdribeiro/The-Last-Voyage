@@ -16,7 +16,7 @@ import com.hybris.tlv.ui.screen.score.ScoreStore
 import com.hybris.tlv.ui.screen.splash.SplashStore
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
 import com.hybris.tlv.ui.screen.tutorial.TutorialStore
-import com.hybris.tlv.usecase.ship.model.Ship
+import com.hybris.tlv.domain.usecase.ship.model.Ship
 
 internal class StoreFactory(private val dependency: Dependency) {
 

@@ -21,8 +21,8 @@ import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hybris.tlv.command.Command
-import com.hybris.tlv.command.sendCommand
+import com.hybris.tlv.domain.command.Command
+import com.hybris.tlv.domain.command.sendCommand
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.ui.navigation.Screen
 
