@@ -7,8 +7,8 @@ import androidx.navigation.toRoute
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.typeMapOf
-import com.hybris.tlv.screen.game.GameScreen
-import com.hybris.tlv.screen.game.GameStore
+import com.hybris.tlv.ui.screen.game.GameScreen
+import com.hybris.tlv.ui.screen.game.GameStore
 import com.hybris.tlv.usecase.UseCases
 import com.hybris.tlv.usecase.ship.model.Ship
 

@@ -6,8 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.screen.splash.SplashScreen
-import com.hybris.tlv.screen.splash.SplashStore
+import com.hybris.tlv.ui.screen.splash.SplashScreen
+import com.hybris.tlv.ui.screen.splash.SplashStore
 import com.hybris.tlv.usecase.UseCases
 
 internal fun NavGraphBuilder.splashScreen(

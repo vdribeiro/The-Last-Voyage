@@ -5,8 +5,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.screen.help.HelpScreen
-import com.hybris.tlv.screen.help.HelpStore
+import com.hybris.tlv.ui.screen.help.HelpScreen
+import com.hybris.tlv.ui.screen.help.HelpStore
 
 internal fun NavGraphBuilder.helpScreen(
     config: ConfigManager
