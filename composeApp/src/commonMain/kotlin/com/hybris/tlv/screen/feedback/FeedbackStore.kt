@@ -1,7 +1,7 @@
 package com.hybris.tlv.screen.feedback
 
 import kotlinx.coroutines.Job
-import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.telemetry.Telemetry
 

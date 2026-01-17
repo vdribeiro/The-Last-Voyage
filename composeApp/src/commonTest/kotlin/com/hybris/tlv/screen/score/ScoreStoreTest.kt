@@ -6,7 +6,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.ui.navigation.Screen
 
 internal class ScoreStoreTest: TestCase() {
 

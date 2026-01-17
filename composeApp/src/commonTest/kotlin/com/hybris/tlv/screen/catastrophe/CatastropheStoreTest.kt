@@ -4,7 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import com.hybris.tlv.TestCase
-import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.ui.navigation.Screen
 
 internal class CatastropheStoreTest: TestCase() {
 

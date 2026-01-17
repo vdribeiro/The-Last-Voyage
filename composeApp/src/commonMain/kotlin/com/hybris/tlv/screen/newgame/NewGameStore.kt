@@ -2,7 +2,7 @@ package com.hybris.tlv.screen.newgame
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.screen.Store
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.theme.component.button.AttributePoint

@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
 import com.hybris.tlv.audio.AudioPlayer
-import com.hybris.tlv.navigation.back
-import com.hybris.tlv.navigation.navigate
+import com.hybris.tlv.ui.navigation.back
+import com.hybris.tlv.ui.navigation.navigate
 
 /**
  * Listens for commands and performs the corresponding actions.

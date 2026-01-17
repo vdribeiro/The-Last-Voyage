@@ -28,7 +28,7 @@ import com.hybris.tlv.cheats.rememberKeySequenceCheats
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.command.sendCommand
 import com.hybris.tlv.flag.FeatureFlags
-import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.theme.modifier.Gesture
 
 @OptIn(ExperimentalTestApi::class)

@@ -1,4 +1,4 @@
-package com.hybris.tlv.navigation
+package com.hybris.tlv.ui.navigation
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier

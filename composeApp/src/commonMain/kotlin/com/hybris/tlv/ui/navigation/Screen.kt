@@ -1,4 +1,4 @@
-package com.hybris.tlv.navigation
+package com.hybris.tlv.ui.navigation
 
 import kotlinx.serialization.Serializable
 import com.hybris.tlv.flag.FeatureFlags.flags

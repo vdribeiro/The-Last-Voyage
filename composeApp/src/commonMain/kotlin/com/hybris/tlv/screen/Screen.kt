@@ -7,7 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.command.sendCommand
-import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.theme.component.container.Screen as ScreenContainer
 
 /**

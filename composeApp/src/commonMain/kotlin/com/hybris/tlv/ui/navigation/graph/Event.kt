@@ -1,11 +1,11 @@
-package com.hybris.tlv.navigation.graph
+package com.hybris.tlv.ui.navigation.graph
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.hybris.tlv.navigation.Screen
-import com.hybris.tlv.navigation.typeMapOf
+import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.typeMapOf
 import com.hybris.tlv.screen.event.EventScreen
 import com.hybris.tlv.screen.event.EventStore
 import com.hybris.tlv.usecase.UseCases

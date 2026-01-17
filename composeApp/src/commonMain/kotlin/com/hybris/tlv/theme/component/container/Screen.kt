@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.navigation.backNavigation
+import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.component.image.AppLogo
 import com.hybris.tlv.theme.component.progress.showLoading

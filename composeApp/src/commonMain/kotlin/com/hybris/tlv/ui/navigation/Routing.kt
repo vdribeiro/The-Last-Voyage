@@ -1,4 +1,4 @@
-package com.hybris.tlv.navigation
+package com.hybris.tlv.ui.navigation
 
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf

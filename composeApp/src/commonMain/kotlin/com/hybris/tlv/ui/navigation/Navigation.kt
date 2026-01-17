@@ -1,4 +1,4 @@
-package com.hybris.tlv.navigation
+package com.hybris.tlv.ui.navigation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -7,21 +7,21 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.hybris.tlv.data.config.ConfigManager
-import com.hybris.tlv.navigation.graph.achievementScreen
-import com.hybris.tlv.navigation.graph.catastropheScreen
-import com.hybris.tlv.navigation.graph.cheatScreen
-import com.hybris.tlv.navigation.graph.creditScreen
-import com.hybris.tlv.navigation.graph.eventScreen
-import com.hybris.tlv.navigation.graph.feedbackScreen
-import com.hybris.tlv.navigation.graph.gameOverScreen
-import com.hybris.tlv.navigation.graph.gameScreen
-import com.hybris.tlv.navigation.graph.helpScreen
-import com.hybris.tlv.navigation.graph.mainMenuScreen
-import com.hybris.tlv.navigation.graph.newGameScreen
-import com.hybris.tlv.navigation.graph.scoreScreen
-import com.hybris.tlv.navigation.graph.splashScreen
-import com.hybris.tlv.navigation.graph.stellarExplorerScreen
-import com.hybris.tlv.navigation.graph.tutorialScreen
+import com.hybris.tlv.ui.navigation.graph.achievementScreen
+import com.hybris.tlv.ui.navigation.graph.catastropheScreen
+import com.hybris.tlv.ui.navigation.graph.cheatScreen
+import com.hybris.tlv.ui.navigation.graph.creditScreen
+import com.hybris.tlv.ui.navigation.graph.eventScreen
+import com.hybris.tlv.ui.navigation.graph.feedbackScreen
+import com.hybris.tlv.ui.navigation.graph.gameOverScreen
+import com.hybris.tlv.ui.navigation.graph.gameScreen
+import com.hybris.tlv.ui.navigation.graph.helpScreen
+import com.hybris.tlv.ui.navigation.graph.mainMenuScreen
+import com.hybris.tlv.ui.navigation.graph.newGameScreen
+import com.hybris.tlv.ui.navigation.graph.scoreScreen
+import com.hybris.tlv.ui.navigation.graph.splashScreen
+import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
+import com.hybris.tlv.ui.navigation.graph.tutorialScreen
 import com.hybris.tlv.usecase.UseCases
 
 /**

@@ -18,7 +18,7 @@ import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.DatabaseFactory
 import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.data.http.HttpClientFactory
-import com.hybris.tlv.navigation.Navigation
+import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.theme.ObserveTranslations

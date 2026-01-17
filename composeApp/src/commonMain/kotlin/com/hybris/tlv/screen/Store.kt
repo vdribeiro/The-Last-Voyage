@@ -24,7 +24,7 @@ import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.command.sendCommand
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.ui.navigation.Screen
 
 /**
  * The central hub for a screen's [State]. It's the single source of truth for the UI.
