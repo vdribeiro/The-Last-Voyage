@@ -7,8 +7,8 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.engines
-import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.shipPrototype
+import com.hybris.tlv.ui.navigation.Screen
 
 internal class NewGameStoreTest: TestCase() {
 
