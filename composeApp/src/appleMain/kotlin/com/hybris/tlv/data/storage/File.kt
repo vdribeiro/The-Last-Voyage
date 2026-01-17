@@ -16,7 +16,7 @@ import platform.Foundation.stringByAppendingPathComponent
 import platform.Foundation.stringWithContentsOfFile
 import platform.Foundation.writeToFile
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 
 @OptIn(ExperimentalForeignApi::class)

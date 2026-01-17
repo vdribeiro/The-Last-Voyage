@@ -8,7 +8,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.hybris.tlv.applicationContext
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual suspend fun isInternetAvailable(): Boolean = withContext(context = Dispatcher.IO) {

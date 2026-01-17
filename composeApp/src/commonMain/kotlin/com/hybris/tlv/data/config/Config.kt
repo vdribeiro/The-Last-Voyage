@@ -22,7 +22,7 @@ import com.hybris.tlv.data.serializer.saveJsonFile
 import com.hybris.tlv.core.locale.hasTimePassed
 import com.hybris.tlv.core.locale.now
 import com.hybris.tlv.platform.isDebug
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 
 /**
  * This class is responsible for:

@@ -10,7 +10,7 @@ import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.core.locale.DEFAULT_LANGUAGE
 import com.hybris.tlv.core.locale.getLanguage
 import com.hybris.tlv.resource.JsonResource
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.usecase.translation.model.Translation
 import database.AppDatabase
 

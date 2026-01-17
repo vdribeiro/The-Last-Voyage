@@ -4,7 +4,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.data.config.ConfigManager
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.usecase.sync.SyncUseCases

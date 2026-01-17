@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.screen.help
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.data.config.ConfigManager
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.Screen.Tutorial
 import com.hybris.tlv.ui.screen.Store

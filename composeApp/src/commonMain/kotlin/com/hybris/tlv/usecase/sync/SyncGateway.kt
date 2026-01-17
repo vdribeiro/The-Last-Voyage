@@ -12,7 +12,7 @@ import com.hybris.tlv.data.database.isEmpty
 import com.hybris.tlv.data.database.reset
 import com.hybris.tlv.flag.FeatureFlags.flags
 import com.hybris.tlv.platform.Property
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.usecase.credit.CreditUseCases

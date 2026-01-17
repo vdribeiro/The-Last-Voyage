@@ -1,4 +1,4 @@
-package com.hybris.tlv.telemetry
+package com.hybris.tlv.core.telemetry
 
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.test.ExcludeFromTesting

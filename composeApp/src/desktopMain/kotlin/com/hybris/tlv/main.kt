@@ -12,7 +12,7 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.hybris.tlv.cheats.rememberKeySequenceCheats
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.theme.getTranslation
 import javafx.embed.swing.JFXPanel

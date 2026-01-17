@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.screen.score
 
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.locale.getLocalDateTime
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.usecase.gamesession.GameSessionUseCases
 

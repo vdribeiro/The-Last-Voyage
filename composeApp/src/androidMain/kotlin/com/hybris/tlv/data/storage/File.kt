@@ -6,7 +6,7 @@ import java.io.File
 import kotlinx.coroutines.withContext
 import com.hybris.tlv.applicationContext
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual val appDataPath: String by lazy {

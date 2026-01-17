@@ -1,16 +1,16 @@
-package com.hybris.tlv.telemetry
+package com.hybris.tlv.core.telemetry
 
-import platform.Foundation.NSLog
+import android.util.Log
 import com.hybris.tlv.test.ExcludeFromTesting
 
 @ExcludeFromTesting
 internal actual object PlatformLogger {
 
     actual fun info(tag: String, message: String) {
-        NSLog(format = "INFO [$tag]: $message")
+        Log.i(tag, message)
     }
 
     actual fun error(tag: String, message: String, throwable: Throwable?) {
-        NSLog(format = "ERROR [$tag]: $message${throwable?.let { "\n${it.printStackTrace()}" }.orEmpty()}")
+        Log.e(tag, message, throwable)
     }
 }

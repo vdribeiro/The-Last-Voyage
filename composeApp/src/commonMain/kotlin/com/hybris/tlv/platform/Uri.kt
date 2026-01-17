@@ -1,7 +1,7 @@
 package com.hybris.tlv.platform
 
 import androidx.compose.ui.platform.UriHandler
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 
 /**
  * Safely attempts to open a [uri] using the provided [UriHandler] preventing crashes

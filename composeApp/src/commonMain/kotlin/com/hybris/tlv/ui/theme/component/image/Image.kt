@@ -13,7 +13,7 @@ import coil3.compose.AsyncImage
 import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.platform
 import com.hybris.tlv.resource.ImageResource
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.ui.theme.AppTheme
 import thelastvoyage.composeapp.generated.resources.Res
 

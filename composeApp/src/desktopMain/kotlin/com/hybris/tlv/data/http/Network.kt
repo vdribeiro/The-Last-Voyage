@@ -5,7 +5,7 @@ package com.hybris.tlv.data.http
 import java.net.NetworkInterface
 import kotlinx.coroutines.withContext
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual suspend fun isInternetAvailable(): Boolean = withContext(context = Dispatcher.IO) {

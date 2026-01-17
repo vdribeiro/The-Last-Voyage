@@ -2,7 +2,7 @@ package com.hybris.tlv.core.security
 
 import java.security.SecureRandom
 import java.util.UUID
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 
 internal actual fun generateUuid(): String = runCatching {
     UUID.randomUUID().toString()

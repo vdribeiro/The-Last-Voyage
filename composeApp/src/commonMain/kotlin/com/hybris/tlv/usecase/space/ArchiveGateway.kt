@@ -13,7 +13,7 @@ import com.hybris.tlv.data.serializer.JsonFile
 import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.data.serializer.saveJsonFile
 import com.hybris.tlv.resource.JsonResource
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.usecase.space.formula.DerivedData
 import com.hybris.tlv.usecase.space.model.ExoplanetJson
 import com.hybris.tlv.usecase.space.model.JsonConstants.PLANET_DENSITY

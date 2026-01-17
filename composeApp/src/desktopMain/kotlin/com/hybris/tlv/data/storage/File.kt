@@ -8,7 +8,7 @@ import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.platform.platform
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual val appDataPath: String by lazy {

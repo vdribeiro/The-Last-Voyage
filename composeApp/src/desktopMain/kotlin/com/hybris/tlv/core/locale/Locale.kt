@@ -10,7 +10,7 @@ import kotlin.time.Instant
 import kotlin.time.toJavaInstant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaZoneId
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual fun getLanguage(): String = runCatching {

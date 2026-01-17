@@ -2,7 +2,7 @@ package com.hybris.tlv.data.database
 
 import kotlinx.coroutines.withContext
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.telemetry.Telemetry
+import com.hybris.tlv.core.telemetry.Telemetry
 import database.Achievement
 import database.AppDatabase
 import database.Catastrophe
