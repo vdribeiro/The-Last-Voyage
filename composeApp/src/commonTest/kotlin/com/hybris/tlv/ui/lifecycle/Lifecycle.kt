@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.hybris.tlv.lifecycle
+package com.hybris.tlv.ui.lifecycle
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect

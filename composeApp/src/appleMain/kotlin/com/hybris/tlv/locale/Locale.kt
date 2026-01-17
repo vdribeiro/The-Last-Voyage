@@ -15,7 +15,7 @@ import platform.Foundation.NSNotificationCenter
 import platform.Foundation.NSTimeZone
 import platform.Foundation.preferredLanguages
 import platform.Foundation.timeZoneForSecondsFromGMT
-import com.hybris.tlv.lifecycle.observe
+import com.hybris.tlv.ui.lifecycle.observe
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 

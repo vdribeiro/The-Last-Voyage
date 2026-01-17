@@ -1,6 +1,6 @@
 @file:ShadowedInTesting
 
-package com.hybris.tlv.lifecycle
+package com.hybris.tlv.ui.lifecycle
 
 import androidx.compose.runtime.Composable
 import com.hybris.tlv.test.ShadowedInTesting
