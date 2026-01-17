@@ -1,4 +1,4 @@
-package com.hybris.tlv.theme.component.container
+package com.hybris.tlv.ui.theme.component.container
 
 import kotlin.test.Test
 import androidx.compose.ui.Modifier

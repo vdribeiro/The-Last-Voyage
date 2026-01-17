@@ -1,4 +1,4 @@
-package com.hybris.tlv.theme.component.list
+package com.hybris.tlv.ui.theme.component.list
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
@@ -18,5 +18,5 @@ internal actual fun VerticalScrollBar(
     hoverColor: Color,
     unhoverColor: Color
 ) {
-    // No Scrollbar on Android
+    // No Scrollbar on iOS
 }

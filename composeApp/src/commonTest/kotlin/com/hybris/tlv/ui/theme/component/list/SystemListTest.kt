@@ -1,4 +1,4 @@
-package com.hybris.tlv.theme.component.list
+package com.hybris.tlv.ui.theme.component.list
 
 import kotlin.test.Test
 import kotlin.test.assertFalse

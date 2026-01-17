@@ -1,4 +1,4 @@
-package com.hybris.tlv.theme.component.button
+package com.hybris.tlv.ui.theme.component.button
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

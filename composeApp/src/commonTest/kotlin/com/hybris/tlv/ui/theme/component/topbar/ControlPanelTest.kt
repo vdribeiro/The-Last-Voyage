@@ -1,4 +1,4 @@
-package com.hybris.tlv.theme.component.topbar
+package com.hybris.tlv.ui.theme.component.topbar
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

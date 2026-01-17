@@ -1,4 +1,4 @@
-package com.hybris.tlv.theme.component.bottombar
+package com.hybris.tlv.ui.theme.component.bottombar
 
 import kotlin.test.Test
 import kotlin.test.assertFalse

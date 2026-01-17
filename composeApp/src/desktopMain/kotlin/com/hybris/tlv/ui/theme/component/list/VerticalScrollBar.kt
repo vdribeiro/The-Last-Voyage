@@ -1,4 +1,4 @@
-package com.hybris.tlv.theme.component.list
+package com.hybris.tlv.ui.theme.component.list
 
 import androidx.compose.foundation.LocalScrollbarStyle
 import androidx.compose.foundation.VerticalScrollbar
