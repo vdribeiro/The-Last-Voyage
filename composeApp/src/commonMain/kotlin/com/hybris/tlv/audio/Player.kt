@@ -6,6 +6,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import com.hybris.tlv.lifecycle.Register
+import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.resource.AudioResource
 import com.hybris.tlv.telemetry.Telemetry
 
@@ -36,24 +37,24 @@ internal fun AudioPlayer(
 private fun getTracks(destination: NavDestination?): List<AudioResource>? = runCatching {
     when {
         destination == null ||
-                destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.Cheat>() ||
-                destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.Help>() ||
-                destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.Feedback>() ||
-                destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.Tutorial>() -> null
+                destination.hasRoute<Screen.Cheat>() ||
+                destination.hasRoute<Screen.Help>() ||
+                destination.hasRoute<Screen.Feedback>() ||
+                destination.hasRoute<Screen.Tutorial>() -> null
 
-        destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.Splash>() ||
-                destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.MainMenu>() ||
-                destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.NewGame>() ||
-                destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.Catastrophe>() ||
-                destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.StellarExplorer>() ||
-                destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.Score>() ||
-                destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.Achievement>() ||
-                destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.Credit>() -> listOf(
+        destination.hasRoute<Screen.Splash>() ||
+                destination.hasRoute<Screen.MainMenu>() ||
+                destination.hasRoute<Screen.NewGame>() ||
+                destination.hasRoute<Screen.Catastrophe>() ||
+                destination.hasRoute<Screen.StellarExplorer>() ||
+                destination.hasRoute<Screen.Score>() ||
+                destination.hasRoute<Screen.Achievement>() ||
+                destination.hasRoute<Screen.Credit>() -> listOf(
             AudioResource.VilleSeppanen
         )
 
-        destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.Game>() ||
-                destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.Event>() -> listOf(
+        destination.hasRoute<Screen.Game>() ||
+                destination.hasRoute<Screen.Event>() -> listOf(
             AudioResource.BlindShift,
             AudioResource.Graduality,
             AudioResource.LedTwilight,
@@ -62,7 +63,7 @@ private fun getTracks(destination: NavDestination?): List<AudioResource>? = runC
             AudioResource.SpaceGras
         )
 
-        destination.hasRoute<com.hybris.tlv.ui.navigation.Screen.GameOver>() -> listOf(
+        destination.hasRoute<Screen.GameOver>() -> listOf(
             AudioResource.Space
         )
 

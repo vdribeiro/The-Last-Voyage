@@ -34,9 +34,10 @@ import com.hybris.tlv.flag.FeatureFlags
 import com.hybris.tlv.flag.Flags
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.lifecycle.lifecycleOwner
-import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.screen.Store
+import com.hybris.tlv.screen.StoreFactory
+import com.hybris.tlv.theme.AppTheme
 import com.hybris.tlv.usecase.UseCases
 
 /**

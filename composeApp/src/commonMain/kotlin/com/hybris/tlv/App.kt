@@ -18,7 +18,10 @@ import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.DatabaseFactory
 import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.data.http.HttpClientFactory
+import com.hybris.tlv.navigation.Navigation
 import com.hybris.tlv.test.ExcludeFromTesting
+import com.hybris.tlv.theme.AppTheme
+import com.hybris.tlv.theme.ObserveTranslations
 import com.hybris.tlv.usecase.Gateways
 import com.hybris.tlv.usecase.UseCases
 import database.AppDatabase
@@ -60,8 +63,8 @@ internal fun App(
     config: ConfigManager,
     useCases: UseCases,
     audioPlayer: AudioPlayer
-) = _root_ide_package_.com.hybris.tlv.ui.theme.AppTheme {
-    _root_ide_package_.com.hybris.tlv.ui.navigation.Navigation(
+) = AppTheme {
+    Navigation(
         modifier = modifier,
         navController = navController,
         config = config,
@@ -79,7 +82,7 @@ internal fun App(
         audioPlayer = audioPlayer
     )
 
-    _root_ide_package_.com.hybris.tlv.ui.theme.ObserveTranslations(
+    ObserveTranslations(
         translation = useCases.translation
     )
 }

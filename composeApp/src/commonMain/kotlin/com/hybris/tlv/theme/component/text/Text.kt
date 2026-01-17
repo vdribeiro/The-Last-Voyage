@@ -1,0 +1,84 @@
+package com.hybris.tlv.theme.component.text
+
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import com.hybris.tlv.theme.AppTheme
+import com.hybris.tlv.theme.LocalColorScheme
+import androidx.compose.material3.Text as MaterialText
+
+@Composable
+internal fun Text(
+    modifier: Modifier = Modifier,
+    text: String? = null,
+    textAlign: TextAlign? = null,
+    maxLines: Int = Int.MAX_VALUE,
+    style: TextStyle = LocalTextStyle.current,
+    color: Color = Color.Unspecified,
+    fontWeight: FontWeight? = null,
+) {
+    MaterialText(
+        modifier = modifier,
+        text = text.orEmpty(),
+        textAlign = textAlign,
+        maxLines = maxLines,
+        style = style,
+        color = color,
+        fontWeight = fontWeight,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+@Composable
+internal fun Text(
+    modifier: Modifier = Modifier,
+    text: AnnotatedString? = null,
+    textAlign: TextAlign? = null,
+    maxLines: Int = Int.MAX_VALUE,
+    style: TextStyle = LocalTextStyle.current,
+    color: Color = Color.Unspecified,
+    fontWeight: FontWeight? = null,
+) {
+    MaterialText(
+        modifier = modifier,
+        text = text ?: AnnotatedString(text = ""),
+        textAlign = textAlign,
+        maxLines = maxLines,
+        style = style,
+        color = color,
+        fontWeight = fontWeight,
+    )
+}
+
+@Preview
+@Composable
+private fun TextPreview() = AppTheme {
+    Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
+        val colorScheme = LocalColorScheme.current
+        Text(text = "Text")
+        Text(text = AnnotatedString(text = "Text"))
+        Text(
+            text = "Text",
+            textAlign = TextAlign.End
+        )
+        Text(
+            text = "Text",
+            maxLines = 1,
+            color = colorScheme.primary
+        )
+        Text(
+            text = "Text",
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
