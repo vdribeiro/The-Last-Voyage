@@ -1,6 +1,6 @@
 package com.hybris.tlv.command
 
-import com.hybris.tlv.navigation.Screen
+import com.hybris.tlv.ui.navigation.Screen
 
 /**
  * A navigation command that can be sent.

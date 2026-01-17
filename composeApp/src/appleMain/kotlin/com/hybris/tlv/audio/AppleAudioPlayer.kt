@@ -10,7 +10,7 @@ import platform.AVFoundation.replaceCurrentItemWithPlayerItem
 import platform.Foundation.NSBundle
 import platform.Foundation.NSNotificationCenter
 import platform.darwin.NSObjectProtocol
-import com.hybris.tlv.lifecycle.observe
+import com.hybris.tlv.ui.lifecycle.observe
 
 internal class AppleAudioPlayer: AudioPlayer() {
 
