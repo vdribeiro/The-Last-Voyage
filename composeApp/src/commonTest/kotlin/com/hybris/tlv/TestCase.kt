@@ -27,12 +27,12 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.command.receiveCommand
 import com.hybris.tlv.command.sendCommand
+import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.data.http.TestEngine
 import com.hybris.tlv.flag.FeatureFlags
 import com.hybris.tlv.flag.Flags
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.ui.lifecycle.lifecycleOwner
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store

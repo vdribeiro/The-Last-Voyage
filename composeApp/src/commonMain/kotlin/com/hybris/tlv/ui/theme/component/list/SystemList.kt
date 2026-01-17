@@ -13,8 +13,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.core.security.generateUuid
 import com.hybris.tlv.resource.ImageResource
-import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.card.PlanetCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard

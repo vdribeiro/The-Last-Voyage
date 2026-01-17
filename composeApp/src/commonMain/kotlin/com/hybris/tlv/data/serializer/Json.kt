@@ -7,10 +7,10 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import io.ktor.http.decodeURLQueryComponent
 import io.ktor.http.encodeURLQueryComponent
+import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.data.storage.deleteFile
 import com.hybris.tlv.data.storage.loadFile
 import com.hybris.tlv.data.storage.saveFile
-import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.resource.JsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.test.ExcludeFromTesting

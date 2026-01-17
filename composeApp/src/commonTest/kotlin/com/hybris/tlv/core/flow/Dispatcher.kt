@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.hybris.tlv.flow
+package com.hybris.tlv.core.flow
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

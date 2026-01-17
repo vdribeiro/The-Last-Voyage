@@ -1,11 +1,11 @@
-package com.hybris.tlv.flow
+package com.hybris.tlv.core.flow
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import com.hybris.tlv.flow.Dispatcher.Default
-import com.hybris.tlv.flow.Dispatcher.IO
-import com.hybris.tlv.flow.Dispatcher.Main
+import com.hybris.tlv.core.flow.Dispatcher.Default
+import com.hybris.tlv.core.flow.Dispatcher.IO
+import com.hybris.tlv.core.flow.Dispatcher.Main
 import com.hybris.tlv.test.ShadowedInTesting
 
 /**

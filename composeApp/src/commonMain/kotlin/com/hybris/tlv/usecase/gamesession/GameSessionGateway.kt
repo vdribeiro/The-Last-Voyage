@@ -2,7 +2,7 @@ package com.hybris.tlv.usecase.gamesession
 
 import kotlin.math.ceil
 import kotlinx.coroutines.withContext
-import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.gamesession.model.GameOver
 import com.hybris.tlv.usecase.gamesession.model.GameSession

@@ -1,10 +1,10 @@
 package com.hybris.tlv.usecase.gamesession
 
+import com.hybris.tlv.core.security.generateUuid
 import com.hybris.tlv.data.database.FormulaSchema
 import com.hybris.tlv.data.database.GameSessionSchema
 import com.hybris.tlv.data.database.ShipSchema
 import com.hybris.tlv.locale.now
-import com.hybris.tlv.security.generateUuid
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.usecase.ship.model.Engine

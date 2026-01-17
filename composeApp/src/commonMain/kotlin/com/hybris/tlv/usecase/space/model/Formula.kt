@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.space.model
 
-import com.hybris.tlv.security.generateUuid
+import com.hybris.tlv.core.security.generateUuid
 import com.hybris.tlv.usecase.space.formula.Constants
 
 /**

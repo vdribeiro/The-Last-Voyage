@@ -1,4 +1,4 @@
-package com.hybris.tlv.security
+package com.hybris.tlv.core.security
 
 import java.security.SecureRandom
 import java.util.UUID

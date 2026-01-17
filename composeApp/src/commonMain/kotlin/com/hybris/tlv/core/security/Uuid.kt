@@ -1,4 +1,4 @@
-package com.hybris.tlv.security
+package com.hybris.tlv.core.security
 
 /**
  * Get a universally unique identifier (UUID) using the best available algorithm to prevent collisions.

@@ -20,7 +20,7 @@ import platform.SystemConfiguration.kSCNetworkReachabilityFlagsConnectionRequire
 import platform.SystemConfiguration.kSCNetworkReachabilityFlagsReachable
 import platform.posix.AF_INET
 import platform.posix.sockaddr_in
-import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 

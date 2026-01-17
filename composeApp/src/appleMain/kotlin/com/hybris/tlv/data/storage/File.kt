@@ -15,7 +15,7 @@ import platform.Foundation.create
 import platform.Foundation.stringByAppendingPathComponent
 import platform.Foundation.stringWithContentsOfFile
 import platform.Foundation.writeToFile
-import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 

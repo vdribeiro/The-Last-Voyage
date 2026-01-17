@@ -7,7 +7,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.hybris.tlv.applicationContext
-import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 

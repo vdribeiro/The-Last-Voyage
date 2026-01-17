@@ -4,7 +4,7 @@ package com.hybris.tlv.data.storage
 
 import java.io.File
 import kotlinx.coroutines.withContext
-import com.hybris.tlv.flow.Dispatcher
+import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.platform.platform
