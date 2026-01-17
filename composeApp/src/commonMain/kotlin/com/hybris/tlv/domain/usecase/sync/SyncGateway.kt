@@ -11,8 +11,7 @@ import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.isEmpty
 import com.hybris.tlv.data.database.reset
-import com.hybris.tlv.flag.FeatureFlags.flags
-import com.hybris.tlv.platform.Property
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.domain.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.domain.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.domain.usecase.credit.CreditUseCases
@@ -24,6 +23,7 @@ import com.hybris.tlv.domain.usecase.sync.model.DataSource
 import com.hybris.tlv.domain.usecase.sync.model.SyncResult
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
+import com.hybris.tlv.platform.Property
 import database.AppDatabase
 
 internal class SyncGateway(

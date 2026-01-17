@@ -1,4 +1,4 @@
-package com.hybris.tlv.flag
+package com.hybris.tlv.domain.flag
 
 internal data class Flags(
     /**

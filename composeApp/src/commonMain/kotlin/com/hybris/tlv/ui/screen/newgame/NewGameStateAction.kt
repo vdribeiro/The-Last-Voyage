@@ -1,8 +1,8 @@
 package com.hybris.tlv.ui.screen.newgame
 
-import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.domain.usecase.ship.model.Engine
 import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
+import com.hybris.tlv.ui.theme.component.button.AttributePoint
 
 internal sealed interface NewGameAction {
     data class SelectEngine(val engine: Engine): NewGameAction

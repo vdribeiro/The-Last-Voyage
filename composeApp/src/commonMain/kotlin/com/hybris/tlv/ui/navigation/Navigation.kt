@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.hybris.tlv.data.config.ConfigManager
+import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.ui.navigation.graph.achievementScreen
 import com.hybris.tlv.ui.navigation.graph.catastropheScreen
 import com.hybris.tlv.ui.navigation.graph.cheatScreen
@@ -22,7 +23,6 @@ import com.hybris.tlv.ui.navigation.graph.scoreScreen
 import com.hybris.tlv.ui.navigation.graph.splashScreen
 import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
-import com.hybris.tlv.domain.usecase.UseCases
 
 /**
  * The main navigation host for the application.

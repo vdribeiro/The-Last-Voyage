@@ -27,7 +27,7 @@ import com.hybris.tlv.domain.cheats.konamiGestureCode
 import com.hybris.tlv.domain.cheats.rememberKeySequenceCheats
 import com.hybris.tlv.domain.command.Command
 import com.hybris.tlv.domain.command.sendCommand
-import com.hybris.tlv.flag.FeatureFlags
+import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.theme.modifier.Gesture
 

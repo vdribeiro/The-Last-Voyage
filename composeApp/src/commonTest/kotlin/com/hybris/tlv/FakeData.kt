@@ -3,7 +3,6 @@ package com.hybris.tlv
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.data.config.Configs
 import com.hybris.tlv.data.serializer.loadFromJsonResource
-import com.hybris.tlv.resource.JsonResource
 import com.hybris.tlv.domain.usecase.achievement.model.Achievement
 import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.domain.usecase.credit.model.Credit
@@ -17,6 +16,7 @@ import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.resource.JsonResource
 
 internal val configs: Configs by lazy {
     Configs(

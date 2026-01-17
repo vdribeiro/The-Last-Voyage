@@ -16,11 +16,11 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.space.formula.Habitability
 import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.ui.screen.Store
 
 internal class StellarExplorerStore(
     private val spaceUseCases: SpaceUseCases,

@@ -30,6 +30,11 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hybris.tlv.domain.usecase.space.model.PlanetType
+import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
+import com.hybris.tlv.domain.usecase.space.toImage
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.open
 import com.hybris.tlv.platform.platform
@@ -47,11 +52,6 @@ import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.ui.theme.getTranslation
-import com.hybris.tlv.domain.usecase.space.model.PlanetType
-import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
-import com.hybris.tlv.domain.usecase.space.toImage
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
-import com.hybris.tlv.domain.usecase.translation.model.Translation
 
 @Composable
 internal fun HelpScreen(store: Store<HelpState, HelpAction>) {

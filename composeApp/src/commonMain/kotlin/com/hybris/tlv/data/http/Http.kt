@@ -23,7 +23,7 @@ import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.CONNECT_TIMEOUT_MILLIS
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.REQUEST_TIMEOUT_MILLIS
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.SOCKET_TIMEOUT_MILLIS
-import com.hybris.tlv.flag.FeatureFlags.flags
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.platform.isDebug
 
 private val mutex = Mutex()

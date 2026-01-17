@@ -8,8 +8,8 @@ import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.serializer.loadFromJsonResource
-import com.hybris.tlv.resource.JsonResource
 import com.hybris.tlv.domain.usecase.credit.model.Credit
+import com.hybris.tlv.resource.JsonResource
 import database.AppDatabase
 
 internal class CreditGateway(

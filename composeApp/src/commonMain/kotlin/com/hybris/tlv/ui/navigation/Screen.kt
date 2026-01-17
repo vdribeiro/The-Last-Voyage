@@ -1,7 +1,7 @@
 package com.hybris.tlv.ui.navigation
 
 import kotlinx.serialization.Serializable
-import com.hybris.tlv.flag.FeatureFlags.flags
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.domain.usecase.ship.model.Ship
 
 /**

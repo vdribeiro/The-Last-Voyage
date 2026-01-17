@@ -13,7 +13,6 @@ import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.serializer.JsonFile
 import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.data.serializer.saveJsonFile
-import com.hybris.tlv.resource.JsonResource
 import com.hybris.tlv.domain.usecase.space.formula.DerivedData
 import com.hybris.tlv.domain.usecase.space.model.ExoplanetJson
 import com.hybris.tlv.domain.usecase.space.model.JsonConstants.PLANET_DENSITY
@@ -49,6 +48,7 @@ import com.hybris.tlv.domain.usecase.space.model.JsonConstants.STELLAR_HOST_TEMP
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.space.model.StellarHostJson
+import com.hybris.tlv.resource.JsonResource
 
 internal class ArchiveGateway(
     private val httpClient: HttpClient,

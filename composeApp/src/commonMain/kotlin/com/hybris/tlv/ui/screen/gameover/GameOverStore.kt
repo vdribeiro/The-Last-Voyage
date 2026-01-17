@@ -4,11 +4,11 @@ import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.core.locale.getLocalDateTime
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.domain.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.domain.usecase.achievement.model.Achievement
 import com.hybris.tlv.domain.usecase.gamesession.GameSessionUseCases
+import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.screen.Store
 
 internal class GameOverStore(
     private val gameSessionUseCases: GameSessionUseCases,

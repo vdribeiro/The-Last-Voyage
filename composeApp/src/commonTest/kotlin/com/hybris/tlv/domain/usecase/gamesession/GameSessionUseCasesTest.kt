@@ -9,15 +9,15 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.yield
 import com.hybris.tlv.TestCase
+import com.hybris.tlv.domain.usecase.gamesession.model.GameOver
+import com.hybris.tlv.domain.usecase.space.SUN
+import com.hybris.tlv.domain.usecase.space.formula.Habitability
+import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.events
 import com.hybris.tlv.gameSessionPrototype
 import com.hybris.tlv.hostsWithPlanets
 import com.hybris.tlv.planets
 import com.hybris.tlv.stellarHosts
-import com.hybris.tlv.domain.usecase.gamesession.model.GameOver
-import com.hybris.tlv.domain.usecase.space.SUN
-import com.hybris.tlv.domain.usecase.space.formula.Habitability
-import com.hybris.tlv.domain.usecase.space.model.Formula
 
 internal class GameSessionUseCasesTest: TestCase() {
 

@@ -5,9 +5,9 @@ import kotlinx.coroutines.delay
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
+import com.hybris.tlv.domain.usecase.sync.SyncUseCases
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.domain.usecase.sync.SyncUseCases
 
 internal class SplashStore(
     private val reset: Boolean,

@@ -24,21 +24,21 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.hybris.tlv.domain.command.Command
-import com.hybris.tlv.domain.command.receiveCommand
-import com.hybris.tlv.domain.command.sendCommand
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.data.http.TestEngine
-import com.hybris.tlv.flag.FeatureFlags
-import com.hybris.tlv.flag.Flags
+import com.hybris.tlv.domain.command.Command
+import com.hybris.tlv.domain.command.receiveCommand
+import com.hybris.tlv.domain.command.sendCommand
+import com.hybris.tlv.domain.flag.FeatureFlags
+import com.hybris.tlv.domain.flag.Flags
+import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.ui.lifecycle.lifecycleOwner
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.screen.StoreFactory
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.domain.usecase.UseCases
 
 /**
  * Abstract class for defining test cases.

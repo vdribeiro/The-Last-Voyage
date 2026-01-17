@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
-import com.hybris.tlv.flag.FeatureFlags
+import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.usecase.sync.model.DataSource
 import com.hybris.tlv.domain.usecase.sync.model.SyncResult
 

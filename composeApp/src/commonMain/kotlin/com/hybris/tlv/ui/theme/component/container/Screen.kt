@@ -14,14 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.image.AppLogo
 import com.hybris.tlv.ui.theme.component.progress.showLoading
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.component.topbar.TopBar
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
-import com.hybris.tlv.domain.usecase.translation.model.Translation
 
 /**
  * A scaffold-based screen that handles displaying a loading indicator or the primary content.

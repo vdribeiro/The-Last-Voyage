@@ -9,10 +9,10 @@ import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
 internal fun GameNavigationBar(

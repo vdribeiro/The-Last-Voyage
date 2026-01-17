@@ -4,9 +4,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
-import com.hybris.tlv.engines
 import com.hybris.tlv.domain.usecase.ship.model.Engine
 import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.engines
 
 internal class ShipUseCasesTest: TestCase() {
 

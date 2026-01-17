@@ -1,4 +1,4 @@
-package com.hybris.tlv.flag
+package com.hybris.tlv.domain.flag
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

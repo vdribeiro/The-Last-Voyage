@@ -5,8 +5,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import com.hybris.tlv.core.locale.getLanguage
-import com.hybris.tlv.platform.Property
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.platform.Property
 
 /**
  * Translations cache.

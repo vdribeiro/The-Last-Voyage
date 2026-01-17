@@ -3,13 +3,13 @@ package com.hybris.tlv.ui.screen.event
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.domain.usecase.event.EventUseCases
 import com.hybris.tlv.domain.usecase.event.model.Event
 import com.hybris.tlv.domain.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.domain.usecase.gamesession.model.GameSession
 import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.screen.Store
 
 internal class EventStore(
     ship: Ship?,

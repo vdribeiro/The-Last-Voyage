@@ -4,8 +4,6 @@ import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
-import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.domain.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.domain.usecase.gamesession.model.GameSession
 import com.hybris.tlv.domain.usecase.ship.ShipUseCases
@@ -17,6 +15,8 @@ import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_MATERIALS
 import com.hybris.tlv.domain.usecase.space.SUN
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.space.formula.Habitability
+import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.screen.Store
 
 internal class GameStore(
     ship: Ship?,
