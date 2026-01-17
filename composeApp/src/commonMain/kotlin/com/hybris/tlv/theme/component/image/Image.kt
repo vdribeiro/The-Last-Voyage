@@ -45,7 +45,7 @@ private fun ImageWithPath(
     contentScale: ContentScale = ContentScale.Crop,
 ) {
     val model = runCatching {
-        path?.let { Res.getUri(path = "drawable/$it") }
+        path?.let { Res.getUri(path = it) }
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get path", throwable = it) }.getOrNull()
     if (model == null) Box(modifier = modifier) else AsyncImage(
         modifier = modifier,

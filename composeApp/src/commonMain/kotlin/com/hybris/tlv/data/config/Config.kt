@@ -14,14 +14,14 @@ import io.ktor.client.HttpClient
 import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
+import com.hybris.tlv.data.serializer.JsonFile
+import com.hybris.tlv.data.serializer.deleteJsonFile
+import com.hybris.tlv.data.serializer.loadJsonFile
+import com.hybris.tlv.data.serializer.saveJsonFile
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.locale.hasTimePassed
 import com.hybris.tlv.locale.now
 import com.hybris.tlv.platform.isDebug
-import com.hybris.tlv.serializer.JsonFile
-import com.hybris.tlv.serializer.deleteJsonFile
-import com.hybris.tlv.serializer.loadJsonFile
-import com.hybris.tlv.serializer.saveJsonFile
 import com.hybris.tlv.telemetry.Telemetry
 
 /**

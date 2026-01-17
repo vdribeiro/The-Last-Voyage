@@ -15,10 +15,10 @@ import com.hybris.tlv.achievements
 import com.hybris.tlv.catastrophes
 import com.hybris.tlv.configs
 import com.hybris.tlv.credits
+import com.hybris.tlv.data.serializer.encode
 import com.hybris.tlv.engines
 import com.hybris.tlv.events
 import com.hybris.tlv.planets
-import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.stellarHosts
 import com.hybris.tlv.translations
 

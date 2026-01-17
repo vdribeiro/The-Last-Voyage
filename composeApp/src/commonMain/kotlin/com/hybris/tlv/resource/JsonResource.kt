@@ -1,4 +1,4 @@
-package com.hybris.tlv.serializer
+package com.hybris.tlv.resource
 
 internal sealed class JsonResource(val path: String) {
     data object Translations: JsonResource(path = "files/translations.json")
@@ -11,14 +11,4 @@ internal sealed class JsonResource(val path: String) {
     data object Credits: JsonResource(path = "files/credits.json")
     data object SolarHosts: JsonResource(path = "files/solarsystem.json")
     data object SolarPlanets: JsonResource(path = "files/solarplanets.json")
-}
-
-internal sealed class JsonFile(val path: String) {
-    // Configs
-    data object Configs: JsonFile(path = "configs.json")
-    data object Preferences: JsonFile(path = "preferences.json")
-
-    // Archive
-    data object ArchiveStellarHosts: JsonFile(path = "hosts.json")
-    data object ArchivePlanets: JsonFile(path = "planets.json")
 }

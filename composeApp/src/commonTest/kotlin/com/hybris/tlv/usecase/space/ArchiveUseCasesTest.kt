@@ -5,9 +5,9 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
-import com.hybris.tlv.serializer.JsonFile
-import com.hybris.tlv.serializer.deleteJsonFile
-import com.hybris.tlv.serializer.loadJsonFile
+import com.hybris.tlv.data.serializer.deleteJsonFile
+import com.hybris.tlv.data.serializer.loadJsonFile
+import com.hybris.tlv.resource.JsonFile
 import com.hybris.tlv.usecase.space.model.Planet
 import com.hybris.tlv.usecase.space.model.StellarHost
 

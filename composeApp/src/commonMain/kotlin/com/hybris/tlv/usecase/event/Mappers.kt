@@ -1,8 +1,8 @@
 package com.hybris.tlv.usecase.event
 
 import com.hybris.tlv.data.database.EventSchema
-import com.hybris.tlv.serializer.decode
-import com.hybris.tlv.serializer.encode
+import com.hybris.tlv.data.serializer.decode
+import com.hybris.tlv.data.serializer.encode
 import com.hybris.tlv.usecase.event.model.Event
 import com.hybris.tlv.usecase.space.model.TravelOutcome
 
