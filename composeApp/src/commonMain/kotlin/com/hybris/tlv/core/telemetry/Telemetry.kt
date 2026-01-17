@@ -1,7 +1,7 @@
 package com.hybris.tlv.core.telemetry
 
-import com.hybris.tlv.platform.Property
 import com.hybris.tlv.infrastructure.platform.isDebug
+import com.hybris.tlv.platform.Property
 import com.hybris.tlv.test.ShadowedInTesting
 
 /**

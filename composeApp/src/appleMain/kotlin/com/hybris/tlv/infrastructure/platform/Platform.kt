@@ -3,7 +3,6 @@
 package com.hybris.tlv.infrastructure.platform
 
 import kotlin.experimental.ExperimentalNativeApi
-import com.hybris.tlv.infrastructure.platform.Platform
 import com.hybris.tlv.test.ShadowedInTesting
 
 @OptIn(ExperimentalNativeApi::class)
