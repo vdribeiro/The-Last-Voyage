@@ -1,7 +1,5 @@
 # The Last Voyage
 
----
-
 The Last Voyage is an Educational Space Adventure born out of an astronomy tool.
 
 You can check the Development Board [here](https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb).
@@ -12,8 +10,6 @@ You can check the Development Board [here](https://mammoth-gallium-e97.notion.si
 
 A **Kotlin Multiplatform** project following **Clean Architecture**. 
 Its design ensures that the business logic remains platform-agnostic with a strict unidirectional dependency flow.
-
----
 
 ## Package Responsibilities
 
