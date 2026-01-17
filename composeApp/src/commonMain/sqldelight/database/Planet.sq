@@ -1,4 +1,4 @@
-import com.hybris.tlv.usecase.space.model.PlanetStatus;
+import com.hybris.tlv.domain.usecase.space.model.PlanetStatus;
 
 CREATE TABLE IF NOT EXISTS Planet (
     id TEXT NOT NULL PRIMARY KEY,
