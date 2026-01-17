@@ -13,12 +13,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.platform.open
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.theme.AppTheme
-import com.hybris.tlv.theme.LocalTypography
-import com.hybris.tlv.theme.component.bottombar.MainBar
-import com.hybris.tlv.theme.component.container.MainMenu
-import com.hybris.tlv.theme.component.text.Text
-import com.hybris.tlv.theme.getTranslation
+import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.bottombar.MainBar
+import com.hybris.tlv.ui.theme.component.container.MainMenu
+import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation
 

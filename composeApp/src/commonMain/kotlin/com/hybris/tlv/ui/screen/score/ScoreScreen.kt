@@ -11,8 +11,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.locale.getLocalDateTime
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.theme.AppTheme
-import com.hybris.tlv.theme.component.list.ScoreList
+import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.list.ScoreList
 import com.hybris.tlv.usecase.gamesession.model.GameSession
 import com.hybris.tlv.usecase.ship.model.Engine
 import com.hybris.tlv.usecase.ship.model.Ship

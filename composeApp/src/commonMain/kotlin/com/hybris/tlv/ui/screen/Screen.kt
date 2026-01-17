@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import com.hybris.tlv.command.Command
 import com.hybris.tlv.command.sendCommand
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.theme.component.container.Screen as ScreenContainer
+import com.hybris.tlv.ui.theme.component.container.Screen as ScreenContainer
 
 /**
  * A composable that handles displaying a loading indicator or the primary content.

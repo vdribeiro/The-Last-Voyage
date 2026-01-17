@@ -11,11 +11,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.theme.AppTheme
-import com.hybris.tlv.theme.component.bottombar.BottomButton
-import com.hybris.tlv.theme.component.bottombar.ButtonsBar
-import com.hybris.tlv.theme.component.container.TypewriterContent
-import com.hybris.tlv.theme.getTranslation
+import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
+import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
+import com.hybris.tlv.ui.theme.component.container.TypewriterContent
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.model.Translation

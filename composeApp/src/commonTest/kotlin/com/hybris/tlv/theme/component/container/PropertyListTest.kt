@@ -10,7 +10,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import com.hybris.tlv.TestCase
-import com.hybris.tlv.theme.component.text.Text
+import com.hybris.tlv.ui.theme.component.text.Text
 
 @OptIn(ExperimentalTestApi::class)
 internal class PropertyListTest: TestCase() {

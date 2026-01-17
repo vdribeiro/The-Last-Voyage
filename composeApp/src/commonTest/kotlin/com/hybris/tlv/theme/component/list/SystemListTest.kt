@@ -11,7 +11,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.hybris.tlv.TestCase
-import com.hybris.tlv.theme.component.text.Text
+import com.hybris.tlv.ui.theme.component.text.Text
 
 @OptIn(ExperimentalTestApi::class)
 internal class SystemListTest: TestCase() {
