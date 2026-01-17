@@ -2,10 +2,10 @@ package com.hybris.tlv.usecase.translation
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
+import com.hybris.tlv.data.http.Result
+import com.hybris.tlv.data.http.URL
+import com.hybris.tlv.data.http.get
 import com.hybris.tlv.flow.Dispatcher
-import com.hybris.tlv.http.Result
-import com.hybris.tlv.http.URL
-import com.hybris.tlv.http.get
 import com.hybris.tlv.locale.DEFAULT_LANGUAGE
 import com.hybris.tlv.locale.getLanguage
 import com.hybris.tlv.serializer.JsonResource

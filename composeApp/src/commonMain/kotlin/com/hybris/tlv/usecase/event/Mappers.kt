@@ -1,6 +1,6 @@
 package com.hybris.tlv.usecase.event
 
-import com.hybris.tlv.database.EventSchema
+import com.hybris.tlv.data.database.EventSchema
 import com.hybris.tlv.serializer.decode
 import com.hybris.tlv.serializer.encode
 import com.hybris.tlv.usecase.event.model.Event

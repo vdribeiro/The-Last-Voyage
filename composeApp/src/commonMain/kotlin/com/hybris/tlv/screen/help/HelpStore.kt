@@ -2,7 +2,7 @@ package com.hybris.tlv.screen.help
 
 import kotlinx.coroutines.Job
 import androidx.annotation.VisibleForTesting
-import com.hybris.tlv.config.ConfigManager
+import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.navigation.Screen.Tutorial
 import com.hybris.tlv.screen.Store

@@ -1,7 +1,7 @@
 package com.hybris.tlv.screen.mainmenu
 
 import kotlinx.coroutines.Job
-import com.hybris.tlv.config.ConfigManager
+import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.navigation.Screen
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.screen.Store

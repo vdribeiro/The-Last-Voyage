@@ -6,9 +6,9 @@ import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import com.hybris.tlv.config.ConfigManager
-import com.hybris.tlv.database.isEmpty
-import com.hybris.tlv.database.reset
+import com.hybris.tlv.data.config.ConfigManager
+import com.hybris.tlv.data.database.isEmpty
+import com.hybris.tlv.data.database.reset
 import com.hybris.tlv.flag.FeatureFlags.flags
 import com.hybris.tlv.flow.Dispatcher
 import com.hybris.tlv.platform.Property
