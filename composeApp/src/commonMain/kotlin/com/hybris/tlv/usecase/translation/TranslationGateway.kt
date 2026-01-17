@@ -7,8 +7,8 @@ import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.serializer.loadFromJsonResource
-import com.hybris.tlv.locale.DEFAULT_LANGUAGE
-import com.hybris.tlv.locale.getLanguage
+import com.hybris.tlv.core.locale.DEFAULT_LANGUAGE
+import com.hybris.tlv.core.locale.getLanguage
 import com.hybris.tlv.resource.JsonResource
 import com.hybris.tlv.telemetry.Telemetry
 import com.hybris.tlv.usecase.translation.model.Translation

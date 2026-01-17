@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.hybris.tlv.locale
+package com.hybris.tlv.core.locale
 
 internal fun getLanguage(): String = DEFAULT_LANGUAGE
 

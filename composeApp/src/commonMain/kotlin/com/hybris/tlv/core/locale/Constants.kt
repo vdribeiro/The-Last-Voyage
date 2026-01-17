@@ -1,4 +1,4 @@
-package com.hybris.tlv.locale
+package com.hybris.tlv.core.locale
 
 /**
  * App default language.

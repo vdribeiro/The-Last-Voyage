@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.locale.getLocalDateTime
+import com.hybris.tlv.core.locale.getLocalDateTime
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme

@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import com.hybris.tlv.locale.getLanguage
+import com.hybris.tlv.core.locale.getLanguage
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.usecase.translation.model.Translation
 

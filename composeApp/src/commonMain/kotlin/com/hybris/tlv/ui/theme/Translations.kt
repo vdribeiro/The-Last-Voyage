@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.locale.observeLocaleChanges
+import com.hybris.tlv.core.locale.observeLocaleChanges
 import com.hybris.tlv.usecase.translation.TranslationCache
 import com.hybris.tlv.usecase.translation.TranslationUseCases
 

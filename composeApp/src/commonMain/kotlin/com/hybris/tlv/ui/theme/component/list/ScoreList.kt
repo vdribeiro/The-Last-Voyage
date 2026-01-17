@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.security.generateUuid
-import com.hybris.tlv.locale.getLocalDateTime
+import com.hybris.tlv.core.locale.getLocalDateTime
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.Score

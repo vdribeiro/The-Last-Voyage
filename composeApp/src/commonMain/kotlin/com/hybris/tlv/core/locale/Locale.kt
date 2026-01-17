@@ -1,6 +1,6 @@
 @file:ShadowedInTesting
 
-package com.hybris.tlv.locale
+package com.hybris.tlv.core.locale
 
 import com.hybris.tlv.test.ShadowedInTesting
 
