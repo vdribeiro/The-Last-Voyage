@@ -8,11 +8,11 @@ import androidx.navigation.NavType
 import androidx.savedstate.SavedState
 import androidx.savedstate.read
 import androidx.savedstate.write
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.serializer.decode
 import com.hybris.tlv.data.serializer.decodeURL
 import com.hybris.tlv.data.serializer.encode
 import com.hybris.tlv.data.serializer.encodeURL
-import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ExcludeFromTesting
 
 /**

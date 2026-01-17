@@ -19,12 +19,12 @@ import io.ktor.client.request.head
 import io.ktor.http.encodeURLPath
 import io.ktor.http.isSuccess
 import com.hybris.tlv.core.flow.Dispatcher
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.CONNECT_TIMEOUT_MILLIS
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.REQUEST_TIMEOUT_MILLIS
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.SOCKET_TIMEOUT_MILLIS
 import com.hybris.tlv.flag.FeatureFlags.flags
 import com.hybris.tlv.platform.isDebug
-import com.hybris.tlv.core.telemetry.Telemetry
 
 private val mutex = Mutex()
 private val cacheTTL: Duration = if (isDebug) ZERO else 1.minutes

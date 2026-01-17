@@ -23,9 +23,9 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.KotlinxSerializationConverter
 import io.ktor.serialization.kotlinx.json.json
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.serializer.json
 import com.hybris.tlv.platform.isDebug
-import com.hybris.tlv.core.telemetry.Telemetry
 
 /**
  * A factory for creating and configuring the [HttpClient] instance with the necessary plugins,

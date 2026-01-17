@@ -12,6 +12,9 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.core.flow.Dispatcher
+import com.hybris.tlv.core.locale.hasTimePassed
+import com.hybris.tlv.core.locale.now
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
@@ -19,10 +22,7 @@ import com.hybris.tlv.data.serializer.JsonFile
 import com.hybris.tlv.data.serializer.deleteJsonFile
 import com.hybris.tlv.data.serializer.loadJsonFile
 import com.hybris.tlv.data.serializer.saveJsonFile
-import com.hybris.tlv.core.locale.hasTimePassed
-import com.hybris.tlv.core.locale.now
 import com.hybris.tlv.platform.isDebug
-import com.hybris.tlv.core.telemetry.Telemetry
 
 /**
  * This class is responsible for:

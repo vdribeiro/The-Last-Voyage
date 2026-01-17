@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
 import coil3.compose.AsyncImage
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.platform.Platform
 import com.hybris.tlv.platform.platform
 import com.hybris.tlv.resource.ImageResource
-import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.ui.theme.AppTheme
 import thelastvoyage.composeapp.generated.resources.Res
 

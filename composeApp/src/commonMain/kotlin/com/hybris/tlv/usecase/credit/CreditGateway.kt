@@ -3,12 +3,12 @@ package com.hybris.tlv.usecase.credit
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.core.flow.Dispatcher
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.resource.JsonResource
-import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.usecase.credit.model.Credit
 import database.AppDatabase
 
