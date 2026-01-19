@@ -95,6 +95,7 @@ internal fun App(
 /**
  * Dependency index.
  */
+@VisibleForTesting
 internal class Dependency(
     private val sqlDriver: SqlDriver = createSqlDriver(),
     private val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,
