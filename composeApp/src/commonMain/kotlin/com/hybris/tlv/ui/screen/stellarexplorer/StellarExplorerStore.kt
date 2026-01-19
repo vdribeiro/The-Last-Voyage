@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
-import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.core.flow.Dispatcher
@@ -20,6 +19,7 @@ import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.space.formula.Habitability
 import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.screen.Store
 
 internal class StellarExplorerStore(
@@ -27,9 +27,9 @@ internal class StellarExplorerStore(
 ): Store<StellarExplorerState, StellarExplorerAction>(
     initialState = StellarExplorerState()
 ) {
-    @get:VisibleForTesting
+    @VisibleForTesting
     internal var formula: Formula = Formula()
-    @get:VisibleForTesting
+    @VisibleForTesting
     internal var stellarHostsFlow: MutableStateFlow<List<StellarHost>> = MutableStateFlow(value = emptyList())
 
     init {

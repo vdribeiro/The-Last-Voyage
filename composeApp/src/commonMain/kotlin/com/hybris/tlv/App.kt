@@ -3,7 +3,6 @@ package com.hybris.tlv
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
-import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,6 +24,7 @@ import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.infrastructure.audio.AudioPlayer
 import com.hybris.tlv.infrastructure.audio.createAudioPlayer
 import com.hybris.tlv.test.ExcludeFromTesting
+import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.theme.AppTheme
 import database.AppDatabase

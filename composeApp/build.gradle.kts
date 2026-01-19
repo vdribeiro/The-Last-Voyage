@@ -309,9 +309,6 @@ android {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
     }
-    lint {
-        disable += "VisibleForTests"
-    }
 }
 
 compose.desktop {

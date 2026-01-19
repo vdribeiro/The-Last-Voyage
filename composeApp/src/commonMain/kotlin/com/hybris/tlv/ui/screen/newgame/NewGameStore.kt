@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.newgame
 
 import kotlinx.coroutines.Job
-import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.domain.usecase.gamesession.model.GameSessionPrototype
@@ -16,6 +15,7 @@ import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_MATERIALS
 import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_SENSOR_RANGE
 import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.domain.usecase.space.model.Formula
+import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.component.button.AttributePoint

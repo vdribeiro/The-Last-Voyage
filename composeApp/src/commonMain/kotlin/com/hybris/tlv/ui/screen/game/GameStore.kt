@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.game
 
 import kotlinx.coroutines.Job
-import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.domain.usecase.gamesession.GameSessionUseCases
@@ -15,6 +14,7 @@ import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_MATERIALS
 import com.hybris.tlv.domain.usecase.space.SUN
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.space.formula.Habitability
+import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
 
@@ -27,7 +27,7 @@ internal class GameStore(
 ): Store<GameState, GameAction>(
     initialState = GameState(ship = ship)
 ) {
-    @get:VisibleForTesting
+    @VisibleForTesting
     internal var gameSession: GameSession? = null
 
     init {

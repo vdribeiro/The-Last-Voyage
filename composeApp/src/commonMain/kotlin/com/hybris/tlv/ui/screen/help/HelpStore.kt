@@ -1,9 +1,9 @@
 package com.hybris.tlv.ui.screen.help
 
 import kotlinx.coroutines.Job
-import androidx.annotation.VisibleForTesting
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
+import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.Screen.Tutorial
 import com.hybris.tlv.ui.screen.Store
@@ -13,7 +13,7 @@ internal class HelpStore(
 ): Store<HelpState, HelpAction>(
     initialState = HelpState()
 ) {
-    @get:VisibleForTesting
+    @VisibleForTesting
     internal var versionClick: Int = 0
 
     init {
