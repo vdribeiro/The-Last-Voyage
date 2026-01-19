@@ -9,7 +9,7 @@ import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 
 /**
- * Observes the locale changes and refreshes the translations cache.
+ * Refreshes the translations cache.
  */
 @Composable
 internal fun Translations(translation: TranslationUseCases) {

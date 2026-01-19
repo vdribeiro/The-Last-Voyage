@@ -64,6 +64,10 @@ internal fun App(
     useCases: UseCases,
     audioPlayer: AudioPlayer
 ) = AppTheme {
+    Translations(
+        translation = useCases.translation
+    )
+
     Navigation(
         modifier = modifier,
         navController = navController,
@@ -80,10 +84,6 @@ internal fun App(
     CommandListener(
         navController = navController,
         audioPlayer = audioPlayer
-    )
-
-    Translations(
-        translation = useCases.translation
     )
 }
 
