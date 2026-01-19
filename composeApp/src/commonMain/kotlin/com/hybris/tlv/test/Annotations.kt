@@ -19,4 +19,4 @@ internal annotation class ShadowedInTesting
  */
 @Retention(value = AnnotationRetention.BINARY)
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
-internal annotation class VisibleForTesting
+internal annotation class VisibleOnlyForTesting

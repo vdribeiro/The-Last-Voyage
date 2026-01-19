@@ -15,7 +15,7 @@ import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_MATERIALS
 import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_SENSOR_RANGE
 import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.domain.usecase.space.model.Formula
-import com.hybris.tlv.test.VisibleForTesting
+import com.hybris.tlv.test.VisibleOnlyForTesting
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
@@ -26,9 +26,9 @@ internal class NewGameStore(
 ): Store<NewGameState, NewGameAction>(
     initialState = NewGameState()
 ) {
-    @VisibleForTesting
+    @VisibleOnlyForTesting
     internal var selectedShip: ShipPrototype? = null
-    @VisibleForTesting
+    @VisibleOnlyForTesting
     internal var selectedFormula: Formula? = null
 
     init {

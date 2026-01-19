@@ -24,7 +24,7 @@ import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.infrastructure.audio.AudioPlayer
 import com.hybris.tlv.infrastructure.audio.createAudioPlayer
 import com.hybris.tlv.test.ExcludeFromTesting
-import com.hybris.tlv.test.VisibleForTesting
+import com.hybris.tlv.test.VisibleOnlyForTesting
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.theme.AppTheme
 import database.AppDatabase
@@ -58,7 +58,7 @@ internal object TLV {
  * The main entry point of the application's UI.
  * Sets up the theme, navigation, audio and commands.
  */
-@VisibleForTesting
+@VisibleOnlyForTesting
 @Composable
 internal fun App(
     modifier: Modifier = Modifier,
@@ -95,7 +95,7 @@ internal fun App(
 /**
  * Dependency index.
  */
-@VisibleForTesting
+@VisibleOnlyForTesting
 internal class Dependency(
     private val sqlDriver: SqlDriver = createSqlDriver(),
     private val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,
