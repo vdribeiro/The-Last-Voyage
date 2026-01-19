@@ -9,7 +9,6 @@ import kotlinx.coroutines.withContext
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
-import com.hybris.tlv.data.database.isEmpty
 import com.hybris.tlv.data.database.reset
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.domain.usecase.achievement.AchievementUseCases
@@ -42,11 +41,7 @@ internal class SyncGateway(
     override suspend fun reset() = withContext(context = Dispatcher.IO) {
         config.reset()
         database.reset()
-        TranslationCache.reset()
     }
-
-    override suspend fun isEmpty(): Boolean =
-        database.isEmpty()
 
     override suspend fun sync(
         reset: Boolean,

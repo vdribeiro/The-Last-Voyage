@@ -3,7 +3,10 @@ package com.hybris.tlv.domain.usecase.sync
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.flow.firstOrNull
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.usecase.sync.model.DataSource
@@ -13,7 +16,13 @@ internal class SyncUseCasesTest: TestCase() {
 
     @Test
     fun syncAndReset() = runUnitTest {
-        assertTrue(actual = useCases.sync.isEmpty())
+        assertTrue(actual = useCases.translation.getTranslations().isEmpty())
+        assertNull(actual = useCases.catastrophe.getRandomCatastrophe())
+        assertTrue(actual = useCases.ship.getEngines().isEmpty())
+        assertNull(actual = useCases.space.observeExoplanets().firstOrNull())
+        assertNull(actual = useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
+        assertTrue(actual = useCases.achievement.getAchievements().isEmpty())
+        assertTrue(actual = useCases.credit.getCredits().isEmpty())
         FeatureFlags.set { it.copy(http = false) }
         assertEquals(
             expected = SyncResult(
@@ -28,9 +37,22 @@ internal class SyncUseCasesTest: TestCase() {
                 credits = DataSource.LOCAL
             ), actual = useCases.sync.sync(reset = true)
         )
-        assertFalse(actual = useCases.sync.isEmpty())
+        assertFalse(actual = useCases.translation.getTranslations().isEmpty())
+        assertNotNull(actual = useCases.catastrophe.getRandomCatastrophe())
+        assertFalse(actual = useCases.ship.getEngines().isEmpty())
+        assertNotNull(actual = useCases.space.observeExoplanets().firstOrNull())
+        assertNotNull(actual = useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
+        assertFalse(actual = useCases.achievement.getAchievements().isEmpty())
+        assertFalse(actual = useCases.credit.getCredits().isEmpty())
+
         reset()
-        assertTrue(actual = useCases.sync.isEmpty())
+        assertTrue(actual = useCases.translation.getTranslations().isEmpty())
+        assertNull(actual = useCases.catastrophe.getRandomCatastrophe())
+        assertTrue(actual = useCases.ship.getEngines().isEmpty())
+        assertNull(actual = useCases.space.observeExoplanets().firstOrNull())
+        assertNull(actual = useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
+        assertTrue(actual = useCases.achievement.getAchievements().isEmpty())
+        assertTrue(actual = useCases.credit.getCredits().isEmpty())
         FeatureFlags.set { it.copy(http = true) }
         assertEquals(
             expected = SyncResult(
@@ -45,5 +67,12 @@ internal class SyncUseCasesTest: TestCase() {
                 credits = DataSource.REMOTE
             ), actual = useCases.sync.sync(reset = true)
         )
+        assertFalse(actual = useCases.translation.getTranslations().isEmpty())
+        assertNotNull(actual = useCases.catastrophe.getRandomCatastrophe())
+        assertFalse(actual = useCases.ship.getEngines().isEmpty())
+        assertNotNull(actual = useCases.space.observeExoplanets().firstOrNull())
+        assertNotNull(actual = useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
+        assertFalse(actual = useCases.achievement.getAchievements().isEmpty())
+        assertFalse(actual = useCases.credit.getCredits().isEmpty())
     }
 }

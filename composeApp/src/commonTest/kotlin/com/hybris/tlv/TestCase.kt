@@ -39,6 +39,7 @@ import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.screen.StoreFactory
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.translation.TranslationCache
 
 /**
  * Abstract class for defining test cases.
@@ -123,9 +124,12 @@ internal abstract class TestCase {
         assertEquals(expected = list.map { it::class }, actual = screens.map { it::class })
 
     /**
-     * Resets all local data.
+     * Resets all data.
      */
-    protected suspend fun reset() = dependency.useCases.sync.reset()
+    protected suspend fun reset() {
+        dependency.useCases.sync.reset()
+        TranslationCache.set(translations = emptyList())
+    }
 
     /**
      * Executes a unit test.

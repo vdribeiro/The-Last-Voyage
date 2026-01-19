@@ -22,8 +22,6 @@ internal object TranslationCache {
     private val _cacheState = MutableStateFlow(value = defaultTranslations)
     val cacheState: StateFlow<Map<String, String>> = _cacheState.asStateFlow()
 
-    fun reset() = _cacheState.update { defaultTranslations }
-
     /**
      * Sets the translations for a specific language.
      */

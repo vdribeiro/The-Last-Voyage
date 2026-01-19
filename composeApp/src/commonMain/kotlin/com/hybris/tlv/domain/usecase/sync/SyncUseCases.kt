@@ -10,15 +10,7 @@ internal interface SyncUseCases {
     suspend fun reset()
 
     /**
-     * Checks if the database is empty.
+     * Sync all data, given an optional [reset] that if true resets all local data before syncing, and a [progress] callback with values from 0.0 to 1.0.
      */
-    suspend fun isEmpty(): Boolean
-
-    /**
-     * Sync all data.
-     */
-    suspend fun sync(
-        reset: Boolean,
-        progress: (Float) -> Unit = {}
-    ): SyncResult
+    suspend fun sync(reset: Boolean = false, progress: (Float) -> Unit = {}): SyncResult
 }
