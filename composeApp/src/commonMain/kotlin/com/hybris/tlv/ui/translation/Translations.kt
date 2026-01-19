@@ -19,7 +19,7 @@ internal fun ObserveTranslations(translation: TranslationUseCases) {
     LaunchedEffect(key1 = Unit) {
         observeLocaleChanges {
             scope.launch(context = Dispatcher.IO) {
-                TranslationCache.set(translations = translationUseCases.getTranslations())
+                TranslationCache.set(translations = translation.getTranslations())
             }
         }
     }
