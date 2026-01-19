@@ -9,7 +9,6 @@ import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -39,9 +38,8 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     val visibleStellarHostProperties = storeState.visibleStellarHostProperties
     val visiblePlanetProperties = storeState.visiblePlanetProperties
 
-    val state = LocalTranslationState.current
-    val stellarHostProperties = remember(key1 = state) { StellarHostProperty.entries.associateWith { TranslationCache.get(key = it.displayName) } }
-    val planetProperties = remember(key1 = state) { PlanetProperty.entries.associateWith { TranslationCache.get(key = it.displayName) } }
+    val stellarHostProperties = StellarHostProperty.entries.associateWith { getTranslation(key = it.displayName) }
+    val planetProperties = PlanetProperty.entries.associateWith { getTranslation(key = it.displayName) }
 
     val hostListTranslation = getTranslation(key = "stellar_explorer_screen__host_list")
     val planetListTranslation = getTranslation(key = "stellar_explorer_screen__planet_list")

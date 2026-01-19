@@ -66,6 +66,7 @@ internal class SyncGateway(
             credits = DataSource.NONE
         )
         config.saveConfigs()
+
         TranslationCache.set(translations = translationUseCases.getTranslations())
 
         Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences.value}")

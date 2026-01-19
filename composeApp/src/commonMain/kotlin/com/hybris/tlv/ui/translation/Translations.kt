@@ -34,13 +34,4 @@ internal fun getTranslation(key: String, vararg args: String): String {
     return remember(key1 = cacheState, key2 = key, key3 = args) { TranslationCache.get(key = key, args = args) }
 }
 
-/**
- * Gets translations for a list of keys.
- */
-@Composable
-internal fun getTranslations(keys: List<String>): List<String> {
-    val cacheState = LocalTranslationState.current
-    return remember(key1 = cacheState, key2 = keys) { keys.map { key -> TranslationCache.get(key = key) } }
-}
-
 internal val LocalTranslationState = staticCompositionLocalOf { TranslationCache.cacheState.value }
