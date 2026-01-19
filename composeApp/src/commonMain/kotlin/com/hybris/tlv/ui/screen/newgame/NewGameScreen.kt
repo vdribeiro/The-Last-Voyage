@@ -18,8 +18,8 @@ import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.ui.theme.component.container.ShipConfiguration
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.ui.translation.TranslationCache
-import com.hybris.tlv.ui.translation.getTranslation
 
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {

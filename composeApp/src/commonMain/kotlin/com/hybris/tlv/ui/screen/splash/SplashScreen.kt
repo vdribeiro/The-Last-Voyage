@@ -16,8 +16,8 @@ import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.text.FadeInText
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.ui.translation.TranslationCache
-import com.hybris.tlv.ui.translation.getTranslation
 
 @Composable
 internal fun SplashScreen(store: Store<SplashState, SplashAction>) {

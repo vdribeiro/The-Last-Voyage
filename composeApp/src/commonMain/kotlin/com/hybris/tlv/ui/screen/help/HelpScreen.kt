@@ -50,8 +50,8 @@ import com.hybris.tlv.ui.theme.component.container.PropertyList
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.ui.translation.TranslationCache
-import com.hybris.tlv.ui.translation.getTranslation
 
 @Composable
 internal fun HelpScreen(store: Store<HelpState, HelpAction>) {

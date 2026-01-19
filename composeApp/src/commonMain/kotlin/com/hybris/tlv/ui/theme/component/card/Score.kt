@@ -32,8 +32,8 @@ import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.ui.translation.TranslationCache
-import com.hybris.tlv.ui.translation.getTranslation
 
 @Composable
 internal fun Score(

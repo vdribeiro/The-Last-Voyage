@@ -26,8 +26,8 @@ import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
 import com.hybris.tlv.ui.theme.component.card.Score
 import com.hybris.tlv.ui.theme.component.container.TypewriterContent
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.ui.translation.TranslationCache
-import com.hybris.tlv.ui.translation.getTranslation
 
 @Composable
 internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {

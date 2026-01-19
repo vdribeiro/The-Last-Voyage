@@ -19,8 +19,8 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.MainBar
 import com.hybris.tlv.ui.theme.component.container.MainMenu
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.ui.translation.TranslationCache
-import com.hybris.tlv.ui.translation.getTranslation
 
 @Composable
 internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {

@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.ui.translation.LocalTranslationState
 import com.hybris.tlv.ui.translation.TranslationCache
 
 @Composable

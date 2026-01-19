@@ -25,9 +25,9 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.list.PlanetList
 import com.hybris.tlv.ui.theme.component.list.StellarHostList
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
+import com.hybris.tlv.ui.theme.getTranslation
 import com.hybris.tlv.ui.theme.modifier.clearFocus
 import com.hybris.tlv.ui.translation.TranslationCache
-import com.hybris.tlv.ui.translation.getTranslation
 
 @Composable
 internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExplorerAction>) {

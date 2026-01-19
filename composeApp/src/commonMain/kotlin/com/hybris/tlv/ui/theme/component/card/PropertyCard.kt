@@ -30,7 +30,7 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.image.Image
 import com.hybris.tlv.ui.theme.component.text.Text
-import com.hybris.tlv.ui.translation.getTranslation
+import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
 internal fun PropertyCard(
