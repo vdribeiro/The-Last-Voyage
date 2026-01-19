@@ -7,17 +7,14 @@ import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.offsetAt
 import kotlinx.datetime.toNSDate
-import platform.Foundation.NSCurrentLocaleDidChangeNotification
 import platform.Foundation.NSDateFormatter
 import platform.Foundation.NSDateFormatterShortStyle
 import platform.Foundation.NSLocale
-import platform.Foundation.NSNotificationCenter
 import platform.Foundation.NSTimeZone
 import platform.Foundation.preferredLanguages
 import platform.Foundation.timeZoneForSecondsFromGMT
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
-import com.hybris.tlv.ui.lifecycle.observe
 
 internal actual fun getLanguage(): String = runCatching {
     (NSLocale.preferredLanguages.first() as String).take(n = 2).lowercase()
@@ -35,10 +32,5 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
     formatter.timeZone = NSTimeZone.timeZoneForSecondsFromGMT(seconds = secondsFromGmt.toLong())
     return formatter.stringFromDate(date = instant.toNSDate())
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it) }.getOrDefault(defaultValue = utc)
-
-internal actual fun observeLocaleChanges(onChanged: () -> Unit): Boolean = runCatching {
-    NSNotificationCenter.defaultCenter.observe(name = NSCurrentLocaleDidChangeNotification) { onChanged() }
-    true
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it) }.getOrDefault(defaultValue = false)
 
 private const val TAG = "Locale"

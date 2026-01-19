@@ -9,10 +9,6 @@ import kotlin.time.Instant
 import kotlin.time.toJavaInstant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaZoneId
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import com.hybris.tlv.applicationContext
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
@@ -29,16 +25,5 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
         .withZone(TimeZone.currentSystemDefault().toJavaZoneId())
         .format(Instant.parse(input = utc).toJavaInstant())
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it) }.getOrDefault(defaultValue = utc)
-
-internal actual fun observeLocaleChanges(onChanged: () -> Unit): Boolean = runCatching {
-    val receiver = object: BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == Intent.ACTION_LOCALE_CHANGED) onChanged()
-        }
-    }
-    val filter = IntentFilter(Intent.ACTION_LOCALE_CHANGED)
-    applicationContext.registerReceiver(receiver, filter)
-    true
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it) }.getOrDefault(defaultValue = false)
 
 private const val TAG = "Locale"

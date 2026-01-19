@@ -1,26 +1,21 @@
 package com.hybris.tlv.ui.translation
 
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.core.locale.observeLocaleChanges
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 
 /**
  * Observes the locale changes and refreshes the translations cache.
  */
 @Composable
-internal fun ObserveTranslations(translation: TranslationUseCases) {
-    val scope = rememberCoroutineScope()
+internal fun Translations(translation: TranslationUseCases) {
     LaunchedEffect(key1 = Unit) {
-        observeLocaleChanges {
-            scope.launch(context = Dispatcher.IO) {
-                TranslationCache.set(translations = translation.getTranslations())
-            }
+        withContext(context = Dispatcher.IO) {
+            TranslationCache.set(translations = translation.getTranslations())
         }
     }
 }
