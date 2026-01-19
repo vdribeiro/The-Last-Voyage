@@ -2,6 +2,7 @@ package com.hybris.tlv.domain.usecase.translation
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import com.hybris.tlv.TestCase
 import com.hybris.tlv.translations
 
@@ -9,17 +10,13 @@ internal class TranslationUseCasesTest: TestCase() {
 
     @Test
     fun prepopulateAndSyncTranslations() = runUnitTest {
-        TranslationCache.set(translations = translations)
-        val translations = TranslationCache.cacheState.value
-
-        reset()
+        assertTrue(actual = useCases.translation.getTranslations().isEmpty())
         useCases.translation.prepopulateTranslations()
-        useCases.translation.refreshCache()
-        assertEquals(expected = translations, actual = TranslationCache.cacheState.value)
+        assertEquals(expected = translations.sortedBy { it.key }, actual = useCases.translation.getTranslations().sortedBy { it.key })
 
         reset()
+        assertTrue(actual = useCases.translation.getTranslations().isEmpty())
         useCases.translation.syncTranslations()
-        useCases.translation.refreshCache()
-        assertEquals(expected = translations, actual = TranslationCache.cacheState.value)
+        assertEquals(expected = translations.sortedBy { it.key }, actual = useCases.translation.getTranslations().sortedBy { it.key })
     }
 }
