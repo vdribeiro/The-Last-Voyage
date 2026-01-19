@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme
+package com.hybris.tlv.ui.translation
 
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.Composable
@@ -8,7 +8,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.observeLocaleChanges
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 
 /**
@@ -20,7 +19,7 @@ internal fun ObserveTranslations(translation: TranslationUseCases) {
     LaunchedEffect(key1 = Unit) {
         observeLocaleChanges {
             scope.launch(context = Dispatcher.IO) {
-                translation.refreshCache()
+                TranslationCache.set(translations = translationUseCases.getTranslations())
             }
         }
     }
@@ -33,6 +32,15 @@ internal fun ObserveTranslations(translation: TranslationUseCases) {
 internal fun getTranslation(key: String, vararg args: String): String {
     val cacheState = LocalTranslationState.current
     return remember(key1 = cacheState, key2 = key, key3 = args) { TranslationCache.get(key = key, args = args) }
+}
+
+/**
+ * Gets translations for a list of keys.
+ */
+@Composable
+internal fun getTranslations(keys: List<String>): List<String> {
+    val cacheState = LocalTranslationState.current
+    return remember(key1 = cacheState, key2 = keys) { keys.map { key -> TranslationCache.get(key = key) } }
 }
 
 internal val LocalTranslationState = staticCompositionLocalOf { TranslationCache.cacheState.value }

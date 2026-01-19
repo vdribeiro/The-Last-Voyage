@@ -1,5 +1,7 @@
 package com.hybris.tlv.domain.usecase.translation
 
+import com.hybris.tlv.core.locale.DEFAULT_LANGUAGE
+import com.hybris.tlv.core.locale.getLanguage
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 
 internal interface TranslationUseCases {
@@ -15,7 +17,8 @@ internal interface TranslationUseCases {
     suspend fun prepopulateTranslations(): Boolean
 
     /**
-     * Refresh translations cache.
+     * Get translations for a specific language.
+     * If the language is not supported, the [DEFAULT_LANGUAGE] is used.
      */
-    suspend fun refreshCache()
+    suspend fun getTranslations(languageIso: String = getLanguage()): List<Translation>
 }

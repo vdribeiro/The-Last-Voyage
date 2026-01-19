@@ -10,12 +10,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.credit.model.Credit
 import com.hybris.tlv.domain.usecase.credit.model.CreditType
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.list.CreditList
+import com.hybris.tlv.ui.translation.TranslationCache
 
 @Composable
 internal fun CreditScreen(store: Store<CreditState, Unit>) {

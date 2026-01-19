@@ -4,7 +4,6 @@ import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.DEFAULT_LANGUAGE
-import com.hybris.tlv.core.locale.getLanguage
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
@@ -50,18 +49,9 @@ internal class TranslationGateway(
         translations.forEach { translationDao.upsertTranslation(Translation = it.toTranslationSchema()) }
     }
 
-    override suspend fun refreshCache() {
-        var languageIso = getLanguage()
-        val translations = getTranslations(languageIso = languageIso).ifEmpty {
-            languageIso = DEFAULT_LANGUAGE
-            getTranslations(languageIso = languageIso)
-        }
-        TranslationCache.set(translations = translations, languageIso = languageIso)
-        Telemetry.info(tag = TAG, message = "Refreshed translations cache")
-    }
-
-    private suspend fun getTranslations(languageIso: String): List<Translation> = withContext(context = Dispatcher.IO) {
-        translationDao.getTranslations(languageIso = languageIso).executeAsList().map { it.toTranslation() }
+    override suspend fun getTranslations(languageIso: String): List<Translation> = withContext(context = Dispatcher.IO) {
+        val translations = translationDao.getTranslations(languageIso = languageIso).executeAsList().map { it.toTranslation() }
+        if (translations.isEmpty() && languageIso != DEFAULT_LANGUAGE) getTranslations(languageIso = DEFAULT_LANGUAGE) else translations
     }
 
     companion object {

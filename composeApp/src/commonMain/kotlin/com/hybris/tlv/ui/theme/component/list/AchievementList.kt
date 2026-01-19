@@ -18,7 +18,7 @@ import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
 import com.hybris.tlv.ui.theme.component.text.Text
-import com.hybris.tlv.ui.theme.getTranslation
+import com.hybris.tlv.ui.translation.getTranslation
 
 @Composable
 internal inline fun <T> AchievementList(

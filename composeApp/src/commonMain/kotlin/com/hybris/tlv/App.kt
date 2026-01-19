@@ -23,7 +23,7 @@ import com.hybris.tlv.infrastructure.audio.createAudioPlayer
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.ObserveTranslations
+import com.hybris.tlv.ui.translation.ObserveTranslations
 import database.AppDatabase
 
 /**

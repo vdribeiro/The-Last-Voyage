@@ -1,10 +1,10 @@
-package com.hybris.tlv.domain.usecase.translation
+package com.hybris.tlv.ui.translation
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import com.hybris.tlv.core.locale.getLanguage
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.platform.Property
 
@@ -12,6 +12,7 @@ import com.hybris.tlv.platform.Property
  * Translations cache.
  */
 internal object TranslationCache {
+    private const val TAG = "TranslationCache"
 
     private val defaultTranslations = mapOf(
         "app_name" to Property.APP_NAME,
@@ -26,12 +27,12 @@ internal object TranslationCache {
     /**
      * Sets the translations for a specific language.
      */
-    fun set(translations: List<Translation>, languageIso: String = getLanguage()) {
+    fun set(translations: List<Translation>) {
         val translations = translations
-            .filter { it.languageIso == languageIso }
             .associate { it.key to it.value }
             .ifEmpty { defaultTranslations }
         _cacheState.update { translations }
+        Telemetry.info(tag = TAG, message = "Refreshed translations cache")
     }
 
     /**

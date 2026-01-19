@@ -13,7 +13,6 @@ import com.hybris.tlv.domain.usecase.event.model.Event
 import com.hybris.tlv.domain.usecase.ship.model.Engine
 import com.hybris.tlv.domain.usecase.ship.model.Ship
 import com.hybris.tlv.domain.usecase.space.model.TravelOutcome
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
@@ -22,7 +21,8 @@ import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.container.TypewriterContent
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
-import com.hybris.tlv.ui.theme.getTranslation
+import com.hybris.tlv.ui.translation.TranslationCache
+import com.hybris.tlv.ui.translation.getTranslation
 
 @Composable
 internal fun EventScreen(store: Store<EventState, EventAction>) {

@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.roundTo
 import com.hybris.tlv.domain.usecase.space.toImage
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.infrastructure.resource.ImageResource
 import com.hybris.tlv.ui.theme.AppTheme
@@ -28,7 +27,8 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Image
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
-import com.hybris.tlv.ui.theme.getTranslation
+import com.hybris.tlv.ui.translation.TranslationCache
+import com.hybris.tlv.ui.translation.getTranslation
 
 @Composable
 internal fun PlanetCard(
