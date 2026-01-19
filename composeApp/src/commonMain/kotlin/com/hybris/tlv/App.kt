@@ -23,6 +23,7 @@ import com.hybris.tlv.infrastructure.audio.createAudioPlayer
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.ObserveTranslations
 import database.AppDatabase
 
 /**
@@ -81,10 +82,9 @@ internal fun App(
         audioPlayer = audioPlayer
     )
 
-    // TODO
-//    ObserveTranslations(
-//        translation = useCases.translation
-//    )
+    ObserveTranslations(
+        translation = useCases.translation
+    )
 }
 
 /**
