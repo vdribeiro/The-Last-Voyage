@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.theme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
-import com.hybris.tlv.ui.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
 
 /**
  * Gets a translation for a specific key.

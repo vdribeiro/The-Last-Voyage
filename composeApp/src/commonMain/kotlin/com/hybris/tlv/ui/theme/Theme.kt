@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.ui.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
 
 @Composable
 internal fun AppTheme(content: @Composable () -> Unit) {

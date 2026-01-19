@@ -20,9 +20,9 @@ import com.hybris.tlv.domain.usecase.space.ArchiveUseCases
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.sync.model.DataSource
 import com.hybris.tlv.domain.usecase.sync.model.SyncResult
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 import com.hybris.tlv.platform.Property
-import com.hybris.tlv.ui.translation.TranslationCache
 import database.AppDatabase
 
 internal class SyncGateway(

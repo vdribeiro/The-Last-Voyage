@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.translation
+package com.hybris.tlv.domain.usecase.translation
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
