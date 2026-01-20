@@ -6,7 +6,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
-import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.test.VisibleOnlyForTesting
 
@@ -28,17 +27,6 @@ internal fun getTranslationState(): Map<String, String> {
 internal fun getTranslation(key: String, vararg args: String): String {
     val cacheState = LocalTranslationState.current
     return remember(key1 = cacheState, key2 = key, key3 = args) { TranslationCache.get(key = key, args = args) }
-}
-
-/**
- * TODO - Refresh translations on locale changes.
- */
-@Composable
-internal fun TranslationsListener(translation: TranslationUseCases) {
-//    LaunchedEffect(key1 = Unit) {
-//        val translations = withContext(context = Dispatcher.IO) { translation.getTranslations() }
-//        TranslationCache.set(translations = translations)
-//    }
 }
 
 /**

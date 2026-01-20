@@ -186,8 +186,8 @@ internal abstract class TestCase {
     ) {
         val lifecycleOwner = withContext(context = Dispatchers.Main) { lifecycleOwner }
         setContent {
-            CompositionLocalProvider(LocalLifecycleOwner provides lifecycleOwner, *values) {
-                AppTheme {
+            CompositionLocalProvider(value = LocalLifecycleOwner provides lifecycleOwner) {
+                AppTheme(*values) {
                     content()
                 }
             }

@@ -23,7 +23,6 @@ import com.hybris.tlv.ui.audio.AudioPlayer
 import com.hybris.tlv.ui.command.CommandListener
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.TranslationsListener
 import database.AppDatabase
 
 /**
@@ -34,6 +33,8 @@ import database.AppDatabase
 internal object TLV {
 
     private val dependency: Dependency by lazy { Dependency() }
+
+    // TODO - Refresh translations on locale changes.
 
     /**
      * The main composable entry point for the application UI.
@@ -68,10 +69,6 @@ internal fun App(
     useCases: UseCases,
     audioPlayer: AudioPlayer
 ) = AppTheme(*compositionValues) {
-    TranslationsListener(
-        translation = useCases.translation
-    )
-
     Navigation(
         modifier = modifier,
         navController = navController,

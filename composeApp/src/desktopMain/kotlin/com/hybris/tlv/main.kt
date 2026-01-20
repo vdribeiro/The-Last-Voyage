@@ -27,7 +27,7 @@ private val initializeJfx by lazy {
         true
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to start JavaFX", throwable = it) }.getOrDefault(defaultValue = false)
 }
-internal val LocalWindowState = staticCompositionLocalOf<WindowState> { error(message = "No LocalWindowState provided") }
+internal val LocalWindowState = staticCompositionLocalOf { WindowState() }
 
 fun main() = application {
     Telemetry.init()
