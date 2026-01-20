@@ -1,11 +1,14 @@
-package com.hybris.tlv.infrastructure.audio
+package com.hybris.tlv.ui.audio
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.hybris.tlv.core.telemetry.Telemetry
+import com.hybris.tlv.infrastructure.audio.AudioPlayer
 import com.hybris.tlv.infrastructure.resource.AudioResource
 import com.hybris.tlv.ui.lifecycle.Register
 import com.hybris.tlv.ui.navigation.Screen
@@ -15,15 +18,17 @@ import com.hybris.tlv.ui.navigation.Screen
  */
 @Composable
 internal fun AudioPlayer(
+    navController: NavHostController,
     audioPlayer: AudioPlayer,
-    destination: NavDestination?
 ) {
-    // Updates playlist based on destination
-    remember(key1 = destination) { getTracks(destination = destination) }?.let { playlist ->
-        LaunchedEffect(key1 = playlist) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val destination = navBackStackEntry?.destination
+    LaunchedEffect(key1 = destination) {
+        getTracks(destination = destination)?.let { playlist ->
             audioPlayer.action(action = AudioPlayer.Action.Play(playlist = playlist))
         }
     }
+
     Register(
         onBackground = { audioPlayer.action(action = AudioPlayer.Action.Pause) },
         onForeground = { audioPlayer.action(action = AudioPlayer.Action.Resume) },
