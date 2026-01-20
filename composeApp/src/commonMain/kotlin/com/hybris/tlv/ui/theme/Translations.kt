@@ -11,6 +11,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.test.VisibleOnlyForTesting
 
 internal val LocalTranslationState = staticCompositionLocalOf { TranslationCache.cacheState.value }
 
@@ -44,8 +45,9 @@ internal fun RefreshTranslations(getTranslations: suspend () -> List<Translation
 }
 
 /**
- * Inject translations.
+ * Inject translations to be used in [org.jetbrains.compose.ui.tooling.preview.Preview]s.
  */
+@VisibleOnlyForTesting
 @Composable
 internal fun InjectTranslations(translations: List<Translation>) {
     TranslationCache.set(translations = translations)
