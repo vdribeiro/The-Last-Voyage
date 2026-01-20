@@ -49,7 +49,7 @@ What the user interacts with.
 * **theme**: Design system.
 
 ### test
-Test annotations.
+Test utilities like annotations and fake data.
 
 ## Testing Strategy
 The testing structure mirrors the source code to ensure 1:1 coverage.
