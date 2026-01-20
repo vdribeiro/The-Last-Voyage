@@ -46,7 +46,7 @@ internal interface ConfigManager {
     /**
      * Update configs cache. To persist the changes, call [saveConfigs].
      */
-    suspend fun setConfigs(configs: (Configs) -> Configs): ConfigManager
+    fun setConfigs(configs: (Configs) -> Configs): ConfigManager
 
     /**
      * Save configs to storage.

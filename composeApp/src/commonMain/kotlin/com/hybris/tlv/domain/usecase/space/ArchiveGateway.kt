@@ -4,7 +4,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
-import io.ktor.client.plugins.timeout
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
@@ -94,7 +93,7 @@ internal class ArchiveGateway(
         }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get archive", throwable = it) }.getOrDefault(defaultValue = false)
     }
 
-    private suspend fun getArchive(limit: Int = PAGE_SIZE, apiCall: suspend (Int, Int) -> Exoplanets): Exoplanets {
+    private suspend fun getArchive(limit: Int = PAGE_SIZE, apiCall: suspend (Int, Int) -> Exoplanets): Exoplanets = withContext(context = Dispatcher.IO) {
         val stellarHosts = mutableListOf<StellarHost>()
         val planets = mutableListOf<Planet>()
         var offset = 0
@@ -104,13 +103,13 @@ internal class ArchiveGateway(
             planets.addAll(elements = result.planets)
             offset += limit
         } while (result.stellarHosts.size >= limit || result.planets.size >= limit)
-        return Exoplanets(stellarHosts = stellarHosts, planets = planets)
+        Exoplanets(stellarHosts = stellarHosts, planets = planets)
     }
 
     /**
      * Get data from DOI 10.26133/NEA40.
      */
-    private suspend fun getStellarHostsArchive(offset: Int, limit: Int): Exoplanets {
+    private suspend fun getStellarHostsArchive(offset: Int, limit: Int): Exoplanets = withContext(context = Dispatcher.IO) {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +
                 "${STELLAR_HOST_SYSTEM_NAME}," +
@@ -136,10 +135,10 @@ internal class ArchiveGateway(
             set(key = "format", value = "json")
         }
 
-        return when (val response = httpClient.get<StellarHostJson>(
+        when (val response = httpClient.get<StellarHostJson>(
             path = URL.ExoplanetArchive,
             queryMap = queryMap
-        ) { timeout { requestTimeoutMillis = TIMEOUT } }) {
+        )) {
             is Result.Error<StellarHostJson> -> throw Throwable(message = "Unable to get stellar hosts archive", cause = response.error)
             is Result.Success<StellarHostJson> -> Exoplanets(
                 stellarHosts = response.list.map { it.toStellarHost() },
@@ -151,7 +150,7 @@ internal class ArchiveGateway(
     /**
      * Get data from DOI 10.26133/NEA13.
      */
-    private suspend fun getPlanetarySystemsCompositeArchive(offset: Int, limit: Int): Exoplanets {
+    private suspend fun getPlanetarySystemsCompositeArchive(offset: Int, limit: Int): Exoplanets = withContext(context = Dispatcher.IO) {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +
                 "${STELLAR_HOST_SPECTRAL_TYPE}," +
@@ -188,10 +187,10 @@ internal class ArchiveGateway(
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }
-        return when (val response = httpClient.get<ExoplanetJson>(
+        when (val response = httpClient.get<ExoplanetJson>(
             path = URL.ExoplanetArchive,
             queryMap = queryMap
-        ) { timeout { requestTimeoutMillis = TIMEOUT } }) {
+        )) {
             is Result.Error<ExoplanetJson> -> throw Throwable(message = "Unable to get planetary systems composite archive", cause = response.error)
             is Result.Success<ExoplanetJson> -> Exoplanets(
                 stellarHosts = response.list.map { it.toStellarHost(systemName = null) },
@@ -203,7 +202,7 @@ internal class ArchiveGateway(
     /**
      * Get data from DOI 10.26133/NEA19.
      */
-    private suspend fun getK2PlanetsArchive(offset: Int, limit: Int): Exoplanets {
+    private suspend fun getK2PlanetsArchive(offset: Int, limit: Int): Exoplanets = withContext(context = Dispatcher.IO) {
         val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
                 "${STELLAR_HOST_NAME}," +
                 "${STELLAR_HOST_SPECTRAL_TYPE}," +
@@ -241,10 +240,10 @@ internal class ArchiveGateway(
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }
-        return when (val response = httpClient.get<ExoplanetJson>(
+        when (val response = httpClient.get<ExoplanetJson>(
             path = URL.ExoplanetArchive,
             queryMap = queryMap
-        ) { timeout { requestTimeoutMillis = TIMEOUT } }) {
+        )) {
             is Result.Error<ExoplanetJson> -> throw Throwable(message = "Unable to get K2 Planets archive", cause = response.error)
             is Result.Success<ExoplanetJson> -> Exoplanets(
                 stellarHosts = response.list.map { it.toStellarHost(systemName = null) },
@@ -255,7 +254,6 @@ internal class ArchiveGateway(
 
     companion object {
         private const val TAG = "Archive"
-        private const val TIMEOUT = 300_000L // 5 minutes (It's a slow API)
         private const val PAGE_SIZE = 10000
     }
 }

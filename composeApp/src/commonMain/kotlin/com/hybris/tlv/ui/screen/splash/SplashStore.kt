@@ -32,12 +32,10 @@ internal class SplashStore(
 
         Telemetry.info(tag = TAG, message = "Setup complete")
 
-        if (!config.preferences.value.showIntro) navigate(screen = Screen.MainMenu) else showIntro()
-    }
-
-    private suspend fun showIntro() {
-        config.setPreferences { it.copy(showIntro = false) }
-        updateState { it.copy(loading = false, currentContent = Content.INTRO) }
+        if (!config.preferences.value.showIntro) navigate(screen = Screen.MainMenu) else {
+            config.setPreferences { it.copy(showIntro = false) }
+            updateState { it.copy(loading = false, currentContent = Content.INTRO) }
+        }
     }
 
     override fun back(state: SplashState) {}

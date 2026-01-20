@@ -14,7 +14,7 @@ import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual fun getLanguage(): String = runCatching {
-    Locale.getDefault().language.take(n = 2).lowercase()
+    Locale.getDefault().toLanguageTag()
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it) }.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
 
 @OptIn(ExperimentalTime::class)

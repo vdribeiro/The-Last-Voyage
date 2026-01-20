@@ -101,7 +101,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
         }
     }
 
-    override suspend fun setConfigs(configs: (Configs) -> Configs): ConfigManager = apply {
+    override fun setConfigs(configs: (Configs) -> Configs): ConfigManager = apply {
         _localConfigs.update { configs(it) }
     }
 

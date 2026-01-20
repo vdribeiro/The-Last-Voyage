@@ -68,43 +68,45 @@ internal suspend inline fun <reified T> HttpClient.get(
 /**
  * Checks for network quality with a debounce mechanism to avoid frequent checks.
  */
-private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = mutex.withLock {
-    val previous = lastTimeMark.elapsed()
-    if (previous < cacheTTL) return@withLock lastNetworkQuality
-    lastTimeMark = TimeSource.Monotonic.markNow()
+private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = withContext(context = Dispatcher.IO) {
+    mutex.withLock {
+        val previous = lastTimeMark.elapsed()
+        if (previous < cacheTTL) return@withLock lastNetworkQuality
+        lastTimeMark = TimeSource.Monotonic.markNow()
 
-    if (!isInternetAvailable()) return@withLock NetworkQuality.Unknown
-    if (!flags.value.networkQuality) return@withLock NetworkQuality.Fast
+        if (!isInternetAvailable()) return@withLock NetworkQuality.Unknown
+        if (!flags.value.networkQuality) return@withLock NetworkQuality.Fast
 
-    val response = runCatching {
-        // Add small timeout to allow the HTTP client to return its own error gracefully
-        withTimeout(timeMillis = SLOW_THRESHOLD_MILLIS + 500L) {
-            head(urlString = URL.Probe.path) {
-                timeout {
-                    connectTimeoutMillis = SLOW_THRESHOLD_MILLIS
-                    socketTimeoutMillis = SLOW_THRESHOLD_MILLIS
-                    requestTimeoutMillis = SLOW_THRESHOLD_MILLIS
+        val response = runCatching {
+            // Add small timeout to allow the HTTP client to return its own error gracefully
+            withTimeout(timeMillis = SLOW_THRESHOLD_MILLIS + 500L) {
+                head(urlString = URL.Probe.path) {
+                    timeout {
+                        connectTimeoutMillis = SLOW_THRESHOLD_MILLIS
+                        socketTimeoutMillis = SLOW_THRESHOLD_MILLIS
+                        requestTimeoutMillis = SLOW_THRESHOLD_MILLIS
+                    }
                 }
             }
+        }.getOrElse {
+            Telemetry.error(tag = TAG, message = "Unable to check network quality", throwable = it)
+            return@withLock NetworkQuality.Unknown
         }
-    }.getOrElse {
-        Telemetry.error(tag = TAG, message = "Unable to check network quality", throwable = it)
-        return@withLock NetworkQuality.Unknown
-    }
 
-    // Check for Success or Redirect / Captive Portal
-    if (!response.status.isSuccess() || !response.call.request.url.toString().contains(other = URL.Probe.path)) return@withLock NetworkQuality.Unknown
+        // Check for Success or Redirect / Captive Portal
+        if (!response.status.isSuccess() || !response.call.request.url.toString().contains(other = URL.Probe.path)) return@withLock NetworkQuality.Unknown
 
-    val elapsed = lastTimeMark.elapsed().inWholeMilliseconds
-    Telemetry.info(tag = TAG, message = "Network quality elapsed time: $elapsed")
-    when {
-        elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
-        elapsed < MEDIUM_THRESHOLD_MILLIS -> NetworkQuality.Medium
-        else -> NetworkQuality.Slow
+        val elapsed = lastTimeMark.elapsed().inWholeMilliseconds
+        Telemetry.info(tag = TAG, message = "Network quality elapsed time: $elapsed")
+        when {
+            elapsed < FAST_THRESHOLD_MILLIS -> NetworkQuality.Fast
+            elapsed < MEDIUM_THRESHOLD_MILLIS -> NetworkQuality.Medium
+            else -> NetworkQuality.Slow
+        }
+    }.also {
+        lastNetworkQuality = it
+        Telemetry.info(tag = TAG, message = "Network quality: $it")
     }
-}.also {
-    lastNetworkQuality = it
-    Telemetry.info(tag = TAG, message = "Network quality: $it")
 }
 
 /**
