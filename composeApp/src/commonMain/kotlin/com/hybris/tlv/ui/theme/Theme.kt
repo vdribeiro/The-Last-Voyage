@@ -10,7 +10,11 @@ internal fun AppTheme(
     vararg compositionValues: ProvidedValue<*>,
     content: @Composable () -> Unit
 ) {
-    CompositionLocalProvider(*compositionValues, getTranslationProvidedValue()) {
+    val translationState = getTranslationState()
+    CompositionLocalProvider(
+        *compositionValues,
+        LocalTranslationState provides translationState
+    ) {
         MaterialTheme(
             colorScheme = LocalColorScheme.current,
             shapes = LocalShapes.current,

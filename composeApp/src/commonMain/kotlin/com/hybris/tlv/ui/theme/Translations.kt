@@ -3,7 +3,6 @@ package com.hybris.tlv.ui.theme
 import kotlinx.coroutines.withContext
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -19,9 +18,9 @@ internal val LocalTranslationState = staticCompositionLocalOf { TranslationCache
  * Gets the provided value.
  */
 @Composable
-internal fun getTranslationProvidedValue(): ProvidedValue<Map<String, String>> {
+internal fun getTranslationState(): Map<String, String> {
     val state by TranslationCache.cacheState.collectAsStateWithLifecycle()
-    return LocalTranslationState provides state
+    return state
 }
 
 /**
