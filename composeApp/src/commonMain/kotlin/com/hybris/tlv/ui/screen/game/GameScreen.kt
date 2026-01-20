@@ -16,11 +16,11 @@ import com.hybris.tlv.domain.usecase.space.model.PlanetStatus
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.bottombar.GameNavigationBar
 import com.hybris.tlv.ui.theme.component.container.ShipStats
 import com.hybris.tlv.ui.theme.component.list.SystemList
@@ -126,7 +126,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
 @Preview
 @Composable
 private fun GameScreenLoadingPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "game_screen__ship",
@@ -158,7 +158,7 @@ private fun GameScreenLoadingPreview() = AppTheme {
 @Preview
 @Composable
 private fun GameScreenShipPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "game_screen__ship",
@@ -234,7 +234,7 @@ private fun GameScreenShipPreview() = AppTheme {
 @Preview
 @Composable
 private fun GameScreenSystemPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "game_screen__ship",
@@ -356,7 +356,7 @@ private fun GameScreenSystemPreview() = AppTheme {
 @Preview
 @Composable
 private fun GameScreenTravelPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "game_screen__ship",

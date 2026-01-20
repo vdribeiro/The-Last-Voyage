@@ -22,9 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.image.Icon
@@ -103,7 +103,7 @@ internal fun Feedback(
 @Preview
 @Composable
 private fun FeedbackPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "error_screen__title_alt",
@@ -133,7 +133,7 @@ private fun FeedbackPreview() = AppTheme {
 @Preview
 @Composable
 private fun FeedbackErrorPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "error_screen__title",

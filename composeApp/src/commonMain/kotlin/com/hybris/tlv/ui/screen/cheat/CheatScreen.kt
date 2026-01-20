@@ -8,11 +8,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.container.CheatSheet
 
 @Composable
@@ -59,7 +59,7 @@ private fun CheatScreenLoadingPreview() = AppTheme {
 @Preview
 @Composable
 private fun CheatScreenPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "cheats_screen__title",

@@ -11,9 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.Card
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
@@ -214,7 +214,7 @@ internal fun LearnMenu(
 @Preview
 @Composable
 private fun LearnMenuPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "main_menu_screen__learn",

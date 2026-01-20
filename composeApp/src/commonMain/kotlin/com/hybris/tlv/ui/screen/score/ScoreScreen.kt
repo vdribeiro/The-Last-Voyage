@@ -13,11 +13,11 @@ import com.hybris.tlv.domain.usecase.gamesession.model.GameSession
 import com.hybris.tlv.domain.usecase.ship.model.Engine
 import com.hybris.tlv.domain.usecase.ship.model.Ship
 import com.hybris.tlv.domain.usecase.space.model.Formula
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.list.ScoreList
 
 @Composable
@@ -66,7 +66,7 @@ private fun ScoreScreenLoadingPreview() = AppTheme {
 @Preview
 @Composable
 private fun ScoreScreenPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "score_screen__title",

@@ -10,12 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.infrastructure.platform.open
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.MainBar
 import com.hybris.tlv.ui.theme.component.container.MainMenu
@@ -68,7 +68,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
 @Preview
 @Composable
 private fun MainMenuScreenLoadingPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "website",
@@ -94,7 +94,7 @@ private fun MainMenuScreenLoadingPreview() = AppTheme {
 @Preview
 @Composable
 private fun MainMenuScreenAllPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "app_name",
@@ -140,7 +140,7 @@ private fun MainMenuScreenAllPreview() = AppTheme {
 @Preview
 @Composable
 private fun MainMenuScreenContinuePreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "app_name",

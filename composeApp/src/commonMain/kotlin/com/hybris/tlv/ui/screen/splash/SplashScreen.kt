@@ -11,11 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.text.FadeInText
 import com.hybris.tlv.ui.theme.getTranslation
 
@@ -62,7 +62,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
 @Preview
 @Composable
 private fun SplashScreenZeroPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "splash_screen__loading",
@@ -82,7 +82,7 @@ private fun SplashScreenZeroPreview() = AppTheme {
 @Preview
 @Composable
 private fun SplashScreenHalfwayPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "splash_screen__loading",
@@ -102,7 +102,7 @@ private fun SplashScreenHalfwayPreview() = AppTheme {
 @Preview
 @Composable
 private fun SplashScreenFullPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "splash_screen__loading",

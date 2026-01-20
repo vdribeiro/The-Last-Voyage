@@ -48,5 +48,5 @@ internal fun RefreshTranslations(getTranslations: suspend () -> List<Translation
  */
 @Composable
 internal fun InjectTranslations(translations: List<Translation>) {
-    TranslationCache.set(translations = translations)
+    InjectTranslations(translations = translations)
 }

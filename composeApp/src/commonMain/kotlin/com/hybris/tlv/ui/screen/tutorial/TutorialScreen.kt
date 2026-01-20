@@ -18,11 +18,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
@@ -239,7 +239,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
 @Preview
 @Composable
 private fun TutorialScreenGoalPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "main_menu_screen__mechanics",
@@ -267,7 +267,7 @@ private fun TutorialScreenGoalPreview() = AppTheme {
 @Preview
 @Composable
 private fun TutorialScreenShipPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "tutorial_screen__mechanics_attributes_title",
@@ -291,7 +291,7 @@ private fun TutorialScreenShipPreview() = AppTheme {
 @Preview
 @Composable
 private fun TutorialScreenSystemPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "tutorial_screen__mechanics_system_title",
@@ -315,7 +315,7 @@ private fun TutorialScreenSystemPreview() = AppTheme {
 @Preview
 @Composable
 private fun TutorialScreenTravelPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "tutorial_screen__mechanics_travel_title",
@@ -339,7 +339,7 @@ private fun TutorialScreenTravelPreview() = AppTheme {
 @Preview
 @Composable
 private fun TutorialScreenGameOverPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "tutorial_screen__mechanics_game_over_title",

@@ -18,11 +18,11 @@ import com.hybris.tlv.domain.usecase.space.model.PlanetStatus
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.list.PlanetList
 import com.hybris.tlv.ui.theme.component.list.StellarHostList
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
@@ -261,7 +261,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
 @Preview
 @Composable
 private fun StellarExplorerScreenLoadingPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "stellar_explorer_screen__host_list",
@@ -295,7 +295,7 @@ private fun StellarExplorerScreenLoadingPreview() = AppTheme {
 @Preview
 @Composable
 private fun StellarExplorerScreenHostListPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "stellar_explorer_screen__host_list",
@@ -368,7 +368,7 @@ private fun StellarExplorerScreenHostListPreview() = AppTheme {
 @Preview
 @Composable
 private fun StellarExplorerScreenHostDetailPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "stellar_explorer_screen__host_list",
@@ -455,7 +455,7 @@ private fun StellarExplorerScreenHostDetailPreview() = AppTheme {
 @Preview
 @Composable
 private fun StellarExplorerScreenSearchHostsPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "stellar_explorer_screen__host_list",
@@ -489,7 +489,7 @@ private fun StellarExplorerScreenSearchHostsPreview() = AppTheme {
 @Preview
 @Composable
 private fun StellarExplorerScreenPlanetListPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "stellar_explorer_screen__planet_list",
@@ -558,7 +558,7 @@ private fun StellarExplorerScreenPlanetListPreview() = AppTheme {
 @Preview
 @Composable
 private fun StellarExplorerScreenPlanetDetailPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "stellar_explorer_screen__planet_list",
@@ -628,7 +628,7 @@ private fun StellarExplorerScreenPlanetDetailPreview() = AppTheme {
 @Preview
 @Composable
 private fun StellarExplorerScreenSearchPlanetPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "stellar_explorer_screen__planet_list",

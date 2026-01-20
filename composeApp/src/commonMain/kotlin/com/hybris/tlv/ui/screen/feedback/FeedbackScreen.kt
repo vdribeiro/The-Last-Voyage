@@ -8,11 +8,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.container.Feedback
 import com.hybris.tlv.ui.theme.modifier.clearFocus
 
@@ -41,7 +41,7 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
 @Preview
 @Composable
 private fun FeedbackScreenPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "error_screen__title_alt",
@@ -71,7 +71,7 @@ private fun FeedbackScreenPreview() = AppTheme {
 @Preview
 @Composable
 private fun FeedbackScreenThanksPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "error_screen__title_alt",
@@ -105,7 +105,7 @@ private fun FeedbackScreenThanksPreview() = AppTheme {
 @Preview
 @Composable
 private fun FeedbackScreenErrorPreview() = AppTheme {
-    TranslationCache.set(
+    InjectTranslations(
         translations = listOf(
             Translation(
                 key = "error_screen__title",
