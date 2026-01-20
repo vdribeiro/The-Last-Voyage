@@ -11,6 +11,7 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withContext
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
@@ -185,8 +186,10 @@ internal abstract class TestCase {
     ) {
         val lifecycleOwner = withContext(context = Dispatchers.Main) { lifecycleOwner }
         setContent {
-            AppTheme(LocalLifecycleOwner provides lifecycleOwner, *values) {
-                content()
+            CompositionLocalProvider(LocalLifecycleOwner provides lifecycleOwner, *values) {
+                AppTheme {
+                    content()
+                }
             }
         }
         waitForIdle()
