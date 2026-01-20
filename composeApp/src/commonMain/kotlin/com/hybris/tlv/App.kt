@@ -90,6 +90,7 @@ internal fun App(
     )
 }
 
+@VisibleOnlyForTesting
 @Composable
 internal fun App(
     vararg compositionValues: ProvidedValue<*>,
