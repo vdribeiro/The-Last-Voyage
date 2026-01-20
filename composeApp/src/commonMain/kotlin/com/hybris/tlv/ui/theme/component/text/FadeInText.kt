@@ -31,7 +31,7 @@ internal fun FadeInText(
 
     val isPreview = LocalInspectionMode.current
     var visible by remember { mutableStateOf(value = isPreview) }
-    LaunchedEffect(key1 = Unit) { visible = true }
+    if (!isPreview) LaunchedEffect(key1 = Unit) { visible = true }
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn(animationSpec = tween(durationMillis = duration))
