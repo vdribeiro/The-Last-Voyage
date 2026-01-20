@@ -13,9 +13,9 @@ import com.hybris.tlv.domain.usecase.translation.model.Translation
 internal object TranslationCache {
     private const val TAG = "TranslationCache"
 
-    private val defaultTranslations = mapOf(
-        "splash_screen__loading" to "Loading..."
-    )
+    private val defaultTranslations by lazy {
+        mapOf("splash_screen__loading" to "Loading...")
+    }
 
     private val _cacheState = MutableStateFlow(value = defaultTranslations)
     val cacheState: StateFlow<Map<String, String>> = _cacheState.asStateFlow()
