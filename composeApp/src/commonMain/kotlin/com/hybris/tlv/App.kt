@@ -1,15 +1,12 @@
 package com.hybris.tlv
 
-import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.cash.sqldelight.db.SqlDriver
-import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.data.config.Config
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.DatabaseFactory
@@ -17,7 +14,6 @@ import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.data.http.HttpClientFactory
 import com.hybris.tlv.domain.usecase.Gateways
 import com.hybris.tlv.domain.usecase.UseCases
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.infrastructure.audio.AudioPlayer
 import com.hybris.tlv.infrastructure.audio.createAudioPlayer
 import com.hybris.tlv.test.ExcludeFromTesting
@@ -26,6 +22,7 @@ import com.hybris.tlv.ui.audio.AudioPlayer
 import com.hybris.tlv.ui.command.CommandListener
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.RefreshTranslations
 import database.AppDatabase
 
 /**
@@ -66,10 +63,7 @@ internal fun App(
     useCases: UseCases,
     audioPlayer: AudioPlayer
 ) = AppTheme {
-    // Refresh translations
-    LaunchedEffect(key1 = Unit) {
-        withContext(context = Dispatcher.IO) { TranslationCache.set(translations = useCases.translation.getTranslations()) }
-    }
+    RefreshTranslations { useCases.translation.getTranslations() }
 
     Navigation(
         modifier = modifier,
