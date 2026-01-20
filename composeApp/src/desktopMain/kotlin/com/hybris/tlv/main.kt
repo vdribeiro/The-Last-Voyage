@@ -10,6 +10,7 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import com.hybris.tlv.TLV.App
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.cheats.rememberKeySequenceCheats
@@ -44,6 +45,6 @@ fun main() = application {
         onPreviewKeyEvent = keyListener,
         onCloseRequest = ::exitApplication,
     ) {
-        TLV.App(modifier = Modifier, LocalWindowState provides windowState)
+        App(modifier = Modifier, LocalWindowState provides windowState)
     }
 }
