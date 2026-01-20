@@ -18,7 +18,6 @@ import com.hybris.tlv.data.http.HttpClientFactory
 import com.hybris.tlv.domain.usecase.Gateways
 import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
-import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 import com.hybris.tlv.infrastructure.audio.AudioPlayer
 import com.hybris.tlv.infrastructure.audio.createAudioPlayer
 import com.hybris.tlv.test.ExcludeFromTesting
@@ -67,7 +66,10 @@ internal fun App(
     useCases: UseCases,
     audioPlayer: AudioPlayer
 ) = AppTheme {
-    RefreshTranslations(translation = useCases.translation)
+    // Refresh translations
+    LaunchedEffect(key1 = Unit) {
+        withContext(context = Dispatcher.IO) { TranslationCache.set(translations = useCases.translation.getTranslations()) }
+    }
 
     Navigation(
         modifier = modifier,
@@ -85,15 +87,6 @@ internal fun App(
         navController = navController,
         audioPlayer = audioPlayer
     )
-}
-
-@Composable
-private fun RefreshTranslations(translation: TranslationUseCases) {
-    LaunchedEffect(key1 = Unit) {
-        withContext(context = Dispatcher.IO) {
-            TranslationCache.set(translations = translation.getTranslations())
-        }
-    }
 }
 
 /**
