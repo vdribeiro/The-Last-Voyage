@@ -23,7 +23,7 @@ import com.hybris.tlv.ui.audio.AudioPlayer
 import com.hybris.tlv.ui.command.CommandListener
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.theme.AppTheme
-import com.hybris.tlv.ui.theme.RefreshTranslations
+import com.hybris.tlv.ui.theme.TranslationsListener
 import database.AppDatabase
 
 /**
@@ -68,7 +68,9 @@ internal fun App(
     useCases: UseCases,
     audioPlayer: AudioPlayer
 ) = AppTheme(*compositionValues) {
-    RefreshTranslations { useCases.translation.getTranslations() }
+    TranslationsListener(
+        translation = useCases.translation
+    )
 
     Navigation(
         modifier = modifier,

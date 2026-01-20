@@ -1,14 +1,12 @@
 package com.hybris.tlv.ui.theme
 
-import kotlinx.coroutines.withContext
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.test.VisibleOnlyForTesting
 
@@ -33,14 +31,14 @@ internal fun getTranslation(key: String, vararg args: String): String {
 }
 
 /**
- * Refresh translations on recompose.
+ * TODO - Refresh translations on locale changes.
  */
 @Composable
-internal fun RefreshTranslations(getTranslations: suspend () -> List<Translation>) {
-    LaunchedEffect(key1 = Unit) {
-        val translations = withContext(context = Dispatcher.IO) { getTranslations() }
-        TranslationCache.set(translations = translations)
-    }
+internal fun TranslationsListener(translation: TranslationUseCases) {
+//    LaunchedEffect(key1 = Unit) {
+//        val translations = withContext(context = Dispatcher.IO) { translation.getTranslations() }
+//        TranslationCache.set(translations = translations)
+//    }
 }
 
 /**
