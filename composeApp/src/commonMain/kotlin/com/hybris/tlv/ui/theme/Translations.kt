@@ -12,16 +12,7 @@ import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 
-/**
- * Refresh translations on recompose.
- */
-@Composable
-internal fun RefreshTranslations(getTranslations: suspend () -> List<Translation>) {
-    LaunchedEffect(key1 = Unit) {
-        val translations = withContext(context = Dispatcher.IO) { getTranslations() }
-        TranslationCache.set(translations = translations)
-    }
-}
+internal val LocalTranslationState = staticCompositionLocalOf { TranslationCache.cacheState.value }
 
 /**
  * Gets the provided value.
@@ -41,4 +32,21 @@ internal fun getTranslation(key: String, vararg args: String): String {
     return remember(key1 = cacheState, key2 = key, key3 = args) { TranslationCache.get(key = key, args = args) }
 }
 
-internal val LocalTranslationState = staticCompositionLocalOf { TranslationCache.cacheState.value }
+/**
+ * Refresh translations on recompose.
+ */
+@Composable
+internal fun RefreshTranslations(getTranslations: suspend () -> List<Translation>) {
+    LaunchedEffect(key1 = Unit) {
+        val translations = withContext(context = Dispatcher.IO) { getTranslations() }
+        TranslationCache.set(translations = translations)
+    }
+}
+
+/**
+ * Inject translations.
+ */
+@Composable
+internal fun InjectTranslations(translations: List<Translation>) {
+    TranslationCache.set(translations = translations)
+}
