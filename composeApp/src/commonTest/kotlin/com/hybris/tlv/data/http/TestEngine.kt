@@ -11,16 +11,16 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
-import com.hybris.tlv.achievements
-import com.hybris.tlv.catastrophes
-import com.hybris.tlv.configs
-import com.hybris.tlv.credits
 import com.hybris.tlv.data.serializer.encode
-import com.hybris.tlv.engines
-import com.hybris.tlv.events
-import com.hybris.tlv.planets
-import com.hybris.tlv.stellarHosts
-import com.hybris.tlv.translations
+import com.hybris.tlv.test.achievements
+import com.hybris.tlv.test.catastrophes
+import com.hybris.tlv.test.configs
+import com.hybris.tlv.test.credits
+import com.hybris.tlv.test.engines
+import com.hybris.tlv.test.events
+import com.hybris.tlv.test.planets
+import com.hybris.tlv.test.stellarHosts
+import com.hybris.tlv.test.translations
 
 internal object TestEngine {
 

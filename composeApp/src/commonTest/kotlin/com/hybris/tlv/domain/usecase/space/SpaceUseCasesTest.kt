@@ -4,9 +4,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.first
-import com.hybris.tlv.TestCase
-import com.hybris.tlv.hostsWithPlanets
-import com.hybris.tlv.stellarHosts
+import com.hybris.tlv.test.TestCase
+import com.hybris.tlv.test.hostsWithPlanets
+import com.hybris.tlv.test.stellarHosts
 
 internal class SpaceUseCasesTest: TestCase() {
 

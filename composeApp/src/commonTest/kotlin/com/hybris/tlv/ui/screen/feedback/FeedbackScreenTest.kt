@@ -10,7 +10,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import com.hybris.tlv.TestCase
+import com.hybris.tlv.test.TestCase
 
 @OptIn(ExperimentalTestApi::class)
 internal class FeedbackScreenTest: TestCase() {

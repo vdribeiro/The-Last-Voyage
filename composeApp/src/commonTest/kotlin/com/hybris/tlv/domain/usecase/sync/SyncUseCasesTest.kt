@@ -7,10 +7,10 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.first
-import com.hybris.tlv.TestCase
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.usecase.sync.model.DataSource
 import com.hybris.tlv.domain.usecase.sync.model.SyncResult
+import com.hybris.tlv.test.TestCase
 
 internal class SyncUseCasesTest: TestCase() {
 

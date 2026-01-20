@@ -5,9 +5,9 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import com.hybris.tlv.TestCase
-import com.hybris.tlv.events
-import com.hybris.tlv.gameSessionPrototype
+import com.hybris.tlv.test.TestCase
+import com.hybris.tlv.test.events
+import com.hybris.tlv.test.gameSessionPrototype
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class EventStoreTest: TestCase() {

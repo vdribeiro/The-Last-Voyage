@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.screen.catastrophe
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
-import com.hybris.tlv.TestCase
+import com.hybris.tlv.test.TestCase
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class CatastropheStoreTest: TestCase() {

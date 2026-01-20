@@ -4,12 +4,12 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import com.hybris.tlv.TestCase
 import com.hybris.tlv.data.serializer.JsonFile
 import com.hybris.tlv.data.serializer.deleteJsonFile
 import com.hybris.tlv.data.serializer.loadJsonFile
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.test.TestCase
 
 internal class ArchiveUseCasesTest: TestCase() {
 

@@ -7,9 +7,9 @@ import androidx.compose.ui.test.onChildAt
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.hybris.tlv.TestCase
-import com.hybris.tlv.gameSessionPrototype
-import com.hybris.tlv.ship
+import com.hybris.tlv.test.TestCase
+import com.hybris.tlv.test.gameSessionPrototype
+import com.hybris.tlv.test.ship
 
 @OptIn(ExperimentalTestApi::class)
 internal class EventScreenTest: TestCase() {

@@ -3,8 +3,8 @@ package com.hybris.tlv.domain.usecase.event
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import com.hybris.tlv.TestCase
-import com.hybris.tlv.events
+import com.hybris.tlv.test.TestCase
+import com.hybris.tlv.test.events
 
 internal class EventUseCasesTest: TestCase() {
 

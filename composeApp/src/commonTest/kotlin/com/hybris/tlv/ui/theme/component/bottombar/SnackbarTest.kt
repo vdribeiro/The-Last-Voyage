@@ -8,7 +8,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.hybris.tlv.TestCase
+import com.hybris.tlv.test.TestCase
 
 @OptIn(ExperimentalTestApi::class)
 internal class SnackbarTest: TestCase() {

@@ -3,8 +3,8 @@ package com.hybris.tlv.domain.usecase.translation
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import com.hybris.tlv.TestCase
-import com.hybris.tlv.translations
+import com.hybris.tlv.test.TestCase
+import com.hybris.tlv.test.translations
 
 internal class TranslationUseCasesTest: TestCase() {
 

@@ -3,10 +3,10 @@ package com.hybris.tlv.domain.usecase.achievement
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import com.hybris.tlv.TestCase
-import com.hybris.tlv.achievements
 import com.hybris.tlv.domain.usecase.space.SUN
-import com.hybris.tlv.gameSessionPrototype
+import com.hybris.tlv.test.TestCase
+import com.hybris.tlv.test.achievements
+import com.hybris.tlv.test.gameSessionPrototype
 
 internal class AchievementUseCasesTest: TestCase() {
 

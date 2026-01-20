@@ -4,8 +4,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import com.hybris.tlv.TestCase
-import com.hybris.tlv.credits
+import com.hybris.tlv.test.TestCase
+import com.hybris.tlv.test.credits
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class CreditStoreTest: TestCase() {

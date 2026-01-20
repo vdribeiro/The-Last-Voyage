@@ -10,9 +10,9 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
-import com.hybris.tlv.TestCase
-import com.hybris.tlv.credits
 import com.hybris.tlv.domain.usecase.credit.model.CreditType
+import com.hybris.tlv.test.TestCase
+import com.hybris.tlv.test.credits
 
 @OptIn(ExperimentalTestApi::class)
 internal class CreditScreenTest: TestCase() {

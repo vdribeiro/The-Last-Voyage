@@ -4,7 +4,7 @@ import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
-import com.hybris.tlv.TestCase
+import com.hybris.tlv.test.TestCase
 
 @OptIn(ExperimentalTestApi::class)
 internal class HelpScreenTest: TestCase() {

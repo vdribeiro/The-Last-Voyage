@@ -3,7 +3,7 @@ package com.hybris.tlv.domain.usecase.catastrophe
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import com.hybris.tlv.TestCase
+import com.hybris.tlv.test.TestCase
 
 internal class CatastropheUseCasesTest: TestCase() {
 

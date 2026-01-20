@@ -5,9 +5,9 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.hybris.tlv.TestCase
-import com.hybris.tlv.planets
-import com.hybris.tlv.stellarHosts
+import com.hybris.tlv.test.TestCase
+import com.hybris.tlv.test.planets
+import com.hybris.tlv.test.stellarHosts
 
 @OptIn(ExperimentalTestApi::class)
 internal class StellarExplorerScreenTest: TestCase() {

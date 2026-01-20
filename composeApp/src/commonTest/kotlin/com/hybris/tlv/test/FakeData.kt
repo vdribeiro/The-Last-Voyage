@@ -1,4 +1,4 @@
-package com.hybris.tlv
+package com.hybris.tlv.test
 
 import kotlinx.coroutines.runBlocking
 import com.hybris.tlv.data.config.Configs

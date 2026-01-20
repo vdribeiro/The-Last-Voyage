@@ -3,8 +3,8 @@ package com.hybris.tlv.domain.usecase.credit
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import com.hybris.tlv.TestCase
-import com.hybris.tlv.credits
+import com.hybris.tlv.test.TestCase
+import com.hybris.tlv.test.credits
 
 internal class CreditUseCasesTest: TestCase() {
 
