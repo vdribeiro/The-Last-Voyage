@@ -17,7 +17,6 @@ import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.DatabaseFactory
 import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.data.http.HttpClientFactory
-import com.hybris.tlv.domain.command.CommandListener
 import com.hybris.tlv.domain.usecase.Gateways
 import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
@@ -25,6 +24,7 @@ import com.hybris.tlv.infrastructure.audio.AudioPlayer
 import com.hybris.tlv.infrastructure.audio.createAudioPlayer
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.test.VisibleOnlyForTesting
+import com.hybris.tlv.ui.command.CommandListener
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.theme.AppTheme
 import database.AppDatabase

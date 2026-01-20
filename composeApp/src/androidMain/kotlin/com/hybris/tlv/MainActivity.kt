@@ -8,8 +8,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.Modifier
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.domain.cheats.enableGestureCheats
 import com.hybris.tlv.test.ExcludeFromTesting
+import com.hybris.tlv.ui.cheats.enableGestureCheats
 
 private const val TAG = "App"
 

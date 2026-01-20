@@ -1,9 +1,9 @@
-package com.hybris.tlv.domain.command
+package com.hybris.tlv.ui.command
 
 import com.hybris.tlv.ui.navigation.Screen
 
 /**
- * A navigation command that can be sent.
+ * A command that can be sent.
  */
 internal sealed class Command {
     /**

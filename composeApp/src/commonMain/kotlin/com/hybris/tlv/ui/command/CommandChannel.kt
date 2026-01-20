@@ -1,4 +1,4 @@
-package com.hybris.tlv.domain.command
+package com.hybris.tlv.ui.command
 
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel

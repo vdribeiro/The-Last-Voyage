@@ -1,4 +1,4 @@
-package com.hybris.tlv.domain.command
+package com.hybris.tlv.ui.command
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

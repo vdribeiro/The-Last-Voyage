@@ -1,12 +1,12 @@
-package com.hybris.tlv.domain.cheats
+package com.hybris.tlv.ui.cheats
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
-import com.hybris.tlv.domain.command.Command
-import com.hybris.tlv.domain.command.sendCommand
+import com.hybris.tlv.ui.command.Command
+import com.hybris.tlv.ui.command.sendCommand
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.theme.modifier.Gesture
 import com.hybris.tlv.ui.theme.modifier.onGesture

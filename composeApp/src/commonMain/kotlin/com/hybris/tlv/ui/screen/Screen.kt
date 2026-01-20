@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.hybris.tlv.domain.command.Command
-import com.hybris.tlv.domain.command.sendCommand
+import com.hybris.tlv.ui.command.Command
+import com.hybris.tlv.ui.command.sendCommand
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.theme.component.container.Screen as ScreenContainer
 
