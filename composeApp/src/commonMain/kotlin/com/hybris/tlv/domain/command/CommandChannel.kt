@@ -25,8 +25,7 @@ internal fun sendCommand(command: Command): Boolean =
 /**
  * Listen to [Command]s from the [commandChannel].
  */
-internal suspend fun receiveCommand(block: (Command) -> Unit) {
+internal suspend fun receiveCommand(block: (Command) -> Unit) =
     commandChannel.receiveAsFlow().collect { block(it) }
-}
 
 private const val TAG = "Command"
