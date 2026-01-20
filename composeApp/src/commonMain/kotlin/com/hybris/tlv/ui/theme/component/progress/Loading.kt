@@ -22,8 +22,9 @@ internal fun showLoading(
     loadingDelayMillis: Long = 300L,
     loadingMinDisplayTimeMillis: Long = 800L,
 ): Boolean {
-    val isPreview = LocalInspectionMode.current
-    var show by remember { mutableStateOf(value = isPreview) }
+    if (LocalInspectionMode.current) return loading
+
+    var show by remember { mutableStateOf(value = false) }
     var loaderShownMark by remember { mutableStateOf<TimeMark?>(value = null) }
     LaunchedEffect(key1 = loading) {
         when {
