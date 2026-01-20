@@ -3,6 +3,7 @@ package com.hybris.tlv
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ProvidedValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -36,18 +37,21 @@ internal object TLV {
 
     /**
      * The main composable entry point for the application UI.
-     * This function sets up and launches the app's user interface, given a [modifier] to be applied to the root composable.
+     * This function sets up and launches the app's user interface, given a [modifier] to be applied to the root composable,
+     * and [compositionValues] to be applied through [androidx.compose.runtime.CompositionLocalProvider].
      */
     @Composable
-    fun App(modifier: Modifier) {
-        App(
-            modifier = modifier,
-            navController = rememberNavController(),
-            config = dependency.config,
-            useCases = dependency.useCases,
-            audioPlayer = dependency.audioPlayer,
-        )
-    }
+    fun App(
+        modifier: Modifier,
+        vararg compositionValues: ProvidedValue<*>
+    ) = App(
+        modifier = modifier,
+        compositionValues = compositionValues,
+        navController = rememberNavController(),
+        config = dependency.config,
+        useCases = dependency.useCases,
+        audioPlayer = dependency.audioPlayer,
+    )
 }
 
 /**
@@ -58,11 +62,12 @@ internal object TLV {
 @Composable
 internal fun App(
     modifier: Modifier = Modifier,
+    vararg compositionValues: ProvidedValue<*>,
     navController: NavHostController,
     config: ConfigManager,
     useCases: UseCases,
     audioPlayer: AudioPlayer
-) = AppTheme {
+) = AppTheme(*compositionValues) {
     RefreshTranslations { useCases.translation.getTranslations() }
 
     Navigation(

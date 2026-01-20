@@ -3,8 +3,11 @@ package com.hybris.tlv.ui.theme
 import kotlinx.coroutines.withContext
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.ProvidedValue
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
@@ -18,6 +21,15 @@ internal fun RefreshTranslations(getTranslations: suspend () -> List<Translation
         val translations = withContext(context = Dispatcher.IO) { getTranslations() }
         TranslationCache.set(translations = translations)
     }
+}
+
+/**
+ * Gets the provided value.
+ */
+@Composable
+internal fun getTranslationProvidedValue(): ProvidedValue<Map<String, String>> {
+    val state by TranslationCache.cacheState.collectAsStateWithLifecycle()
+    return LocalTranslationState provides state
 }
 
 /**

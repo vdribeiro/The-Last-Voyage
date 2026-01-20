@@ -3,7 +3,6 @@
 package com.hybris.tlv
 
 import org.jetbrains.compose.resources.painterResource
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
@@ -45,8 +44,6 @@ fun main() = application {
         onPreviewKeyEvent = keyListener,
         onCloseRequest = ::exitApplication,
     ) {
-        CompositionLocalProvider(value = LocalWindowState provides windowState) {
-            TLV.App(modifier = Modifier)
-        }
+        TLV.App(modifier = Modifier, LocalWindowState provides windowState)
     }
 }
