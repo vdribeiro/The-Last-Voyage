@@ -3,6 +3,7 @@ package com.hybris.tlv
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -23,6 +24,8 @@ import com.hybris.tlv.ui.audio.AudioPlayer
 import com.hybris.tlv.ui.command.CommandListener
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.LocalTranslationState
+import com.hybris.tlv.ui.theme.getTranslationState
 import database.AppDatabase
 
 /**
@@ -68,7 +71,7 @@ internal fun App(
     config: ConfigManager,
     useCases: UseCases,
     audioPlayer: AudioPlayer
-) = AppTheme(*compositionValues) {
+) = App(*compositionValues) {
     Navigation(
         modifier = modifier,
         navController = navController,
@@ -85,6 +88,22 @@ internal fun App(
         navController = navController,
         audioPlayer = audioPlayer
     )
+}
+
+@Composable
+internal fun App(
+    vararg compositionValues: ProvidedValue<*>,
+    content: @Composable () -> Unit
+) {
+    val translationState = getTranslationState()
+    CompositionLocalProvider(
+        *compositionValues,
+        LocalTranslationState provides translationState,
+    ) {
+        AppTheme {
+            content()
+        }
+    }
 }
 
 /**

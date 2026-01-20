@@ -24,6 +24,7 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.hybris.tlv.App
 import com.hybris.tlv.Dependency
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.data.config.ConfigManager
@@ -40,7 +41,6 @@ import com.hybris.tlv.ui.lifecycle.lifecycleOwner
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.screen.StoreFactory
-import com.hybris.tlv.ui.theme.AppTheme
 
 /**
  * Abstract class for defining test cases.
@@ -178,7 +178,6 @@ internal abstract class TestCase {
 
     /**
      * Render a Composable within the test harness.
-     * This wraps the provided [content] with a [LocalLifecycleOwner] and [AppTheme] for correct styling.
      */
     protected suspend fun ComposeUiTest.setScreen(
         vararg values: ProvidedValue<*>,
@@ -187,7 +186,7 @@ internal abstract class TestCase {
         val lifecycleOwner = withContext(context = Dispatchers.Main) { lifecycleOwner }
         setContent {
             CompositionLocalProvider(value = LocalLifecycleOwner provides lifecycleOwner) {
-                AppTheme(*values) {
+                App(*values) {
                     content()
                 }
             }
