@@ -24,10 +24,9 @@ import com.hybris.tlv.data.http.HttpClientFactory.Companion.CONNECT_TIMEOUT_MILL
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.REQUEST_TIMEOUT_MILLIS
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.SOCKET_TIMEOUT_MILLIS
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
-import com.hybris.tlv.infrastructure.platform.isDebug
 
-private val mutex = Mutex()
-private val cacheTTL: Duration = if (isDebug) ZERO else 1.minutes
+private val mutex: Mutex by lazy { Mutex() }
+private val cacheTTL: Duration by lazy { if (flags.value.devMode) ZERO else 1.minutes }
 private var lastTimeMark: TimeMark? = null
 private var lastNetworkQuality: NetworkQuality = NetworkQuality.Unknown
 

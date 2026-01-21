@@ -1,9 +1,6 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.infrastructure.platform
 
 import com.hybris.tlv.test.ExcludeFromTesting
-import com.hybris.tlv.test.ShadowedInTesting
 
 /**
  * Defines the possible platforms that the application can run on.

@@ -22,7 +22,7 @@ import com.hybris.tlv.data.serializer.JsonFile
 import com.hybris.tlv.data.serializer.deleteJsonFile
 import com.hybris.tlv.data.serializer.loadJsonFile
 import com.hybris.tlv.data.serializer.saveJsonFile
-import com.hybris.tlv.infrastructure.platform.isDebug
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
 
 /**
  * This class is responsible for:
@@ -45,7 +45,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     private val _remoteConfigs: MutableStateFlow<Configs> = MutableStateFlow(value = Configs())
     override val remoteConfigs: StateFlow<Configs> = _remoteConfigs.asStateFlow()
 
-    private val cacheTTL: Duration = if (isDebug) ZERO else 1.hours
+    private val cacheTTL: Duration = if (flags.value.devMode) ZERO else 1.hours
 
     override suspend fun reset(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {

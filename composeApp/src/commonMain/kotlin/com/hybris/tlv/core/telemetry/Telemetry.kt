@@ -1,6 +1,6 @@
 package com.hybris.tlv.core.telemetry
 
-import com.hybris.tlv.infrastructure.platform.isDebug
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.test.ShadowedInTesting
 
@@ -12,8 +12,8 @@ import com.hybris.tlv.test.ShadowedInTesting
 @ShadowedInTesting
 object Telemetry {
 
-    private val useLogger by lazy { isDebug }
-    private val useSentry by lazy { !isDebug && Property.sentry.isNotBlank() }
+    private val useLogger by lazy { flags.value.devMode }
+    private val useSentry by lazy { !flags.value.devMode && Property.sentry.isNotBlank() }
 
     /**
      * Initializes the telemetry services.

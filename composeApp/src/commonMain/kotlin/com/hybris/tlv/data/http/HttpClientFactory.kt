@@ -25,7 +25,7 @@ import io.ktor.serialization.kotlinx.KotlinxSerializationConverter
 import io.ktor.serialization.kotlinx.json.json
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.serializer.json
-import com.hybris.tlv.infrastructure.platform.isDebug
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
 
 /**
  * A factory for creating and configuring the [HttpClient] instance with the necessary plugins,
@@ -59,7 +59,7 @@ internal class HttpClientFactory(engine: HttpClientEngine?) {
                 Telemetry.info(tag = TAG, message = message)
             }
         }
-        level = if (isDebug) LogLevel.ALL else LogLevel.INFO
+        level = if (flags.value.devMode) LogLevel.ALL else LogLevel.INFO
     }
 
     private fun HttpTimeoutConfig.configure() {

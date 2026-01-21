@@ -4,10 +4,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import com.hybris.tlv.infrastructure.platform.isDebug
 
 internal object FeatureFlags {
     private val _flags: MutableStateFlow<Flags> = MutableStateFlow(
         value = Flags(
+            devMode = isDebug,
             reset = false,
             http = true,
             networkQuality = true,
