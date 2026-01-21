@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -30,7 +31,7 @@ internal fun getTranslation(key: String, vararg args: String): String {
 }
 
 /**
- * Inject translations to be used in [org.jetbrains.compose.ui.tooling.preview.Preview]s.
+ * Inject translations to be used in [Preview]s.
  */
 @VisibleOnlyForTesting
 @Composable
