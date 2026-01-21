@@ -24,7 +24,6 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.hybris.tlv.ui.App
 import com.hybris.tlv.Dependency
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.data.config.ConfigManager
@@ -34,6 +33,7 @@ import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.ui.App
 import com.hybris.tlv.ui.command.Command
 import com.hybris.tlv.ui.command.receiveCommand
 import com.hybris.tlv.ui.command.sendCommand
