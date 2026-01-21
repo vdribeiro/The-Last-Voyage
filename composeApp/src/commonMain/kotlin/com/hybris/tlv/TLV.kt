@@ -6,9 +6,9 @@ import androidx.compose.runtime.ProvidedValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.hybris.tlv.core.locale.refreshTranslationCache
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.domain.usecase.UseCases
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.infrastructure.audio.AudioPlayer
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.test.VisibleOnlyForTesting
@@ -29,7 +29,7 @@ internal object TLV {
     private val dependency: Dependency by lazy { Dependency() }
 
     init {
-        refreshTranslationCache { dependency.useCases.translation.getTranslations() }
+        TranslationCache.registerListener { dependency.useCases.translation.getTranslations() }
     }
 
     /**

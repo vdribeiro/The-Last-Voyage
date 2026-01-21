@@ -1,9 +1,13 @@
 package com.hybris.tlv.domain.usecase.translation
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import com.hybris.tlv.core.locale.observeLocaleChanges
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.platform.Property
@@ -13,6 +17,8 @@ import com.hybris.tlv.platform.Property
  */
 internal object TranslationCache {
     private const val TAG = "TranslationCache"
+
+    private val scope = CoroutineScope(context = SupervisorJob())
 
     private val defaultTranslations by lazy {
         mapOf(
@@ -43,4 +49,14 @@ internal object TranslationCache {
         if (args.isEmpty()) return rawValue
         return args.foldIndexed(initial = rawValue) { index, translation, arg -> translation.replace(oldValue = $$"%$${index + 1}$s", newValue = arg) }
     }
+
+    /**
+     * Observe system locale changes to refresh the cache.
+     */
+    fun registerListener(getTranslations: suspend () -> List<Translation>): Boolean =
+        observeLocaleChanges {
+            scope.launch {
+                set(translations = getTranslations())
+            }
+        }
 }
