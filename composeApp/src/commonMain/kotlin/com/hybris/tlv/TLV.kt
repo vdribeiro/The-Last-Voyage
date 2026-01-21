@@ -29,7 +29,7 @@ internal object TLV {
     fun App(
         modifier: Modifier,
         vararg compositionValues: ProvidedValue<*>
-    ) = App(
+    ) = com.hybris.tlv.ui.App(
         modifier = modifier,
         compositionValues = compositionValues,
         navController = rememberNavController(),
