@@ -1,6 +1,5 @@
 package com.hybris.tlv.test
 
-import kotlin.test.assertEquals
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,10 +33,8 @@ import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.ui.App
-import com.hybris.tlv.ui.command.Command
-import com.hybris.tlv.ui.command.receiveCommand
-import com.hybris.tlv.ui.command.sendCommand
 import com.hybris.tlv.ui.lifecycle.lifecycleOwner
+import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.screen.StoreFactory
@@ -73,6 +70,11 @@ internal abstract class TestCase {
     protected val storeFactory = StoreFactory(dependency = dependency)
 
     /**
+     * Simulated navigation.
+     */
+    private val navigation: MockNavigation = MockNavigation()
+
+    /**
      * Feature flags for testing.
      */
     private val testFlags = Flags(
@@ -85,45 +87,14 @@ internal abstract class TestCase {
     )
 
     /**
-     * List with the simulated navigation backstack.
-     */
-    private val screens: MutableList<Screen> = mutableListOf()
-
-    /**
-     * Background loop that listens to the global [Command] channel.
-     */
-    private suspend fun receiveCommands() {
-        receiveCommand { command ->
-            when (command) {
-                is Command.Navigate -> screens.addOrTruncate(element = command.screen)
-                Command.Back -> screens.removeLastOrNull()
-                Command.ToggleAudio -> {}
-            }
-        }
-    }
-
-    /**
-     * Helper to manage the navigation backstack list.
-     * If the [element] does not exist, then it is appended to the list, otherwise all screens after it are cleared.
-     */
-    private fun MutableList<Screen>.addOrTruncate(element: Screen) {
-        val index = indexOfFirst { it::class == element::class }
-        if (index == -1) add(element = element) else {
-            if (index + 1 < size) subList(fromIndex = index + 1, toIndex = size).clear()
-        }
-    }
-
-    /**
      * Simulates a navigation event.
      */
-    protected fun navigate(screen: Screen): Boolean =
-        sendCommand(command = Command.Navigate(screen = screen))
+    protected fun navigate(screen: Screen): Boolean = navigation.navigate(screen = screen)
 
     /**
      * Compares the navigation backstack with the given screen [list].
      */
-    protected fun assertNavigation(list: List<Screen>) =
-        assertEquals(expected = list.map { it::class }, actual = screens.map { it::class })
+    protected fun assertNavigation(list: List<Screen>) = navigation.assertNavigation(list = list)
 
     /**
      * Resets all data.
@@ -144,8 +115,8 @@ internal abstract class TestCase {
             try {
                 FeatureFlags.set { testFlags }
                 reset()
-                screens.clear()
-                backgroundScope.launch(context = testDispatcher) { receiveCommands() }
+                navigation.clear()
+                backgroundScope.launch(context = testDispatcher) { navigation.receiveCommands() }
                 block()
                 testScheduler.advanceUntilIdle()
             } finally {
@@ -166,8 +137,8 @@ internal abstract class TestCase {
             try {
                 FeatureFlags.set { testFlags }
                 reset()
-                screens.clear()
-                scope?.launch { receiveCommands() }
+                navigation.clear()
+                scope?.launch { navigation.receiveCommands() }
                 block()
                 waitForIdle()
             } finally {
