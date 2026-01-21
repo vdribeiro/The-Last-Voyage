@@ -1,12 +1,24 @@
 package com.hybris.tlv.core.locale
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.model.Translation
+
+// TODO - add more translations
 /**
  * App default language.
  */
 internal const val DEFAULT_LANGUAGE = "en"
 
-// TODO - more translations
-internal sealed class SupportedLanguage(val iso: String) {
-    data object EN_US: SupportedLanguage(iso = "en-us")
-    data object PT_PT: SupportedLanguage(iso = "pt-pt")
-}
+private val scope = CoroutineScope(context = SupervisorJob())
+/**
+ * Observe system locale changes to refresh the translation cache.
+ */
+internal fun refreshTranslationCache(getTranslations: suspend () -> List<Translation>): Boolean =
+    observeLocaleChanges {
+        scope.launch {
+            TranslationCache.set(translations = getTranslations())
+        }
+    }
