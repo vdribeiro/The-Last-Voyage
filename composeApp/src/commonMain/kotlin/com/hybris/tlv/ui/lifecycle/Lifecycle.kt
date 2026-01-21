@@ -1,9 +1,6 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.ui.lifecycle
 
 import androidx.compose.runtime.Composable
-import com.hybris.tlv.test.ShadowedInTesting
 
 /**
  * Registers a [onBackground] and [onForeground] callback for when the app goes into the background and foreground respectively.
