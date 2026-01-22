@@ -1,87 +1,131 @@
 [versions]
 
+# Kotlin
 kover = "0.9.4"
 kotlin = "2.3.0"
 kotlinx-serialization = "1.9.0"
 kotlinx-datetime = "0.7.1"
 kotlinx-coroutines = "1.10.2"
-kotlin-ktor = "3.3.3"
-compose-multiplatform = "1.10.0"
-lifecycle = "2.9.6"
-navigation = "2.9.1"
+
+# Ktor
+ktor = "3.3.3"
+
+# SQLDelight
 sqldelight = "2.2.1"
 sqldelight-jdbc = "3.51.1.0"
+
+# UI & Lifecycle
+compose-multiplatform = "1.10.0"
+compose-material3 = "1.9.0"
+compose-icons = "1.7.3"
+lifecycle = "2.9.6"
+navigation = "2.9.1"
 coil = "3.3.0"
+
+# Android
 android-plugin = "8.13.2"
 android-startup = "1.2.0"
 androidx-exoplayer = "1.9.0"
 android-test = "1.10.1"
+
+# Desktop
 logging = "2.0.17"
-sentry = "0.21.0"
 javafx = "21.0.9"
+
+# Web
+webpack = "9.1.0"
+
+# Crashlytics
+sentry = "0.21.0"
 
 [plugins]
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
-compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 android-application = { id = "com.android.application", version.ref = "android-plugin" }
 android-library = { id = "com.android.library", version.ref = "android-plugin" }
 sentry = { id = "io.sentry.kotlin.multiplatform.gradle", version.ref = "sentry" }
 
 [libraries]
-kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
-kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
-kotlin-ktor = { group = "io.ktor", name = "ktor-client-core", version.ref = "kotlin-ktor" }
-kotlin-ktor-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "kotlin-ktor" }
-kotlin-ktor-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "kotlin-ktor" }
-kotlin-ktor-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "kotlin-ktor" }
-kotlin-ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "kotlin-ktor" }
-kotlin-ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "kotlin-ktor" }
-kotlin-ktor-content = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "kotlin-ktor" }
-kotlin-ktor-encoding = { group = "io.ktor", name = "ktor-client-encoding", version.ref = "kotlin-ktor" }
-kotlin-ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "kotlin-ktor" }
-kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
-sqldelight-runtime = { group = "app.cash.sqldelight", name = "runtime", version.ref = "sqldelight" }
-sqldelight-primitives = { group = "app.cash.sqldelight", name = "primitive-adapters", version.ref = "sqldelight" }
-sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
-sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
-sqldelight-native = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqldelight" }
-sqldelight-jvm = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
-sqldelight-web = { group = "app.cash.sqldelight", name = "web-worker-driver-wasm-js", version.ref = "sqldelight" }
-sqldelight-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "sqldelight-jdbc" }
-compose-backhandler = { group = "org.jetbrains.compose.ui", name = "ui-backhandler", version.ref = "compose-multiplatform" }
-lifecycle = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
-lifecycle-runtime = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
-coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
-androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "android-startup" }
-androidx-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "androidx-exoplayer" }
-androidx-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "android-test" }
-logging = { group = "org.slf4j", name = "slf4j-simple", version.ref = "logging" }
-javafx-base = { group = "org.openjfx", name = "javafx-base", version.ref = "javafx" }
-javafx-graphics = { group = "org.openjfx", name = "javafx-graphics", version.ref = "javafx" }
-javafx-media = { group = "org.openjfx", name = "javafx-media", version.ref = "javafx" }
-javafx-swing = { group = "org.openjfx", name = "javafx-swing", version.ref = "javafx" }
+# Kotlin
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+
+# Ktor
+ktor = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
+ktor-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-content = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-encoding = { module = "io.ktor:ktor-client-encoding", version.ref = "ktor" }
+ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
+# SQLDelight
+sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqldelight" }
+sqldelight-primitives = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqldelight" }
+sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
+sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
+sqldelight-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
+sqldelight-web = { module = "app.cash.sqldelight:web-worker-driver-wasm-js", version.ref = "sqldelight" }
+sqldelight-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqldelight-jdbc" }
+
+# UI
+compose-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "compose-multiplatform" }
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
+compose-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "compose-multiplatform" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
+compose-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
+compose-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-material3" }
+compose-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "compose-icons" }
+lifecycle = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+lifecycle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+
+# Android
+androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "android-startup" }
+androidx-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "androidx-exoplayer" }
+androidx-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "android-test" }
+
+# Desktop
+logging = { module = "org.slf4j:slf4j-simple", version.ref = "logging" }
+javafx-base = { module = "org.openjfx:javafx-base", version.ref = "javafx" }
+javafx-graphics = { module = "org.openjfx:javafx-graphics", version.ref = "javafx" }
+javafx-media = { module = "org.openjfx:javafx-media", version.ref = "javafx" }
+javafx-swing = { module = "org.openjfx:javafx-swing", version.ref = "javafx" }
 
 [bundles]
 common = [
-    "kotlin-ktor",
-    "kotlin-ktor-mock",
-    "kotlin-ktor-content",
-    "kotlin-ktor-serialization",
-    "kotlin-ktor-encoding",
-    "kotlin-ktor-logging",
+    "ktor",
+    "ktor-mock",
+    "ktor-content",
+    "ktor-serialization",
+    "ktor-encoding",
+    "ktor-logging",
     "sqldelight-runtime",
     "sqldelight-primitives",
     "sqldelight-coroutines",
     "kotlinx-serialization",
     "kotlinx-datetime",
+    "compose-runtime",
+    "compose-foundation",
     "compose-backhandler",
+    "compose-ui",
+    "compose-resources",
+    "compose-preview",
+    "compose-material3",
+    "compose-icons-extended",
     "lifecycle",
     "lifecycle-runtime",
     "navigation",
@@ -89,20 +133,21 @@ common = [
 ]
 common-test = [
     "kotlin-test",
+    "compose-test"
 ]
 android = [
-    "kotlin-ktor-okhttp",
+    "ktor-okhttp",
     "sqldelight-android",
     "sqldelight-jvm",
     "androidx-startup",
     "androidx-exoplayer",
 ]
 ios = [
-    "kotlin-ktor-darwin",
+    "ktor-darwin",
     "sqldelight-native",
 ]
 desktop = [
-    "kotlin-ktor-cio",
+    "ktor-cio",
     "sqldelight-jvm",
     "sqldelight-jdbc",
     "kotlinx-coroutines-swing",

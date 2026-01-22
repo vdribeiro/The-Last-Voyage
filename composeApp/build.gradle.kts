@@ -1,6 +1,5 @@
 import java.util.Properties
 import kotlin.experimental.xor
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -211,13 +210,6 @@ kotlin {
         val commonMain by getting {
             kotlin.srcDir(generatePropertiesTask.map { it.outputs.files })
             dependencies {
-                implementation(dependencyNotation = compose.runtime)
-                implementation(dependencyNotation = compose.foundation)
-                implementation(dependencyNotation = compose.material3)
-                implementation(dependencyNotation = compose.ui)
-                implementation(dependencyNotation = compose.components.resources)
-                implementation(dependencyNotation = compose.components.uiToolingPreview)
-                implementation(dependencyNotation = compose.materialIconsExtended)
                 implementation(dependencyNotation = libs.bundles.common)
             }
         }
@@ -225,28 +217,12 @@ kotlin {
         getByName("commonTest") {
             dependencies {
                 implementation(dependencyNotation = libs.bundles.common.test)
-                @OptIn(ExperimentalComposeLibrary::class)
-                implementation(dependencyNotation = compose.uiTest)
             }
         }
 
         getByName("androidMain") {
             dependencies {
                 implementation(dependencyNotation = libs.bundles.android)
-            }
-        }
-
-        getByName("desktopMain") {
-            dependencies {
-                implementation(dependencyNotation = compose.desktop.currentOs)
-                implementation(dependencyNotation = libs.bundles.desktop)
-                addJavaFx()
-            }
-        }
-
-        getByName("desktopTest") {
-            dependencies {
-                implementation(dependencyNotation = compose.desktop.uiTestJUnit4)
             }
         }
 
@@ -260,10 +236,19 @@ kotlin {
             sourceSets.getByName("${iosTarget.name}Main").dependsOn(other = appleMain)
         }
 
+        getByName("desktopMain") {
+            dependencies {
+                implementation(dependencyNotation = compose.desktop.currentOs)
+                implementation(dependencyNotation = libs.bundles.desktop)
+                addJavaFx()
+            }
+        }
+
         val webMain by creating {
             dependsOn(commonMain)
             dependencies {
                 implementation(dependencyNotation = libs.bundles.web)
+                implementation(dependencyNotation = devNpm("copy-webpack-plugin", "9.1.0"))
             }
         }
         sourceSets.getByName("${webTarget.name}Main").dependsOn(other = webMain)
