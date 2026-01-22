@@ -18,6 +18,8 @@ internal sealed interface Platform {
     @ExcludeFromTesting
     data object Linux: Platform
     @ExcludeFromTesting
+    data object Web: Platform
+    @ExcludeFromTesting
     data object Unknown: Platform
 }
 

@@ -3,7 +3,7 @@ package com.hybris.tlv.infrastructure.audio
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
 
-internal class DesktopAudioPlayer: AudioPlayer() {
+internal class WebAudioPlayer: AudioPlayer() {
 
     private var player: MediaPlayer? = null
     private var currentIndex = -1
@@ -40,4 +40,4 @@ internal class DesktopAudioPlayer: AudioPlayer() {
     }
 }
 
-internal actual fun createAudioPlayer(): AudioPlayer = DesktopAudioPlayer()
+internal actual fun createAudioPlayer(): AudioPlayer = WebAudioPlayer()

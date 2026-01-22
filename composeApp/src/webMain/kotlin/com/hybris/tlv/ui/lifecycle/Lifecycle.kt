@@ -2,21 +2,40 @@
 
 package com.hybris.tlv.ui.lifecycle
 
+import kotlinx.browser.document
+import kotlinx.browser.window
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import com.hybris.tlv.LocalWindowState
 import com.hybris.tlv.test.ShadowedInTesting
+import org.w3c.dom.events.Event
 
+@OptIn(ExperimentalWasmJsInterop::class)
 @Composable
 internal actual fun Register(
     key: Any,
     onBackground: () -> Unit,
     onForeground: () -> Unit,
 ) {
-    val lifecycleOwner = LocalWindowState.current
-    DisposableEffect(key1 = lifecycleOwner.isMinimized, key2 = key) {
-        if (lifecycleOwner.isMinimized) onBackground() else onForeground()
+    DisposableEffect(key) {
+        val visibilityListener: (Event) -> Unit = {
+            if (js(code = "document.hidden") as Boolean) {
+                onBackground()
+            } else {
+                onForeground()
+            }
+        }
 
-        onDispose {}
+        val focusListener: (Event) -> Unit = { onForeground() }
+        val blurListener: (Event) -> Unit = { onBackground() }
+
+        document.addEventListener(type = "visibilitychange", callback = visibilityListener)
+        window.addEventListener(type = "focus", callback = focusListener)
+        window.addEventListener(type = "blur", callback = blurListener)
+
+        onDispose {
+            document.removeEventListener(type = "visibilitychange", callback = visibilityListener)
+            window.removeEventListener(type = "focus", callback = focusListener)
+            window.removeEventListener(type = "blur", callback = blurListener)
+        }
     }
 }
