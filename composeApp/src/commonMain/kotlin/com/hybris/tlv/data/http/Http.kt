@@ -89,7 +89,7 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = withContext
             }
         }.getOrElse {
             Telemetry.error(tag = TAG, message = "Unable to check network quality", throwable = it)
-            return@withLock NetworkQuality.Slow
+            return@withLock NetworkQuality.Unknown
         }
 
         // Check for Success or Redirect / Captive Portal
