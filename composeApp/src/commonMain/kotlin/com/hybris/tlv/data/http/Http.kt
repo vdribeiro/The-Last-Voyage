@@ -89,7 +89,7 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = withContext
             }
         }.getOrElse {
             Telemetry.error(tag = TAG, message = "Unable to check network quality", throwable = it)
-            return@withLock NetworkQuality.Unknown
+            return@withLock NetworkQuality.Slow
         }
 
         // Check for Success or Redirect / Captive Portal
@@ -135,4 +135,4 @@ private fun HttpRequestBuilder.setTimeout(networkQuality: NetworkQuality) {
 private const val TAG = "Http"
 private const val FAST_THRESHOLD_MILLIS = 1000L
 private const val MEDIUM_THRESHOLD_MILLIS = 2000L
-private const val SLOW_THRESHOLD_MILLIS = 2500L
+private const val SLOW_THRESHOLD_MILLIS = 3000L
