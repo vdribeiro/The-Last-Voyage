@@ -17,7 +17,7 @@ internal actual val appDataPath: String by lazy {
             Platform.Windows -> System.getenv("APPDATA") ?: "${System.getProperty("user.home")}/AppData/Roaming"
             Platform.Mac -> "${System.getProperty("user.home")}/Library/Application Support"
             Platform.Linux -> System.getenv("XDG_DATA_HOME").takeIf { !it.isNullOrBlank() } ?: "${System.getProperty("user.home")}/.local/share"
-            Platform.Android, Platform.Ios, Platform.Unknown -> "${System.getProperty("user.home")}/.local/share"
+            else -> "${System.getProperty("user.home")}/.local/share"
         }
         val appDir = Property.APP_NAME
             .lowercase()
