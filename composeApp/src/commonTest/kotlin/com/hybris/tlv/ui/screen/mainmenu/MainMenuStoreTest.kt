@@ -17,7 +17,7 @@ internal class MainMenuStoreTest: TestCase() {
         val store = storeFactory.getMainMenuStore()
         assertFalse(actual = store.state.loading)
         assertFalse(actual = store.state.newVersionBanner)
-        assertEquals(expected = config.localConfigs.value.developerCorner, actual = store.state.developerCorner)
+        assertEquals(expected = config.localConfigs.developerCorner, actual = store.state.developerCorner)
         assertTrue(actual = store.state.ongoingGameSession)
     }
 

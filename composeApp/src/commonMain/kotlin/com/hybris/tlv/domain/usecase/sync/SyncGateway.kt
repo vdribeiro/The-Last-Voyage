@@ -50,8 +50,8 @@ internal class SyncGateway(
         if (reset) reset()
         config.setup()
 
-        val remoteVersion = config.remoteConfigs.value.appVersion
-        val localVersion = config.localConfigs.value.appVersion
+        val remoteVersion = config.remoteConfigs.appVersion
+        val localVersion = config.localConfigs.appVersion
         Telemetry.info(tag = TAG, message = "App version: remote version: $remoteVersion, local version: $localVersion")
         config.setConfigs { it.copy(appVersion = remoteVersion) }
         val result = if (localVersion == 0L || Property.APP_VERSION_NUMBER == remoteVersion) syncAll(progress = progress) else SyncResult(
@@ -69,9 +69,9 @@ internal class SyncGateway(
 
         TranslationCache.set(translations = translationUseCases.getTranslations())
 
-        Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences.value}")
-        Telemetry.info(tag = TAG, message = "Local Configs\n${config.localConfigs.value}")
-        Telemetry.info(tag = TAG, message = "Remote Configs\n${config.remoteConfigs.value}")
+        Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences}")
+        Telemetry.info(tag = TAG, message = "Local Configs\n${config.localConfigs}")
+        Telemetry.info(tag = TAG, message = "Remote Configs\n${config.remoteConfigs}")
 
         progress(1f)
         result
@@ -122,12 +122,12 @@ internal class SyncGateway(
     }
 
     private suspend fun getArchive(): DataSource = withContext(context = Dispatcher.IO) {
-        if (flags.value.archive && archiveUseCases.getArchive()) DataSource.REMOTE else DataSource.NONE
+        if (flags.archive && archiveUseCases.getArchive()) DataSource.REMOTE else DataSource.NONE
     }
 
     private suspend fun syncTranslations(): DataSource = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.translationsVersion
-        val localVersion = config.localConfigs.value.translationsVersion
+        val remoteVersion = config.remoteConfigs.translationsVersion
+        val localVersion = config.localConfigs.translationsVersion
         Telemetry.info(tag = TAG, message = "Syncing translations: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (translationUseCases.syncTranslations()) {
@@ -140,8 +140,8 @@ internal class SyncGateway(
     }
 
     private suspend fun syncCatastrophes(): DataSource = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.catastrophesVersion
-        val localVersion = config.localConfigs.value.catastrophesVersion
+        val remoteVersion = config.remoteConfigs.catastrophesVersion
+        val localVersion = config.localConfigs.catastrophesVersion
         Telemetry.info(tag = TAG, message = "Syncing catastrophes: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (catastropheUseCases.syncCatastrophes()) {
@@ -154,8 +154,8 @@ internal class SyncGateway(
     }
 
     private suspend fun syncEngines(): DataSource = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.enginesVersion
-        val localVersion = config.localConfigs.value.enginesVersion
+        val remoteVersion = config.remoteConfigs.enginesVersion
+        val localVersion = config.localConfigs.enginesVersion
         Telemetry.info(tag = TAG, message = "Syncing engines: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (shipUseCases.syncEngines()) {
@@ -168,8 +168,8 @@ internal class SyncGateway(
     }
 
     private suspend fun syncStellarHosts(): DataSource = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.stellarHostsVersion
-        val localVersion = config.localConfigs.value.stellarHostsVersion
+        val remoteVersion = config.remoteConfigs.stellarHostsVersion
+        val localVersion = config.localConfigs.stellarHostsVersion
         Telemetry.info(tag = TAG, message = "Syncing stellar hosts: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (spaceUseCases.syncStellarHosts()) {
@@ -182,8 +182,8 @@ internal class SyncGateway(
     }
 
     private suspend fun syncPlanets(): DataSource = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.planetsVersion
-        val localVersion = config.localConfigs.value.planetsVersion
+        val remoteVersion = config.remoteConfigs.planetsVersion
+        val localVersion = config.localConfigs.planetsVersion
         Telemetry.info(tag = TAG, message = "Syncing planets: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (spaceUseCases.syncPlanets()) {
@@ -196,8 +196,8 @@ internal class SyncGateway(
     }
 
     private suspend fun syncEvents(): DataSource = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.eventsVersion
-        val localVersion = config.localConfigs.value.eventsVersion
+        val remoteVersion = config.remoteConfigs.eventsVersion
+        val localVersion = config.localConfigs.eventsVersion
         Telemetry.info(tag = TAG, message = "Syncing events: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (eventUseCases.syncEvents()) {
@@ -210,8 +210,8 @@ internal class SyncGateway(
     }
 
     private suspend fun syncAchievements(): DataSource = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.achievementsVersion
-        val localVersion = config.localConfigs.value.achievementsVersion
+        val remoteVersion = config.remoteConfigs.achievementsVersion
+        val localVersion = config.localConfigs.achievementsVersion
         Telemetry.info(tag = TAG, message = "Syncing achievements: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (achievementUseCases.syncAchievements()) {
@@ -224,8 +224,8 @@ internal class SyncGateway(
     }
 
     private suspend fun syncCredits(): DataSource = withContext(context = Dispatcher.IO) {
-        val remoteVersion = config.remoteConfigs.value.creditsVersion
-        val localVersion = config.localConfigs.value.creditsVersion
+        val remoteVersion = config.remoteConfigs.creditsVersion
+        val localVersion = config.localConfigs.creditsVersion
         Telemetry.info(tag = TAG, message = "Syncing credits: remote version: $remoteVersion, local version: $localVersion")
         if (remoteVersion > localVersion) {
             if (creditUseCases.syncCredits()) {

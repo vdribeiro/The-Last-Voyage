@@ -32,7 +32,7 @@ internal class CheatStore(
     }
 
     private fun setInitialState(): Job = launch(id = "setInitialState") {
-        val preferences = config.preferences.value
+        val preferences = config.preferences
         updateState {
             it.copy(
                 loading = false,

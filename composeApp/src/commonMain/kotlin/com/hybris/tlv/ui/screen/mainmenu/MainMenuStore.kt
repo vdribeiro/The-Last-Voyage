@@ -21,7 +21,7 @@ internal class MainMenuStore(
     private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
-        val configs = config.localConfigs.value
+        val configs = config.localConfigs
         val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
         val developerCorner = configs.developerCorner
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
@@ -39,7 +39,7 @@ internal class MainMenuStore(
 
     private fun newGame() {
         Telemetry.info(tag = TAG, message = "New game")
-        if (!config.preferences.value.showTutorial) navigate(screen = Screen.NewGame) else {
+        if (!config.preferences.showTutorial) navigate(screen = Screen.NewGame) else {
             navigate(screen = Screen.Tutorial(newGame = true))
         }
     }

@@ -43,7 +43,7 @@ internal class GameStore(
             return@launch
         }
 
-        val preferences = config.preferences.value
+        val preferences = config.preferences
         Telemetry.info(tag = TAG, message = "Attempt to repair the ship if the integrity is critically low")
         val ship = shipUseCases.repairShip(ship = gameSession.ship).let { ship ->
             ship.copy(

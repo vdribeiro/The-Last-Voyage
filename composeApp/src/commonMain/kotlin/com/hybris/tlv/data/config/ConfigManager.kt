@@ -10,17 +10,17 @@ internal interface ConfigManager {
     /**
      * Cached preferences.
      */
-    val preferences: StateFlow<Preferences>
+    val preferences: Preferences
 
     /**
      * Cached local configs.
      */
-    val localConfigs: StateFlow<Configs>
+    val localConfigs: Configs
 
     /**
      * Cached remote configs.
      */
-    val remoteConfigs: StateFlow<Configs>
+    val remoteConfigs: Configs
 
     /**
      * Delete configuration and preferences files and reset all caches.

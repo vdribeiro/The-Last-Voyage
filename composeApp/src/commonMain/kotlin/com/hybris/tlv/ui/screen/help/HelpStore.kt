@@ -23,7 +23,7 @@ internal class HelpStore(
     private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
-        val configs = config.localConfigs.value
+        val configs = config.localConfigs
         updateState {
             it.copy(
                 loading = false,

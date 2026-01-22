@@ -26,7 +26,7 @@ import com.hybris.tlv.data.http.HttpClientFactory.Companion.SOCKET_TIMEOUT_MILLI
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
 
 private val mutex: Mutex by lazy { Mutex() }
-private val cacheTTL: Duration by lazy { if (flags.value.devMode) ZERO else 1.minutes }
+private val cacheTTL: Duration by lazy { if (flags.devMode) ZERO else 1.minutes }
 private var lastTimeMark: TimeMark? = null
 private var lastNetworkQuality: NetworkQuality = NetworkQuality.Unknown
 
@@ -49,7 +49,7 @@ internal suspend inline fun <reified T> HttpClient.get(
     crossinline block: HttpRequestBuilder.() -> Unit = {}
 ): Result<T> = withContext(context = Dispatcher.IO) {
     runCatching {
-        if (!flags.value.http) throw Throwable(message = "Network disabled")
+        if (!flags.http) throw Throwable(message = "Network disabled")
         val networkQuality = getNetworkQuality()
         if (networkQuality is NetworkQuality.Unknown) throw Throwable(message = "No internet connection available")
 
@@ -74,7 +74,7 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = withContext
         lastTimeMark = TimeSource.Monotonic.markNow()
 
         if (!isInternetAvailable()) return@withLock NetworkQuality.Unknown
-        if (!flags.value.networkQuality) return@withLock NetworkQuality.Fast
+        if (!flags.networkQuality) return@withLock NetworkQuality.Fast
 
         val response = runCatching {
             // Add small timeout to allow the HTTP client to return its own error gracefully

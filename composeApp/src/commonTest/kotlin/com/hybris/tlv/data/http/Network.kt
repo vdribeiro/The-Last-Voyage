@@ -7,4 +7,4 @@ import com.hybris.tlv.domain.flag.FeatureFlags.flags
 /**
  * Checks for internet availability.
  */
-internal suspend fun isInternetAvailable(): Boolean = flags.value.http
+internal suspend fun isInternetAvailable(): Boolean = flags.http

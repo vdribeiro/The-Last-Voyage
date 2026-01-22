@@ -47,7 +47,7 @@ internal open class AudioPlayer {
      */
     fun action(action: Action) {
         runCatching {
-            if (!flags.value.music) {
+            if (!flags.music) {
                 stop()
                 return
             }

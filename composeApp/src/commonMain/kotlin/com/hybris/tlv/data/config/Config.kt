@@ -37,15 +37,15 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     private val mutex = Mutex()
 
     private val _preferences: MutableStateFlow<Preferences> = MutableStateFlow(value = Preferences())
-    override val preferences: StateFlow<Preferences> = _preferences.asStateFlow()
+    override val preferences: Preferences = _preferences.asStateFlow().value
 
     private val _localConfigs: MutableStateFlow<Configs> = MutableStateFlow(value = Configs())
-    override val localConfigs: StateFlow<Configs> = _localConfigs.asStateFlow()
+    override val localConfigs: Configs = _localConfigs.asStateFlow().value
 
     private val _remoteConfigs: MutableStateFlow<Configs> = MutableStateFlow(value = Configs())
-    override val remoteConfigs: StateFlow<Configs> = _remoteConfigs.asStateFlow()
+    override val remoteConfigs: Configs = _remoteConfigs.asStateFlow().value
 
-    private val cacheTTL: Duration = if (flags.value.devMode) ZERO else 1.hours
+    private val cacheTTL: Duration = if (flags.devMode) ZERO else 1.hours
 
     override suspend fun reset(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {

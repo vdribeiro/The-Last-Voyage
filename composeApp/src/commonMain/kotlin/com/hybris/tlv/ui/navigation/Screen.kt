@@ -13,7 +13,7 @@ import com.hybris.tlv.domain.usecase.ship.model.Ship
 @Serializable
 internal sealed interface Screen {
     @Serializable
-    data class Splash(val reset: Boolean = flags.value.reset): Screen
+    data class Splash(val reset: Boolean = flags.reset): Screen
     @Serializable
     data object Cheat: Screen
     @Serializable

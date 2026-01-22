@@ -12,8 +12,8 @@ import com.hybris.tlv.test.ShadowedInTesting
 @ShadowedInTesting
 object Telemetry {
 
-    private val useLogger by lazy { flags.value.devMode }
-    private val useSentry by lazy { !flags.value.devMode && Property.sentry.isNotBlank() }
+    private val useLogger by lazy { flags.devMode }
+    private val useSentry by lazy { !flags.devMode && Property.sentry.isNotBlank() }
 
     /**
      * Initializes the telemetry services.
