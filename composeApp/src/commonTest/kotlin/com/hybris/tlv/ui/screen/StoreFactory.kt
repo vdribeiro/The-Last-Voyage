@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen
 
-import com.hybris.tlv.Dependency
+import com.hybris.tlv.data.config.ConfigManager
+import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.domain.usecase.ship.model.Ship
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.catastrophe.CatastropheStore
@@ -18,26 +19,29 @@ import com.hybris.tlv.ui.screen.splash.SplashStore
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
 import com.hybris.tlv.ui.screen.tutorial.TutorialStore
 
-internal class StoreFactory(private val dependency: Dependency) {
+internal class StoreFactory(
+    private val config: ConfigManager,
+    private val useCases: UseCases
+) {
 
     fun getSplashStore(reset: Boolean): SplashStore =
         SplashStore(
             reset = reset,
-            config = dependency.config,
-            syncUseCases = dependency.useCases.sync
+            config = config,
+            syncUseCases = useCases.sync
         )
 
     fun getCheatStore(): CheatStore =
-        CheatStore(config = dependency.config)
+        CheatStore(config = config)
 
     fun getMainMenuStore(): MainMenuStore =
         MainMenuStore(
-            config = dependency.config,
-            gameSessionUseCases = dependency.useCases.gameSession,
+            config = config,
+            gameSessionUseCases = useCases.gameSession,
         )
 
     fun getHelpStore(): HelpStore =
-        HelpStore(config = dependency.config)
+        HelpStore(config = config)
 
     fun getFeedbackStore(tag: String?, message: String?): FeedbackStore =
         FeedbackStore(
@@ -47,52 +51,52 @@ internal class StoreFactory(private val dependency: Dependency) {
 
     fun getNewGameStore(): NewGameStore =
         NewGameStore(
-            shipUseCases = dependency.useCases.ship,
-            gameSessionUseCases = dependency.useCases.gameSession
+            shipUseCases = useCases.ship,
+            gameSessionUseCases = useCases.gameSession
         )
 
     fun getCatastropheStore(): CatastropheStore =
         CatastropheStore(
-            catastropheUseCases = dependency.useCases.catastrophe,
+            catastropheUseCases = useCases.catastrophe,
         )
 
     fun getTutorialStore(newGame: Boolean): TutorialStore =
         TutorialStore(
             newGame = newGame,
-            config = dependency.config
+            config = config
         )
 
     fun getGameStore(ship: Ship?): GameStore =
         GameStore(
             ship = ship,
-            config = dependency.config,
-            shipUseCases = dependency.useCases.ship,
-            spaceUseCases = dependency.useCases.space,
-            gameSessionUseCases = dependency.useCases.gameSession
+            config = config,
+            shipUseCases = useCases.ship,
+            spaceUseCases = useCases.space,
+            gameSessionUseCases = useCases.gameSession
         )
 
     fun getEventStore(ship: Ship?): EventStore =
         EventStore(
             ship = ship,
-            eventUseCases = dependency.useCases.event,
-            gameSessionUseCases = dependency.useCases.gameSession,
+            eventUseCases = useCases.event,
+            gameSessionUseCases = useCases.gameSession,
         )
 
     fun getGameOverStore(): GameOverStore =
         GameOverStore(
-            gameSessionUseCases = dependency.useCases.gameSession,
-            achievementUseCases = dependency.useCases.achievement
+            gameSessionUseCases = useCases.gameSession,
+            achievementUseCases = useCases.achievement
         )
 
     fun getStellarExplorerStore(): StellarExplorerStore =
-        StellarExplorerStore(spaceUseCases = dependency.useCases.space)
+        StellarExplorerStore(spaceUseCases = useCases.space)
 
     fun getScoreStore(): ScoreStore =
-        ScoreStore(gameSessionUseCases = dependency.useCases.gameSession)
+        ScoreStore(gameSessionUseCases = useCases.gameSession)
 
     fun getAchievementStore(): AchievementStore =
-        AchievementStore(achievementUseCases = dependency.useCases.achievement)
+        AchievementStore(achievementUseCases = useCases.achievement)
 
     fun getCreditStore(): CreditStore =
-        CreditStore(creditUseCases = dependency.useCases.credit)
+        CreditStore(creditUseCases = useCases.credit)
 }

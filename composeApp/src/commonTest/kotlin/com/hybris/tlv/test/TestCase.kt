@@ -67,24 +67,31 @@ internal abstract class TestCase {
     /**
      * Factory used to create Stores using the test-specific [dependency].
      */
-    protected val storeFactory = StoreFactory(dependency = dependency)
+    protected val storeFactory by lazy {
+        StoreFactory(
+            config = config,
+            useCases = useCases
+        )
+    }
 
     /**
      * Simulated navigation.
      */
-    private val navigation: MockNavigation = MockNavigation()
+    private val navigation: MockNavigation by lazy { MockNavigation() }
 
     /**
      * Feature flags for testing.
      */
-    private val testFlags = Flags(
-        devMode = true,
-        reset = true,
-        http = true,
-        networkQuality = false,
-        archive = true,
-        music = false
-    )
+    private val testFlags by lazy {
+        Flags(
+            devMode = true,
+            reset = true,
+            http = true,
+            networkQuality = false,
+            archive = true,
+            music = false
+        )
+    }
 
     /**
      * Simulates a navigation event.
