@@ -25,8 +25,9 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
         .format(Instant.parse(input = utc).toJavaInstant())
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it) }.getOrDefault(defaultValue = utc)
 
-internal actual fun observeLocaleChanges(onChanged: () -> Unit): Boolean = runCatching {
-    throw Throwable("Observing locale changes is not supported on Desktop")
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it) }.getOrDefault(defaultValue = false)
+internal actual fun observeLocaleChanges(onChanged: () -> Unit): Boolean {
+    Telemetry.info(tag = TAG, message = "Observing locale changes is not supported on Desktop")
+    return false
+}
 
 private const val TAG = "Locale"
