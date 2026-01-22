@@ -2,7 +2,6 @@ package com.hybris.tlv.core.flow
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import com.hybris.tlv.core.flow.Dispatcher.Default
 import com.hybris.tlv.core.flow.Dispatcher.IO
 import com.hybris.tlv.core.flow.Dispatcher.Main
@@ -18,5 +17,7 @@ import com.hybris.tlv.test.ShadowedInTesting
 internal object Dispatcher {
     val Main: CoroutineDispatcher = Dispatchers.Main
     val Default: CoroutineDispatcher = Dispatchers.Default
-    val IO: CoroutineDispatcher = Dispatchers.IO
+    val IO: CoroutineDispatcher = io
 }
+
+internal expect val io: CoroutineDispatcher

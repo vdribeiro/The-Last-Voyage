@@ -12,15 +12,19 @@ internal actual fun getLanguage(): String = runCatching {
 
 @OptIn(ExperimentalWasmJsInterop::class)
 internal actual fun getLocalDateTime(utc: String): String = runCatching {
-    js(
-        code = """
-            new Date($utc).toLocaleString(undefined, {
-                dateStyle: 'short',
-                timeStyle: 'short'
-            })
-        """.trimIndent()
-    )
+    formatDateJs(utc = utc)
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it) }.getOrDefault(defaultValue = utc)
+
+@Suppress("UNUSED_PARAMETER")
+@OptIn(ExperimentalWasmJsInterop::class)
+private fun formatDateJs(utc: String): String = js(
+    code = """
+        new Date(utc).toLocaleString(undefined, {
+            dateStyle: 'short',
+            timeStyle: 'short'
+        })
+    """
+)
 
 internal actual fun observeLocaleChanges(onChanged: () -> Unit): Boolean = runCatching {
     window.addEventListener(type = "languagechange") { onChanged() }

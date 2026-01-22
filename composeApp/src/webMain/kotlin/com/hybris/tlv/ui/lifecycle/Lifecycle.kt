@@ -18,7 +18,7 @@ internal actual fun Register(
 ) {
     DisposableEffect(key) {
         val visibilityListener: (Event) -> Unit = {
-            if (js(code = "document.hidden") as Boolean) {
+            if (isHidden()) {
                 onBackground()
             } else {
                 onForeground()
@@ -39,3 +39,6 @@ internal actual fun Register(
         }
     }
 }
+
+@OptIn(ExperimentalWasmJsInterop::class)
+private fun isHidden(): Boolean = js(code = "document.hidden")
