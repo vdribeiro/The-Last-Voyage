@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.test.ExcludeFromTesting
+import com.hybris.tlv.ui.App
 
 /**
  * The main object for The Last Voyage application.
@@ -14,10 +16,22 @@ import com.hybris.tlv.test.ExcludeFromTesting
 @ExcludeFromTesting
 internal object TLV {
 
+    private const val TAG = "TLV"
+
     private val dependency: Dependency by lazy { Dependency() }
 
     init {
-        TranslationCache.registerListener { dependency.useCases.translation.getTranslations() }
+        Telemetry.info(tag = TAG, message = "Registering listeners")
+        registerTranslationListener()
+    }
+
+    /**
+     * Registers a listener to observe system locale changes to refresh the translation cache.
+     */
+    private fun registerTranslationListener() {
+        TranslationCache.registerListener {
+            dependency.useCases.translation.getTranslations()
+        }
     }
 
     /**
@@ -29,7 +43,7 @@ internal object TLV {
     fun App(
         modifier: Modifier,
         vararg compositionValues: ProvidedValue<*>
-    ) = com.hybris.tlv.ui.App(
+    ) = App(
         modifier = modifier,
         compositionValues = compositionValues,
         navController = rememberNavController(),
