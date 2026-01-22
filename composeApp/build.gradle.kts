@@ -2,6 +2,7 @@ import java.util.Properties
 import kotlin.experimental.xor
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 import org.gradle.internal.os.OperatingSystem
@@ -174,17 +175,37 @@ kotlin {
         }
     }
 
+    val iosTargets = listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).apply {
+        forEach { iosTarget ->
+            iosTarget.binaries.framework {
+                baseName = appFramework
+                isStatic = true
+                version = appVersion
+                freeCompilerArgs += "-Xbinary=bundleId=$appId"
+            }
+        }
+    }
+
     jvm(name = "desktop") {
         compilerOptions {
             jvmTarget.set(jvmVersion)
         }
     }
 
-    val iosTargets = listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    )
+    @OptIn(ExperimentalWasmDsl::class)
+    val webTarget = wasmJs {
+        outputModuleName = appFramework
+        browser {
+            commonWebpackConfig {
+                outputFileName = "tlv.js"
+            }
+        }
+        binaries.executable()
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -236,14 +257,16 @@ kotlin {
             }
         }
         iosTargets.forEach { iosTarget ->
-            iosTarget.binaries.framework {
-                baseName = appFramework
-                isStatic = true
-                version = appVersion
-                freeCompilerArgs += "-Xbinary=bundleId=$appId"
-            }
             sourceSets.getByName("${iosTarget.name}Main").dependsOn(other = appleMain)
         }
+
+        val webMain by creating {
+            dependsOn(commonMain)
+            dependencies {
+                implementation(dependencyNotation = libs.bundles.web)
+            }
+        }
+        sourceSets.getByName("${webTarget.name}Main").dependsOn(other = webMain)
     }
 
     cocoapods {
@@ -383,6 +406,7 @@ sqldelight {
     databases {
         create(name = "AppDatabase") {
             packageName.set("database")
+//            generateAsync.set(true)
             schemaOutputDirectory.set(file(path = "${project.projectDir}/src/commonMain/sqldelight/schema"))
         }
     }
@@ -396,7 +420,7 @@ kover {
                     "com.hybris.tlv.test.ExcludeFromTesting",
                     "com.hybris.tlv.test.ShadowedInTesting",
                     "kotlinx.serialization.Serializable",
-                    "org.jetbrains.compose.ui.tooling.preview.Preview"
+                    "com.jetbrains.compose.ui.tooling.preview.Preview"
                 )
                 packages("*.generated.*")
                 classes("**ComposableSingletons**")

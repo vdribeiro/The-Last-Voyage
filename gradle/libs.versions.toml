@@ -52,6 +52,7 @@ sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-exte
 sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
 sqldelight-native = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqldelight" }
 sqldelight-jvm = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
+sqldelight-web = { group = "app.cash.sqldelight", name = "web-worker-driver-wasm-js", version.ref = "sqldelight" }
 sqldelight-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "sqldelight-jdbc" }
 compose-backhandler = { group = "org.jetbrains.compose.ui", name = "ui-backhandler", version.ref = "compose-multiplatform" }
 lifecycle = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
@@ -106,4 +107,7 @@ desktop = [
     "sqldelight-jdbc",
     "kotlinx-coroutines-swing",
     "logging",
+]
+web = [
+    "sqldelight-web"
 ]
