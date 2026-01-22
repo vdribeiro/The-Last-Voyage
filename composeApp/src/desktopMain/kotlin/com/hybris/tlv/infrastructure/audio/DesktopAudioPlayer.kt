@@ -17,7 +17,7 @@ internal class DesktopAudioPlayer: AudioPlayer() {
         val resourceUrl = Thread.currentThread().contextClassLoader.getResource(trackPath) ?: throw Throwable("Unable to get resource for $trackPath")
         player = MediaPlayer(Media(resourceUrl.toString())).apply {
             setOnEndOfMedia { this@DesktopAudioPlayer.play() }
-            if (!paused) this.play()
+            if (!paused) play()
         }
         currentIndex = nextIndex
     }

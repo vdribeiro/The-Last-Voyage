@@ -1,42 +1,43 @@
 package com.hybris.tlv.infrastructure.audio
 
-import javafx.scene.media.Media
-import javafx.scene.media.MediaPlayer
+import kotlinx.browser.document
+import org.w3c.dom.HTMLAudioElement
+
+@OptIn(ExperimentalWasmJsInterop::class)
 
 internal class WebAudioPlayer: AudioPlayer() {
 
-    private var player: MediaPlayer? = null
+    private val player: HTMLAudioElement by lazy {
+        (document.createElement(localName = "audio") as HTMLAudioElement)
+    }
     private var currentIndex = -1
     private var paused: Boolean = false
 
-    override fun isPlaying(): Boolean = player?.status == MediaPlayer.Status.PLAYING
+    override fun isPlaying(): Boolean = !player.paused
 
     override fun play() {
         val nextIndex = (currentIndex + 1) % playlist.size
         val trackPath = playlist.getOrNull(index = nextIndex)?.path ?: throw Throwable("Unable to get track at index $nextIndex")
-        val resourceUrl = Thread.currentThread().contextClassLoader.getResource(trackPath) ?: throw Throwable("Unable to get resource for $trackPath")
-        player = MediaPlayer(Media(resourceUrl.toString())).apply {
-            setOnEndOfMedia { this@DesktopAudioPlayer.play() }
-            if (!paused) this.play()
+        player.apply {
+            src = trackPath
+            onended = { play() }
+            if (!paused) play()
         }
         currentIndex = nextIndex
     }
 
     override fun resume() {
-        player?.play()
+        player.play()
         paused = false
     }
 
     override fun pause() {
-        player?.pause()
+        player.pause()
         paused = true
     }
 
     override fun stop() {
-        player?.stop()
-        player?.dispose()
-        player = null
-        currentIndex = -1
+        player.pause()
     }
 }
 
