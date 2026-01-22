@@ -161,6 +161,13 @@ project.afterEvaluate {
 }
 //endregion
 
+//region Web
+fun KotlinDependencyHandler.npm(library: Provider<MinimalExternalModuleDependency>): Dependency {
+    val dep = library.get()
+    return devNpm(name = dep.module.name, version = dep.versionConstraint.displayName)
+}
+//endregion
+
 kotlin {
     jvmToolchain(jdkVersion = jdkVersion)
 
@@ -248,7 +255,7 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 implementation(dependencyNotation = libs.bundles.web)
-                implementation(dependencyNotation = devNpm("copy-webpack-plugin", "9.1.0"))
+                implementation(dependencyNotation = npm(library = libs.webpack))
             }
         }
         sourceSets.getByName("${webTarget.name}Main").dependsOn(other = webMain)

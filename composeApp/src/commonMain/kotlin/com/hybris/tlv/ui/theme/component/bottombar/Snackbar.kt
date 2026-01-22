@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.theme.component.bottombar
 
 import kotlinx.coroutines.withTimeoutOrNull
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -9,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.container.Scaffold
 

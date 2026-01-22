@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.theme.component.card
 
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
@@ -21,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.locale.getLocalDateTime
 import com.hybris.tlv.domain.usecase.space.roundTo

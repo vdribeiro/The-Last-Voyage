@@ -2,13 +2,13 @@ package com.hybris.tlv.ui.theme.component.image
 
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.tooling.preview.Preview
 import coil3.compose.AsyncImage
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.infrastructure.platform.Platform

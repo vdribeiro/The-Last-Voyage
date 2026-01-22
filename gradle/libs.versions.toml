@@ -105,6 +105,9 @@ javafx-graphics = { module = "org.openjfx:javafx-graphics", version.ref = "javaf
 javafx-media = { module = "org.openjfx:javafx-media", version.ref = "javafx" }
 javafx-swing = { module = "org.openjfx:javafx-swing", version.ref = "javafx" }
 
+# Web
+webpack = { module = "npm:copy-webpack-plugin", version.ref = "webpack" }
+
 [bundles]
 common = [
     "ktor",
