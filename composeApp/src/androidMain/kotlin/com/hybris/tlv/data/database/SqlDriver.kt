@@ -10,7 +10,7 @@ import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.hybris.tlv.applicationContext
 
-internal actual fun createSqlDriver(
+internal actual suspend fun createSqlDriver(
     name: String,
     schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
     inMemory: Boolean

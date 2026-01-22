@@ -9,7 +9,7 @@ import app.cash.sqldelight.db.SqlSchema
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.hybris.tlv.data.storage.appDataPath
 
-internal actual fun createSqlDriver(
+internal actual suspend fun createSqlDriver(
     name: String,
     schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
     inMemory: Boolean

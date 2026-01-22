@@ -163,12 +163,12 @@ project.afterEvaluate {
 
 //region Web
 fun KotlinDependencyHandler.devNpm(library: Provider<MinimalExternalModuleDependency>): Dependency {
-    val dep = library.get()
-    return devNpm(name = dep.module.name, version = dep.versionConstraint.displayName)
+    val dependency = library.get()
+    return devNpm(name = dependency.module.name, version = dependency.versionConstraint.displayName)
 }
 fun KotlinDependencyHandler.npm(library: Provider<MinimalExternalModuleDependency>): Dependency {
-    val dep = library.get()
-    return npm(name = dep.module.name, version = dep.versionConstraint.displayName)
+    val dependency = library.get()
+    return npm(name = dependency.module.name, version = dependency.versionConstraint.displayName)
 }
 //endregion
 

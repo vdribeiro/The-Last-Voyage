@@ -7,7 +7,7 @@ import app.cash.sqldelight.db.SqlSchema
 import app.cash.sqldelight.driver.native.NativeSqliteDriver
 import co.touchlab.sqliter.JournalMode
 
-internal actual fun createSqlDriver(
+internal actual suspend fun createSqlDriver(
     name: String,
     schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
     inMemory: Boolean

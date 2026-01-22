@@ -9,7 +9,7 @@ import database.AppDatabase
 /**
  * Creates the database driver.
  */
-internal expect fun createSqlDriver(
+internal expect suspend fun createSqlDriver(
     name: String = DATABASE_FILE,
     schema: SqlSchema<QueryResult.AsyncValue<Unit>> = AppDatabase.Schema,
     inMemory: Boolean = false

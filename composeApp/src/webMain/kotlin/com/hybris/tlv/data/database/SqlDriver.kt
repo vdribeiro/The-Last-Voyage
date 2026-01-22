@@ -7,12 +7,12 @@ import app.cash.sqldelight.driver.worker.WebWorkerDriver
 import org.w3c.dom.Worker
 
 @OptIn(ExperimentalWasmJsInterop::class)
-internal actual fun createSqlDriver(
+internal actual suspend fun createSqlDriver(
     name: String,
     schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
     inMemory: Boolean
 ): SqlDriver = WebWorkerDriver(worker = getWorker()).also { driver ->
-    schema.create(driver)
+    schema.create(driver = driver).await()
 }
 
 @OptIn(ExperimentalWasmJsInterop::class)
