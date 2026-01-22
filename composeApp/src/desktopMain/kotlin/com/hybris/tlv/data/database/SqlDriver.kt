@@ -2,6 +2,7 @@ package com.hybris.tlv.data.database
 
 import java.io.File
 import java.util.Properties
+import app.cash.sqldelight.async.coroutines.synchronous
 import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.db.SqlSchema
@@ -10,14 +11,14 @@ import com.hybris.tlv.data.storage.appDataPath
 
 internal actual fun createSqlDriver(
     name: String,
-    schema: SqlSchema<QueryResult.Value<Unit>>,
+    schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
     inMemory: Boolean
 ): SqlDriver = JdbcSqliteDriver(
     url = if (inMemory) JdbcSqliteDriver.IN_MEMORY else {
         "jdbc:sqlite:${File(appDataPath, name).absolutePath}"
     },
     properties = Properties(),
-    schema = schema,
+    schema = schema.synchronous(),
 ).apply {
     execute(
         identifier = null,

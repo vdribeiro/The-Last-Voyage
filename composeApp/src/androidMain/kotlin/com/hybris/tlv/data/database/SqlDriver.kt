@@ -2,6 +2,7 @@ package com.hybris.tlv.data.database
 
 import java.util.Properties
 import androidx.sqlite.db.SupportSQLiteDatabase
+import app.cash.sqldelight.async.coroutines.synchronous
 import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.db.SqlSchema
@@ -11,20 +12,23 @@ import com.hybris.tlv.applicationContext
 
 internal actual fun createSqlDriver(
     name: String,
-    schema: SqlSchema<QueryResult.Value<Unit>>,
+    schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
     inMemory: Boolean
-): SqlDriver = if (!inMemory) AndroidSqliteDriver(
-    schema = schema,
-    context = applicationContext,
-    name = name,
-    callback = object: AndroidSqliteDriver.Callback(schema = schema) {
-        override fun onConfigure(db: SupportSQLiteDatabase) {
-            super.onConfigure(db = db)
-            db.enableWriteAheadLogging()
-        }
-    }
-) else JdbcSqliteDriver(
+): SqlDriver = if (inMemory) JdbcSqliteDriver(
     url = JdbcSqliteDriver.IN_MEMORY,
     properties = Properties(),
-    schema = schema,
-)
+    schema = schema.synchronous(),
+) else {
+    val schema = schema.synchronous()
+    AndroidSqliteDriver(
+        schema = schema,
+        context = applicationContext,
+        name = name,
+        callback = object: AndroidSqliteDriver.Callback(schema = schema) {
+            override fun onConfigure(db: SupportSQLiteDatabase) {
+                super.onConfigure(db = db)
+                db.enableWriteAheadLogging()
+            }
+        }
+    )
+}

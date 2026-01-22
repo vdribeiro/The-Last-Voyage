@@ -11,6 +11,6 @@ import database.AppDatabase
  */
 internal expect fun createSqlDriver(
     name: String = DATABASE_FILE,
-    schema: SqlSchema<QueryResult.Value<Unit>> = AppDatabase.Schema,
+    schema: SqlSchema<QueryResult.AsyncValue<Unit>> = AppDatabase.Schema,
     inMemory: Boolean = false
 ): SqlDriver

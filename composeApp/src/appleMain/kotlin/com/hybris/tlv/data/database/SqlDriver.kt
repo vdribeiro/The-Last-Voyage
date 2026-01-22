@@ -1,5 +1,6 @@
 package com.hybris.tlv.data.database
 
+import app.cash.sqldelight.async.coroutines.synchronous
 import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.db.SqlSchema
@@ -8,10 +9,10 @@ import co.touchlab.sqliter.JournalMode
 
 internal actual fun createSqlDriver(
     name: String,
-    schema: SqlSchema<QueryResult.Value<Unit>>,
+    schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
     inMemory: Boolean
 ): SqlDriver = NativeSqliteDriver(
-    schema = schema,
+    schema = schema.synchronous(),
     name = name,
     onConfiguration = { config ->
         config.copy(

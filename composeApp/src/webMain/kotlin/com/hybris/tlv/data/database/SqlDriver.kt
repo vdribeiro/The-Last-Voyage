@@ -9,7 +9,7 @@ import org.w3c.dom.Worker
 @OptIn(ExperimentalWasmJsInterop::class)
 internal actual fun createSqlDriver(
     name: String,
-    schema: SqlSchema<QueryResult.Value<Unit>>,
+    schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
     inMemory: Boolean
 ): SqlDriver = WebWorkerDriver(worker = getWorker()).also { driver ->
     schema.create(driver)
