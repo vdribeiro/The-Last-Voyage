@@ -45,7 +45,7 @@ internal class ShipGateway(
         } else false
     }
 
-    private fun rewriteEngines(engines: List<Engine>) = engineDao.transaction {
+    private suspend fun rewriteEngines(engines: List<Engine>) = engineDao.transaction {
         engineDao.truncateEngine()
         engines.forEach { engineDao.upsertEngine(Engine = it.toEngineSchema()) }
     }

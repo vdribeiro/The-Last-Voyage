@@ -43,7 +43,7 @@ internal class EventGateway(
         } else false
     }
 
-    private fun rewriteEvents(events: List<Event>) = eventDao.transaction {
+    private suspend fun rewriteEvents(events: List<Event>) = eventDao.transaction {
         eventDao.truncateEvent()
         events.forEach { eventDao.upsertEvent(Event = it.toEventSchema()) }
     }

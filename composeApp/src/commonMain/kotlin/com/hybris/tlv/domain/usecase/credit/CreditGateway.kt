@@ -43,7 +43,7 @@ internal class CreditGateway(
         } else false
     }
 
-    private fun rewriteCredits(credits: List<Credit>) = creditDao.transaction {
+    private suspend fun rewriteCredits(credits: List<Credit>) = creditDao.transaction {
         creditDao.truncateCredit()
         credits.forEach { creditDao.upsertCredit(Credit = it.toCreditSchema()) }
     }

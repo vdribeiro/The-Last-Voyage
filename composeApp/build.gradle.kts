@@ -403,7 +403,7 @@ sqldelight {
     databases {
         create(name = "AppDatabase") {
             packageName.set("database")
-//            generateAsync.set(true)
+            generateAsync.set(true)
             schemaOutputDirectory.set(file(path = "${project.projectDir}/src/commonMain/sqldelight/schema"))
         }
     }

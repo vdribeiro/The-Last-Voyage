@@ -44,7 +44,7 @@ internal class TranslationGateway(
         } else false
     }
 
-    private fun rewriteTranslations(translations: List<Translation>) = translationDao.transaction {
+    private suspend fun rewriteTranslations(translations: List<Translation>) = translationDao.transaction {
         translationDao.truncateTranslation()
         translations.forEach { translationDao.upsertTranslation(Translation = it.toTranslationSchema()) }
     }

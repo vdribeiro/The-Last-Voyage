@@ -44,7 +44,7 @@ internal class AchievementGateway(
         } else false
     }
 
-    private fun rewriteAchievements(achievements: List<Achievement>) = achievementDao.transaction {
+    private suspend fun rewriteAchievements(achievements: List<Achievement>) = achievementDao.transaction {
         achievementDao.truncateAchievement()
         achievements.forEach { achievementDao.upsertAchievement(Achievement = it.toAchievementSchema()) }
     }
