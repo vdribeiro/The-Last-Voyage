@@ -144,7 +144,6 @@ common-test = [
 android = [
     "ktor-okhttp",
     "sqldelight-android",
-    "sqldelight-jvm",
     "androidx-startup",
     "androidx-exoplayer",
 ]

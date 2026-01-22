@@ -22,6 +22,6 @@ internal object FeatureFlags {
      * Sets feature flags.
      */
     fun set(flags: (Flags) -> Flags): FeatureFlags = apply {
-        _flags.update { flags(it) }
+        _flags.update(function = flags)
     }
 }

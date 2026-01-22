@@ -52,9 +52,11 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
                 deleteJsonFile(json = JsonFile.Configs)
                 deleteJsonFile(json = JsonFile.Preferences)
             }
-            _preferences.update { Preferences() }
-            _localConfigs.update { Configs() }
-            _remoteConfigs.update { Configs() }
+            val preferences = Preferences()
+            val configs = Configs()
+            _preferences.update { preferences }
+            _localConfigs.update { configs }
+            _remoteConfigs.update { configs }
         }
     }
 
@@ -95,13 +97,13 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
 
     override suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
-            _preferences.update { preferences(it) }
+            _preferences.update(function = preferences)
             mutex.withLock { saveJsonFile(json = JsonFile.Preferences, content = _preferences.value) }
         }
     }
 
     override fun setConfigs(configs: (Configs) -> Configs): ConfigManager = apply {
-        _localConfigs.update { configs(it) }
+        _localConfigs.update(function = configs)
     }
 
     override suspend fun saveConfigs(): ConfigManager = apply {

@@ -31,7 +31,8 @@ internal val LocalWindowState = staticCompositionLocalOf { WindowState() }
 
 fun main() = application {
     Telemetry.init()
-    Telemetry.info(tag = TAG, message = "App started\nJavaFX = $initializeJfx")
+    Telemetry.info(tag = TAG, message = "App started")
+    Telemetry.info(tag = TAG, message = "JavaFX = $initializeJfx")
 
     val appNameTranslation = getTranslation(key = "app_name")
     val windowState = rememberWindowState(placement = WindowPlacement.Maximized)

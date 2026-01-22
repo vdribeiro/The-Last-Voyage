@@ -1,14 +1,23 @@
 package com.hybris.tlv
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidedValue
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.observeLocaleChanges
 import com.hybris.tlv.core.telemetry.Telemetry
+import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.App
@@ -23,24 +32,31 @@ internal object TLV {
     private const val TAG = "TLV"
 
     private val scope = CoroutineScope(context = SupervisorJob())
-
-    private val dependency: Dependency by lazy { Dependency() }
+    private val _dependency = MutableStateFlow<Dependency?>(value = null)
+    val dependency: StateFlow<Dependency?> = _dependency.asStateFlow()
 
     init {
+        Telemetry.info(tag = TAG, message = "Initializing TLV")
+        initializeDependency()
+
         Telemetry.info(tag = TAG, message = "Registering listeners")
         registerTranslationListener()
+    }
+
+    private fun initializeDependency(): Job = scope.launch(context = Dispatcher.IO) {
+        val dependency = Dependency.create(
+            sqlDriver = createSqlDriver(),
+            httpEngine = null
+        )
+        _dependency.update { dependency }
     }
 
     /**
      * Registers a listener to observe system locale changes to refresh the translation cache.
      */
-    private fun registerTranslationListener() {
-        observeLocaleChanges {
-            scope.launch {
-                val translations = dependency.useCases.translation.getTranslations()
-                TranslationCache.set(translations = translations)
-            }
-        }
+    private fun registerTranslationListener(): Boolean = observeLocaleChanges {
+        val translation = dependency.value?.useCases?.translation ?: return@observeLocaleChanges
+        scope.launch { TranslationCache.set(translations = translation.getTranslations()) }
     }
 
     /**
@@ -52,12 +68,18 @@ internal object TLV {
     fun App(
         modifier: Modifier,
         vararg compositionValues: ProvidedValue<*>
-    ) = App(
-        modifier = modifier,
-        compositionValues = compositionValues,
-        navController = rememberNavController(),
-        config = dependency.config,
-        useCases = dependency.useCases,
-        audioPlayer = dependency.audioPlayer,
-    )
+    ) {
+        val dependency by dependency.collectAsState()
+        val config = dependency?.config ?: return
+        val useCases = dependency?.useCases ?: return
+        val audioPlayer = dependency?.audioPlayer ?: return
+        App(
+            modifier = modifier,
+            compositionValues = compositionValues,
+            navController = rememberNavController(),
+            config = config,
+            useCases = useCases,
+            audioPlayer = audioPlayer,
+        )
+    }
 }
