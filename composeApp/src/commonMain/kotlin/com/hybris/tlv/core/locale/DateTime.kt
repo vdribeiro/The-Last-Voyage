@@ -13,6 +13,11 @@ import kotlin.time.Instant
 internal fun now(): String = Clock.System.now().toString()
 
 /**
+ * Returns the number of milliseconds from the epoch instant 1970-01-01T00:00:00Z.
+ */
+internal fun epoch(): Long = Clock.System.now().toEpochMilliseconds()
+
+/**
  * Get the distant past time.
  */
 internal fun distantPast(): String = Instant.DISTANT_PAST.toString()

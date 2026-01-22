@@ -1,9 +1,13 @@
 package com.hybris.tlv
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.hybris.tlv.core.locale.observeLocaleChanges
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.test.ExcludeFromTesting
@@ -18,6 +22,8 @@ internal object TLV {
 
     private const val TAG = "TLV"
 
+    private val scope = CoroutineScope(context = SupervisorJob())
+
     private val dependency: Dependency by lazy { Dependency() }
 
     init {
@@ -29,8 +35,11 @@ internal object TLV {
      * Registers a listener to observe system locale changes to refresh the translation cache.
      */
     private fun registerTranslationListener() {
-        TranslationCache.registerListener {
-            dependency.useCases.translation.getTranslations()
+        observeLocaleChanges {
+            scope.launch {
+                val translations = dependency.useCases.translation.getTranslations()
+                TranslationCache.set(translations = translations)
+            }
         }
     }
 
