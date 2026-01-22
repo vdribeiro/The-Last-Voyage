@@ -35,7 +35,7 @@ val jdkVersion = 21
 val jvmVersion = JvmTarget.JVM_21
 val javaVersion = JavaVersion.VERSION_21
 
-val androidTarget: Int = 36
+val androidTarget: IntRange = 26..36
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
 val androidKeyPassword: String = localProperties.getProperty("android.keyPassword", "")
 val androidStoreFile: File? = runCatching { rootProject.file(localProperties.getProperty("android.storeFile", "")) }.getOrNull()
@@ -162,9 +162,13 @@ project.afterEvaluate {
 //endregion
 
 //region Web
-fun KotlinDependencyHandler.npm(library: Provider<MinimalExternalModuleDependency>): Dependency {
+fun KotlinDependencyHandler.devNpm(library: Provider<MinimalExternalModuleDependency>): Dependency {
     val dep = library.get()
     return devNpm(name = dep.module.name, version = dep.versionConstraint.displayName)
+}
+fun KotlinDependencyHandler.npm(library: Provider<MinimalExternalModuleDependency>): Dependency {
+    val dep = library.get()
+    return npm(name = dep.module.name, version = dep.versionConstraint.displayName)
 }
 //endregion
 
@@ -255,7 +259,8 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 implementation(dependencyNotation = libs.bundles.web)
-                implementation(dependencyNotation = npm(library = libs.webpack))
+                implementation(dependencyNotation = npm(library = libs.sql.js))
+                implementation(dependencyNotation = devNpm(library = libs.webpack))
             }
         }
         sourceSets.getByName("${webTarget.name}Main").dependsOn(other = webMain)
@@ -271,14 +276,14 @@ kotlin {
 }
 
 dependencies {
-    debugImplementation(dependencyNotation = compose.uiTooling)
+    debugImplementation(dependencyNotation = libs.compose.tooling)
     debugImplementation(dependencyNotation = libs.androidx.test.manifest)
     addJavaFx()
 }
 
 android {
     namespace = appId
-    compileSdk = androidTarget
+    compileSdk = androidTarget.last
 
     signingConfigs {
         create("release") {
@@ -290,8 +295,8 @@ android {
     }
     defaultConfig {
         applicationId = appId
-        minSdk = 26
-        targetSdk = androidTarget
+        minSdk = androidTarget.first
+        targetSdk = androidTarget.last
         versionCode = appVersionNumber.toInt()
         versionName = appVersion
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

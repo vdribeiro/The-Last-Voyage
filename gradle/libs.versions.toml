@@ -33,6 +33,7 @@ logging = "2.0.17"
 javafx = "21.0.9"
 
 # Web
+sql-js = "1.6.2"
 webpack = "9.1.0"
 
 # Crashlytics
@@ -75,7 +76,7 @@ sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", 
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
-sqldelight-web = { module = "app.cash.sqldelight:web-worker-driver-wasm-js", version.ref = "sqldelight" }
+sqldelight-worker = { module = "app.cash.sqldelight:web-worker-driver-wasm-js", version.ref = "sqldelight" }
 sqldelight-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqldelight-jdbc" }
 
 # UI
@@ -85,6 +86,7 @@ compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", v
 compose-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "compose-multiplatform" }
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
 compose-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
+compose-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose-multiplatform" }
 compose-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
 compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-material3" }
 compose-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "compose-icons" }
@@ -106,6 +108,7 @@ javafx-media = { module = "org.openjfx:javafx-media", version.ref = "javafx" }
 javafx-swing = { module = "org.openjfx:javafx-swing", version.ref = "javafx" }
 
 # Web
+sql-js = { module = "npm:sql.js", version.ref = "sql-js" }
 webpack = { module = "npm:copy-webpack-plugin", version.ref = "webpack" }
 
 [bundles]
@@ -157,5 +160,5 @@ desktop = [
     "logging",
 ]
 web = [
-    "sqldelight-web"
+    "sqldelight-worker"
 ]
