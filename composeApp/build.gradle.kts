@@ -457,12 +457,11 @@ tasks.withType<Test> {
 tasks.register<Copy>("deployWeb") {
     group = "deployment"
     description = "Copies the production Wasm build to the docs folder for GitHub Pages."
-    // Ensure the production build runs first
+
     dependsOn("wasmJsBrowserDistribution")
-    // Define the source and destination
     from("build/dist/wasmJs/productionExecutable")
     into(rootProject.file("docs"))
-    // Create a .nojekyll file
+    filter { line -> if (line.contains(other = "<head>")) line.replace(oldValue = "<head>", newValue = "<head>\n    <base href=\"/${rootProject.name}/\">") else line }
     doLast {
         val docsDir = rootProject.file("docs")
         if (docsDir.exists()) File(docsDir, ".nojekyll").createNewFile()
