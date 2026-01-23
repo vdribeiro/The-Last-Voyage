@@ -111,6 +111,7 @@ javafx-media = { module = "org.openjfx:javafx-media", version.ref = "javafx" }
 javafx-swing = { module = "org.openjfx:javafx-swing", version.ref = "javafx" }
 
 # Web
+sql-worker = { module = "npm:@cashapp/sqldelight-sqljs-worker", version.ref = "sqldelight" }
 sql-js = { module = "npm:sql.js", version.ref = "sql-js" }
 webpack = { module = "npm:copy-webpack-plugin", version.ref = "webpack" }
 
