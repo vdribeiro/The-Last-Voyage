@@ -255,6 +255,12 @@ kotlin {
             }
         }
 
+        getByName("desktopTest") {
+            dependencies {
+                implementation(dependencyNotation = libs.compose.test.junit)
+            }
+        }
+
         val webMain by creating {
             dependsOn(commonMain)
             dependencies {

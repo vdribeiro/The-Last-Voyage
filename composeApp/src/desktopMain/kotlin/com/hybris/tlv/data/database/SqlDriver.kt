@@ -23,7 +23,6 @@ internal actual suspend fun createSqlDriver(
         properties = Properties(),
         schema = schema.synchronous(),
     ).apply {
-        schema.create(driver = this).await()
         execute(
             identifier = null,
             sql = "PRAGMA journal_mode=WAL;",

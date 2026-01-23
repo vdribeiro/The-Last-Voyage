@@ -81,6 +81,7 @@ sqldelight-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqldelight
 
 # UI
 compose-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "compose-multiplatform" }
+compose-test-junit = { module = "org.jetbrains.compose.ui:ui-test-junit4", version.ref = "compose-multiplatform" }
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
 compose-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "compose-multiplatform" }
@@ -89,7 +90,7 @@ compose-resources = { module = "org.jetbrains.compose.components:components-reso
 compose-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose-multiplatform" }
 compose-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
 compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-material3" }
-compose-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "compose-icons" }
+compose-icons = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "compose-icons" }
 lifecycle = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 lifecycle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }
@@ -113,17 +114,17 @@ webpack = { module = "npm:copy-webpack-plugin", version.ref = "webpack" }
 
 [bundles]
 common = [
+    "kotlinx-serialization",
+    "kotlinx-datetime",
     "ktor",
     "ktor-mock",
-    "ktor-content",
-    "ktor-serialization",
-    "ktor-encoding",
     "ktor-logging",
+    "ktor-content",
+    "ktor-encoding",
+    "ktor-serialization",
     "sqldelight-runtime",
     "sqldelight-primitives",
     "sqldelight-coroutines",
-    "kotlinx-serialization",
-    "kotlinx-datetime",
     "compose-runtime",
     "compose-foundation",
     "compose-backhandler",
@@ -131,7 +132,7 @@ common = [
     "compose-resources",
     "compose-preview",
     "compose-material3",
-    "compose-icons-extended",
+    "compose-icons",
     "lifecycle",
     "lifecycle-runtime",
     "navigation",
@@ -139,7 +140,7 @@ common = [
 ]
 common-test = [
     "kotlin-test",
-    "compose-test"
+    "compose-test",
 ]
 android = [
     "ktor-okhttp",
@@ -159,5 +160,6 @@ desktop = [
     "logging",
 ]
 web = [
+    "ktor-cio",
     "sqldelight-worker"
 ]

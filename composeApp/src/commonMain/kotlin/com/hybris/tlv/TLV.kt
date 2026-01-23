@@ -4,14 +4,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.core.flow.Dispatcher
@@ -21,6 +20,7 @@ import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.App
+import com.hybris.tlv.ui.theme.component.container.Screen
 
 /**
  * The main object for The Last Voyage application.
@@ -32,8 +32,7 @@ internal object TLV {
     private const val TAG = "TLV"
 
     private val scope = CoroutineScope(context = SupervisorJob())
-    private val _dependency = MutableStateFlow<Dependency?>(value = null)
-    val dependency: StateFlow<Dependency?> = _dependency.asStateFlow()
+    private val dependency = MutableStateFlow<Dependency?>(value = null)
 
     init {
         Telemetry.info(tag = TAG, message = "Initializing TLV")
@@ -48,7 +47,7 @@ internal object TLV {
             sqlDriver = createSqlDriver(),
             httpEngine = null
         )
-        _dependency.update { dependency }
+        this@TLV.dependency.update { dependency }
     }
 
     /**
@@ -70,10 +69,17 @@ internal object TLV {
         vararg compositionValues: ProvidedValue<*>
     ) {
         val dependency by dependency.collectAsState()
-        val config = dependency?.config ?: return
-        val useCases = dependency?.useCases ?: return
-        val audioPlayer = dependency?.audioPlayer ?: return
-        App(
+        val config = dependency?.config
+        val useCases = dependency?.useCases
+        val audioPlayer = dependency?.audioPlayer
+        if (config == null || useCases == null || audioPlayer == null) App(*compositionValues) {
+            Screen(
+                contentAlignment = Alignment.Center,
+                loading = true,
+                loadingDelayMillis = 0L,
+                loadingBackground = true
+            )
+        } else App(
             modifier = modifier,
             compositionValues = compositionValues,
             navController = rememberNavController(),
