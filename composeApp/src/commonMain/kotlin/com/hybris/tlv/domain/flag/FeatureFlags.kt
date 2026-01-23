@@ -1,7 +1,6 @@
 package com.hybris.tlv.domain.flag
 
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import com.hybris.tlv.infrastructure.platform.isDebug
 
@@ -16,7 +15,7 @@ internal object FeatureFlags {
             music = true
         )
     )
-    val flags: Flags = _flags.asStateFlow().value
+    val flags: Flags get() = _flags.value
 
     /**
      * Sets feature flags.

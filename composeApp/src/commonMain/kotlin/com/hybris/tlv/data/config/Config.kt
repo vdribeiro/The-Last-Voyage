@@ -4,7 +4,6 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.ZERO
 import kotlin.time.Duration.Companion.hours
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -36,13 +35,13 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     private val mutex = Mutex()
 
     private val _preferences: MutableStateFlow<Preferences> = MutableStateFlow(value = Preferences())
-    override val preferences: Preferences = _preferences.asStateFlow().value
+    override val preferences: Preferences get() = _preferences.value
 
     private val _localConfigs: MutableStateFlow<Configs> = MutableStateFlow(value = Configs())
-    override val localConfigs: Configs = _localConfigs.asStateFlow().value
+    override val localConfigs: Configs get() = _localConfigs.value
 
     private val _remoteConfigs: MutableStateFlow<Configs> = MutableStateFlow(value = Configs())
-    override val remoteConfigs: Configs = _remoteConfigs.asStateFlow().value
+    override val remoteConfigs: Configs get() = _remoteConfigs.value
 
     private val cacheTTL: Duration = if (flags.devMode) ZERO else 1.hours
 
