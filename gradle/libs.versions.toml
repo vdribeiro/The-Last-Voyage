@@ -3,9 +3,9 @@
 # Kotlin
 kover = "0.9.4"
 kotlin = "2.3.0"
+kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
 kotlinx-datetime = "0.7.1"
-kotlinx-coroutines = "1.10.2"
 
 # Ktor
 ktor = "3.3.3"
@@ -54,9 +54,10 @@ sentry = { id = "io.sentry.kotlin.multiplatform.gradle", version.ref = "sentry" 
 [libraries]
 # Kotlin
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
-kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 
 # Ktor
 ktor = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -114,6 +115,7 @@ webpack = { module = "npm:copy-webpack-plugin", version.ref = "webpack" }
 
 [bundles]
 common = [
+    "kotlinx-coroutines-core",
     "kotlinx-serialization",
     "kotlinx-datetime",
     "ktor",
