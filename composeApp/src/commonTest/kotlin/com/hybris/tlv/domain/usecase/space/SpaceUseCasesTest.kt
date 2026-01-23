@@ -4,9 +4,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.first
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.hostsWithPlanets
-import com.hybris.tlv.test.stellarHosts
 
 internal class SpaceUseCasesTest: TestCase() {
 
@@ -15,13 +14,13 @@ internal class SpaceUseCasesTest: TestCase() {
         assertTrue(actual = useCases.space.observeExoplanets().first().isEmpty())
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
-        assertEquals(expected = hostsWithPlanets.sortedBy { it.id }, actual = useCases.space.observeExoplanets().first().sortedBy { it.id })
+        assertEquals(expected = FakeData.getHostsWithPlanets().sortedBy { it.id }, actual = useCases.space.observeExoplanets().first().sortedBy { it.id })
 
         reset()
         assertTrue(actual = useCases.space.observeExoplanets().first().isEmpty())
         useCases.space.syncStellarHosts()
         useCases.space.syncPlanets()
-        assertEquals(expected = hostsWithPlanets.sortedBy { it.id }, actual = useCases.space.observeExoplanets().first().sortedBy { it.id })
+        assertEquals(expected = FakeData.getHostsWithPlanets().sortedBy { it.id }, actual = useCases.space.observeExoplanets().first().sortedBy { it.id })
     }
 
     @Test
@@ -35,7 +34,7 @@ internal class SpaceUseCasesTest: TestCase() {
     fun getNearestStars() = runUnitTest {
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
-        val sun = stellarHosts.first { it.id == SUN }
+        val sun = FakeData.getStellarHosts().first { it.id == SUN }
         val stellarHosts = useCases.space.getNearestStars(stellarHost = sun, n = 1, visited = emptySet())
         assertEquals(expected = "proxima_cen", actual = stellarHosts.first().id)
     }

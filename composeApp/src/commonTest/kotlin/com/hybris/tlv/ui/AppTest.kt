@@ -22,8 +22,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.infrastructure.audio.AudioPlayer
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.ship
 import com.hybris.tlv.ui.cheats.enableGestureCheats
 import com.hybris.tlv.ui.cheats.konamiCode
 import com.hybris.tlv.ui.cheats.konamiGestureCode
@@ -60,7 +60,7 @@ internal class AppTest: TestCase() {
         assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
         sendCommand(command = Command.Navigate(screen = Screen.MainMenu))
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu).toStringList(), actual = navController.getScreens())
-        sendCommand(command = Command.Navigate(screen = Screen.Game(ship = ship)))
+        sendCommand(command = Command.Navigate(screen = Screen.Game(ship = FakeData.getShip())))
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu, Screen.Game).toStringList(), actual = navController.getScreens())
         sendCommand(command = Command.Navigate(screen = Screen.MainMenu))
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu).toStringList(), actual = navController.getScreens())

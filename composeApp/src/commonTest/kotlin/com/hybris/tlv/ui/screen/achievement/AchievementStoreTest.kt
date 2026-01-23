@@ -4,8 +4,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.achievements
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class AchievementStoreTest: TestCase() {
@@ -15,7 +15,7 @@ internal class AchievementStoreTest: TestCase() {
         useCases.achievement.prepopulateAchievements()
         val store = storeFactory.getAchievementStore()
         assertFalse(actual = store.state.loading)
-        assertEquals(expected = achievements, actual = store.state.achievements)
+        assertEquals(expected = FakeData.getAchievements(), actual = store.state.achievements)
     }
 
     @Test

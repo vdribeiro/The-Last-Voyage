@@ -11,8 +11,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import com.hybris.tlv.domain.usecase.credit.model.CreditType
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.credits
 
 @OptIn(ExperimentalTestApi::class)
 internal class CreditScreenTest: TestCase() {
@@ -60,13 +60,13 @@ internal class CreditScreenTest: TestCase() {
         onNodeWithTag(testTag = "credits_grid").assertIsDisplayed()
         onNodeWithTag(testTag = "credits_grid").count(count = 9)
 
-        val creditsMap = credits.groupBy { it.type }
+        val creditsMap = FakeData.getCredits().groupBy { it.type }
         creditsMap[CreditType.CREATOR].orEmpty()
         creditsMap[CreditType.SOURCE].orEmpty()
         creditsMap[CreditType.MUSIC].orEmpty()
         creditsMap[CreditType.SUPPORTER].orEmpty()
 
-        credits.forEach {
+        FakeData.getCredits().forEach {
             openedUri = null
             onNodeWithText(text = it.id).performScrollTo().performClick()
             assertEquals(expected = it.link, actual = openedUri)

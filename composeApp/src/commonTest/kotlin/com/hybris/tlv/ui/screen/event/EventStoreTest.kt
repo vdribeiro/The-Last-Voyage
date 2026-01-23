@@ -5,9 +5,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.events
-import com.hybris.tlv.test.gameSessionPrototype
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class EventStoreTest: TestCase() {
@@ -16,7 +15,7 @@ internal class EventStoreTest: TestCase() {
     fun init() = runUnitTest {
         useCases.event.prepopulateEvents()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getEventStore(ship = null)
         assertNotNull(actual = store.gameSession)
         assertTrue(actual = store.eventChain.isNotEmpty())
@@ -37,9 +36,9 @@ internal class EventStoreTest: TestCase() {
     fun select() = runUnitTest {
         useCases.event.prepopulateEvents()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getEventStore(ship = null)
-        val event = events.random()
+        val event = FakeData.getEvents().random()
         store.send(action = EventAction.Select(event = event))
         assertEquals(expected = event, actual = store.state.parentEvent)
     }
@@ -48,7 +47,7 @@ internal class EventStoreTest: TestCase() {
     fun selectStopEvent() = runUnitTest {
         useCases.event.prepopulateEvents()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getEventStore(ship = null)
         store.send(action = EventAction.Select(event = stopEvent))
         assertNavigation(list = listOf(Screen.Game()))
@@ -58,7 +57,7 @@ internal class EventStoreTest: TestCase() {
     fun selectWithoutData() = runUnitTest {
         assertNavigation(list = emptyList())
         val store = storeFactory.getEventStore(ship = null)
-        store.send(action = EventAction.Select(event = events.random()))
+        store.send(action = EventAction.Select(event = FakeData.getEvents().random()))
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 
@@ -69,7 +68,7 @@ internal class EventStoreTest: TestCase() {
         assertNavigation(list = listOf(Screen.Event()))
         useCases.event.prepopulateEvents()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         storeFactory.getEventStore(ship = null).back()
         assertNavigation(list = listOf(Screen.Event()))
     }

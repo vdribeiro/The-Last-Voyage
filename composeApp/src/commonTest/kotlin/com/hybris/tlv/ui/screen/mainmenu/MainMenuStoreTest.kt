@@ -4,8 +4,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.gameSessionPrototype
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class MainMenuStoreTest: TestCase() {
@@ -13,7 +13,7 @@ internal class MainMenuStoreTest: TestCase() {
     @Test
     fun init() = runUnitTest {
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getMainMenuStore()
         assertFalse(actual = store.state.loading)
         assertFalse(actual = store.state.newVersionBanner)

@@ -5,8 +5,8 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.gameSessionPrototype
 
 @OptIn(ExperimentalTestApi::class)
 internal class MainMenuScreenTest: TestCase() {
@@ -34,7 +34,7 @@ internal class MainMenuScreenTest: TestCase() {
     @Test
     fun mainMenuWithData() = runUITest {
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getMainMenuStore()
         setScreen { MainMenuScreen(store = store) }
 

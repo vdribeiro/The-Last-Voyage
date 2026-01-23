@@ -12,15 +12,7 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import com.hybris.tlv.data.serializer.encode
-import com.hybris.tlv.test.achievements
-import com.hybris.tlv.test.catastrophes
-import com.hybris.tlv.test.configs
-import com.hybris.tlv.test.credits
-import com.hybris.tlv.test.engines
-import com.hybris.tlv.test.events
-import com.hybris.tlv.test.planets
-import com.hybris.tlv.test.stellarHosts
-import com.hybris.tlv.test.translations
+import com.hybris.tlv.test.FakeData
 
 internal object TestEngine {
 
@@ -34,15 +26,15 @@ internal object TestEngine {
 
             HttpMethod.Get -> when {
                 path.startsWith(prefix = URL.ExoplanetArchive.path) -> respondArchive(request = request)
-                path.startsWith(prefix = URL.Configs.path) -> respondMock(content = encode(value = listOf(configs)))
-                path.startsWith(prefix = URL.Translations.path) -> respondMock(content = encode(value = translations))
-                path.startsWith(prefix = URL.Catastrophes.path) -> respondMock(content = encode(value = catastrophes))
-                path.startsWith(prefix = URL.Engines.path) -> respondMock(content = encode(value = engines))
-                path.startsWith(prefix = URL.StellarHosts.path) -> respondMock(content = encode(value = stellarHosts))
-                path.startsWith(prefix = URL.Planets.path) -> respondMock(content = encode(value = planets))
-                path.startsWith(prefix = URL.Events.path) -> respondMock(content = encode(value = events))
-                path.startsWith(prefix = URL.Achievements.path) -> respondMock(content = encode(value = achievements))
-                path.startsWith(prefix = URL.Credits.path) -> respondMock(content = encode(value = credits))
+                path.startsWith(prefix = URL.Configs.path) -> respondMock(content = encode(value = listOf(FakeData.configs)))
+                path.startsWith(prefix = URL.Translations.path) -> respondMock(content = encode(value = FakeData.getTranslations()))
+                path.startsWith(prefix = URL.Catastrophes.path) -> respondMock(content = encode(value = FakeData.getCatastrophes()))
+                path.startsWith(prefix = URL.Engines.path) -> respondMock(content = encode(value = FakeData.getEngines()))
+                path.startsWith(prefix = URL.StellarHosts.path) -> respondMock(content = encode(value = FakeData.getStellarHosts()))
+                path.startsWith(prefix = URL.Planets.path) -> respondMock(content = encode(value = FakeData.getPlanets()))
+                path.startsWith(prefix = URL.Events.path) -> respondMock(content = encode(value = FakeData.getEvents()))
+                path.startsWith(prefix = URL.Achievements.path) -> respondMock(content = encode(value = FakeData.getAchievements()))
+                path.startsWith(prefix = URL.Credits.path) -> respondMock(content = encode(value = FakeData.getCredits()))
                 else -> respondMock(status = HttpStatusCode.NotFound, content = "Resource not found for path: ${request.url.encodedPath}")
             }
 
@@ -59,13 +51,13 @@ internal object TestEngine {
         headers = headersOf(name = HttpHeaders.ContentType, value = ContentType.Application.Json.toString())
     )
 
-    private fun MockRequestHandleScope.respondArchive(request: HttpRequestData): HttpResponseData {
+    private suspend fun MockRequestHandleScope.respondArchive(request: HttpRequestData): HttpResponseData {
         val parameters = request.url.parameters.toString()
         return when {
-            parameters.contains(other = "from stellarhosts") -> respondMock(content = encode(value = stellarHosts.map { it.toStellarHostJson() }))
+            parameters.contains(other = "from stellarhosts") -> respondMock(content = encode(value = FakeData.getStellarHosts().map { it.toStellarHostJson() }))
             parameters.contains(other = "from pscomppars") || parameters.contains(other = "from k2pandc") -> {
-                val stellarHostsMap = stellarHosts.associateBy { it.id }
-                val exoplanets = planets.mapNotNull {
+                val stellarHostsMap = FakeData.getStellarHosts().associateBy { it.id }
+                val exoplanets = FakeData.getPlanets().mapNotNull {
                     val stellarHost = stellarHostsMap[it.stellarHostId] ?: return@mapNotNull null
                     it.toExoplanetJson(stellarHost = stellarHost)
                 }

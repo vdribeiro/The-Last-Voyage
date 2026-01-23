@@ -4,8 +4,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.credits
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class CreditStoreTest: TestCase() {
@@ -15,7 +15,7 @@ internal class CreditStoreTest: TestCase() {
         useCases.credit.prepopulateCredits()
         val store = storeFactory.getCreditStore()
         assertFalse(actual = store.state.loading)
-        assertEquals(expected = credits, actual = store.state.credits)
+        assertEquals(expected = FakeData.getCredits(), actual = store.state.credits)
     }
 
     @Test

@@ -6,8 +6,8 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.gameSessionPrototype
 
 @OptIn(ExperimentalTestApi::class)
 internal class GameOverScreenTest: TestCase() {
@@ -33,7 +33,7 @@ internal class GameOverScreenTest: TestCase() {
     @Test
     fun gameOverWithData() = runUITest {
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getGameOverStore()
         setScreen { GameOverScreen(store = store) }
 

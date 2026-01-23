@@ -5,9 +5,8 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.planets
-import com.hybris.tlv.test.stellarHosts
 
 @OptIn(ExperimentalTestApi::class)
 internal class StellarExplorerScreenTest: TestCase() {
@@ -49,13 +48,13 @@ internal class StellarExplorerScreenTest: TestCase() {
         onNodeWithTag(testTag = "stellar_explorer_host_list").assertIsDisplayed()
         onNodeWithTag(testTag = "stellar_explorer_planet_list").assertDoesNotExist()
 
-        onNodeWithTag(testTag = "stellar_explorer_host_list").count(count = stellarHosts.size)
+        onNodeWithTag(testTag = "stellar_explorer_host_list").count(count = FakeData.getStellarHosts().size)
 
         onNodeWithTag(testTag = "control_panel_view_change").performClick()
 
         onNodeWithTag(testTag = "stellar_explorer_host_list").assertDoesNotExist()
         onNodeWithTag(testTag = "stellar_explorer_planet_list").assertIsDisplayed()
 
-        onNodeWithTag(testTag = "stellar_explorer_planet_list").count(count = planets.size)
+        onNodeWithTag(testTag = "stellar_explorer_planet_list").count(count = FakeData.getPlanets().size)
     }
 }

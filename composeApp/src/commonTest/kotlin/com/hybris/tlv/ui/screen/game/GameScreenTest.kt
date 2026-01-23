@@ -10,8 +10,8 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.gameSessionPrototype
 
 @OptIn(ExperimentalTestApi::class)
 internal class GameScreenTest: TestCase() {
@@ -43,7 +43,7 @@ internal class GameScreenTest: TestCase() {
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getGameStore(ship = null)
         setScreen { GameScreen(store = store) }
 

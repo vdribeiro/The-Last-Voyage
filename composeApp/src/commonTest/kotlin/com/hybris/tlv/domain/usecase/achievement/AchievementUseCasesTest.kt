@@ -4,9 +4,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import com.hybris.tlv.domain.usecase.space.SUN
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.achievements
-import com.hybris.tlv.test.gameSessionPrototype
 
 internal class AchievementUseCasesTest: TestCase() {
 
@@ -14,18 +13,18 @@ internal class AchievementUseCasesTest: TestCase() {
     fun prepopulateAndSyncAchievements() = runUnitTest {
         assertTrue(actual = useCases.achievement.getAchievements().isEmpty())
         useCases.achievement.prepopulateAchievements()
-        assertEquals(expected = achievements.sortedBy { it.id }, actual = useCases.achievement.getAchievements().sortedBy { it.id })
+        assertEquals(expected = FakeData.getAchievements().sortedBy { it.id }, actual = useCases.achievement.getAchievements().sortedBy { it.id })
 
         reset()
         assertTrue(actual = useCases.achievement.getAchievements().isEmpty())
         useCases.achievement.syncAchievements()
-        assertEquals(expected = achievements.sortedBy { it.id }, actual = useCases.achievement.getAchievements().sortedBy { it.id })
+        assertEquals(expected = FakeData.getAchievements().sortedBy { it.id }, actual = useCases.achievement.getAchievements().sortedBy { it.id })
     }
 
     @Test
     fun updateAchievements() = runUnitTest {
         useCases.achievement.prepopulateAchievements()
-        val gameSession = useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        val gameSession = useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val newGameSession = gameSession.copy(
             currentStellarHostId = SUN,
             settledPlanetId = "3earth",

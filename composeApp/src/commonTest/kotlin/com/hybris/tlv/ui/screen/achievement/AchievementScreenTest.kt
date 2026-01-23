@@ -5,8 +5,8 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.achievements
 
 @OptIn(ExperimentalTestApi::class)
 internal class AchievementScreenTest: TestCase() {
@@ -39,6 +39,6 @@ internal class AchievementScreenTest: TestCase() {
 
         onNodeWithText(text = "achievements_screen__title").assertIsDisplayed()
         onNodeWithTag(testTag = "achievement_list").assertIsDisplayed()
-        onNodeWithTag(testTag = "achievement_list").count(count = achievements.size)
+        onNodeWithTag(testTag = "achievement_list").count(count = FakeData.getAchievements().size)
     }
 }

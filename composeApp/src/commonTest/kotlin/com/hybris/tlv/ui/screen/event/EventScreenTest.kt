@@ -7,16 +7,15 @@ import androidx.compose.ui.test.onChildAt
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.gameSessionPrototype
-import com.hybris.tlv.test.ship
 
 @OptIn(ExperimentalTestApi::class)
 internal class EventScreenTest: TestCase() {
 
     @Test
     fun eventWithoutData() = runUITest {
-        val store = storeFactory.getEventStore(ship = ship)
+        val store = storeFactory.getEventStore(ship = FakeData.getShip())
         setScreen { EventScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()
@@ -37,8 +36,8 @@ internal class EventScreenTest: TestCase() {
     fun eventWithData() = runUITest {
         useCases.event.prepopulateEvents()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
-        val store = storeFactory.getEventStore(ship = ship)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val store = storeFactory.getEventStore(ship = FakeData.getShip())
         setScreen { EventScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()

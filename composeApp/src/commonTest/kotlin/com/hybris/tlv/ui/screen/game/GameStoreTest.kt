@@ -5,10 +5,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.gameSessionPrototype
-import com.hybris.tlv.test.planets
-import com.hybris.tlv.test.stellarHosts
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class GameStoreTest: TestCase() {
@@ -18,13 +16,13 @@ internal class GameStoreTest: TestCase() {
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getGameStore(ship = null)
         assertNotNull(actual = store.gameSession)
         assertFalse(actual = store.state.loading)
         assertEquals(expected = Content.SYSTEM, actual = store.state.currentContent)
         assertNotNull(actual = store.state.ship)
-        assertEquals(expected = stellarHosts.first(), actual = store.state.currentStellarHost)
+        assertEquals(expected = FakeData.getStellarHosts().first(), actual = store.state.currentStellarHost)
         assertTrue(actual = store.state.nearStellarHosts.isNotEmpty())
     }
 
@@ -38,7 +36,7 @@ internal class GameStoreTest: TestCase() {
     @Test
     fun initWithoutStellarHost() = runUnitTest {
         assertNavigation(list = emptyList())
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         storeFactory.getGameStore(ship = null)
         assertNavigation(list = listOf(Screen.Feedback()))
     }
@@ -48,7 +46,7 @@ internal class GameStoreTest: TestCase() {
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val gameSession = useCases.gameSession.getLatestGameSession()!!
         useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(integrity = 0)))
         val store = storeFactory.getGameStore(ship = null)
@@ -61,7 +59,7 @@ internal class GameStoreTest: TestCase() {
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val gameSession = useCases.gameSession.getLatestGameSession()!!
         useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(integrity = 0, materials = 0)))
         assertNavigation(list = emptyList())
@@ -75,7 +73,7 @@ internal class GameStoreTest: TestCase() {
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val gameSession = useCases.gameSession.getLatestGameSession()!!
         useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(fuel = 0)))
         assertNavigation(list = emptyList())
@@ -88,7 +86,7 @@ internal class GameStoreTest: TestCase() {
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getGameStore(ship = null)
 
         store.send(action = GameAction.ChangeTab(Content.SYSTEM))
@@ -106,11 +104,11 @@ internal class GameStoreTest: TestCase() {
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getGameStore(ship = null)
 
         assertNavigation(list = emptyList())
-        store.send(action = GameAction.Travel(stellarHost = stellarHosts.first { it.id == "proxima_cen" }))
+        store.send(action = GameAction.Travel(stellarHost = FakeData.getStellarHosts().first { it.id == "proxima_cen" }))
         assertNavigation(list = listOf(Screen.Event()))
     }
 
@@ -118,16 +116,16 @@ internal class GameStoreTest: TestCase() {
     fun travelWithoutGameSession() = runUnitTest {
         assertNavigation(list = emptyList())
         val store = storeFactory.getGameStore(ship = null)
-        store.send(action = GameAction.Travel(stellarHost = stellarHosts.first { it.id == "proxima_cen" }))
+        store.send(action = GameAction.Travel(stellarHost = FakeData.getStellarHosts().first { it.id == "proxima_cen" }))
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
     fun travelWithoutStellarHost() = runUnitTest {
         assertNavigation(list = emptyList())
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getGameStore(ship = null)
-        store.send(action = GameAction.Travel(stellarHost = stellarHosts.first { it.id == "proxima_cen" }))
+        store.send(action = GameAction.Travel(stellarHost = FakeData.getStellarHosts().first { it.id == "proxima_cen" }))
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 
@@ -136,11 +134,11 @@ internal class GameStoreTest: TestCase() {
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getGameStore(ship = null)
 
         assertNavigation(list = emptyList())
-        store.send(action = GameAction.Settle(planet = planets.first()))
+        store.send(action = GameAction.Settle(planet = FakeData.getPlanets().first()))
         assertNavigation(list = listOf(Screen.GameOver))
     }
 
@@ -148,7 +146,7 @@ internal class GameStoreTest: TestCase() {
     fun settleWithoutGameSession() = runUnitTest {
         assertNavigation(list = emptyList())
         val store = storeFactory.getGameStore(ship = null)
-        store.send(action = GameAction.Settle(planet = planets.first()))
+        store.send(action = GameAction.Settle(planet = FakeData.getPlanets().first()))
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 
@@ -160,7 +158,7 @@ internal class GameStoreTest: TestCase() {
         useCases.space.prepopulateStellarHosts()
         useCases.space.prepopulatePlanets()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         storeFactory.getGameStore(ship = null).back()
         assertNavigation(list = listOf(Screen.Game(), Screen.MainMenu))
     }

@@ -6,8 +6,8 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.test.gameSessionPrototype
 import com.hybris.tlv.ui.navigation.Screen
 
 internal class GameOverStoreTest: TestCase() {
@@ -15,7 +15,7 @@ internal class GameOverStoreTest: TestCase() {
     @Test
     fun init() = runUnitTest {
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getGameOverStore()
         assertTrue(store.achievements.isEmpty())
         assertEquals(expected = 0, actual = store.index)
@@ -37,7 +37,7 @@ internal class GameOverStoreTest: TestCase() {
     fun nextContent() = runUnitTest {
         assertNavigation(list = emptyList())
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val store = storeFactory.getGameOverStore()
         assertEquals(expected = Content.MESSAGE, actual = store.state.currentContent)
         store.send(action = GameOverAction.Next)
@@ -58,7 +58,7 @@ internal class GameOverStoreTest: TestCase() {
     fun achievements() = runUnitTest {
         useCases.achievement.prepopulateAchievements()
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         val gameSession = useCases.gameSession.getLatestGameSession()!!
         useCases.gameSession.updateGameSession(
             gameSession = gameSession.copy(
@@ -86,7 +86,7 @@ internal class GameOverStoreTest: TestCase() {
         navigate(screen = Screen.GameOver)
         assertNavigation(list = listOf(Screen.GameOver))
         useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = gameSessionPrototype)
+        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
         storeFactory.getGameOverStore().back()
         assertNavigation(list = listOf(Screen.GameOver))
     }
