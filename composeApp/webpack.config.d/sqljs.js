@@ -8,12 +8,20 @@ config.resolve.fallback = {
     crypto: false,
 };
 
+config.module.rules.push({
+    test: /sqljs\.worker\.js$/,
+    type: 'asset/resource',
+    generator: {
+        filename: 'sqljs.worker.js'
+    }
+});
+
 config.plugins.push(
     new CopyWebpackPlugin({
         patterns: [
             {
                 from: path.resolve(__dirname, "../../node_modules/sql.js/dist/sql-wasm.wasm"),
-                to: "."
+                to: "sql-wasm.wasm"
             }
         ]
     })
