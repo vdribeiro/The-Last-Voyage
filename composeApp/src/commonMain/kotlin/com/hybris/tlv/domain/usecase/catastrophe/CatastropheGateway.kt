@@ -45,7 +45,7 @@ internal class CatastropheGateway(
         } else false
     }
 
-    private suspend fun rewriteCatastrophes(catastrophes: List<Catastrophe>) = catastropheDao.transaction {
+    private suspend fun rewriteCatastrophes(catastrophes: List<Catastrophe>) = catastropheDao.transactionWithResult {
         catastropheDao.truncateCatastrophe()
         catastrophes.forEach { catastropheDao.upsertCatastrophe(Catastrophe = it.toCatastropheSchema()) }
     }

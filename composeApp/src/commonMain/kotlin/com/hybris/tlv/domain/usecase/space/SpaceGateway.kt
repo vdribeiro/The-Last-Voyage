@@ -55,7 +55,7 @@ internal class SpaceGateway(
         } else false
     }
 
-    private suspend fun rewriteStellarHosts(stellarHosts: List<StellarHost>) = stellarHostDao.transaction {
+    private suspend fun rewriteStellarHosts(stellarHosts: List<StellarHost>) = stellarHostDao.transactionWithResult {
         stellarHostDao.truncateStellarHost()
         stellarHosts.forEach { stellarHostDao.upsertStellarHost(StellarHost = it.toStellarHostSchema()) }
     }
@@ -85,7 +85,7 @@ internal class SpaceGateway(
         } else false
     }
 
-    private suspend fun rewritePlanets(planets: List<Planet>) = planetDao.transaction {
+    private suspend fun rewritePlanets(planets: List<Planet>) = planetDao.transactionWithResult {
         planetDao.truncatePlanet()
         planets.forEach { planetDao.upsertPlanet(Planet = it.toPlanetSchema()) }
     }

@@ -45,7 +45,7 @@ internal class AchievementGateway(
         } else false
     }
 
-    private suspend fun rewriteAchievements(achievements: List<Achievement>) = achievementDao.transaction {
+    private suspend fun rewriteAchievements(achievements: List<Achievement>) = achievementDao.transactionWithResult {
         achievementDao.truncateAchievement()
         achievements.forEach { achievementDao.upsertAchievement(Achievement = it.toAchievementSchema()) }
     }
@@ -118,7 +118,7 @@ internal class AchievementGateway(
                 ) add(element = achievement.copy(done = true))
             }
         }
-        achievementDao.transaction { achievements.forEach { achievementDao.upsertAchievement(Achievement = it.toAchievementSchema()) } }
+        achievementDao.transactionWithResult { achievements.forEach { achievementDao.upsertAchievement(Achievement = it.toAchievementSchema()) } }
         achievements.toList()
     }
 
