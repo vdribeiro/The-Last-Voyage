@@ -30,10 +30,4 @@ private fun getDebugWorker(): Worker = js(
 )
 
 @OptIn(ExperimentalWasmJsInterop::class)
-private fun getWorker(): Worker = js(
-    code = """
-        new Worker(
-            new URL("sqljs.worker.js", import.meta.url)
-        )
-    """
-)
+private fun getWorker(): Worker = js(code = "new Worker('sqljs.worker.js')")
