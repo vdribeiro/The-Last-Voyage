@@ -1,5 +1,6 @@
 package com.hybris.tlv.test
 
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -52,7 +53,7 @@ internal abstract class TestCase {
      */
     private val dependency: Dependency by lazy {
         Dependency.create(
-            sqlDriver = createSqlDriver(inMemory = true),
+            sqlDriver = runBlocking { createSqlDriver(inMemory = true) },
             httpEngine = TestEngine.mock,
         )
     }
