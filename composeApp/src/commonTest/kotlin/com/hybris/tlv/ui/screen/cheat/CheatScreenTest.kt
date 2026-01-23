@@ -15,7 +15,7 @@ internal class CheatScreenTest: TestCase() {
 
     @Test
     fun cheat() = runUITest {
-        val store = storeFactory.getCheatStore()
+        val store = getStoreFactory().getCheatStore()
         setScreen { CheatScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()

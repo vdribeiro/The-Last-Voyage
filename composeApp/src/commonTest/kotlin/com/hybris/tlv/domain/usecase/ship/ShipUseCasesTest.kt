@@ -12,14 +12,14 @@ internal class ShipUseCasesTest: TestCase() {
 
     @Test
     fun prepopulateAndSyncEngines() = runUnitTest {
-        assertTrue(actual = useCases.ship.getEngines().isEmpty())
-        useCases.ship.prepopulateEngines()
-        assertEquals(expected = FakeData.getEngines().sortedBy { it.id }, actual = useCases.ship.getEngines().sortedBy { it.id })
+        assertTrue(actual = getUseCases().ship.getEngines().isEmpty())
+        getUseCases().ship.prepopulateEngines()
+        assertEquals(expected = FakeData.getEngines().sortedBy { it.id }, actual = getUseCases().ship.getEngines().sortedBy { it.id })
 
         reset()
-        assertTrue(actual = useCases.ship.getEngines().isEmpty())
-        useCases.ship.syncEngines()
-        assertEquals(expected = FakeData.getEngines().sortedBy { it.id }, actual = useCases.ship.getEngines().sortedBy { it.id })
+        assertTrue(actual = getUseCases().ship.getEngines().isEmpty())
+        getUseCases().ship.syncEngines()
+        assertEquals(expected = FakeData.getEngines().sortedBy { it.id }, actual = getUseCases().ship.getEngines().sortedBy { it.id })
     }
 
     @Test
@@ -41,7 +41,7 @@ internal class ShipUseCasesTest: TestCase() {
             materials = 50,
             cryopods = 50,
         )
-        val repairedShipIntegrity = useCases.ship.repairShip(ship = shipNoIntegrity)
+        val repairedShipIntegrity = getUseCases().ship.repairShip(ship = shipNoIntegrity)
         assertEquals(expected = 1, actual = repairedShipIntegrity.integrity)
         assertEquals(expected = 49, actual = repairedShipIntegrity.materials)
         val shipNoMaterials = Ship(
@@ -61,7 +61,7 @@ internal class ShipUseCasesTest: TestCase() {
             materials = -1,
             cryopods = 50,
         )
-        val repairedShipMaterials = useCases.ship.repairShip(ship = shipNoMaterials)
+        val repairedShipMaterials = getUseCases().ship.repairShip(ship = shipNoMaterials)
         assertEquals(expected = 9, actual = repairedShipMaterials.integrity)
         assertEquals(expected = 0, actual = repairedShipMaterials.materials)
     }

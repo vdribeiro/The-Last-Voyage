@@ -15,7 +15,7 @@ internal class EventScreenTest: TestCase() {
 
     @Test
     fun eventWithoutData() = runUITest {
-        val store = storeFactory.getEventStore(ship = FakeData.getShip())
+        val store = getStoreFactory().getEventStore(ship = FakeData.getShip())
         setScreen { EventScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()
@@ -34,10 +34,10 @@ internal class EventScreenTest: TestCase() {
 
     @Test
     fun eventWithData() = runUITest {
-        useCases.event.prepopulateEvents()
-        useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val store = storeFactory.getEventStore(ship = FakeData.getShip())
+        getUseCases().event.prepopulateEvents()
+        getUseCases().ship.prepopulateEngines()
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val store = getStoreFactory().getEventStore(ship = FakeData.getShip())
         setScreen { EventScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()

@@ -47,6 +47,8 @@ internal class AppTest: TestCase() {
             )
         }
         lateinit var navController: NavHostController
+        val config = getConfig()
+        val useCases = getUseCases()
         setScreen {
             navController = rememberNavController()
             App(
@@ -78,6 +80,8 @@ internal class AppTest: TestCase() {
             )
         }
         lateinit var navController: NavHostController
+        val config = getConfig()
+        val useCases = getUseCases()
         setScreen {
             navController = rememberNavController()
             App(

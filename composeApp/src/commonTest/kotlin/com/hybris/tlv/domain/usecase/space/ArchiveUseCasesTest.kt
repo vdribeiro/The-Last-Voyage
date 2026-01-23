@@ -21,7 +21,7 @@ internal class ArchiveUseCasesTest: TestCase() {
         assertNull(actual = loadJsonFile(json = JsonFile.ArchiveStellarHosts))
         assertNull(actual = loadJsonFile(json = JsonFile.ArchivePlanets))
 
-        assertTrue(actual = useCases.archive.getArchive())
+        assertTrue(actual = getUseCases().archive.getArchive())
         assertNotNull(actual = loadJsonFile<List<StellarHost>>(json = JsonFile.ArchiveStellarHosts))
         assertNotNull(actual = loadJsonFile<List<Planet>>(json = JsonFile.ArchivePlanets))
 

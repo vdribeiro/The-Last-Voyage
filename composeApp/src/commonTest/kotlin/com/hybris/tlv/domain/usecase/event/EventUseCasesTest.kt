@@ -10,19 +10,19 @@ internal class EventUseCasesTest: TestCase() {
 
     @Test
     fun prepopulateAndSyncEvents() = runUnitTest {
-        assertTrue(actual = useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
-        useCases.event.prepopulateEvents()
-        assertTrue(actual = useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
+        assertTrue(actual = getUseCases().event.getRandomEvent(ids = emptySet()).isEmpty())
+        getUseCases().event.prepopulateEvents()
+        assertTrue(actual = getUseCases().event.getRandomEvent(ids = emptySet()).isNotEmpty())
 
         reset()
-        assertTrue(actual = useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
-        useCases.event.syncEvents()
-        assertTrue(actual = useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
+        assertTrue(actual = getUseCases().event.getRandomEvent(ids = emptySet()).isEmpty())
+        getUseCases().event.syncEvents()
+        assertTrue(actual = getUseCases().event.getRandomEvent(ids = emptySet()).isNotEmpty())
 
         val ids = FakeData.getEvents().map { it.id }.toSet()
-        assertTrue(actual = useCases.event.getRandomEvent(ids = ids).isEmpty())
+        assertTrue(actual = getUseCases().event.getRandomEvent(ids = ids).isEmpty())
 
         val event = FakeData.getEvents().first { it.parentId == null }
-        assertEquals(expected = listOf(event), actual = useCases.event.getRandomEvent(ids = ids - event.id).filter { it.parentId == null })
+        assertEquals(expected = listOf(event), actual = getUseCases().event.getRandomEvent(ids = ids - event.id).filter { it.parentId == null })
     }
 }

@@ -12,15 +12,15 @@ internal class AchievementStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        useCases.achievement.prepopulateAchievements()
-        val store = storeFactory.getAchievementStore()
+        getUseCases().achievement.prepopulateAchievements()
+        val store = getStoreFactory().getAchievementStore()
         assertFalse(actual = store.state.loading)
         assertEquals(expected = FakeData.getAchievements(), actual = store.state.achievements)
     }
 
     @Test
     fun initWithoutAchievements() = runUnitTest {
-        val store = storeFactory.getAchievementStore()
+        val store = getStoreFactory().getAchievementStore()
         assertFalse(actual = store.state.loading)
         assertTrue(actual = store.state.achievements.isEmpty())
     }
@@ -30,7 +30,7 @@ internal class AchievementStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Achievement)
         assertNavigation(list = listOf(Screen.Achievement))
-        storeFactory.getAchievementStore().back()
+        getStoreFactory().getAchievementStore().back()
         assertNavigation(list = emptyList())
     }
 }

@@ -15,9 +15,9 @@ internal class StellarExplorerStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        useCases.space.syncStellarHosts()
-        useCases.space.syncPlanets()
-        val store = storeFactory.getStellarExplorerStore()
+        getUseCases().space.syncStellarHosts()
+        getUseCases().space.syncPlanets()
+        val store = getStoreFactory().getStellarExplorerStore()
         assertEquals(expected = Formula(id = store.formula.id), actual = store.formula)
         assertTrue(actual = store.stellarHostsFlow.value.isNotEmpty())
         assertFalse(store.state.loading)
@@ -81,7 +81,7 @@ internal class StellarExplorerStoreTest: TestCase() {
 
     @Test
     fun saveIndex() = runUnitTest {
-        val store = storeFactory.getStellarExplorerStore()
+        val store = getStoreFactory().getStellarExplorerStore()
         assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemIndex)
         assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemScrollOffset)
 
@@ -93,9 +93,9 @@ internal class StellarExplorerStoreTest: TestCase() {
 
     @Test
     fun search() = runUnitTest {
-        useCases.space.syncStellarHosts()
-        useCases.space.syncPlanets()
-        val store = storeFactory.getStellarExplorerStore()
+        getUseCases().space.syncStellarHosts()
+        getUseCases().space.syncPlanets()
+        val store = getStoreFactory().getStellarExplorerStore()
 
         store.send(action = StellarExplorerAction.Search(search = FakeData.getStellarHosts().first().name))
         assertEquals(expected = listOf(FakeData.getStellarHosts().first()), actual = store.state.stellarHosts)
@@ -107,9 +107,9 @@ internal class StellarExplorerStoreTest: TestCase() {
 
     @Test
     fun sort() = runUnitTest {
-        useCases.space.syncStellarHosts()
-        useCases.space.syncPlanets()
-        val store = storeFactory.getStellarExplorerStore()
+        getUseCases().space.syncStellarHosts()
+        getUseCases().space.syncPlanets()
+        val store = getStoreFactory().getStellarExplorerStore()
 
         store.send(action = StellarExplorerAction.SortStellarHosts(sort = StellarHostProperty.NAME))
         assertEquals(expected = StellarHostProperty.NAME, actual = store.state.sortStellarHostProperty)
@@ -124,9 +124,9 @@ internal class StellarExplorerStoreTest: TestCase() {
 
     @Test
     fun changeVisibility() = runUnitTest {
-        useCases.space.syncStellarHosts()
-        useCases.space.syncPlanets()
-        val store = storeFactory.getStellarExplorerStore()
+        getUseCases().space.syncStellarHosts()
+        getUseCases().space.syncPlanets()
+        val store = getStoreFactory().getStellarExplorerStore()
 
         store.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = StellarHostProperty.NAME))
         val visibleStellarHostProperties: Set<StellarHostProperty> = setOf(
@@ -172,9 +172,9 @@ internal class StellarExplorerStoreTest: TestCase() {
 
     @Test
     fun changeSearchable() = runUnitTest {
-        useCases.space.syncStellarHosts()
-        useCases.space.syncPlanets()
-        val store = storeFactory.getStellarExplorerStore()
+        getUseCases().space.syncStellarHosts()
+        getUseCases().space.syncPlanets()
+        val store = getStoreFactory().getStellarExplorerStore()
 
         assertEquals(expected = setOf(StellarHostProperty.NAME), actual = store.state.searchableStellarHostProperties)
         store.send(action = StellarExplorerAction.ChangeStellarHostsSearchable(property = StellarHostProperty.NAME))
@@ -194,7 +194,7 @@ internal class StellarExplorerStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.StellarExplorer)
         assertNavigation(list = listOf(Screen.StellarExplorer))
-        val store = storeFactory.getStellarExplorerStore()
+        val store = getStoreFactory().getStellarExplorerStore()
 
         store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = FakeData.getStellarHosts().first()))
         assertEquals(expected = Content.DETAIL_HOSTS, actual = store.state.currentContent)

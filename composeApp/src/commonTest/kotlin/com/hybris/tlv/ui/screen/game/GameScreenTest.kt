@@ -18,7 +18,7 @@ internal class GameScreenTest: TestCase() {
 
     @Test
     fun gameWithoutData() = runUITest {
-        val store = storeFactory.getGameStore(ship = null)
+        val store = getStoreFactory().getGameStore(ship = null)
         setScreen { GameScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
@@ -40,11 +40,11 @@ internal class GameScreenTest: TestCase() {
 
     @Test
     fun gameWithData() = runUITest {
-        useCases.space.prepopulateStellarHosts()
-        useCases.space.prepopulatePlanets()
-        useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val store = storeFactory.getGameStore(ship = null)
+        getUseCases().space.prepopulateStellarHosts()
+        getUseCases().space.prepopulatePlanets()
+        getUseCases().ship.prepopulateEngines()
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val store = getStoreFactory().getGameStore(ship = null)
         setScreen { GameScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()

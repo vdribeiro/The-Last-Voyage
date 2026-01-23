@@ -14,9 +14,9 @@ internal class GameOverStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val store = storeFactory.getGameOverStore()
+        getUseCases().ship.prepopulateEngines()
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val store = getStoreFactory().getGameOverStore()
         assertTrue(store.achievements.isEmpty())
         assertEquals(expected = 0, actual = store.index)
         assertFalse(actual = store.state.loading)
@@ -29,16 +29,16 @@ internal class GameOverStoreTest: TestCase() {
     @Test
     fun initWithoutGameSession() = runUnitTest {
         assertNavigation(list = emptyList())
-        storeFactory.getGameOverStore()
+        getStoreFactory().getGameOverStore()
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
     fun nextContent() = runUnitTest {
         assertNavigation(list = emptyList())
-        useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val store = storeFactory.getGameOverStore()
+        getUseCases().ship.prepopulateEngines()
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val store = getStoreFactory().getGameOverStore()
         assertEquals(expected = Content.MESSAGE, actual = store.state.currentContent)
         store.send(action = GameOverAction.Next)
         assertEquals(expected = Content.SCORE, actual = store.state.currentContent)
@@ -49,25 +49,25 @@ internal class GameOverStoreTest: TestCase() {
     @Test
     fun nextContentWithoutGameSession() = runUnitTest {
         assertNavigation(list = emptyList())
-        val store = storeFactory.getGameOverStore()
+        val store = getStoreFactory().getGameOverStore()
         store.send(action = GameOverAction.Next)
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
     fun achievements() = runUnitTest {
-        useCases.achievement.prepopulateAchievements()
-        useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val gameSession = useCases.gameSession.getLatestGameSession()!!
-        useCases.gameSession.updateGameSession(
+        getUseCases().achievement.prepopulateAchievements()
+        getUseCases().ship.prepopulateEngines()
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val gameSession = getUseCases().gameSession.getLatestGameSession()!!
+        getUseCases().gameSession.updateGameSession(
             gameSession = gameSession.copy(
                 currentStellarHostId = "sol",
                 settledPlanetId = "3earth",
                 finalHabitability = 0.0
             )
         )
-        val store = storeFactory.getGameOverStore()
+        val store = getStoreFactory().getGameOverStore()
         assertTrue(actual = store.achievements.isNotEmpty())
         assertEquals(expected = 0, actual = store.index)
         store.send(action = GameOverAction.Next)
@@ -85,9 +85,9 @@ internal class GameOverStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.GameOver)
         assertNavigation(list = listOf(Screen.GameOver))
-        useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        storeFactory.getGameOverStore().back()
+        getUseCases().ship.prepopulateEngines()
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        getStoreFactory().getGameOverStore().back()
         assertNavigation(list = listOf(Screen.GameOver))
     }
 }

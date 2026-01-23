@@ -13,7 +13,7 @@ internal class StellarExplorerScreenTest: TestCase() {
 
     @Test
     fun stellarExplorerWithoutData() = runUITest {
-        val store = storeFactory.getStellarExplorerStore()
+        val store = getStoreFactory().getStellarExplorerStore()
         setScreen { StellarExplorerScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
@@ -32,9 +32,9 @@ internal class StellarExplorerScreenTest: TestCase() {
 
     @Test
     fun stellarExplorerWithData() = runUITest {
-        useCases.space.syncStellarHosts()
-        useCases.space.syncPlanets()
-        val store = storeFactory.getStellarExplorerStore()
+        getUseCases().space.syncStellarHosts()
+        getUseCases().space.syncPlanets()
+        val store = getStoreFactory().getStellarExplorerStore()
         setScreen { StellarExplorerScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()

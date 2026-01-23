@@ -12,15 +12,15 @@ internal class CreditStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        useCases.credit.prepopulateCredits()
-        val store = storeFactory.getCreditStore()
+        getUseCases().credit.prepopulateCredits()
+        val store = getStoreFactory().getCreditStore()
         assertFalse(actual = store.state.loading)
         assertEquals(expected = FakeData.getCredits(), actual = store.state.credits)
     }
 
     @Test
     fun initWithoutCredits() = runUnitTest {
-        val store = storeFactory.getCreditStore()
+        val store = getStoreFactory().getCreditStore()
         assertFalse(actual = store.state.loading)
         assertTrue(actual = store.state.credits.isEmpty())
     }
@@ -30,7 +30,7 @@ internal class CreditStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Credit)
         assertNavigation(list = listOf(Screen.Credit))
-        storeFactory.getCreditStore().back()
+        getStoreFactory().getCreditStore().back()
         assertNavigation(list = emptyList())
     }
 }

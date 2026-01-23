@@ -13,7 +13,7 @@ internal class MainMenuScreenTest: TestCase() {
 
     @Test
     fun mainMenuWithoutData() = runUITest {
-        val store = storeFactory.getMainMenuStore()
+        val store = getStoreFactory().getMainMenuStore()
         setScreen { MainMenuScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()
@@ -33,9 +33,9 @@ internal class MainMenuScreenTest: TestCase() {
 
     @Test
     fun mainMenuWithData() = runUITest {
-        useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val store = storeFactory.getMainMenuStore()
+        getUseCases().ship.prepopulateEngines()
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val store = getStoreFactory().getMainMenuStore()
         setScreen { MainMenuScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()

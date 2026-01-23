@@ -76,22 +76,21 @@ internal abstract class TestCase {
     )
 
     /**
-     * Access point to config, derived from the test-specific [dependency].
+     * Access point to config, derived from the test-specific dependency.
      */
-    protected val config: ConfigManager by lazy { dependency.config }
+    protected suspend fun getConfig(): ConfigManager = getDependency().config
     /**
-     * Access point to the use cases, derived from the test-specific [dependency].
+     * Access point to the use cases, derived from the test-specific dependency.
      */
-    protected val useCases: UseCases by lazy { dependency.useCases }
+    protected suspend fun getUseCases(): UseCases = getDependency().useCases
     /**
-     * Factory used to create Stores using the test-specific [dependency].
+     * Factory used to create Stores using the test-specific dependency.
      */
-    protected val storeFactory by lazy {
+    protected suspend fun getStoreFactory(): StoreFactory =
         StoreFactory(
-            config = config,
-            useCases = useCases
+            config = getConfig(),
+            useCases = getUseCases()
         )
-    }
 
     /**
      * Simulates a navigation event.
@@ -107,7 +106,7 @@ internal abstract class TestCase {
      * Resets all data.
      */
     protected suspend fun reset() {
-        dependency.useCases.sync.reset()
+        getUseCases().sync.reset()
         TranslationCache.set(translations = emptyList())
     }
 

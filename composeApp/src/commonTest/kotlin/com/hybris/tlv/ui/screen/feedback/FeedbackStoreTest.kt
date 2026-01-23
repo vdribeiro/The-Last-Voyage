@@ -11,7 +11,7 @@ internal class FeedbackStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        val store = storeFactory.getFeedbackStore(tag = null, message = null)
+        val store = getStoreFactory().getFeedbackStore(tag = null, message = null)
         assertFalse(actual = store.state.isError)
         assertEquals(expected = "", actual = store.state.feedback)
         assertFalse(actual = store.state.showThanks)
@@ -19,7 +19,7 @@ internal class FeedbackStoreTest: TestCase() {
 
     @Test
     fun sendFeedback() = runUnitTest {
-        val store = storeFactory.getFeedbackStore(tag = "tag", message = "message")
+        val store = getStoreFactory().getFeedbackStore(tag = "tag", message = "message")
         store.send(action = FeedbackAction.SendFeedback(message = "feedback"))
         assertTrue(actual = store.state.isError)
         assertEquals(expected = "feedback", actual = store.state.feedback)
@@ -31,14 +31,14 @@ internal class FeedbackStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Feedback())
         assertNavigation(list = listOf(Screen.Feedback()))
-        storeFactory.getFeedbackStore(tag = null, message = null).back()
+        getStoreFactory().getFeedbackStore(tag = null, message = null).back()
         assertNavigation(list = emptyList())
 
         val tag = "tag"
         val message = "message"
         navigate(screen = Screen.Feedback(tag = tag, message = message))
         assertNavigation(list = listOf(Screen.Feedback()))
-        storeFactory.getFeedbackStore(tag = tag, message = message).back()
+        getStoreFactory().getFeedbackStore(tag = tag, message = message).back()
         assertNavigation(list = listOf(Screen.Feedback(), Screen.Splash()))
     }
 }

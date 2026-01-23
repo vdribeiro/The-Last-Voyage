@@ -16,13 +16,13 @@ internal class SyncUseCasesTest: TestCase() {
 
     @Test
     fun syncAndReset() = runUnitTest {
-        assertTrue(actual = useCases.translation.getTranslations().isEmpty())
-        assertNull(actual = useCases.catastrophe.getRandomCatastrophe())
-        assertTrue(actual = useCases.ship.getEngines().isEmpty())
-        assertTrue(actual = useCases.space.observeExoplanets().first().isEmpty())
-        assertTrue(actual = useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
-        assertTrue(actual = useCases.achievement.getAchievements().isEmpty())
-        assertTrue(actual = useCases.credit.getCredits().isEmpty())
+        assertTrue(actual = getUseCases().translation.getTranslations().isEmpty())
+        assertNull(actual = getUseCases().catastrophe.getRandomCatastrophe())
+        assertTrue(actual = getUseCases().ship.getEngines().isEmpty())
+        assertTrue(actual = getUseCases().space.observeExoplanets().first().isEmpty())
+        assertTrue(actual = getUseCases().event.getRandomEvent(ids = emptySet()).isEmpty())
+        assertTrue(actual = getUseCases().achievement.getAchievements().isEmpty())
+        assertTrue(actual = getUseCases().credit.getCredits().isEmpty())
         FeatureFlags.set { it.copy(http = false) }
         assertEquals(
             expected = SyncResult(
@@ -35,24 +35,24 @@ internal class SyncUseCasesTest: TestCase() {
                 events = DataSource.LOCAL,
                 achievements = DataSource.LOCAL,
                 credits = DataSource.LOCAL
-            ), actual = useCases.sync.sync(reset = true)
+            ), actual = getUseCases().sync.sync(reset = true)
         )
-        assertFalse(actual = useCases.translation.getTranslations().isEmpty())
-        assertNotNull(actual = useCases.catastrophe.getRandomCatastrophe())
-        assertFalse(actual = useCases.ship.getEngines().isEmpty())
-        assertFalse(actual = useCases.space.observeExoplanets().first().isEmpty())
-        assertFalse(actual = useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
-        assertFalse(actual = useCases.achievement.getAchievements().isEmpty())
-        assertFalse(actual = useCases.credit.getCredits().isEmpty())
+        assertFalse(actual = getUseCases().translation.getTranslations().isEmpty())
+        assertNotNull(actual = getUseCases().catastrophe.getRandomCatastrophe())
+        assertFalse(actual = getUseCases().ship.getEngines().isEmpty())
+        assertFalse(actual = getUseCases().space.observeExoplanets().first().isEmpty())
+        assertFalse(actual = getUseCases().event.getRandomEvent(ids = emptySet()).isEmpty())
+        assertFalse(actual = getUseCases().achievement.getAchievements().isEmpty())
+        assertFalse(actual = getUseCases().credit.getCredits().isEmpty())
 
         reset()
-        assertTrue(actual = useCases.translation.getTranslations().isEmpty())
-        assertNull(actual = useCases.catastrophe.getRandomCatastrophe())
-        assertTrue(actual = useCases.ship.getEngines().isEmpty())
-        assertTrue(actual = useCases.space.observeExoplanets().first().isEmpty())
-        assertTrue(actual = useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
-        assertTrue(actual = useCases.achievement.getAchievements().isEmpty())
-        assertTrue(actual = useCases.credit.getCredits().isEmpty())
+        assertTrue(actual = getUseCases().translation.getTranslations().isEmpty())
+        assertNull(actual = getUseCases().catastrophe.getRandomCatastrophe())
+        assertTrue(actual = getUseCases().ship.getEngines().isEmpty())
+        assertTrue(actual = getUseCases().space.observeExoplanets().first().isEmpty())
+        assertTrue(actual = getUseCases().event.getRandomEvent(ids = emptySet()).isEmpty())
+        assertTrue(actual = getUseCases().achievement.getAchievements().isEmpty())
+        assertTrue(actual = getUseCases().credit.getCredits().isEmpty())
         FeatureFlags.set { it.copy(http = true) }
         assertEquals(
             expected = SyncResult(
@@ -65,14 +65,14 @@ internal class SyncUseCasesTest: TestCase() {
                 events = DataSource.REMOTE,
                 achievements = DataSource.REMOTE,
                 credits = DataSource.REMOTE
-            ), actual = useCases.sync.sync(reset = true)
+            ), actual = getUseCases().sync.sync(reset = true)
         )
-        assertFalse(actual = useCases.translation.getTranslations().isEmpty())
-        assertNotNull(actual = useCases.catastrophe.getRandomCatastrophe())
-        assertFalse(actual = useCases.ship.getEngines().isEmpty())
-        assertFalse(actual = useCases.space.observeExoplanets().first().isEmpty())
-        assertFalse(actual = useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
-        assertFalse(actual = useCases.achievement.getAchievements().isEmpty())
-        assertFalse(actual = useCases.credit.getCredits().isEmpty())
+        assertFalse(actual = getUseCases().translation.getTranslations().isEmpty())
+        assertNotNull(actual = getUseCases().catastrophe.getRandomCatastrophe())
+        assertFalse(actual = getUseCases().ship.getEngines().isEmpty())
+        assertFalse(actual = getUseCases().space.observeExoplanets().first().isEmpty())
+        assertFalse(actual = getUseCases().event.getRandomEvent(ids = emptySet()).isEmpty())
+        assertFalse(actual = getUseCases().achievement.getAchievements().isEmpty())
+        assertFalse(actual = getUseCases().credit.getCredits().isEmpty())
     }
 }

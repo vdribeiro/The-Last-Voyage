@@ -10,7 +10,7 @@ internal class SplashScreenTest: TestCase() {
 
     @Test
     fun splash() = runUITest {
-        val store = storeFactory.getSplashStore(reset = true)
+        val store = getStoreFactory().getSplashStore(reset = true)
         setScreen { SplashScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()

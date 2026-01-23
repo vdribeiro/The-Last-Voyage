@@ -13,7 +13,7 @@ internal class NewGameScreenTest: TestCase() {
 
     @Test
     fun newGameWithoutData() = runUITest {
-        val store = storeFactory.getNewGameStore()
+        val store = getStoreFactory().getNewGameStore()
         setScreen { NewGameScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
@@ -32,8 +32,8 @@ internal class NewGameScreenTest: TestCase() {
 
     @Test
     fun newGameWithData() = runUITest {
-        useCases.ship.syncEngines()
-        val store = storeFactory.getNewGameStore()
+        getUseCases().ship.syncEngines()
+        val store = getStoreFactory().getNewGameStore()
         setScreen { NewGameScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()

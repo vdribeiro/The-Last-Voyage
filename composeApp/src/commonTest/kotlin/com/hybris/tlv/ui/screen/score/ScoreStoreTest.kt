@@ -12,18 +12,18 @@ internal class ScoreStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val latestGameSession = useCases.gameSession.getLatestGameSession()!!
-        useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
-        val store = storeFactory.getScoreStore()
+        getUseCases().ship.prepopulateEngines()
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val latestGameSession = getUseCases().gameSession.getLatestGameSession()!!
+        getUseCases().gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
+        val store = getStoreFactory().getScoreStore()
         assertFalse(actual = store.state.loading)
-        assertEquals(expected = listOf(useCases.gameSession.getLatestGameSession()), actual = store.state.gameSessions)
+        assertEquals(expected = listOf(getUseCases().gameSession.getLatestGameSession()), actual = store.state.gameSessions)
     }
 
     @Test
     fun initWithoutScores() = runUnitTest {
-        val store = storeFactory.getScoreStore()
+        val store = getStoreFactory().getScoreStore()
         assertFalse(actual = store.state.loading)
         assertTrue(actual = store.state.gameSessions.isEmpty())
     }
@@ -33,7 +33,7 @@ internal class ScoreStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Score)
         assertNavigation(list = listOf(Screen.Score))
-        storeFactory.getScoreStore().back()
+        getStoreFactory().getScoreStore().back()
         assertNavigation(list = emptyList())
     }
 }

@@ -14,7 +14,7 @@ internal class GameOverScreenTest: TestCase() {
 
     @Test
     fun gameOverWithoutData() = runUITest {
-        val store = storeFactory.getGameOverStore()
+        val store = getStoreFactory().getGameOverStore()
         setScreen { GameOverScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()
@@ -32,9 +32,9 @@ internal class GameOverScreenTest: TestCase() {
 
     @Test
     fun gameOverWithData() = runUITest {
-        useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val store = storeFactory.getGameOverStore()
+        getUseCases().ship.prepopulateEngines()
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val store = getStoreFactory().getGameOverStore()
         setScreen { GameOverScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()

@@ -13,10 +13,10 @@ internal class EventStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        useCases.event.prepopulateEvents()
-        useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val store = storeFactory.getEventStore(ship = null)
+        getUseCases().event.prepopulateEvents()
+        getUseCases().ship.prepopulateEngines()
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val store = getStoreFactory().getEventStore(ship = null)
         assertNotNull(actual = store.gameSession)
         assertTrue(actual = store.eventChain.isNotEmpty())
         assertFalse(actual = store.state.loading)
@@ -28,16 +28,16 @@ internal class EventStoreTest: TestCase() {
     @Test
     fun initWithoutData() = runUnitTest {
         assertNavigation(list = emptyList())
-        storeFactory.getEventStore(ship = null)
+        getStoreFactory().getEventStore(ship = null)
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
     fun select() = runUnitTest {
-        useCases.event.prepopulateEvents()
-        useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val store = storeFactory.getEventStore(ship = null)
+        getUseCases().event.prepopulateEvents()
+        getUseCases().ship.prepopulateEngines()
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val store = getStoreFactory().getEventStore(ship = null)
         val event = FakeData.getEvents().random()
         store.send(action = EventAction.Select(event = event))
         assertEquals(expected = event, actual = store.state.parentEvent)
@@ -45,10 +45,10 @@ internal class EventStoreTest: TestCase() {
 
     @Test
     fun selectStopEvent() = runUnitTest {
-        useCases.event.prepopulateEvents()
-        useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val store = storeFactory.getEventStore(ship = null)
+        getUseCases().event.prepopulateEvents()
+        getUseCases().ship.prepopulateEngines()
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val store = getStoreFactory().getEventStore(ship = null)
         store.send(action = EventAction.Select(event = stopEvent))
         assertNavigation(list = listOf(Screen.Game()))
     }
@@ -56,7 +56,7 @@ internal class EventStoreTest: TestCase() {
     @Test
     fun selectWithoutData() = runUnitTest {
         assertNavigation(list = emptyList())
-        val store = storeFactory.getEventStore(ship = null)
+        val store = getStoreFactory().getEventStore(ship = null)
         store.send(action = EventAction.Select(event = FakeData.getEvents().random()))
         assertNavigation(list = listOf(Screen.Feedback()))
     }
@@ -66,10 +66,10 @@ internal class EventStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Event())
         assertNavigation(list = listOf(Screen.Event()))
-        useCases.event.prepopulateEvents()
-        useCases.ship.prepopulateEngines()
-        useCases.gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        storeFactory.getEventStore(ship = null).back()
+        getUseCases().event.prepopulateEvents()
+        getUseCases().ship.prepopulateEngines()
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        getStoreFactory().getEventStore(ship = null).back()
         assertNavigation(list = listOf(Screen.Event()))
     }
 }

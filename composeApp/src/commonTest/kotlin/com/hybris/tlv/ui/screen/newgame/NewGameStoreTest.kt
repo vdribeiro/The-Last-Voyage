@@ -13,8 +13,8 @@ internal class NewGameStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        useCases.ship.syncEngines()
-        val store = storeFactory.getNewGameStore()
+        getUseCases().ship.syncEngines()
+        val store = getStoreFactory().getNewGameStore()
         assertNull(actual = store.selectedShip)
         assertNull(actual = store.selectedFormula)
         assertFalse(actual = store.state.loading)
@@ -25,16 +25,16 @@ internal class NewGameStoreTest: TestCase() {
     @Test
     fun initWithoutEngines() = runUnitTest {
         assertNavigation(list = emptyList())
-        useCases.catastrophe.syncCatastrophes()
-        storeFactory.getNewGameStore()
+        getUseCases().catastrophe.syncCatastrophes()
+        getStoreFactory().getNewGameStore()
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
     fun selectShip() = runUnitTest {
-        useCases.catastrophe.syncCatastrophes()
-        useCases.ship.syncEngines()
-        val store = storeFactory.getNewGameStore()
+        getUseCases().catastrophe.syncCatastrophes()
+        getUseCases().ship.syncEngines()
+        val store = getStoreFactory().getNewGameStore()
         assertNull(actual = store.selectedShip)
         store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
         assertEquals(expected = FakeData.shipPrototype, actual = store.selectedShip)
@@ -45,8 +45,8 @@ internal class NewGameStoreTest: TestCase() {
 
     @Test
     fun startGame() = runUnitTest {
-        useCases.ship.syncEngines()
-        val store = storeFactory.getNewGameStore()
+        getUseCases().ship.syncEngines()
+        val store = getStoreFactory().getNewGameStore()
         assertNavigation(list = emptyList())
         store.send(action = NewGameAction.SelectEngine(engine = FakeData.getEngines().random()))
         store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
@@ -56,7 +56,7 @@ internal class NewGameStoreTest: TestCase() {
     @Test
     fun startGameWithoutShip() = runUnitTest {
         assertNavigation(list = emptyList())
-        val store = storeFactory.getNewGameStore()
+        val store = getStoreFactory().getNewGameStore()
         store.send(action = NewGameAction.SelectEngine(engine = FakeData.getEngines().random()))
         store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
         assertNavigation(list = listOf(Screen.Feedback()))
@@ -67,9 +67,9 @@ internal class NewGameStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.NewGame)
         assertNavigation(list = listOf(Screen.NewGame))
-        useCases.catastrophe.syncCatastrophes()
-        useCases.ship.syncEngines()
-        storeFactory.getNewGameStore().back()
+        getUseCases().catastrophe.syncCatastrophes()
+        getUseCases().ship.syncEngines()
+        getStoreFactory().getNewGameStore().back()
         assertNavigation(list = listOf(Screen.NewGame, Screen.MainMenu))
     }
 }

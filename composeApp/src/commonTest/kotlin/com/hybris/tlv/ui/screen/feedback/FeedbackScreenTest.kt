@@ -17,7 +17,7 @@ internal class FeedbackScreenTest: TestCase() {
 
     @Test
     fun feedback() = runUITest {
-        val store = storeFactory.getFeedbackStore(tag = null, message = null)
+        val store = getStoreFactory().getFeedbackStore(tag = null, message = null)
         setScreen { FeedbackScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
@@ -41,7 +41,7 @@ internal class FeedbackScreenTest: TestCase() {
 
     @Test
     fun feedbackError() = runUITest {
-        val store = storeFactory.getFeedbackStore(tag = "tag", message = "message")
+        val store = getStoreFactory().getFeedbackStore(tag = "tag", message = "message")
         setScreen { FeedbackScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()

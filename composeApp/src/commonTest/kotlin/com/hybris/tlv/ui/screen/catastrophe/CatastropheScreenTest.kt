@@ -13,7 +13,7 @@ internal class CatastropheScreenTest: TestCase() {
 
     @Test
     fun catastropheWithoutData() = runUITest {
-        val store = storeFactory.getCatastropheStore()
+        val store = getStoreFactory().getCatastropheStore()
         setScreen { CatastropheScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()
@@ -27,8 +27,8 @@ internal class CatastropheScreenTest: TestCase() {
 
     @Test
     fun catastropheWithData() = runUITest {
-        useCases.catastrophe.syncCatastrophes()
-        val store = storeFactory.getCatastropheStore()
+        getUseCases().catastrophe.syncCatastrophes()
+        val store = getStoreFactory().getCatastropheStore()
         setScreen { CatastropheScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()

@@ -10,7 +10,7 @@ internal class CheatStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        val store = storeFactory.getCheatStore()
+        val store = getStoreFactory().getCheatStore()
         assertFalse(actual = store.state.loading)
         assertFalse(actual = store.state.integrity)
         assertFalse(actual = store.state.sensorRange)
@@ -21,7 +21,7 @@ internal class CheatStoreTest: TestCase() {
 
     @Test
     fun enableAndDisableCheats() = runUnitTest {
-        val store = storeFactory.getCheatStore()
+        val store = getStoreFactory().getCheatStore()
         assertFalse(actual = store.state.loading)
 
         assertFalse(actual = store.state.integrity)
@@ -60,7 +60,7 @@ internal class CheatStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Cheat)
         assertNavigation(list = listOf(Screen.Cheat))
-        storeFactory.getCheatStore().back()
+        getStoreFactory().getCheatStore().back()
         assertNavigation(list = emptyList())
     }
 }

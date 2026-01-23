@@ -11,17 +11,17 @@ internal class HelpStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        val store = storeFactory.getHelpStore()
+        val store = getStoreFactory().getHelpStore()
         assertEquals(expected = 0, actual = store.versionClick)
         assertFalse(actual = store.state.loading)
         assertEquals(expected = Content.LEARN_MENU, actual = store.state.currentContent)
-        assertEquals(expected = config.localConfigs.formula, actual = store.state.formula)
+        assertEquals(expected = getConfig().localConfigs.formula, actual = store.state.formula)
         assertFalse(actual = store.state.showSnackbar)
     }
 
     @Test
     fun changeContent() = runUnitTest {
-        val store = storeFactory.getHelpStore()
+        val store = getStoreFactory().getHelpStore()
         assertEquals(expected = Content.LEARN_MENU, actual = store.state.currentContent)
         store.send(action = HelpAction.Navigation)
         assertEquals(expected = Content.NAVIGATION, actual = store.state.currentContent)
@@ -45,7 +45,7 @@ internal class HelpStoreTest: TestCase() {
 
     @Test
     fun versionClick() = runUnitTest {
-        val store = storeFactory.getHelpStore()
+        val store = getStoreFactory().getHelpStore()
         assertFalse(actual = store.state.showSnackbar)
         assertEquals(expected = 0, actual = store.versionClick)
 
@@ -64,7 +64,7 @@ internal class HelpStoreTest: TestCase() {
     @Test
     fun resetAll() = runUnitTest {
         assertNavigation(list = emptyList())
-        val store = storeFactory.getHelpStore()
+        val store = getStoreFactory().getHelpStore()
         store.send(action = HelpAction.Reset)
         assertNavigation(list = listOf(Screen.Splash(reset = true)))
     }
@@ -74,7 +74,7 @@ internal class HelpStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Help)
         assertNavigation(list = listOf(Screen.Help))
-        val store = storeFactory.getHelpStore()
+        val store = getStoreFactory().getHelpStore()
         store.send(action = HelpAction.Score)
         assertEquals(expected = Content.SCORE, actual = store.state.currentContent)
         store.back()
