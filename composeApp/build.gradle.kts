@@ -458,18 +458,16 @@ tasks.register<Copy>("deployWeb") {
     group = "deployment"
     description = "Copies the production Wasm build to the docs folder for GitHub Pages."
 
-    dependsOn("wasmJsBrowserDistribution")
-
+    val distributionTask = tasks.named("wasmJsBrowserDistribution")
     val baseTag = "<head>\n    <base href=\"/${appName.replace(oldValue = " ", newValue = "-")}/\">"
-    val sourceDir = layout.buildDirectory.dir("dist/wasmJs/productionExecutable").get().asFile
     val destinationDir = rootProject.layout.projectDirectory.dir("docs").asFile
+
+    from(distributionTask)
+    into(destinationDir)
 
     doFirst {
         if (destinationDir.exists()) destinationDir.listFiles()?.forEach { it.deleteRecursively() }
     }
-
-    from(sourceDir)
-    into(destinationDir)
 
     filter { line ->
         if (line.contains(other = "<head>")) line.replace(oldValue = "<head>", newValue = baseTag) else line
