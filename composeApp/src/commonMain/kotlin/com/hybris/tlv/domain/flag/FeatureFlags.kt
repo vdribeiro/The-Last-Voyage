@@ -5,16 +5,7 @@ import kotlinx.coroutines.flow.update
 import com.hybris.tlv.infrastructure.platform.isDebug
 
 internal object FeatureFlags {
-    private val _flags: MutableStateFlow<Flags> = MutableStateFlow(
-        value = Flags(
-            devMode = isDebug,
-            reset = false,
-            http = true,
-            networkQuality = true,
-            archive = false,
-            music = true
-        )
-    )
+    private val _flags: MutableStateFlow<Flags> = MutableStateFlow(value = Flags())
     val flags: Flags get() = _flags.value
 
     /**

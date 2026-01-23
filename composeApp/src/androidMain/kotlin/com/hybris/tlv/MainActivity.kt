@@ -17,8 +17,6 @@ private const val TAG = "App"
 class MainActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Telemetry.init()
-        Telemetry.info(tag = TAG, message = "App started")
 
         enableEdgeToEdge()
         setContent {

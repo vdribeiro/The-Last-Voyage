@@ -30,8 +30,6 @@ private val initializeJfx by lazy {
 internal val LocalWindowState = staticCompositionLocalOf { WindowState() }
 
 fun main() = application {
-    Telemetry.init()
-    Telemetry.info(tag = TAG, message = "App started")
     Telemetry.info(tag = TAG, message = "JavaFX = $initializeJfx")
 
     val appNameTranslation = getTranslation(key = "app_name")

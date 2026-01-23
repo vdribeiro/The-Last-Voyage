@@ -25,7 +25,6 @@ import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.hybris.tlv.Dependency
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.core.flow.runBlocking
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.data.http.TestEngine
@@ -49,14 +48,33 @@ import com.hybris.tlv.ui.screen.StoreFactory
 internal abstract class TestCase {
 
     /**
-     * Dependency index for test cases with in memory Database, Mock Http Engine and silent audio.
+     * Feature flags for testing.
      */
-    private val dependency: Dependency by lazy {
-        Dependency.create(
-            sqlDriver = runBlocking { createSqlDriver(inMemory = true) },
-            httpEngine = TestEngine.mock,
+    private val testFlags by lazy {
+        Flags(
+            devMode = true,
+            reset = true,
+            http = true,
+            networkQuality = false,
+            archive = true,
+            music = false
         )
     }
+
+    /**
+     * Simulated navigation.
+     */
+    private val navigation: MockNavigation by lazy { MockNavigation() }
+
+    private val _dependency: Dependency? = null
+    /**
+     * Get dependency index for test cases with in memory Database and Mock Http Engine.
+     */
+    private suspend fun getDependency(): Dependency = _dependency ?: Dependency.create(
+        sqlDriver = createSqlDriver(inMemory = true),
+        httpEngine = TestEngine.mock,
+    )
+
     /**
      * Access point to config, derived from the test-specific [dependency].
      */
@@ -72,25 +90,6 @@ internal abstract class TestCase {
         StoreFactory(
             config = config,
             useCases = useCases
-        )
-    }
-
-    /**
-     * Simulated navigation.
-     */
-    private val navigation: MockNavigation by lazy { MockNavigation() }
-
-    /**
-     * Feature flags for testing.
-     */
-    private val testFlags by lazy {
-        Flags(
-            devMode = true,
-            reset = true,
-            http = true,
-            networkQuality = false,
-            archive = true,
-            music = false
         )
     }
 
