@@ -86,11 +86,10 @@ internal abstract class TestCase {
     /**
      * Factory used to create Stores using the test-specific dependency.
      */
-    protected suspend fun getStoreFactory(): StoreFactory =
-        StoreFactory(
-            config = getConfig(),
-            useCases = getUseCases()
-        )
+    protected suspend fun getStoreFactory(): StoreFactory = StoreFactory(
+        config = getConfig(),
+        useCases = getUseCases()
+    )
 
     /**
      * Simulates a navigation event.
