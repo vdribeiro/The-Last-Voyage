@@ -459,11 +459,10 @@ tasks.register<Copy>("deployWeb") {
     description = "Copies the production Wasm build to the docs folder for GitHub Pages."
 
     dependsOn("wasmJsBrowserDistribution")
+    val docsDir = rootProject.file("docs")
+    doFirst { if (docsDir.exists()) docsDir.deleteRecursively() }
     from("build/dist/wasmJs/productionExecutable")
     into(rootProject.file("docs"))
     filter { line -> if (line.contains(other = "<head>")) line.replace(oldValue = "<head>", newValue = "<head>\n    <base href=\"/${rootProject.name}/\">") else line }
-    doLast {
-        val docsDir = rootProject.file("docs")
-        if (docsDir.exists()) File(docsDir, ".nojekyll").createNewFile()
-    }
+    doLast { File(docsDir, ".nojekyll").createNewFile() }
 }
