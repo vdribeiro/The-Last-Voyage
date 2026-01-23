@@ -66,14 +66,14 @@ internal abstract class TestCase {
      */
     private val navigation: MockNavigation by lazy { MockNavigation() }
 
-    private val _dependency: Dependency? = null
+    private var _dependency: Dependency? = null
     /**
      * Get dependency index for test cases with in memory Database and Mock Http Engine.
      */
     private suspend fun getDependency(): Dependency = _dependency ?: Dependency.create(
         sqlDriver = createSqlDriver(inMemory = true),
         httpEngine = TestEngine.mock,
-    )
+    ).also { _dependency = it }
 
     /**
      * Access point to config, derived from the test-specific dependency.
