@@ -8,6 +8,11 @@ config.resolve.fallback = {
     crypto: false,
 };
 
+config.resolve.alias = {
+    ...config.resolve.alias,
+    'sqljs.worker.js': path.resolve(__dirname, "../../node_modules/@cashapp/sqldelight-sqljs-worker/sqljs.worker.js")
+};
+
 config.module.rules.push({
     test: /sqljs\.worker\.js$/,
     type: 'asset/resource',
