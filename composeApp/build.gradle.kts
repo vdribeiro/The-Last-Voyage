@@ -453,3 +453,18 @@ kover {
 tasks.withType<Test> {
     jvmArgs("--enable-native-access=ALL-UNNAMED")
 }
+
+tasks.register<Copy>("deployWeb") {
+    group = "deployment"
+    description = "Copies the production Wasm build to the docs folder for GitHub Pages."
+    // Ensure the production build runs first
+    dependsOn("wasmJsBrowserDistribution")
+    // Define the source and destination
+    from("build/dist/wasmJs/productionExecutable")
+    into(rootProject.file("docs"))
+    // Create a .nojekyll file
+    doLast {
+        val docsDir = rootProject.file("docs")
+        if (docsDir.exists()) File(docsDir, ".nojekyll").createNewFile()
+    }
+}
