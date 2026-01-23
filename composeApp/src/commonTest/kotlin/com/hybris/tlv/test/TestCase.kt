@@ -5,7 +5,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -26,6 +25,7 @@ import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.hybris.tlv.Dependency
 import com.hybris.tlv.core.flow.Dispatcher
+import com.hybris.tlv.core.flow.runBlocking
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.data.http.TestEngine

@@ -1,6 +1,6 @@
 package com.hybris.tlv.test
 
-import kotlinx.coroutines.runBlocking
+import com.hybris.tlv.core.flow.runBlocking
 import com.hybris.tlv.data.config.Configs
 import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.domain.usecase.achievement.model.Achievement
