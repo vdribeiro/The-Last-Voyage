@@ -4,6 +4,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import org.gradle.internal.os.OperatingSystem
 
 plugins {
@@ -213,6 +214,10 @@ kotlin {
         browser {
             commonWebpackConfig {
                 outputFileName = "tlv.js"
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    static = mutableListOf("build/processedResources/wasmJs/main")
+                }
+                showProgress = true
             }
         }
         binaries.executable()
@@ -266,6 +271,7 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 implementation(dependencyNotation = libs.bundles.web)
+                implementation(dependencyNotation = npm(library = libs.sql.worker))
                 implementation(dependencyNotation = npm(library = libs.sql.js))
                 implementation(dependencyNotation = devNpm(library = libs.webpack))
             }

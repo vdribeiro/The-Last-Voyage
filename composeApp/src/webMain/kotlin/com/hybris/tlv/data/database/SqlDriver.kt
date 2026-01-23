@@ -20,4 +20,10 @@ internal actual suspend fun createSqlDriver(
 }
 
 @OptIn(ExperimentalWasmJsInterop::class)
-private fun getWorker(): Worker = js(code = """new URL("@cashapp/sqldelight-sqljs-worker/sqljs.worker.js", import.meta.url)""")
+private fun getWorker(): Worker = js(
+    code = """
+        new Worker(
+            new URL("@cashapp/sqldelight-sqljs-worker/sqljs.worker.js", import.meta.url)
+        )
+    """
+)
