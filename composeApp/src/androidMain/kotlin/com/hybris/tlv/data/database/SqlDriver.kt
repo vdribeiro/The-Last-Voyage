@@ -19,7 +19,7 @@ internal actual suspend fun createSqlDriver(
     AndroidSqliteDriver(
         schema = schema,
         context = applicationContext,
-        name = name,
+        name = if (inMemory) null else name,
         callback = object: AndroidSqliteDriver.Callback(schema = schema) {
             override fun onConfigure(db: SupportSQLiteDatabase) {
                 super.onConfigure(db = db)

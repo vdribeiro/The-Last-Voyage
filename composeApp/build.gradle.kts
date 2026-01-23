@@ -166,6 +166,7 @@ fun KotlinDependencyHandler.devNpm(library: Provider<MinimalExternalModuleDepend
     val dependency = library.get()
     return devNpm(name = dependency.module.name, version = dependency.versionConstraint.displayName)
 }
+
 fun KotlinDependencyHandler.npm(library: Provider<MinimalExternalModuleDependency>): Dependency {
     val dependency = library.get()
     return npm(name = dependency.module.name, version = dependency.versionConstraint.displayName)

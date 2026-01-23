@@ -51,7 +51,7 @@ internal abstract class TestCase {
      * Dependency index for test cases with in memory Database, Mock Http Engine and silent audio.
      */
     private val dependency: Dependency by lazy {
-        Dependency(
+        Dependency.create(
             sqlDriver = createSqlDriver(inMemory = true),
             httpEngine = TestEngine.mock,
         )
