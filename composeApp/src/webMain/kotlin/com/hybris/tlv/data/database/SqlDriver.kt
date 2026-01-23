@@ -15,7 +15,8 @@ internal actual suspend fun createSqlDriver(
     schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
     inMemory: Boolean
 ): SqlDriver = withContext(context = Dispatcher.IO) {
-    WebWorkerDriver(worker = if (flags.devMode) getDebugWorker() else getWorker()).also { driver ->
+    val worker: Worker = if (flags.devMode) getDebugWorker() else getWorker()
+    WebWorkerDriver(worker = worker).also { driver ->
         schema.create(driver = driver).await()
     }
 }
