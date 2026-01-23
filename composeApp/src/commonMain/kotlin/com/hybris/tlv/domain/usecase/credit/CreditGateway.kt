@@ -2,6 +2,7 @@ package com.hybris.tlv.domain.usecase.credit
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
+import app.cash.sqldelight.async.coroutines.awaitAsList
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
@@ -35,7 +36,7 @@ internal class CreditGateway(
     }
 
     override suspend fun prepopulateCredits(): Boolean = withContext(context = Dispatcher.IO) {
-        if (creditDao.isCreditEmpty().executeAsList().isEmpty()) {
+        if (creditDao.isCreditEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating credits")
             val credits: List<Credit> = loadFromJsonResource(json = JsonResource.Credits)
             rewriteCredits(credits = credits)
@@ -49,7 +50,7 @@ internal class CreditGateway(
     }
 
     override suspend fun getCredits(): List<Credit> = withContext(context = Dispatcher.IO) {
-        creditDao.getCredits().executeAsList().map { it.toCredit() }
+        creditDao.getCredits().awaitAsList().map { it.toCredit() }
     }
 
     companion object Companion {

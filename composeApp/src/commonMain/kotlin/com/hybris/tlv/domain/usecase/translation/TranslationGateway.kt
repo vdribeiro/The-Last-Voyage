@@ -2,6 +2,7 @@ package com.hybris.tlv.domain.usecase.translation
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
+import app.cash.sqldelight.async.coroutines.awaitAsList
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.DEFAULT_LANGUAGE
 import com.hybris.tlv.core.telemetry.Telemetry
@@ -36,7 +37,7 @@ internal class TranslationGateway(
     }
 
     override suspend fun prepopulateTranslations(): Boolean = withContext(context = Dispatcher.IO) {
-        if (translationDao.isTranslationEmpty().executeAsList().isEmpty()) {
+        if (translationDao.isTranslationEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating translations")
             val translations: List<Translation> = loadFromJsonResource(json = JsonResource.Translations)
             rewriteTranslations(translations = translations)
@@ -50,7 +51,7 @@ internal class TranslationGateway(
     }
 
     override suspend fun getTranslations(languageIso: String): List<Translation> = withContext(context = Dispatcher.IO) {
-        val translations = translationDao.getTranslations(languageIso = languageIso).executeAsList().map { it.toTranslation() }
+        val translations = translationDao.getTranslations(languageIso = languageIso).awaitAsList().map { it.toTranslation() }
         if (translations.isEmpty() && languageIso != DEFAULT_LANGUAGE) getTranslations(languageIso = DEFAULT_LANGUAGE) else translations
     }
 

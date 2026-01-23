@@ -2,6 +2,8 @@ package com.hybris.tlv.domain.usecase.catastrophe
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
+import app.cash.sqldelight.async.coroutines.awaitAsList
+import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
@@ -35,7 +37,7 @@ internal class CatastropheGateway(
     }
 
     override suspend fun prepopulateCatastrophes(): Boolean = withContext(context = Dispatcher.IO) {
-        if (catastropheDao.isCatastropheEmpty().executeAsList().isEmpty()) {
+        if (catastropheDao.isCatastropheEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating catastrophes")
             val catastrophes: List<Catastrophe> = loadFromJsonResource(json = JsonResource.Catastrophes)
             rewriteCatastrophes(catastrophes = catastrophes)
@@ -49,7 +51,7 @@ internal class CatastropheGateway(
     }
 
     override suspend fun getRandomCatastrophe(): Catastrophe? = withContext(context = Dispatcher.IO) {
-        catastropheDao.getRandomCatastrophe().executeAsOneOrNull()?.toCatastrophe()
+        catastropheDao.getRandomCatastrophe().awaitAsOneOrNull()?.toCatastrophe()
     }
 
     companion object {

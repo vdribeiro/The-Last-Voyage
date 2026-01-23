@@ -2,6 +2,7 @@ package com.hybris.tlv.domain.usecase.achievement
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
+import app.cash.sqldelight.async.coroutines.awaitAsList
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
@@ -36,7 +37,7 @@ internal class AchievementGateway(
     }
 
     override suspend fun prepopulateAchievements(): Boolean = withContext(context = Dispatcher.IO) {
-        if (achievementDao.isAchievementEmpty().executeAsList().isEmpty()) {
+        if (achievementDao.isAchievementEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating achievements")
             val achievements: List<Achievement> = loadFromJsonResource(json = JsonResource.Achievements)
             rewriteAchievements(achievements = achievements)
@@ -50,7 +51,7 @@ internal class AchievementGateway(
     }
 
     override suspend fun getAchievements(): List<Achievement> = withContext(context = Dispatcher.IO) {
-        achievementDao.getAchievements().executeAsList().map { it.toAchievement() }
+        achievementDao.getAchievements().awaitAsList().map { it.toAchievement() }
     }
 
     override suspend fun updateAchievements(gameSession: GameSession): List<Achievement> = withContext(context = Dispatcher.IO) {
@@ -59,7 +60,7 @@ internal class AchievementGateway(
         gameSession.finalHabitability ?: return@withContext emptyList()
 
         val achievements = mutableSetOf<Achievement>().apply {
-            achievementDao.getAchievementsByDone(done = false).executeAsList().map { it.toAchievement() }.forEach { achievement ->
+            achievementDao.getAchievementsByDone(done = false).awaitAsList().map { it.toAchievement() }.forEach { achievement ->
                 val preconditions = achievement.preconditions
                 val ship = gameSession.ship
                 val settledHostId = preconditions.settledHostId ?: gameSession.currentStellarHostId

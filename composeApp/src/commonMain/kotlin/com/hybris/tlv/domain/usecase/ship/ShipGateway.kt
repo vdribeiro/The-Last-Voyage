@@ -3,6 +3,7 @@ package com.hybris.tlv.domain.usecase.ship
 import kotlin.math.abs
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
+import app.cash.sqldelight.async.coroutines.awaitAsList
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
@@ -37,7 +38,7 @@ internal class ShipGateway(
     }
 
     override suspend fun prepopulateEngines(): Boolean = withContext(context = Dispatcher.IO) {
-        if (engineDao.isEngineEmpty().executeAsList().isEmpty()) {
+        if (engineDao.isEngineEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating engines")
             val engines: List<Engine> = loadFromJsonResource(json = JsonResource.Engines)
             rewriteEngines(engines = engines)
@@ -51,7 +52,7 @@ internal class ShipGateway(
     }
 
     override suspend fun getEngines(): List<Engine> = withContext(context = Dispatcher.IO) {
-        engineDao.getEngines().executeAsList().map { it.toEngine() }.sortedBy { it.velocity }
+        engineDao.getEngines().awaitAsList().map { it.toEngine() }.sortedBy { it.velocity }
     }
 
     override suspend fun repairShip(ship: Ship): Ship = withContext(context = Dispatcher.Default) {

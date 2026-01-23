@@ -2,6 +2,8 @@ package com.hybris.tlv.domain.usecase.gamesession
 
 import kotlin.math.ceil
 import kotlinx.coroutines.withContext
+import app.cash.sqldelight.async.coroutines.awaitAsList
+import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.domain.usecase.event.model.Event
 import com.hybris.tlv.domain.usecase.gamesession.model.GameOver
@@ -25,11 +27,11 @@ internal class GameSessionGateway(
     }
 
     override suspend fun getGameSessions(): List<GameSession> = withContext(context = Dispatcher.IO) {
-        gameSessionDao.getGameSessions(mapper = gameSessionProjection).executeAsList()
+        gameSessionDao.getGameSessions(mapper = gameSessionProjection).awaitAsList()
     }
 
     override suspend fun getLatestGameSession(): GameSession? = withContext(context = Dispatcher.IO) {
-        gameSessionDao.getLatestGameSession(mapper = gameSessionProjection).executeAsOneOrNull()
+        gameSessionDao.getLatestGameSession(mapper = gameSessionProjection).awaitAsOneOrNull()
     }
 
     override suspend fun isGameSessionOngoing(): Boolean = withContext(context = Dispatcher.IO) {

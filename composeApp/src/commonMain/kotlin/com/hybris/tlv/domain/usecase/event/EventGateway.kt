@@ -2,6 +2,8 @@ package com.hybris.tlv.domain.usecase.event
 
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
+import app.cash.sqldelight.async.coroutines.awaitAsList
+import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
@@ -35,7 +37,7 @@ internal class EventGateway(
     }
 
     override suspend fun prepopulateEvents(): Boolean = withContext(context = Dispatcher.IO) {
-        if (eventDao.isEventEmpty().executeAsList().isEmpty()) {
+        if (eventDao.isEventEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating events")
             val events: List<Event> = loadFromJsonResource(json = JsonResource.Events)
             rewriteEvents(events = events)
@@ -49,12 +51,12 @@ internal class EventGateway(
     }
 
     override suspend fun getRandomEvent(ids: Set<String>): List<Event> = withContext(context = Dispatcher.IO) {
-        val event = eventDao.getRandomEvent(ids = ids).executeAsOneOrNull()?.toEvent() ?: return@withContext emptyList()
+        val event = eventDao.getRandomEvent(ids = ids).awaitAsOneOrNull()?.toEvent() ?: return@withContext emptyList()
         val treeNodes = mutableListOf(event)
         val nodesToVisit = mutableListOf(event.id)
         while (nodesToVisit.isNotEmpty()) {
             val currentParentId = nodesToVisit.removeFirstOrNull() ?: continue
-            val children = eventDao.getChildEvents(parentId = currentParentId).executeAsList().map { it.toEvent() }
+            val children = eventDao.getChildEvents(parentId = currentParentId).awaitAsList().map { it.toEvent() }
             if (children.isNotEmpty()) {
                 treeNodes.addAll(elements = children)
                 nodesToVisit.addAll(elements = children.map { it.id })

@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
+import app.cash.sqldelight.async.coroutines.awaitAsList
+import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.hybris.tlv.core.flow.Dispatcher
@@ -45,7 +47,7 @@ internal class SpaceGateway(
     }
 
     override suspend fun prepopulateStellarHosts(): Boolean = withContext(context = Dispatcher.IO) {
-        if (stellarHostDao.isStellarHostEmpty().executeAsList().isEmpty()) {
+        if (stellarHostDao.isStellarHostEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating stellar hosts")
             val stellarHosts: List<StellarHost> = loadFromJsonResource(json = JsonResource.StellarHosts)
             rewriteStellarHosts(stellarHosts = stellarHosts)
@@ -75,7 +77,7 @@ internal class SpaceGateway(
     }
 
     override suspend fun prepopulatePlanets(): Boolean = withContext(context = Dispatcher.IO) {
-        if (planetDao.isPlanetEmpty().executeAsList().isEmpty()) {
+        if (planetDao.isPlanetEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating planets")
             val planets: List<Planet> = loadFromJsonResource(json = JsonResource.Planets)
             rewritePlanets(planets = planets)
@@ -89,8 +91,8 @@ internal class SpaceGateway(
     }
 
     override suspend fun getStellarHost(id: String): StellarHost? = withContext(context = Dispatcher.IO) {
-        val planets = planetDao.getPlanetsByStellarHost(stellarHostId = id).executeAsList().map { it.toPlanet() }
-        stellarHostDao.getStellarHost(id = id).executeAsOneOrNull()?.toStellarHost()?.apply { this.planets.addAll(elements = planets) }
+        val planets = planetDao.getPlanetsByStellarHost(stellarHostId = id).awaitAsList().map { it.toPlanet() }
+        stellarHostDao.getStellarHost(id = id).awaitAsOneOrNull()?.toStellarHost()?.apply { this.planets.addAll(elements = planets) }
     }
 
     override fun observeExoplanets(): Flow<List<StellarHost>> {
@@ -113,8 +115,8 @@ internal class SpaceGateway(
         if (n <= 0) return@withContext emptyList()
         val stellarHostCP = stellarHost.toCartesian() ?: return@withContext emptyList()
         val nearest = mutableListOf<Pair<StellarHost, Double>>()
-        stellarHostDao.getStellarHosts().executeAsList().map { it.toStellarHost() }
-            .addPlanets(planets = planetDao.getPlanets().executeAsList().map { it.toPlanet() })
+        stellarHostDao.getStellarHosts().awaitAsList().map { it.toStellarHost() }
+            .addPlanets(planets = planetDao.getPlanets().awaitAsList().map { it.toPlanet() })
             .asSequence()
             .filter { it.id != stellarHost.id && it.id !in visited && it.planets.isNotEmpty() }
             .forEach { otherStellarHost ->
