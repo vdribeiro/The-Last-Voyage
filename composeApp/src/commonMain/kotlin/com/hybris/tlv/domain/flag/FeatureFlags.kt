@@ -2,13 +2,15 @@ package com.hybris.tlv.domain.flag
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import com.hybris.tlv.infrastructure.platform.Platform
 import com.hybris.tlv.infrastructure.platform.isDebug
+import com.hybris.tlv.infrastructure.platform.platform
 
 internal object FeatureFlags {
     private val _flags: MutableStateFlow<Flags> = MutableStateFlow(
         value = Flags(
             devMode = isDebug,
-            reset = false,
+            reset = platform == Platform.Web,
             http = true,
             networkQuality = true,
             archive = false,

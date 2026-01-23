@@ -17,6 +17,7 @@
     Windows: ./gradlew clean packageMsi
     Linux:   ./gradlew clean packageDeb
     Mac:     ./gradlew clean notarizeDmg
+    Web:     ./gradlew clean wasmJsBrowserDistribution
 # Update Gists
     cd composeApp/src/commonMain/composeResources/files
     gh gist edit [hash] *.json
