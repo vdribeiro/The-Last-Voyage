@@ -35,31 +35,31 @@ internal object FakeData {
     }
 
     private var _translations = LazyData { loadFromJsonResource<Translation>(json = JsonResource.Translations) }
-    suspend fun getTranslations(): List<Translation> = _translations.getData().orEmpty()
+    suspend fun getTranslations(): List<Translation> = _translations.getData()
 
     private val _catastrophes = LazyData { loadFromJsonResource<Catastrophe>(json = JsonResource.Catastrophes) }
-    suspend fun getCatastrophes(): List<Catastrophe> = _catastrophes.getData().orEmpty()
+    suspend fun getCatastrophes(): List<Catastrophe> = _catastrophes.getData()
 
     private val _engines = LazyData { loadFromJsonResource<Engine>(json = JsonResource.Engines) }
-    suspend fun getEngines(): List<Engine> = _engines.getData().orEmpty()
+    suspend fun getEngines(): List<Engine> = _engines.getData()
 
     private val _events = LazyData { loadFromJsonResource<Event>(json = JsonResource.Events) }
-    suspend fun getEvents(): List<Event> = _events.getData().orEmpty()
+    suspend fun getEvents(): List<Event> = _events.getData()
 
     private val _achievements = LazyData { loadFromJsonResource<Achievement>(json = JsonResource.Achievements) }
-    suspend fun getAchievements(): List<Achievement> = _achievements.getData().orEmpty()
+    suspend fun getAchievements(): List<Achievement> = _achievements.getData()
 
     private val _credits = LazyData { loadFromJsonResource<Credit>(json = JsonResource.Credits) }
-    suspend fun getCredits(): List<Credit> = _credits.getData().orEmpty()
+    suspend fun getCredits(): List<Credit> = _credits.getData()
 
     private val _stellarHosts = LazyData { loadFromJsonResource<StellarHost>(json = JsonResource.StellarHosts) }
-    suspend fun getStellarHosts(): List<StellarHost> = _stellarHosts.getData().orEmpty()
+    suspend fun getStellarHosts(): List<StellarHost> = _stellarHosts.getData()
 
     private val _planets = LazyData { loadFromJsonResource<Planet>(json = JsonResource.Planets) }
-    suspend fun getPlanets(): List<Planet> = _planets.getData().orEmpty()
+    suspend fun getPlanets(): List<Planet> = _planets.getData()
 
     private val _stellarHostsWithPlanets = LazyData { getStellarHosts().addPlanets(planets = getPlanets()) }
-    suspend fun getHostsWithPlanets(): List<StellarHost> = _stellarHostsWithPlanets.getData().orEmpty()
+    suspend fun getHostsWithPlanets(): List<StellarHost> = _stellarHostsWithPlanets.getData()
 
     val shipPrototype: ShipPrototype by lazy {
         ShipPrototype(
@@ -85,7 +85,7 @@ internal object FakeData {
         )
     }
 
-    suspend fun getShip(): Ship = _ship.getData()!!
+    suspend fun getShip(): Ship = _ship.getData()
 
     private val _gameSessionPrototype = LazyData {
         GameSessionPrototype(
@@ -95,5 +95,5 @@ internal object FakeData {
         )
     }
 
-    suspend fun getGameSessionPrototype(): GameSessionPrototype = _gameSessionPrototype.getData()!!
+    suspend fun getGameSessionPrototype(): GameSessionPrototype = _gameSessionPrototype.getData()
 }
