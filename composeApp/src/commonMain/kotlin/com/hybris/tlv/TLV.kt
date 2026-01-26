@@ -39,13 +39,16 @@ internal object TLV {
         Telemetry.info(tag = TAG, message = "App started")
 
         Telemetry.info(tag = TAG, message = "Initializing dependencies")
-        initializeDependency()
+        initDependencyIndex()
 
         Telemetry.info(tag = TAG, message = "Registering listeners")
         registerTranslationListener()
     }
 
-    private fun initializeDependency(): Job = scope.launch(context = Dispatcher.IO) {
+    /**
+     * Init dependencies.
+     */
+    private fun initDependencyIndex(): Job = scope.launch(context = Dispatcher.IO) {
         val dependency = Dependency(sqlDriver = createSqlDriver())
         this@TLV.dependency.update { dependency }
     }
