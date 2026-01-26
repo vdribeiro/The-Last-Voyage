@@ -1,0 +1,27 @@
+[
+  {
+    "id": "engsoneca",
+    "link": "https://ko-fi.com/engsoneca",
+    "type": "CREATOR"
+  },
+  {
+    "id": "NASA Exoplanet Archive DOIs 10.26133/NEA40, 10.26133/NEA13, 10.26133/NEA19",
+    "link": "https://exoplanetarchive.ipac.caltech.edu",
+    "type": "SOURCE"
+  },
+  {
+    "id": "Images generated with Grok",
+    "link": "https://grok.com",
+    "type": "SOURCE"
+  },
+  {
+    "id": "OpenGameArt",
+    "link": "https://opengameart.org",
+    "type": "MUSIC"
+  },
+  {
+    "id": "You",
+    "link": "https://ko-fi.com/engsoneca",
+    "type": "SUPPORTER"
+  }
+]
