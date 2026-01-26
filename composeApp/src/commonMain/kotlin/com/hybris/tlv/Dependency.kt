@@ -22,7 +22,7 @@ internal class Dependency(
     companion object {
         fun create(
             sqlDriver: SqlDriver,
-            httpEngine: HttpClientEngine?
+            httpEngine: HttpClientEngine
         ): Dependency {
             val database = DatabaseFactory(driver = sqlDriver).database
             val client = HttpClientFactory(engine = httpEngine).httpClient

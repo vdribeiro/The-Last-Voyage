@@ -17,6 +17,7 @@ import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.observeLocaleChanges
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.database.createSqlDriver
+import com.hybris.tlv.data.http.createHttpEngine
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.App
@@ -48,7 +49,7 @@ internal object TLV {
     private fun initializeDependency(): Job = scope.launch(context = Dispatcher.IO) {
         val dependency = Dependency.create(
             sqlDriver = createSqlDriver(),
-            httpEngine = null
+            httpEngine = createHttpEngine()
         )
         this@TLV.dependency.update { dependency }
     }

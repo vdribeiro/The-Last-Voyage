@@ -31,15 +31,12 @@ import com.hybris.tlv.domain.flag.FeatureFlags.flags
  * A factory for creating and configuring the [HttpClient] instance with the necessary plugins,
  * given an optional [HttpClientEngine] to use for the client. If null, a default engine is used.
  */
-internal class HttpClientFactory(engine: HttpClientEngine?) {
+internal class HttpClientFactory(engine: HttpClientEngine) {
 
     /**
      * The configured [HttpClient] instance.
      */
-    val httpClient: HttpClient = when (engine) {
-        null -> HttpClient { install() }
-        else -> HttpClient(engine = engine) { install() }
-    }
+    val httpClient: HttpClient = HttpClient(engine = engine) { install() }
 
     /**
      * Installs and configures the necessary plugins for the [HttpClient].
