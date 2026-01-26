@@ -70,7 +70,7 @@ internal abstract class TestCase {
     /**
      * Get dependency index for test cases with in memory Database and Mock Http Engine.
      */
-    private suspend fun getDependency(): Dependency = _dependency ?: Dependency.create(
+    private suspend fun getDependency(): Dependency = _dependency ?: Dependency(
         sqlDriver = createSqlDriver(inMemory = true),
         httpEngine = TestEngine.mock,
     ).also { _dependency = it }

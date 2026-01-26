@@ -47,10 +47,7 @@ internal object TLV {
     }
 
     private fun initializeDependency(): Job = scope.launch(context = Dispatcher.IO) {
-        val dependency = Dependency.create(
-            sqlDriver = createSqlDriver(),
-            httpEngine = createHttpEngine()
-        )
+        val dependency = Dependency(sqlDriver = createSqlDriver())
         this@TLV.dependency.update { dependency }
     }
 
