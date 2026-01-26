@@ -1,4 +1,5 @@
-# Auto detect text files and perform LF normalization
 * text=auto
-*.wasm binary
 *.jar binary
+*.wasm binary
+*.js text eol=lf
+*.html text eol=lf
