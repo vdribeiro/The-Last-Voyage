@@ -24,7 +24,7 @@ internal class StellarExplorerStoreTest: TestCase() {
         assertEquals(expected = Content.LIST_HOSTS, actual = store.state.currentContent)
         assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemIndex)
         assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemScrollOffset)
-        assertEquals(expected = FakeData.getStellarHosts().sortedBy { it.id }, actual = store.state.stellarHosts.sortedBy { it.id })
+        assertEquals(expected = FakeData.stellarHosts.get().sortedBy { it.id }, actual = store.state.stellarHosts.sortedBy { it.id })
         assertTrue(actual = store.state.planets.isEmpty())
         assertNull(actual = store.state.selectedStellarHost)
         assertNull(actual = store.state.selectedPlanet)
@@ -97,12 +97,12 @@ internal class StellarExplorerStoreTest: TestCase() {
         getUseCases().space.syncPlanets()
         val store = getStoreFactory().getStellarExplorerStore()
 
-        store.send(action = StellarExplorerAction.Search(search = FakeData.getStellarHosts().first().name))
-        assertEquals(expected = listOf(FakeData.getStellarHosts().first()), actual = store.state.stellarHosts)
+        store.send(action = StellarExplorerAction.Search(search = FakeData.stellarHosts.get().first().name))
+        assertEquals(expected = listOf(FakeData.stellarHosts.get().first()), actual = store.state.stellarHosts)
 
         store.send(action = StellarExplorerAction.ChangeView)
-        store.send(action = StellarExplorerAction.Search(search = FakeData.getPlanets().first().name))
-        assertEquals(expected = listOf(FakeData.getPlanets().first()), actual = store.state.planets)
+        store.send(action = StellarExplorerAction.Search(search = FakeData.planets.get().first().name))
+        assertEquals(expected = listOf(FakeData.planets.get().first()), actual = store.state.planets)
     }
 
     @Test
@@ -196,13 +196,13 @@ internal class StellarExplorerStoreTest: TestCase() {
         assertNavigation(list = listOf(Screen.StellarExplorer))
         val store = getStoreFactory().getStellarExplorerStore()
 
-        store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = FakeData.getStellarHosts().first()))
+        store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = FakeData.stellarHosts.get().first()))
         assertEquals(expected = Content.DETAIL_HOSTS, actual = store.state.currentContent)
         store.back()
         assertEquals(expected = Content.LIST_HOSTS, actual = store.state.currentContent)
         store.send(action = StellarExplorerAction.ChangeView)
         assertEquals(expected = Content.LIST_PLANETS, actual = store.state.currentContent)
-        store.send(action = StellarExplorerAction.OpenPlanet(planet = FakeData.getPlanets().first()))
+        store.send(action = StellarExplorerAction.OpenPlanet(planet = FakeData.planets.get().first()))
         assertEquals(expected = Content.DETAIL_PLANETS, actual = store.state.currentContent)
         store.back()
         assertEquals(expected = Content.LIST_PLANETS, actual = store.state.currentContent)

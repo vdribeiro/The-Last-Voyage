@@ -66,25 +66,24 @@ internal abstract class TestCase {
      */
     private val navigation: MockNavigation by lazy { MockNavigation() }
 
-    private var _dependency = LazyData {
+    /**
+     * Dependency index for test cases with in memory Database and Mock Http Engine.
+     */
+    private val dependency = LazyData {
         Dependency(
             sqlDriver = createSqlDriver(inMemory = true),
             httpEngine = TestEngine.mock,
         )
     }
-    /**
-     * Get dependency index for test cases with in memory Database and Mock Http Engine.
-     */
-    private suspend fun getDependency(): Dependency = _dependency.get()
 
     /**
      * Access point to config, derived from the test-specific dependency.
      */
-    protected suspend fun getConfig(): ConfigManager = getDependency().config
+    protected suspend fun getConfig(): ConfigManager = dependency.get().config
     /**
      * Access point to the use cases, derived from the test-specific dependency.
      */
-    protected suspend fun getUseCases(): UseCases = getDependency().useCases
+    protected suspend fun getUseCases(): UseCases = dependency.get().useCases
     /**
      * Factory used to create Stores using the test-specific dependency.
      */

@@ -29,7 +29,7 @@ internal class ScoreScreenTest: TestCase() {
     @Test
     fun scoreWithData() = runUITest {
         getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val latestGameSession = getUseCases().gameSession.getLatestGameSession()!!
         getUseCases().gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
         val store = getStoreFactory().getScoreStore()

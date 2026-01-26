@@ -34,7 +34,7 @@ internal class MainMenuScreenTest: TestCase() {
     @Test
     fun mainMenuWithData() = runUITest {
         getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getMainMenuStore()
         setScreen { MainMenuScreen(store = store) }
 

@@ -12,11 +12,11 @@ internal class TranslationUseCasesTest: TestCase() {
     fun prepopulateAndSyncTranslations() = runUnitTest {
         assertTrue(actual = getUseCases().translation.getTranslations().isEmpty())
         getUseCases().translation.prepopulateTranslations()
-        assertEquals(expected = FakeData.getTranslations().sortedBy { it.key }, actual = getUseCases().translation.getTranslations().sortedBy { it.key })
+        assertEquals(expected = FakeData.translations.get().sortedBy { it.key }, actual = getUseCases().translation.getTranslations().sortedBy { it.key })
 
         reset()
         assertTrue(actual = getUseCases().translation.getTranslations().isEmpty())
         getUseCases().translation.syncTranslations()
-        assertEquals(expected = FakeData.getTranslations().sortedBy { it.key }, actual = getUseCases().translation.getTranslations().sortedBy { it.key })
+        assertEquals(expected = FakeData.translations.get().sortedBy { it.key }, actual = getUseCases().translation.getTranslations().sortedBy { it.key })
     }
 }

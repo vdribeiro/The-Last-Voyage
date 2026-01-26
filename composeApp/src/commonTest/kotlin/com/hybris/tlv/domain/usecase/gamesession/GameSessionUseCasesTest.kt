@@ -24,7 +24,7 @@ internal class GameSessionUseCasesTest: TestCase() {
         assertTrue(actual = getUseCases().gameSession.getGameSessions().isEmpty())
         assertFalse(actual = getUseCases().gameSession.isGameSessionOngoing())
 
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         yield()
         assertEquals(expected = gameSession, actual = getUseCases().gameSession.getLatestGameSession())
         assertEquals(expected = listOf(gameSession), actual = getUseCases().gameSession.getGameSessions())
@@ -37,8 +37,8 @@ internal class GameSessionUseCasesTest: TestCase() {
 
     @Test
     fun launchEvent() = runUnitTest {
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val event = FakeData.getEvents().first { it.outcome != null }
+        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        val event = FakeData.events.get().first { it.outcome != null }
 
         val newGameSession = getUseCases().gameSession.launchEvent(gameSession = gameSession, event = event)
         assertEquals(expected = gameSession.ship.integrity + (event.outcome?.integrity ?: 0), actual = newGameSession.ship.integrity)
@@ -49,8 +49,8 @@ internal class GameSessionUseCasesTest: TestCase() {
 
     @Test
     fun travel() = runUnitTest {
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val stellarHost = FakeData.getStellarHosts().filter { it.id != SUN }.random()
+        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        val stellarHost = FakeData.stellarHosts.get().filter { it.id != SUN }.random()
 
         val newGameSession = getUseCases().gameSession.travel(gameSession = gameSession, stellarHost = stellarHost)
         assertEquals(expected = stellarHost.id, actual = newGameSession.currentStellarHostId)
@@ -62,8 +62,8 @@ internal class GameSessionUseCasesTest: TestCase() {
 
     @Test
     fun settle() = runUnitTest {
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
-        val stellarHost = FakeData.getHostsWithPlanets().filter { it.planets.isNotEmpty() }.random()
+        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        val stellarHost = FakeData.stellarHostsWithPlanets.get().filter { it.planets.isNotEmpty() }.random()
         val planet = stellarHost.planets.random().apply {
             score = Habitability.calculateScores(
                 stellarHost = stellarHost,
@@ -79,7 +79,7 @@ internal class GameSessionUseCasesTest: TestCase() {
 
     @Test
     fun score() = runUnitTest {
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val gameOver = GameOver.entries.random()
 
         val newGameSession = getUseCases().gameSession.score(gameSession = gameSession, gameOver = gameOver)
@@ -88,7 +88,7 @@ internal class GameSessionUseCasesTest: TestCase() {
 
     @Test
     fun isGameOver() = runUnitTest {
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         assertFalse(actual = getUseCases().gameSession.isGameOver(gameSession = gameSession))
 
         val gameSessionNoIntegrity = gameSession.copy(ship = gameSession.ship.copy(integrity = 0))
@@ -142,7 +142,7 @@ internal class GameSessionUseCasesTest: TestCase() {
         assertFalse(actual = getUseCases().gameSession.isGameOver(gameSession = gameSession))
 
         val gameSessionSettled = gameSession.copy(
-            settledPlanetId = FakeData.getPlanets().random().id,
+            settledPlanetId = FakeData.planets.get().random().id,
             finalHabitability = Random.nextDouble(until = 100.0)
         )
         getUseCases().gameSession.updateGameSession(gameSession = gameSessionSettled)

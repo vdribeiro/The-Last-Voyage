@@ -39,6 +39,6 @@ internal class AchievementScreenTest: TestCase() {
 
         onNodeWithText(text = "achievements_screen__title").assertIsDisplayed()
         onNodeWithTag(testTag = "achievement_list").assertIsDisplayed()
-        onNodeWithTag(testTag = "achievement_list").count(count = FakeData.getAchievements().size)
+        onNodeWithTag(testTag = "achievement_list").count(count = FakeData.achievements.get().size)
     }
 }

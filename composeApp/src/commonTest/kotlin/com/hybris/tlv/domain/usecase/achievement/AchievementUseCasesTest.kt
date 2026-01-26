@@ -13,18 +13,18 @@ internal class AchievementUseCasesTest: TestCase() {
     fun prepopulateAndSyncAchievements() = runUnitTest {
         assertTrue(actual = getUseCases().achievement.getAchievements().isEmpty())
         getUseCases().achievement.prepopulateAchievements()
-        assertEquals(expected = FakeData.getAchievements().sortedBy { it.id }, actual = getUseCases().achievement.getAchievements().sortedBy { it.id })
+        assertEquals(expected = FakeData.achievements.get().sortedBy { it.id }, actual = getUseCases().achievement.getAchievements().sortedBy { it.id })
 
         reset()
         assertTrue(actual = getUseCases().achievement.getAchievements().isEmpty())
         getUseCases().achievement.syncAchievements()
-        assertEquals(expected = FakeData.getAchievements().sortedBy { it.id }, actual = getUseCases().achievement.getAchievements().sortedBy { it.id })
+        assertEquals(expected = FakeData.achievements.get().sortedBy { it.id }, actual = getUseCases().achievement.getAchievements().sortedBy { it.id })
     }
 
     @Test
     fun updateAchievements() = runUnitTest {
         getUseCases().achievement.prepopulateAchievements()
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val newGameSession = gameSession.copy(
             currentStellarHostId = SUN,
             settledPlanetId = "3earth",

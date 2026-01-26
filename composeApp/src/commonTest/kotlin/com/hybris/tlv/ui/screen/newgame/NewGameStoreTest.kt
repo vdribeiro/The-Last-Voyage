@@ -19,7 +19,7 @@ internal class NewGameStoreTest: TestCase() {
         assertNull(actual = store.selectedFormula)
         assertFalse(actual = store.state.loading)
         assertNotNull(actual = store.state.shipState)
-        assertEquals(expected = FakeData.getEngines().sortedBy { it.id }, actual = store.state.engines.sortedBy { it.id })
+        assertEquals(expected = FakeData.engines.get().sortedBy { it.id }, actual = store.state.engines.sortedBy { it.id })
     }
 
     @Test
@@ -38,7 +38,7 @@ internal class NewGameStoreTest: TestCase() {
         assertNull(actual = store.selectedShip)
         store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
         assertEquals(expected = FakeData.shipPrototype, actual = store.selectedShip)
-        val engine = FakeData.getEngines().random()
+        val engine = FakeData.engines.get().random()
         store.send(action = NewGameAction.SelectEngine(engine = engine))
         assertEquals(expected = engine, actual = store.state.shipState?.engine)
     }
@@ -48,7 +48,7 @@ internal class NewGameStoreTest: TestCase() {
         getUseCases().ship.syncEngines()
         val store = getStoreFactory().getNewGameStore()
         assertNavigation(list = emptyList())
-        store.send(action = NewGameAction.SelectEngine(engine = FakeData.getEngines().random()))
+        store.send(action = NewGameAction.SelectEngine(engine = FakeData.engines.get().random()))
         store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
         assertNavigation(list = listOf(Screen.Catastrophe))
     }
@@ -57,7 +57,7 @@ internal class NewGameStoreTest: TestCase() {
     fun startGameWithoutShip() = runUnitTest {
         assertNavigation(list = emptyList())
         val store = getStoreFactory().getNewGameStore()
-        store.send(action = NewGameAction.SelectEngine(engine = FakeData.getEngines().random()))
+        store.send(action = NewGameAction.SelectEngine(engine = FakeData.engines.get().random()))
         store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
         assertNavigation(list = listOf(Screen.Feedback()))
     }

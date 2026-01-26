@@ -9,8 +9,8 @@ internal class TranslationCacheTest: TestCase() {
 
     @Test
     fun writeAndGetTranslations() = runUnitTest {
-        val translation = FakeData.getTranslations().first()
-        TranslationCache.set(translations = FakeData.getTranslations())
+        val translation = FakeData.translations.get().first()
+        TranslationCache.set(translations = FakeData.translations.get())
         assertEquals(expected = translation.value, actual = TranslationCache.get(key = translation.key))
     }
 }

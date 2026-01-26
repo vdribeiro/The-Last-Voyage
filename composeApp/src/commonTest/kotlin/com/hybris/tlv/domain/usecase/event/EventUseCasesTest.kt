@@ -19,10 +19,10 @@ internal class EventUseCasesTest: TestCase() {
         getUseCases().event.syncEvents()
         assertTrue(actual = getUseCases().event.getRandomEvent(ids = emptySet()).isNotEmpty())
 
-        val ids = FakeData.getEvents().map { it.id }.toSet()
+        val ids = FakeData.events.get().map { it.id }.toSet()
         assertTrue(actual = getUseCases().event.getRandomEvent(ids = ids).isEmpty())
 
-        val event = FakeData.getEvents().first { it.parentId == null }
+        val event = FakeData.events.get().first { it.parentId == null }
         assertEquals(expected = listOf(event), actual = getUseCases().event.getRandomEvent(ids = ids - event.id).filter { it.parentId == null })
     }
 }

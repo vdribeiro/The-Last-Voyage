@@ -60,13 +60,13 @@ internal class CreditScreenTest: TestCase() {
         onNodeWithTag(testTag = "credits_grid").assertIsDisplayed()
         onNodeWithTag(testTag = "credits_grid").count(count = 9)
 
-        val creditsMap = FakeData.getCredits().groupBy { it.type }
+        val creditsMap = FakeData.credits.get().groupBy { it.type }
         creditsMap[CreditType.CREATOR].orEmpty()
         creditsMap[CreditType.SOURCE].orEmpty()
         creditsMap[CreditType.MUSIC].orEmpty()
         creditsMap[CreditType.SUPPORTER].orEmpty()
 
-        FakeData.getCredits().forEach {
+        FakeData.credits.get().forEach {
             openedUri = null
             onNodeWithText(text = it.id).performScrollTo().performClick()
             assertEquals(expected = it.link, actual = openedUri)

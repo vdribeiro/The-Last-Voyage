@@ -43,7 +43,7 @@ internal class GameScreenTest: TestCase() {
         getUseCases().space.prepopulateStellarHosts()
         getUseCases().space.prepopulatePlanets()
         getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.getGameSessionPrototype())
+        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getGameStore(ship = null)
         setScreen { GameScreen(store = store) }
 

@@ -14,12 +14,12 @@ internal class ShipUseCasesTest: TestCase() {
     fun prepopulateAndSyncEngines() = runUnitTest {
         assertTrue(actual = getUseCases().ship.getEngines().isEmpty())
         getUseCases().ship.prepopulateEngines()
-        assertEquals(expected = FakeData.getEngines().sortedBy { it.id }, actual = getUseCases().ship.getEngines().sortedBy { it.id })
+        assertEquals(expected = FakeData.engines.get().sortedBy { it.id }, actual = getUseCases().ship.getEngines().sortedBy { it.id })
 
         reset()
         assertTrue(actual = getUseCases().ship.getEngines().isEmpty())
         getUseCases().ship.syncEngines()
-        assertEquals(expected = FakeData.getEngines().sortedBy { it.id }, actual = getUseCases().ship.getEngines().sortedBy { it.id })
+        assertEquals(expected = FakeData.engines.get().sortedBy { it.id }, actual = getUseCases().ship.getEngines().sortedBy { it.id })
     }
 
     @Test
