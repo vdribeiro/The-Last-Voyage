@@ -15,7 +15,7 @@ import database.Ship
  * Factory for creating and configuring the [AppDatabase] instance with the necessary column adapters
  * for custom data types, given a [SqlDriver].
  */
-internal class DatabaseFactory(private val driver: SqlDriver) {
+internal class DatabaseFactory(driver: SqlDriver) {
 
     private val shipAdapter = Ship.Adapter(
         assignedPointsAdapter = IntColumnAdapter,
