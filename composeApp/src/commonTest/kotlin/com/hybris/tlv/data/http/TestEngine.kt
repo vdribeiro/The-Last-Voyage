@@ -12,6 +12,8 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import com.hybris.tlv.data.serializer.encode
+import com.hybris.tlv.domain.usecase.space.toExoplanetJson
+import com.hybris.tlv.domain.usecase.space.toStellarHostJson
 import com.hybris.tlv.test.FakeData
 
 internal object TestEngine {

@@ -19,6 +19,26 @@ import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.space.model.StellarHostJson
 import com.hybris.tlv.infrastructure.resource.ImageResource
 
+internal fun StellarHost.toStellarHostJson(): StellarHostJson =
+    StellarHostJson(
+        stellarHostName = name,
+        stellarHostSystemName = systemName,
+        stellarHostSpectralType = spectralType,
+        stellarHostEffectiveTemperature = effectiveTemperature,
+        stellarHostRadius = radius,
+        stellarHostMass = mass,
+        stellarHostMetallicity = metallicity,
+        stellarHostLuminosity = luminosity,
+        stellarHostGravity = gravity?.sunGravityToStellarHostGravity(),
+        stellarHostAge = age,
+        stellarHostDensity = density,
+        stellarHostRotationalVelocity = rotationalVelocity,
+        stellarHostRotationalPeriod = rotationalPeriod,
+        stellarHostDistance = distance?.lightYearsToParsecs(),
+        stellarHostRa = ra,
+        stellarHostDec = dec
+    )
+
 internal fun StellarHostJson.toStellarHost(): StellarHost =
     StellarHost(
         id = stellarHostName.toSnakeCase(),
@@ -40,6 +60,39 @@ internal fun StellarHostJson.toStellarHost(): StellarHost =
         distance = stellarHostDistance?.parsecsToLightYears(),
         ra = stellarHostRa,
         dec = stellarHostDec
+    )
+
+internal fun Planet.toExoplanetJson(stellarHost: StellarHost): ExoplanetJson =
+    ExoplanetJson(
+        stellarHostName = stellarHost.name,
+        stellarHostSpectralType = stellarHost.spectralType,
+        stellarHostEffectiveTemperature = stellarHost.effectiveTemperature,
+        stellarHostRadius = stellarHost.radius,
+        stellarHostMass = stellarHost.mass,
+        stellarHostMetallicity = stellarHost.metallicity,
+        stellarHostLuminosity = stellarHost.luminosity,
+        stellarHostGravity = stellarHost.gravity?.sunGravityToStellarHostGravity(),
+        stellarHostAge = stellarHost.age,
+        stellarHostDensity = stellarHost.density,
+        stellarHostRotationalVelocity = stellarHost.rotationalVelocity,
+        stellarHostRotationalPeriod = stellarHost.rotationalPeriod,
+        stellarHostDistance = stellarHost.distance?.lightYearsToParsecs(),
+        stellarHostRa = stellarHost.ra,
+        stellarHostDec = stellarHost.dec,
+        planetName = name,
+        planetStatus = status.name,
+        planetOrbitalPeriod = orbitalPeriod,
+        planetOrbitAxis = orbitAxis,
+        planetRadius = radius,
+        planetMass = mass,
+        planetDensity = density,
+        planetEccentricity = eccentricity,
+        planetInsolationFlux = insolationFlux,
+        planetEquilibriumTemperature = equilibriumTemperature,
+        planetOccultationDepth = occultationDepth,
+        planetInclination = inclination,
+        planetObliquity = obliquity,
+        planetProjectedObliquity = obliquity
     )
 
 internal fun ExoplanetJson.toStellarHost(systemName: String?): StellarHost =
@@ -320,11 +373,11 @@ internal fun Double?.sanitize(): Double? = when {
 
 private fun Double.stellarHostGravityToSunGravity(): Double = 10.0.pow(x = this - SUN_SURFACE_GRAVITY).roundTo(decimalPlaces = 7)
 
-internal fun Double.sunGravityToStellarHostGravity(): Double = (log10(x = this) + SUN_SURFACE_GRAVITY).roundTo(decimalPlaces = 7)
+private fun Double.sunGravityToStellarHostGravity(): Double = (log10(x = this) + SUN_SURFACE_GRAVITY).roundTo(decimalPlaces = 7)
 
 private fun Double.parsecsToLightYears(): Double = this * PARSEC
 
-internal fun Double.lightYearsToParsecs(): Double = this / PARSEC
+private fun Double.lightYearsToParsecs(): Double = this / PARSEC
 
 internal fun String?.spectralTypeToImage(): ImageResource =
     when (this?.firstOrNull()?.uppercase()) {
