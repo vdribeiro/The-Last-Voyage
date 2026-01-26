@@ -58,8 +58,11 @@ internal object TLV {
      * Registers a listener to observe system locale changes to refresh the translation cache.
      */
     private fun registerTranslationListener(): Boolean = observeLocaleChanges {
-        val translation = dependency.value?.useCases?.translation ?: return@observeLocaleChanges
-        scope.launch { TranslationCache.set(translations = translation.getTranslations()) }
+        scope.launch {
+            val translation = dependency.value?.useCases?.translation ?: return@launch
+            val translations = translation.getTranslations()
+            if (translations.isNotEmpty()) TranslationCache.set(translations = translations)
+        }
     }
 
     /**
