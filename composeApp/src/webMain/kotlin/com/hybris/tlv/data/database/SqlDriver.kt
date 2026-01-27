@@ -22,9 +22,9 @@ internal actual suspend fun createSqlDriver(
 @OptIn(ExperimentalWasmJsInterop::class)
 private fun getWorker(): Worker = js(
     code = """
-        (() => {
-            const url = new URL('sqljs.worker.js', document.baseURI).href;
-            return new Worker(url, { type: 'module' });
-        })()
+        new Worker(
+            new URL('sqljs.worker.js', document.baseURI).href, 
+            { type: 'module' }
+        )
     """
 )
