@@ -23,8 +23,7 @@ config.module.rules.push({
     test: /sqljs\.worker\.js$/,
     loader: "string-replace-loader",
     options: {
-        search: 'self.locateFile=function\\(e,t\\)\\{return t\\+e\\}',
-        replace: 'self.locateFile=function(e,t){return "./" + e}',
-        flags: 'g'
+        search: /self\.locateFile\s*=\s*(?:function\s*\(e,t\)\s*\{\s*return\s*t\s*\+\s*e\s*\}|\(path,\s*prefix\)\s*=>\s*prefix\s*\+\s*path)/g,
+        replace: 'self.locateFile = (path, prefix) => "./" + path',
     }
 });
