@@ -215,7 +215,7 @@ kotlin {
             commonWebpackConfig {
                 outputFileName = "tlv.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = mutableListOf("build/processedResources/wasmJs/main")
+                    static(directory = "build/processedResources/wasmJs/main")
                 }
                 showProgress = true
             }
