@@ -454,20 +454,17 @@ tasks.withType<Test> {
     jvmArgs("--enable-native-access=ALL-UNNAMED")
 }
 
-tasks.register<Copy>("deployWeb") {
+tasks.register<Sync>("deployWeb") {
     group = "deployment"
     description = "Copies the production Wasm build to the docs folder for GitHub Pages."
 
     val distributionTask = tasks.named("wasmJsBrowserDistribution")
-    val baseTag = "<head>\n    <base href=\"/${appName.replace(oldValue = " ", newValue = "-")}/\">"
-    val destinationDir = rootProject.layout.projectDirectory.dir("docs").asFile
+    val subfolderName = appName.replace(oldValue = " ", newValue = "-")
+    val baseTag = "<head>\n    <base href=\"/$subfolderName/\">"
+    val destinationDir = layout.projectDirectory.dir("docs").asFile
 
     from(distributionTask)
     into(destinationDir)
-
-    doFirst {
-        if (destinationDir.exists()) destinationDir.listFiles()?.forEach { it.deleteRecursively() }
-    }
 
     filesMatching("index.html") {
         filter { line ->

@@ -1,0 +1,21 @@
+[
+  {
+    "id": "sol",
+    "systemName": "Sol",
+    "name": "Sol",
+    "spectralType": "G2V",
+    "effectiveTemperature": 5778.0,
+    "radius": 1.0,
+    "mass": 1.0,
+    "metallicity": 0.0,
+    "luminosity": 1.0,
+    "gravity": 1.0,
+    "age": 4.6,
+    "density": 1.41,
+    "rotationalVelocity": 2.0,
+    "rotationalPeriod": 25.05,
+    "distance": 0.0,
+    "ra": 0.0,
+    "dec": 0.0
+  }
+]

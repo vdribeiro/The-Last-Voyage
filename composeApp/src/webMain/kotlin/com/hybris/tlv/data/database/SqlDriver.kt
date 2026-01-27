@@ -22,11 +22,22 @@ internal actual suspend fun createSqlDriver(
 @OptIn(ExperimentalWasmJsInterop::class)
 private fun getWorker(): Worker = js(
     code = """
-        new Worker(
-            new URL(
-                "@cashapp/sqldelight-sqljs-worker/sqljs.worker.js",
-                 import.meta.url
-             )
-        )
+        (function() {
+            const path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+            const workerUrl = path + 'sqljs.worker.js';
+            const wasmUrl = path + 'sql-wasm.wasm';
+
+            console.log("SQLDelight: Loading worker from: " + workerUrl);
+            console.log("SQLDelight: Looking for WASM at: " + wasmUrl);
+
+            const worker = new Worker(workerUrl, { type: "module" });
+
+            worker.postMessage({
+                action: 'init',
+                wasmLocation: wasmUrl
+            });
+
+            return worker;
+        })()
     """
 )
