@@ -23,11 +23,8 @@ internal actual suspend fun createSqlDriver(
 private fun getWorker(): Worker = js(
     code = """
         (() => {
-            const workerPath = ['sqljs', 'worker.js'].join('.'); 
-            return new Worker(
-                new URL(workerPath, import.meta.url), 
-                { type: 'module' }
-            );
+            const url = new URL('sqljs.worker.js', document.baseURI).href;
+            return new Worker(url, { type: 'module' });
         })()
     """
 )
