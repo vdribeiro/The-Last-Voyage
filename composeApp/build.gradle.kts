@@ -469,8 +469,10 @@ tasks.register<Copy>("deployWeb") {
         if (destinationDir.exists()) destinationDir.listFiles()?.forEach { it.deleteRecursively() }
     }
 
-    filter { line ->
-        if (line.contains(other = "<head>")) line.replace(oldValue = "<head>", newValue = baseTag) else line
+    filesMatching("index.html") {
+        filter { line ->
+            if (line.contains(other = "<head>")) line.replace(oldValue = "<head>", newValue = baseTag) else line
+        }
     }
 
     doLast {
