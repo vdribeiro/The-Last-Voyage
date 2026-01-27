@@ -4,11 +4,11 @@
 kover = "0.9.4"
 kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
-kotlinx-serialization = "1.9.0"
+kotlinx-serialization = "1.10.0"
 kotlinx-datetime = "0.7.1"
 
 # Ktor
-ktor = "3.3.3"
+ktor = "3.4.0"
 
 # SQLDelight
 sqldelight = "2.2.1"
@@ -25,7 +25,7 @@ coil = "3.3.0"
 # Android
 android-plugin = "8.13.2"
 android-startup = "1.2.0"
-androidx-exoplayer = "1.9.0"
+androidx-exoplayer = "1.9.1"
 android-test = "1.10.1"
 
 # Desktop
@@ -35,6 +35,7 @@ javafx = "21.0.9"
 # Web
 sql-js = "1.6.2"
 webpack = "9.1.0"
+string-replace = "3.3.0"
 
 # Crashlytics
 sentry = "0.21.0"
@@ -115,6 +116,7 @@ javafx-swing = { module = "org.openjfx:javafx-swing", version.ref = "javafx" }
 sql-worker = { module = "npm:@cashapp/sqldelight-sqljs-worker", version.ref = "sqldelight" }
 sql-js = { module = "npm:sql.js", version.ref = "sql-js" }
 webpack = { module = "npm:copy-webpack-plugin", version.ref = "webpack" }
+string-replace = { module = "npm:string-replace-loader", version.ref = "string-replace" }
 
 [bundles]
 common = [

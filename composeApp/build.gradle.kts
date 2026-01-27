@@ -215,7 +215,7 @@ kotlin {
             commonWebpackConfig {
                 outputFileName = "tlv.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = mutableListOf("build/processedResources/wasmJs/main")
+                    static(directory = "build/processedResources/wasmJs/main")
                 }
                 showProgress = true
             }
@@ -274,6 +274,7 @@ kotlin {
                 implementation(dependencyNotation = npm(library = libs.sql.worker))
                 implementation(dependencyNotation = npm(library = libs.sql.js))
                 implementation(dependencyNotation = devNpm(library = libs.webpack))
+                implementation(dependencyNotation = devNpm(library = libs.string.replace))
             }
         }
         sourceSets.getByName("${webTarget.name}Main").dependsOn(other = webMain)

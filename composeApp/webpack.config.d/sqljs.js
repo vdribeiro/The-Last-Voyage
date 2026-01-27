@@ -12,13 +12,19 @@ config.plugins.push(
     new CopyWebpackPlugin({
         patterns: [
             {
-                from: path.resolve(__dirname, "../../node_modules/@cashapp/sqldelight-sqljs-worker/sqljs.worker.js"),
-                to: "."
-            },
-            {
                 from: path.resolve(__dirname, "../../node_modules/sql.js/dist/sql-wasm.wasm"),
                 to: "."
             }
         ]
     })
 );
+
+config.module.rules.push({
+    test: /sqljs\.worker\.js$/,
+    loader: "string-replace-loader",
+    options: {
+        search: 'self.locateFile=function\\(e,t\\)\\{return t\\+e\\}',
+        replace: 'self.locateFile=function(e,t){return "./" + e}',
+        flags: 'g'
+    }
+});
