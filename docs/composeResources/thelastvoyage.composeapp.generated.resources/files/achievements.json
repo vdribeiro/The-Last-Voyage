@@ -1,0 +1,218 @@
+[
+  {
+    "id": "achievement_settle_on_mercury",
+    "description": "achievement_settle_on_mercury_description",
+    "preconditions": {
+      "settledPlanetId": "1mercury"
+    }
+  },
+  {
+    "id": "achievement_settle_on_venus",
+    "description": "achievement_settle_on_venus_description",
+    "preconditions": {
+      "settledPlanetId": "2venus"
+    }
+  },
+  {
+    "id": "achievement_settle_on_earth",
+    "description": "achievement_settle_on_earth_description",
+    "preconditions": {
+      "settledPlanetId": "3earth"
+    }
+  },
+  {
+    "id": "achievement_settle_on_mars",
+    "description": "achievement_settle_on_mars_description",
+    "preconditions": {
+      "settledPlanetId": "4mars"
+    }
+  },
+  {
+    "id": "achievement_settle_on_jupiter",
+    "description": "achievement_settle_on_jupiter_description",
+    "preconditions": {
+      "settledPlanetId": "5jupiter"
+    }
+  },
+  {
+    "id": "achievement_settle_on_saturn",
+    "description": "achievement_settle_on_saturn_description",
+    "preconditions": {
+      "settledPlanetId": "6saturn"
+    }
+  },
+  {
+    "id": "achievement_settle_on_uranus",
+    "description": "achievement_settle_on_uranus_description",
+    "preconditions": {
+      "settledPlanetId": "7uranus"
+    }
+  },
+  {
+    "id": "achievement_settle_on_neptune",
+    "description": "achievement_settle_on_neptune_description",
+    "preconditions": {
+      "settledPlanetId": "8neptune"
+    }
+  },
+  {
+    "id": "achievement_settle_on_proxima_centauri_b",
+    "description": "achievement_settle_on_proxima_centauri_b_description",
+    "preconditions": {
+      "settledPlanetId": "proxima_cen_b"
+    }
+  },
+  {
+    "id": "achievement_settle_on_kepler_186_f",
+    "description": "achievement_settle_on_kepler_186_f_description",
+    "preconditions": {
+      "settledPlanetId": "kepler_186_f"
+    }
+  },
+  {
+    "id": "achievement_settle_on_any_trappist",
+    "description": "achievement_settle_on_any_trappist_description",
+    "preconditions": {
+      "settledHostId": "trappist_1"
+    }
+  },
+  {
+    "id": "achievement_settle_on_k2_18_b",
+    "description": "achievement_settle_on_k2_18_b_description",
+    "preconditions": {
+      "settledPlanetId": "k2_18_b"
+    }
+  },
+  {
+    "id": "achievement_settle_on_gj_504_b",
+    "description": "achievement_settle_on_gj_504_b_description",
+    "preconditions": {
+      "settledPlanetId": "gj_504_b"
+    }
+  },
+  {
+    "id": "achievement_settle_on_kepler_452_b",
+    "description": "achievement_settle_on_kepler_452_b_description",
+    "preconditions": {
+      "settledPlanetId": "kepler_452_b"
+    }
+  },
+  {
+    "id": "achievement_habitability_negative",
+    "description": "achievement_habitability_negative_description",
+    "preconditions": {
+      "habitability": "-30"
+    }
+  },
+  {
+    "id": "achievement_habitability_positive",
+    "description": "achievement_habitability_positive_description",
+    "preconditions": {
+      "habitability": "+70"
+    }
+  },
+  {
+    "id": "achievement_sensor_range_max",
+    "description": "achievement_sensor_range_max_description",
+    "preconditions": {
+      "sensorRange": "+10"
+    }
+  },
+  {
+    "id": "achievement_sensor_range_min",
+    "description": "achievement_sensor_range_min_description",
+    "preconditions": {
+      "sensorRange": "-1"
+    }
+  },
+  {
+    "id": "achievement_materials_max",
+    "description": "achievement_materials_max_description",
+    "preconditions": {
+      "materials": "+999"
+    }
+  },
+  {
+    "id": "achievement_materials_zero",
+    "description": "achievement_materials_zero_description",
+    "preconditions": {
+      "materials": "-0"
+    }
+  },
+  {
+    "id": "achievement_cryopods_max",
+    "description": "achievement_cryopods_max_description",
+    "preconditions": {
+      "cryopods": "+999"
+    }
+  },
+  {
+    "id": "achievement_cryopods_one",
+    "description": "achievement_cryopods_one_description",
+    "preconditions": {
+      "cryopods": "=1"
+    }
+  },
+  {
+    "id": "achievement_cryopods_zero",
+    "description": "achievement_cryopods_zero_description",
+    "preconditions": {
+      "cryopods": "-0"
+    }
+  },
+  {
+    "id": "achievement_integrity_zero_years_few",
+    "description": "achievement_integrity_zero_years_few_description",
+    "preconditions": {
+      "integrity": "-0",
+      "yearsTraveled": "-5000"
+    }
+  },
+  {
+    "id": "achievement_integrity_zero_years_lots",
+    "description": "achievement_integrity_zero_years_lots_description",
+    "preconditions": {
+      "integrity": "-0",
+      "yearsTraveled": "+100000"
+    }
+  },
+  {
+    "id": "achievement_integrity_zero_cryopods_max",
+    "description": "achievement_integrity_zero_cryopods_max_description",
+    "preconditions": {
+      "integrity": "-0",
+      "cryopods": "+999"
+    }
+  },
+  {
+    "id": "achievement_integrity_zero_fuel_plenty",
+    "description": "achievement_integrity_zero_fuel_plenty_description",
+    "preconditions": {
+      "integrity": "-0",
+      "fuel": "+300"
+    }
+  },
+  {
+    "id": "achievement_integrity_zero_materials_zero",
+    "description": "achievement_integrity_zero_materials_zero_description",
+    "preconditions": {
+      "integrity": "-0",
+      "materials": "-0"
+    }
+  },
+  {
+    "id": "achievement_fuel_zero",
+    "description": "achievement_fuel_zero_description",
+    "preconditions": {
+      "fuel": "-0"
+    }
+  },
+  {
+    "id": "achievement_fuel_zero_cryopods_max",
+    "description": "achievement_fuel_zero_cryopods_max_description",
+    "preconditions": {
+      "fuel": "-0",
+      "cryopods": "+999"
+    }
+  }
+]

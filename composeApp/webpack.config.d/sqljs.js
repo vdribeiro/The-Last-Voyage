@@ -14,6 +14,10 @@ config.plugins.push(
             {
                 from: path.resolve(__dirname, "../../node_modules/sql.js/dist/sql-wasm.wasm"),
                 to: "."
+            },
+            {
+                from: path.resolve(__dirname, "../../node_modules/@cashapp/sqldelight-sqljs-worker/sqljs.worker.js"),
+                to: "."
             }
         ]
     })
