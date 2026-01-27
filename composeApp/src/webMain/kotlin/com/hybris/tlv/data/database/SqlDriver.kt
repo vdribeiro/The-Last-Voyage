@@ -23,21 +23,14 @@ internal actual suspend fun createSqlDriver(
 private fun getWorker(): Worker = js(
     code = """
         (function() {
-            const path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-            const workerUrl = path + 'sqljs.worker.js';
-            const wasmUrl = path + 'sql-wasm.wasm';
+            const subfolder = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+            const workerUrl = subfolder + 'sqljs.worker.js';
+            const wasmUrl = subfolder + 'sql-wasm.wasm';
 
-            console.log("SQLDelight: Loading worker from: " + workerUrl);
-            console.log("SQLDelight: Looking for WASM at: " + wasmUrl);
-
-            const worker = new Worker(workerUrl, { type: "module" });
-
-            worker.postMessage({
-                action: 'init',
-                wasmLocation: wasmUrl
-            });
-
-            return worker;
+            const wrapper = "self.locateFile = () => '" + wasmUrl + "'; importScripts('" + workerUrl + "');";
+            const blob = new Blob([wrapper], { type: 'application/javascript' });
+            
+            return new Worker(URL.createObjectURL(blob));
         })()
     """
 )

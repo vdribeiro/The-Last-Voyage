@@ -17,13 +17,7 @@ config.plugins.push(
             },
             {
                 from: path.resolve(__dirname, "../../node_modules/@cashapp/sqldelight-sqljs-worker/sqljs.worker.js"),
-                to: "sqljs.worker.js",
-                transform(content) {
-                    return content.toString().replace(
-                        "self.locateFile = (path, prefix) => prefix + path",
-                        "self.locateFile = (path, prefix) => './' + path"
-                    );
-                },
+                to: "."
             }
         ]
     })
