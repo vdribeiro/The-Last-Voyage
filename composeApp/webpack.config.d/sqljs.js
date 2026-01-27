@@ -12,6 +12,10 @@ config.plugins.push(
     new CopyWebpackPlugin({
         patterns: [
             {
+                from: path.resolve(__dirname, "../../node_modules/@cashapp/sqldelight-sqljs-worker/sqljs.worker.js"),
+                to: "."
+            },
+            {
                 from: path.resolve(__dirname, "../../node_modules/sql.js/dist/sql-wasm.wasm"),
                 to: "."
             }
