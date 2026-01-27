@@ -35,7 +35,6 @@ javafx = "21.0.9"
 # Web
 sql-js = "1.6.2"
 webpack = "9.1.0"
-string-replace = "3.3.0"
 
 # Crashlytics
 sentry = "0.21.0"
@@ -116,7 +115,6 @@ javafx-swing = { module = "org.openjfx:javafx-swing", version.ref = "javafx" }
 sql-worker = { module = "npm:@cashapp/sqldelight-sqljs-worker", version.ref = "sqldelight" }
 sql-js = { module = "npm:sql.js", version.ref = "sql-js" }
 webpack = { module = "npm:copy-webpack-plugin", version.ref = "webpack" }
-string-replace = { module = "npm:string-replace-loader", version.ref = "string-replace" }
 
 [bundles]
 common = [
