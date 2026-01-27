@@ -26,8 +26,7 @@ private fun getWorker(): Worker = js(
             new URL(
                 "@cashapp/sqldelight-sqljs-worker/sqljs.worker.js",
                  import.meta.url
-             ),
-             { type: "module" }
+             )
         )
     """
 )
