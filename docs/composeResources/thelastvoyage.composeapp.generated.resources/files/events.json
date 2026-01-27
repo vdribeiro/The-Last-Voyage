@@ -1,0 +1,459 @@
+[
+  {
+    "id": "event__a_close_pass",
+    "description": "event__a_close_pass_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__a_close_pass_for_science",
+    "description": "event__a_close_pass_for_science_description",
+    "parentId": "event__a_close_pass",
+    "outcome": {
+      "fuel": 50,
+      "cryopods": -15
+    }
+  },
+  {
+    "id": "event__a_close_pass_ignore",
+    "description": "event__a_close_pass_ignore_description",
+    "parentId": "event__a_close_pass",
+    "outcome": null
+  },
+  {
+    "id": "event__a_failing_cryo_block",
+    "description": "event__a_failing_cryo_block_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__a_failing_cryo_block_risky",
+    "description": "event__a_failing_cryo_block_risky_description",
+    "parentId": "event__a_failing_cryo_block",
+    "outcome": {
+      "integrity": -10,
+      "cryopods": -30
+    }
+  },
+  {
+    "id": "event__a_failing_cryo_block_standard",
+    "description": "event__a_failing_cryo_block_standard_description",
+    "parentId": "event__a_failing_cryo_block",
+    "outcome": {
+      "cryopods": -50
+    }
+  },
+  {
+    "id": "event__asteroid_mining_opportunity",
+    "description": "event__asteroid_mining_opportunity_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__asteroid_mining_opportunity_ignore",
+    "description": "event__asteroid_mining_opportunity_ignore_description",
+    "parentId": "event__asteroid_mining_opportunity",
+    "outcome": null
+  },
+  {
+    "id": "event__asteroid_mining_opportunity_mine",
+    "description": "event__asteroid_mining_opportunity_mine_description",
+    "parentId": "event__asteroid_mining_opportunity",
+    "outcome": {
+      "materials": 30,
+      "fuel": -10
+    }
+  },
+  {
+    "id": "event__comet_rendezvous",
+    "description": "event__comet_rendezvous_description",
+    "parentId": null,
+    "outcome": {
+      "materials": 15,
+      "fuel": 10
+    }
+  },
+  {
+    "id": "event__coronal_mass_ejection",
+    "description": "event__coronal_mass_ejection_description",
+    "parentId": null,
+    "outcome": {
+      "cryopods": -50
+    }
+  },
+  {
+    "id": "event__cosmic_hum",
+    "description": "event__cosmic_hum_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__cryobay_malfunction",
+    "description": "event__cryobay_malfunction_description",
+    "parentId": null,
+    "outcome": {
+      "materials": -10,
+      "cryopods": -20
+    }
+  },
+  {
+    "id": "event__data_cascade_failure",
+    "description": "event__data_cascade_failure_description",
+    "parentId": null,
+    "outcome": {
+      "fuel": -5
+    }
+  },
+  {
+    "id": "event__engine_calibration_breakthrough",
+    "description": "event__engine_calibration_breakthrough_description",
+    "parentId": null,
+    "outcome": {
+      "materials": -1,
+      "fuel": 50
+    }
+  },
+  {
+    "id": "event__engine_containment_failure",
+    "description": "event__engine_containment_failure_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__engine_containment_failure_burn",
+    "description": "event__engine_containment_failure_burn_description",
+    "parentId": "event__engine_containment_failure",
+    "outcome": {
+      "fuel": -15
+    }
+  },
+  {
+    "id": "event__engine_containment_failure_overcharge",
+    "description": "event__engine_containment_failure_overcharge_description",
+    "parentId": "event__engine_containment_failure",
+    "outcome": {
+      "integrity": -15
+    }
+  },
+  {
+    "id": "event__engine_misfire",
+    "description": "event__engine_misfire_description",
+    "parentId": null,
+    "outcome": {
+      "materials": -10,
+      "fuel": -3
+    }
+  },
+  {
+    "id": "event__floating_cargo_pod",
+    "description": "event__floating_cargo_pod_description",
+    "parentId": null,
+    "outcome": {
+      "materials": 5
+    }
+  },
+  {
+    "id": "event__fuel_line_fracture",
+    "description": "event__fuel_line_fracture_description",
+    "parentId": null,
+    "outcome": {
+      "materials": -5,
+      "fuel": -10
+    }
+  },
+  {
+    "id": "event__ghost_ship",
+    "description": "event__ghost_ship_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__ghost_ship_board",
+    "description": "event__ghost_ship_board_description",
+    "parentId": "event__ghost_ship",
+    "outcome": {
+      "materials": 10,
+      "cryopods": 1
+    }
+  },
+  {
+    "id": "event__ghost_ship_ignore",
+    "description": "event__ghost_ship_ignore_description",
+    "parentId": "event__ghost_ship",
+    "outcome": null
+  },
+  {
+    "id": "event__gravitational_slingshot",
+    "description": "event__gravitational_slingshot_description",
+    "parentId": null,
+    "outcome": {
+      "fuel": 5
+    }
+  },
+  {
+    "id": "event__high_energy_particle_burst",
+    "description": "event__high_energy_particle_burst_description",
+    "parentId": null,
+    "outcome": {
+      "materials": -10,
+      "cryopods": -20
+    }
+  },
+  {
+    "id": "event__hull_resonance",
+    "description": "event__hull_resonance_description",
+    "parentId": null,
+    "outcome": {
+      "materials": -10
+    }
+  },
+  {
+    "id": "event__lost_probe",
+    "description": "event__lost_probe_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__lost_probe_dismantle",
+    "description": "event__lost_probe_dismantle_description",
+    "parentId": "event__lost_probe",
+    "outcome": {
+      "materials": 10,
+      "fuel": -1
+    }
+  },
+  {
+    "id": "event__lost_probe_ignore",
+    "description": "event__lost_probe_ignore_description",
+    "parentId": "event__lost_probe",
+    "outcome": null
+  },
+  {
+    "id": "event__main_truss_fatigue",
+    "description": "event__main_truss_fatigue_description",
+    "parentId": null,
+    "outcome": {
+      "integrity": -15,
+      "materials": -10,
+      "fuel": -5
+    }
+  },
+  {
+    "id": "event__material_inertia",
+    "description": "event__material_inertia_description",
+    "parentId": null,
+    "outcome": {
+      "materials": -15
+    }
+  },
+  {
+    "id": "event__micrometeoroid_swarm",
+    "description": "event__micrometeoroid_swarm_description",
+    "parentId": null,
+    "outcome": {
+      "integrity": -10,
+      "materials": -5
+    }
+  },
+  {
+    "id": "event__navigational_drift",
+    "description": "event__navigational_drift_description",
+    "parentId": null,
+    "outcome": {
+      "fuel": -3
+    }
+  },
+  {
+    "id": "event__navigational_error",
+    "description": "event__navigational_error_description",
+    "parentId": null,
+    "outcome": {
+      "fuel": -5
+    }
+  },
+  {
+    "id": "event__push_the_engine",
+    "description": "event__push_the_engine_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__push_the_engine_go",
+    "description": "event__push_the_engine_go_description",
+    "parentId": "event__push_the_engine",
+    "outcome": {
+      "materials": -5,
+      "fuel": 5
+    }
+  },
+  {
+    "id": "event__push_the_engine_ignore",
+    "description": "event__push_the_engine_ignore_description",
+    "parentId": "event__push_the_engine",
+    "outcome": null
+  },
+  {
+    "id": "event__redundant_system_shutdown",
+    "description": "event__redundant_system_shutdown_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__resource_rich_asteroid",
+    "description": "event__resource_rich_asteroid_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__resource_rich_asteroid_gather",
+    "description": "event__resource_rich_asteroid_gather_description",
+    "parentId": "event__resource_rich_asteroid",
+    "outcome": {
+      "materials": 10,
+      "fuel": -1
+    }
+  },
+  {
+    "id": "event__resource_rich_asteroid_ignore",
+    "description": "event__resource_rich_asteroid_ignore_description",
+    "parentId": "event__resource_rich_asteroid",
+    "outcome": null
+  },
+  {
+    "id": "event__solar_flare",
+    "description": "event__solar_flare_description",
+    "parentId": null,
+    "outcome": {
+      "materials": -5,
+      "fuel": -3
+    }
+  },
+  {
+    "id": "event__solar_shadowing",
+    "description": "event__solar_shadowing_description",
+    "parentId": null,
+    "outcome": {
+      "fuel": -5
+    }
+  },
+  {
+    "id": "event__stellar_nursery_passage",
+    "description": "event__stellar_nursery_passage_description",
+    "parentId": null,
+    "outcome": {
+      "fuel": -5
+    }
+  },
+  {
+    "id": "event__temporal_echo",
+    "description": "event__temporal_echo_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__the_light",
+    "description": "event__the_light_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__the_nebula_shortcut",
+    "description": "event__the_nebula_shortcut_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__the_nebula_shortcut_no",
+    "description": "event__the_nebula_shortcut_no_description",
+    "parentId": "event__the_nebula_shortcut",
+    "outcome": null
+  },
+  {
+    "id": "event__the_nebula_shortcut_yes",
+    "description": "event__the_nebula_shortcut_yes_description",
+    "parentId": "event__the_nebula_shortcut",
+    "outcome": {
+      "integrity": -10,
+      "fuel": 5
+    }
+  },
+  {
+    "id": "event__the_quick_fix",
+    "description": "event__the_quick_fix_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__the_quick_fix_patch",
+    "description": "event__the_quick_fix_patch_description",
+    "parentId": "event__the_quick_fix",
+    "outcome": {
+      "materials": -2
+    }
+  },
+  {
+    "id": "event__the_quick_fix_replace",
+    "description": "event__the_quick_fix_replace_description",
+    "parentId": "event__the_quick_fix",
+    "outcome": {
+      "materials": -15
+    }
+  },
+  {
+    "id": "event__the_shadow",
+    "description": "event__the_shadow_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__unforeseen_gravity_well",
+    "description": "event__unforeseen_gravity_well_description",
+    "parentId": null,
+    "outcome": {
+      "fuel": -15
+    }
+  },
+  {
+    "id": "event__unstable_wormhole",
+    "description": "event__unstable_wormhole_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__unstable_wormhole_ignore",
+    "description": "event__unstable_wormhole_ignore_description",
+    "parentId": "event__unstable_wormhole",
+    "outcome": null
+  },
+  {
+    "id": "event__unstable_wormhole_jump",
+    "description": "event__unstable_wormhole_jump_description",
+    "parentId": "event__unstable_wormhole",
+    "outcome": {
+      "materials": -10,
+      "fuel": 10
+    }
+  },
+  {
+    "id": "event__water_ice_reprocessing",
+    "description": "event__water_ice_reprocessing_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__water_ice_reprocessing_conserve",
+    "description": "event__water_ice_reprocessing_conserve_description",
+    "parentId": "event__water_ice_reprocessing",
+    "outcome": {
+      "integrity": -5,
+      "materials": -20,
+      "fuel": 20
+    }
+  },
+  {
+    "id": "event__water_ice_reprocessing_reprocess",
+    "description": "event__water_ice_reprocessing_reprocess_description",
+    "parentId": "event__water_ice_reprocessing",
+    "outcome": null
+  }
+]
