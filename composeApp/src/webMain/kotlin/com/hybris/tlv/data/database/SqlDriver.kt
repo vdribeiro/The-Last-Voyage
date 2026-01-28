@@ -34,20 +34,15 @@ private fun getDebugWorker(): Worker = js(
 private fun getWorker(): Worker = js(
     code = """
         (function() {
-            const isGitHub = window.location.hostname.includes('github.io');
-            const subfolder = isGitHub ? '/The-Last-Voyage/' : '/';
-            
+            const subfolder = '/The-Last-Voyage/';
             const workerUrl = new URL(subfolder + 'sqljs.worker.js', window.location.origin);
+            const wasmUrl = window.location.origin + subfolder + 'sql-wasm.wasm';
 
             const worker = new Worker(workerUrl, { type: 'module' });
-
-            const wasmUrl = window.location.origin + subfolder + 'sql-wasm.wasm';
             worker.postMessage({
                 action: 'init',
                 wasmLocation: wasmUrl
             });
-
-            console.log("SQLDelight: Worker created at " + workerUrl.href);
             return worker;
         })()
     """

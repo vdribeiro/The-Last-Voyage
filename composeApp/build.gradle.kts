@@ -28,6 +28,7 @@ val appName: String = "The Last Voyage"
 val appDescription: String = "An Educational Space Adventure"
 val appFramework = "TLV"
 val appVendor: String = "Hybris"
+val appFolder = "/${appName.replace(oldValue = " ", newValue = "-")}/"
 val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb"
 val appVersion: String = "1.1.8"
 val appVersionNumber: Long = 16
@@ -67,6 +68,8 @@ abstract class GeneratePropertiesTask: DefaultTask() {
     @get:Input
     abstract val taskAppName: Property<String>
     @get:Input
+    abstract val taskAppFolder: Property<String>
+    @get:Input
     abstract val taskAppVersion: Property<String>
     @get:Input
     abstract val taskAppVersionNumber: Property<Long>
@@ -79,6 +82,7 @@ abstract class GeneratePropertiesTask: DefaultTask() {
     fun generate() {
         val appId: String = taskAppId.get()
         val appName: String = taskAppName.get()
+        val appFolder: String = taskAppFolder.get()
         val appVersion: String = taskAppVersion.get()
         val appVersionNumber: Long = taskAppVersionNumber.get()
         // Basic obfuscation of Sentry DSN
@@ -103,6 +107,7 @@ abstract class GeneratePropertiesTask: DefaultTask() {
                 object $objectName {
                     const val APP_ID: String = "$appId"
                     const val APP_NAME: String = "$appName"
+                    const val APP_FOLDER: String = "$appFolder"
                     const val APP_VERSION: String = "$appVersion"
                     const val APP_VERSION_NUMBER: Long = $appVersionNumber
                     val sentry: String = $sentryDsn
@@ -115,6 +120,7 @@ abstract class GeneratePropertiesTask: DefaultTask() {
 val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "generateProperties") {
     taskAppId.set(appId)
     taskAppName.set(appName)
+    taskAppFolder.set(appFolder)
     taskAppVersion.set(appVersion)
     taskAppVersionNumber.set(appVersionNumber)
     taskSentryDsn.set(sentryDsn)
@@ -459,16 +465,14 @@ tasks.register<Sync>("deployWeb") {
     description = "Copies the production Wasm build to the docs folder for GitHub Pages."
 
     val distributionTask = tasks.named("wasmJsBrowserDistribution")
-    val subfolderName = appName.replace(oldValue = " ", newValue = "-")
-    val baseTag = "<head>\n    <base href=\"/$subfolderName/\">"
-    val destinationDir = layout.projectDirectory.dir("docs").asFile
+    val destinationDir = rootProject.layout.projectDirectory.dir("docs").asFile
 
     from(distributionTask)
     into(destinationDir)
 
     filesMatching("index.html") {
         filter { line ->
-            if (line.contains(other = "<head>")) line.replace(oldValue = "<head>", newValue = baseTag) else line
+            if (line.contains(other = "<head>")) line.replace(oldValue = "<head>", newValue = "<head>\n    <base href=\"$appFolder\">") else line
         }
     }
 
