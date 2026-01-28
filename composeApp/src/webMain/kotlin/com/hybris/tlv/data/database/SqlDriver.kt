@@ -34,14 +34,17 @@ private fun getDebugWorker(): Worker = js(
 private fun getWorker(): Worker = js(
     code = """
         (function() {
-            const path = window.location.origin + '/The-Last-Voyage/';
-            const workerUrl = path + 'sqljs.worker.js';
-            const wasmUrl = path + 'sql-wasm.wasm';
+            const base = window.location.href.split('?')[0].split('#')[0].replace('index.html', '');
+            const workerUrl = new URL('sqljs.worker.js', base).href;
+            const wasmUrl = new URL('sql-wasm.wasm', base).href;
             
+            console.log("SQLDelight: Resolving Worker -> " + workerUrl);
+            console.log("SQLDelight: Resolving WASM -> " + wasmUrl);
+
             const worker = new Worker(workerUrl, { type: 'module' });
 
             worker.onerror = function(e) {
-                console.error("Worker Error: ", e.message);
+                console.error("Worker Execution Error:", e);
             };
 
             worker.postMessage({
@@ -49,7 +52,6 @@ private fun getWorker(): Worker = js(
                 wasmLocation: wasmUrl
             });
 
-            console.log("SQLDelight: Worker created from URL: " + workerUrl);
             return worker;
         })()
     """
