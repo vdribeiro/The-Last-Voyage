@@ -34,21 +34,18 @@ private fun getDebugWorker(): Worker = js(
 private fun getWorker(): Worker = js(
     code = """
         (function() {
-            const isGitHub = window.location.hostname.includes('github.io');
-            const subfolder = isGitHub ? '/The-Last-Voyage/' : '/';
-            
-            const workerUrl = window.location.origin + subfolder + 'sqljs.worker.js';
-            const wasmUrl = window.location.origin + subfolder + 'sql-wasm.wasm';
+            const path = window.location.origin + '/The-Last-Voyage/';
+            const workerUrl = path + 'sqljs.worker.js';
+            const wasmUrl = path + 'sql-wasm.wasm';
 
-            const code = "self.locateFile = () => '" + wasmUrl + "'; importScripts('" + workerUrl + "');";
+            const code = "self.locateFile = () => '" + wasmUrl + "'; import('" + workerUrl + "');";
             const blob = new Blob([code], { type: 'application/javascript' });
             const blobUrl = URL.createObjectURL(blob);
             
-            console.log("SQLDelight: Loading Proxy Worker for " + (isGitHub ? "GitHub" : "Local"));
             console.log("SQLDelight: Worker URL -> " + workerUrl);
             console.log("SQLDelight: WASM URL -> " + wasmUrl);
 
-            return new Worker(blobUrl);
+            return new Worker(blobUrl, { type: 'module' });
         })()
     """
 )
