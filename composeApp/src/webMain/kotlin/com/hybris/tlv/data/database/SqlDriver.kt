@@ -38,13 +38,14 @@ private fun getWorker(): Worker = js(
             const workerUrl = new URL('sqljs.worker.js', base).href;
             const wasmUrl = new URL('sql-wasm.wasm', base).href;
             
-            console.log("SQLDelight: Resolving Worker -> " + workerUrl);
-            console.log("SQLDelight: Resolving WASM -> " + wasmUrl);
+            const loaderCode = "import '" + workerUrl + "';";
+            const blob = new Blob([loaderCode], { type: 'application/javascript' });
+            const blobUrl = URL.createObjectURL(blob);
 
-            const worker = new Worker(workerUrl, { type: 'module' });
+            const worker = new Worker(blobUrl, { type: 'module' });
 
             worker.onerror = function(e) {
-                console.error("Worker Execution Error:", e);
+                console.error("Worker Boot Error:", e);
             };
 
             worker.postMessage({
@@ -52,6 +53,7 @@ private fun getWorker(): Worker = js(
                 wasmLocation: wasmUrl
             });
 
+            console.log("SQLDelight: Bootstrapping Worker from " + workerUrl);
             return worker;
         })()
     """
