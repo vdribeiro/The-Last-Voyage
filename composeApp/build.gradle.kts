@@ -486,6 +486,12 @@ tasks.register<Sync>("deployWeb") {
             if (line.contains(other = "<head>")) line.replace(oldValue = "<head>", newValue = head) else line
         }
     }
+    filesMatching("sqljs.worker.js") {
+        filter { line ->
+            line.replace("'sql.js'", "'./sql-wasm.js'")
+                .replace("\"sql.js\"", "\"./sql-wasm.js\"")
+        }
+    }
 
     doLast {
         File(destinationDir, ".nojekyll").createNewFile()
