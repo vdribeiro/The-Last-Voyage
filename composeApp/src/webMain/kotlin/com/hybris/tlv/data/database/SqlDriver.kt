@@ -34,27 +34,45 @@ private fun getDebugWorker(): Worker = js(
 private fun getWorker(): Worker = js(
     code = """
         (function() {
-            const base = window.location.href.split('?')[0].split('#')[0].replace('index.html', '');
-            const workerUrl = new URL('sqljs.worker.js', base).href;
-            const wasmUrl = new URL('sql-wasm.wasm', base).href;
-            
-            const loaderCode = "import '" + workerUrl + "';";
-            const blob = new Blob([loaderCode], { type: 'application/javascript' });
-            const blobUrl = URL.createObjectURL(blob);
+            const path = window.location.origin + '/The-Last-Voyage/';
+            const workerUrl = path + 'sqljs.worker.js';
+            const wasmUrl = path + 'sql-wasm.wasm';
 
-            const worker = new Worker(blobUrl, { type: 'module' });
+            const blob = new Blob([''], { type: 'application/javascript' });
+            const worker = new Worker(URL.createObjectURL(blob), { type: 'module' });
 
-            worker.onerror = function(e) {
-                console.error("Worker Boot Error:", e);
-            };
+            fetch(workerUrl)
+                .then(r => r.text())
+                .then(workerCode => {
+                    const finalCode = "self.locateFile = () => '" + wasmUrl + "';\n" + workerCode;
+                    const finalBlob = new Blob([finalCode], { type: 'application/javascript' });
+                    
+                })
+                .catch(e => console.error("Worker Script Fetch Failed", e));
 
-            worker.postMessage({
-                action: 'init',
-                wasmLocation: wasmUrl
-            });
+            return (function() {
+                const w = new Worker(URL.createObjectURL(new Blob([
+                    "onmessage = function(e) { " +
+                    "  if (e.data.action === 'boot') { " +
+                    "    self.locateFile = () => e.data.wasmUrl; " +
+                    "    import(e.data.workerUrl); " +
+                    "  } " +
+                    "}"
+                ], { type: 'application/javascript' })), { type: 'module' });
 
-            console.log("SQLDelight: Bootstrapping Worker from " + workerUrl);
-            return worker;
+                w.postMessage({
+                    action: 'boot',
+                    workerUrl: workerUrl,
+                    wasmUrl: wasmUrl
+                });
+
+                w.postMessage({
+                    action: 'init',
+                    wasmLocation: wasmUrl
+                });
+                
+                return w;
+            })();
         })()
     """
 )
