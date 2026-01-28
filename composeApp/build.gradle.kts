@@ -470,9 +470,10 @@ tasks.register<Sync>("deployWeb") {
     from(distributionTask)
     into(destinationDir)
 
+    val head = "<head>\n    <base href=\"$appFolder\">"
     filesMatching("index.html") {
         filter { line ->
-            if (line.contains(other = "<head>")) line.replace(oldValue = "<head>", newValue = "<head>\n    <base href=\"$appFolder\">") else line
+            if (line.contains(other = "<head>")) line.replace(oldValue = "<head>", newValue = head) else line
         }
     }
 
