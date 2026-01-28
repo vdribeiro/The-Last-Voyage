@@ -16,14 +16,12 @@ config.plugins.push(
                 to: "."
             },
             {
+                from: path.resolve(__dirname, "../../node_modules/sql.js/dist/sql-wasm.js"),
+                to: "."
+            },
+            {
                 from: path.resolve(__dirname, "../../node_modules/@cashapp/sqldelight-sqljs-worker/sqljs.worker.js"),
-                to: ".",
-                transform(content) {
-                    return content.toString().replace(
-                        "self.locateFile = (path, prefix) => prefix + path",
-                        "self.locateFile = (path, prefix) => './' + path"
-                    );
-                },
+                to: "."
             }
         ]
     })

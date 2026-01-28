@@ -37,15 +37,25 @@ private fun getWorker(): Worker = js(
             const path = window.location.origin + '/The-Last-Voyage/';
             const workerUrl = path + 'sqljs.worker.js';
             const wasmUrl = path + 'sql-wasm.wasm';
-
-            const code = "self.locateFile = () => '" + wasmUrl + "'; import('" + workerUrl + "');";
-            const blob = new Blob([code], { type: 'application/javascript' });
-            const blobUrl = URL.createObjectURL(blob);
+            const sqlJsUrl = path + 'sql-wasm.js';
             
+            const code = `
+                self.locateFile = () => '${'$'}{wasmUrl}';
+                import '${'$'}{workerUrl}';
+            `;
+            
+            const worker = new Worker(workerUrl, { type: 'module' });
+
+            worker.postMessage({
+                action: 'init',
+                wasmLocation: wasmUrl
+            });
+
             console.log("SQLDelight: Worker URL -> " + workerUrl);
             console.log("SQLDelight: WASM URL -> " + wasmUrl);
-
-            return new Worker(blobUrl, { type: 'module' });
+            console.log("SQLDelight: SqlJs URL -> " + sqlJsUrl);
+            
+            return worker;
         })()
     """
 )
