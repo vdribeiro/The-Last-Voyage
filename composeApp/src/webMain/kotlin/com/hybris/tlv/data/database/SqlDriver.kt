@@ -39,23 +39,14 @@ private fun getWorker(): Worker = js(
             const wasmUrl = path + 'sql-wasm.wasm';
             const sqlJsUrl = path + 'sql-wasm.js';
             
-            const code = `
-                self.locateFile = () => '${'$'}{wasmUrl}';
-                import '${'$'}{workerUrl}';
-            `;
+            const code = "self.locateFile = () => '" + wasmUrl + "'; importScripts('" + workerUrl + "');";
+            const blob = new Blob([code], { type: 'application/javascript' });
             
-            const worker = new Worker(workerUrl, { type: 'module' });
-
-            worker.postMessage({
-                action: 'init',
-                wasmLocation: wasmUrl
-            });
-
             console.log("SQLDelight: Worker URL -> " + workerUrl);
             console.log("SQLDelight: WASM URL -> " + wasmUrl);
             console.log("SQLDelight: SqlJs URL -> " + sqlJsUrl);
             
-            return worker;
+            return new Worker(URL.createObjectURL(blob));
         })()
     """
 )
