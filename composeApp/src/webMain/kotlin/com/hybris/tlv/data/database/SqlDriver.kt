@@ -38,15 +38,18 @@ private fun getWorker(): Worker = js(
             const workerUrl = path + 'sqljs.worker.js';
             const wasmUrl = path + 'sql-wasm.wasm';
             
-            const code = "self.locateFile = () => '" + wasmUrl + "'; importScripts('" + workerUrl + "');";
+            const code = "self.locateFile = () => '" + wasmUrl + "'; import '" + workerUrl + "';";
+            
             const blob = new Blob([code], { type: 'application/javascript' });
-            const worker = new Worker(URL.createObjectURL(blob));            
+            
+            const worker = new Worker(URL.createObjectURL(blob), { type: 'module' });
 
             worker.postMessage({
                 action: 'init',
                 wasmLocation: wasmUrl
             });
-            
+
+            console.log("SQLDelight: ESM Worker initialized via Blob");
             return worker;
         })()
     """
