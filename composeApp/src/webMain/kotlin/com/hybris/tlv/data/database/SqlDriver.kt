@@ -38,13 +38,9 @@ private fun getWorker(): Worker = js(
             const workerUrl = path + 'sqljs.worker.js';
             const wasmUrl = path + 'sql-wasm.wasm';
             
-            const code = `
-                self.locateFile = () => '${'$'}{'$'}{wasmUrl}';
-                importScripts('${'$'}{'$'}{workerUrl}');
-            `;
-            
+            const code = "self.locateFile = () => '" + wasmUrl + "'; importScripts('" + workerUrl + "');";
             const blob = new Blob([code], { type: 'application/javascript' });
-            const worker = new Worker(URL.createObjectURL(blob));
+            const worker = new Worker(URL.createObjectURL(blob));            
 
             worker.postMessage({
                 action: 'init',
