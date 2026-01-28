@@ -470,7 +470,17 @@ tasks.register<Sync>("deployWeb") {
     from(distributionTask)
     into(destinationDir)
 
-    val head = "<head>\n    <base href=\"$appFolder\">"
+    val importMap = """
+        <script type="importmap">
+        {
+          "imports": {
+            "sql.js": "./sql-wasm.js"
+          }
+        }
+        </script>
+    """.trimIndent()
+
+    val head = "<head>\n    <base href=\"$appFolder\">\n    $importMap"
     filesMatching("index.html") {
         filter { line ->
             if (line.contains(other = "<head>")) line.replace(oldValue = "<head>", newValue = head) else line

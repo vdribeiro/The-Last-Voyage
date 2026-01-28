@@ -34,45 +34,18 @@ private fun getDebugWorker(): Worker = js(
 private fun getWorker(): Worker = js(
     code = """
         (function() {
-            const path = window.location.origin + '/The-Last-Voyage/';
-            const workerUrl = path + 'sqljs.worker.js';
-            const wasmUrl = path + 'sql-wasm.wasm';
+            const base = window.location.origin + '/The-Last-Voyage/';
+            const workerUrl = base + 'sqljs.worker.js';
+            const wasmUrl = base + 'sql-wasm.wasm';
 
-            const blob = new Blob([''], { type: 'application/javascript' });
-            const worker = new Worker(URL.createObjectURL(blob), { type: 'module' });
+            const worker = new Worker(workerUrl, { type: 'module' });
 
-            fetch(workerUrl)
-                .then(r => r.text())
-                .then(workerCode => {
-                    const finalCode = "self.locateFile = () => '" + wasmUrl + "';\n" + workerCode;
-                    const finalBlob = new Blob([finalCode], { type: 'application/javascript' });
-                    
-                })
-                .catch(e => console.error("Worker Script Fetch Failed", e));
+            worker.postMessage({
+                action: 'init',
+                wasmLocation: wasmUrl
+            });
 
-            return (function() {
-                const w = new Worker(URL.createObjectURL(new Blob([
-                    "onmessage = function(e) { " +
-                    "  if (e.data.action === 'boot') { " +
-                    "    self.locateFile = () => e.data.wasmUrl; " +
-                    "    import(e.data.workerUrl); " +
-                    "  } " +
-                    "}"
-                ], { type: 'application/javascript' })), { type: 'module' });
-
-                w.postMessage({
-                    action: 'boot',
-                    workerUrl: workerUrl,
-                    wasmUrl: wasmUrl
-                });
-
-                w.postMessage({
-                    action: 'init',
-                    wasmLocation: wasmUrl
-                });
-                
-                return w;
-            })();
+            return worker;
         })()
     """
 )
