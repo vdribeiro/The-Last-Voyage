@@ -33,19 +33,28 @@ private fun getDebugWorker(): Worker = js(
 @OptIn(ExperimentalWasmJsInterop::class)
 private fun getWorker(): Worker = js(
     code = """
-            (function() {
-                const base = window.location.origin + '/The-Last-Voyage/';
-                const workerUrl = base + 'sqljs.worker.js';
-                const wasmUrl = base + 'sql-wasm.wasm';
-                
-                const worker = new Worker(workerUrl, { type: 'module' });
+        (function() {
+            const base = window.location.origin + '/The-Last-Voyage/';
+            const workerUrl = base + 'sqljs.worker.js';
+            const wasmUrl = base + 'sql-wasm.wasm';
 
-                worker.postMessage({
-                    action: 'init',
-                    wasmLocation: wasmUrl
-                });
-                
-                return worker;
-            })()
-        """
+            const blobCode = [
+                "self.locateFile = (path) => '" + wasmUrl + "';",
+                "import '" + workerUrl + "';"
+            ].join('\n');
+            
+            const blob = new Blob([blobCode], { type: 'application/javascript' });
+            const blobUrl = URL.createObjectURL(blob);
+
+            const worker = new Worker(blobUrl, { type: 'module' });
+
+            worker.postMessage({
+                action: 'init',
+                wasmLocation: wasmUrl
+            });
+
+            console.log("SQLDelight: Bootstrap Worker launched with wasmUrl: " + wasmUrl);
+            return worker;
+        })()
+    """
 )
