@@ -4,6 +4,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalDistributionDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import org.gradle.internal.os.OperatingSystem
 
@@ -214,7 +215,7 @@ kotlin {
         }
     }
 
-    @OptIn(ExperimentalWasmDsl::class)
+    @OptIn(ExperimentalWasmDsl::class, ExperimentalDistributionDsl::class)
     val webTarget = wasmJs {
         outputModuleName = appFramework
         browser {
@@ -224,6 +225,12 @@ kotlin {
                     static(directory = "build/processedResources/wasmJs/main")
                 }
                 showProgress = true
+                cssSupport {
+                    enabled.set(true)
+                }
+                distribution {
+                    outputDirectory.set(projectDir.resolve(relative = "output"))
+                }
             }
         }
         binaries.executable()
