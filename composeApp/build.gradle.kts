@@ -220,7 +220,7 @@ kotlin {
             commonWebpackConfig {
                 outputFileName = "tlv.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static(directory = "build/processedResources/wasmJs/main")
+                    static(directory = "build/processedResources/js/main")
                 }
                 showProgress = true
                 cssSupport {
