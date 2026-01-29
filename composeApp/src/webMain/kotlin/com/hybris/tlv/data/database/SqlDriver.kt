@@ -18,4 +18,4 @@ internal actual suspend fun createSqlDriver(
     }
 }
 
-private fun getWorkerUrl(): String = js("""new URL("@cashapp/sqldelight-sqljs-worker/sqljs.worker.js", import.meta.url)""")
+private fun getWorkerUrl(): String = js(code = """new URL("@cashapp/sqldelight-sqljs-worker/sqljs.worker.js", import.meta.url)""")
