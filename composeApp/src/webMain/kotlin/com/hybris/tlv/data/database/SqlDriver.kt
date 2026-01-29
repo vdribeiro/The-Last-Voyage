@@ -33,25 +33,19 @@ private fun getDebugWorker(): Worker = js(
 @OptIn(ExperimentalWasmJsInterop::class)
 private fun getWorker(): Worker = js(
     code = """
-        (function() {
-            const base = window.location.origin + '/The-Last-Voyage/';
-            const workerUrl = base + 'sqljs.worker.js';
-            const sqlJsUrl = base + 'sql-wasm.js';
-            const wasmUrl = base + 'sql-wasm.wasm';
+            (function() {
+                const base = window.location.origin + '/The-Last-Voyage/';
+                const workerUrl = base + 'sqljs.worker.js';
+                const wasmUrl = base + 'sql-wasm.wasm';
+                
+                const worker = new Worker(workerUrl, { type: 'module' });
 
-            const blobCode = "self.locateFile = () => '" + wasmUrl + "'; import '" + workerUrl + "';";
-            const blob = new Blob([blobCode], { type: 'application/javascript' });
-            const blobUrl = URL.createObjectURL(blob);
-
-            const worker = new Worker(blobUrl, { type: 'module' });
-
-            worker.postMessage({
-                action: 'init',
-                wasmLocation: wasmUrl
-            });
-
-            console.log("SQLDelight: Worker Shim initialized");
-            return worker;
-        })()
-    """
+                worker.postMessage({
+                    action: 'init',
+                    wasmLocation: wasmUrl
+                });
+                
+                return worker;
+            })()
+        """
 )
