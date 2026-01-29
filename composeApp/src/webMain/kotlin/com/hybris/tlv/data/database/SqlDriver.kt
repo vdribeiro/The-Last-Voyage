@@ -34,29 +34,26 @@ private fun getDebugWorker(): Worker = js(
 private fun getWorker(): Worker = js(
     code = """
         (function() {
-            const base = window.location.origin + '/The-Last-Voyage/';
-            const workerUrl = base + 'sqljs.worker.js';
-            const wasmUrl = base + 'sql-wasm.wasm';
+            const workerUrl = 'sqljs.worker.js';
+            const wasmUrl = window.location.origin + '/The-Last-Voyage/sql-wasm.wasm';
 
-            const blobCode = [
-                "self.locateFile = function(path) { ",
-                "  console.log('Worker looking for:', path); ",
-                "  return '" + wasmUrl + "';",
-                "};",
-                "import '" + workerUrl + "';"
-            ].join('\n');
+            console.log("SQLDelight: Starting Worker directly from relative URL");
             
-            const blob = new Blob([blobCode], { type: 'application/javascript' });
-            const blobUrl = URL.createObjectURL(blob);
+            window.locateFile = () => wasmUrl;
 
-            const worker = new Worker(blobUrl, { type: 'module' });
+            try {
+                const worker = new Worker(workerUrl, { type: 'module' });
 
-            worker.postMessage({
-                action: 'init',
-                wasmLocation: wasmUrl
-            });
+                worker.postMessage({
+                    action: 'init',
+                    wasmLocation: wasmUrl
+                });
 
-            return worker;
+                return worker;
+            } catch (e) {
+                console.error("Worker construction failed:", e);
+                return null;
+            }
         })()
     """
 )

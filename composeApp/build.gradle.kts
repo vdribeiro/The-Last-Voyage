@@ -479,8 +479,9 @@ tasks.register<Sync>("deployWeb") {
 
     filesMatching("sqljs.worker.js") {
         filter { line ->
-            line.replace(oldValue = "'sql.js'", newValue = "'./sql-wasm.js'")
-                .replace(oldValue = "\"sql.js\"", newValue = "\"./sql-wasm.js\"")
+            line.replace("'sql.js'", "'./sql-wasm.js'")
+                .replace("\"sql.js\"", "\"./sql-wasm.js\"")
+                .replace("from 'sql.js'", "from './sql-wasm.js'")
         }
     }
 
