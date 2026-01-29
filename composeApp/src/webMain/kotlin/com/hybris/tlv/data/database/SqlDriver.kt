@@ -39,7 +39,10 @@ private fun getWorker(): Worker = js(
             const wasmUrl = base + 'sql-wasm.wasm';
 
             const blobCode = [
-                "self.locateFile = (path) => '" + wasmUrl + "';",
+                "self.locateFile = function(path) { ",
+                "  console.log('Worker looking for:', path); ",
+                "  return '" + wasmUrl + "';",
+                "};",
                 "import '" + workerUrl + "';"
             ].join('\n');
             
@@ -53,7 +56,6 @@ private fun getWorker(): Worker = js(
                 wasmLocation: wasmUrl
             });
 
-            console.log("SQLDelight: Bootstrap Worker launched with wasmUrl: " + wasmUrl);
             return worker;
         })()
     """
