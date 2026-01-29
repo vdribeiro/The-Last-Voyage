@@ -1,7 +1,6 @@
 import java.util.Properties
 import kotlin.experimental.xor
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalDistributionDsl
@@ -215,8 +214,7 @@ kotlin {
         }
     }
 
-    @OptIn(ExperimentalWasmDsl::class, ExperimentalDistributionDsl::class)
-    val webTarget = wasmJs {
+    val webTarget = js {
         outputModuleName = appFramework
         browser {
             commonWebpackConfig {
@@ -227,9 +225,6 @@ kotlin {
                 showProgress = true
                 cssSupport {
                     enabled.set(true)
-                }
-                distribution {
-                    outputDirectory.set(projectDir.resolve(relative = "output"))
                 }
             }
         }
@@ -469,9 +464,8 @@ tasks.withType<Test> {
 
 tasks.register<Sync>("deployWeb") {
     group = "deployment"
-    description = "Copies the production Wasm build to the docs folder for GitHub Pages."
 
-    val distributionTask = tasks.named("wasmJsBrowserDistribution")
+    val distributionTask = tasks.named("jsBrowserDistribution")
     val destinationDir = rootProject.layout.projectDirectory.dir("docs").asFile
 
     from(distributionTask)

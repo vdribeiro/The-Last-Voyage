@@ -10,14 +10,11 @@ internal actual fun getLanguage(): String = runCatching {
     window.navigator.language
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it) }.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
 
-@OptIn(ExperimentalWasmJsInterop::class)
 internal actual fun getLocalDateTime(utc: String): String = runCatching {
     formatDateJs(utc = utc)
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it) }.getOrDefault(defaultValue = utc)
 
-@Suppress("UNUSED_PARAMETER")
-@OptIn(ExperimentalWasmJsInterop::class)
-private fun formatDateJs(utc: String): String = js(
+private fun formatDateJs(@Suppress("unused") utc: String): String = js(
     code = """
         new Date(utc).toLocaleString(undefined, {
             dateStyle: 'short',
@@ -27,7 +24,7 @@ private fun formatDateJs(utc: String): String = js(
 )
 
 internal actual fun observeLocaleChanges(onChanged: () -> Unit): Boolean = runCatching {
-    window.addEventListener(type = "languagechange") { onChanged() }
+    window.addEventListener(type = "languagechange", callback = { onChanged() })
     true
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it) }.getOrDefault(defaultValue = false)
 

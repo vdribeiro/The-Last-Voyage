@@ -8,7 +8,6 @@ import app.cash.sqldelight.driver.worker.WebWorkerDriver
 import com.hybris.tlv.core.flow.Dispatcher
 import org.w3c.dom.Worker
 
-@OptIn(ExperimentalWasmJsInterop::class)
 internal actual suspend fun createSqlDriver(
     name: String,
     schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
@@ -19,5 +18,4 @@ internal actual suspend fun createSqlDriver(
     }
 }
 
-@OptIn(ExperimentalWasmJsInterop::class)
 private fun getWorkerUrl(): String = js("""new URL("@cashapp/sqldelight-sqljs-worker/sqljs.worker.js", import.meta.url)""")

@@ -9,7 +9,6 @@ import androidx.compose.runtime.DisposableEffect
 import com.hybris.tlv.test.ShadowedInTesting
 import org.w3c.dom.events.Event
 
-@OptIn(ExperimentalWasmJsInterop::class)
 @Composable
 internal actual fun Register(
     key: Any,
@@ -40,5 +39,4 @@ internal actual fun Register(
     }
 }
 
-@OptIn(ExperimentalWasmJsInterop::class)
 private fun isHidden(): Boolean = js(code = "document.hidden")
