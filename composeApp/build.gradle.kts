@@ -1,8 +1,8 @@
 import java.util.Properties
 import kotlin.experimental.xor
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import org.gradle.internal.os.OperatingSystem
@@ -214,7 +214,8 @@ kotlin {
         }
     }
 
-    val webTarget = js {
+    @OptIn(ExperimentalWasmDsl::class)
+    val webTarget = wasmJs {
         outputModuleName = appFramework
         useEsModules()
 
@@ -222,7 +223,7 @@ kotlin {
             commonWebpackConfig {
                 outputFileName = "tlv.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static(directory = "build/processedResources/js/main")
+                    static(directory = "build/processedResources/wasmJs/main")
                 }
                 showProgress = true
                 cssSupport {
@@ -470,16 +471,10 @@ tasks.withType<Test> {
     jvmArgs("--enable-native-access=ALL-UNNAMED")
 }
 
-tasks.withType<KotlinJsCompile>().configureEach {
-    compilerOptions {
-        target = "es2015"
-    }
-}
-
 tasks.register<Sync>("deployWeb") {
     group = "deployment"
 
-    val distributionTask = tasks.named("jsBrowserDistribution")
+    val distributionTask = tasks.named("wasmJsBrowserDistribution")
     val destinationDir = rootProject.layout.projectDirectory.dir("docs").asFile
 
     from(distributionTask)
