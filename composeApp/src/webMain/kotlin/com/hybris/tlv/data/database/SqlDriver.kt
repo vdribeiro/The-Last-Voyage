@@ -15,9 +15,15 @@ internal actual suspend fun createSqlDriver(
     schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
     inMemory: Boolean
 ): SqlDriver = withContext(context = Dispatcher.IO) {
-    WebWorkerDriver(worker = Worker(scriptURL = getWorkerUrl())).also { driver ->
+    WebWorkerDriver(worker = getWorker()).also { driver ->
         schema.create(driver = driver).await()
     }
 }
 
-private fun getWorkerUrl(): String = js("""new URL("@cashapp/sqldelight-sqljs-worker/sqljs.worker.js", import.meta.url)""")
+private fun getWorker(): Worker = js(
+    code = """
+        new Worker(
+            new URL("@cashapp/sqldelight-sqljs-worker/sqljs.worker.js", import.meta.url)
+        )
+    """
+)
