@@ -15,6 +15,14 @@ config.experiments = {
     outputModule: true
 };
 
+config.output = {
+    ...config.output,
+    library: {
+        type: 'module'
+    },
+    chunkFormat: 'module'
+};
+
 config.devServer.headers = {
     ...config.devServer.headers,
     "Cross-Origin-Embedder-Policy": "require-corp",

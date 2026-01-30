@@ -216,6 +216,8 @@ kotlin {
 
     val webTarget = js {
         outputModuleName = appFramework
+        useEsModules()
+
         browser {
             commonWebpackConfig {
                 outputFileName = "tlv.js"
@@ -226,6 +228,12 @@ kotlin {
                 cssSupport {
                     enabled.set(true)
                 }
+            }
+            webpackTask {
+                output.libraryTarget = "module"
+            }
+            runTask {
+                output.libraryTarget = "module"
             }
         }
         binaries.executable()

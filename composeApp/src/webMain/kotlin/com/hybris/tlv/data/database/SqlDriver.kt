@@ -13,10 +13,7 @@ internal actual suspend fun createSqlDriver(
     schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
     inMemory: Boolean
 ): SqlDriver = withContext(context = Dispatcher.IO) {
-    val worker = Worker(
-        scriptURL = getWorkerUrl(),
-        options = js(code = "{ type: 'module' }")
-    )
+    val worker = Worker(scriptURL = getWorkerUrl())
     WebWorkerDriver(worker = worker).also { driver ->
         schema.create(driver = driver).await()
     }
