@@ -22,4 +22,4 @@ You can **download** the game and track the development [here](https://mammoth-g
 
 ## Documentation
 
-For detailed build instructions and architecture details, please visit the **[Project Wiki](https://github.com/vdribeiro/The-Last-Voyage/wiki)**.
+For detailed build instructions and architecture details, please visit the [Project Wiki](https://github.com/vdribeiro/The-Last-Voyage/wiki).
