@@ -2,8 +2,8 @@ import java.util.Properties
 import kotlin.experimental.xor
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalDistributionDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import org.gradle.internal.os.OperatingSystem
 
@@ -460,6 +460,12 @@ kover {
 // Enable native access for tests
 tasks.withType<Test> {
     jvmArgs("--enable-native-access=ALL-UNNAMED")
+}
+
+tasks.withType<KotlinJsCompile>().configureEach {
+    compilerOptions {
+        target = "es2015"
+    }
 }
 
 tasks.register<Sync>("deployWeb") {
