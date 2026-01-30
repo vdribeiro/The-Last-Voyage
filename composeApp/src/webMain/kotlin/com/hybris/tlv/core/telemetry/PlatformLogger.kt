@@ -9,6 +9,7 @@ internal actual object PlatformLogger {
         val message = "INFO [$tag]: $message"
         info(message = message)
     }
+
     actual fun error(tag: String, message: String, throwable: Throwable?) {
         val message = "ERROR [$tag]: $message${throwable?.let { "\n${it.stackTraceToString()}" }.orEmpty()}"
         error(message = message)
