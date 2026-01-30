@@ -1,4 +1,5 @@
 @file:ShadowedInTesting
+@file:OptIn(ExperimentalWasmJsInterop::class)
 
 package com.hybris.tlv.core.locale
 
@@ -14,7 +15,8 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
     formatDateJs(utc = utc)
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it) }.getOrDefault(defaultValue = utc)
 
-private fun formatDateJs(@Suppress("unused") utc: String): String = js(
+@Suppress("UNUSED_PARAMETER")
+private fun formatDateJs(utc: String): String = js(
     code = """
         new Date(utc).toLocaleString(undefined, {
             dateStyle: 'short',
@@ -24,7 +26,7 @@ private fun formatDateJs(@Suppress("unused") utc: String): String = js(
 )
 
 internal actual fun observeLocaleChanges(onChanged: () -> Unit): Boolean = runCatching {
-    window.addEventListener(type = "languagechange", callback = { onChanged() })
+    window.addEventListener(type = "languagechange") { onChanged() }
     true
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it) }.getOrDefault(defaultValue = false)
 

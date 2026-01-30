@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalWasmJsInterop::class)
+
 package com.hybris.tlv.core.telemetry
 
 import com.hybris.tlv.test.ExcludeFromTesting

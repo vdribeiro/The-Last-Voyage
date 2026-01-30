@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalWasmJsInterop::class)
+
 package com.hybris.tlv.data.database
 
 import kotlinx.coroutines.withContext
@@ -13,10 +15,9 @@ internal actual suspend fun createSqlDriver(
     schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
     inMemory: Boolean
 ): SqlDriver = withContext(context = Dispatcher.IO) {
-    val worker = Worker(scriptURL = getWorkerUrl())
-    WebWorkerDriver(worker = worker).also { driver ->
+    WebWorkerDriver(worker = Worker(scriptURL = getWorkerUrl())).also { driver ->
         schema.create(driver = driver).await()
     }
 }
 
-private fun getWorkerUrl(): String = js(code = """new URL("@cashapp/sqldelight-sqljs-worker/sqljs.worker.js", import.meta.url)""")
+private fun getWorkerUrl(): String = js("""new URL("@cashapp/sqldelight-sqljs-worker/sqljs.worker.js", import.meta.url)""")

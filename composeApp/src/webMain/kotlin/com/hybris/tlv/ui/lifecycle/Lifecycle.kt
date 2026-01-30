@@ -1,4 +1,5 @@
 @file:ShadowedInTesting
+@file:OptIn(ExperimentalWasmJsInterop::class)
 
 package com.hybris.tlv.ui.lifecycle
 
