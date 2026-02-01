@@ -66,7 +66,7 @@ ktor-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
-ktor-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
+ktor-wasm = { module = "io.ktor:ktor-client-js-wasm-js", version.ref = "ktor"}
 ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-content = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-encoding = { module = "io.ktor:ktor-client-encoding", version.ref = "ktor" }
@@ -166,6 +166,6 @@ desktop = [
     "logging",
 ]
 web = [
-    "ktor-js",
+    "ktor-wasm",
     "sqldelight-worker"
 ]
