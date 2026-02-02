@@ -13,6 +13,4 @@ internal actual val isDebug: Boolean by lazy {
     }.getOrDefault(defaultValue = false)
 }
 
-internal actual val platform: Platform by lazy {
-    Platform.Web
-}
+internal actual val platform: Platform = Platform.Web

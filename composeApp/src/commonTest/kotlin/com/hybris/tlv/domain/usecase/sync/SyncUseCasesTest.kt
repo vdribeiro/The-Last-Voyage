@@ -26,7 +26,6 @@ internal class SyncUseCasesTest: TestCase() {
         FeatureFlags.set { it.copy(http = false) }
         assertEquals(
             expected = SyncResult(
-                archive = DataSource.NONE,
                 translations = DataSource.LOCAL,
                 catastrophes = DataSource.LOCAL,
                 engines = DataSource.LOCAL,
@@ -56,7 +55,6 @@ internal class SyncUseCasesTest: TestCase() {
         FeatureFlags.set { it.copy(http = true) }
         assertEquals(
             expected = SyncResult(
-                archive = DataSource.REMOTE,
                 translations = DataSource.REMOTE,
                 catastrophes = DataSource.REMOTE,
                 engines = DataSource.REMOTE,

@@ -54,8 +54,8 @@ internal class SyncGateway(
         val localVersion = config.localConfigs.appVersion
         Telemetry.info(tag = TAG, message = "App version: remote version: $remoteVersion, local version: $localVersion")
         config.setConfigs { it.copy(appVersion = remoteVersion) }
+        if (flags.archive) archiveUseCases.getArchive()
         val result = if (localVersion == 0L || Property.APP_VERSION_NUMBER == remoteVersion) syncAll(progress = progress) else SyncResult(
-            archive = DataSource.NONE,
             translations = DataSource.NONE,
             catastrophes = DataSource.NONE,
             engines = DataSource.NONE,
@@ -91,7 +91,6 @@ internal class SyncGateway(
                 }
             }
 
-            val archiveDeferred = asyncWithProgress { getArchive() }
             val translationsDeferred = asyncWithProgress { syncTranslations() }
             val catastrophesDeferred = asyncWithProgress { syncCatastrophes() }
             val enginesDeferred = asyncWithProgress { syncEngines() }
@@ -102,7 +101,6 @@ internal class SyncGateway(
             val creditsDeferred = asyncWithProgress { syncCredits() }
 
             SyncResult(
-                archive = archiveDeferred.tryAwait(task = "archive"),
                 translations = translationsDeferred.tryAwait(task = "translation"),
                 catastrophes = catastrophesDeferred.tryAwait(task = "catastrophe"),
                 engines = enginesDeferred.tryAwait(task = "engine"),
@@ -119,10 +117,6 @@ internal class SyncGateway(
         runCatching { await() }.onFailure {
             Telemetry.error(tag = TAG, message = "Sync task $task failed.", throwable = it)
         }.getOrDefault(defaultValue = DataSource.NONE)
-    }
-
-    private suspend fun getArchive(): DataSource = withContext(context = Dispatcher.IO) {
-        if (flags.archive && archiveUseCases.getArchive()) DataSource.REMOTE else DataSource.NONE
     }
 
     private suspend fun syncTranslations(): DataSource = withContext(context = Dispatcher.IO) {

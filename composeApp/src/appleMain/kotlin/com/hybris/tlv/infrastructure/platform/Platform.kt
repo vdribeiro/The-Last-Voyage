@@ -10,6 +10,4 @@ internal actual val isDebug: Boolean by lazy {
     kotlin.native.Platform.isDebugBinary
 }
 
-internal actual val platform: Platform by lazy {
-    Platform.Ios
-}
+internal actual val platform: Platform = Platform.Ios

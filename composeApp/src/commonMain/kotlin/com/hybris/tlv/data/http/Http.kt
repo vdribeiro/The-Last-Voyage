@@ -28,7 +28,10 @@ import com.hybris.tlv.infrastructure.platform.Platform
 import com.hybris.tlv.infrastructure.platform.platform
 
 private val mutex: Mutex by lazy { Mutex() }
-private val cacheTTL: Duration by lazy { if (flags.devMode) ZERO else 1.minutes }
+/**
+ * Cache time to live for network quality checks.
+ */
+private val cacheTTL: Duration get() = if (flags.devMode) ZERO else 1.minutes
 private var lastTimeMark: TimeMark? = null
 private var lastNetworkQuality: NetworkQuality = NetworkQuality.Unknown
 

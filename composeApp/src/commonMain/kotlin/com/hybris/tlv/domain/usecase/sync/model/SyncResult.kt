@@ -1,7 +1,6 @@
 package com.hybris.tlv.domain.usecase.sync.model
 
 internal data class SyncResult(
-    val archive: DataSource,
     val translations: DataSource,
     val catastrophes: DataSource,
     val engines: DataSource,

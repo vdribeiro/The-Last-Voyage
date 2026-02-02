@@ -68,8 +68,6 @@ abstract class GeneratePropertiesTask: DefaultTask() {
     @get:Input
     abstract val taskAppName: Property<String>
     @get:Input
-    abstract val taskAppFolder: Property<String>
-    @get:Input
     abstract val taskAppVersion: Property<String>
     @get:Input
     abstract val taskAppVersionNumber: Property<Long>
@@ -82,7 +80,6 @@ abstract class GeneratePropertiesTask: DefaultTask() {
     fun generate() {
         val appId: String = taskAppId.get()
         val appName: String = taskAppName.get()
-        val appFolder: String = taskAppFolder.get()
         val appVersion: String = taskAppVersion.get()
         val appVersionNumber: Long = taskAppVersionNumber.get()
         // Basic obfuscation of Sentry DSN
@@ -107,7 +104,6 @@ abstract class GeneratePropertiesTask: DefaultTask() {
                 object $objectName {
                     const val APP_ID: String = "$appId"
                     const val APP_NAME: String = "$appName"
-                    const val APP_FOLDER: String = "$appFolder"
                     const val APP_VERSION: String = "$appVersion"
                     const val APP_VERSION_NUMBER: Long = $appVersionNumber
                     val sentry: String = $sentryDsn
@@ -120,7 +116,6 @@ abstract class GeneratePropertiesTask: DefaultTask() {
 val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "generateProperties") {
     taskAppId.set(appId)
     taskAppName.set(appName)
-    taskAppFolder.set(appFolder)
     taskAppVersion.set(appVersion)
     taskAppVersionNumber.set(appVersionNumber)
     taskSentryDsn.set(sentryDsn)

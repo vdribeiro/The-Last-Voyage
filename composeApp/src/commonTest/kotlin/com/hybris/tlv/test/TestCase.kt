@@ -50,16 +50,14 @@ internal abstract class TestCase {
     /**
      * Feature flags for testing.
      */
-    private val testFlags by lazy {
-        Flags(
-            devMode = true,
-            reset = true,
-            http = true,
-            networkQuality = false,
-            archive = true,
-            music = false
-        )
-    }
+    private val testFlags = Flags(
+        devMode = true,
+        reset = true,
+        http = true,
+        networkQuality = false,
+        archive = true,
+        music = false
+    )
 
     /**
      * Simulated navigation.

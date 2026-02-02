@@ -17,7 +17,12 @@ import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.observeLocaleChanges
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.database.createSqlDriver
+import com.hybris.tlv.domain.flag.FeatureFlags
+import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.infrastructure.platform.Platform
+import com.hybris.tlv.infrastructure.platform.isDebug
+import com.hybris.tlv.infrastructure.platform.platform
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.App
 import com.hybris.tlv.ui.theme.component.container.Screen
@@ -33,8 +38,22 @@ internal object TLV {
 
     private val scope = CoroutineScope(context = SupervisorJob())
     private val dependency = MutableStateFlow<Dependency?>(value = null)
+    /**
+     * Feature flags for production.
+     */
+    private val flags = Flags(
+        devMode = isDebug,
+        reset = platform == Platform.Web,
+        http = true,
+        networkQuality = true,
+        archive = true,
+        music = true
+    )
 
     init {
+        val flags = FeatureFlags.set { flags }
+        Telemetry.info(tag = TAG, message = "Features: $flags")
+
         Telemetry.init()
         Telemetry.info(tag = TAG, message = "App started")
 

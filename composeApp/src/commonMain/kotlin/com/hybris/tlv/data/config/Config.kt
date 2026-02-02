@@ -43,7 +43,10 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     private val _remoteConfigs: MutableStateFlow<Configs> = MutableStateFlow(value = Configs())
     override val remoteConfigs: Configs get() = _remoteConfigs.value
 
-    private val cacheTTL: Duration = if (flags.devMode) ZERO else 1.hours
+    /**
+     * Cache time to live to fetch remote configs.
+     */
+    private val cacheTTL: Duration get() = if (flags.devMode) ZERO else 1.hours
 
     override suspend fun reset(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
