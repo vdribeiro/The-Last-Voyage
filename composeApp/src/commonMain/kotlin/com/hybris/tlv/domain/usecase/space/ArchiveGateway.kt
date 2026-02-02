@@ -110,31 +110,33 @@ internal class ArchiveGateway(
      * Get data from DOI 10.26133/NEA40.
      */
     private suspend fun getStellarHostsArchive(offset: Int, limit: Int): Exoplanets = withContext(context = Dispatcher.IO) {
-        val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
-                "${STELLAR_HOST_NAME}," +
-                "${STELLAR_HOST_SYSTEM_NAME}," +
-                "${STELLAR_HOST_SPECTRAL_TYPE}," +
-                "${STELLAR_HOST_TEMPERATURE}," +
-                "${STELLAR_HOST_RADIUS}," +
-                "${STELLAR_HOST_MASS}," +
-                "${STELLAR_HOST_METALLICITY}," +
-                "${STELLAR_HOST_LUMINOSITY}," +
-                "${STELLAR_HOST_GRAVITY}," +
-                "${STELLAR_HOST_AGE}," +
-                "${STELLAR_HOST_DENSITY}," +
-                "${STELLAR_HOST_ROTATIONAL_VELOCITY}," +
-                "${STELLAR_HOST_ROTATIONAL_PERIOD}," +
-                "${STELLAR_HOST_DISTANCE}," +
-                "${STELLAR_HOST_RA}," +
-                STELLAR_HOST_DEC +
-                "+from+stellarhosts" +
-                "+order+by+${STELLAR_HOST_NAME}+asc" +
-                "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
+        val columns = listOf(
+            STELLAR_HOST_NAME,
+            STELLAR_HOST_SYSTEM_NAME,
+            STELLAR_HOST_SPECTRAL_TYPE,
+            STELLAR_HOST_TEMPERATURE,
+            STELLAR_HOST_RADIUS,
+            STELLAR_HOST_MASS,
+            STELLAR_HOST_METALLICITY,
+            STELLAR_HOST_LUMINOSITY,
+            STELLAR_HOST_GRAVITY,
+            STELLAR_HOST_AGE,
+            STELLAR_HOST_DENSITY,
+            STELLAR_HOST_ROTATIONAL_VELOCITY,
+            STELLAR_HOST_ROTATIONAL_PERIOD,
+            STELLAR_HOST_DISTANCE,
+            STELLAR_HOST_RA,
+            STELLAR_HOST_DEC
+        ).joinToString(separator = ",")
+        val query = "SELECT * FROM (" +
+                "SELECT t.*, rownum as rn FROM (" +
+                "SELECT $columns FROM stellarhosts ORDER BY $STELLAR_HOST_NAME ASC) t " +
+                "WHERE rownum <= ${offset + limit}) " +
+                "WHERE rn > $offset"
         val queryMap = mutableMapOf<String, String>().apply {
             set(key = "query", value = query)
             set(key = "format", value = "json")
         }
-
         when (val response = httpClient.get<StellarHostJson>(
             path = URL.ExoplanetArchive,
             queryMap = queryMap
@@ -151,38 +153,41 @@ internal class ArchiveGateway(
      * Get data from DOI 10.26133/NEA13.
      */
     private suspend fun getPlanetarySystemsCompositeArchive(offset: Int, limit: Int): Exoplanets = withContext(context = Dispatcher.IO) {
-        val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
-                "${STELLAR_HOST_NAME}," +
-                "${STELLAR_HOST_SPECTRAL_TYPE}," +
-                "${STELLAR_HOST_TEMPERATURE}," +
-                "${STELLAR_HOST_RADIUS}," +
-                "${STELLAR_HOST_MASS}," +
-                "${STELLAR_HOST_METALLICITY}," +
-                "${STELLAR_HOST_LUMINOSITY}," +
-                "${STELLAR_HOST_GRAVITY}," +
-                "${STELLAR_HOST_AGE}," +
-                "${STELLAR_HOST_DENSITY}," +
-                "${STELLAR_HOST_ROTATIONAL_VELOCITY}," +
-                "${STELLAR_HOST_ROTATIONAL_PERIOD}," +
-                "${STELLAR_HOST_DISTANCE}," +
-                "${STELLAR_HOST_RA}," +
-                "${STELLAR_HOST_DEC}," +
-                "${PLANET_NAME}," +
-                "${PLANET_ORBITAL_PERIOD}," +
-                "${PLANET_ORBIT_AXIS}," +
-                "${PLANET_RADIUS}," +
-                "${PLANET_MASS}," +
-                "${PLANET_DENSITY}," +
-                "${PLANET_ECCENTRICITY}," +
-                "${PLANET_INSOLATION_FLUX}," +
-                "${PLANET_EQUILIBRIUM_TEMPERATURE}," +
-                "${PLANET_OCCULTATION_DEPTH}," +
-                "${PLANET_INCLINATION}," +
-                "${PLANET_OBLIQUITY}," +
-                PLANET_PROJECTED_OBLIQUITY +
-                "+from+pscomppars" +
-                "+order+by+${PLANET_NAME}+asc" +
-                "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
+        val columns = listOf(
+            STELLAR_HOST_NAME,
+            STELLAR_HOST_SPECTRAL_TYPE,
+            STELLAR_HOST_TEMPERATURE,
+            STELLAR_HOST_RADIUS,
+            STELLAR_HOST_MASS,
+            STELLAR_HOST_METALLICITY,
+            STELLAR_HOST_LUMINOSITY,
+            STELLAR_HOST_GRAVITY,
+            STELLAR_HOST_AGE,
+            STELLAR_HOST_DENSITY,
+            STELLAR_HOST_ROTATIONAL_VELOCITY,
+            STELLAR_HOST_ROTATIONAL_PERIOD,
+            STELLAR_HOST_DISTANCE,
+            STELLAR_HOST_RA,
+            STELLAR_HOST_DEC,
+            PLANET_NAME,
+            PLANET_ORBITAL_PERIOD,
+            PLANET_ORBIT_AXIS,
+            PLANET_RADIUS,
+            PLANET_MASS,
+            PLANET_DENSITY,
+            PLANET_ECCENTRICITY,
+            PLANET_INSOLATION_FLUX,
+            PLANET_EQUILIBRIUM_TEMPERATURE,
+            PLANET_OCCULTATION_DEPTH,
+            PLANET_INCLINATION,
+            PLANET_OBLIQUITY,
+            PLANET_PROJECTED_OBLIQUITY
+        ).joinToString(separator = ",")
+        val query = "SELECT * FROM (" +
+                "SELECT t.*, rownum as rn FROM (" +
+                "SELECT $columns FROM pscomppars ORDER BY $PLANET_NAME ASC) t " +
+                "WHERE rownum <= ${offset + limit}) " +
+                "WHERE rn > $offset"
         val queryMap = mutableMapOf<String, String>().apply {
             set(key = "query", value = query)
             set(key = "format", value = "json")
@@ -203,39 +208,42 @@ internal class ArchiveGateway(
      * Get data from DOI 10.26133/NEA19.
      */
     private suspend fun getK2PlanetsArchive(offset: Int, limit: Int): Exoplanets = withContext(context = Dispatcher.IO) {
-        val query = "select+*+from+(+select+t.*,rownum+as+rn+from+(+select+" +
-                "${STELLAR_HOST_NAME}," +
-                "${STELLAR_HOST_SPECTRAL_TYPE}," +
-                "${STELLAR_HOST_TEMPERATURE}," +
-                "${STELLAR_HOST_RADIUS}," +
-                "${STELLAR_HOST_MASS}," +
-                "${STELLAR_HOST_METALLICITY}," +
-                "${STELLAR_HOST_LUMINOSITY}," +
-                "${STELLAR_HOST_GRAVITY}," +
-                "${STELLAR_HOST_AGE}," +
-                "${STELLAR_HOST_DENSITY}," +
-                "${STELLAR_HOST_ROTATIONAL_VELOCITY}," +
-                "${STELLAR_HOST_ROTATIONAL_PERIOD}," +
-                "${STELLAR_HOST_DISTANCE}," +
-                "${STELLAR_HOST_RA}," +
-                "${STELLAR_HOST_DEC}," +
-                "${PLANET_NAME}," +
-                "${PLANET_STATUS}," +
-                "${PLANET_ORBITAL_PERIOD}," +
-                "${PLANET_ORBIT_AXIS}," +
-                "${PLANET_RADIUS}," +
-                "${PLANET_MASS}," +
-                "${PLANET_DENSITY}," +
-                "${PLANET_ECCENTRICITY}," +
-                "${PLANET_INSOLATION_FLUX}," +
-                "${PLANET_EQUILIBRIUM_TEMPERATURE}," +
-                "${PLANET_OCCULTATION_DEPTH}," +
-                "${PLANET_INCLINATION}," +
-                "${PLANET_OBLIQUITY}," +
-                PLANET_PROJECTED_OBLIQUITY +
-                "+from+k2pandc" +
-                "+order+by+${PLANET_NAME}+asc" +
-                "+)+t+where+rownum+<=+${offset + limit}+)+where+rn+>+${offset}"
+        val columns = listOf(
+            STELLAR_HOST_NAME,
+            STELLAR_HOST_SPECTRAL_TYPE,
+            STELLAR_HOST_TEMPERATURE,
+            STELLAR_HOST_RADIUS,
+            STELLAR_HOST_MASS,
+            STELLAR_HOST_METALLICITY,
+            STELLAR_HOST_LUMINOSITY,
+            STELLAR_HOST_GRAVITY,
+            STELLAR_HOST_AGE,
+            STELLAR_HOST_DENSITY,
+            STELLAR_HOST_ROTATIONAL_VELOCITY,
+            STELLAR_HOST_ROTATIONAL_PERIOD,
+            STELLAR_HOST_DISTANCE,
+            STELLAR_HOST_RA,
+            STELLAR_HOST_DEC,
+            PLANET_NAME,
+            PLANET_STATUS,
+            PLANET_ORBITAL_PERIOD,
+            PLANET_ORBIT_AXIS,
+            PLANET_RADIUS,
+            PLANET_MASS,
+            PLANET_DENSITY,
+            PLANET_ECCENTRICITY,
+            PLANET_INSOLATION_FLUX,
+            PLANET_EQUILIBRIUM_TEMPERATURE,
+            PLANET_OCCULTATION_DEPTH,
+            PLANET_INCLINATION,
+            PLANET_OBLIQUITY,
+            PLANET_PROJECTED_OBLIQUITY
+        ).joinToString(separator = ",")
+        val query = "SELECT * FROM (" +
+                "SELECT t.*, rownum as rn FROM (" +
+                "SELECT $columns FROM k2pandc ORDER BY $PLANET_NAME ASC) t " +
+                "WHERE rownum <= ${offset + limit}) " +
+                "WHERE rn > $offset"
         val queryMap = mutableMapOf<String, String>().apply {
             set(key = "query", value = query)
             set(key = "format", value = "json")

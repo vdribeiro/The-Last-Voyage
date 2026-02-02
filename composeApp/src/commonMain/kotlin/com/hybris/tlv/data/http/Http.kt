@@ -51,7 +51,6 @@ internal sealed interface NetworkQuality {
 internal suspend inline fun <reified T> HttpClient.get(
     path: URL,
     queryMap: Map<String, String> = emptyMap(),
-    crossinline block: HttpRequestBuilder.() -> Unit = {}
 ): Result<T> = withContext(context = Dispatcher.IO) {
     runCatching {
         if (!flags.http) throw Throwable(message = "Network disabled")
@@ -59,8 +58,7 @@ internal suspend inline fun <reified T> HttpClient.get(
         if (networkQuality is NetworkQuality.Unknown) throw Throwable(message = "No internet connection available")
 
         val response = get(urlString = path.path.encodeURLPath()) {
-            queryMap.forEach { url.encodedParameters.append(name = it.key, value = it.value) }
-            block()
+            queryMap.forEach { url.parameters.append(name = it.key, value = it.value) }
             setTimeout(networkQuality = networkQuality)
         }
 
