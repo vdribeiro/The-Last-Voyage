@@ -78,7 +78,7 @@ internal class SyncGateway(
         supervisorScope {
             val mutex = Mutex()
             var completedTasks = 0f
-            val totalTasks = 9f
+            val totalTasks = 8f
             fun asyncWithProgress(task: suspend () -> DataSource): Deferred<DataSource> = async {
                 task().also {
                     mutex.withLock {
@@ -87,25 +87,15 @@ internal class SyncGateway(
                     }
                 }
             }
-
-            val translationsDeferred = asyncWithProgress { syncTranslations(latestVersion = latestVersion) }
-            val catastrophesDeferred = asyncWithProgress { syncCatastrophes(latestVersion = latestVersion) }
-            val enginesDeferred = asyncWithProgress { syncEngines(latestVersion = latestVersion) }
-            val stellarHostsDeferred = asyncWithProgress { syncStellarHosts(latestVersion = latestVersion) }
-            val planetsDeferred = asyncWithProgress { syncPlanets(latestVersion = latestVersion) }
-            val eventsDeferred = asyncWithProgress { syncEvents(latestVersion = latestVersion) }
-            val achievementsDeferred = asyncWithProgress { syncAchievements(latestVersion = latestVersion) }
-            val creditsDeferred = asyncWithProgress { syncCredits(latestVersion = latestVersion) }
-
             SyncResult(
-                translations = translationsDeferred.tryAwait(task = "translation"),
-                catastrophes = catastrophesDeferred.tryAwait(task = "catastrophe"),
-                engines = enginesDeferred.tryAwait(task = "engine"),
-                stellarHosts = stellarHostsDeferred.tryAwait(task = "stellarHost"),
-                planets = planetsDeferred.tryAwait(task = "planet"),
-                events = eventsDeferred.tryAwait(task = "event"),
-                achievements = achievementsDeferred.tryAwait(task = "achievement"),
-                credits = creditsDeferred.tryAwait(task = "credit")
+                translations = asyncWithProgress { syncTranslations(latestVersion = latestVersion) }.tryAwait(task = "translations"),
+                catastrophes = asyncWithProgress { syncCatastrophes(latestVersion = latestVersion) }.tryAwait(task = "catastrophes"),
+                engines = asyncWithProgress { syncEngines(latestVersion = latestVersion) }.tryAwait(task = "engines"),
+                stellarHosts = asyncWithProgress { syncStellarHosts(latestVersion = latestVersion) }.tryAwait(task = "stellarHosts"),
+                planets = asyncWithProgress { syncPlanets(latestVersion = latestVersion) }.tryAwait(task = "planets"),
+                events = asyncWithProgress { syncEvents(latestVersion = latestVersion) }.tryAwait(task = "events"),
+                achievements = asyncWithProgress { syncAchievements(latestVersion = latestVersion) }.tryAwait(task = "achievements"),
+                credits = asyncWithProgress { syncCredits(latestVersion = latestVersion) }.tryAwait(task = "credits")
             )
         }
     }
