@@ -46,7 +46,7 @@ internal object TLV {
         reset = platform == Platform.Web,
         http = true,
         networkQuality = true,
-        archive = true,
+        archive = false,
         music = true
     )
 
