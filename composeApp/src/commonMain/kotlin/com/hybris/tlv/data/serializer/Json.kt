@@ -28,11 +28,23 @@ internal val json = Json {
 }
 
 /**
+ * A pretty lenient JSON serializer.
+ */
+@OptIn(ExperimentalSerializationApi::class)
+private val prettyJson = Json {
+    isLenient = true
+    ignoreUnknownKeys = true
+    encodeDefaults = true
+    allowTrailingComma = true
+    prettyPrint = true
+}
+
+/**
  * Safely encodes a given [value] of type [T] into a JSON string.
  * Returns null if encoding fails or the value is null.
  */
-internal inline fun <reified T> encode(value: T?): String? = runCatching {
-    value?.let { json.encodeToString(value = value) }
+internal inline fun <reified T> encode(jsonSerializer: Json = json, value: T?): String? = runCatching {
+    value?.let { jsonSerializer.encodeToString(value = value) }
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to encode value", throwable = it) }.getOrNull()
 
 /**
@@ -40,9 +52,9 @@ internal inline fun <reified T> encode(value: T?): String? = runCatching {
  * Returns null if decoding fails or the value is null.
  * If [value] is blank, it provides a default empty JSON object or array to prevent deserialization errors for empty or collection types.
  */
-internal inline fun <reified T> decode(value: String?): T? = runCatching {
+internal inline fun <reified T> decode(jsonSerializer: Json = json, value: String?): T? = runCatching {
     value?.let {
-        json.decodeFromString<T>(string = value.ifBlank {
+        jsonSerializer.decodeFromString<T>(string = value.ifBlank {
             when (T::class) {
                 Collection::class -> "[{}]"
                 else -> "{}"
@@ -74,7 +86,7 @@ internal inline fun <reified T> decodeURL(value: String?): T? = runCatching {
  * Returns true if the file was saved successfully, false otherwise.
  */
 internal suspend inline fun <reified T> saveJsonFile(json: JsonFile, content: T): Boolean = withContext(context = Dispatcher.IO) {
-    encode<T>(value = content)?.let { saveFile(path = json.path, content = it) } ?: false
+    encode<T>(jsonSerializer = prettyJson, value = content)?.let { saveFile(path = json.path, content = it) } ?: false
 }
 
 /**
