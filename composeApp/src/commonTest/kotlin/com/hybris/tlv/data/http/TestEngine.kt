@@ -56,8 +56,12 @@ internal object TestEngine {
     private suspend fun MockRequestHandleScope.respondArchive(request: HttpRequestData): HttpResponseData {
         val parameters = request.url.parameters.toString()
         return when {
-            parameters.contains(other = "from stellarhosts") -> respondMock(content = encode(value = FakeData.stellarHosts.get().map { it.toStellarHostJson() }))
-            parameters.contains(other = "from pscomppars") || parameters.contains(other = "from k2pandc") -> {
+            parameters.contains(other = "FROM stellarhosts", ignoreCase = true) -> {
+                val stellarHosts = FakeData.stellarHosts.get().map { it.toStellarHostJson() }
+                respondMock(content = encode(value = stellarHosts))
+            }
+
+            parameters.contains(other = "FROM pscomppars", ignoreCase = true) || parameters.contains(other = "FROM k2pandc", ignoreCase = true) -> {
                 val stellarHostsMap = FakeData.stellarHosts.get().associateBy { it.id }
                 val exoplanets = FakeData.planets.get().mapNotNull {
                     val stellarHost = stellarHostsMap[it.stellarHostId] ?: return@mapNotNull null
