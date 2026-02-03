@@ -50,7 +50,6 @@ private fun getTracks(destination: NavDestination?): List<AudioResource>? = runC
         destination.hasRoute<Screen.Splash>() ||
                 destination.hasRoute<Screen.MainMenu>() ||
                 destination.hasRoute<Screen.NewGame>() ||
-                destination.hasRoute<Screen.Catastrophe>() ||
                 destination.hasRoute<Screen.StellarExplorer>() ||
                 destination.hasRoute<Screen.Score>() ||
                 destination.hasRoute<Screen.Achievement>() ||
@@ -58,7 +57,8 @@ private fun getTracks(destination: NavDestination?): List<AudioResource>? = runC
             AudioResource.VilleSeppanen
         )
 
-        destination.hasRoute<Screen.Game>() ||
+        destination.hasRoute<Screen.Catastrophe>() ||
+                destination.hasRoute<Screen.Game>() ||
                 destination.hasRoute<Screen.Event>() -> listOf(
             AudioResource.BlindShift,
             AudioResource.Graduality,
