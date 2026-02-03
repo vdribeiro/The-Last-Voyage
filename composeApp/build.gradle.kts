@@ -30,8 +30,8 @@ val appFramework = "TLV"
 val appVendor: String = "Hybris"
 val appFolder = "/${appName.replace(oldValue = " ", newValue = "-")}/"
 val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb"
-val appVersion: String = "1.1.8"
-val appVersionNumber: Long = 16
+val appVersion: String = "1.1.9"
+val appVersionNumber: Long = 17
 
 val jdkVersion = 21
 val jvmVersion = JvmTarget.JVM_21
