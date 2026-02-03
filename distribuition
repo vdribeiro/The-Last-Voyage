@@ -14,9 +14,9 @@
 # Compile
     Android: ./gradlew clean bundleRelease
     Ios:     xcode archive
+    Mac:     ./gradlew clean notarizeDmg
     Windows: ./gradlew clean packageMsi
     Linux:   ./gradlew clean packageDeb
-    Mac:     ./gradlew clean notarizeDmg
     Web:     ./gradlew clean deployWeb
 # Update Gists
     cd composeApp/src/commonMain/composeResources/files

@@ -1,11 +1,11 @@
 [
   {
     "appVersion": 16,
-    "translationsVersion": 11,
+    "translationsVersion": 12,
     "catastrophesVersion": 1,
     "enginesVersion": 1,
-    "stellarHostsVersion": 4,
-    "planetsVersion": 4,
+    "stellarHostsVersion": 5,
+    "planetsVersion": 5,
     "eventsVersion": 1,
     "achievementsVersion": 1,
     "creditsVersion": 1,
