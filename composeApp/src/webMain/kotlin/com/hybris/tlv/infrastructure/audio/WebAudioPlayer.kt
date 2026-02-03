@@ -5,7 +5,6 @@ package com.hybris.tlv.infrastructure.audio
 import kotlinx.browser.document
 import org.w3c.dom.HTMLAudioElement
 
-
 internal class WebAudioPlayer: AudioPlayer() {
 
     private val player: HTMLAudioElement by lazy {
