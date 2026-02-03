@@ -16,11 +16,12 @@ import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.infrastructure.resource.JsonResource
+import com.hybris.tlv.platform.Property
 
 internal object FakeData {
     val configs: Configs by lazy {
         Configs(
-            appVersion = Long.MAX_VALUE,
+            appVersion = Property.APP_VERSION_NUMBER,
             translationsVersion = Long.MAX_VALUE,
             catastrophesVersion = Long.MAX_VALUE,
             enginesVersion = Long.MAX_VALUE,
@@ -29,8 +30,8 @@ internal object FakeData {
             eventsVersion = Long.MAX_VALUE,
             achievementsVersion = Long.MAX_VALUE,
             creditsVersion = Long.MAX_VALUE,
-            developerCorner = "",
-            formula = "",
+            developerCorner = "https://github.com/vdribeiro/The-Last-Voyage",
+            formula = "https://github.com/vdribeiro/The-Last-Voyage",
         )
     }
     val translations = LazyData { loadFromJsonResource<Translation>(json = JsonResource.Translations) }

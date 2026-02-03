@@ -56,7 +56,7 @@ internal class SyncGateway(
         config.setConfigs { it.copy(appVersion = remoteVersion) }
         if (flags.archive) archiveUseCases.getArchive()
         val result = syncAll(
-            latestVersion = localVersion == 0L || Property.APP_VERSION_NUMBER == remoteVersion,
+            latestVersion = Property.APP_VERSION_NUMBER == remoteVersion,
             progress = progress
         )
         config.saveConfigs()
