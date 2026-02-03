@@ -37,7 +37,7 @@ sql-js = "1.6.2"
 webpack = "9.1.0"
 
 # Crashlytics
-sentry = "0.21.0"
+sentry = "0.23.1"
 
 [plugins]
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
