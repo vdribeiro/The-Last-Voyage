@@ -23,7 +23,7 @@ You can **download** the game and track the development [here](https://mammoth-g
 ## Tech Stack
 
 - UI: [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform)
-- Database: [SQLDelight](https://cashapp.github.io/sqldelight/)
+- Database: [SQLDelight](https://sqldelight.github.io/sqldelight)
 - Networking: [Ktor](https://ktor.io/)
 - Monitoring: [Sentry](https://sentry.io/)
 - Code Coverage: [Kover](https://github.com/Kotlin/kotlinx-kover)
