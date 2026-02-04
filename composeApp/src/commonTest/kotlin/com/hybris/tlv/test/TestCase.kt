@@ -155,7 +155,7 @@ internal abstract class TestCase {
     /**
      * Render a Composable within the test harness.
      */
-    protected suspend fun ComposeUiTest.setScreen(
+    protected suspend fun ComposeUiTest.setUI(
         vararg values: ProvidedValue<*>,
         content: @Composable () -> Unit
     ) {

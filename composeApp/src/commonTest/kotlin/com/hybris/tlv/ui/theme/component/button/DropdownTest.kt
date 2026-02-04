@@ -17,7 +17,7 @@ internal class DropdownTest: TestCase() {
         val items = listOf("Mercury", "Venus", "Mars")
         val expanded = mutableStateOf(value = true)
 
-        setScreen {
+        setUI {
             Dropdown(
                 expanded = expanded.value,
                 items = items,
@@ -36,7 +36,7 @@ internal class DropdownTest: TestCase() {
         val items = listOf("Earth", "Jupiter")
         var capturedItem: String? = null
 
-        setScreen {
+        setUI {
             Dropdown(
                 expanded = true,
                 items = items,
@@ -54,7 +54,7 @@ internal class DropdownTest: TestCase() {
         val items = listOf("Saturn")
         var clickCount = 0
 
-        setScreen {
+        setUI {
             Dropdown(
                 expanded = true,
                 items = items,

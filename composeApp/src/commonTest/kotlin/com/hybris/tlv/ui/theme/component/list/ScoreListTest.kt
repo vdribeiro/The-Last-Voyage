@@ -14,7 +14,7 @@ internal class ScoreListTest: TestCase() {
     fun expand() = runUITest {
         val items = listOf("Score A")
 
-        setScreen {
+        setUI {
             ScoreList(
                 scores = items,
                 id = { it },
@@ -36,7 +36,7 @@ internal class ScoreListTest: TestCase() {
     fun expanded() = runUITest {
         val items = listOf("Score A", "Score B")
 
-        setScreen {
+        setUI {
             ScoreList(
                 scores = items,
                 expandedItems = listOf("Score A"),

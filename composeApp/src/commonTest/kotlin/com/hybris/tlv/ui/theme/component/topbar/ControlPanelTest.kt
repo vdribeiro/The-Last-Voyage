@@ -20,7 +20,7 @@ internal class ControlPanelTest: TestCase() {
     @Test
     fun searchInputDebounce() = runUITest {
         var lastSearchValue = ""
-        setScreen {
+        setUI {
             ControlPanel(onSearch = { lastSearchValue = it })
         }
 
@@ -33,7 +33,7 @@ internal class ControlPanelTest: TestCase() {
     @Test
     fun sort() = runUITest {
         var isAscending = true
-        setScreen {
+        setUI {
             ControlPanel(
                 properties = listOf("Name"),
                 ascending = isAscending,
@@ -50,7 +50,7 @@ internal class ControlPanelTest: TestCase() {
         var toggledProperty = ""
         val properties = listOf("Name", "Type")
 
-        setScreen {
+        setUI {
             ControlPanel(
                 properties = properties,
                 onVisibilityChange = { toggledProperty = it }
@@ -64,7 +64,7 @@ internal class ControlPanelTest: TestCase() {
 
     @Test
     fun viewChangeResetsSearchQuery() = runUITest {
-        setScreen {
+        setUI {
             ControlPanel(
                 viewName = "Planets",
                 viewIcon = Icons.Default.Public

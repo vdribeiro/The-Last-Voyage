@@ -18,7 +18,7 @@ internal class FadeInTextTest: TestCase() {
         val text = "Hello World"
         val duration = 1000
 
-        setScreen {
+        setUI {
             FadeInText(
                 modifier = Modifier.testTag(tag = tag),
                 text = text,

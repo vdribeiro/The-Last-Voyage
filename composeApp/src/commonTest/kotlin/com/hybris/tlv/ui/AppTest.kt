@@ -49,7 +49,7 @@ internal class AppTest: TestCase() {
         lateinit var navController: NavHostController
         val config = getConfig()
         val useCases = getUseCases()
-        setScreen {
+        setUI {
             navController = rememberNavController()
             App(
                 navController = navController,
@@ -82,7 +82,7 @@ internal class AppTest: TestCase() {
         lateinit var navController: NavHostController
         val config = getConfig()
         val useCases = getUseCases()
-        setScreen {
+        setUI {
             navController = rememberNavController()
             App(
                 modifier = Modifier

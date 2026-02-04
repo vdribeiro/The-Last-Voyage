@@ -20,7 +20,7 @@ internal class PropertyListTest: TestCase() {
         val items = listOf("Alpha", "Beta", "Gamma")
         val title = "Star Properties"
 
-        setScreen {
+        setUI {
             PropertyList(
                 title = title,
                 properties = items,
@@ -38,7 +38,7 @@ internal class PropertyListTest: TestCase() {
 
     @Test
     fun headerAndFooter() = runUITest {
-        setScreen {
+        setUI {
             PropertyList(
                 properties = listOf("Item 1"),
                 id = { it },
@@ -55,7 +55,7 @@ internal class PropertyListTest: TestCase() {
     fun scroll() = runUITest {
         val items = (1..50).map { "Property $it" }
 
-        setScreen {
+        setUI {
             PropertyList(
                 modifier = Modifier.testTag(tag = "property_list_column"),
                 properties = items,

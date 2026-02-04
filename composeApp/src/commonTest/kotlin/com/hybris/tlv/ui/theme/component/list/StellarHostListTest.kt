@@ -16,7 +16,7 @@ internal class StellarHostListTest: TestCase() {
     fun planetHeaderVisibility() = runUITest {
         val planetName = "Kepler-442b"
         val showPlanet = mutableStateOf(value = true)
-        setScreen {
+        setUI {
             StellarHostList(
                 showPlanet = showPlanet.value,
                 planetName = planetName,
@@ -35,7 +35,7 @@ internal class StellarHostListTest: TestCase() {
         val items = listOf("Sol", "Alpha Centauri A", "Sirius")
         var clickedHost: String? = null
 
-        setScreen {
+        setUI {
             StellarHostList(
                 stellarHosts = items,
                 stellarHostId = { it },

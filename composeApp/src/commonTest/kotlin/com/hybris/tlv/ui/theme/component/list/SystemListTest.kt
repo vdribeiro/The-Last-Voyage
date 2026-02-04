@@ -21,7 +21,7 @@ internal class SystemListTest: TestCase() {
         val planetName = "Mars"
         var settlementConfirmed = false
 
-        setScreen {
+        setUI {
             SystemList(
                 stellarHostName = "Sol",
                 planets = listOf(planetName),
@@ -50,7 +50,7 @@ internal class SystemListTest: TestCase() {
         val host = "Alpha Centauri"
         val planet = "Proxima b"
 
-        setScreen {
+        setUI {
             SystemList(
                 stellarHostName = host,
                 planets = listOf(planet),
@@ -66,7 +66,7 @@ internal class SystemListTest: TestCase() {
     fun footer() = runUITest {
         val footerTag = "list_footer"
 
-        setScreen {
+        setUI {
             SystemList(
                 stellarHostName = "Sol",
                 planets = listOf("Mars"),

@@ -20,7 +20,7 @@ internal class TravelListTest: TestCase() {
         val hosts = listOf("Sirius", "Vega", "Rigel")
         var lastClickedHost: String? = null
 
-        setScreen {
+        setUI {
             TravelList(
                 stellarHosts = hosts,
                 id = { it },
@@ -38,7 +38,7 @@ internal class TravelListTest: TestCase() {
     fun footer() = runUITest {
         val footerTag = "list_footer"
 
-        setScreen {
+        setUI {
             TravelList(
                 stellarHosts = listOf("Single Host"),
                 name = { it },

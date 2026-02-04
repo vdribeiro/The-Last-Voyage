@@ -19,7 +19,7 @@ internal class SnackbarTest: TestCase() {
         val message = "Hello World"
         val duration = 2000L
 
-        setScreen {
+        setUI {
             Snackbar(
                 message = message,
                 durationMillis = duration,
@@ -39,7 +39,7 @@ internal class SnackbarTest: TestCase() {
         val message = "Hello World"
         val actionText = "Goodbye"
 
-        setScreen {
+        setUI {
             Snackbar(
                 message = message,
                 buttonText = actionText

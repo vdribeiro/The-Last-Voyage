@@ -19,7 +19,7 @@ internal class NavigationBarTest: TestCase() {
         val selectedItem = "Search"
         var capturedItem: String? = null
 
-        setScreen {
+        setUI {
             NavigationBar(
                 items = items,
                 selected = { it == selectedItem },
@@ -42,7 +42,7 @@ internal class NavigationBarTest: TestCase() {
         val items = listOf("Home")
         var clickCount = 0
 
-        setScreen {
+        setUI {
             NavigationBar(
                 items = items,
                 enabled = { false },

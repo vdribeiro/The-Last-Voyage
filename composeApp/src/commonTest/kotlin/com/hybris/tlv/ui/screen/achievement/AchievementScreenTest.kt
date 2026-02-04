@@ -14,7 +14,7 @@ internal class AchievementScreenTest: TestCase() {
     @Test
     fun achievementWithoutData() = runUITest {
         val store = getStoreFactory().getAchievementStore()
-        setScreen { AchievementScreen(store = store) }
+        setUI { AchievementScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
@@ -30,7 +30,7 @@ internal class AchievementScreenTest: TestCase() {
     fun achievementWithData() = runUITest {
         getUseCases().achievement.prepopulateAchievements()
         val store = getStoreFactory().getAchievementStore()
-        setScreen { AchievementScreen(store = store) }
+        setUI { AchievementScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()

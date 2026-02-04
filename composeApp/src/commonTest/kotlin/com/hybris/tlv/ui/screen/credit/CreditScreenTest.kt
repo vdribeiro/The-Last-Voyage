@@ -20,7 +20,7 @@ internal class CreditScreenTest: TestCase() {
     @Test
     fun creditWithoutData() = runUITest {
         val store = getStoreFactory().getCreditStore()
-        setScreen { CreditScreen(store = store) }
+        setUI { CreditScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
@@ -46,7 +46,7 @@ internal class CreditScreenTest: TestCase() {
 
         getUseCases().credit.prepopulateCredits()
         val store = getStoreFactory().getCreditStore()
-        setScreen(LocalUriHandler provides mockUriHandler) { CreditScreen(store = store) }
+        setUI(LocalUriHandler provides mockUriHandler) { CreditScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()

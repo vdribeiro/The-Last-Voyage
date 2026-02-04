@@ -18,7 +18,7 @@ internal class TutorialScreenTest: TestCase() {
     @Test
     fun tutorial() = runUITest {
         val store = getStoreFactory().getTutorialStore(newGame = false)
-        setScreen { TutorialScreen(store = store) }
+        setUI { TutorialScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_help").assertDoesNotExist()
