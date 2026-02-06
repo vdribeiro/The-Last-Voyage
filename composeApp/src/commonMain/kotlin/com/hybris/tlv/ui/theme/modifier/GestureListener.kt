@@ -26,8 +26,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.infrastructure.platform.Platform
-import com.hybris.tlv.infrastructure.platform.platform
+import com.hybris.tlv.core.platform.Platform
+import com.hybris.tlv.core.platform.platform
 import com.hybris.tlv.test.ExcludeFromTesting
 
 /**

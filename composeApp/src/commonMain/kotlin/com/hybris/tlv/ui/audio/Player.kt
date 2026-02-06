@@ -7,9 +7,9 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.hybris.tlv.core.audio.AudioPlayer
+import com.hybris.tlv.core.resource.AudioResource
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.infrastructure.audio.AudioPlayer
-import com.hybris.tlv.infrastructure.resource.AudioResource
 import com.hybris.tlv.ui.lifecycle.Register
 import com.hybris.tlv.ui.navigation.Screen
 

@@ -18,13 +18,13 @@ import io.ktor.client.request.get
 import io.ktor.http.encodeURLPath
 import io.ktor.http.isSuccess
 import com.hybris.tlv.core.flow.Dispatcher
+import com.hybris.tlv.core.platform.Platform
+import com.hybris.tlv.core.platform.platform
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.CONNECT_TIMEOUT_MILLIS
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.REQUEST_TIMEOUT_MILLIS
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.SOCKET_TIMEOUT_MILLIS
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
-import com.hybris.tlv.infrastructure.platform.Platform
-import com.hybris.tlv.infrastructure.platform.platform
 
 private val mutex: Mutex by lazy { Mutex() }
 /**

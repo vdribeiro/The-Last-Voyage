@@ -5,9 +5,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.hybris.tlv.core.audio.AudioPlayer
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.domain.usecase.UseCases
-import com.hybris.tlv.infrastructure.audio.AudioPlayer
 import com.hybris.tlv.ui.audio.AudioPlayer
 import com.hybris.tlv.ui.command.CommandListener
 import com.hybris.tlv.ui.navigation.Navigation

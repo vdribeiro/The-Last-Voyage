@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.command
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
-import com.hybris.tlv.infrastructure.audio.AudioPlayer
+import com.hybris.tlv.core.audio.AudioPlayer
 import com.hybris.tlv.ui.navigation.back
 import com.hybris.tlv.ui.navigation.navigate
 

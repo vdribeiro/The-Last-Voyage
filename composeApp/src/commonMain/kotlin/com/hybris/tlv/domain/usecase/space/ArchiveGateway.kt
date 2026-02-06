@@ -5,6 +5,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import com.hybris.tlv.core.flow.Dispatcher
+import com.hybris.tlv.core.resource.JsonResource
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
@@ -47,7 +48,6 @@ import com.hybris.tlv.domain.usecase.space.model.JsonConstants.STELLAR_HOST_TEMP
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.space.model.StellarHostJson
-import com.hybris.tlv.infrastructure.resource.JsonResource
 
 internal class ArchiveGateway(
     private val httpClient: HttpClient,

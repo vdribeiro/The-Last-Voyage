@@ -1,8 +1,8 @@
 package com.hybris.tlv.core.telemetry
 
+import com.hybris.tlv.core.platform.Platform
+import com.hybris.tlv.core.platform.platform
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
-import com.hybris.tlv.infrastructure.platform.Platform
-import com.hybris.tlv.infrastructure.platform.platform
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.test.ShadowedInTesting
 

@@ -15,14 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.observeLocaleChanges
+import com.hybris.tlv.core.platform.Platform
+import com.hybris.tlv.core.platform.isDebug
+import com.hybris.tlv.core.platform.platform
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
-import com.hybris.tlv.infrastructure.platform.Platform
-import com.hybris.tlv.infrastructure.platform.isDebug
-import com.hybris.tlv.infrastructure.platform.platform
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.App
 import com.hybris.tlv.ui.theme.component.container.Screen

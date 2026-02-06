@@ -20,8 +20,8 @@ import androidx.compose.ui.test.swipeRight
 import androidx.compose.ui.test.swipeUp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.hybris.tlv.core.audio.AudioPlayer
 import com.hybris.tlv.domain.flag.FeatureFlags
-import com.hybris.tlv.infrastructure.audio.AudioPlayer
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
 import com.hybris.tlv.ui.cheats.enableGestureCheats

@@ -6,6 +6,7 @@ import kotlin.math.log10
 import kotlin.math.pow
 import kotlin.math.round
 import kotlin.math.sin
+import com.hybris.tlv.core.resource.ImageResource
 import com.hybris.tlv.data.database.PlanetSchema
 import com.hybris.tlv.data.database.StellarHostSchema
 import com.hybris.tlv.domain.usecase.space.formula.Constants.PARSEC
@@ -17,7 +18,6 @@ import com.hybris.tlv.domain.usecase.space.model.PlanetStatus
 import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.space.model.StellarHostJson
-import com.hybris.tlv.infrastructure.resource.ImageResource
 
 internal fun StellarHost.toStellarHostJson(): StellarHostJson =
     StellarHostJson(

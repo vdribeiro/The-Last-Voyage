@@ -23,8 +23,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.core.resource.ImageResource
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
-import com.hybris.tlv.infrastructure.resource.ImageResource
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon

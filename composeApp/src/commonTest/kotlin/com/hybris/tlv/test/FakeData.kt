@@ -1,5 +1,6 @@
 package com.hybris.tlv.test
 
+import com.hybris.tlv.core.resource.JsonResource
 import com.hybris.tlv.data.config.Configs
 import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.domain.usecase.achievement.model.Achievement
@@ -15,7 +16,6 @@ import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.infrastructure.resource.JsonResource
 import com.hybris.tlv.platform.Property
 
 internal object FakeData {

@@ -4,6 +4,7 @@ import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import com.hybris.tlv.core.flow.Dispatcher
+import com.hybris.tlv.core.resource.JsonResource
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
@@ -11,7 +12,6 @@ import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.domain.usecase.achievement.model.Achievement
 import com.hybris.tlv.domain.usecase.gamesession.model.GameSession
-import com.hybris.tlv.infrastructure.resource.JsonResource
 import database.AppDatabase
 
 internal class AchievementGateway(
