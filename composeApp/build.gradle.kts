@@ -37,7 +37,7 @@ val jdkVersion = 21
 val jvmVersion = JvmTarget.JVM_21
 val javaVersion = JavaVersion.VERSION_21
 
-val androidTarget: IntRange = 26..36
+val androidSdkTarget: IntRange = 26..36
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
 val androidKeyPassword: String = localProperties.getProperty("android.keyPassword", "")
 val androidStoreFile: File? = runCatching { rootProject.file(localProperties.getProperty("android.storeFile", "")) }.getOrNull()
@@ -300,7 +300,7 @@ dependencies {
 
 android {
     namespace = appId
-    compileSdk = androidTarget.last
+    compileSdk = androidSdkTarget.last
 
     signingConfigs {
         create("release") {
@@ -312,8 +312,8 @@ android {
     }
     defaultConfig {
         applicationId = appId
-        minSdk = androidTarget.first
-        targetSdk = androidTarget.last
+        minSdk = androidSdkTarget.first
+        targetSdk = androidSdkTarget.last
         versionCode = appVersionNumber.toInt()
         versionName = appVersion
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -324,7 +324,7 @@ android {
     }
     sourceSets {
         getByName("main") {
-            assets.srcDirs("src/commonMain/resources")
+            assets.directories.add("src/commonMain/resources")
         }
     }
     packaging {
