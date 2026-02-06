@@ -1,7 +1,6 @@
 package com.hybris.tlv.test
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -159,7 +158,7 @@ internal abstract class TestCase {
         vararg values: ProvidedValue<*>,
         content: @Composable () -> Unit
     ) {
-        val lifecycleOwner = withContext(context = Dispatchers.Main) { lifecycleOwner }
+        val lifecycleOwner = withContext(context = Dispatcher.Main) { lifecycleOwner }
         setContent {
             CompositionLocalProvider(value = LocalLifecycleOwner provides lifecycleOwner) {
                 App(*values) {

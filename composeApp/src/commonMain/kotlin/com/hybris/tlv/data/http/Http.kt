@@ -15,7 +15,6 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.timeout
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
-import io.ktor.client.request.head
 import io.ktor.http.encodeURLPath
 import io.ktor.http.isSuccess
 import com.hybris.tlv.core.flow.Dispatcher
@@ -76,13 +75,13 @@ private suspend fun HttpClient.getNetworkQuality(): NetworkQuality = withContext
         if (previous < cacheTTL) return@withLock lastNetworkQuality
         lastTimeMark = TimeSource.Monotonic.markNow()
 
-        if (!isInternetAvailable()) return@withLock NetworkQuality.Unknown
+//        if (!isInternetAvailable()) return@withLock NetworkQuality.Unknown
         if (!flags.networkQuality || platform == Platform.Web) return@withLock NetworkQuality.Fast
 
         val response = runCatching {
             // Add small timeout to allow the HTTP client to return its own error gracefully
             withTimeout(timeMillis = SLOW_THRESHOLD_MILLIS + 500L) {
-                head(urlString = URL.Probe.path) {
+                get(urlString = URL.Probe.path) {
                     timeout {
                         connectTimeoutMillis = SLOW_THRESHOLD_MILLIS
                         socketTimeoutMillis = SLOW_THRESHOLD_MILLIS
