@@ -1,7 +1,7 @@
 [versions]
 
 # Kotlin
-kover = "0.9.4"
+kover = "0.9.5"
 kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.10.0"
@@ -25,7 +25,7 @@ coil = "3.3.0"
 # Android
 android-plugin = "8.13.2"
 android-startup = "1.2.0"
-androidx-exoplayer = "1.9.1"
+androidx-exoplayer = "1.9.2"
 android-test = "1.10.2"
 
 # Desktop

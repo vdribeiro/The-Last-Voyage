@@ -179,7 +179,7 @@ kotlin {
     jvmToolchain(jdkVersion = jdkVersion)
 
     compilerOptions {
-        freeCompilerArgs.add("-Xexpect-actual-classes")
+        freeCompilerArgs.addAll("-Xexpect-actual-classes")
     }
 
     androidTarget {
