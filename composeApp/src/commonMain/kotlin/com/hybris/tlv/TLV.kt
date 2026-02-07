@@ -3,6 +3,9 @@ package com.hybris.tlv
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.Composable
@@ -49,11 +52,15 @@ internal object TLV {
         music = true
     )
 
-    private val scope = CoroutineScope(context = SupervisorJob())
+    private val scope = CoroutineScope(context = SupervisorJob() + Dispatcher.Default)
     private val dependency = MutableStateFlow<Dependency?>(value = null)
 
-    private val _networkStatus: MutableStateFlow<NetworkStatus> = MutableStateFlow(value = NetworkStatus(hasInternet = false))
-    val networkStatus: NetworkStatus get() = _networkStatus.value
+    val networkStatus: StateFlow<NetworkStatus> = observeNetworkStatus()
+        .stateIn(
+            scope = scope,
+            started = SharingStarted.Eagerly,
+            initialValue = NetworkStatus(hasInternet = true)
+        )
 
     init {
         val flags = FeatureFlags.set { flags }
@@ -72,11 +79,6 @@ internal object TLV {
                     val translation = dependency.useCases.translation
                     val translations = translation.getTranslations(languageIso = it)
                     if (translations.isNotEmpty()) TranslationCache.set(translations = translations)
-                }
-            }
-            launch(context = Dispatcher.Default) {
-                observeNetworkStatus().collect {
-                    _networkStatus.update { it }
                 }
             }
 

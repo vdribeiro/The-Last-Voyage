@@ -42,8 +42,8 @@ internal actual fun observeLocale(): Flow<String> = callbackFlow {
         }
         val filter = IntentFilter(Intent.ACTION_LOCALE_CHANGED)
         applicationContext.registerReceiver(receiver, filter)
-        trySend(element = getLanguage())
 
+        trySend(element = getLanguage())
         awaitClose { applicationContext.unregisterReceiver(receiver) }
     }.onFailure {
         Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it)

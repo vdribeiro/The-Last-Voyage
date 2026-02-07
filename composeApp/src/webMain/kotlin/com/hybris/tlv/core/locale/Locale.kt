@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
+import org.w3c.dom.events.Event
 
 internal actual fun getLanguage(): String = runCatching {
     window.navigator.language
@@ -31,10 +32,11 @@ private fun formatDateJs(utc: String): String = js(
 
 internal actual fun observeLocale(): Flow<String> = callbackFlow {
     runCatching {
-        window.addEventListener(type = "languagechange") { trySend(element = getLanguage()) }
-        trySend(element = getLanguage())
+        val listener: ((Event) -> Unit) = { trySend(element = getLanguage()) }
+        window.addEventListener(type = "languagechange", callback = listener)
 
-        awaitClose { window.removeEventListener(type = "languagechange") {} }
+        trySend(element = getLanguage())
+        awaitClose { window.removeEventListener(type = "languagechange", callback = listener) }
     }.onFailure {
         Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it)
         trySend(element = getLanguage())
