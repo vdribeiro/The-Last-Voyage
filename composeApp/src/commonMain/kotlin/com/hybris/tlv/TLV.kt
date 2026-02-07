@@ -3,9 +3,6 @@ package com.hybris.tlv
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.Composable
@@ -16,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.core.locale.DEFAULT_LANGUAGE
 import com.hybris.tlv.core.locale.observeLocale
 import com.hybris.tlv.core.network.NetworkStatus
 import com.hybris.tlv.core.network.observeNetworkStatus
@@ -55,18 +51,9 @@ internal object TLV {
 
     private val scope = CoroutineScope(context = SupervisorJob())
     private val dependency = MutableStateFlow<Dependency?>(value = null)
-    private val locale: StateFlow<String> = observeLocale()
-        .stateIn(
-            scope = scope,
-            started = SharingStarted.Eagerly,
-            initialValue = DEFAULT_LANGUAGE
-        )
-    val networkStatus: StateFlow<NetworkStatus> = observeNetworkStatus()
-        .stateIn(
-            scope = scope,
-            started = SharingStarted.Eagerly,
-            initialValue = NetworkStatus(hasInternet = true)
-        )
+
+    private val _networkStatus: MutableStateFlow<NetworkStatus> = MutableStateFlow(value = NetworkStatus(hasInternet = false))
+    val networkStatus: NetworkStatus get() = _networkStatus.value
 
     init {
         val flags = FeatureFlags.set { flags }
@@ -78,12 +65,22 @@ internal object TLV {
         Telemetry.info(tag = TAG, message = "Initializing dependencies")
         scope.launch(context = Dispatcher.IO) {
             val dependency = Dependency(sqlDriver = createSqlDriver())
-            this@TLV.dependency.update { dependency }
 
             Telemetry.info(tag = TAG, message = "Registering listeners")
-            val translation = dependency.useCases.translation
-            val translations = translation.getTranslations(languageIso = locale.value)
-            if (translations.isNotEmpty()) TranslationCache.set(translations = translations)
+            launch(context = Dispatcher.Default) {
+                observeLocale().collect {
+                    val translation = dependency.useCases.translation
+                    val translations = translation.getTranslations(languageIso = it)
+                    if (translations.isNotEmpty()) TranslationCache.set(translations = translations)
+                }
+            }
+            launch(context = Dispatcher.Default) {
+                observeNetworkStatus().collect {
+                    _networkStatus.update { it }
+                }
+            }
+
+            this@TLV.dependency.update { dependency }
         }
     }
 

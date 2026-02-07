@@ -21,7 +21,7 @@ internal suspend inline fun <reified T> HttpClient.get(
 ): Result<T> = withContext(context = Dispatcher.IO) {
     runCatching {
         if (!flags.http) throw Throwable(message = "Network disabled")
-        if (!networkStatus.value.hasInternet) throw Throwable(message = "No internet connection available")
+        if (!networkStatus.hasInternet) throw Throwable(message = "No internet connection available")
 
         val response = get(urlString = path.path.encodeURLPath()) {
             queryMap.forEach { url.parameters.append(name = it.key, value = it.value) }
