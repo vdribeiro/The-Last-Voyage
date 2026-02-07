@@ -46,7 +46,7 @@ internal object TLV {
         music = true
     )
 
-    private val scope = CoroutineScope(context = SupervisorJob() + Dispatcher.Default)
+    private val scope = CoroutineScope(context = SupervisorJob())
     private val dependency = MutableStateFlow<Dependency?>(value = null)
 
     init {
@@ -61,7 +61,7 @@ internal object TLV {
             val dependency = Dependency(sqlDriver = createSqlDriver())
 
             Telemetry.info(tag = TAG, message = "Registering listeners")
-            launch(context = Dispatcher.Default) {
+            launch {
                 observeLocale().collect {
                     val translation = dependency.useCases.translation
                     val translations = translation.getTranslations(languageIso = it)
