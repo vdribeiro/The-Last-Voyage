@@ -86,8 +86,8 @@ internal class HttpClientFactory(engine: HttpClientEngine) {
 
     companion object {
         private const val TAG = "HttpClient"
-        const val CONNECT_TIMEOUT_MILLIS = 10_000L
-        const val SOCKET_TIMEOUT_MILLIS = 20_000L
-        const val REQUEST_TIMEOUT_MILLIS = 60_000L
+        private const val CONNECT_TIMEOUT_MILLIS = 20_000L
+        private const val SOCKET_TIMEOUT_MILLIS = 50_000L
+        private const val REQUEST_TIMEOUT_MILLIS = 120_000L
     }
 }

@@ -2,6 +2,7 @@
 
 package com.hybris.tlv.core.locale
 
+import kotlinx.coroutines.flow.Flow
 import com.hybris.tlv.test.ShadowedInTesting
 
 /**
@@ -15,7 +16,6 @@ internal expect fun getLanguage(): String
 internal expect fun getLocalDateTime(utc: String = now()): String
 
 /**
- * Call [onChanged] when the system locale changes.
- * Returns false if locale changes cannot be observed.
+ * Observe system locale changes.
  */
-internal expect fun observeLocaleChanges(onChanged: () -> Unit): Boolean
+internal expect fun observeLocaleChanges(): Flow<Unit>

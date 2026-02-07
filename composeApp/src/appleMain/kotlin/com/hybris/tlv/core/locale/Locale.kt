@@ -4,6 +4,9 @@ package com.hybris.tlv.core.locale
 
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.offsetAt
 import kotlinx.datetime.toNSDate
@@ -36,9 +39,15 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
     return formatter.stringFromDate(date = instant.toNSDate())
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it) }.getOrDefault(defaultValue = utc)
 
-internal actual fun observeLocaleChanges(onChanged: () -> Unit): Boolean = runCatching {
-    NSNotificationCenter.defaultCenter.observe(name = NSCurrentLocaleDidChangeNotification) { onChanged() }
-    true
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it) }.getOrDefault(defaultValue = false)
+internal actual fun observeLocaleChanges(): Flow<Unit> = callbackFlow {
+    runCatching {
+        val observer = NSNotificationCenter.defaultCenter.observe(name = NSCurrentLocaleDidChangeNotification) { trySend(element = Unit) }
+
+        awaitClose { NSNotificationCenter.defaultCenter.removeObserver(observer) }
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it)
+        close(cause = it)
+    }
+}
 
 private const val TAG = "Locale"

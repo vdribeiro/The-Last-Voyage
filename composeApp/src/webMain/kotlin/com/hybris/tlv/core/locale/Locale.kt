@@ -4,6 +4,9 @@
 package com.hybris.tlv.core.locale
 
 import kotlinx.browser.window
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 
@@ -25,9 +28,15 @@ private fun formatDateJs(utc: String): String = js(
     """
 )
 
-internal actual fun observeLocaleChanges(onChanged: () -> Unit): Boolean = runCatching {
-    window.addEventListener(type = "languagechange") { onChanged() }
-    true
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it) }.getOrDefault(defaultValue = false)
+internal actual fun observeLocaleChanges(): Flow<Unit> = callbackFlow {
+    runCatching {
+        window.addEventListener(type = "languagechange") { trySend(element = Unit) }
+
+        awaitClose { window.removeEventListener(type = "languagechange") {} }
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it)
+        close(cause = it)
+    }
+}
 
 private const val TAG = "Locale"

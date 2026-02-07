@@ -20,7 +20,6 @@ internal actual fun observeNetworkStatus(): Flow<NetworkStatus> = callbackFlow {
         }
     }.onFailure {
         Telemetry.error(tag = TAG, message = "Unable to observe network status", throwable = it)
-        trySend(element = NetworkStatus(hasInternet = false))
         close(cause = it)
     }
 }.distinctUntilChanged().flowOn(context = Dispatcher.IO)
