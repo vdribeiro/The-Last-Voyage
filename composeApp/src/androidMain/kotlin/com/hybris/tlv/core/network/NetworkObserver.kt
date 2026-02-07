@@ -30,17 +30,21 @@ internal actual fun observeNetworkStatus(): Flow<NetworkStatus> = callbackFlow {
                 trySend(element = NetworkStatus(hasInternet = capabilities.hasInternet()))
             }
         }
-
         connectivityManager.registerDefaultNetworkCallback(callback)
-        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        trySend(element = NetworkStatus(hasInternet = capabilities.hasInternet()))
 
+        trySend(element = NetworkStatus(hasInternet = hasInternet()))
         awaitClose { connectivityManager.unregisterNetworkCallback(callback) }
     }.onFailure {
         Telemetry.error(tag = TAG, message = "Unable to observe network status", throwable = it)
+        trySend(element = NetworkStatus(hasInternet = hasInternet()))
         close(cause = it)
     }
 }.distinctUntilChanged()
+
+private fun hasInternet(): Boolean = runCatching {
+    val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork).hasInternet()
+}.getOrDefault(defaultValue = false)
 
 private fun NetworkCapabilities?.hasInternet(): Boolean = runCatching {
     this != null &&

@@ -36,6 +36,7 @@ internal actual fun observeNetworkStatus(): Flow<NetworkStatus> = callbackFlow {
         awaitClose { nw_path_monitor_cancel(monitor = monitor) }
     }.onFailure {
         Telemetry.error(tag = TAG, message = "Unable to observe network status", throwable = it)
+        trySend(element = NetworkStatus(hasInternet = false))
         close(cause = it)
     }
 }.distinctUntilChanged()

@@ -32,10 +32,12 @@ private fun formatDateJs(utc: String): String = js(
 internal actual fun observeLocale(): Flow<String> = callbackFlow {
     runCatching {
         window.addEventListener(type = "languagechange") { trySend(element = getLanguage()) }
+        trySend(element = getLanguage())
 
         awaitClose { window.removeEventListener(type = "languagechange") {} }
     }.onFailure {
         Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it)
+        trySend(element = getLanguage())
         close(cause = it)
     }
 }.distinctUntilChanged()

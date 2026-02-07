@@ -17,17 +17,22 @@ internal actual fun observeNetworkStatus(): Flow<NetworkStatus> = callbackFlow {
         val timer = Timer()
         timer.schedule(object: TimerTask() {
             override fun run() {
-                val status = NetworkStatus(hasInternet = NetworkInterface.getNetworkInterfaces().asSequence().any { it.isUp && !it.isLoopback })
-                trySend(element = status)
+                trySend(element = NetworkStatus(hasInternet = hasInternet()))
             }
         }, 0, POOLING_INTERVAL_MS)
 
+        trySend(element = NetworkStatus(hasInternet = hasInternet()))
         awaitClose { timer.cancel() }
     }.onFailure {
         Telemetry.error(tag = TAG, message = "Unable to observe network status", throwable = it)
+        trySend(element = NetworkStatus(hasInternet = hasInternet()))
         close(cause = it)
     }
 }.distinctUntilChanged()
+
+private fun hasInternet(): Boolean = runCatching {
+    NetworkInterface.getNetworkInterfaces().asSequence().any { it.isUp && !it.isLoopback }
+}.getOrDefault(defaultValue = false)
 
 private const val TAG = "NetworkObserver"
 private const val POOLING_INTERVAL_MS = 3000L

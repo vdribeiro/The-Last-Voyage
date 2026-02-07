@@ -12,21 +12,23 @@ import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual fun observeNetworkStatus(): Flow<NetworkStatus> = callbackFlow {
     runCatching {
-        val update = { trySend(element = NetworkStatus(hasInternet = window.navigator.onLine)) }
+        window.addEventListener(type = "online") { trySend(element = NetworkStatus(hasInternet = hasInternet())) }
+        window.addEventListener(type = "offline") { trySend(element = NetworkStatus(hasInternet = hasInternet())) }
 
-        window.addEventListener(type = "online") { update() }
-        window.addEventListener(type = "offline") { update() }
-
-        update()
-
+        trySend(element = NetworkStatus(hasInternet = hasInternet()))
         awaitClose {
             window.removeEventListener(type = "online") {}
             window.removeEventListener(type = "offline") {}
         }
     }.onFailure {
         Telemetry.error(tag = TAG, message = "Unable to observe network status", throwable = it)
+        trySend(element = NetworkStatus(hasInternet = hasInternet()))
         close(cause = it)
     }
 }.distinctUntilChanged()
+
+private fun hasInternet(): Boolean = runCatching {
+    window.navigator.onLine
+}.getOrDefault(defaultValue = false)
 
 private const val TAG = "NetworkObserver"

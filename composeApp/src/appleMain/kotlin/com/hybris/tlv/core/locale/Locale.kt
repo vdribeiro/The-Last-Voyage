@@ -45,10 +45,12 @@ internal actual fun observeLocale(): Flow<String> = callbackFlow {
         val observer = NSNotificationCenter.defaultCenter.observe(
             name = NSCurrentLocaleDidChangeNotification
         ) { trySend(element = getLanguage()) }
+        trySend(element = getLanguage())
 
         awaitClose { NSNotificationCenter.defaultCenter.removeObserver(observer) }
     }.onFailure {
         Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it)
+        trySend(element = getLanguage())
         close(cause = it)
     }
 }.distinctUntilChanged()

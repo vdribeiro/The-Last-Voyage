@@ -39,10 +39,12 @@ internal actual fun observeLocale(): Flow<String> = callbackFlow {
                 trySend(element = getLanguage())
             }
         }, 0, POOLING_INTERVAL_MS)
+        trySend(element = getLanguage())
 
         awaitClose { timer.cancel() }
     }.onFailure {
         Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it)
+        trySend(element = getLanguage())
         close(cause = it)
     }
 }.distinctUntilChanged()
