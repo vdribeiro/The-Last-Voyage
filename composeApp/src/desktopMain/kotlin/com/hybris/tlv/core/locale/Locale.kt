@@ -13,6 +13,7 @@ import kotlin.time.toJavaInstant
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaZoneId
 import com.hybris.tlv.core.telemetry.Telemetry
@@ -30,17 +31,12 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
         .format(Instant.parse(input = utc).toJavaInstant())
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it) }.getOrDefault(defaultValue = utc)
 
-internal actual fun observeLocaleChanges(): Flow<Unit> = callbackFlow {
+internal actual fun observeLocale(): Flow<String> = callbackFlow {
     runCatching {
-        var lastLocale = Locale.getDefault()
         val timer = Timer()
         timer.schedule(object: TimerTask() {
             override fun run() {
-                val current = Locale.getDefault()
-                if (current != lastLocale) {
-                    lastLocale = current
-                    trySend(element = Unit)
-                }
+                trySend(element = getLanguage())
             }
         }, 0, POOLING_INTERVAL_MS)
 
@@ -49,7 +45,7 @@ internal actual fun observeLocaleChanges(): Flow<Unit> = callbackFlow {
         Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it)
         close(cause = it)
     }
-}
+}.distinctUntilChanged()
 
 private const val TAG = "Locale"
 private const val POOLING_INTERVAL_MS = 3000L

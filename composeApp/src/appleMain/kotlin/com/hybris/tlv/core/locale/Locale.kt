@@ -7,6 +7,7 @@ import kotlin.time.Instant
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.offsetAt
 import kotlinx.datetime.toNSDate
@@ -39,15 +40,17 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
     return formatter.stringFromDate(date = instant.toNSDate())
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it) }.getOrDefault(defaultValue = utc)
 
-internal actual fun observeLocaleChanges(): Flow<Unit> = callbackFlow {
+internal actual fun observeLocale(): Flow<String> = callbackFlow {
     runCatching {
-        val observer = NSNotificationCenter.defaultCenter.observe(name = NSCurrentLocaleDidChangeNotification) { trySend(element = Unit) }
+        val observer = NSNotificationCenter.defaultCenter.observe(
+            name = NSCurrentLocaleDidChangeNotification
+        ) { trySend(element = getLanguage()) }
 
         awaitClose { NSNotificationCenter.defaultCenter.removeObserver(observer) }
     }.onFailure {
         Telemetry.error(tag = TAG, message = "Unable to observe locale changes", throwable = it)
         close(cause = it)
     }
-}
+}.distinctUntilChanged()
 
 private const val TAG = "Locale"

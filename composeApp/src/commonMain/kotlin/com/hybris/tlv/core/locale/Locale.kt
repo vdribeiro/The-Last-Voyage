@@ -16,6 +16,6 @@ internal expect fun getLanguage(): String
 internal expect fun getLocalDateTime(utc: String = now()): String
 
 /**
- * Observe system locale changes.
+ * Observe system locale changes and emit the new language.
  */
-internal expect fun observeLocaleChanges(): Flow<Unit>
+internal expect fun observeLocale(): Flow<String>
