@@ -6,13 +6,11 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOn
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import com.hybris.tlv.applicationContext
-import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ShadowedInTesting
 
@@ -42,7 +40,7 @@ internal actual fun observeNetworkStatus(): Flow<NetworkStatus> = callbackFlow {
         Telemetry.error(tag = TAG, message = "Unable to observe network status", throwable = it)
         close(cause = it)
     }
-}.distinctUntilChanged().flowOn(context = Dispatcher.IO)
+}.distinctUntilChanged()
 
 private fun NetworkCapabilities?.hasInternet(): Boolean = runCatching {
     this != null &&
