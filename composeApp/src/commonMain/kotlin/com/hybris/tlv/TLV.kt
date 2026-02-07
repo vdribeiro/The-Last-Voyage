@@ -5,6 +5,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.collectAsState
@@ -62,13 +63,13 @@ internal object TLV {
 
             Telemetry.info(tag = TAG, message = "Registering listeners")
             launch {
-                observeLocale().collect {
-                    val translation = dependency.useCases.translation
-                    val translations = translation.getTranslations(languageIso = it)
-                    if (translations.isNotEmpty()) TranslationCache.set(translations = translations)
+                observeLocale().collect { languageIso ->
+                    val translationUseCases = dependency.useCases.translation
+                    TranslationCache.set(translations = translationUseCases.getTranslations(languageIso = languageIso))
                 }
             }
 
+            yield()
             this@TLV.dependency.update { dependency }
         }
     }

@@ -55,7 +55,10 @@ internal fun AppLogo(
                 contentDescription = "Logo",
                 contentScale = ContentScale.Crop,
             )
-            if (showProgress) ProgressIndicator(modifier = Modifier.size(size = 160.dp), progress = progress)
+            if (showProgress) ProgressIndicator(
+                modifier = Modifier.size(size = 160.dp),
+                progress = progress
+            )
         }
 
         Text(
