@@ -20,11 +20,6 @@ internal data class Flags(
      */
     val http: Boolean = false,
     /**
-     * Flag to enable or disable network quality check. When false, the check is skipped.
-     * This should be set to true for production builds.
-     */
-    val networkQuality: Boolean = false,
-    /**
      * Flag to enable or disable fetching exoplanet data directly from the NASA archive when syncing data.
      * This should be set to false for production builds.
      */

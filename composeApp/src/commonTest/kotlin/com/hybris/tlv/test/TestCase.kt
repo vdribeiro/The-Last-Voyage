@@ -53,7 +53,6 @@ internal abstract class TestCase {
         devMode = false,
         reset = true,
         http = true,
-        networkQuality = false,
         archive = true,
         music = false
     )

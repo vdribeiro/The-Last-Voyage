@@ -1,5 +1,6 @@
 package com.hybris.tlv.data.http
 
+import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockRequestHandleScope
 import io.ktor.client.engine.mock.respond
@@ -18,7 +19,7 @@ import com.hybris.tlv.test.FakeData
 
 internal object TestEngine {
 
-    val mock = MockEngine { request ->
+    val mock: HttpClientEngine = MockEngine { request ->
         val path = request.url.toString()
         when (request.method) {
             HttpMethod.Head -> when {
