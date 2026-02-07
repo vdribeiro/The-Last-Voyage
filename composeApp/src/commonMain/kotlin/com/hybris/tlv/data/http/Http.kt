@@ -6,7 +6,6 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.http.encodeURLPath
 import io.ktor.http.isSuccess
-import com.hybris.tlv.TLV.networkStatus
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
 
@@ -21,7 +20,7 @@ internal suspend inline fun <reified T> HttpClient.get(
 ): Result<T> = withContext(context = Dispatcher.IO) {
     runCatching {
         if (!flags.http) throw Throwable(message = "Network disabled")
-        if (!networkStatus.value.internet) throw Throwable(message = "No internet connection available")
+        if (!isInternetAvailable()) throw Throwable(message = "No internet connection available")
 
         val response = get(urlString = path.path.encodeURLPath()) {
             queryMap.forEach { url.parameters.append(name = it.key, value = it.value) }
