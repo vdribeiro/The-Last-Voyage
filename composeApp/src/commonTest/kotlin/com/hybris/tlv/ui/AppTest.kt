@@ -20,7 +20,6 @@ import androidx.compose.ui.test.swipeRight
 import androidx.compose.ui.test.swipeUp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.hybris.tlv.core.audio.AudioPlayer
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
@@ -49,13 +48,14 @@ internal class AppTest: TestCase() {
         lateinit var navController: NavHostController
         val config = getConfig()
         val useCases = getUseCases()
+        val audioPlayer = dependency.get().audioPlayer
         setUI {
             navController = rememberNavController()
             App(
                 navController = navController,
                 config = config,
                 useCases = useCases,
-                audioPlayer = AudioPlayer()
+                audioPlayer = audioPlayer
             )
         }
         sendCommand(command = Command.ToggleAudio)
@@ -82,6 +82,7 @@ internal class AppTest: TestCase() {
         lateinit var navController: NavHostController
         val config = getConfig()
         val useCases = getUseCases()
+        val audioPlayer = dependency.get().audioPlayer
         setUI {
             navController = rememberNavController()
             App(
@@ -93,7 +94,7 @@ internal class AppTest: TestCase() {
                 navController = navController,
                 config = config,
                 useCases = useCases,
-                audioPlayer = AudioPlayer()
+                audioPlayer = audioPlayer
             )
         }
 

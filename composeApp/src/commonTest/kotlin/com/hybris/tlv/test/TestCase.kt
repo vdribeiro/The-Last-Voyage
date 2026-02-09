@@ -26,7 +26,7 @@ import com.hybris.tlv.Dependency
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.createSqlDriver
-import com.hybris.tlv.data.http.createHttpEngine
+import com.hybris.tlv.data.http.createMockHttpEngine
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.UseCases
@@ -65,10 +65,10 @@ internal abstract class TestCase {
     /**
      * Dependency index for test cases with in memory Database and Mock Http Engine.
      */
-    private val dependency = LazyData {
+    protected val dependency: LazyData<Dependency> = LazyData {
         Dependency(
             sqlDriver = createSqlDriver(inMemory = true),
-            httpEngine = createHttpEngine(),
+            httpEngine = createMockHttpEngine(),
         )
     }
 

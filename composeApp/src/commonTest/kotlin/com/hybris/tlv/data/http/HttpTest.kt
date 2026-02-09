@@ -9,14 +9,14 @@ internal class HttpTest: TestCase() {
 
     @Test
     fun networkFailure() = runUnitTest {
-        val httpClient = HttpClientFactory(engine = createHttpEngine()).httpClient
+        val httpClient = dependency.get().httpClient
         val response = httpClient.get<String>(path = URL.Configs)
         assertTrue(actual = response is Result.Error)
     }
 
     @Test
     fun networkSuccess() = runUnitTest {
-        val httpClient = HttpClientFactory(engine = createHttpEngine()).httpClient
+        val httpClient = dependency.get().httpClient
         val response = httpClient.get<Translation>(path = URL.Translations)
         assertTrue(actual = response is Result.Success)
     }

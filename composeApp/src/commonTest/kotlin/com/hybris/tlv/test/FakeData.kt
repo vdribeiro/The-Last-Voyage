@@ -34,15 +34,33 @@ internal object FakeData {
             formula = "https://github.com/vdribeiro/The-Last-Voyage",
         )
     }
-    val translations = LazyData { loadFromJsonResource<Translation>(json = JsonResource.Translations) }
-    val catastrophes = LazyData { loadFromJsonResource<Catastrophe>(json = JsonResource.Catastrophes) }
-    val engines = LazyData { loadFromJsonResource<Engine>(json = JsonResource.Engines) }
-    val events = LazyData { loadFromJsonResource<Event>(json = JsonResource.Events) }
-    val achievements = LazyData { loadFromJsonResource<Achievement>(json = JsonResource.Achievements) }
-    val credits = LazyData { loadFromJsonResource<Credit>(json = JsonResource.Credits) }
-    val stellarHosts = LazyData { loadFromJsonResource<StellarHost>(json = JsonResource.StellarHosts) }
-    val planets = LazyData { loadFromJsonResource<Planet>(json = JsonResource.Planets) }
-    val stellarHostsWithPlanets = LazyData { stellarHosts.get().addPlanets(planets = planets.get()) }
+    val translations: LazyData<List<Translation>> = LazyData {
+        loadFromJsonResource<Translation>(json = JsonResource.Translations)
+    }
+    val catastrophes: LazyData<List<Catastrophe>> = LazyData {
+        loadFromJsonResource<Catastrophe>(json = JsonResource.Catastrophes)
+    }
+    val engines: LazyData<List<Engine>> = LazyData {
+        loadFromJsonResource<Engine>(json = JsonResource.Engines)
+    }
+    val events: LazyData<List<Event>> = LazyData {
+        loadFromJsonResource<Event>(json = JsonResource.Events)
+    }
+    val achievements: LazyData<List<Achievement>> = LazyData {
+        loadFromJsonResource<Achievement>(json = JsonResource.Achievements)
+    }
+    val credits: LazyData<List<Credit>> = LazyData {
+        loadFromJsonResource<Credit>(json = JsonResource.Credits)
+    }
+    val stellarHosts: LazyData<List<StellarHost>> = LazyData {
+        loadFromJsonResource<StellarHost>(json = JsonResource.StellarHosts)
+    }
+    val planets: LazyData<List<Planet>> = LazyData {
+        loadFromJsonResource<Planet>(json = JsonResource.Planets)
+    }
+    val stellarHostsWithPlanets: LazyData<List<StellarHost>> = LazyData {
+        stellarHosts.get().addPlanets(planets = planets.get())
+    }
     val shipPrototype: ShipPrototype by lazy {
         ShipPrototype(
             assignedPoints = 10,
@@ -52,7 +70,7 @@ internal object FakeData {
             cryopods = 150,
         )
     }
-    val ship = LazyData {
+    val ship: LazyData<Ship> = LazyData {
         Ship(
             id = "1",
             engine = engines.get().random(),
@@ -65,7 +83,7 @@ internal object FakeData {
             cryopods = 150,
         )
     }
-    val gameSessionPrototype = LazyData {
+    val gameSessionPrototype: LazyData<GameSessionPrototype> = LazyData {
         GameSessionPrototype(
             ship = shipPrototype,
             engine = engines.get().random(),
