@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.hybris.tlv.data.http
 
 import io.ktor.client.engine.HttpClientEngine
@@ -20,7 +18,7 @@ import com.hybris.tlv.domain.usecase.space.toExoplanetJson
 import com.hybris.tlv.domain.usecase.space.toStellarHostJson
 import com.hybris.tlv.test.FakeData
 
-internal fun createMockHttpEngine(): HttpClientEngine = MockEngine { request ->
+internal fun createHttpEngine(): HttpClientEngine = MockEngine { request ->
     val path = request.url.toString()
     when (request.method) {
         HttpMethod.Get -> when {
@@ -71,4 +69,4 @@ private suspend fun MockRequestHandleScope.respondArchive(request: HttpRequestDa
     }
 }
 
-//internal fun isInternetAvailable(): Boolean = flags.http
+internal fun isInternetAvailable(): Boolean = flags.http
