@@ -15,9 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.observeLocale
-import com.hybris.tlv.core.platform.Platform
 import com.hybris.tlv.core.platform.isDebug
-import com.hybris.tlv.core.platform.platform
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.domain.flag.FeatureFlags
@@ -41,7 +39,7 @@ internal object TLV {
      */
     private val flags = Flags(
         devMode = isDebug,
-        reset = platform == Platform.Web,
+        reset = false,
         http = true,
         archive = false,
         music = true

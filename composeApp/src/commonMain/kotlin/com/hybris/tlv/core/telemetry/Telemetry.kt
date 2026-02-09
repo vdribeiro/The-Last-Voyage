@@ -1,7 +1,5 @@
 package com.hybris.tlv.core.telemetry
 
-import com.hybris.tlv.core.platform.Platform
-import com.hybris.tlv.core.platform.platform
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.test.ShadowedInTesting
@@ -14,7 +12,7 @@ import com.hybris.tlv.test.ShadowedInTesting
 @ShadowedInTesting
 object Telemetry {
 
-    private val useLogger get() = flags.devMode || platform == Platform.Web
+    private val useLogger get() = flags.devMode
     private val useSentry get() = !flags.devMode && Property.sentry.isNotBlank()
 
     /**

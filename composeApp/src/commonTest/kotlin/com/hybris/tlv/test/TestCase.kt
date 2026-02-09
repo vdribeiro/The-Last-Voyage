@@ -50,7 +50,7 @@ internal abstract class TestCase {
      * Feature flags for testing.
      */
     private val testFlags = Flags(
-        devMode = false,
+        devMode = true,
         reset = true,
         http = true,
         archive = true,
