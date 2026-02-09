@@ -69,7 +69,7 @@ internal abstract class TestCase {
             httpEngine = createHttpEngine(),
         )
     }
-    
+
     /**
      * Factory used to create Stores using the test-specific dependency.
      */
