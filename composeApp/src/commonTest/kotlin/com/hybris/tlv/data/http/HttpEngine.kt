@@ -23,11 +23,6 @@ import com.hybris.tlv.test.FakeData
 internal fun createHttpEngine(): HttpClientEngine = MockEngine { request ->
     val path = request.url.toString()
     when (request.method) {
-        HttpMethod.Head -> when {
-            path.startsWith(prefix = URL.Probe.path) -> respondMock(status = HttpStatusCode.NoContent)
-            else -> respondMock(status = HttpStatusCode.NotFound, content = "Not found for path: ${request.url.encodedPath}")
-        }
-
         HttpMethod.Get -> when {
             path.startsWith(prefix = URL.ExoplanetArchive.path) -> respondArchive(request = request)
             path.startsWith(prefix = URL.Configs.path) -> respondMock(content = encode(value = listOf(FakeData.configs)))
