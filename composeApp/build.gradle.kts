@@ -347,6 +347,9 @@ android {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
     }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 compose.desktop {
