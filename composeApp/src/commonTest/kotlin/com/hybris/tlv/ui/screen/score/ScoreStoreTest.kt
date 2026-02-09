@@ -4,6 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import com.hybris.tlv.core.locale.getLocalDateTime
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
 import com.hybris.tlv.ui.navigation.Screen
@@ -14,11 +15,15 @@ internal class ScoreStoreTest: TestCase() {
     fun init() = runUnitTest {
         getUseCases().ship.prepopulateEngines()
         getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        val latestGameSession = getUseCases().gameSession.getLatestGameSession()!!
+        var latestGameSession = getUseCases().gameSession.getLatestGameSession()!!
         getUseCases().gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
         val store = getStoreFactory().getScoreStore()
         assertFalse(actual = store.state.loading)
-        assertEquals(expected = listOf(getUseCases().gameSession.getLatestGameSession()), actual = store.state.gameSessions)
+        latestGameSession = getUseCases().gameSession.getLatestGameSession()!!
+        assertEquals(
+            expected = listOf(latestGameSession.copy(utc = getLocalDateTime(utc = latestGameSession.utc))),
+            actual = store.state.gameSessions
+        )
     }
 
     @Test
