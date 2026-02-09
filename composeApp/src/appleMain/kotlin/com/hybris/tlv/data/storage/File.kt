@@ -1,5 +1,3 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.data.storage
 
 import kotlinx.cinterop.BetaInteropApi
@@ -17,7 +15,6 @@ import platform.Foundation.stringWithContentsOfFile
 import platform.Foundation.writeToFile
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.test.ShadowedInTesting
 
 @OptIn(ExperimentalForeignApi::class)
 internal actual val appDataPath: String by lazy {

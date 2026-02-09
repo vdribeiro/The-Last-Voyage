@@ -1,8 +1,4 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.data.storage
-
-import com.hybris.tlv.test.ShadowedInTesting
 
 /**
  * Get the app data absolute path.

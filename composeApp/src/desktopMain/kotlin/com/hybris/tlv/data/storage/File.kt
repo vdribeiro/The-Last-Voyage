@@ -1,5 +1,3 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.data.storage
 
 import java.io.File
@@ -9,7 +7,6 @@ import com.hybris.tlv.core.platform.Platform
 import com.hybris.tlv.core.platform.platform
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.platform.Property
-import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual val appDataPath: String by lazy {
     runCatching {
