@@ -12,7 +12,7 @@ internal class AchievementStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        getUseCases().achievement.prepopulateAchievements()
+        dependency.get().useCases.achievement.prepopulateAchievements()
         val store = getStoreFactory().getAchievementStore()
         assertFalse(actual = store.state.loading)
         assertEquals(expected = FakeData.achievements.get(), actual = store.state.achievements)

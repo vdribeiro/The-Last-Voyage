@@ -11,31 +11,31 @@ internal class SpaceUseCasesTest: TestCase() {
 
     @Test
     fun prepopulateAndSyncExoplanets() = runUnitTest {
-        assertTrue(actual = getUseCases().space.observeExoplanets().first().isEmpty())
-        getUseCases().space.prepopulateStellarHosts()
-        getUseCases().space.prepopulatePlanets()
-        assertEquals(expected = FakeData.stellarHostsWithPlanets.get().sortedBy { it.id }, actual = getUseCases().space.observeExoplanets().first().sortedBy { it.id })
+        assertTrue(actual = dependency.get().useCases.space.observeExoplanets().first().isEmpty())
+        dependency.get().useCases.space.prepopulateStellarHosts()
+        dependency.get().useCases.space.prepopulatePlanets()
+        assertEquals(expected = FakeData.stellarHostsWithPlanets.get().sortedBy { it.id }, actual = dependency.get().useCases.space.observeExoplanets().first().sortedBy { it.id })
 
         reset()
-        assertTrue(actual = getUseCases().space.observeExoplanets().first().isEmpty())
-        getUseCases().space.syncStellarHosts()
-        getUseCases().space.syncPlanets()
-        assertEquals(expected = FakeData.stellarHostsWithPlanets.get().sortedBy { it.id }, actual = getUseCases().space.observeExoplanets().first().sortedBy { it.id })
+        assertTrue(actual = dependency.get().useCases.space.observeExoplanets().first().isEmpty())
+        dependency.get().useCases.space.syncStellarHosts()
+        dependency.get().useCases.space.syncPlanets()
+        assertEquals(expected = FakeData.stellarHostsWithPlanets.get().sortedBy { it.id }, actual = dependency.get().useCases.space.observeExoplanets().first().sortedBy { it.id })
     }
 
     @Test
     fun getStellarHost() = runUnitTest {
-        getUseCases().space.prepopulateStellarHosts()
-        val stellarHost = getUseCases().space.getStellarHost(id = SUN)
+        dependency.get().useCases.space.prepopulateStellarHosts()
+        val stellarHost = dependency.get().useCases.space.getStellarHost(id = SUN)
         assertEquals(expected = SUN, actual = stellarHost?.id)
     }
 
     @Test
     fun getNearestStars() = runUnitTest {
-        getUseCases().space.prepopulateStellarHosts()
-        getUseCases().space.prepopulatePlanets()
+        dependency.get().useCases.space.prepopulateStellarHosts()
+        dependency.get().useCases.space.prepopulatePlanets()
         val sun = FakeData.stellarHosts.get().first { it.id == SUN }
-        val stellarHosts = getUseCases().space.getNearestStars(stellarHost = sun, n = 1, visited = emptySet())
+        val stellarHosts = dependency.get().useCases.space.getNearestStars(stellarHost = sun, n = 1, visited = emptySet())
         assertEquals(expected = "proxima_cen", actual = stellarHosts.first().id)
     }
 }

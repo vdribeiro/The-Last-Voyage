@@ -14,8 +14,8 @@ internal class GameOverStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getGameOverStore()
         assertTrue(store.achievements.isEmpty())
         assertEquals(expected = 0, actual = store.index)
@@ -36,8 +36,8 @@ internal class GameOverStoreTest: TestCase() {
     @Test
     fun nextContent() = runUnitTest {
         assertNavigation(list = emptyList())
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getGameOverStore()
         assertEquals(expected = Content.MESSAGE, actual = store.state.currentContent)
         store.send(action = GameOverAction.Next)
@@ -56,11 +56,11 @@ internal class GameOverStoreTest: TestCase() {
 
     @Test
     fun achievements() = runUnitTest {
-        getUseCases().achievement.prepopulateAchievements()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        val gameSession = getUseCases().gameSession.getLatestGameSession()!!
-        getUseCases().gameSession.updateGameSession(
+        dependency.get().useCases.achievement.prepopulateAchievements()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        val gameSession = dependency.get().useCases.gameSession.getLatestGameSession()!!
+        dependency.get().useCases.gameSession.updateGameSession(
             gameSession = gameSession.copy(
                 currentStellarHostId = "sol",
                 settledPlanetId = "3earth",
@@ -85,8 +85,8 @@ internal class GameOverStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.GameOver)
         assertNavigation(list = listOf(Screen.GameOver))
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         getStoreFactory().getGameOverStore().back()
         assertNavigation(list = listOf(Screen.GameOver))
     }

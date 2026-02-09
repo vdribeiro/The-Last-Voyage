@@ -19,28 +19,28 @@ internal class GameSessionUseCasesTest: TestCase() {
 
     @Test
     fun writeAndGetGameSessions() = runUnitTest {
-        getUseCases().ship.prepopulateEngines()
-        assertNull(actual = getUseCases().gameSession.getLatestGameSession())
-        assertTrue(actual = getUseCases().gameSession.getGameSessions().isEmpty())
-        assertFalse(actual = getUseCases().gameSession.isGameSessionOngoing())
+        dependency.get().useCases.ship.prepopulateEngines()
+        assertNull(actual = dependency.get().useCases.gameSession.getLatestGameSession())
+        assertTrue(actual = dependency.get().useCases.gameSession.getGameSessions().isEmpty())
+        assertFalse(actual = dependency.get().useCases.gameSession.isGameSessionOngoing())
 
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        val gameSession = dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         yield()
-        assertEquals(expected = gameSession, actual = getUseCases().gameSession.getLatestGameSession())
-        assertEquals(expected = listOf(gameSession), actual = getUseCases().gameSession.getGameSessions())
-        assertTrue(actual = getUseCases().gameSession.isGameSessionOngoing())
+        assertEquals(expected = gameSession, actual = dependency.get().useCases.gameSession.getLatestGameSession())
+        assertEquals(expected = listOf(gameSession), actual = dependency.get().useCases.gameSession.getGameSessions())
+        assertTrue(actual = dependency.get().useCases.gameSession.isGameSessionOngoing())
 
         val newGameSession = gameSession.copy(score = 9000.0)
-        getUseCases().gameSession.updateGameSession(gameSession = newGameSession)
-        assertEquals(expected = newGameSession, actual = getUseCases().gameSession.getLatestGameSession())
+        dependency.get().useCases.gameSession.updateGameSession(gameSession = newGameSession)
+        assertEquals(expected = newGameSession, actual = dependency.get().useCases.gameSession.getLatestGameSession())
     }
 
     @Test
     fun launchEvent() = runUnitTest {
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        val gameSession = dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val event = FakeData.events.get().first { it.outcome != null }
 
-        val newGameSession = getUseCases().gameSession.launchEvent(gameSession = gameSession, event = event)
+        val newGameSession = dependency.get().useCases.gameSession.launchEvent(gameSession = gameSession, event = event)
         assertEquals(expected = gameSession.ship.integrity + (event.outcome?.integrity ?: 0), actual = newGameSession.ship.integrity)
         assertEquals(expected = gameSession.ship.fuel + (event.outcome?.fuel ?: 0), actual = newGameSession.ship.fuel)
         assertEquals(expected = gameSession.ship.materials + (event.outcome?.materials ?: 0), actual = newGameSession.ship.materials)
@@ -49,10 +49,10 @@ internal class GameSessionUseCasesTest: TestCase() {
 
     @Test
     fun travel() = runUnitTest {
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        val gameSession = dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val stellarHost = FakeData.stellarHosts.get().filter { it.id != SUN }.random()
 
-        val newGameSession = getUseCases().gameSession.travel(gameSession = gameSession, stellarHost = stellarHost)
+        val newGameSession = dependency.get().useCases.gameSession.travel(gameSession = gameSession, stellarHost = stellarHost)
         assertEquals(expected = stellarHost.id, actual = newGameSession.currentStellarHostId)
         assertTrue(actual = newGameSession.visitedStellarHosts.contains(element = stellarHost.id))
         assertTrue(actual = newGameSession.ship.yearsTraveled > gameSession.ship.yearsTraveled)
@@ -62,7 +62,7 @@ internal class GameSessionUseCasesTest: TestCase() {
 
     @Test
     fun settle() = runUnitTest {
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        val gameSession = dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val stellarHost = FakeData.stellarHostsWithPlanets.get().filter { it.planets.isNotEmpty() }.random()
         val planet = stellarHost.planets.random().apply {
             score = Habitability.calculateScores(
@@ -72,29 +72,29 @@ internal class GameSessionUseCasesTest: TestCase() {
             )
         }
 
-        val newGameSession = getUseCases().gameSession.settle(gameSession = gameSession, planet = planet)
+        val newGameSession = dependency.get().useCases.gameSession.settle(gameSession = gameSession, planet = planet)
         assertEquals(expected = planet.id, actual = newGameSession.settledPlanetId)
         assertEquals(expected = planet.score?.habitabilityScore?.times(other = 100.0), actual = newGameSession.finalHabitability)
     }
 
     @Test
     fun score() = runUnitTest {
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        val gameSession = dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val gameOver = GameOver.entries.random()
 
-        val newGameSession = getUseCases().gameSession.score(gameSession = gameSession, gameOver = gameOver)
+        val newGameSession = dependency.get().useCases.gameSession.score(gameSession = gameSession, gameOver = gameOver)
         assertNotNull(actual = newGameSession.score)
     }
 
     @Test
     fun isGameOver() = runUnitTest {
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        assertFalse(actual = getUseCases().gameSession.isGameOver(gameSession = gameSession))
+        val gameSession = dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        assertFalse(actual = dependency.get().useCases.gameSession.isGameOver(gameSession = gameSession))
 
         val gameSessionNoIntegrity = gameSession.copy(ship = gameSession.ship.copy(integrity = 0))
-        getUseCases().gameSession.updateGameSession(gameSession = gameSessionNoIntegrity)
-        assertTrue(actual = getUseCases().gameSession.isGameOver(gameSession = gameSessionNoIntegrity))
-        val gameOverNoIntegrity = getUseCases().gameSession.getGameOver(gameSession = gameSessionNoIntegrity)
+        dependency.get().useCases.gameSession.updateGameSession(gameSession = gameSessionNoIntegrity)
+        assertTrue(actual = dependency.get().useCases.gameSession.isGameOver(gameSession = gameSessionNoIntegrity))
+        val gameOverNoIntegrity = dependency.get().useCases.gameSession.getGameOver(gameSession = gameSessionNoIntegrity)
         val gameOverNoIntegrityList = listOf(
             GameOver.INTEGRITY_ZERO,
             GameOver.INTEGRITY_ZERO_YEARS_FEW,
@@ -111,13 +111,13 @@ internal class GameSessionUseCasesTest: TestCase() {
         )
         assertTrue(actual = gameOverNoIntegrityList.any { it == gameOverNoIntegrity })
 
-        getUseCases().gameSession.updateGameSession(gameSession = gameSession)
-        assertFalse(actual = getUseCases().gameSession.isGameOver(gameSession = gameSession))
+        dependency.get().useCases.gameSession.updateGameSession(gameSession = gameSession)
+        assertFalse(actual = dependency.get().useCases.gameSession.isGameOver(gameSession = gameSession))
 
         val gameSessionNoFuel = gameSession.copy(ship = gameSession.ship.copy(fuel = 0))
-        getUseCases().gameSession.updateGameSession(gameSession = gameSessionNoFuel)
-        assertTrue(actual = getUseCases().gameSession.isGameOver(gameSession = gameSessionNoFuel))
-        val gameOverNoFuel = getUseCases().gameSession.getGameOver(gameSession = gameSessionNoFuel)
+        dependency.get().useCases.gameSession.updateGameSession(gameSession = gameSessionNoFuel)
+        assertTrue(actual = dependency.get().useCases.gameSession.isGameOver(gameSession = gameSessionNoFuel))
+        val gameOverNoFuel = dependency.get().useCases.gameSession.getGameOver(gameSession = gameSessionNoFuel)
         val gameOverNoFuelList = listOf(
             GameOver.FUEL_ZERO,
             GameOver.FUEL_ZERO_YEARS_FEW,
@@ -138,16 +138,16 @@ internal class GameSessionUseCasesTest: TestCase() {
         )
         assertTrue(actual = gameOverNoFuelList.any { it == gameOverNoFuel })
 
-        getUseCases().gameSession.updateGameSession(gameSession = gameSession)
-        assertFalse(actual = getUseCases().gameSession.isGameOver(gameSession = gameSession))
+        dependency.get().useCases.gameSession.updateGameSession(gameSession = gameSession)
+        assertFalse(actual = dependency.get().useCases.gameSession.isGameOver(gameSession = gameSession))
 
         val gameSessionSettled = gameSession.copy(
             settledPlanetId = FakeData.planets.get().random().id,
             finalHabitability = Random.nextDouble(until = 100.0)
         )
-        getUseCases().gameSession.updateGameSession(gameSession = gameSessionSettled)
-        assertTrue(actual = getUseCases().gameSession.isGameOver(gameSession = gameSessionSettled))
-        val gameOverSettled = getUseCases().gameSession.getGameOver(gameSession = gameSessionSettled)
+        dependency.get().useCases.gameSession.updateGameSession(gameSession = gameSessionSettled)
+        assertTrue(actual = dependency.get().useCases.gameSession.isGameOver(gameSession = gameSessionSettled))
+        val gameOverSettled = dependency.get().useCases.gameSession.getGameOver(gameSession = gameSessionSettled)
         val gameOverSettledList = GameOver.entries - (gameOverNoIntegrityList + gameOverNoFuelList)
         assertTrue(actual = gameOverSettledList.any { it == gameOverSettled })
     }

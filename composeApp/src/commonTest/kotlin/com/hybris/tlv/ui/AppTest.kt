@@ -46,8 +46,8 @@ internal class AppTest: TestCase() {
             )
         }
         lateinit var navController: NavHostController
-        val config = getConfig()
-        val useCases = getUseCases()
+        val config = dependency.get().config
+        val useCases = dependency.get().useCases
         val audioPlayer = dependency.get().audioPlayer
         setUI {
             navController = rememberNavController()
@@ -80,8 +80,8 @@ internal class AppTest: TestCase() {
             )
         }
         lateinit var navController: NavHostController
-        val config = getConfig()
-        val useCases = getUseCases()
+        val config = dependency.get().config
+        val useCases = dependency.get().useCases
         val audioPlayer = dependency.get().audioPlayer
         setUI {
             navController = rememberNavController()

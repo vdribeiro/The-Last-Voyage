@@ -15,8 +15,8 @@ internal class StellarExplorerStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        getUseCases().space.syncStellarHosts()
-        getUseCases().space.syncPlanets()
+        dependency.get().useCases.space.syncStellarHosts()
+        dependency.get().useCases.space.syncPlanets()
         val store = getStoreFactory().getStellarExplorerStore()
         assertEquals(expected = Formula(id = store.formula.id), actual = store.formula)
         assertTrue(actual = store.stellarHostsFlow.value.isNotEmpty())
@@ -93,8 +93,8 @@ internal class StellarExplorerStoreTest: TestCase() {
 
     @Test
     fun search() = runUnitTest {
-        getUseCases().space.syncStellarHosts()
-        getUseCases().space.syncPlanets()
+        dependency.get().useCases.space.syncStellarHosts()
+        dependency.get().useCases.space.syncPlanets()
         val store = getStoreFactory().getStellarExplorerStore()
 
         store.send(action = StellarExplorerAction.Search(search = FakeData.stellarHosts.get().first().name))
@@ -107,8 +107,8 @@ internal class StellarExplorerStoreTest: TestCase() {
 
     @Test
     fun sort() = runUnitTest {
-        getUseCases().space.syncStellarHosts()
-        getUseCases().space.syncPlanets()
+        dependency.get().useCases.space.syncStellarHosts()
+        dependency.get().useCases.space.syncPlanets()
         val store = getStoreFactory().getStellarExplorerStore()
 
         store.send(action = StellarExplorerAction.SortStellarHosts(sort = StellarHostProperty.NAME))
@@ -124,8 +124,8 @@ internal class StellarExplorerStoreTest: TestCase() {
 
     @Test
     fun changeVisibility() = runUnitTest {
-        getUseCases().space.syncStellarHosts()
-        getUseCases().space.syncPlanets()
+        dependency.get().useCases.space.syncStellarHosts()
+        dependency.get().useCases.space.syncPlanets()
         val store = getStoreFactory().getStellarExplorerStore()
 
         store.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = StellarHostProperty.NAME))
@@ -172,8 +172,8 @@ internal class StellarExplorerStoreTest: TestCase() {
 
     @Test
     fun changeSearchable() = runUnitTest {
-        getUseCases().space.syncStellarHosts()
-        getUseCases().space.syncPlanets()
+        dependency.get().useCases.space.syncStellarHosts()
+        dependency.get().useCases.space.syncPlanets()
         val store = getStoreFactory().getStellarExplorerStore()
 
         assertEquals(expected = setOf(StellarHostProperty.NAME), actual = store.state.searchableStellarHostProperties)

@@ -10,7 +10,7 @@ internal class CatastropheStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        getUseCases().catastrophe.syncCatastrophes()
+        dependency.get().useCases.catastrophe.syncCatastrophes()
         val store = getStoreFactory().getCatastropheStore()
         assertFalse(actual = store.state.loading)
         assertNotNull(actual = store.state.selectedCatastrophe)
@@ -25,7 +25,7 @@ internal class CatastropheStoreTest: TestCase() {
 
     @Test
     fun next() = runUnitTest {
-        getUseCases().catastrophe.syncCatastrophes()
+        dependency.get().useCases.catastrophe.syncCatastrophes()
         val store = getStoreFactory().getCatastropheStore()
         assertNavigation(list = emptyList())
         store.send(action = CatastropheAction.Next)
@@ -37,7 +37,7 @@ internal class CatastropheStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Catastrophe)
         assertNavigation(list = listOf(Screen.Catastrophe))
-        getUseCases().catastrophe.syncCatastrophes()
+        dependency.get().useCases.catastrophe.syncCatastrophes()
         getStoreFactory().getCatastropheStore().back()
         assertNavigation(list = listOf(Screen.Catastrophe))
     }

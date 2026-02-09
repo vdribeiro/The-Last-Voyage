@@ -10,13 +10,13 @@ internal class CreditUseCasesTest: TestCase() {
 
     @Test
     fun prepopulateAndSyncCredits() = runUnitTest {
-        assertTrue(actual = getUseCases().credit.getCredits().isEmpty())
-        getUseCases().credit.prepopulateCredits()
-        assertEquals(expected = FakeData.credits.get().sortedBy { it.id }, actual = getUseCases().credit.getCredits().sortedBy { it.id })
+        assertTrue(actual = dependency.get().useCases.credit.getCredits().isEmpty())
+        dependency.get().useCases.credit.prepopulateCredits()
+        assertEquals(expected = FakeData.credits.get().sortedBy { it.id }, actual = dependency.get().useCases.credit.getCredits().sortedBy { it.id })
 
         reset()
-        assertTrue(actual = getUseCases().credit.getCredits().isEmpty())
-        getUseCases().credit.syncCredits()
-        assertEquals(expected = FakeData.credits.get().sortedBy { it.id }, actual = getUseCases().credit.getCredits().sortedBy { it.id })
+        assertTrue(actual = dependency.get().useCases.credit.getCredits().isEmpty())
+        dependency.get().useCases.credit.syncCredits()
+        assertEquals(expected = FakeData.credits.get().sortedBy { it.id }, actual = dependency.get().useCases.credit.getCredits().sortedBy { it.id })
     }
 }

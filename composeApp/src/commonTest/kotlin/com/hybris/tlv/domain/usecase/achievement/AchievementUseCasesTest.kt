@@ -11,25 +11,25 @@ internal class AchievementUseCasesTest: TestCase() {
 
     @Test
     fun prepopulateAndSyncAchievements() = runUnitTest {
-        assertTrue(actual = getUseCases().achievement.getAchievements().isEmpty())
-        getUseCases().achievement.prepopulateAchievements()
-        assertEquals(expected = FakeData.achievements.get().sortedBy { it.id }, actual = getUseCases().achievement.getAchievements().sortedBy { it.id })
+        assertTrue(actual = dependency.get().useCases.achievement.getAchievements().isEmpty())
+        dependency.get().useCases.achievement.prepopulateAchievements()
+        assertEquals(expected = FakeData.achievements.get().sortedBy { it.id }, actual = dependency.get().useCases.achievement.getAchievements().sortedBy { it.id })
 
         reset()
-        assertTrue(actual = getUseCases().achievement.getAchievements().isEmpty())
-        getUseCases().achievement.syncAchievements()
-        assertEquals(expected = FakeData.achievements.get().sortedBy { it.id }, actual = getUseCases().achievement.getAchievements().sortedBy { it.id })
+        assertTrue(actual = dependency.get().useCases.achievement.getAchievements().isEmpty())
+        dependency.get().useCases.achievement.syncAchievements()
+        assertEquals(expected = FakeData.achievements.get().sortedBy { it.id }, actual = dependency.get().useCases.achievement.getAchievements().sortedBy { it.id })
     }
 
     @Test
     fun updateAchievements() = runUnitTest {
-        getUseCases().achievement.prepopulateAchievements()
-        val gameSession = getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.achievement.prepopulateAchievements()
+        val gameSession = dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val newGameSession = gameSession.copy(
             currentStellarHostId = SUN,
             settledPlanetId = "3earth",
             finalHabitability = 0.9
         )
-        assertTrue(actual = getUseCases().achievement.updateAchievements(gameSession = newGameSession).isNotEmpty())
+        assertTrue(actual = dependency.get().useCases.achievement.updateAchievements(gameSession = newGameSession).isNotEmpty())
     }
 }

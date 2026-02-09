@@ -44,7 +44,7 @@ internal class CreditScreenTest: TestCase() {
             }
         }
 
-        getUseCases().credit.prepopulateCredits()
+        dependency.get().useCases.credit.prepopulateCredits()
         val store = getStoreFactory().getCreditStore()
         setUI(LocalUriHandler provides mockUriHandler) { CreditScreen(store = store) }
 

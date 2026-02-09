@@ -28,7 +28,7 @@ internal class AchievementScreenTest: TestCase() {
 
     @Test
     fun achievementWithData() = runUITest {
-        getUseCases().achievement.prepopulateAchievements()
+        dependency.get().useCases.achievement.prepopulateAchievements()
         val store = getStoreFactory().getAchievementStore()
         setUI { AchievementScreen(store = store) }
 

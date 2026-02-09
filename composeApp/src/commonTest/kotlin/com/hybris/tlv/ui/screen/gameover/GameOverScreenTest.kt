@@ -32,8 +32,8 @@ internal class GameOverScreenTest: TestCase() {
 
     @Test
     fun gameOverWithData() = runUITest {
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getGameOverStore()
         setUI { GameOverScreen(store = store) }
 

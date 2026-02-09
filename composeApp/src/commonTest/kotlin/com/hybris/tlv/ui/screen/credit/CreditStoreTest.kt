@@ -12,7 +12,7 @@ internal class CreditStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        getUseCases().credit.prepopulateCredits()
+        dependency.get().useCases.credit.prepopulateCredits()
         val store = getStoreFactory().getCreditStore()
         assertFalse(actual = store.state.loading)
         assertEquals(expected = FakeData.credits.get(), actual = store.state.credits)

@@ -13,10 +13,10 @@ internal class GameStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        getUseCases().space.prepopulateStellarHosts()
-        getUseCases().space.prepopulatePlanets()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.space.prepopulateStellarHosts()
+        dependency.get().useCases.space.prepopulatePlanets()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getGameStore(ship = null)
         assertNotNull(actual = store.gameSession)
         assertFalse(actual = store.state.loading)
@@ -36,19 +36,19 @@ internal class GameStoreTest: TestCase() {
     @Test
     fun initWithoutStellarHost() = runUnitTest {
         assertNavigation(list = emptyList())
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         getStoreFactory().getGameStore(ship = null)
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
     fun shipIsRepaired() = runUnitTest {
-        getUseCases().space.prepopulateStellarHosts()
-        getUseCases().space.prepopulatePlanets()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        val gameSession = getUseCases().gameSession.getLatestGameSession()!!
-        getUseCases().gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(integrity = 0)))
+        dependency.get().useCases.space.prepopulateStellarHosts()
+        dependency.get().useCases.space.prepopulatePlanets()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        val gameSession = dependency.get().useCases.gameSession.getLatestGameSession()!!
+        dependency.get().useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(integrity = 0)))
         val store = getStoreFactory().getGameStore(ship = null)
         assertEquals(expected = 1, actual = store.state.ship?.integrity)
         assertEquals(expected = 89, actual = store.state.ship?.materials)
@@ -56,12 +56,12 @@ internal class GameStoreTest: TestCase() {
 
     @Test
     fun gameOverByIntegrity() = runUnitTest {
-        getUseCases().space.prepopulateStellarHosts()
-        getUseCases().space.prepopulatePlanets()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        val gameSession = getUseCases().gameSession.getLatestGameSession()!!
-        getUseCases().gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(integrity = 0, materials = 0)))
+        dependency.get().useCases.space.prepopulateStellarHosts()
+        dependency.get().useCases.space.prepopulatePlanets()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        val gameSession = dependency.get().useCases.gameSession.getLatestGameSession()!!
+        dependency.get().useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(integrity = 0, materials = 0)))
         assertNavigation(list = emptyList())
         getStoreFactory().getGameStore(ship = null)
         assertNavigation(list = listOf(Screen.GameOver))
@@ -70,12 +70,12 @@ internal class GameStoreTest: TestCase() {
 
     @Test
     fun gameOverByFuel() = runUnitTest {
-        getUseCases().space.prepopulateStellarHosts()
-        getUseCases().space.prepopulatePlanets()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        val gameSession = getUseCases().gameSession.getLatestGameSession()!!
-        getUseCases().gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(fuel = 0)))
+        dependency.get().useCases.space.prepopulateStellarHosts()
+        dependency.get().useCases.space.prepopulatePlanets()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        val gameSession = dependency.get().useCases.gameSession.getLatestGameSession()!!
+        dependency.get().useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(fuel = 0)))
         assertNavigation(list = emptyList())
         getStoreFactory().getGameStore(ship = null)
         assertNavigation(list = listOf(Screen.GameOver))
@@ -83,10 +83,10 @@ internal class GameStoreTest: TestCase() {
 
     @Test
     fun changeTab() = runUnitTest {
-        getUseCases().space.prepopulateStellarHosts()
-        getUseCases().space.prepopulatePlanets()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.space.prepopulateStellarHosts()
+        dependency.get().useCases.space.prepopulatePlanets()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getGameStore(ship = null)
 
         store.send(action = GameAction.ChangeTab(Content.SYSTEM))
@@ -101,10 +101,10 @@ internal class GameStoreTest: TestCase() {
 
     @Test
     fun travel() = runUnitTest {
-        getUseCases().space.prepopulateStellarHosts()
-        getUseCases().space.prepopulatePlanets()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.space.prepopulateStellarHosts()
+        dependency.get().useCases.space.prepopulatePlanets()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getGameStore(ship = null)
 
         assertNavigation(list = emptyList())
@@ -123,7 +123,7 @@ internal class GameStoreTest: TestCase() {
     @Test
     fun travelWithoutStellarHost() = runUnitTest {
         assertNavigation(list = emptyList())
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getGameStore(ship = null)
         store.send(action = GameAction.Travel(stellarHost = FakeData.stellarHosts.get().first { it.id == "proxima_cen" }))
         assertNavigation(list = listOf(Screen.Feedback()))
@@ -131,10 +131,10 @@ internal class GameStoreTest: TestCase() {
 
     @Test
     fun settle() = runUnitTest {
-        getUseCases().space.prepopulateStellarHosts()
-        getUseCases().space.prepopulatePlanets()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.space.prepopulateStellarHosts()
+        dependency.get().useCases.space.prepopulatePlanets()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getGameStore(ship = null)
 
         assertNavigation(list = emptyList())
@@ -155,10 +155,10 @@ internal class GameStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Game())
         assertNavigation(list = listOf(Screen.Game()))
-        getUseCases().space.prepopulateStellarHosts()
-        getUseCases().space.prepopulatePlanets()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.space.prepopulateStellarHosts()
+        dependency.get().useCases.space.prepopulatePlanets()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         getStoreFactory().getGameStore(ship = null).back()
         assertNavigation(list = listOf(Screen.Game(), Screen.MainMenu))
     }

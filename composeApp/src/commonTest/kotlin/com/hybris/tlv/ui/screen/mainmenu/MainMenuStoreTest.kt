@@ -12,12 +12,12 @@ internal class MainMenuStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getMainMenuStore()
         assertFalse(actual = store.state.loading)
         assertFalse(actual = store.state.newVersionBanner)
-        assertEquals(expected = getConfig().localConfigs.developerCorner, actual = store.state.developerCorner)
+        assertEquals(expected = dependency.get().config.localConfigs.developerCorner, actual = store.state.developerCorner)
         assertTrue(actual = store.state.ongoingGameSession)
     }
 

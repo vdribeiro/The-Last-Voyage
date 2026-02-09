@@ -28,7 +28,7 @@ internal class SyncUseCasesTest: TestCase() {
                 events = DataSource.LOCAL,
                 achievements = DataSource.LOCAL,
                 credits = DataSource.LOCAL
-            ), actual = getUseCases().sync.sync(reset = true)
+            ), actual = dependency.get().useCases.sync.sync(reset = true)
         )
         assertNotEmpty()
 
@@ -46,28 +46,28 @@ internal class SyncUseCasesTest: TestCase() {
                 events = DataSource.REMOTE,
                 achievements = DataSource.REMOTE,
                 credits = DataSource.REMOTE
-            ), actual = getUseCases().sync.sync(reset = true)
+            ), actual = dependency.get().useCases.sync.sync(reset = true)
         )
         assertNotEmpty()
     }
 
     private suspend fun assertEmpty() {
-        assertTrue(actual = getUseCases().translation.getTranslations().isEmpty())
-        assertNull(actual = getUseCases().catastrophe.getRandomCatastrophe())
-        assertTrue(actual = getUseCases().ship.getEngines().isEmpty())
-        assertTrue(actual = getUseCases().space.observeExoplanets().first().isEmpty())
-        assertTrue(actual = getUseCases().event.getRandomEvent(ids = emptySet()).isEmpty())
-        assertTrue(actual = getUseCases().achievement.getAchievements().isEmpty())
-        assertTrue(actual = getUseCases().credit.getCredits().isEmpty())
+        assertTrue(actual = dependency.get().useCases.translation.getTranslations().isEmpty())
+        assertNull(actual = dependency.get().useCases.catastrophe.getRandomCatastrophe())
+        assertTrue(actual = dependency.get().useCases.ship.getEngines().isEmpty())
+        assertTrue(actual = dependency.get().useCases.space.observeExoplanets().first().isEmpty())
+        assertTrue(actual = dependency.get().useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
+        assertTrue(actual = dependency.get().useCases.achievement.getAchievements().isEmpty())
+        assertTrue(actual = dependency.get().useCases.credit.getCredits().isEmpty())
     }
 
     private suspend fun assertNotEmpty() {
-        assertFalse(actual = getUseCases().translation.getTranslations().isEmpty())
-        assertNotNull(actual = getUseCases().catastrophe.getRandomCatastrophe())
-        assertFalse(actual = getUseCases().ship.getEngines().isEmpty())
-        assertFalse(actual = getUseCases().space.observeExoplanets().first().isEmpty())
-        assertFalse(actual = getUseCases().event.getRandomEvent(ids = emptySet()).isEmpty())
-        assertFalse(actual = getUseCases().achievement.getAchievements().isEmpty())
-        assertFalse(actual = getUseCases().credit.getCredits().isEmpty())
+        assertFalse(actual = dependency.get().useCases.translation.getTranslations().isEmpty())
+        assertNotNull(actual = dependency.get().useCases.catastrophe.getRandomCatastrophe())
+        assertFalse(actual = dependency.get().useCases.ship.getEngines().isEmpty())
+        assertFalse(actual = dependency.get().useCases.space.observeExoplanets().first().isEmpty())
+        assertFalse(actual = dependency.get().useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
+        assertFalse(actual = dependency.get().useCases.achievement.getAchievements().isEmpty())
+        assertFalse(actual = dependency.get().useCases.credit.getCredits().isEmpty())
     }
 }

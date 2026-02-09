@@ -13,7 +13,7 @@ internal class NewGameStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        getUseCases().ship.syncEngines()
+        dependency.get().useCases.ship.syncEngines()
         val store = getStoreFactory().getNewGameStore()
         assertNull(actual = store.selectedShip)
         assertNull(actual = store.selectedFormula)
@@ -25,15 +25,15 @@ internal class NewGameStoreTest: TestCase() {
     @Test
     fun initWithoutEngines() = runUnitTest {
         assertNavigation(list = emptyList())
-        getUseCases().catastrophe.syncCatastrophes()
+        dependency.get().useCases.catastrophe.syncCatastrophes()
         getStoreFactory().getNewGameStore()
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
     fun selectShip() = runUnitTest {
-        getUseCases().catastrophe.syncCatastrophes()
-        getUseCases().ship.syncEngines()
+        dependency.get().useCases.catastrophe.syncCatastrophes()
+        dependency.get().useCases.ship.syncEngines()
         val store = getStoreFactory().getNewGameStore()
         assertNull(actual = store.selectedShip)
         store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
@@ -45,7 +45,7 @@ internal class NewGameStoreTest: TestCase() {
 
     @Test
     fun startGame() = runUnitTest {
-        getUseCases().ship.syncEngines()
+        dependency.get().useCases.ship.syncEngines()
         val store = getStoreFactory().getNewGameStore()
         assertNavigation(list = emptyList())
         store.send(action = NewGameAction.SelectEngine(engine = FakeData.engines.get().random()))
@@ -67,8 +67,8 @@ internal class NewGameStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.NewGame)
         assertNavigation(list = listOf(Screen.NewGame))
-        getUseCases().catastrophe.syncCatastrophes()
-        getUseCases().ship.syncEngines()
+        dependency.get().useCases.catastrophe.syncCatastrophes()
+        dependency.get().useCases.ship.syncEngines()
         getStoreFactory().getNewGameStore().back()
         assertNavigation(list = listOf(Screen.NewGame, Screen.MainMenu))
     }

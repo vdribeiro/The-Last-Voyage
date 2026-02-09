@@ -13,9 +13,9 @@ internal class EventStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        getUseCases().event.prepopulateEvents()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.event.prepopulateEvents()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getEventStore(ship = null)
         assertNotNull(actual = store.gameSession)
         assertTrue(actual = store.eventChain.isNotEmpty())
@@ -34,9 +34,9 @@ internal class EventStoreTest: TestCase() {
 
     @Test
     fun select() = runUnitTest {
-        getUseCases().event.prepopulateEvents()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.event.prepopulateEvents()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getEventStore(ship = null)
         val event = FakeData.events.get().random()
         store.send(action = EventAction.Select(event = event))
@@ -45,9 +45,9 @@ internal class EventStoreTest: TestCase() {
 
     @Test
     fun selectStopEvent() = runUnitTest {
-        getUseCases().event.prepopulateEvents()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.event.prepopulateEvents()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getEventStore(ship = null)
         store.send(action = EventAction.Select(event = stopEvent))
         assertNavigation(list = listOf(Screen.Game()))
@@ -66,9 +66,9 @@ internal class EventStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Event())
         assertNavigation(list = listOf(Screen.Event()))
-        getUseCases().event.prepopulateEvents()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.event.prepopulateEvents()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         getStoreFactory().getEventStore(ship = null).back()
         assertNavigation(list = listOf(Screen.Event()))
     }

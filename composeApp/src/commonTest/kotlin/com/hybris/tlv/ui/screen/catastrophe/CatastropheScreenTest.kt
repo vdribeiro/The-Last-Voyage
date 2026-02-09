@@ -27,7 +27,7 @@ internal class CatastropheScreenTest: TestCase() {
 
     @Test
     fun catastropheWithData() = runUITest {
-        getUseCases().catastrophe.syncCatastrophes()
+        dependency.get().useCases.catastrophe.syncCatastrophes()
         val store = getStoreFactory().getCatastropheStore()
         setUI { CatastropheScreen(store = store) }
 

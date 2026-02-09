@@ -34,9 +34,9 @@ internal class EventScreenTest: TestCase() {
 
     @Test
     fun eventWithData() = runUITest {
-        getUseCases().event.prepopulateEvents()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.event.prepopulateEvents()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getEventStore(ship = FakeData.ship.get())
         setUI { EventScreen(store = store) }
 

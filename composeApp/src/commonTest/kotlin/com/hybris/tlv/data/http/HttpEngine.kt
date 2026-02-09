@@ -71,4 +71,4 @@ private suspend fun MockRequestHandleScope.respondArchive(request: HttpRequestDa
     }
 }
 
-internal fun isInternetAvailable(): Boolean = flags.http
+//internal fun isInternetAvailable(): Boolean = flags.http

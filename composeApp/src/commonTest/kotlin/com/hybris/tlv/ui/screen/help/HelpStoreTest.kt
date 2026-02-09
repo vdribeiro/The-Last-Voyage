@@ -15,7 +15,7 @@ internal class HelpStoreTest: TestCase() {
         assertEquals(expected = 0, actual = store.versionClick)
         assertFalse(actual = store.state.loading)
         assertEquals(expected = Content.LEARN_MENU, actual = store.state.currentContent)
-        assertEquals(expected = getConfig().localConfigs.formula, actual = store.state.formula)
+        assertEquals(expected = dependency.get().config.localConfigs.formula, actual = store.state.formula)
         assertFalse(actual = store.state.showSnackbar)
     }
 

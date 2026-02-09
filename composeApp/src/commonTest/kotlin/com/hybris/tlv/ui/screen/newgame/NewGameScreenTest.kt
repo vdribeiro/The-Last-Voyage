@@ -32,7 +32,7 @@ internal class NewGameScreenTest: TestCase() {
 
     @Test
     fun newGameWithData() = runUITest {
-        getUseCases().ship.syncEngines()
+        dependency.get().useCases.ship.syncEngines()
         val store = getStoreFactory().getNewGameStore()
         setUI { NewGameScreen(store = store) }
 

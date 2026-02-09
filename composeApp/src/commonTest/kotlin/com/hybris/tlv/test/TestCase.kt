@@ -71,21 +71,13 @@ internal abstract class TestCase {
             httpEngine = createMockHttpEngine(),
         )
     }
-
-    /**
-     * Access point to config, derived from the test-specific dependency.
-     */
-    protected suspend fun getConfig(): ConfigManager = dependency.get().config
-    /**
-     * Access point to the use cases, derived from the test-specific dependency.
-     */
-    protected suspend fun getUseCases(): UseCases = dependency.get().useCases
+    
     /**
      * Factory used to create Stores using the test-specific dependency.
      */
     protected suspend fun getStoreFactory(): StoreFactory = StoreFactory(
-        config = getConfig(),
-        useCases = getUseCases()
+        config = dependency.get().config,
+        useCases = dependency.get().useCases
     )
 
     /**
@@ -102,7 +94,7 @@ internal abstract class TestCase {
      * Resets all data.
      */
     protected suspend fun reset() {
-        getUseCases().sync.reset()
+        dependency.get().useCases.sync.reset()
         TranslationCache.set(translations = emptyList())
     }
 

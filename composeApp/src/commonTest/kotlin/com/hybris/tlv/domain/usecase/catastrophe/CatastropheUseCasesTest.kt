@@ -9,13 +9,13 @@ internal class CatastropheUseCasesTest: TestCase() {
 
     @Test
     fun prepopulateAndSyncCatastrophes() = runUnitTest {
-        assertNull(actual = getUseCases().catastrophe.getRandomCatastrophe())
-        getUseCases().catastrophe.prepopulateCatastrophes()
-        assertNotNull(actual = getUseCases().catastrophe.getRandomCatastrophe())
+        assertNull(actual = dependency.get().useCases.catastrophe.getRandomCatastrophe())
+        dependency.get().useCases.catastrophe.prepopulateCatastrophes()
+        assertNotNull(actual = dependency.get().useCases.catastrophe.getRandomCatastrophe())
 
         reset()
-        assertNull(actual = getUseCases().catastrophe.getRandomCatastrophe())
-        getUseCases().catastrophe.syncCatastrophes()
-        assertNotNull(actual = getUseCases().catastrophe.getRandomCatastrophe())
+        assertNull(actual = dependency.get().useCases.catastrophe.getRandomCatastrophe())
+        dependency.get().useCases.catastrophe.syncCatastrophes()
+        assertNotNull(actual = dependency.get().useCases.catastrophe.getRandomCatastrophe())
     }
 }

@@ -32,8 +32,8 @@ internal class StellarExplorerScreenTest: TestCase() {
 
     @Test
     fun stellarExplorerWithData() = runUITest {
-        getUseCases().space.syncStellarHosts()
-        getUseCases().space.syncPlanets()
+        dependency.get().useCases.space.syncStellarHosts()
+        dependency.get().useCases.space.syncPlanets()
         val store = getStoreFactory().getStellarExplorerStore()
         setUI { StellarExplorerScreen(store = store) }
 

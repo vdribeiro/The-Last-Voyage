@@ -13,13 +13,13 @@ internal class ScoreStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        var latestGameSession = getUseCases().gameSession.getLatestGameSession()!!
-        getUseCases().gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        var latestGameSession = dependency.get().useCases.gameSession.getLatestGameSession()!!
+        dependency.get().useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
         val store = getStoreFactory().getScoreStore()
         assertFalse(actual = store.state.loading)
-        latestGameSession = getUseCases().gameSession.getLatestGameSession()!!
+        latestGameSession = dependency.get().useCases.gameSession.getLatestGameSession()!!
         assertEquals(
             expected = listOf(latestGameSession.copy(utc = getLocalDateTime(utc = latestGameSession.utc))),
             actual = store.state.gameSessions

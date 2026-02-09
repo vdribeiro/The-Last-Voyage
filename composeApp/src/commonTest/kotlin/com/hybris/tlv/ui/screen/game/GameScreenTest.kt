@@ -40,10 +40,10 @@ internal class GameScreenTest: TestCase() {
 
     @Test
     fun gameWithData() = runUITest {
-        getUseCases().space.prepopulateStellarHosts()
-        getUseCases().space.prepopulatePlanets()
-        getUseCases().ship.prepopulateEngines()
-        getUseCases().gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
+        dependency.get().useCases.space.prepopulateStellarHosts()
+        dependency.get().useCases.space.prepopulatePlanets()
+        dependency.get().useCases.ship.prepopulateEngines()
+        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = getStoreFactory().getGameStore(ship = null)
         setUI { GameScreen(store = store) }
 
