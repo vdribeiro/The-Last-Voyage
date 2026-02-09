@@ -68,5 +68,3 @@ private suspend fun MockRequestHandleScope.respondArchive(request: HttpRequestDa
         else -> respondError(status = HttpStatusCode.BadRequest, content = "Resource query incorrect: ${request.url.encodedPath}")
     }
 }
-
-internal fun isInternetAvailable(): Boolean = flags.http
