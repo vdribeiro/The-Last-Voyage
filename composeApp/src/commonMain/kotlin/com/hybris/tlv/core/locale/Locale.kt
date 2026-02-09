@@ -1,9 +1,6 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.core.locale
 
 import kotlinx.coroutines.flow.Flow
-import com.hybris.tlv.test.ShadowedInTesting
 
 /**
  * Get the ISO 639-1 language.

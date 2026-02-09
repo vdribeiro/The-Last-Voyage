@@ -1,5 +1,3 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.core.locale
 
 import kotlin.time.ExperimentalTime
@@ -20,7 +18,6 @@ import platform.Foundation.NSTimeZone
 import platform.Foundation.preferredLanguages
 import platform.Foundation.timeZoneForSecondsFromGMT
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.test.ShadowedInTesting
 import com.hybris.tlv.ui.lifecycle.observe
 
 internal actual fun getLanguage(): String = runCatching {

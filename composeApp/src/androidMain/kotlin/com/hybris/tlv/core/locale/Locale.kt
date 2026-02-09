@@ -1,5 +1,3 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.core.locale
 
 import java.time.format.DateTimeFormatter
@@ -19,7 +17,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import com.hybris.tlv.applicationContext
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual fun getLanguage(): String = runCatching {
     applicationContext.resources.configuration.locales[0].toLanguageTag()

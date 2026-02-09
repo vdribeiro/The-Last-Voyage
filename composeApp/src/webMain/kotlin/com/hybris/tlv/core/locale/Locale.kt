@@ -1,4 +1,3 @@
-@file:ShadowedInTesting
 @file:OptIn(ExperimentalWasmJsInterop::class)
 
 package com.hybris.tlv.core.locale
@@ -9,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.test.ShadowedInTesting
 import org.w3c.dom.events.Event
 
 internal actual fun getLanguage(): String = runCatching {
