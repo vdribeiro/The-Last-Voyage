@@ -1,5 +1,3 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.ui.lifecycle
 
 import platform.Foundation.NSNotificationCenter
@@ -9,7 +7,6 @@ import platform.UIKit.UIApplicationWillResignActiveNotification
 import platform.darwin.NSObjectProtocol
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import com.hybris.tlv.test.ShadowedInTesting
 
 @Composable
 internal actual fun Register(

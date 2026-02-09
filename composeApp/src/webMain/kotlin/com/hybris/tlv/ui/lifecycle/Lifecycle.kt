@@ -1,4 +1,3 @@
-@file:ShadowedInTesting
 @file:OptIn(ExperimentalWasmJsInterop::class)
 
 package com.hybris.tlv.ui.lifecycle
@@ -7,7 +6,6 @@ import kotlinx.browser.document
 import kotlinx.browser.window
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import com.hybris.tlv.test.ShadowedInTesting
 import org.w3c.dom.events.Event
 
 @Composable

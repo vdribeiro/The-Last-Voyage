@@ -1,5 +1,3 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.ui.lifecycle
 
 import androidx.compose.runtime.Composable
@@ -7,7 +5,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.hybris.tlv.test.ShadowedInTesting
 
 @Composable
 internal actual fun Register(

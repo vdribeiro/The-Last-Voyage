@@ -1,9 +1,6 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.core.platform
 
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual val isDebug: Boolean by lazy {
     runCatching {
