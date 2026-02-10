@@ -10,7 +10,7 @@ import app.cash.sqldelight.driver.worker.WebWorkerDriver
 import com.hybris.tlv.core.flow.Dispatcher
 import org.w3c.dom.Worker
 
-internal actual suspend fun createSqlDriver(
+internal actual suspend fun createMockSqlDriver(
     name: String,
     schema: SqlSchema<QueryResult.AsyncValue<Unit>>
 ): SqlDriver = withContext(context = Dispatcher.IO) {

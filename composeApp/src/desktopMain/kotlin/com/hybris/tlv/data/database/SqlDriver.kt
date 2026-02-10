@@ -13,13 +13,10 @@ import com.hybris.tlv.data.storage.appDataPath
 
 internal actual suspend fun createSqlDriver(
     name: String,
-    schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
-    inMemory: Boolean
+    schema: SqlSchema<QueryResult.AsyncValue<Unit>>
 ): SqlDriver = withContext(context = Dispatcher.IO) {
     JdbcSqliteDriver(
-        url = if (inMemory) JdbcSqliteDriver.IN_MEMORY else {
-            "jdbc:sqlite:${File(appDataPath, name).absolutePath}"
-        },
+        url = "jdbc:sqlite:${File(appDataPath, name).absolutePath}",
         properties = Properties(),
         schema = schema.synchronous(),
     ).apply {

@@ -11,15 +11,13 @@ import com.hybris.tlv.core.flow.Dispatcher
 
 internal actual suspend fun createSqlDriver(
     name: String,
-    schema: SqlSchema<QueryResult.AsyncValue<Unit>>,
-    inMemory: Boolean
+    schema: SqlSchema<QueryResult.AsyncValue<Unit>>
 ): SqlDriver = withContext(context = Dispatcher.IO) {
     NativeSqliteDriver(
         schema = schema.synchronous(),
         name = name,
         onConfiguration = { config ->
             config.copy(
-                inMemory = inMemory,
                 journalMode = JournalMode.WAL
             )
         }

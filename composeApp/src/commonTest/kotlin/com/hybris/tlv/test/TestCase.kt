@@ -7,7 +7,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.withContext
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
@@ -24,7 +23,7 @@ import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.hybris.tlv.Dependency
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.data.database.createSqlDriver
+import com.hybris.tlv.data.database.createMockSqlDriver
 import com.hybris.tlv.data.http.createMockHttpEngine
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
@@ -65,7 +64,7 @@ internal abstract class TestCase {
      */
     protected val dependency: LazyData<Dependency> = LazyData {
         Dependency(
-            sqlDriver = createSqlDriver(inMemory = true),
+            sqlDriver = createMockSqlDriver(),
             httpEngine = createMockHttpEngine(),
         )
     }
@@ -143,11 +142,10 @@ internal abstract class TestCase {
     /**
      * Render a Composable within the test harness.
      */
-    protected suspend fun ComposeUiTest.setUI(
+    protected fun ComposeUiTest.setUI(
         vararg values: ProvidedValue<*>,
         content: @Composable () -> Unit
     ) {
-        val lifecycleOwner = withContext(context = Dispatcher.Main) { lifecycleOwner }
         setContent {
             CompositionLocalProvider(value = LocalLifecycleOwner provides lifecycleOwner) {
                 App(*values) {

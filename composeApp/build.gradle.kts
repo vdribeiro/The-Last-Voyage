@@ -247,6 +247,12 @@ kotlin {
             }
         }
 
+        getByName("androidUnitTest") {
+            dependencies {
+                implementation(dependencyNotation = libs.bundles.android.test)
+            }
+        }
+
         val appleMain by creating {
             dependsOn(other = commonMain)
             dependencies {
@@ -255,6 +261,13 @@ kotlin {
         }
         iosTargets.forEach { iosTarget ->
             sourceSets.getByName("${iosTarget.name}Main").dependsOn(other = appleMain)
+        }
+
+        val appleTest by creating {
+            dependsOn(other = commonMain)
+        }
+        iosTargets.forEach { iosTarget ->
+            sourceSets.getByName("${iosTarget.name}Test").dependsOn(other = appleTest)
         }
 
         getByName("desktopMain") {
@@ -281,6 +294,11 @@ kotlin {
             }
         }
         sourceSets.getByName("${webTarget.name}Main").dependsOn(other = webMain)
+
+        val webTest by creating {
+            dependsOn(commonMain)
+        }
+        sourceSets.getByName("${webTarget.name}Test").dependsOn(other = webTest)
     }
 
     cocoapods {

@@ -122,7 +122,6 @@ common = [
     "kotlinx-serialization",
     "kotlinx-datetime",
     "ktor",
-    "ktor-mock",
     "ktor-logging",
     "ktor-content",
     "ktor-encoding",
@@ -146,15 +145,18 @@ common = [
 common-test = [
     "kotlin-test",
     "kotlinx-coroutines-test",
+    "ktor-mock",
     "compose-test",
 ]
 android = [
     "ktor-okhttp",
     "sqldelight-android",
-    "sqldelight-jvm",
-    "sqldelight-jdbc",
     "androidx-startup",
     "androidx-exoplayer",
+]
+android-test = [
+    "sqldelight-jvm",
+    "sqldelight-jdbc",
 ]
 ios = [
     "ktor-darwin",
