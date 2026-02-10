@@ -115,9 +115,9 @@ internal class AppTest: TestCase() {
                 fun performGesture(direction: Gesture) {
                     val distance = 200f
                     when (direction) {
-                        Gesture.SWIPE_UP -> swipeUp(startY = 500f, endY = 500f - distance)
+                        Gesture.SWIPE_UP -> swipeUp(startY = 200f, endY = 200f - distance)
                         Gesture.SWIPE_DOWN -> swipeDown(startY = 200f, endY = 200f + distance)
-                        Gesture.SWIPE_LEFT -> swipeLeft(startX = 500f, endX = 500f - distance)
+                        Gesture.SWIPE_LEFT -> swipeLeft(startX = 200f, endX = 200f - distance)
                         Gesture.SWIPE_RIGHT -> swipeRight(startX = 200f, endX = 200f + distance)
                         Gesture.TAP -> click()
                     }

@@ -163,16 +163,17 @@ android-test = [
     "roboelectric",
     "sqldelight-jvm",
     "sqldelight-jdbc",
+    "logging",
 ]
 ios = [
     "ktor-darwin",
     "sqldelight-native",
 ]
 desktop = [
+    "kotlinx-coroutines-swing",
     "ktor-java",
     "sqldelight-jvm",
     "sqldelight-jdbc",
-    "kotlinx-coroutines-swing",
     "logging",
 ]
 web = [

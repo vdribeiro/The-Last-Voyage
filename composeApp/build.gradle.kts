@@ -95,12 +95,10 @@ abstract class GeneratePropertiesTask: DefaultTask() {
                 package $packageDir
                 
                 import kotlin.experimental.xor
-                import com.hybris.tlv.test.ExcludeFromTesting
     
                 /**
                  * Generated build-time values.
                  */
-                @ExcludeFromTesting
                 object $objectName {
                     const val APP_ID: String = "$appId"
                     const val APP_NAME: String = "$appName"
@@ -366,7 +364,6 @@ android {
         targetCompatibility = javaVersion
     }
     testOptions {
-        unitTests.isReturnDefaultValues = true
         unitTests.isIncludeAndroidResources = true
     }
 }

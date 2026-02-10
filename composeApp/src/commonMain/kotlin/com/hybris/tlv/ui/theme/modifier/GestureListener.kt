@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.platform.Platform
 import com.hybris.tlv.core.platform.platform
-import com.hybris.tlv.test.ExcludeFromTesting
 
 /**
  * A [Modifier] that listens for a specific [sequence] of [Gesture]s and triggers the [onSequenceComplete] callback upon completion.
@@ -75,7 +74,6 @@ internal fun Modifier.onGesture(
     }
 }
 
-@ExcludeFromTesting
 private fun Modifier.mobileGestureListener(
     thresholdDp: Dp = 60.dp,
     leniency: Double = 2.0,

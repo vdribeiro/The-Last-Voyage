@@ -13,7 +13,6 @@ import com.hybris.tlv.data.serializer.decode
 import com.hybris.tlv.data.serializer.decodeURL
 import com.hybris.tlv.data.serializer.encode
 import com.hybris.tlv.data.serializer.encodeURL
-import com.hybris.tlv.test.ExcludeFromTesting
 
 /**
  * Navigate to the given [screen].
@@ -56,7 +55,6 @@ private fun NavHostController.printBackStack(): String = runCatching {
 internal inline fun <reified T> typeMapOf(): Map<KType, NavType<T?>> =
     mapOf(pair = typeOf<T?>() to serializableType<T?>())
 
-@ExcludeFromTesting
 private inline fun <reified T> serializableType(): NavType<T> =
     object: NavType<T>(isNullableAllowed = true) {
         override fun put(bundle: SavedState, key: String, value: T) {
