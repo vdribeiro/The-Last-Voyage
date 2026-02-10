@@ -41,7 +41,7 @@ import com.hybris.tlv.ui.screen.StoreFactory
  * and handles the dependencies, coroutine scopes, and navigation simulation.
  */
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalTestApi::class)
-internal abstract class TestCase {
+internal abstract class TestCase: PlatformTestCase() {
 
     /**
      * Feature flags for testing.
