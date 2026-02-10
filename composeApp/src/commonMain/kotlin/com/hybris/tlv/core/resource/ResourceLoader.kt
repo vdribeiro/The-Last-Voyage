@@ -1,11 +1,8 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.core.resource
 
 import kotlinx.coroutines.withContext
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.test.ShadowedInTesting
 import thelastvoyage.composeapp.generated.resources.Res
 
 /**

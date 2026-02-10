@@ -18,7 +18,6 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
     formatDateJs(utc = utc)
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it) }.getOrDefault(defaultValue = utc)
 
-@Suppress("UNUSED_PARAMETER")
 private fun formatDateJs(utc: String): String = js(
     code = """
         new Date(utc).toLocaleString(undefined, {

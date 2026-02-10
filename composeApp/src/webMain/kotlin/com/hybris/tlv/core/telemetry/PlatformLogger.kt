@@ -18,6 +18,6 @@ internal actual object PlatformLogger {
     }
 }
 
-private fun info(@Suppress("unused") message: String): Unit = js(code = "console.info(message)")
+private fun info(message: String): Unit = js(code = "console.info(message)")
 
-private fun error(@Suppress("unused") message: String): Unit = js(code = "console.error(message)")
+private fun error(message: String): Unit = js(code = "console.error(message)")
