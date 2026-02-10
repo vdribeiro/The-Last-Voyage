@@ -17,7 +17,7 @@ import com.hybris.tlv.domain.usecase.space.toExoplanetJson
 import com.hybris.tlv.domain.usecase.space.toStellarHostJson
 import com.hybris.tlv.test.FakeData
 
-internal fun createHttpEngine(): HttpClientEngine = MockEngine { request ->
+internal fun createMockHttpEngine(): HttpClientEngine = MockEngine { request ->
     val path = request.url.toString()
     when (request.method) {
         HttpMethod.Get -> when {

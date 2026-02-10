@@ -25,7 +25,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.hybris.tlv.Dependency
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.data.database.createSqlDriver
-import com.hybris.tlv.data.http.createHttpEngine
+import com.hybris.tlv.data.http.createMockHttpEngine
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
@@ -66,7 +66,7 @@ internal abstract class TestCase {
     protected val dependency: LazyData<Dependency> = LazyData {
         Dependency(
             sqlDriver = createSqlDriver(inMemory = true),
-            httpEngine = createHttpEngine(),
+            httpEngine = createMockHttpEngine(),
         )
     }
 
