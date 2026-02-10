@@ -8,6 +8,7 @@ import com.hybris.tlv.core.audio.createAudioPlayer
 import com.hybris.tlv.data.config.Config
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.DatabaseFactory
+import com.hybris.tlv.data.database.NoOpSqlDriver
 import com.hybris.tlv.data.http.HttpClientFactory
 import com.hybris.tlv.data.http.createHttpEngine
 import com.hybris.tlv.domain.usecase.Gateways
@@ -18,7 +19,7 @@ import database.AppDatabase
  * Dependency index.
  */
 internal class Dependency(
-    val sqlDriver: SqlDriver,
+    val sqlDriver: SqlDriver = NoOpSqlDriver,
     val database: AppDatabase = DatabaseFactory(driver = sqlDriver).database,
     val httpEngine: HttpClientEngine = createHttpEngine(),
     val httpClient: HttpClient = HttpClientFactory(engine = httpEngine).httpClient,
