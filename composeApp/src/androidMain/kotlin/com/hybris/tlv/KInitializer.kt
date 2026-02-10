@@ -5,7 +5,6 @@ import android.content.ContextWrapper
 import androidx.startup.Initializer
 
 internal var applicationContext: Context = ContextWrapper(null)
-    private set
 
 class KInitializer: Initializer<Unit> {
     override fun create(context: Context) {
