@@ -11,7 +11,7 @@ internal annotation class ExcludeFromTesting
  * Indicates that this target must be shadowed in testing, therefore it will also not be included in testing.
  */
 @Retention(value = AnnotationRetention.BINARY)
-@Target(AnnotationTarget.FILE)
+@Target(AnnotationTarget.FILE, AnnotationTarget.CLASS)
 internal annotation class ShadowedInTesting
 
 /**
