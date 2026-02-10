@@ -2,14 +2,12 @@ package com.hybris.tlv.core.telemetry
 
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.platform.Property
-import com.hybris.tlv.test.ShadowedInTesting
 
 /**
  * A centralized object for handling telemetry, including logging and error reporting.
  * It acts as a facade over different logging implementations.
  * In debug builds, it uses a platform-specific logger. In release builds, it uses Sentry for error reporting and feedback, provided that a Sentry DSN is available.
  */
-@ShadowedInTesting
 object Telemetry {
 
     private val useLogger get() = flags.devMode
