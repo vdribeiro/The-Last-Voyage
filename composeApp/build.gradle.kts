@@ -235,7 +235,7 @@ kotlin {
             }
         }
 
-        getByName("commonTest") {
+        val commonTest by getting {
             dependencies {
                 implementation(dependencyNotation = libs.bundles.common.test)
             }
@@ -264,7 +264,7 @@ kotlin {
         }
 
         val appleTest by creating {
-            dependsOn(other = commonMain)
+            dependsOn(other = commonTest)
         }
         iosTargets.forEach { iosTarget ->
             sourceSets.getByName("${iosTarget.name}Test").dependsOn(other = appleTest)
@@ -296,7 +296,7 @@ kotlin {
         sourceSets.getByName("${webTarget.name}Main").dependsOn(other = webMain)
 
         val webTest by creating {
-            dependsOn(commonMain)
+            dependsOn(commonTest)
         }
         sourceSets.getByName("${webTarget.name}Test").dependsOn(other = webTest)
     }
