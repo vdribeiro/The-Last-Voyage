@@ -21,7 +21,6 @@ import androidx.compose.ui.test.swipeUp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.domain.flag.FeatureFlags
-import com.hybris.tlv.platform.Property
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
 import com.hybris.tlv.ui.cheats.enableGestureCheats
@@ -155,7 +154,11 @@ internal class AppTest: TestCase() {
     }
 
     private fun <T> List<T>.toStringList(): List<String> = map {
-        it.toString().substringAfter(delimiter = Property.APP_ID).substringAfter(delimiter = "$").substringBefore(delimiter = "$")
+        it.toString()
+            .substringBefore(delimiter = ".Companion")
+            .substringAfterLast(delimiter = ".")
+            .substringAfter(delimiter = "$")
+            .substringBefore(delimiter = "$")
     }
 
     private fun NavHostController.getScreens(): List<String> {

@@ -53,7 +53,6 @@ internal object TLV {
     init {
         val flags = FeatureFlags.set { flags }
         Telemetry.engine = Logger()
-
         Telemetry.info(tag = TAG, message = "App started")
         Telemetry.info(tag = TAG, message = "Features: $flags")
 
