@@ -1,12 +1,16 @@
 package com.hybris.tlv.test
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
@@ -98,13 +102,31 @@ internal abstract class TestCase: PlatformTestCase() {
     }
 
     /**
+     * Sets the dispatcher for coroutines.
+     */
+    fun setDispatcher(dispatcher: CoroutineDispatcher) {
+        Dispatcher.Main = dispatcher
+        Dispatcher.Default = dispatcher
+        Dispatcher.IO = dispatcher
+        Dispatchers.setMain(dispatcher = dispatcher)
+    }
+
+    /**
+     * Resets the dispatcher for coroutines.
+     */
+    fun resetDispatcher() {
+        setDispatcher(dispatcher = Dispatchers.Unconfined)
+        Dispatchers.resetMain()
+    }
+
+    /**
      * Executes a unit test.
      * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
      */
     protected fun runUnitTest(block: suspend TestScope.() -> Unit) {
         runTest {
             val testDispatcher = UnconfinedTestDispatcher(scheduler = testScheduler)
-            Dispatcher.setTestDispatcher(dispatcher = testDispatcher)
+            setDispatcher(dispatcher = testDispatcher)
             try {
                 FeatureFlags.set { testFlags }
                 reset()
@@ -113,7 +135,7 @@ internal abstract class TestCase: PlatformTestCase() {
                 block()
                 testScheduler.advanceUntilIdle()
             } finally {
-                Dispatcher.reset()
+                resetDispatcher()
             }
         }
     }
@@ -125,7 +147,7 @@ internal abstract class TestCase: PlatformTestCase() {
     protected fun runUITest(mockNavigation: Boolean = true, block: suspend ComposeUiTest.() -> Unit) {
         runComposeUiTest {
             val testDispatcher = UnconfinedTestDispatcher()
-            Dispatcher.setTestDispatcher(dispatcher = testDispatcher)
+            setDispatcher(dispatcher = testDispatcher)
             val scope = if (mockNavigation) CoroutineScope(context = testDispatcher) else null
             try {
                 FeatureFlags.set { testFlags }
@@ -136,7 +158,7 @@ internal abstract class TestCase: PlatformTestCase() {
                 waitForIdle()
             } finally {
                 scope?.cancel()
-                Dispatcher.reset()
+                resetDispatcher()
             }
         }
     }
