@@ -110,7 +110,6 @@ internal abstract class TestCase: PlatformTestCase() {
         Dispatcher.Main = dispatcher
         Dispatcher.Default = dispatcher
         Dispatcher.IO = dispatcher
-        Dispatchers.setMain(dispatcher = dispatcher)
     }
 
     /**
@@ -120,6 +119,7 @@ internal abstract class TestCase: PlatformTestCase() {
         FeatureFlags.set { testFlags }
         Telemetry.engine = MockLogger()
         setDispatcher(dispatcher = dispatcher)
+        Dispatchers.setMain(dispatcher = dispatcher)
         resetData()
         navigation.clear()
     }
