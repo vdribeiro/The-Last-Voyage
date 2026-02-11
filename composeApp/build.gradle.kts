@@ -453,10 +453,9 @@ kover {
         filters {
             excludes {
                 annotatedBy(
-                    "com.hybris.tlv.test.ExcludeFromTesting",
-                    "com.hybris.tlv.test.ShadowedInTesting",
                     "kotlinx.serialization.Serializable",
-                    "com.jetbrains.compose.ui.tooling.preview.Preview"
+                    "com.jetbrains.compose.ui.tooling.preview.Preview",
+                    "com.hybris.tlv.test.ExcludeFromTesting",
                 )
                 packages("*.generated.*")
                 classes("**ComposableSingletons**")

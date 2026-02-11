@@ -1,5 +1,3 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.data.http
 
 import android.content.Context
@@ -7,7 +5,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.hybris.tlv.applicationContext
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual fun isInternetAvailable(): Boolean = runCatching {
     val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

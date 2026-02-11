@@ -1,5 +1,3 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.data.http
 
 import kotlinx.cinterop.CValuesRef
@@ -24,7 +22,6 @@ import platform.posix.sockaddr
 import platform.posix.sockaddr_in
 import platform.posix.sockaddr_in6
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.test.ShadowedInTesting
 
 @OptIn(ExperimentalForeignApi::class)
 internal actual fun isInternetAvailable(): Boolean = runCatching {

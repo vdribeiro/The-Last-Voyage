@@ -1,10 +1,7 @@
-@file:ShadowedInTesting
-
 package com.hybris.tlv.data.http
 
 import java.net.NetworkInterface
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.test.ShadowedInTesting
 
 internal actual fun isInternetAvailable(): Boolean = runCatching {
     NetworkInterface.getNetworkInterfaces().asSequence().any { it.isUp && !it.isLoopback }
