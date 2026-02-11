@@ -8,7 +8,7 @@
     rm -rf Pods
     pod install
 # Run Tests
-    ./gradlew clean koverHtmlReport
+    ./gradlew clean testAllAndReport
 # Git
     create and push tag
 # Compile

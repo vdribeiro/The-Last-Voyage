@@ -511,3 +511,11 @@ tasks.register<Sync>("deployWeb") {
         File(destinationDir, ".nojekyll").createNewFile()
     }
 }
+
+tasks.register("testAllAndReport") {
+    group = "verification"
+    description = "Runs all platform tests and generates a unified Kover coverage report."
+
+    dependsOn("allTests")
+    finalizedBy("koverHtmlReport")
+}
