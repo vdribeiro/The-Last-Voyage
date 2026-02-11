@@ -6,7 +6,7 @@ import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.domain.usecase.achievement.model.Achievement
 import com.hybris.tlv.domain.usecase.gamesession.GameSessionUseCases
-import com.hybris.tlv.test.VisibleOnlyForTesting
+import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
 
@@ -16,9 +16,9 @@ internal class GameOverStore(
 ): Store<GameOverState, GameOverAction>(
     initialState = GameOverState()
 ) {
-    @VisibleOnlyForTesting
+    @VisibleForTesting
     internal var achievements: List<Achievement> = emptyList()
-    @VisibleOnlyForTesting
+    @VisibleForTesting
     internal var index: Int = 0
 
     init {

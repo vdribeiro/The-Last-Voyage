@@ -12,4 +12,4 @@ internal annotation class ExcludeFromTesting
  */
 @Retention(value = AnnotationRetention.BINARY)
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
-internal annotation class VisibleOnlyForTesting
+internal annotation class VisibleForTesting

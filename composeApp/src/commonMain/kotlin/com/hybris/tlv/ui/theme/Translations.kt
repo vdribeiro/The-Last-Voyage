@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.test.VisibleOnlyForTesting
+import com.hybris.tlv.test.VisibleForTesting
 
 internal val LocalTranslationState = staticCompositionLocalOf { TranslationCache.cacheState.value }
 
@@ -33,7 +33,7 @@ internal fun getTranslation(key: String, vararg args: String): String {
 /**
  * Inject translations to be used in [Preview]s.
  */
-@VisibleOnlyForTesting
+@VisibleForTesting
 @Composable
 internal fun InjectTranslations(translations: List<Translation>) {
     TranslationCache.set(translations = translations)

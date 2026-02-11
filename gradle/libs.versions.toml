@@ -27,7 +27,7 @@ android-plugin = "9.0.0"
 android-startup = "1.2.0"
 androidx-exoplayer = "1.9.2"
 android-test-core = "1.7.0"
-android-test-manifest = "1.10.2"
+android-test-manifest = "1.10.3"
 roboelectric = "4.16.1"
 
 # Desktop

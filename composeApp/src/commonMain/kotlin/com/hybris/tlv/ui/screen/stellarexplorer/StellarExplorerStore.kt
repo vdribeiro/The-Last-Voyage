@@ -19,7 +19,7 @@ import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.space.formula.Habitability
 import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
-import com.hybris.tlv.test.VisibleOnlyForTesting
+import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.screen.Store
 
 internal class StellarExplorerStore(
@@ -27,9 +27,9 @@ internal class StellarExplorerStore(
 ): Store<StellarExplorerState, StellarExplorerAction>(
     initialState = StellarExplorerState()
 ) {
-    @VisibleOnlyForTesting
+    @VisibleForTesting
     internal var formula: Formula = Formula()
-    @VisibleOnlyForTesting
+    @VisibleForTesting
     internal var stellarHostsFlow: MutableStateFlow<List<StellarHost>> = MutableStateFlow(value = emptyList())
 
     init {
