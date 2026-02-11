@@ -114,9 +114,20 @@ internal abstract class TestCase: PlatformTestCase() {
     }
 
     /**
-     * Resets the dispatcher for coroutines.
+     * Sets up the test environment.
      */
-    private fun resetDispatcher() {
+    protected suspend fun setup(dispatcher: CoroutineDispatcher) {
+        FeatureFlags.set { testFlags }
+        Telemetry.engine = MockLogger()
+        setDispatcher(dispatcher = dispatcher)
+        resetData()
+        navigation.clear()
+    }
+
+    /**
+     * Resets the test environment.
+     */
+    private fun reset() {
         setDispatcher(dispatcher = Dispatchers.Unconfined)
         Dispatchers.resetMain()
     }
@@ -126,19 +137,15 @@ internal abstract class TestCase: PlatformTestCase() {
      * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
      */
     protected fun runUnitTest(block: suspend TestScope.() -> Unit) {
-        FeatureFlags.set { testFlags }
-        Telemetry.engine = MockLogger()
         runTest {
             val testDispatcher = UnconfinedTestDispatcher(scheduler = testScheduler)
-            setDispatcher(dispatcher = testDispatcher)
+            setup(dispatcher = testDispatcher)
+            backgroundScope.launch(context = testDispatcher) { navigation.receiveCommands() }
             try {
-                resetData()
-                navigation.clear()
-                backgroundScope.launch(context = testDispatcher) { navigation.receiveCommands() }
                 block()
                 testScheduler.advanceUntilIdle()
             } finally {
-                resetDispatcher()
+                reset()
             }
         }
     }
@@ -148,21 +155,17 @@ internal abstract class TestCase: PlatformTestCase() {
      * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
      */
     protected fun runUITest(mockNavigation: Boolean = true, block: suspend ComposeUiTest.() -> Unit) {
-        FeatureFlags.set { testFlags }
-        Telemetry.engine = MockLogger()
         runComposeUiTest {
             val testDispatcher = UnconfinedTestDispatcher()
-            setDispatcher(dispatcher = testDispatcher)
+            setup(dispatcher = testDispatcher)
             val scope = if (mockNavigation) CoroutineScope(context = testDispatcher) else null
+            scope?.launch { navigation.receiveCommands() }
             try {
-                resetData()
-                navigation.clear()
-                scope?.launch { navigation.receiveCommands() }
                 block()
                 waitForIdle()
             } finally {
                 scope?.cancel()
-                resetDispatcher()
+                reset()
             }
         }
     }
