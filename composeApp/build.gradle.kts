@@ -460,7 +460,8 @@ kover {
                 packages("*.generated.*")
                 classes(
                     "**ComposableSingletons**",
-                    "**$**"
+                    "**$**",
+                    "database.Get*"
                 )
             }
         }
