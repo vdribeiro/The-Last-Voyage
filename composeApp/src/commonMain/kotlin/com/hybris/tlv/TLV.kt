@@ -59,6 +59,7 @@ internal object TLV {
 
         scope.launch(context = Dispatcher.IO) {
             val dependency = createDependencyIndex()
+            this@TLV.dependency.update { dependency }
             registerLocaleListener(translationUseCases = dependency.useCases.translation)
         }
     }
@@ -68,7 +69,7 @@ internal object TLV {
      */
     private suspend fun createDependencyIndex(): Dependency {
         Telemetry.info(tag = TAG, message = "Initializing dependencies")
-        return Dependency(sqlDriver = createSqlDriver()).also { dependency.update { it } }
+        return Dependency(sqlDriver = createSqlDriver())
     }
 
     /**
