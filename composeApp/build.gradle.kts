@@ -460,7 +460,6 @@ kover {
                 packages("*.generated.*")
                 classes(
                     "**ComposableSingletons**",
-                    "*PreviewKt*",
                     "**$**"
                 )
             }
