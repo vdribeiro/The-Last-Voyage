@@ -42,6 +42,7 @@ internal class AppTest: TestCase() {
                 reset = false,
                 http = false,
                 archive = false,
+                music = true
             )
         }
         lateinit var navController: NavHostController
@@ -60,6 +61,8 @@ internal class AppTest: TestCase() {
 
         sendCommand(command = Command.ToggleAudio)
         assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
+        waitForIdle()
+
         sendCommand(command = Command.Navigate(screen = Screen.MainMenu))
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu).toStringList(), actual = navController.getScreens())
         sendCommand(command = Command.Navigate(screen = Screen.MainMenu))
@@ -69,8 +72,21 @@ internal class AppTest: TestCase() {
         sendCommand(command = Command.Navigate(screen = Screen.MainMenu))
         sendCommand(command = Command.Navigate(screen = Screen.Game(ship = FakeData.ship.get())))
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu, Screen.Game).toStringList(), actual = navController.getScreens())
+        waitForIdle()
+
+        assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu, Screen.Game, Screen.Feedback).toStringList(), actual = navController.getScreens())
+        sendCommand(command = Command.Back)
+        assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu, Screen.Game).toStringList(), actual = navController.getScreens())
         sendCommand(command = Command.Back)
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu).toStringList(), actual = navController.getScreens())
+        sendCommand(command = Command.Back)
+        assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
+        sendCommand(command = Command.Back)
+        assertEquals(expected = emptyList(), actual = navController.getScreens())
+        waitForIdle()
+
+        sendCommand(command = Command.Navigate(screen = Screen.GameOver))
+        assertEquals(expected = listOf(Screen.GameOver).toStringList(), actual = navController.getScreens())
     }
 
     @Test
