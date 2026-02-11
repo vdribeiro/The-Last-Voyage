@@ -14,7 +14,7 @@ internal class EventUseCasesTest: TestCase() {
         dependency.get().useCases.event.prepopulateEvents()
         assertTrue(actual = dependency.get().useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())
 
-        reset()
+        resetData()
         assertTrue(actual = dependency.get().useCases.event.getRandomEvent(ids = emptySet()).isEmpty())
         dependency.get().useCases.event.syncEvents()
         assertTrue(actual = dependency.get().useCases.event.getRandomEvent(ids = emptySet()).isNotEmpty())

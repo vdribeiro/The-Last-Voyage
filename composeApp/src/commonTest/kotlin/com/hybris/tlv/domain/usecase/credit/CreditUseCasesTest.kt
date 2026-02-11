@@ -14,7 +14,7 @@ internal class CreditUseCasesTest: TestCase() {
         dependency.get().useCases.credit.prepopulateCredits()
         assertEquals(expected = FakeData.credits.get().sortedBy { it.id }, actual = dependency.get().useCases.credit.getCredits().sortedBy { it.id })
 
-        reset()
+        resetData()
         assertTrue(actual = dependency.get().useCases.credit.getCredits().isEmpty())
         dependency.get().useCases.credit.syncCredits()
         assertEquals(expected = FakeData.credits.get().sortedBy { it.id }, actual = dependency.get().useCases.credit.getCredits().sortedBy { it.id })

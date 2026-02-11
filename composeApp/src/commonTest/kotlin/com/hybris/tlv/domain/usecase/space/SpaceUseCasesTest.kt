@@ -16,7 +16,7 @@ internal class SpaceUseCasesTest: TestCase() {
         dependency.get().useCases.space.prepopulatePlanets()
         assertEquals(expected = FakeData.stellarHostsWithPlanets.get().sortedBy { it.id }, actual = dependency.get().useCases.space.observeExoplanets().first().sortedBy { it.id })
 
-        reset()
+        resetData()
         assertTrue(actual = dependency.get().useCases.space.observeExoplanets().first().isEmpty())
         dependency.get().useCases.space.syncStellarHosts()
         dependency.get().useCases.space.syncPlanets()

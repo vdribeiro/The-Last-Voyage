@@ -16,7 +16,7 @@ internal class ShipUseCasesTest: TestCase() {
         dependency.get().useCases.ship.prepopulateEngines()
         assertEquals(expected = FakeData.engines.get().sortedBy { it.id }, actual = dependency.get().useCases.ship.getEngines().sortedBy { it.id })
 
-        reset()
+        resetData()
         assertTrue(actual = dependency.get().useCases.ship.getEngines().isEmpty())
         dependency.get().useCases.ship.syncEngines()
         assertEquals(expected = FakeData.engines.get().sortedBy { it.id }, actual = dependency.get().useCases.ship.getEngines().sortedBy { it.id })

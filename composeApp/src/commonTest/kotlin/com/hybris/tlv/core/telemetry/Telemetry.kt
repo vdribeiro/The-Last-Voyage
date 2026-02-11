@@ -1,18 +1,16 @@
 package com.hybris.tlv.core.telemetry
 
-object Telemetry {
+internal class MockLogger: TelemetryEngine {
 
-    fun init() {}
-
-    fun info(tag: String, message: String) {
+    override fun info(tag: String, message: String) {
         println("INFO: $tag - $message")
     }
 
-    fun error(tag: String, message: String, throwable: Throwable? = null) {
+    override fun error(tag: String, message: String, throwable: Throwable?) {
         println("ERROR: $tag - $message${if (throwable == null) "" else "\n${throwable.message}"}")
     }
 
-    fun feedback(message: String) {
+    override fun feedback(message: String) {
         println("FEEDBACK: $message")
     }
 }

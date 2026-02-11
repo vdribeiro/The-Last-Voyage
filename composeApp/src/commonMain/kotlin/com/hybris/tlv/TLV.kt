@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.observeLocale
 import com.hybris.tlv.core.platform.isDebug
+import com.hybris.tlv.core.telemetry.Logger
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.domain.flag.FeatureFlags
@@ -50,17 +51,17 @@ internal object TLV {
 
     init {
         val flags = FeatureFlags.set { flags }
-        Telemetry.info(tag = TAG, message = "Features: $flags")
+        Telemetry.engine = Logger()
 
-        Telemetry.init()
         Telemetry.info(tag = TAG, message = "App started")
+        Telemetry.info(tag = TAG, message = "Features: $flags")
 
         Telemetry.info(tag = TAG, message = "Initializing dependencies")
         scope.launch(context = Dispatcher.IO) {
             val dependency = Dependency(sqlDriver = createSqlDriver())
             this@TLV.dependency.update { dependency }
 
-            Telemetry.info(tag = TAG, message = "Registering listeners")
+            Telemetry.info(tag = TAG, message = "Registering locale listener")
             observeLocale().collectLatest { languageIso ->
                 val translationUseCases = dependency.useCases.translation
                 TranslationCache.set(translations = translationUseCases.getTranslations(languageIso = languageIso))

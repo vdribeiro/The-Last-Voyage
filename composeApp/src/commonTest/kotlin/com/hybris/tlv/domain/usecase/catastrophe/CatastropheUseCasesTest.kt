@@ -13,7 +13,7 @@ internal class CatastropheUseCasesTest: TestCase() {
         dependency.get().useCases.catastrophe.prepopulateCatastrophes()
         assertNotNull(actual = dependency.get().useCases.catastrophe.getRandomCatastrophe())
 
-        reset()
+        resetData()
         assertNull(actual = dependency.get().useCases.catastrophe.getRandomCatastrophe())
         dependency.get().useCases.catastrophe.syncCatastrophes()
         assertNotNull(actual = dependency.get().useCases.catastrophe.getRandomCatastrophe())

@@ -1,0 +1,28 @@
+package com.hybris.tlv.core.telemetry
+
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
+import com.hybris.tlv.platform.Property
+
+internal class Logger: TelemetryEngine {
+
+    private val useLogger get() = flags.devMode
+    private val useSentry get() = !flags.devMode && Property.sentry.isNotBlank()
+
+    init {
+        if (useSentry) SentryLogger.init()
+    }
+
+    override fun info(tag: String, message: String) {
+        if (useLogger) PlatformLogger.info(tag = tag, message = message)
+        if (useSentry) SentryLogger.info(tag = tag, message = message)
+    }
+
+    override fun error(tag: String, message: String, throwable: Throwable?) {
+        if (useLogger) PlatformLogger.error(tag = tag, message = message, throwable = throwable)
+        if (useSentry) SentryLogger.error(tag = tag, message = message, throwable = throwable)
+    }
+
+    override fun feedback(message: String) {
+        if (useSentry) SentryLogger.feedback(message = message)
+    }
+}

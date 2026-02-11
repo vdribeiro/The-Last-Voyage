@@ -14,7 +14,7 @@ internal class TranslationUseCasesTest: TestCase() {
         dependency.get().useCases.translation.prepopulateTranslations()
         assertEquals(expected = FakeData.translations.get().sortedBy { it.key }, actual = dependency.get().useCases.translation.getTranslations().sortedBy { it.key })
 
-        reset()
+        resetData()
         assertTrue(actual = dependency.get().useCases.translation.getTranslations().isEmpty())
         dependency.get().useCases.translation.syncTranslations()
         assertEquals(expected = FakeData.translations.get().sortedBy { it.key }, actual = dependency.get().useCases.translation.getTranslations().sortedBy { it.key })

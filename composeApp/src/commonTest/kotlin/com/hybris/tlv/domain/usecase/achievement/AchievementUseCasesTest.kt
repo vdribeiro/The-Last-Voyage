@@ -15,7 +15,7 @@ internal class AchievementUseCasesTest: TestCase() {
         dependency.get().useCases.achievement.prepopulateAchievements()
         assertEquals(expected = FakeData.achievements.get().sortedBy { it.id }, actual = dependency.get().useCases.achievement.getAchievements().sortedBy { it.id })
 
-        reset()
+        resetData()
         assertTrue(actual = dependency.get().useCases.achievement.getAchievements().isEmpty())
         dependency.get().useCases.achievement.syncAchievements()
         assertEquals(expected = FakeData.achievements.get().sortedBy { it.id }, actual = dependency.get().useCases.achievement.getAchievements().sortedBy { it.id })

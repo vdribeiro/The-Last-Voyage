@@ -32,7 +32,7 @@ internal class SyncUseCasesTest: TestCase() {
         )
         assertNotEmpty()
 
-        reset()
+        resetData()
 
         assertEmpty()
         FeatureFlags.set { it.copy(http = true) }

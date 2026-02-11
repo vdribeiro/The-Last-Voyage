@@ -28,6 +28,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.hybris.tlv.Dependency
 import com.hybris.tlv.core.audio.AudioPlayer
 import com.hybris.tlv.core.flow.Dispatcher
+import com.hybris.tlv.core.telemetry.MockLogger
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.database.createMockSqlDriver
 import com.hybris.tlv.data.http.createMockHttpEngine
 import com.hybris.tlv.domain.flag.FeatureFlags
@@ -96,7 +98,7 @@ internal abstract class TestCase: PlatformTestCase() {
     /**
      * Resets all data.
      */
-    protected suspend fun reset() {
+    protected suspend fun resetData() {
         dependency.get().useCases.sync.reset()
         TranslationCache.set(translations = emptyList())
     }
@@ -104,7 +106,7 @@ internal abstract class TestCase: PlatformTestCase() {
     /**
      * Sets the dispatcher for coroutines.
      */
-    fun setDispatcher(dispatcher: CoroutineDispatcher) {
+    private fun setDispatcher(dispatcher: CoroutineDispatcher) {
         Dispatcher.Main = dispatcher
         Dispatcher.Default = dispatcher
         Dispatcher.IO = dispatcher
@@ -114,7 +116,7 @@ internal abstract class TestCase: PlatformTestCase() {
     /**
      * Resets the dispatcher for coroutines.
      */
-    fun resetDispatcher() {
+    private fun resetDispatcher() {
         setDispatcher(dispatcher = Dispatchers.Unconfined)
         Dispatchers.resetMain()
     }
@@ -124,12 +126,13 @@ internal abstract class TestCase: PlatformTestCase() {
      * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
      */
     protected fun runUnitTest(block: suspend TestScope.() -> Unit) {
+        Telemetry.engine = MockLogger()
         runTest {
             val testDispatcher = UnconfinedTestDispatcher(scheduler = testScheduler)
             setDispatcher(dispatcher = testDispatcher)
             try {
                 FeatureFlags.set { testFlags }
-                reset()
+                resetData()
                 navigation.clear()
                 backgroundScope.launch(context = testDispatcher) { navigation.receiveCommands() }
                 block()
@@ -151,7 +154,7 @@ internal abstract class TestCase: PlatformTestCase() {
             val scope = if (mockNavigation) CoroutineScope(context = testDispatcher) else null
             try {
                 FeatureFlags.set { testFlags }
-                reset()
+                resetData()
                 navigation.clear()
                 scope?.launch { navigation.receiveCommands() }
                 block()
