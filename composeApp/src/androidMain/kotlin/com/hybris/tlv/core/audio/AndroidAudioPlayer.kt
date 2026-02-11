@@ -5,7 +5,9 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.hybris.tlv.applicationContext
+import com.hybris.tlv.test.ExcludeFromTesting
 
+@ExcludeFromTesting
 internal class AndroidAudioPlayer: AudioPlayer() {
 
     private val player: ExoPlayer by lazy {
