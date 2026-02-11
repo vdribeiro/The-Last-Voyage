@@ -1,3 +1,5 @@
+@file:ExcludeFromTesting
+
 package com.hybris.tlv.data.database
 
 import kotlinx.coroutines.withContext
@@ -8,6 +10,7 @@ import app.cash.sqldelight.db.SqlSchema
 import app.cash.sqldelight.driver.native.NativeSqliteDriver
 import co.touchlab.sqliter.JournalMode
 import com.hybris.tlv.core.flow.Dispatcher
+import com.hybris.tlv.test.ExcludeFromTesting
 
 internal actual suspend fun createSqlDriver(
     name: String,

@@ -9,6 +9,7 @@ import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.db.SqlPreparedStatement
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
+import com.hybris.tlv.test.ExcludeFromTesting
 import database.Achievement
 import database.AppDatabase
 import database.Catastrophe
@@ -56,6 +57,7 @@ internal suspend fun AppDatabase.reset() = withContext(context = Dispatcher.IO) 
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to clear database", throwable = it) }.getOrDefault(defaultValue = Unit)
 }
 
+@ExcludeFromTesting
 internal object NoOpSqlDriver: SqlDriver {
     override fun <R> executeQuery(
         identifier: Int?,

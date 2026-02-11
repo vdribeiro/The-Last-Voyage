@@ -1,3 +1,4 @@
+@file:ExcludeFromTesting
 @file:OptIn(ExperimentalWasmJsInterop::class)
 
 package com.hybris.tlv.data.database
@@ -8,6 +9,7 @@ import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.db.SqlSchema
 import app.cash.sqldelight.driver.worker.WebWorkerDriver
 import com.hybris.tlv.core.flow.Dispatcher
+import com.hybris.tlv.test.ExcludeFromTesting
 import org.w3c.dom.Worker
 
 internal actual suspend fun createSqlDriver(
