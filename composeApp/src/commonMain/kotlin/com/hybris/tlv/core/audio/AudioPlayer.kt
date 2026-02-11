@@ -24,22 +24,27 @@ internal open class AudioPlayer {
     /**
      * Represents an action to be performed by the audio player.
      */
+    @ExcludeFromTesting
     sealed interface Action {
         /**
          * Starts playback of a new playlist.
          */
+        @ExcludeFromTesting
         data class Play(val playlist: List<AudioResource>): Action
         /**
          * Pauses the current playback.
          */
+        @ExcludeFromTesting
         data object Pause: Action
         /**
          * Resumes the current playback.
          */
+        @ExcludeFromTesting
         data object Resume: Action
         /**
          * Toggles the audio player on or off.
          */
+        @ExcludeFromTesting
         data object Toggle: Action
     }
 
