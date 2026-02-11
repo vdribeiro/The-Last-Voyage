@@ -126,12 +126,12 @@ internal abstract class TestCase: PlatformTestCase() {
      * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
      */
     protected fun runUnitTest(block: suspend TestScope.() -> Unit) {
+        FeatureFlags.set { testFlags }
         Telemetry.engine = MockLogger()
         runTest {
             val testDispatcher = UnconfinedTestDispatcher(scheduler = testScheduler)
             setDispatcher(dispatcher = testDispatcher)
             try {
-                FeatureFlags.set { testFlags }
                 resetData()
                 navigation.clear()
                 backgroundScope.launch(context = testDispatcher) { navigation.receiveCommands() }
@@ -148,12 +148,13 @@ internal abstract class TestCase: PlatformTestCase() {
      * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
      */
     protected fun runUITest(mockNavigation: Boolean = true, block: suspend ComposeUiTest.() -> Unit) {
+        FeatureFlags.set { testFlags }
+        Telemetry.engine = MockLogger()
         runComposeUiTest {
             val testDispatcher = UnconfinedTestDispatcher()
             setDispatcher(dispatcher = testDispatcher)
             val scope = if (mockNavigation) CoroutineScope(context = testDispatcher) else null
             try {
-                FeatureFlags.set { testFlags }
                 resetData()
                 navigation.clear()
                 scope?.launch { navigation.receiveCommands() }
