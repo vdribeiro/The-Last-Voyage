@@ -19,12 +19,14 @@ import thelastvoyage.composeapp.generated.resources.ic_launcher_round
 
 private const val TAG = "App"
 
+@ExcludeFromTesting
 private val initializeJfx by lazy {
     runCatching {
         JFXPanel()
         true
     }.onFailure { Telemetry.error(tag = TAG, message = "Unable to start JavaFX", throwable = it) }.getOrDefault(defaultValue = false)
 }
+@ExcludeFromTesting
 internal val LocalWindowState = staticCompositionLocalOf { WindowState() }
 
 @ExcludeFromTesting
