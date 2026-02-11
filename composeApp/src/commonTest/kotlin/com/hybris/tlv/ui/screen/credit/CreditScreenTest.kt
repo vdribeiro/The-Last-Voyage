@@ -13,6 +13,7 @@ import androidx.compose.ui.test.performScrollTo
 import com.hybris.tlv.domain.usecase.credit.model.CreditType
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
+import com.hybris.tlv.test.count
 
 @OptIn(ExperimentalTestApi::class)
 internal class CreditScreenTest: TestCase() {

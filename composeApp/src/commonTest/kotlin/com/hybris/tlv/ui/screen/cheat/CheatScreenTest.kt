@@ -9,6 +9,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.hybris.tlv.test.TestCase
+import com.hybris.tlv.test.count
 
 @OptIn(ExperimentalTestApi::class)
 internal class CheatScreenTest: TestCase() {

@@ -14,15 +14,8 @@ import kotlinx.coroutines.test.setMain
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
-import androidx.compose.ui.semantics.SemanticsProperties
-import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.SemanticsMatcher
-import androidx.compose.ui.test.SemanticsNodeInteraction
-import androidx.compose.ui.test.assert
-import androidx.compose.ui.test.assertCountEquals
-import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.hybris.tlv.Dependency
@@ -76,6 +69,11 @@ internal abstract class TestCase: PlatformTestCase() {
             audioPlayer = AudioPlayer()
         )
     }
+
+    /**
+     * Syntactic sugar for store.stateFlow.value.
+     */
+    protected val <State, Action> Store<State, Action>.state: State get() = stateFlow.value
 
     /**
      * Factory used to create Stores using the test-specific dependency.
@@ -186,19 +184,4 @@ internal abstract class TestCase: PlatformTestCase() {
         }
         waitForIdle()
     }
-
-    /**
-     * Syntactic sugar for store.stateFlow.value.
-     */
-    protected val <State, Action> Store<State, Action>.state: State get() = stateFlow.value
-
-    /**
-     * Verify the number of items in a collection.
-     */
-    protected fun SemanticsNodeInteraction.count(count: Int): SemanticsNodeInteraction =
-        if (runCatching { onChildren().assertCountEquals(expectedSize = count) }.isSuccess) this else
-            assert(matcher = SemanticsMatcher(description = "Has $count items") { node ->
-                val collectionInfo = node.config.getOrNull(key = SemanticsProperties.CollectionInfo)
-                collectionInfo != null && (collectionInfo.rowCount == count || collectionInfo.columnCount == count)
-            })
 }
