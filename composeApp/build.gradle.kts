@@ -471,7 +471,7 @@ kover {
             verify {
                 onCheck = true
                 rule {
-                    bound { minValue = 80 }
+                    bound { minValue = 90 }
                 }
             }
         }
