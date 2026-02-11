@@ -128,7 +128,7 @@ internal class AppTest: TestCase() {
                     performGesture(direction = gesture)
                 }
             }
-        // nested scrolls are really hard to test...
+        // TODO - gestures with nested scrolls are really hard to test...
         runCatching {
             assertEquals(expected = listOf(Screen.Splash, Screen.Cheat).toStringList(), actual = navController.getScreens())
         }.onFailure {
