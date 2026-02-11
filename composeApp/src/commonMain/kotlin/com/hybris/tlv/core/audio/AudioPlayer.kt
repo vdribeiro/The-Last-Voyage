@@ -1,3 +1,5 @@
+@file:ExcludeFromTesting
+
 package com.hybris.tlv.core.audio
 
 import com.hybris.tlv.core.resource.AudioResource
@@ -9,7 +11,6 @@ import com.hybris.tlv.test.ExcludeFromTesting
  * Audio player that provides basic audio playback functionality, including playing, pausing, resuming, and stopping audio.
  * Mainly designed to be extended by platform-specific implementations.
  */
-@ExcludeFromTesting
 internal open class AudioPlayer {
 
     /**
