@@ -22,6 +22,7 @@ import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.App
 import com.hybris.tlv.ui.theme.component.container.Screen
@@ -56,16 +57,27 @@ internal object TLV {
         Telemetry.info(tag = TAG, message = "App started")
         Telemetry.info(tag = TAG, message = "Features: $flags")
 
-        Telemetry.info(tag = TAG, message = "Initializing dependencies")
         scope.launch(context = Dispatcher.IO) {
-            val dependency = Dependency(sqlDriver = createSqlDriver())
-            this@TLV.dependency.update { dependency }
+            val dependency = createDependencyIndex()
+            registerLocaleListener(translationUseCases = dependency.useCases.translation)
+        }
+    }
 
-            Telemetry.info(tag = TAG, message = "Registering locale listener")
-            observeLocale().collectLatest { languageIso ->
-                val translationUseCases = dependency.useCases.translation
-                TranslationCache.set(translations = translationUseCases.getTranslations(languageIso = languageIso))
-            }
+    /**
+     * Create dependency index.
+     */
+    private suspend fun createDependencyIndex(): Dependency {
+        Telemetry.info(tag = TAG, message = "Initializing dependencies")
+        return Dependency(sqlDriver = createSqlDriver()).also { dependency.update { it } }
+    }
+
+    /**
+     * Register the locale listener.
+     */
+    private suspend fun registerLocaleListener(translationUseCases: TranslationUseCases) {
+        Telemetry.info(tag = TAG, message = "Registering locale listener")
+        observeLocale().collectLatest { languageIso ->
+            TranslationCache.set(translations = translationUseCases.getTranslations(languageIso = languageIso))
         }
     }
 

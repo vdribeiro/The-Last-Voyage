@@ -2,7 +2,9 @@ package com.hybris.tlv.core.telemetry
 
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.platform.Property
+import com.hybris.tlv.test.ExcludeFromTesting
 
+@ExcludeFromTesting
 internal class Logger: TelemetryEngine {
 
     private val useLogger get() = flags.devMode
