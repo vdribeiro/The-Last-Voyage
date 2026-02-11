@@ -58,6 +58,7 @@ internal class AppTest: TestCase() {
             )
         }
 
+        sendCommand(command = Command.ToggleAudio)
         assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
         sendCommand(command = Command.Navigate(screen = Screen.MainMenu))
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu).toStringList(), actual = navController.getScreens())
