@@ -1,5 +1,3 @@
-@file:ExcludeFromTesting
-
 package com.hybris.tlv.data.database
 
 import kotlinx.coroutines.withContext
@@ -12,6 +10,7 @@ import co.touchlab.sqliter.JournalMode
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.test.ExcludeFromTesting
 
+@ExcludeFromTesting
 internal actual suspend fun createSqlDriver(
     name: String,
     schema: SqlSchema<QueryResult.AsyncValue<Unit>>

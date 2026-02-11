@@ -1,4 +1,3 @@
-@file:ExcludeFromTesting
 @file:OptIn(ExperimentalWasmJsInterop::class)
 
 package com.hybris.tlv.data.database
@@ -12,6 +11,7 @@ import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.test.ExcludeFromTesting
 import org.w3c.dom.Worker
 
+@ExcludeFromTesting
 internal actual suspend fun createSqlDriver(
     name: String,
     schema: SqlSchema<QueryResult.AsyncValue<Unit>>

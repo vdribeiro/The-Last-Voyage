@@ -1,5 +1,3 @@
-@file:ExcludeFromTesting
-
 package com.hybris.tlv
 
 import platform.UIKit.UIViewController
@@ -9,6 +7,7 @@ import com.hybris.tlv.TLV.App
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.cheats.enableGestureCheats
 
+@ExcludeFromTesting
 fun MainViewController(): UIViewController = ComposeUIViewController {
     App(modifier = Modifier.enableGestureCheats())
 }

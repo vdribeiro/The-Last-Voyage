@@ -1,5 +1,3 @@
-@file:ExcludeFromTesting
-
 package com.hybris.tlv
 
 import android.os.Bundle
@@ -11,6 +9,7 @@ import com.hybris.tlv.TLV.App
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.cheats.enableGestureCheats
 
+@ExcludeFromTesting
 class MainActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

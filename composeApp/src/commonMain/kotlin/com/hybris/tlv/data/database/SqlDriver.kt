@@ -1,5 +1,3 @@
-@file:ExcludeFromTesting
-
 package com.hybris.tlv.data.database
 
 import app.cash.sqldelight.db.QueryResult
@@ -12,6 +10,7 @@ import database.AppDatabase
 /**
  * Creates the database driver.
  */
+@ExcludeFromTesting
 internal expect suspend fun createSqlDriver(
     name: String = DATABASE_FILE,
     schema: SqlSchema<QueryResult.AsyncValue<Unit>> = AppDatabase.Schema

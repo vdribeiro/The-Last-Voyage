@@ -1,5 +1,3 @@
-@file:ExcludeFromTesting
-
 package com.hybris.tlv
 
 import org.jetbrains.compose.resources.painterResource
@@ -29,6 +27,7 @@ private val initializeJfx by lazy {
 }
 internal val LocalWindowState = staticCompositionLocalOf { WindowState() }
 
+@ExcludeFromTesting
 fun main() = application {
     Telemetry.info(tag = TAG, message = "JavaFX = $initializeJfx")
 
