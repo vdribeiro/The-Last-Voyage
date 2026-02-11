@@ -116,7 +116,7 @@ internal abstract class TestCase: PlatformTestCase() {
     /**
      * Sets up the test environment.
      */
-    protected suspend fun setup(dispatcher: CoroutineDispatcher) {
+    private suspend fun setup(dispatcher: CoroutineDispatcher) {
         FeatureFlags.set { testFlags }
         Telemetry.engine = MockLogger()
         setDispatcher(dispatcher = dispatcher)
