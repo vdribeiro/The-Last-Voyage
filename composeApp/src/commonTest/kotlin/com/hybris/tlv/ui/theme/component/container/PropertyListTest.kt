@@ -16,6 +16,14 @@ import com.hybris.tlv.ui.theme.component.text.Text
 internal class PropertyListTest: TestCase() {
 
     @Test
+    fun defaults() = runUITest {
+        setUI {
+            PropertyList<String>(title = "Default Test")
+        }
+        onNodeWithText(text = "Default Test").assertIsDisplayed()
+    }
+
+    @Test
     fun titleAndItems() = runUITest {
         val items = listOf("Alpha", "Beta", "Gamma")
         val title = "Star Properties"

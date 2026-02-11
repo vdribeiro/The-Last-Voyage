@@ -454,11 +454,14 @@ kover {
             excludes {
                 annotatedBy(
                     "kotlinx.serialization.Serializable",
-                    "com.jetbrains.compose.ui.tooling.preview.Preview",
+                    "androidx.compose.ui.tooling.preview.Preview",
                     "com.hybris.tlv.test.ExcludeFromTesting",
                 )
                 packages("*.generated.*")
-                classes("**ComposableSingletons**")
+                classes(
+                    "**ComposableSingletons**",
+                    "*PreviewKt*"
+                )
             }
         }
         total {
