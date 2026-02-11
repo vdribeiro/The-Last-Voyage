@@ -1,5 +1,3 @@
-@file:ExcludeFromTesting
-
 package com.hybris.tlv.core.audio
 
 import platform.AVFoundation.AVPlayer
@@ -15,6 +13,7 @@ import platform.darwin.NSObjectProtocol
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.lifecycle.observe
 
+@ExcludeFromTesting
 internal class AppleAudioPlayer: AudioPlayer() {
 
     private val player: AVPlayer by lazy {
@@ -64,4 +63,5 @@ internal class AppleAudioPlayer: AudioPlayer() {
     }
 }
 
+@ExcludeFromTesting
 internal actual fun createAudioPlayer(): AudioPlayer = AppleAudioPlayer()

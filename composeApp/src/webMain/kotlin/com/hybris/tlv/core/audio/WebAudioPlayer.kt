@@ -1,4 +1,3 @@
-@file:ExcludeFromTesting
 @file:OptIn(ExperimentalWasmJsInterop::class)
 
 package com.hybris.tlv.core.audio
@@ -7,6 +6,7 @@ import kotlinx.browser.document
 import com.hybris.tlv.test.ExcludeFromTesting
 import org.w3c.dom.HTMLAudioElement
 
+@ExcludeFromTesting
 internal class WebAudioPlayer: AudioPlayer() {
 
     private val player: HTMLAudioElement by lazy {
@@ -43,4 +43,5 @@ internal class WebAudioPlayer: AudioPlayer() {
     }
 }
 
+@ExcludeFromTesting
 internal actual fun createAudioPlayer(): AudioPlayer = WebAudioPlayer()

@@ -1,5 +1,3 @@
-@file:ExcludeFromTesting
-
 package com.hybris.tlv
 
 import android.content.Context
@@ -9,6 +7,7 @@ import com.hybris.tlv.test.ExcludeFromTesting
 
 internal var applicationContext: Context = ContextWrapper(null)
 
+@ExcludeFromTesting
 class KInitializer: Initializer<Unit> {
     override fun create(context: Context) {
         applicationContext = context.applicationContext
