@@ -58,10 +58,6 @@ private fun EventExplorerScreenPreview() = AppTheme {
                 key = "event_screen__title",
                 value = "Events"
             ),
-            Translation(
-                key = "event_screen__parent",
-                value = "Parent Event"
-            ),
         )
     )
     EventExplorerScreen(

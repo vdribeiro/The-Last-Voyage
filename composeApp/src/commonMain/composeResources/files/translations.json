@@ -3788,10 +3788,5 @@
     "languageIso": "en",
     "key": "event_screen__title",
     "value": "Events"
-  },
-  {
-    "languageIso": "en",
-    "key": "event_screen__parent",
-    "value": "Parent Event"
   }
 ]

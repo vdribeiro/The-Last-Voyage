@@ -36,6 +36,7 @@ import com.hybris.tlv.ui.theme.getTranslation
 internal fun PropertyCard(
     modifier: Modifier = Modifier,
     name: String? = null,
+    subtitle: String? = null,
     description: String? = null,
     leadingImage: ImageResource? = null,
     icon: (@Composable () -> Unit)? = null,
