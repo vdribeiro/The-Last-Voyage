@@ -7,7 +7,7 @@ import com.hybris.tlv.ui.screen.Store
 
 internal class EventExplorerStore(
     private val eventUseCases: EventUseCases
-): Store<EventExplorerState, Unit>(
+): Store<EventExplorerState, EventExplorerAction>(
     initialState = EventExplorerState()
 ) {
     init {
@@ -26,6 +26,12 @@ internal class EventExplorerStore(
         }
 
         Telemetry.info(tag = TAG, message = "Setup complete")
+    }
+
+    override fun reducer(state: EventExplorerState, action: EventExplorerAction) {
+        when (action) {
+            is EventExplorerAction.Search -> updateState { it.copy(search = action.search) }
+        }
     }
 
     companion object {

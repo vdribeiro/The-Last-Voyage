@@ -1,9 +1,21 @@
 package com.hybris.tlv.ui.screen.eventexplorer
 
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -14,15 +26,51 @@ import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
+import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.list.EventList
+import com.hybris.tlv.ui.theme.component.text.Input
+import com.hybris.tlv.ui.theme.modifier.clearFocus
 
+@OptIn(FlowPreview::class)
 @Composable
-internal fun EventExplorerScreen(store: Store<EventExplorerState, Unit>) {
+internal fun EventExplorerScreen(store: Store<EventExplorerState, EventExplorerAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
 
     Screen(
         store = store,
+        modifier = Modifier.clearFocus(),
         loading = storeState.loading,
+        topBar = {
+            val typography = LocalTypography.current
+            var searchQuery by remember { mutableStateOf(value = storeState.search) }
+            LaunchedEffect(key1 = Unit) {
+                snapshotFlow { searchQuery }
+                    .debounce(timeoutMillis = 300L)
+                    .distinctUntilChanged()
+                    .collect { store.send(action = EventExplorerAction.Search(it)) }
+            }
+            Input(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 8.dp
+                    )
+                    .defaultMinSize(minHeight = 60.dp),
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Search"
+                    )
+                },
+                maxLines = 1,
+                style = typography.bodyLarge
+            )
+        }
     ) {
         EventList(
             modifier = Modifier
