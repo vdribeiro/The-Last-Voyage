@@ -11,6 +11,8 @@ import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.serializer.loadFromJsonResource
+import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
+import com.hybris.tlv.domain.usecase.catastrophe.toCatastrophe
 import com.hybris.tlv.domain.usecase.event.model.Event
 import database.AppDatabase
 
@@ -63,6 +65,10 @@ internal class EventGateway(
             }
         }
         treeNodes
+    }
+
+    override suspend fun getEvents(): List<Event> =withContext(context = Dispatcher.IO) {
+        eventDao.getEvents().awaitAsList().map { it.toEvent() }
     }
 
     companion object Companion {

@@ -12,15 +12,15 @@ DELETE FROM Catastrophe;
 upsertCatastrophe:
 INSERT OR REPLACE INTO Catastrophe VALUES ?;
 
-getCatastrophes:
-SELECT
-    Catastrophe.id,
-    Catastrophe.description
-FROM Catastrophe;
-
 getRandomCatastrophe:
 SELECT
     Catastrophe.id,
     Catastrophe.description
 FROM Catastrophe
 ORDER BY RANDOM() LIMIT 1;
+
+getCatastrophes:
+SELECT
+    Catastrophe.id,
+    Catastrophe.description
+FROM Catastrophe;

@@ -15,12 +15,12 @@ internal interface CatastropheUseCases {
     suspend fun prepopulateCatastrophes(): Boolean
 
     /**
-     * Get all [Catastrophe]s.
-     */
-    suspend fun getCatastrophes(): List<Catastrophe>
-
-    /**
      * Get a random [Catastrophe].
      */
     suspend fun getRandomCatastrophe(): Catastrophe?
+
+    /**
+     * Get all [Catastrophe]s.
+     */
+    suspend fun getCatastrophes(): List<Catastrophe>
 }

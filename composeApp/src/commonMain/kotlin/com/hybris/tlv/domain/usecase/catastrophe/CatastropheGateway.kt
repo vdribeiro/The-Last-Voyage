@@ -50,12 +50,12 @@ internal class CatastropheGateway(
         catastrophes.forEach { catastropheDao.upsertCatastrophe(Catastrophe = it.toCatastropheSchema()) }
     }
 
-    override suspend fun getCatastrophes(): List<Catastrophe> = withContext(context = Dispatcher.IO) {
-        catastropheDao.getCatastrophes().awaitAsList().map { it.toCatastrophe() }
-    }
-
     override suspend fun getRandomCatastrophe(): Catastrophe? = withContext(context = Dispatcher.IO) {
         catastropheDao.getRandomCatastrophe().awaitAsOneOrNull()?.toCatastrophe()
+    }
+
+    override suspend fun getCatastrophes(): List<Catastrophe> = withContext(context = Dispatcher.IO) {
+        catastropheDao.getCatastrophes().awaitAsList().map { it.toCatastrophe() }
     }
 
     companion object {

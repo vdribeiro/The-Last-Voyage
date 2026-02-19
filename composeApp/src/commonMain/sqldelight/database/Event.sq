@@ -28,6 +28,14 @@ WHERE Event.id = (
     ORDER BY RANDOM() LIMIT 1
 );
 
+getEvents:
+SELECT
+    Event.id,
+    Event.description,
+    Event.parentId,
+    Event.outcome
+FROM Event;
+
 getChildEvents:
 SELECT
     Event.id,
