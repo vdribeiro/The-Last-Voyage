@@ -42,6 +42,14 @@ internal fun MainMenu(
         horizontalAlignment = Alignment.CenterHorizontally,
         scrollBar = false
     ) {
+        val menuItem = @Composable { text: String, onClick: () -> Unit ->
+            Text(
+                modifier = Modifier
+                    .clickable { onClick() },
+                text = text,
+                style = typography.headlineMedium,
+            )
+        }
         item {
             AppLogo(
                 modifier = Modifier.padding(bottom = 16.dp),
@@ -49,48 +57,11 @@ internal fun MainMenu(
                 text = appNameTranslation
             )
         }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onNewGameClick() },
-                text = newGameTranslation,
-                style = typography.headlineMedium,
-            )
-        }
-        if (ongoingGameSession) {
-            item {
-                Text(
-                    modifier = Modifier
-                        .clickable { onOngoingGameSessionClick() },
-                    text = continueTranslation,
-                    style = typography.headlineMedium,
-                )
-            }
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onStellarExplorerClick() },
-                text = stellarExplorerTranslation,
-                style = typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onScoresClick() },
-                text = scoresTranslation,
-                style = typography.headlineMedium,
-            )
-        }
-        item {
-            Text(
-                modifier = Modifier
-                    .clickable { onAchievementsClick() },
-                text = achievementsTranslation,
-                style = typography.headlineMedium,
-            )
-        }
+        item { menuItem(newGameTranslation, onNewGameClick) }
+        if (ongoingGameSession) item { menuItem(continueTranslation, onOngoingGameSessionClick) }
+        item { menuItem(stellarExplorerTranslation, onStellarExplorerClick) }
+        item { menuItem(scoresTranslation, onScoresClick) }
+        item { menuItem(achievementsTranslation, onAchievementsClick) }
     }
 }
 

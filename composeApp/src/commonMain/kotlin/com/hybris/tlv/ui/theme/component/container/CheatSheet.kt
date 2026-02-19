@@ -61,56 +61,22 @@ internal fun CheatSheet(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
-            item {
+            val toggleItem = @Composable { text: String, checked: Boolean, onClick: () -> Unit ->
                 Toggle(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    text = integrityTranslation,
-                    checked = integrity,
-                    onCheckedChange = { onIntegrityClick() }
+                    text = text,
+                    checked = checked,
+                    onCheckedChange = { onClick() }
                 )
             }
-            item {
-                Toggle(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    text = sensorRangeTranslation,
-                    checked = sensorRange,
-                    onCheckedChange = { onSensorRangeClick() }
-                )
-            }
-            item {
-                Toggle(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    text = fuelTranslation,
-                    checked = fuel,
-                    onCheckedChange = { onFuelClick() }
-                )
-            }
-            item {
-                Toggle(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    text = materialsTranslation,
-                    checked = materials,
-                    onCheckedChange = { onMaterialsClick() }
-                )
-            }
-            item {
-                Toggle(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    text = cryopodsTranslation,
-                    checked = cryopods,
-                    onCheckedChange = { onCryopodsClick() }
-                )
-            }
+
+            item { toggleItem(integrityTranslation, integrity, onIntegrityClick) }
+            item { toggleItem(sensorRangeTranslation, sensorRange, onSensorRangeClick) }
+            item { toggleItem(fuelTranslation, fuel, onFuelClick) }
+            item { toggleItem(materialsTranslation, materials, onMaterialsClick) }
+            item { toggleItem(cryopodsTranslation, cryopods, onCryopodsClick) }
         }
     }
 }

@@ -77,42 +77,17 @@ internal inline fun <T> ShipConfiguration(
             verticalArrangement = Arrangement.spacedBy(space = 4.dp, alignment = Alignment.CenterVertically),
         ) {
             val canIncrement = remainingPoints > 0
-            sensorRange?.let {
-                item {
-                    AttributeRow(
-                        name = sensorTranslation,
-                        canIncrement = canIncrement,
-                        attributePoint = it
-                    )
-                }
+            val attributeItem = @Composable { text: String, point: AttributePoint ->
+                AttributeRow(
+                    name = text,
+                    canIncrement = canIncrement,
+                    attributePoint = point
+                )
             }
-            fuel?.let {
-                item {
-                    AttributeRow(
-                        name = fuelTranslation,
-                        canIncrement = canIncrement,
-                        attributePoint = it
-                    )
-                }
-            }
-            materials?.let {
-                item {
-                    AttributeRow(
-                        name = materialsTranslation,
-                        canIncrement = canIncrement,
-                        attributePoint = it
-                    )
-                }
-            }
-            cryopods?.let {
-                item {
-                    AttributeRow(
-                        name = cryopodsTranslation,
-                        canIncrement = canIncrement,
-                        attributePoint = it
-                    )
-                }
-            }
+            sensorRange?.let { item { attributeItem(sensorTranslation, it) } }
+            fuel?.let { item { attributeItem(fuelTranslation, it) } }
+            materials?.let { item { attributeItem(materialsTranslation, it) } }
+            cryopods?.let { item { attributeItem(cryopodsTranslation, it) } }
             item {
                 Text(
                     modifier = Modifier

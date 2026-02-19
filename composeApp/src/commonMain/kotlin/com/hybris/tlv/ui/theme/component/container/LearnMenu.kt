@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,19 +47,6 @@ internal fun LearnMenu(
     val scoreTranslation = getTranslation(key = "main_menu_screen__score")
     val catastrophesTranslation = getTranslation(key = "catastrophe_screen__title")
     val eventsTranslation = getTranslation(key = "event_screen__title")
-    val map = mapOf(
-        navigationTranslation to onNavigationClick,
-        panelTranslation to onPanelClick,
-        mechanicsTranslation to onMechanicsClick,
-        hostDefinitionTranslation to onHostDefinitionClick,
-        hostTypesTranslation to onHostTypesClick,
-        planetDefinitionTranslation to onPlanetDefinitionClick,
-        planetTypesTranslation to onPlanetTypesClick,
-        habitabilityTranslation to onHabitabilityClick,
-        scoreTranslation to onScoreClick,
-        catastrophesTranslation to onCatastrophesClick,
-        eventsTranslation to onEventsClick
-    )
 
     val typography = LocalTypography.current
     Column(
@@ -81,8 +67,8 @@ internal fun LearnMenu(
             verticalArrangement = Arrangement.spacedBy(space = 8.dp),
             scrollBar = false
         ) {
-            items(items = map.keys.toList(), key = { it }) {
-                Card(modifier = Modifier.clickable { map[it]?.invoke() }) {
+            val menuItem = @Composable { text: String, onClick: () -> Unit ->
+                Card(modifier = Modifier.clickable { onClick() }) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -91,12 +77,24 @@ internal fun LearnMenu(
                         horizontalAlignment = Alignment.Start,
                     ) {
                         Text(
-                            text = it,
+                            text = text,
                             style = typography.headlineSmall,
                         )
                     }
                 }
             }
+
+            item { menuItem(navigationTranslation, onNavigationClick) }
+            item { menuItem(panelTranslation, onPanelClick) }
+            item { menuItem(mechanicsTranslation, onMechanicsClick) }
+            item { menuItem(hostDefinitionTranslation, onHostDefinitionClick) }
+            item { menuItem(hostTypesTranslation, onHostTypesClick) }
+            item { menuItem(planetDefinitionTranslation, onPlanetDefinitionClick) }
+            item { menuItem(planetTypesTranslation, onPlanetTypesClick) }
+            item { menuItem(habitabilityTranslation, onHabitabilityClick) }
+            item { menuItem(scoreTranslation, onScoreClick) }
+            item { menuItem(catastrophesTranslation, onCatastrophesClick) }
+            item { menuItem(eventsTranslation, onEventsClick) }
         }
     }
 }

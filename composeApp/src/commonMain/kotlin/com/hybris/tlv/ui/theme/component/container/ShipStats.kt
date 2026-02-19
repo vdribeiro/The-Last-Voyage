@@ -13,6 +13,7 @@ import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.domain.usecase.space.roundTo
@@ -51,63 +52,21 @@ internal fun ShipStats(
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         horizontalAlignment = Alignment.Start,
     ) {
-        item {
+        val statItem = @Composable { icon: ImageVector, label: String, value: String? ->
             StatDisplay(
-                icon = Icons.Outlined.Timer,
-                label = yearsTraveledTranslation,
-                value = yearsTraveled?.roundTo(decimalPlaces = 2)?.toString()
+                icon = icon,
+                label = label,
+                value = value
             )
         }
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.Radar,
-                label = sensorTranslation,
-                value = sensorRange?.toString()
-            )
-        }
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.Shield,
-                label = integrityTranslation,
-                value = integrity?.let { "$it / 100" },
-            )
-        }
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.LocalGasStation,
-                label = fuelTranslation,
-                value = fuel?.toString()
-            )
-        }
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.Construction,
-                label = materialsTranslation,
-                value = materials?.toString()
-            )
-        }
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.Hotel,
-                label = cryopodsTranslation,
-                value = cryopods?.toString()
-            )
-        }
-
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.Speed,
-                label = speedTranslation,
-                value = velocity?.let { "${it}c" }
-            )
-        }
-        item {
-            StatDisplay(
-                icon = Icons.Outlined.Opacity,
-                label = fuelConsumptionTranslation,
-                value = fuelConsumption?.roundTo(decimalPlaces = 2)?.toString()
-            )
-        }
+        item { statItem(Icons.Outlined.Timer, yearsTraveledTranslation, yearsTraveled?.roundTo(decimalPlaces = 2)?.toString()) }
+        item { statItem(Icons.Outlined.Radar, sensorTranslation, sensorRange?.toString()) }
+        item { statItem(Icons.Outlined.Shield, integrityTranslation, integrity?.let { "$it / 100" }) }
+        item { statItem(Icons.Outlined.LocalGasStation, fuelTranslation, fuel?.toString()) }
+        item { statItem(Icons.Outlined.Construction, materialsTranslation, materials?.toString()) }
+        item { statItem(Icons.Outlined.Hotel, cryopodsTranslation, cryopods?.toString()) }
+        item { statItem(Icons.Outlined.Speed, speedTranslation, velocity?.let { "${it}c" }) }
+        item { statItem(Icons.Outlined.Opacity, fuelConsumptionTranslation, fuelConsumption?.roundTo(decimalPlaces = 2)?.toString()) }
     }
 }
 
