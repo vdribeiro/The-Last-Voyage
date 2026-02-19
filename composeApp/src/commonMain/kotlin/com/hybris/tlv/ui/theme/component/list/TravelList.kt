@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.resource.ImageResource
-import com.hybris.tlv.core.security.generateUuid
+import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.theme.AppTheme
@@ -20,7 +20,7 @@ import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 internal inline fun <T> TravelList(
     modifier: Modifier = Modifier,
     stellarHosts: List<T> = emptyList(),
-    noinline id: (T) -> String = { generateUuid() },
+    noinline id: (T) -> String = { uuid() },
     crossinline name: (T) -> String? = { null },
     crossinline planetCount: (T) -> Int? = { null },
     crossinline spectralType: (T) -> String? = { null },

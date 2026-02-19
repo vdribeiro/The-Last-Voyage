@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.resource.ImageResource
-import com.hybris.tlv.core.security.generateUuid
+import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
@@ -38,7 +38,7 @@ internal inline fun <T> SystemList(
     stellarHostMass: Double? = null,
     stellarHostAge: Double? = null,
     planets: List<T> = emptyList(),
-    noinline planetId: (T) -> String = { generateUuid() },
+    noinline planetId: (T) -> String = { uuid() },
     crossinline planetName: (T) -> String? = { null },
     crossinline planetRadius: (T) -> Double? = { null },
     crossinline planetMass: (T) -> Double? = { null },

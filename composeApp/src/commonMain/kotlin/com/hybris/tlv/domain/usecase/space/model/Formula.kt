@@ -1,13 +1,13 @@
 package com.hybris.tlv.domain.usecase.space.model
 
-import com.hybris.tlv.core.security.generateUuid
+import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.space.formula.Constants
 
 /**
  * Holds the mathematical weights and limits used in scoring to allow for easy tuning of the model.
  */
 internal data class Formula(
-    val id: String = generateUuid(),
+    val id: String = uuid(),
     // Weights
     val rocheWeight: Double = Constants.ROCHE_WEIGHT,
     val habitableZoneKopparapuWeight: Double = Constants.HABITABLE_ZONE_KOPPARAPU_WEIGHT,

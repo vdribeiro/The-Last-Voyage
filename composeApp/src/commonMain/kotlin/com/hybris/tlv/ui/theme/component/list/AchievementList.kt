@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.core.security.generateUuid
+import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
@@ -24,7 +24,7 @@ import com.hybris.tlv.ui.theme.getTranslation
 internal inline fun <T> AchievementList(
     modifier: Modifier = Modifier,
     achievements: List<T> = emptyList(),
-    noinline id: (T) -> String = { generateUuid() },
+    noinline id: (T) -> String = { uuid() },
     crossinline description: (T) -> String? = { null },
     crossinline done: (T) -> Boolean = { false }
 ) {

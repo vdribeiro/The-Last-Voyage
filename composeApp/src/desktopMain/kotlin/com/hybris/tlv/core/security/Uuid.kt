@@ -6,7 +6,7 @@ import kotlin.random.Random
 import com.hybris.tlv.core.locale.epoch
 import com.hybris.tlv.core.telemetry.Telemetry
 
-internal actual fun generateUuid(): String = runCatching {
+internal actual fun uuid(): String = runCatching {
     UUID.randomUUID().toString()
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get UUID type 4", throwable = it) }.getOrElse {
     runCatching {

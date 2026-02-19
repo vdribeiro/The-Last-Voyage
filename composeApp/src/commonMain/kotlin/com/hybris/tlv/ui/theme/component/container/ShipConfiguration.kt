@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.core.security.generateUuid
+import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
@@ -37,7 +37,7 @@ internal inline fun <T> ShipConfiguration(
     cryopods: AttributePoint? = null,
     selectedEngineId: String? = null,
     engines: List<T> = emptyList(),
-    noinline id: (T) -> String = { generateUuid() },
+    noinline id: (T) -> String = { uuid() },
     crossinline description: (T) -> String? = { null },
     crossinline velocity: (T) -> Double? = { null },
     crossinline fuelConsumption: (T) -> Double? = { null },

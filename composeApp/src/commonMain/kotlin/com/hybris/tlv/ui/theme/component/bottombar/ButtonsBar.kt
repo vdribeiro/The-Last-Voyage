@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.core.security.generateUuid
+import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
@@ -61,7 +61,7 @@ private fun ButtonsBarPreview() = AppTheme {
 }
 
 internal data class BottomButton(
-    val id: String = generateUuid(),
+    val id: String = uuid(),
     val loading: Boolean = false,
     val enabled: Boolean = true,
     val text: String? = null,

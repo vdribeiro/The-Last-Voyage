@@ -15,7 +15,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.locale.getLocalDateTime
-import com.hybris.tlv.core.security.generateUuid
+import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
@@ -29,7 +29,7 @@ internal inline fun <T> ScoreList(
     modifier: Modifier = Modifier,
     scores: List<T> = emptyList(),
     expandedItems: List<String> = emptyList(),
-    noinline id: (T) -> String = { generateUuid() },
+    noinline id: (T) -> String = { uuid() },
     crossinline scorePoints: (T) -> Double? = { null },
     crossinline utc: (T) -> String? = { null },
     crossinline settledPlanet: (T) -> String? = { null },

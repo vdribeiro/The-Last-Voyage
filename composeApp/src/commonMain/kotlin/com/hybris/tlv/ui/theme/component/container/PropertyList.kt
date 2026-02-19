@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.resource.ImageResource
-import com.hybris.tlv.core.security.generateUuid
+import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
@@ -26,7 +26,7 @@ internal inline fun <T> PropertyList(
     modifier: Modifier = Modifier,
     title: String? = null,
     properties: List<T> = emptyList(),
-    noinline id: (T) -> String = { generateUuid() },
+    noinline id: (T) -> String = { uuid() },
     crossinline description: (T) -> String? = { null },
     crossinline leadingImage: (T) -> ImageResource? = { null },
     crossinline icon: (T) -> (@Composable () -> Unit)? = { null },

@@ -18,7 +18,7 @@ internal fun now(): String = Clock.System.now().toString()
 internal fun epoch(): Long = Clock.System.now().toEpochMilliseconds()
 
 /**
- * Get the distant past time.
+ * Get the distant past.
  */
 internal fun distantPast(): String = Instant.DISTANT_PAST.toString()
 

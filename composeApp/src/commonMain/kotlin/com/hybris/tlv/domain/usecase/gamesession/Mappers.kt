@@ -1,7 +1,7 @@
 package com.hybris.tlv.domain.usecase.gamesession
 
 import com.hybris.tlv.core.locale.now
-import com.hybris.tlv.core.security.generateUuid
+import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.data.database.FormulaSchema
 import com.hybris.tlv.data.database.GameSessionSchema
 import com.hybris.tlv.data.database.ShipSchema
@@ -12,7 +12,7 @@ import com.hybris.tlv.domain.usecase.ship.model.Ship
 import com.hybris.tlv.domain.usecase.space.model.Formula
 
 internal fun GameSessionPrototype.toGameSession(): GameSession {
-    val id = generateUuid()
+    val id = uuid()
     return GameSession(
         id = id,
         utc = now(),
