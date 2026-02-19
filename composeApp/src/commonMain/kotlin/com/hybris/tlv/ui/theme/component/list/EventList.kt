@@ -49,9 +49,10 @@ internal inline fun <T> EventList(
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
             items(items = events, key = id) { event ->
+                val parentId = parentId(event)?.let { "${getTranslation(key = "event_screen__parent")}: $it\n" }.orEmpty()
                 PropertyCard(
                     name = id(event),
-                    description = description(event)
+                    description = "$parentId${description(event)}"
                 )
             }
         }
@@ -69,5 +70,6 @@ private fun EventListPreview() = AppTheme {
         ),
         id = { it },
         description = { it },
+        parentId = { it }
     )
 }
