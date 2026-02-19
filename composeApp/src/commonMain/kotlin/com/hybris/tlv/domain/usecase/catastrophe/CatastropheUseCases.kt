@@ -1,6 +1,7 @@
 package com.hybris.tlv.domain.usecase.catastrophe
 
 import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
+import com.hybris.tlv.domain.usecase.credit.model.Credit
 
 internal interface CatastropheUseCases {
 
@@ -13,6 +14,11 @@ internal interface CatastropheUseCases {
      * Prepopulate [Catastrophe]s.
      */
     suspend fun prepopulateCatastrophes(): Boolean
+
+    /**
+     * Get all [Catastrophe]s.
+     */
+    suspend fun getCatastrophes(): List<Catastrophe>
 
     /**
      * Get a random [Catastrophe].

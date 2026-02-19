@@ -42,4 +42,8 @@ internal sealed interface Screen {
     data object Achievement: Screen
     @Serializable
     data object Credit: Screen
+    @Serializable
+    data object CatastropheExplorer: Screen
+    @Serializable
+    data object EventExplorer: Screen
 }

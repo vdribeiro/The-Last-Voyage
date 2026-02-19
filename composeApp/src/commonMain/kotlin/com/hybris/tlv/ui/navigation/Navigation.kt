@@ -9,9 +9,11 @@ import androidx.navigation.compose.NavHost
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.ui.navigation.graph.achievementScreen
+import com.hybris.tlv.ui.navigation.graph.catastropheExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.catastropheScreen
 import com.hybris.tlv.ui.navigation.graph.cheatScreen
 import com.hybris.tlv.ui.navigation.graph.creditScreen
+import com.hybris.tlv.ui.navigation.graph.eventExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.eventScreen
 import com.hybris.tlv.ui.navigation.graph.feedbackScreen
 import com.hybris.tlv.ui.navigation.graph.gameOverScreen
@@ -60,5 +62,7 @@ internal fun Navigation(
         scoreScreen(useCases = useCases)
         achievementScreen(useCases = useCases)
         creditScreen(useCases = useCases)
+        catastropheExplorerScreen(useCases = useCases)
+        eventExplorerScreen(useCases = useCases)
     }
 }

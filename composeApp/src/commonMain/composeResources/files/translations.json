@@ -3773,5 +3773,10 @@
     "languageIso": "en",
     "key": "achievement_fuel_zero_cryopods_max_description",
     "value": "The ship ran out of fuel with maxed-out cryopods"
+  },
+  {
+    "languageIso": "en",
+    "key": "catastrophe_screen__title",
+    "value": "Catastrophes"
   }
 ]

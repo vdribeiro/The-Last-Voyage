@@ -1,0 +1,79 @@
+package com.hybris.tlv.ui.screen.catastropheexplorer
+
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
+import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.screen.Screen
+import com.hybris.tlv.ui.screen.Store
+import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.theme.InjectTranslations
+import com.hybris.tlv.ui.theme.component.list.CatastropheList
+
+@Composable
+internal fun CatastropheExplorerScreen(store: Store<CatastropheExplorerState, Unit>) {
+    val storeState by store.stateFlow.collectAsStateWithLifecycle()
+
+    Screen(
+        store = store,
+        loading = storeState.loading,
+    ) {
+        CatastropheList(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(all = 16.dp),
+            catastrophes = storeState.catastrophes,
+            id = { it.id },
+            description = { it.description }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun CatastropheExplorerScreenLoadingPreview() = AppTheme {
+    CatastropheExplorerScreen(
+        store = Store(
+            initialState = CatastropheExplorerState(
+                loading = true,
+                catastrophes = emptyList()
+            )
+        )
+    )
+}
+
+@Preview
+@Composable
+private fun CatastropheExplorerScreenPreview() = AppTheme {
+    InjectTranslations(
+        translations = listOf(
+            Translation(
+                key = "catastrophe_screen__title",
+                value = "Catastrophes"
+            ),
+        )
+    )
+    CatastropheExplorerScreen(
+        store = Store(
+            initialState = CatastropheExplorerState(
+                loading = false,
+                catastrophes = listOf(
+                    Catastrophe(
+                        id = "Asteroid",
+                        description = "Go Boom!",
+                    ),
+                    Catastrophe(
+                        id = "Volcano",
+                        description = "Go Bam!",
+                    )
+                )
+            )
+        )
+    )
+}
