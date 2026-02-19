@@ -58,6 +58,10 @@ private fun EventExplorerScreenPreview() = AppTheme {
                 key = "event_screen__title",
                 value = "Events"
             ),
+            Translation(
+                key = "event_screen__parent",
+                value = "Parent Event"
+            ),
         )
     )
     EventExplorerScreen(
@@ -66,9 +70,27 @@ private fun EventExplorerScreenPreview() = AppTheme {
                 loading = false,
                 events = listOf(
                     Event(
-                        id = "Alarm",
-                        description = "Alarm!",
+                        id = "Engine Misfire",
+                        description = "Your engine clogs unexpectedly.",
                         parentId = null,
+                        outcome = null
+                    ),
+                    Event(
+                        id = "Push the Engine",
+                        description = "You can push the engine past its safety limits",
+                        parentId = null,
+                        outcome = null
+                    ),
+                    Event(
+                        id = "Go for speed",
+                        description = "You arrive sooner, but cause an engine strain, requiring repairs.",
+                        parentId = "Push the Engine",
+                        outcome = null
+                    ),
+                    Event(
+                        id = "Travel at a normally.",
+                        description = "You continue to travel as planned.",
+                        parentId = "Push the Engine",
                         outcome = null
                     )
                 )
