@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 internal expect fun getLanguage(): String
 
 /**
- * Get the date time in the local format.
+ * Get the date time in the locale appropriate format.
  */
 internal expect fun getLocalDateTime(utc: String = now()): String
 
