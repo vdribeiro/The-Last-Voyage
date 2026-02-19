@@ -1061,13 +1061,18 @@
   },
   {
     "languageIso": "en",
+    "key": "catastrophe__escape",
+    "value": "One ship escapes and begins: The Last Voyage."
+  },
+  {
+    "languageIso": "en",
     "key": "catastrophe__alien_invasion",
     "value": "Alien Invasion"
   },
   {
     "languageIso": "en",
     "key": "catastrophe__alien_invasion_description",
-    "value": "A hostile extraterrestrial force arrived and conquered Earth. Humanity must flee to survive against an enemy with superior technology.\n\nOne ship escapes and begins: The Last Voyage."
+    "value": "A hostile extraterrestrial force arrived and conquered Earth. Humanity must flee to survive against an enemy with superior technology."
   },
   {
     "languageIso": "en",
@@ -1077,7 +1082,7 @@
   {
     "languageIso": "en",
     "key": "catastrophe__asteroid_impact_description",
-    "value": "A massive asteroid collides with Earth, causing widespread destruction, tsunamis, earthquakes, and atmospheric changes. The impact wipes out most life on the planet.\n\nOne ship escapes and begins: The Last Voyage."
+    "value": "A massive asteroid collides with Earth, causing widespread destruction, tsunamis, earthquakes, and atmospheric changes. The impact wipes out most life on the planet."
   },
   {
     "languageIso": "en",
@@ -1087,7 +1092,7 @@
   {
     "languageIso": "en",
     "key": "catastrophe__ecological_collapse_description",
-    "value": "The delicate balance of Earth's ecosystems is shattered, leading to mass extinctions, resource depletion and climate instability. The planet becomes hostile to life.\n\nOne ship escapes and begins: The Last Voyage."
+    "value": "The delicate balance of Earth's ecosystems is shattered, leading to mass extinctions, resource depletion and climate instability. The planet becomes hostile to life."
   },
   {
     "languageIso": "en",
@@ -1097,7 +1102,7 @@
   {
     "languageIso": "en",
     "key": "catastrophe__nuclear_war_description",
-    "value": "A global conflict escalates into a full-scale nuclear exchange. Cities are destroyed, radiation spreads, and the aftermath leads to a nuclear winter, plunging the world into darkness and devastation.\n\nOne ship escapes and begins: The Last Voyage."
+    "value": "A global conflict escalates into a full-scale nuclear exchange. Cities are destroyed, radiation spreads, and the aftermath leads to a nuclear winter, plunging the world into darkness and devastation."
   },
   {
     "languageIso": "en",
@@ -1107,7 +1112,7 @@
   {
     "languageIso": "en",
     "key": "catastrophe__pandemic_description",
-    "value": "A highly infectious and deadly disease sweeps across the globe, overwhelming healthcare systems and causing societal collapse. The world struggles to find a cure and contain the spread of the illness, but ultimately fails.\n\nOne ship escapes and begins: The Last Voyage."
+    "value": "A highly infectious and deadly disease sweeps across the globe, overwhelming healthcare systems and causing societal collapse. The world struggles to find a cure and contain the spread of the illness, but ultimately fails."
   },
   {
     "languageIso": "en",
@@ -1117,7 +1122,7 @@
   {
     "languageIso": "en",
     "key": "catastrophe__rogue_ai_description",
-    "value": "An advanced artificial intelligence system becomes self-aware and decides that humanity is a threat. It turns against its creators, using its vast intelligence and control over technology to eliminate humanity.\n\nOne ship escapes and begins: The Last Voyage."
+    "value": "An advanced artificial intelligence system becomes self-aware and decides that humanity is a threat. It turns against its creators, using its vast intelligence and control over technology to eliminate humanity."
   },
   {
     "languageIso": "en",
@@ -1127,7 +1132,7 @@
   {
     "languageIso": "en",
     "key": "catastrophe__super_volcano_description",
-    "value": "A colossal supervolcano erupts, spewing ash and debris into the atmosphere. This eruption triggers global cooling, acid rain, and seismic disturbances, threatening the survival of countless species.\n\nOne ship escapes and begins: The Last Voyage."
+    "value": "A colossal supervolcano erupts, spewing ash and debris into the atmosphere. This eruption triggers global cooling, acid rain, and seismic disturbances, threatening the survival of countless species."
   },
   {
     "languageIso": "en",
@@ -3778,5 +3783,10 @@
     "languageIso": "en",
     "key": "catastrophe_screen__title",
     "value": "Catastrophes"
+  },
+  {
+    "languageIso": "en",
+    "key": "event_screen__title",
+    "value": "Events"
   }
 ]

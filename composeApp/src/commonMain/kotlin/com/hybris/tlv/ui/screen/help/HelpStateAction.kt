@@ -10,6 +10,8 @@ internal sealed interface HelpAction {
     data object Mechanics: HelpAction
     data object Habitability: HelpAction
     data object Score: HelpAction
+    data object Catastrophes: HelpAction
+    data object Events: HelpAction
     data class VersionClick(val reset: Boolean): HelpAction
     data object Reset: HelpAction
 }

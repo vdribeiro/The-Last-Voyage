@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +33,8 @@ internal fun LearnMenu(
     onPlanetTypesClick: () -> Unit = {},
     onHabitabilityClick: () -> Unit = {},
     onScoreClick: () -> Unit = {},
+    onCatastrophesClick: () -> Unit = {},
+    onEventsClick: () -> Unit = {},
 ) {
     val helpTranslation = getTranslation(key = "main_menu_screen__learn")
     val navigationTranslation = getTranslation(key = "main_menu_screen__navigation")
@@ -43,6 +46,21 @@ internal fun LearnMenu(
     val planetTypesTranslation = getTranslation(key = "main_menu_screen__planet_types")
     val habitabilityTranslation = getTranslation(key = "main_menu_screen__habitability")
     val scoreTranslation = getTranslation(key = "main_menu_screen__score")
+    val catastrophesTranslation = getTranslation(key = "catastrophe_screen__title")
+    val eventsTranslation = getTranslation(key = "event_screen__title")
+    val map = mapOf(
+        navigationTranslation to onNavigationClick,
+        panelTranslation to onPanelClick,
+        mechanicsTranslation to onMechanicsClick,
+        hostDefinitionTranslation to onHostDefinitionClick,
+        hostTypesTranslation to onHostTypesClick,
+        planetDefinitionTranslation to onPlanetDefinitionClick,
+        planetTypesTranslation to onPlanetTypesClick,
+        habitabilityTranslation to onHabitabilityClick,
+        scoreTranslation to onScoreClick,
+        catastrophesTranslation to onCatastrophesClick,
+        eventsTranslation to onEventsClick
+    )
 
     val typography = LocalTypography.current
     Column(
@@ -63,8 +81,8 @@ internal fun LearnMenu(
             verticalArrangement = Arrangement.spacedBy(space = 8.dp),
             scrollBar = false
         ) {
-            item {
-                Card(modifier = Modifier.clickable { onNavigationClick() }) {
+            items(items = map.keys.toList(), key = { it }) {
+                Card(modifier = Modifier.clickable { map[it]?.invoke() }) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -73,135 +91,7 @@ internal fun LearnMenu(
                         horizontalAlignment = Alignment.Start,
                     ) {
                         Text(
-                            text = navigationTranslation,
-                            style = typography.headlineSmall,
-                        )
-                    }
-                }
-            }
-            item {
-                Card(modifier = Modifier.clickable { onPanelClick() }) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 16.dp),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Text(
-                            text = panelTranslation,
-                            style = typography.headlineSmall,
-                        )
-                    }
-                }
-            }
-            item {
-                Card(modifier = Modifier.clickable { onMechanicsClick() }) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 16.dp),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Text(
-                            text = mechanicsTranslation,
-                            style = typography.headlineSmall,
-                        )
-                    }
-                }
-            }
-            item {
-                Card(modifier = Modifier.clickable { onHostDefinitionClick() }) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 16.dp),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Text(
-                            text = hostDefinitionTranslation,
-                            style = typography.headlineSmall,
-                        )
-                    }
-                }
-            }
-            item {
-                Card(modifier = Modifier.clickable { onHostTypesClick() }) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 16.dp),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Text(
-                            text = hostTypesTranslation,
-                            style = typography.headlineSmall,
-                        )
-                    }
-                }
-            }
-            item {
-                Card(modifier = Modifier.clickable { onPlanetDefinitionClick() }) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 16.dp),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Text(
-                            text = planetDefinitionTranslation,
-                            style = typography.headlineSmall,
-                        )
-                    }
-                }
-            }
-            item {
-                Card(modifier = Modifier.clickable { onPlanetTypesClick() }) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 16.dp),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Text(
-                            text = planetTypesTranslation,
-                            style = typography.headlineSmall,
-                        )
-                    }
-                }
-            }
-            item {
-                Card(modifier = Modifier.clickable { onHabitabilityClick() }) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 16.dp),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Text(
-                            text = habitabilityTranslation,
-                            style = typography.headlineSmall,
-                        )
-                    }
-                }
-            }
-            item {
-                Card(modifier = Modifier.clickable { onScoreClick() }) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 16.dp),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Text(
-                            text = scoreTranslation,
+                            text = it,
                             style = typography.headlineSmall,
                         )
                     }
@@ -255,6 +145,14 @@ private fun LearnMenuPreview() = AppTheme {
             Translation(
                 key = "main_menu_screen__mechanics",
                 value = "Tutorial"
+            ),
+            Translation(
+                key = "catastrophe_screen__title",
+                value = "Catastrophes"
+            ),
+            Translation(
+                key = "event_screen__title",
+                value = "Events"
             ),
         )
     )

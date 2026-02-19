@@ -49,7 +49,9 @@ internal fun CatastropheScreen(store: Store<CatastropheState, CatastropheAction>
                 .fillMaxSize()
                 .padding(all = 16.dp),
             title = selectedCatastrophe?.let { getTranslation(key = it.id) },
-            text = selectedCatastrophe?.let { getTranslation(key = it.description) }
+            text = selectedCatastrophe?.let {
+                "${getTranslation(key = it.description)}\n\n${getTranslation(key = "catastrophe__escape")}"
+            }
         )
     }
 }

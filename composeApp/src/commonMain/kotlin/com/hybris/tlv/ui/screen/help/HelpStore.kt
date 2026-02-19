@@ -5,7 +5,6 @@ import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.navigation.Screen.Tutorial
 import com.hybris.tlv.ui.screen.Store
 
 internal class HelpStore(
@@ -61,13 +60,15 @@ internal class HelpStore(
         when (action) {
             HelpAction.Navigation -> updateState { it.copy(currentContent = Content.NAVIGATION) }
             HelpAction.ControlPanel -> updateState { it.copy(currentContent = Content.CONTROL_PANEL) }
+            HelpAction.Mechanics -> navigate(screen = Screen.Tutorial())
             HelpAction.HostDefinition -> updateState { it.copy(currentContent = Content.HOST_DEFINITION) }
             HelpAction.HostType -> updateState { it.copy(currentContent = Content.HOST_TYPE) }
             HelpAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
             HelpAction.PlanetType -> updateState { it.copy(currentContent = Content.PLANET_TYPE) }
             HelpAction.Habitability -> updateState { it.copy(currentContent = Content.HABITABILITY) }
             HelpAction.Score -> updateState { it.copy(currentContent = Content.SCORE) }
-            HelpAction.Mechanics -> navigate(screen = Tutorial())
+            HelpAction.Catastrophes -> navigate(screen = Screen.CatastropheExplorer)
+            HelpAction.Events -> navigate(screen = Screen.EventExplorer)
             is HelpAction.VersionClick -> versionClick(action = action)
             HelpAction.Reset -> reset()
         }

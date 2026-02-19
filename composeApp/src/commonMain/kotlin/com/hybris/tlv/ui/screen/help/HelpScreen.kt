@@ -93,13 +93,14 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                     .padding(all = 16.dp),
                 onNavigationClick = { store.send(action = HelpAction.Navigation) },
                 onPanelClick = { store.send(action = HelpAction.ControlPanel) },
+                onMechanicsClick = { store.send(action = HelpAction.Mechanics) },
                 onHostDefinitionClick = { store.send(action = HelpAction.HostDefinition) },
                 onHostTypesClick = { store.send(action = HelpAction.HostType) },
                 onPlanetDefinitionClick = { store.send(action = HelpAction.PlanetDefinition) },
                 onPlanetTypesClick = { store.send(action = HelpAction.PlanetType) },
                 onHabitabilityClick = { store.send(action = HelpAction.Habitability) },
                 onScoreClick = { store.send(action = HelpAction.Score) },
-                onMechanicsClick = { store.send(action = HelpAction.Mechanics) }
+                onCatastrophesClick = { store.send(action = HelpAction.Catastrophes) },
             )
 
             Content.NAVIGATION -> PropertyList(
