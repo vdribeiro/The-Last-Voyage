@@ -101,6 +101,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 onHabitabilityClick = { store.send(action = HelpAction.Habitability) },
                 onScoreClick = { store.send(action = HelpAction.Score) },
                 onCatastrophesClick = { store.send(action = HelpAction.Catastrophes) },
+                onEventsClick = { store.send(action = HelpAction.Events) },
             )
 
             Content.NAVIGATION -> PropertyList(
