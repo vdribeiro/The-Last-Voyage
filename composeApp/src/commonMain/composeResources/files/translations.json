@@ -1797,7 +1797,7 @@
   {
     "languageIso": "en",
     "key": "event__unstable_wormhole_ignore_description",
-    "value": "Your continue to travel as planned."
+    "value": "You continue to travel as planned."
   },
   {
     "languageIso": "en",
@@ -1857,7 +1857,7 @@
   {
     "languageIso": "en",
     "key": "event__lost_probe_ignore_description",
-    "value": "Your continue to travel as planned."
+    "value": "You continue to travel as planned."
   },
   {
     "languageIso": "en",
@@ -1887,7 +1887,7 @@
   {
     "languageIso": "en",
     "key": "event__resource_rich_asteroid_ignore_description",
-    "value": "Your continue to travel as planned."
+    "value": "You continue to travel as planned."
   },
   {
     "languageIso": "en",
@@ -1947,7 +1947,7 @@
   {
     "languageIso": "en",
     "key": "event__ghost_ship_ignore_description",
-    "value": "Your continue to travel as planned."
+    "value": "You continue to travel as planned."
   },
   {
     "languageIso": "en",
