@@ -23,7 +23,8 @@ internal inline fun <T> EventList(
     modifier: Modifier = Modifier,
     events: List<T> = emptyList(),
     noinline id: (T) -> String = { uuid() },
-    crossinline description: (T) -> String? = { null }
+    crossinline description: (T) -> String? = { null },
+    crossinline parentId: (T) -> String? = { null }
 ) {
     val titleTranslation = getTranslation(key = "event_screen__title")
 

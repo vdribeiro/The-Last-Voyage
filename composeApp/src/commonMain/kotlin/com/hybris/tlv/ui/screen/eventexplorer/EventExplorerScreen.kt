@@ -30,7 +30,8 @@ internal fun EventExplorerScreen(store: Store<EventExplorerState, Unit>) {
                 .padding(all = 16.dp),
             events = storeState.events,
             id = { it.id },
-            description = { it.description }
+            description = { it.description },
+            parentId = { it.parentId }
         )
     }
 }
@@ -65,14 +66,8 @@ private fun EventExplorerScreenPreview() = AppTheme {
                 loading = false,
                 events = listOf(
                     Event(
-                        id = "Asteroid",
-                        description = "Go Boom!",
-                        parentId = null,
-                        outcome = null
-                    ),
-                    Event(
-                        id = "Volcano",
-                        description = "Go Bam!",
+                        id = "Alarm",
+                        description = "Alarm!",
                         parentId = null,
                         outcome = null
                     )
