@@ -77,6 +77,7 @@ internal fun PropertyCard(
                     if (name != null && icon != null) Spacer(modifier = Modifier.width(width = 8.dp))
                     icon?.let { it() }
                 }
+                subtitle?.let { Text(text = getTranslation(key = it), style = typography.titleSmall) }
                 if (name != null && description != null) Spacer(modifier = Modifier.height(height = 4.dp))
                 description?.let { Text(text = getTranslation(key = it), style = typography.bodyLarge) }
             }
@@ -92,12 +93,14 @@ private fun PropertyCardPreview() = AppTheme {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         PropertyCard(
             name = "Property",
+            subtitle = "Sub",
             description = "Hammer Time",
             leadingImage = "W".spectralTypeToImage(),
             icon = { Icon(imageVector = Icons.Filled.Apps) },
             trailingIcon = Icons.Filled.Check,
         )
         PropertyCard(name = "Property")
+        PropertyCard(subtitle = "Sub")
         PropertyCard(description = "Hammer Time")
         PropertyCard(
             name = "Property",
