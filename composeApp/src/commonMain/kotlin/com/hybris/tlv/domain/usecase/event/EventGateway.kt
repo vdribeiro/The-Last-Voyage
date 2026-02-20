@@ -1,17 +1,14 @@
 package com.hybris.tlv.domain.usecase.event
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
-import app.cash.sqldelight.coroutines.asFlow
-import app.cash.sqldelight.coroutines.mapToList
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.resource.JsonResource
 import com.hybris.tlv.core.telemetry.Telemetry
+import com.hybris.tlv.data.database.asFlow
 import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
@@ -71,11 +68,7 @@ internal class EventGateway(
     }
 
     override fun observeEvents(): Flow<List<Event>> =
-        eventDao.getEvents()
-            .asFlow()
-            .mapToList(context = Dispatcher.IO)
-            .map { events -> events.map { it.toEvent() } }
-            .flowOn(context = Dispatcher.Default)
+        eventDao.getEvents().asFlow { it.toEvent() }
 
     companion object Companion {
         private const val TAG = "Event"
