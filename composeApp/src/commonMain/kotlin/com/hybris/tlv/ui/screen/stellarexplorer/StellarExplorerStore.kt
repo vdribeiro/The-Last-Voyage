@@ -109,7 +109,7 @@ internal class StellarExplorerStore(
         }
     }
         .flowOn(context = Dispatcher.Default)
-        .observe { stellarHosts ->
+        .observe(id = "observeExoplanets") { stellarHosts ->
             stellarHostsFlow.value = stellarHosts
             updateState { it.copy(loading = false) }
         }

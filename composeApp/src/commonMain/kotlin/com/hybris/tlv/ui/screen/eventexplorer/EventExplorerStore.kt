@@ -53,7 +53,7 @@ internal class EventExplorerStore(
     }
 
     private fun observeEvents(): Job = eventUseCases.observeEvents()
-        .observe { events ->
+        .observe(id = "observeEvents") { events ->
             eventsFlow.value = events
             updateState { it.copy(loading = false) }
         }
