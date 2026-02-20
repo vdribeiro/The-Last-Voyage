@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.composed
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -81,13 +82,16 @@ internal fun Navigation(
  */
 @OptIn(ExperimentalComposeUiApi::class)
 internal fun Modifier.backNavigation(onBack: () -> Unit): Modifier = composed {
-    val onBack by rememberUpdatedState(newValue = onBack)
-    val navigationEventState = rememberNavigationEventState(currentInfo = NavigationEventInfo.None)
-    NavigationBackHandler(
-        state = navigationEventState,
-        isBackEnabled = true,
-        onBackCompleted = { onBack() }
-    )
-    onMouseClick(mouseClick = MouseClick.RIGHT) { onBack() }
-    onMouseClick(mouseClick = MouseClick.BACK) { onBack() }
+    BackHandler(enabled = true, onBack = onBack)
+    // TODO
+//    val onBack by rememberUpdatedState(newValue = onBack)
+//    val navigationEventState = rememberNavigationEventState(currentInfo = NavigationEventInfo.None)
+//    NavigationBackHandler(
+//        state = navigationEventState,
+//        isBackEnabled = true,
+//        onBackCompleted = { onBack() }
+//    )
+//    onMouseClick(mouseClick = MouseClick.RIGHT) { onBack() }
+//    onMouseClick(mouseClick = MouseClick.BACK) { onBack() }
+    this
 }
