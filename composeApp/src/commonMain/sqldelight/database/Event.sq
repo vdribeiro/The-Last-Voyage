@@ -29,12 +29,32 @@ WHERE Event.id = (
 );
 
 getEvents:
+WITH RECURSIVE EventTree AS (
+    SELECT
+        RootEvent.id,
+        RootEvent.description,
+        RootEvent.parentId,
+        RootEvent.outcome,
+        RootEvent.id AS sortPath
+    FROM Event RootEvent
+    WHERE parentId IS NULL
+    UNION ALL
+    SELECT
+        Event.id,
+        Event.description,
+        Event.parentId,
+        Event.outcome,
+        Tree.sortPath || '/' || Event.id
+    FROM Event
+    INNER JOIN EventTree Tree ON Event.parentId = Tree.id
+)
 SELECT
-    Event.id,
-    Event.description,
-    Event.parentId,
-    Event.outcome
-FROM Event;
+    EventTree.id,
+    EventTree.description,
+    EventTree.parentId,
+    EventTree.outcome
+FROM EventTree
+ORDER BY sortPath;
 
 getChildEvents:
 SELECT

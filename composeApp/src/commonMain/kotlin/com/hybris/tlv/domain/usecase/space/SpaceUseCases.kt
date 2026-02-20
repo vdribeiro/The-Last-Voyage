@@ -32,7 +32,7 @@ internal interface SpaceUseCases {
     suspend fun getStellarHost(id: String): StellarHost?
 
     /**
-     * Observe exoplanets.
+     * Observe all exoplanets.
      */
     fun observeExoplanets(): Flow<List<StellarHost>>
 

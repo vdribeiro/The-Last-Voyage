@@ -1,5 +1,6 @@
 package com.hybris.tlv.domain.usecase.event
 
+import kotlinx.coroutines.flow.Flow
 import com.hybris.tlv.domain.usecase.event.model.Event
 
 internal interface EventUseCases {
@@ -20,7 +21,7 @@ internal interface EventUseCases {
     suspend fun getRandomEvent(ids: Set<String>): List<Event>
 
     /**
-     * Get all [Event]s.
+     * Observe all [Event]s.
      */
-    suspend fun getEvents(): List<Event>
+    fun observeEvents(): Flow<List<Event>>
 }
