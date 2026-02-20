@@ -6,8 +6,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emptyFlow
@@ -24,6 +27,7 @@ import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.ui.command.Command
 import com.hybris.tlv.ui.command.sendCommand
+import com.hybris.tlv.ui.navigation.Navigate
 import com.hybris.tlv.ui.navigation.Screen
 
 /**
@@ -39,6 +43,8 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      */
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = initialState)
     val stateFlow: StateFlow<State> = _stateFlow.asStateFlow()
+    private val _navigationFlow: MutableSharedFlow<Navigate> = MutableSharedFlow()
+    val navigationFlow: SharedFlow<Navigate> = _navigationFlow.asSharedFlow()
 
     /**
      * Active jobs launched by the Store.
@@ -63,17 +69,16 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
         _stateFlow.updateAndGet(function = body)
 
     /**
-     * Launches a [Job] returned by [block] given an unique identifier [id] and [replace] parameter.
-     * If [id] is null, then the job is launched in 'fire and forget' mode.
-     * If [replace] is true and a job with [id] is already active, the existing job will be cancelled and replaced by the new one, otherwise the new request is ignored and the existing job is returned.
+     * Launches a [Job] returned by [block] given a unique identifier [id] and [replace] parameter.
+     * If [replace] is true and a job with [id] is already active, the existing job will be canceled and replaced by the new one, otherwise the new request is ignored and the existing job is returned.
      */
     private fun launchJob(
-        id: String?,
+        id: String,
         replace: Boolean,
         block: () -> Job
-    ): Job = if (id == null) block() else {
+    ): Job {
         val job = activeJobs[id]?.takeIf { it.isActive }
-        if (job != null && !replace) job else {
+        return if (job != null && !replace) job else {
             job?.cancel()
             block().also { job ->
                 activeJobs[id] = job
@@ -83,12 +88,11 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     }
 
     /**
-     * Launches a coroutine given an optional unique identifier [id].
-     * If [id] is provided, it ensures only one job with this id runs, otherwise the job is launched in 'fire and forget' mode.
-     * If [replace] is true and a job with [id] is already active, the existing job will be cancelled and replaced by the new one, otherwise the new request is ignored and the existing job is returned.
+     * Launches a suspending lambda [block] in the provided [context].
+     * If [replace] is true and a job with [id] is already active, the existing job will be canceled and replaced by the new one, otherwise the new request is ignored and the existing job is returned.
      */
     protected fun launch(
-        id: String? = null,
+        id: String,
         replace: Boolean = false,
         context: CoroutineContext = Dispatcher.Default,
         block: suspend CoroutineScope.() -> Unit
@@ -98,9 +102,8 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     ) { viewModelScope.launch(context = context, block = block) }
 
     /**
-     * Collects the upstream [kotlinx.coroutines.flow.Flow] in a lifecycle-aware manner, ensuring execution only occurs while the UI is actively observing the [stateFlow].
-     * If [id] is provided, it ensures only one job with this id runs.
-     * If [replace] is true and a job with [id] is already active, the existing job will be cancelled and replaced by the new one, otherwise the new request is ignored and the existing job is returned.
+     * Collects the upstream [Flow] in a lifecycle-aware manner, ensuring execution only occurs while the UI is actively observing the [stateFlow].
+     * If [replace] is true and a job with [id] is already active, the existing job will be canceled and replaced by the new one, otherwise the new request is ignored and the existing job is returned.
      * This function also acts as a resource safeguard, bridging the gap between the [ViewModel] scope which can persist in the backstack and the UI lifecycle which pauses when hidden.
      * The calling flow runs in the provided [context] and a [timeout] in milliseconds is used as a grace period to wait after the last subscriber disappears before cancelling the upstream flow.
      * The reason for this is to keep the connection alive when the subscription count drops to zero temporarily (screen rotation, configuration changes, rapid navigation, etc...),
@@ -110,7 +113,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     protected fun <T> Flow<T>.observe(
-        id: String? = null,
+        id: String,
         replace: Boolean = false,
         context: CoroutineContext = Dispatcher.IO,
         timeout: Long = 5000L,
@@ -148,5 +151,8 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     /**
      * Navigate to a new [screen].
      */
-    fun navigate(screen: Screen): Boolean = sendCommand(command = Command.Navigate(screen = screen))
+    fun navigate(screen: Screen) {
+//        _navigationFlow.emit(value = Navigate.To(screen = screen))
+        sendCommand(command = Command.Navigate(screen = screen))
+    }
 }
