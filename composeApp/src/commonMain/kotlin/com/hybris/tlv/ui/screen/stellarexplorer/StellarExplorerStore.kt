@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -36,7 +35,7 @@ internal class StellarExplorerStore(
         setup()
     }
 
-    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun setup() {
         Telemetry.info(tag = TAG, message = "Setup")
 

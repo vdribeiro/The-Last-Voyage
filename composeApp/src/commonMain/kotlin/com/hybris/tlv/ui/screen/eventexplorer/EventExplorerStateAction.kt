@@ -11,3 +11,8 @@ internal data class EventExplorerState(
     val search: String = "",
     val events: List<Event> = emptyList()
 )
+
+internal data class FilterCriteria(
+    val search: String,
+    val events: List<Event>
+)
