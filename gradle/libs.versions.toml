@@ -1,7 +1,7 @@
 [versions]
 
 # Kotlin
-kover = "0.9.6"
+kover = "0.9.7"
 kotlin = "2.3.10"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.10.0"
@@ -20,10 +20,11 @@ compose-material3 = "1.9.0"
 compose-icons = "1.7.3"
 lifecycle = "2.9.6"
 navigation = "2.9.2"
+navigation-back = "1.0.1"
 coil = "3.3.0"
 
 # Android
-android-plugin = "9.0.0"
+android-plugin = "9.0.1"
 android-startup = "1.2.0"
 androidx-exoplayer = "1.9.2"
 android-test-core = "1.7.0"
@@ -39,7 +40,7 @@ sql-js = "1.6.2"
 webpack = "9.1.0"
 
 # Crashlytics
-sentry = "0.23.1"
+sentry = "0.24.0"
 
 [plugins]
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
@@ -99,6 +100,7 @@ compose-icons = { module = "org.jetbrains.compose.material:material-icons-extend
 lifecycle = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 lifecycle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }
+navigation-back = { module = "org.jetbrains.androidx.navigationevent:navigationevent-compose", version.ref = "navigation-back" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 
 # Android
@@ -144,6 +146,7 @@ common = [
     "lifecycle",
     "lifecycle-runtime",
     "navigation",
+    "navigation-back",
     "coil-compose"
 ]
 common-test = [

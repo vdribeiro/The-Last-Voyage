@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -21,7 +22,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.PointerInputChange
+import androidx.compose.ui.input.pointer.isBackPressed
+import androidx.compose.ui.input.pointer.isForwardPressed
+import androidx.compose.ui.input.pointer.isPrimaryPressed
+import androidx.compose.ui.input.pointer.isSecondaryPressed
+import androidx.compose.ui.input.pointer.isTertiaryPressed
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
@@ -112,8 +119,7 @@ private fun Modifier.mobileGestureListener(
         }
     }
 
-    this
-        .nestedScroll(connection = nestedScrollConnection)
+    nestedScroll(connection = nestedScrollConnection)
         .pointerInput(key1 = Unit) {
             coroutineScope {
                 launch {
@@ -152,7 +158,7 @@ private fun Modifier.desktopGestureListener(
     checkSequence: (Gesture?) -> Unit
 ): Modifier = composed {
     val threshold: Float = with(receiver = LocalDensity.current) { thresholdDp.toPx() }
-    this.pointerInput(key1 = Unit) {
+    pointerInput(key1 = Unit) {
         awaitEachGesture {
             val down = awaitFirstDown(requireUnconsumed = false)
             var totalDrag = Offset.Zero
@@ -206,4 +212,42 @@ internal enum class Gesture {
     SWIPE_LEFT,
     SWIPE_RIGHT,
     TAP
+}
+
+/**
+ * A [Modifier] that listens for a specific [mouseClick] and triggers the [onClick] callback.
+ */
+internal fun Modifier.onMouseClick(
+    mouseClick: MouseClick,
+    onClick: () -> Unit
+): Modifier = composed {
+    val onClick by rememberUpdatedState(newValue = onClick)
+
+    pointerInput(key1 = mouseClick) {
+        awaitPointerEventScope {
+            while (true) {
+                val event = awaitPointerEvent()
+                if (event.type == PointerEventType.Release) {
+                    with(receiver = event.buttons) {
+                        if (when (mouseClick) {
+                                MouseClick.LEFT -> isPrimaryPressed
+                                MouseClick.RIGHT -> isSecondaryPressed
+                                MouseClick.MIDDLE -> isTertiaryPressed
+                                MouseClick.BACK -> isBackPressed
+                                MouseClick.FORWARD -> isForwardPressed
+                            }
+                        ) onClick()
+                    }
+                }
+            }
+        }
+    }
+}
+
+internal enum class MouseClick {
+    LEFT,
+    RIGHT,
+    MIDDLE,
+    BACK,
+    FORWARD
 }

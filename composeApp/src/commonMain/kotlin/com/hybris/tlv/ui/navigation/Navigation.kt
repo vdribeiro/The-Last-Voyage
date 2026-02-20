@@ -3,9 +3,16 @@ package com.hybris.tlv.ui.navigation
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationBackHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.ui.navigation.graph.achievementScreen
@@ -25,6 +32,8 @@ import com.hybris.tlv.ui.navigation.graph.scoreScreen
 import com.hybris.tlv.ui.navigation.graph.splashScreen
 import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
+import com.hybris.tlv.ui.theme.modifier.MouseClick
+import com.hybris.tlv.ui.theme.modifier.onMouseClick
 
 /**
  * The main navigation host for the application.
@@ -65,4 +74,20 @@ internal fun Navigation(
         catastropheExplorerScreen(useCases = useCases)
         eventExplorerScreen(useCases = useCases)
     }
+}
+
+/**
+ * A modifier that sets up back navigation handlers.
+ */
+@OptIn(ExperimentalComposeUiApi::class)
+internal fun Modifier.backNavigation(onBack: () -> Unit): Modifier = composed {
+    val onBack by rememberUpdatedState(newValue = onBack)
+    val navigationEventState = rememberNavigationEventState(currentInfo = NavigationEventInfo.None)
+    NavigationBackHandler(
+        state = navigationEventState,
+        isBackEnabled = true,
+        onBackCompleted = { onBack() }
+    )
+    onMouseClick(mouseClick = MouseClick.RIGHT) { onBack() }
+    onMouseClick(mouseClick = MouseClick.BACK) { onBack() }
 }
