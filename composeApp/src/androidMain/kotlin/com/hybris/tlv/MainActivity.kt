@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.TLV.App
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.cheats.enableGestureCheats
@@ -16,7 +17,11 @@ class MainActivity: ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            App(modifier = Modifier.enableGestureCheats())
+            val navController = rememberNavController()
+            App(
+                modifier = Modifier.enableGestureCheats(navController = navController),
+                navController = navController
+            )
         }
     }
 }

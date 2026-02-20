@@ -10,6 +10,7 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.TLV.App
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ExcludeFromTesting
@@ -35,7 +36,8 @@ fun main() = application {
     val appNameTranslation = getTranslation(key = "app_name")
     val windowState = rememberWindowState(placement = WindowPlacement.Maximized)
     val icon = painterResource(resource = Res.drawable.ic_launcher_round)
-    val keyListener = rememberKeySequenceCheats()
+    val navController = rememberNavController()
+    val keyListener = rememberKeySequenceCheats(navController = navController)
 
     Window(
         title = appNameTranslation,
@@ -44,6 +46,10 @@ fun main() = application {
         onPreviewKeyEvent = keyListener,
         onCloseRequest = ::exitApplication,
     ) {
-        App(modifier = Modifier, LocalWindowState provides windowState)
+        App(
+            modifier = Modifier,
+            navController = navController,
+            compositionValues = arrayOf(LocalWindowState provides windowState)
+        )
     }
 }

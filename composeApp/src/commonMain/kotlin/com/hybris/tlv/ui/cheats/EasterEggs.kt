@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
-import com.hybris.tlv.ui.command.Command
-import com.hybris.tlv.ui.command.sendCommand
+import androidx.navigation.NavHostController
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.navigate
 import com.hybris.tlv.ui.theme.modifier.Gesture
 import com.hybris.tlv.ui.theme.modifier.onGesture
 import com.hybris.tlv.ui.theme.modifier.rememberKeySequence
@@ -34,16 +34,16 @@ internal val konamiGestureCode = listOf(
  * Composable function that remembers the [konamiCode] and triggers a navigation to the cheat screen.
  */
 @Composable
-internal fun rememberKeySequenceCheats(): (KeyEvent) -> Boolean =
+internal fun rememberKeySequenceCheats(navController: NavHostController): (KeyEvent) -> Boolean =
     rememberKeySequence(sequence = konamiCode) {
-        sendCommand(command = Command.Navigate(screen = Screen.Cheat))
+        navController.navigate(screen = Screen.Cheat)
     }
 
 /**
  * [Modifier] that enables [konamiGestureCode] detection and triggers a navigation to the cheat screen.
  */
-internal fun Modifier.enableGestureCheats(): Modifier = composed {
+internal fun Modifier.enableGestureCheats(navController: NavHostController): Modifier = composed {
     onGesture(sequence = konamiGestureCode) {
-        sendCommand(command = Command.Navigate(screen = Screen.Cheat))
+        navController.navigate(screen = Screen.Cheat)
     }
 }

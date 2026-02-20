@@ -12,7 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavHostController
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.observeLocale
 import com.hybris.tlv.core.platform.isDebug
@@ -89,6 +89,7 @@ internal object TLV {
     @Composable
     fun App(
         modifier: Modifier,
+        navController: NavHostController,
         vararg compositionValues: ProvidedValue<*>
     ) {
         val dependency by dependency.collectAsState()
@@ -105,10 +106,10 @@ internal object TLV {
         } else App(
             modifier = modifier,
             compositionValues = compositionValues,
-            navController = rememberNavController(),
+            navController = navController,
             config = config,
             useCases = useCases,
-            audioPlayer = audioPlayer,
+            audioPlayer = audioPlayer
         )
     }
 }

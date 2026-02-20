@@ -46,13 +46,13 @@ internal fun <State, Action> Screen(
             { store.back() }
         } else null,
         onHelpClick = if (help) {
-            { sendCommand(command = Command.Navigate(screen = Screen.Help)) }
+            { store.navigate(screen = Screen.Help) }
         } else null,
         onMusicClick = if (music) {
             { sendCommand(command = Command.ToggleAudio) }
         } else null,
         onFeedbackClick = if (feedback) {
-            { sendCommand(command = Command.Navigate(screen = Screen.Feedback())) }
+            { store.navigate(screen = Screen.Feedback()) }
         } else null,
         title = title,
         topBar = topBar,

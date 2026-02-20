@@ -108,8 +108,8 @@ internal class AppTest: TestCase() {
                 modifier = Modifier
                     .testTag(tag = "app")
                     .focusRequester(focusRequester = FocusRequester()).focusable()
-                    .onKeyEvent(onKeyEvent = rememberKeySequenceCheats())
-                    .enableGestureCheats(),
+                    .onKeyEvent(onKeyEvent = rememberKeySequenceCheats(navController = navController))
+                    .enableGestureCheats(navController = navController),
                 navController = navController,
                 config = config,
                 useCases = useCases,
