@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
+import kotlin.concurrent.Volatile
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +28,7 @@ internal class StellarExplorerStore(
     initialState = StellarExplorerState()
 ) {
     @VisibleForTesting
+    @Volatile
     internal var formula: Formula = Formula()
     @VisibleForTesting
     internal var stellarHostsFlow: MutableStateFlow<List<StellarHost>> = MutableStateFlow(value = emptyList())
@@ -240,11 +242,11 @@ internal class StellarExplorerStore(
             Content.LIST_HOSTS,
             Content.LIST_PLANETS -> super.back(state = state)
 
-            Content.DETAIL_HOSTS -> launch {
+            Content.DETAIL_HOSTS -> launch(id = "back") {
                 updateState { it.copy(currentContent = Content.LIST_HOSTS, selectedStellarHost = null) }
             }
 
-            Content.DETAIL_PLANETS -> launch {
+            Content.DETAIL_PLANETS -> launch(id = "back") {
                 updateState { it.copy(currentContent = Content.LIST_PLANETS, selectedPlanet = null) }
             }
         }

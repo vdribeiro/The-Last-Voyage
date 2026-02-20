@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.help
 
+import kotlin.concurrent.Volatile
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
@@ -13,6 +14,7 @@ internal class HelpStore(
     initialState = HelpState()
 ) {
     @VisibleForTesting
+    @Volatile
     internal var versionClick: Int = 0
 
     init {

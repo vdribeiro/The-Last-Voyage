@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.game
 
+import kotlin.concurrent.Volatile
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
@@ -28,6 +29,7 @@ internal class GameStore(
     initialState = GameState(ship = ship)
 ) {
     @VisibleForTesting
+    @Volatile
     internal var gameSession: GameSession? = null
 
     init {

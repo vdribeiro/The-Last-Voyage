@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.gameover
 
+import kotlin.concurrent.Volatile
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.locale.getLocalDateTime
 import com.hybris.tlv.core.telemetry.Telemetry
@@ -17,8 +18,10 @@ internal class GameOverStore(
     initialState = GameOverState()
 ) {
     @VisibleForTesting
+    @Volatile
     internal var achievements: List<Achievement> = emptyList()
     @VisibleForTesting
+    @Volatile
     internal var index: Int = 0
 
     init {
@@ -69,7 +72,7 @@ internal class GameOverStore(
         }
     }
 
-    private fun nextAchievement(): Job = launch {
+    private fun nextAchievement(): Job = launch(id = "nextAchievement") {
         index++
         val achievement = achievements.getOrNull(index = index)
         updateState { it.copy(achievement = achievement) }

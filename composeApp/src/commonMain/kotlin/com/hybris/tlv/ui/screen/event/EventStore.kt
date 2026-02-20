@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.event
 
+import kotlin.concurrent.Volatile
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.event.EventUseCases
@@ -19,8 +20,10 @@ internal class EventStore(
     initialState = EventState(ship = ship)
 ) {
     @VisibleForTesting
+    @Volatile
     internal var gameSession: GameSession? = null
     @VisibleForTesting
+    @Volatile
     internal var eventChain: List<Event> = emptyList()
 
     init {
