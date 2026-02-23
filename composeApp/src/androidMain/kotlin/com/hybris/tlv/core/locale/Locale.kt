@@ -2,7 +2,6 @@ package com.hybris.tlv.core.locale
 
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlin.time.toJavaInstant
 import kotlinx.coroutines.channels.awaitClose
@@ -22,7 +21,6 @@ internal actual fun getLanguage(): String = runCatching {
     applicationContext.resources.configuration.locales[0].toLanguageTag()
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it) }.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
 
-@OptIn(ExperimentalTime::class)
 internal actual fun getLocalDateTime(utc: String): String = runCatching {
     DateTimeFormatter
         .ofLocalizedDateTime(FormatStyle.SHORT)

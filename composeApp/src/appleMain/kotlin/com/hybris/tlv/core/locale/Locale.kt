@@ -1,6 +1,5 @@
 package com.hybris.tlv.core.locale
 
-import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -24,7 +23,6 @@ internal actual fun getLanguage(): String = runCatching {
     (NSLocale.preferredLanguages.first() as String).replace(oldValue = "_", newValue = "-")
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it) }.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
 
-@OptIn(ExperimentalTime::class)
 internal actual fun getLocalDateTime(utc: String): String = runCatching {
     val instant = Instant.parse(input = utc)
     val timeZone = TimeZone.currentSystemDefault()

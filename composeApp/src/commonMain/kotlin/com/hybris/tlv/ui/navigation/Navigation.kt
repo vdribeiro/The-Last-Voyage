@@ -3,7 +3,9 @@ package com.hybris.tlv.ui.navigation
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.hybris.tlv.data.config.ConfigManager
@@ -65,4 +67,13 @@ internal fun Navigation(
         catastropheExplorerScreen(useCases = useCases)
         eventExplorerScreen(useCases = useCases)
     }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+internal fun Navigation(
+    onBack: (() -> Unit)?
+) {
+    // TODO - Replace deprecated BackHandler
+    BackHandler { onBack?.invoke() }
 }

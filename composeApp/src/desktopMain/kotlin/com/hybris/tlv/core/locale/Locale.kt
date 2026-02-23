@@ -5,7 +5,6 @@ import java.time.format.FormatStyle
 import java.util.Locale
 import java.util.Timer
 import java.util.TimerTask
-import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlin.time.toJavaInstant
 import kotlinx.coroutines.channels.awaitClose
@@ -20,7 +19,6 @@ internal actual fun getLanguage(): String = runCatching {
     Locale.getDefault().toLanguageTag()
 }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it) }.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
 
-@OptIn(ExperimentalTime::class)
 internal actual fun getLocalDateTime(utc: String): String = runCatching {
     DateTimeFormatter
         .ofLocalizedDateTime(FormatStyle.SHORT)

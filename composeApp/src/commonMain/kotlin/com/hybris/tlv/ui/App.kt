@@ -21,7 +21,7 @@ import com.hybris.tlv.ui.theme.getTranslationState
  */
 @Composable
 internal fun App(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     vararg compositionValues: ProvidedValue<*>,
     navController: NavHostController,
     config: ConfigManager,

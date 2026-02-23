@@ -52,6 +52,7 @@ internal class AppTest: TestCase() {
         setUI {
             navController = rememberNavController()
             App(
+                modifier = Modifier,
                 navController = navController,
                 config = config,
                 useCases = useCases,

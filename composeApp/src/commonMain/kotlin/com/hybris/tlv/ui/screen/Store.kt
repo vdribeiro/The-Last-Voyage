@@ -6,11 +6,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emptyFlow
@@ -27,7 +24,6 @@ import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.ui.command.Command
 import com.hybris.tlv.ui.command.sendCommand
-import com.hybris.tlv.ui.navigation.Navigate
 import com.hybris.tlv.ui.navigation.Screen
 
 /**
@@ -43,8 +39,6 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      */
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = initialState)
     val stateFlow: StateFlow<State> = _stateFlow.asStateFlow()
-    private val _navigationFlow: MutableSharedFlow<Navigate> = MutableSharedFlow()
-    val navigationFlow: SharedFlow<Navigate> = _navigationFlow.asSharedFlow()
 
     /**
      * Active jobs launched by the Store.
@@ -152,7 +146,6 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      * Navigate to a new [screen].
      */
     fun navigate(screen: Screen) {
-//        _navigationFlow.emit(value = Navigate.To(screen = screen))
         sendCommand(command = Command.Navigate(screen = screen))
     }
 }
