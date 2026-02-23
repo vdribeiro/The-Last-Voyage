@@ -16,17 +16,18 @@ import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.theme.component.container.Screen as ScreenContainer
 
 /**
- * A composable that handles displaying a loading indicator or the primary content.
+ * A composable that handles the navigation listener and displaying a loading indicator or the primary content.
  * @see ScreenContainer
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun <State, Action> Screen(
-    store: Store<State, Action>,
+internal fun Screen(
+    store: Store<*, *>,
     modifier: Modifier = Modifier,
     contentAlignment: Alignment = Alignment.TopStart,
     loading: Boolean = false,
     loadingDelayMillis: Long = 300L,
+    loadingMinDisplayTimeMillis: Long = 800L,
     loadingText: String = "",
     loadingBackground: Boolean = false,
     loadingProgress: Float? = null,
@@ -47,6 +48,7 @@ internal fun <State, Action> Screen(
         contentAlignment = contentAlignment,
         loading = loading,
         loadingDelayMillis = loadingDelayMillis,
+        loadingMinDisplayTimeMillis = loadingMinDisplayTimeMillis,
         loadingText = loadingText,
         loadingBackground = loadingBackground,
         loadingProgress = loadingProgress,
