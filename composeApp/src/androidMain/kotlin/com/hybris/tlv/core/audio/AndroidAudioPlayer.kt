@@ -10,9 +10,7 @@ import com.hybris.tlv.test.ExcludeFromTesting
 @ExcludeFromTesting
 internal class AndroidAudioPlayer: AudioPlayer() {
 
-    private val player: ExoPlayer by lazy {
-        ExoPlayer.Builder(applicationContext).build()
-    }
+    private val player: ExoPlayer = ExoPlayer.Builder(applicationContext).build()
     private var paused: Boolean = false
 
     override fun isPlaying(): Boolean = player.isPlaying

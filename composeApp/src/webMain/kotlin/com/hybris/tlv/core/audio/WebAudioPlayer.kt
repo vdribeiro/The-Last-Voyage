@@ -9,9 +9,7 @@ import org.w3c.dom.HTMLAudioElement
 @ExcludeFromTesting
 internal class WebAudioPlayer: AudioPlayer() {
 
-    private val player: HTMLAudioElement by lazy {
-        (document.createElement(localName = "audio") as HTMLAudioElement).apply { preload = "auto" }
-    }
+    private val player: HTMLAudioElement = (document.createElement(localName = "audio") as HTMLAudioElement).apply { preload = "auto" }
     private var currentIndex = -1
     private var paused: Boolean = false
 
