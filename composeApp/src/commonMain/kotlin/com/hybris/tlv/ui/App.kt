@@ -15,6 +15,7 @@ import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTranslationState
 import com.hybris.tlv.ui.theme.getTranslationState
+import  com.hybris.tlv.ui.audio.AudioPlayer as MusicPlayer
 
 /**
  * The main composable function that assembles the application UI.
@@ -41,7 +42,7 @@ internal fun App(
                 config = config,
                 useCases = useCases
             )
-            AudioPlayer()
+            MusicPlayer()
             CommandListener()
         }
     }
