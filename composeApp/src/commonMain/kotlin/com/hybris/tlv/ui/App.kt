@@ -64,3 +64,15 @@ internal fun App(
         }
     }
 }
+
+/**
+ * A wrapper composable for [androidx.compose.ui.tooling.preview.Preview]s.
+ */
+@Composable
+internal fun Preview(content: @Composable () -> Unit) {
+    CompositionLocalProvider(LocalTranslationState provides getTranslationState()) {
+        AppTheme {
+            content()
+        }
+    }
+}

@@ -19,9 +19,9 @@ import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
@@ -238,7 +238,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
 
 @Preview
 @Composable
-private fun TutorialScreenGoalPreview() = AppTheme {
+private fun TutorialScreenGoalPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -266,7 +266,7 @@ private fun TutorialScreenGoalPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun TutorialScreenShipPreview() = AppTheme {
+private fun TutorialScreenShipPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -290,7 +290,7 @@ private fun TutorialScreenShipPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun TutorialScreenSystemPreview() = AppTheme {
+private fun TutorialScreenSystemPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -314,7 +314,7 @@ private fun TutorialScreenSystemPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun TutorialScreenTravelPreview() = AppTheme {
+private fun TutorialScreenTravelPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -338,7 +338,7 @@ private fun TutorialScreenTravelPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun TutorialScreenGameOverPreview() = AppTheme {
+private fun TutorialScreenGameOverPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

@@ -14,9 +14,9 @@ import com.hybris.tlv.domain.usecase.ship.model.Engine
 import com.hybris.tlv.domain.usecase.ship.model.Ship
 import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.list.ScoreList
 
@@ -52,7 +52,7 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
 
 @Preview
 @Composable
-private fun ScoreScreenLoadingPreview() = AppTheme {
+private fun ScoreScreenLoadingPreview() = Preview {
     ScoreScreen(
         store = Store(
             initialState = ScoreState(
@@ -65,7 +65,7 @@ private fun ScoreScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun ScoreScreenPreview() = AppTheme {
+private fun ScoreScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

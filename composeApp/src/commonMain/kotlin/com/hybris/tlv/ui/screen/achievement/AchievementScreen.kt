@@ -11,9 +11,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.achievement.model.Achievement
 import com.hybris.tlv.domain.usecase.achievement.model.Precondition
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.list.AchievementList
 
@@ -39,7 +39,7 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
 
 @Preview
 @Composable
-private fun AchievementScreenLoadingPreview() = AppTheme {
+private fun AchievementScreenLoadingPreview() = Preview {
     AchievementScreen(
         store = Store(
             initialState = AchievementState(
@@ -52,7 +52,7 @@ private fun AchievementScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun AchievementScreenPreview() = AppTheme {
+private fun AchievementScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

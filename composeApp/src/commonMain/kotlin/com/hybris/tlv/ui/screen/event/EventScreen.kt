@@ -14,9 +14,9 @@ import com.hybris.tlv.domain.usecase.ship.model.Engine
 import com.hybris.tlv.domain.usecase.ship.model.Ship
 import com.hybris.tlv.domain.usecase.space.model.TravelOutcome
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
@@ -87,7 +87,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
 
 @Preview
 @Composable
-private fun EventScreenLoadingPreview() = AppTheme {
+private fun EventScreenLoadingPreview() = Preview {
     EventScreen(
         store = Store(
             initialState = EventState(
@@ -102,7 +102,7 @@ private fun EventScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun EventScreenPreview() = AppTheme {
+private fun EventScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

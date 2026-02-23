@@ -9,7 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.component.container.Scaffold
 
 @Composable
@@ -39,7 +39,7 @@ internal fun Snackbar(
 
 @Preview
 @Composable
-private fun SnackbarPreview() = AppTheme {
+private fun SnackbarPreview() = Preview {
     Scaffold(
         snackbarHost = {
             Snackbar(
@@ -51,7 +51,7 @@ private fun SnackbarPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun SnackbarWithButtonPreview() = AppTheme {
+private fun SnackbarWithButtonPreview() = Preview {
     Scaffold(
         snackbarHost = {
             Snackbar(

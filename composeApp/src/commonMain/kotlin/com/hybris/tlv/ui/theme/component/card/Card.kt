@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.component.text.Text
@@ -42,6 +42,6 @@ internal fun Card(
 
 @Preview
 @Composable
-private fun CardPreview() = AppTheme {
+private fun CardPreview() = Preview {
     Card { Text(text = "Preview") }
 }

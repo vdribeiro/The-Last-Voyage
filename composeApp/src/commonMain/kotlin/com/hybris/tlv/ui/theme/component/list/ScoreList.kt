@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.locale.getLocalDateTime
 import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.Score
@@ -97,7 +97,7 @@ internal inline fun <T> ScoreList(
 
 @Preview
 @Composable
-private fun ScoreListPreview() = AppTheme {
+private fun ScoreListPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

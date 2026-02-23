@@ -14,7 +14,7 @@ import com.hybris.tlv.core.platform.Platform
 import com.hybris.tlv.core.platform.platform
 import com.hybris.tlv.core.resource.ImageResource
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import thelastvoyage.composeapp.generated.resources.Res
 
 @Composable
@@ -75,7 +75,7 @@ private fun ImageWithResource(
 
 @Preview
 @Composable
-private fun ImagePreview() = AppTheme {
+private fun ImagePreview() = Preview {
     Image(image = ImageResource.LauncherForeground)
 }
 

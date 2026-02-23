@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalTypography
 
 @Composable
@@ -59,7 +59,7 @@ internal fun TypewriterText(
 
 @Preview
 @Composable
-private fun Preview() = AppTheme {
+private fun Preview() = Preview {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         TypewriterText(text = "Text")
         TypewriterText()

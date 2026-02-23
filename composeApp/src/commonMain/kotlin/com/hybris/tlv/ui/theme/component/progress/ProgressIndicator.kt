@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 
 @Composable
 internal fun ProgressIndicator(
@@ -35,7 +35,7 @@ internal fun ProgressIndicator(
 
 @Preview
 @Composable
-private fun ProgressIndicatorPreview() = AppTheme {
+private fun ProgressIndicatorPreview() = Preview {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         ProgressIndicator(progress = 0.5f)
         ProgressIndicator()

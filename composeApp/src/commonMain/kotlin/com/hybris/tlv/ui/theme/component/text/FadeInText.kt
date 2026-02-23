@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalTypography
 
 @Composable
@@ -48,7 +48,7 @@ internal fun FadeInText(
 
 @Preview
 @Composable
-private fun FadeInTextPreview() = AppTheme {
+private fun FadeInTextPreview() = Preview {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         FadeInText(text = "Fade Text")
         FadeInText()

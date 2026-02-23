@@ -22,15 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.event.model.Event
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.list.EventList
 import com.hybris.tlv.ui.theme.component.text.Input
-import com.hybris.tlv.ui.theme.modifier.clearFocus
 
 @OptIn(FlowPreview::class)
 @Composable
@@ -39,7 +38,6 @@ internal fun EventExplorerScreen(store: Store<EventExplorerState, EventExplorerA
 
     Screen(
         store = store,
-        modifier = Modifier.clearFocus(),
         loading = storeState.loading,
         topBar = {
             val typography = LocalTypography.current
@@ -86,7 +84,7 @@ internal fun EventExplorerScreen(store: Store<EventExplorerState, EventExplorerA
 
 @Preview
 @Composable
-private fun EventExplorerScreenLoadingPreview() = AppTheme {
+private fun EventExplorerScreenLoadingPreview() = Preview {
     EventExplorerScreen(
         store = Store(
             initialState = EventExplorerState(
@@ -99,7 +97,7 @@ private fun EventExplorerScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun EventExplorerScreenPreview() = AppTheme {
+private fun EventExplorerScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

@@ -18,9 +18,9 @@ import com.hybris.tlv.domain.usecase.ship.model.Engine
 import com.hybris.tlv.domain.usecase.ship.model.Ship
 import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
@@ -113,7 +113,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
 
 @Preview
 @Composable
-private fun GameOverScreenLoadingPreview() = AppTheme {
+private fun GameOverScreenLoadingPreview() = Preview {
     GameOverScreen(
         store = Store(
             initialState = GameOverState(
@@ -128,7 +128,7 @@ private fun GameOverScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun GameOverScreenMessagePreview() = AppTheme {
+private fun GameOverScreenMessagePreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -160,7 +160,7 @@ private fun GameOverScreenMessagePreview() = AppTheme {
 
 @Preview
 @Composable
-private fun GameOverScreenScorePreview() = AppTheme {
+private fun GameOverScreenScorePreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import androidx.compose.material3.Switch as MaterialSwitch
 
 @Composable
@@ -26,7 +26,7 @@ internal fun Switch(
 
 @Preview
 @Composable
-private fun SwitchPreview() = AppTheme {
+private fun SwitchPreview() = Preview {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         Switch(checked = true)
         Switch(checked = false)

@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.navigation.backNavigation
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.image.AppLogo
 import com.hybris.tlv.ui.theme.component.progress.showLoading
@@ -109,7 +109,7 @@ internal fun Screen(
 
 @Preview
 @Composable
-private fun ScreenLoadingPreview() = AppTheme {
+private fun ScreenLoadingPreview() = Preview {
     Screen(
         loading = true,
         loadingDelayMillis = 0L,
@@ -124,7 +124,7 @@ private fun ScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun ScreenPreview() = AppTheme {
+private fun ScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

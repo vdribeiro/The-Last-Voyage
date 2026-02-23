@@ -16,7 +16,7 @@ import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.card.PlanetCard
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
@@ -165,7 +165,7 @@ internal inline fun <T> PlanetList(
 
 @Preview
 @Composable
-private fun PlanetListPreview() = AppTheme {
+private fun PlanetListPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

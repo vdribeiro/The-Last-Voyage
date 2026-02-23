@@ -11,9 +11,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.ship.model.Engine
 import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
@@ -78,7 +78,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
 
 @Preview
 @Composable
-private fun NewGameScreenLoadingPreview() = AppTheme {
+private fun NewGameScreenLoadingPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -99,7 +99,7 @@ private fun NewGameScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun NewGameScreenShipPreview() = AppTheme {
+private fun NewGameScreenShipPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

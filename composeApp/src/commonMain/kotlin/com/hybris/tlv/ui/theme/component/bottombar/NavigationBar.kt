@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
@@ -52,7 +52,7 @@ internal inline fun <T> NavigationBar(
 
 @Preview
 @Composable
-private fun NavigationBarPreview() = AppTheme {
+private fun NavigationBarPreview() = Preview {
     NavigationBar(
         items = listOf(
             "Home",

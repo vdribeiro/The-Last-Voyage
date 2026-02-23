@@ -20,7 +20,7 @@ import com.hybris.tlv.core.resource.ImageResource
 import com.hybris.tlv.domain.usecase.space.roundTo
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -144,7 +144,7 @@ internal fun StellarHostCard(
 
 @Preview
 @Composable
-private fun StellarHostCardPreview() = AppTheme {
+private fun StellarHostCardPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

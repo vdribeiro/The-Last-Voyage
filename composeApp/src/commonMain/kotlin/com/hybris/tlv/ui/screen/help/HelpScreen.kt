@@ -38,9 +38,9 @@ import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -803,7 +803,7 @@ private val score = listOf(
 
 @Preview
 @Composable
-private fun HelpScreenLoadingPreview() = AppTheme {
+private fun HelpScreenLoadingPreview() = Preview {
     HelpScreen(
         store = Store(
             initialState = HelpState(
@@ -815,7 +815,7 @@ private fun HelpScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun HelpScreenPreview() = AppTheme {
+private fun HelpScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -877,7 +877,7 @@ private fun HelpScreenPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun HelpScreenHostDefinitionPreview() = AppTheme {
+private fun HelpScreenHostDefinitionPreview() = Preview {
     HelpScreen(
         store = Store(
             initialState = HelpState(
@@ -891,7 +891,7 @@ private fun HelpScreenHostDefinitionPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun HelpScreenPlanetDefinitionPreview() = AppTheme {
+private fun HelpScreenPlanetDefinitionPreview() = Preview {
     HelpScreen(
         store = Store(
             initialState = HelpState(
@@ -905,7 +905,7 @@ private fun HelpScreenPlanetDefinitionPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun HelpScreenHabitabilityPreview() = AppTheme {
+private fun HelpScreenHabitabilityPreview() = Preview {
     HelpScreen(
         store = Store(
             initialState = HelpState(

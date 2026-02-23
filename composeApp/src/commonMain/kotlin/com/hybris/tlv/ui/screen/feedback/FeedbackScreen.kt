@@ -9,12 +9,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.container.Feedback
-import com.hybris.tlv.ui.theme.modifier.clearFocus
 
 @Composable
 internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
@@ -22,7 +21,6 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
 
     Screen(
         store = store,
-        modifier = Modifier.clearFocus(),
         help = false,
         feedback = false
     ) {
@@ -40,7 +38,7 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
 
 @Preview
 @Composable
-private fun FeedbackScreenPreview() = AppTheme {
+private fun FeedbackScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -70,7 +68,7 @@ private fun FeedbackScreenPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun FeedbackScreenThanksPreview() = AppTheme {
+private fun FeedbackScreenThanksPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -104,7 +102,7 @@ private fun FeedbackScreenThanksPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun FeedbackScreenErrorPreview() = AppTheme {
+private fun FeedbackScreenErrorPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

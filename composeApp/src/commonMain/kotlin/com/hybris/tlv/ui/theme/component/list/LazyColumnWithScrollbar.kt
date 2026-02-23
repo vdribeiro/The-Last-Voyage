@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.component.card.Card
 import com.hybris.tlv.ui.theme.component.text.Text
@@ -78,7 +78,7 @@ internal fun LazyColumn(
 
 @Preview
 @Composable
-private fun LazyColumnPreview() = AppTheme {
+private fun LazyColumnPreview() = Preview {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()

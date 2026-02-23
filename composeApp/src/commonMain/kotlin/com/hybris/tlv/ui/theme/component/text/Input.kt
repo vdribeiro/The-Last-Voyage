@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.component.image.Icon
 
 @Composable
@@ -37,7 +37,7 @@ internal fun Input(
 
 @Preview
 @Composable
-private fun InputPreview() = AppTheme {
+private fun InputPreview() = Preview {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         Input(
             enabled = true,

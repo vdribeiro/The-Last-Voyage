@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.getTranslation
 
@@ -74,7 +74,7 @@ private data class GameNavigationItem(
 
 @Preview
 @Composable
-private fun GameNavigationBarPreview() = AppTheme {
+private fun GameNavigationBarPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

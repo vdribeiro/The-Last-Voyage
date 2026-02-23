@@ -16,9 +16,7 @@ import com.hybris.tlv.ui.lifecycle.observe
 @ExcludeFromTesting
 internal class AppleAudioPlayer: AudioPlayer() {
 
-    private val player: AVPlayer by lazy {
-        AVPlayer()
-    }
+    private val player: AVPlayer = AVPlayer()
     private var currentIndex = -1
     private var endOfSongObserver: NSObjectProtocol? = null
     private var paused: Boolean = false

@@ -1,10 +1,13 @@
 package com.hybris.tlv.ui.screen
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import com.hybris.tlv.ui.command.Command
 import com.hybris.tlv.ui.command.sendCommand
 import com.hybris.tlv.ui.navigation.Screen
@@ -34,8 +37,9 @@ internal fun <State, Action> Screen(
     snackbarHost: @Composable () -> Unit = {},
     content: @Composable BoxScope.() -> Unit = {}
 ) {
+    val focusManager = LocalFocusManager.current
     ScreenContainer(
-        modifier = modifier,
+        modifier = modifier.pointerInput(key1 = Unit) { detectTapGestures(onTap = { focusManager.clearFocus() }) },
         contentAlignment = contentAlignment,
         loading = loading,
         loadingDelayMillis = loadingDelayMillis,

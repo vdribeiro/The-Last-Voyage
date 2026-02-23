@@ -12,9 +12,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.core.platform.open
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.MainBar
@@ -67,7 +67,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
 
 @Preview
 @Composable
-private fun MainMenuScreenLoadingPreview() = AppTheme {
+private fun MainMenuScreenLoadingPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -93,7 +93,7 @@ private fun MainMenuScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun MainMenuScreenAllPreview() = AppTheme {
+private fun MainMenuScreenAllPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -139,7 +139,7 @@ private fun MainMenuScreenAllPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun MainMenuScreenContinuePreview() = AppTheme {
+private fun MainMenuScreenContinuePreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

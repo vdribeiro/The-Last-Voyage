@@ -10,9 +10,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.list.CatastropheList
 
@@ -37,7 +37,7 @@ internal fun CatastropheExplorerScreen(store: Store<CatastropheExplorerState, Un
 
 @Preview
 @Composable
-private fun CatastropheExplorerScreenLoadingPreview() = AppTheme {
+private fun CatastropheExplorerScreenLoadingPreview() = Preview {
     CatastropheExplorerScreen(
         store = Store(
             initialState = CatastropheExplorerState(
@@ -50,7 +50,7 @@ private fun CatastropheExplorerScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun CatastropheExplorerScreenPreview() = AppTheme {
+private fun CatastropheExplorerScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

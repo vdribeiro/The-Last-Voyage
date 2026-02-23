@@ -19,15 +19,14 @@ import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.list.PlanetList
 import com.hybris.tlv.ui.theme.component.list.StellarHostList
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.ui.theme.getTranslation
-import com.hybris.tlv.ui.theme.modifier.clearFocus
 
 @Composable
 internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExplorerAction>) {
@@ -45,7 +44,6 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
 
     Screen(
         store = store,
-        modifier = Modifier.clearFocus(),
         loading = storeState.loading,
         topBar = {
             // Control panel definitions according to selected view
@@ -260,7 +258,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
 
 @Preview
 @Composable
-private fun StellarExplorerScreenLoadingPreview() = AppTheme {
+private fun StellarExplorerScreenLoadingPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -294,7 +292,7 @@ private fun StellarExplorerScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerScreenHostListPreview() = AppTheme {
+private fun StellarExplorerScreenHostListPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -367,7 +365,7 @@ private fun StellarExplorerScreenHostListPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerScreenHostDetailPreview() = AppTheme {
+private fun StellarExplorerScreenHostDetailPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -454,7 +452,7 @@ private fun StellarExplorerScreenHostDetailPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerScreenSearchHostsPreview() = AppTheme {
+private fun StellarExplorerScreenSearchHostsPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -488,7 +486,7 @@ private fun StellarExplorerScreenSearchHostsPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerScreenPlanetListPreview() = AppTheme {
+private fun StellarExplorerScreenPlanetListPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -557,7 +555,7 @@ private fun StellarExplorerScreenPlanetListPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerScreenPlanetDetailPreview() = AppTheme {
+private fun StellarExplorerScreenPlanetDetailPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -627,7 +625,7 @@ private fun StellarExplorerScreenPlanetDetailPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun StellarExplorerScreenSearchPlanetPreview() = AppTheme {
+private fun StellarExplorerScreenSearchPlanetPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

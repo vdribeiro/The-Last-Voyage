@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.domain.usecase.space.roundTo
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.card.StatDisplay
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
@@ -72,7 +72,7 @@ internal fun ShipStats(
 
 @Preview
 @Composable
-private fun ShipStatsPreview() = AppTheme {
+private fun ShipStatsPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

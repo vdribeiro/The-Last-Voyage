@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.AppLogo
@@ -67,7 +67,7 @@ internal fun MainMenu(
 
 @Preview
 @Composable
-private fun MainMenuPreview() = AppTheme {
+private fun MainMenuPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

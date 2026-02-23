@@ -9,9 +9,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.container.CheatSheet
 
@@ -46,7 +46,7 @@ internal fun CheatScreen(store: Store<CheatState, CheatAction>) {
 
 @Preview
 @Composable
-private fun CheatScreenLoadingPreview() = AppTheme {
+private fun CheatScreenLoadingPreview() = Preview {
     CheatScreen(
         store = Store(
             initialState = CheatState(
@@ -58,7 +58,7 @@ private fun CheatScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun CheatScreenPreview() = AppTheme {
+private fun CheatScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

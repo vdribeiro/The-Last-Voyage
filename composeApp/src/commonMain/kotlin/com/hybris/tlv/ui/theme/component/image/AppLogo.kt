@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.resource.ImageResource
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.progress.ProgressIndicator
 import com.hybris.tlv.ui.theme.component.text.Text
@@ -72,7 +72,7 @@ internal fun AppLogo(
 
 @Preview
 @Composable
-private fun AppLogoPreview() = AppTheme {
+private fun AppLogoPreview() = Preview {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         AppLogo(
             showBackground = true,

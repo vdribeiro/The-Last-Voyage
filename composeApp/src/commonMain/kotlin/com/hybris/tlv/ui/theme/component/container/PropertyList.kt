@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.resource.ImageResource
 import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
@@ -71,7 +71,7 @@ internal inline fun <T> PropertyList(
 
 @Preview
 @Composable
-private fun PlanetDefinitionPreview() = AppTheme {
+private fun PlanetDefinitionPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

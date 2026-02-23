@@ -11,9 +11,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.credit.model.Credit
 import com.hybris.tlv.domain.usecase.credit.model.CreditType
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.list.CreditList
 
@@ -46,7 +46,7 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
 
 @Preview
 @Composable
-private fun CreditScreenLoadingPreview() = AppTheme {
+private fun CreditScreenLoadingPreview() = Preview {
     CreditScreen(
         store = Store(
             initialState = CreditState(
@@ -59,7 +59,7 @@ private fun CreditScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun CreditScreenPreview() = AppTheme {
+private fun CreditScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

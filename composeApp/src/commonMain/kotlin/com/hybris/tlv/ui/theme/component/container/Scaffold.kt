@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.component.text.Text
 import androidx.compose.material3.Scaffold as MaterialScaffold
 
@@ -31,7 +31,7 @@ internal fun Scaffold(
 
 @Preview
 @Composable
-private fun ScaffoldPreview() = AppTheme {
+private fun ScaffoldPreview() = Preview {
     Scaffold(
         topBar = { Text(text = "Top Bar") },
         bottomBar = { Text(text = "Bottom Bar") },

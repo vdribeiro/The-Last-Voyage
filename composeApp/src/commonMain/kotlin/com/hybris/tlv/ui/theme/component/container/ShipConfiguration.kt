@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
@@ -118,7 +118,7 @@ internal inline fun <T> ShipConfiguration(
 
 @Preview
 @Composable
-private fun ShipConfigurationPreview() = AppTheme {
+private fun ShipConfigurationPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(

@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalColorScheme
 import androidx.compose.material3.Text as MaterialText
 
@@ -62,7 +62,7 @@ internal fun Text(
 
 @Preview
 @Composable
-private fun TextPreview() = AppTheme {
+private fun TextPreview() = Preview {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         val colorScheme = LocalColorScheme.current
         Text(text = "Text")

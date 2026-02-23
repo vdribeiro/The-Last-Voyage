@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.security.uuid
-import com.hybris.tlv.ui.theme.AppTheme
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 
@@ -50,7 +50,7 @@ internal fun ButtonsBar(
 
 @Preview
 @Composable
-private fun ButtonsBarPreview() = AppTheme {
+private fun ButtonsBarPreview() = Preview {
     ButtonsBar(
         buttons = listOf(
             BottomButton(text = "Button 1"),

@@ -11,9 +11,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
@@ -58,7 +58,7 @@ internal fun CatastropheScreen(store: Store<CatastropheState, CatastropheAction>
 
 @Preview
 @Composable
-private fun CatastropheScreenLoadingPreview() = AppTheme {
+private fun CatastropheScreenLoadingPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -79,7 +79,7 @@ private fun CatastropheScreenLoadingPreview() = AppTheme {
 
 @Preview
 @Composable
-private fun CatastropheScreenStartPreview() = AppTheme {
+private fun CatastropheScreenStartPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
