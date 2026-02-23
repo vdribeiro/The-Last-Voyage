@@ -3,23 +3,28 @@ package com.hybris.tlv.ui.audio
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.core.audio.AudioPlayer
 import com.hybris.tlv.core.resource.AudioResource
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.ui.lifecycle.Register
+import com.hybris.tlv.ui.navigation.LocalNavController
 import com.hybris.tlv.ui.navigation.Screen
+
+internal val LocalAudioPlayer = staticCompositionLocalOf { AudioPlayer() }
 
 /**
  * Composable that manages audio playback based on the current navigation destination and app lifecycle.
  */
 @Composable
 internal fun AudioPlayer(
-    navController: NavHostController,
-    audioPlayer: AudioPlayer,
+    navController: NavHostController = LocalNavController.current ?: rememberNavController(),
+    audioPlayer: AudioPlayer = LocalAudioPlayer.current
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val destination = navBackStackEntry?.destination

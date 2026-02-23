@@ -3,11 +3,13 @@ package com.hybris.tlv.ui.navigation
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.ui.navigation.graph.achievementScreen
@@ -28,6 +30,8 @@ import com.hybris.tlv.ui.navigation.graph.splashScreen
 import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
 
+internal val LocalNavController = staticCompositionLocalOf<NavHostController?> { null }
+
 /**
  * The main navigation host for the application.
  * This composable sets up the [NavHost] and defines all the possible navigation destinations within the app,
@@ -36,7 +40,7 @@ import com.hybris.tlv.ui.navigation.graph.tutorialScreen
 @Composable
 internal fun Navigation(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
+    navController: NavHostController = LocalNavController.current ?: rememberNavController(),
     config: ConfigManager,
     useCases: UseCases
 ) {

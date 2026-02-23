@@ -8,8 +8,9 @@ import androidx.navigation.NavHostController
 import com.hybris.tlv.core.audio.AudioPlayer
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.domain.usecase.UseCases
-import com.hybris.tlv.ui.audio.AudioPlayer
+import com.hybris.tlv.ui.audio.LocalAudioPlayer
 import com.hybris.tlv.ui.command.CommandListener
+import com.hybris.tlv.ui.navigation.LocalNavController
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTranslationState
@@ -29,26 +30,19 @@ internal fun App(
     audioPlayer: AudioPlayer
 ) {
     val compositionValues = compositionValues + listOf(
-        LocalTranslationState provides getTranslationState()
+        LocalTranslationState provides getTranslationState(),
+        LocalNavController provides navController,
+        LocalAudioPlayer provides audioPlayer,
     )
     CompositionLocalProvider(*compositionValues.toTypedArray()) {
         AppTheme {
             Navigation(
                 modifier = modifier,
-                navController = navController,
                 config = config,
                 useCases = useCases
             )
-
-            AudioPlayer(
-                navController = navController,
-                audioPlayer = audioPlayer
-            )
-
-            CommandListener(
-                navController = navController,
-                audioPlayer = audioPlayer
-            )
+            AudioPlayer()
+            CommandListener()
         }
     }
 }
