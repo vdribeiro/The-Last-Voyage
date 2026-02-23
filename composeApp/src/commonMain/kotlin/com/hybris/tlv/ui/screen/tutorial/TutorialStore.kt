@@ -11,15 +11,6 @@ internal class TutorialStore(
 ): Store<TutorialState, TutorialAction>(
     initialState = TutorialState()
 ) {
-
-    private fun finish(state: TutorialState): Job = launch(id = "finish") {
-        config.setPreferences { it.copy(showTutorial = false) }
-        when {
-            newGame -> navigate(screen = Screen.NewGame)
-            else -> back(state = state)
-        }
-    }
-
     private fun next(state: TutorialState) {
         when (state.currentContent) {
             Content.WELCOME -> updateState { it.copy(currentContent = Content.GOAL) }
@@ -28,6 +19,14 @@ internal class TutorialStore(
             Content.TRAVEL -> updateState { it.copy(currentContent = Content.SYSTEM) }
             Content.SYSTEM -> updateState { it.copy(currentContent = Content.GAME_OVER) }
             Content.GAME_OVER -> finish(state = state)
+        }
+    }
+
+    private fun finish(state: TutorialState): Job = launch(id = "finish") {
+        config.setPreferences { it.copy(showTutorial = false) }
+        when {
+            newGame -> navigate(screen = Screen.NewGame)
+            else -> back(state = state)
         }
     }
 
