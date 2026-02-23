@@ -46,18 +46,14 @@ internal class AppTest: TestCase() {
             )
         }
         lateinit var navController: NavHostController
-        val config = dependency.get().config
-        val useCases = dependency.get().useCases
-        val audioPlayer = dependency.get().audioPlayer
+        val dependency = dependency.get()
         setUI {
             navController = rememberNavController()
             App(
                 modifier = Modifier,
                 compositionValues = emptyList(),
                 navController = navController,
-                config = config,
-                useCases = useCases,
-                audioPlayer = audioPlayer
+                dependency = dependency
             )
         }
 
@@ -100,9 +96,7 @@ internal class AppTest: TestCase() {
             )
         }
         lateinit var navController: NavHostController
-        val config = dependency.get().config
-        val useCases = dependency.get().useCases
-        val audioPlayer = dependency.get().audioPlayer
+        val dependency = dependency.get()
         setUI {
             navController = rememberNavController()
             App(
@@ -113,9 +107,7 @@ internal class AppTest: TestCase() {
                     .enableGestureCheats(navController = navController),
                 compositionValues = emptyList(),
                 navController = navController,
-                config = config,
-                useCases = useCases,
-                audioPlayer = audioPlayer
+                dependency = dependency
             )
         }
 
