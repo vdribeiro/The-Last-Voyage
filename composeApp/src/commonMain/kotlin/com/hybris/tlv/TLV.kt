@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.hybris.tlv.core.flow.Dispatcher
@@ -25,7 +24,7 @@ import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.App
-import com.hybris.tlv.ui.theme.component.container.Screen
+import com.hybris.tlv.ui.theme.component.container.LoadingScreen
 
 /**
  * The main object for The Last Voyage application.
@@ -96,20 +95,13 @@ internal object TLV {
         val config = dependency?.config
         val useCases = dependency?.useCases
         val audioPlayer = dependency?.audioPlayer
-        if (config == null || useCases == null || audioPlayer == null) App(*compositionValues) {
-            Screen(
-                contentAlignment = Alignment.Center,
-                loading = true,
-                loadingDelayMillis = 0L,
-                loadingBackground = true
-            )
-        } else App(
+        if (config != null && useCases != null && audioPlayer != null) App(
             modifier = modifier,
             compositionValues = compositionValues,
             navController = navController,
             config = config,
             useCases = useCases,
             audioPlayer = audioPlayer
-        )
+        ) else LoadingScreen()
     }
 }
