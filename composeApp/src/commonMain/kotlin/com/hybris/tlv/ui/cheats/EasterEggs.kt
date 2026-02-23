@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.cheats
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.navigation.NavHostController
@@ -35,15 +34,10 @@ internal val konamiGestureCode = listOf(
  */
 @Composable
 internal fun rememberKeySequenceCheats(navController: NavHostController): (KeyEvent) -> Boolean =
-    rememberKeySequence(sequence = konamiCode) {
-        navController.navigate(screen = Screen.Cheat)
-    }
+    rememberKeySequence(sequence = konamiCode) { navController.navigate(screen = Screen.Cheat) }
 
 /**
  * [Modifier] that enables [konamiGestureCode] detection and triggers a navigation to the cheat screen.
  */
-internal fun Modifier.enableGestureCheats(navController: NavHostController): Modifier = composed {
-    onGesture(sequence = konamiGestureCode) {
-        navController.navigate(screen = Screen.Cheat)
-    }
-}
+internal fun Modifier.enableGestureCheats(navController: NavHostController): Modifier =
+    onGesture(sequence = konamiGestureCode) { navController.navigate(screen = Screen.Cheat) }
