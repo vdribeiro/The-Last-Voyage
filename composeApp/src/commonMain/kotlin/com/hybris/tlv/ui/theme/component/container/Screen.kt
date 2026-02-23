@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
-import com.hybris.tlv.ui.navigation.backNavigation
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.image.AppLogo
 import com.hybris.tlv.ui.theme.component.progress.showLoading
@@ -51,8 +50,7 @@ internal fun Screen(
 ) {
     Scaffold(
         modifier = modifier
-            .fillMaxSize()
-            .backNavigation { onBackClick?.invoke() },
+            .fillMaxSize(),
         topBar = {
             Column(
                 modifier = Modifier

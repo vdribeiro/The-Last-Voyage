@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import com.hybris.tlv.ui.command.Command
@@ -17,6 +19,7 @@ import com.hybris.tlv.ui.theme.component.container.Screen as ScreenContainer
  * A composable that handles displaying a loading indicator or the primary content.
  * @see ScreenContainer
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun <State, Action> Screen(
     store: Store<State, Action>,
@@ -37,6 +40,7 @@ internal fun <State, Action> Screen(
     snackbarHost: @Composable () -> Unit = {},
     content: @Composable BoxScope.() -> Unit = {}
 ) {
+    BackHandler { if (back) store.back() }
     val focusManager = LocalFocusManager.current
     ScreenContainer(
         modifier = modifier.pointerInput(key1 = Unit) { detectTapGestures(onTap = { focusManager.clearFocus() }) },

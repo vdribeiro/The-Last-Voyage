@@ -3,10 +3,7 @@ package com.hybris.tlv.ui.navigation
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
-import androidx.compose.ui.composed
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.hybris.tlv.data.config.ConfigManager
@@ -68,13 +65,4 @@ internal fun Navigation(
         catastropheExplorerScreen(useCases = useCases)
         eventExplorerScreen(useCases = useCases)
     }
-}
-
-/**
- * A modifier that sets up back navigation handlers.
- */
-@OptIn(ExperimentalComposeUiApi::class)
-internal fun Modifier.backNavigation(onBack: () -> Unit): Modifier = composed {
-    BackHandler { onBack() }
-    this
 }

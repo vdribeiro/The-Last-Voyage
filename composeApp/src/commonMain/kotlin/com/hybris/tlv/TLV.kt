@@ -22,7 +22,6 @@ import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
-import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.App
 import com.hybris.tlv.ui.theme.component.container.LoadingScreen
 
@@ -30,7 +29,6 @@ import com.hybris.tlv.ui.theme.component.container.LoadingScreen
  * The main object for The Last Voyage application.
  * Serves as the central hub, holding dependencies and providing a clean entry point for the UI.
  */
-@ExcludeFromTesting
 internal object TLV {
 
     private const val TAG = "TLV"
