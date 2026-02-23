@@ -76,6 +76,7 @@ internal fun Navigation(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun Navigation(
+    navController: NavHostController,
     onBack: (() -> Unit)?
 ) {
     // TODO - Replace deprecated BackHandler

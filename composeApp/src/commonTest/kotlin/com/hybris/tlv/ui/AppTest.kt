@@ -61,7 +61,6 @@ internal class AppTest: TestCase() {
             )
         }
 
-        sendCommand(command = Command.ToggleAudio)
         assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
         waitForIdle()
 

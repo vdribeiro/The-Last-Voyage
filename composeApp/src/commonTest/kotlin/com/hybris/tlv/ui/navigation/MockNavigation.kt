@@ -23,7 +23,6 @@ internal class MockNavigation {
             when (command) {
                 is Command.Navigate -> screens.addOrTruncate(element = command.screen)
                 Command.Back -> screens.removeLastOrNull()
-                Command.ToggleAudio -> {}
             }
         }
     }
