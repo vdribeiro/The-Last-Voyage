@@ -4,7 +4,6 @@ package com.hybris.tlv
 
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
@@ -47,9 +46,8 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
     ) {
         App(
-            modifier = Modifier,
             navController = navController,
-            compositionValues = arrayOf(LocalWindowState provides windowState)
+            compositionValues = listOf(LocalWindowState provides windowState)
         )
     }
 }

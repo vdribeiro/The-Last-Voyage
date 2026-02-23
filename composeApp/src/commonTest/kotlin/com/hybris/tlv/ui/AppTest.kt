@@ -53,6 +53,7 @@ internal class AppTest: TestCase() {
             navController = rememberNavController()
             App(
                 modifier = Modifier,
+                compositionValues = emptyList(),
                 navController = navController,
                 config = config,
                 useCases = useCases,
@@ -111,6 +112,7 @@ internal class AppTest: TestCase() {
                     .focusRequester(focusRequester = FocusRequester()).focusable()
                     .onKeyEvent(onKeyEvent = rememberKeySequenceCheats(navController = navController))
                     .enableGestureCheats(navController = navController),
+                compositionValues = emptyList(),
                 navController = navController,
                 config = config,
                 useCases = useCases,

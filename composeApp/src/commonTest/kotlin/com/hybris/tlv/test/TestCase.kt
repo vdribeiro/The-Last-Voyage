@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -28,12 +29,12 @@ import com.hybris.tlv.data.http.createMockHttpEngine
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
-import com.hybris.tlv.ui.App
 import com.hybris.tlv.ui.lifecycle.lifecycleOwner
 import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.screen.StoreFactory
+import com.hybris.tlv.ui.theme.AppTheme
 
 /**
  * Abstract class for defining test cases.
@@ -125,22 +126,26 @@ internal abstract class TestCase: PlatformTestCase() {
     /**
      * Resets the test environment.
      */
-    private fun reset() {
+    private suspend fun reset() {
+        FeatureFlags.set { testFlags }
+        Telemetry.engine = null
         setDispatcher(dispatcher = Dispatchers.Unconfined)
         Dispatchers.resetMain()
+        resetData()
+        navigation.clear()
     }
 
     /**
      * Executes a unit test.
      * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
      */
-    protected fun runUnitTest(block: suspend TestScope.() -> Unit) {
+    protected fun runUnitTest(block: suspend TestScope.(TestDispatcher) -> Unit) {
         runTest {
             val testDispatcher = UnconfinedTestDispatcher(scheduler = testScheduler)
             setup(dispatcher = testDispatcher)
             backgroundScope.launch(context = testDispatcher) { navigation.receiveCommands() }
             try {
-                block()
+                block(testDispatcher)
                 testScheduler.advanceUntilIdle()
             } finally {
                 reset()
@@ -152,14 +157,14 @@ internal abstract class TestCase: PlatformTestCase() {
      * Executes a UI test.
      * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
      */
-    protected fun runUITest(mockNavigation: Boolean = true, block: suspend ComposeUiTest.() -> Unit) {
+    protected fun runUITest(mockNavigation: Boolean = true, block: suspend ComposeUiTest.(TestDispatcher) -> Unit) {
         runComposeUiTest {
             val testDispatcher = UnconfinedTestDispatcher()
             setup(dispatcher = testDispatcher)
             val scope = if (mockNavigation) CoroutineScope(context = testDispatcher) else null
             scope?.launch { navigation.receiveCommands() }
             try {
-                block()
+                block(testDispatcher)
                 waitForIdle()
             } finally {
                 scope?.cancel()
@@ -172,16 +177,19 @@ internal abstract class TestCase: PlatformTestCase() {
      * Render a Composable within the test harness.
      */
     protected fun ComposeUiTest.setUI(
-        vararg values: ProvidedValue<*>,
+        compositionValues: List<ProvidedValue<*>> = emptyList(),
         content: @Composable () -> Unit
     ) {
         setContent {
-            CompositionLocalProvider(value = LocalLifecycleOwner provides lifecycleOwner) {
-                App(*values) {
+            val compositionValues = listOf(
+                LocalLifecycleOwner provides lifecycleOwner
+            ) + compositionValues
+            CompositionLocalProvider(*compositionValues.toTypedArray()) {
+                AppTheme {
                     content()
                 }
             }
+            waitForIdle()
         }
-        waitForIdle()
     }
 }

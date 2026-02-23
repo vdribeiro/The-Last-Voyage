@@ -22,45 +22,33 @@ import com.hybris.tlv.ui.theme.getTranslationState
 @Composable
 internal fun App(
     modifier: Modifier,
-    vararg compositionValues: ProvidedValue<*>,
+    compositionValues: List<ProvidedValue<*>>,
     navController: NavHostController,
     config: ConfigManager,
     useCases: UseCases,
     audioPlayer: AudioPlayer
-) = App(*compositionValues) {
-    Navigation(
-        modifier = modifier,
-        navController = navController,
-        config = config,
-        useCases = useCases
-    )
-
-    AudioPlayer(
-        navController = navController,
-        audioPlayer = audioPlayer
-    )
-
-    CommandListener(
-        navController = navController,
-        audioPlayer = audioPlayer
-    )
-}
-
-/**
- * A wrapper composable that provides the application theme and composition locals.
- */
-@Composable
-internal fun App(
-    vararg compositionValues: ProvidedValue<*>,
-    content: @Composable () -> Unit
 ) {
-    val translationState = getTranslationState()
-    CompositionLocalProvider(
-        *compositionValues,
-        LocalTranslationState provides translationState,
-    ) {
+    val compositionValues = compositionValues + listOf(
+        LocalTranslationState provides getTranslationState()
+    )
+    CompositionLocalProvider(*compositionValues.toTypedArray()) {
         AppTheme {
-            content()
+            Navigation(
+                modifier = modifier,
+                navController = navController,
+                config = config,
+                useCases = useCases
+            )
+
+            AudioPlayer(
+                navController = navController,
+                audioPlayer = audioPlayer
+            )
+
+            CommandListener(
+                navController = navController,
+                audioPlayer = audioPlayer
+            )
         }
     }
 }

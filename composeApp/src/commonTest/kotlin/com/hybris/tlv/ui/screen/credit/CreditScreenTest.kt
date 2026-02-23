@@ -47,7 +47,7 @@ internal class CreditScreenTest: TestCase() {
 
         dependency.get().useCases.credit.prepopulateCredits()
         val store = getStoreFactory().getCreditStore()
-        setUI(LocalUriHandler provides mockUriHandler) { CreditScreen(store = store) }
+        setUI(compositionValues = listOf(LocalUriHandler provides mockUriHandler)) { CreditScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
