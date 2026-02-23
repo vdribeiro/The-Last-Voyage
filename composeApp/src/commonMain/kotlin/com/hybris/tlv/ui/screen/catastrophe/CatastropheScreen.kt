@@ -29,7 +29,7 @@ internal fun CatastropheScreen(store: Store<CatastropheState, CatastropheAction>
     Screen(
         store = store,
         loading = storeState.loading,
-        back = false,
+        onBackClick = null,
         bottomBar = {
             if (storeState.loading) return@Screen
             ButtonsBar(

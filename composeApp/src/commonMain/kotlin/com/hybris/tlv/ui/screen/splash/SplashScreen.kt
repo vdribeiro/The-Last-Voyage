@@ -44,10 +44,10 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
         loadingText = loadingTranslation,
         loadingBackground = true,
         loadingProgress = storeState.progress,
-        back = false,
-        help = false,
-        music = false,
-        feedback = false
+        onBackClick = null,
+        onHelpClick = null,
+        onMusicClick = null,
+        onFeedbackClick = null
     ) {
         when (currentContent) {
             Content.SPLASH -> {}

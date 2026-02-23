@@ -22,9 +22,9 @@ internal fun CheatScreen(store: Store<CheatState, CheatAction>) {
     Screen(
         store = store,
         loading = storeState.loading,
-        help = false,
-        music = false,
-        feedback = false
+        onHelpClick = null,
+        onMusicClick = null,
+        onFeedbackClick = null
     ) {
         CheatSheet(
             modifier = Modifier

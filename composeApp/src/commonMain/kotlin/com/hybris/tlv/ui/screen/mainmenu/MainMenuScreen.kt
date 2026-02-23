@@ -42,7 +42,7 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
                 )
             }
         } else null,
-        back = false,
+        onBackClick = null,
         bottomBar = {
             MainBar(
                 modifier = Modifier.padding(horizontal = 16.dp),

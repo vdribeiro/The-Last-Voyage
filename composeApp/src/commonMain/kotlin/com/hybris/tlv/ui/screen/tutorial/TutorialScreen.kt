@@ -47,7 +47,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
 
     Screen(
         store = store,
-        help = false,
+        onHelpClick = null,
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(

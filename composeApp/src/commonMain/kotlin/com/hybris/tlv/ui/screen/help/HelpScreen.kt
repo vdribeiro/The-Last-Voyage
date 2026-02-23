@@ -61,7 +61,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
     Screen(
         store = store,
         loading = storeState.loading,
-        help = false,
+        onHelpClick = null,
         bottomBar = {
             if (currentContent == Content.LEARN_MENU) HelpBar(
                 modifier = Modifier.padding(horizontal = 16.dp),

@@ -21,8 +21,8 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
 
     Screen(
         store = store,
-        help = false,
-        feedback = false
+        onHelpClick = null,
+        onFeedbackClick = null
     ) {
         Feedback(
             modifier = Modifier

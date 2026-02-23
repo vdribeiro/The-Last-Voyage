@@ -33,7 +33,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
     Screen(
         store = store,
         loading = storeState.loading,
-        back = false,
+        onBackClick = null,
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(

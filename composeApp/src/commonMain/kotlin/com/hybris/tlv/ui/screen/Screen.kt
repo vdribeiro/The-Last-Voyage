@@ -31,17 +31,17 @@ internal fun Screen(
     loadingText: String = "",
     loadingBackground: Boolean = false,
     loadingProgress: Float? = null,
-    back: Boolean = true,
-    help: Boolean = true,
-    music: Boolean = true,
-    feedback: Boolean = true,
+    onBackClick: (() -> Unit)? = { store.back() },
+    onHelpClick: (() -> Unit)? = { store.navigate(screen = Screen.Help) },
+    onMusicClick: (() -> Unit)? = { sendCommand(command = Command.ToggleAudio) },
+    onFeedbackClick: (() -> Unit)? = { store.navigate(screen = Screen.Feedback()) },
     title: (@Composable () -> Unit)? = null,
     topBar: @Composable ColumnScope.() -> Unit = {},
     bottomBar: @Composable ColumnScope.() -> Unit = {},
     snackbarHost: @Composable () -> Unit = {},
     content: @Composable BoxScope.() -> Unit = {}
 ) {
-    BackHandler { if (back) store.back() }
+    BackHandler { onBackClick?.invoke() }
     val focusManager = LocalFocusManager.current
     ScreenContainer(
         modifier = modifier.pointerInput(key1 = Unit) { detectTapGestures(onTap = { focusManager.clearFocus() }) },
@@ -52,18 +52,10 @@ internal fun Screen(
         loadingText = loadingText,
         loadingBackground = loadingBackground,
         loadingProgress = loadingProgress,
-        onBackClick = if (back) {
-            { store.back() }
-        } else null,
-        onHelpClick = if (help) {
-            { store.navigate(screen = Screen.Help) }
-        } else null,
-        onMusicClick = if (music) {
-            { sendCommand(command = Command.ToggleAudio) }
-        } else null,
-        onFeedbackClick = if (feedback) {
-            { store.navigate(screen = Screen.Feedback()) }
-        } else null,
+        onBackClick = onBackClick,
+        onHelpClick = onHelpClick,
+        onMusicClick = onMusicClick,
+        onFeedbackClick = onFeedbackClick,
         title = title,
         topBar = topBar,
         bottomBar = bottomBar,

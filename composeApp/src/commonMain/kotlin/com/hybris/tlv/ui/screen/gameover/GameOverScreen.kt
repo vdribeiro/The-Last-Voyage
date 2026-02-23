@@ -44,7 +44,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
     Screen(
         store = store,
         loading = storeState.loading,
-        back = false,
+        onBackClick = null,
         bottomBar = {
             if (storeState.loading) return@Screen
             val text = when (storeState.currentContent) {
