@@ -19,6 +19,7 @@ import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
 import com.hybris.tlv.Dependency
 import com.hybris.tlv.core.audio.AudioPlayer
 import com.hybris.tlv.core.flow.Dispatcher
@@ -32,6 +33,7 @@ import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.ui.lifecycle.lifecycleOwner
 import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.navigationEventDispatcherOwner
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.screen.StoreFactory
 import com.hybris.tlv.ui.theme.AppTheme
@@ -186,7 +188,8 @@ internal abstract class TestCase: PlatformTestCase() {
     ) {
         setContent {
             val compositionValues = listOf(
-                LocalLifecycleOwner provides lifecycleOwner
+                LocalLifecycleOwner provides lifecycleOwner,
+                LocalNavigationEventDispatcherOwner provides navigationEventDispatcherOwner
             ) + compositionValues
             CompositionLocalProvider(*compositionValues.toTypedArray()) {
                 AppTheme {
