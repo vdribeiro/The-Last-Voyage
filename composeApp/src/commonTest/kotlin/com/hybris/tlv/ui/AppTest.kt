@@ -27,9 +27,9 @@ import com.hybris.tlv.ui.cheats.enableGestureCheats
 import com.hybris.tlv.ui.cheats.konamiCode
 import com.hybris.tlv.ui.cheats.konamiGestureCode
 import com.hybris.tlv.ui.cheats.rememberKeySequenceCheats
-import com.hybris.tlv.ui.command.Command
-import com.hybris.tlv.ui.command.sendCommand
+import com.hybris.tlv.ui.navigation.Navigate
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.sendCommand
 import com.hybris.tlv.ui.theme.modifier.Gesture
 
 @OptIn(ExperimentalTestApi::class)
@@ -60,29 +60,29 @@ internal class AppTest: TestCase() {
         assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
         waitForIdle()
 
-        sendCommand(command = Command.Navigate(screen = Screen.MainMenu))
+        sendCommand(command = Navigate.To(screen = Screen.MainMenu))
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu).toStringList(), actual = navController.getScreens())
-        sendCommand(command = Command.Navigate(screen = Screen.MainMenu))
+        sendCommand(command = Navigate.To(screen = Screen.MainMenu))
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu).toStringList(), actual = navController.getScreens())
-        sendCommand(command = Command.Navigate(screen = Screen.Splash()))
+        sendCommand(command = Navigate.To(screen = Screen.Splash()))
         assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
-        sendCommand(command = Command.Navigate(screen = Screen.MainMenu))
-        sendCommand(command = Command.Navigate(screen = Screen.Game(ship = FakeData.ship.get())))
+        sendCommand(command = Navigate.To(screen = Screen.MainMenu))
+        sendCommand(command = Navigate.To(screen = Screen.Game(ship = FakeData.ship.get())))
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu, Screen.Game).toStringList(), actual = navController.getScreens())
         waitForIdle()
 
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu, Screen.Game, Screen.Feedback).toStringList(), actual = navController.getScreens())
-        sendCommand(command = Command.Back)
+        sendCommand(command = Navigate.Back)
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu, Screen.Game).toStringList(), actual = navController.getScreens())
-        sendCommand(command = Command.Back)
+        sendCommand(command = Navigate.Back)
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu).toStringList(), actual = navController.getScreens())
-        sendCommand(command = Command.Back)
+        sendCommand(command = Navigate.Back)
         assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
-        sendCommand(command = Command.Back)
+        sendCommand(command = Navigate.Back)
         assertEquals(expected = emptyList(), actual = navController.getScreens())
         waitForIdle()
 
-        sendCommand(command = Command.Navigate(screen = Screen.GameOver))
+        sendCommand(command = Navigate.To(screen = Screen.GameOver))
         assertEquals(expected = listOf(Screen.GameOver).toStringList(), actual = navController.getScreens())
     }
 
@@ -121,7 +121,7 @@ internal class AppTest: TestCase() {
             }
         assertEquals(expected = listOf(Screen.Splash, Screen.Cheat).toStringList(), actual = navController.getScreens())
 
-        sendCommand(command = Command.Back)
+        sendCommand(command = Navigate.Back)
         assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
         onNodeWithTag(testTag = "app")
             .performTouchInput {

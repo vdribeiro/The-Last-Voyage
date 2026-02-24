@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.navigation
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -76,14 +77,27 @@ internal fun Navigation(
 }
 
 /**
- * Composable for managing system back-gestures like when a physical back button is pressed or a back gesture is completed.
+ * Composable for managing navigation events and system back-gestures.
+ * Commands are consumed by the [navController] and [onBack] is launched on system back event like when a physical back button is pressed or a back gesture is completed.
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun NavigationHandler(onBack: (() -> Unit)?) {
+internal fun NavigationHandler(
+    navController: NavHostController,
+    onBack: (() -> Unit)?
+) {
     val navState = rememberNavigationEventState(currentInfo = NavigationEventInfo.None)
     NavigationBackHandler(
         state = navState,
         onBackCompleted = { onBack?.invoke() },
     )
+
+    LaunchedEffect(key1 = Unit) {
+        receiveCommand { command ->
+            when (command) {
+                is Navigate.To -> navController.navigate(screen = command.screen)
+                Navigate.Back -> navController.back()
+            }
+        }
+    }
 }

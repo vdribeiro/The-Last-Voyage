@@ -8,7 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.Dependency
 import com.hybris.tlv.ui.audio.LocalAudioPlayer
-import com.hybris.tlv.ui.command.CommandListener
 import com.hybris.tlv.ui.navigation.LocalNavController
 import com.hybris.tlv.ui.navigation.Navigation
 import com.hybris.tlv.ui.theme.AppTheme
@@ -42,7 +41,6 @@ internal fun App(
                     useCases = dependency.useCases
                 )
                 MusicPlayer()
-                CommandListener()
             }
         }
     }

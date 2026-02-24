@@ -1,9 +1,6 @@
 package com.hybris.tlv.ui.navigation
 
 import kotlin.test.assertEquals
-import com.hybris.tlv.ui.command.Command
-import com.hybris.tlv.ui.command.receiveCommand
-import com.hybris.tlv.ui.command.sendCommand
 
 /**
  * Simulated navigation.
@@ -16,13 +13,13 @@ internal class MockNavigation {
     private val screens: MutableList<Screen> = mutableListOf()
 
     /**
-     * Background loop that listens to the global [Command] channel.
+     * Background loop that listens to the global [Navigate] channel.
      */
     suspend fun receiveCommands() {
         receiveCommand { command ->
             when (command) {
-                is Command.Navigate -> screens.addOrTruncate(element = command.screen)
-                Command.Back -> screens.removeLastOrNull()
+                is Navigate.To -> screens.addOrTruncate(element = command.screen)
+                Navigate.Back -> screens.removeLastOrNull()
             }
         }
     }
@@ -42,7 +39,7 @@ internal class MockNavigation {
      * Simulates a navigation event.
      */
     fun navigate(screen: Screen): Boolean =
-        sendCommand(command = Command.Navigate(screen = screen))
+        sendCommand(command = Navigate.To(screen = screen))
 
     /**
      * Compares the navigation backstack with the given screen [list].

@@ -2,6 +2,10 @@ package com.hybris.tlv.ui.navigation
 
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.onFailure
+import kotlinx.coroutines.flow.receiveAsFlow
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -14,6 +18,28 @@ import com.hybris.tlv.data.serializer.decodeURL
 import com.hybris.tlv.data.serializer.encode
 import com.hybris.tlv.data.serializer.encodeURL
 import com.hybris.tlv.test.ExcludeFromTesting
+
+/**
+ * Channel for sending and receiving [Navigate] commands.
+ * Decoupled communication is used due to the nature of stores being initialized before the screens.
+ */
+private val commandChannel: Channel<Navigate> = Channel(
+    capacity = Channel.BUFFERED,
+    onBufferOverflow = BufferOverflow.DROP_OLDEST
+)
+
+/**
+ * Send a [Navigate] command to the [commandChannel].
+ */
+internal fun sendCommand(command: Navigate): Boolean =
+    commandChannel.trySend(element = command)
+        .onFailure { Telemetry.error(tag = TAG, message = "Unable to send command $command", throwable = it) }.isSuccess
+
+/**
+ * Listen to [Navigate] commands from the [commandChannel].
+ */
+internal suspend fun receiveCommand(block: (Navigate) -> Unit) =
+    commandChannel.receiveAsFlow().collect { block(it) }
 
 /**
  * Navigate to the given [screen].

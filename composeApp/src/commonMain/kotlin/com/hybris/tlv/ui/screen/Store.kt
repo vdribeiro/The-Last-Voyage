@@ -22,9 +22,9 @@ import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.ui.command.Command
-import com.hybris.tlv.ui.command.sendCommand
+import com.hybris.tlv.ui.navigation.Navigate
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.sendCommand
 
 /**
  * The central hub for a screen's [State]. It's the single source of truth for the UI.
@@ -139,13 +139,13 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      * Overridable back navigation.
      */
     protected open fun navigateBack(state: State) {
-        sendCommand(command = Command.Back)
+        sendCommand(command = Navigate.Back)
     }
 
     /**
      * Navigate to a new [screen].
      */
     fun navigate(screen: Screen) {
-        sendCommand(command = Command.Navigate(screen = screen))
+        sendCommand(command = Navigate.To(screen = screen))
     }
 }

@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.core.audio.AudioPlayer
 import com.hybris.tlv.ui.audio.LocalAudioPlayer
+import com.hybris.tlv.ui.navigation.LocalNavController
 import com.hybris.tlv.ui.navigation.NavigationHandler
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.theme.component.container.Screen as ScreenContainer
@@ -19,6 +22,7 @@ import com.hybris.tlv.ui.theme.component.container.Screen as ScreenContainer
 internal fun Screen(
     store: Store<*, *>,
     modifier: Modifier = Modifier,
+    navController: NavHostController = LocalNavController.current ?: rememberNavController(),
     audioPlayer: AudioPlayer = LocalAudioPlayer.current,
     contentAlignment: Alignment = Alignment.TopStart,
     loading: Boolean = false,
@@ -37,7 +41,10 @@ internal fun Screen(
     snackbarHost: @Composable () -> Unit = {},
     content: @Composable BoxScope.() -> Unit = {}
 ) {
-    NavigationHandler(onBack = onBackClick)
+    NavigationHandler(
+        navController = navController,
+        onBack = onBackClick
+    )
     ScreenContainer(
         modifier = modifier,
         contentAlignment = contentAlignment,
