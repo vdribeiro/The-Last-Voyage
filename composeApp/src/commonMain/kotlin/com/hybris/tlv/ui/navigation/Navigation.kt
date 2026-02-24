@@ -7,6 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -91,9 +92,10 @@ internal fun Navigation(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun NavigationHandler(onBack: (() -> Unit)?) {
-    val navState = rememberNavigationEventState(currentInfo = NavigationEventInfo.None)
-    NavigationBackHandler(
-        state = navState,
-        onBackCompleted = { onBack?.invoke() },
-    )
+//    val navState = rememberNavigationEventState(currentInfo = NavigationEventInfo.None)
+//    NavigationBackHandler(
+//        state = navState,
+//        onBackCompleted = { onBack?.invoke() },
+//    )
+    BackHandler { onBack?.invoke() }
 }
