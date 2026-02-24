@@ -86,15 +86,11 @@ internal fun Navigation(
 }
 
 /**
- * Composable for managing navigation events and system back-gestures.
- * Commands are consumed by the [navController] and [onBack] is launched on system back event like when a physical back button is pressed or a back gesture is completed.
+ * Composable for managing system back events like when a physical back button is pressed or a back gesture is completed.
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun NavigationHandler(
-    navController: NavHostController,
-    onBack: (() -> Unit)?
-) {
+internal fun NavigationHandler(onBack: (() -> Unit)?) {
     val navState = rememberNavigationEventState(currentInfo = NavigationEventInfo.None)
     NavigationBackHandler(
         state = navState,
