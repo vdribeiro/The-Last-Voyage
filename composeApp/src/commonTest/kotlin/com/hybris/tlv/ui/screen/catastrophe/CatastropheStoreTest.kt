@@ -38,7 +38,7 @@ internal class CatastropheStoreTest: TestCase() {
         navigate(screen = Screen.Catastrophe)
         assertNavigation(list = listOf(Screen.Catastrophe))
         dependency.get().useCases.catastrophe.syncCatastrophes()
-        getStoreFactory().getCatastropheStore().back()
+        getStoreFactory().getCatastropheStore().navigateBack()
         assertNavigation(list = listOf(Screen.Catastrophe))
     }
 }

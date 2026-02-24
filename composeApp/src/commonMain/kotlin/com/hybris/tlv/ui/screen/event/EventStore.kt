@@ -104,7 +104,7 @@ internal class EventStore(
         }
     }
 
-    override fun back(state: EventState) {}
+    override fun navigateBack(state: EventState) {}
 
     override fun reducer(state: EventState, action: EventAction) {
         when (action) {

@@ -78,7 +78,7 @@ internal class GameOverStore(
         updateState { it.copy(achievement = achievement) }
     }
 
-    override fun back(state: GameOverState) {}
+    override fun navigateBack(state: GameOverState) {}
 
     override fun reducer(state: GameOverState, action: GameOverAction) {
         when (action) {

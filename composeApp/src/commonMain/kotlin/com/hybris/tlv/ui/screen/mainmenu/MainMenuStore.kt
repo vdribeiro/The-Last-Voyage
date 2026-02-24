@@ -44,7 +44,7 @@ internal class MainMenuStore(
         }
     }
 
-    override fun back(state: MainMenuState) {}
+    override fun navigateBack(state: MainMenuState) {}
 
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {

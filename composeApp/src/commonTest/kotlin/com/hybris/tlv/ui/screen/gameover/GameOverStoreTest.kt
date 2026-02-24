@@ -87,7 +87,7 @@ internal class GameOverStoreTest: TestCase() {
         assertNavigation(list = listOf(Screen.GameOver))
         dependency.get().useCases.ship.prepopulateEngines()
         dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        getStoreFactory().getGameOverStore().back()
+        getStoreFactory().getGameOverStore().navigateBack()
         assertNavigation(list = listOf(Screen.GameOver))
     }
 }

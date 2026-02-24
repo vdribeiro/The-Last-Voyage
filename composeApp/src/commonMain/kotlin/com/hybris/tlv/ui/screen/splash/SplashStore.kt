@@ -38,7 +38,7 @@ internal class SplashStore(
         }
     }
 
-    override fun back(state: SplashState) {}
+    override fun navigateBack(state: SplashState) {}
 
     override fun reducer(state: SplashState, action: SplashAction) {
         when (action) {

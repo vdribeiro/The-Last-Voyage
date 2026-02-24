@@ -26,7 +26,7 @@ internal class TutorialStore(
         config.setPreferences { it.copy(showTutorial = false) }
         when {
             newGame -> navigate(screen = Screen.NewGame)
-            else -> back(state = state)
+            else -> navigateBack(state = state)
         }
     }
 

@@ -27,10 +27,10 @@ internal class FeedbackStore(
         Telemetry.feedback(message = feedback)
     }
 
-    override fun back(state: FeedbackState) {
+    override fun navigateBack(state: FeedbackState) {
         when {
             state.isError -> navigate(screen = Screen.Splash())
-            else -> super.back(state = state)
+            else -> super.navigateBack(state = state)
         }
     }
 

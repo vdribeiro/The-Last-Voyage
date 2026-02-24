@@ -60,7 +60,7 @@ internal class CheatStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Cheat)
         assertNavigation(list = listOf(Screen.Cheat))
-        getStoreFactory().getCheatStore().back()
+        getStoreFactory().getCheatStore().navigateBack()
         assertNavigation(list = emptyList())
     }
 }

@@ -30,7 +30,7 @@ internal class AchievementStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Achievement)
         assertNavigation(list = listOf(Screen.Achievement))
-        getStoreFactory().getAchievementStore().back()
+        getStoreFactory().getAchievementStore().navigateBack()
         assertNavigation(list = emptyList())
     }
 }

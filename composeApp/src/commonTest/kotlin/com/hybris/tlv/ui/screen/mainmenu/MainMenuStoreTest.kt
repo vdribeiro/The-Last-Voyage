@@ -74,7 +74,7 @@ internal class MainMenuStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.MainMenu)
         assertNavigation(list = listOf(Screen.MainMenu))
-        getStoreFactory().getMainMenuStore().back()
+        getStoreFactory().getMainMenuStore().navigateBack()
         assertNavigation(list = listOf(Screen.MainMenu))
     }
 }

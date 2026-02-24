@@ -38,7 +38,7 @@ internal class ScoreStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Score)
         assertNavigation(list = listOf(Screen.Score))
-        getStoreFactory().getScoreStore().back()
+        getStoreFactory().getScoreStore().navigateBack()
         assertNavigation(list = emptyList())
     }
 }

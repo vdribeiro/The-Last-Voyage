@@ -6,10 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationBackHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.ui.navigation.graph.achievementScreen
@@ -73,12 +75,15 @@ internal fun Navigation(
     }
 }
 
+/**
+ * Composable for managing system back-gestures like when a physical back button is pressed or a back gesture is completed.
+ */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun Navigation(
-    navController: NavHostController,
-    onBack: (() -> Unit)?
-) {
-    // TODO - Replace deprecated BackHandler
-    BackHandler { onBack?.invoke() }
+internal fun NavigationHandler(onBack: (() -> Unit)?) {
+    val navState = rememberNavigationEventState(currentInfo = NavigationEventInfo.None)
+    NavigationBackHandler(
+        state = navState,
+        onBackCompleted = { onBack?.invoke() },
+    )
 }

@@ -48,7 +48,7 @@ internal class TutorialStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Tutorial())
         assertNavigation(list = listOf(Screen.Tutorial()))
-        getStoreFactory().getTutorialStore(newGame = false).back()
+        getStoreFactory().getTutorialStore(newGame = false).navigateBack()
         assertNavigation(list = emptyList())
     }
 }

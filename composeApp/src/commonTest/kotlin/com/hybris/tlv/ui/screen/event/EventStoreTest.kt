@@ -69,7 +69,7 @@ internal class EventStoreTest: TestCase() {
         dependency.get().useCases.event.prepopulateEvents()
         dependency.get().useCases.ship.prepopulateEngines()
         dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        getStoreFactory().getEventStore(ship = null).back()
+        getStoreFactory().getEventStore(ship = null).navigateBack()
         assertNavigation(list = listOf(Screen.Event()))
     }
 }

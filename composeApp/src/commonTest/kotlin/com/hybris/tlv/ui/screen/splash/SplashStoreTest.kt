@@ -33,7 +33,7 @@ internal class SplashStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Splash())
         assertNavigation(list = listOf(Screen.Splash()))
-        getStoreFactory().getSplashStore(reset = false).back()
+        getStoreFactory().getSplashStore(reset = false).navigateBack()
         assertNavigation(list = listOf(Screen.Splash()))
     }
 }

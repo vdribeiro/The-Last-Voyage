@@ -198,15 +198,15 @@ internal class StellarExplorerStoreTest: TestCase() {
 
         store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = FakeData.stellarHosts.get().first()))
         assertEquals(expected = Content.DETAIL_HOSTS, actual = store.state.currentContent)
-        store.back()
+        store.navigateBack()
         assertEquals(expected = Content.LIST_HOSTS, actual = store.state.currentContent)
         store.send(action = StellarExplorerAction.ChangeView)
         assertEquals(expected = Content.LIST_PLANETS, actual = store.state.currentContent)
         store.send(action = StellarExplorerAction.OpenPlanet(planet = FakeData.planets.get().first()))
         assertEquals(expected = Content.DETAIL_PLANETS, actual = store.state.currentContent)
-        store.back()
+        store.navigateBack()
         assertEquals(expected = Content.LIST_PLANETS, actual = store.state.currentContent)
-        store.back()
+        store.navigateBack()
         assertNavigation(list = emptyList())
     }
 }

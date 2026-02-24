@@ -34,7 +34,7 @@ internal class CatastropheStore(
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    override fun back(state: CatastropheState) {}
+    override fun navigateBack(state: CatastropheState) {}
 
     override fun reducer(state: CatastropheState, action: CatastropheAction) {
         when (action) {

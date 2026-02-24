@@ -159,7 +159,7 @@ internal class GameStoreTest: TestCase() {
         dependency.get().useCases.space.prepopulatePlanets()
         dependency.get().useCases.ship.prepopulateEngines()
         dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        getStoreFactory().getGameStore(ship = null).back()
+        getStoreFactory().getGameStore(ship = null).navigateBack()
         assertNavigation(list = listOf(Screen.Game(), Screen.MainMenu))
     }
 }

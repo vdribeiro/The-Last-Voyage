@@ -30,7 +30,7 @@ internal class CreditStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.Credit)
         assertNavigation(list = listOf(Screen.Credit))
-        getStoreFactory().getCreditStore().back()
+        getStoreFactory().getCreditStore().navigateBack()
         assertNavigation(list = emptyList())
     }
 }

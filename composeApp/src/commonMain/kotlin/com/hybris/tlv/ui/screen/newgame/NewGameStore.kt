@@ -94,7 +94,7 @@ internal class NewGameStore(
         navigate(screen = Screen.Catastrophe)
     }
 
-    override fun back(state: NewGameState) {
+    override fun navigateBack(state: NewGameState) {
         navigate(screen = Screen.MainMenu)
     }
 
