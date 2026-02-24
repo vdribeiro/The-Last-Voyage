@@ -74,6 +74,15 @@ internal fun Navigation(
         catastropheExplorerScreen(useCases = useCases)
         eventExplorerScreen(useCases = useCases)
     }
+
+    LaunchedEffect(key1 = Unit) {
+        receiveCommand { command ->
+            when (command) {
+                is Navigate.To -> navController.navigate(screen = command.screen)
+                Navigate.Back -> navController.back()
+            }
+        }
+    }
 }
 
 /**
@@ -91,13 +100,4 @@ internal fun NavigationHandler(
         state = navState,
         onBackCompleted = { onBack?.invoke() },
     )
-
-    LaunchedEffect(key1 = Unit) {
-        receiveCommand { command ->
-            when (command) {
-                is Navigate.To -> navController.navigate(screen = command.screen)
-                Navigate.Back -> navController.back()
-            }
-        }
-    }
 }
