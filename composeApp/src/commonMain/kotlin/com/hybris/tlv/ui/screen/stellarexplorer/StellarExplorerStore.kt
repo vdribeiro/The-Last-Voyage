@@ -242,13 +242,8 @@ internal class StellarExplorerStore(
             Content.LIST_HOSTS,
             Content.LIST_PLANETS -> super.navigateBack(state = state)
 
-            Content.DETAIL_HOSTS -> launch(id = "back") {
-                updateState { it.copy(currentContent = Content.LIST_HOSTS, selectedStellarHost = null) }
-            }
-
-            Content.DETAIL_PLANETS -> launch(id = "back") {
-                updateState { it.copy(currentContent = Content.LIST_PLANETS, selectedPlanet = null) }
-            }
+            Content.DETAIL_HOSTS -> updateState { it.copy(currentContent = Content.LIST_HOSTS, selectedStellarHost = null) }
+            Content.DETAIL_PLANETS -> updateState { it.copy(currentContent = Content.LIST_PLANETS, selectedPlanet = null) }
         }
     }
 
