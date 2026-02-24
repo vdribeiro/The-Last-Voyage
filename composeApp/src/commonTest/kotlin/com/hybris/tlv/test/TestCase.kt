@@ -189,7 +189,7 @@ internal abstract class TestCase: PlatformTestCase() {
                     content()
                 }
             }
-            waitForIdle()
         }
+        waitForIdle()
     }
 }
