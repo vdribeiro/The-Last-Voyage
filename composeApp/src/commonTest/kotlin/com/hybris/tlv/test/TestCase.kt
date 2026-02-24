@@ -113,6 +113,8 @@ internal abstract class TestCase: PlatformTestCase() {
 
     /**
      * Sets up the test environment.
+     * Resets feature flags, sets up the telemetry engine and coroutine dispatcher and main dispatcher with the given [dispatcher] (typically with a [UnconfinedTestDispatcher]).
+     * Finally, it resets local data and clears the navigation stack.
      */
     private suspend fun setup(dispatcher: CoroutineDispatcher) {
         FeatureFlags.set { testFlags }
@@ -125,6 +127,8 @@ internal abstract class TestCase: PlatformTestCase() {
 
     /**
      * Resets the test environment.
+     * Resets feature flags, the telemetry engine and coroutine dispatcher and main dispatcher with the original dispatchers for the general test environment.
+     * Finally, it resets local data and clears the navigation stack.
      */
     private suspend fun reset() {
         FeatureFlags.set { testFlags }
@@ -137,7 +141,7 @@ internal abstract class TestCase: PlatformTestCase() {
 
     /**
      * Executes a unit test.
-     * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
+     * Prepares the environment by calling [setup], then executes the given [block]. Finally clears with [reset].
      */
     protected fun runUnitTest(block: suspend TestScope.(TestDispatcher) -> Unit) {
         runTest {
@@ -155,7 +159,7 @@ internal abstract class TestCase: PlatformTestCase() {
 
     /**
      * Executes a UI test.
-     * Prepares the environment by resetting local data and clearing the navigation stack, then launches a job to process commands.
+     * Prepares the environment by calling [setup], then executes the given [block]. Finally clears with [reset].
      */
     protected fun runUITest(mockNavigation: Boolean = true, block: suspend ComposeUiTest.(TestDispatcher) -> Unit) {
         runComposeUiTest {
