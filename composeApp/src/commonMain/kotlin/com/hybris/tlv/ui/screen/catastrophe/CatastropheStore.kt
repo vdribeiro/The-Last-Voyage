@@ -34,8 +34,6 @@ internal class CatastropheStore(
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    override fun navigateBack(state: CatastropheState) {}
-
     override fun reducer(state: CatastropheState, action: CatastropheAction) {
         when (action) {
             CatastropheAction.Next -> navigate(screen = Screen.Game())

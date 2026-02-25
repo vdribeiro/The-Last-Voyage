@@ -104,8 +104,6 @@ internal class EventStore(
         }
     }
 
-    override fun navigateBack(state: EventState) {}
-
     override fun reducer(state: EventState, action: EventAction) {
         when (action) {
             is EventAction.Select -> select(action = action)

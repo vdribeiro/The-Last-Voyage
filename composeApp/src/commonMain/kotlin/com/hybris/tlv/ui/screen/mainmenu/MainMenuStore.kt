@@ -44,8 +44,6 @@ internal class MainMenuStore(
         }
     }
 
-    override fun navigateBack(state: MainMenuState) {}
-
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
             MainMenuAction.NewGame -> newGame()
