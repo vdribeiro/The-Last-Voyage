@@ -77,9 +77,9 @@ internal class HelpStoreTest: TestCase() {
         val store = getStoreFactory().getHelpStore()
         store.send(action = HelpAction.Score)
         assertEquals(expected = Content.SCORE, actual = store.state.currentContent)
-        store.navigateBack()
+        store.send(HelpAction.Back)
         assertEquals(expected = Content.LEARN_MENU, actual = store.state.currentContent)
-        store.navigateBack()
+        store.send(HelpAction.Back)
         assertNavigation(list = emptyList())
     }
 }

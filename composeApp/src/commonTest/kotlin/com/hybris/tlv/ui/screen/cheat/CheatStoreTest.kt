@@ -4,7 +4,6 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.ui.navigation.Screen
 
 internal class CheatStoreTest: TestCase() {
 
@@ -53,14 +52,5 @@ internal class CheatStoreTest: TestCase() {
         assertTrue(actual = store.state.cryopods)
         store.send(action = CheatAction.ToggleCryopods)
         assertFalse(actual = store.state.cryopods)
-    }
-
-    @Test
-    fun navigateBack() = runUnitTest {
-        assertNavigation(list = emptyList())
-        navigate(screen = Screen.Cheat)
-        assertNavigation(list = listOf(Screen.Cheat))
-        getStoreFactory().getCheatStore().navigateBack()
-        assertNavigation(list = emptyList())
     }
 }

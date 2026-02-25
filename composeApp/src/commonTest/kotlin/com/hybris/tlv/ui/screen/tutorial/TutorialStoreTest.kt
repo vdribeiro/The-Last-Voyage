@@ -42,13 +42,4 @@ internal class TutorialStoreTest: TestCase() {
         store.send(action = TutorialAction.Skip)
         assertNavigation(list = emptyList())
     }
-
-    @Test
-    fun navigateBack() = runUnitTest {
-        assertNavigation(list = emptyList())
-        navigate(screen = Screen.Tutorial())
-        assertNavigation(list = listOf(Screen.Tutorial()))
-        getStoreFactory().getTutorialStore(newGame = false).navigateBack()
-        assertNavigation(list = emptyList())
-    }
 }

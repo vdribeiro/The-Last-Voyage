@@ -79,15 +79,4 @@ internal class GameOverStoreTest: TestCase() {
             store.send(action = GameOverAction.NextAchievement)
         }
     }
-
-    @Test
-    fun navigateBack() = runUnitTest {
-        assertNavigation(list = emptyList())
-        navigate(screen = Screen.GameOver)
-        assertNavigation(list = listOf(Screen.GameOver))
-        dependency.get().useCases.ship.prepopulateEngines()
-        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        getStoreFactory().getGameOverStore().navigateBack()
-        assertNavigation(list = listOf(Screen.GameOver))
-    }
 }

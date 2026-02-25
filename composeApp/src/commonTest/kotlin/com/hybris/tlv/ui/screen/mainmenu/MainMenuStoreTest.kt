@@ -68,13 +68,4 @@ internal class MainMenuStoreTest: TestCase() {
         store.send(action = MainMenuAction.StellarExplorer)
         assertNavigation(list = listOf(Screen.StellarExplorer))
     }
-
-    @Test
-    fun navigateBack() = runUnitTest {
-        assertNavigation(list = emptyList())
-        navigate(screen = Screen.MainMenu)
-        assertNavigation(list = listOf(Screen.MainMenu))
-        getStoreFactory().getMainMenuStore().navigateBack()
-        assertNavigation(list = listOf(Screen.MainMenu))
-    }
 }

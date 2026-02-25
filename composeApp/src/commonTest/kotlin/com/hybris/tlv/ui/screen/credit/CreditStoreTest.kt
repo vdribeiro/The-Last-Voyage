@@ -6,7 +6,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.ui.navigation.Screen
 
 internal class CreditStoreTest: TestCase() {
 
@@ -23,14 +22,5 @@ internal class CreditStoreTest: TestCase() {
         val store = getStoreFactory().getCreditStore()
         assertFalse(actual = store.state.loading)
         assertTrue(actual = store.state.credits.isEmpty())
-    }
-
-    @Test
-    fun navigateBack() = runUnitTest {
-        assertNavigation(list = emptyList())
-        navigate(screen = Screen.Credit)
-        assertNavigation(list = listOf(Screen.Credit))
-        getStoreFactory().getCreditStore().navigateBack()
-        assertNavigation(list = emptyList())
     }
 }

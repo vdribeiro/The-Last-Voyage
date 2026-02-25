@@ -69,7 +69,8 @@ internal class NewGameStoreTest: TestCase() {
         assertNavigation(list = listOf(Screen.NewGame))
         dependency.get().useCases.catastrophe.syncCatastrophes()
         dependency.get().useCases.ship.syncEngines()
-        getStoreFactory().getNewGameStore().navigateBack()
+        val store = getStoreFactory().getNewGameStore()
+        store.send(action = NewGameAction.Back)
         assertNavigation(list = listOf(Screen.NewGame, Screen.MainMenu))
     }
 }

@@ -6,7 +6,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.ui.navigation.Screen
 
 internal class AchievementStoreTest: TestCase() {
 
@@ -23,14 +22,5 @@ internal class AchievementStoreTest: TestCase() {
         val store = getStoreFactory().getAchievementStore()
         assertFalse(actual = store.state.loading)
         assertTrue(actual = store.state.achievements.isEmpty())
-    }
-
-    @Test
-    fun navigateBack() = runUnitTest {
-        assertNavigation(list = emptyList())
-        navigate(screen = Screen.Achievement)
-        assertNavigation(list = listOf(Screen.Achievement))
-        getStoreFactory().getAchievementStore().navigateBack()
-        assertNavigation(list = emptyList())
     }
 }

@@ -31,14 +31,4 @@ internal class CatastropheStoreTest: TestCase() {
         store.send(action = CatastropheAction.Next)
         assertNavigation(list = listOf(Screen.Game()))
     }
-
-    @Test
-    fun navigateBack() = runUnitTest {
-        assertNavigation(list = emptyList())
-        navigate(screen = Screen.Catastrophe)
-        assertNavigation(list = listOf(Screen.Catastrophe))
-        dependency.get().useCases.catastrophe.syncCatastrophes()
-        getStoreFactory().getCatastropheStore().navigateBack()
-        assertNavigation(list = listOf(Screen.Catastrophe))
-    }
 }

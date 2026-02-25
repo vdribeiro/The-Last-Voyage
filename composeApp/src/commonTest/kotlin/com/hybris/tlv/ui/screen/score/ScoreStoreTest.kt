@@ -7,7 +7,6 @@ import kotlin.test.assertTrue
 import com.hybris.tlv.core.locale.getLocalDateTime
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.ui.navigation.Screen
 
 internal class ScoreStoreTest: TestCase() {
 
@@ -31,14 +30,5 @@ internal class ScoreStoreTest: TestCase() {
         val store = getStoreFactory().getScoreStore()
         assertFalse(actual = store.state.loading)
         assertTrue(actual = store.state.gameSessions.isEmpty())
-    }
-
-    @Test
-    fun navigateBack() = runUnitTest {
-        assertNavigation(list = emptyList())
-        navigate(screen = Screen.Score)
-        assertNavigation(list = listOf(Screen.Score))
-        getStoreFactory().getScoreStore().navigateBack()
-        assertNavigation(list = emptyList())
     }
 }

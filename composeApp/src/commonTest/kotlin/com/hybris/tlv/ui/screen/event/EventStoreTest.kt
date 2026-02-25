@@ -60,16 +60,4 @@ internal class EventStoreTest: TestCase() {
         store.send(action = EventAction.Select(event = FakeData.events.get().random()))
         assertNavigation(list = listOf(Screen.Feedback()))
     }
-
-    @Test
-    fun navigateBack() = runUnitTest {
-        assertNavigation(list = emptyList())
-        navigate(screen = Screen.Event())
-        assertNavigation(list = listOf(Screen.Event()))
-        dependency.get().useCases.event.prepopulateEvents()
-        dependency.get().useCases.ship.prepopulateEngines()
-        dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        getStoreFactory().getEventStore(ship = null).navigateBack()
-        assertNavigation(list = listOf(Screen.Event()))
-    }
 }

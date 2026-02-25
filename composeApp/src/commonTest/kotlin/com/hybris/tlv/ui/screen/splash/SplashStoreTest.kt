@@ -27,13 +27,4 @@ internal class SplashStoreTest: TestCase() {
         store.send(action = SplashAction.Next)
         assertNavigation(list = listOf(Screen.MainMenu))
     }
-
-    @Test
-    fun navigateBack() = runUnitTest {
-        assertNavigation(list = emptyList())
-        navigate(screen = Screen.Splash())
-        assertNavigation(list = listOf(Screen.Splash()))
-        getStoreFactory().getSplashStore(reset = false).navigateBack()
-        assertNavigation(list = listOf(Screen.Splash()))
-    }
 }
