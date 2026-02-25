@@ -40,6 +40,6 @@ internal class FeedbackStoreTest: TestCase() {
         navigate(screen = Screen.Feedback(tag = tag, message = message))
         assertNavigation(list = listOf(Screen.Feedback()))
         store.send(action = FeedbackAction.Back)
-        assertNavigation(list = listOf(Screen.Feedback(), Screen.Splash()))
+        assertNavigation(list = emptyList())
     }
 }
