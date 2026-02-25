@@ -30,6 +30,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     Screen(
         store = store,
         loading = storeState.loading,
+        onBackClick = { store.send(action = NewGameAction.Back) },
         bottomBar = {
             if (storeState.loading) return@Screen
             ButtonsBar(

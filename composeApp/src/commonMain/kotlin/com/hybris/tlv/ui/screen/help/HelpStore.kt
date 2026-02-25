@@ -44,9 +44,9 @@ internal class HelpStore(
         navigate(screen = Screen.Splash(reset = true))
     }
 
-    override fun navigateBack(state: HelpState) {
+    private fun navigateBack(state: HelpState) {
         when (state.currentContent) {
-            Content.LEARN_MENU -> super.navigateBack(state = state)
+            Content.LEARN_MENU -> navigateBack()
             Content.NAVIGATION,
             Content.CONTROL_PANEL,
             Content.HOST_DEFINITION,
@@ -60,6 +60,7 @@ internal class HelpStore(
 
     override fun reducer(state: HelpState, action: HelpAction) {
         when (action) {
+            HelpAction.Back -> navigateBack(state = state)
             HelpAction.Navigation -> updateState { it.copy(currentContent = Content.NAVIGATION) }
             HelpAction.ControlPanel -> updateState { it.copy(currentContent = Content.CONTROL_PANEL) }
             HelpAction.Mechanics -> navigate(screen = Screen.Tutorial())

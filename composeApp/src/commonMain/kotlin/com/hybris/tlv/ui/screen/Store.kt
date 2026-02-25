@@ -133,12 +133,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     /**
      * Navigate back.
      */
-    fun navigateBack() = navigateBack(state = _stateFlow.value)
-
-    /**
-     * Overridable back navigation.
-     */
-    protected open fun navigateBack(state: State) {
+    protected fun navigateBack() {
         sendCommand(command = Navigate.Back)
     }
 

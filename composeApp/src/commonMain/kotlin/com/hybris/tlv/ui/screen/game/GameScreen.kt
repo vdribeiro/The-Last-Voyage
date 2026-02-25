@@ -35,6 +35,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
     Screen(
         store = store,
         loading = storeState.loading,
+        onBackClick = { store.send(action = GameAction.Back) },
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods
             StatusBar(

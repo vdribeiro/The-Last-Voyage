@@ -45,6 +45,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     Screen(
         store = store,
         loading = storeState.loading,
+        onBackClick = { store.send(action = StellarExplorerAction.Back) },
         topBar = {
             // Control panel definitions according to selected view
             val isHostView = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS)

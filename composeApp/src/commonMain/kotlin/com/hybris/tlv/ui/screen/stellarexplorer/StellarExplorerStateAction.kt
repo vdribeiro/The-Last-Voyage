@@ -5,6 +5,7 @@ import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 
 internal sealed interface StellarExplorerAction {
+    data object Back: StellarExplorerAction
     data class SaveListState(val listState: LazyListState): StellarExplorerAction
     data object ChangeView: StellarExplorerAction
     data class Search(val search: String): StellarExplorerAction

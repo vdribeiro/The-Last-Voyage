@@ -153,12 +153,9 @@ internal class GameStore(
         navigate(screen = Screen.GameOver)
     }
 
-    override fun navigateBack(state: GameState) {
-        navigate(screen = Screen.MainMenu)
-    }
-
     override fun reducer(state: GameState, action: GameAction) {
         when (action) {
+            GameAction.Back -> navigate(screen = Screen.MainMenu)
             is GameAction.ChangeTab -> updateState { it.copy(currentContent = action.content) }
             is GameAction.Travel -> travel(state = state, action = action)
             is GameAction.Settle -> settle(action = action)

@@ -237,10 +237,10 @@ internal class StellarExplorerStore(
         updateState { it.copy(listState = LazyListState(), searchablePlanetProperties = searchablePlanetProperties) }
     }
 
-    override fun navigateBack(state: StellarExplorerState) {
+    private fun navigateBack(state: StellarExplorerState) {
         when (state.currentContent) {
             Content.LIST_HOSTS,
-            Content.LIST_PLANETS -> super.navigateBack(state = state)
+            Content.LIST_PLANETS -> navigateBack()
 
             Content.DETAIL_HOSTS -> updateState { it.copy(currentContent = Content.LIST_HOSTS, selectedStellarHost = null) }
             Content.DETAIL_PLANETS -> updateState { it.copy(currentContent = Content.LIST_PLANETS, selectedPlanet = null) }
@@ -249,6 +249,7 @@ internal class StellarExplorerStore(
 
     override fun reducer(state: StellarExplorerState, action: StellarExplorerAction) {
         when (action) {
+            StellarExplorerAction.Back -> navigateBack(state = state)
             is StellarExplorerAction.SaveListState -> updateState { it.copy(listState = action.listState) }
             StellarExplorerAction.ChangeView -> changeView(state = state)
             is StellarExplorerAction.Search -> search(state = state, action = action)

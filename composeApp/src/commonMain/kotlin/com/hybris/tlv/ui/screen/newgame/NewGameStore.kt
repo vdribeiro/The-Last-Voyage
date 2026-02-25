@@ -94,12 +94,9 @@ internal class NewGameStore(
         navigate(screen = Screen.Catastrophe)
     }
 
-    override fun navigateBack(state: NewGameState) {
-        navigate(screen = Screen.MainMenu)
-    }
-
     override fun reducer(state: NewGameState, action: NewGameAction) {
         when (action) {
+            NewGameAction.Back -> navigate(screen = Screen.MainMenu)
             is NewGameAction.SelectEngine -> updateState { it.copy(shipState = it.shipState?.copy(engine = action.engine)) }
             is NewGameAction.SelectShip -> {
                 selectedShip = action.ship

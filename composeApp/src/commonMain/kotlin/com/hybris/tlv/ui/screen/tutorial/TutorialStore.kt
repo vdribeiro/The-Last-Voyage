@@ -18,22 +18,22 @@ internal class TutorialStore(
             Content.SHIP -> updateState { it.copy(currentContent = Content.TRAVEL) }
             Content.TRAVEL -> updateState { it.copy(currentContent = Content.SYSTEM) }
             Content.SYSTEM -> updateState { it.copy(currentContent = Content.GAME_OVER) }
-            Content.GAME_OVER -> finish(state = state)
+            Content.GAME_OVER -> finish()
         }
     }
 
-    private fun finish(state: TutorialState): Job = launch(id = "finish") {
+    private fun finish(): Job = launch(id = "finish") {
         config.setPreferences { it.copy(showTutorial = false) }
         when {
             newGame -> navigate(screen = Screen.NewGame)
-            else -> navigateBack(state = state)
+            else -> navigateBack()
         }
     }
 
     override fun reducer(state: TutorialState, action: TutorialAction) {
         when (action) {
             TutorialAction.Next -> next(state = state)
-            TutorialAction.Skip -> finish(state = state)
+            TutorialAction.Skip -> finish()
         }
     }
 }

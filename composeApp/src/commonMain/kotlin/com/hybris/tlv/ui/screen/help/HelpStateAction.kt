@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.help
 
 internal sealed interface HelpAction {
+    data object Back: HelpAction
     data object Navigation: HelpAction
     data object ControlPanel: HelpAction
     data object HostDefinition: HelpAction

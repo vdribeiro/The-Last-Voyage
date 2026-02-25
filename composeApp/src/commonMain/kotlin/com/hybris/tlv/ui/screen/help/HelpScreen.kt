@@ -61,6 +61,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
     Screen(
         store = store,
         loading = storeState.loading,
+        onBackClick = { store.send(action = HelpAction.Back) },
         onHelpClick = null,
         bottomBar = {
             if (currentContent == Content.LEARN_MENU) HelpBar(

@@ -5,6 +5,7 @@ import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
 
 internal sealed interface NewGameAction {
+    data object Back: NewGameAction
     data class SelectEngine(val engine: Engine): NewGameAction
     data class SelectShip(val ship: ShipPrototype): NewGameAction
 }

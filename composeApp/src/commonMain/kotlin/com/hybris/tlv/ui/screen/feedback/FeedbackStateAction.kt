@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.feedback
 
 internal sealed interface FeedbackAction {
+    data object Back: FeedbackAction
     data class SendFeedback(val message: String): FeedbackAction
 }
 

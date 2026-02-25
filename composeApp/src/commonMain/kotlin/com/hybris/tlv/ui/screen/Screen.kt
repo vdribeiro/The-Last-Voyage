@@ -12,6 +12,7 @@ import com.hybris.tlv.ui.audio.LocalAudioPlayer
 import com.hybris.tlv.ui.navigation.LocalNavController
 import com.hybris.tlv.ui.navigation.NavigationHandler
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.navigation.back
 import com.hybris.tlv.ui.navigation.navigate
 import com.hybris.tlv.ui.theme.component.container.Screen as ScreenContainer
 
@@ -32,7 +33,7 @@ internal fun Screen(
     loadingText: String = "",
     loadingBackground: Boolean = false,
     loadingProgress: Float? = null,
-    onBackClick: (() -> Unit)? = { store.navigateBack() },
+    onBackClick: (() -> Unit)? = { navController.back() },
     onHelpClick: (() -> Unit)? = { navController.navigate(screen = Screen.Help) },
     onMusicClick: (() -> Unit)? = { audioPlayer.action(action = AudioPlayer.Action.Toggle) },
     onFeedbackClick: (() -> Unit)? = { navController.navigate(screen = Screen.Feedback()) },
