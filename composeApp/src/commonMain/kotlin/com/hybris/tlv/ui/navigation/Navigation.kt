@@ -34,7 +34,7 @@ import com.hybris.tlv.ui.navigation.graph.splashScreen
 import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
 
-internal val LocalNavController = staticCompositionLocalOf<NavHostController> { NavHostController() }
+internal val LocalNavController = staticCompositionLocalOf<NavHostController> { error("No NavController provided") }
 
 internal val navigationEventDispatcherOwner: NavigationEventDispatcherOwner = object: NavigationEventDispatcherOwner {
     override val navigationEventDispatcher: NavigationEventDispatcher = NavigationEventDispatcher()
