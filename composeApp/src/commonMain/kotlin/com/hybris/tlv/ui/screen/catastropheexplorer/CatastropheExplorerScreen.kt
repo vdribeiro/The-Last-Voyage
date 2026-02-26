@@ -23,6 +23,7 @@ internal fun CatastropheExplorerScreen(store: Store<CatastropheExplorerState, Un
     Screen(
         store = store,
         loading = storeState.loading,
+        onHelpClick = null,
     ) {
         CatastropheList(
             modifier = Modifier

@@ -39,6 +39,7 @@ internal fun EventExplorerScreen(store: Store<EventExplorerState, EventExplorerA
     Screen(
         store = store,
         loading = storeState.loading,
+        onHelpClick = null,
         topBar = {
             val typography = LocalTypography.current
             var searchQuery by remember { mutableStateOf(value = storeState.search) }
