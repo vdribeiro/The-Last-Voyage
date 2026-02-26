@@ -17,7 +17,7 @@ internal class CatastropheExplorerScreenTest: TestCase() {
         val store = storeFactory.get().getCatastropheExplorerStore()
         setUI { CatastropheExplorerScreen(store = store) }
 
-        onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
@@ -34,7 +34,7 @@ internal class CatastropheExplorerScreenTest: TestCase() {
         val store = storeFactory.get().getCatastropheExplorerStore()
         setUI { CatastropheExplorerScreen(store = store) }
 
-        onNodeWithTag(testTag = "topbar_back").assertDoesNotExist()
+        onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_help").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_music").assertIsDisplayed()
         onNodeWithTag(testTag = "topbar_feedback").assertIsDisplayed()
