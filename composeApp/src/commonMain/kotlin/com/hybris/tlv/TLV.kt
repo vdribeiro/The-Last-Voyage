@@ -17,10 +17,12 @@ import com.hybris.tlv.data.http.createHttpEngine
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.test.ExcludeFromTesting
 
 /**
  * Central hub of The Last Voyage application, holding feature flags, dependencies and global listeners.
  */
+@ExcludeFromTesting
 internal object TLV {
 
     private const val TAG = "TLV"
