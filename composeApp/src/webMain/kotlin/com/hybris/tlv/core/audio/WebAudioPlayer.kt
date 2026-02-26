@@ -6,7 +6,6 @@ import kotlinx.browser.document
 import com.hybris.tlv.test.ExcludeFromTesting
 import org.w3c.dom.HTMLAudioElement
 
-@ExcludeFromTesting
 internal class WebAudioPlayer: AudioPlayer() {
 
     private val player: HTMLAudioElement = (document.createElement(localName = "audio") as HTMLAudioElement).apply { preload = "auto" }

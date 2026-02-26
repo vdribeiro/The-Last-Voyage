@@ -7,6 +7,9 @@ import app.cash.sqldelight.db.SqlCursor
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.db.SqlPreparedStatement
 
+/**
+ * A no-op implementation of [SqlDriver].
+ */
 internal object NoOpSqlDriver: SqlDriver {
     override fun <R> executeQuery(
         identifier: Int?,

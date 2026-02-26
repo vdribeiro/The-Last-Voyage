@@ -13,7 +13,6 @@ import platform.darwin.NSObjectProtocol
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.lifecycle.observe
 
-@ExcludeFromTesting
 internal class AppleAudioPlayer: AudioPlayer() {
 
     private val player: AVPlayer = AVPlayer()

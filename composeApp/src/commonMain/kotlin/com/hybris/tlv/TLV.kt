@@ -6,12 +6,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.hybris.tlv.core.audio.createAudioPlayer
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.observeLocale
 import com.hybris.tlv.core.platform.isDebug
 import com.hybris.tlv.core.telemetry.Logger
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.database.createSqlDriver
+import com.hybris.tlv.data.http.createHttpEngine
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
@@ -45,7 +47,11 @@ internal object TLV {
 
         scope.launch(context = Dispatcher.IO) {
             Telemetry.info(tag = TAG, message = "Initializing dependencies")
-            val dependency = Dependency(sqlDriver = createSqlDriver())
+            val dependency = Dependency(
+                sqlDriver = createSqlDriver(),
+                httpEngine = createHttpEngine(),
+                audioPlayer = createAudioPlayer()
+            )
             this@TLV.dependency.update { dependency }
 
             Telemetry.info(tag = TAG, message = "Registering locale listener")

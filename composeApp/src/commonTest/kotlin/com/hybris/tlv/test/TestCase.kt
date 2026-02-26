@@ -21,7 +21,6 @@ import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
 import com.hybris.tlv.Dependency
-import com.hybris.tlv.core.audio.AudioPlayer
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.MockLogger
 import com.hybris.tlv.core.telemetry.Telemetry
@@ -69,7 +68,6 @@ internal abstract class TestCase: PlatformTestCase() {
         Dependency(
             sqlDriver = createMockSqlDriver(),
             httpEngine = createMockHttpEngine(),
-            audioPlayer = AudioPlayer()
         )
     }
 

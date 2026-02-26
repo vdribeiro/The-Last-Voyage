@@ -9,6 +9,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performKeyInput
@@ -36,6 +37,17 @@ import com.hybris.tlv.ui.theme.modifier.Gesture
 internal class AppTest: TestCase() {
 
     @Test
+    fun nullDependency() = runUITest {
+        setUI {
+            Preview {
+                App()
+            }
+        }
+
+        onNodeWithTag(testTag = "loading_foreground").assertIsDisplayed()
+    }
+
+    @Test
     fun navigate() = runUITest(mockNavigation = false) {
         FeatureFlags.set {
             it.copy(
@@ -50,8 +62,6 @@ internal class AppTest: TestCase() {
         setUI {
             navController = rememberNavController()
             App(
-                modifier = Modifier,
-                compositionValues = emptyList(),
                 navController = navController,
                 dependency = dependency
             )
@@ -105,7 +115,6 @@ internal class AppTest: TestCase() {
                     .focusRequester(focusRequester = FocusRequester()).focusable()
                     .onKeyEvent(onKeyEvent = rememberKeySequenceCheats(navController = navController))
                     .enableGestureCheats(navController = navController),
-                compositionValues = emptyList(),
                 navController = navController,
                 dependency = dependency
             )
