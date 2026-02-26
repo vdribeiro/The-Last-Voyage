@@ -1,9 +1,7 @@
 package com.hybris.tlv.core.telemetry
 
 import platform.Foundation.NSLog
-import com.hybris.tlv.test.ExcludeFromTesting
 
-@ExcludeFromTesting
 internal actual object PlatformLogger {
 
     actual fun info(tag: String, message: String) {
