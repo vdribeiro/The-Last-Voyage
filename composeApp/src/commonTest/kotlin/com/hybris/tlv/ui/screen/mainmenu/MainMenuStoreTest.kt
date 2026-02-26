@@ -14,7 +14,7 @@ internal class MainMenuStoreTest: TestCase() {
     fun init() = runUnitTest {
         dependency.get().useCases.ship.prepopulateEngines()
         dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        val store = getStoreFactory().getMainMenuStore()
+        val store = storeFactory.get().getMainMenuStore()
         assertFalse(actual = store.state.loading)
         assertFalse(actual = store.state.newVersionBanner)
         assertEquals(expected = dependency.get().config.localConfigs.developerCorner, actual = store.state.developerCorner)
@@ -23,48 +23,48 @@ internal class MainMenuStoreTest: TestCase() {
 
     @Test
     fun initWithoutGameSession() = runUnitTest {
-        val store = getStoreFactory().getMainMenuStore()
+        val store = storeFactory.get().getMainMenuStore()
         assertFalse(actual = store.state.ongoingGameSession)
     }
 
     @Test
     fun newGame() = runUnitTest {
-        val store = getStoreFactory().getMainMenuStore()
+        val store = storeFactory.get().getMainMenuStore()
         store.send(action = MainMenuAction.NewGame)
         assertNavigation(list = listOf(Screen.Tutorial()))
     }
 
     @Test
     fun game() = runUnitTest {
-        val store = getStoreFactory().getMainMenuStore()
+        val store = storeFactory.get().getMainMenuStore()
         store.send(action = MainMenuAction.Game)
         assertNavigation(list = listOf(Screen.Game()))
     }
 
     @Test
     fun scores() = runUnitTest {
-        val store = getStoreFactory().getMainMenuStore()
+        val store = storeFactory.get().getMainMenuStore()
         store.send(action = MainMenuAction.Scores)
         assertNavigation(list = listOf(Screen.Score))
     }
 
     @Test
     fun achievements() = runUnitTest {
-        val store = getStoreFactory().getMainMenuStore()
+        val store = storeFactory.get().getMainMenuStore()
         store.send(action = MainMenuAction.Achievements)
         assertNavigation(list = listOf(Screen.Achievement))
     }
 
     @Test
     fun credits() = runUnitTest {
-        val store = getStoreFactory().getMainMenuStore()
+        val store = storeFactory.get().getMainMenuStore()
         store.send(action = MainMenuAction.Credits)
         assertNavigation(list = listOf(Screen.Credit))
     }
 
     @Test
     fun stellarExplorer() = runUnitTest {
-        val store = getStoreFactory().getMainMenuStore()
+        val store = storeFactory.get().getMainMenuStore()
         store.send(action = MainMenuAction.StellarExplorer)
         assertNavigation(list = listOf(Screen.StellarExplorer))
     }

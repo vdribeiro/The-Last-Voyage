@@ -11,7 +11,7 @@ internal class HelpScreenTest: TestCase() {
 
     @Test
     fun help() = runUITest {
-        val store = getStoreFactory().getHelpStore()
+        val store = storeFactory.get().getHelpStore()
         setUI { HelpScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()

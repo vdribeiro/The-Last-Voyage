@@ -11,7 +11,7 @@ internal class SplashStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        val store = getStoreFactory().getSplashStore(reset = true)
+        val store = storeFactory.get().getSplashStore(reset = true)
         assertNotNull(actual = store.setupJob)
         store.setupJob?.join()
         assertFalse(actual = store.state.loading)
@@ -22,7 +22,7 @@ internal class SplashStoreTest: TestCase() {
     @Test
     fun next() = runUnitTest {
         assertNavigation(list = emptyList())
-        val store = getStoreFactory().getSplashStore(reset = true)
+        val store = storeFactory.get().getSplashStore(reset = true)
         store.setupJob?.join()
         store.send(action = SplashAction.Next)
         assertNavigation(list = listOf(Screen.MainMenu))

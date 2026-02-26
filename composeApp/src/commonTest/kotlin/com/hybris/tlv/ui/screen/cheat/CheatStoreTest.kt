@@ -9,7 +9,7 @@ internal class CheatStoreTest: TestCase() {
 
     @Test
     fun init() = runUnitTest {
-        val store = getStoreFactory().getCheatStore()
+        val store = storeFactory.get().getCheatStore()
         assertFalse(actual = store.state.loading)
         assertFalse(actual = store.state.integrity)
         assertFalse(actual = store.state.sensorRange)
@@ -20,7 +20,7 @@ internal class CheatStoreTest: TestCase() {
 
     @Test
     fun enableAndDisableCheats() = runUnitTest {
-        val store = getStoreFactory().getCheatStore()
+        val store = storeFactory.get().getCheatStore()
         assertFalse(actual = store.state.loading)
 
         assertFalse(actual = store.state.integrity)

@@ -11,7 +11,7 @@ internal class CatastropheStoreTest: TestCase() {
     @Test
     fun init() = runUnitTest {
         dependency.get().useCases.catastrophe.syncCatastrophes()
-        val store = getStoreFactory().getCatastropheStore()
+        val store = storeFactory.get().getCatastropheStore()
         assertFalse(actual = store.state.loading)
         assertNotNull(actual = store.state.selectedCatastrophe)
     }
@@ -19,14 +19,14 @@ internal class CatastropheStoreTest: TestCase() {
     @Test
     fun initWithoutCatastrophes() = runUnitTest {
         assertNavigation(list = emptyList())
-        getStoreFactory().getCatastropheStore()
+        storeFactory.get().getCatastropheStore()
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 
     @Test
     fun next() = runUnitTest {
         dependency.get().useCases.catastrophe.syncCatastrophes()
-        val store = getStoreFactory().getCatastropheStore()
+        val store = storeFactory.get().getCatastropheStore()
         assertNavigation(list = emptyList())
         store.send(action = CatastropheAction.Next)
         assertNavigation(list = listOf(Screen.Game()))

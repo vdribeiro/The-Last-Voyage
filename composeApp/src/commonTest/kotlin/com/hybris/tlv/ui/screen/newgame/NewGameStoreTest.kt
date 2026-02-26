@@ -14,7 +14,7 @@ internal class NewGameStoreTest: TestCase() {
     @Test
     fun init() = runUnitTest {
         dependency.get().useCases.ship.syncEngines()
-        val store = getStoreFactory().getNewGameStore()
+        val store = storeFactory.get().getNewGameStore()
         assertNull(actual = store.selectedShip)
         assertNull(actual = store.selectedFormula)
         assertFalse(actual = store.state.loading)
@@ -26,7 +26,7 @@ internal class NewGameStoreTest: TestCase() {
     fun initWithoutEngines() = runUnitTest {
         assertNavigation(list = emptyList())
         dependency.get().useCases.catastrophe.syncCatastrophes()
-        getStoreFactory().getNewGameStore()
+        storeFactory.get().getNewGameStore()
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 
@@ -34,7 +34,7 @@ internal class NewGameStoreTest: TestCase() {
     fun selectShip() = runUnitTest {
         dependency.get().useCases.catastrophe.syncCatastrophes()
         dependency.get().useCases.ship.syncEngines()
-        val store = getStoreFactory().getNewGameStore()
+        val store = storeFactory.get().getNewGameStore()
         assertNull(actual = store.selectedShip)
         store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
         assertEquals(expected = FakeData.shipPrototype, actual = store.selectedShip)
@@ -46,7 +46,7 @@ internal class NewGameStoreTest: TestCase() {
     @Test
     fun startGame() = runUnitTest {
         dependency.get().useCases.ship.syncEngines()
-        val store = getStoreFactory().getNewGameStore()
+        val store = storeFactory.get().getNewGameStore()
         assertNavigation(list = emptyList())
         store.send(action = NewGameAction.SelectEngine(engine = FakeData.engines.get().random()))
         store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
@@ -56,7 +56,7 @@ internal class NewGameStoreTest: TestCase() {
     @Test
     fun startGameWithoutShip() = runUnitTest {
         assertNavigation(list = emptyList())
-        val store = getStoreFactory().getNewGameStore()
+        val store = storeFactory.get().getNewGameStore()
         store.send(action = NewGameAction.SelectEngine(engine = FakeData.engines.get().random()))
         store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
         assertNavigation(list = listOf(Screen.Feedback()))
@@ -69,7 +69,7 @@ internal class NewGameStoreTest: TestCase() {
         assertNavigation(list = listOf(Screen.NewGame))
         dependency.get().useCases.catastrophe.syncCatastrophes()
         dependency.get().useCases.ship.syncEngines()
-        val store = getStoreFactory().getNewGameStore()
+        val store = storeFactory.get().getNewGameStore()
         store.send(action = NewGameAction.Back)
         assertNavigation(list = listOf(Screen.NewGame, Screen.MainMenu))
     }

@@ -14,7 +14,7 @@ internal class ScoreScreenTest: TestCase() {
 
     @Test
     fun scoreWithoutData() = runUITest {
-        val store = getStoreFactory().getScoreStore()
+        val store = storeFactory.get().getScoreStore()
         setUI { ScoreScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()
@@ -33,7 +33,7 @@ internal class ScoreScreenTest: TestCase() {
         dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val latestGameSession = dependency.get().useCases.gameSession.getLatestGameSession()!!
         dependency.get().useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
-        val store = getStoreFactory().getScoreStore()
+        val store = storeFactory.get().getScoreStore()
         setUI { ScoreScreen(store = store) }
 
         onNodeWithTag(testTag = "topbar_back").assertIsDisplayed()

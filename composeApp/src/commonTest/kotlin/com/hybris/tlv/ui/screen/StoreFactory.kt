@@ -5,9 +5,11 @@ import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.domain.usecase.ship.model.Ship
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.catastrophe.CatastropheStore
+import com.hybris.tlv.ui.screen.catastropheexplorer.CatastropheExplorerStore
 import com.hybris.tlv.ui.screen.cheat.CheatStore
 import com.hybris.tlv.ui.screen.credit.CreditStore
 import com.hybris.tlv.ui.screen.event.EventStore
+import com.hybris.tlv.ui.screen.eventexplorer.EventExplorerStore
 import com.hybris.tlv.ui.screen.feedback.FeedbackStore
 import com.hybris.tlv.ui.screen.game.GameStore
 import com.hybris.tlv.ui.screen.gameover.GameOverStore
@@ -99,4 +101,10 @@ internal class StoreFactory(
 
     fun getCreditStore(): CreditStore =
         CreditStore(creditUseCases = useCases.credit)
+
+    fun getCatastropheExplorerStore(): CatastropheExplorerStore =
+        CatastropheExplorerStore(catastropheUseCases = useCases.catastrophe)
+
+    fun getEventExplorerStore(): EventExplorerStore =
+        EventExplorerStore(eventUseCases = useCases.event)
 }

@@ -16,7 +16,7 @@ internal class ScoreStoreTest: TestCase() {
         dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         var latestGameSession = dependency.get().useCases.gameSession.getLatestGameSession()!!
         dependency.get().useCases.gameSession.updateGameSession(gameSession = latestGameSession.copy(score = 9000.0))
-        val store = getStoreFactory().getScoreStore()
+        val store = storeFactory.get().getScoreStore()
         assertFalse(actual = store.state.loading)
         latestGameSession = dependency.get().useCases.gameSession.getLatestGameSession()!!
         assertEquals(
@@ -27,7 +27,7 @@ internal class ScoreStoreTest: TestCase() {
 
     @Test
     fun initWithoutScores() = runUnitTest {
-        val store = getStoreFactory().getScoreStore()
+        val store = storeFactory.get().getScoreStore()
         assertFalse(actual = store.state.loading)
         assertTrue(actual = store.state.gameSessions.isEmpty())
     }

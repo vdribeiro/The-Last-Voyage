@@ -16,7 +16,7 @@ internal class GameOverStoreTest: TestCase() {
     fun init() = runUnitTest {
         dependency.get().useCases.ship.prepopulateEngines()
         dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        val store = getStoreFactory().getGameOverStore()
+        val store = storeFactory.get().getGameOverStore()
         assertTrue(store.achievements.isEmpty())
         assertEquals(expected = 0, actual = store.index)
         assertFalse(actual = store.state.loading)
@@ -29,7 +29,7 @@ internal class GameOverStoreTest: TestCase() {
     @Test
     fun initWithoutGameSession() = runUnitTest {
         assertNavigation(list = emptyList())
-        getStoreFactory().getGameOverStore()
+        storeFactory.get().getGameOverStore()
         assertNavigation(list = listOf(Screen.Feedback()))
     }
 
@@ -38,7 +38,7 @@ internal class GameOverStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         dependency.get().useCases.ship.prepopulateEngines()
         dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
-        val store = getStoreFactory().getGameOverStore()
+        val store = storeFactory.get().getGameOverStore()
         assertEquals(expected = Content.MESSAGE, actual = store.state.currentContent)
         store.send(action = GameOverAction.Next)
         assertEquals(expected = Content.SCORE, actual = store.state.currentContent)
@@ -49,7 +49,7 @@ internal class GameOverStoreTest: TestCase() {
     @Test
     fun nextContentWithoutGameSession() = runUnitTest {
         assertNavigation(list = emptyList())
-        val store = getStoreFactory().getGameOverStore()
+        val store = storeFactory.get().getGameOverStore()
         store.send(action = GameOverAction.Next)
         assertNavigation(list = listOf(Screen.Feedback()))
     }
@@ -67,7 +67,7 @@ internal class GameOverStoreTest: TestCase() {
                 finalHabitability = 0.0
             )
         )
-        val store = getStoreFactory().getGameOverStore()
+        val store = storeFactory.get().getGameOverStore()
         assertTrue(actual = store.achievements.isNotEmpty())
         assertEquals(expected = 0, actual = store.index)
         store.send(action = GameOverAction.Next)

@@ -74,17 +74,19 @@ internal abstract class TestCase: PlatformTestCase() {
     }
 
     /**
+     * Factory used to create Stores using the test-specific dependency.
+     */
+    protected val storeFactory: LazyData<StoreFactory> = LazyData {
+        StoreFactory(
+            config = dependency.get().config,
+            useCases = dependency.get().useCases
+        )
+    }
+
+    /**
      * Syntactic sugar for store.stateFlow.value.
      */
     protected val <State, Action> Store<State, Action>.state: State get() = stateFlow.value
-
-    /**
-     * Factory used to create Stores using the test-specific dependency.
-     */
-    protected suspend fun getStoreFactory(): StoreFactory = StoreFactory(
-        config = dependency.get().config,
-        useCases = dependency.get().useCases
-    )
 
     /**
      * Simulates a navigation event.
