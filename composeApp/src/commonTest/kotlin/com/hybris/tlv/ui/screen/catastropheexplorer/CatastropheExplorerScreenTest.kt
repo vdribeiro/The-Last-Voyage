@@ -25,7 +25,7 @@ internal class CatastropheExplorerScreenTest: TestCase() {
         onNodeWithText(text = "catastrophe_screen__title").assertIsDisplayed()
         onNodeWithTag(testTag = "catastrophe_list").assertIsDisplayed()
 
-        onNodeWithTag(testTag = "stellar_explorer_host_list").count(count = 0)
+        onNodeWithTag(testTag = "catastrophe_list").count(count = 0)
     }
 
     @Test
@@ -42,6 +42,6 @@ internal class CatastropheExplorerScreenTest: TestCase() {
         onNodeWithText(text = "catastrophe_screen__title").assertIsDisplayed()
         onNodeWithTag(testTag = "catastrophe_list").assertIsDisplayed()
 
-        onNodeWithTag(testTag = "stellar_explorer_host_list").count(count = FakeData.catastrophes.get().size)
+        onNodeWithTag(testTag = "catastrophe_list").count(count = FakeData.catastrophes.get().size)
     }
 }
