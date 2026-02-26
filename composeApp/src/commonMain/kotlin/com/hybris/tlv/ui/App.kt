@@ -40,10 +40,14 @@ internal fun App(
             if (dependency == null) LoadingScreen() else {
                 Navigation(
                     modifier = modifier,
+                    navController = navController,
                     config = dependency.config,
                     useCases = dependency.useCases
                 )
-                MusicPlayer()
+                MusicPlayer(
+                    navController = navController,
+                    audioPlayer = dependency.audioPlayer,
+                )
             }
         }
     }

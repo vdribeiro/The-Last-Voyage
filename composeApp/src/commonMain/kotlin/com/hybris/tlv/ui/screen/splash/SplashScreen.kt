@@ -27,7 +27,6 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     val loadingTranslation = getTranslation(key = "splash_screen__loading")
 
     Screen(
-        store = store,
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },

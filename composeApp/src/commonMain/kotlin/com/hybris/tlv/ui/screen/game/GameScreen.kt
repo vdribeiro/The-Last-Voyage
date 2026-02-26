@@ -33,7 +33,6 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
     val ship = storeState.ship
 
     Screen(
-        store = store,
         loading = storeState.loading,
         onBackClick = { store.send(action = GameAction.Back) },
         topBar = {

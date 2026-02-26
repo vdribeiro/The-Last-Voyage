@@ -20,7 +20,6 @@ internal fun CheatScreen(store: Store<CheatState, CheatAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
 
     Screen(
-        store = store,
         loading = storeState.loading,
         onHelpClick = null,
         onMusicClick = null,

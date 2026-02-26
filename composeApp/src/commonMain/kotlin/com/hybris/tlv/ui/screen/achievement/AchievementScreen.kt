@@ -22,7 +22,6 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
 
     Screen(
-        store = store,
         loading = storeState.loading,
     ) {
         AchievementList(

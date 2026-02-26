@@ -42,7 +42,6 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
     val newAchievementTranslation = getTranslation(key = "achievements_screen__new")
 
     Screen(
-        store = store,
         loading = storeState.loading,
         onBackClick = null,
         bottomBar = {

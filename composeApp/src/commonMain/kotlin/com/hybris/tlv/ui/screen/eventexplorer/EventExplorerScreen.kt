@@ -37,7 +37,6 @@ internal fun EventExplorerScreen(store: Store<EventExplorerState, EventExplorerA
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
 
     Screen(
-        store = store,
         loading = storeState.loading,
         onHelpClick = null,
         topBar = {

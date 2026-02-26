@@ -25,7 +25,6 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
 
     Screen(
-        store = store,
         loading = storeState.loading,
     ) {
         ScoreList(

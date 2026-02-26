@@ -43,7 +43,6 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     val planetListTranslation = getTranslation(key = "stellar_explorer_screen__planet_list")
 
     Screen(
-        store = store,
         loading = storeState.loading,
         onBackClick = { store.send(action = StellarExplorerAction.Back) },
         topBar = {

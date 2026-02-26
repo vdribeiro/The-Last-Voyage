@@ -59,7 +59,6 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
     val currentContent = storeState.currentContent
 
     Screen(
-        store = store,
         loading = storeState.loading,
         onBackClick = { store.send(action = HelpAction.Back) },
         onHelpClick = null,

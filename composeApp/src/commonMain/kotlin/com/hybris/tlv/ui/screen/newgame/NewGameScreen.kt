@@ -28,7 +28,6 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val startTranslation = getTranslation(key = "new_game_screen__start")
 
     Screen(
-        store = store,
         loading = storeState.loading,
         onBackClick = { store.send(action = NewGameAction.Back) },
         bottomBar = {

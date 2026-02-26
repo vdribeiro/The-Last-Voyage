@@ -9,7 +9,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import androidx.navigationevent.NavigationEventDispatcher
 import androidx.navigationevent.NavigationEventDispatcherOwner
 import androidx.navigationevent.NavigationEventInfo
@@ -35,7 +34,7 @@ import com.hybris.tlv.ui.navigation.graph.splashScreen
 import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
 
-internal val LocalNavController = staticCompositionLocalOf<NavHostController?> { null }
+internal val LocalNavController = staticCompositionLocalOf<NavHostController> { NavHostController() }
 
 internal val navigationEventDispatcherOwner: NavigationEventDispatcherOwner = object: NavigationEventDispatcherOwner {
     override val navigationEventDispatcher: NavigationEventDispatcher = NavigationEventDispatcher()
@@ -49,7 +48,7 @@ internal val navigationEventDispatcherOwner: NavigationEventDispatcherOwner = ob
 @Composable
 internal fun Navigation(
     modifier: Modifier = Modifier,
-    navController: NavHostController = LocalNavController.current ?: rememberNavController(),
+    navController: NavHostController,
     config: ConfigManager,
     useCases: UseCases
 ) {

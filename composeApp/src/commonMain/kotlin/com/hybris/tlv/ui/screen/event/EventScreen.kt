@@ -31,7 +31,6 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
     val event = storeState.parentEvent
 
     Screen(
-        store = store,
         loading = storeState.loading,
         onBackClick = null,
         topBar = {

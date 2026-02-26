@@ -27,7 +27,6 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
 
     Screen(
-        store = store,
         loading = storeState.loading,
         title = if (storeState.newVersionBanner) {
             {

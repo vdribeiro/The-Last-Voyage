@@ -27,7 +27,6 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
     val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
 
     Screen(
-        store = store,
         loading = storeState.loading,
     ) {
         CreditList(

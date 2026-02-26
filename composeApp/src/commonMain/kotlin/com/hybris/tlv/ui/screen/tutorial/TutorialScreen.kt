@@ -46,7 +46,6 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
     val typography = LocalTypography.current
 
     Screen(
-        store = store,
         onHelpClick = null,
         topBar = {
             // Status bar for sensor range, fuel, materials and cryopods

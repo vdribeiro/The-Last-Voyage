@@ -20,7 +20,6 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
 
     Screen(
-        store = store,
         onBackClick = { store.send(action = FeedbackAction.Back) },
         onHelpClick = null,
         onFeedbackClick = null

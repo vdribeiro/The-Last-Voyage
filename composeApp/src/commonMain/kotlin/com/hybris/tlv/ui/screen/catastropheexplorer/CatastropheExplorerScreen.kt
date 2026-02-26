@@ -21,7 +21,6 @@ internal fun CatastropheExplorerScreen(store: Store<CatastropheExplorerState, Un
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
 
     Screen(
-        store = store,
         loading = storeState.loading,
         onHelpClick = null,
     ) {

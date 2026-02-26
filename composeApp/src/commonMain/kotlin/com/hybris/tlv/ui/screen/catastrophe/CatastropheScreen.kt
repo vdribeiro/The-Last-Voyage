@@ -27,7 +27,6 @@ internal fun CatastropheScreen(store: Store<CatastropheState, CatastropheAction>
     val continueTranslation = getTranslation(key = "new_game_screen__continue")
 
     Screen(
-        store = store,
         loading = storeState.loading,
         onBackClick = null,
         bottomBar = {
