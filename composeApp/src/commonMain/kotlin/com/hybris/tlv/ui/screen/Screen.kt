@@ -22,7 +22,7 @@ import com.hybris.tlv.ui.theme.component.container.Screen as ScreenContainer
 @Composable
 internal fun Screen(
     modifier: Modifier = Modifier,
-    navController: NavHostController = LocalNavController.current,
+    navController: NavHostController? = LocalNavController.current,
     audioPlayer: AudioPlayer = LocalAudioPlayer.current,
     contentAlignment: Alignment = Alignment.TopStart,
     loading: Boolean = false,
@@ -31,10 +31,10 @@ internal fun Screen(
     loadingText: String = "",
     loadingBackground: Boolean = false,
     loadingProgress: Float? = null,
-    onBackClick: (() -> Unit)? = { navController.back() },
-    onHelpClick: (() -> Unit)? = { navController.navigate(screen = Screen.Help) },
+    onBackClick: (() -> Unit)? = { navController?.back() },
+    onHelpClick: (() -> Unit)? = { navController?.navigate(screen = Screen.Help) },
     onMusicClick: (() -> Unit)? = { audioPlayer.action(action = AudioPlayer.Action.Toggle) },
-    onFeedbackClick: (() -> Unit)? = { navController.navigate(screen = Screen.Feedback()) },
+    onFeedbackClick: (() -> Unit)? = { navController?.navigate(screen = Screen.Feedback()) },
     title: (@Composable () -> Unit)? = null,
     topBar: @Composable ColumnScope.() -> Unit = {},
     bottomBar: @Composable ColumnScope.() -> Unit = {},
