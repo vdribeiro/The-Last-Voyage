@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import androidx.navigationevent.NavigationEventDispatcher
+import androidx.navigationevent.NavigationEventDispatcherOwner
 import androidx.navigationevent.NavigationEventInfo
 import androidx.navigationevent.compose.NavigationBackHandler
 import androidx.navigationevent.compose.rememberNavigationEventState
@@ -34,6 +36,10 @@ import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
 
 internal val LocalNavController = staticCompositionLocalOf<NavHostController?> { null }
+
+internal val navigationEventDispatcherOwner: NavigationEventDispatcherOwner = object: NavigationEventDispatcherOwner {
+    override val navigationEventDispatcher: NavigationEventDispatcher = NavigationEventDispatcher()
+}
 
 /**
  * The main navigation host for the application.
