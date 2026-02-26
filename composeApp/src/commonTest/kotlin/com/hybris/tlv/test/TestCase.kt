@@ -115,30 +115,34 @@ internal abstract class TestCase: PlatformTestCase() {
 
     /**
      * Sets up the test environment.
-     * Resets feature flags, sets up the telemetry engine and coroutine dispatcher and main dispatcher with the given [dispatcher] (typically with a [UnconfinedTestDispatcher]).
-     * Finally, it resets local data and clears the navigation stack.
+     * Resets feature flags, sets the telemetry engine,
+     * sets the coroutine dispatcher and main dispatcher with the given [dispatcher] (typically with a [UnconfinedTestDispatcher]),
+     * resets local data, clears the navigation stack and finally starts the navigation simulation.
      */
-    private suspend fun setup(dispatcher: CoroutineDispatcher) {
+    private suspend fun setup(scope: CoroutineScope?, dispatcher: CoroutineDispatcher) {
         FeatureFlags.set { testFlags }
         Telemetry.engine = MockLogger()
         setDispatcher(dispatcher = dispatcher)
         Dispatchers.setMain(dispatcher = dispatcher)
         resetData()
         navigation.clear()
+        scope?.launch(context = dispatcher) { navigation.receiveCommands() }
     }
 
     /**
      * Resets the test environment.
-     * Resets feature flags, the telemetry engine and coroutine dispatcher and main dispatcher with the original dispatchers for the general test environment.
-     * Finally, it resets local data and clears the navigation stack.
+     * Resets feature flags and telemetry engine,
+     * sets coroutine dispatcher and main dispatcher with the original dispatchers for the general test environment,
+     * resets local data, clears the navigation stack and finally stops the navigation simulation.
      */
-    private suspend fun reset() {
+    private suspend fun reset(scope: CoroutineScope?) {
         FeatureFlags.set { testFlags }
         Telemetry.engine = null
         setDispatcher(dispatcher = Dispatchers.Unconfined)
         Dispatchers.resetMain()
         resetData()
         navigation.clear()
+        scope?.cancel()
     }
 
     /**
@@ -148,13 +152,13 @@ internal abstract class TestCase: PlatformTestCase() {
     protected fun runUnitTest(block: suspend TestScope.(TestDispatcher) -> Unit) {
         runTest {
             val testDispatcher = UnconfinedTestDispatcher(scheduler = testScheduler)
-            setup(dispatcher = testDispatcher)
-            backgroundScope.launch(context = testDispatcher) { navigation.receiveCommands() }
+            val scope = backgroundScope
+            setup(scope = scope, dispatcher = testDispatcher)
             try {
                 block(testDispatcher)
                 testScheduler.advanceUntilIdle()
             } finally {
-                reset()
+                reset(scope = scope)
             }
         }
     }
@@ -166,15 +170,13 @@ internal abstract class TestCase: PlatformTestCase() {
     protected fun runUITest(mockNavigation: Boolean = true, block: suspend ComposeUiTest.(TestDispatcher) -> Unit) {
         runComposeUiTest {
             val testDispatcher = UnconfinedTestDispatcher()
-            setup(dispatcher = testDispatcher)
             val scope = if (mockNavigation) CoroutineScope(context = testDispatcher) else null
-            scope?.launch { navigation.receiveCommands() }
+            setup(scope = scope, dispatcher = testDispatcher)
             try {
                 block(testDispatcher)
                 waitForIdle()
             } finally {
-                scope?.cancel()
-                reset()
+                reset(scope = scope)
             }
         }
     }
