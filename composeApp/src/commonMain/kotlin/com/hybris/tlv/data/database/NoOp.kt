@@ -6,9 +6,7 @@ import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlCursor
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.db.SqlPreparedStatement
-import com.hybris.tlv.test.ExcludeFromTesting
 
-@ExcludeFromTesting
 internal object NoOpSqlDriver: SqlDriver {
     override fun <R> executeQuery(
         identifier: Int?,
@@ -27,7 +25,6 @@ internal object NoOpSqlDriver: SqlDriver {
     override fun close() {}
 }
 
-@ExcludeFromTesting
 private object NoOpCursor: SqlCursor {
     override fun next(): QueryResult<Boolean> = QueryResult.Value(value = false)
     override fun getString(index: Int): String? = null
@@ -37,7 +34,6 @@ private object NoOpCursor: SqlCursor {
     override fun getBoolean(index: Int): Boolean? = null
 }
 
-@ExcludeFromTesting
 private object NoOpTransaction: Transacter.Transaction() {
     override val enclosingTransaction: Transacter.Transaction? = null
     override fun endTransaction(successful: Boolean): QueryResult<Unit> = QueryResult.Value(value = Unit)

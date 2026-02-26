@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +41,7 @@ internal fun AppLogo(
             if (showBackground) {
                 Image(
                     modifier = Modifier
+                        .testTag(tag = "loading_background")
                         .size(size = 160.dp)
                         .clip(shape = CircleShape),
                     image = ImageResource.LauncherBackground,
@@ -49,6 +51,7 @@ internal fun AppLogo(
             }
             Image(
                 modifier = Modifier
+                    .testTag(tag = "loading_foreground")
                     .size(size = 200.dp)
                     .clip(shape = CircleShape),
                 image = ImageResource.LauncherForeground,

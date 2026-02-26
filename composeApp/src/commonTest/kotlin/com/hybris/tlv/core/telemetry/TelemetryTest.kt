@@ -1,10 +1,6 @@
 package com.hybris.tlv.core.telemetry
 
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.first
-import com.hybris.tlv.core.locale.getLanguage
-import com.hybris.tlv.core.locale.observeLocale
 import com.hybris.tlv.test.TestCase
 
 internal class TelemetryTest: TestCase() {
