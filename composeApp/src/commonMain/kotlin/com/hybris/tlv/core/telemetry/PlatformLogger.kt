@@ -1,11 +1,8 @@
 package com.hybris.tlv.core.telemetry
 
-import com.hybris.tlv.test.ExcludeFromTesting
-
 /**
  * Platform-specific logger.
  */
-@ExcludeFromTesting
 internal expect object PlatformLogger {
 
     /**

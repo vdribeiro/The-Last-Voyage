@@ -1,7 +1,7 @@
 package com.hybris.tlv.core.telemetry
 
 /**
- * Handles telemetry, including logging and error reporting.
+ * Handles telemetry, including logging, error reporting and user feedback.
  */
 internal interface TelemetryEngine {
 
