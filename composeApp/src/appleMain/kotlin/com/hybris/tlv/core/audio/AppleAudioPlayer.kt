@@ -10,7 +10,6 @@ import platform.AVFoundation.replaceCurrentItemWithPlayerItem
 import platform.Foundation.NSBundle
 import platform.Foundation.NSNotificationCenter
 import platform.darwin.NSObjectProtocol
-import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.lifecycle.observe
 
 internal class AppleAudioPlayer: AudioPlayer() {
@@ -60,5 +59,4 @@ internal class AppleAudioPlayer: AudioPlayer() {
     }
 }
 
-@ExcludeFromTesting
 internal actual fun createAudioPlayer(): AudioPlayer = AppleAudioPlayer()

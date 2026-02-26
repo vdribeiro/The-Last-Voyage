@@ -3,7 +3,6 @@ package com.hybris.tlv.core.audio
 import com.hybris.tlv.core.resource.AudioResource
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
-import com.hybris.tlv.test.ExcludeFromTesting
 
 /**
  * Audio player that provides basic audio playback functionality, including playing, pausing, resuming, and stopping audio.
@@ -109,5 +108,4 @@ internal open class AudioPlayer {
 /**
  * Creates a new instance of [AudioPlayer].
  */
-@ExcludeFromTesting
 internal expect fun createAudioPlayer(): AudioPlayer

@@ -3,7 +3,6 @@
 package com.hybris.tlv.core.audio
 
 import kotlinx.browser.document
-import com.hybris.tlv.test.ExcludeFromTesting
 import org.w3c.dom.HTMLAudioElement
 
 internal class WebAudioPlayer: AudioPlayer() {
@@ -40,5 +39,4 @@ internal class WebAudioPlayer: AudioPlayer() {
     }
 }
 
-@ExcludeFromTesting
 internal actual fun createAudioPlayer(): AudioPlayer = WebAudioPlayer()

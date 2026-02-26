@@ -5,7 +5,6 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.hybris.tlv.applicationContext
-import com.hybris.tlv.test.ExcludeFromTesting
 
 internal class AndroidAudioPlayer: AudioPlayer() {
 
@@ -41,5 +40,4 @@ internal class AndroidAudioPlayer: AudioPlayer() {
     }
 }
 
-@ExcludeFromTesting
 internal actual fun createAudioPlayer(): AudioPlayer = AndroidAudioPlayer()

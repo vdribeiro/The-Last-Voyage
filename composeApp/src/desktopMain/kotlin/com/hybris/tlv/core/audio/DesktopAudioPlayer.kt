@@ -1,6 +1,5 @@
 package com.hybris.tlv.core.audio
 
-import com.hybris.tlv.test.ExcludeFromTesting
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
 
@@ -41,5 +40,4 @@ internal class DesktopAudioPlayer: AudioPlayer() {
     }
 }
 
-@ExcludeFromTesting
 internal actual fun createAudioPlayer(): AudioPlayer = DesktopAudioPlayer()
