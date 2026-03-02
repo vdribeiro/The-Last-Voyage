@@ -28,5 +28,9 @@ internal data class Flags(
      * Flag to enable or disable the audio player in the application.
      * This should be set to true for production builds.
      */
-    val music: Boolean = false
+    val music: Boolean = false,
+    /**
+     * Flag to enable or disable the engines selection feature.
+     */
+    val engines: Boolean = false
 )

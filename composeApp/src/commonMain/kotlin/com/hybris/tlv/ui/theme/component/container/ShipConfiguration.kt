@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.security.uuid
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
@@ -88,29 +89,31 @@ internal inline fun <T> ShipConfiguration(
             fuel?.let { item { attributeItem(fuelTranslation, it) } }
             materials?.let { item { attributeItem(materialsTranslation, it) } }
             cryopods?.let { item { attributeItem(cryopodsTranslation, it) } }
-            item {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
-                    text = engineSelectTranslation,
-                    style = typography.headlineMedium,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Start
-                )
-            }
-            items(items = engines, key = id) { engine ->
-                val engineId = id(engine)
-                SelectableAttribute(
-                    modifier = Modifier
-                        .clickable { onEngineClick(engine) },
-                    selected = selectedEngineId == engineId,
-                    name = engineId,
-                    description = description(engine),
-                    velocity = velocity(engine),
-                    fuel = fuelConsumption(engine),
-                    points = cost(engine),
-                )
+            if (flags.engines) {
+                item {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp),
+                        text = engineSelectTranslation,
+                        style = typography.headlineMedium,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Start
+                    )
+                }
+                items(items = engines, key = id) { engine ->
+                    val engineId = id(engine)
+                    SelectableAttribute(
+                        modifier = Modifier
+                            .clickable { onEngineClick(engine) },
+                        selected = selectedEngineId == engineId,
+                        name = engineId,
+                        description = description(engine),
+                        velocity = velocity(engine),
+                        fuel = fuelConsumption(engine),
+                        points = cost(engine),
+                    )
+                }
             }
         }
     }
