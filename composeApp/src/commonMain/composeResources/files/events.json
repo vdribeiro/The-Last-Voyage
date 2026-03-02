@@ -455,5 +455,446 @@
     "description": "event__water_ice_reprocessing_reprocess_description",
     "parentId": "event__water_ice_reprocessing",
     "outcome": null
+  },
+  {
+    "id": "event__cme",
+    "description": "event__cme_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__cme_reorient",
+    "description": "event__cme_reorient_description",
+    "parentId": "event__cme",
+    "outcome": {
+      "materials": -2,
+      "integrity": -5
+    }
+  },
+  {
+    "id": "event__cme_manoeuvre",
+    "description": "event__cme_manoeuvre_description",
+    "parentId": "event__cme",
+    "outcome": {
+      "fuel": -15
+    }
+  },
+  {
+    "id": "event__cme_magnetic_shield",
+    "description": "event__cme_magnetic_shield_description",
+    "parentId": "event__cme",
+    "outcome": null
+  },
+  {
+    "id": "event__cme_magnetic_shield_fix_life_support",
+    "description": "event__cme_magnetic_shield_fix_life_support_description",
+    "parentId": "event__cme_magnetic_shield",
+    "outcome": {
+      "materials": -10
+    }
+  },
+  {
+    "id": "event__cme_magnetic_shield_backup",
+    "description": "event__cme_magnetic_shield_backup_description",
+    "parentId": "event__cme_magnetic_shield",
+    "outcome": {
+      "cryopods": -50
+    }
+  },
+  {
+    "id": "event__dust_cloud",
+    "description": "event__dust_cloud_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__dust_cloud_shield",
+    "description": "event__dust_cloud_shield_description",
+    "parentId": "event__dust_cloud",
+    "outcome": {
+      "materials": -10
+    }
+  },
+  {
+    "id": "event__dust_cloud_shield_risk",
+    "description": "event__dust_cloud_shield_risk_description",
+    "parentId": "event__dust_cloud_shield",
+    "outcome": {
+      "integrity": -20
+    }
+  },
+  {
+    "id": "event__dust_cloud_shield_detour",
+    "description": "event__dust_cloud_shield_detour_description",
+    "parentId": "event__dust_cloud_shield",
+    "outcome": {
+      "fuel": -10
+    }
+  },
+  {
+    "id": "event__dust_cloud_decelerate",
+    "description": "event__dust_cloud_decelerate_description",
+    "parentId": "event__dust_cloud",
+    "outcome": {
+      "integrity": -5,
+      "fuel": -5
+    }
+  },
+  {
+    "id": "event__genetic_degrade",
+    "description": "event__genetic_degrade_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__genetic_degrade_synthesize",
+    "description": "event__genetic_degrade_synthesize_description",
+    "parentId": "event__genetic_degrade",
+    "outcome": {
+      "materials": -15
+    }
+  },
+  {
+    "id": "event__genetic_degrade_cannibalize",
+    "description": "event__genetic_degrade_cannibalize_description",
+    "parentId": "event__genetic_degrade",
+    "outcome": {
+      "integrity": -5
+    }
+  },
+  {
+    "id": "event__genetic_degrade_ignore",
+    "description": "event__genetic_degrade_ignore_description",
+    "parentId": "event__genetic_degrade",
+    "outcome": {
+      "materials": -25
+    }
+  },
+  {
+    "id": "event__gravity_assist",
+    "description": "event__gravity_assist_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__gravity_assist_tight",
+    "description": "event__gravity_assist_tight_description",
+    "parentId": "event__gravity_assist",
+    "outcome": {
+      "fuel": 20,
+      "hull": -15
+    }
+  },
+  {
+    "id": "event__gravity_assist_wide",
+    "description": "event__gravity_assist_wide_description",
+    "parentId": "event__gravity_assist",
+    "outcome": {
+      "fuel": -10
+    }
+  },
+  {
+    "id": "event__gravity_assist_abort",
+    "description": "event__gravity_assist_abort_description",
+    "parentId": "event__gravity_assist",
+    "outcome": null
+  },
+  {
+    "id": "event__gravity_assist_abort_fix",
+    "description": "event__gravity_assist_abort_fix_description",
+    "parentId": "event__gravity_assist_abort",
+    "outcome": {
+      "materials": -10,
+      "fuel": -5
+    }
+  },
+  {
+    "id": "event__radiator_foul",
+    "description": "event__radiator_foul_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__radiator_foul_scrape",
+    "description": "event__radiator_foul_scrape_description",
+    "parentId": "event__radiator_foul",
+    "outcome": {
+      "materials": -5,
+      "fuel": -5
+    }
+  },
+  {
+    "id": "event__radiator_foul_vent",
+    "description": "event__radiator_foul_vent_description",
+    "parentId": "event__radiator_foul",
+    "outcome": {
+      "fuel": -20
+    }
+  },
+  {
+    "id": "event__radiator_foul_ignore",
+    "description": "event__radiator_foul_ignore_description",
+    "parentId": "event__radiator_foul",
+    "outcome": {
+      "cryopods": -100
+    }
+  },
+  {
+    "id": "event__dust_grain_impact",
+    "description": "event__dust_grain_impact_desc",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__dust_grain_magnetic",
+    "description": "event__dust_grain_magnetic_outcome",
+    "parentId": "event__dust_grain_impact",
+    "outcome": {
+      "fuel": -20
+    }
+  },
+  {
+    "id": "event__dust_grain_shielding",
+    "description": "event__dust_grain_shielding_desc",
+    "parentId": "event__dust_grain_impact",
+    "outcome": null
+  },
+  {
+    "id": "event__dust_grain_shield_accept",
+    "description": "event__dust_grain_shield_accept_outcome",
+    "parentId": "event__dust_grain_shielding",
+    "outcome": {
+      "integrity": -20
+    }
+  },
+  {
+    "id": "event__dust_grain_shield_repair",
+    "description": "event__dust_grain_shield_repair_outcome",
+    "parentId": "event__dust_grain_shielding",
+    "outcome": {
+      "materials": -15
+    }
+  },
+  {
+    "id": "event__hydrogen_boil_off",
+    "description": "event__hydrogen_boil_off_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__hydrogen_boil_off_insulate",
+    "description": "event__hydrogen_boil_off_insulate_description",
+    "parentId": "event__hydrogen_boil_off",
+    "outcome": {
+      "materials": -15
+    }
+  },
+  {
+    "id": "event__hydrogen_boil_off_vent",
+    "description": "event__hydrogen_boil_off_vent_description",
+    "parentId": "event__hydrogen_boil_off",
+    "outcome": {
+      "fuel": -20
+    }
+  },
+  {
+    "id": "event__kessler_syndrome",
+    "description": "event__kessler_syndrome_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__kessler_syndrome_burn",
+    "description": "event__kessler_syndrome_burn_description",
+    "parentId": "event__kessler_syndrome",
+    "outcome": {
+      "fuel": -25
+    }
+  },
+  {
+    "id": "event__kessler_syndrome_armor",
+    "description": "event__kessler_syndrome_armor_description",
+    "parentId": "event__kessler_syndrome",
+    "outcome": {
+      "integrity": -15,
+      "cryopods": -30
+    }
+  },
+  {
+    "id": "event__gcr_storm",
+    "description": "event__gcr_storm_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__gcr_storm_water",
+    "description": "event__gcr_storm_water_description",
+    "parentId": "event__gcr_storm",
+    "outcome": {
+      "materials": -10
+    }
+  },
+  {
+    "id": "event__gcr_storm_deep_freeze",
+    "description": "event__gcr_storm_deep_freeze_description",
+    "parentId": "event__gcr_storm",
+    "outcome": {
+      "cryopods": -25
+    }
+  },
+  {
+    "id": "event__rogue_planet_gravity",
+    "description": "event__rogue_planet_gravity_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__rogue_planet_gravity_boost",
+    "description": "event__rogue_planet_gravity_boost_description",
+    "parentId": "event__rogue_planet_gravity",
+    "outcome": {
+      "fuel": 30,
+      "integrity": -20
+    }
+  },
+  {
+    "id": "event__rogue_planet_gravity_ignore",
+    "description": "event__rogue_planet_gravity_ignore_description",
+    "parentId": "event__rogue_planet_gravity",
+    "outcome": null
+  },
+  {
+    "id": "event__vacuum_welding",
+    "description": "event__vacuum_welding_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__vacuum_welding_drones",
+    "description": "event__vacuum_welding_drones_description",
+    "parentId": "event__vacuum_welding",
+    "outcome": {
+      "materials": -15
+    }
+  },
+  {
+    "id": "event__vacuum_welding_thermal",
+    "description": "event__vacuum_welding_thermal_description",
+    "parentId": "event__vacuum_welding",
+    "outcome": {
+      "fuel": -5,
+      "integrity": -5
+    }
+  },
+  {
+    "id": "event__liquid_mirror_scour",
+    "description": "event__liquid_mirror_scour_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__liquid_mirror_scour_recoat",
+    "description": "event__liquid_mirror_scour_recoat_description",
+    "parentId": "event__liquid_mirror_scour",
+    "outcome": {
+      "materials": -10
+    }
+  },
+  {
+    "id": "event__liquid_mirror_scour_blind",
+    "description": "event__liquid_mirror_scour_blind_description",
+    "parentId": "event__liquid_mirror_scour",
+    "outcome": {
+      "fuel": -10
+    }
+  },
+  {
+    "id": "event__gyro_precession_drift",
+    "description": "event__gyro_precession_drift_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__gyro_precession_drift_respin",
+    "description": "event__gyro_precession_drift_respin_description",
+    "parentId": "event__gyro_precession_drift",
+    "outcome": {
+      "fuel": -5
+    }
+  },
+  {
+    "id": "event__gyro_precession_drift_manual",
+    "description": "event__gyro_precession_drift_manual_description",
+    "parentId": "event__gyro_precession_drift",
+    "outcome": {
+      "integrity": -10
+    }
+  },
+  {
+    "id": "event__supercritical_fluid_leak",
+    "description": "event__supercritical_fluid_leak_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__supercritical_fluid_leak_seal",
+    "description": "event__supercritical_fluid_leak_seal_description",
+    "parentId": "event__supercritical_fluid_leak",
+    "outcome": {
+      "materials": -20
+    }
+  },
+  {
+    "id": "event__supercritical_fluid_leak_bypass",
+    "description": "event__supercritical_fluid_leak_bypass_description",
+    "parentId": "event__supercritical_fluid_leak",
+    "outcome": {
+      "fuel": -10,
+      "integrity": -5
+    }
+  },
+  {
+    "id": "event__centrifugal_imbalance",
+    "description": "event__centrifugal_imbalance_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__centrifugal_imbalance_jettison",
+    "description": "event__centrifugal_imbalance_jettison_description",
+    "parentId": "event__centrifugal_imbalance",
+    "outcome": {
+      "materials": -25
+    }
+  },
+  {
+    "id": "event__centrifugal_imbalance_counterweight",
+    "description": "event__centrifugal_imbalance_counterweight_description",
+    "parentId": "event__centrifugal_imbalance",
+    "outcome": {
+      "integrity": -10
+    }
+  },
+  {
+    "id": "event__oxidizer_leak",
+    "description": "event__oxidizer_leak_description",
+    "parentId": null,
+    "outcome": null
+  },
+  {
+    "id": "event__oxidizer_leak_vent",
+    "description": "event__oxidizer_leak_vent_description",
+    "parentId": "event__oxidizer_leak",
+    "outcome": {
+      "cryopods": -50
+    }
+  },
+  {
+    "id": "event__oxidizer_leak_smother",
+    "description": "event__oxidizer_leak_smother_description",
+    "parentId": "event__oxidizer_leak",
+    "outcome": {
+      "materials": -30
+    }
   }
 ]

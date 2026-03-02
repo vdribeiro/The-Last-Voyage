@@ -2341,6 +2341,516 @@
   },
   {
     "languageIso": "en",
+    "key": "event__cme",
+    "value": "Coronal Mass Ejection"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cme_description",
+    "value": "Your sensors detect a massive burst of plasma and magnetic field from the system's star, heading directly for your flight path."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cme_reorient",
+    "value": "Re-orient the ship to use the engine block as a radiation shield."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cme_reorient_description",
+    "value": "The engine bell absorbed the brunt of the particles. You are safe, but the thermal stress caused micro-fractures."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cme_manoeuvre",
+    "value": "Execute a high-thrust burn to move out of the kill zone."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cme_manoeuvre_description",
+    "value": "The maneuver was successful, though the sudden acceleration stressed the fuel pumps."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cme_magnetic_shield",
+    "value": "Rely on the ship’s magnetic shielding."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cme_magnetic_shield_description",
+    "value": "The shield held, but a secondary EMP fried the cryopod regulators."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cme_magnetic_shield_fix_life_support",
+    "value": "Fix life support."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cme_magnetic_shield_fix_life_support_description",
+    "value": "The repairs are successful. The environmental controls stabilize, ensuring the colonists remain in a perfect stasis despite the radiation spike."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cme_magnetic_shield_backup",
+    "value": "Let the backup systems handle it."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__cme_magnetic_shield_backup_description",
+    "value": "The backup systems failed to compensate for the surge. A power spike in the cryo-bank led to a localized thawing event, resulting in significant loss of life."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_cloud",
+    "value": "Interstellar Dust Cloud"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_cloud_description",
+    "value": "The ship enters a region of higher-than-expected density. At relativistic speeds, even microscopic dust acts like kinetic projectiles against the hull."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_cloud_shield",
+    "value": "Increase power to the Whipple Shields."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_cloud_shield_description",
+    "value": "The shields disintegrated the particles effectively, but the ablative plating is now dangerously thin. A second, denser patch is detected immediately ahead."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_cloud_shield_risk",
+    "value": "Risk the second patch without full shielding."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_cloud_shield_risk_description",
+    "value": "The gamble failed. Several particles pierced the secondary plating, causing internal depressurization and structural scarring."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_cloud_shield_detour",
+    "value": "Take a long detour around the patch."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_cloud_shield_detour_description",
+    "value": "You navigate around the debris field. The path is clear, but the extra maneuvers have significantly drained the fuel reserves."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_cloud_decelerate",
+    "value": "Decelerate to reduce kinetic impact energy."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_cloud_decelerate_description",
+    "value": "Slowing down mitigated the impact force, but the extended time spent in the void increased the ship's exposure to structural fatigue from cosmic rays."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__genetic_degrade",
+    "value": "Genetic Degradation Detected"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__genetic_degrade_description",
+    "value": "A routine check identifies that the biological materials are degrading due to high-energy neutron penetration through the storage bay."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__genetic_degrade_synthesize",
+    "value": "Use the Medical Lab to synthesize molecular stabilizers."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__genetic_degrade_synthesize_description",
+    "value": "The synthesis is successful. Using precious chemical stocks, you have locked the genetic integrity of the future colony's biosphere."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__genetic_degrade_cannibalize",
+    "value": "Cannibalize the sensor cooling system for shielding."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__genetic_degrade_cannibalize_description",
+    "value": "By rerouting the cryo-coolants, you've created a radiation-proof vault. However, the loss of coolant means your ship now suffer from permanent thermal noise."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__genetic_degrade_ignore",
+    "value": "Rely on existing redundancy."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__genetic_degrade_ignore_description",
+    "value": "The degradation was more aggressive than predicted. You are forced to dump the tainted samples, leaving you with barely enough to start a basic ecosystem."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gravity_assist",
+    "value": "Planetary Slingshot"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gravity_assist_description",
+    "value": "A massive Jovian planet lies on your trajectory. You can perform a gravity assist to gain velocity, but the structural stress will be immense."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gravity_assist_tight",
+    "value": "Commit to a 'Low-Pericenter' pass."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gravity_assist_tight_description",
+    "value": "The ship groans under the tidal forces. You've gained incredible momentum, saving fuel, but the hull has suffered significant stress fractures."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gravity_assist_wide",
+    "value": "Perform a wide, conservative flyby."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gravity_assist_wide_description",
+    "value": "You stay well outside the danger zone. The maneuver is safe, but the lack of gravitational boost requires a long engine burn to stay on course."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gravity_assist_abort",
+    "value": "Abort the maneuver and use RCS to distance the ship."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gravity_assist_abort_description",
+    "value": "You pull away, but the sudden course correction causes a propellant line to rupture under pressure."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gravity_assist_abort_fix",
+    "value": "Seal the rupture immediately."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gravity_assist_abort_fix_description",
+    "value": "The leak is stopped, but precious fuel was vented into the vacuum, and several replacement parts were used for the patch."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__radiator_foul",
+    "value": "Thermal Radiator Degradation"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__radiator_foul_description",
+    "value": "Dust accumulation on the external radiators is reducing heat rejection efficiency. Internal temperatures are beginning to climb toward the cryopod limits."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__radiator_foul_scrape",
+    "value": "Deploy maintenance drones to clean the panels."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__radiator_foul_scrape_description",
+    "value": "The drones successfully clear the dust. The process consumed spare parts and used RCS fuel to stabilize the ship while the drones were active."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__radiator_foul_vent",
+    "value": "Flush the coolant loop to carry heat away."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__radiator_foul_vent_description",
+    "value": "By venting heated coolant and replacing it with fresh reserves, you quickly drop the temperature. It is effective but costs a significant amount of fuel-mass."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__radiator_foul_ignore",
+    "value": "Allow the internal heat-sink to absorb the excess."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__radiator_foul_ignore_description",
+    "value": "The heat-sink saturated faster than predicted. A localized temperature spike in the cargo bay led to a failure in the cryopod life support."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_grain_impact_desc",
+    "value": "Long-range LIDAR detects a pocket of high-density silicates. At current velocity, impact is inevitable. How will you mitigate the kinetic energy?"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_grain_magnetic",
+    "value": "Project a magnetic deflection field."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_grain_shielding",
+    "value": "Rely on the physical Whipple Shields."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__dust_grain_shielding_desc",
+    "value": "The shields are being hammered. Sensors show the primary layers are failing. Will you sacrifice the hull or use materials to reinforce them?"
+  },
+  {
+    "languageIso": "en",
+    "key": "event__hydrogen_boil_off_description",
+    "value": "Liquid hydrogen fuel is slowly turning into gas due to minor insulation degradation. The pressure in the tanks is reaching critical levels."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__hydrogen_boil_off_insulate",
+    "value": "Apply aerogel reinforcements to the tank walls."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__hydrogen_boil_off_insulate_description",
+    "value": "Drones successfully applied the composite insulation, stabilizing the fuel temperature at the cost of material reserves."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__hydrogen_boil_off_vent",
+    "value": "Vent the excess gaseous hydrogen into space."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__hydrogen_boil_off_vent_description",
+    "value": "The pressure dropped safely, but a significant portion of your propellant was lost to the void."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__kessler_syndrome_description",
+    "value": "The ship is entering a dense orbital debris field around a dead star. Thousands of high-velocity fragments threaten the hull."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__kessler_syndrome_burn",
+    "value": "Perform a sustained engine burn to clear the debris cloud."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__kessler_syndrome_burn_description",
+    "value": "The engine exhaust pushed the debris aside, clearing a path but consuming massive amounts of fuel."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__kessler_syndrome_armor",
+    "value": "Orient the primary shielding forward and push through."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__kessler_syndrome_armor_description",
+    "value": "The hull held, but several micro-impacts penetrated the secondary plating, depressurizing a colonist storage bay."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gcr_storm_description",
+    "value": "A burst of Galactic Cosmic Rays—high-energy nuclei—is detected. Standard shields cannot block these particles."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gcr_storm_water",
+    "value": "Pump water reserves into the hull linings for hydrogen shielding."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gcr_storm_water_description",
+    "value": "The water successfully absorbed the radiation flux, though the plumbing system suffered minor chemical fatigue."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gcr_storm_deep_freeze",
+    "value": "Lower cryopod temperatures to minimize biological damage."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gcr_storm_deep_freeze_description",
+    "value": "Metabolic protection was achieved, but the extreme thermal shock caused several older pods to fail."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__rogue_planet_gravity_description",
+    "value": "A massive, dark rogue planet lies on your trajectory. Its gravity well could be used for a slingshot maneuver."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__rogue_planet_gravity_boost",
+    "value": "Perform a close-proximity gravity assist."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__rogue_planet_gravity_boost_description",
+    "value": "The ship gained incredible velocity, but the intense tidal forces left deep structural stress fractures in the hull."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__rogue_planet_gravity_ignore",
+    "value": "Maintain a safe, distant trajectory."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__rogue_planet_gravity_ignore_description",
+    "value": "You pass the planet without incident, missing the chance for a fuel-saving boost."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__vacuum_welding_description",
+    "value": "In the vacuum of space, exposed metals on the exterior hull have begun to fuse together. The primary sensor array is seizing up."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__vacuum_welding_drones",
+    "value": "Deploy maintenance drones to apply anti-bonding coatings."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__vacuum_welding_drones_description",
+    "value": "The drones successfully separated the fused parts and applied a protective layer, using up precious components."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__vacuum_welding_thermal",
+    "value": "Rotate the ship to use solar heating to expand the joints."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__vacuum_welding_thermal_description",
+    "value": "The uneven expansion broke the welds, but the stress caused minor cracks in the hull's external sensors."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__liquid_mirror_scour_description",
+    "value": "Interstellar grit has scoured the reflective surfaces of your long-range telescopes, reducing your sensor range."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__liquid_mirror_scour_recoat",
+    "value": "Resurface the optics using the material synthesizer."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__liquid_mirror_scour_recoat_description",
+    "value": "The optics are restored to peak efficiency, though a significant amount of specialized material was consumed."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__liquid_mirror_scour_blind",
+    "value": "Accept the reduced clarity and use more fuel for active radar scanning."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__liquid_mirror_scour_blind_description",
+    "value": "You navigate safely, but the constant use of active radar has drained your fuel reserves."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gyro_precession_drift_description",
+    "value": "The ship's massive attitude-control gyroscopes are drifting due to relativistic precession. Your course is becoming inaccurate."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gyro_precession_drift_respin",
+    "value": "Use thrusters to re-spin and calibrate the gyros."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gyro_precession_drift_respin_description",
+    "value": "Course accuracy is restored, though the correction required multiple RCS thruster burns."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gyro_precession_drift_manual",
+    "value": "Forgo calibration and allow the hull to absorb the correction torque."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gyro_precession_drift_manual_description",
+    "value": "The internal frame groans as it forces the ship onto the correct heading, causing minor structural fatigue."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__supercritical_fluid_leak_description",
+    "value": "A leak in the supercritical $CO_2$ cooling loop is causing internal pressure to spike. If the loop fails, the engine will overheat."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__supercritical_fluid_leak_seal",
+    "value": "Synthesize a high-pressure seal for the pipe."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__supercritical_fluid_leak_seal_description",
+    "value": "The leak is contained. The cooling system is back to full pressure, but the repair was resource-intensive."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__supercritical_fluid_leak_bypass",
+    "value": "Reroute the coolant through the secondary hull radiator."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__supercritical_fluid_leak_bypass_description",
+    "value": "The engine remains cool, but the reroute is less efficient, causing increased fuel consumption and minor hull heating."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__centrifugal_imbalance_description",
+    "value": "The ship's rotating section has developed a wobble. Centrifugal forces are becoming uneven, straining the main bearings."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__centrifugal_imbalance_jettison",
+    "value": "Jettison a section of low-priority material to balance the mass."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__centrifugal_imbalance_jettison_description",
+    "value": "The wobble stops immediately as the mass distribution is corrected, but you lost a large chunk of materials."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__centrifugal_imbalance_counterweight",
+    "value": "Attempt to correct the wobble by shifting internal fuel ballast."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__centrifugal_imbalance_counterweight_description",
+    "value": "The wobble is reduced but not eliminated. The constant vibration has caused minor, permanent hull damage."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__oxidizer_leak_description",
+    "value": "A chemical fire is detected in the material bay. The oxidizer is reacting with stored polymers. Fire cannot exist in a vacuum, but the chemicals are providing their own oxygen."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__oxidizer_leak_vent",
+    "value": "Vent the bay's atmosphere to space."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__oxidizer_leak_vent_description",
+    "value": "The fire is out, but the loss of atmosphere caused a pressure wave that ruptured nearby cryopod seals."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__oxidizer_leak_smother",
+    "value": "Use industrial foam to smother the reaction."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__oxidizer_leak_smother_description",
+    "value": "The chemical reaction is neutralized, but the cleanup and lost resources have heavily depleted your material stores."
+  },
+  {
+    "languageIso": "en",
     "key": "game_over_screen__game_over",
     "value": "Game Over"
   },
