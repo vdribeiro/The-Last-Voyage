@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.card.PropertyCard
+import com.hybris.tlv.ui.theme.component.card.EventCard
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
@@ -49,10 +49,10 @@ internal inline fun <T> EventList(
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
             items(items = events, key = id) { event ->
-                PropertyCard(
+                EventCard(
                     name = id(event),
-                    subtitle = parentId(event),
-                    description = description(event)
+                    description = description(event),
+                    parent = parentId(event),
                 )
             }
         }

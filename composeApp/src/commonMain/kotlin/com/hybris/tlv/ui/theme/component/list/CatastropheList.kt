@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.card.PropertyCard
+import com.hybris.tlv.ui.theme.component.card.CatastropheCard
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
@@ -48,7 +48,7 @@ internal inline fun <T> CatastropheList(
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
             items(items = catastrophes, key = id) { catastrophe ->
-                PropertyCard(
+                CatastropheCard(
                     name = id(catastrophe),
                     description = description(catastrophe)
                 )

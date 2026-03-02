@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.card.PropertyCard
+import com.hybris.tlv.ui.theme.component.card.AchievementCard
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
@@ -24,8 +24,8 @@ import com.hybris.tlv.ui.theme.getTranslation
 internal inline fun <T> AchievementList(
     modifier: Modifier = Modifier,
     achievements: List<T> = emptyList(),
-    noinline id: (T) -> String = { uuid() },
-    crossinline description: (T) -> String? = { null },
+    noinline id: @Composable (T) -> String = { uuid() },
+    crossinline description: @Composable (T) -> String? = { null },
     crossinline done: (T) -> Boolean = { false }
 ) {
     val titleTranslation = getTranslation(key = "achievements_screen__title")
@@ -51,7 +51,7 @@ internal inline fun <T> AchievementList(
             verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
             items(items = achievements, key = id) { achievement ->
-                PropertyCard(
+                AchievementCard(
                     name = id(achievement),
                     description = description(achievement),
                     trailingIcon = if (done(achievement)) Icons.Filled.Check else null
