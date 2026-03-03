@@ -99,6 +99,6 @@ internal fun NavigationHandler(onBack: (() -> Unit)?) {
     val navState = rememberNavigationEventState(currentInfo = NavigationEventInfo.None)
     NavigationBackHandler(
         state = navState,
-        onBackCompleted = { onBack?.invoke() },
+        onBackCompleted = {  },
     )
 }

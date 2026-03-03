@@ -32,10 +32,10 @@ internal object TLV {
      */
     private val flags = Flags(
         devMode = isDebug,
-        reset = true,
-        http = false,
+        reset = false,
+        http = true,
         archive = false,
-        music = false
+        music = true
     )
 
     private val scope = CoroutineScope(context = SupervisorJob())
