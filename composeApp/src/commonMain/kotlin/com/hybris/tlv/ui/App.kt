@@ -7,11 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
+import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
 import com.hybris.tlv.Dependency
 import com.hybris.tlv.ui.audio.LocalAudioPlayer
 import com.hybris.tlv.ui.navigation.LocalNavController
 import com.hybris.tlv.ui.navigation.Navigation
-import com.hybris.tlv.ui.navigation.navigationEventDispatcherOwner
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTranslationState
 import com.hybris.tlv.ui.theme.component.container.LoadingScreen
@@ -32,7 +32,7 @@ internal fun App(
     val compositionValues = compositionValues.toMutableList().apply {
         add(element = LocalTranslationState provides getTranslationState())
         add(element = LocalNavController provides navController)
-        add(element = LocalNavigationEventDispatcherOwner provides navigationEventDispatcherOwner)
+        add(element = LocalNavigationEventDispatcherOwner provides rememberNavigationEventDispatcherOwner())
         dependency?.audioPlayer?.let { add(element = LocalAudioPlayer provides it) }
     }
     CompositionLocalProvider(*compositionValues.toTypedArray()) {

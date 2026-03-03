@@ -7,11 +7,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigationevent.NavigationEventDispatcher
-import androidx.navigationevent.NavigationEventDispatcherOwner
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationBackHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.ui.navigation.graph.achievementScreen
@@ -33,10 +33,6 @@ import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
 
 internal val LocalNavController = staticCompositionLocalOf<NavHostController?> { null }
-
-internal val navigationEventDispatcherOwner: NavigationEventDispatcherOwner = object: NavigationEventDispatcherOwner {
-    override val navigationEventDispatcher: NavigationEventDispatcher = NavigationEventDispatcher()
-}
 
 /**
  * The main navigation host for the application.
@@ -94,10 +90,10 @@ internal fun Navigation(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun NavigationHandler(onBack: (() -> Unit)?) {
-    BackHandler { onBack?.invoke() }
-//    val navState = rememberNavigationEventState(currentInfo = NavigationEventInfo.None)
-//    NavigationBackHandler(
-//        state = navState,
-//        onBackCompleted = { onBack?.invoke() },
-//    )
+    val navState = rememberNavigationEventState(currentInfo = NavigationEventInfo.None)
+    NavigationBackHandler(
+        state = navState,
+        isBackEnabled = onBack != null,
+        onBackCompleted = { onBack?.invoke() },
+    )
 }
