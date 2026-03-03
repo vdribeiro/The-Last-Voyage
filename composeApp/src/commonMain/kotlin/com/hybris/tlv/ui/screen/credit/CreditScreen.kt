@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.credit
 
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -20,11 +21,6 @@ import com.hybris.tlv.ui.theme.component.list.CreditList
 @Composable
 internal fun CreditScreen(store: Store<CreditState, Unit>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
-    val creditsMap = storeState.credits.groupBy { it.type }
-    val creators = creditsMap[CreditType.CREATOR].orEmpty()
-    val sources = creditsMap[CreditType.SOURCE].orEmpty()
-    val musics = creditsMap[CreditType.MUSIC].orEmpty()
-    val supporters = creditsMap[CreditType.SUPPORTER].orEmpty()
 
     Screen(
         loading = storeState.loading,
@@ -33,12 +29,12 @@ internal fun CreditScreen(store: Store<CreditState, Unit>) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(all = 16.dp),
-            creators = creators,
-            sources = sources,
-            musics = musics,
-            supporters = supporters,
-            id = { it.id },
-            link = { it.link },
+            creators = storeState.creators,
+            sources = storeState.sources,
+            musics = storeState.musics,
+            supporters = storeState.supporters,
+            id = Credit::id,
+            link = Credit::link,
         )
     }
 }
@@ -50,7 +46,10 @@ private fun CreditScreenLoadingPreview() = Preview {
         store = Store(
             initialState = CreditState(
                 loading = true,
-                credits = emptyList()
+                creators = persistentListOf(),
+                sources = persistentListOf(),
+                musics = persistentListOf(),
+                supporters = persistentListOf(),
             )
         )
     )
@@ -83,22 +82,28 @@ private fun CreditScreenPreview() = Preview {
         store = Store(
             initialState = CreditState(
                 loading = false,
-                credits = listOf(
+                creators = persistentListOf(
                     Credit(
                         id = "engsoneca",
                         link = "https://ko-fi.com/engsoneca",
                         type = CreditType.CREATOR,
-                    ),
+                    )
+                ),
+                sources = persistentListOf(
                     Credit(
                         id = "NASA Exoplanet Archive DOIs 10.26133/NEA13 and 10.26133/NEA40",
                         link = "https://exoplanetarchive.ipac.caltech.edu/",
                         type = CreditType.SOURCE,
-                    ),
+                    )
+                ),
+                musics = persistentListOf(
                     Credit(
                         id = "OpenGameArt",
                         link = "https://opengameart.org/",
                         type = CreditType.MUSIC,
-                    ),
+                    )
+                ),
+                supporters = persistentListOf(
                     Credit(
                         id = "You",
                         link = null,
@@ -118,7 +123,7 @@ private fun CreditScreenPreview() = Preview {
                         id = "Jim",
                         link = null,
                         type = CreditType.SUPPORTER,
-                    ),
+                    )
                 )
             )
         )

@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +19,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.platform.open
-import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
@@ -28,14 +29,14 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
-internal inline fun <T> CreditList(
+internal fun <T> CreditList(
     modifier: Modifier = Modifier,
-    creators: List<T> = emptyList(),
-    sources: List<T> = emptyList(),
-    musics: List<T> = emptyList(),
-    supporters: List<T> = emptyList(),
-    noinline id: (T) -> String = { uuid() },
-    crossinline link: (T) -> String? = { null },
+    creators: ImmutableList<T> = persistentListOf(),
+    sources: ImmutableList<T> = persistentListOf(),
+    musics: ImmutableList<T> = persistentListOf(),
+    supporters: ImmutableList<T> = persistentListOf(),
+    id: (T) -> String = { it.hashCode().toString() },
+    link: (T) -> String? = { null },
 ) {
     val uriHandler = LocalUriHandler.current
     val creatorsTranslation = getTranslation(key = "credit_screen__creators")
@@ -178,19 +179,19 @@ private fun CreditListPreview() = Preview {
         )
     )
     CreditList(
-        creators = listOf(
+        creators = persistentListOf(
             "Creator 1",
             "Creator 2",
         ),
-        sources = listOf(
+        sources = persistentListOf(
             "Source 1",
             "Source 2",
         ),
-        musics = listOf(
+        musics = persistentListOf(
             "Music 1",
             "Music 2",
         ),
-        supporters = listOf(
+        supporters = persistentListOf(
             "Supporter 1",
             "Supporter with a very long name",
             "Supporter lala",
