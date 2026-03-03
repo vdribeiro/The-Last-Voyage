@@ -1,6 +1,9 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlin.concurrent.Volatile
+import kotlinx.collections.immutable.PersistentSet
+import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -66,13 +69,13 @@ internal class StellarExplorerStore(
                             searchable = searchableStellarHostProperties,
                             sort = sortStellarHostProperty,
                             ascending = sortAscending
-                        ) else null,
+                        ).toPersistentList() else null,
                         second = if (currentContent == Content.LIST_PLANETS) stellarHosts.flatMap { it.planets }.searchAndSortPlanets(
                             search = search,
                             searchable = searchablePlanetProperties,
                             sort = sortPlanetProperty,
                             ascending = sortAscending
-                        ) else null
+                        ).toPersistentList() else null
                     )
                 }
             }
@@ -153,7 +156,7 @@ internal class StellarExplorerStore(
     private fun openStellarHost(state: StellarExplorerState, action: StellarExplorerAction.OpenStellarHost) {
         if (state.currentContent != Content.LIST_HOSTS) return
         Telemetry.info(tag = TAG, message = "Opening stellar host ${action.stellarHost}")
-        val filteredPlanets = action.stellarHost.planets
+        val filteredPlanets = action.stellarHost.planets.toPersistentList()
         updateState {
             it.copy(
                 currentContent = Content.DETAIL_HOSTS,
@@ -166,7 +169,7 @@ internal class StellarExplorerStore(
     private fun openPlanet(state: StellarExplorerState, action: StellarExplorerAction.OpenPlanet): Job = launch(id = "openPlanet", replace = true) {
         if (state.currentContent != Content.LIST_PLANETS) return@launch
         Telemetry.info(tag = TAG, message = "Opening planet ${action.planet}")
-        val filteredStellarHosts = stellarHostsFlow.value.filter { stellarHost -> stellarHost.id == action.planet.stellarHostId }
+        val filteredStellarHosts = stellarHostsFlow.value.filter { stellarHost -> stellarHost.id == action.planet.stellarHostId }.toPersistentList()
         updateState {
             it.copy(
                 currentContent = Content.DETAIL_PLANETS,
@@ -268,8 +271,8 @@ internal class StellarExplorerStore(
     /**
      * Adds [element] if it is not present, otherwise removes it.
      */
-    private fun <V> Iterable<V>.plusOrMinus(element: V): Set<V> =
-        (if (contains(element = element)) minus(element = element) else plus(element = element)).toSet()
+    private fun <V> Iterable<V>.plusOrMinus(element: V): PersistentSet<V> =
+        (if (contains(element = element)) minus(element = element) else plus(element = element)).toPersistentSet()
 
     companion object {
         private const val TAG = "StellarExplorerStore"
