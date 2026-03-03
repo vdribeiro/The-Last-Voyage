@@ -22,14 +22,14 @@ compose-icons = "1.7.3"
 lifecycle = "2.9.6"
 navigation = "2.9.2"
 navigation-event = "1.0.1"
-coil = "3.3.0"
+coil = "3.4.0"
 
 # Android
 android-plugin = "9.0.1"
 android-startup = "1.2.0"
 androidx-exoplayer = "1.9.2"
 android-test-core = "1.7.0"
-android-test-manifest = "1.10.3"
+android-test-manifest = "1.10.4"
 roboelectric = "4.16.1"
 
 # Desktop
