@@ -36,7 +36,7 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
-internal fun Score(
+internal fun ScoreCard(
     modifier: Modifier = Modifier,
     isExpanded: Boolean? = null,
     score: Double? = null,
@@ -128,7 +128,7 @@ internal fun Score(
 
 @Preview
 @Composable
-private fun ScorePreview() = Preview {
+private fun ScoreCardPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
@@ -146,7 +146,7 @@ private fun ScorePreview() = Preview {
         )
     )
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
-        Score(
+        ScoreCard(
             isExpanded = true,
             score = 100.0,
             utc = getLocalDateTime(),
@@ -154,7 +154,7 @@ private fun ScorePreview() = Preview {
             integrity = 10,
             materials = 10,
         )
-        Score(
+        ScoreCard(
             isExpanded = false,
             score = 100.0,
             utc = getLocalDateTime(),
@@ -162,18 +162,18 @@ private fun ScorePreview() = Preview {
             integrity = 10,
             materials = 10,
         )
-        Score(
+        ScoreCard(
             utc = getLocalDateTime(),
             sensorRange = 10,
             integrity = 10,
             materials = 10,
         )
-        Score(
+        ScoreCard(
             sensorRange = 10,
             integrity = 10,
             materials = 10,
         )
-        Score(sensorRange = 10)
-        Score()
+        ScoreCard(sensorRange = 10)
+        ScoreCard()
     }
 }

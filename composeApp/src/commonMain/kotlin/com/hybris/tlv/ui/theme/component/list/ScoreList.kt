@@ -21,7 +21,7 @@ import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.card.Score
+import com.hybris.tlv.ui.theme.component.card.ScoreCard
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
@@ -70,7 +70,7 @@ internal fun <T> ScoreList(
         ) {
             items(items = scores, key = id) { score ->
                 val scoreId = id(score)
-                Score(
+                ScoreCard(
                     modifier = Modifier
                         .clickable(onClick = {
                             if (expandedItems.contains(element = scoreId)) {

@@ -25,7 +25,7 @@ import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
-import com.hybris.tlv.ui.theme.component.card.Score
+import com.hybris.tlv.ui.theme.component.card.ScoreCard
 import com.hybris.tlv.ui.theme.component.container.TypewriterContent
 import com.hybris.tlv.ui.theme.getTranslation
 
@@ -86,7 +86,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
             ) {
                 if (gameSession != null && ship != null) {
                     Spacer(modifier = Modifier.height(height = 16.dp))
-                    Score(
+                    ScoreCard(
                         modifier = Modifier.testTag(tag = "game_over_score"),
                         score = gameSession.score,
                         utc = gameSession.utc,
