@@ -22,7 +22,7 @@ import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.button.AttributeRow
-import com.hybris.tlv.ui.theme.component.card.SelectableAttribute
+import com.hybris.tlv.ui.theme.component.card.SelectableCard
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text
@@ -100,7 +100,7 @@ internal fun <A, E> ShipConfiguration(
                 }
                 items(items = engines, key = engineId) { engine ->
                     val engineId = engineId(engine)
-                    SelectableAttribute(
+                    SelectableCard(
                         modifier = Modifier
                             .clickable { onEngineClick(engine) },
                         selected = selectedEngineId == engineId,

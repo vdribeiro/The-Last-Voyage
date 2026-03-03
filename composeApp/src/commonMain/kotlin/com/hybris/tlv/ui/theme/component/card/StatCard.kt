@@ -24,7 +24,7 @@ import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
-internal fun StatDisplay(
+internal fun StatCard(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     label: String? = null,
@@ -78,20 +78,20 @@ internal fun StatDisplay(
 
 @Preview
 @Composable
-private fun Preview() = Preview {
+private fun StatCardPreview() = Preview {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
-        StatDisplay(
+        StatCard(
             icon = Icons.Filled.Check,
             label = "Stat",
             value = "100"
         )
-        StatDisplay(label = "Stat", value = "100")
-        StatDisplay(icon = Icons.Filled.Check)
-        StatDisplay(icon = Icons.Filled.Check, label = "Stat")
-        StatDisplay(icon = Icons.Filled.Check, value = "100")
-        StatDisplay(value = "100")
-        StatDisplay(label = "Stat")
-        StatDisplay()
+        StatCard(label = "Stat", value = "100")
+        StatCard(icon = Icons.Filled.Check)
+        StatCard(icon = Icons.Filled.Check, label = "Stat")
+        StatCard(icon = Icons.Filled.Check, value = "100")
+        StatCard(value = "100")
+        StatCard(label = "Stat")
+        StatCard()
     }
 }
 

@@ -20,7 +20,7 @@ import com.hybris.tlv.domain.usecase.space.roundTo
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
-import com.hybris.tlv.ui.theme.component.card.StatDisplay
+import com.hybris.tlv.ui.theme.component.card.StatCard
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.getTranslation
 
@@ -53,7 +53,7 @@ internal fun ShipStats(
         horizontalAlignment = Alignment.Start,
     ) {
         val statItem = @Composable { icon: ImageVector, label: String, value: String? ->
-            StatDisplay(
+            StatCard(
                 icon = icon,
                 label = label,
                 value = value

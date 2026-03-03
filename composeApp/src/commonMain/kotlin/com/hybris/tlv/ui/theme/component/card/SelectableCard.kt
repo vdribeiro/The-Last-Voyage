@@ -22,7 +22,7 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
-internal fun SelectableAttribute(
+internal fun SelectableCard(
     modifier: Modifier = Modifier,
     selected: Boolean = false,
     name: String? = null,
@@ -92,7 +92,7 @@ private fun SelectableCardPreview() = Preview {
         )
     )
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
-        SelectableAttribute(
+        SelectableCard(
             selected = true,
             name = "Property",
             description = "Hammer Time",
@@ -100,24 +100,24 @@ private fun SelectableCardPreview() = Preview {
             fuel = 100.0,
             points = 10
         )
-        SelectableAttribute(
+        SelectableCard(
             name = "Property",
             velocity = 1000.0,
             fuel = 100.0,
             points = 10
         )
-        SelectableAttribute(
+        SelectableCard(
             name = "Property",
         )
-        SelectableAttribute(
+        SelectableCard(
             velocity = 1000.0,
             fuel = 100.0,
             points = 10
         )
-        SelectableAttribute(
+        SelectableCard(
             velocity = 1000.0,
         )
-        SelectableAttribute(
+        SelectableCard(
             points = 10
         )
     }
