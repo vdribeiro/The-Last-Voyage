@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.tutorial
 
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -166,7 +167,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     modifier = Modifier
                         .testTag(tag = "tutorial_travel_list")
                         .fillMaxWidth(),
-                    stellarHosts = listOf("proxima_centauri"),
+                    stellarHosts = persistentListOf("proxima_centauri"),
                     name = { "Proxima Centauri" },
                     planetCount = { 1 },
                     spectralType = { "M5.5V" },
@@ -202,7 +203,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     stellarHostRadius = 1.0,
                     stellarHostMass = 1.0,
                     stellarHostAge = 4.6,
-                    planets = listOf("mars"),
+                    planets = persistentListOf("mars"),
                     planetName = { "Mars" },
                     planetRadius = { 0.532 },
                     planetMass = { 0.107 },

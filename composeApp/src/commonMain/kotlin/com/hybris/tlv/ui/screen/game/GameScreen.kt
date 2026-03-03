@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.screen.game
 
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -91,13 +93,13 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
                     stellarHostRadius = stellarHost.radius,
                     stellarHostMass = stellarHost.mass,
                     stellarHostAge = stellarHost.age,
-                    planets = stellarHost.planets,
-                    planetId = { it.id },
-                    planetName = { it.name },
-                    planetRadius = { it.radius },
-                    planetMass = { it.mass },
-                    planetDensity = { it.density },
-                    planetEquilibriumTemperature = { it.equilibriumTemperature },
+                    planets = stellarHost.planets.toPersistentList(),
+                    planetId = Planet::id,
+                    planetName = Planet::name,
+                    planetRadius = Planet::radius,
+                    planetMass = Planet::mass,
+                    planetDensity = Planet::density,
+                    planetEquilibriumTemperature = Planet::equilibriumTemperature,
                     planetHabitability = { it.score?.habitabilityScore },
                     planetType = { it.score?.planetType?.displayName },
                     planetImage = { it.score?.planetType.toImage() },
@@ -111,12 +113,12 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 stellarHosts = storeState.nearStellarHosts,
-                id = { it.id },
-                name = { it.name },
+                id = StellarHost::id,
+                name = StellarHost::name,
                 planetCount = { it.planets.size },
-                spectralType = { it.spectralType },
+                spectralType = StellarHost::spectralType,
                 spectralImage = { it.spectralType.spectralTypeToImage() },
-                distance = { it.distance },
+                distance = StellarHost::distance,
                 onClick = { store.send(action = GameAction.Travel(stellarHost = it)) }
             )
         }
@@ -149,7 +151,7 @@ private fun GameScreenLoadingPreview() = Preview {
                 currentContent = Content.SYSTEM,
                 ship = null,
                 currentStellarHost = null,
-                nearStellarHosts = emptyList(),
+                nearStellarHosts = persistentListOf(),
             )
         )
     )
@@ -225,7 +227,7 @@ private fun GameScreenShipPreview() = Preview {
                     cryopods = 150,
                 ),
                 currentStellarHost = null,
-                nearStellarHosts = emptyList(),
+                nearStellarHosts = persistentListOf(),
             )
         )
     )
@@ -347,7 +349,7 @@ private fun GameScreenSystemPreview() = Preview {
                         ),
                     )
                 },
-                nearStellarHosts = emptyList(),
+                nearStellarHosts = persistentListOf(),
             )
         )
     )
@@ -407,7 +409,7 @@ private fun GameScreenTravelPreview() = Preview {
                     cryopods = 150,
                 ),
                 currentStellarHost = null,
-                nearStellarHosts = listOf(
+                nearStellarHosts = persistentListOf(
                     StellarHost(
                         id = "sol",
                         name = "Sol",

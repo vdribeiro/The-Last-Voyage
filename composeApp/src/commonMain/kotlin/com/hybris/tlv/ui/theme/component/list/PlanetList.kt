@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
@@ -11,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.resource.ImageResource
-import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
@@ -23,7 +24,7 @@ import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.divider.Divider
 
 @Composable
-internal inline fun <T> PlanetList(
+internal fun <T> PlanetList(
     modifier: Modifier = Modifier,
     listState: LazyListState = LazyListState(),
     showStellarHost: Boolean = false,
@@ -53,38 +54,38 @@ internal inline fun <T> PlanetList(
     stellarHostGravityScore: Double? = null,
     stellarHostMetallicityScore: Double? = null,
     stellarHostEffectiveTemperatureScore: Double? = null,
-    planets: List<T> = emptyList(),
-    noinline planetId: (T) -> String = { uuid() },
-    crossinline planetName: (T) -> String? = { null },
-    crossinline planetStatus: (T) -> String? = { null },
-    crossinline planetOrbitalPeriod: (T) -> Double? = { null },
-    crossinline planetOrbitAxis: (T) -> Double? = { null },
-    crossinline planetRadius: (T) -> Double? = { null },
-    crossinline planetMass: (T) -> Double? = { null },
-    crossinline planetDensity: (T) -> Double? = { null },
-    crossinline planetEccentricity: (T) -> Double? = { null },
-    crossinline planetInsolationFlux: (T) -> Double? = { null },
-    crossinline planetEquilibriumTemperature: (T) -> Double? = { null },
-    crossinline planetOccultationDepth: (T) -> Double? = { null },
-    crossinline planetInclination: (T) -> Double? = { null },
-    crossinline planetObliquity: (T) -> Double? = { null },
-    crossinline planetHabitability: (T) -> Double? = { null },
-    crossinline planetConfidence: (T) -> Double? = { null },
-    crossinline planetType: (T) -> String? = { null },
-    crossinline planetImage: (T) -> ImageResource? = { null },
-    crossinline planetRocheScore: (T) -> Double? = { null },
-    crossinline planetHabitableZoneKopparapuScore: (T) -> Double? = { null },
-    crossinline planetHabitableZoneKastingScore: (T) -> Double? = { null },
-    crossinline planetRadiusScore: (T) -> Double? = { null },
-    crossinline planetMassScore: (T) -> Double? = { null },
-    crossinline planetTelluricityScore: (T) -> Double? = { null },
-    crossinline planetEccentricityScore: (T) -> Double? = { null },
-    crossinline planetTemperatureScore: (T) -> Double? = { null },
-    crossinline planetObliquityScore: (T) -> Double? = { null },
-    crossinline planetEsiScore: (T) -> Double? = { null },
-    crossinline planetProtectionScore: (T) -> Double? = { null },
-    crossinline planetTidalLockingScore: (T) -> Double? = { null },
-    crossinline onPlanetClick: (T) -> Unit = {}
+    planets: ImmutableList<T> = persistentListOf(),
+    planetId: (T) -> String = { it.hashCode().toString() },
+    planetName: (T) -> String? = { null },
+    planetStatus: (T) -> String? = { null },
+    planetOrbitalPeriod: (T) -> Double? = { null },
+    planetOrbitAxis: (T) -> Double? = { null },
+    planetRadius: (T) -> Double? = { null },
+    planetMass: (T) -> Double? = { null },
+    planetDensity: (T) -> Double? = { null },
+    planetEccentricity: (T) -> Double? = { null },
+    planetInsolationFlux: (T) -> Double? = { null },
+    planetEquilibriumTemperature: (T) -> Double? = { null },
+    planetOccultationDepth: (T) -> Double? = { null },
+    planetInclination: (T) -> Double? = { null },
+    planetObliquity: (T) -> Double? = { null },
+    planetHabitability: (T) -> Double? = { null },
+    planetConfidence: (T) -> Double? = { null },
+    planetType: (T) -> String? = { null },
+    planetImage: (T) -> ImageResource? = { null },
+    planetRocheScore: (T) -> Double? = { null },
+    planetHabitableZoneKopparapuScore: (T) -> Double? = { null },
+    planetHabitableZoneKastingScore: (T) -> Double? = { null },
+    planetRadiusScore: (T) -> Double? = { null },
+    planetMassScore: (T) -> Double? = { null },
+    planetTelluricityScore: (T) -> Double? = { null },
+    planetEccentricityScore: (T) -> Double? = { null },
+    planetTemperatureScore: (T) -> Double? = { null },
+    planetObliquityScore: (T) -> Double? = { null },
+    planetEsiScore: (T) -> Double? = { null },
+    planetProtectionScore: (T) -> Double? = { null },
+    planetTidalLockingScore: (T) -> Double? = { null },
+    onPlanetClick: (T) -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier,
@@ -201,7 +202,7 @@ private fun PlanetListPreview() = Preview {
         stellarHostPlanetCount = 1,
         stellarHostSpectralType = "G",
         stellarHostSpectralImage = "G".spectralTypeToImage(),
-        planets = listOf(
+        planets = persistentListOf(
             "Planet 1",
             "Planet 2",
             "Planet 3",

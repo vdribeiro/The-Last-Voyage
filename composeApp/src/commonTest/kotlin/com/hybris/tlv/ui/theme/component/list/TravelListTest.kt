@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.theme.component.list
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
@@ -17,7 +18,7 @@ internal class TravelListTest: TestCase() {
 
     @Test
     fun click() = runUITest {
-        val hosts = listOf("Sirius", "Vega", "Rigel")
+        val hosts = persistentListOf("Sirius", "Vega", "Rigel")
         var lastClickedHost: String? = null
 
         setUI {
@@ -40,7 +41,7 @@ internal class TravelListTest: TestCase() {
 
         setUI {
             TravelList(
-                stellarHosts = listOf("Single Host"),
+                stellarHosts = persistentListOf("Single Host"),
                 name = { it },
                 footer = { Text(modifier = Modifier.testTag(tag = footerTag), text = "End of List") }
             )

@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.game
 
 import kotlin.concurrent.Volatile
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
@@ -102,7 +103,7 @@ internal class GameStore(
                 n = ship.sensorRange,
                 visited = visited
             )
-        }
+        }.toPersistentList()
 
         val finalUpdatedGameSession = updatedGameSession.copy(
             currentStellarHostId = currentStellarHostId,

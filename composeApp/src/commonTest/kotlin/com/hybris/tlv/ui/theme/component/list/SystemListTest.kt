@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.theme.component.list
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
@@ -24,7 +25,7 @@ internal class SystemListTest: TestCase() {
         setUI {
             SystemList(
                 stellarHostName = "Sol",
-                planets = listOf(planetName),
+                planets = persistentListOf(planetName),
                 planetName = { it },
                 onClick = { settlementConfirmed = true }
             )
@@ -53,7 +54,7 @@ internal class SystemListTest: TestCase() {
         setUI {
             SystemList(
                 stellarHostName = host,
-                planets = listOf(planet),
+                planets = persistentListOf(planet),
                 planetName = { it }
             )
         }
@@ -69,7 +70,7 @@ internal class SystemListTest: TestCase() {
         setUI {
             SystemList(
                 stellarHostName = "Sol",
-                planets = listOf("Mars"),
+                planets = persistentListOf("Mars"),
                 planetName = { it },
                 footer = { Text(modifier = Modifier.testTag(tag = footerTag), text = "End of List") }
             )

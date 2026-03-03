@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.screen.game
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import com.hybris.tlv.domain.usecase.ship.model.Ship
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
@@ -16,7 +18,7 @@ internal data class GameState(
     val currentContent: Content = Content.SYSTEM,
     val ship: Ship? = null,
     val currentStellarHost: StellarHost? = null,
-    val nearStellarHosts: List<StellarHost> = emptyList()
+    val nearStellarHosts: ImmutableList<StellarHost> = persistentListOf()
 )
 
 internal enum class Content {

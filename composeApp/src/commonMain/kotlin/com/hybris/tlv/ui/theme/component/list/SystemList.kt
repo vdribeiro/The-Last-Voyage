@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
@@ -14,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.resource.ImageResource
-import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
@@ -28,7 +29,7 @@ import com.hybris.tlv.ui.theme.component.divider.Divider
 import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
-internal inline fun <T> SystemList(
+internal fun <T> SystemList(
     modifier: Modifier = Modifier,
     stellarHostName: String? = null,
     stellarHostSpectralType: String? = null,
@@ -37,18 +38,18 @@ internal inline fun <T> SystemList(
     stellarHostRadius: Double? = null,
     stellarHostMass: Double? = null,
     stellarHostAge: Double? = null,
-    planets: List<T> = emptyList(),
-    noinline planetId: (T) -> String = { uuid() },
-    crossinline planetName: (T) -> String? = { null },
-    crossinline planetRadius: (T) -> Double? = { null },
-    crossinline planetMass: (T) -> Double? = { null },
-    crossinline planetDensity: (T) -> Double? = { null },
-    crossinline planetEquilibriumTemperature: (T) -> Double? = { null },
-    crossinline planetHabitability: (T) -> Double? = { null },
-    crossinline planetType: (T) -> String? = { null },
-    crossinline planetImage: (T) -> ImageResource? = { null },
-    crossinline onClick: (T) -> Unit = {},
-    noinline footer: (@Composable () -> Unit)? = null
+    planets: ImmutableList<T> = persistentListOf(),
+    planetId: (T) -> String = { it.hashCode().toString() },
+    planetName: (T) -> String? = { null },
+    planetRadius: (T) -> Double? = { null },
+    planetMass: (T) -> Double? = { null },
+    planetDensity: (T) -> Double? = { null },
+    planetEquilibriumTemperature: (T) -> Double? = { null },
+    planetHabitability: (T) -> Double? = { null },
+    planetType: (T) -> String? = { null },
+    planetImage: (T) -> ImageResource? = { null },
+    onClick: (T) -> Unit = {},
+    footer: (@Composable () -> Unit)? = null
 ) {
     var planetToSettle: T? by remember { mutableStateOf(value = null) }
 
@@ -131,7 +132,7 @@ private fun SystemListPreview() = Preview {
         stellarHostSpectralType = "G",
         stellarHostSpectralImage = "G".spectralTypeToImage(),
         stellarHostEffectiveTemperature = 4321.0,
-        planets = listOf(
+        planets = persistentListOf(
             "Planet 1",
             "Planet 2",
             "Planet 3",

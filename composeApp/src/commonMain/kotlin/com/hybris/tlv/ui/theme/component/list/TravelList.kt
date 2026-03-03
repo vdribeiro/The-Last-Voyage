@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.items
@@ -17,17 +19,17 @@ import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 
 @Composable
-internal inline fun <T> TravelList(
+internal fun <T> TravelList(
     modifier: Modifier = Modifier,
-    stellarHosts: List<T> = emptyList(),
-    noinline id: (T) -> String = { uuid() },
-    crossinline name: (T) -> String? = { null },
-    crossinline planetCount: (T) -> Int? = { null },
-    crossinline spectralType: (T) -> String? = { null },
-    crossinline spectralImage: (T) -> ImageResource? = { null },
-    crossinline distance: (T) -> Double? = { null },
-    crossinline onClick: (T) -> Unit = {},
-    noinline footer: (@Composable () -> Unit)? = null
+    stellarHosts: ImmutableList<T> = persistentListOf(),
+    id: (T) -> String = { uuid() },
+    name: (T) -> String? = { null },
+    planetCount: (T) -> Int? = { null },
+    spectralType: (T) -> String? = { null },
+    spectralImage: (T) -> ImageResource? = { null },
+    distance: (T) -> Double? = { null },
+    onClick: (T) -> Unit = {},
+    footer: (@Composable () -> Unit)? = null
 ) {
     LazyColumn(
         modifier = modifier,
@@ -70,7 +72,7 @@ private fun TravelListPreview() = Preview {
         )
     )
     TravelList(
-        stellarHosts = listOf(
+        stellarHosts = persistentListOf(
             "Host 1",
             "Host 2",
             "Host 3",
