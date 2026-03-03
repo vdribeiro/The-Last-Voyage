@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.catastrophe
 
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -15,7 +16,6 @@ import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
-import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.container.TypewriterContent
 import com.hybris.tlv.ui.theme.getTranslation
@@ -32,13 +32,10 @@ internal fun CatastropheScreen(store: Store<CatastropheState, CatastropheAction>
         bottomBar = {
             if (storeState.loading) return@Screen
             ButtonsBar(
-                buttons = listOf(
-                    BottomButton(
-                        id = continueTranslation,
-                        text = continueTranslation,
-                        onClick = { store.send(action = CatastropheAction.Next) }
-                    )
-                )
+                buttons = persistentListOf(continueTranslation),
+                id = { it },
+                text = { it },
+                onClick = { store.send(action = CatastropheAction.Next) }
             )
         },
     ) {

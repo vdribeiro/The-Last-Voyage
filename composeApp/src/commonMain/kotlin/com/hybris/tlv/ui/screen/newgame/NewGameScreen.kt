@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.newgame
 
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -15,7 +16,6 @@ import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
-import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.ui.theme.component.container.ShipConfiguration
@@ -33,24 +33,21 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
         bottomBar = {
             if (storeState.loading) return@Screen
             ButtonsBar(
-                buttons = listOf(
-                    BottomButton(
-                        id = startTranslation,
-                        enabled = shipState != null && shipState.remainingPoints >= 0,
-                        text = startTranslation,
-                        onClick = {
-                            if (shipState == null) return@BottomButton
-                            val shipPrototype = ShipPrototype(
-                                assignedPoints = shipState.assignedPoints,
-                                sensorRange = shipState.sensorRange.value,
-                                fuel = shipState.fuel.value,
-                                materials = shipState.materials.value,
-                                cryopods = shipState.cryopods.value,
-                            )
-                            store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
-                        }
+                buttons = persistentListOf(startTranslation),
+                id = { it },
+                text = { it },
+                enabled = { shipState != null && shipState.remainingPoints >= 0 },
+                onClick = {
+                    if (shipState == null) return@ButtonsBar
+                    val shipPrototype = ShipPrototype(
+                        assignedPoints = shipState.assignedPoints,
+                        sensorRange = shipState.sensorRange.value,
+                        fuel = shipState.fuel.value,
+                        materials = shipState.materials.value,
+                        cryopods = shipState.cryopods.value,
                     )
-                )
+                    store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
+                }
             )
         },
     ) {

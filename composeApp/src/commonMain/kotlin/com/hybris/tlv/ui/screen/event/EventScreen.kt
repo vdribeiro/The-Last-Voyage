@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.event
 
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -19,7 +20,6 @@ import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
-import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.container.TypewriterContent
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
@@ -51,13 +51,10 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
         bottomBar = {
             ButtonsBar(
                 modifier = Modifier.testTag(tag = "event_buttons_bar"),
-                buttons = storeState.childrenEvents.map {
-                    BottomButton(
-                        id = it.id,
-                        text = getTranslation(key = it.id),
-                        onClick = { store.send(action = EventAction.Select(event = it)) }
-                    )
-                }
+                buttons = storeState.childrenEvents,
+                id = Event::id,
+                text = Event::id,
+                onClick = { store.send(action = EventAction.Select(event = it)) }
             )
         },
     ) {
@@ -84,7 +81,7 @@ private fun EventScreenLoadingPreview() = Preview {
                 loading = true,
                 ship = null,
                 parentEvent = null,
-                childrenEvents = emptyList()
+                childrenEvents = persistentListOf()
             )
         )
     )
@@ -135,7 +132,7 @@ private fun EventScreenPreview() = Preview {
                         fuel = -2,
                     ),
                 ),
-                childrenEvents = listOf(
+                childrenEvents = persistentListOf(
                     Event(
                         id = "Press the Red Button",
                         description = "Lose",

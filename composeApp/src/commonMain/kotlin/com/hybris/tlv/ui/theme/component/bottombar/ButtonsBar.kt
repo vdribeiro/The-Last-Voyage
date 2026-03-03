@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.bottombar
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -18,9 +20,14 @@ import com.hybris.tlv.ui.theme.component.button.Button
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 
 @Composable
-internal fun ButtonsBar(
+internal fun <T> ButtonsBar(
     modifier: Modifier = Modifier,
-    buttons: List<BottomButton> = emptyList(),
+    buttons: ImmutableList<T> = persistentListOf(),
+    id: (T) -> String = { it.hashCode().toString() },
+    text: (T) -> String? = { null },
+    loading: (T) -> Boolean = { false },
+    enabled: (T) -> Boolean = { true },
+    onClick: (T) -> Unit = {},
 ) {
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
@@ -28,7 +35,7 @@ internal fun ButtonsBar(
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         scrollBar = false
     ) {
-        items(items = buttons, key = { it.id }) {
+        items(items = buttons, key = id) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -37,10 +44,10 @@ internal fun ButtonsBar(
             ) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    loading = it.loading,
-                    enabled = it.enabled,
-                    text = it.text,
-                    onClick = { it.onClick() },
+                    loading = loading(it),
+                    enabled = enabled(it),
+                    text = text(it),
+                    onClick = { onClick(it) },
                 )
             }
         }
@@ -52,18 +59,13 @@ internal fun ButtonsBar(
 @Composable
 private fun ButtonsBarPreview() = Preview {
     ButtonsBar(
-        buttons = listOf(
-            BottomButton(text = "Button 1"),
-            BottomButton(enabled = false, text = "Button 2"),
-            BottomButton(),
+        buttons = persistentListOf(
+            "Button 1",
+            "Button 2",
+            "Button 3",
         ),
+        text = { it },
+        loading = { it == "Button 2" },
+        enabled = { it != "Button 3" }
     )
 }
-
-internal data class BottomButton(
-    val id: String = uuid(),
-    val loading: Boolean = false,
-    val enabled: Boolean = true,
-    val text: String? = null,
-    val onClick: () -> Unit = {}
-)

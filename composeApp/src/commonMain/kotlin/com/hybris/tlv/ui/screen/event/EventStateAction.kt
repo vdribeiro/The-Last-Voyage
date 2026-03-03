@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.screen.event
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import com.hybris.tlv.domain.usecase.event.model.Event
 import com.hybris.tlv.domain.usecase.ship.model.Ship
 
@@ -11,7 +13,7 @@ internal data class EventState(
     val loading: Boolean = true,
     val ship: Ship? = null,
     val parentEvent: Event? = null,
-    val childrenEvents: List<Event> = emptyList(),
+    val childrenEvents: ImmutableList<Event> = persistentListOf(),
 )
 
 internal val defaultEvent = Event(

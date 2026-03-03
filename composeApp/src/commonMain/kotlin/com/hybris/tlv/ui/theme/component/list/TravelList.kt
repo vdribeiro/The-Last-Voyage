@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.resource.ImageResource
-import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
@@ -22,7 +21,7 @@ import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 internal fun <T> TravelList(
     modifier: Modifier = Modifier,
     stellarHosts: ImmutableList<T> = persistentListOf(),
-    id: (T) -> String = { uuid() },
+    id: (T) -> String = { it.hashCode().toString() },
     name: (T) -> String? = { null },
     planetCount: (T) -> Int? = { null },
     spectralType: (T) -> String? = { null },

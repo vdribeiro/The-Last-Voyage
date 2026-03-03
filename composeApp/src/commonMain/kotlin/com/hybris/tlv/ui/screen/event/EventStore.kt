@@ -1,6 +1,8 @@
 package com.hybris.tlv.ui.screen.event
 
 import kotlin.concurrent.Volatile
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.event.EventUseCases
@@ -51,9 +53,7 @@ internal class EventStore(
         }
 
         Telemetry.info(tag = TAG, message = "Get children events and guarantee at least 1 event")
-        val childrenEvents = eventChain.filter { it.parentId == parentEvent.id }.ifEmpty {
-            listOf(stopEvent)
-        }
+        val childrenEvents = eventChain.filter { it.parentId == parentEvent.id }.toPersistentList().ifEmpty { persistentListOf(stopEvent) }
 
         Telemetry.info(tag = TAG, message = "Launch event: $parentEvent")
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = parentEvent)
@@ -87,9 +87,7 @@ internal class EventStore(
         }
 
         Telemetry.info(tag = TAG, message = "Continue event chain")
-        val childrenEvents = this@EventStore.eventChain.filter { it.parentId == action.event.id }.ifEmpty {
-            listOf(stopEvent)
-        }
+        val childrenEvents = this@EventStore.eventChain.filter { it.parentId == action.event.id }.toPersistentList().ifEmpty { persistentListOf(stopEvent) }
 
         Telemetry.info(tag = TAG, message = "Launch event: ${action.event}")
         val updatedGameSession = gameSessionUseCases.launchEvent(gameSession = gameSession, event = action.event)

@@ -25,7 +25,6 @@ import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.bottombar.GameNavigationBar
 import com.hybris.tlv.ui.theme.component.button.Button
@@ -64,18 +63,21 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
         },
         bottomBar = {
             when (currentContent) {
-                Content.WELCOME -> ButtonsBar(
-                    buttons = listOf(
-                        BottomButton(
-                            text = getTranslation(key = "tutorial_screen__mechanics_welcome_start"),
-                            onClick = { store.send(action = TutorialAction.Next) }
-                        ),
-                        BottomButton(
-                            text = getTranslation(key = "tutorial_screen__mechanics_welcome_skip"),
-                            onClick = { store.send(action = TutorialAction.Skip) }
-                        )
-                    ),
-                )
+                Content.WELCOME -> {
+                    val startTranslation = getTranslation(key = "tutorial_screen__mechanics_welcome_start")
+                    val skipTranslation = getTranslation(key = "tutorial_screen__mechanics_welcome_skip")
+                    ButtonsBar(
+                        buttons = persistentListOf(startTranslation, skipTranslation),
+                        id = { it },
+                        text = { it },
+                        onClick = {
+                            when (it) {
+                                startTranslation -> store.send(action = TutorialAction.Next)
+                                skipTranslation -> store.send(action = TutorialAction.Skip)
+                            }
+                        }
+                    )
+                }
 
                 Content.GOAL -> TextIcon(
                     modifier = Modifier

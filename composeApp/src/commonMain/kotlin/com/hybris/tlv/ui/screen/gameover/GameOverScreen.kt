@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.gameover
 
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -22,7 +23,6 @@ import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
-import com.hybris.tlv.ui.theme.component.bottombar.BottomButton
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
 import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
 import com.hybris.tlv.ui.theme.component.card.Score
@@ -51,13 +51,10 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
                 Content.SCORE -> scoreTranslation
             }
             ButtonsBar(
-                buttons = listOf(
-                    BottomButton(
-                        id = text,
-                        text = text,
-                        onClick = { store.send(action = GameOverAction.Next) }
-                    )
-                )
+                buttons = persistentListOf(text),
+                id = { it },
+                text = { it },
+                onClick = { store.send(action = GameOverAction.Next) }
             )
         },
         snackbarHost = {
