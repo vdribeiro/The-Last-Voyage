@@ -8,7 +8,6 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.ui.theme.component.button.AttributePoint
 
 @OptIn(ExperimentalTestApi::class)
 internal class ShipConfigurationTest: TestCase() {
@@ -16,12 +15,14 @@ internal class ShipConfigurationTest: TestCase() {
     @Test
     fun points() = runUITest {
         setUI {
-            ShipConfiguration<String>(
+            ShipConfiguration<Pair<String, Int>, String>(
                 remainingPoints = 10,
-                sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 3),
-                materials = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),
-                fuel = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 200),
-                cryopods = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 300),
+                attributes = persistentListOf(
+                    "Sensor Range" to 3,
+                    "Fuel" to 100,
+                ),
+                attributeName = { it.first },
+                attributeValue = { it.second },
             )
         }
 
@@ -42,14 +43,14 @@ internal class ShipConfigurationTest: TestCase() {
         val selectedEngineId = mutableStateOf(value = "Nuclear")
 
         setUI {
-            ShipConfiguration(
+            ShipConfiguration<String, String>(
                 selectedEngineId = selectedEngineId.value,
                 engines = engines,
-                id = { it },
-                description = { if (it == "Nuclear") "Nuclear go boom" else "Ion go blast" },
-                velocity = { if (it == "Nuclear") 0.3 else 0.1 },
-                fuelConsumption = { if (it == "Nuclear") 1.2 else 2.1 },
-                cost = { if (it == "Nuclear") 5 else 6 },
+                engineId = { it },
+                engineDescription = { if (it == "Nuclear") "Nuclear go boom" else "Ion go blast" },
+                engineVelocity = { if (it == "Nuclear") 0.3 else 0.1 },
+                engineFuelConsumption = { if (it == "Nuclear") 1.2 else 2.1 },
+                engineCost = { if (it == "Nuclear") 5 else 6 },
                 onEngineClick = { selectedEngineId.value = it }
             )
         }

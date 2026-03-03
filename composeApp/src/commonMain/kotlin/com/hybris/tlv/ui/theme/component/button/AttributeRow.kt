@@ -25,12 +25,11 @@ import com.hybris.tlv.ui.theme.component.text.Text
 internal fun AttributeRow(
     modifier: Modifier = Modifier,
     name: String? = null,
-    canIncrement: Boolean = true,
-    max: Int? = null,
-    min: Int? = null,
     value: Int? = null,
-    increment: () -> Unit = {},
-    decrement: () -> Unit = {}
+    canIncrement: Boolean = true,
+    canDecrement: Boolean = true,
+    onIncrement: () -> Unit = {},
+    onDecrement: () -> Unit = {}
 ) {
     val typography = LocalTypography.current
 
@@ -50,7 +49,7 @@ internal fun AttributeRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            if (value != null && min != null) Button(enabled = value > min, onClick = { decrement() }) {
+            Button(enabled = canDecrement, onClick = { onDecrement() }) {
                 Icon(
                     modifier = Modifier.size(size = 36.dp),
                     imageVector = Icons.Default.RemoveCircle,
@@ -70,8 +69,7 @@ internal fun AttributeRow(
                     maxLines = 1
                 )
             }
-
-            if (value != null && max != null) Button(enabled = canIncrement && value < max, onClick = { increment() }) {
+            Button(enabled = canIncrement, onClick = { onIncrement() }) {
                 Icon(
                     modifier = Modifier.size(size = 36.dp),
                     imageVector = Icons.Default.AddCircle,
@@ -88,30 +86,23 @@ private fun AttributeRowPreview() = Preview {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         AttributeRow(
             name = "Power",
-            canIncrement = true,
-            max = 10000,
-            min = 0,
-            value = 9000
+            value = 9000,
         )
         AttributeRow(
-            canIncrement = false,
-            max = 10000,
-            min = 0,
-            value = 1000
+            name = "Power",
         )
         AttributeRow(
-            canIncrement = true,
-            max = 10000,
-            min = 0,
             value = 0
         )
         AttributeRow(
             name = "Power",
-            canIncrement = false,
-            max = 10000,
-            min = 0,
-            value = 0
+            value = 0,
+            canDecrement = false
         )
-        AttributeRow(name = "Power")
+        AttributeRow(
+            name = "Power",
+            value = 9000,
+            canIncrement = false
+        )
     }
 }

@@ -17,7 +17,6 @@ import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.bottombar.ButtonsBar
-import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.ui.theme.component.container.ShipConfiguration
 import com.hybris.tlv.ui.theme.getTranslation
 
@@ -52,22 +51,34 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
         },
     ) {
         if (shipState == null) return@Screen
+        val sensorTranslation = getTranslation(key = "ship_sensor")
+        val fuelTranslation = getTranslation(key = "ship_fuel")
+        val materialsTranslation = getTranslation(key = "ship_materials")
+        val cryopodsTranslation = getTranslation(key = "ship_cryopods")
         ShipConfiguration(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(all = 16.dp),
             remainingPoints = shipState.remainingPoints,
-            sensorRange = shipState.sensorRange,
-            fuel = shipState.fuel,
-            materials = shipState.materials,
-            cryopods = shipState.cryopods,
+            attributes = persistentListOf(
+                sensorTranslation to shipState.sensorRange,
+                fuelTranslation to shipState.fuel,
+                materialsTranslation to shipState.materials,
+                cryopodsTranslation to shipState.cryopods
+            ),
+            attributeName = { it.first },
+            attributeValue = { it.second.value },
+            attributeCanIncrement = { shipState.remainingPoints > 0 && it.second.value < it.second.max },
+            attributeCanDecrement = { it.second.value > it.second.min },
+            onAttributeIncrement = { it.second.increment() },
+            onAttributeDecrement = { it.second.decrement() },
             selectedEngineId = shipState.engine.id,
             engines = storeState.engines,
-            id = Engine::id,
-            description = Engine::description,
-            velocity = Engine::velocity,
-            fuelConsumption = Engine::fuelConsumption,
-            cost = Engine::cost,
+            engineId = Engine::id,
+            engineDescription = Engine::description,
+            engineVelocity = Engine::velocity,
+            engineFuelConsumption = Engine::fuelConsumption,
+            engineCost = Engine::cost,
             onEngineClick = { engine -> store.send(action = NewGameAction.SelectEngine(engine = engine)) }
         )
     }

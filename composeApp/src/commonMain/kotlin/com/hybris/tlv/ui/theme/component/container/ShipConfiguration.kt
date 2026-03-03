@@ -21,7 +21,6 @@ import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
-import com.hybris.tlv.ui.theme.component.button.AttributePoint
 import com.hybris.tlv.ui.theme.component.button.AttributeRow
 import com.hybris.tlv.ui.theme.component.card.SelectableAttribute
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
@@ -30,27 +29,26 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
-internal fun <T> ShipConfiguration(
+internal fun <A, E> ShipConfiguration(
     modifier: Modifier = Modifier,
     remainingPoints: Int = 0,
-    sensorRange: AttributePoint? = null,
-    fuel: AttributePoint? = null,
-    materials: AttributePoint? = null,
-    cryopods: AttributePoint? = null,
+    attributes: ImmutableList<A> = persistentListOf(),
+    attributeName: (A) -> String = { it.hashCode().toString() },
+    attributeValue: (A) -> Int? = { null },
+    attributeCanIncrement: (A) -> Boolean = { true },
+    attributeCanDecrement: (A) -> Boolean = { true },
+    onAttributeIncrement: (A) -> Unit = {},
+    onAttributeDecrement: (A) -> Unit = {},
     selectedEngineId: String? = null,
-    engines: ImmutableList<T> = persistentListOf(),
-    id: (T) -> String = { it.hashCode().toString() },
-    description: (T) -> String? = { null },
-    velocity: (T) -> Double? = { null },
-    fuelConsumption: (T) -> Double? = { null },
-    cost: (T) -> Int? = { null },
-    onEngineClick: (T) -> Unit = {}
+    engines: ImmutableList<E> = persistentListOf(),
+    engineId: (E) -> String = { it.hashCode().toString() },
+    engineDescription: (E) -> String? = { null },
+    engineVelocity: (E) -> Double? = { null },
+    engineFuelConsumption: (E) -> Double? = { null },
+    engineCost: (E) -> Int? = { null },
+    onEngineClick: (E) -> Unit = {}
 ) {
     val shipPointsTranslation = getTranslation(key = "new_game_screen__ship_points")
-    val sensorTranslation = getTranslation(key = "ship_sensor")
-    val fuelTranslation = getTranslation(key = "ship_fuel")
-    val materialsTranslation = getTranslation(key = "ship_materials")
-    val cryopodsTranslation = getTranslation(key = "ship_cryopods")
     val engineSelectTranslation = getTranslation(key = "new_game_screen__engine_select")
 
     val typography = LocalTypography.current
@@ -78,18 +76,16 @@ internal fun <T> ShipConfiguration(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(space = 4.dp, alignment = Alignment.CenterVertically),
         ) {
-            val canIncrement = remainingPoints > 0
-            val attributeItem = @Composable { text: String, point: AttributePoint ->
+            items(items = attributes, key = attributeName) { attribute ->
                 AttributeRow(
-                    name = text,
-                    canIncrement = canIncrement,
-                    attributePoint = point
+                    name = attributeName(attribute),
+                    value = attributeValue(attribute),
+                    canIncrement = attributeCanIncrement(attribute),
+                    canDecrement = attributeCanDecrement(attribute),
+                    onIncrement = { onAttributeIncrement(attribute) },
+                    onDecrement = { onAttributeDecrement(attribute) }
                 )
             }
-            sensorRange?.let { item { attributeItem(sensorTranslation, it) } }
-            fuel?.let { item { attributeItem(fuelTranslation, it) } }
-            materials?.let { item { attributeItem(materialsTranslation, it) } }
-            cryopods?.let { item { attributeItem(cryopodsTranslation, it) } }
             if (flags.engines) {
                 item {
                     Text(
@@ -102,17 +98,17 @@ internal fun <T> ShipConfiguration(
                         textAlign = TextAlign.Start
                     )
                 }
-                items(items = engines, key = id) { engine ->
-                    val engineId = id(engine)
+                items(items = engines, key = engineId) { engine ->
+                    val engineId = engineId(engine)
                     SelectableAttribute(
                         modifier = Modifier
                             .clickable { onEngineClick(engine) },
                         selected = selectedEngineId == engineId,
                         name = engineId,
-                        description = description(engine),
-                        velocity = velocity(engine),
-                        fuel = fuelConsumption(engine),
-                        points = cost(engine),
+                        description = engineDescription(engine),
+                        velocity = engineVelocity(engine),
+                        fuel = engineFuelConsumption(engine),
+                        points = engineCost(engine),
                     )
                 }
             }
@@ -153,18 +149,22 @@ private fun ShipConfigurationPreview() = Preview {
     )
     ShipConfiguration(
         remainingPoints = 10,
-        sensorRange = AttributePoint(),
-        cryopods = AttributePoint(),
+        attributes = persistentListOf(
+            "Sensor Range" to 3,
+            "Cryopods" to 100
+        ),
+        attributeName = { it.first },
+        attributeValue = { it.second },
         selectedEngineId = "1",
         engines = persistentListOf(
             "Engine 1",
             "Engine 2",
             "Engine 3"
         ),
-        id = { it },
-        description = { it },
-        velocity = { 10.0 },
-        fuelConsumption = { 10.0 },
-        cost = { 10 }
+        engineId = { it },
+        engineDescription = { it },
+        engineVelocity = { 10.0 },
+        engineFuelConsumption = { 10.0 },
+        engineCost = { 10 }
     )
 }

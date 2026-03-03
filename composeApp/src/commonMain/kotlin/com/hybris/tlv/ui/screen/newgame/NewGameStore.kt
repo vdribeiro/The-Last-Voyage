@@ -20,7 +20,6 @@ import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
-import com.hybris.tlv.ui.theme.component.button.AttributePoint
 
 internal class NewGameStore(
     private val shipUseCases: ShipUseCases,
