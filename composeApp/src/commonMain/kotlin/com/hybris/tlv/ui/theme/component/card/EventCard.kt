@@ -30,7 +30,7 @@ internal fun EventCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(all = 16.dp),
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.spacedBy(space = 2.dp),
             horizontalAlignment = Alignment.Start,
         ) {
             name?.let { Text(text = getTranslation(key = it), style = typography.titleLarge, fontWeight = FontWeight.Bold) }

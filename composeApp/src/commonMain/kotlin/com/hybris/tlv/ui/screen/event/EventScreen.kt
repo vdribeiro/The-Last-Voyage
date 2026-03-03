@@ -66,7 +66,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 title = getTranslation(key = event.id),
-                text = "${getTranslation(key = event.description)}$outcome",
+                text = "${getTranslation(key = event.description)}${if (outcome.isNotBlank()) "\n\n" else ""}$outcome",
             )
         }
     }
