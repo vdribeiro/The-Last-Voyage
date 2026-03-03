@@ -81,7 +81,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
 
             Content.SYSTEM -> {
                 val stellarHost = storeState.currentStellarHost ?: return@Screen
-                val planets = stellarHost.planets.toPersistentList()
+                val planets = storeState.currentStellarHostPlanets
                 SystemList(
                     modifier = Modifier
                         .testTag(tag = "game_system_list")

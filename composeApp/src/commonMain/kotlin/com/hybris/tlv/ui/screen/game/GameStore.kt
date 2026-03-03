@@ -16,6 +16,7 @@ import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_MATERIALS
 import com.hybris.tlv.domain.usecase.space.SUN
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.space.formula.Habitability
+import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
@@ -71,21 +72,21 @@ internal class GameStore(
         Telemetry.info(tag = TAG, message = "Current stellar host the player is in: $currentStellarHostId")
 
         Telemetry.info(tag = TAG, message = "Calculate the habitability for each planet of the current stellar host")
-        val currentStellarHost = spaceUseCases.getStellarHost(id = currentStellarHostId)?.apply {
-            planets.forEach { planet ->
-                planet.score = Habitability.calculateScores(
-                    stellarHost = this,
-                    planet = planet,
-                    formula = gameSession.formula
-                )
-                // Special case: Earth is inhabitable in-game
-                if (planet.id == "3earth") planet.score = planet.score?.copy(habitabilityScore = 0.0)
-            }
-        }
+        val currentStellarHost = spaceUseCases.getStellarHost(id = currentStellarHostId)
         if (currentStellarHost == null) {
             navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing stellar host on setup()"))
             return@launch
         }
+        val currentStellarHostPlanets = currentStellarHost.planets.map { planet ->
+            planet.apply {
+                // Earth is inhabitable in-game
+                score = if (planet.isEarth()) score?.copy(habitabilityScore = 0.0) else Habitability.calculateScores(
+                    stellarHost = currentStellarHost,
+                    planet = planet,
+                    formula = gameSession.formula
+                )
+            }
+        }.toPersistentList()
 
         Telemetry.info(tag = TAG, message = "Get and set the visited stellar hosts")
         var visited = updatedGameSession.visitedStellarHosts.ifEmpty { setOf(currentStellarHostId) }
@@ -116,6 +117,7 @@ internal class GameStore(
                 loading = false,
                 ship = finalUpdatedGameSession.ship,
                 currentStellarHost = currentStellarHost,
+                currentStellarHostPlanets = currentStellarHostPlanets,
                 nearStellarHosts = nearStellarHosts,
             )
         }
@@ -162,6 +164,11 @@ internal class GameStore(
             is GameAction.Settle -> settle(action = action)
         }
     }
+
+    /**
+     * Check if the planet is Earth.
+     */
+    private fun Planet.isEarth(): Boolean = id == "3earth" || id == "earth"
 
     companion object {
         private const val TAG = "GameStore"

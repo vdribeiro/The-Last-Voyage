@@ -18,6 +18,7 @@ internal data class GameState(
     val currentContent: Content = Content.SYSTEM,
     val ship: Ship? = null,
     val currentStellarHost: StellarHost? = null,
+    val currentStellarHostPlanets: ImmutableList<Planet> = persistentListOf(),
     val nearStellarHosts: ImmutableList<StellarHost> = persistentListOf()
 )
 
