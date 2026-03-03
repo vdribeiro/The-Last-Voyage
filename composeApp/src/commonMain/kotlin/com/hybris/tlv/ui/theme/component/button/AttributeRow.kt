@@ -11,9 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.RemoveCircle
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -29,7 +26,11 @@ internal fun AttributeRow(
     modifier: Modifier = Modifier,
     name: String? = null,
     canIncrement: Boolean = true,
-    attributePoint: AttributePoint? = null
+    max: Int? = null,
+    min: Int? = null,
+    value: Int? = null,
+    increment: () -> Unit = {},
+    decrement: () -> Unit = {}
 ) {
     val typography = LocalTypography.current
 
@@ -45,72 +46,39 @@ internal fun AttributeRow(
             textAlign = TextAlign.Center,
             maxLines = 1
         )
-        attributePoint?.value?.let {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            if (value != null && min != null) Button(enabled = value > min, onClick = { decrement() }) {
+                Icon(
+                    modifier = Modifier.size(size = 36.dp),
+                    imageVector = Icons.Default.RemoveCircle,
+                    contentDescription = "-$name",
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .size(size = 80.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Button(enabled = it > attributePoint.min, onClick = { attributePoint.decrement() }) {
-                    Icon(
-                        modifier = Modifier.size(size = 36.dp),
-                        imageVector = Icons.Default.RemoveCircle,
-                        contentDescription = "-$name",
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .size(size = 80.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = it.toString(),
-                        style = typography.bodyLarge,
-                        textAlign = TextAlign.Center,
-                        maxLines = 1
-                    )
-                }
+                Text(
+                    text = value?.toString(),
+                    style = typography.bodyLarge,
+                    textAlign = TextAlign.Center,
+                    maxLines = 1
+                )
+            }
 
-                Button(enabled = canIncrement && it < attributePoint.max, onClick = { attributePoint.increment() }) {
-                    Icon(
-                        modifier = Modifier.size(size = 36.dp),
-                        imageVector = Icons.Default.AddCircle,
-                        contentDescription = "+$name",
-                    )
-                }
+            if (value != null && max != null) Button(enabled = canIncrement && value < max, onClick = { increment() }) {
+                Icon(
+                    modifier = Modifier.size(size = 36.dp),
+                    imageVector = Icons.Default.AddCircle,
+                    contentDescription = "+$name",
+                )
             }
         }
-    }
-}
-
-internal data class AttributePoint(
-    val max: Int = 10,
-    val min: Int = 0,
-    val interval: Int = 1,
-    val initialValue: Int = 0
-) {
-    init {
-        if (max <= 0) throw IllegalArgumentException("max must be greater than 0")
-        if (min < 0) throw IllegalArgumentException("min must be greater or equal to 0")
-        if (max <= min) throw IllegalArgumentException("max must be greater than min")
-        if (interval <= 0) throw IllegalArgumentException("interval must be greater than 0")
-        if ((max - min) % interval != 0) throw IllegalArgumentException("The min-max range must be a multiple of the interval.")
-    }
-
-    private var _value: Int by mutableStateOf(value = initialValue.coerceIn(minimumValue = min, maximumValue = max))
-    var value: Int
-        get() = _value
-        set(newValue) {
-            _value = newValue.coerceIn(minimumValue = min, maximumValue = max)
-        }
-    val assignedPoints: Int get() = (value - min) / interval
-
-    fun increment() {
-        if (value < max) value += interval
-    }
-
-    fun decrement() {
-        if (value > min) value -= interval
     }
 }
 
@@ -121,40 +89,28 @@ private fun AttributeRowPreview() = Preview {
         AttributeRow(
             name = "Power",
             canIncrement = true,
-            attributePoint = AttributePoint(
-                max = 10000,
-                min = 0,
-                interval = 100,
-                initialValue = 9000
-            )
+            max = 10000,
+            min = 0,
+            value = 9000
         )
         AttributeRow(
             canIncrement = false,
-            attributePoint = AttributePoint(
-                max = 10000,
-                min = 0,
-                interval = 100,
-                initialValue = 1000
-            )
+            max = 10000,
+            min = 0,
+            value = 1000
         )
         AttributeRow(
             canIncrement = true,
-            attributePoint = AttributePoint(
-                max = 10000,
-                min = 0,
-                interval = 100,
-                initialValue = 0
-            )
+            max = 10000,
+            min = 0,
+            value = 0
         )
         AttributeRow(
             name = "Power",
             canIncrement = false,
-            attributePoint = AttributePoint(
-                max = 10000,
-                min = 0,
-                interval = 100,
-                initialValue = 0
-            )
+            max = 10000,
+            min = 0,
+            value = 0
         )
         AttributeRow(name = "Power")
     }

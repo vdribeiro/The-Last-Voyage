@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component.container
+package com.hybris.tlv.ui.theme.component.list
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -22,7 +22,6 @@ import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
 import com.hybris.tlv.ui.theme.component.image.Icon
-import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable

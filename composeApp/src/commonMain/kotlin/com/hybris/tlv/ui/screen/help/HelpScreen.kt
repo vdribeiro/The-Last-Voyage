@@ -48,7 +48,7 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.HelpBar
 import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
 import com.hybris.tlv.ui.theme.component.container.LearnMenu
-import com.hybris.tlv.ui.theme.component.container.PropertyList
+import com.hybris.tlv.ui.theme.component.list.PropertyList
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
