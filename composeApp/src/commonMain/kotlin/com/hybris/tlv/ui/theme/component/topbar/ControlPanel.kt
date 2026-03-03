@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.theme.component.topbar
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -191,13 +190,6 @@ internal fun ControlPanel(
     }
 }
 
-private data class DropdownItem(
-    val enabled: Boolean = true,
-    val text: String? = null,
-    val onClick: () -> Unit = {},
-    val leadingIcon: (@Composable () -> Unit)? = null,
-)
-
 @Composable
 private fun SearchMenu(
     enabled: Boolean,
@@ -219,25 +211,20 @@ private fun SearchMenu(
         Dropdown(
             expanded = expanded,
             onDismissRequest = { expanded = false },
-            items = properties.map {
-                DropdownItem(
-                    enabled = enabled,
-                    text = it,
-                    onClick = { onFiltersChange(it) },
-                    leadingIcon = {
-                        if (selectedProperties.contains(element = it)) {
-                            Icon(
-                                imageVector = Icons.Default.Check,
-                                contentDescription = "Checked"
-                            )
-                        } else Spacer(modifier = Modifier.size(size = 24.dp))
-                    }
-                )
-            }.toPersistentList(),
-            enabled = DropdownItem::enabled,
-            text = DropdownItem::text,
-            onClick = { it.onClick() },
-            leadingIcon = DropdownItem::leadingIcon
+            items = properties,
+            enabled = { enabled },
+            text = { it },
+            onClick = { onFiltersChange(it) },
+            leadingIcon = {
+                {
+                    if (selectedProperties.contains(element = it)) {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Checked"
+                        )
+                    } else Spacer(modifier = Modifier.size(size = 24.dp))
+                }
+            }
         )
     }
 }
@@ -245,7 +232,7 @@ private fun SearchMenu(
 @Composable
 private fun SortMenu(
     enabled: Boolean,
-    properties: List<String>,
+    properties: ImmutableList<String>,
     selectedProperty: String?,
     ascending: Boolean,
     onSortChange: (String) -> Unit,
@@ -277,28 +264,23 @@ private fun SortMenu(
         Dropdown(
             expanded = expanded,
             onDismissRequest = { expanded = false },
-            items = properties.map {
-                DropdownItem(
-                    enabled = enabled,
-                    text = it,
-                    onClick = {
-                        onSortChange(it)
-                        expanded = false
-                    },
-                    leadingIcon = {
-                        if (selectedProperty == it) {
-                            Icon(
-                                imageVector = sortDirectionIcon,
-                                contentDescription = "Sort Direction"
-                            )
-                        }
+            items = properties,
+            enabled = { enabled },
+            text = { it },
+            onClick = {
+                onSortChange(it)
+                expanded = false
+            },
+            leadingIcon = {
+                {
+                    if (selectedProperty == it) {
+                        Icon(
+                            imageVector = sortDirectionIcon,
+                            contentDescription = "Sort Direction"
+                        )
                     }
-                )
-            }.toPersistentList(),
-            enabled = DropdownItem::enabled,
-            text = DropdownItem::text,
-            onClick = { it.onClick() },
-            leadingIcon = DropdownItem::leadingIcon
+                }
+            }
         )
     }
 }
@@ -306,8 +288,8 @@ private fun SortMenu(
 @Composable
 private fun VisibilityMenu(
     enabled: Boolean,
-    properties: List<String>,
-    visibleProperties: List<String>,
+    properties: ImmutableList<String>,
+    visibleProperties: ImmutableList<String>,
     onVisibilityChange: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(value = false) }
@@ -324,25 +306,20 @@ private fun VisibilityMenu(
         Dropdown(
             expanded = expanded,
             onDismissRequest = { expanded = false },
-            items = properties.map {
-                DropdownItem(
-                    enabled = enabled,
-                    text = it,
-                    onClick = { onVisibilityChange(it) },
-                    leadingIcon = {
-                        if (visibleProperties.contains(element = it)) {
-                            Icon(
-                                imageVector = Icons.Default.Check,
-                                contentDescription = "Visible"
-                            )
-                        } else Spacer(modifier = Modifier.size(size = 24.dp))
-                    }
-                )
-            }.toPersistentList(),
-            enabled = DropdownItem::enabled,
-            text = DropdownItem::text,
-            onClick = { it.onClick() },
-            leadingIcon = DropdownItem::leadingIcon
+            items = properties,
+            enabled = { enabled },
+            text = { it },
+            onClick = { onVisibilityChange(it) },
+            leadingIcon = {
+                {
+                    if (visibleProperties.contains(element = it)) {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Visible"
+                        )
+                    } else Spacer(modifier = Modifier.size(size = 24.dp))
+                }
+            }
         )
     }
 }
