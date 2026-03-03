@@ -23,7 +23,7 @@ internal fun <T> ButtonsBar(
     modifier: Modifier = Modifier,
     buttons: ImmutableList<T> = persistentListOf(),
     id: (T) -> String = { it.hashCode().toString() },
-    text: (T) -> String? = { null },
+    text: @Composable (T) -> String? = { null },
     loading: (T) -> Boolean = { false },
     enabled: (T) -> Boolean = { true },
     onClick: (T) -> Unit = {},

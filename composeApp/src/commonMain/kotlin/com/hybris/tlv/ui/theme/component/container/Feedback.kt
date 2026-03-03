@@ -90,7 +90,6 @@ internal fun Feedback(
             onClick = { sendFeedback(feedbackText) },
         )
         if (showThanks) {
-            // Thank you message
             Spacer(modifier = Modifier.height(height = 16.dp))
             Text(
                 text = thanksTranslation,

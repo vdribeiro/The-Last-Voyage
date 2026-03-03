@@ -69,7 +69,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     ButtonsBar(
                         buttons = persistentListOf(startTranslation, skipTranslation),
                         id = { it },
-                        text = { it },
+                        text = { getTranslation(key = it) },
                         onClick = {
                             when (it) {
                                 startTranslation -> store.send(action = TutorialAction.Next)

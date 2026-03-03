@@ -53,7 +53,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
             ButtonsBar(
                 buttons = persistentListOf(text),
                 id = { it },
-                text = { it },
+                text = { getTranslation(key = it) },
                 onClick = { store.send(action = GameOverAction.Next) }
             )
         },

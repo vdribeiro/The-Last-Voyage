@@ -34,7 +34,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
             ButtonsBar(
                 buttons = persistentListOf(startTranslation),
                 id = { it },
-                text = { it },
+                text = { getTranslation(key = it) },
                 enabled = { shipState != null && shipState.remainingPoints >= 0 },
                 onClick = {
                     if (shipState == null) return@ButtonsBar

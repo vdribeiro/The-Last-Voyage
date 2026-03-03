@@ -53,7 +53,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
                 modifier = Modifier.testTag(tag = "event_buttons_bar"),
                 buttons = storeState.childrenEvents,
                 id = Event::id,
-                text = Event::id,
+                text = { getTranslation(key = it.id) },
                 onClick = { store.send(action = EventAction.Select(event = it)) }
             )
         },
