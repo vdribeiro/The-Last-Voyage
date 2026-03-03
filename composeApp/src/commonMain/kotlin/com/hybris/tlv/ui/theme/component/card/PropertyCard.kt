@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.theme.component.card
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,13 +11,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,11 +33,9 @@ import com.hybris.tlv.ui.theme.getTranslation
 internal fun PropertyCard(
     modifier: Modifier = Modifier,
     name: String? = null,
-    subtitle: String? = null,
     description: String? = null,
     leadingImage: ImageResource? = null,
     icon: (@Composable () -> Unit)? = null,
-    trailingIcon: ImageVector? = null,
 ) {
     val typography = LocalTypography.current
 
@@ -73,16 +68,13 @@ internal fun PropertyCard(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start
                 ) {
-                    name?.let { Text(text = getTranslation(key = it), style = typography.titleLarge, fontWeight = FontWeight.Bold) }
+                    name?.let { Text(modifier = Modifier.weight(1f, fill = false), text = getTranslation(key = it), style = typography.titleLarge, fontWeight = FontWeight.Bold) }
                     if (name != null && icon != null) Spacer(modifier = Modifier.width(width = 8.dp))
                     icon?.let { it() }
                 }
-                subtitle?.let { Text(text = getTranslation(key = it), style = typography.titleSmall) }
                 if (name != null && description != null) Spacer(modifier = Modifier.height(height = 4.dp))
                 description?.let { Text(text = getTranslation(key = it), style = typography.bodyLarge) }
             }
-            Spacer(modifier = Modifier.weight(weight = 0.1f))
-            trailingIcon?.let { Box(modifier.align(alignment = Alignment.CenterVertically)) { Icon(imageVector = it) } }
         }
     }
 }
@@ -93,24 +85,35 @@ private fun PropertyCardPreview() = Preview {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         PropertyCard(
             name = "Property",
-            subtitle = "Sub",
             description = "Hammer Time",
             leadingImage = "W".spectralTypeToImage(),
             icon = { Icon(imageVector = Icons.Filled.Apps) },
-            trailingIcon = Icons.Filled.Check,
         )
-        PropertyCard(name = "Property")
-        PropertyCard(subtitle = "Sub")
-        PropertyCard(description = "Hammer Time")
+        PropertyCard(
+            name = "Very very long and large name of this property name",
+            description = "Very very long and large name of this property description",
+            leadingImage = "W".spectralTypeToImage(),
+            icon = { Icon(imageVector = Icons.Filled.Apps) },
+        )
+        PropertyCard(
+            name = "Property"
+        )
+        PropertyCard(
+            description = "Hammer Time"
+        )
+        PropertyCard(
+            leadingImage = "W".spectralTypeToImage(),
+        )
+        PropertyCard(
+            icon = { Icon(imageVector = Icons.Filled.Apps) },
+        )
         PropertyCard(
             name = "Property",
             description = "Hammer Time",
-            trailingIcon = Icons.Filled.Check
         )
         PropertyCard(
-            name = "Property",
-            trailingIcon = Icons.Filled.Check
+            description = "Hammer Time",
+            leadingImage = "W".spectralTypeToImage(),
         )
-        PropertyCard(trailingIcon = Icons.Filled.Check)
     }
 }

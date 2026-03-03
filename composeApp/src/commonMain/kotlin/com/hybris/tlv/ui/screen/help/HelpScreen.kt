@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.help
 
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -111,9 +112,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                     .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__navigation"),
                 properties = navigation,
-                id = { it.id },
-                description = { it.description },
-                icon = { it.icon }
+                id = Property::id,
+                description = Property::description,
+                icon = Property::icon
             )
 
             Content.CONTROL_PANEL -> PropertyList(
@@ -123,9 +124,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                     .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__control_panel"),
                 properties = panel,
-                id = { it.id },
-                description = { it.description },
-                icon = { it.icon },
+                id = Property::id,
+                description = Property::description,
+                icon = Property::icon,
                 header = {
                     val name = getTranslation(key = "planet_name")
                     val habitability = getTranslation(key = "planet_habitability")
@@ -151,8 +152,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                     .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__host_definition"),
                 properties = hostProperty,
-                id = { it.id },
-                description = { it.description },
+                id = Property::id,
+                description = Property::description,
             )
 
             Content.HOST_TYPE -> PropertyList(
@@ -162,9 +163,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                     .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__host_types"),
                 properties = hostType,
-                id = { it.id },
-                description = { it.description },
-                leadingImage = { it.image },
+                id = Property::id,
+                description = Property::description,
+                leadingImage = Property::image,
             )
 
             Content.PLANET_DEFINITION -> PropertyList(
@@ -174,8 +175,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                     .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__planet_definition"),
                 properties = planetProperty,
-                id = { it.id },
-                description = { it.description }
+                id = Property::id,
+                description = Property::description
             )
 
             Content.PLANET_TYPE -> PropertyList(
@@ -185,9 +186,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                     .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__planet_types"),
                 properties = planetType,
-                id = { it.id },
-                description = { it.description },
-                leadingImage = { it.image }
+                id = Property::id,
+                description = Property::description,
+                leadingImage = Property::image,
             )
 
             Content.HABITABILITY -> PropertyList(
@@ -197,8 +198,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                     .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__habitability"),
                 properties = habitability,
-                id = { it.id },
-                description = { it.description },
+                id = Property::id,
+                description = Property::description,
                 footer = {
                     storeState.formula?.let { formula ->
                         val formulaTranslation = getTranslation(key = "formula")
@@ -227,8 +228,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                     .padding(all = 16.dp),
                 title = getTranslation(key = "main_menu_screen__score"),
                 properties = score,
-                id = { it.id },
-                description = { it.description }
+                id = Property::id,
+                description = Property::description,
             )
         }
     }
@@ -241,7 +242,7 @@ private data class Property(
     val icon: (@Composable () -> Unit)? = null
 )
 
-private val navigation = listOf(
+private val navigation = persistentListOf(
     Property(
         id = "main_menu_screen__back_navigation",
         description = when (platform) {
@@ -267,7 +268,7 @@ private val navigation = listOf(
         icon = { Icon(imageVector = Icons.Default.BugReport) },
     )
 )
-private val panel = listOf(
+private val panel = persistentListOf(
     Property(
         id = "help_screen__control_panel_search",
         description = "help_screen__control_panel_search_description",
@@ -309,7 +310,7 @@ private val panel = listOf(
         icon = { Icon(imageVector = Icons.Default.Visibility) }
     )
 )
-private val hostType = listOf(
+private val hostType = persistentListOf(
     Property(
         id = "stellar_host_type_o",
         description = "stellar_host_type_o_description",
@@ -386,7 +387,7 @@ private val hostType = listOf(
         image = "?".spectralTypeToImage()
     )
 )
-private val planetType = listOf(
+private val planetType = persistentListOf(
     Property(
         id = "planet_type_terrestrial_planet",
         description = "planet_type_terrestrial_planet_description",
@@ -588,7 +589,7 @@ private val planetType = listOf(
         image = PlanetType.UNKNOWN.toImage()
     )
 )
-private val hostProperty = listOf(
+private val hostProperty = persistentListOf(
     Property(
         id = "stellar_host_name",
         description = "stellar_host_name_description",
@@ -658,7 +659,7 @@ private val hostProperty = listOf(
         description = "stellar_host_distance_description",
     )
 )
-private val planetProperty = listOf(
+private val planetProperty = persistentListOf(
     Property(
         id = "planet_name",
         description = "planet_name_description",
@@ -716,7 +717,7 @@ private val planetProperty = listOf(
         description = "planet_obliquity_description",
     )
 )
-private val habitability = listOf(
+private val habitability = persistentListOf(
     Property(
         id = "habitability",
         description = "habitability_description",
@@ -786,7 +787,7 @@ private val habitability = listOf(
         description = "habitability_star_effective_temperature_description",
     )
 )
-private val score = listOf(
+private val score = persistentListOf(
     Property(
         id = "help_screen__score_formula",
         description = "help_screen__score_formula_description",

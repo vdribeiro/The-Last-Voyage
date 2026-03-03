@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.score
 
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -32,11 +33,11 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
                 .fillMaxSize()
                 .padding(all = 16.dp),
             scores = storeState.gameSessions,
-            id = { it.id },
-            scorePoints = { it.score },
-            utc = { it.utc },
-            settledPlanet = { it.settledPlanetName },
-            habitability = { it.finalHabitability },
+            id = GameSession::id,
+            scorePoints = GameSession::score,
+            utc = GameSession::utc,
+            settledPlanet = GameSession::settledPlanetName,
+            habitability = GameSession::finalHabitability,
             engine = { it.ship.engine.id },
             assignedPoints = { it.ship.assignedPoints },
             yearsTraveled = { it.ship.yearsTraveled },
@@ -56,7 +57,7 @@ private fun ScoreScreenLoadingPreview() = Preview {
         store = Store(
             initialState = ScoreState(
                 loading = true,
-                gameSessions = emptyList()
+                gameSessions = persistentListOf()
             )
         )
     )
@@ -77,7 +78,7 @@ private fun ScoreScreenPreview() = Preview {
         store = Store(
             initialState = ScoreState(
                 loading = false,
-                gameSessions = listOf(
+                gameSessions = persistentListOf(
                     GameSession(
                         id = "2",
                         utc = getLocalDateTime(),

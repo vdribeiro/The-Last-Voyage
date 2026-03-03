@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +17,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.locale.getLocalDateTime
-import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
@@ -25,23 +26,23 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
-internal inline fun <T> ScoreList(
+internal fun <T> ScoreList(
     modifier: Modifier = Modifier,
-    scores: List<T> = emptyList(),
-    expandedItems: List<String> = emptyList(),
-    noinline id: (T) -> String = { uuid() },
-    crossinline scorePoints: (T) -> Double? = { null },
-    crossinline utc: (T) -> String? = { null },
-    crossinline settledPlanet: (T) -> String? = { null },
-    crossinline habitability: (T) -> Double? = { null },
-    crossinline engine: (T) -> String? = { null },
-    crossinline assignedPoints: (T) -> Int? = { null },
-    crossinline yearsTraveled: (T) -> Double? = { null },
-    crossinline sensorRange: (T) -> Int? = { null },
-    crossinline integrity: (T) -> Int? = { null },
-    crossinline fuel: (T) -> Int? = { null },
-    crossinline materials: (T) -> Int? = { null },
-    crossinline cryopods: (T) -> Int? = { null }
+    scores: ImmutableList<T> = persistentListOf(),
+    expandedItems: ImmutableList<String> = persistentListOf(),
+    id: (T) -> String = { it.hashCode().toString() },
+    scorePoints: (T) -> Double? = { null },
+    utc: (T) -> String? = { null },
+    settledPlanet: (T) -> String? = { null },
+    habitability: (T) -> Double? = { null },
+    engine: (T) -> String? = { null },
+    assignedPoints: (T) -> Int? = { null },
+    yearsTraveled: (T) -> Double? = { null },
+    sensorRange: (T) -> Int? = { null },
+    integrity: (T) -> Int? = { null },
+    fuel: (T) -> Int? = { null },
+    materials: (T) -> Int? = { null },
+    cryopods: (T) -> Int? = { null }
 ) {
     val expandedItems = remember { expandedItems.toMutableStateList() }
 
@@ -123,12 +124,12 @@ private fun ScoreListPreview() = Preview {
         )
     )
     ScoreList(
-        scores = listOf(
+        scores = persistentListOf(
             "Score 1",
             "Score 2",
             "Score 3",
         ),
-        expandedItems = listOf("Score 2"),
+        expandedItems = persistentListOf("Score 2"),
         id = { it },
         scorePoints = { 100.0 },
         utc = { getLocalDateTime() },

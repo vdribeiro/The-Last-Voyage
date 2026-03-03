@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.score
 
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.locale.getLocalDateTime
 import com.hybris.tlv.core.telemetry.Telemetry
@@ -21,6 +22,7 @@ internal class ScoreStore(
         val gameSessions = gameSessionUseCases.getGameSessions()
             .filter { it.score != null }
             .map { it.copy(utc = getLocalDateTime(utc = it.utc)) }
+            .toPersistentList()
 
         updateState {
             it.copy(

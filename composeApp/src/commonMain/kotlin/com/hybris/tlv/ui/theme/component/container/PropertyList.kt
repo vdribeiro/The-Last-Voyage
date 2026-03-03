@@ -1,38 +1,41 @@
 package com.hybris.tlv.ui.theme.component.container
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.resource.ImageResource
-import com.hybris.tlv.core.security.uuid
+import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.PropertyCard
+import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.list.LazyColumn
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
-internal inline fun <T> PropertyList(
+internal fun <T> PropertyList(
     modifier: Modifier = Modifier,
     title: String? = null,
-    properties: List<T> = emptyList(),
-    noinline id: (T) -> String = { uuid() },
-    crossinline description: (T) -> String? = { null },
-    crossinline leadingImage: (T) -> ImageResource? = { null },
-    crossinline icon: (T) -> (@Composable () -> Unit)? = { null },
-    crossinline trailingIcon: (T) -> ImageVector? = { null },
-    noinline header: (@Composable () -> Unit)? = null,
-    noinline footer: (@Composable () -> Unit)? = null
+    properties: ImmutableList<T> = persistentListOf(),
+    id: (T) -> String = { it.hashCode().toString() },
+    description: (T) -> String? = { null },
+    leadingImage: (T) -> ImageResource? = { null },
+    icon: (T) -> (@Composable () -> Unit)? = { null },
+    header: (@Composable () -> Unit)? = null,
+    footer: (@Composable () -> Unit)? = null
 ) {
     val typography = LocalTypography.current
 
@@ -60,7 +63,6 @@ internal inline fun <T> PropertyList(
                     description = description(property),
                     leadingImage = leadingImage(property),
                     icon = icon(property),
-                    trailingIcon = trailingIcon(property)
                 )
             }
 
@@ -81,12 +83,14 @@ private fun PlanetDefinitionPreview() = Preview {
         )
     )
     PropertyList(
-        properties = listOf(
+        properties = persistentListOf(
             "Property 1",
             "Property 2",
             "Property 3",
         ),
         id = { it },
-        description = { it }
+        description = { it },
+        leadingImage = { "W".spectralTypeToImage() },
+        icon = { { Icon(imageVector = Icons.Filled.Apps) } },
     )
 }

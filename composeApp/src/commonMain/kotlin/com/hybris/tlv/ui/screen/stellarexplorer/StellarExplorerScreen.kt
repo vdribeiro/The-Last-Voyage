@@ -1,5 +1,8 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentSetOf
+import kotlinx.collections.immutable.toPersistentSet
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
@@ -216,7 +219,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                     stellarHostMetallicityScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.METALLICITY_SCORE, value = stellarHost?.score?.stellarMetallicityScore),
                     stellarHostEffectiveTemperatureScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE, value = stellarHost?.score?.stellarEffectiveTemperatureScore),
                     planets = storeState.planets,
-                    planetId = { it.id },
+                    planetId = Planet::id,
                     planetName = { visiblePlanetProperties.ifContains(element = PlanetProperty.NAME, value = it.name) },
                     planetStatus = { visiblePlanetProperties.ifContains(element = PlanetProperty.STATUS, value = it.status.displayName) },
                     planetHabitability = { visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABILITY, value = it.score?.habitabilityScore) },
@@ -273,18 +276,18 @@ private fun StellarExplorerScreenLoadingPreview() = Preview {
                 loading = true,
                 currentContent = Content.LIST_HOSTS,
                 listState = LazyListState(),
-                stellarHosts = emptyList(),
-                planets = emptyList(),
+                stellarHosts = persistentListOf(),
+                planets = persistentListOf(),
                 selectedStellarHost = null,
                 selectedPlanet = null,
                 search = "",
                 sortStellarHostProperty = StellarHostProperty.DISTANCE,
                 sortPlanetProperty = PlanetProperty.HABITABILITY,
                 sortAscending = true,
-                visibleStellarHostProperties = emptySet(),
-                visiblePlanetProperties = emptySet(),
-                searchableStellarHostProperties = setOf(StellarHostProperty.NAME),
-                searchablePlanetProperties = setOf(PlanetProperty.NAME)
+                visibleStellarHostProperties = persistentSetOf(),
+                visiblePlanetProperties = persistentSetOf(),
+                searchableStellarHostProperties = persistentSetOf(StellarHostProperty.NAME),
+                searchablePlanetProperties = persistentSetOf(PlanetProperty.NAME)
             )
         )
     )
@@ -307,7 +310,7 @@ private fun StellarExplorerScreenHostListPreview() = Preview {
                 loading = false,
                 currentContent = Content.LIST_HOSTS,
                 listState = LazyListState(),
-                stellarHosts = listOf(
+                stellarHosts = persistentListOf(
                     StellarHost(
                         id = "sol",
                         name = "Sol",
@@ -347,17 +350,17 @@ private fun StellarExplorerScreenHostListPreview() = Preview {
                         dec = -62.6761821
                     ),
                 ),
-                planets = emptyList(),
+                planets = persistentListOf(),
                 selectedStellarHost = null,
                 selectedPlanet = null,
                 search = "",
                 sortStellarHostProperty = StellarHostProperty.entries.random(),
                 sortPlanetProperty = PlanetProperty.entries.random(),
                 sortAscending = true,
-                visibleStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).toSet(),
-                visiblePlanetProperties = emptySet(),
-                searchableStellarHostProperties = emptySet(),
-                searchablePlanetProperties = emptySet()
+                visibleStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).toPersistentSet(),
+                visiblePlanetProperties = persistentSetOf(),
+                searchableStellarHostProperties = persistentSetOf(),
+                searchablePlanetProperties = persistentSetOf()
             )
         )
     )
@@ -380,8 +383,8 @@ private fun StellarExplorerScreenHostDetailPreview() = Preview {
                 loading = false,
                 currentContent = Content.DETAIL_HOSTS,
                 listState = LazyListState(),
-                stellarHosts = emptyList(),
-                planets = listOf(
+                stellarHosts = persistentListOf(),
+                planets = persistentListOf(
                     Planet(
                         id = "earth",
                         name = "Earth",
@@ -441,10 +444,10 @@ private fun StellarExplorerScreenHostDetailPreview() = Preview {
                 sortStellarHostProperty = StellarHostProperty.entries.random(),
                 sortPlanetProperty = PlanetProperty.entries.random(),
                 sortAscending = true,
-                visibleStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).toSet(),
-                visiblePlanetProperties = emptySet(),
-                searchableStellarHostProperties = emptySet(),
-                searchablePlanetProperties = emptySet()
+                visibleStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).toPersistentSet(),
+                visiblePlanetProperties = persistentSetOf(),
+                searchableStellarHostProperties = persistentSetOf(),
+                searchablePlanetProperties = persistentSetOf()
             )
         )
     )
@@ -467,18 +470,18 @@ private fun StellarExplorerScreenSearchHostsPreview() = Preview {
                 loading = false,
                 currentContent = Content.LIST_HOSTS,
                 listState = LazyListState(),
-                stellarHosts = emptyList(),
-                planets = emptyList(),
+                stellarHosts = persistentListOf(),
+                planets = persistentListOf(),
                 selectedStellarHost = null,
                 selectedPlanet = null,
                 search = "Kepler",
                 sortStellarHostProperty = StellarHostProperty.entries.random(),
                 sortPlanetProperty = PlanetProperty.entries.random(),
                 sortAscending = true,
-                visibleStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).toSet(),
-                visiblePlanetProperties = emptySet(),
-                searchableStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).toSet(),
-                searchablePlanetProperties = emptySet()
+                visibleStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).toPersistentSet(),
+                visiblePlanetProperties = persistentSetOf(),
+                searchableStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).toPersistentSet(),
+                searchablePlanetProperties = persistentSetOf()
             )
         )
     )
@@ -501,8 +504,8 @@ private fun StellarExplorerScreenPlanetListPreview() = Preview {
                 loading = false,
                 currentContent = Content.LIST_PLANETS,
                 listState = LazyListState(),
-                stellarHosts = emptyList(),
-                planets = listOf(
+                stellarHosts = persistentListOf(),
+                planets = persistentListOf(
                     Planet(
                         id = "earth",
                         name = "Earth",
@@ -544,10 +547,10 @@ private fun StellarExplorerScreenPlanetListPreview() = Preview {
                 sortStellarHostProperty = StellarHostProperty.entries.random(),
                 sortPlanetProperty = PlanetProperty.entries.random(),
                 sortAscending = true,
-                visibleStellarHostProperties = emptySet(),
-                visiblePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).toSet(),
-                searchableStellarHostProperties = emptySet(),
-                searchablePlanetProperties = emptySet()
+                visibleStellarHostProperties = persistentSetOf(),
+                visiblePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).toPersistentSet(),
+                searchableStellarHostProperties = persistentSetOf(),
+                searchablePlanetProperties = persistentSetOf()
             )
         )
     )
@@ -570,7 +573,7 @@ private fun StellarExplorerScreenPlanetDetailPreview() = Preview {
                 loading = false,
                 currentContent = Content.DETAIL_PLANETS,
                 listState = LazyListState(),
-                stellarHosts = listOf(
+                stellarHosts = persistentListOf(
                     StellarHost(
                         id = "sol",
                         name = "Sol",
@@ -591,7 +594,7 @@ private fun StellarExplorerScreenPlanetDetailPreview() = Preview {
                         dec = 0.0
                     ),
                 ),
-                planets = emptyList(),
+                planets = persistentListOf(),
                 selectedStellarHost = null,
                 selectedPlanet = Planet(
                     id = "earth",
@@ -614,10 +617,10 @@ private fun StellarExplorerScreenPlanetDetailPreview() = Preview {
                 sortStellarHostProperty = StellarHostProperty.entries.random(),
                 sortPlanetProperty = PlanetProperty.entries.random(),
                 sortAscending = true,
-                visibleStellarHostProperties = emptySet(),
-                visiblePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).toSet(),
-                searchableStellarHostProperties = emptySet(),
-                searchablePlanetProperties = emptySet()
+                visibleStellarHostProperties = persistentSetOf(),
+                visiblePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).toPersistentSet(),
+                searchableStellarHostProperties = persistentSetOf(),
+                searchablePlanetProperties = persistentSetOf()
             )
         )
     )
@@ -640,18 +643,18 @@ private fun StellarExplorerScreenSearchPlanetPreview() = Preview {
                 loading = false,
                 currentContent = Content.LIST_PLANETS,
                 listState = LazyListState(),
-                stellarHosts = emptyList(),
-                planets = emptyList(),
+                stellarHosts = persistentListOf(),
+                planets = persistentListOf(),
                 selectedStellarHost = null,
                 selectedPlanet = null,
                 search = "Kepler",
                 sortStellarHostProperty = StellarHostProperty.entries.random(),
                 sortPlanetProperty = PlanetProperty.entries.random(),
                 sortAscending = true,
-                visibleStellarHostProperties = emptySet(),
-                visiblePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).toSet(),
-                searchableStellarHostProperties = emptySet(),
-                searchablePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).toSet(),
+                visibleStellarHostProperties = persistentSetOf(),
+                visiblePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).toPersistentSet(),
+                searchableStellarHostProperties = persistentSetOf(),
+                searchablePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).toPersistentSet(),
             )
         )
     )
