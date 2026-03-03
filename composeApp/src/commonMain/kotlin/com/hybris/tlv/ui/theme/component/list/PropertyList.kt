@@ -30,7 +30,8 @@ internal fun <T> PropertyList(
     title: String? = null,
     properties: ImmutableList<T> = persistentListOf(),
     id: (T) -> String = { it.hashCode().toString() },
-    description: (T) -> String? = { null },
+    name: @Composable (T) -> String? = { null },
+    description: @Composable (T) -> String? = { null },
     leadingImage: (T) -> ImageResource? = { null },
     icon: (T) -> (@Composable () -> Unit)? = { null },
     header: (@Composable () -> Unit)? = null,
@@ -58,7 +59,7 @@ internal fun <T> PropertyList(
         ) {
             items(items = properties, key = id) { property ->
                 PropertyCard(
-                    name = id(property),
+                    name = name(property),
                     description = description(property),
                     leadingImage = leadingImage(property),
                     icon = icon(property),
@@ -88,6 +89,7 @@ private fun PlanetDefinitionPreview() = Preview {
             "Property 3",
         ),
         id = { it },
+        name = { it },
         description = { it },
         leadingImage = { "W".spectralTypeToImage() },
         icon = { { Icon(imageVector = Icons.Filled.Apps) } },

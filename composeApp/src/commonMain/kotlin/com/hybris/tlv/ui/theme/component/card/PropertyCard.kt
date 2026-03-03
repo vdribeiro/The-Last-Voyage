@@ -68,12 +68,12 @@ internal fun PropertyCard(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start
                 ) {
-                    name?.let { Text(modifier = Modifier.weight(1f, fill = false), text = getTranslation(key = it), style = typography.titleLarge, fontWeight = FontWeight.Bold) }
+                    name?.let { Text(modifier = Modifier.weight(1f, fill = false), text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold) }
                     if (name != null && icon != null) Spacer(modifier = Modifier.width(width = 8.dp))
                     icon?.let { it() }
                 }
                 if (name != null && description != null) Spacer(modifier = Modifier.height(height = 4.dp))
-                description?.let { Text(text = getTranslation(key = it), style = typography.bodyLarge) }
+                description?.let { Text(text = it, style = typography.bodyLarge) }
             }
         }
     }
