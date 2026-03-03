@@ -21,6 +21,7 @@ compose-material3 = "1.9.0"
 compose-icons = "1.7.3"
 lifecycle = "2.9.6"
 navigation = "2.9.2"
+navigation-event = "1.0.1"
 coil = "3.4.0"
 
 # Android
@@ -101,6 +102,7 @@ compose-icons = { module = "org.jetbrains.compose.material:material-icons-extend
 lifecycle = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 lifecycle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }
+navigation-event = { module = "org.jetbrains.androidx.navigationevent:navigationevent-compose", version.ref = "navigation-event" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 
 # Android
@@ -147,6 +149,7 @@ common = [
     "lifecycle",
     "lifecycle-runtime",
     "navigation",
+    "navigation-event",
     "coil-compose"
 ]
 common-test = [
