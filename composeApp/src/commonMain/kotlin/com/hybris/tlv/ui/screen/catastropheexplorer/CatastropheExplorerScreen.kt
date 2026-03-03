@@ -16,6 +16,7 @@ import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.list.CatastropheList
+import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
 internal fun CatastropheExplorerScreen(store: Store<CatastropheExplorerState, Unit>) {
@@ -31,7 +32,8 @@ internal fun CatastropheExplorerScreen(store: Store<CatastropheExplorerState, Un
                 .padding(all = 16.dp),
             catastrophes = storeState.catastrophes,
             id = Catastrophe::id,
-            description = Catastrophe::description
+            name = { getTranslation(key = it.id) },
+            description = { getTranslation(key = it.description) }
         )
     }
 }

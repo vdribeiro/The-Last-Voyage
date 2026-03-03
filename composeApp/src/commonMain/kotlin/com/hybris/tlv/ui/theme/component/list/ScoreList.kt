@@ -35,7 +35,7 @@ internal fun <T> ScoreList(
     utc: (T) -> String? = { null },
     settledPlanet: (T) -> String? = { null },
     habitability: (T) -> Double? = { null },
-    engine: (T) -> String? = { null },
+    engine: @Composable (T) -> String? = { null },
     assignedPoints: (T) -> Int? = { null },
     yearsTraveled: (T) -> Double? = { null },
     sensorRange: (T) -> Int? = { null },

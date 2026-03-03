@@ -33,9 +33,9 @@ internal fun EventCard(
             verticalArrangement = Arrangement.spacedBy(space = 2.dp),
             horizontalAlignment = Alignment.Start,
         ) {
-            name?.let { Text(text = getTranslation(key = it), style = typography.titleLarge, fontWeight = FontWeight.Bold) }
-            parent?.let { Text(text = getTranslation(key = it), style = typography.titleSmall) }
-            description?.let { Text(text = getTranslation(key = it), style = typography.bodyLarge) }
+            name?.let { Text(text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold) }
+            parent?.let { Text(text = it, style = typography.titleSmall) }
+            description?.let { Text(text = it, style = typography.bodyLarge) }
             outcome?.let { Text(text = it, style = typography.bodySmall) }
         }
     }

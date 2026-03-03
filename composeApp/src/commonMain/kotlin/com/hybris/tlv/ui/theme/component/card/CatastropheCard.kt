@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.text.Text
-import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
 internal fun CatastropheCard(
@@ -33,9 +32,9 @@ internal fun CatastropheCard(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start,
         ) {
-            name?.let { Text(text = getTranslation(key = it), style = typography.titleLarge, fontWeight = FontWeight.Bold) }
+            name?.let { Text(text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold) }
             if (name != null && description != null) Spacer(modifier = Modifier.height(height = 4.dp))
-            description?.let { Text(text = getTranslation(key = it), style = typography.bodyLarge) }
+            description?.let { Text(text = it, style = typography.bodyLarge) }
         }
     }
 }

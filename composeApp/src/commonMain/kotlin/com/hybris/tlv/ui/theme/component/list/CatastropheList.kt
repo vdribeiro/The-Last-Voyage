@@ -24,7 +24,8 @@ internal fun <T> CatastropheList(
     modifier: Modifier = Modifier,
     catastrophes: ImmutableList<T> = persistentListOf(),
     id: (T) -> String = { it.hashCode().toString() },
-    description: (T) -> String? = { null }
+    name: @Composable (T) -> String? = { null },
+    description: @Composable (T) -> String? = { null }
 ) {
     val titleTranslation: String = getTranslation(key = "catastrophe_screen__title")
 
@@ -50,7 +51,7 @@ internal fun <T> CatastropheList(
         ) {
             items(items = catastrophes, key = id) { catastrophe ->
                 CatastropheCard(
-                    name = id(catastrophe),
+                    name = name(catastrophe),
                     description = description(catastrophe)
                 )
             }
@@ -68,6 +69,7 @@ private fun CatastropheListPreview() = Preview {
             "Catastrophe 3",
         ),
         id = { it },
+        name = { it },
         description = { it },
     )
 }

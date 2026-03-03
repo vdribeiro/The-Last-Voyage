@@ -32,6 +32,7 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.list.EventList
 import com.hybris.tlv.ui.theme.component.text.Input
+import com.hybris.tlv.ui.theme.getTranslation
 
 @OptIn(FlowPreview::class)
 @Composable
@@ -78,8 +79,9 @@ internal fun EventExplorerScreen(store: Store<EventExplorerState, EventExplorerA
                 .padding(all = 16.dp),
             events = storeState.events,
             id = Event::id,
-            parentId = Event::parentId,
-            description = Event::description,
+            name = { getTranslation(key = it.id) },
+            parentId = { it.parentId?.let { parentId -> getTranslation(key = parentId) } },
+            description = { getTranslation(key = it.description) },
             outcome = { it.outcome?.toStringOutcome() }
         )
     }
