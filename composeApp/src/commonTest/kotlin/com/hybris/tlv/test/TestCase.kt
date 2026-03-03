@@ -19,8 +19,6 @@ import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
-import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
 import com.hybris.tlv.Dependency
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.MockLogger
@@ -191,7 +189,6 @@ internal abstract class TestCase: PlatformTestCase() {
         setContent {
             val compositionValues = listOf(
                 LocalLifecycleOwner provides lifecycleOwner,
-                LocalNavigationEventDispatcherOwner provides rememberNavigationEventDispatcherOwner()
             ) + compositionValues
             CompositionLocalProvider(*compositionValues.toTypedArray()) {
                 AppTheme {
