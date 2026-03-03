@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.achievement
 
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -16,7 +17,6 @@ import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.list.AchievementList
-import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
 internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
@@ -30,9 +30,9 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
                 .fillMaxSize()
                 .padding(all = 16.dp),
             achievements = storeState.achievements,
-            id = { getTranslation(key = it.id) },
-            description = { getTranslation(key = it.description) },
-            done = { it.done }
+            id = Achievement::id,
+            description = Achievement::description,
+            done = Achievement::done
         )
     }
 }
@@ -44,7 +44,7 @@ private fun AchievementScreenLoadingPreview() = Preview {
         store = Store(
             initialState = AchievementState(
                 loading = true,
-                achievements = emptyList()
+                achievements = persistentListOf()
             )
         )
     )
@@ -65,7 +65,7 @@ private fun AchievementScreenPreview() = Preview {
         store = Store(
             initialState = AchievementState(
                 loading = false,
-                achievements = listOf(
+                achievements = persistentListOf(
                     Achievement(
                         id = "Homecoming",
                         description = "Settle on Earth",

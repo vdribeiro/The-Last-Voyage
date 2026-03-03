@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,17 +62,7 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
         },
     ) {
         event?.let { event ->
-            val outcome = event.outcome?.let {
-                with(receiver = it) {
-                    buildList {
-                        add("\n")
-                        if (integrity != null) add("${if (integrity > 0) "+" else ""}$integrity ${getTranslation(key = "ship_integrity")}")
-                        if (materials != null) add("${if (materials > 0) "+" else ""}$materials ${getTranslation(key = "ship_materials")}")
-                        if (fuel != null) add("${if (fuel > 0.0) "+" else ""}$fuel ${getTranslation(key = "ship_fuel")}")
-                        if (cryopods != null) add("${if (cryopods > 0) "+" else ""}$cryopods ${getTranslation(key = "ship_cryopods")}")
-                    }.joinToString(separator = "\n")
-                }
-            }.orEmpty()
+            val outcome = remember(key1 = event.outcome) { event.outcome?.toStringOutcome().orEmpty() }
             TypewriterContent(
                 modifier = Modifier
                     .testTag(tag = "event_content")

@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
@@ -11,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.resource.ImageResource
-import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
@@ -23,7 +24,7 @@ import com.hybris.tlv.ui.theme.component.card.StellarHostCard
 import com.hybris.tlv.ui.theme.component.divider.Divider
 
 @Composable
-internal inline fun <T> StellarHostList(
+internal fun <T> StellarHostList(
     modifier: Modifier = Modifier,
     listState: LazyListState = LazyListState(),
     showPlanet: Boolean = false,
@@ -56,35 +57,35 @@ internal inline fun <T> StellarHostList(
     planetEsiScore: Double? = null,
     planetProtectionScore: Double? = null,
     planetTidalLockingScore: Double? = null,
-    stellarHosts: List<T> = emptyList(),
-    noinline stellarHostId: (T) -> String = { uuid() },
-    crossinline stellarHostName: (T) -> String? = { null },
-    crossinline stellarHostSystemName: (T) -> String? = { null },
-    crossinline stellarHostPlanetCount: (T) -> Int? = { null },
-    crossinline stellarHostSpectralType: (T) -> String? = { null },
-    crossinline stellarHostSpectralImage: (T) -> ImageResource? = { null },
-    crossinline stellarHostEffectiveTemperature: (T) -> Double? = { null },
-    crossinline stellarHostRadius: (T) -> Double? = { null },
-    crossinline stellarHostMass: (T) -> Double? = { null },
-    crossinline stellarHostMetallicity: (T) -> Double? = { null },
-    crossinline stellarHostLuminosity: (T) -> Double? = { null },
-    crossinline stellarHostGravity: (T) -> Double? = { null },
-    crossinline stellarHostAge: (T) -> Double? = { null },
-    crossinline stellarHostDensity: (T) -> Double? = { null },
-    crossinline stellarHostRotationalVelocity: (T) -> Double? = { null },
-    crossinline stellarHostRotationalPeriod: (T) -> Double? = { null },
-    crossinline stellarHostDistance: (T) -> Double? = { null },
-    crossinline stellarHostRa: (T) -> Double? = { null },
-    crossinline stellarHostDec: (T) -> Double? = { null },
-    crossinline stellarHostSpectralTypeScore: (T) -> Double? = { null },
-    crossinline stellarHostMassScore: (T) -> Double? = { null },
-    crossinline stellarHostAgeScore: (T) -> Double? = { null },
-    crossinline stellarHostActivityScore: (T) -> Double? = { null },
-    crossinline stellarHostRotationalPeriodScore: (T) -> Double? = { null },
-    crossinline stellarHostGravityScore: (T) -> Double? = { null },
-    crossinline stellarHostMetallicityScore: (T) -> Double? = { null },
-    crossinline stellarHostEffectiveTemperatureScore: (T) -> Double? = { null },
-    crossinline onStellarHostClick: (T) -> Unit = {}
+    stellarHosts: ImmutableList<T> = persistentListOf(),
+    stellarHostId: (T) -> String = { it.hashCode().toString() },
+    stellarHostName: (T) -> String? = { null },
+    stellarHostSystemName: (T) -> String? = { null },
+    stellarHostPlanetCount: (T) -> Int? = { null },
+    stellarHostSpectralType: (T) -> String? = { null },
+    stellarHostSpectralImage: (T) -> ImageResource? = { null },
+    stellarHostEffectiveTemperature: (T) -> Double? = { null },
+    stellarHostRadius: (T) -> Double? = { null },
+    stellarHostMass: (T) -> Double? = { null },
+    stellarHostMetallicity: (T) -> Double? = { null },
+    stellarHostLuminosity: (T) -> Double? = { null },
+    stellarHostGravity: (T) -> Double? = { null },
+    stellarHostAge: (T) -> Double? = { null },
+    stellarHostDensity: (T) -> Double? = { null },
+    stellarHostRotationalVelocity: (T) -> Double? = { null },
+    stellarHostRotationalPeriod: (T) -> Double? = { null },
+    stellarHostDistance: (T) -> Double? = { null },
+    stellarHostRa: (T) -> Double? = { null },
+    stellarHostDec: (T) -> Double? = { null },
+    stellarHostSpectralTypeScore: (T) -> Double? = { null },
+    stellarHostMassScore: (T) -> Double? = { null },
+    stellarHostAgeScore: (T) -> Double? = { null },
+    stellarHostActivityScore: (T) -> Double? = { null },
+    stellarHostRotationalPeriodScore: (T) -> Double? = { null },
+    stellarHostGravityScore: (T) -> Double? = { null },
+    stellarHostMetallicityScore: (T) -> Double? = { null },
+    stellarHostEffectiveTemperatureScore: (T) -> Double? = { null },
+    onStellarHostClick: (T) -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier,
@@ -201,7 +202,7 @@ private fun StellarHostListPreview() = Preview {
         planetHabitability = 0.9,
         planetRadius = 1.0,
         planetMass = 1.0,
-        stellarHosts = listOf(
+        stellarHosts = persistentListOf(
             "Host 1",
             "Host 2",
             "Host 3",

@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,15 +21,15 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
-internal inline fun <T> EventList(
+internal fun <T> EventList(
     modifier: Modifier = Modifier,
-    events: List<T> = emptyList(),
-    noinline id: (T) -> String = { uuid() },
-    crossinline description: (T) -> String? = { null },
-    crossinline parentId: (T) -> String? = { null }
+    titleTranslation: String = getTranslation(key = "event_screen__title"),
+    events: ImmutableList<T> = persistentListOf(),
+    id: (T) -> String = { it.hashCode().toString() },
+    parentId: (T) -> String? = { null },
+    description: (T) -> String? = { null },
+    outcome: (T) -> String? = { null }
 ) {
-    val titleTranslation = getTranslation(key = "event_screen__title")
-
     val typography = LocalTypography.current
 
     Column(
@@ -53,6 +55,7 @@ internal inline fun <T> EventList(
                     name = id(event),
                     description = description(event),
                     parent = parentId(event),
+                    outcome = outcome(event)
                 )
             }
         }
@@ -63,13 +66,14 @@ internal inline fun <T> EventList(
 @Composable
 private fun EventListPreview() = Preview {
     EventList(
-        events = listOf(
+        events = persistentListOf(
             "Event 1",
             "Event 2",
             "Event 3",
         ),
         id = { it },
+        parentId = { it },
         description = { it },
-        parentId = { it }
+        outcome = { it }
     )
 }

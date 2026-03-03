@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
@@ -22,6 +21,7 @@ import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
+import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
 internal fun AchievementCard(
@@ -45,15 +45,9 @@ internal fun AchievementCard(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start,
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    name?.let { Text(text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold) }
-                    if (name != null) Spacer(modifier = Modifier.width(width = 8.dp))
-                }
+                name?.let { Text(text = getTranslation(key = it), style = typography.titleLarge, fontWeight = FontWeight.Bold) }
                 if (name != null && description != null) Spacer(modifier = Modifier.height(height = 4.dp))
-                description?.let { Text(text = it, style = typography.bodyLarge) }
+                description?.let { Text(text = getTranslation(key = it), style = typography.bodyLarge) }
             }
             Spacer(modifier = Modifier.weight(weight = 0.1f))
             trailingIcon?.let { Box(modifier.align(alignment = Alignment.CenterVertically)) { Icon(imageVector = it) } }
@@ -70,12 +64,31 @@ private fun AchievementCardPreview() = Preview {
             description = "Achieve the X Factor",
             trailingIcon = Icons.Filled.Check,
         )
-        AchievementCard(name = "Star Quality")
-        AchievementCard(description = "Achieve the X Factor")
+        AchievementCard(
+            name = "Very very long name of the achievement",
+            description = "Very very long description of the achievement",
+            trailingIcon = Icons.Filled.Check,
+        )
+        AchievementCard(
+            name = "Star Quality"
+        )
+        AchievementCard(
+            description = "Achieve the X Factor"
+        )
+        AchievementCard(
+            trailingIcon = Icons.Filled.Check
+        )
+        AchievementCard(
+            name = "Star Quality",
+            description = "Achieve the X Factor",
+        )
         AchievementCard(
             name = "Star Quality",
             trailingIcon = Icons.Filled.Check
         )
-        AchievementCard(trailingIcon = Icons.Filled.Check)
+        AchievementCard(
+            description = "Achieve the X Factor",
+            trailingIcon = Icons.Filled.Check,
+        )
     }
 }

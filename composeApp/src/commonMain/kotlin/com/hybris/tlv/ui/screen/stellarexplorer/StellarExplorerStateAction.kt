@@ -1,5 +1,9 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableSet
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentSetOf
 import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
@@ -24,15 +28,15 @@ internal data class StellarExplorerState(
     val loading: Boolean = true,
     val currentContent: Content = Content.LIST_HOSTS,
     val listState: LazyListState = LazyListState(),
-    val stellarHosts: List<StellarHost> = emptyList(),
-    val planets: List<Planet> = emptyList(),
+    val stellarHosts: ImmutableList<StellarHost> = persistentListOf(),
+    val planets: ImmutableList<Planet> = persistentListOf(),
     val selectedStellarHost: StellarHost? = null,
     val selectedPlanet: Planet? = null,
     val search: String = "",
     val sortStellarHostProperty: StellarHostProperty = StellarHostProperty.DISTANCE,
     val sortPlanetProperty: PlanetProperty = PlanetProperty.HABITABILITY,
     val sortAscending: Boolean = true,
-    val visibleStellarHostProperties: Set<StellarHostProperty> = setOf(
+    val visibleStellarHostProperties: ImmutableSet<StellarHostProperty> = persistentSetOf(
         StellarHostProperty.NAME,
         StellarHostProperty.SYSTEM_NAME,
         StellarHostProperty.PLANET_COUNT,
@@ -51,7 +55,7 @@ internal data class StellarExplorerState(
         StellarHostProperty.RA,
         StellarHostProperty.DEC,
     ),
-    val visiblePlanetProperties: Set<PlanetProperty> = setOf(
+    val visiblePlanetProperties: ImmutableSet<PlanetProperty> = persistentSetOf(
         PlanetProperty.NAME,
         PlanetProperty.STATUS,
         PlanetProperty.HABITABILITY,
@@ -69,8 +73,8 @@ internal data class StellarExplorerState(
         PlanetProperty.INCLINATION,
         PlanetProperty.OBLIQUITY,
     ),
-    val searchableStellarHostProperties: Set<StellarHostProperty> = setOf(StellarHostProperty.NAME),
-    val searchablePlanetProperties: Set<PlanetProperty> = setOf(PlanetProperty.NAME)
+    val searchableStellarHostProperties: ImmutableSet<StellarHostProperty> = persistentSetOf(StellarHostProperty.NAME),
+    val searchablePlanetProperties: ImmutableSet<PlanetProperty> = persistentSetOf(PlanetProperty.NAME)
 )
 
 internal enum class Content {

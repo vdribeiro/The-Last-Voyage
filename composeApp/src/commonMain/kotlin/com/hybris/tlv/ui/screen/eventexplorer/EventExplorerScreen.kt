@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.eventexplorer
 
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -21,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.event.model.Event
+import com.hybris.tlv.domain.usecase.space.model.TravelOutcome
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
@@ -75,9 +77,10 @@ internal fun EventExplorerScreen(store: Store<EventExplorerState, EventExplorerA
                 .fillMaxSize()
                 .padding(all = 16.dp),
             events = storeState.events,
-            id = { it.id },
-            description = { it.description },
-            parentId = { it.parentId }
+            id = Event::id,
+            parentId = Event::parentId,
+            description = Event::description,
+            outcome = { it.outcome?.toStringOutcome() }
         )
     }
 }
@@ -89,7 +92,7 @@ private fun EventExplorerScreenLoadingPreview() = Preview {
         store = Store(
             initialState = EventExplorerState(
                 loading = true,
-                events = emptyList()
+                events = persistentListOf()
             )
         )
     )
@@ -110,7 +113,7 @@ private fun EventExplorerScreenPreview() = Preview {
         store = Store(
             initialState = EventExplorerState(
                 loading = false,
-                events = listOf(
+                events = persistentListOf(
                     Event(
                         id = "Engine Misfire",
                         description = "Your engine clogs unexpectedly.",
@@ -127,7 +130,9 @@ private fun EventExplorerScreenPreview() = Preview {
                         id = "Go for speed",
                         description = "You arrive sooner, but cause an engine strain, requiring repairs.",
                         parentId = "Push the Engine",
-                        outcome = null
+                        outcome = TravelOutcome(
+                            integrity = -5
+                        )
                     ),
                     Event(
                         id = "Travel at a normally.",

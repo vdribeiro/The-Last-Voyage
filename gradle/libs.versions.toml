@@ -6,6 +6,7 @@ kotlin = "2.3.10"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.10.0"
 kotlinx-datetime = "0.7.1"
+kotlinx-collections = "0.4.0"
 
 # Ktor
 ktor = "3.4.0"
@@ -62,6 +63,7 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections" }
 
 # Ktor
 ktor = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -127,6 +129,7 @@ common = [
     "kotlinx-coroutines-core",
     "kotlinx-serialization",
     "kotlinx-datetime",
+    "kotlinx-collections-immutable",
     "ktor",
     "ktor-logging",
     "ktor-content",

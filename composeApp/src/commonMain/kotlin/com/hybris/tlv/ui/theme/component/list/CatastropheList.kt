@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.CatastropheCard
@@ -19,14 +20,13 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
-internal inline fun <T> CatastropheList(
+internal fun <T> CatastropheList(
     modifier: Modifier = Modifier,
-    catastrophes: List<T> = emptyList(),
-    noinline id: (T) -> String = { uuid() },
-    crossinline description: (T) -> String? = { null }
+    titleTranslation: String = getTranslation(key = "catastrophe_screen__title"),
+    catastrophes: ImmutableList<T> = persistentListOf(),
+    id: (T) -> String = { it.hashCode().toString() },
+    description: (T) -> String? = { null }
 ) {
-    val titleTranslation = getTranslation(key = "catastrophe_screen__title")
-
     val typography = LocalTypography.current
 
     Column(
@@ -61,7 +61,7 @@ internal inline fun <T> CatastropheList(
 @Composable
 private fun CatastropheListPreview() = Preview {
     CatastropheList(
-        catastrophes = listOf(
+        catastrophes = persistentListOf(
             "Catastrophe 1",
             "Catastrophe 2",
             "Catastrophe 3",

@@ -146,7 +146,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                     planetProtectionScore = visiblePlanetProperties.ifContains(element = PlanetProperty.PROTECTION_SCORE, value = planet?.score?.planetProtectionScore),
                     planetTidalLockingScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TIDAL_LOCKING_SCORE, value = planet?.score?.planetTidalLockingScore),
                     stellarHosts = storeState.stellarHosts,
-                    stellarHostId = { it.id },
+                    stellarHostId = StellarHost::id,
                     stellarHostName = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.NAME, value = it.name) },
                     stellarHostSystemName = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = it.systemName) },
                     stellarHostPlanetCount = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.PLANET_COUNT, value = it.planets.size) },

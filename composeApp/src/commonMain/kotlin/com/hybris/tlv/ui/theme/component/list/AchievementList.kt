@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.list
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.card.AchievementCard
@@ -21,15 +22,14 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
-internal inline fun <T> AchievementList(
+internal fun <T> AchievementList(
     modifier: Modifier = Modifier,
-    achievements: List<T> = emptyList(),
-    noinline id: @Composable (T) -> String = { uuid() },
-    crossinline description: @Composable (T) -> String? = { null },
-    crossinline done: (T) -> Boolean = { false }
+    titleTranslation: String = getTranslation(key = "achievements_screen__title"),
+    achievements: ImmutableList<T> = persistentListOf(),
+    id: (T) -> String = { it.hashCode().toString() },
+    description: (T) -> String? = { null },
+    done: (T) -> Boolean = { false }
 ) {
-    val titleTranslation = getTranslation(key = "achievements_screen__title")
-
     val typography = LocalTypography.current
 
     Column(
@@ -65,7 +65,7 @@ internal inline fun <T> AchievementList(
 @Composable
 private fun AchievementListPreview() = Preview {
     AchievementList(
-        achievements = listOf(
+        achievements = persistentListOf(
             "Achievement 1",
             "Achievement 2",
             "Achievement 3",

@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.achievement
 
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.achievement.AchievementUseCases
@@ -17,7 +18,7 @@ internal class AchievementStore(
     private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
-        val achievements = achievementUseCases.getAchievements()
+        val achievements = achievementUseCases.getAchievements().toPersistentList()
         updateState {
             it.copy(
                 loading = false,

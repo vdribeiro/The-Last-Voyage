@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.catastropheexplorer
 
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -29,8 +30,8 @@ internal fun CatastropheExplorerScreen(store: Store<CatastropheExplorerState, Un
                 .fillMaxSize()
                 .padding(all = 16.dp),
             catastrophes = storeState.catastrophes,
-            id = { it.id },
-            description = { it.description }
+            id = Catastrophe::id,
+            description = Catastrophe::description
         )
     }
 }
@@ -42,7 +43,7 @@ private fun CatastropheExplorerScreenLoadingPreview() = Preview {
         store = Store(
             initialState = CatastropheExplorerState(
                 loading = true,
-                catastrophes = emptyList()
+                catastrophes = persistentListOf()
             )
         )
     )
@@ -63,7 +64,7 @@ private fun CatastropheExplorerScreenPreview() = Preview {
         store = Store(
             initialState = CatastropheExplorerState(
                 loading = false,
-                catastrophes = listOf(
+                catastrophes = persistentListOf(
                     Catastrophe(
                         id = "Asteroid",
                         description = "Go Boom!",

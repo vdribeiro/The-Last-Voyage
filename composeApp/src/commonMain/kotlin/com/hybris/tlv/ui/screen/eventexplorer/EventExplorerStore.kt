@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.eventexplorer
 
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,7 +45,7 @@ internal class EventExplorerStore(
             )
         }
             .distinctUntilChanged()
-            .mapLatest { criteria -> criteria.events.search(search = criteria.search) }
+            .mapLatest { criteria -> criteria.events.search(search = criteria.search).toPersistentList() }
             .flowOn(context = Dispatcher.Default)
             .onEach { events -> updateState { it.copy(events = events) } }
             .launchIn(scope = viewModelScope)

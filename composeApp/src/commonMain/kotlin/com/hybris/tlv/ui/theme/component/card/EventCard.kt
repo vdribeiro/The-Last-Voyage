@@ -2,12 +2,8 @@ package com.hybris.tlv.ui.theme.component.card
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,37 +19,24 @@ import com.hybris.tlv.ui.theme.getTranslation
 internal fun EventCard(
     modifier: Modifier = Modifier,
     name: String? = null,
-    description: String? = null,
     parent: String? = null,
+    description: String? = null,
     outcome: String? = null
 ) {
     val typography = LocalTypography.current
 
     Card(modifier = modifier) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(all = 16.dp),
-            verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.Start
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.Start,
         ) {
-            Column(
-                modifier = Modifier.weight(weight = 1f),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.Start,
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    name?.let { Text(text = getTranslation(key = it), style = typography.titleLarge, fontWeight = FontWeight.Bold) }
-                    if (name != null) Spacer(modifier = Modifier.width(width = 8.dp))
-                }
-                parent?.let { Text(text = getTranslation(key = it), style = typography.titleSmall) }
-                if (name != null && description != null) Spacer(modifier = Modifier.height(height = 4.dp))
-                description?.let { Text(text = getTranslation(key = it), style = typography.bodyLarge) }
-            }
-            Spacer(modifier = Modifier.weight(weight = 0.1f))
+            name?.let { Text(text = getTranslation(key = it), style = typography.titleLarge, fontWeight = FontWeight.Bold) }
+            parent?.let { Text(text = getTranslation(key = it), style = typography.titleSmall) }
+            description?.let { Text(text = getTranslation(key = it), style = typography.bodyLarge) }
+            outcome?.let { Text(text = it, style = typography.bodySmall) }
         }
     }
 }
@@ -64,18 +47,29 @@ private fun EventCardPreview() = Preview {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         EventCard(
             name = "Event",
-            parent = "Sub",
-            description = "Hammer Time",
-        )
-        EventCard(name = "Event")
-        EventCard(parent = "Sub")
-        EventCard(description = "Hammer Time")
-        EventCard(
-            name = "Event",
-            description = "Hammer Time",
+            parent = "Parent",
+            description = "Something happened",
+            outcome = "+1 materials\n-1 fuel"
         )
         EventCard(
+            name = "Very very long name of the event",
+            parent = "Very very long parent of the event that has a very long name",
+            description = "Very very long and longer description of the event",
+            outcome = "+1 materials and all the other stuff and things that are very very long"
+        )
+        EventCard(
             name = "Event",
+            parent = "Parent",
+            description = "Something happened",
+        )
+        EventCard(
+            name = "Event",
+            description = "Something happened",
+        )
+        EventCard(
+            name = "Event",
+            description = "Something happened",
+            outcome = "+1 materials\n-1 fuel"
         )
     }
 }
