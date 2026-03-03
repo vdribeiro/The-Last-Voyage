@@ -75,13 +75,6 @@ internal data class StellarExplorerState(
     ),
     val searchableStellarHostProperties: ImmutableSet<StellarHostProperty> = persistentSetOf(StellarHostProperty.NAME),
     val searchablePlanetProperties: ImmutableSet<PlanetProperty> = persistentSetOf(PlanetProperty.NAME),
-//    val properties: ImmutableList<String> = StellarHostProperty.entries.map { it.displayName }.toPersistentList(),
-//    val selectedProperty: String,
-//    val onSortChange: (String) -> Unit,
-//    val visibleProperties: ImmutableList<String>,
-//    val onVisibilityChange: (String) -> Unit,
-//    val selectedProperties: ImmutableList<String>,
-//    val onFiltersChange: (String) -> Unit
 )
 
 internal enum class Content {
