@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.theme.component.list
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
@@ -20,7 +21,7 @@ internal class StellarHostListTest: TestCase() {
             StellarHostList(
                 showPlanet = showPlanet.value,
                 planetName = planetName,
-                stellarHosts = listOf("Kepler-442"),
+                stellarHosts = persistentListOf("Kepler-442"),
                 stellarHostName = { it }
             )
         }
@@ -32,7 +33,7 @@ internal class StellarHostListTest: TestCase() {
 
     @Test
     fun stellarHostClick() = runUITest {
-        val items = listOf("Sol", "Alpha Centauri A", "Sirius")
+        val items = persistentListOf("Sol", "Alpha Centauri A", "Sirius")
         var clickedHost: String? = null
 
         setUI {

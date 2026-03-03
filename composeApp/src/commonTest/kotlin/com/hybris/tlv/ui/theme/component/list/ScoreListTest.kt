@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme.component.list
 
 import kotlin.test.Test
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
@@ -12,7 +13,7 @@ internal class ScoreListTest: TestCase() {
 
     @Test
     fun expand() = runUITest {
-        val items = listOf("Score A")
+        val items = persistentListOf("Score A")
 
         setUI {
             ScoreList(
@@ -34,12 +35,12 @@ internal class ScoreListTest: TestCase() {
 
     @Test
     fun expanded() = runUITest {
-        val items = listOf("Score A", "Score B")
+        val items = persistentListOf("Score A", "Score B")
 
         setUI {
             ScoreList(
                 scores = items,
-                expandedItems = listOf("Score A"),
+                expandedItems = persistentListOf("Score A"),
                 id = { it },
                 settledPlanet = { "Earth" }
             )

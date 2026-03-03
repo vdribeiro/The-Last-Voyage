@@ -1,6 +1,8 @@
 package com.hybris.tlv.ui.theme.component.container
 
 import kotlin.test.Test
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
@@ -25,7 +27,7 @@ internal class PropertyListTest: TestCase() {
 
     @Test
     fun titleAndItems() = runUITest {
-        val items = listOf("Alpha", "Beta", "Gamma")
+        val items = persistentListOf("Alpha", "Beta", "Gamma")
         val title = "Star Properties"
 
         setUI {
@@ -48,7 +50,7 @@ internal class PropertyListTest: TestCase() {
     fun headerAndFooter() = runUITest {
         setUI {
             PropertyList(
-                properties = listOf("Item 1"),
+                properties = persistentListOf("Item 1"),
                 id = { it },
                 header = { Text(text = "Header Content") },
                 footer = { Text(text = "Footer Content") }
@@ -61,7 +63,7 @@ internal class PropertyListTest: TestCase() {
 
     @Test
     fun scroll() = runUITest {
-        val items = (1..50).map { "Property $it" }
+        val items = (1..50).map { "Property $it" }.toPersistentList()
 
         setUI {
             PropertyList(
