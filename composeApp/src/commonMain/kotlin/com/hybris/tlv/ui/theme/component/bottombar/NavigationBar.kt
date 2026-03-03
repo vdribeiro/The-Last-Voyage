@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.bottombar
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
@@ -17,14 +19,14 @@ import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
-internal inline fun <T> NavigationBar(
+internal fun <T> NavigationBar(
     modifier: Modifier = Modifier,
-    items: List<T> = emptyList(),
-    crossinline enabled: (T) -> Boolean = { true },
-    crossinline selected: (T) -> Boolean = { false },
-    crossinline text: (T) -> String? = { null },
-    crossinline icon: (T) -> ImageVector? = { null },
-    crossinline onClick: (T) -> Unit = {}
+    items: ImmutableList<T> = persistentListOf(),
+    enabled: (T) -> Boolean = { true },
+    selected: (T) -> Boolean = { false },
+    text: (T) -> String? = { null },
+    icon: (T) -> ImageVector? = { null },
+    onClick: (T) -> Unit = {}
 ) {
     val typography = LocalTypography.current
 
@@ -54,7 +56,7 @@ internal inline fun <T> NavigationBar(
 @Composable
 private fun NavigationBarPreview() = Preview {
     NavigationBar(
-        items = listOf(
+        items = persistentListOf(
             "Home",
             "Apps",
         ),

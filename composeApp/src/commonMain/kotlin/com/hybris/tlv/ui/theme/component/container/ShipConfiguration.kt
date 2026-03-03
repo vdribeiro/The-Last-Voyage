@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.container
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
@@ -29,7 +30,7 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
-internal inline fun <T> ShipConfiguration(
+internal fun <T> ShipConfiguration(
     modifier: Modifier = Modifier,
     remainingPoints: Int = 0,
     sensorRange: AttributePoint? = null,
@@ -37,13 +38,13 @@ internal inline fun <T> ShipConfiguration(
     materials: AttributePoint? = null,
     cryopods: AttributePoint? = null,
     selectedEngineId: String? = null,
-    engines: List<T> = emptyList(),
-    noinline id: (T) -> String = { uuid() },
-    crossinline description: (T) -> String? = { null },
-    crossinline velocity: (T) -> Double? = { null },
-    crossinline fuelConsumption: (T) -> Double? = { null },
-    crossinline cost: (T) -> Int? = { null },
-    crossinline onEngineClick: (T) -> Unit = {}
+    engines: ImmutableList<T> = persistentListOf(),
+    id: (T) -> String = { it.hashCode().toString() },
+    description: (T) -> String? = { null },
+    velocity: (T) -> Double? = { null },
+    fuelConsumption: (T) -> Double? = { null },
+    cost: (T) -> Int? = { null },
+    onEngineClick: (T) -> Unit = {}
 ) {
     val shipPointsTranslation = getTranslation(key = "new_game_screen__ship_points")
     val sensorTranslation = getTranslation(key = "ship_sensor")
@@ -155,7 +156,7 @@ private fun ShipConfigurationPreview() = Preview {
         sensorRange = AttributePoint(),
         cryopods = AttributePoint(),
         selectedEngineId = "1",
-        engines = listOf(
+        engines = persistentListOf(
             "Engine 1",
             "Engine 2",
             "Engine 3"

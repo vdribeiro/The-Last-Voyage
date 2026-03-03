@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme.component.container
 
 import kotlin.test.Test
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
@@ -37,7 +38,7 @@ internal class ShipConfigurationTest: TestCase() {
 
     @Test
     fun engineSelection() = runUITest {
-        val engines = listOf("Nuclear", "Ion")
+        val engines = persistentListOf("Nuclear", "Ion")
         val selectedEngineId = mutableStateOf(value = "Nuclear")
 
         setUI {

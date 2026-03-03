@@ -22,11 +22,12 @@ import com.hybris.tlv.ui.theme.getTranslation
 @Composable
 internal fun <T> CatastropheList(
     modifier: Modifier = Modifier,
-    titleTranslation: String = getTranslation(key = "catastrophe_screen__title"),
     catastrophes: ImmutableList<T> = persistentListOf(),
     id: (T) -> String = { it.hashCode().toString() },
     description: (T) -> String? = { null }
 ) {
+    val titleTranslation: String = getTranslation(key = "catastrophe_screen__title")
+
     val typography = LocalTypography.current
 
     Column(

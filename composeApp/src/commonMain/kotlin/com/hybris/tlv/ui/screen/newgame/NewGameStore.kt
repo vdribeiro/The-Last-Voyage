@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.newgame
 
 import kotlin.concurrent.Volatile
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.gamesession.GameSessionUseCases
@@ -41,7 +42,7 @@ internal class NewGameStore(
     private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
-        val engines = shipUseCases.getEngines()
+        val engines = shipUseCases.getEngines().toPersistentList()
         if (engines.isEmpty()) {
             navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: no engines on setup()"))
             return@launch

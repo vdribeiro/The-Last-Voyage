@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.theme.component.bottombar
 
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Hub
@@ -33,7 +34,7 @@ internal fun GameNavigationBar(
 
     NavigationBar(
         modifier = modifier.fillMaxWidth(),
-        items = listOf(
+        items = persistentListOf(
             GameNavigationItem(
                 enabled = shipEnabled,
                 selected = shipSelected,

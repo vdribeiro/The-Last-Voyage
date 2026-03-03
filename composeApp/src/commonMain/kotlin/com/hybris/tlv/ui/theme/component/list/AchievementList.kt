@@ -24,12 +24,13 @@ import com.hybris.tlv.ui.theme.getTranslation
 @Composable
 internal fun <T> AchievementList(
     modifier: Modifier = Modifier,
-    titleTranslation: String = getTranslation(key = "achievements_screen__title"),
     achievements: ImmutableList<T> = persistentListOf(),
     id: (T) -> String = { it.hashCode().toString() },
     description: (T) -> String? = { null },
     done: (T) -> Boolean = { false }
 ) {
+    val titleTranslation: String = getTranslation(key = "achievements_screen__title")
+
     val typography = LocalTypography.current
 
     Column(

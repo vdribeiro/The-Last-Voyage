@@ -1,7 +1,9 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentSet
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -54,31 +56,31 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             val viewName = if (isHostView) hostListTranslation else planetListTranslation
             val viewIcon = if (isHostView) Icons.Default.Flare else Icons.Default.Public
             val count = if (isHostView) storeState.stellarHosts.size else storeState.planets.size
-            val properties: List<String>
+            val properties: ImmutableList<String>
             val selectedProperty: String
             val onSortChange: (String) -> Unit
-            val visibleProperties: List<String>
+            val visibleProperties: ImmutableList<String>
             val onVisibilityChange: (String) -> Unit
-            val selectedProperties: List<String>
+            val selectedProperties: ImmutableList<String>
             val onFiltersChange: (String) -> Unit
             when (isHostView) {
                 true -> {
-                    properties = stellarHostProperties.values.toList()
+                    properties = stellarHostProperties.values.toPersistentList()
                     selectedProperty = stellarHostProperties[storeState.sortStellarHostProperty].orEmpty()
                     onSortChange = { property -> stellarHostProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.SortStellarHosts(sort = it)) } }
-                    visibleProperties = storeState.visibleStellarHostProperties.mapNotNull { stellarHostProperties[it] }
+                    visibleProperties = storeState.visibleStellarHostProperties.mapNotNull { stellarHostProperties[it] }.toPersistentList()
                     onVisibilityChange = { property -> stellarHostProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = it)) } }
-                    selectedProperties = storeState.searchableStellarHostProperties.mapNotNull { stellarHostProperties[it] }
+                    selectedProperties = storeState.searchableStellarHostProperties.mapNotNull { stellarHostProperties[it] }.toPersistentList()
                     onFiltersChange = { property -> stellarHostProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.ChangeStellarHostsSearchable(property = it)) } }
                 }
 
                 false -> {
-                    properties = planetProperties.values.toList()
+                    properties = planetProperties.values.toPersistentList()
                     selectedProperty = planetProperties[storeState.sortPlanetProperty].orEmpty()
                     onSortChange = { property -> planetProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.SortPlanets(sort = it)) } }
-                    visibleProperties = storeState.visiblePlanetProperties.mapNotNull { planetProperties[it] }
+                    visibleProperties = storeState.visiblePlanetProperties.mapNotNull { planetProperties[it] }.toPersistentList()
                     onVisibilityChange = { property -> planetProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.ChangePlanetVisibility(property = it)) } }
-                    selectedProperties = storeState.searchablePlanetProperties.mapNotNull { planetProperties[it] }
+                    selectedProperties = storeState.searchablePlanetProperties.mapNotNull { planetProperties[it] }.toPersistentList()
                     onFiltersChange = { property -> planetProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.ChangePlanetSearchable(property = it)) } }
                 }
             }

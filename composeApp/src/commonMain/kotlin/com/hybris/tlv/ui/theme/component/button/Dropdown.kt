@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.theme.component.button
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -18,15 +20,15 @@ import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @Composable
-internal inline fun <T> Dropdown(
+internal fun <T> Dropdown(
     modifier: Modifier = Modifier,
     expanded: Boolean = false,
-    noinline onDismissRequest: () -> Unit = {},
-    items: List<T> = emptyList(),
-    crossinline enabled: (T) -> Boolean = { true },
-    crossinline text: (T) -> String? = { null },
-    crossinline onClick: (T) -> Unit = {},
-    crossinline leadingIcon: (T) -> (@Composable () -> Unit)? = { null }
+    onDismissRequest: () -> Unit = {},
+    items: ImmutableList<T> = persistentListOf(),
+    enabled: (T) -> Boolean = { true },
+    text: (T) -> String? = { null },
+    onClick: (T) -> Unit = {},
+    leadingIcon: (T) -> (@Composable () -> Unit)? = { null }
 ) {
     val typography = LocalTypography.current
 
@@ -63,7 +65,7 @@ private fun DropdownPreview() = Preview {
             ) {
                 Dropdown(
                     expanded = true,
-                    items = listOf(
+                    items = persistentListOf(
                         "Item 1",
                         "Item 2",
                         "Item 3",

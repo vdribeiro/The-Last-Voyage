@@ -1,5 +1,8 @@
 package com.hybris.tlv.ui.theme.component.topbar
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -60,14 +63,14 @@ internal fun ControlPanel(
     viewIcon: ImageVector? = null,
     onChangeView: () -> Unit = {},
     count: Int? = null,
-    properties: List<String> = emptyList(),
+    properties: ImmutableList<String> = persistentListOf(),
     selectedProperty: String? = null,
     ascending: Boolean = true,
     onSortChange: (String) -> Unit = {},
     onSortDirectionChange: () -> Unit = {},
-    visibleProperties: List<String> = emptyList(),
+    visibleProperties: ImmutableList<String> = persistentListOf(),
     onVisibilityChange: (String) -> Unit = {},
-    selectedProperties: List<String> = emptyList(),
+    selectedProperties: ImmutableList<String> = persistentListOf(),
     onFiltersChange: (String) -> Unit = {}
 ) {
     val shapes = LocalShapes.current
@@ -198,8 +201,8 @@ private data class DropdownItem(
 @Composable
 private fun SearchMenu(
     enabled: Boolean,
-    properties: List<String>,
-    selectedProperties: List<String>,
+    properties: ImmutableList<String>,
+    selectedProperties: ImmutableList<String>,
     onFiltersChange: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(value = false) }
@@ -230,11 +233,11 @@ private fun SearchMenu(
                         } else Spacer(modifier = Modifier.size(size = 24.dp))
                     }
                 )
-            },
-            enabled = { it.enabled },
-            text = { it.text },
+            }.toPersistentList(),
+            enabled = DropdownItem::enabled,
+            text = DropdownItem::text,
             onClick = { it.onClick() },
-            leadingIcon = { it.leadingIcon }
+            leadingIcon = DropdownItem::leadingIcon
         )
     }
 }
@@ -291,11 +294,11 @@ private fun SortMenu(
                         }
                     }
                 )
-            },
-            enabled = { it.enabled },
-            text = { it.text },
+            }.toPersistentList(),
+            enabled = DropdownItem::enabled,
+            text = DropdownItem::text,
             onClick = { it.onClick() },
-            leadingIcon = { it.leadingIcon }
+            leadingIcon = DropdownItem::leadingIcon
         )
     }
 }
@@ -335,11 +338,11 @@ private fun VisibilityMenu(
                         } else Spacer(modifier = Modifier.size(size = 24.dp))
                     }
                 )
-            },
-            enabled = { it.enabled },
-            text = { it.text },
+            }.toPersistentList(),
+            enabled = DropdownItem::enabled,
+            text = DropdownItem::text,
             onClick = { it.onClick() },
-            leadingIcon = { it.leadingIcon }
+            leadingIcon = DropdownItem::leadingIcon
         )
     }
 }
@@ -354,11 +357,11 @@ private fun ControlPanelPreview() = Preview {
             viewName = "Planets",
             viewIcon = Icons.Default.Public,
             count = 2000,
-            properties = listOf("Name", "Status", "Habitability", "Confidence"),
+            properties = persistentListOf("Name", "Status", "Habitability", "Confidence"),
             selectedProperty = "Name",
             ascending = true,
-            visibleProperties = listOf("Name", "Status"),
-            selectedProperties = listOf("Status")
+            visibleProperties = persistentListOf("Name", "Status"),
+            selectedProperties = persistentListOf("Status")
         )
         ControlPanel(
             enabled = false,
@@ -366,7 +369,7 @@ private fun ControlPanelPreview() = Preview {
             viewName = "Planets",
             viewIcon = Icons.Default.Public,
             count = 2000,
-            properties = listOf("Name", "Status", "Habitability", "Confidence"),
+            properties = persistentListOf("Name", "Status", "Habitability", "Confidence"),
             ascending = true,
         )
         ControlPanel(

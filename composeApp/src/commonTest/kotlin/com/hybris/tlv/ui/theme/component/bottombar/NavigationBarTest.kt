@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.theme.component.bottombar
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotSelected
@@ -15,7 +16,7 @@ internal class NavigationBarTest: TestCase() {
 
     @Test
     fun itemsAreDisplayed() = runUITest {
-        val items = listOf("Home", "Search", "Settings")
+        val items = persistentListOf("Home", "Search", "Settings")
         val selectedItem = "Search"
         var capturedItem: String? = null
 
@@ -39,7 +40,7 @@ internal class NavigationBarTest: TestCase() {
 
     @Test
     fun disabled() = runUITest {
-        val items = listOf("Home")
+        val items = persistentListOf("Home")
         var clickCount = 0
 
         setUI {

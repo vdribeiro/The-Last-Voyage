@@ -22,13 +22,14 @@ import com.hybris.tlv.ui.theme.getTranslation
 @Composable
 internal fun <T> EventList(
     modifier: Modifier = Modifier,
-    titleTranslation: String = getTranslation(key = "event_screen__title"),
     events: ImmutableList<T> = persistentListOf(),
     id: (T) -> String = { it.hashCode().toString() },
     parentId: (T) -> String? = { null },
     description: (T) -> String? = { null },
     outcome: (T) -> String? = { null }
 ) {
+    val titleTranslation: String = getTranslation(key = "event_screen__title")
+
     val typography = LocalTypography.current
 
     Column(

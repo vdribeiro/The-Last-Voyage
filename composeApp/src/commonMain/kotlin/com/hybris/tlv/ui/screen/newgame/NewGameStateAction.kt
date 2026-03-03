@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.screen.newgame
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import com.hybris.tlv.domain.usecase.ship.model.Engine
 import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.ui.theme.component.button.AttributePoint
@@ -13,7 +15,7 @@ internal sealed interface NewGameAction {
 internal data class NewGameState(
     val loading: Boolean = true,
     val shipState: ShipState? = null,
-    val engines: List<Engine> = emptyList(),
+    val engines: ImmutableList<Engine> = persistentListOf(),
 )
 
 internal data class ShipState(

@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.theme.component.button
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
@@ -14,7 +15,7 @@ internal class DropdownTest: TestCase() {
 
     @Test
     fun expanded() = runUITest {
-        val items = listOf("Mercury", "Venus", "Mars")
+        val items = persistentListOf("Mercury", "Venus", "Mars")
         val expanded = mutableStateOf(value = true)
 
         setUI {
@@ -33,7 +34,7 @@ internal class DropdownTest: TestCase() {
 
     @Test
     fun itemClick() = runUITest {
-        val items = listOf("Earth", "Jupiter")
+        val items = persistentListOf("Earth", "Jupiter")
         var capturedItem: String? = null
 
         setUI {
@@ -51,7 +52,7 @@ internal class DropdownTest: TestCase() {
 
     @Test
     fun disabled() = runUITest {
-        val items = listOf("Saturn")
+        val items = persistentListOf("Saturn")
         var clickCount = 0
 
         setUI {

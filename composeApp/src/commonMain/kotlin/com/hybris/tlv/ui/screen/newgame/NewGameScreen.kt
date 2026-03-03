@@ -66,11 +66,11 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
             cryopods = shipState.cryopods,
             selectedEngineId = shipState.engine.id,
             engines = storeState.engines,
-            id = { it.id },
-            description = { it.description },
-            velocity = { it.velocity },
-            fuelConsumption = { it.fuelConsumption },
-            cost = { it.cost },
+            id = Engine::id,
+            description = Engine::description,
+            velocity = Engine::velocity,
+            fuelConsumption = Engine::fuelConsumption,
+            cost = Engine::cost,
             onEngineClick = { engine -> store.send(action = NewGameAction.SelectEngine(engine = engine)) }
         )
     }

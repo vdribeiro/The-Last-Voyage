@@ -3,6 +3,7 @@ package com.hybris.tlv.ui.theme.component.topbar
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.ui.test.ExperimentalTestApi
@@ -35,7 +36,7 @@ internal class ControlPanelTest: TestCase() {
         var isAscending = true
         setUI {
             ControlPanel(
-                properties = listOf("Name"),
+                properties = persistentListOf("Name"),
                 ascending = isAscending,
                 onSortDirectionChange = { isAscending = !isAscending }
             )
@@ -48,7 +49,7 @@ internal class ControlPanelTest: TestCase() {
     @Test
     fun visibility() = runUITest {
         var toggledProperty = ""
-        val properties = listOf("Name", "Type")
+        val properties = persistentListOf("Name", "Type")
 
         setUI {
             ControlPanel(
