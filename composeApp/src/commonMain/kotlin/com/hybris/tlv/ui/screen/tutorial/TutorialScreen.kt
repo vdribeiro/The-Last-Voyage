@@ -212,7 +212,7 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
                     planetDensity = { 3.934 },
                     planetEquilibriumTemperature = { 210.0 },
                     planetHabitability = { 0.8 },
-                    planetType = { PlanetType.EARTH_LIKE_PLANET.displayName },
+                    planetType = { getTranslation(key = PlanetType.EARTH_LIKE_PLANET.displayName) },
                     planetImage = { PlanetType.EARTH_LIKE_PLANET.toImage() },
                     onClick = { store.send(action = TutorialAction.Next) },
                     footer = {

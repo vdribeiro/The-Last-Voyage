@@ -36,6 +36,7 @@ internal class PropertyListTest: TestCase() {
                 title = title,
                 properties = items,
                 id = { it },
+                name = { it },
                 description = { "description $it" }
             )
         }
