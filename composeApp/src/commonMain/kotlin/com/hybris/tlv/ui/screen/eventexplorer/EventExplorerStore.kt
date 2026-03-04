@@ -7,10 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.onEach
-import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.event.EventUseCases
@@ -33,20 +31,27 @@ internal class EventExplorerStore(
         Telemetry.info(tag = TAG, message = "Setup")
 
         observeEvents()
+
+        val criteriaFlow = stateFlow.map { state ->
+            FilterEventsCriteria(search = state.search)
+        }.distinctUntilChanged()
+
         combine(
-            flow = stateFlow,
+            flow = criteriaFlow,
             flow2 = eventsFlow
-        ) { state, events ->
-            FilterCriteria(
-                search = state.search,
+        ) { criteria, events ->
+            FilterEventsCriteriaCombine(
+                search = criteria.search,
                 events = events
             )
         }
-            .distinctUntilChanged()
-            .mapLatest { criteria -> criteria.events.search(search = criteria.search).toPersistentList() }
+            .mapLatest { criteriaCombine ->
+                criteriaCombine.events.search(search = criteriaCombine.search).toPersistentList()
+            }
             .flowOn(context = Dispatcher.Default)
-            .onEach { events -> updateState { it.copy(events = events) } }
-            .launchIn(scope = viewModelScope)
+            .observe(id = "filterEvents") { events ->
+                updateState { it.copy(events = events) }
+            }
 
         Telemetry.info(tag = TAG, message = "Setup complete")
     }

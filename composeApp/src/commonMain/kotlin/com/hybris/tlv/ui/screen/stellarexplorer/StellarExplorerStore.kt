@@ -10,12 +10,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.onEach
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
@@ -81,7 +78,7 @@ internal class StellarExplorerStore(
                 }
             }
             .flowOn(context = Dispatcher.Default)
-            .onEach { (stellarHosts, planets) ->
+            .observe(id = "combineStellarHostsAndPlanets") { (stellarHosts, planets) ->
                 updateState {
                     it.copy(
                         stellarHosts = stellarHosts ?: it.stellarHosts,
@@ -89,7 +86,6 @@ internal class StellarExplorerStore(
                     )
                 }
             }
-            .launchIn(scope = viewModelScope)
 
         Telemetry.info(tag = TAG, message = "Setup complete")
     }

@@ -90,7 +90,6 @@ internal fun EventExplorerScreen(store: Store<EventExplorerState, EventExplorerA
             outcome = {
                 it.outcome?.let { outcome ->
                     buildList {
-                        add(element = "\n")
                         if (outcome.integrity != null) add(element = "${if (outcome.integrity > 0) "+" else ""}${outcome.integrity} $integrityTranslation")
                         if (outcome.materials != null) add(element = "${if (outcome.materials > 0) "+" else ""}${outcome.materials} $materialsTranslation")
                         if (outcome.fuel != null) add(element = "${if (outcome.fuel > 0.0) "+" else ""}${outcome.fuel} $fuelTranslation")
