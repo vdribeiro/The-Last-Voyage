@@ -4,7 +4,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.updateAndGet
 
 internal object FeatureFlags {
-    private val _flags: MutableStateFlow<Flags> = MutableStateFlow(value = Flags())
+    private val _flags: MutableStateFlow<Flags> = MutableStateFlow(
+        value = Flags(
+            devMode = false,
+            reset = false,
+            http = false,
+            archive = false,
+            music = false,
+            engines = false
+        )
+    )
     val flags: Flags get() = _flags.value
 
     /**

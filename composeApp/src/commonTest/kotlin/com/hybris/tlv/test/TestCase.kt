@@ -50,7 +50,8 @@ internal abstract class TestCase: PlatformTestCase() {
         reset = true,
         http = true,
         archive = true,
-        music = false
+        music = false,
+        engines = true
     )
 
     /**

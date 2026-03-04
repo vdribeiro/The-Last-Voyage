@@ -5,8 +5,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.flow.firstOrNull
 import androidx.compose.foundation.lazy.LazyListState
-import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
 import com.hybris.tlv.ui.navigation.Screen
@@ -18,6 +18,7 @@ internal class StellarExplorerStoreTest: TestCase() {
         dependency.get().useCases.space.syncStellarHosts()
         dependency.get().useCases.space.syncPlanets()
         val store = storeFactory.get().getStellarExplorerStore()
+        store.stateFlow.firstOrNull() // Trigger observe
         assertFalse(store.state.loading)
         assertEquals(expected = Content.LIST_HOSTS, actual = store.state.currentContent)
         assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemIndex)
@@ -94,6 +95,7 @@ internal class StellarExplorerStoreTest: TestCase() {
         dependency.get().useCases.space.syncStellarHosts()
         dependency.get().useCases.space.syncPlanets()
         val store = storeFactory.get().getStellarExplorerStore()
+        store.stateFlow.firstOrNull() // Trigger observe
 
         store.send(action = StellarExplorerAction.Search(search = FakeData.stellarHosts.get().first().name))
         assertEquals(expected = listOf(FakeData.stellarHosts.get().first()), actual = store.state.stellarHosts)
