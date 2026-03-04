@@ -39,6 +39,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      */
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = initialState)
     val stateFlow: StateFlow<State> = _stateFlow.asStateFlow()
+    val state: State get() = stateFlow.value
 
     /**
      * Active jobs launched by the Store.

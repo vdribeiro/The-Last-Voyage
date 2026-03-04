@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,8 +37,6 @@ import com.hybris.tlv.ui.theme.getTranslation
 internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExplorerAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
     val currentContent = storeState.currentContent
-    val visibleStellarHostProperties = storeState.visibleStellarHostProperties
-    val visiblePlanetProperties = storeState.visiblePlanetProperties
 
     val hostListTranslation = getTranslation(key = "stellar_explorer_screen__host_list")
     val planetListTranslation = getTranslation(key = "stellar_explorer_screen__planet_list")
@@ -49,17 +46,10 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
         onBackClick = { store.send(action = StellarExplorerAction.Back) },
         topBar = {
             // Control panel definitions according to selected view
-            val isHostView = remember(key1 = currentContent) { currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS) }
+            val isHostView = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS)
             val viewName = if (isHostView) hostListTranslation else planetListTranslation
             val viewIcon = if (isHostView) Icons.Default.Flare else Icons.Default.Public
             val count = if (isHostView) storeState.stellarHosts.size else storeState.planets.size
-            val properties: ImmutableList<String> = storeState.properties.map { getTranslation(key = it) }.toPersistentList()
-            val selectedProperty: String
-            val onSortChange: (String) -> Unit
-            val visibleProperties: ImmutableList<String>
-            val onVisibilityChange: (String) -> Unit
-            val selectedProperties: ImmutableList<String>
-            val onFiltersChange: (String) -> Unit
             when (isHostView) {
                 true -> {
                     properties = stellarHostProperties.values.toPersistentList()
