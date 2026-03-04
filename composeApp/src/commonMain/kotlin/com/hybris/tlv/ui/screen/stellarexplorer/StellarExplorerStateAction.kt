@@ -4,6 +4,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
+import kotlinx.collections.immutable.toPersistentList
 import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
@@ -75,6 +76,13 @@ internal data class StellarExplorerState(
     ),
     val searchableStellarHostProperties: ImmutableSet<StellarHostProperty> = persistentSetOf(StellarHostProperty.NAME),
     val searchablePlanetProperties: ImmutableSet<PlanetProperty> = persistentSetOf(PlanetProperty.NAME),
+    val properties: ImmutableList<String> = StellarHostProperty.entries.map { it.displayName }.toPersistentList(),
+    val selectedProperty: String,
+    val onSortChange: (String) -> Unit,
+    val visibleProperties: ImmutableList<String>,
+    val onVisibilityChange: (String) -> Unit,
+    val selectedProperties: ImmutableList<String>,
+    val onFiltersChange: (String) -> Unit
 )
 
 internal enum class Content {

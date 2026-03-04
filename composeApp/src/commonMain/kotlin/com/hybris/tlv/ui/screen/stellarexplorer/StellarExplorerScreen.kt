@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,12 +38,8 @@ import com.hybris.tlv.ui.theme.getTranslation
 internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExplorerAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
     val currentContent = storeState.currentContent
-    val listState = storeState.listState
     val visibleStellarHostProperties = storeState.visibleStellarHostProperties
     val visiblePlanetProperties = storeState.visiblePlanetProperties
-
-    val stellarHostProperties = StellarHostProperty.entries.associateWith { getTranslation(key = it.displayName) }
-    val planetProperties = PlanetProperty.entries.associateWith { getTranslation(key = it.displayName) }
 
     val hostListTranslation = getTranslation(key = "stellar_explorer_screen__host_list")
     val planetListTranslation = getTranslation(key = "stellar_explorer_screen__planet_list")
@@ -52,11 +49,11 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
         onBackClick = { store.send(action = StellarExplorerAction.Back) },
         topBar = {
             // Control panel definitions according to selected view
-            val isHostView = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS)
+            val isHostView = remember(key1 = currentContent) { currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS) }
             val viewName = if (isHostView) hostListTranslation else planetListTranslation
             val viewIcon = if (isHostView) Icons.Default.Flare else Icons.Default.Public
             val count = if (isHostView) storeState.stellarHosts.size else storeState.planets.size
-            val properties: ImmutableList<String>
+            val properties: ImmutableList<String> = storeState.properties.map { getTranslation(key = it) }.toPersistentList()
             val selectedProperty: String
             val onSortChange: (String) -> Unit
             val visibleProperties: ImmutableList<String>
@@ -119,37 +116,37 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                         .testTag(tag = "stellar_explorer_host_list")
                         .fillMaxSize()
                         .padding(all = 16.dp),
-                    listState = listState,
+                    listState = storeState.listState,
                     showPlanet = currentContent == Content.DETAIL_PLANETS && planet != null,
-                    planetName = visiblePlanetProperties.ifContains(element = PlanetProperty.NAME, value = planet?.name),
-                    planetStatus = visiblePlanetProperties.ifContains(element = PlanetProperty.STATUS, value = planet?.status?.displayName)?.let { getTranslation(key = it) },
-                    planetHabitability = visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABILITY, value = planet?.score?.habitabilityScore),
-                    planetConfidence = visiblePlanetProperties.ifContains(element = PlanetProperty.CONFIDENCE, value = planet?.score?.confidenceScore),
-                    planetOrbitalPeriod = visiblePlanetProperties.ifContains(element = PlanetProperty.ORBITAL_PERIOD, value = planet?.orbitalPeriod),
-                    planetOrbitAxis = visiblePlanetProperties.ifContains(element = PlanetProperty.ORBIT_AXIS, value = planet?.orbitAxis),
-                    planetRadius = visiblePlanetProperties.ifContains(element = PlanetProperty.RADIUS, value = planet?.radius),
-                    planetMass = visiblePlanetProperties.ifContains(element = PlanetProperty.MASS, value = planet?.mass),
-                    planetDensity = visiblePlanetProperties.ifContains(element = PlanetProperty.DENSITY, value = planet?.density),
-                    planetEccentricity = visiblePlanetProperties.ifContains(element = PlanetProperty.ECCENTRICITY, value = planet?.eccentricity),
-                    planetInsolationFlux = visiblePlanetProperties.ifContains(element = PlanetProperty.INSOLATION_FLUX, value = planet?.insolationFlux),
-                    planetEquilibriumTemperature = visiblePlanetProperties.ifContains(element = PlanetProperty.TEMPERATURE, value = planet?.equilibriumTemperature),
-                    planetOccultationDepth = visiblePlanetProperties.ifContains(element = PlanetProperty.OCCULTATION_DEPTH, value = planet?.occultationDepth),
-                    planetInclination = visiblePlanetProperties.ifContains(element = PlanetProperty.INCLINATION, value = planet?.inclination),
-                    planetObliquity = visiblePlanetProperties.ifContains(element = PlanetProperty.OBLIQUITY, value = planet?.obliquity),
-                    planetType = visiblePlanetProperties.ifContains(element = PlanetProperty.TYPE, value = planet?.score?.planetType?.displayName)?.let { getTranslation(key = it) },
+                    planetName = planet?.name?.ifBlank { null },
+                    planetStatus = visiblePlanetProperties.ifContains(element = PlanetProperty.STATUS, value = planet?.status)?.displayName?.let { getTranslation(key = it) },
+                    planetHabitability = planet?.score?.habitabilityScore?.let { if (it.isNaN()) null else it },
+                    planetConfidence = planet?.score?.confidenceScore?.let { if (it.isNaN()) null else it },
+                    planetOrbitalPeriod = planet?.orbitalPeriod,
+                    planetOrbitAxis = planet?.orbitAxis,
+                    planetRadius = planet?.radius,
+                    planetMass = planet?.mass,
+                    planetDensity = planet?.density,
+                    planetEccentricity = planet?.eccentricity,
+                    planetInsolationFlux = planet?.insolationFlux,
+                    planetEquilibriumTemperature = planet?.equilibriumTemperature,
+                    planetOccultationDepth = planet?.occultationDepth,
+                    planetInclination = planet?.inclination,
+                    planetObliquity = planet?.obliquity,
+                    planetType = planet?.score?.planetType?.displayName?.let { getTranslation(key = it) },
                     planetImage = visiblePlanetProperties.ifContains(element = PlanetProperty.TYPE, value = planet?.score?.planetType.toImage()),
-                    planetRocheScore = visiblePlanetProperties.ifContains(element = PlanetProperty.ROCHE_SCORE, value = planet?.score?.rocheScore),
-                    planetHabitableZoneKopparapuScore = visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABLE_ZONE_KOPPARAPU_SCORE, value = planet?.score?.habitableZoneKopparapuScore),
-                    planetHabitableZoneKastingScore = visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABLE_ZONE_KASTING_SCORE, value = planet?.score?.habitableZoneKastingScore),
-                    planetRadiusScore = visiblePlanetProperties.ifContains(element = PlanetProperty.RADIUS_SCORE, value = planet?.score?.planetRadiusScore),
-                    planetMassScore = visiblePlanetProperties.ifContains(element = PlanetProperty.MASS_SCORE, value = planet?.score?.planetMassScore),
-                    planetTelluricityScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TELLURICITY_SCORE, value = planet?.score?.planetTelluricityScore),
-                    planetEccentricityScore = visiblePlanetProperties.ifContains(element = PlanetProperty.ECCENTRICITY_SCORE, value = planet?.score?.planetEccentricityScore),
-                    planetTemperatureScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TEMPERATURE_SCORE, value = planet?.score?.planetTemperatureScore),
-                    planetObliquityScore = visiblePlanetProperties.ifContains(element = PlanetProperty.OBLIQUITY_SCORE, value = planet?.score?.planetObliquityScore),
-                    planetEsiScore = visiblePlanetProperties.ifContains(element = PlanetProperty.ESI_SCORE, value = planet?.score?.planetEsiScore),
-                    planetProtectionScore = visiblePlanetProperties.ifContains(element = PlanetProperty.PROTECTION_SCORE, value = planet?.score?.planetProtectionScore),
-                    planetTidalLockingScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TIDAL_LOCKING_SCORE, value = planet?.score?.planetTidalLockingScore),
+                    planetRocheScore = planet?.score?.rocheScore,
+                    planetHabitableZoneKopparapuScore = planet?.score?.habitableZoneKopparapuScore,
+                    planetHabitableZoneKastingScore = planet?.score?.habitableZoneKastingScore,
+                    planetRadiusScore = planet?.score?.planetRadiusScore,
+                    planetMassScore = planet?.score?.planetMassScore,
+                    planetTelluricityScore = planet?.score?.planetTelluricityScore,
+                    planetEccentricityScore = planet?.score?.planetEccentricityScore,
+                    planetTemperatureScore = planet?.score?.planetTemperatureScore,
+                    planetObliquityScore = planet?.score?.planetObliquityScore,
+                    planetEsiScore = planet?.score?.planetEsiScore,
+                    planetProtectionScore = planet?.score?.planetProtectionScore,
+                    planetTidalLockingScore = planet?.score?.planetTidalLockingScore,
                     stellarHosts = storeState.stellarHosts,
                     stellarHostId = StellarHost::id,
                     stellarHostName = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.NAME, value = it.name) },
@@ -179,7 +176,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                     stellarHostMetallicityScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.METALLICITY_SCORE, value = it.score?.stellarMetallicityScore) },
                     stellarHostEffectiveTemperatureScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE, value = it.score?.stellarEffectiveTemperatureScore) },
                     onStellarHostClick = {
-                        store.send(action = StellarExplorerAction.SaveListState(listState = listState))
+                        store.send(action = StellarExplorerAction.SaveListState(listState = storeState.listState))
                         store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = it))
                     }
                 )
@@ -192,7 +189,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                         .testTag(tag = "stellar_explorer_planet_list")
                         .fillMaxSize()
                         .padding(all = 16.dp),
-                    listState = listState,
+                    listState = storeState.listState,
                     showStellarHost = currentContent == Content.DETAIL_HOSTS && stellarHost != null,
                     stellarHostName = visibleStellarHostProperties.ifContains(element = StellarHostProperty.NAME, value = stellarHost?.name),
                     stellarHostSystemName = visibleStellarHostProperties.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = stellarHost?.systemName),
@@ -252,7 +249,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                     planetProtectionScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.PROTECTION_SCORE, value = it.score?.planetProtectionScore) },
                     planetTidalLockingScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.TIDAL_LOCKING_SCORE, value = it.score?.planetTidalLockingScore) },
                     onPlanetClick = {
-                        store.send(action = StellarExplorerAction.SaveListState(listState = listState))
+                        store.send(action = StellarExplorerAction.SaveListState(listState = storeState.listState))
                         store.send(action = StellarExplorerAction.OpenPlanet(planet = it))
                     }
                 )
