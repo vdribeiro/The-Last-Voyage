@@ -76,7 +76,7 @@ internal data class StellarExplorerState(
     ),
     val searchableStellarHostProperties: ImmutableSet<StellarHostProperty> = persistentSetOf(StellarHostProperty.NAME),
     val searchablePlanetProperties: ImmutableSet<PlanetProperty> = persistentSetOf(PlanetProperty.NAME),
-    val properties: ImmutableList<String> = StellarHostProperty.entries.map { it.displayName }.toPersistentList(),
+    val properties: ImmutableList<String> = persistentListOf(),
     val selectedProperty: String,
     val onSortChange: (String) -> Unit,
     val visibleProperties: ImmutableList<String>,
@@ -159,5 +159,6 @@ internal data class FilterCriteria(
     val sortAscending: Boolean,
     val searchableStellarHostProperties: Set<StellarHostProperty>,
     val searchablePlanetProperties: Set<PlanetProperty>,
-    val stellarHosts: List<StellarHost>
+    val stellarHosts: List<StellarHost>,
+    val translations: Map<String, String>
 )

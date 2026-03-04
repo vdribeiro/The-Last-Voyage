@@ -9,19 +9,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.onEach
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.space.formula.Habitability
 import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
-import com.hybris.tlv.test.VisibleForTesting
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.ui.screen.Store
 
 internal class StellarExplorerStore(
@@ -29,10 +26,8 @@ internal class StellarExplorerStore(
 ): Store<StellarExplorerState, StellarExplorerAction>(
     initialState = StellarExplorerState()
 ) {
-    @VisibleForTesting
-    internal val formula: Formula = Formula()
-    @VisibleForTesting
-    internal val stellarHostsFlow: MutableStateFlow<List<StellarHost>> = MutableStateFlow(value = emptyList())
+    private val formula: Formula = Formula()
+    private val stellarHostsFlow: MutableStateFlow<List<StellarHost>> = MutableStateFlow(value = emptyList())
 
     init {
         setup()
@@ -41,12 +36,12 @@ internal class StellarExplorerStore(
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun setup() {
         Telemetry.info(tag = TAG, message = "Setup")
-
         observeExoplanets()
         combine(
             flow = stateFlow,
-            flow2 = stellarHostsFlow
-        ) { state, stellarHosts ->
+            flow2 = stellarHostsFlow,
+            flow3 = TranslationCache.cacheState
+        ) { state, stellarHosts, translations ->
             FilterCriteria(
                 currentContent = state.currentContent,
                 search = state.search,
@@ -55,7 +50,8 @@ internal class StellarExplorerStore(
                 sortAscending = state.sortAscending,
                 searchableStellarHostProperties = state.searchableStellarHostProperties,
                 searchablePlanetProperties = state.searchablePlanetProperties,
-                stellarHosts = stellarHosts
+                stellarHosts = stellarHosts,
+                translations = translations
             )
         }
             .distinctUntilChanged()
@@ -78,37 +74,37 @@ internal class StellarExplorerStore(
                 }
             }
             .flowOn(context = Dispatcher.Default)
-            .onEach { (stellarHosts, planets) ->
+            .observe(id = "setup") { (stellarHosts, planets) ->
                 updateState {
                     it.copy(
                         stellarHosts = stellarHosts ?: it.stellarHosts,
-                        planets = planets ?: it.planets
+                        planets = planets ?: it.planets,
                     )
                 }
             }
-            .launchIn(scope = viewModelScope)
 
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    private fun observeExoplanets(): Job = spaceUseCases.observeExoplanets().map { stellarHosts ->
-        stellarHosts.apply {
-            forEach { stellarHost ->
-                stellarHost.score = Habitability.calculateScores(
-                    stellarHost = stellarHost,
-                    planet = null,
-                    formula = formula
-                )
-                stellarHost.planets.forEach { planet ->
-                    planet.score = Habitability.calculateScores(
+    private fun observeExoplanets(): Job = spaceUseCases.observeExoplanets()
+        .map { stellarHosts ->
+            stellarHosts.apply {
+                forEach { stellarHost ->
+                    stellarHost.score = Habitability.calculateScores(
                         stellarHost = stellarHost,
-                        planet = planet,
+                        planet = null,
                         formula = formula
                     )
+                    stellarHost.planets.forEach { planet ->
+                        planet.score = Habitability.calculateScores(
+                            stellarHost = stellarHost,
+                            planet = planet,
+                            formula = formula
+                        )
+                    }
                 }
             }
         }
-    }
         .flowOn(context = Dispatcher.Default)
         .observe(id = "observeExoplanets") { stellarHosts ->
             stellarHostsFlow.value = stellarHosts

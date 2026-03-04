@@ -96,7 +96,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 viewIcon = viewIcon,
                 onChangeView = { store.send(action = StellarExplorerAction.ChangeView) },
                 count = count,
-                properties = properties,
+                properties = storeState.properties,
                 selectedProperty = selectedProperty,
                 ascending = storeState.sortAscending,
                 onSortChange = onSortChange,
