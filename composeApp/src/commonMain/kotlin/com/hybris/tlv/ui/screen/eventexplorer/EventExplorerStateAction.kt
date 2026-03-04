@@ -19,6 +19,6 @@ internal data class FilterEventsCriteria(
 )
 
 internal data class FilterEventsCriteriaCombine(
-    val search: String,
+    val criteria: FilterEventsCriteria,
     val events: List<Event>
 )

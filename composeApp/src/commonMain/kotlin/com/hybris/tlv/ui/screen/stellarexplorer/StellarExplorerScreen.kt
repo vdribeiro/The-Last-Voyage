@@ -101,13 +101,13 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 onChangeView = { store.send(action = StellarExplorerAction.ChangeView) },
                 count = count,
                 properties = properties,
-                selectedProperty = selectedProperty,
+                sortProperty = selectedProperty,
                 ascending = storeState.sortAscending,
                 onSortChange = onSortChange,
                 onSortDirectionChange = { store.send(action = StellarExplorerAction.ChangeSortDirection) },
                 visibleProperties = visibleProperties,
                 onVisibilityChange = onVisibilityChange,
-                selectedProperties = selectedProperties,
+                searchProperties = selectedProperties,
                 onFiltersChange = onFiltersChange,
             )
         }

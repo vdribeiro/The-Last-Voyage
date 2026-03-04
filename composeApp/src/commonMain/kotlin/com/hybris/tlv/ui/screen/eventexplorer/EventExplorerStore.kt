@@ -26,41 +26,43 @@ internal class EventExplorerStore(
         setup()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
         observeEvents()
 
-        val criteriaFlow = stateFlow.map { state ->
-            FilterEventsCriteria(search = state.search)
-        }.distinctUntilChanged()
+        Telemetry.info(tag = TAG, message = "Setup complete")
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun observeEvents() {
+        eventUseCases.observeEvents()
+            .observe(id = "observeEvents") { events ->
+                eventsFlow.value = events
+                updateState { it.copy(loading = false) }
+            }
+
+        val criteriaFlow = stateFlow
+            .map { state -> FilterEventsCriteria(search = state.search) }
+            .distinctUntilChanged()
 
         combine(
             flow = criteriaFlow,
             flow2 = eventsFlow
         ) { criteria, events ->
             FilterEventsCriteriaCombine(
-                search = criteria.search,
+                criteria = criteria,
                 events = events
             )
         }
             .mapLatest { criteriaCombine ->
-                criteriaCombine.events.search(search = criteriaCombine.search).toPersistentList()
+                criteriaCombine.events.search(search = criteriaCombine.criteria.search).toPersistentList()
             }
             .flowOn(context = Dispatcher.Default)
             .observe(id = "filterEvents") { events ->
                 updateState { it.copy(events = events) }
             }
-
-        Telemetry.info(tag = TAG, message = "Setup complete")
     }
-
-    private fun observeEvents(): Job = eventUseCases.observeEvents()
-        .observe(id = "observeEvents") { events ->
-            eventsFlow.value = events
-            updateState { it.copy(loading = false) }
-        }
 
     override fun reducer(state: EventExplorerState, action: EventExplorerAction) {
         when (action) {
