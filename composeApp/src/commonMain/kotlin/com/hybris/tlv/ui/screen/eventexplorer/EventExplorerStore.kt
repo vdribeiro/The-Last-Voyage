@@ -15,7 +15,6 @@ import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.event.EventUseCases
 import com.hybris.tlv.domain.usecase.event.model.Event
-import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.screen.Store
 
 internal class EventExplorerStore(
@@ -23,8 +22,7 @@ internal class EventExplorerStore(
 ): Store<EventExplorerState, EventExplorerAction>(
     initialState = EventExplorerState()
 ) {
-    @VisibleForTesting
-    internal var eventsFlow: MutableStateFlow<List<Event>> = MutableStateFlow(value = emptyList())
+    private val eventsFlow: MutableStateFlow<List<Event>> = MutableStateFlow(value = emptyList())
 
     init {
         setup()
