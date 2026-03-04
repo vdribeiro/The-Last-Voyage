@@ -44,6 +44,7 @@ internal class StellarExplorerStore(
     private fun setup() {
         Telemetry.info(tag = TAG, message = "Setup")
 
+        // TODO - refactor this. input and output should not be in the same combine
         observeExoplanets()
         combine(
             flow = stateFlow,
