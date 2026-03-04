@@ -2,12 +2,83 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
+import com.hybris.tlv.domain.usecase.space.toImage
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+
+internal fun List<StellarHost>.toExoplanetsHost(): Exoplanets {
+}
+
+internal fun StellarHost.toExoplanetsHost(): Exoplanets.Host = Exoplanets.Host(
+    id = id,
+    name = name,
+    systemName = systemName,
+    spectralType = spectralType,
+    spectralTypeScore = score?.stellarSpectralTypeScore,
+    effectiveTemperature = effectiveTemperature,
+    effectiveTemperatureScore = score?.stellarEffectiveTemperatureScore,
+    radius = radius,
+    mass = mass,
+    massScore = score?.stellarMassScore,
+    metallicity = metallicity,
+    metallicityScore = score?.stellarMetallicityScore,
+    luminosity = luminosity,
+    gravity = gravity,
+    gravityScore = score?.stellarGravityScore,
+    age = age,
+    ageScore = score?.stellarAgeScore,
+    density = density,
+    rotationalVelocity = rotationalVelocity,
+    activityScore = score?.stellarActivityScore,
+    rotationalPeriod = rotationalPeriod,
+    rotationalPeriodScore = score?.stellarRotationalPeriodScore,
+    distance = distance,
+    ra = ra,
+    dec = dec,
+    image = spectralType.spectralTypeToImage(),
+    planetCount = planets.size
+)
+
+internal fun Planet.toExoplanetsPlanet(): Exoplanets.Planet = Exoplanets.Planet(
+    id = id,
+    name = name,
+    stellarHostId = stellarHostId,
+    status = TranslationCache.get(key = status.displayName),
+    orbitalPeriod = orbitalPeriod,
+    orbitAxis = orbitAxis,
+    radius = radius,
+    radiusScore = score?.planetRadiusScore,
+    mass = mass,
+    massScore = score?.planetMassScore,
+    density = density,
+    telluricityScore = score?.planetTelluricityScore,
+    eccentricity = eccentricity,
+    eccentricityScore = score?.planetEccentricityScore,
+    insolationFlux = insolationFlux,
+    equilibriumTemperature = equilibriumTemperature,
+    temperatureScore = score?.planetTemperatureScore,
+    occultationDepth = occultationDepth,
+    inclination = inclination,
+    obliquity = obliquity,
+    obliquityScore = score?.planetObliquityScore,
+    habitabilityScore = score?.habitabilityScore,
+    confidenceScore = score?.confidenceScore,
+    rocheScore = score?.rocheScore,
+    habitableZoneKopparapuScore = score?.habitableZoneKopparapuScore,
+    habitableZoneKastingScore = score?.habitableZoneKastingScore,
+    esiScore = score?.planetEsiScore,
+    protectionScore = score?.planetProtectionScore,
+    tidalLockingScore = score?.planetTidalLockingScore,
+    type = score?.planetType?.displayName?.let { TranslationCache.get(key = it) },
+    image = score?.planetType?.toImage()
+)
 
 internal fun List<StellarHost>.searchAndSortStellarHosts(
     search: String,
-    searchable: Set<StellarHostProperty>,
-    sort: StellarHostProperty,
-    ascending: Boolean
+    searchable: List<String>,
+    sort: String,
+    ascending: Boolean,
+    visible: List<String>
 ): List<StellarHost> = searchStellarHosts(
     search = search,
     searchable = searchable,

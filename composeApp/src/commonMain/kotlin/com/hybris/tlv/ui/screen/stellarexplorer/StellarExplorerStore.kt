@@ -1,5 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
+import kotlin.concurrent.Volatile
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.PersistentSet
 import kotlinx.collections.immutable.persistentListOf
@@ -23,6 +24,7 @@ import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.TranslationCache.getTranslation
+import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.screen.Store
 
 internal class StellarExplorerStore(
@@ -32,6 +34,52 @@ internal class StellarExplorerStore(
 ) {
     private val formula: Formula = Formula()
     private val stellarHostsFlow: MutableStateFlow<List<StellarHost>> = MutableStateFlow(value = emptyList())
+    @VisibleForTesting
+    @Volatile
+    internal var selectedStellarHost
+
+    val visibleStellarHostProperties: ImmutableSet<StellarHostProperty> = persistentSetOf(
+        StellarHostProperty.NAME,
+        StellarHostProperty.SYSTEM_NAME,
+        StellarHostProperty.PLANET_COUNT,
+        StellarHostProperty.SPECTRAL_TYPE,
+        StellarHostProperty.TEMPERATURE,
+        StellarHostProperty.RADIUS,
+        StellarHostProperty.MASS,
+        StellarHostProperty.METALLICITY,
+        StellarHostProperty.LUMINOSITY,
+        StellarHostProperty.GRAVITY,
+        StellarHostProperty.AGE,
+        StellarHostProperty.DENSITY,
+        StellarHostProperty.ROTATIONAL_VELOCITY,
+        StellarHostProperty.ROTATIONAL_PERIOD,
+        StellarHostProperty.DISTANCE,
+        StellarHostProperty.RA,
+        StellarHostProperty.DEC,
+    )
+    val visiblePlanetProperties: ImmutableSet<PlanetProperty> = persistentSetOf(
+        PlanetProperty.NAME,
+        PlanetProperty.STATUS,
+        PlanetProperty.HABITABILITY,
+        PlanetProperty.CONFIDENCE,
+        PlanetProperty.TYPE,
+        PlanetProperty.ORBITAL_PERIOD,
+        PlanetProperty.ORBIT_AXIS,
+        PlanetProperty.RADIUS,
+        PlanetProperty.MASS,
+        PlanetProperty.DENSITY,
+        PlanetProperty.ECCENTRICITY,
+        PlanetProperty.INSOLATION_FLUX,
+        PlanetProperty.TEMPERATURE,
+        PlanetProperty.OCCULTATION_DEPTH,
+        PlanetProperty.INCLINATION,
+        PlanetProperty.OBLIQUITY,
+    )
+//    val sortStellarHostProperty: StellarHostProperty = StellarHostProperty.DISTANCE
+//    val sortPlanetProperty: PlanetProperty = PlanetProperty.HABITABILITY
+//
+//    val searchableStellarHostProperties: ImmutableSet<StellarHostProperty> = persistentSetOf(StellarHostProperty.NAME)
+//    val searchablePlanetProperties: ImmutableSet<PlanetProperty> = persistentSetOf(PlanetProperty.NAME)
 
     init {
         setup()
@@ -113,11 +161,10 @@ internal class StellarExplorerStore(
                 FilterExoplanetsCriteria(
                     currentContent = state.currentContent,
                     search = state.search,
-                    sortStellarHostProperty = state.sortStellarHostProperty,
-                    sortPlanetProperty = state.sortPlanetProperty,
+                    sortProperty = state.sortProperty,
                     sortAscending = state.sortAscending,
-                    searchableStellarHostProperties = state.searchableStellarHostProperties,
-                    searchablePlanetProperties = state.searchablePlanetProperties,
+                    visibleProperties = state.visibleProperties,
+                    searchProperties = state.searchProperties
                 )
             }
             .distinctUntilChanged()
@@ -125,45 +172,41 @@ internal class StellarExplorerStore(
         combine(
             flow = criteriaFlow,
             flow2 = stellarHostsFlow,
-        ) { state, stellarHosts ->
-            FilterCriteria(
-                currentContent = state.currentContent,
-                search = state.search,
-                sortStellarHostProperty = state.sortStellarHostProperty,
-                sortPlanetProperty = state.sortPlanetProperty,
-                sortAscending = state.sortAscending,
-                searchableStellarHostProperties = state.searchableStellarHostProperties,
-                searchablePlanetProperties = state.searchablePlanetProperties,
-                stellarHosts = stellarHosts,
+        ) { criteria, stellarHosts ->
+            FilterExoplanetsCriteriaCombine(
+                criteria = criteria,
+                stellarHosts = stellarHosts
             )
         }
-            .distinctUntilChanged()
-            .mapLatest { criteria ->
-                with(receiver = criteria) {
-                    state.copy(
-                        stellarHosts = if (currentContent == Content.LIST_HOSTS) stellarHosts.searchAndSortStellarHosts(
-                            search = search,
-                            searchable = searchableStellarHostProperties,
-                            sort = sortStellarHostProperty,
-                            ascending = sortAscending
-                        ).toPersistentList() else state.stellarHosts,
-                        planets = if (currentContent == Content.LIST_PLANETS) stellarHosts.flatMap { it.planets }.searchAndSortPlanets(
-                            search = search,
-                            searchable = searchablePlanetProperties,
-                            sort = sortPlanetProperty,
-                            ascending = sortAscending
-                        ).toPersistentList() else state.planets
+            .mapLatest { criteriaCombine ->
+                when (criteriaCombine.criteria.currentContent) {
+                    Content.LIST_HOSTS -> criteriaCombine.stellarHosts.searchAndSortStellarHosts(
+                        search = criteriaCombine.criteria.search,
+                        searchable = criteriaCombine.criteria.searchProperties,
+                        sort = criteriaCombine.criteria.sortProperty,
+                        ascending = criteriaCombine.criteria.sortAscending,
+                        visible = criteriaCombine.criteria.visibleProperties
                     )
+                    Content.DETAIL_HOSTS -> TODO()
+                    Content.LIST_PLANETS -> TODO()
+                    Content.DETAIL_PLANETS -> TODO()
                 }
+                stellarHosts = if (currentContent == Content.LIST_HOSTS) stellarHosts.searchAndSortStellarHosts(
+                    search = search,
+                    searchable = searchableStellarHostProperties,
+                    sort = sortStellarHostProperty,
+                    ascending = sortAscending
+                ).toPersistentList() else state.stellarHosts,
+                planets = if (currentContent == Content.LIST_PLANETS) stellarHosts.flatMap { it.planets }.searchAndSortPlanets(
+                    search = search,
+                    searchable = searchablePlanetProperties,
+                    sort = sortPlanetProperty,
+                    ascending = sortAscending
+                ).toPersistentList() else state.planets
             }
             .flowOn(context = Dispatcher.Default)
-            .observe(id = "stellarHosts") {
-                updateState {
-                    it.copy(
-                        stellarHosts = stellarHosts ?: it.stellarHosts,
-                        planets = planets ?: it.planets,
-                    )
-                }
+            .observe(id = "stellarHosts") { exoplanets ->
+                updateState { it.copy(exoplanets = exoplanets) }
             }
     }
 

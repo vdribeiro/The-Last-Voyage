@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
-import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentSet
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,6 +11,7 @@ import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,27 +42,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
         loading = storeState.loading,
         onBackClick = { store.send(action = StellarExplorerAction.Back) },
         topBar = {
-            // Control panel definitions according to selected view
-            val isHostView = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS)
-            when (isHostView) {
-                true -> {
-                    selectedProperty = stellarHostProperties[storeState.sortStellarHostProperty].orEmpty()
-                    onSortChange = { property -> stellarHostProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.SortStellarHosts(sort = it)) } }
-                    visibleProperties = storeState.visibleStellarHostProperties.mapNotNull { stellarHostProperties[it] }.toPersistentList()
-                    onVisibilityChange = { property -> stellarHostProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = it)) } }
-                    searchProperties = storeState.searchableStellarHostProperties.mapNotNull { stellarHostProperties[it] }.toPersistentList()
-                    onFiltersChange = { property -> stellarHostProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.ChangeStellarHostsSearchable(property = it)) } }
-                }
-
-                false -> {
-                    selectedProperty = planetProperties[storeState.sortPlanetProperty].orEmpty()
-                    onSortChange = { property -> planetProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.SortPlanets(sort = it)) } }
-                    visibleProperties = storeState.visiblePlanetProperties.mapNotNull { planetProperties[it] }.toPersistentList()
-                    onVisibilityChange = { property -> planetProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.ChangePlanetVisibility(property = it)) } }
-                    searchProperties = storeState.searchablePlanetProperties.mapNotNull { planetProperties[it] }.toPersistentList()
-                    onFiltersChange = { property -> planetProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.ChangePlanetSearchable(property = it)) } }
-                }
-            }
+            val isHostView = remember(key1 = currentContent) { currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS) }
             ControlPanel(
                 modifier = Modifier
                     .testTag(tag = "stellar_explorer_control_panel")
@@ -77,16 +57,16 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 viewName = if (isHostView) hostListTranslation else planetListTranslation,
                 viewIcon = if (isHostView) Icons.Default.Flare else Icons.Default.Public,
                 onChangeView = { store.send(action = StellarExplorerAction.ChangeView) },
-                count = if (isHostView) storeState.stellarHosts.size else storeState.planets.size,
+                count = if (isHostView) storeState.exoplanets.stellarHosts.size else storeState.exoplanets.planets.size,
                 properties = storeState.properties,
                 sortProperty = storeState.sortProperty,
                 ascending = storeState.sortAscending,
-                onSortChange = onSortChange,
+                onSortChange = { store.send(action = StellarExplorerAction.Sort(sort = it)) },
                 onSortDirectionChange = { store.send(action = StellarExplorerAction.ChangeSortDirection) },
-                visibleProperties = visibleProperties,
-                onVisibilityChange = onVisibilityChange,
-                searchProperties = searchProperties,
-                onFiltersChange = onFiltersChange,
+                visibleProperties = storeState.visibleProperties,
+                onVisibilityChange = { store.send(action = StellarExplorerAction.ChangeVisibility(property = it)) },
+                searchProperties = storeState.searchProperties,
+                onFiltersChange = { store.send(action = StellarExplorerAction.ChangeSearchable(property = it)) },
             )
         }
     ) {
@@ -128,12 +108,11 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             onStellarHostClick = {
                 store.send(action = StellarExplorerAction.SaveListState(listState = storeState.listState))
                 store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = it))
-                store.send(action = StellarExplorerAction.OpenPlanet(planet = it))
             },
             planets = storeState.exoplanets.planets,
             planetId = Exoplanets.Planet::id,
             planetName = { it.name },
-            planetStatus = { it.status?.displayName?.let { status -> getTranslation(key = status) } },
+            planetStatus = { it.status },
             planetHabitability = { it.habitabilityScore },
             planetConfidence = { it.confidenceScore },
             planetOrbitalPeriod = { it.orbitalPeriod },
@@ -147,7 +126,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             planetOccultationDepth = { it.occultationDepth },
             planetInclination = { it.inclination },
             planetObliquity = { it.obliquity },
-            planetType = { it.type?.displayName?.let { type -> getTranslation(key = type) } },
+            planetType = { it.type },
             planetImage = { it.image },
             planetRocheScore = { it.rocheScore },
             planetHabitableZoneKopparapuScore = { it.habitableZoneKopparapuScore },
@@ -163,7 +142,6 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             planetTidalLockingScore = { it.tidalLockingScore },
             onPlanetClick = {
                 store.send(action = StellarExplorerAction.SaveListState(listState = storeState.listState))
-                store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = it))
                 store.send(action = StellarExplorerAction.OpenPlanet(planet = it))
             },
         )
