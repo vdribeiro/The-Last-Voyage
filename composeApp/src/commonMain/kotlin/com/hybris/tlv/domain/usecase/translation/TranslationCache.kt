@@ -1,8 +1,11 @@
 package com.hybris.tlv.domain.usecase.translation
 
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.translation.model.Translation
@@ -36,11 +39,21 @@ internal object TranslationCache {
     }
 
     /**
-     * Gets a translation for a specific key.
+     * Gets a translation for a specific [key] with optional arguments [args].
      */
-    fun get(key: String, vararg args: String): String {
-        val rawValue = _cacheState.value[key] ?: key
-        if (args.isEmpty()) return rawValue
-        return args.foldIndexed(initial = rawValue) { index, translation, arg -> translation.replace(oldValue = $$"%$${index + 1}$s", newValue = arg) }
+    fun get(key: String, vararg args: String): String =
+        _cacheState.value.getTranslation(key = key, args = args)
+
+    /**
+     * Observes a translation for a specific [key] with optional arguments [args].
+     */
+    fun observe(key: String, vararg args: String): Flow<String> =
+        _cacheState.map { it.getTranslation(key = key, args = args) }.distinctUntilChanged()
+
+    private fun Map<String, String>.getTranslation(key: String, vararg args: String): String {
+        val rawValue = this[key] ?: key
+        return if (args.isEmpty()) rawValue else args.foldIndexed(initial = rawValue) { index, translation, arg ->
+            translation.replace(oldValue = $$"%$${index + 1}$s", newValue = arg)
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.hybris.tlv.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -27,14 +28,21 @@ internal fun App(
     navController: NavHostController = rememberNavController(),
     dependency: Dependency? = null
 ) {
-    val compositionValues = compositionValues.toMutableList().apply {
-        add(element = LocalTranslationState provides getTranslationState())
-        add(element = LocalNavController provides navController)
-        dependency?.audioPlayer?.let { add(element = LocalAudioPlayer provides it) }
+    val translationMap = getTranslationState()
+    val providers = remember(key1 = translationMap, key2 = navController, key3 = dependency) {
+        buildList {
+            addAll(elements = compositionValues)
+            add(element = LocalTranslationState provides translationMap)
+            add(element = LocalNavController provides navController)
+            if (dependency != null) {
+                add(element = LocalAudioPlayer provides dependency.audioPlayer)
+            }
+        }.toTypedArray()
     }
-    CompositionLocalProvider(*compositionValues.toTypedArray()) {
+
+    CompositionLocalProvider(values = providers) {
         AppTheme {
-            if (dependency == null) LoadingScreen() else {
+            if (dependency != null) {
                 Navigation(
                     modifier = modifier,
                     navController = navController,
@@ -45,7 +53,7 @@ internal fun App(
                     navController = navController,
                     audioPlayer = dependency.audioPlayer,
                 )
-            }
+            } else LoadingScreen()
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -36,5 +37,7 @@ internal fun getTranslation(key: String, vararg args: String): String {
 @VisibleForTesting
 @Composable
 internal fun InjectTranslations(translations: List<Translation>) {
-    TranslationCache.set(translations = translations)
+    LaunchedEffect(key1 = translations) {
+        TranslationCache.set(translations = translations)
+    }
 }
