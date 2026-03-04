@@ -4,9 +4,11 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
-import kotlinx.collections.immutable.toPersistentList
 import androidx.compose.foundation.lazy.LazyListState
+import com.hybris.tlv.core.resource.ImageResource
 import com.hybris.tlv.domain.usecase.space.model.Planet
+import com.hybris.tlv.domain.usecase.space.model.PlanetStatus
+import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 
 internal sealed interface StellarExplorerAction {
@@ -29,23 +31,56 @@ internal data class StellarExplorerState(
     val loading: Boolean = true,
     val currentContent: Content = Content.LIST_HOSTS,
     val listState: LazyListState = LazyListState(),
-    val stellarHosts: ImmutableList<StellarHost> = persistentListOf(),
-    val planets: ImmutableList<Planet> = persistentListOf(),
-    val selectedStellarHost: StellarHost? = null,
-    val selectedPlanet: Planet? = null,
+    val exoplanets: Exoplanets = Exoplanets(),
     val search: String = "",
     val sortStellarHostProperty: StellarHostProperty = StellarHostProperty.DISTANCE,
     val sortPlanetProperty: PlanetProperty = PlanetProperty.HABITABILITY,
     val sortAscending: Boolean = true,
+    val visibleStellarHostProperties: ImmutableSet<StellarHostProperty> = persistentSetOf(
+        StellarHostProperty.NAME,
+        StellarHostProperty.SYSTEM_NAME,
+        StellarHostProperty.PLANET_COUNT,
+        StellarHostProperty.SPECTRAL_TYPE,
+        StellarHostProperty.TEMPERATURE,
+        StellarHostProperty.RADIUS,
+        StellarHostProperty.MASS,
+        StellarHostProperty.METALLICITY,
+        StellarHostProperty.LUMINOSITY,
+        StellarHostProperty.GRAVITY,
+        StellarHostProperty.AGE,
+        StellarHostProperty.DENSITY,
+        StellarHostProperty.ROTATIONAL_VELOCITY,
+        StellarHostProperty.ROTATIONAL_PERIOD,
+        StellarHostProperty.DISTANCE,
+        StellarHostProperty.RA,
+        StellarHostProperty.DEC,
+    ),
+    val visiblePlanetProperties: ImmutableSet<PlanetProperty> = persistentSetOf(
+        PlanetProperty.NAME,
+        PlanetProperty.STATUS,
+        PlanetProperty.HABITABILITY,
+        PlanetProperty.CONFIDENCE,
+        PlanetProperty.TYPE,
+        PlanetProperty.ORBITAL_PERIOD,
+        PlanetProperty.ORBIT_AXIS,
+        PlanetProperty.RADIUS,
+        PlanetProperty.MASS,
+        PlanetProperty.DENSITY,
+        PlanetProperty.ECCENTRICITY,
+        PlanetProperty.INSOLATION_FLUX,
+        PlanetProperty.TEMPERATURE,
+        PlanetProperty.OCCULTATION_DEPTH,
+        PlanetProperty.INCLINATION,
+        PlanetProperty.OBLIQUITY,
+    ),
     val searchableStellarHostProperties: ImmutableSet<StellarHostProperty> = persistentSetOf(StellarHostProperty.NAME),
     val searchablePlanetProperties: ImmutableSet<PlanetProperty> = persistentSetOf(PlanetProperty.NAME),
+    val stellarHostPropertiesMap: Map<StellarHostProperty, String> = emptyMap(),
+    val planetPropertiesMap: Map<PlanetProperty, String> = emptyMap(),
     val properties: ImmutableList<String> = persistentListOf(),
-    val selectedProperty: String,
-    val onSortChange: (String) -> Unit,
+    val sortProperty: String = StellarHostProperty.DISTANCE.displayName,
     val visibleProperties: ImmutableList<String>,
-    val onVisibilityChange: (String) -> Unit,
-    val selectedProperties: ImmutableList<String>,
-    val onFiltersChange: (String) -> Unit
+    val searchProperties: ImmutableList<String>,
 )
 
 internal enum class Content {
@@ -53,6 +88,75 @@ internal enum class Content {
     DETAIL_HOSTS,
     LIST_PLANETS,
     DETAIL_PLANETS,
+}
+
+internal data class Exoplanets(
+    val stellarHosts: ImmutableList<Host> = persistentListOf(),
+    val planets: ImmutableList<Planet> = persistentListOf()
+) {
+    data class Host(
+        val id: String,
+        val name: String?,
+        val systemName: String?,
+        val spectralType: String?,
+        val spectralTypeScore: Double?,
+        val effectiveTemperature: Double?,
+        val effectiveTemperatureScore: Double?,
+        val radius: Double?,
+        val mass: Double?,
+        val massScore: Double?,
+        val metallicity: Double?,
+        val metallicityScore: Double?,
+        val luminosity: Double?,
+        val gravity: Double?,
+        val gravityScore: Double?,
+        val age: Double?,
+        val ageScore: Double?,
+        val density: Double?,
+        val rotationalVelocity: Double?,
+        val activityScore: Double?,
+        val rotationalPeriod: Double?,
+        val rotationalPeriodScore: Double?,
+        val distance: Double?,
+        val ra: Double?,
+        val dec: Double?,
+        val image: ImageResource?,
+        val planetCount: Int?,
+    )
+
+    data class Planet(
+        val id: String,
+        val name: String?,
+        val stellarHostId: String?,
+        val status: PlanetStatus?,
+        val orbitalPeriod: Double?,
+        val orbitAxis: Double?,
+        val radius: Double?,
+        val radiusScore: Double?,
+        val mass: Double?,
+        val massScore: Double?,
+        val density: Double?,
+        val telluricityScore: Double?,
+        val eccentricity: Double?,
+        val eccentricityScore: Double?,
+        val insolationFlux: Double?,
+        val equilibriumTemperature: Double?,
+        val temperatureScore: Double?,
+        val occultationDepth: Double?,
+        val inclination: Double?,
+        val obliquity: Double?,
+        val obliquityScore: Double?,
+        val habitabilityScore: Double?,
+        val confidenceScore: Double?,
+        val rocheScore: Double?,
+        val habitableZoneKopparapuScore: Double?,
+        val habitableZoneKastingScore: Double?,
+        val esiScore: Double?,
+        val protectionScore: Double?,
+        val tidalLockingScore: Double?,
+        val type: PlanetType?,
+        val image: ImageResource?
+    )
 }
 
 internal enum class StellarHostProperty(val displayName: String) {
@@ -114,7 +218,16 @@ internal enum class PlanetProperty(val displayName: String) {
     TIDAL_LOCKING_SCORE(displayName = "planet_tidal_locking_score")
 }
 
-internal data class FilterCriteria(
+internal data class FilterPropertiesCriteria(
+    val currentContent: Content
+)
+
+internal data class FilterPropertiesCriteriaCombine(
+    val criteria: FilterPropertiesCriteria,
+    val translations: Map<String, String>
+)
+
+internal data class FilterExoplanetsCriteria(
     val currentContent: Content,
     val search: String,
     val sortStellarHostProperty: StellarHostProperty,
@@ -122,5 +235,9 @@ internal data class FilterCriteria(
     val sortAscending: Boolean,
     val searchableStellarHostProperties: Set<StellarHostProperty>,
     val searchablePlanetProperties: Set<PlanetProperty>,
+)
+
+internal data class FilterExoplanetsCriteriaCombine(
+    val criteria: FilterExoplanetsCriteria,
     val stellarHosts: List<StellarHost>,
 )

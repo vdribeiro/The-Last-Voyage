@@ -138,11 +138,11 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                         viewIcon = Icons.Default.Public,
                         count = 1234,
                         properties = persistentListOf(name, habitability),
-                        selectedProperty = name,
+                        sortProperty = name,
                         ascending = ascending,
                         onSortDirectionChange = { ascending = !ascending },
                         visibleProperties = persistentListOf(name),
-                        selectedProperties = persistentListOf(name),
+                        searchProperties = persistentListOf(name),
                     )
                 }
             )

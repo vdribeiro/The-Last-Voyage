@@ -63,13 +63,13 @@ internal fun ControlPanel(
     onChangeView: () -> Unit = {},
     count: Int? = null,
     properties: ImmutableList<String> = persistentListOf(),
-    selectedProperty: String? = null,
+    sortProperty: String? = null,
     ascending: Boolean = true,
     onSortChange: (String) -> Unit = {},
     onSortDirectionChange: () -> Unit = {},
     visibleProperties: ImmutableList<String> = persistentListOf(),
     onVisibilityChange: (String) -> Unit = {},
-    selectedProperties: ImmutableList<String> = persistentListOf(),
+    searchProperties: ImmutableList<String> = persistentListOf(),
     onFiltersChange: (String) -> Unit = {}
 ) {
     val shapes = LocalShapes.current
@@ -113,7 +113,7 @@ internal fun ControlPanel(
             if (properties.isNotEmpty()) SearchMenu(
                 enabled = enabled,
                 properties = properties,
-                selectedProperties = selectedProperties,
+                selectedProperties = searchProperties,
                 onFiltersChange = onFiltersChange
             )
         }
@@ -172,7 +172,7 @@ internal fun ControlPanel(
                     SortMenu(
                         enabled = enabled,
                         properties = properties,
-                        selectedProperty = selectedProperty,
+                        selectedProperty = sortProperty,
                         ascending = ascending,
                         onSortChange = onSortChange,
                         onSortDirectionChange = onSortDirectionChange
@@ -335,10 +335,10 @@ private fun ControlPanelPreview() = Preview {
             viewIcon = Icons.Default.Public,
             count = 2000,
             properties = persistentListOf("Name", "Status", "Habitability", "Confidence"),
-            selectedProperty = "Name",
+            sortProperty = "Name",
             ascending = true,
             visibleProperties = persistentListOf("Name", "Status"),
-            selectedProperties = persistentListOf("Status")
+            searchProperties = persistentListOf("Status")
         )
         ControlPanel(
             enabled = false,

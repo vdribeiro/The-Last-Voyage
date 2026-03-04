@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.PersistentSet
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentSet
@@ -21,6 +22,7 @@ import com.hybris.tlv.domain.usecase.space.formula.Habitability
 import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.TranslationCache.getTranslation
 import com.hybris.tlv.ui.screen.Store
 
 internal class StellarExplorerStore(
@@ -31,68 +33,97 @@ internal class StellarExplorerStore(
     private val formula: Formula = Formula()
     private val stellarHostsFlow: MutableStateFlow<List<StellarHost>> = MutableStateFlow(value = emptyList())
 
-    val visibleStellarHostProperties: ImmutableSet<StellarHostProperty> = persistentSetOf(
-        StellarHostProperty.NAME,
-        StellarHostProperty.SYSTEM_NAME,
-        StellarHostProperty.PLANET_COUNT,
-        StellarHostProperty.SPECTRAL_TYPE,
-        StellarHostProperty.TEMPERATURE,
-        StellarHostProperty.RADIUS,
-        StellarHostProperty.MASS,
-        StellarHostProperty.METALLICITY,
-        StellarHostProperty.LUMINOSITY,
-        StellarHostProperty.GRAVITY,
-        StellarHostProperty.AGE,
-        StellarHostProperty.DENSITY,
-        StellarHostProperty.ROTATIONAL_VELOCITY,
-        StellarHostProperty.ROTATIONAL_PERIOD,
-        StellarHostProperty.DISTANCE,
-        StellarHostProperty.RA,
-        StellarHostProperty.DEC,
-    )
-    val visiblePlanetProperties: ImmutableSet<PlanetProperty> = persistentSetOf(
-        PlanetProperty.NAME,
-        PlanetProperty.STATUS,
-        PlanetProperty.HABITABILITY,
-        PlanetProperty.CONFIDENCE,
-        PlanetProperty.TYPE,
-        PlanetProperty.ORBITAL_PERIOD,
-        PlanetProperty.ORBIT_AXIS,
-        PlanetProperty.RADIUS,
-        PlanetProperty.MASS,
-        PlanetProperty.DENSITY,
-        PlanetProperty.ECCENTRICITY,
-        PlanetProperty.INSOLATION_FLUX,
-        PlanetProperty.TEMPERATURE,
-        PlanetProperty.OCCULTATION_DEPTH,
-        PlanetProperty.INCLINATION,
-        PlanetProperty.OBLIQUITY,
-    ),
-
     init {
         setup()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private fun setup() {
         Telemetry.info(tag = TAG, message = "Setup")
 
-        combine(
-            flow = stateFlow,
-            flow2 = TranslationCache.cacheState,
-        ) { state, translations ->
+        observeTranslations()
+        observeExoplanets()
 
-        }.observe(id = "translationCache") {
-            updateState {
-                it.copy(
-                    properties =
+        Telemetry.info(tag = TAG, message = "Setup complete")
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun observeTranslations() {
+        val criteriaFlow = stateFlow
+            .map { state ->
+                val currentContent = when (state.currentContent) {
+                    Content.DETAIL_HOSTS -> Content.LIST_HOSTS
+                    Content.DETAIL_PLANETS -> Content.LIST_PLANETS
+                    else -> state.currentContent
+                }
+                FilterPropertiesCriteria(currentContent = currentContent)
+            }
+            .distinctUntilChanged()
+
+        combine(
+            flow = criteriaFlow,
+            flow2 = TranslationCache.cacheState,
+        ) { criteria, translations ->
+            FilterPropertiesCriteriaCombine(
+                criteria = criteria,
+                translations = translations
+            )
+        }
+            .mapLatest { criteriaCombine ->
+                when (criteriaCombine.criteria.currentContent) {
+                    Content.LIST_HOSTS -> StellarHostProperty.entries.map { criteriaCombine.translations.getTranslation(key = it.displayName) }.toPersistentList()
+                    Content.LIST_PLANETS -> PlanetProperty.entries.map { criteriaCombine.translations.getTranslation(key = it.displayName) }.toPersistentList()
+                    else -> persistentListOf()
+                }
+            }
+            .flowOn(context = Dispatcher.Default)
+            .observe(id = "filterProperties") { properties ->
+                updateState { it.copy(properties = properties) }
+            }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun observeExoplanets() {
+        spaceUseCases.observeExoplanets()
+            .map { stellarHosts ->
+                stellarHosts.apply {
+                    forEach { stellarHost ->
+                        stellarHost.score = Habitability.calculateScores(
+                            stellarHost = stellarHost,
+                            planet = null,
+                            formula = formula
+                        )
+                        stellarHost.planets.forEach { planet ->
+                            planet.score = Habitability.calculateScores(
+                                stellarHost = stellarHost,
+                                planet = planet,
+                                formula = formula
+                            )
+                        }
+                    }
+                }
+            }
+            .flowOn(context = Dispatcher.Default)
+            .observe(id = "observeExoplanets") { stellarHosts ->
+                stellarHostsFlow.value = stellarHosts
+                updateState { it.copy(loading = false) }
+            }
+
+        val criteriaFlow = stateFlow
+            .map { state ->
+                FilterExoplanetsCriteria(
+                    currentContent = state.currentContent,
+                    search = state.search,
+                    sortStellarHostProperty = state.sortStellarHostProperty,
+                    sortPlanetProperty = state.sortPlanetProperty,
+                    sortAscending = state.sortAscending,
+                    searchableStellarHostProperties = state.searchableStellarHostProperties,
+                    searchablePlanetProperties = state.searchablePlanetProperties,
                 )
             }
-        }
+            .distinctUntilChanged()
 
-        observeExoplanets()
         combine(
-            flow = stateFlow,
+            flow = criteriaFlow,
             flow2 = stellarHostsFlow,
         ) { state, stellarHosts ->
             FilterCriteria(
@@ -134,34 +165,7 @@ internal class StellarExplorerStore(
                     )
                 }
             }
-
-        Telemetry.info(tag = TAG, message = "Setup complete")
     }
-
-    private fun observeExoplanets(): Job = spaceUseCases.observeExoplanets()
-        .map { stellarHosts ->
-            stellarHosts.apply {
-                forEach { stellarHost ->
-                    stellarHost.score = Habitability.calculateScores(
-                        stellarHost = stellarHost,
-                        planet = null,
-                        formula = formula
-                    )
-                    stellarHost.planets.forEach { planet ->
-                        planet.score = Habitability.calculateScores(
-                            stellarHost = stellarHost,
-                            planet = planet,
-                            formula = formula
-                        )
-                    }
-                }
-            }
-        }
-        .flowOn(context = Dispatcher.Default)
-        .observe(id = "observeExoplanets") { stellarHosts ->
-            stellarHostsFlow.value = stellarHosts
-            updateState { it.copy(loading = false) }
-        }
 
     private fun changeView(state: StellarExplorerState) {
         Telemetry.info(tag = TAG, message = "Changed view")
