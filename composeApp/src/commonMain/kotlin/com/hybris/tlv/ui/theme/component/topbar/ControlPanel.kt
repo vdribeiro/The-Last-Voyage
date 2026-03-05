@@ -69,7 +69,7 @@ internal fun ControlPanel(
     onSortDirectionChange: () -> Unit = {},
     visibleProperties: ImmutableList<String> = persistentListOf(),
     onVisibilityChange: (String) -> Unit = {},
-    searchProperties: ImmutableList<String> = persistentListOf(),
+    searchableProperties: ImmutableList<String> = persistentListOf(),
     onFiltersChange: (String) -> Unit = {}
 ) {
     val shapes = LocalShapes.current
@@ -113,7 +113,7 @@ internal fun ControlPanel(
             if (properties.isNotEmpty()) SearchMenu(
                 enabled = enabled,
                 properties = properties,
-                selectedProperties = searchProperties,
+                selectedProperties = searchableProperties,
                 onFiltersChange = onFiltersChange
             )
         }

@@ -41,7 +41,7 @@ internal object TranslationCache {
     fun get(key: String, vararg args: String): String =
         _cacheState.value.getTranslation(key = key, args = args)
 
-    private fun Map<String, String>.getTranslation(key: String, vararg args: String): String {
+    fun Map<String, String>.getTranslation(key: String, vararg args: String): String {
         val rawValue = this[key] ?: key
         return if (args.isEmpty()) rawValue else args.foldIndexed(initial = rawValue) { index, translation, arg ->
             translation.replace(oldValue = $$"%$${index + 1}$s", newValue = arg)

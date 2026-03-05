@@ -142,7 +142,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                         ascending = ascending,
                         onSortDirectionChange = { ascending = !ascending },
                         visibleProperties = persistentListOf(name),
-                        searchProperties = persistentListOf(name),
+                        searchableProperties = persistentListOf(name),
                     )
                 }
             )
