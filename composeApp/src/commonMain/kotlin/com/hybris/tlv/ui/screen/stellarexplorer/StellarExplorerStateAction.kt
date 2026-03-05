@@ -67,7 +67,7 @@ internal data class Exoplanets(
         val ra: Double?,
         val dec: Double?,
         val image: ImageResource?,
-        val planets: List<Planet> = emptyList(),
+        val planetCount: Int?,
     )
 
     data class Planet(

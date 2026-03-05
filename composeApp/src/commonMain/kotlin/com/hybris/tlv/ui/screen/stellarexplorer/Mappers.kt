@@ -33,7 +33,7 @@ internal fun StellarHost.toExoplanetsHost(): Exoplanets.Host = Exoplanets.Host(
     ra = ra,
     dec = dec,
     image = spectralType.spectralTypeToImage(),
-    planets = planets.map { it.toExoplanetsPlanet() }
+    planetCount = planets.size
 )
 
 internal fun Planet.toExoplanetsPlanet(): Exoplanets.Planet = Exoplanets.Planet(

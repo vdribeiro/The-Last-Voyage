@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlin.concurrent.Volatile
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -163,15 +164,17 @@ internal class StellarExplorerStore(
 //                                visible = criteriaCombine.criteria.visibleProperties
 //                            )
                             stellarHosts = criteriaCombine.stellarHosts.map { it.toExoplanetsHost() }.toPersistentList(),
+                            planets = persistentListOf()
                         )
 
                         Content.DETAIL_HOSTS -> Exoplanets(
                             stellarHosts = listOfNotNull(element = selectedStellarHost).toPersistentList(),
-                            planets = selectedStellarHost?.planets.orEmpty().toPersistentList()
+                            planets = criteriaCombine.stellarHosts.find { it.id == selectedStellarHost?.id }?.planets?.map { it.toExoplanetsPlanet() }.orEmpty().toPersistentList()
                         )
 
                         Content.LIST_PLANETS -> Exoplanets(
-
+                            stellarHosts = persistentListOf(),
+                            planets = criteriaCombine.stellarHosts.flatMap { it.planets }.map { it.toExoplanetsPlanet() }.toPersistentList()
                         )
 
                         Content.DETAIL_PLANETS -> Exoplanets(
