@@ -22,7 +22,7 @@ internal data class StellarExplorerState(
     val currentContent: Content = Content.LIST_HOSTS,
     val exoplanets: Exoplanets = Exoplanets(),
     val search: String = "",
-    val properties: ImmutableList<String> = persistentListOf(),
+    val properties: ImmutableList<Pair<String, String>> = persistentListOf(),
     val sortProperty: String = "",
     val sortAscending: Boolean = true,
     val visibleProperties: ImmutableList<String> = persistentListOf(),
