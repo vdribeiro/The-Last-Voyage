@@ -35,59 +35,61 @@ internal class StellarExplorerStore(
     @VisibleForTesting
     @Volatile
     internal var selectedPlanet: Exoplanets.Planet? = null
+    private val sortStellarHostPropertyDefault = StellarHostProperty.DISTANCE
     @VisibleForTesting
     @Volatile
-    internal var sortStellarHostProperty: String = TranslationCache.get(key = StellarHostProperty.DISTANCE.displayName)
+    internal var sortStellarHostProperty: String = sortStellarHostPropertyDefault.name
+    private val sortPlanetPropertyDefault = PlanetProperty.HABITABILITY
     @VisibleForTesting
     @Volatile
-    internal var sortPlanetProperty: String = TranslationCache.get(key = PlanetProperty.HABITABILITY.displayName)
+    internal var sortPlanetProperty: String = sortPlanetPropertyDefault.name
     @VisibleForTesting
     @Volatile
     internal var visibleStellarHostProperties: List<String> = listOf(
-        TranslationCache.get(key = StellarHostProperty.NAME.displayName),
-        TranslationCache.get(key = StellarHostProperty.SYSTEM_NAME.displayName),
-        TranslationCache.get(key = StellarHostProperty.PLANET_COUNT.displayName),
-        TranslationCache.get(key = StellarHostProperty.SPECTRAL_TYPE.displayName),
-        TranslationCache.get(key = StellarHostProperty.TEMPERATURE.displayName),
-        TranslationCache.get(key = StellarHostProperty.RADIUS.displayName),
-        TranslationCache.get(key = StellarHostProperty.MASS.displayName),
-        TranslationCache.get(key = StellarHostProperty.METALLICITY.displayName),
-        TranslationCache.get(key = StellarHostProperty.LUMINOSITY.displayName),
-        TranslationCache.get(key = StellarHostProperty.GRAVITY.displayName),
-        TranslationCache.get(key = StellarHostProperty.AGE.displayName),
-        TranslationCache.get(key = StellarHostProperty.DENSITY.displayName),
-        TranslationCache.get(key = StellarHostProperty.ROTATIONAL_VELOCITY.displayName),
-        TranslationCache.get(key = StellarHostProperty.ROTATIONAL_PERIOD.displayName),
-        TranslationCache.get(key = StellarHostProperty.DISTANCE.displayName),
-        TranslationCache.get(key = StellarHostProperty.RA.displayName),
-        TranslationCache.get(key = StellarHostProperty.DEC.displayName),
+        StellarHostProperty.NAME.name,
+        StellarHostProperty.SYSTEM_NAME.name,
+        StellarHostProperty.PLANET_COUNT.name,
+        StellarHostProperty.SPECTRAL_TYPE.name,
+        StellarHostProperty.TEMPERATURE.name,
+        StellarHostProperty.RADIUS.name,
+        StellarHostProperty.MASS.name,
+        StellarHostProperty.METALLICITY.name,
+        StellarHostProperty.LUMINOSITY.name,
+        StellarHostProperty.GRAVITY.name,
+        StellarHostProperty.AGE.name,
+        StellarHostProperty.DENSITY.name,
+        StellarHostProperty.ROTATIONAL_VELOCITY.name,
+        StellarHostProperty.ROTATIONAL_PERIOD.name,
+        StellarHostProperty.DISTANCE.name,
+        StellarHostProperty.RA.name,
+        StellarHostProperty.DEC.name,
     )
     @VisibleForTesting
     @Volatile
     internal var visiblePlanetProperties: List<String> = listOf(
-        TranslationCache.get(key = PlanetProperty.NAME.displayName),
-        TranslationCache.get(key = PlanetProperty.STATUS.displayName),
-        TranslationCache.get(key = PlanetProperty.HABITABILITY.displayName),
-        TranslationCache.get(key = PlanetProperty.CONFIDENCE.displayName),
-        TranslationCache.get(key = PlanetProperty.TYPE.displayName),
-        TranslationCache.get(key = PlanetProperty.ORBITAL_PERIOD.displayName),
-        TranslationCache.get(key = PlanetProperty.ORBIT_AXIS.displayName),
-        TranslationCache.get(key = PlanetProperty.RADIUS.displayName),
-        TranslationCache.get(key = PlanetProperty.MASS.displayName),
-        TranslationCache.get(key = PlanetProperty.DENSITY.displayName),
-        TranslationCache.get(key = PlanetProperty.ECCENTRICITY.displayName),
-        TranslationCache.get(key = PlanetProperty.INSOLATION_FLUX.displayName),
-        TranslationCache.get(key = PlanetProperty.TEMPERATURE.displayName),
-        TranslationCache.get(key = PlanetProperty.OCCULTATION_DEPTH.displayName),
-        TranslationCache.get(key = PlanetProperty.INCLINATION.displayName),
-        TranslationCache.get(key = PlanetProperty.OBLIQUITY.displayName),
+        PlanetProperty.NAME.name,
+        PlanetProperty.STATUS.name,
+        PlanetProperty.HABITABILITY.name,
+        PlanetProperty.CONFIDENCE.name,
+        PlanetProperty.TYPE.name,
+        PlanetProperty.ORBITAL_PERIOD.name,
+        PlanetProperty.ORBIT_AXIS.name,
+        PlanetProperty.RADIUS.name,
+        PlanetProperty.MASS.name,
+        PlanetProperty.DENSITY.name,
+        PlanetProperty.ECCENTRICITY.name,
+        PlanetProperty.INSOLATION_FLUX.name,
+        PlanetProperty.TEMPERATURE.name,
+        PlanetProperty.OCCULTATION_DEPTH.name,
+        PlanetProperty.INCLINATION.name,
+        PlanetProperty.OBLIQUITY.name,
     )
     @VisibleForTesting
     @Volatile
-    internal var searchableStellarHostProperties: List<String> = listOf(TranslationCache.get(key = StellarHostProperty.NAME.displayName))
+    internal var searchableStellarHostProperties: List<String> = listOf(StellarHostProperty.NAME.name)
     @VisibleForTesting
     @Volatile
-    internal var searchablePlanetProperties: List<String> = listOf(TranslationCache.get(key = PlanetProperty.NAME.displayName))
+    internal var searchablePlanetProperties: List<String> = listOf(PlanetProperty.NAME.name)
 
     init {
         setup()
@@ -158,10 +160,10 @@ internal class StellarExplorerStore(
                         Content.LIST_HOSTS -> Exoplanets(
                             stellarHosts = criteriaCombine.stellarHosts.searchAndSortStellarHosts(
                                 search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchProperties,
-                                sort = criteriaCombine.criteria.sortProperty,
+                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { StellarHostProperty.fromString(name = it) },
+                                sort = StellarHostProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortStellarHostPropertyDefault,
                                 ascending = criteriaCombine.criteria.sortAscending,
-                                visible = criteriaCombine.criteria.visibleProperties
+                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { StellarHostProperty.fromString(name = it) }
                             ).toPersistentList(),
                             planets = persistentListOf()
                         )
@@ -170,10 +172,10 @@ internal class StellarExplorerStore(
                             stellarHosts = listOfNotNull(element = selectedStellarHost).toPersistentList(),
                             planets = criteriaCombine.stellarHosts.find { it.id == selectedStellarHost?.id }?.planets.orEmpty().searchAndSortPlanets(
                                 search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchProperties,
-                                sort = criteriaCombine.criteria.sortProperty,
+                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { PlanetProperty.fromString(name = it) },
+                                sort = PlanetProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortPlanetPropertyDefault,
                                 ascending = criteriaCombine.criteria.sortAscending,
-                                visible = criteriaCombine.criteria.visibleProperties
+                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { PlanetProperty.fromString(name = it) }
                             ).toPersistentList()
                         )
 
@@ -181,27 +183,27 @@ internal class StellarExplorerStore(
                             stellarHosts = persistentListOf(),
                             planets = criteriaCombine.stellarHosts.flatMap { it.planets }.searchAndSortPlanets(
                                 search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchProperties,
-                                sort = criteriaCombine.criteria.sortProperty,
+                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { PlanetProperty.fromString(name = it) },
+                                sort = PlanetProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortPlanetPropertyDefault,
                                 ascending = criteriaCombine.criteria.sortAscending,
-                                visible = criteriaCombine.criteria.visibleProperties
+                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { PlanetProperty.fromString(name = it) }
                             ).toPersistentList()
                         )
 
                         Content.DETAIL_PLANETS -> Exoplanets(
                             stellarHosts = listOfNotNull(criteriaCombine.stellarHosts.find { it.id == selectedPlanet?.stellarHostId }).searchAndSortStellarHosts(
                                 search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchProperties,
-                                sort = criteriaCombine.criteria.sortProperty,
+                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { StellarHostProperty.fromString(name = it) },
+                                sort = StellarHostProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortStellarHostPropertyDefault,
                                 ascending = criteriaCombine.criteria.sortAscending,
-                                visible = criteriaCombine.criteria.visibleProperties
+                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { StellarHostProperty.fromString(name = it) }
                             ).toPersistentList(),
                             planets = listOfNotNull(element = selectedPlanet).toPersistentList()
                         )
                     },
                     properties = when (criteriaCombine.criteria.currentContent) {
-                        Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostProperty.entries.map { criteriaCombine.translations.getTranslation(key = it.displayName) }.toPersistentList()
-                        Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetProperty.entries.map { criteriaCombine.translations.getTranslation(key = it.displayName) }.toPersistentList()
+                        Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostProperty.entries.map { it.name to criteriaCombine.translations.getTranslation(key = it.displayName) }.toPersistentList()
+                        Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetProperty.entries.map { it.name to criteriaCombine.translations.getTranslation(key = it.displayName) }.toPersistentList()
                     }
                 )
             }
@@ -223,7 +225,7 @@ internal class StellarExplorerStore(
         Telemetry.info(tag = TAG, message = "Changed view")
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.DETAIL_HOSTS -> {
-                val properties = StellarHostProperty.entries.map { TranslationCache.get(key = it.displayName) }.toPersistentList()
+                val properties = StellarHostProperty.entries.map { it.name to TranslationCache.get(key = it.displayName) }.toPersistentList()
                 val visibleProperties = visibleStellarHostProperties.toPersistentList()
                 val searchProperties = searchableStellarHostProperties.toPersistentList()
                 updateState {
@@ -239,7 +241,7 @@ internal class StellarExplorerStore(
             }
 
             Content.LIST_PLANETS, Content.DETAIL_PLANETS -> {
-                val properties = PlanetProperty.entries.map { TranslationCache.get(key = it.displayName) }.toPersistentList()
+                val properties = PlanetProperty.entries.map { it.name to TranslationCache.get(key = it.displayName) }.toPersistentList()
                 val visibleProperties = visiblePlanetProperties.toPersistentList()
                 val searchProperties = searchablePlanetProperties.toPersistentList()
                 updateState {
@@ -265,7 +267,7 @@ internal class StellarExplorerStore(
     private fun openStellarHost(action: StellarExplorerAction.OpenStellarHost): Job = launch(id = "openStellarHost") {
         Telemetry.info(tag = TAG, message = "Opening stellar host ${action.stellarHost.id}")
         selectedStellarHost = action.stellarHost
-        val properties = PlanetProperty.entries.map { TranslationCache.get(key = it.displayName) }.toPersistentList()
+        val properties = PlanetProperty.entries.map { it.name to TranslationCache.get(key = it.displayName) }.toPersistentList()
         val visibleProperties = visiblePlanetProperties.toPersistentList()
         val searchProperties = searchablePlanetProperties.toPersistentList()
         updateState {
@@ -283,7 +285,7 @@ internal class StellarExplorerStore(
     private fun openPlanet(action: StellarExplorerAction.OpenPlanet): Job = launch(id = "openPlanet") {
         Telemetry.info(tag = TAG, message = "Opening planet ${action.planet.id}")
         selectedPlanet = action.planet
-        val properties = StellarHostProperty.entries.map { TranslationCache.get(key = it.displayName) }.toPersistentList()
+        val properties = StellarHostProperty.entries.map { it.name to TranslationCache.get(key = it.displayName) }.toPersistentList()
         val visibleProperties = visibleStellarHostProperties.toPersistentList()
         val searchProperties = searchableStellarHostProperties.toPersistentList()
         updateState {
@@ -340,7 +342,7 @@ internal class StellarExplorerStore(
 
             Content.DETAIL_HOSTS -> {
                 selectedStellarHost = null
-                val properties = StellarHostProperty.entries.map { TranslationCache.get(key = it.displayName) }.toPersistentList()
+                val properties = StellarHostProperty.entries.map { it.name to TranslationCache.get(key = it.displayName) }.toPersistentList()
                 val visibleProperties = visibleStellarHostProperties.toPersistentList()
                 val searchProperties = searchableStellarHostProperties.toPersistentList()
                 updateState {
@@ -357,7 +359,7 @@ internal class StellarExplorerStore(
 
             Content.DETAIL_PLANETS -> {
                 selectedPlanet = null
-                val properties = PlanetProperty.entries.map { TranslationCache.get(key = it.displayName) }.toPersistentList()
+                val properties = PlanetProperty.entries.map { it.name to TranslationCache.get(key = it.displayName) }.toPersistentList()
                 val visibleProperties = visiblePlanetProperties.toPersistentList()
                 val searchProperties = searchablePlanetProperties.toPersistentList()
                 updateState {

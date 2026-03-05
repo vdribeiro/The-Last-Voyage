@@ -166,7 +166,12 @@ internal enum class PlanetProperty(val displayName: String) {
     OBLIQUITY_SCORE(displayName = "planet_obliquity_score"),
     ESI_SCORE(displayName = "planet_esi_score"),
     PROTECTION_SCORE(displayName = "planet_protection_score"),
-    TIDAL_LOCKING_SCORE(displayName = "planet_tidal_locking_score")
+    TIDAL_LOCKING_SCORE(displayName = "planet_tidal_locking_score");
+
+    companion object {
+        private val map = PlanetProperty.entries.associateBy(keySelector = PlanetProperty::name)
+        fun fromString(name: String): PlanetProperty? = map[name.uppercase()]
+    }
 }
 
 internal data class FilterExoplanetsCriteria(
@@ -186,5 +191,5 @@ internal data class FilterExoplanetsCriteriaCombine(
 
 internal data class FilterExoplanetsCriteriaResult(
     val exoplanets: Exoplanets,
-    val properties: ImmutableList<String>
+    val properties: ImmutableList<Pair<String, String>>
 )

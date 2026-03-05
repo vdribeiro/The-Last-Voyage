@@ -72,10 +72,10 @@ internal fun Planet.toExoplanetsPlanet(): Exoplanets.Planet = Exoplanets.Planet(
 
 internal fun List<StellarHost>.searchAndSortStellarHosts(
     search: String,
-    searchable: Set<StellarHostProperty>,
+    searchable: List<StellarHostProperty>,
     sort: StellarHostProperty,
     ascending: Boolean,
-    visible: Set<StellarHostProperty>
+    visible: List<StellarHostProperty>
 ): List<Exoplanets.Host> = searchStellarHosts(
     search = search,
     searchable = searchable,
@@ -86,10 +86,10 @@ internal fun List<StellarHost>.searchAndSortStellarHosts(
 
 internal fun List<Planet>.searchAndSortPlanets(
     search: String,
-    searchable: Set<PlanetProperty>,
+    searchable: List<PlanetProperty>,
     sort: PlanetProperty,
     ascending: Boolean,
-    visible: Set<PlanetProperty>
+    visible: List<PlanetProperty>
 ): List<Exoplanets.Planet> = searchPlanets(
     search = search,
     searchable = searchable
@@ -98,7 +98,7 @@ internal fun List<Planet>.searchAndSortPlanets(
     ascending = ascending
 ).map { it.toExoplanetsPlanet().filterVisibility(visiblePlanetProperties = visible) }
 
-private fun List<StellarHost>.searchStellarHosts(search: String, searchable: Set<StellarHostProperty>): List<StellarHost> =
+private fun List<StellarHost>.searchStellarHosts(search: String, searchable: List<StellarHostProperty>): List<StellarHost> =
     if (search.isNotBlank()) {
         val searchLowercase = search.lowercase()
         filter { stellarHost ->
@@ -209,7 +209,7 @@ private fun List<StellarHost>.searchStellarHosts(search: String, searchable: Set
         }
     } else this
 
-private fun List<Planet>.searchPlanets(search: String, searchable: Set<PlanetProperty>): List<Planet> =
+private fun List<Planet>.searchPlanets(search: String, searchable: List<PlanetProperty>): List<Planet> =
     if (search.isNotBlank()) {
         val searchLowercase = search.lowercase()
         filter { planet ->
@@ -621,7 +621,7 @@ private fun getPlanetsComparator(sort: PlanetProperty, ascending: Boolean): Comp
 }
 
 
-internal fun Exoplanets.Host.filterVisibility(visiblePlanetProperties: Set<StellarHostProperty>) : Exoplanets.Host = copy(
+internal fun Exoplanets.Host.filterVisibility(visiblePlanetProperties: List<StellarHostProperty>) : Exoplanets.Host = copy(
     name = visiblePlanetProperties.ifContains(element = StellarHostProperty.NAME, value = name).orEmpty(),
     systemName = visiblePlanetProperties.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = systemName).orEmpty(),
     spectralType = visiblePlanetProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = spectralType).orEmpty(),
@@ -650,7 +650,7 @@ internal fun Exoplanets.Host.filterVisibility(visiblePlanetProperties: Set<Stell
     planetCount = visiblePlanetProperties.ifContains(element = StellarHostProperty.PLANET_COUNT, value = planetCount),
 )
 
-internal fun Exoplanets.Planet.filterVisibility(visiblePlanetProperties: Set<PlanetProperty>): Exoplanets.Planet = copy(
+internal fun Exoplanets.Planet.filterVisibility(visiblePlanetProperties: List<PlanetProperty>): Exoplanets.Planet = copy(
     name = visiblePlanetProperties.ifContains(element = PlanetProperty.NAME, value = name),
     status = visiblePlanetProperties.ifContains(element = PlanetProperty.STATUS, value = status),
     orbitalPeriod = visiblePlanetProperties.ifContains(element = PlanetProperty.ORBITAL_PERIOD, value = orbitalPeriod),
