@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlin.concurrent.Volatile
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -156,22 +155,29 @@ internal class StellarExplorerStore(
                 FilterExoplanetsCriteriaResult(
                     exoplanets = when (criteriaCombine.criteria.currentContent) {
                         Content.LIST_HOSTS -> Exoplanets(
-                            criteriaCombine.stellarHosts.searchAndSortStellarHosts(
-                                search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchProperties,
-                                sort = criteriaCombine.criteria.sortProperty,
-                                ascending = criteriaCombine.criteria.sortAscending,
-                                visible = criteriaCombine.criteria.visibleProperties
-                            )
+//                            criteriaCombine.stellarHosts.searchAndSortStellarHosts(
+//                                search = criteriaCombine.criteria.search,
+//                                searchable = criteriaCombine.criteria.searchProperties,
+//                                sort = criteriaCombine.criteria.sortProperty,
+//                                ascending = criteriaCombine.criteria.sortAscending,
+//                                visible = criteriaCombine.criteria.visibleProperties
+//                            )
+                            stellarHosts = criteriaCombine.stellarHosts.map { it.toExoplanetsHost() }.toPersistentList(),
                         )
 
                         Content.DETAIL_HOSTS -> Exoplanets(
-                            stellarHosts = listOfNotNull(selectedStellarHost).toPersistentList(),
-                            planets = selectedStellarHost
+                            stellarHosts = listOfNotNull(element = selectedStellarHost).toPersistentList(),
+                            planets = selectedStellarHost?.planets.orEmpty().toPersistentList()
                         )
 
-                        Content.LIST_PLANETS -> Exoplanets()
-                        Content.DETAIL_PLANETS -> Exoplanets()
+                        Content.LIST_PLANETS -> Exoplanets(
+
+                        )
+
+                        Content.DETAIL_PLANETS -> Exoplanets(
+                            stellarHosts = listOfNotNull(element = criteriaCombine.stellarHosts.find { it.id == selectedPlanet?.stellarHostId }?.toExoplanetsHost()).toPersistentList(),
+                            planets = listOfNotNull(element = selectedPlanet).toPersistentList()
+                        )
                     },
                     properties = when (criteriaCombine.criteria.currentContent) {
                         Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostProperty.entries.map { criteriaCombine.translations.getTranslation(key = it.displayName) }.toPersistentList()
@@ -185,9 +191,9 @@ internal class StellarExplorerStore(
                     it.copy(
                         exoplanets = result.exoplanets,
                         properties = result.properties,
-                        sortProperty = "TODO",
-                        visibleProperties = persistentListOf(),
-                        searchProperties = persistentListOf()
+//                        sortProperty = "TODO",
+//                        visibleProperties = persistentListOf(),
+//                        searchProperties = persistentListOf()
                     )
                 }
             }

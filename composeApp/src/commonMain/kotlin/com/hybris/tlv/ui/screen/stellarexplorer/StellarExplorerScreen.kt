@@ -79,7 +79,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             stellarHostId = Exoplanets.Host::id,
             stellarHostName = { it.name },
             stellarHostSystemName = { it.systemName },
-            stellarHostPlanetCount = { it.planetCount },
+            stellarHostPlanetCount = { it.planets.size },
             stellarHostSpectralType = { it.spectralType },
             stellarHostSpectralImage = { it.image },
             stellarHostEffectiveTemperature = { it.effectiveTemperature },
