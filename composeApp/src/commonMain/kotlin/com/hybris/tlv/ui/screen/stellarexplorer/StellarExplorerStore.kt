@@ -296,8 +296,8 @@ internal class StellarExplorerStore(
     private fun sort(state: StellarExplorerState, action: StellarExplorerAction.Sort) {
         Telemetry.info(tag = TAG, message = "Sorting by ${action.sort}")
         when (state.currentContent) {
-            Content.LIST_HOSTS, Content.DETAIL_HOSTS -> sortStellarHostProperty = action.sort
-            Content.LIST_PLANETS, Content.DETAIL_PLANETS -> sortPlanetProperty = action.sort
+            Content.LIST_HOSTS, Content.DETAIL_PLANETS -> sortStellarHostProperty = action.sort
+            Content.LIST_PLANETS, Content.DETAIL_HOSTS -> sortPlanetProperty = action.sort
         }
         updateState { it.copy(sortProperty = action.sort) }
     }
@@ -312,8 +312,8 @@ internal class StellarExplorerStore(
         Telemetry.info(tag = TAG, message = "Changing visibility for ${action.property}")
         val visibleProperties = state.visibleProperties.plusOrMinus(element = action.property).toPersistentList()
         when (state.currentContent) {
-            Content.LIST_HOSTS, Content.DETAIL_HOSTS -> visibleStellarHostProperties = visibleProperties
-            Content.LIST_PLANETS, Content.DETAIL_PLANETS -> visiblePlanetProperties = visibleProperties
+            Content.LIST_HOSTS, Content.DETAIL_PLANETS -> visibleStellarHostProperties = visibleProperties
+            Content.LIST_PLANETS, Content.DETAIL_HOSTS -> visiblePlanetProperties = visibleProperties
         }
         updateState { it.copy(visibleProperties = visibleProperties) }
     }
@@ -322,8 +322,8 @@ internal class StellarExplorerStore(
         Telemetry.info(tag = TAG, message = "Changing searchable property ${action.property}")
         val searchProperties = state.searchProperties.plusOrMinus(element = action.property).toPersistentList()
         when (state.currentContent) {
-            Content.LIST_HOSTS, Content.DETAIL_HOSTS -> searchableStellarHostProperties = searchProperties
-            Content.LIST_PLANETS, Content.DETAIL_PLANETS -> searchablePlanetProperties = searchProperties
+            Content.LIST_HOSTS, Content.DETAIL_PLANETS -> searchableStellarHostProperties = searchProperties
+            Content.LIST_PLANETS, Content.DETAIL_HOSTS -> searchablePlanetProperties = searchProperties
         }
         updateState { it.copy(searchProperties = searchProperties) }
     }
