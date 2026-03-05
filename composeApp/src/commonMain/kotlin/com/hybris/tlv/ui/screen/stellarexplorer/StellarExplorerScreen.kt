@@ -96,7 +96,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             stellarHostGravityScore = { it.gravityScore },
             stellarHostMetallicityScore = { it.metallicityScore },
             stellarHostEffectiveTemperatureScore = { it.effectiveTemperatureScore },
-            onStellarHostClick = { store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = it)) },
+            onStellarHostClick = { if (currentContent == Content.LIST_HOSTS) store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = it)) },
             planets = storeState.exoplanets.planets,
             planetId = Exoplanets.Planet::id,
             planetName = { it.name },
@@ -128,7 +128,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             planetEsiScore = { it.esiScore },
             planetProtectionScore = { it.protectionScore },
             planetTidalLockingScore = { it.tidalLockingScore },
-            onPlanetClick = { store.send(action = StellarExplorerAction.OpenPlanet(planet = it)) },
+            onPlanetClick = { if (currentContent == Content.LIST_PLANETS) store.send(action = StellarExplorerAction.OpenPlanet(planet = it)) },
         )
     }
 }
