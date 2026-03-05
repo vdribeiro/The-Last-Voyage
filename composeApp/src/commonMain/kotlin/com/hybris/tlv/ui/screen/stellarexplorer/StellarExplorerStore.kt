@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
+import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
@@ -142,7 +143,7 @@ internal class StellarExplorerStore(
                     sortProperty = state.sortProperty,
                     sortAscending = state.sortAscending,
                     visibleProperties = state.visibleProperties,
-                    searchProperties = state.searchProperties
+                    searchableProperties = state.searchableProperties
                 )
             }
             .distinctUntilChanged()
@@ -164,7 +165,7 @@ internal class StellarExplorerStore(
                         Content.LIST_HOSTS -> Exoplanets(
                             stellarHosts = criteriaCombine.stellarHosts.searchAndSortStellarHosts(
                                 search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { StellarHostProperty.fromString(name = it) }.ifEmpty { searchableStellarHostPropertiesDefault },
+                                searchable = criteriaCombine.criteria.searchableProperties.mapNotNull { StellarHostProperty.fromString(name = it) }.ifEmpty { searchableStellarHostPropertiesDefault },
                                 sort = StellarHostProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortStellarHostPropertyDefault,
                                 ascending = criteriaCombine.criteria.sortAscending,
                                 visible = criteriaCombine.criteria.visibleProperties.mapNotNull { StellarHostProperty.fromString(name = it) }.ifEmpty { visibleStellarHostPropertiesDefault }
@@ -176,7 +177,7 @@ internal class StellarExplorerStore(
                             stellarHosts = listOfNotNull(element = selectedStellarHost).toPersistentList(),
                             planets = criteriaCombine.stellarHosts.find { it.id == selectedStellarHost?.id }?.planets.orEmpty().searchAndSortPlanets(
                                 search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { PlanetProperty.fromString(name = it) }.ifEmpty { searchablePlanetPropertiesDefault },
+                                searchable = criteriaCombine.criteria.searchableProperties.mapNotNull { PlanetProperty.fromString(name = it) }.ifEmpty { searchablePlanetPropertiesDefault },
                                 sort = PlanetProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortPlanetPropertyDefault,
                                 ascending = criteriaCombine.criteria.sortAscending,
                                 visible = criteriaCombine.criteria.visibleProperties.mapNotNull { PlanetProperty.fromString(name = it) }.ifEmpty { visiblePlanetPropertiesDefault }
@@ -187,7 +188,7 @@ internal class StellarExplorerStore(
                             stellarHosts = persistentListOf(),
                             planets = criteriaCombine.stellarHosts.flatMap { it.planets }.searchAndSortPlanets(
                                 search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { PlanetProperty.fromString(name = it) }.ifEmpty { searchablePlanetPropertiesDefault },
+                                searchable = criteriaCombine.criteria.searchableProperties.mapNotNull { PlanetProperty.fromString(name = it) }.ifEmpty { searchablePlanetPropertiesDefault },
                                 sort = PlanetProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortPlanetPropertyDefault,
                                 ascending = criteriaCombine.criteria.sortAscending,
                                 visible = criteriaCombine.criteria.visibleProperties.mapNotNull { PlanetProperty.fromString(name = it) }.ifEmpty { visiblePlanetPropertiesDefault }
@@ -197,7 +198,7 @@ internal class StellarExplorerStore(
                         Content.DETAIL_PLANETS -> Exoplanets(
                             stellarHosts = listOfNotNull(criteriaCombine.stellarHosts.find { it.id == selectedPlanet?.stellarHostId }).searchAndSortStellarHosts(
                                 search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { StellarHostProperty.fromString(name = it) }.ifEmpty { searchableStellarHostPropertiesDefault },
+                                searchable = criteriaCombine.criteria.searchableProperties.mapNotNull { StellarHostProperty.fromString(name = it) }.ifEmpty { searchableStellarHostPropertiesDefault },
                                 sort = StellarHostProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortStellarHostPropertyDefault,
                                 ascending = criteriaCombine.criteria.sortAscending,
                                 visible = criteriaCombine.criteria.visibleProperties.mapNotNull { StellarHostProperty.fromString(name = it) }.ifEmpty { visibleStellarHostPropertiesDefault }
@@ -208,6 +209,14 @@ internal class StellarExplorerStore(
                     properties = when (criteriaCombine.criteria.currentContent) {
                         Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostProperty.entries.map { it.name to criteriaCombine.translations.getTranslation(key = it.displayName) }.toPersistentList()
                         Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetProperty.entries.map { it.name to criteriaCombine.translations.getTranslation(key = it.displayName) }.toPersistentList()
+                    },
+                    visibleProperties = when (criteriaCombine.criteria.currentContent) {
+                        Content.LIST_HOSTS, Content.DETAIL_PLANETS -> visibleStellarHostProperties.toPersistentList()
+                        Content.LIST_PLANETS, Content.DETAIL_HOSTS -> visiblePlanetProperties.toPersistentList()
+                    },
+                    searchableProperties = when (criteriaCombine.criteria.currentContent) {
+                        Content.LIST_HOSTS, Content.DETAIL_PLANETS -> visibleStellarHostProperties.toPersistentList()
+                        Content.LIST_PLANETS, Content.DETAIL_HOSTS -> searchablePlanetProperties.toPersistentList()
                     }
                 )
             }
@@ -217,6 +226,9 @@ internal class StellarExplorerStore(
                     it.copy(
                         exoplanets = result.exoplanets,
                         properties = result.properties,
+                        sortProperty = sortStellarHostProperty,
+                        visibleProperties = result.visibleProperties,
+                        searchableProperties = result.searchableProperties
                     )
                 }
             }
@@ -226,29 +238,21 @@ internal class StellarExplorerStore(
         Telemetry.info(tag = TAG, message = "Changed view")
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.DETAIL_HOSTS -> {
-                val visibleProperties = visiblePlanetProperties.toPersistentList()
-                val searchProperties = searchablePlanetProperties.toPersistentList()
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_PLANETS,
+                        listState = LazyListState(),
                         search = "",
-                        sortProperty = sortStellarHostProperty,
-                        visibleProperties = visibleProperties,
-                        searchProperties = searchProperties
                     )
                 }
             }
 
             Content.LIST_PLANETS, Content.DETAIL_PLANETS -> {
-                val visibleProperties = visibleStellarHostProperties.toPersistentList()
-                val searchProperties = searchableStellarHostProperties.toPersistentList()
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_HOSTS,
+                        listState = LazyListState(),
                         search = "",
-                        sortProperty = sortPlanetProperty,
-                        visibleProperties = visibleProperties,
-                        searchProperties = searchProperties
                     )
                 }
             }
@@ -264,15 +268,11 @@ internal class StellarExplorerStore(
     private fun openStellarHost(action: StellarExplorerAction.OpenStellarHost): Job = launch(id = "openStellarHost") {
         Telemetry.info(tag = TAG, message = "Opening stellar host ${action.stellarHost.id}")
         selectedStellarHost = action.stellarHost
-        val visibleProperties = visiblePlanetProperties.toPersistentList()
-        val searchProperties = searchablePlanetProperties.toPersistentList()
         updateState {
             it.copy(
                 currentContent = Content.DETAIL_HOSTS,
+                listState = action.listState,
                 search = "",
-                sortProperty = sortPlanetProperty,
-                visibleProperties = visibleProperties,
-                searchProperties = searchProperties
             )
         }
     }
@@ -280,15 +280,11 @@ internal class StellarExplorerStore(
     private fun openPlanet(action: StellarExplorerAction.OpenPlanet): Job = launch(id = "openPlanet") {
         Telemetry.info(tag = TAG, message = "Opening planet ${action.planet.id}")
         selectedPlanet = action.planet
-        val visibleProperties = visibleStellarHostProperties.toPersistentList()
-        val searchProperties = searchableStellarHostProperties.toPersistentList()
         updateState {
             it.copy(
                 currentContent = Content.DETAIL_PLANETS,
+                listState = action.listState,
                 search = "",
-                sortProperty = sortStellarHostProperty,
-                visibleProperties = visibleProperties,
-                searchProperties = searchProperties
             )
         }
     }
@@ -320,12 +316,12 @@ internal class StellarExplorerStore(
 
     private fun changeSearchable(state: StellarExplorerState, action: StellarExplorerAction.ChangeSearchable): Job = launch(id = "changeSearchable") {
         Telemetry.info(tag = TAG, message = "Changing searchable property ${action.property}")
-        val searchProperties = state.searchProperties.plusOrMinus(element = action.property).toPersistentList()
+        val searchProperties = state.searchableProperties.plusOrMinus(element = action.property).toPersistentList()
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.DETAIL_PLANETS -> searchableStellarHostProperties = searchProperties
             Content.LIST_PLANETS, Content.DETAIL_HOSTS -> searchablePlanetProperties = searchProperties
         }
-        updateState { it.copy(searchProperties = searchProperties) }
+        updateState { it.copy(searchableProperties = searchProperties) }
     }
 
     private fun navigateBack(state: StellarExplorerState) {
@@ -335,30 +331,20 @@ internal class StellarExplorerStore(
 
             Content.DETAIL_HOSTS -> {
                 selectedStellarHost = null
-                val visibleProperties = visibleStellarHostProperties.toPersistentList()
-                val searchProperties = searchableStellarHostProperties.toPersistentList()
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_HOSTS,
                         search = "",
-                        sortProperty = sortStellarHostProperty,
-                        visibleProperties = visibleProperties,
-                        searchProperties = searchProperties
                     )
                 }
             }
 
             Content.DETAIL_PLANETS -> {
                 selectedPlanet = null
-                val visibleProperties = visiblePlanetProperties.toPersistentList()
-                val searchProperties = searchablePlanetProperties.toPersistentList()
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_PLANETS,
                         search = "",
-                        sortProperty = sortPlanetProperty,
-                        visibleProperties = visibleProperties,
-                        searchProperties = searchProperties
                     )
                 }
             }

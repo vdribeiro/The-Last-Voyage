@@ -57,7 +57,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 onSortDirectionChange = { store.send(action = StellarExplorerAction.ChangeSortDirection) },
                 visibleProperties = storeState.visibleProperties,
                 onVisibilityChange = { store.send(action = StellarExplorerAction.ChangeVisibility(property = it)) },
-                searchableProperties = storeState.searchProperties,
+                searchableProperties = storeState.searchableProperties,
                 onFiltersChange = { store.send(action = StellarExplorerAction.ChangeSearchable(property = it)) },
             )
         }
@@ -67,6 +67,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 .testTag(tag = "stellar_explorer_host_list")
                 .fillMaxSize()
                 .padding(all = 16.dp),
+            listState = storeState.listState,
             hostsFirst = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS),
             stellarHosts = storeState.exoplanets.stellarHosts,
             stellarHostId = Exoplanets.Host::id,
@@ -96,7 +97,14 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             stellarHostGravityScore = { it.gravityScore },
             stellarHostMetallicityScore = { it.metallicityScore },
             stellarHostEffectiveTemperatureScore = { it.effectiveTemperatureScore },
-            onStellarHostClick = { if (currentContent == Content.LIST_HOSTS) store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = it)) },
+            onStellarHostClick = {
+                if (currentContent == Content.LIST_HOSTS) store.send(
+                    action = StellarExplorerAction.OpenStellarHost(
+                        stellarHost = it,
+                        listState = storeState.listState
+                    )
+                )
+            },
             planets = storeState.exoplanets.planets,
             planetId = Exoplanets.Planet::id,
             planetName = { it.name },
@@ -128,7 +136,14 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             planetEsiScore = { it.esiScore },
             planetProtectionScore = { it.protectionScore },
             planetTidalLockingScore = { it.tidalLockingScore },
-            onPlanetClick = { if (currentContent == Content.LIST_PLANETS) store.send(action = StellarExplorerAction.OpenPlanet(planet = it)) },
+            onPlanetClick = {
+                if (currentContent == Content.LIST_PLANETS) store.send(
+                    action = StellarExplorerAction.OpenPlanet(
+                        planet = it,
+                        listState = storeState.listState
+                    )
+                )
+            },
         )
     }
 }
@@ -154,7 +169,7 @@ private fun StellarExplorerScreenLoadingPreview() = Preview {
                 sortProperty = StellarHostProperty.DISTANCE.displayName,
                 sortAscending = true,
                 visibleProperties = persistentListOf(),
-                searchProperties = persistentListOf()
+                searchableProperties = persistentListOf()
             )
         )
     )

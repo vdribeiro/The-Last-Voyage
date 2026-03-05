@@ -684,5 +684,5 @@ internal fun Exoplanets.Planet.filterVisibility(visiblePlanetProperties: List<Pl
 /**
  * Returns [value] if the [element] is present, otherwise returns null.
  */
-internal fun <E, V> Collection<E>.ifContains(element: E, value: V?): V? =
+private fun <E, V> Collection<E>.ifContains(element: E, value: V?): V? =
     if (contains(element)) value else null
