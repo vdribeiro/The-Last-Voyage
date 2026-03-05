@@ -2,15 +2,11 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.core.resource.ImageResource
-import com.hybris.tlv.domain.usecase.space.model.PlanetStatus
-import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 
 internal sealed interface StellarExplorerAction {
     data object Back: StellarExplorerAction
-    data class SaveListState(val listState: LazyListState): StellarExplorerAction
     data object ChangeView: StellarExplorerAction
     data class Search(val search: String): StellarExplorerAction
     data class OpenStellarHost(val stellarHost: Exoplanets.Host): StellarExplorerAction
@@ -24,7 +20,6 @@ internal sealed interface StellarExplorerAction {
 internal data class StellarExplorerState(
     val loading: Boolean = true,
     val currentContent: Content = Content.LIST_HOSTS,
-    val listState: LazyListState = LazyListState(),
     val exoplanets: Exoplanets = Exoplanets(),
     val search: String = "",
     val properties: ImmutableList<String> = persistentListOf(),
@@ -135,7 +130,12 @@ internal enum class StellarHostProperty(val displayName: String) {
     ROTATIONAL_PERIOD_SCORE(displayName = "stellar_host_rotational_period_score"),
     GRAVITY_SCORE(displayName = "stellar_host_gravity_score"),
     METALLICITY_SCORE(displayName = "stellar_host_metallicity_score"),
-    EFFECTIVE_TEMPERATURE_SCORE(displayName = "stellar_host_effective_temperature_score")
+    EFFECTIVE_TEMPERATURE_SCORE(displayName = "stellar_host_effective_temperature_score");
+
+    companion object {
+        private val map = entries.associateBy(keySelector = StellarHostProperty::name)
+        fun fromString(name: String): StellarHostProperty? = map[name.uppercase()]
+    }
 }
 
 internal enum class PlanetProperty(val displayName: String) {
@@ -169,15 +169,6 @@ internal enum class PlanetProperty(val displayName: String) {
     TIDAL_LOCKING_SCORE(displayName = "planet_tidal_locking_score")
 }
 
-internal data class FilterPropertiesCriteria(
-    val currentContent: Content
-)
-
-internal data class FilterPropertiesCriteriaCombine(
-    val criteria: FilterPropertiesCriteria,
-    val translations: Map<String, String>
-)
-
 internal data class FilterExoplanetsCriteria(
     val currentContent: Content,
     val search: String,
@@ -189,5 +180,11 @@ internal data class FilterExoplanetsCriteria(
 
 internal data class FilterExoplanetsCriteriaCombine(
     val criteria: FilterExoplanetsCriteria,
-    val stellarHosts: List<StellarHost>
+    val stellarHosts: List<StellarHost>,
+    val translations: Map<String, String>
+)
+
+internal data class FilterExoplanetsCriteriaResult(
+    val exoplanets: Exoplanets,
+    val properties: ImmutableList<String>
 )

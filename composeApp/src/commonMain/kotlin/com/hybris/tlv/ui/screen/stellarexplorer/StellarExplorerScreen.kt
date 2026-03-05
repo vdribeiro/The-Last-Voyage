@@ -51,7 +51,6 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                         end = 16.dp,
                         top = 8.dp
                     ),
-                enabled = currentContent in listOf(Content.LIST_HOSTS, Content.LIST_PLANETS),
                 search = storeState.search,
                 onSearch = { store.send(action = StellarExplorerAction.Search(search = it)) },
                 viewName = if (isHostView) hostListTranslation else planetListTranslation,
@@ -75,7 +74,6 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 .testTag(tag = "stellar_explorer_host_list")
                 .fillMaxSize()
                 .padding(all = 16.dp),
-            listState = storeState.listState,
             hostsFirst = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS),
             stellarHosts = storeState.exoplanets.stellarHosts,
             stellarHostId = Exoplanets.Host::id,
@@ -105,10 +103,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             stellarHostGravityScore = { it.gravityScore },
             stellarHostMetallicityScore = { it.metallicityScore },
             stellarHostEffectiveTemperatureScore = { it.effectiveTemperatureScore },
-            onStellarHostClick = {
-                store.send(action = StellarExplorerAction.SaveListState(listState = storeState.listState))
-                store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = it))
-            },
+            onStellarHostClick = { store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = it)) },
             planets = storeState.exoplanets.planets,
             planetId = Exoplanets.Planet::id,
             planetName = { it.name },
@@ -140,10 +135,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             planetEsiScore = { it.esiScore },
             planetProtectionScore = { it.protectionScore },
             planetTidalLockingScore = { it.tidalLockingScore },
-            onPlanetClick = {
-                store.send(action = StellarExplorerAction.SaveListState(listState = storeState.listState))
-                store.send(action = StellarExplorerAction.OpenPlanet(planet = it))
-            },
+            onPlanetClick = { store.send(action = StellarExplorerAction.OpenPlanet(planet = it)) },
         )
     }
 }

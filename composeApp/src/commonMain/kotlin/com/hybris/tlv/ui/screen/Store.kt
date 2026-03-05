@@ -88,7 +88,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      */
     protected fun launch(
         id: String,
-        replace: Boolean = false,
+        replace: Boolean = true,
         context: CoroutineContext = Dispatcher.Default,
         block: suspend CoroutineScope.() -> Unit
     ): Job = launchJob(
@@ -109,7 +109,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     @OptIn(ExperimentalCoroutinesApi::class)
     protected fun <T> Flow<T>.observe(
         id: String,
-        replace: Boolean = false,
+        replace: Boolean = true,
         context: CoroutineContext = Dispatcher.IO,
         timeout: Long = 5000L,
         block: suspend (T) -> Unit

@@ -56,11 +56,15 @@ internal class EventExplorerStore(
             )
         }
             .mapLatest { criteriaCombine ->
-                criteriaCombine.events.search(search = criteriaCombine.criteria.search).toPersistentList()
+                FilterEventsCriteriaResult(
+                    events = criteriaCombine.events.search(
+                        search = criteriaCombine.criteria.search
+                    ).toPersistentList()
+                )
             }
             .flowOn(context = Dispatcher.Default)
-            .observe(id = "filterEvents") { events ->
-                updateState { it.copy(events = events) }
+            .observe(id = "filterEvents") { result ->
+                updateState { it.copy(events = result.events) }
             }
     }
 

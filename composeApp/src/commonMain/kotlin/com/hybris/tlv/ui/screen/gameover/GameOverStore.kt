@@ -72,7 +72,7 @@ internal class GameOverStore(
         }
     }
 
-    private fun nextAchievement(): Job = launch(id = "nextAchievement") {
+    private fun nextAchievement(): Job = launch(id = "nextAchievement", replace = false) {
         index++
         val achievement = achievements.getOrNull(index = index)
         updateState { it.copy(achievement = achievement) }
