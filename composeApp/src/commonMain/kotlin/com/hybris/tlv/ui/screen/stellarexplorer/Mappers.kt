@@ -686,9 +686,3 @@ internal fun Exoplanets.Planet.filterVisibility(visiblePlanetProperties: List<Pl
  */
 internal fun <E, V> Collection<E>.ifContains(element: E, value: V?): V? =
     if (contains(element)) value else null
-
-/**
- * Returns the first key whose value matches [value].
- */
-internal fun <T: Enum<T>> Map<T, String>.findKey(value: String): T? =
-    entries.find { it.value == value }?.key
