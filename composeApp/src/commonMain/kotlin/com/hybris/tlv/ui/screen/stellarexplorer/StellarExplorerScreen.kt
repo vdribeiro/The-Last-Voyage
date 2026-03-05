@@ -1,11 +1,8 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.persistentSetOf
-import kotlinx.collections.immutable.toPersistentSet
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
@@ -17,9 +14,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.domain.usecase.space.model.Planet
-import com.hybris.tlv.domain.usecase.space.model.PlanetStatus
-import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
@@ -29,7 +23,6 @@ import com.hybris.tlv.ui.theme.component.list.ExoplanetList
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.ui.theme.getTranslation
 
-// TODO - refactor this. Too much logic on the UI
 @Composable
 internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExplorerAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
@@ -64,7 +57,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 onSortDirectionChange = { store.send(action = StellarExplorerAction.ChangeSortDirection) },
                 visibleProperties = storeState.visibleProperties,
                 onVisibilityChange = { store.send(action = StellarExplorerAction.ChangeVisibility(property = it)) },
-                searchProperties = storeState.searchProperties,
+                searchableProperties = storeState.searchProperties,
                 onFiltersChange = { store.send(action = StellarExplorerAction.ChangeSearchable(property = it)) },
             )
         }
