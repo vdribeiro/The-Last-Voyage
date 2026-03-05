@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.theme.component.topbar
 
-import kotlinx.collections.immutable.ImmutableCollection
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.FlowPreview
@@ -68,9 +67,9 @@ internal fun ControlPanel(
     ascending: Boolean = true,
     onSortChange: (String) -> Unit = {},
     onSortDirectionChange: () -> Unit = {},
-    visibleProperties: ImmutableCollection<String> = persistentListOf(),
+    visibleProperties: ImmutableList<String> = persistentListOf(),
     onVisibilityChange: (String) -> Unit = {},
-    searchableProperties: ImmutableCollection<String> = persistentListOf(),
+    searchableProperties: ImmutableList<String> = persistentListOf(),
     onFiltersChange: (String) -> Unit = {}
 ) {
     val shapes = LocalShapes.current
@@ -195,7 +194,7 @@ internal fun ControlPanel(
 private fun SearchMenu(
     enabled: Boolean,
     properties: ImmutableList<Pair<String, String>>,
-    selectedProperties: ImmutableCollection<String>,
+    selectedProperties: ImmutableList<String>,
     onFiltersChange: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(value = false) }
@@ -290,7 +289,7 @@ private fun SortMenu(
 private fun VisibilityMenu(
     enabled: Boolean,
     properties: ImmutableList<Pair<String, String>>,
-    visibleProperties: ImmutableCollection<String>,
+    visibleProperties: ImmutableList<String>,
     onVisibilityChange: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(value = false) }
