@@ -107,7 +107,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 onSortDirectionChange = { store.send(action = StellarExplorerAction.ChangeSortDirection) },
                 visibleProperties = visibleProperties,
                 onVisibilityChange = onVisibilityChange,
-                searchProperties = selectedProperties,
+                searchableProperties = selectedProperties,
                 onFiltersChange = onFiltersChange,
             )
         }

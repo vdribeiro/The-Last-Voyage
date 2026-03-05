@@ -338,7 +338,7 @@ private fun ControlPanelPreview() = Preview {
             sortProperty = "Name",
             ascending = true,
             visibleProperties = persistentListOf("Name", "Status"),
-            searchProperties = persistentListOf("Status")
+            searchableProperties = persistentListOf("Status")
         )
         ControlPanel(
             enabled = false,
