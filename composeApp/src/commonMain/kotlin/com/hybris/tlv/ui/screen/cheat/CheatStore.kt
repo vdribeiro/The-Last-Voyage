@@ -45,6 +45,7 @@ internal class CheatStore(
         }
     }
 
+    // TODO - use lifecycle-aware observe
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun observeState(): Job =
         stateFlow

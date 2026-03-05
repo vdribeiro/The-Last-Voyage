@@ -22,3 +22,7 @@ internal data class FilterEventsCriteriaCombine(
     val criteria: FilterEventsCriteria,
     val events: List<Event>
 )
+
+internal data class FilterEventsCriteriaResult(
+    val events: ImmutableList<Event>
+)
