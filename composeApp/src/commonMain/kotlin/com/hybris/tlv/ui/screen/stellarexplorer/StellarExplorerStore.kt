@@ -226,14 +226,12 @@ internal class StellarExplorerStore(
         Telemetry.info(tag = TAG, message = "Changed view")
         when (state.currentContent) {
             Content.LIST_HOSTS, Content.DETAIL_HOSTS -> {
-                val properties = StellarHostProperty.entries.map { it.name to TranslationCache.get(key = it.displayName) }.toPersistentList()
-                val visibleProperties = visibleStellarHostProperties.toPersistentList()
-                val searchProperties = searchableStellarHostProperties.toPersistentList()
+                val visibleProperties = visiblePlanetProperties.toPersistentList()
+                val searchProperties = searchablePlanetProperties.toPersistentList()
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_PLANETS,
                         search = "",
-                        properties = properties,
                         sortProperty = sortStellarHostProperty,
                         visibleProperties = visibleProperties,
                         searchProperties = searchProperties
@@ -242,14 +240,12 @@ internal class StellarExplorerStore(
             }
 
             Content.LIST_PLANETS, Content.DETAIL_PLANETS -> {
-                val properties = PlanetProperty.entries.map { it.name to TranslationCache.get(key = it.displayName) }.toPersistentList()
-                val visibleProperties = visiblePlanetProperties.toPersistentList()
-                val searchProperties = searchablePlanetProperties.toPersistentList()
+                val visibleProperties = visibleStellarHostProperties.toPersistentList()
+                val searchProperties = searchableStellarHostProperties.toPersistentList()
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_HOSTS,
                         search = "",
-                        properties = properties,
                         sortProperty = sortPlanetProperty,
                         visibleProperties = visibleProperties,
                         searchProperties = searchProperties
@@ -268,14 +264,12 @@ internal class StellarExplorerStore(
     private fun openStellarHost(action: StellarExplorerAction.OpenStellarHost): Job = launch(id = "openStellarHost") {
         Telemetry.info(tag = TAG, message = "Opening stellar host ${action.stellarHost.id}")
         selectedStellarHost = action.stellarHost
-        val properties = PlanetProperty.entries.map { it.name to TranslationCache.get(key = it.displayName) }.toPersistentList()
         val visibleProperties = visiblePlanetProperties.toPersistentList()
         val searchProperties = searchablePlanetProperties.toPersistentList()
         updateState {
             it.copy(
                 currentContent = Content.DETAIL_HOSTS,
                 search = "",
-                properties = properties,
                 sortProperty = sortPlanetProperty,
                 visibleProperties = visibleProperties,
                 searchProperties = searchProperties
@@ -286,14 +280,12 @@ internal class StellarExplorerStore(
     private fun openPlanet(action: StellarExplorerAction.OpenPlanet): Job = launch(id = "openPlanet") {
         Telemetry.info(tag = TAG, message = "Opening planet ${action.planet.id}")
         selectedPlanet = action.planet
-        val properties = StellarHostProperty.entries.map { it.name to TranslationCache.get(key = it.displayName) }.toPersistentList()
         val visibleProperties = visibleStellarHostProperties.toPersistentList()
         val searchProperties = searchableStellarHostProperties.toPersistentList()
         updateState {
             it.copy(
                 currentContent = Content.DETAIL_PLANETS,
                 search = "",
-                properties = properties,
                 sortProperty = sortStellarHostProperty,
                 visibleProperties = visibleProperties,
                 searchProperties = searchProperties
@@ -343,14 +335,12 @@ internal class StellarExplorerStore(
 
             Content.DETAIL_HOSTS -> {
                 selectedStellarHost = null
-                val properties = StellarHostProperty.entries.map { it.name to TranslationCache.get(key = it.displayName) }.toPersistentList()
                 val visibleProperties = visibleStellarHostProperties.toPersistentList()
                 val searchProperties = searchableStellarHostProperties.toPersistentList()
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_HOSTS,
                         search = "",
-                        properties = properties,
                         sortProperty = sortStellarHostProperty,
                         visibleProperties = visibleProperties,
                         searchProperties = searchProperties
@@ -360,14 +350,12 @@ internal class StellarExplorerStore(
 
             Content.DETAIL_PLANETS -> {
                 selectedPlanet = null
-                val properties = PlanetProperty.entries.map { it.name to TranslationCache.get(key = it.displayName) }.toPersistentList()
                 val visibleProperties = visiblePlanetProperties.toPersistentList()
                 val searchProperties = searchablePlanetProperties.toPersistentList()
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_PLANETS,
                         search = "",
-                        properties = properties,
                         sortProperty = sortPlanetProperty,
                         visibleProperties = visibleProperties,
                         searchProperties = searchProperties
