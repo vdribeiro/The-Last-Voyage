@@ -43,53 +43,57 @@ internal class StellarExplorerStore(
     @VisibleForTesting
     @Volatile
     internal var sortPlanetProperty: String = sortPlanetPropertyDefault.name
-    @VisibleForTesting
-    @Volatile
-    internal var visibleStellarHostProperties: List<String> = listOf(
-        StellarHostProperty.NAME.name,
-        StellarHostProperty.SYSTEM_NAME.name,
-        StellarHostProperty.PLANET_COUNT.name,
-        StellarHostProperty.SPECTRAL_TYPE.name,
-        StellarHostProperty.TEMPERATURE.name,
-        StellarHostProperty.RADIUS.name,
-        StellarHostProperty.MASS.name,
-        StellarHostProperty.METALLICITY.name,
-        StellarHostProperty.LUMINOSITY.name,
-        StellarHostProperty.GRAVITY.name,
-        StellarHostProperty.AGE.name,
-        StellarHostProperty.DENSITY.name,
-        StellarHostProperty.ROTATIONAL_VELOCITY.name,
-        StellarHostProperty.ROTATIONAL_PERIOD.name,
-        StellarHostProperty.DISTANCE.name,
-        StellarHostProperty.RA.name,
-        StellarHostProperty.DEC.name,
+    private val visibleStellarHostPropertiesDefault = listOf(
+        StellarHostProperty.NAME,
+        StellarHostProperty.SYSTEM_NAME,
+        StellarHostProperty.PLANET_COUNT,
+        StellarHostProperty.SPECTRAL_TYPE,
+        StellarHostProperty.TEMPERATURE,
+        StellarHostProperty.RADIUS,
+        StellarHostProperty.MASS,
+        StellarHostProperty.METALLICITY,
+        StellarHostProperty.LUMINOSITY,
+        StellarHostProperty.GRAVITY,
+        StellarHostProperty.AGE,
+        StellarHostProperty.DENSITY,
+        StellarHostProperty.ROTATIONAL_VELOCITY,
+        StellarHostProperty.ROTATIONAL_PERIOD,
+        StellarHostProperty.DISTANCE,
+        StellarHostProperty.RA,
+        StellarHostProperty.DEC
     )
     @VisibleForTesting
     @Volatile
-    internal var visiblePlanetProperties: List<String> = listOf(
-        PlanetProperty.NAME.name,
-        PlanetProperty.STATUS.name,
-        PlanetProperty.HABITABILITY.name,
-        PlanetProperty.CONFIDENCE.name,
-        PlanetProperty.TYPE.name,
-        PlanetProperty.ORBITAL_PERIOD.name,
-        PlanetProperty.ORBIT_AXIS.name,
-        PlanetProperty.RADIUS.name,
-        PlanetProperty.MASS.name,
-        PlanetProperty.DENSITY.name,
-        PlanetProperty.ECCENTRICITY.name,
-        PlanetProperty.INSOLATION_FLUX.name,
-        PlanetProperty.TEMPERATURE.name,
-        PlanetProperty.OCCULTATION_DEPTH.name,
-        PlanetProperty.INCLINATION.name,
-        PlanetProperty.OBLIQUITY.name,
+    internal var visibleStellarHostProperties: List<String> = visibleStellarHostPropertiesDefault.map { it.name }
+    private val visiblePlanetPropertiesDefault = listOf(
+        PlanetProperty.NAME,
+        PlanetProperty.STATUS,
+        PlanetProperty.HABITABILITY,
+        PlanetProperty.CONFIDENCE,
+        PlanetProperty.TYPE,
+        PlanetProperty.ORBITAL_PERIOD,
+        PlanetProperty.ORBIT_AXIS,
+        PlanetProperty.RADIUS,
+        PlanetProperty.MASS,
+        PlanetProperty.DENSITY,
+        PlanetProperty.ECCENTRICITY,
+        PlanetProperty.INSOLATION_FLUX,
+        PlanetProperty.TEMPERATURE,
+        PlanetProperty.OCCULTATION_DEPTH,
+        PlanetProperty.INCLINATION,
+        PlanetProperty.OBLIQUITY
     )
     @VisibleForTesting
     @Volatile
-    internal var searchableStellarHostProperties: List<String> = listOf(StellarHostProperty.NAME.name)
+    internal var visiblePlanetProperties: List<String> = visiblePlanetPropertiesDefault.map { it.name }
+    private val searchableStellarHostPropertiesDefault = listOf(StellarHostProperty.NAME)
     @VisibleForTesting
     @Volatile
-    internal var searchablePlanetProperties: List<String> = listOf(PlanetProperty.NAME.name)
+    internal var searchableStellarHostProperties: List<String> = searchableStellarHostPropertiesDefault.map { it.name }
+    private val searchablePlanetPropertiesDefault = listOf(PlanetProperty.NAME)
+    @VisibleForTesting
+    @Volatile
+    internal var searchablePlanetProperties: List<String> = searchablePlanetPropertiesDefault.map { it.name }
 
     init {
         setup()
@@ -160,10 +164,10 @@ internal class StellarExplorerStore(
                         Content.LIST_HOSTS -> Exoplanets(
                             stellarHosts = criteriaCombine.stellarHosts.searchAndSortStellarHosts(
                                 search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { StellarHostProperty.fromString(name = it) },
+                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { StellarHostProperty.fromString(name = it) }.ifEmpty { searchableStellarHostPropertiesDefault },
                                 sort = StellarHostProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortStellarHostPropertyDefault,
                                 ascending = criteriaCombine.criteria.sortAscending,
-                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { StellarHostProperty.fromString(name = it) }
+                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { StellarHostProperty.fromString(name = it) }.ifEmpty { visibleStellarHostPropertiesDefault }
                             ).toPersistentList(),
                             planets = persistentListOf()
                         )
@@ -172,10 +176,10 @@ internal class StellarExplorerStore(
                             stellarHosts = listOfNotNull(element = selectedStellarHost).toPersistentList(),
                             planets = criteriaCombine.stellarHosts.find { it.id == selectedStellarHost?.id }?.planets.orEmpty().searchAndSortPlanets(
                                 search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { PlanetProperty.fromString(name = it) },
+                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { PlanetProperty.fromString(name = it) }.ifEmpty { searchablePlanetPropertiesDefault },
                                 sort = PlanetProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortPlanetPropertyDefault,
                                 ascending = criteriaCombine.criteria.sortAscending,
-                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { PlanetProperty.fromString(name = it) }
+                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { PlanetProperty.fromString(name = it) }.ifEmpty { visiblePlanetPropertiesDefault }
                             ).toPersistentList()
                         )
 
@@ -183,20 +187,20 @@ internal class StellarExplorerStore(
                             stellarHosts = persistentListOf(),
                             planets = criteriaCombine.stellarHosts.flatMap { it.planets }.searchAndSortPlanets(
                                 search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { PlanetProperty.fromString(name = it) },
+                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { PlanetProperty.fromString(name = it) }.ifEmpty { searchablePlanetPropertiesDefault },
                                 sort = PlanetProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortPlanetPropertyDefault,
                                 ascending = criteriaCombine.criteria.sortAscending,
-                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { PlanetProperty.fromString(name = it) }
+                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { PlanetProperty.fromString(name = it) }.ifEmpty { visiblePlanetPropertiesDefault }
                             ).toPersistentList()
                         )
 
                         Content.DETAIL_PLANETS -> Exoplanets(
                             stellarHosts = listOfNotNull(criteriaCombine.stellarHosts.find { it.id == selectedPlanet?.stellarHostId }).searchAndSortStellarHosts(
                                 search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { StellarHostProperty.fromString(name = it) },
+                                searchable = criteriaCombine.criteria.searchProperties.mapNotNull { StellarHostProperty.fromString(name = it) }.ifEmpty { searchableStellarHostPropertiesDefault },
                                 sort = StellarHostProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortStellarHostPropertyDefault,
                                 ascending = criteriaCombine.criteria.sortAscending,
-                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { StellarHostProperty.fromString(name = it) }
+                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { StellarHostProperty.fromString(name = it) }.ifEmpty { visibleStellarHostPropertiesDefault }
                             ).toPersistentList(),
                             planets = listOfNotNull(element = selectedPlanet).toPersistentList()
                         )
@@ -213,9 +217,6 @@ internal class StellarExplorerStore(
                     it.copy(
                         exoplanets = result.exoplanets,
                         properties = result.properties,
-//                        sortProperty = "TODO",
-//                        visibleProperties = persistentListOf(),
-//                        searchProperties = persistentListOf()
                     )
                 }
             }
