@@ -12,7 +12,6 @@ import androidx.compose.material.icons.filled.Public
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,7 +37,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     val hostListTranslation = getTranslation(key = "stellar_explorer_screen__host_list")
     val planetListTranslation = getTranslation(key = "stellar_explorer_screen__planet_list")
 
-    val listState = rememberSaveable(saver = LazyListState.Saver) { LazyListState() }
+    val listState = rememberLazyListState()
 
     Screen(
         loading = storeState.loading,

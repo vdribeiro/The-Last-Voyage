@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.core.resource.ImageResource
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 
