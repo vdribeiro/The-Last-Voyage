@@ -241,7 +241,6 @@ internal class StellarExplorerStore(
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_PLANETS,
-                        listState = LazyListState(),
                         search = "",
                     )
                 }
@@ -251,7 +250,6 @@ internal class StellarExplorerStore(
                 updateState {
                     it.copy(
                         currentContent = Content.LIST_HOSTS,
-                        listState = LazyListState(),
                         search = "",
                     )
                 }
@@ -271,7 +269,6 @@ internal class StellarExplorerStore(
         updateState {
             it.copy(
                 currentContent = Content.DETAIL_HOSTS,
-                listState = action.listState,
                 search = "",
             )
         }
@@ -283,7 +280,6 @@ internal class StellarExplorerStore(
         updateState {
             it.copy(
                 currentContent = Content.DETAIL_PLANETS,
-                listState = action.listState,
                 search = "",
             )
         }

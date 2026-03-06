@@ -10,8 +10,8 @@ internal sealed interface StellarExplorerAction {
     data object Back: StellarExplorerAction
     data object ChangeView: StellarExplorerAction
     data class Search(val search: String): StellarExplorerAction
-    data class OpenStellarHost(val stellarHost: Exoplanets.Host, val listState: LazyListState): StellarExplorerAction
-    data class OpenPlanet(val planet: Exoplanets.Planet, val listState: LazyListState): StellarExplorerAction
+    data class OpenStellarHost(val stellarHost: Exoplanets.Host): StellarExplorerAction
+    data class OpenPlanet(val planet: Exoplanets.Planet): StellarExplorerAction
     data class Sort(val sort: String): StellarExplorerAction
     data object ChangeSortDirection: StellarExplorerAction
     data class ChangeVisibility(val property: String): StellarExplorerAction
@@ -21,7 +21,6 @@ internal sealed interface StellarExplorerAction {
 internal data class StellarExplorerState(
     val loading: Boolean = true,
     val currentContent: Content = Content.LIST_HOSTS,
-    val listState: LazyListState = LazyListState(),
     val exoplanets: Exoplanets = Exoplanets(),
     val search: String = "",
     val properties: ImmutableList<Pair<String, String>> = persistentListOf(),

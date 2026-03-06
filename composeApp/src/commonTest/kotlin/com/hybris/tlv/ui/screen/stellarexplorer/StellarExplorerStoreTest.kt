@@ -6,7 +6,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.firstOrNull
-import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
 import com.hybris.tlv.ui.navigation.Screen
@@ -21,8 +20,6 @@ internal class StellarExplorerStoreTest: TestCase() {
         store.stateFlow.firstOrNull() // Trigger observe
         assertFalse(store.state.loading)
         assertEquals(expected = Content.LIST_HOSTS, actual = store.state.currentContent)
-        assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemIndex)
-        assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemScrollOffset)
         assertEquals(expected = FakeData.stellarHosts.get().map { it.id }.sorted(), actual = store.state.exoplanets.stellarHosts.map { it.id }.sorted())
         assertNull(actual = store.selectedStellarHost)
         assertNull(actual = store.selectedPlanet)
@@ -75,18 +72,6 @@ internal class StellarExplorerStoreTest: TestCase() {
         )
         assertEquals(expected = listOf(StellarHostProperty.NAME).map { it.name }, actual = store.searchableStellarHostProperties)
         assertEquals(expected = listOf(PlanetProperty.NAME).map { it.name }, actual = store.searchablePlanetProperties)
-    }
-
-    @Test
-    fun saveIndex() = runUnitTest {
-        val store = storeFactory.get().getStellarExplorerStore()
-        assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemIndex)
-        assertEquals(expected = 0, actual = store.state.listState.firstVisibleItemScrollOffset)
-
-        val lazyListState = LazyListState(firstVisibleItemIndex = 6, firstVisibleItemScrollOffset = 9)
-        store.send(action = StellarExplorerAction.SaveListState(listState = lazyListState))
-        assertEquals(expected = lazyListState.firstVisibleItemIndex, actual = store.state.listState.firstVisibleItemIndex)
-        assertEquals(expected = lazyListState.firstVisibleItemScrollOffset, actual = store.state.listState.firstVisibleItemScrollOffset)
     }
 
     @Test
@@ -172,13 +157,13 @@ internal class StellarExplorerStoreTest: TestCase() {
         assertNavigation(list = listOf(Screen.StellarExplorer))
         val store = storeFactory.get().getStellarExplorerStore()
 
-        store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = FakeData.stellarHosts.get().first()))
+        store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = FakeData.stellarHosts.get().first().toExoplanetsHost()))
         assertEquals(expected = Content.DETAIL_HOSTS, actual = store.state.currentContent)
         store.send(action = StellarExplorerAction.Back)
         assertEquals(expected = Content.LIST_HOSTS, actual = store.state.currentContent)
         store.send(action = StellarExplorerAction.ChangeView)
         assertEquals(expected = Content.LIST_PLANETS, actual = store.state.currentContent)
-        store.send(action = StellarExplorerAction.OpenPlanet(planet = FakeData.planets.get().first()))
+        store.send(action = StellarExplorerAction.OpenPlanet(planet = FakeData.planets.get().first().toExoplanetsPlanet()))
         assertEquals(expected = Content.DETAIL_PLANETS, actual = store.state.currentContent)
         store.send(action = StellarExplorerAction.Back)
         assertEquals(expected = Content.LIST_PLANETS, actual = store.state.currentContent)

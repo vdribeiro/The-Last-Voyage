@@ -5,12 +5,14 @@ import kotlinx.collections.immutable.toPersistentList
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,6 +37,8 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
 
     val hostListTranslation = getTranslation(key = "stellar_explorer_screen__host_list")
     val planetListTranslation = getTranslation(key = "stellar_explorer_screen__planet_list")
+
+    val listState = rememberSaveable(saver = LazyListState.Saver) { LazyListState() }
 
     Screen(
         loading = storeState.loading,
@@ -72,7 +76,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 .testTag(tag = "stellar_explorer_host_list")
                 .fillMaxSize()
                 .padding(all = 16.dp),
-            listState = if (currentContent in listOf(Content.LIST_HOSTS, Content.LIST_PLANETS)) storeState.listState else LazyListState(),
+            listState = if (currentContent in listOf(Content.LIST_HOSTS, Content.LIST_PLANETS)) listState else LazyListState(),
             hostsFirst = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS),
             stellarHosts = storeState.exoplanets.stellarHosts,
             stellarHostId = Exoplanets.Host::id,
@@ -102,14 +106,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             stellarHostGravityScore = { it.gravityScore },
             stellarHostMetallicityScore = { it.metallicityScore },
             stellarHostEffectiveTemperatureScore = { it.effectiveTemperatureScore },
-            onStellarHostClick = {
-                if (currentContent == Content.LIST_HOSTS) store.send(
-                    action = StellarExplorerAction.OpenStellarHost(
-                        stellarHost = it,
-                        listState = storeState.listState
-                    )
-                )
-            },
+            onStellarHostClick = { if (currentContent == Content.LIST_HOSTS) store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = it)) },
             planets = storeState.exoplanets.planets,
             planetId = Exoplanets.Planet::id,
             planetName = { it.name },
@@ -141,14 +138,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             planetEsiScore = { it.esiScore },
             planetProtectionScore = { it.protectionScore },
             planetTidalLockingScore = { it.tidalLockingScore },
-            onPlanetClick = {
-                if (currentContent == Content.LIST_PLANETS) store.send(
-                    action = StellarExplorerAction.OpenPlanet(
-                        planet = it,
-                        listState = storeState.listState
-                    )
-                )
-            },
+            onPlanetClick = { if (currentContent == Content.LIST_PLANETS) store.send(action = StellarExplorerAction.OpenPlanet(planet = it)) },
         )
     }
 }
@@ -169,7 +159,6 @@ private fun StellarExplorerScreenLoadingPreview() = Preview {
             initialState = StellarExplorerState(
                 loading = true,
                 currentContent = Content.LIST_HOSTS,
-                listState = LazyListState(),
                 exoplanets = Exoplanets(),
                 search = "",
                 properties = persistentListOf(),
@@ -198,7 +187,6 @@ private fun StellarExplorerScreenHostListPreview() = Preview {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.LIST_HOSTS,
-                listState = LazyListState(),
                 exoplanets = Exoplanets(
                     stellarHosts = listOf(
                         StellarHost(
@@ -269,7 +257,6 @@ private fun StellarExplorerScreenHostDetailPreview() = Preview {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.DETAIL_HOSTS,
-                listState = LazyListState(),
                 exoplanets = Exoplanets(
                     stellarHosts = listOf(
                         StellarHost(
@@ -356,7 +343,6 @@ private fun StellarExplorerScreenPlanetListPreview() = Preview {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.LIST_PLANETS,
-                listState = LazyListState(),
                 exoplanets = Exoplanets(
                     stellarHosts = persistentListOf(),
                     planets = listOf(
@@ -423,7 +409,6 @@ private fun StellarExplorerScreenPlanetDetailPreview() = Preview {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.DETAIL_PLANETS,
-                listState = LazyListState(),
                 exoplanets = Exoplanets(
                     stellarHosts = listOf(
                         StellarHost(
