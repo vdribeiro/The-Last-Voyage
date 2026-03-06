@@ -37,8 +37,15 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     val hostListTranslation = getTranslation(key = "stellar_explorer_screen__host_list")
     val planetListTranslation = getTranslation(key = "stellar_explorer_screen__planet_list")
 
-    val listState = rememberLazyListState()
+    val hostListState = rememberLazyListState()
+    val planetListState = rememberLazyListState()
+    val detailState = remember(currentContent) { LazyListState() }
 
+    val listState = when (currentContent) {
+        Content.LIST_HOSTS -> hostListState
+        Content.LIST_PLANETS -> planetListState
+        Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> detailState
+    }
     Screen(
         loading = storeState.loading,
         onBackClick = { store.send(action = StellarExplorerAction.Back) },
@@ -75,7 +82,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 .testTag(tag = "stellar_explorer_host_list")
                 .fillMaxSize()
                 .padding(all = 16.dp),
-            listState = if (currentContent in listOf(Content.LIST_HOSTS, Content.LIST_PLANETS)) listState else LazyListState(),
+            listState = listState,
             hostsFirst = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS),
             stellarHosts = storeState.exoplanets.stellarHosts,
             stellarHostId = Exoplanets.Host::id,
