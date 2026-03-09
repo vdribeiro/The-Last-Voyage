@@ -2,11 +2,6 @@ package com.hybris.tlv.ui.screen.cheat
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onEach
-import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.ui.screen.Store
@@ -36,27 +31,18 @@ internal class CheatStore(
             )
         }
 
-        stateFlow
-            .filter { !it.loading } // Prevent overwriting Config with default values on startup
-            .distinctUntilChanged() // Only trigger if the specific values actually change
-            .onEach { state -> // Sequential saving to avoid cancellation data loss
-                config.setPreferences {
-                    it.copy(
-                        cheatIntegrity = state.integrity,
-                        cheatSensorRange = state.sensorRange,
-                        cheatFuel = state.fuel,
-                        cheatMaterials = state.materials,
-                        cheatCryopods = state.cryopods
-                    )
-                }
-                Telemetry.info(tag = TAG, message = "Cheats: $state")
+        stateFlow.observe(id = "filterCheats") { state ->
+            config.setPreferences {
+                it.copy(
+                    cheatIntegrity = state.integrity,
+                    cheatSensorRange = state.sensorRange,
+                    cheatFuel = state.fuel,
+                    cheatMaterials = state.materials,
+                    cheatCryopods = state.cryopods
+                )
             }
-            .flowOn(context = Dispatcher.Default)
-            .observe(id = "filterCheats") {
-                updateState {
-                    it.copy(loading = false)
-                }
-            }
+            Telemetry.info(tag = TAG, message = "Cheats: $state")
+        }
 
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
