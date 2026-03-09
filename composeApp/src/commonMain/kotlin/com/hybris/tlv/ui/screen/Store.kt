@@ -7,6 +7,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
@@ -62,6 +64,18 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      */
     protected fun updateState(body: (State) -> State): State =
         _stateFlow.updateAndGet(function = body)
+
+    /**
+     * Converts a cold [Flow] into a hot [StateFlow] that is started in the [viewModelScope].
+     */
+    protected fun <T> Flow<T>.toStateFlow(
+        started: SharingStarted = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+        initialValue: T
+    ): StateFlow<T> = stateIn(
+        scope = viewModelScope,
+        started = started,
+        initialValue = initialValue
+    )
 
     /**
      * Launches a [Job] returned by [block] given a unique identifier [id] and [replace] parameter.

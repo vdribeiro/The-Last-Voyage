@@ -5,7 +5,6 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
@@ -16,7 +15,6 @@ import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.space.formula.Habitability
 import com.hybris.tlv.domain.usecase.space.model.Formula
-import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.TranslationCache.getTranslation
 import com.hybris.tlv.test.VisibleForTesting
@@ -28,7 +26,6 @@ internal class StellarExplorerStore(
     initialState = StellarExplorerState()
 ) {
     private val formula: Formula = Formula()
-    private val stellarHostsFlow: MutableStateFlow<List<StellarHost>> = MutableStateFlow(value = emptyList())
     @VisibleForTesting
     @Volatile
     internal var selectedStellarHost: Exoplanets.Host? = null
@@ -99,6 +96,7 @@ internal class StellarExplorerStore(
         setup()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
@@ -112,37 +110,25 @@ internal class StellarExplorerStore(
             )
         }
 
-        observeExoplanets()
-
-        Telemetry.info(tag = TAG, message = "Setup complete")
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private fun observeExoplanets() {
-        spaceUseCases.observeExoplanets()
+        val stellarHostsFlow = spaceUseCases.observeExoplanets()
             .map { stellarHosts ->
-                stellarHosts.apply {
-                    forEach { stellarHost ->
-                        stellarHost.score = Habitability.calculateScores(
+                stellarHosts.onEach { stellarHost ->
+                    stellarHost.score = Habitability.calculateScores(
+                        stellarHost = stellarHost,
+                        planet = null,
+                        formula = formula
+                    )
+                    stellarHost.planets.forEach { planet ->
+                        planet.score = Habitability.calculateScores(
                             stellarHost = stellarHost,
-                            planet = null,
+                            planet = planet,
                             formula = formula
                         )
-                        stellarHost.planets.forEach { planet ->
-                            planet.score = Habitability.calculateScores(
-                                stellarHost = stellarHost,
-                                planet = planet,
-                                formula = formula
-                            )
-                        }
                     }
                 }
             }
             .flowOn(context = Dispatcher.Default)
-            .observe(id = "observeExoplanets") { stellarHosts ->
-                stellarHostsFlow.value = stellarHosts
-                updateState { it.copy(loading = false) }
-            }
+            .toStateFlow(initialValue = emptyList())
 
         val criteriaFlow = stateFlow
             .map { state ->
@@ -233,6 +219,7 @@ internal class StellarExplorerStore(
             .observe(id = "filterExoplanets") { result ->
                 updateState {
                     it.copy(
+                        loading = false,
                         exoplanets = result.exoplanets,
                         properties = result.properties,
                         sortProperty = sortStellarHostProperty,
@@ -241,6 +228,8 @@ internal class StellarExplorerStore(
                     )
                 }
             }
+
+        Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
     private fun changeView(state: StellarExplorerState): Job = launch(id = "changeView") {

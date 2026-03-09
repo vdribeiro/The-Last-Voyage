@@ -26,16 +26,10 @@ internal class EventExplorerStore(
         setup()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
-        observeEvents()
-
-        Telemetry.info(tag = TAG, message = "Setup complete")
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private fun observeEvents() {
         eventUseCases.observeEvents()
             .observe(id = "observeEvents") { events ->
                 eventsFlow.value = events
@@ -66,6 +60,8 @@ internal class EventExplorerStore(
             .observe(id = "filterEvents") { result ->
                 updateState { it.copy(events = result.events) }
             }
+
+        Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
     override fun reducer(state: EventExplorerState, action: EventExplorerAction) {

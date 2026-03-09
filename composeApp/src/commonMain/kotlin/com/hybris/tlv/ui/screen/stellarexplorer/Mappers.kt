@@ -621,9 +621,9 @@ private fun getPlanetsComparator(sort: PlanetProperty, ascending: Boolean): Comp
 }
 
 internal fun Exoplanets.Host.filterVisibility(visiblePlanetProperties: List<StellarHostProperty>): Exoplanets.Host = copy(
-    name = visiblePlanetProperties.ifContains(element = StellarHostProperty.NAME, value = name).orEmpty(),
-    systemName = visiblePlanetProperties.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = systemName).orEmpty(),
-    spectralType = visiblePlanetProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = spectralType).orEmpty(),
+    name = visiblePlanetProperties.ifContains(element = StellarHostProperty.NAME, value = name),
+    systemName = visiblePlanetProperties.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = systemName),
+    spectralType = visiblePlanetProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = spectralType),
     spectralTypeScore = visiblePlanetProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE_SCORE, value = spectralTypeScore),
     effectiveTemperature = visiblePlanetProperties.ifContains(element = StellarHostProperty.TEMPERATURE, value = effectiveTemperature),
     effectiveTemperatureScore = visiblePlanetProperties.ifContains(element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE, value = effectiveTemperatureScore),
