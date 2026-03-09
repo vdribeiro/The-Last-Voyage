@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlin.concurrent.Volatile
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -16,7 +15,6 @@ import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.space.formula.Habitability
 import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
-import com.hybris.tlv.domain.usecase.translation.TranslationCache.getTranslation
 import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.screen.Store
 
@@ -32,15 +30,15 @@ internal class StellarExplorerStore(
     @VisibleForTesting
     @Volatile
     internal var selectedPlanet: Exoplanets.Planet? = null
-    private val sortStellarHostPropertyDefault = StellarHostProperty.DISTANCE
+    private val sortStellarHostPropertyDefault: StellarHostProperty = StellarHostProperty.DISTANCE
     @VisibleForTesting
     @Volatile
     internal var sortStellarHostProperty: String = sortStellarHostPropertyDefault.name
-    private val sortPlanetPropertyDefault = PlanetProperty.HABITABILITY
+    private val sortPlanetPropertyDefault: PlanetProperty = PlanetProperty.HABITABILITY
     @VisibleForTesting
     @Volatile
     internal var sortPlanetProperty: String = sortPlanetPropertyDefault.name
-    private val visibleStellarHostPropertiesDefault = listOf(
+    private val visibleStellarHostPropertiesDefault: List<StellarHostProperty> = listOf(
         StellarHostProperty.NAME,
         StellarHostProperty.SYSTEM_NAME,
         StellarHostProperty.PLANET_COUNT,
@@ -62,7 +60,7 @@ internal class StellarExplorerStore(
     @VisibleForTesting
     @Volatile
     internal var visibleStellarHostProperties: List<String> = visibleStellarHostPropertiesDefault.map { it.name }
-    private val visiblePlanetPropertiesDefault = listOf(
+    private val visiblePlanetPropertiesDefault: List<PlanetProperty> = listOf(
         PlanetProperty.NAME,
         PlanetProperty.STATUS,
         PlanetProperty.HABITABILITY,
@@ -83,11 +81,11 @@ internal class StellarExplorerStore(
     @VisibleForTesting
     @Volatile
     internal var visiblePlanetProperties: List<String> = visiblePlanetPropertiesDefault.map { it.name }
-    private val searchableStellarHostPropertiesDefault = listOf(StellarHostProperty.NAME)
+    private val searchableStellarHostPropertiesDefault: List<StellarHostProperty> = listOf(StellarHostProperty.NAME)
     @VisibleForTesting
     @Volatile
     internal var searchableStellarHostProperties: List<String> = searchableStellarHostPropertiesDefault.map { it.name }
-    private val searchablePlanetPropertiesDefault = listOf(PlanetProperty.NAME)
+    private val searchablePlanetPropertiesDefault: List<PlanetProperty> = listOf(PlanetProperty.NAME)
     @VisibleForTesting
     @Volatile
     internal var searchablePlanetProperties: List<String> = searchablePlanetPropertiesDefault.map { it.name }
@@ -131,16 +129,7 @@ internal class StellarExplorerStore(
             .toStateFlow(initialValue = emptyList())
 
         val criteriaFlow = stateFlow
-            .map { state ->
-                FilterExoplanetsCriteria(
-                    currentContent = state.currentContent,
-                    search = state.search,
-                    sortProperty = state.sortProperty,
-                    sortAscending = state.sortAscending,
-                    visibleProperties = state.visibleProperties,
-                    searchableProperties = state.searchableProperties
-                )
-            }
+            .map { it.toFilterExoplanetsCriteria() }
             .distinctUntilChanged()
 
         combine(
@@ -154,65 +143,16 @@ internal class StellarExplorerStore(
                 translations = translations
             )
         }
-            .mapLatest { criteriaCombine ->
-                FilterExoplanetsCriteriaResult(
-                    exoplanets = when (criteriaCombine.criteria.currentContent) {
-                        Content.LIST_HOSTS -> Exoplanets(
-                            stellarHosts = criteriaCombine.stellarHosts.searchAndSortStellarHosts(
-                                search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchableProperties.mapNotNull { StellarHostProperty.fromString(name = it) },
-                                sort = StellarHostProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortStellarHostPropertyDefault,
-                                ascending = criteriaCombine.criteria.sortAscending,
-                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { StellarHostProperty.fromString(name = it) }
-                            ).toPersistentList(),
-                            planets = persistentListOf()
-                        )
-
-                        Content.DETAIL_HOSTS -> Exoplanets(
-                            stellarHosts = listOfNotNull(element = selectedStellarHost).toPersistentList(),
-                            planets = criteriaCombine.stellarHosts.find { it.id == selectedStellarHost?.id }?.planets.orEmpty().searchAndSortPlanets(
-                                search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchableProperties.mapNotNull { PlanetProperty.fromString(name = it) },
-                                sort = PlanetProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortPlanetPropertyDefault,
-                                ascending = criteriaCombine.criteria.sortAscending,
-                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { PlanetProperty.fromString(name = it) }
-                            ).toPersistentList()
-                        )
-
-                        Content.LIST_PLANETS -> Exoplanets(
-                            stellarHosts = persistentListOf(),
-                            planets = criteriaCombine.stellarHosts.flatMap { it.planets }.searchAndSortPlanets(
-                                search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchableProperties.mapNotNull { PlanetProperty.fromString(name = it) },
-                                sort = PlanetProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortPlanetPropertyDefault,
-                                ascending = criteriaCombine.criteria.sortAscending,
-                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { PlanetProperty.fromString(name = it) }
-                            ).toPersistentList()
-                        )
-
-                        Content.DETAIL_PLANETS -> Exoplanets(
-                            stellarHosts = listOfNotNull(criteriaCombine.stellarHosts.find { it.id == selectedPlanet?.stellarHostId }).searchAndSortStellarHosts(
-                                search = criteriaCombine.criteria.search,
-                                searchable = criteriaCombine.criteria.searchableProperties.mapNotNull { StellarHostProperty.fromString(name = it) },
-                                sort = StellarHostProperty.fromString(name = criteriaCombine.criteria.sortProperty) ?: sortStellarHostPropertyDefault,
-                                ascending = criteriaCombine.criteria.sortAscending,
-                                visible = criteriaCombine.criteria.visibleProperties.mapNotNull { StellarHostProperty.fromString(name = it) }
-                            ).toPersistentList(),
-                            planets = listOfNotNull(element = selectedPlanet).toPersistentList()
-                        )
-                    },
-                    properties = when (criteriaCombine.criteria.currentContent) {
-                        Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostProperty.entries.map { it.name to criteriaCombine.translations.getTranslation(key = it.displayName) }.toPersistentList()
-                        Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetProperty.entries.map { it.name to criteriaCombine.translations.getTranslation(key = it.displayName) }.toPersistentList()
-                    },
-                    visibleProperties = when (criteriaCombine.criteria.currentContent) {
-                        Content.LIST_HOSTS, Content.DETAIL_PLANETS -> visibleStellarHostProperties.toPersistentList()
-                        Content.LIST_PLANETS, Content.DETAIL_HOSTS -> visiblePlanetProperties.toPersistentList()
-                    },
-                    searchableProperties = when (criteriaCombine.criteria.currentContent) {
-                        Content.LIST_HOSTS, Content.DETAIL_PLANETS -> visibleStellarHostProperties.toPersistentList()
-                        Content.LIST_PLANETS, Content.DETAIL_HOSTS -> searchablePlanetProperties.toPersistentList()
-                    }
+            .mapLatest {
+                it.toFilterExoplanetsCriteriaResult(
+                    selectedStellarHost = selectedStellarHost,
+                    selectedPlanet = selectedPlanet,
+                    sortStellarHostPropertyDefault = sortStellarHostPropertyDefault,
+                    sortPlanetPropertyDefault = sortPlanetPropertyDefault,
+                    visibleStellarHostProperties = visibleStellarHostProperties,
+                    visiblePlanetProperties = visiblePlanetProperties,
+                    searchableStellarHostProperties = searchableStellarHostProperties,
+                    searchablePlanetProperties = searchablePlanetProperties
                 )
             }
             .flowOn(context = Dispatcher.Default)
