@@ -59,7 +59,7 @@ internal class ControlPanelTest: TestCase() {
         }
 
         onNodeWithContentDescription(label = "Visibility Options").performClick()
-        onNodeWithText(text = "name").performClick()
+        onNodeWithText(text = "Name").performClick()
         assertEquals(expected = "name", actual = toggledProperty)
     }
 
