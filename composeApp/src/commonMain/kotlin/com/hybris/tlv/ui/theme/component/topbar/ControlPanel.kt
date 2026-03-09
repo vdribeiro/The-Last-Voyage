@@ -62,7 +62,7 @@ internal fun ControlPanel(
     viewIcon: ImageVector? = null,
     onChangeView: () -> Unit = {},
     count: Int? = null,
-    properties: ImmutableList<String> = persistentListOf(),
+    properties: ImmutableList<Pair<String, String>> = persistentListOf(),
     sortProperty: String? = null,
     ascending: Boolean = true,
     onSortChange: (String) -> Unit = {},
@@ -193,7 +193,7 @@ internal fun ControlPanel(
 @Composable
 private fun SearchMenu(
     enabled: Boolean,
-    properties: ImmutableList<String>,
+    properties: ImmutableList<Pair<String, String>>,
     selectedProperties: ImmutableList<String>,
     onFiltersChange: (String) -> Unit
 ) {
@@ -213,11 +213,11 @@ private fun SearchMenu(
             onDismissRequest = { expanded = false },
             items = properties,
             enabled = { enabled },
-            text = { it },
-            onClick = { onFiltersChange(it) },
+            text = { it.second },
+            onClick = { onFiltersChange(it.first) },
             leadingIcon = {
                 {
-                    if (selectedProperties.contains(element = it)) {
+                    if (selectedProperties.contains(element = it.first)) {
                         Icon(
                             imageVector = Icons.Default.Check,
                             contentDescription = "Checked"
@@ -232,7 +232,7 @@ private fun SearchMenu(
 @Composable
 private fun SortMenu(
     enabled: Boolean,
-    properties: ImmutableList<String>,
+    properties: ImmutableList<Pair<String, String>>,
     selectedProperty: String?,
     ascending: Boolean,
     onSortChange: (String) -> Unit,
@@ -266,14 +266,14 @@ private fun SortMenu(
             onDismissRequest = { expanded = false },
             items = properties,
             enabled = { enabled },
-            text = { it },
+            text = { it.second },
             onClick = {
-                onSortChange(it)
+                onSortChange(it.first)
                 expanded = false
             },
             leadingIcon = {
                 {
-                    if (selectedProperty == it) {
+                    if (selectedProperty == it.first) {
                         Icon(
                             imageVector = sortDirectionIcon,
                             contentDescription = "Sort Direction"
@@ -288,7 +288,7 @@ private fun SortMenu(
 @Composable
 private fun VisibilityMenu(
     enabled: Boolean,
-    properties: ImmutableList<String>,
+    properties: ImmutableList<Pair<String, String>>,
     visibleProperties: ImmutableList<String>,
     onVisibilityChange: (String) -> Unit
 ) {
@@ -308,11 +308,11 @@ private fun VisibilityMenu(
             onDismissRequest = { expanded = false },
             items = properties,
             enabled = { enabled },
-            text = { it },
-            onClick = { onVisibilityChange(it) },
+            text = { it.second },
+            onClick = { onVisibilityChange(it.first) },
             leadingIcon = {
                 {
-                    if (visibleProperties.contains(element = it)) {
+                    if (visibleProperties.contains(element = it.first)) {
                         Icon(
                             imageVector = Icons.Default.Check,
                             contentDescription = "Visible"
@@ -334,7 +334,7 @@ private fun ControlPanelPreview() = Preview {
             viewName = "Planets",
             viewIcon = Icons.Default.Public,
             count = 2000,
-            properties = persistentListOf("Name", "Status", "Habitability", "Confidence"),
+            properties = persistentListOf("name" to "Name", "status" to "Status", "habitability" to "Habitability", "confidence" to "Confidence"),
             sortProperty = "Name",
             ascending = true,
             visibleProperties = persistentListOf("Name", "Status"),
@@ -346,7 +346,7 @@ private fun ControlPanelPreview() = Preview {
             viewName = "Planets",
             viewIcon = Icons.Default.Public,
             count = 2000,
-            properties = persistentListOf("Name", "Status", "Habitability", "Confidence"),
+            properties = persistentListOf("name" to "Name", "status" to "Status", "habitability" to "Habitability", "confidence" to "Confidence"),
             ascending = true,
         )
         ControlPanel(

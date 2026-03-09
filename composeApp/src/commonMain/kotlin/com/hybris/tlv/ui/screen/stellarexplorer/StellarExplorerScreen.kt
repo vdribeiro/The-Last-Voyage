@@ -57,7 +57,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             val viewName = if (isHostView) hostListTranslation else planetListTranslation
             val viewIcon = if (isHostView) Icons.Default.Flare else Icons.Default.Public
             val count = if (isHostView) storeState.stellarHosts.size else storeState.planets.size
-            val properties: ImmutableList<String>
+            val properties: ImmutableList<Pair<String, String>>
             val selectedProperty: String
             val onSortChange: (String) -> Unit
             val visibleProperties: ImmutableList<String>
@@ -66,7 +66,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
             val onFiltersChange: (String) -> Unit
             when (isHostView) {
                 true -> {
-                    properties = stellarHostProperties.values.toPersistentList()
+                    properties = stellarHostProperties.entries.map { it.key.name to it.value }.toPersistentList()
                     selectedProperty = stellarHostProperties[storeState.sortStellarHostProperty].orEmpty()
                     onSortChange = { property -> stellarHostProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.SortStellarHosts(sort = it)) } }
                     visibleProperties = storeState.visibleStellarHostProperties.mapNotNull { stellarHostProperties[it] }.toPersistentList()
@@ -76,7 +76,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 }
 
                 false -> {
-                    properties = planetProperties.values.toPersistentList()
+                    properties = planetProperties.entries.map { it.key.name to it.value }.toPersistentList()
                     selectedProperty = planetProperties[storeState.sortPlanetProperty].orEmpty()
                     onSortChange = { property -> planetProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.SortPlanets(sort = it)) } }
                     visibleProperties = storeState.visiblePlanetProperties.mapNotNull { planetProperties[it] }.toPersistentList()

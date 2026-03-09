@@ -137,7 +137,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                         viewName = getTranslation(key = "stellar_explorer_screen__planet_list"),
                         viewIcon = Icons.Default.Public,
                         count = 1234,
-                        properties = persistentListOf(name, habitability),
+                        properties = persistentListOf("planet_name" to name, "planet_habitability" to habitability),
                         sortProperty = name,
                         ascending = ascending,
                         onSortDirectionChange = { ascending = !ascending },
