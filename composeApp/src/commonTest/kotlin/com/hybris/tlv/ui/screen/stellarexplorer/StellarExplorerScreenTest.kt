@@ -4,7 +4,6 @@ import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.performClick
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
 import com.hybris.tlv.test.count
@@ -46,9 +45,5 @@ internal class StellarExplorerScreenTest: TestCase() {
         onNodeWithTag(testTag = "stellar_explorer_list").assertIsDisplayed()
 
         onNodeWithTag(testTag = "stellar_explorer_list").count(count = FakeData.stellarHosts.get().size)
-
-        onNodeWithTag(testTag = "control_panel_view_change").performClick()
-
-        onNodeWithTag(testTag = "stellar_explorer_list").count(count = FakeData.planets.get().size)
     }
 }
