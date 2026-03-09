@@ -4,7 +4,6 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
@@ -52,7 +51,18 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
         loading = storeState.loading,
         onBackClick = { store.send(action = StellarExplorerAction.Back) },
         topBar = {
-            val isHostView = remember(key1 = currentContent) { currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS) }
+            val hostView = remember(key1 = currentContent) {
+                when (currentContent) {
+                    Content.LIST_HOSTS, Content.DETAIL_HOSTS -> true
+                    Content.LIST_PLANETS, Content.DETAIL_PLANETS -> false
+                }
+            }
+            val stellarProperty = remember(key1 = currentContent) {
+                when (currentContent) {
+                    Content.LIST_HOSTS, Content.DETAIL_PLANETS -> true
+                    Content.LIST_PLANETS, Content.DETAIL_HOSTS -> false
+                }
+            }
             ControlPanel(
                 modifier = Modifier
                     .testTag(tag = "stellar_explorer_control_panel")
@@ -63,18 +73,18 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                     ),
                 search = storeState.search,
                 onSearch = { store.send(action = StellarExplorerAction.Search(search = it)) },
-                viewName = if (isHostView) hostListTranslation else planetListTranslation,
-                viewIcon = if (isHostView) Icons.Default.Flare else Icons.Default.Public,
+                viewName = if (hostView) hostListTranslation else planetListTranslation,
+                viewIcon = if (hostView) Icons.Default.Flare else Icons.Default.Public,
                 onChangeView = { store.send(action = StellarExplorerAction.ChangeView) },
-                count = if (isHostView) storeState.exoplanets.stellarHosts.size else storeState.exoplanets.planets.size,
+                count = if (hostView) storeState.exoplanets.stellarHosts.size else storeState.exoplanets.planets.size,
                 properties = storeState.properties,
-                sortProperty = storeState.sortProperty,
-                ascending = storeState.sortAscending,
+                sortProperty = storeState.sortStellarHostProperty,
+                ascending = if (stellarProperty) storeState.sortStellarHostAscending else storeState.sortPlanetAscending,
                 onSortChange = { store.send(action = StellarExplorerAction.Sort(sort = it)) },
                 onSortDirectionChange = { store.send(action = StellarExplorerAction.ChangeSortDirection) },
-                visibleProperties = storeState.visibleProperties,
+                visibleProperties = if (stellarProperty) storeState.visibleStellarHostProperties else storeState.visiblePlanetProperties,
                 onVisibilityChange = { store.send(action = StellarExplorerAction.ChangeVisibility(property = it)) },
-                searchableProperties = storeState.searchableProperties,
+                searchableProperties = if (stellarProperty) storeState.searchableStellarHostProperties else storeState.searchablePlanetProperties,
                 onFiltersChange = { store.send(action = StellarExplorerAction.ChangeSearchable(property = it)) },
             )
         }
@@ -170,10 +180,14 @@ private fun StellarExplorerScreenLoadingPreview() = Preview {
                 exoplanets = Exoplanets(),
                 search = "",
                 properties = persistentListOf(),
-                sortProperty = "",
-                sortAscending = true,
-                visibleProperties = persistentListOf(),
-                searchableProperties = persistentListOf()
+                sortStellarHostProperty = "",
+                sortPlanetProperty = "",
+                sortStellarHostAscending = true,
+                sortPlanetAscending = true,
+                visibleStellarHostProperties = persistentListOf(),
+                visiblePlanetProperties = persistentListOf(),
+                searchableStellarHostProperties = persistentListOf(),
+                searchablePlanetProperties = persistentListOf(),
             )
         )
     )
@@ -240,10 +254,10 @@ private fun StellarExplorerScreenHostListPreview() = Preview {
                 ),
                 search = "Something awesome",
                 properties = StellarHostProperty.entries.map { it.name to it.displayName }.toPersistentList(),
-                sortProperty = StellarHostProperty.entries.random().name,
-                sortAscending = true,
-                visibleProperties = StellarHostProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
-                searchableProperties = StellarHostProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
+                sortStellarHostProperty = StellarHostProperty.entries.random().name,
+                sortStellarHostAscending = true,
+                visibleStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
+                searchableStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
             )
         )
     )
@@ -326,10 +340,10 @@ private fun StellarExplorerScreenHostDetailPreview() = Preview {
                 ),
                 search = "",
                 properties = PlanetProperty.entries.map { it.name to it.displayName }.toPersistentList(),
-                sortProperty = PlanetProperty.entries.random().name,
-                sortAscending = true,
-                visibleProperties = PlanetProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
-                searchableProperties = PlanetProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
+                sortPlanetProperty = PlanetProperty.entries.random().name,
+                sortPlanetAscending = true,
+                visiblePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
+                searchablePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
             )
         )
     )
@@ -392,10 +406,10 @@ private fun StellarExplorerScreenPlanetListPreview() = Preview {
                 ),
                 search = "Planets",
                 properties = PlanetProperty.entries.map { it.name to it.displayName }.toPersistentList(),
-                sortProperty = PlanetProperty.entries.random().name,
-                sortAscending = true,
-                visibleProperties = PlanetProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
-                searchableProperties = PlanetProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
+                sortPlanetProperty = PlanetProperty.entries.random().name,
+                sortPlanetAscending = true,
+                visiblePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
+                searchablePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
             )
         )
     )
@@ -461,10 +475,10 @@ private fun StellarExplorerScreenPlanetDetailPreview() = Preview {
                 ),
                 search = "",
                 properties = StellarHostProperty.entries.map { it.name to it.displayName }.toPersistentList(),
-                sortProperty = StellarHostProperty.entries.random().name,
-                sortAscending = true,
-                visibleProperties = StellarHostProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
-                searchableProperties = StellarHostProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
+                sortStellarHostProperty = StellarHostProperty.entries.random().name,
+                sortStellarHostAscending = true,
+                visibleStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
+                searchableStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
             )
         )
     )
