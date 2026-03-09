@@ -24,9 +24,10 @@ internal class StellarExplorerStoreTest: TestCase() {
         assertNull(actual = store.selectedStellarHost)
         assertNull(actual = store.selectedPlanet)
         assertTrue(actual = store.state.search.isEmpty())
-        assertEquals(expected = StellarHostProperty.DISTANCE.name, actual = store.sortStellarHostProperty)
-        assertEquals(expected = PlanetProperty.HABITABILITY.name, actual = store.sortPlanetProperty)
-        assertTrue(actual = store.state.sortAscending)
+        assertEquals(expected = StellarHostProperty.DISTANCE.name, actual = store.state.sortStellarHostProperty)
+        assertEquals(expected = PlanetProperty.HABITABILITY.name, actual = store.state.sortPlanetProperty)
+        assertTrue(actual = store.state.sortStellarHostAscending)
+        assertFalse(actual = store.state.sortPlanetAscending)
         assertEquals(
             expected = listOf(
                 StellarHostProperty.NAME,
@@ -47,7 +48,7 @@ internal class StellarExplorerStoreTest: TestCase() {
                 StellarHostProperty.RA,
                 StellarHostProperty.DEC,
             ).map { it.name },
-            actual = store.visibleStellarHostProperties
+            actual = store.state.visibleStellarHostProperties
         )
         assertEquals(
             expected = listOf(
@@ -68,10 +69,10 @@ internal class StellarExplorerStoreTest: TestCase() {
                 PlanetProperty.INCLINATION,
                 PlanetProperty.OBLIQUITY,
             ).map { it.name },
-            actual = store.visiblePlanetProperties
+            actual = store.state.visiblePlanetProperties
         )
-        assertEquals(expected = listOf(StellarHostProperty.NAME).map { it.name }, actual = store.searchableStellarHostProperties)
-        assertEquals(expected = listOf(PlanetProperty.NAME).map { it.name }, actual = store.searchablePlanetProperties)
+        assertEquals(expected = listOf(StellarHostProperty.NAME).map { it.name }, actual = store.state.searchableStellarHostProperties)
+        assertEquals(expected = listOf(PlanetProperty.NAME).map { it.name }, actual = store.state.searchablePlanetProperties)
     }
 
     @Test
@@ -96,11 +97,20 @@ internal class StellarExplorerStoreTest: TestCase() {
         val store = storeFactory.get().getStellarExplorerStore()
 
         store.send(action = StellarExplorerAction.Sort(sort = StellarHostProperty.NAME.name))
-        assertEquals(expected = StellarHostProperty.NAME.name, actual = store.sortStellarHostProperty)
+        assertEquals(expected = StellarHostProperty.NAME.name, actual = store.state.sortStellarHostProperty)
 
-        assertTrue(actual = store.state.sortAscending)
+        assertTrue(actual = store.state.sortStellarHostAscending)
         store.send(action = StellarExplorerAction.ChangeSortDirection)
-        assertFalse(actual = store.state.sortAscending)
+        assertFalse(actual = store.state.sortStellarHostAscending)
+
+        store.send(action = StellarExplorerAction.ChangeView)
+
+        store.send(action = StellarExplorerAction.Sort(sort = PlanetProperty.NAME.name))
+        assertEquals(expected = PlanetProperty.NAME.name, actual = store.state.sortPlanetProperty)
+
+        assertFalse(actual = store.state.sortPlanetAscending)
+        store.send(action = StellarExplorerAction.ChangeSortDirection)
+        assertTrue(actual = store.state.sortPlanetAscending)
     }
 
     @Test
@@ -110,27 +120,94 @@ internal class StellarExplorerStoreTest: TestCase() {
         val store = storeFactory.get().getStellarExplorerStore()
         store.stateFlow.firstOrNull() // Trigger observe
 
+        assertEquals(
+            expected = listOf(
+                StellarHostProperty.NAME.name,
+                StellarHostProperty.SYSTEM_NAME.name,
+                StellarHostProperty.PLANET_COUNT.name,
+                StellarHostProperty.SPECTRAL_TYPE.name,
+                StellarHostProperty.TEMPERATURE.name,
+                StellarHostProperty.RADIUS.name,
+                StellarHostProperty.MASS.name,
+                StellarHostProperty.METALLICITY.name,
+                StellarHostProperty.LUMINOSITY.name,
+                StellarHostProperty.GRAVITY.name,
+                StellarHostProperty.AGE.name,
+                StellarHostProperty.DENSITY.name,
+                StellarHostProperty.ROTATIONAL_VELOCITY.name,
+                StellarHostProperty.ROTATIONAL_PERIOD.name,
+                StellarHostProperty.DISTANCE.name,
+                StellarHostProperty.RA.name,
+                StellarHostProperty.DEC.name
+            ),
+            actual = store.state.visibleStellarHostProperties
+        )
         store.send(action = StellarExplorerAction.ChangeVisibility(property = StellarHostProperty.NAME.name))
         assertEquals(
             expected = listOf(
-                StellarHostProperty.SYSTEM_NAME,
-                StellarHostProperty.PLANET_COUNT,
-                StellarHostProperty.SPECTRAL_TYPE,
-                StellarHostProperty.TEMPERATURE,
-                StellarHostProperty.RADIUS,
-                StellarHostProperty.MASS,
-                StellarHostProperty.METALLICITY,
-                StellarHostProperty.LUMINOSITY,
-                StellarHostProperty.GRAVITY,
-                StellarHostProperty.AGE,
-                StellarHostProperty.DENSITY,
-                StellarHostProperty.ROTATIONAL_VELOCITY,
-                StellarHostProperty.ROTATIONAL_PERIOD,
-                StellarHostProperty.DISTANCE,
-                StellarHostProperty.RA,
-                StellarHostProperty.DEC,
-            ).map { it.name },
-            actual = store.visibleStellarHostProperties
+                StellarHostProperty.SYSTEM_NAME.name,
+                StellarHostProperty.PLANET_COUNT.name,
+                StellarHostProperty.SPECTRAL_TYPE.name,
+                StellarHostProperty.TEMPERATURE.name,
+                StellarHostProperty.RADIUS.name,
+                StellarHostProperty.MASS.name,
+                StellarHostProperty.METALLICITY.name,
+                StellarHostProperty.LUMINOSITY.name,
+                StellarHostProperty.GRAVITY.name,
+                StellarHostProperty.AGE.name,
+                StellarHostProperty.DENSITY.name,
+                StellarHostProperty.ROTATIONAL_VELOCITY.name,
+                StellarHostProperty.ROTATIONAL_PERIOD.name,
+                StellarHostProperty.DISTANCE.name,
+                StellarHostProperty.RA.name,
+                StellarHostProperty.DEC.name
+            ),
+            actual = store.state.visibleStellarHostProperties
+        )
+
+        store.send(action = StellarExplorerAction.ChangeView)
+
+        assertEquals(
+            expected = listOf(
+                PlanetProperty.NAME.name,
+                PlanetProperty.STATUS.name,
+                PlanetProperty.HABITABILITY.name,
+                PlanetProperty.CONFIDENCE.name,
+                PlanetProperty.TYPE.name,
+                PlanetProperty.ORBITAL_PERIOD.name,
+                PlanetProperty.ORBIT_AXIS.name,
+                PlanetProperty.RADIUS.name,
+                PlanetProperty.MASS.name,
+                PlanetProperty.DENSITY.name,
+                PlanetProperty.ECCENTRICITY.name,
+                PlanetProperty.INSOLATION_FLUX.name,
+                PlanetProperty.TEMPERATURE.name,
+                PlanetProperty.OCCULTATION_DEPTH.name,
+                PlanetProperty.INCLINATION.name,
+                PlanetProperty.OBLIQUITY.name
+            ),
+            actual = store.state.visiblePlanetProperties
+        )
+        store.send(action = StellarExplorerAction.ChangeVisibility(property = PlanetProperty.NAME.name))
+        assertEquals(
+            expected = listOf(
+                PlanetProperty.STATUS.name,
+                PlanetProperty.HABITABILITY.name,
+                PlanetProperty.CONFIDENCE.name,
+                PlanetProperty.TYPE.name,
+                PlanetProperty.ORBITAL_PERIOD.name,
+                PlanetProperty.ORBIT_AXIS.name,
+                PlanetProperty.RADIUS.name,
+                PlanetProperty.MASS.name,
+                PlanetProperty.DENSITY.name,
+                PlanetProperty.ECCENTRICITY.name,
+                PlanetProperty.INSOLATION_FLUX.name,
+                PlanetProperty.TEMPERATURE.name,
+                PlanetProperty.OCCULTATION_DEPTH.name,
+                PlanetProperty.INCLINATION.name,
+                PlanetProperty.OBLIQUITY.name
+            ),
+            actual = store.state.visiblePlanetProperties
         )
     }
 
@@ -141,15 +218,15 @@ internal class StellarExplorerStoreTest: TestCase() {
         val store = storeFactory.get().getStellarExplorerStore()
         store.stateFlow.firstOrNull() // Trigger observe
 
-        assertEquals(expected = listOf(StellarHostProperty.NAME).map { it.name }, actual = store.searchableStellarHostProperties)
+        assertEquals(expected = listOf(StellarHostProperty.NAME.name), actual = store.state.searchableStellarHostProperties)
         store.send(action = StellarExplorerAction.ChangeSearchable(property = StellarHostProperty.NAME.name))
-        assertEquals(expected = emptyList(), actual = store.searchableStellarHostProperties)
+        assertEquals(expected = emptyList(), actual = store.state.searchableStellarHostProperties)
 
         store.send(action = StellarExplorerAction.ChangeView)
 
-        assertEquals(expected = listOf(PlanetProperty.NAME).map { it.name }, actual = store.searchablePlanetProperties)
+        assertEquals(expected = listOf(PlanetProperty.NAME.name), actual = store.state.searchablePlanetProperties)
         store.send(action = StellarExplorerAction.ChangeSearchable(property = PlanetProperty.NAME.name))
-        assertEquals(expected = emptyList(), actual = store.searchablePlanetProperties)
+        assertEquals(expected = emptyList(), actual = store.state.searchablePlanetProperties)
     }
 
     @Test
