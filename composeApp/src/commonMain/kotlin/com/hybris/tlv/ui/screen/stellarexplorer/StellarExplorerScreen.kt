@@ -39,12 +39,14 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
 
     val hostListState = rememberLazyListState()
     val planetListState = rememberLazyListState()
-    val detailState = remember(currentContent) { LazyListState() }
+    val hostDetailState = rememberLazyListState()
+    val planetDetailState = rememberLazyListState()
 
     val listState = when (currentContent) {
         Content.LIST_HOSTS -> hostListState
         Content.LIST_PLANETS -> planetListState
-        Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> detailState
+        Content.DETAIL_HOSTS -> hostDetailState
+        Content.DETAIL_PLANETS -> planetDetailState
     }
     Screen(
         loading = storeState.loading,
