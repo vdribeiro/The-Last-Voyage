@@ -4,6 +4,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
@@ -38,31 +39,30 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
 
     val hostListState = rememberLazyListState()
     val planetListState = rememberLazyListState()
-    val hostDetailState = rememberLazyListState()
-    val planetDetailState = rememberLazyListState()
-
     val listState = when (currentContent) {
         Content.LIST_HOSTS -> hostListState
         Content.LIST_PLANETS -> planetListState
-        Content.DETAIL_HOSTS -> hostDetailState
-        Content.DETAIL_PLANETS -> planetDetailState
+        Content.DETAIL_HOSTS,
+        Content.DETAIL_PLANETS -> LazyListState()
     }
+
+    val hostView = remember(key1 = currentContent) {
+        when (currentContent) {
+            Content.LIST_HOSTS, Content.DETAIL_HOSTS -> true
+            Content.LIST_PLANETS, Content.DETAIL_PLANETS -> false
+        }
+    }
+    val stellarProperty = remember(key1 = currentContent) {
+        when (currentContent) {
+            Content.LIST_HOSTS, Content.DETAIL_PLANETS -> true
+            Content.LIST_PLANETS, Content.DETAIL_HOSTS -> false
+        }
+    }
+
     Screen(
         loading = storeState.loading,
         onBackClick = { store.send(action = StellarExplorerAction.Back) },
         topBar = {
-            val hostView = remember(key1 = currentContent) {
-                when (currentContent) {
-                    Content.LIST_HOSTS, Content.DETAIL_HOSTS -> true
-                    Content.LIST_PLANETS, Content.DETAIL_PLANETS -> false
-                }
-            }
-            val stellarProperty = remember(key1 = currentContent) {
-                when (currentContent) {
-                    Content.LIST_HOSTS, Content.DETAIL_PLANETS -> true
-                    Content.LIST_PLANETS, Content.DETAIL_HOSTS -> false
-                }
-            }
             ControlPanel(
                 modifier = Modifier
                     .testTag(tag = "stellar_explorer_control_panel")
@@ -95,7 +95,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 .fillMaxSize()
                 .padding(all = 16.dp),
             listState = listState,
-            hostsFirst = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS),
+            hostsFirst = hostView,
             stellarHosts = storeState.exoplanets.stellarHosts,
             stellarHostId = Exoplanets.Host::id,
             stellarHostName = { it.name },
