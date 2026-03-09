@@ -108,6 +108,7 @@ internal class StellarExplorerStoreTest: TestCase() {
         dependency.get().useCases.space.syncStellarHosts()
         dependency.get().useCases.space.syncPlanets()
         val store = storeFactory.get().getStellarExplorerStore()
+        store.stateFlow.firstOrNull() // Trigger observe
 
         store.send(action = StellarExplorerAction.ChangeVisibility(property = StellarHostProperty.NAME.name))
         assertEquals(
@@ -138,6 +139,7 @@ internal class StellarExplorerStoreTest: TestCase() {
         dependency.get().useCases.space.syncStellarHosts()
         dependency.get().useCases.space.syncPlanets()
         val store = storeFactory.get().getStellarExplorerStore()
+        store.stateFlow.firstOrNull() // Trigger observe
 
         assertEquals(expected = listOf(StellarHostProperty.NAME).map { it.name }, actual = store.searchableStellarHostProperties)
         store.send(action = StellarExplorerAction.ChangeSearchable(property = StellarHostProperty.NAME.name))
