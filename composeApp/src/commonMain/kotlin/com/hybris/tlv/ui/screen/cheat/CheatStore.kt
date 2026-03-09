@@ -5,9 +5,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
@@ -22,16 +20,10 @@ internal class CheatStore(
         setup()
     }
 
-    private fun setup() {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
-        setInitialState()
-        observeState()
-
-        Telemetry.info(tag = TAG, message = "Setup complete")
-    }
-
-    private fun setInitialState(): Job = launch(id = "setInitialState") {
         val preferences = config.preferences
         updateState {
             it.copy(
@@ -43,11 +35,7 @@ internal class CheatStore(
                 cryopods = preferences.cheatCryopods
             )
         }
-    }
 
-    // TODO - use lifecycle-aware observe
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private fun observeState(): Job =
         stateFlow
             .filter { !it.loading } // Prevent overwriting Config with default values on startup
             .distinctUntilChanged() // Only trigger if the specific values actually change
@@ -64,7 +52,14 @@ internal class CheatStore(
                 Telemetry.info(tag = TAG, message = "Cheats: $state")
             }
             .flowOn(context = Dispatcher.Default)
-            .launchIn(scope = viewModelScope)
+            .observe(id = "filterCheats") {
+                updateState {
+                    it.copy(loading = false)
+                }
+            }
+
+        Telemetry.info(tag = TAG, message = "Setup complete")
+    }
 
     override fun reducer(state: CheatState, action: CheatAction) {
         when (action) {

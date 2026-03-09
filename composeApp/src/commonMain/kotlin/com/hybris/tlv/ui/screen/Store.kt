@@ -124,7 +124,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     protected fun <T> Flow<T>.observe(
         id: String,
         replace: Boolean = true,
-        context: CoroutineContext = Dispatcher.IO,
+        context: CoroutineContext = Dispatcher.Default,
         timeout: Long = 5000L,
         block: suspend (T) -> Unit
     ): Job = launchJob(

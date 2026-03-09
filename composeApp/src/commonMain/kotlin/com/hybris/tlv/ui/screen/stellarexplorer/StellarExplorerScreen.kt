@@ -79,7 +79,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     ) {
         ExoplanetList(
             modifier = Modifier
-                .testTag(tag = "stellar_explorer_host_list")
+                .testTag(tag = "stellar_explorer_list")
                 .fillMaxSize()
                 .padding(all = 16.dp),
             listState = listState,
