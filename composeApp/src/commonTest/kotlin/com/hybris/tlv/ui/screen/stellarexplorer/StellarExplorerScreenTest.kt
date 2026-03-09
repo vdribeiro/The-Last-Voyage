@@ -49,6 +49,6 @@ internal class StellarExplorerScreenTest: TestCase() {
 
         onNodeWithTag(testTag = "control_panel_view_change").performClick()
 
-        onNodeWithTag(testTag = "stellar_explorer_planet_list").count(count = FakeData.planets.get().size)
+        onNodeWithTag(testTag = "stellar_explorer_list").count(count = FakeData.planets.get().size)
     }
 }
