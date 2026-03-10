@@ -182,10 +182,12 @@ internal abstract class TestCase: PlatformTestCase() {
         content: @Composable () -> Unit
     ) {
         setContent {
-            val compositionValues = listOf(
-                LocalLifecycleOwner provides lifecycleOwner,
-            ) + compositionValues
-            CompositionLocalProvider(*compositionValues.toTypedArray()) {
+            val providers = buildList {
+                addAll(elements = compositionValues)
+                add(element = LocalLifecycleOwner provides lifecycleOwner)
+            }.toTypedArray()
+
+            CompositionLocalProvider(values = providers) {
                 AppTheme {
                     content()
                 }
