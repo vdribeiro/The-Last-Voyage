@@ -15,6 +15,7 @@ import kotlinx.coroutines.test.setMain
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
@@ -182,10 +183,12 @@ internal abstract class TestCase: PlatformTestCase() {
         content: @Composable () -> Unit
     ) {
         setContent {
-            val providers = buildList {
-                addAll(elements = compositionValues)
-                add(element = LocalLifecycleOwner provides lifecycleOwner)
-            }.toTypedArray()
+            val providers = remember {
+                buildList {
+                    addAll(elements = compositionValues)
+                    add(element = LocalLifecycleOwner provides lifecycleOwner)
+                }.toTypedArray()
+            }
 
             CompositionLocalProvider(values = providers) {
                 AppTheme {
