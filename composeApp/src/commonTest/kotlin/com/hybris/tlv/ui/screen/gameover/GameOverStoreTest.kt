@@ -30,7 +30,7 @@ internal class GameOverStoreTest: TestCase() {
     fun initWithoutGameSession() = runUnitTest {
         assertNavigation(list = emptyList())
         storeFactory.get().getGameOverStore()
-        assertNavigation(list = listOf(Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback(tag = null, message = null)))
     }
 
     @Test
@@ -51,7 +51,7 @@ internal class GameOverStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         val store = storeFactory.get().getGameOverStore()
         store.send(action = GameOverAction.Next)
-        assertNavigation(list = listOf(Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback(tag = null, message = null)))
     }
 
     @Test

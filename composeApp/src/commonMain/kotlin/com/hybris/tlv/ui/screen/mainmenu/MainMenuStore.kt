@@ -47,7 +47,7 @@ internal class MainMenuStore(
     override fun reducer(state: MainMenuState, action: MainMenuAction) {
         when (action) {
             MainMenuAction.NewGame -> newGame()
-            MainMenuAction.Game -> navigate(screen = Screen.Game())
+            MainMenuAction.Game -> navigate(screen = Screen.Game(ship = null))
             MainMenuAction.Scores -> navigate(screen = Screen.Score)
             MainMenuAction.Achievements -> navigate(screen = Screen.Achievement)
             MainMenuAction.Credits -> navigate(screen = Screen.Credit)

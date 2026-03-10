@@ -43,7 +43,10 @@ internal class StoreFactory(
         )
 
     fun getHelpStore(): HelpStore =
-        HelpStore(config = config)
+        HelpStore(
+            config = config,
+            archiveUseCases = useCases.archive
+        )
 
     fun getFeedbackStore(tag: String?, message: String?): FeedbackStore =
         FeedbackStore(

@@ -66,7 +66,6 @@ internal class Gateways(
     override val sync: SyncUseCases = SyncGateway(
         config = config,
         database = database,
-        archiveUseCases = archive,
         translationUseCases = translation,
         catastropheUseCases = catastrophe,
         shipUseCases = ship,

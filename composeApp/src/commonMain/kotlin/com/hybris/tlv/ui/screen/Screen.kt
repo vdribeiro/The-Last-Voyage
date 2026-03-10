@@ -34,7 +34,7 @@ internal fun Screen(
     onBackClick: (() -> Unit)? = { navController?.back() },
     onHelpClick: (() -> Unit)? = { navController?.navigate(screen = Screen.Help) },
     onMusicClick: (() -> Unit)? = { audioPlayer.action(action = AudioPlayer.Action.Toggle) },
-    onFeedbackClick: (() -> Unit)? = { navController?.navigate(screen = Screen.Feedback()) },
+    onFeedbackClick: (() -> Unit)? = { navController?.navigate(screen = Screen.Feedback(tag = null, message = null)) },
     title: (@Composable () -> Unit)? = null,
     topBar: @Composable ColumnScope.() -> Unit = {},
     bottomBar: @Composable ColumnScope.() -> Unit = {},

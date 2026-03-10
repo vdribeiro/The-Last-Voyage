@@ -11,6 +11,7 @@ import androidx.compose.ui.backhandler.BackHandler
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.hybris.tlv.data.config.ConfigManager
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.ui.navigation.graph.achievementScreen
 import com.hybris.tlv.ui.navigation.graph.catastropheExplorerScreen
@@ -47,7 +48,7 @@ internal fun Navigation(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Screen.Splash(),
+        startDestination = Screen.Splash(reset = flags.reset),
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
         popEnterTransition = { EnterTransition.None },
@@ -56,7 +57,7 @@ internal fun Navigation(
         splashScreen(config = config, useCases = useCases)
         cheatScreen(config = config)
         mainMenuScreen(config = config, useCases = useCases)
-        helpScreen(config = config)
+        helpScreen(config = config, useCases = useCases)
         feedbackScreen()
         newGameScreen(useCases = useCases)
         catastropheScreen(useCases = useCases)

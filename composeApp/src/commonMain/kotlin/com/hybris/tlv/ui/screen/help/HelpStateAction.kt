@@ -1,5 +1,7 @@
 package com.hybris.tlv.ui.screen.help
 
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
+
 internal sealed interface HelpAction {
     data object Back: HelpAction
     data object Navigation: HelpAction
@@ -15,13 +17,15 @@ internal sealed interface HelpAction {
     data object Events: HelpAction
     data class VersionClick(val reset: Boolean): HelpAction
     data object Reset: HelpAction
+    data object SyncArchive: HelpAction
 }
 
 internal data class HelpState(
     val loading: Boolean = true,
     val currentContent: Content = Content.LEARN_MENU,
     val formula: String? = null,
-    val showSnackbar: Boolean = false
+    val showSnackbar: Boolean = false,
+    val showArchive: Boolean = flags.archive
 )
 
 internal enum class Content {
