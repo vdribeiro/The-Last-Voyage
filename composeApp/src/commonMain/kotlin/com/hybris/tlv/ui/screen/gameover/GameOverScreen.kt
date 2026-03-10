@@ -92,7 +92,6 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
                         utc = gameSession.utc,
                         settledPlanet = gameSession.settledPlanetName,
                         habitability = gameSession.finalHabitability,
-                        engine = getTranslation(key = gameSession.ship.engine.id),
                         assignedPoints = gameSession.ship.assignedPoints,
                         yearsTraveled = ship.yearsTraveled,
                         sensorRange = ship.sensorRange,
