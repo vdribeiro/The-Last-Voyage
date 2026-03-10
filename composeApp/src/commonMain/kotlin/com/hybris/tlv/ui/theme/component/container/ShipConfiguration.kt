@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
@@ -87,7 +86,7 @@ internal fun <A, E> ShipConfiguration(
                     onDecrement = { onAttributeDecrement(attribute) }
                 )
             }
-            if (flags.engines) {
+            if (engines.isNotEmpty()) {
                 item {
                     Text(
                         modifier = Modifier
