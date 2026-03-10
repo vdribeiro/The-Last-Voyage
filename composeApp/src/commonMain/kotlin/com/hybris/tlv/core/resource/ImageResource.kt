@@ -1,6 +1,7 @@
 package com.hybris.tlv.core.resource
 
 import org.jetbrains.compose.resources.DrawableResource
+import androidx.compose.runtime.Stable
 import thelastvoyage.composeapp.generated.resources.A
 import thelastvoyage.composeapp.generated.resources.B
 import thelastvoyage.composeapp.generated.resources.C
@@ -62,6 +63,7 @@ import thelastvoyage.composeapp.generated.resources.water_clouds_gas_giant
 /**
  * Resource class for images.
  */
+@Stable
 internal sealed class ImageResource(
     val path: String,
     val drawable: DrawableResource

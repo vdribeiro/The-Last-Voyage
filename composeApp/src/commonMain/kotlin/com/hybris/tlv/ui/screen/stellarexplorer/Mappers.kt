@@ -1,35 +1,176 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
+import com.hybris.tlv.domain.usecase.space.toImage
+import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.TranslationCache.getTranslation
+
+internal fun StellarExplorerState.toFilterExoplanetsCriteria(): FilterExoplanetsCriteria =
+    FilterExoplanetsCriteria(
+        currentContent = currentContent,
+        search = search,
+        sortStellarHostProperty = sortStellarHostProperty,
+        sortPlanetProperty = sortPlanetProperty,
+        sortStellarHostAscending = sortStellarHostAscending,
+        sortPlanetAscending = sortPlanetAscending,
+        searchableStellarHostProperties = searchableStellarHostProperties,
+        searchablePlanetProperties = searchablePlanetProperties,
+        visibleStellarHostProperties = visibleStellarHostProperties,
+        visiblePlanetProperties = visiblePlanetProperties
+    )
+
+internal fun FilterExoplanetsCriteriaCombine.toFilterExoplanetsCriteriaResult(
+    selectedStellarHost: Exoplanets.Host?,
+    selectedPlanet: Exoplanets.Planet?,
+): FilterExoplanetsCriteriaResult = FilterExoplanetsCriteriaResult(
+    exoplanets = when (criteria.currentContent) {
+        Content.LIST_HOSTS -> Exoplanets(
+            stellarHosts = stellarHosts.searchAndSortStellarHosts(
+                search = criteria.search,
+                searchable = criteria.searchableStellarHostProperties.mapNotNull { StellarHostProperty.fromString(name = it) },
+                sort = StellarHostProperty.fromString(name = criteria.sortStellarHostProperty) ?: StellarHostProperty.DISTANCE,
+                ascending = criteria.sortStellarHostAscending,
+                visible = criteria.visibleStellarHostProperties.mapNotNull { StellarHostProperty.fromString(name = it) }
+            ).toPersistentList(),
+            planets = persistentListOf()
+        )
+
+        Content.DETAIL_HOSTS -> Exoplanets(
+            stellarHosts = listOfNotNull(element = selectedStellarHost).toPersistentList(),
+            planets = stellarHosts.find { it.id == selectedStellarHost?.id }?.planets.orEmpty().searchAndSortPlanets(
+                search = criteria.search,
+                searchable = criteria.searchablePlanetProperties.mapNotNull { PlanetProperty.fromString(name = it) },
+                sort = PlanetProperty.fromString(name = criteria.sortPlanetProperty) ?: PlanetProperty.HABITABILITY,
+                ascending = criteria.sortPlanetAscending,
+                visible = criteria.visiblePlanetProperties.mapNotNull { PlanetProperty.fromString(name = it) }
+            ).toPersistentList()
+        )
+
+        Content.LIST_PLANETS -> Exoplanets(
+            stellarHosts = persistentListOf(),
+            planets = stellarHosts.flatMap { it.planets }.searchAndSortPlanets(
+                search = criteria.search,
+                searchable = criteria.searchablePlanetProperties.mapNotNull { PlanetProperty.fromString(name = it) },
+                sort = PlanetProperty.fromString(name = criteria.sortPlanetProperty) ?: PlanetProperty.HABITABILITY,
+                ascending = criteria.sortPlanetAscending,
+                visible = criteria.visiblePlanetProperties.mapNotNull { PlanetProperty.fromString(name = it) }
+            ).toPersistentList()
+        )
+
+        Content.DETAIL_PLANETS -> Exoplanets(
+            stellarHosts = listOfNotNull(element = stellarHosts.find { it.id == selectedPlanet?.stellarHostId }).searchAndSortStellarHosts(
+                search = criteria.search,
+                searchable = criteria.searchableStellarHostProperties.mapNotNull { StellarHostProperty.fromString(name = it) },
+                sort = StellarHostProperty.fromString(name = criteria.sortStellarHostProperty) ?: StellarHostProperty.DISTANCE,
+                ascending = criteria.sortStellarHostAscending,
+                visible = criteria.visibleStellarHostProperties.mapNotNull { StellarHostProperty.fromString(name = it) }
+            ).toPersistentList(),
+            planets = listOfNotNull(element = selectedPlanet).toPersistentList()
+        )
+    },
+    properties = when (criteria.currentContent) {
+        Content.LIST_HOSTS, Content.DETAIL_PLANETS -> StellarHostProperty.entries.map { it.name to translations.getTranslation(key = it.displayName) }.toPersistentList()
+        Content.LIST_PLANETS, Content.DETAIL_HOSTS -> PlanetProperty.entries.map { it.name to translations.getTranslation(key = it.displayName) }.toPersistentList()
+    }
+)
+
+internal fun StellarHost.toExoplanetsHost(): Exoplanets.Host = Exoplanets.Host(
+    id = id,
+    name = name,
+    systemName = systemName,
+    spectralType = spectralType,
+    spectralTypeScore = score?.stellarSpectralTypeScore,
+    effectiveTemperature = effectiveTemperature,
+    effectiveTemperatureScore = score?.stellarEffectiveTemperatureScore,
+    radius = radius,
+    mass = mass,
+    massScore = score?.stellarMassScore,
+    metallicity = metallicity,
+    metallicityScore = score?.stellarMetallicityScore,
+    luminosity = luminosity,
+    gravity = gravity,
+    gravityScore = score?.stellarGravityScore,
+    age = age,
+    ageScore = score?.stellarAgeScore,
+    density = density,
+    rotationalVelocity = rotationalVelocity,
+    activityScore = score?.stellarActivityScore,
+    rotationalPeriod = rotationalPeriod,
+    rotationalPeriodScore = score?.stellarRotationalPeriodScore,
+    distance = distance,
+    ra = ra,
+    dec = dec,
+    image = spectralType.spectralTypeToImage(),
+    planetCount = planets.size
+)
+
+internal fun Planet.toExoplanetsPlanet(): Exoplanets.Planet = Exoplanets.Planet(
+    id = id,
+    name = name,
+    stellarHostId = stellarHostId,
+    status = TranslationCache.get(key = status.displayName),
+    orbitalPeriod = orbitalPeriod,
+    orbitAxis = orbitAxis,
+    radius = radius,
+    radiusScore = score?.planetRadiusScore,
+    mass = mass,
+    massScore = score?.planetMassScore,
+    density = density,
+    telluricityScore = score?.planetTelluricityScore,
+    eccentricity = eccentricity,
+    eccentricityScore = score?.planetEccentricityScore,
+    insolationFlux = insolationFlux,
+    equilibriumTemperature = equilibriumTemperature,
+    temperatureScore = score?.planetTemperatureScore,
+    occultationDepth = occultationDepth,
+    inclination = inclination,
+    obliquity = obliquity,
+    obliquityScore = score?.planetObliquityScore,
+    habitabilityScore = score?.habitabilityScore,
+    confidenceScore = score?.confidenceScore,
+    rocheScore = score?.rocheScore,
+    habitableZoneKopparapuScore = score?.habitableZoneKopparapuScore,
+    habitableZoneKastingScore = score?.habitableZoneKastingScore,
+    esiScore = score?.planetEsiScore,
+    protectionScore = score?.planetProtectionScore,
+    tidalLockingScore = score?.planetTidalLockingScore,
+    type = score?.planetType?.displayName?.let { TranslationCache.get(key = it) },
+    image = score?.planetType?.toImage()
+)
 
 internal fun List<StellarHost>.searchAndSortStellarHosts(
     search: String,
-    searchable: Set<StellarHostProperty>,
+    searchable: List<StellarHostProperty>,
     sort: StellarHostProperty,
-    ascending: Boolean
-): List<StellarHost> = searchStellarHosts(
+    ascending: Boolean,
+    visible: List<StellarHostProperty>
+): List<Exoplanets.Host> = searchStellarHosts(
     search = search,
     searchable = searchable,
 ).sortStellarHosts(
     sort = sort,
     ascending = ascending
-)
+).map { it.toExoplanetsHost().filterVisibility(visiblePlanetProperties = visible) }
 
 internal fun List<Planet>.searchAndSortPlanets(
     search: String,
-    searchable: Set<PlanetProperty>,
+    searchable: List<PlanetProperty>,
     sort: PlanetProperty,
-    ascending: Boolean
-): List<Planet> = searchPlanets(
+    ascending: Boolean,
+    visible: List<PlanetProperty>
+): List<Exoplanets.Planet> = searchPlanets(
     search = search,
     searchable = searchable
 ).sortPlanets(
     sort = sort,
     ascending = ascending
-)
+).map { it.toExoplanetsPlanet().filterVisibility(visiblePlanetProperties = visible) }
 
-private fun List<StellarHost>.searchStellarHosts(search: String, searchable: Set<StellarHostProperty>): List<StellarHost> =
+private fun List<StellarHost>.searchStellarHosts(search: String, searchable: List<StellarHostProperty>): List<StellarHost> =
     if (search.isNotBlank()) {
         val searchLowercase = search.lowercase()
         filter { stellarHost ->
@@ -140,7 +281,7 @@ private fun List<StellarHost>.searchStellarHosts(search: String, searchable: Set
         }
     } else this
 
-private fun List<Planet>.searchPlanets(search: String, searchable: Set<PlanetProperty>): List<Planet> =
+private fun List<Planet>.searchPlanets(search: String, searchable: List<PlanetProperty>): List<Planet> =
     if (search.isNotBlank()) {
         val searchLowercase = search.lowercase()
         filter { planet ->
@@ -551,14 +692,69 @@ private fun getPlanetsComparator(sort: PlanetProperty, ascending: Boolean): Comp
     ) { it.score?.planetTidalLockingScore }
 }
 
+internal fun Exoplanets.Host.filterVisibility(visiblePlanetProperties: List<StellarHostProperty>): Exoplanets.Host = copy(
+    name = visiblePlanetProperties.ifContains(element = StellarHostProperty.NAME, value = name),
+    systemName = visiblePlanetProperties.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = systemName),
+    spectralType = visiblePlanetProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = spectralType),
+    spectralTypeScore = visiblePlanetProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE_SCORE, value = spectralTypeScore),
+    effectiveTemperature = visiblePlanetProperties.ifContains(element = StellarHostProperty.TEMPERATURE, value = effectiveTemperature),
+    effectiveTemperatureScore = visiblePlanetProperties.ifContains(element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE, value = effectiveTemperatureScore),
+    radius = visiblePlanetProperties.ifContains(element = StellarHostProperty.RADIUS, value = radius),
+    mass = visiblePlanetProperties.ifContains(element = StellarHostProperty.MASS, value = mass),
+    massScore = visiblePlanetProperties.ifContains(element = StellarHostProperty.MASS_SCORE, value = massScore),
+    metallicity = visiblePlanetProperties.ifContains(element = StellarHostProperty.METALLICITY, value = metallicity),
+    metallicityScore = visiblePlanetProperties.ifContains(element = StellarHostProperty.METALLICITY_SCORE, value = metallicityScore),
+    luminosity = visiblePlanetProperties.ifContains(element = StellarHostProperty.LUMINOSITY, value = luminosity),
+    gravity = visiblePlanetProperties.ifContains(element = StellarHostProperty.GRAVITY, value = gravity),
+    gravityScore = visiblePlanetProperties.ifContains(element = StellarHostProperty.GRAVITY_SCORE, value = gravityScore),
+    age = visiblePlanetProperties.ifContains(element = StellarHostProperty.AGE, value = age),
+    ageScore = visiblePlanetProperties.ifContains(element = StellarHostProperty.AGE_SCORE, value = ageScore),
+    density = visiblePlanetProperties.ifContains(element = StellarHostProperty.DENSITY, value = density),
+    rotationalVelocity = visiblePlanetProperties.ifContains(element = StellarHostProperty.ROTATIONAL_VELOCITY, value = rotationalVelocity),
+    activityScore = visiblePlanetProperties.ifContains(element = StellarHostProperty.ACTIVITY_SCORE, value = activityScore),
+    rotationalPeriod = visiblePlanetProperties.ifContains(element = StellarHostProperty.ROTATIONAL_PERIOD, value = rotationalPeriod),
+    rotationalPeriodScore = visiblePlanetProperties.ifContains(element = StellarHostProperty.ROTATIONAL_PERIOD_SCORE, value = rotationalPeriodScore),
+    distance = visiblePlanetProperties.ifContains(element = StellarHostProperty.DISTANCE, value = distance),
+    ra = visiblePlanetProperties.ifContains(element = StellarHostProperty.RA, value = ra),
+    dec = visiblePlanetProperties.ifContains(element = StellarHostProperty.DEC, value = dec),
+    image = visiblePlanetProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = image),
+    planetCount = visiblePlanetProperties.ifContains(element = StellarHostProperty.PLANET_COUNT, value = planetCount),
+)
+
+internal fun Exoplanets.Planet.filterVisibility(visiblePlanetProperties: List<PlanetProperty>): Exoplanets.Planet = copy(
+    name = visiblePlanetProperties.ifContains(element = PlanetProperty.NAME, value = name),
+    status = visiblePlanetProperties.ifContains(element = PlanetProperty.STATUS, value = status),
+    orbitalPeriod = visiblePlanetProperties.ifContains(element = PlanetProperty.ORBITAL_PERIOD, value = orbitalPeriod),
+    orbitAxis = visiblePlanetProperties.ifContains(element = PlanetProperty.ORBIT_AXIS, value = orbitAxis),
+    radius = visiblePlanetProperties.ifContains(element = PlanetProperty.RADIUS, value = radius),
+    radiusScore = visiblePlanetProperties.ifContains(element = PlanetProperty.RADIUS_SCORE, value = radiusScore),
+    mass = visiblePlanetProperties.ifContains(element = PlanetProperty.MASS, value = mass),
+    massScore = visiblePlanetProperties.ifContains(element = PlanetProperty.MASS_SCORE, value = massScore),
+    density = visiblePlanetProperties.ifContains(element = PlanetProperty.DENSITY, value = density),
+    telluricityScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TELLURICITY_SCORE, value = telluricityScore),
+    eccentricity = visiblePlanetProperties.ifContains(element = PlanetProperty.ECCENTRICITY, value = eccentricity),
+    eccentricityScore = visiblePlanetProperties.ifContains(element = PlanetProperty.ECCENTRICITY_SCORE, value = eccentricityScore),
+    insolationFlux = visiblePlanetProperties.ifContains(element = PlanetProperty.INSOLATION_FLUX, value = insolationFlux),
+    equilibriumTemperature = visiblePlanetProperties.ifContains(element = PlanetProperty.TEMPERATURE, value = equilibriumTemperature),
+    temperatureScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TEMPERATURE_SCORE, value = temperatureScore),
+    occultationDepth = visiblePlanetProperties.ifContains(element = PlanetProperty.OCCULTATION_DEPTH, value = occultationDepth),
+    inclination = visiblePlanetProperties.ifContains(element = PlanetProperty.INCLINATION, value = inclination),
+    obliquity = visiblePlanetProperties.ifContains(element = PlanetProperty.OBLIQUITY, value = obliquity),
+    obliquityScore = visiblePlanetProperties.ifContains(element = PlanetProperty.OBLIQUITY_SCORE, value = obliquityScore),
+    habitabilityScore = visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABILITY, value = habitabilityScore),
+    confidenceScore = visiblePlanetProperties.ifContains(element = PlanetProperty.CONFIDENCE, value = confidenceScore),
+    rocheScore = visiblePlanetProperties.ifContains(element = PlanetProperty.ROCHE_SCORE, value = rocheScore),
+    habitableZoneKopparapuScore = visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABLE_ZONE_KOPPARAPU_SCORE, value = habitableZoneKopparapuScore),
+    habitableZoneKastingScore = visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABLE_ZONE_KASTING_SCORE, value = habitableZoneKastingScore),
+    esiScore = visiblePlanetProperties.ifContains(element = PlanetProperty.ESI_SCORE, value = esiScore),
+    protectionScore = visiblePlanetProperties.ifContains(element = PlanetProperty.PROTECTION_SCORE, value = protectionScore),
+    tidalLockingScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TIDAL_LOCKING_SCORE, value = tidalLockingScore),
+    type = visiblePlanetProperties.ifContains(element = PlanetProperty.TYPE, value = type),
+    image = visiblePlanetProperties.ifContains(element = PlanetProperty.TYPE, value = image),
+)
+
 /**
  * Returns [value] if the [element] is present, otherwise returns null.
  */
-internal fun <E, V> Collection<E>.ifContains(element: E, value: V?): V? =
+private fun <E, V> Collection<E>.ifContains(element: E, value: V?): V? =
     if (contains(element)) value else null
-
-/**
- * Returns the first key whose value matches [value].
- */
-internal fun <T: Enum<T>> Map<T, String>.findKey(value: String): T? =
-    entries.find { it.value == value }?.key
