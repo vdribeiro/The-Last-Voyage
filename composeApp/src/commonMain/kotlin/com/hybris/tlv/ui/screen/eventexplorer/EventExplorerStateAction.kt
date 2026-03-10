@@ -14,7 +14,15 @@ internal data class EventExplorerState(
     val events: ImmutableList<Event> = persistentListOf()
 )
 
-internal data class FilterCriteria(
+internal data class FilterEventsCriteria(
     val search: String,
+)
+
+internal data class FilterEventsCriteriaCombine(
+    val criteria: FilterEventsCriteria,
     val events: List<Event>
+)
+
+internal data class FilterEventsCriteriaResult(
+    val events: ImmutableList<Event>
 )

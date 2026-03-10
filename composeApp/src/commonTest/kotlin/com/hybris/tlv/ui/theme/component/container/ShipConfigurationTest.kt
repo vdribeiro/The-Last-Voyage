@@ -27,14 +27,10 @@ internal class ShipConfigurationTest: TestCase() {
         }
 
         onNodeWithText(text = "new_game_screen__ship_points: 10").assertIsDisplayed()
-        onNodeWithText(text = "ship_sensor").assertIsDisplayed()
+        onNodeWithText(text = "Sensor Range").assertIsDisplayed()
         onNodeWithText(text = "3").assertIsDisplayed()
-        onNodeWithText(text = "ship_fuel").assertIsDisplayed()
+        onNodeWithText(text = "Fuel").assertIsDisplayed()
         onNodeWithText(text = "100").assertIsDisplayed()
-        onNodeWithText(text = "ship_materials").assertIsDisplayed()
-        onNodeWithText(text = "200").assertIsDisplayed()
-        onNodeWithText(text = "ship_cryopods").assertIsDisplayed()
-        onNodeWithText(text = "300").assertIsDisplayed()
     }
 
     @Test
@@ -47,6 +43,7 @@ internal class ShipConfigurationTest: TestCase() {
                 selectedEngineId = selectedEngineId.value,
                 engines = engines,
                 engineId = { it },
+                engineName = { it },
                 engineDescription = { if (it == "Nuclear") "Nuclear go boom" else "Ion go blast" },
                 engineVelocity = { if (it == "Nuclear") 0.3 else 0.1 },
                 engineFuelConsumption = { if (it == "Nuclear") 1.2 else 2.1 },

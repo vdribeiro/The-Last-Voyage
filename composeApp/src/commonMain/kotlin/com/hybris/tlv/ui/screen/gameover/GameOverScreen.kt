@@ -53,7 +53,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
             ButtonsBar(
                 buttons = persistentListOf(text),
                 id = { it },
-                text = { it },
+                text = { getTranslation(key = it) },
                 onClick = { store.send(action = GameOverAction.Next) }
             )
         },
@@ -92,7 +92,7 @@ internal fun GameOverScreen(store: Store<GameOverState, GameOverAction>) {
                         utc = gameSession.utc,
                         settledPlanet = gameSession.settledPlanetName,
                         habitability = gameSession.finalHabitability,
-                        engine = gameSession.ship.engine.id,
+                        engine = getTranslation(key = gameSession.ship.engine.id),
                         assignedPoints = gameSession.ship.assignedPoints,
                         yearsTraveled = ship.yearsTraveled,
                         sensorRange = ship.sensorRange,

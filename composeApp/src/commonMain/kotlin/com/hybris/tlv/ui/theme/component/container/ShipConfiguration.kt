@@ -42,7 +42,8 @@ internal fun <A, E> ShipConfiguration(
     selectedEngineId: String? = null,
     engines: ImmutableList<E> = persistentListOf(),
     engineId: (E) -> String = { it.hashCode().toString() },
-    engineDescription: (E) -> String? = { null },
+    engineName: @Composable (E) -> String? = { null },
+    engineDescription: @Composable (E) -> String? = { null },
     engineVelocity: (E) -> Double? = { null },
     engineFuelConsumption: (E) -> Double? = { null },
     engineCost: (E) -> Int? = { null },
@@ -99,12 +100,11 @@ internal fun <A, E> ShipConfiguration(
                     )
                 }
                 items(items = engines, key = engineId) { engine ->
-                    val engineId = engineId(engine)
                     SelectableCard(
                         modifier = Modifier
                             .clickable { onEngineClick(engine) },
-                        selected = selectedEngineId == engineId,
-                        name = engineId,
+                        selected = selectedEngineId == engineId(engine),
+                        name = engineName(engine),
                         description = engineDescription(engine),
                         velocity = engineVelocity(engine),
                         fuel = engineFuelConsumption(engine),
@@ -162,6 +162,7 @@ private fun ShipConfigurationPreview() = Preview {
             "Engine 3"
         ),
         engineId = { it },
+        engineName = { it },
         engineDescription = { it },
         engineVelocity = { 10.0 },
         engineFuelConsumption = { 10.0 },

@@ -24,8 +24,9 @@ internal fun <T> EventList(
     modifier: Modifier = Modifier,
     events: ImmutableList<T> = persistentListOf(),
     id: (T) -> String = { it.hashCode().toString() },
-    parentId: (T) -> String? = { null },
-    description: (T) -> String? = { null },
+    name: @Composable (T) -> String? = { null },
+    parentId: @Composable (T) -> String? = { null },
+    description: @Composable (T) -> String? = { null },
     outcome: (T) -> String? = { null }
 ) {
     val titleTranslation: String = getTranslation(key = "event_screen__title")
@@ -52,7 +53,7 @@ internal fun <T> EventList(
         ) {
             items(items = events, key = id) { event ->
                 EventCard(
-                    name = id(event),
+                    name = name(event),
                     description = description(event),
                     parent = parentId(event),
                     outcome = outcome(event)
@@ -72,6 +73,7 @@ private fun EventListPreview() = Preview {
             "Event 3",
         ),
         id = { it },
+        name = { it },
         parentId = { it },
         description = { it },
         outcome = { it }

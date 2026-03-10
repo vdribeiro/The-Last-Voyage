@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.credit
 
-import kotlin.collections.get
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.telemetry.Telemetry

@@ -46,7 +46,7 @@ internal fun <T> SystemList(
     planetDensity: (T) -> Double? = { null },
     planetEquilibriumTemperature: (T) -> Double? = { null },
     planetHabitability: (T) -> Double? = { null },
-    planetType: (T) -> String? = { null },
+    planetType: @Composable (T) -> String? = { null },
     planetImage: (T) -> ImageResource? = { null },
     onClick: (T) -> Unit = {},
     footer: (@Composable () -> Unit)? = null

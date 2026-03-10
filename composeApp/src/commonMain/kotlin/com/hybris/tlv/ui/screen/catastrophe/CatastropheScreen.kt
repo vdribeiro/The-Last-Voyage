@@ -34,7 +34,7 @@ internal fun CatastropheScreen(store: Store<CatastropheState, CatastropheAction>
             ButtonsBar(
                 buttons = persistentListOf(continueTranslation),
                 id = { it },
-                text = { it },
+                text = { getTranslation(key = it) },
                 onClick = { store.send(action = CatastropheAction.Next) }
             )
         },

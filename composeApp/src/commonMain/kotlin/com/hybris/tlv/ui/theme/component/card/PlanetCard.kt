@@ -120,10 +120,10 @@ internal fun PlanetCard(
                 horizontalAlignment = Alignment.Start,
             ) {
                 name?.let { Text(text = it, style = typography.titleLarge, fontWeight = FontWeight.Bold) }
-                status?.let { InfoRow(label = planetStatusTranslation, value = getTranslation(key = it)) }
+                status?.let { InfoRow(label = planetStatusTranslation, value = it) }
                 habitability?.let { InfoRow(label = planetHabitabilityTranslation, value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%") }
                 confidence?.let { InfoRow(label = planetConfidenceTranslation, value = "${(it * 100.0).roundTo(decimalPlaces = 2)}%") }
-                type?.let { InfoRow(label = planetTypeTranslation, value = getTranslation(key = it)) }
+                type?.let { InfoRow(label = planetTypeTranslation, value = it) }
                 orbitalPeriod?.let { InfoRow(label = planetOrbitalPeriodTranslation, value = "${it.roundTo(decimalPlaces = 4)} $periodUnitTranslation") }
                 orbitAxis?.let { InfoRow(label = planetOrbitAxisTranslation, value = "${it.roundTo(decimalPlaces = 4)} au") }
                 radius?.let { InfoRow(label = planetRadiusTranslation, value = "${it.roundTo(decimalPlaces = 2)} R⊕") }

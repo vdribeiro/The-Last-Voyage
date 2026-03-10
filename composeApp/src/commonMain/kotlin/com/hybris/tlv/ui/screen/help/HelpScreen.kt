@@ -48,8 +48,8 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.bottombar.HelpBar
 import com.hybris.tlv.ui.theme.component.bottombar.Snackbar
 import com.hybris.tlv.ui.theme.component.container.LearnMenu
-import com.hybris.tlv.ui.theme.component.list.PropertyList
 import com.hybris.tlv.ui.theme.component.image.Icon
+import com.hybris.tlv.ui.theme.component.list.PropertyList
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.ui.theme.getTranslation
@@ -113,7 +113,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 title = getTranslation(key = "main_menu_screen__navigation"),
                 properties = navigation,
                 id = Property::id,
-                description = Property::description,
+                name = { getTranslation(key = it.id) },
+                description = { getTranslation(key = it.description) },
                 icon = Property::icon
             )
 
@@ -125,7 +126,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 title = getTranslation(key = "main_menu_screen__control_panel"),
                 properties = panel,
                 id = Property::id,
-                description = Property::description,
+                name = { getTranslation(key = it.id) },
+                description = { getTranslation(key = it.description) },
                 icon = Property::icon,
                 header = {
                     val name = getTranslation(key = "planet_name")
@@ -135,12 +137,12 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                         viewName = getTranslation(key = "stellar_explorer_screen__planet_list"),
                         viewIcon = Icons.Default.Public,
                         count = 1234,
-                        properties = persistentListOf(name, habitability),
-                        selectedProperty = name,
+                        properties = persistentListOf("planet_name" to name, "planet_habitability" to habitability),
+                        sortProperty = name,
                         ascending = ascending,
                         onSortDirectionChange = { ascending = !ascending },
                         visibleProperties = persistentListOf(name),
-                        selectedProperties = persistentListOf(name),
+                        searchableProperties = persistentListOf(name),
                     )
                 }
             )
@@ -153,7 +155,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 title = getTranslation(key = "main_menu_screen__host_definition"),
                 properties = hostProperty,
                 id = Property::id,
-                description = Property::description,
+                description = { getTranslation(key = it.description) }
             )
 
             Content.HOST_TYPE -> PropertyList(
@@ -164,7 +166,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 title = getTranslation(key = "main_menu_screen__host_types"),
                 properties = hostType,
                 id = Property::id,
-                description = Property::description,
+                name = { getTranslation(key = it.id) },
+                description = { getTranslation(key = it.description) },
                 leadingImage = Property::image,
             )
 
@@ -176,7 +179,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 title = getTranslation(key = "main_menu_screen__planet_definition"),
                 properties = planetProperty,
                 id = Property::id,
-                description = Property::description
+                name = { getTranslation(key = it.id) },
+                description = { getTranslation(key = it.description) }
             )
 
             Content.PLANET_TYPE -> PropertyList(
@@ -187,7 +191,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 title = getTranslation(key = "main_menu_screen__planet_types"),
                 properties = planetType,
                 id = Property::id,
-                description = Property::description,
+                name = { getTranslation(key = it.id) },
+                description = { getTranslation(key = it.description) },
                 leadingImage = Property::image,
             )
 
@@ -199,7 +204,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 title = getTranslation(key = "main_menu_screen__habitability"),
                 properties = habitability,
                 id = Property::id,
-                description = Property::description,
+                name = { getTranslation(key = it.id) },
+                description = { getTranslation(key = it.description) },
                 footer = {
                     storeState.formula?.let { formula ->
                         val formulaTranslation = getTranslation(key = "formula")
@@ -229,7 +235,8 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 title = getTranslation(key = "main_menu_screen__score"),
                 properties = score,
                 id = Property::id,
-                description = Property::description,
+                name = { getTranslation(key = it.id) },
+                description = { getTranslation(key = it.description) }
             )
         }
     }

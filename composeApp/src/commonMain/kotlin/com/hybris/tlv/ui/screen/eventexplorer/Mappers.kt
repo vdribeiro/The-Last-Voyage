@@ -1,7 +1,18 @@
 package com.hybris.tlv.ui.screen.eventexplorer
 
+import kotlinx.collections.immutable.toPersistentList
 import com.hybris.tlv.domain.usecase.event.model.Event
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
+
+internal fun EventExplorerState.toFilterEventsCriteria(): FilterEventsCriteria =
+    FilterEventsCriteria(search = search)
+
+internal fun FilterEventsCriteriaCombine.toFilterEventsCriteriaResult() =
+    FilterEventsCriteriaResult(
+        events = events.search(
+            search = criteria.search
+        ).toPersistentList()
+    )
 
 internal fun List<Event>.search(search: String): List<Event> =
     if (search.isNotBlank()) {

@@ -17,6 +17,7 @@ import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.list.AchievementList
+import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
 internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
@@ -31,7 +32,8 @@ internal fun AchievementScreen(store: Store<AchievementState, Unit>) {
                 .padding(all = 16.dp),
             achievements = storeState.achievements,
             id = Achievement::id,
-            description = Achievement::description,
+            name = { getTranslation(key = it.id) },
+            description = { getTranslation(key = it.description) },
             done = Achievement::done
         )
     }

@@ -26,7 +26,8 @@ internal fun <T> AchievementList(
     modifier: Modifier = Modifier,
     achievements: ImmutableList<T> = persistentListOf(),
     id: (T) -> String = { it.hashCode().toString() },
-    description: (T) -> String? = { null },
+    name: @Composable (T) -> String? = { null },
+    description: @Composable (T) -> String? = { null },
     done: (T) -> Boolean = { false }
 ) {
     val titleTranslation: String = getTranslation(key = "achievements_screen__title")
@@ -53,7 +54,7 @@ internal fun <T> AchievementList(
         ) {
             items(items = achievements, key = id) { achievement ->
                 AchievementCard(
-                    name = id(achievement),
+                    name = name(achievement),
                     description = description(achievement),
                     trailingIcon = if (done(achievement)) Icons.Filled.Check else null
                 )
@@ -72,6 +73,7 @@ private fun AchievementListPreview() = Preview {
             "Achievement 3",
         ),
         id = { it },
+        name = { it },
         description = { it },
         done = { it != "Achievement 2" }
     )

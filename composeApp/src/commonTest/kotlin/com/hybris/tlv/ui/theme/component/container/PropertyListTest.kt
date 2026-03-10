@@ -36,6 +36,7 @@ internal class PropertyListTest: TestCase() {
                 title = title,
                 properties = items,
                 id = { it },
+                name = { it },
                 description = { "description $it" }
             )
         }
@@ -70,7 +71,8 @@ internal class PropertyListTest: TestCase() {
             PropertyList(
                 modifier = Modifier.testTag(tag = "property_list_column"),
                 properties = items,
-                id = { it }
+                id = { it },
+                name = { it }
             )
         }
 

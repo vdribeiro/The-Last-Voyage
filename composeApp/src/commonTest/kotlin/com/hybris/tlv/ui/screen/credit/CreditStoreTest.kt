@@ -1,11 +1,9 @@
 package com.hybris.tlv.ui.screen.credit
 
-import kotlin.collections.orEmpty
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import kotlinx.collections.immutable.toPersistentList
 import com.hybris.tlv.domain.usecase.credit.model.CreditType
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase

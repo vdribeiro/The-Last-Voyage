@@ -1,80 +1,74 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.persistentSetOf
 import androidx.compose.foundation.lazy.LazyListState
-import com.hybris.tlv.domain.usecase.space.model.Planet
+import com.hybris.tlv.core.resource.ImageResource
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 
 internal sealed interface StellarExplorerAction {
     data object Back: StellarExplorerAction
-    data class SaveListState(val listState: LazyListState): StellarExplorerAction
     data object ChangeView: StellarExplorerAction
     data class Search(val search: String): StellarExplorerAction
-    data class OpenStellarHost(val stellarHost: StellarHost): StellarExplorerAction
-    data class OpenPlanet(val planet: Planet): StellarExplorerAction
-    data class SortStellarHosts(val sort: StellarHostProperty): StellarExplorerAction
-    data class SortPlanets(val sort: PlanetProperty): StellarExplorerAction
+    data class OpenStellarHost(val stellarHost: Exoplanets.Host): StellarExplorerAction
+    data class OpenPlanet(val planet: Exoplanets.Planet): StellarExplorerAction
+    data class Sort(val sort: String): StellarExplorerAction
     data object ChangeSortDirection: StellarExplorerAction
-    data class ChangeStellarHostsVisibility(val property: StellarHostProperty): StellarExplorerAction
-    data class ChangePlanetVisibility(val property: PlanetProperty): StellarExplorerAction
-    data class ChangeStellarHostsSearchable(val property: StellarHostProperty): StellarExplorerAction
-    data class ChangePlanetSearchable(val property: PlanetProperty): StellarExplorerAction
+    data class ChangeVisibility(val property: String): StellarExplorerAction
+    data class ChangeSearchable(val property: String): StellarExplorerAction
 }
 
 internal data class StellarExplorerState(
     val loading: Boolean = true,
     val currentContent: Content = Content.LIST_HOSTS,
-    val listState: LazyListState = LazyListState(),
-    val stellarHosts: ImmutableList<StellarHost> = persistentListOf(),
-    val planets: ImmutableList<Planet> = persistentListOf(),
-    val selectedStellarHost: StellarHost? = null,
-    val selectedPlanet: Planet? = null,
+    val exoplanets: Exoplanets = Exoplanets(),
     val search: String = "",
-    val sortStellarHostProperty: StellarHostProperty = StellarHostProperty.DISTANCE,
-    val sortPlanetProperty: PlanetProperty = PlanetProperty.HABITABILITY,
-    val sortAscending: Boolean = true,
-    val visibleStellarHostProperties: ImmutableSet<StellarHostProperty> = persistentSetOf(
-        StellarHostProperty.NAME,
-        StellarHostProperty.SYSTEM_NAME,
-        StellarHostProperty.PLANET_COUNT,
-        StellarHostProperty.SPECTRAL_TYPE,
-        StellarHostProperty.TEMPERATURE,
-        StellarHostProperty.RADIUS,
-        StellarHostProperty.MASS,
-        StellarHostProperty.METALLICITY,
-        StellarHostProperty.LUMINOSITY,
-        StellarHostProperty.GRAVITY,
-        StellarHostProperty.AGE,
-        StellarHostProperty.DENSITY,
-        StellarHostProperty.ROTATIONAL_VELOCITY,
-        StellarHostProperty.ROTATIONAL_PERIOD,
-        StellarHostProperty.DISTANCE,
-        StellarHostProperty.RA,
-        StellarHostProperty.DEC,
+    val properties: ImmutableList<Pair<String, String>> = persistentListOf(),
+    val stellarHostsListState: LazyListState = LazyListState(),
+    val planetsListState: LazyListState = LazyListState(),
+    val sortStellarHostProperty: String = StellarHostProperty.DISTANCE.name,
+    val sortPlanetProperty: String = PlanetProperty.HABITABILITY.name,
+    val sortStellarHostAscending: Boolean = true,
+    val sortPlanetAscending: Boolean = false,
+    val visibleStellarHostProperties: ImmutableList<String> = persistentListOf(
+        StellarHostProperty.NAME.name,
+        StellarHostProperty.SYSTEM_NAME.name,
+        StellarHostProperty.PLANET_COUNT.name,
+        StellarHostProperty.SPECTRAL_TYPE.name,
+        StellarHostProperty.TEMPERATURE.name,
+        StellarHostProperty.RADIUS.name,
+        StellarHostProperty.MASS.name,
+        StellarHostProperty.METALLICITY.name,
+        StellarHostProperty.LUMINOSITY.name,
+        StellarHostProperty.GRAVITY.name,
+        StellarHostProperty.AGE.name,
+        StellarHostProperty.DENSITY.name,
+        StellarHostProperty.ROTATIONAL_VELOCITY.name,
+        StellarHostProperty.ROTATIONAL_PERIOD.name,
+        StellarHostProperty.DISTANCE.name,
+        StellarHostProperty.RA.name,
+        StellarHostProperty.DEC.name
     ),
-    val visiblePlanetProperties: ImmutableSet<PlanetProperty> = persistentSetOf(
-        PlanetProperty.NAME,
-        PlanetProperty.STATUS,
-        PlanetProperty.HABITABILITY,
-        PlanetProperty.CONFIDENCE,
-        PlanetProperty.TYPE,
-        PlanetProperty.ORBITAL_PERIOD,
-        PlanetProperty.ORBIT_AXIS,
-        PlanetProperty.RADIUS,
-        PlanetProperty.MASS,
-        PlanetProperty.DENSITY,
-        PlanetProperty.ECCENTRICITY,
-        PlanetProperty.INSOLATION_FLUX,
-        PlanetProperty.TEMPERATURE,
-        PlanetProperty.OCCULTATION_DEPTH,
-        PlanetProperty.INCLINATION,
-        PlanetProperty.OBLIQUITY,
+    val visiblePlanetProperties: ImmutableList<String> = persistentListOf(
+        PlanetProperty.NAME.name,
+        PlanetProperty.STATUS.name,
+        PlanetProperty.HABITABILITY.name,
+        PlanetProperty.CONFIDENCE.name,
+        PlanetProperty.TYPE.name,
+        PlanetProperty.ORBITAL_PERIOD.name,
+        PlanetProperty.ORBIT_AXIS.name,
+        PlanetProperty.RADIUS.name,
+        PlanetProperty.MASS.name,
+        PlanetProperty.DENSITY.name,
+        PlanetProperty.ECCENTRICITY.name,
+        PlanetProperty.INSOLATION_FLUX.name,
+        PlanetProperty.TEMPERATURE.name,
+        PlanetProperty.OCCULTATION_DEPTH.name,
+        PlanetProperty.INCLINATION.name,
+        PlanetProperty.OBLIQUITY.name
     ),
-    val searchableStellarHostProperties: ImmutableSet<StellarHostProperty> = persistentSetOf(StellarHostProperty.NAME),
-    val searchablePlanetProperties: ImmutableSet<PlanetProperty> = persistentSetOf(PlanetProperty.NAME)
+    val searchableStellarHostProperties: ImmutableList<String> = persistentListOf(StellarHostProperty.NAME.name),
+    val searchablePlanetProperties: ImmutableList<String> = persistentListOf(PlanetProperty.NAME.name)
 )
 
 internal enum class Content {
@@ -82,6 +76,75 @@ internal enum class Content {
     DETAIL_HOSTS,
     LIST_PLANETS,
     DETAIL_PLANETS,
+}
+
+internal data class Exoplanets(
+    val stellarHosts: ImmutableList<Host> = persistentListOf(),
+    val planets: ImmutableList<Planet> = persistentListOf()
+) {
+    data class Host(
+        val id: String,
+        val name: String?,
+        val systemName: String?,
+        val spectralType: String?,
+        val spectralTypeScore: Double?,
+        val effectiveTemperature: Double?,
+        val effectiveTemperatureScore: Double?,
+        val radius: Double?,
+        val mass: Double?,
+        val massScore: Double?,
+        val metallicity: Double?,
+        val metallicityScore: Double?,
+        val luminosity: Double?,
+        val gravity: Double?,
+        val gravityScore: Double?,
+        val age: Double?,
+        val ageScore: Double?,
+        val density: Double?,
+        val rotationalVelocity: Double?,
+        val activityScore: Double?,
+        val rotationalPeriod: Double?,
+        val rotationalPeriodScore: Double?,
+        val distance: Double?,
+        val ra: Double?,
+        val dec: Double?,
+        val image: ImageResource?,
+        val planetCount: Int?,
+    )
+
+    data class Planet(
+        val id: String,
+        val name: String?,
+        val stellarHostId: String?,
+        val status: String?,
+        val orbitalPeriod: Double?,
+        val orbitAxis: Double?,
+        val radius: Double?,
+        val radiusScore: Double?,
+        val mass: Double?,
+        val massScore: Double?,
+        val density: Double?,
+        val telluricityScore: Double?,
+        val eccentricity: Double?,
+        val eccentricityScore: Double?,
+        val insolationFlux: Double?,
+        val equilibriumTemperature: Double?,
+        val temperatureScore: Double?,
+        val occultationDepth: Double?,
+        val inclination: Double?,
+        val obliquity: Double?,
+        val obliquityScore: Double?,
+        val habitabilityScore: Double?,
+        val confidenceScore: Double?,
+        val rocheScore: Double?,
+        val habitableZoneKopparapuScore: Double?,
+        val habitableZoneKastingScore: Double?,
+        val esiScore: Double?,
+        val protectionScore: Double?,
+        val tidalLockingScore: Double?,
+        val type: String?,
+        val image: ImageResource?
+    )
 }
 
 internal enum class StellarHostProperty(val displayName: String) {
@@ -109,7 +172,12 @@ internal enum class StellarHostProperty(val displayName: String) {
     ROTATIONAL_PERIOD_SCORE(displayName = "stellar_host_rotational_period_score"),
     GRAVITY_SCORE(displayName = "stellar_host_gravity_score"),
     METALLICITY_SCORE(displayName = "stellar_host_metallicity_score"),
-    EFFECTIVE_TEMPERATURE_SCORE(displayName = "stellar_host_effective_temperature_score")
+    EFFECTIVE_TEMPERATURE_SCORE(displayName = "stellar_host_effective_temperature_score");
+
+    companion object {
+        private val map = entries.associateBy(keySelector = StellarHostProperty::name)
+        fun fromString(name: String): StellarHostProperty? = map[name.uppercase()]
+    }
 }
 
 internal enum class PlanetProperty(val displayName: String) {
@@ -140,16 +208,34 @@ internal enum class PlanetProperty(val displayName: String) {
     OBLIQUITY_SCORE(displayName = "planet_obliquity_score"),
     ESI_SCORE(displayName = "planet_esi_score"),
     PROTECTION_SCORE(displayName = "planet_protection_score"),
-    TIDAL_LOCKING_SCORE(displayName = "planet_tidal_locking_score")
+    TIDAL_LOCKING_SCORE(displayName = "planet_tidal_locking_score");
+
+    companion object {
+        private val map = PlanetProperty.entries.associateBy(keySelector = PlanetProperty::name)
+        fun fromString(name: String): PlanetProperty? = map[name.uppercase()]
+    }
 }
 
-internal data class FilterCriteria(
+internal data class FilterExoplanetsCriteria(
     val currentContent: Content,
     val search: String,
-    val sortStellarHostProperty: StellarHostProperty,
-    val sortPlanetProperty: PlanetProperty,
-    val sortAscending: Boolean,
-    val searchableStellarHostProperties: Set<StellarHostProperty>,
-    val searchablePlanetProperties: Set<PlanetProperty>,
-    val stellarHosts: List<StellarHost>
+    val sortStellarHostProperty: String,
+    val sortPlanetProperty: String,
+    val sortStellarHostAscending: Boolean,
+    val sortPlanetAscending: Boolean,
+    val visibleStellarHostProperties: List<String>,
+    val visiblePlanetProperties: List<String>,
+    val searchableStellarHostProperties: List<String>,
+    val searchablePlanetProperties: List<String>
+)
+
+internal data class FilterExoplanetsCriteriaCombine(
+    val criteria: FilterExoplanetsCriteria,
+    val stellarHosts: List<StellarHost>,
+    val translations: Map<String, String>
+)
+
+internal data class FilterExoplanetsCriteriaResult(
+    val exoplanets: Exoplanets,
+    val properties: ImmutableList<Pair<String, String>>,
 )

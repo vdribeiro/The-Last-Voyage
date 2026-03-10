@@ -32,11 +32,17 @@ import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.image.Icon
 import com.hybris.tlv.ui.theme.component.list.EventList
 import com.hybris.tlv.ui.theme.component.text.Input
+import com.hybris.tlv.ui.theme.getTranslation
 
 @OptIn(FlowPreview::class)
 @Composable
 internal fun EventExplorerScreen(store: Store<EventExplorerState, EventExplorerAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
+
+    val integrityTranslation = getTranslation(key = "ship_integrity")
+    val fuelTranslation = getTranslation(key = "ship_fuel")
+    val materialsTranslation = getTranslation(key = "ship_materials")
+    val cryopodsTranslation = getTranslation(key = "ship_cryopods")
 
     Screen(
         loading = storeState.loading,
@@ -78,9 +84,19 @@ internal fun EventExplorerScreen(store: Store<EventExplorerState, EventExplorerA
                 .padding(all = 16.dp),
             events = storeState.events,
             id = Event::id,
-            parentId = Event::parentId,
-            description = Event::description,
-            outcome = { it.outcome?.toStringOutcome() }
+            name = { getTranslation(key = it.id) },
+            parentId = { it.parentId?.let { parentId -> getTranslation(key = parentId) } },
+            description = { getTranslation(key = it.description) },
+            outcome = {
+                it.outcome?.let { outcome ->
+                    buildList {
+                        if (outcome.integrity != null) add(element = "${if (outcome.integrity > 0) "+" else ""}${outcome.integrity} $integrityTranslation")
+                        if (outcome.materials != null) add(element = "${if (outcome.materials > 0) "+" else ""}${outcome.materials} $materialsTranslation")
+                        if (outcome.fuel != null) add(element = "${if (outcome.fuel > 0.0) "+" else ""}${outcome.fuel} $fuelTranslation")
+                        if (outcome.cryopods != null) add(element = "${if (outcome.cryopods > 0) "+" else ""}${outcome.cryopods} $cryopodsTranslation")
+                    }.joinToString(separator = "\n")
+                }
+            }
         )
     }
 }

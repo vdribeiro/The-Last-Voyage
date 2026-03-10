@@ -31,6 +31,11 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
     val ship = storeState.ship
     val event = storeState.parentEvent
 
+    val integrityTranslation = getTranslation(key = "ship_integrity")
+    val fuelTranslation = getTranslation(key = "ship_fuel")
+    val materialsTranslation = getTranslation(key = "ship_materials")
+    val cryopodsTranslation = getTranslation(key = "ship_cryopods")
+
     Screen(
         loading = storeState.loading,
         onBackClick = null,
@@ -53,20 +58,30 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
                 modifier = Modifier.testTag(tag = "event_buttons_bar"),
                 buttons = storeState.childrenEvents,
                 id = Event::id,
-                text = Event::id,
+                text = { getTranslation(key = it.id) },
                 onClick = { store.send(action = EventAction.Select(event = it)) }
             )
         },
     ) {
         event?.let { event ->
-            val outcome = remember(key1 = event.outcome) { event.outcome?.toStringOutcome().orEmpty() }
+            val outcome = remember(key1 = event.outcome) {
+                event.outcome?.let { outcome ->
+                    buildList {
+                        add(element = "\n")
+                        if (outcome.integrity != null) add(element = "${if (outcome.integrity > 0) "+" else ""}${outcome.integrity} $integrityTranslation")
+                        if (outcome.materials != null) add(element = "${if (outcome.materials > 0) "+" else ""}${outcome.materials} $materialsTranslation")
+                        if (outcome.fuel != null) add(element = "${if (outcome.fuel > 0.0) "+" else ""}${outcome.fuel} $fuelTranslation")
+                        if (outcome.cryopods != null) add(element = "${if (outcome.cryopods > 0) "+" else ""}${outcome.cryopods} $cryopodsTranslation")
+                    }.joinToString(separator = "\n")
+                }.orEmpty()
+            }
             TypewriterContent(
                 modifier = Modifier
                     .testTag(tag = "event_content")
                     .fillMaxSize()
                     .padding(all = 16.dp),
                 title = getTranslation(key = event.id),
-                text = "${getTranslation(key = event.description)}${if (outcome.isNotBlank()) "\n\n" else ""}$outcome",
+                text = "${getTranslation(key = event.description)}$outcome",
             )
         }
     }

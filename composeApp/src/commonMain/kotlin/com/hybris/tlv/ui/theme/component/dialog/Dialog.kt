@@ -18,16 +18,14 @@ internal fun Dialog(
     modifier: Modifier = Modifier,
     title: String? = null,
     text: String? = null,
-    confirmText: String? = null,
-    dismissText: String? = null,
+    confirmText: String = getTranslation(key = "app_yes"),
+    dismissText: String? = getTranslation(key = "app_no"),
     onConfirm: () -> Unit = {},
-    onDismiss: () -> Unit = {},
+    onDismiss: (() -> Unit) = {},
     onDismissRequest: () -> Unit = onDismiss,
 ) {
     val typography = LocalTypography.current
 
-    val confirmText: String = confirmText ?: getTranslation(key = "app_yes")
-    val dismissText: String = dismissText ?: getTranslation(key = "app_no")
     AlertDialog(
         modifier = modifier,
         title = {
@@ -49,7 +47,9 @@ internal fun Dialog(
             }
         },
         confirmButton = { Button(text = confirmText, onClick = onConfirm) },
-        dismissButton = { Button(text = dismissText, onClick = onDismiss) },
+        dismissButton = dismissText?.let {
+            { Button(text = it, onClick = onDismiss) }
+        },
         onDismissRequest = onDismissRequest
     )
 }

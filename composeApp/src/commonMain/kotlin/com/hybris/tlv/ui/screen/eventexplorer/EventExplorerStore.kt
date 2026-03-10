@@ -1,21 +1,15 @@
 package com.hybris.tlv.ui.screen.eventexplorer
 
-import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.onEach
-import androidx.lifecycle.viewModelScope
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.event.EventUseCases
-import com.hybris.tlv.domain.usecase.event.model.Event
-import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.screen.Store
 
 internal class EventExplorerStore(
@@ -23,9 +17,6 @@ internal class EventExplorerStore(
 ): Store<EventExplorerState, EventExplorerAction>(
     initialState = EventExplorerState()
 ) {
-    @VisibleForTesting
-    internal var eventsFlow: MutableStateFlow<List<Event>> = MutableStateFlow(value = emptyList())
-
     init {
         setup()
     }
@@ -34,30 +25,35 @@ internal class EventExplorerStore(
     private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
-        observeEvents()
+        val eventsFlow = eventUseCases.observeEvents()
+            .toStateFlow(initialValue = emptyList())
+
+        val criteriaFlow = stateFlow
+            .map { it.toFilterEventsCriteria() }
+            .distinctUntilChanged()
+
         combine(
-            flow = stateFlow,
+            flow = criteriaFlow,
             flow2 = eventsFlow
-        ) { state, events ->
-            FilterCriteria(
-                search = state.search,
+        ) { criteria, events ->
+            FilterEventsCriteriaCombine(
+                criteria = criteria,
                 events = events
             )
         }
-            .distinctUntilChanged()
-            .mapLatest { criteria -> criteria.events.search(search = criteria.search).toPersistentList() }
+            .mapLatest { it.toFilterEventsCriteriaResult() }
             .flowOn(context = Dispatcher.Default)
-            .onEach { events -> updateState { it.copy(events = events) } }
-            .launchIn(scope = viewModelScope)
+            .observe(id = "filterEvents") { result ->
+                updateState {
+                    it.copy(
+                        loading = false,
+                        events = result.events
+                    )
+                }
+            }
 
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
-
-    private fun observeEvents(): Job = eventUseCases.observeEvents()
-        .observe(id = "observeEvents") { events ->
-            eventsFlow.value = events
-            updateState { it.copy(loading = false) }
-        }
 
     override fun reducer(state: EventExplorerState, action: EventExplorerAction) {
         when (action) {

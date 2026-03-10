@@ -54,14 +54,14 @@ internal fun SelectableCard(
             ) {
                 name?.let {
                     Text(
-                        text = getTranslation(key = name),
+                        text = name,
                         style = typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )
                 }
                 if (selected && description != null) {
                     Spacer(modifier = Modifier.height(height = 4.dp))
-                    Text(text = getTranslation(key = description), style = typography.bodyLarge)
+                    Text(text = description, style = typography.bodyLarge)
                 }
                 velocity?.let { InfoRow(label = engineSpeedTranslation, value = "${it}c") }
                 fuel?.let { InfoRow(label = engineFuelTranslation, value = it) }

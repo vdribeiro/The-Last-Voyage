@@ -34,7 +34,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
             ButtonsBar(
                 buttons = persistentListOf(startTranslation),
                 id = { it },
-                text = { it },
+                text = { getTranslation(key = it) },
                 enabled = { shipState != null && shipState.remainingPoints >= 0 },
                 onClick = {
                     if (shipState == null) return@ButtonsBar
@@ -75,7 +75,8 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
             selectedEngineId = shipState.engine.id,
             engines = storeState.engines,
             engineId = Engine::id,
-            engineDescription = Engine::description,
+            engineName = { getTranslation(key = it.id) },
+            engineDescription = { getTranslation(key = it.description) },
             engineVelocity = Engine::velocity,
             engineFuelConsumption = Engine::fuelConsumption,
             engineCost = Engine::cost,

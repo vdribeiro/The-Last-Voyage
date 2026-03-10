@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.game
 
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toPersistentList
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -28,6 +27,7 @@ import com.hybris.tlv.ui.theme.component.container.ShipStats
 import com.hybris.tlv.ui.theme.component.list.SystemList
 import com.hybris.tlv.ui.theme.component.list.TravelList
 import com.hybris.tlv.ui.theme.component.topbar.StatusBar
+import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
 internal fun GameScreen(store: Store<GameState, GameAction>) {
@@ -102,7 +102,7 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
                     planetDensity = Planet::density,
                     planetEquilibriumTemperature = Planet::equilibriumTemperature,
                     planetHabitability = { it.score?.habitabilityScore },
-                    planetType = { it.score?.planetType?.displayName },
+                    planetType = { it.score?.planetType?.displayName?.let { type -> getTranslation(key = type) } },
                     planetImage = { it.score?.planetType.toImage() },
                     onClick = { store.send(action = GameAction.Settle(planet = it)) }
                 )

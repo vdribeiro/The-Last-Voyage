@@ -33,7 +33,6 @@ import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.ui.lifecycle.lifecycleOwner
 import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.screen.StoreFactory
 import com.hybris.tlv.ui.theme.AppTheme
 
@@ -53,7 +52,8 @@ internal abstract class TestCase: PlatformTestCase() {
         reset = true,
         http = true,
         archive = true,
-        music = false
+        music = false,
+        engines = true
     )
 
     /**
@@ -80,11 +80,6 @@ internal abstract class TestCase: PlatformTestCase() {
             useCases = dependency.get().useCases
         )
     }
-
-    /**
-     * Syntactic sugar for store.stateFlow.value.
-     */
-    protected val <State, Action> Store<State, Action>.state: State get() = stateFlow.value
 
     /**
      * Simulates a navigation event.

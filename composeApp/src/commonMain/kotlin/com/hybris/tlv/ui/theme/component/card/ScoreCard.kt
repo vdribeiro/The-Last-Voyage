@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.locale.getLocalDateTime
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.domain.usecase.space.roundTo
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
@@ -112,7 +113,7 @@ internal fun ScoreCard(
                     }
                     settledPlanet?.let { InfoRow(label = settledPlanetTranslation, value = it) }
                     habitability?.let { InfoRow(label = habitabilityTranslation, value = it.roundTo(decimalPlaces = 2)) }
-                    engine?.let { InfoRow(label = engineTranslation, value = getTranslation(key = it)) }
+                    if (flags.engines) engine?.let { InfoRow(label = engineTranslation, value = it) }
                     assignedPoints?.let { InfoRow(label = assignedPointsTranslation, value = it) }
                     yearsTraveled?.let { InfoRow(label = yearsTraveledTranslation, value = it.roundTo(decimalPlaces = 2)) }
                     sensorRange?.let { InfoRow(label = sensorTranslation, value = it) }
