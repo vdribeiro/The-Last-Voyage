@@ -30,6 +30,7 @@ import com.hybris.tlv.ui.navigation.graph.scoreScreen
 import com.hybris.tlv.ui.navigation.graph.splashScreen
 import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
+import com.hybris.tlv.ui.screen.StoreFactory
 
 internal val LocalNavController = staticCompositionLocalOf<NavHostController?> { null }
 
@@ -42,8 +43,7 @@ internal val LocalNavController = staticCompositionLocalOf<NavHostController?> {
 internal fun Navigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    config: ConfigManager,
-    useCases: UseCases
+    storeFactory: StoreFactory
 ) {
     NavHost(
         modifier = modifier,
@@ -54,23 +54,23 @@ internal fun Navigation(
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None }
     ) {
-        splashScreen(config = config, useCases = useCases)
-        cheatScreen(config = config)
-        mainMenuScreen(config = config, useCases = useCases)
-        helpScreen(config = config, useCases = useCases)
-        feedbackScreen()
-        newGameScreen(useCases = useCases)
-        catastropheScreen(useCases = useCases)
-        tutorialScreen(config = config)
-        gameScreen(config = config, useCases = useCases)
-        eventScreen(useCases = useCases)
-        gameOverScreen(useCases = useCases)
-        stellarExplorerScreen(useCases = useCases)
-        scoreScreen(useCases = useCases)
-        achievementScreen(useCases = useCases)
-        creditScreen(useCases = useCases)
-        catastropheExplorerScreen(useCases = useCases)
-        eventExplorerScreen(useCases = useCases)
+        splashScreen(storeFactory = storeFactory)
+        cheatScreen(storeFactory = storeFactory)
+        mainMenuScreen(storeFactory = storeFactory)
+        helpScreen(storeFactory = storeFactory)
+        feedbackScreen(storeFactory = storeFactory)
+        newGameScreen(storeFactory = storeFactory)
+        catastropheScreen(storeFactory = storeFactory)
+        tutorialScreen(storeFactory = storeFactory)
+        gameScreen(storeFactory = storeFactory)
+        eventScreen(storeFactory = storeFactory)
+        gameOverScreen(storeFactory = storeFactory)
+        stellarExplorerScreen(storeFactory = storeFactory)
+        scoreScreen(storeFactory = storeFactory)
+        achievementScreen(storeFactory = storeFactory)
+        creditScreen(storeFactory = storeFactory)
+        catastropheExplorerScreen(storeFactory = storeFactory)
+        eventExplorerScreen(storeFactory = storeFactory)
     }
 
     LaunchedEffect(key1 = Unit) {

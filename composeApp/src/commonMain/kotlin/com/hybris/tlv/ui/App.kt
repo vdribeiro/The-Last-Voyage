@@ -44,8 +44,7 @@ internal fun App(
                 Navigation(
                     modifier = modifier,
                     navController = navController,
-                    config = dependency.config,
-                    useCases = dependency.useCases
+                    storeFactory = dependency.storeFactory
                 )
                 MusicPlayer(
                     navController = navController,

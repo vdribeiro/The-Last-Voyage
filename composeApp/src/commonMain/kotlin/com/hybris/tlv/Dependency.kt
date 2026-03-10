@@ -12,6 +12,7 @@ import com.hybris.tlv.data.http.HttpClientFactory
 import com.hybris.tlv.data.http.NoOpHttpEngine
 import com.hybris.tlv.domain.usecase.Gateways
 import com.hybris.tlv.domain.usecase.UseCases
+import com.hybris.tlv.ui.screen.StoreFactory
 import database.AppDatabase
 
 /**
@@ -28,5 +29,9 @@ internal class Dependency(
         config = config,
         database = database,
         httpClient = httpClient,
+    ),
+    val storeFactory: StoreFactory = StoreFactory(
+        config = config,
+        useCases = useCases
     )
 )

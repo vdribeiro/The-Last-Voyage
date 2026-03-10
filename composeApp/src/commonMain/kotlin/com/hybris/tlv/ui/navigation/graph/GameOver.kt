@@ -3,18 +3,11 @@ package com.hybris.tlv.ui.navigation.graph
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.screen.StoreFactory
 import com.hybris.tlv.ui.screen.gameover.GameOverScreen
-import com.hybris.tlv.ui.screen.gameover.GameOverStore
 
-internal fun NavGraphBuilder.gameOverScreen(
-    useCases: UseCases
-) = composable<Screen.GameOver> {
-    GameOverScreen(store = viewModel {
-        GameOverStore(
-            gameSessionUseCases = useCases.gameSession,
-            achievementUseCases = useCases.achievement
-        )
-    })
-}
+internal fun NavGraphBuilder.gameOverScreen(storeFactory: StoreFactory) =
+    composable<Screen.GameOver> {
+        GameOverScreen(store = viewModel { storeFactory.getGameOverStore() })
+    }
