@@ -11,8 +11,8 @@ internal class TutorialStoreTest: TestCase() {
     @Test
     fun completeTutorial() = runUnitTest {
         assertNavigation(list = emptyList())
-        navigate(screen = Screen.Tutorial())
-        assertNavigation(list = listOf(Screen.Tutorial()))
+        navigate(screen = Screen.Tutorial(newGame = false))
+        assertNavigation(list = listOf(Screen.Tutorial(newGame = false)))
 
         val store = storeFactory.get().getTutorialStore(newGame = false)
         assertNotNull(actual = store.state.ship)
@@ -35,8 +35,8 @@ internal class TutorialStoreTest: TestCase() {
     @Test
     fun skipTutorial() = runUnitTest {
         assertNavigation(list = emptyList())
-        navigate(screen = Screen.Tutorial())
-        assertNavigation(list = listOf(Screen.Tutorial()))
+        navigate(screen = Screen.Tutorial(newGame = false))
+        assertNavigation(list = listOf(Screen.Tutorial(newGame = false)))
 
         val store = storeFactory.get().getTutorialStore(newGame = false)
         store.send(action = TutorialAction.Skip)

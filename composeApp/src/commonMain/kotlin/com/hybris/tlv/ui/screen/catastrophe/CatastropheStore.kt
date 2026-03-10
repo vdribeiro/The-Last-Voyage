@@ -36,7 +36,7 @@ internal class CatastropheStore(
 
     override fun reducer(state: CatastropheState, action: CatastropheAction) {
         when (action) {
-            CatastropheAction.Next -> navigate(screen = Screen.Game())
+            CatastropheAction.Next -> navigate(screen = Screen.Game(ship = null))
         }
     }
 

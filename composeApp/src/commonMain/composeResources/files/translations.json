@@ -31,6 +31,11 @@
   },
   {
     "languageIso": "en",
+    "key": "sync_archive",
+    "value": "Sync Exoplanets"
+  },
+  {
+    "languageIso": "en",
     "key": "reset",
     "value": "Reset Storage"
   },

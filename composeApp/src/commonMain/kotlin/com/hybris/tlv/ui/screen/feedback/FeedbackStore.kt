@@ -29,7 +29,7 @@ internal class FeedbackStore(
 
     private fun navigateBack(state: FeedbackState) {
         when {
-            state.isError -> navigate(screen = Screen.Splash())
+            state.isError -> navigate(screen = Screen.Splash(reset = true))
             else -> navigateBack()
         }
     }

@@ -74,7 +74,7 @@ internal class AppTest: TestCase() {
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu).toStringList(), actual = navController.getScreens())
         sendCommand(command = Navigate.To(screen = Screen.MainMenu))
         assertEquals(expected = listOf(Screen.Splash, Screen.MainMenu).toStringList(), actual = navController.getScreens())
-        sendCommand(command = Navigate.To(screen = Screen.Splash()))
+        sendCommand(command = Navigate.To(screen = Screen.Splash(reset = false)))
         assertEquals(expected = listOf(Screen.Splash).toStringList(), actual = navController.getScreens())
         sendCommand(command = Navigate.To(screen = Screen.MainMenu))
         sendCommand(command = Navigate.To(screen = Screen.Game(ship = FakeData.ship.get())))

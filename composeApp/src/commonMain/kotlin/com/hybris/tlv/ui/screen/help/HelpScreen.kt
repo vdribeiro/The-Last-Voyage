@@ -67,6 +67,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
             if (currentContent == Content.LEARN_MENU) HelpBar(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 onVersionClick = { store.send(action = HelpAction.VersionClick(reset = false)) },
+                onArchiveClick = if (storeState.showArchive) {
+                    { store.send(action = HelpAction.SyncArchive) }
+                } else null,
                 onResetClick = { store.send(action = HelpAction.Reset) }
             )
         },
@@ -137,12 +140,12 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                         viewName = getTranslation(key = "stellar_explorer_screen__planet_list"),
                         viewIcon = Icons.Default.Public,
                         count = 1234,
-                        properties = persistentListOf(name, habitability),
-                        selectedProperty = name,
+                        properties = persistentListOf("planet_name" to name, "planet_habitability" to habitability),
+                        sortProperty = name,
                         ascending = ascending,
                         onSortDirectionChange = { ascending = !ascending },
                         visibleProperties = persistentListOf(name),
-                        selectedProperties = persistentListOf(name),
+                        searchableProperties = persistentListOf(name),
                     )
                 }
             )

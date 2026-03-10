@@ -3,15 +3,11 @@ package com.hybris.tlv.ui.navigation.graph
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.screen.StoreFactory
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerScreen
-import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
 
-internal fun NavGraphBuilder.stellarExplorerScreen(
-    useCases: UseCases
-) = composable<Screen.StellarExplorer> {
-    StellarExplorerScreen(store = viewModel {
-        StellarExplorerStore(spaceUseCases = useCases.space)
-    })
-}
+internal fun NavGraphBuilder.stellarExplorerScreen(storeFactory: StoreFactory) =
+    composable<Screen.StellarExplorer> {
+        StellarExplorerScreen(store = viewModel { storeFactory.getStellarExplorerStore() })
+    }

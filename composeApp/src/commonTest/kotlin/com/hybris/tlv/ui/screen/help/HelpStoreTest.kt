@@ -40,7 +40,7 @@ internal class HelpStoreTest: TestCase() {
         store.send(action = HelpAction.Score)
         assertEquals(expected = Content.SCORE, actual = store.state.currentContent)
         store.send(action = HelpAction.Mechanics)
-        assertNavigation(list = listOf(Screen.Tutorial()))
+        assertNavigation(list = listOf(Screen.Tutorial(newGame = false)))
     }
 
     @Test

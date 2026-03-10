@@ -10,13 +10,11 @@ import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.reset
-import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.domain.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.domain.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.domain.usecase.credit.CreditUseCases
 import com.hybris.tlv.domain.usecase.event.EventUseCases
 import com.hybris.tlv.domain.usecase.ship.ShipUseCases
-import com.hybris.tlv.domain.usecase.space.ArchiveUseCases
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.sync.model.DataSource
 import com.hybris.tlv.domain.usecase.sync.model.SyncResult
@@ -28,7 +26,6 @@ import database.AppDatabase
 internal class SyncGateway(
     private val config: ConfigManager,
     private val database: AppDatabase,
-    private val archiveUseCases: ArchiveUseCases,
     private val translationUseCases: TranslationUseCases,
     private val catastropheUseCases: CatastropheUseCases,
     private val shipUseCases: ShipUseCases,
@@ -54,7 +51,6 @@ internal class SyncGateway(
         val localVersion = config.localConfigs.appVersion
         Telemetry.info(tag = TAG, message = "App version: remote version: $remoteVersion, local version: $localVersion")
         config.setConfigs { it.copy(appVersion = remoteVersion) }
-        if (flags.archive) archiveUseCases.getArchive()
         val result = syncAll(
             latestVersion = Property.APP_VERSION_NUMBER == remoteVersion,
             progress = progress

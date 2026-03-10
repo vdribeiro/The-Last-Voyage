@@ -2,13 +2,6 @@ package com.hybris.tlv.ui.screen.cheat
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import androidx.lifecycle.viewModelScope
-import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.ui.screen.Store
@@ -22,16 +15,10 @@ internal class CheatStore(
         setup()
     }
 
-    private fun setup() {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
-        setInitialState()
-        observeState()
-
-        Telemetry.info(tag = TAG, message = "Setup complete")
-    }
-
-    private fun setInitialState(): Job = launch(id = "setInitialState") {
         val preferences = config.preferences
         updateState {
             it.copy(
@@ -43,27 +30,22 @@ internal class CheatStore(
                 cryopods = preferences.cheatCryopods
             )
         }
-    }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private fun observeState(): Job =
-        stateFlow
-            .filter { !it.loading } // Prevent overwriting Config with default values on startup
-            .distinctUntilChanged() // Only trigger if the specific values actually change
-            .onEach { state -> // Sequential saving to avoid cancellation data loss
-                config.setPreferences {
-                    it.copy(
-                        cheatIntegrity = state.integrity,
-                        cheatSensorRange = state.sensorRange,
-                        cheatFuel = state.fuel,
-                        cheatMaterials = state.materials,
-                        cheatCryopods = state.cryopods
-                    )
-                }
-                Telemetry.info(tag = TAG, message = "Cheats: $state")
+        stateFlow.observe(id = "filterCheats") { state ->
+            config.setPreferences {
+                it.copy(
+                    cheatIntegrity = state.integrity,
+                    cheatSensorRange = state.sensorRange,
+                    cheatFuel = state.fuel,
+                    cheatMaterials = state.materials,
+                    cheatCryopods = state.cryopods
+                )
             }
-            .flowOn(context = Dispatcher.Default)
-            .launchIn(scope = viewModelScope)
+            Telemetry.info(tag = TAG, message = "Cheats: $state")
+        }
+
+        Telemetry.info(tag = TAG, message = "Setup complete")
+    }
 
     override fun reducer(state: CheatState, action: CheatAction) {
         when (action) {

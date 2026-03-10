@@ -36,7 +36,7 @@ internal class ControlPanelTest: TestCase() {
         var isAscending = true
         setUI {
             ControlPanel(
-                properties = persistentListOf("Name"),
+                properties = persistentListOf("name" to "Name"),
                 ascending = isAscending,
                 onSortDirectionChange = { isAscending = !isAscending }
             )
@@ -49,7 +49,7 @@ internal class ControlPanelTest: TestCase() {
     @Test
     fun visibility() = runUITest {
         var toggledProperty = ""
-        val properties = persistentListOf("Name", "Type")
+        val properties = persistentListOf("name" to "Name", "type" to "Type")
 
         setUI {
             ControlPanel(
@@ -60,7 +60,7 @@ internal class ControlPanelTest: TestCase() {
 
         onNodeWithContentDescription(label = "Visibility Options").performClick()
         onNodeWithText(text = "Name").performClick()
-        assertEquals(expected = "Name", actual = toggledProperty)
+        assertEquals(expected = "name", actual = toggledProperty)
     }
 
     @Test

@@ -1,10 +1,7 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.collections.immutable.toPersistentSet
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
@@ -13,6 +10,7 @@ import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,70 +19,47 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.PlanetStatus
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
-import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
-import com.hybris.tlv.domain.usecase.space.toImage
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
-import com.hybris.tlv.ui.theme.component.list.PlanetList
-import com.hybris.tlv.ui.theme.component.list.StellarHostList
+import com.hybris.tlv.ui.theme.component.list.ExoplanetList
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.ui.theme.getTranslation
 
-// TODO - refactor this. Too much logic on the UI
 @Composable
 internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExplorerAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
     val currentContent = storeState.currentContent
-    val listState = storeState.listState
-    val visibleStellarHostProperties = storeState.visibleStellarHostProperties
-    val visiblePlanetProperties = storeState.visiblePlanetProperties
-
-    val stellarHostProperties = StellarHostProperty.entries.associateWith { getTranslation(key = it.displayName) }
-    val planetProperties = PlanetProperty.entries.associateWith { getTranslation(key = it.displayName) }
 
     val hostListTranslation = getTranslation(key = "stellar_explorer_screen__host_list")
     val planetListTranslation = getTranslation(key = "stellar_explorer_screen__planet_list")
+
+    val listState = remember(key1 = storeState.exoplanets) {
+        when (currentContent) {
+            Content.LIST_HOSTS -> storeState.stellarHostsListState
+            Content.LIST_PLANETS -> storeState.planetsListState
+            Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> LazyListState()
+        }
+    }
+    val hostView = remember(key1 = storeState.exoplanets) {
+        when (currentContent) {
+            Content.LIST_HOSTS, Content.DETAIL_HOSTS -> true
+            Content.LIST_PLANETS, Content.DETAIL_PLANETS -> false
+        }
+    }
+    val stellarProperty = remember(key1 = storeState.exoplanets) {
+        when (currentContent) {
+            Content.LIST_HOSTS, Content.DETAIL_PLANETS -> true
+            Content.LIST_PLANETS, Content.DETAIL_HOSTS -> false
+        }
+    }
 
     Screen(
         loading = storeState.loading,
         onBackClick = { store.send(action = StellarExplorerAction.Back) },
         topBar = {
-            // Control panel definitions according to selected view
-            val isHostView = currentContent in listOf(Content.LIST_HOSTS, Content.DETAIL_HOSTS)
-            val viewName = if (isHostView) hostListTranslation else planetListTranslation
-            val viewIcon = if (isHostView) Icons.Default.Flare else Icons.Default.Public
-            val count = if (isHostView) storeState.stellarHosts.size else storeState.planets.size
-            val properties: ImmutableList<String>
-            val selectedProperty: String
-            val onSortChange: (String) -> Unit
-            val visibleProperties: ImmutableList<String>
-            val onVisibilityChange: (String) -> Unit
-            val selectedProperties: ImmutableList<String>
-            val onFiltersChange: (String) -> Unit
-            when (isHostView) {
-                true -> {
-                    properties = stellarHostProperties.values.toPersistentList()
-                    selectedProperty = stellarHostProperties[storeState.sortStellarHostProperty].orEmpty()
-                    onSortChange = { property -> stellarHostProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.SortStellarHosts(sort = it)) } }
-                    visibleProperties = storeState.visibleStellarHostProperties.mapNotNull { stellarHostProperties[it] }.toPersistentList()
-                    onVisibilityChange = { property -> stellarHostProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.ChangeStellarHostsVisibility(property = it)) } }
-                    selectedProperties = storeState.searchableStellarHostProperties.mapNotNull { stellarHostProperties[it] }.toPersistentList()
-                    onFiltersChange = { property -> stellarHostProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.ChangeStellarHostsSearchable(property = it)) } }
-                }
-
-                false -> {
-                    properties = planetProperties.values.toPersistentList()
-                    selectedProperty = planetProperties[storeState.sortPlanetProperty].orEmpty()
-                    onSortChange = { property -> planetProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.SortPlanets(sort = it)) } }
-                    visibleProperties = storeState.visiblePlanetProperties.mapNotNull { planetProperties[it] }.toPersistentList()
-                    onVisibilityChange = { property -> planetProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.ChangePlanetVisibility(property = it)) } }
-                    selectedProperties = storeState.searchablePlanetProperties.mapNotNull { planetProperties[it] }.toPersistentList()
-                    onFiltersChange = { property -> planetProperties.findKey(value = property)?.let { store.send(action = StellarExplorerAction.ChangePlanetSearchable(property = it)) } }
-                }
-            }
             ControlPanel(
                 modifier = Modifier
                     .testTag(tag = "stellar_explorer_control_panel")
@@ -93,172 +68,93 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                         end = 16.dp,
                         top = 8.dp
                     ),
-                enabled = currentContent in listOf(Content.LIST_HOSTS, Content.LIST_PLANETS),
                 search = storeState.search,
                 onSearch = { store.send(action = StellarExplorerAction.Search(search = it)) },
-                viewName = viewName,
-                viewIcon = viewIcon,
+                viewName = if (hostView) hostListTranslation else planetListTranslation,
+                viewIcon = if (hostView) Icons.Default.Flare else Icons.Default.Public,
                 onChangeView = { store.send(action = StellarExplorerAction.ChangeView) },
-                count = count,
-                properties = properties,
-                selectedProperty = selectedProperty,
-                ascending = storeState.sortAscending,
-                onSortChange = onSortChange,
+                count = if (stellarProperty) storeState.exoplanets.stellarHosts.size else storeState.exoplanets.planets.size,
+                properties = storeState.properties,
+                sortProperty = storeState.sortStellarHostProperty,
+                ascending = if (stellarProperty) storeState.sortStellarHostAscending else storeState.sortPlanetAscending,
+                onSortChange = { store.send(action = StellarExplorerAction.Sort(sort = it)) },
                 onSortDirectionChange = { store.send(action = StellarExplorerAction.ChangeSortDirection) },
-                visibleProperties = visibleProperties,
-                onVisibilityChange = onVisibilityChange,
-                selectedProperties = selectedProperties,
-                onFiltersChange = onFiltersChange,
+                visibleProperties = if (stellarProperty) storeState.visibleStellarHostProperties else storeState.visiblePlanetProperties,
+                onVisibilityChange = { store.send(action = StellarExplorerAction.ChangeVisibility(property = it)) },
+                searchableProperties = if (stellarProperty) storeState.searchableStellarHostProperties else storeState.searchablePlanetProperties,
+                onFiltersChange = { store.send(action = StellarExplorerAction.ChangeSearchable(property = it)) },
             )
         }
     ) {
-        when (currentContent) {
-            Content.LIST_HOSTS, Content.DETAIL_PLANETS -> {
-                val planet = storeState.selectedPlanet
-                StellarHostList(
-                    modifier = Modifier
-                        .testTag(tag = "stellar_explorer_host_list")
-                        .fillMaxSize()
-                        .padding(all = 16.dp),
-                    listState = listState,
-                    showPlanet = currentContent == Content.DETAIL_PLANETS && planet != null,
-                    planetName = visiblePlanetProperties.ifContains(element = PlanetProperty.NAME, value = planet?.name),
-                    planetStatus = visiblePlanetProperties.ifContains(element = PlanetProperty.STATUS, value = planet?.status?.displayName)?.let { getTranslation(key = it) },
-                    planetHabitability = visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABILITY, value = planet?.score?.habitabilityScore),
-                    planetConfidence = visiblePlanetProperties.ifContains(element = PlanetProperty.CONFIDENCE, value = planet?.score?.confidenceScore),
-                    planetOrbitalPeriod = visiblePlanetProperties.ifContains(element = PlanetProperty.ORBITAL_PERIOD, value = planet?.orbitalPeriod),
-                    planetOrbitAxis = visiblePlanetProperties.ifContains(element = PlanetProperty.ORBIT_AXIS, value = planet?.orbitAxis),
-                    planetRadius = visiblePlanetProperties.ifContains(element = PlanetProperty.RADIUS, value = planet?.radius),
-                    planetMass = visiblePlanetProperties.ifContains(element = PlanetProperty.MASS, value = planet?.mass),
-                    planetDensity = visiblePlanetProperties.ifContains(element = PlanetProperty.DENSITY, value = planet?.density),
-                    planetEccentricity = visiblePlanetProperties.ifContains(element = PlanetProperty.ECCENTRICITY, value = planet?.eccentricity),
-                    planetInsolationFlux = visiblePlanetProperties.ifContains(element = PlanetProperty.INSOLATION_FLUX, value = planet?.insolationFlux),
-                    planetEquilibriumTemperature = visiblePlanetProperties.ifContains(element = PlanetProperty.TEMPERATURE, value = planet?.equilibriumTemperature),
-                    planetOccultationDepth = visiblePlanetProperties.ifContains(element = PlanetProperty.OCCULTATION_DEPTH, value = planet?.occultationDepth),
-                    planetInclination = visiblePlanetProperties.ifContains(element = PlanetProperty.INCLINATION, value = planet?.inclination),
-                    planetObliquity = visiblePlanetProperties.ifContains(element = PlanetProperty.OBLIQUITY, value = planet?.obliquity),
-                    planetType = visiblePlanetProperties.ifContains(element = PlanetProperty.TYPE, value = planet?.score?.planetType?.displayName)?.let { getTranslation(key = it) },
-                    planetImage = visiblePlanetProperties.ifContains(element = PlanetProperty.TYPE, value = planet?.score?.planetType.toImage()),
-                    planetRocheScore = visiblePlanetProperties.ifContains(element = PlanetProperty.ROCHE_SCORE, value = planet?.score?.rocheScore),
-                    planetHabitableZoneKopparapuScore = visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABLE_ZONE_KOPPARAPU_SCORE, value = planet?.score?.habitableZoneKopparapuScore),
-                    planetHabitableZoneKastingScore = visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABLE_ZONE_KASTING_SCORE, value = planet?.score?.habitableZoneKastingScore),
-                    planetRadiusScore = visiblePlanetProperties.ifContains(element = PlanetProperty.RADIUS_SCORE, value = planet?.score?.planetRadiusScore),
-                    planetMassScore = visiblePlanetProperties.ifContains(element = PlanetProperty.MASS_SCORE, value = planet?.score?.planetMassScore),
-                    planetTelluricityScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TELLURICITY_SCORE, value = planet?.score?.planetTelluricityScore),
-                    planetEccentricityScore = visiblePlanetProperties.ifContains(element = PlanetProperty.ECCENTRICITY_SCORE, value = planet?.score?.planetEccentricityScore),
-                    planetTemperatureScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TEMPERATURE_SCORE, value = planet?.score?.planetTemperatureScore),
-                    planetObliquityScore = visiblePlanetProperties.ifContains(element = PlanetProperty.OBLIQUITY_SCORE, value = planet?.score?.planetObliquityScore),
-                    planetEsiScore = visiblePlanetProperties.ifContains(element = PlanetProperty.ESI_SCORE, value = planet?.score?.planetEsiScore),
-                    planetProtectionScore = visiblePlanetProperties.ifContains(element = PlanetProperty.PROTECTION_SCORE, value = planet?.score?.planetProtectionScore),
-                    planetTidalLockingScore = visiblePlanetProperties.ifContains(element = PlanetProperty.TIDAL_LOCKING_SCORE, value = planet?.score?.planetTidalLockingScore),
-                    stellarHosts = storeState.stellarHosts,
-                    stellarHostId = StellarHost::id,
-                    stellarHostName = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.NAME, value = it.name) },
-                    stellarHostSystemName = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = it.systemName) },
-                    stellarHostPlanetCount = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.PLANET_COUNT, value = it.planets.size) },
-                    stellarHostSpectralType = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = it.spectralType) },
-                    stellarHostSpectralImage = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = it.spectralType.spectralTypeToImage()) },
-                    stellarHostEffectiveTemperature = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.TEMPERATURE, value = it.effectiveTemperature) },
-                    stellarHostRadius = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.RADIUS, value = it.radius) },
-                    stellarHostMass = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.MASS, value = it.mass) },
-                    stellarHostMetallicity = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.METALLICITY, value = it.metallicity) },
-                    stellarHostLuminosity = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.LUMINOSITY, value = it.luminosity) },
-                    stellarHostGravity = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.GRAVITY, value = it.gravity) },
-                    stellarHostAge = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.AGE, value = it.age) },
-                    stellarHostDensity = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.DENSITY, value = it.density) },
-                    stellarHostRotationalVelocity = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.ROTATIONAL_VELOCITY, value = it.rotationalVelocity) },
-                    stellarHostRotationalPeriod = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.ROTATIONAL_PERIOD, value = it.rotationalPeriod) },
-                    stellarHostDistance = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.DISTANCE, value = it.distance) },
-                    stellarHostRa = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.RA, value = it.ra) },
-                    stellarHostDec = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.DEC, value = it.dec) },
-                    stellarHostSpectralTypeScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE_SCORE, value = it.score?.stellarSpectralTypeScore) },
-                    stellarHostMassScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.MASS_SCORE, value = it.score?.stellarMassScore) },
-                    stellarHostAgeScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.AGE_SCORE, value = it.score?.stellarAgeScore) },
-                    stellarHostActivityScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.ACTIVITY_SCORE, value = it.score?.stellarActivityScore) },
-                    stellarHostRotationalPeriodScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.ROTATIONAL_PERIOD_SCORE, value = it.score?.stellarRotationalPeriodScore) },
-                    stellarHostGravityScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.GRAVITY_SCORE, value = it.score?.stellarGravityScore) },
-                    stellarHostMetallicityScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.METALLICITY_SCORE, value = it.score?.stellarMetallicityScore) },
-                    stellarHostEffectiveTemperatureScore = { visibleStellarHostProperties.ifContains(element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE, value = it.score?.stellarEffectiveTemperatureScore) },
-                    onStellarHostClick = {
-                        store.send(action = StellarExplorerAction.SaveListState(listState = listState))
-                        store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = it))
-                    }
-                )
-            }
-
-            Content.LIST_PLANETS, Content.DETAIL_HOSTS -> {
-                val stellarHost = storeState.selectedStellarHost
-                PlanetList(
-                    modifier = Modifier
-                        .testTag(tag = "stellar_explorer_planet_list")
-                        .fillMaxSize()
-                        .padding(all = 16.dp),
-                    listState = listState,
-                    showStellarHost = currentContent == Content.DETAIL_HOSTS && stellarHost != null,
-                    stellarHostName = visibleStellarHostProperties.ifContains(element = StellarHostProperty.NAME, value = stellarHost?.name),
-                    stellarHostSystemName = visibleStellarHostProperties.ifContains(element = StellarHostProperty.SYSTEM_NAME, value = stellarHost?.systemName),
-                    stellarHostPlanetCount = visibleStellarHostProperties.ifContains(element = StellarHostProperty.PLANET_COUNT, value = stellarHost?.planets?.size),
-                    stellarHostSpectralType = visibleStellarHostProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = stellarHost?.spectralType),
-                    stellarHostSpectralImage = visibleStellarHostProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE, value = stellarHost?.spectralType.spectralTypeToImage()),
-                    stellarHostEffectiveTemperature = visibleStellarHostProperties.ifContains(element = StellarHostProperty.TEMPERATURE, value = stellarHost?.effectiveTemperature),
-                    stellarHostRadius = visibleStellarHostProperties.ifContains(element = StellarHostProperty.RADIUS, value = stellarHost?.radius),
-                    stellarHostMass = visibleStellarHostProperties.ifContains(element = StellarHostProperty.MASS, value = stellarHost?.mass),
-                    stellarHostMetallicity = visibleStellarHostProperties.ifContains(element = StellarHostProperty.METALLICITY, value = stellarHost?.metallicity),
-                    stellarHostLuminosity = visibleStellarHostProperties.ifContains(element = StellarHostProperty.LUMINOSITY, value = stellarHost?.luminosity),
-                    stellarHostGravity = visibleStellarHostProperties.ifContains(element = StellarHostProperty.GRAVITY, value = stellarHost?.gravity),
-                    stellarHostAge = visibleStellarHostProperties.ifContains(element = StellarHostProperty.AGE, value = stellarHost?.age),
-                    stellarHostDensity = visibleStellarHostProperties.ifContains(element = StellarHostProperty.DENSITY, value = stellarHost?.density),
-                    stellarHostRotationalVelocity = visibleStellarHostProperties.ifContains(element = StellarHostProperty.ROTATIONAL_VELOCITY, value = stellarHost?.rotationalVelocity),
-                    stellarHostRotationalPeriod = visibleStellarHostProperties.ifContains(element = StellarHostProperty.ROTATIONAL_PERIOD, value = stellarHost?.rotationalPeriod),
-                    stellarHostDistance = visibleStellarHostProperties.ifContains(element = StellarHostProperty.DISTANCE, value = stellarHost?.distance),
-                    stellarHostRa = visibleStellarHostProperties.ifContains(element = StellarHostProperty.RA, value = stellarHost?.ra),
-                    stellarHostDec = visibleStellarHostProperties.ifContains(element = StellarHostProperty.DEC, value = stellarHost?.dec),
-                    stellarHostSpectralTypeScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.SPECTRAL_TYPE_SCORE, value = stellarHost?.score?.stellarSpectralTypeScore),
-                    stellarHostMassScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.MASS_SCORE, value = stellarHost?.score?.stellarMassScore),
-                    stellarHostAgeScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.AGE_SCORE, value = stellarHost?.score?.stellarAgeScore),
-                    stellarHostActivityScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.ACTIVITY_SCORE, value = stellarHost?.score?.stellarActivityScore),
-                    stellarHostRotationalPeriodScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.ROTATIONAL_PERIOD_SCORE, value = stellarHost?.score?.stellarRotationalPeriodScore),
-                    stellarHostGravityScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.GRAVITY_SCORE, value = stellarHost?.score?.stellarGravityScore),
-                    stellarHostMetallicityScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.METALLICITY_SCORE, value = stellarHost?.score?.stellarMetallicityScore),
-                    stellarHostEffectiveTemperatureScore = visibleStellarHostProperties.ifContains(element = StellarHostProperty.EFFECTIVE_TEMPERATURE_SCORE, value = stellarHost?.score?.stellarEffectiveTemperatureScore),
-                    planets = storeState.planets,
-                    planetId = Planet::id,
-                    planetName = { visiblePlanetProperties.ifContains(element = PlanetProperty.NAME, value = it.name) },
-                    planetStatus = { visiblePlanetProperties.ifContains(element = PlanetProperty.STATUS, value = it.status.displayName)?.let { status -> getTranslation(key = status) } },
-                    planetHabitability = { visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABILITY, value = it.score?.habitabilityScore) },
-                    planetConfidence = { visiblePlanetProperties.ifContains(element = PlanetProperty.CONFIDENCE, value = it.score?.confidenceScore) },
-                    planetOrbitalPeriod = { visiblePlanetProperties.ifContains(element = PlanetProperty.ORBITAL_PERIOD, value = it.orbitalPeriod) },
-                    planetOrbitAxis = { visiblePlanetProperties.ifContains(element = PlanetProperty.ORBIT_AXIS, value = it.orbitAxis) },
-                    planetRadius = { visiblePlanetProperties.ifContains(element = PlanetProperty.RADIUS, value = it.radius) },
-                    planetMass = { visiblePlanetProperties.ifContains(element = PlanetProperty.MASS, value = it.mass) },
-                    planetDensity = { visiblePlanetProperties.ifContains(element = PlanetProperty.DENSITY, value = it.density) },
-                    planetEccentricity = { visiblePlanetProperties.ifContains(element = PlanetProperty.ECCENTRICITY, value = it.eccentricity) },
-                    planetInsolationFlux = { visiblePlanetProperties.ifContains(element = PlanetProperty.INSOLATION_FLUX, value = it.insolationFlux) },
-                    planetEquilibriumTemperature = { visiblePlanetProperties.ifContains(element = PlanetProperty.TEMPERATURE, value = it.equilibriumTemperature) },
-                    planetOccultationDepth = { visiblePlanetProperties.ifContains(element = PlanetProperty.OCCULTATION_DEPTH, value = it.occultationDepth) },
-                    planetInclination = { visiblePlanetProperties.ifContains(element = PlanetProperty.INCLINATION, value = it.inclination) },
-                    planetObliquity = { visiblePlanetProperties.ifContains(element = PlanetProperty.OBLIQUITY, value = it.obliquity) },
-                    planetType = { visiblePlanetProperties.ifContains(element = PlanetProperty.TYPE, value = it.score?.planetType?.displayName)?.let { type -> getTranslation(key = type) } },
-                    planetImage = { visiblePlanetProperties.ifContains(element = PlanetProperty.TYPE, value = it.score?.planetType.toImage()) },
-                    planetRocheScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.ROCHE_SCORE, value = it.score?.rocheScore) },
-                    planetHabitableZoneKopparapuScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABLE_ZONE_KOPPARAPU_SCORE, value = it.score?.habitableZoneKopparapuScore) },
-                    planetHabitableZoneKastingScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.HABITABLE_ZONE_KASTING_SCORE, value = it.score?.habitableZoneKastingScore) },
-                    planetRadiusScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.RADIUS_SCORE, value = it.score?.planetRadiusScore) },
-                    planetMassScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.MASS_SCORE, value = it.score?.planetMassScore) },
-                    planetTelluricityScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.TELLURICITY_SCORE, value = it.score?.planetTelluricityScore) },
-                    planetEccentricityScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.ECCENTRICITY_SCORE, value = it.score?.planetEccentricityScore) },
-                    planetTemperatureScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.TEMPERATURE_SCORE, value = it.score?.planetTemperatureScore) },
-                    planetObliquityScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.OBLIQUITY_SCORE, value = it.score?.planetObliquityScore) },
-                    planetEsiScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.ESI_SCORE, value = it.score?.planetEsiScore) },
-                    planetProtectionScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.PROTECTION_SCORE, value = it.score?.planetProtectionScore) },
-                    planetTidalLockingScore = { visiblePlanetProperties.ifContains(element = PlanetProperty.TIDAL_LOCKING_SCORE, value = it.score?.planetTidalLockingScore) },
-                    onPlanetClick = {
-                        store.send(action = StellarExplorerAction.SaveListState(listState = listState))
-                        store.send(action = StellarExplorerAction.OpenPlanet(planet = it))
-                    }
-                )
-            }
-        }
+        ExoplanetList(
+            modifier = Modifier
+                .testTag(tag = "stellar_explorer_list")
+                .fillMaxSize()
+                .padding(all = 16.dp),
+            listState = listState,
+            hostsFirst = hostView,
+            stellarHosts = storeState.exoplanets.stellarHosts,
+            stellarHostId = Exoplanets.Host::id,
+            stellarHostName = { it.name },
+            stellarHostSystemName = { it.systemName },
+            stellarHostPlanetCount = { it.planetCount },
+            stellarHostSpectralType = { it.spectralType },
+            stellarHostSpectralImage = { it.image },
+            stellarHostEffectiveTemperature = { it.effectiveTemperature },
+            stellarHostRadius = { it.radius },
+            stellarHostMass = { it.mass },
+            stellarHostMetallicity = { it.metallicity },
+            stellarHostLuminosity = { it.luminosity },
+            stellarHostGravity = { it.gravity },
+            stellarHostAge = { it.age },
+            stellarHostDensity = { it.density },
+            stellarHostRotationalVelocity = { it.rotationalVelocity },
+            stellarHostRotationalPeriod = { it.rotationalPeriod },
+            stellarHostDistance = { it.distance },
+            stellarHostRa = { it.ra },
+            stellarHostDec = { it.dec },
+            stellarHostSpectralTypeScore = { it.spectralTypeScore },
+            stellarHostMassScore = { it.massScore },
+            stellarHostAgeScore = { it.ageScore },
+            stellarHostActivityScore = { it.activityScore },
+            stellarHostRotationalPeriodScore = { it.rotationalPeriodScore },
+            stellarHostGravityScore = { it.gravityScore },
+            stellarHostMetallicityScore = { it.metallicityScore },
+            stellarHostEffectiveTemperatureScore = { it.effectiveTemperatureScore },
+            onStellarHostClick = { if (currentContent == Content.LIST_HOSTS) store.send(action = StellarExplorerAction.OpenStellarHost(stellarHost = it)) },
+            planets = storeState.exoplanets.planets,
+            planetId = Exoplanets.Planet::id,
+            planetName = { it.name },
+            planetStatus = { it.status },
+            planetHabitability = { it.habitabilityScore },
+            planetConfidence = { it.confidenceScore },
+            planetOrbitalPeriod = { it.orbitalPeriod },
+            planetOrbitAxis = { it.orbitAxis },
+            planetRadius = { it.radius },
+            planetMass = { it.mass },
+            planetDensity = { it.density },
+            planetEccentricity = { it.eccentricity },
+            planetInsolationFlux = { it.insolationFlux },
+            planetEquilibriumTemperature = { it.equilibriumTemperature },
+            planetOccultationDepth = { it.occultationDepth },
+            planetInclination = { it.inclination },
+            planetObliquity = { it.obliquity },
+            planetType = { it.type },
+            planetImage = { it.image },
+            planetRocheScore = { it.rocheScore },
+            planetHabitableZoneKopparapuScore = { it.habitableZoneKopparapuScore },
+            planetHabitableZoneKastingScore = { it.habitableZoneKastingScore },
+            planetRadiusScore = { it.radiusScore },
+            planetMassScore = { it.massScore },
+            planetTelluricityScore = { it.telluricityScore },
+            planetEccentricityScore = { it.eccentricityScore },
+            planetTemperatureScore = { it.temperatureScore },
+            planetObliquityScore = { it.obliquityScore },
+            planetEsiScore = { it.esiScore },
+            planetProtectionScore = { it.protectionScore },
+            planetTidalLockingScore = { it.tidalLockingScore },
+            onPlanetClick = { if (currentContent == Content.LIST_PLANETS) store.send(action = StellarExplorerAction.OpenPlanet(planet = it)) },
+        )
     }
 }
 
@@ -278,19 +174,17 @@ private fun StellarExplorerScreenLoadingPreview() = Preview {
             initialState = StellarExplorerState(
                 loading = true,
                 currentContent = Content.LIST_HOSTS,
-                listState = LazyListState(),
-                stellarHosts = persistentListOf(),
-                planets = persistentListOf(),
-                selectedStellarHost = null,
-                selectedPlanet = null,
+                exoplanets = Exoplanets(),
                 search = "",
-                sortStellarHostProperty = StellarHostProperty.DISTANCE,
-                sortPlanetProperty = PlanetProperty.HABITABILITY,
-                sortAscending = true,
-                visibleStellarHostProperties = persistentSetOf(),
-                visiblePlanetProperties = persistentSetOf(),
-                searchableStellarHostProperties = persistentSetOf(StellarHostProperty.NAME),
-                searchablePlanetProperties = persistentSetOf(PlanetProperty.NAME)
+                properties = persistentListOf(),
+                sortStellarHostProperty = "",
+                sortPlanetProperty = "",
+                sortStellarHostAscending = true,
+                sortPlanetAscending = true,
+                visibleStellarHostProperties = persistentListOf(),
+                visiblePlanetProperties = persistentListOf(),
+                searchableStellarHostProperties = persistentListOf(),
+                searchablePlanetProperties = persistentListOf(),
             )
         )
     )
@@ -312,58 +206,55 @@ private fun StellarExplorerScreenHostListPreview() = Preview {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.LIST_HOSTS,
-                listState = LazyListState(),
-                stellarHosts = persistentListOf(
-                    StellarHost(
-                        id = "sol",
-                        name = "Sol",
-                        systemName = "Sol",
-                        spectralType = "G2V",
-                        effectiveTemperature = 5778.0,
-                        radius = 1.0,
-                        mass = 1.0,
-                        metallicity = 0.0,
-                        luminosity = 1.0,
-                        gravity = 1.0,
-                        age = 4.6,
-                        density = 1.410,
-                        rotationalVelocity = 2.0,
-                        rotationalPeriod = 25.05,
-                        distance = 0.0,
-                        ra = 0.0,
-                        dec = 0.0
-                    ),
-                    StellarHost(
-                        id = "proxima_centauri",
-                        name = "Proxima Centauri",
-                        systemName = "Alpha Centauri",
-                        spectralType = "M5.5V",
-                        effectiveTemperature = 2900.0,
-                        radius = 0.141,
-                        mass = 0.1221,
-                        metallicity = null,
-                        luminosity = -2.8,
-                        gravity = 5.3201025,
-                        age = null,
-                        density = 48.7626491,
-                        rotationalVelocity = null,
-                        rotationalPeriod = 90.0,
-                        distance = 4.2439092564,
-                        ra = 217.3934657,
-                        dec = -62.6761821
-                    ),
+                exoplanets = Exoplanets(
+                    stellarHosts = listOf(
+                        StellarHost(
+                            id = "sol",
+                            name = "Sol",
+                            systemName = "Sol",
+                            spectralType = "G2V",
+                            effectiveTemperature = 5778.0,
+                            radius = 1.0,
+                            mass = 1.0,
+                            metallicity = 0.0,
+                            luminosity = 1.0,
+                            gravity = 1.0,
+                            age = 4.6,
+                            density = 1.410,
+                            rotationalVelocity = 2.0,
+                            rotationalPeriod = 25.05,
+                            distance = 0.0,
+                            ra = 0.0,
+                            dec = 0.0
+                        ),
+                        StellarHost(
+                            id = "proxima_centauri",
+                            name = "Proxima Centauri",
+                            systemName = "Alpha Centauri",
+                            spectralType = "M5.5V",
+                            effectiveTemperature = 2900.0,
+                            radius = 0.141,
+                            mass = 0.1221,
+                            metallicity = null,
+                            luminosity = -2.8,
+                            gravity = 5.3201025,
+                            age = null,
+                            density = 48.7626491,
+                            rotationalVelocity = null,
+                            rotationalPeriod = 90.0,
+                            distance = 4.2439092564,
+                            ra = 217.3934657,
+                            dec = -62.6761821
+                        )
+                    ).map { it.toExoplanetsHost() }.toPersistentList(),
+                    planets = persistentListOf()
                 ),
-                planets = persistentListOf(),
-                selectedStellarHost = null,
-                selectedPlanet = null,
-                search = "",
-                sortStellarHostProperty = StellarHostProperty.entries.random(),
-                sortPlanetProperty = PlanetProperty.entries.random(),
-                sortAscending = true,
-                visibleStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).toPersistentSet(),
-                visiblePlanetProperties = persistentSetOf(),
-                searchableStellarHostProperties = persistentSetOf(),
-                searchablePlanetProperties = persistentSetOf()
+                search = "Something awesome",
+                properties = StellarHostProperty.entries.map { it.name to it.displayName }.toPersistentList(),
+                sortStellarHostProperty = StellarHostProperty.entries.random().name,
+                sortStellarHostAscending = true,
+                visibleStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
+                searchableStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
             )
         )
     )
@@ -385,106 +276,71 @@ private fun StellarExplorerScreenHostDetailPreview() = Preview {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.DETAIL_HOSTS,
-                listState = LazyListState(),
-                stellarHosts = persistentListOf(),
-                planets = persistentListOf(
-                    Planet(
-                        id = "earth",
-                        name = "Earth",
-                        stellarHostId = "sol",
-                        status = PlanetStatus.CONFIRMED,
-                        orbitalPeriod = 365.2,
-                        orbitAxis = 1.000,
-                        radius = 1.0,
-                        mass = 1.0,
-                        density = 5.514,
-                        eccentricity = 0.017,
-                        insolationFlux = 1.000,
-                        equilibriumTemperature = 255.0,
-                        occultationDepth = 0.000084,
-                        inclination = 0.0,
-                        obliquity = 23.4,
-                    ),
-                    Planet(
-                        id = "mars",
-                        name = "Mars",
-                        stellarHostId = "sol",
-                        status = PlanetStatus.CONFIRMED,
-                        orbitalPeriod = 687.0,
-                        orbitAxis = 1.524,
-                        radius = 0.532,
-                        mass = 0.107,
-                        density = 3.934,
-                        eccentricity = 0.094,
-                        insolationFlux = 0.430,
-                        equilibriumTemperature = 210.0,
-                        occultationDepth = 0.000024,
-                        inclination = 1.85,
-                        obliquity = 25.2,
-                    ),
+                exoplanets = Exoplanets(
+                    stellarHosts = listOf(
+                        StellarHost(
+                            id = "sol",
+                            name = "Sol",
+                            systemName = "Sol",
+                            spectralType = "G2V",
+                            effectiveTemperature = 5778.0,
+                            radius = 1.0,
+                            mass = 1.0,
+                            metallicity = 0.0,
+                            luminosity = 1.0,
+                            gravity = 1.0,
+                            age = 4.6,
+                            density = 1.410,
+                            rotationalVelocity = 2.0,
+                            rotationalPeriod = 25.05,
+                            distance = 0.0,
+                            ra = 0.0,
+                            dec = 0.0
+                        )
+                    ).map { it.toExoplanetsHost() }.toPersistentList(),
+                    planets = listOf(
+                        Planet(
+                            id = "earth",
+                            name = "Earth",
+                            stellarHostId = "sol",
+                            status = PlanetStatus.CONFIRMED,
+                            orbitalPeriod = 365.2,
+                            orbitAxis = 1.000,
+                            radius = 1.0,
+                            mass = 1.0,
+                            density = 5.514,
+                            eccentricity = 0.017,
+                            insolationFlux = 1.000,
+                            equilibriumTemperature = 255.0,
+                            occultationDepth = 0.000084,
+                            inclination = 0.0,
+                            obliquity = 23.4,
+                        ),
+                        Planet(
+                            id = "mars",
+                            name = "Mars",
+                            stellarHostId = "sol",
+                            status = PlanetStatus.CONFIRMED,
+                            orbitalPeriod = 687.0,
+                            orbitAxis = 1.524,
+                            radius = 0.532,
+                            mass = 0.107,
+                            density = 3.934,
+                            eccentricity = 0.094,
+                            insolationFlux = 0.430,
+                            equilibriumTemperature = 210.0,
+                            occultationDepth = 0.000024,
+                            inclination = 1.85,
+                            obliquity = 25.2,
+                        ),
+                    ).map { it.toExoplanetsPlanet() }.toPersistentList(),
                 ),
-                selectedStellarHost = StellarHost(
-                    id = "sol",
-                    name = "Sol",
-                    systemName = "Sol",
-                    spectralType = "G2V",
-                    effectiveTemperature = 5778.0,
-                    radius = 1.0,
-                    mass = 1.0,
-                    metallicity = 0.0,
-                    luminosity = 1.0,
-                    gravity = 1.0,
-                    age = 4.6,
-                    density = 1.410,
-                    rotationalVelocity = 2.0,
-                    rotationalPeriod = 25.05,
-                    distance = 0.0,
-                    ra = 0.0,
-                    dec = 0.0
-                ),
-                selectedPlanet = null,
                 search = "",
-                sortStellarHostProperty = StellarHostProperty.entries.random(),
-                sortPlanetProperty = PlanetProperty.entries.random(),
-                sortAscending = true,
-                visibleStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).toPersistentSet(),
-                visiblePlanetProperties = persistentSetOf(),
-                searchableStellarHostProperties = persistentSetOf(),
-                searchablePlanetProperties = persistentSetOf()
-            )
-        )
-    )
-}
-
-@Preview
-@Composable
-private fun StellarExplorerScreenSearchHostsPreview() = Preview {
-    InjectTranslations(
-        translations = listOf(
-            Translation(
-                key = "stellar_explorer_screen__host_list",
-                value = "Stellar Hosts"
-            ),
-        )
-    )
-    StellarExplorerScreen(
-        store = Store(
-            initialState = StellarExplorerState(
-                loading = false,
-                currentContent = Content.LIST_HOSTS,
-                listState = LazyListState(),
-                stellarHosts = persistentListOf(),
-                planets = persistentListOf(),
-                selectedStellarHost = null,
-                selectedPlanet = null,
-                search = "Kepler",
-                sortStellarHostProperty = StellarHostProperty.entries.random(),
-                sortPlanetProperty = PlanetProperty.entries.random(),
-                sortAscending = true,
-                visibleStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).toPersistentSet(),
-                visiblePlanetProperties = persistentSetOf(),
-                searchableStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).toPersistentSet(),
-                searchablePlanetProperties = persistentSetOf()
+                properties = PlanetProperty.entries.map { it.name to it.displayName }.toPersistentList(),
+                sortPlanetProperty = PlanetProperty.entries.random().name,
+                sortPlanetAscending = true,
+                visiblePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
+                searchablePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
             )
         )
     )
@@ -506,54 +362,51 @@ private fun StellarExplorerScreenPlanetListPreview() = Preview {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.LIST_PLANETS,
-                listState = LazyListState(),
-                stellarHosts = persistentListOf(),
-                planets = persistentListOf(
-                    Planet(
-                        id = "earth",
-                        name = "Earth",
-                        stellarHostId = "sol",
-                        status = PlanetStatus.CONFIRMED,
-                        orbitalPeriod = 365.2,
-                        orbitAxis = 1.000,
-                        radius = 1.0,
-                        mass = 1.0,
-                        density = 5.514,
-                        eccentricity = 0.017,
-                        insolationFlux = 1.000,
-                        equilibriumTemperature = 255.0,
-                        occultationDepth = 0.000084,
-                        inclination = 0.0,
-                        obliquity = 23.4,
-                    ),
-                    Planet(
-                        id = "mars",
-                        name = "Mars",
-                        stellarHostId = "sol",
-                        status = PlanetStatus.CONFIRMED,
-                        orbitalPeriod = 687.0,
-                        orbitAxis = 1.524,
-                        radius = 0.532,
-                        mass = 0.107,
-                        density = 3.934,
-                        eccentricity = 0.094,
-                        insolationFlux = 0.430,
-                        equilibriumTemperature = 210.0,
-                        occultationDepth = 0.000024,
-                        inclination = 1.85,
-                        obliquity = 25.2,
-                    ),
+                exoplanets = Exoplanets(
+                    stellarHosts = persistentListOf(),
+                    planets = listOf(
+                        Planet(
+                            id = "earth",
+                            name = "Earth",
+                            stellarHostId = "sol",
+                            status = PlanetStatus.CONFIRMED,
+                            orbitalPeriod = 365.2,
+                            orbitAxis = 1.000,
+                            radius = 1.0,
+                            mass = 1.0,
+                            density = 5.514,
+                            eccentricity = 0.017,
+                            insolationFlux = 1.000,
+                            equilibriumTemperature = 255.0,
+                            occultationDepth = 0.000084,
+                            inclination = 0.0,
+                            obliquity = 23.4,
+                        ),
+                        Planet(
+                            id = "mars",
+                            name = "Mars",
+                            stellarHostId = "sol",
+                            status = PlanetStatus.CONFIRMED,
+                            orbitalPeriod = 687.0,
+                            orbitAxis = 1.524,
+                            radius = 0.532,
+                            mass = 0.107,
+                            density = 3.934,
+                            eccentricity = 0.094,
+                            insolationFlux = 0.430,
+                            equilibriumTemperature = 210.0,
+                            occultationDepth = 0.000024,
+                            inclination = 1.85,
+                            obliquity = 25.2,
+                        ),
+                    ).map { it.toExoplanetsPlanet() }.toPersistentList(),
                 ),
-                selectedStellarHost = null,
-                selectedPlanet = null,
-                search = "",
-                sortStellarHostProperty = StellarHostProperty.entries.random(),
-                sortPlanetProperty = PlanetProperty.entries.random(),
-                sortAscending = true,
-                visibleStellarHostProperties = persistentSetOf(),
-                visiblePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).toPersistentSet(),
-                searchableStellarHostProperties = persistentSetOf(),
-                searchablePlanetProperties = persistentSetOf()
+                search = "Planets",
+                properties = PlanetProperty.entries.map { it.name to it.displayName }.toPersistentList(),
+                sortPlanetProperty = PlanetProperty.entries.random().name,
+                sortPlanetAscending = true,
+                visiblePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
+                searchablePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
             )
         )
     )
@@ -575,89 +428,54 @@ private fun StellarExplorerScreenPlanetDetailPreview() = Preview {
             initialState = StellarExplorerState(
                 loading = false,
                 currentContent = Content.DETAIL_PLANETS,
-                listState = LazyListState(),
-                stellarHosts = persistentListOf(
-                    StellarHost(
-                        id = "sol",
-                        name = "Sol",
-                        systemName = "Sol",
-                        spectralType = "G2V",
-                        effectiveTemperature = 5778.0,
-                        radius = 1.0,
-                        mass = 1.0,
-                        metallicity = 0.0,
-                        luminosity = 1.0,
-                        gravity = 1.0,
-                        age = 4.6,
-                        density = 1.410,
-                        rotationalVelocity = 2.0,
-                        rotationalPeriod = 25.05,
-                        distance = 0.0,
-                        ra = 0.0,
-                        dec = 0.0
-                    ),
-                ),
-                planets = persistentListOf(),
-                selectedStellarHost = null,
-                selectedPlanet = Planet(
-                    id = "earth",
-                    name = "Earth",
-                    stellarHostId = "sol",
-                    status = PlanetStatus.CONFIRMED,
-                    orbitalPeriod = 365.2,
-                    orbitAxis = 1.000,
-                    radius = 1.0,
-                    mass = 1.0,
-                    density = 5.514,
-                    eccentricity = 0.017,
-                    insolationFlux = 1.000,
-                    equilibriumTemperature = 255.0,
-                    occultationDepth = 0.000084,
-                    inclination = 0.0,
-                    obliquity = 23.4,
+                exoplanets = Exoplanets(
+                    stellarHosts = listOf(
+                        StellarHost(
+                            id = "sol",
+                            name = "Sol",
+                            systemName = "Sol",
+                            spectralType = "G2V",
+                            effectiveTemperature = 5778.0,
+                            radius = 1.0,
+                            mass = 1.0,
+                            metallicity = 0.0,
+                            luminosity = 1.0,
+                            gravity = 1.0,
+                            age = 4.6,
+                            density = 1.410,
+                            rotationalVelocity = 2.0,
+                            rotationalPeriod = 25.05,
+                            distance = 0.0,
+                            ra = 0.0,
+                            dec = 0.0
+                        ),
+                    ).map { it.toExoplanetsHost() }.toPersistentList(),
+                    planets = listOf(
+                        Planet(
+                            id = "earth",
+                            name = "Earth",
+                            stellarHostId = "sol",
+                            status = PlanetStatus.CONFIRMED,
+                            orbitalPeriod = 365.2,
+                            orbitAxis = 1.000,
+                            radius = 1.0,
+                            mass = 1.0,
+                            density = 5.514,
+                            eccentricity = 0.017,
+                            insolationFlux = 1.000,
+                            equilibriumTemperature = 255.0,
+                            occultationDepth = 0.000084,
+                            inclination = 0.0,
+                            obliquity = 23.4,
+                        ),
+                    ).map { it.toExoplanetsPlanet() }.toPersistentList()
                 ),
                 search = "",
-                sortStellarHostProperty = StellarHostProperty.entries.random(),
-                sortPlanetProperty = PlanetProperty.entries.random(),
-                sortAscending = true,
-                visibleStellarHostProperties = persistentSetOf(),
-                visiblePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).toPersistentSet(),
-                searchableStellarHostProperties = persistentSetOf(),
-                searchablePlanetProperties = persistentSetOf()
-            )
-        )
-    )
-}
-
-@Preview
-@Composable
-private fun StellarExplorerScreenSearchPlanetPreview() = Preview {
-    InjectTranslations(
-        translations = listOf(
-            Translation(
-                key = "stellar_explorer_screen__planet_list",
-                value = "Planets"
-            ),
-        )
-    )
-    StellarExplorerScreen(
-        store = Store(
-            initialState = StellarExplorerState(
-                loading = false,
-                currentContent = Content.LIST_PLANETS,
-                listState = LazyListState(),
-                stellarHosts = persistentListOf(),
-                planets = persistentListOf(),
-                selectedStellarHost = null,
-                selectedPlanet = null,
-                search = "Kepler",
-                sortStellarHostProperty = StellarHostProperty.entries.random(),
-                sortPlanetProperty = PlanetProperty.entries.random(),
-                sortAscending = true,
-                visibleStellarHostProperties = persistentSetOf(),
-                visiblePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).toPersistentSet(),
-                searchableStellarHostProperties = persistentSetOf(),
-                searchablePlanetProperties = PlanetProperty.entries.shuffled().take(n = 5).toPersistentSet(),
+                properties = StellarHostProperty.entries.map { it.name to it.displayName }.toPersistentList(),
+                sortStellarHostProperty = StellarHostProperty.entries.random().name,
+                sortStellarHostAscending = true,
+                visibleStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
+                searchableStellarHostProperties = StellarHostProperty.entries.shuffled().take(n = 5).map { it.name }.toPersistentList(),
             )
         )
     )
