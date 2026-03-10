@@ -25,7 +25,8 @@ internal data class HelpState(
     val currentContent: Content = Content.LEARN_MENU,
     val formula: String? = null,
     val showSnackbar: Boolean = false,
-    val showArchive: Boolean = flags.archive
+    val showArchive: Boolean = flags.archive,
+    val syncingArchive: Boolean = false
 )
 
 internal enum class Content {

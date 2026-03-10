@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,7 +16,8 @@ import com.hybris.tlv.ui.Preview
 @Composable
 internal fun ProgressIndicator(
     modifier: Modifier = Modifier,
-    progress: Float? = null
+    progress: Float? = null,
+    circular: Boolean = true,
 ) {
     when {
         progress != null -> {
@@ -23,13 +25,16 @@ internal fun ProgressIndicator(
                 targetValue = progress,
                 animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
             )
-            CircularProgressIndicator(
+            if (circular) CircularProgressIndicator(
+                modifier = modifier,
+                progress = { animatedProgress },
+            ) else LinearProgressIndicator(
                 modifier = modifier,
                 progress = { animatedProgress },
             )
         }
 
-        else -> CircularProgressIndicator(modifier = modifier)
+        else -> if (circular) CircularProgressIndicator(modifier = modifier) else LinearProgressIndicator(modifier = modifier)
     }
 }
 
@@ -39,5 +44,6 @@ private fun ProgressIndicatorPreview() = Preview {
     Column(verticalArrangement = Arrangement.spacedBy(space = 8.dp)) {
         ProgressIndicator(progress = 0.5f)
         ProgressIndicator()
+        ProgressIndicator(circular = false)
     }
 }
