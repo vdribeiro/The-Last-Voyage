@@ -75,7 +75,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 onChangeView = { store.send(action = StellarExplorerAction.ChangeView) },
                 count = if (stellarProperty) storeState.exoplanets.stellarHosts.size else storeState.exoplanets.planets.size,
                 properties = storeState.properties,
-                sortProperty = storeState.sortStellarHostProperty,
+                sortProperty = if (stellarProperty) storeState.sortStellarHostProperty else storeState.sortPlanetProperty,
                 ascending = if (stellarProperty) storeState.sortStellarHostAscending else storeState.sortPlanetAscending,
                 onSortChange = { store.send(action = StellarExplorerAction.Sort(sort = it)) },
                 onSortDirectionChange = { store.send(action = StellarExplorerAction.ChangeSortDirection) },
