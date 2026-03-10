@@ -31,12 +31,18 @@ internal fun App(
     dependency: Dependency? = null
 ) {
     val translationMap = getTranslationState()
-    val providers = remember(key1 = translationMap, key2 = navController, key3 = dependency) {
+    val navigationEventDispatcherOwner = rememberNavigationEventDispatcherOwner()
+    val providers = remember(
+        translationMap,
+        navController,
+        navigationEventDispatcherOwner,
+        dependency
+    ) {
         buildList {
             addAll(elements = compositionValues)
             add(element = LocalTranslationState provides translationMap)
             add(element = LocalNavController provides navController)
-            add(element = LocalNavigationEventDispatcherOwner provides rememberNavigationEventDispatcherOwner())
+            add(element = LocalNavigationEventDispatcherOwner provides navigationEventDispatcherOwner)
             if (dependency?.audioPlayer != null) add(element = LocalAudioPlayer provides dependency.audioPlayer)
         }.toTypedArray()
     }

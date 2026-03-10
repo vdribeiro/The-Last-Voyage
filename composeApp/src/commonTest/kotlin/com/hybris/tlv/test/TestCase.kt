@@ -185,11 +185,12 @@ internal abstract class TestCase: PlatformTestCase() {
         content: @Composable () -> Unit
     ) {
         setContent {
-            val providers = remember {
+            val navigationEventDispatcherOwner = rememberNavigationEventDispatcherOwner()
+            val providers = remember(key1 = navigationEventDispatcherOwner) {
                 buildList {
                     addAll(elements = compositionValues)
                     add(element = LocalLifecycleOwner provides lifecycleOwner)
-                    add(element = LocalNavigationEventDispatcherOwner provides rememberNavigationEventDispatcherOwner())
+                    add(element = LocalNavigationEventDispatcherOwner provides navigationEventDispatcherOwner)
                 }.toTypedArray()
             }
 
