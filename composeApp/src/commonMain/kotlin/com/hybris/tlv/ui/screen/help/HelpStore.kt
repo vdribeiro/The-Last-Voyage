@@ -4,12 +4,14 @@ import kotlin.concurrent.Volatile
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
+import com.hybris.tlv.domain.usecase.space.ArchiveUseCases
 import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
 
 internal class HelpStore(
     private val config: ConfigManager,
+    private val archiveUseCases: ArchiveUseCases,
 ): Store<HelpState, HelpAction>(
     initialState = HelpState()
 ) {
@@ -44,6 +46,10 @@ internal class HelpStore(
         navigate(screen = Screen.Splash(reset = true))
     }
 
+    private fun syncArchive(): Job = launch(id = "syncArchive") {
+        archiveUseCases.getArchive()
+    }
+
     private fun navigateBack(state: HelpState) {
         when (state.currentContent) {
             Content.LEARN_MENU -> navigateBack()
@@ -63,7 +69,7 @@ internal class HelpStore(
             HelpAction.Back -> navigateBack(state = state)
             HelpAction.Navigation -> updateState { it.copy(currentContent = Content.NAVIGATION) }
             HelpAction.ControlPanel -> updateState { it.copy(currentContent = Content.CONTROL_PANEL) }
-            HelpAction.Mechanics -> navigate(screen = Screen.Tutorial())
+            HelpAction.Mechanics -> navigate(screen = Screen.Tutorial(newGame = false))
             HelpAction.HostDefinition -> updateState { it.copy(currentContent = Content.HOST_DEFINITION) }
             HelpAction.HostType -> updateState { it.copy(currentContent = Content.HOST_TYPE) }
             HelpAction.PlanetDefinition -> updateState { it.copy(currentContent = Content.PLANET_DEFINITION) }
@@ -74,6 +80,7 @@ internal class HelpStore(
             HelpAction.Events -> navigate(screen = Screen.EventExplorer)
             is HelpAction.VersionClick -> versionClick(action = action)
             HelpAction.Reset -> reset()
+            HelpAction.SyncArchive -> syncArchive()
         }
     }
 

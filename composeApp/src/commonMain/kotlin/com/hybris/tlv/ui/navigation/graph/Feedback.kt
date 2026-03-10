@@ -5,16 +5,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.hybris.tlv.ui.navigation.Screen
+import com.hybris.tlv.ui.screen.StoreFactory
 import com.hybris.tlv.ui.screen.feedback.FeedbackScreen
-import com.hybris.tlv.ui.screen.feedback.FeedbackStore
 
-internal fun NavGraphBuilder.feedbackScreen() =
+internal fun NavGraphBuilder.feedbackScreen(storeFactory: StoreFactory) =
     composable<Screen.Feedback> {
         val screen = it.toRoute<Screen.Feedback>()
-        FeedbackScreen(store = viewModel {
-            FeedbackStore(
-                tag = screen.tag,
-                message = screen.message,
-            )
-        })
+        FeedbackScreen(store = viewModel { storeFactory.getFeedbackStore(tag = screen.tag, message = screen.message) })
     }

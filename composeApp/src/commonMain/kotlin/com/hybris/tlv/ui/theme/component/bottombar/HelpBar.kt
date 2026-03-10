@@ -29,10 +29,12 @@ import com.hybris.tlv.ui.theme.getTranslation
 internal fun HelpBar(
     modifier: Modifier = Modifier,
     version: String = Property.APP_VERSION,
-    onVersionClick: () -> Unit = {},
-    onResetClick: () -> Unit = {},
+    onVersionClick: (() -> Unit)? = null,
+    onArchiveClick: (() -> Unit)? = null,
+    onResetClick: (() -> Unit)? = null
 ) {
     val versionTranslation = getTranslation(key = "version")
+    val syncArchiveTranslation = getTranslation(key = "sync_archive")
     val resetTranslation = getTranslation(key = "reset")
     val resetConfirmTranslation = getTranslation(key = "reset_confirm")
 
@@ -40,7 +42,7 @@ internal fun HelpBar(
 
     var reset: Boolean by remember { mutableStateOf(value = false) }
 
-    if (reset) {
+    if (onResetClick != null && reset) {
         Dialog(
             text = resetConfirmTranslation,
             onConfirm = {
@@ -56,24 +58,39 @@ internal fun HelpBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            modifier = Modifier
-                .size(size = 100.dp)
-                .wrapContentHeight(align = Alignment.CenterVertically)
-                .clickable(onClick = onVersionClick),
-            text = "$versionTranslation: $version",
-            textAlign = TextAlign.Start,
-            style = typography.labelLarge,
-        )
-        Text(
-            modifier = Modifier
-                .size(size = 100.dp)
-                .wrapContentHeight(align = Alignment.CenterVertically)
-                .clickable { reset = true },
-            text = resetTranslation,
-            textAlign = TextAlign.End,
-            style = typography.labelLarge,
-        )
+        onVersionClick?.let {
+            Text(
+                modifier = Modifier
+                    .size(size = 100.dp)
+                    .wrapContentHeight(align = Alignment.CenterVertically)
+                    .clickable(onClick = it),
+                text = "$versionTranslation: $version",
+                textAlign = TextAlign.Start,
+                style = typography.labelLarge,
+            )
+        }
+        onArchiveClick?.let {
+            Text(
+                modifier = Modifier
+                    .size(size = 100.dp)
+                    .wrapContentHeight(align = Alignment.CenterVertically)
+                    .clickable(onClick = it),
+                text = syncArchiveTranslation,
+                textAlign = TextAlign.Center,
+                style = typography.labelLarge,
+            )
+        }
+        onResetClick?.let {
+            Text(
+                modifier = Modifier
+                    .size(size = 100.dp)
+                    .wrapContentHeight(align = Alignment.CenterVertically)
+                    .clickable { reset = true },
+                text = resetTranslation,
+                textAlign = TextAlign.End,
+                style = typography.labelLarge,
+            )
+        }
     }
 }
 

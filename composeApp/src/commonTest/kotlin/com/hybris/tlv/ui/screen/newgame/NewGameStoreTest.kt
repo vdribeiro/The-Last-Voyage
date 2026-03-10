@@ -27,7 +27,7 @@ internal class NewGameStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         dependency.get().useCases.catastrophe.syncCatastrophes()
         storeFactory.get().getNewGameStore()
-        assertNavigation(list = listOf(Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback(tag = null, message = null)))
     }
 
     @Test
@@ -59,7 +59,7 @@ internal class NewGameStoreTest: TestCase() {
         val store = storeFactory.get().getNewGameStore()
         store.send(action = NewGameAction.SelectEngine(engine = FakeData.engines.get().random()))
         store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
-        assertNavigation(list = listOf(Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback(tag = null, message = null)))
     }
 
     @Test

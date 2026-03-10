@@ -12,8 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigationevent.NavigationEventInfo
 import androidx.navigationevent.compose.NavigationBackHandler
 import androidx.navigationevent.compose.rememberNavigationEventState
-import com.hybris.tlv.data.config.ConfigManager
-import com.hybris.tlv.domain.usecase.UseCases
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.ui.navigation.graph.achievementScreen
 import com.hybris.tlv.ui.navigation.graph.catastropheExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.catastropheScreen
@@ -31,6 +30,7 @@ import com.hybris.tlv.ui.navigation.graph.scoreScreen
 import com.hybris.tlv.ui.navigation.graph.splashScreen
 import com.hybris.tlv.ui.navigation.graph.stellarExplorerScreen
 import com.hybris.tlv.ui.navigation.graph.tutorialScreen
+import com.hybris.tlv.ui.screen.StoreFactory
 
 internal val LocalNavController = staticCompositionLocalOf<NavHostController?> { null }
 
@@ -43,35 +43,34 @@ internal val LocalNavController = staticCompositionLocalOf<NavHostController?> {
 internal fun Navigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    config: ConfigManager,
-    useCases: UseCases
+    storeFactory: StoreFactory
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Screen.Splash(),
+        startDestination = Screen.Splash(reset = flags.reset),
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None }
     ) {
-        splashScreen(config = config, useCases = useCases)
-        cheatScreen(config = config)
-        mainMenuScreen(config = config, useCases = useCases)
-        helpScreen(config = config)
-        feedbackScreen()
-        newGameScreen(useCases = useCases)
-        catastropheScreen(useCases = useCases)
-        tutorialScreen(config = config)
-        gameScreen(config = config, useCases = useCases)
-        eventScreen(useCases = useCases)
-        gameOverScreen(useCases = useCases)
-        stellarExplorerScreen(useCases = useCases)
-        scoreScreen(useCases = useCases)
-        achievementScreen(useCases = useCases)
-        creditScreen(useCases = useCases)
-        catastropheExplorerScreen(useCases = useCases)
-        eventExplorerScreen(useCases = useCases)
+        splashScreen(storeFactory = storeFactory)
+        cheatScreen(storeFactory = storeFactory)
+        mainMenuScreen(storeFactory = storeFactory)
+        helpScreen(storeFactory = storeFactory)
+        feedbackScreen(storeFactory = storeFactory)
+        newGameScreen(storeFactory = storeFactory)
+        catastropheScreen(storeFactory = storeFactory)
+        tutorialScreen(storeFactory = storeFactory)
+        gameScreen(storeFactory = storeFactory)
+        eventScreen(storeFactory = storeFactory)
+        gameOverScreen(storeFactory = storeFactory)
+        stellarExplorerScreen(storeFactory = storeFactory)
+        scoreScreen(storeFactory = storeFactory)
+        achievementScreen(storeFactory = storeFactory)
+        creditScreen(storeFactory = storeFactory)
+        catastropheExplorerScreen(storeFactory = storeFactory)
+        eventExplorerScreen(storeFactory = storeFactory)
     }
 
     LaunchedEffect(key1 = Unit) {
@@ -84,7 +83,7 @@ internal fun Navigation(
     }
 }
 
-private object ScreenBackInfo : NavigationEventInfo()
+private object ScreenBackInfo: NavigationEventInfo()
 /**
  * Composable for managing system back events like when a physical back button is pressed or a back gesture is completed.
  */

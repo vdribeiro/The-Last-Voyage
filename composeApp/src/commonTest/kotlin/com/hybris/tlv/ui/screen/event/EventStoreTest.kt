@@ -29,7 +29,7 @@ internal class EventStoreTest: TestCase() {
     fun initWithoutData() = runUnitTest {
         assertNavigation(list = emptyList())
         storeFactory.get().getEventStore(ship = null)
-        assertNavigation(list = listOf(Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback(tag = null, message = null)))
     }
 
     @Test
@@ -50,7 +50,7 @@ internal class EventStoreTest: TestCase() {
         dependency.get().useCases.gameSession.startGame(gameSessionPrototype = FakeData.gameSessionPrototype.get())
         val store = storeFactory.get().getEventStore(ship = null)
         store.send(action = EventAction.Select(event = stopEvent))
-        assertNavigation(list = listOf(Screen.Game()))
+        assertNavigation(list = listOf(Screen.Game(ship = null)))
     }
 
     @Test
@@ -58,6 +58,6 @@ internal class EventStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         val store = storeFactory.get().getEventStore(ship = null)
         store.send(action = EventAction.Select(event = FakeData.events.get().random()))
-        assertNavigation(list = listOf(Screen.Feedback()))
+        assertNavigation(list = listOf(Screen.Feedback(tag = null, message = null)))
     }
 }

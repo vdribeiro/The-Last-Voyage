@@ -73,7 +73,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
                 viewName = if (hostView) hostListTranslation else planetListTranslation,
                 viewIcon = if (hostView) Icons.Default.Flare else Icons.Default.Public,
                 onChangeView = { store.send(action = StellarExplorerAction.ChangeView) },
-                count = if (hostView) storeState.exoplanets.stellarHosts.size else storeState.exoplanets.planets.size,
+                count = if (stellarProperty) storeState.exoplanets.stellarHosts.size else storeState.exoplanets.planets.size,
                 properties = storeState.properties,
                 sortProperty = storeState.sortStellarHostProperty,
                 ascending = if (stellarProperty) storeState.sortStellarHostAscending else storeState.sortPlanetAscending,

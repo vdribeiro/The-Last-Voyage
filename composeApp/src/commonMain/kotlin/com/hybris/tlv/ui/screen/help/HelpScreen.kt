@@ -67,6 +67,9 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
             if (currentContent == Content.LEARN_MENU) HelpBar(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 onVersionClick = { store.send(action = HelpAction.VersionClick(reset = false)) },
+                onArchiveClick = if (storeState.showArchive) {
+                    { store.send(action = HelpAction.SyncArchive) }
+                } else null,
                 onResetClick = { store.send(action = HelpAction.Reset) }
             )
         },

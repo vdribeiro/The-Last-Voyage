@@ -31,14 +31,14 @@ internal class MainMenuStoreTest: TestCase() {
     fun newGame() = runUnitTest {
         val store = storeFactory.get().getMainMenuStore()
         store.send(action = MainMenuAction.NewGame)
-        assertNavigation(list = listOf(Screen.Tutorial()))
+        assertNavigation(list = listOf(Screen.Tutorial(newGame = false)))
     }
 
     @Test
     fun game() = runUnitTest {
         val store = storeFactory.get().getMainMenuStore()
         store.send(action = MainMenuAction.Game)
-        assertNavigation(list = listOf(Screen.Game()))
+        assertNavigation(list = listOf(Screen.Game(ship = null)))
     }
 
     @Test

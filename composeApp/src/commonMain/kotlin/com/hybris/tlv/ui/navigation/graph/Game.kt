@@ -4,28 +4,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.hybris.tlv.data.config.ConfigManager
-import com.hybris.tlv.domain.usecase.UseCases
 import com.hybris.tlv.domain.usecase.ship.model.Ship
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.typeMapOf
+import com.hybris.tlv.ui.screen.StoreFactory
 import com.hybris.tlv.ui.screen.game.GameScreen
-import com.hybris.tlv.ui.screen.game.GameStore
 
-internal fun NavGraphBuilder.gameScreen(
-    config: ConfigManager,
-    useCases: UseCases
-) = composable<Screen.Game>(
-    typeMap = typeMapOf<Ship>()
-) {
-    val screen = it.toRoute<Screen.Game>()
-    GameScreen(store = viewModel {
-        GameStore(
-            ship = screen.ship,
-            config = config,
-            shipUseCases = useCases.ship,
-            spaceUseCases = useCases.space,
-            gameSessionUseCases = useCases.gameSession
-        )
-    })
-}
+internal fun NavGraphBuilder.gameScreen(storeFactory: StoreFactory) =
+    composable<Screen.Game>(typeMap = typeMapOf<Ship>()) {
+        val screen = it.toRoute<Screen.Game>()
+        GameScreen(store = viewModel { storeFactory.getGameStore(ship = screen.ship) })
+    }

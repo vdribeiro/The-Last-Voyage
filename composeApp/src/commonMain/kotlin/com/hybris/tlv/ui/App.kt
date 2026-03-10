@@ -37,9 +37,7 @@ internal fun App(
             add(element = LocalTranslationState provides translationMap)
             add(element = LocalNavController provides navController)
             add(element = LocalNavigationEventDispatcherOwner provides rememberNavigationEventDispatcherOwner())
-            if (dependency != null) {
-                add(element = LocalAudioPlayer provides dependency.audioPlayer)
-            }
+            if (dependency?.audioPlayer != null) add(element = LocalAudioPlayer provides dependency.audioPlayer)
         }.toTypedArray()
     }
 
@@ -49,8 +47,7 @@ internal fun App(
                 Navigation(
                     modifier = modifier,
                     navController = navController,
-                    config = dependency.config,
-                    useCases = dependency.useCases
+                    storeFactory = dependency.storeFactory
                 )
                 MusicPlayer(
                     navController = navController,
@@ -66,7 +63,14 @@ internal fun App(
  */
 @Composable
 internal fun Preview(content: @Composable () -> Unit) {
-    CompositionLocalProvider(LocalTranslationState provides getTranslationState()) {
+    val translationMap = getTranslationState()
+    val providers = remember(key1 = translationMap) {
+        buildList {
+            add(element = LocalTranslationState provides translationMap)
+        }.toTypedArray()
+    }
+
+    CompositionLocalProvider(values = providers) {
         AppTheme {
             content()
         }
