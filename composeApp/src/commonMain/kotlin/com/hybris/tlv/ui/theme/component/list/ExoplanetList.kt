@@ -100,6 +100,7 @@ internal fun <H, P> ExoplanetList(
             items(items = stellarHosts, key = stellarHostId) { stellarHost ->
                 StellarHostCard(
                     modifier = Modifier
+                        .animateItem()
                         .clickable { onStellarHostClick(stellarHost) },
                     name = stellarHostName(stellarHost),
                     systemName = stellarHostSystemName(stellarHost),
@@ -134,6 +135,7 @@ internal fun <H, P> ExoplanetList(
             items(items = planets, key = planetId) { planet ->
                 PlanetCard(
                     modifier = Modifier
+                        .animateItem()
                         .clickable { onPlanetClick(planet) },
                     name = planetName(planet),
                     status = planetStatus(planet),
@@ -169,11 +171,11 @@ internal fun <H, P> ExoplanetList(
         }
         if (hostsFirst) {
             hostItems()
-            if (planets.isNotEmpty()) item { Divider(modifier = Modifier.padding(vertical = 8.dp)) }
+            if (planets.isNotEmpty()) item { Divider(modifier = Modifier.animateItem().padding(vertical = 8.dp)) }
             planetItems()
         } else {
             planetItems()
-            if (stellarHosts.isNotEmpty()) item { Divider(modifier = Modifier.padding(vertical = 8.dp)) }
+            if (stellarHosts.isNotEmpty()) item { Divider(modifier = Modifier.animateItem().padding(vertical = 8.dp)) }
             hostItems()
         }
     }

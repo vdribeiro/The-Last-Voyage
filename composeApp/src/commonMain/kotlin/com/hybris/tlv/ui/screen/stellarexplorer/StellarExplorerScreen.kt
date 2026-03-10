@@ -5,7 +5,6 @@ import kotlinx.collections.immutable.toPersistentList
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flare
 import androidx.compose.material.icons.filled.Public
@@ -37,22 +36,20 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
     val hostListTranslation = getTranslation(key = "stellar_explorer_screen__host_list")
     val planetListTranslation = getTranslation(key = "stellar_explorer_screen__planet_list")
 
-    val hostListState = rememberLazyListState()
-    val planetListState = rememberLazyListState()
-    val listState = when (currentContent) {
-        Content.LIST_HOSTS -> hostListState
-        Content.LIST_PLANETS -> planetListState
-        Content.DETAIL_HOSTS,
-        Content.DETAIL_PLANETS -> LazyListState()
+    val listState = remember(key1 = storeState.exoplanets) {
+        when (currentContent) {
+            Content.LIST_HOSTS -> storeState.stellarHostsListState
+            Content.LIST_PLANETS -> storeState.planetsListState
+            Content.DETAIL_HOSTS, Content.DETAIL_PLANETS -> LazyListState()
+        }
     }
-
-    val hostView = remember(key1 = currentContent) {
+    val hostView = remember(key1 = storeState.exoplanets) {
         when (currentContent) {
             Content.LIST_HOSTS, Content.DETAIL_HOSTS -> true
             Content.LIST_PLANETS, Content.DETAIL_PLANETS -> false
         }
     }
-    val stellarProperty = remember(key1 = currentContent) {
+    val stellarProperty = remember(key1 = storeState.exoplanets) {
         when (currentContent) {
             Content.LIST_HOSTS, Content.DETAIL_PLANETS -> true
             Content.LIST_PLANETS, Content.DETAIL_HOSTS -> false

@@ -2,6 +2,7 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.core.resource.ImageResource
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 
@@ -23,6 +24,8 @@ internal data class StellarExplorerState(
     val exoplanets: Exoplanets = Exoplanets(),
     val search: String = "",
     val properties: ImmutableList<Pair<String, String>> = persistentListOf(),
+    val stellarHostsListState: LazyListState = LazyListState(),
+    val planetsListState: LazyListState = LazyListState(),
     val sortStellarHostProperty: String = StellarHostProperty.DISTANCE.name,
     val sortPlanetProperty: String = PlanetProperty.HABITABILITY.name,
     val sortStellarHostAscending: Boolean = true,
