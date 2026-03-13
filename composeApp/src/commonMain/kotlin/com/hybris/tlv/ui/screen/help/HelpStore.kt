@@ -47,7 +47,9 @@ internal class HelpStore(
     }
 
     private fun syncArchive(): Job = launch(id = "syncArchive") {
+        updateState { it.copy(syncingArchive = true) }
         archiveUseCases.getArchive()
+        updateState { it.copy(syncingArchive = false) }
     }
 
     private fun navigateBack(state: HelpState) {

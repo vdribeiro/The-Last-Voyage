@@ -35,7 +35,6 @@ internal fun <T> ScoreList(
     utc: (T) -> String? = { null },
     settledPlanet: (T) -> String? = { null },
     habitability: (T) -> Double? = { null },
-    engine: @Composable (T) -> String? = { null },
     assignedPoints: (T) -> Int? = { null },
     yearsTraveled: (T) -> Double? = { null },
     sensorRange: (T) -> Int? = { null },
@@ -82,7 +81,6 @@ internal fun <T> ScoreList(
                     utc = utc(score),
                     settledPlanet = settledPlanet(score),
                     habitability = habitability(score),
-                    engine = engine(score),
                     assignedPoints = assignedPoints(score),
                     yearsTraveled = yearsTraveled(score),
                     sensorRange = sensorRange(score),
@@ -133,7 +131,6 @@ private fun ScoreListPreview() = Preview {
         id = { it },
         scorePoints = { 100.0 },
         utc = { getLocalDateTime() },
-        engine = { "BFE" },
         assignedPoints = { 10 },
         sensorRange = { 1 },
         cryopods = { 100 }

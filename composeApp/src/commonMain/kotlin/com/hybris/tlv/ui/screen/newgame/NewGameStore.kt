@@ -1,9 +1,11 @@
 package com.hybris.tlv.ui.screen.newgame
 
 import kotlin.concurrent.Volatile
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.telemetry.Telemetry
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.domain.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.domain.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.domain.usecase.ship.ShipUseCases
@@ -59,7 +61,7 @@ internal class NewGameStore(
             it.copy(
                 loading = false,
                 shipState = shipState,
-                engines = engines,
+                engines = if (flags.engines) engines else persistentListOf(),
             )
         }
 

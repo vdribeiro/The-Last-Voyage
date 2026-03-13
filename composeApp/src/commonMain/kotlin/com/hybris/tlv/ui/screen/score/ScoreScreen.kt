@@ -20,7 +20,6 @@ import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.list.ScoreList
-import com.hybris.tlv.ui.theme.getTranslation
 
 @Composable
 internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
@@ -39,7 +38,6 @@ internal fun ScoreScreen(store: Store<ScoreState, Unit>) {
             utc = GameSession::utc,
             settledPlanet = GameSession::settledPlanetName,
             habitability = GameSession::finalHabitability,
-            engine = { getTranslation(key = it.ship.engine.id) },
             assignedPoints = { it.ship.assignedPoints },
             yearsTraveled = { it.ship.yearsTraveled },
             sensorRange = { it.ship.sensorRange },
