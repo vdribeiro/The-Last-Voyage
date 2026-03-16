@@ -29,7 +29,12 @@ internal fun App(
     dependency: Dependency? = null
 ) {
     val translationMap = getTranslationState()
-    val providers = remember(key1 = translationMap, key2 = navController, key3 = dependency) {
+    val providers = remember(
+        translationMap,
+        compositionValues,
+        navController,
+        dependency
+    ) {
         buildList {
             addAll(elements = compositionValues)
             add(element = LocalTranslationState provides translationMap)
