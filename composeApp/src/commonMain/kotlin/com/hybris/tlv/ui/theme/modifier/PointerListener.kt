@@ -215,28 +215,34 @@ internal enum class Gesture {
 }
 
 /**
- * A [Modifier] that listens for a specific [mouseClick] and triggers the [onClick] callback.
+ * A [Modifier] that listens for a specific [mouseClicks] and triggers the [onClick] callback.
  */
 internal fun Modifier.onMouseClick(
-    mouseClick: MouseClick,
+    mouseClicks: List<MouseClick>,
     onClick: () -> Unit
 ): Modifier = composed {
     val onClick by rememberUpdatedState(newValue = onClick)
 
-    pointerInput(key1 = mouseClick) {
+    pointerInput(key1 = mouseClicks) {
         awaitPointerEventScope {
             while (true) {
                 val event = awaitPointerEvent()
-                if (event.type == PointerEventType.Release) {
-                    with(receiver = event.buttons) {
-                        if (when (mouseClick) {
-                                MouseClick.LEFT -> isPrimaryPressed
-                                MouseClick.RIGHT -> isSecondaryPressed
+                if (event.type == PointerEventType.Press) {
+                    val triggered = mouseClicks.any {
+                        with(receiver = event.buttons) {
+                            when (it) {
+                                MouseClick.PRIMARY -> isPrimaryPressed
+                                MouseClick.SECONDARY -> isSecondaryPressed
                                 MouseClick.MIDDLE -> isTertiaryPressed
                                 MouseClick.BACK -> isBackPressed
                                 MouseClick.FORWARD -> isForwardPressed
                             }
-                        ) onClick()
+
+                        }
+                    }
+                    if (triggered) {
+                        event.changes.forEach { it.consume() }
+                        onClick()
                     }
                 }
             }
@@ -245,8 +251,8 @@ internal fun Modifier.onMouseClick(
 }
 
 internal enum class MouseClick {
-    LEFT,
-    RIGHT,
+    PRIMARY,
+    SECONDARY,
     MIDDLE,
     BACK,
     FORWARD
