@@ -22,6 +22,7 @@ import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
 import com.hybris.tlv.ui.theme.component.dialog.Dialog
+import com.hybris.tlv.ui.theme.component.progress.ProgressIndicator
 import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.getTranslation
 
@@ -31,6 +32,7 @@ internal fun HelpBar(
     version: String = Property.APP_VERSION,
     onVersionClick: (() -> Unit)? = null,
     onArchiveClick: (() -> Unit)? = null,
+    syncingArchive: Boolean = false,
     onResetClick: (() -> Unit)? = null
 ) {
     val versionTranslation = getTranslation(key = "version")
@@ -70,7 +72,7 @@ internal fun HelpBar(
             )
         }
         onArchiveClick?.let {
-            Text(
+            if (!syncingArchive) Text(
                 modifier = Modifier
                     .size(size = 100.dp)
                     .wrapContentHeight(align = Alignment.CenterVertically)
@@ -78,6 +80,9 @@ internal fun HelpBar(
                 text = syncArchiveTranslation,
                 textAlign = TextAlign.Center,
                 style = typography.labelLarge,
+            ) else ProgressIndicator(
+                modifier = Modifier.size(size = 100.dp),
+                circular = false
             )
         }
         onResetClick?.let {
@@ -104,12 +109,18 @@ private fun HelpBarPreview() = Preview {
                 value = "Version"
             ),
             Translation(
+                key = "sync_archive",
+                value = "Sync Archive"
+            ),
+            Translation(
                 key = "reset",
                 value = "Reset"
             )
         )
     )
     HelpBar(
-
+        onVersionClick = {},
+        onArchiveClick = {},
+        onResetClick = {}
     )
 }

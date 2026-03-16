@@ -70,6 +70,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 onArchiveClick = if (storeState.showArchive) {
                     { store.send(action = HelpAction.SyncArchive) }
                 } else null,
+                syncingArchive = storeState.syncingArchive,
                 onResetClick = { store.send(action = HelpAction.Reset) }
             )
         },
