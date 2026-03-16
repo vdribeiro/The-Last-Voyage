@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -21,7 +22,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.PointerInputChange
+import androidx.compose.ui.input.pointer.isBackPressed
+import androidx.compose.ui.input.pointer.isForwardPressed
+import androidx.compose.ui.input.pointer.isPrimaryPressed
+import androidx.compose.ui.input.pointer.isSecondaryPressed
+import androidx.compose.ui.input.pointer.isTertiaryPressed
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
@@ -205,4 +212,48 @@ internal enum class Gesture {
     SWIPE_LEFT,
     SWIPE_RIGHT,
     TAP
+}
+
+/**
+ * A [Modifier] that listens for a specific [mouseClicks] and triggers the [onClick] callback.
+ */
+internal fun Modifier.onMouseClick(
+    mouseClicks: List<MouseClick>,
+    onClick: () -> Unit
+): Modifier = composed {
+    val onClick by rememberUpdatedState(newValue = onClick)
+
+    pointerInput(key1 = mouseClicks) {
+        awaitPointerEventScope {
+            while (true) {
+                val event = awaitPointerEvent()
+                if (event.type == PointerEventType.Press) {
+                    val triggered = mouseClicks.any {
+                        with(receiver = event.buttons) {
+                            when (it) {
+                                MouseClick.PRIMARY -> isPrimaryPressed
+                                MouseClick.SECONDARY -> isSecondaryPressed
+                                MouseClick.MIDDLE -> isTertiaryPressed
+                                MouseClick.BACK -> isBackPressed
+                                MouseClick.FORWARD -> isForwardPressed
+                            }
+
+                        }
+                    }
+                    if (triggered) {
+                        event.changes.forEach { it.consume() }
+                        onClick()
+                    }
+                }
+            }
+        }
+    }
+}
+
+internal enum class MouseClick {
+    PRIMARY,
+    SECONDARY,
+    MIDDLE,
+    BACK,
+    FORWARD
 }

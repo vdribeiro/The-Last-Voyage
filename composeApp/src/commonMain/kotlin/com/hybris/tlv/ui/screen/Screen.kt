@@ -13,6 +13,8 @@ import com.hybris.tlv.ui.navigation.NavigationHandler
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.back
 import com.hybris.tlv.ui.navigation.navigate
+import com.hybris.tlv.ui.theme.modifier.MouseClick
+import com.hybris.tlv.ui.theme.modifier.onMouseClick
 import com.hybris.tlv.ui.theme.component.container.Screen as ScreenContainer
 
 /**
@@ -43,7 +45,7 @@ internal fun Screen(
 ) {
     NavigationHandler(onBack = onBackClick)
     ScreenContainer(
-        modifier = modifier,
+        modifier = modifier.onMouseClick(mouseClicks = listOf(element = MouseClick.BACK)) { onBackClick?.invoke() },
         contentAlignment = contentAlignment,
         loading = loading,
         loadingDelayMillis = loadingDelayMillis,
