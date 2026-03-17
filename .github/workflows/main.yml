@@ -22,7 +22,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21 and Gradle Cache
+      - name: Set up JDK and Gradle Cache
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -60,7 +60,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21 and Gradle Cache
+      - name: Set up JDK and Gradle Cache
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
