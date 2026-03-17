@@ -3396,6 +3396,11 @@
   },
   {
     "languageIso": "en",
+    "key": "error_screen__console",
+    "value": "Console"
+  },
+  {
+    "languageIso": "en",
     "key": "cheats_screen__title",
     "value": "Cheat Sheet"
   },

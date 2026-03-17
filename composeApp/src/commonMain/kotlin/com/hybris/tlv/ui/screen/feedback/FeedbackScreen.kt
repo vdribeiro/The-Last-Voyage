@@ -31,7 +31,8 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
             isError = storeState.isError,
             showThanks = storeState.showThanks,
             feedback = storeState.feedback,
-            sendFeedback = { store.send(action = FeedbackAction.SendFeedback(message = it)) }
+            sendFeedback = { store.send(action = FeedbackAction.SendFeedback(message = it)) },
+            logs = storeState.logs
         )
     }
 }
