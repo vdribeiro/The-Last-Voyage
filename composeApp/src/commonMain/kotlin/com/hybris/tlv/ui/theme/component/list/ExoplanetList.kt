@@ -99,9 +99,7 @@ internal fun <H, P> ExoplanetList(
         val hostItems = {
             items(items = stellarHosts, key = stellarHostId) { stellarHost ->
                 StellarHostCard(
-                    modifier = Modifier
-                        .animateItem()
-                        .clickable { onStellarHostClick(stellarHost) },
+                    modifier = Modifier.clickable { onStellarHostClick(stellarHost) },
                     name = stellarHostName(stellarHost),
                     systemName = stellarHostSystemName(stellarHost),
                     planetCount = stellarHostPlanetCount(stellarHost),
@@ -134,9 +132,7 @@ internal fun <H, P> ExoplanetList(
         val planetItems = {
             items(items = planets, key = planetId) { planet ->
                 PlanetCard(
-                    modifier = Modifier
-                        .animateItem()
-                        .clickable { onPlanetClick(planet) },
+                    modifier = Modifier.clickable { onPlanetClick(planet) },
                     name = planetName(planet),
                     status = planetStatus(planet),
                     orbitalPeriod = planetOrbitalPeriod(planet),
