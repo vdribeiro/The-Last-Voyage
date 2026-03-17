@@ -17,7 +17,7 @@ internal class FeedbackStore(
     }
 
     private fun setup(): Job = launch(id = "setup") {
-        val logs = Console.getSnapshot().joinToString(separator = "\n")
+        val logs = Console.getSnapshot().joinToString(separator = "\n").ifBlank { null }
         updateState { it.copy(logs = logs) }
     }
 
