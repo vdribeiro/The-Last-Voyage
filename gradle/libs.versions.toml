@@ -33,7 +33,7 @@ roboelectric = "4.16.1"
 
 # Desktop
 logging = "2.0.17"
-javafx = "21.0.9"
+javafx = "25.0.2"
 
 # Web
 sql-js = "1.6.2"

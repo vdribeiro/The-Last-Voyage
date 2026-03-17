@@ -33,9 +33,9 @@ val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voya
 val appVersion: String = "1.2.0"
 val appVersionNumber: Long = 18
 
-val jdkVersion = 21
-val jvmVersion = JvmTarget.JVM_21
-val javaVersion = JavaVersion.VERSION_21
+val jdkVersion = 25
+val jvmVersion = JvmTarget.JVM_25
+val javaVersion = JavaVersion.VERSION_25
 
 val androidSdkTarget: IntRange = 26..36
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
