@@ -405,7 +405,12 @@ compose.desktop {
                 TargetFormat.Deb
             )
 
-            modules("java.sql")
+            modules(
+                "java.sql",
+                "jdk.unsupported",
+                "java.scripting",
+                "java.desktop"
+            )
 
             macOS {
                 bundleID = appId
