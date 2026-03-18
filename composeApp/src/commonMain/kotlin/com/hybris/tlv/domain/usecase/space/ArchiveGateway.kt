@@ -90,7 +90,9 @@ internal class ArchiveGateway(
                 Telemetry.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
                 hostsFile && planetsFile
             }
-        }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get archive", throwable = it) }.getOrDefault(defaultValue = false)
+        }.onFailure {
+            Telemetry.error(tag = TAG, message = "Unable to get archive", throwable = it)
+        }.getOrDefault(defaultValue = false)
     }
 
     private suspend fun getArchive(limit: Int = PAGE_SIZE, apiCall: suspend (Int, Int) -> Exoplanets): Exoplanets = withContext(context = Dispatcher.IO) {

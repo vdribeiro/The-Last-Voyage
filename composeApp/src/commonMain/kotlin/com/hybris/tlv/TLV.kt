@@ -51,11 +51,15 @@ internal object TLV {
 
         scope.launch(context = Dispatcher.IO) {
             Telemetry.info(tag = TAG, message = "Initializing dependencies")
-            val dependency = Dependency(
-                sqlDriver = createSqlDriver(),
-                httpEngine = createHttpEngine(),
-                audioPlayer = createAudioPlayer()
-            )
+            val dependency = runCatching {
+                Dependency(
+                    sqlDriver = createSqlDriver(),
+                    httpEngine = createHttpEngine(),
+                    audioPlayer = createAudioPlayer()
+                )
+            }.onFailure {
+                Telemetry.error(tag = TAG, message = "Unable to create Dependency Index", throwable = it)
+            }.getOrNull() ?: return@launch
             this@TLV.dependency.update { dependency }
 
             Telemetry.info(tag = TAG, message = "Registering locale listener")

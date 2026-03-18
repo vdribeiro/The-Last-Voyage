@@ -42,7 +42,9 @@ private val prettyJson = Json {
  */
 internal inline fun <reified T> encode(jsonSerializer: Json = json, value: T?): String? = runCatching {
     value?.let { jsonSerializer.encodeToString(value = value) }
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to encode value", throwable = it) }.getOrNull()
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to encode value", throwable = it)
+}.getOrNull()
 
 /**
  * Safely decodes a JSON string [value] into an object of type [T].
@@ -58,7 +60,9 @@ internal inline fun <reified T> decode(jsonSerializer: Json = json, value: Strin
             }
         })
     }
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to decode value", throwable = it) }.getOrNull()
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to decode value", throwable = it)
+}.getOrNull()
 
 /**
  * Safely encodes a given value of type [T] into a URL-safe JSON string.
@@ -66,7 +70,9 @@ internal inline fun <reified T> decode(jsonSerializer: Json = json, value: Strin
  */
 internal inline fun <reified T> encodeURL(value: T?): String = runCatching {
     encode(value = value)?.encodeURLQueryComponent()
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to encode URL value", throwable = it) }.getOrNull() ?: "null"
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to encode URL value", throwable = it)
+}.getOrNull() ?: "null"
 
 /**
  * Safely decodes a URL-safe JSON string into an object of type [T].
@@ -75,7 +81,9 @@ internal inline fun <reified T> encodeURL(value: T?): String = runCatching {
 internal inline fun <reified T> decodeURL(value: String?): T? = runCatching {
     if (value == "null") return null
     decode<T>(value = value?.decodeURLQueryComponent())
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to decode URL value", throwable = it) }.getOrNull()
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to decode URL value", throwable = it)
+}.getOrNull()
 
 /**
  * Saves a serializable object of type [T] to a file at the specified [json].
@@ -105,7 +113,9 @@ internal suspend fun deleteJsonFile(json: JsonFile): Boolean = withContext(conte
 internal suspend inline fun <reified T> loadFromJsonResource(json: JsonResource): List<T> = withContext(context = Dispatcher.IO) {
     runCatching {
         decode<List<T>>(value = loadResource(path = json.path))
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to load resource", throwable = it) }.getOrNull().orEmpty()
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to load resource", throwable = it)
+    }.getOrNull().orEmpty()
 }
 
 private const val TAG = "JSON"

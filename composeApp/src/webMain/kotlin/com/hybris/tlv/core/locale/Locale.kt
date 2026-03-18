@@ -12,11 +12,15 @@ import org.w3c.dom.events.Event
 
 internal actual fun getLanguage(): String = runCatching {
     window.navigator.language
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it) }.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it)
+}.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
 
 internal actual fun getLocalDateTime(utc: String): String = runCatching {
     formatDateJs(utc = utc)
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it) }.getOrDefault(defaultValue = utc)
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it)
+}.getOrDefault(defaultValue = utc)
 
 private fun formatDateJs(utc: String): String = js(
     code = """

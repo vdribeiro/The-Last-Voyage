@@ -72,7 +72,9 @@ internal open class AudioPlayer {
                     if (!isPlaying()) resume() else pause()
                 }
             }
-        }.onFailure { Telemetry.error(tag = TAG, message = "Error with media action $action", throwable = it) }
+        }.onFailure {
+            Telemetry.error(tag = TAG, message = "Error with media action $action", throwable = it)
+        }
     }
 
     /**

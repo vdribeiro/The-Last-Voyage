@@ -12,7 +12,9 @@ import thelastvoyage.composeapp.generated.resources.Res
 internal suspend fun loadResource(path: String): String? = withContext(context = Dispatcher.IO) {
     runCatching {
         Res.readBytes(path = path).decodeToString()
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to read resource", throwable = it) }.getOrNull()
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to read resource", throwable = it)
+    }.getOrNull()
 }
 
 private const val TAG = "ResourceLoader"

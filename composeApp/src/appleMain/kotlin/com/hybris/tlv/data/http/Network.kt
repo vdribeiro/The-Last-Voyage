@@ -34,7 +34,9 @@ internal actual fun isInternetAvailable(): Boolean = runCatching {
             sin6_family = AF_INET6.toUByte()
         }.ptr.reinterpret())
     }
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to check internet connection", throwable = it) }.getOrDefault(defaultValue = false)
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to check internet connection", throwable = it)
+}.getOrDefault(defaultValue = false)
 
 @OptIn(ExperimentalForeignApi::class)
 private fun MemScope.checkAddress(address: CValuesRef<sockaddr>): Boolean =

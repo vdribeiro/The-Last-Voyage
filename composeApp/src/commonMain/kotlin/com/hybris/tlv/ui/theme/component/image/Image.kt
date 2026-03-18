@@ -46,7 +46,9 @@ private fun ImageWithPath(
 ) {
     val model = runCatching {
         path?.let { Res.getUri(path = it) }
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get path", throwable = it) }.getOrNull()
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to get path", throwable = it)
+    }.getOrNull()
     if (model == null) Box(modifier = modifier) else AsyncImage(
         modifier = modifier,
         model = model,
