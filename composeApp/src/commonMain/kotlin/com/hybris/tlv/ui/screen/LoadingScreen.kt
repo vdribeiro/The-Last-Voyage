@@ -40,7 +40,11 @@ internal fun LoadingScreen(
         loading = !showFeedback,
         loadingDelayMillis = 0L,
         loadingBackground = true,
-        onBackClick = null,
+        onBackClick = if (showFeedback) {
+            {
+                showFeedback = false
+            }
+        } else null,
         onHelpClick = null,
         onMusicClick = null,
         onFeedbackClick = if (showFeedbackButton) {
