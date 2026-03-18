@@ -3397,7 +3397,7 @@
   {
     "languageIso": "en",
     "key": "error_screen__console",
-    "value": "Console"
+    "value": "Stacktrace"
   },
   {
     "languageIso": "en",

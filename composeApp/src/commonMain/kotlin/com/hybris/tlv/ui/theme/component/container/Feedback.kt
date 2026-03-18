@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -95,6 +96,8 @@ internal fun Feedback(
             )
         }
         logs?.let {
+            val scrollState = rememberScrollState()
+            LaunchedEffect(key1 = logs) { if (scrollState.value > scrollState.maxValue - 50) scrollState.scrollTo(value = scrollState.maxValue) }
             Text(
                 modifier = Modifier.padding(top = 16.dp),
                 text = consoleTranslation,
@@ -104,7 +107,7 @@ internal fun Feedback(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(height = 100.dp)
-                    .verticalScroll(state = rememberScrollState()),
+                    .verticalScroll(state = scrollState),
                 text = logs,
                 style = typography.labelSmall
             )
@@ -162,6 +165,10 @@ private fun FeedbackErrorPreview() = Preview {
             Translation(
                 key = "error_screen__thanks",
                 value = "Thanks"
+            ),
+            Translation(
+                key = "error_screen__console",
+                value = "Stacktrace"
             ),
         )
     )
