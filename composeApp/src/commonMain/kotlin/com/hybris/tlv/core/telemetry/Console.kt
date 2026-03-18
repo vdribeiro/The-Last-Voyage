@@ -18,8 +18,12 @@ internal object Console {
     private val scope = CoroutineScope(context = dispatcher + SupervisorJob())
 
     fun log(log: String): Job = scope.launch {
-        if (logs.size >= CONSOLE_SIZE) logs.removeFirstOrNull()
-        logs.addLast(element = log)
+        log.splitToSequence("\n").forEach { line ->
+            if (line.isNotEmpty()) {
+                if (logs.size >= CONSOLE_SIZE) logs.removeFirstOrNull()
+                logs.addLast(element = line)
+            }
+        }
     }
 
     /**

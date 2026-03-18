@@ -1,6 +1,8 @@
 package com.hybris.tlv.ui.screen.feedback
 
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import com.hybris.tlv.core.telemetry.Console
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.ui.navigation.Screen
@@ -17,8 +19,11 @@ internal class FeedbackStore(
     }
 
     private fun setup(): Job = launch(id = "setup") {
-        val logs = Console.getSnapshot().joinToString(separator = "\n").ifBlank { null }
-        updateState { it.copy(logs = logs) }
+        while (isActive) {
+            val logs = Console.getSnapshot().joinToString(separator = "\n").ifBlank { null }
+            updateState { it.copy(logs = logs) }
+            delay(timeMillis = 500)
+        }
     }
 
     private fun sendFeedback(action: FeedbackAction.SendFeedback): Job = launch(id = "sendFeedback") {

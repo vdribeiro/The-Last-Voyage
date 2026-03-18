@@ -1,13 +1,21 @@
 package com.hybris.tlv.ui
 
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ProvidedValue
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.hybris.tlv.Dependency
+import com.hybris.tlv.core.telemetry.Console
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.ui.audio.LocalAudioPlayer
 import com.hybris.tlv.ui.navigation.LocalNavController
 import com.hybris.tlv.ui.navigation.Navigation
@@ -46,6 +54,7 @@ internal fun App(
     CompositionLocalProvider(values = providers) {
         AppTheme {
             if (dependency != null) {
+                // Show App UI
                 Navigation(
                     modifier = modifier,
                     navController = navController,
@@ -55,7 +64,20 @@ internal fun App(
                     navController = navController,
                     audioPlayer = dependency.audioPlayer,
                 )
-            } else LoadingScreen()
+            } else {
+                // Show loading screen
+                var logs: String? by remember { mutableStateOf(value = null) }
+                LaunchedEffect(key1 = Unit) {
+                    while (isActive) {
+                        logs = Console.getSnapshot().joinToString(separator = "\n").ifBlank { null }
+                        delay(timeMillis = 500)
+                    }
+                }
+                LoadingScreen(
+                    logs = logs,
+                    sendFeedback = { Telemetry.feedback(message = it) }
+                )
+            }
         }
     }
 }

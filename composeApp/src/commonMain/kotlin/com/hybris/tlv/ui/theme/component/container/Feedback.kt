@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.theme.component.container
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
@@ -91,9 +90,13 @@ internal fun Feedback(
             )
         }
         logs?.let {
-            Spacer(modifier = Modifier.weight(1f))
             Console(
-                modifier = Modifier.padding(bottom = 8.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(
+                        top = 16.dp,
+                        bottom = 16.dp
+                    ),
                 logs = logs
             )
         }

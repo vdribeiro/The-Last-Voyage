@@ -3,7 +3,6 @@ package com.hybris.tlv.ui.theme.component.container
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -29,7 +28,7 @@ internal fun Console(
     val typography = LocalTypography.current
 
     val scrollState = rememberScrollState()
-    LaunchedEffect(key1 = logs) { if (scrollState.value > scrollState.maxValue - 50) scrollState.scrollTo(value = scrollState.maxValue) }
+    LaunchedEffect(key1 = logs) { scrollState.scrollTo(value = scrollState.maxValue) }
 
     Column(
         modifier = modifier,
@@ -43,7 +42,6 @@ internal fun Console(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(height = 100.dp)
                 .verticalScroll(state = scrollState),
             text = logs,
             style = typography.labelSmall
