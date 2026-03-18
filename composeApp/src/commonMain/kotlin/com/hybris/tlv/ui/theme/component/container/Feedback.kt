@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BugReport
@@ -91,7 +92,10 @@ internal fun Feedback(
         }
         logs?.let {
             Spacer(modifier = Modifier.weight(1f))
-            Console(logs = logs)
+            Console(
+                modifier = Modifier.padding(bottom = 8.dp),
+                logs = logs
+            )
         }
     }
 }
