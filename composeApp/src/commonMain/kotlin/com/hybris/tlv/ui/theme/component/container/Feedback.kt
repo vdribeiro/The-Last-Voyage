@@ -12,7 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,7 +47,6 @@ internal fun Feedback(
     val descriptionTranslation = getTranslation(key = if (isError) "error_screen__description" else "error_screen__description_alt")
     val buttonTranslation = getTranslation(key = "error_screen__button")
     val thanksTranslation = getTranslation(key = "error_screen__thanks")
-    val consoleTranslation = getTranslation(key = "error_screen__console")
 
     val typography = LocalTypography.current
 
@@ -96,20 +94,9 @@ internal fun Feedback(
             )
         }
         logs?.let {
-            val scrollState = rememberScrollState()
-            LaunchedEffect(key1 = logs) { if (scrollState.value > scrollState.maxValue - 50) scrollState.scrollTo(value = scrollState.maxValue) }
-            Text(
+            Console(
                 modifier = Modifier.padding(top = 16.dp),
-                text = consoleTranslation,
-                style = typography.labelLarge
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(height = 100.dp)
-                    .verticalScroll(state = scrollState),
-                text = logs,
-                style = typography.labelSmall
+                logs = logs
             )
         }
     }

@@ -7,6 +7,7 @@ internal object FeatureFlags {
     private val _flags: MutableStateFlow<Flags> = MutableStateFlow(
         value = Flags(
             devMode = false,
+            console = false,
             reset = false,
             http = false,
             archive = false,

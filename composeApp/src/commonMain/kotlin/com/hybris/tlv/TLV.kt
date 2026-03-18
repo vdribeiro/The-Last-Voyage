@@ -32,6 +32,7 @@ internal object TLV {
      */
     private val flags = Flags(
         devMode = isDebug,
+        console = true,
         reset = false,
         http = true,
         archive = false,

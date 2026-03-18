@@ -7,7 +7,7 @@ internal class Logger: TelemetryEngine {
 
     private val useLogger: Boolean get() = flags.devMode
     private val useSentry: Boolean get() = !flags.devMode && Property.sentry.isNotBlank()
-    private val useConsole: Boolean get() = flags.devMode
+    private val useConsole: Boolean get() = flags.console
 
     init {
         if (useSentry) SentryLogger.init()
