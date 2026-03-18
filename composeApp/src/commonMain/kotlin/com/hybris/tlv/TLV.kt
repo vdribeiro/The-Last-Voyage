@@ -65,23 +65,26 @@ internal object TLV {
         }
     }
 
+    /**
+     * Safely create the [Dependency] index.
+     */
     private suspend fun createDependency(): Dependency? {
         val sqlDriver = runCatching {
             createSqlDriver()
         }.onFailure {
-            Telemetry.error(tag = TAG, message = "Unable to create Sql Driver", throwable = it)
+            Telemetry.error(tag = TAG, message = "Unable to create the Sql Driver", throwable = it)
         }.getOrDefault(defaultValue = NoOpSqlDriver)
 
         val httpEngine = runCatching {
             createHttpEngine()
         }.onFailure {
-            Telemetry.error(tag = TAG, message = "Unable to create Http Engine", throwable = it)
+            Telemetry.error(tag = TAG, message = "Unable to create the Http Engine", throwable = it)
         }.getOrDefault(defaultValue = NoOpHttpEngine)
 
         val audioPlayer = runCatching {
             createAudioPlayer()
         }.onFailure {
-            Telemetry.error(tag = TAG, message = "Unable to create Audio Player", throwable = it)
+            Telemetry.error(tag = TAG, message = "Unable to create the Audio Player", throwable = it)
         }.getOrDefault(defaultValue = AudioPlayer())
 
         return runCatching {
@@ -91,7 +94,7 @@ internal object TLV {
                 audioPlayer = audioPlayer
             )
         }.onFailure {
-            Telemetry.error(tag = TAG, message = "Unable to create Dependency Index", throwable = it)
+            Telemetry.error(tag = TAG, message = "Unable to create the Dependency Index", throwable = it)
         }.getOrNull()
     }
 }
