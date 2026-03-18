@@ -95,7 +95,7 @@ internal fun Feedback(
         }
         logs?.let {
             Console(
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier.weight(weight = 1f),
                 logs = logs
             )
         }
