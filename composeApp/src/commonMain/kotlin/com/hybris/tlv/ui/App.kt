@@ -11,9 +11,9 @@ import com.hybris.tlv.Dependency
 import com.hybris.tlv.ui.audio.LocalAudioPlayer
 import com.hybris.tlv.ui.navigation.LocalNavController
 import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.screen.LoadingScreen
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTranslationState
-import com.hybris.tlv.ui.theme.component.container.LoadingScreen
 import com.hybris.tlv.ui.theme.getTranslationState
 import com.hybris.tlv.ui.audio.AudioPlayer as MusicPlayer
 

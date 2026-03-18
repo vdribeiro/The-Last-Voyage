@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component.container
+package com.hybris.tlv.ui.screen
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -18,8 +18,8 @@ import com.hybris.tlv.core.telemetry.Console
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
-import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.theme.InjectTranslations
+import com.hybris.tlv.ui.theme.component.container.Feedback
 
 @Composable
 internal fun LoadingScreen(
