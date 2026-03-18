@@ -79,16 +79,9 @@ internal fun Feedback(
         )
         Button(
             enabled = !showThanks && (isError || feedbackText.isNotBlank()),
-            text = buttonTranslation,
+            text = if (showThanks) thanksTranslation else buttonTranslation,
             onClick = { sendFeedback(feedbackText) },
         )
-        if (showThanks) {
-            // Thank you message
-            Text(
-                text = thanksTranslation,
-                style = typography.headlineSmall
-            )
-        }
         logs?.let {
             Console(
                 modifier = Modifier
