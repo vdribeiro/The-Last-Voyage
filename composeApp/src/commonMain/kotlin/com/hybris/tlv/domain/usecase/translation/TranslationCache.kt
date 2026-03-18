@@ -17,12 +17,7 @@ internal object TranslationCache {
     private val defaultTranslations by lazy {
         mapOf(
             "app_name" to Property.APP_NAME,
-            "splash_screen__loading" to "Loading...",
-            "error_screen__title_alt" to "Feedback",
-            "error_screen__description_alt" to "",
-            "error_screen__button" to "Submit",
-            "error_screen__thanks" to "Thank you!",
-            "error_screen__console" to "Stacktrace",
+            "splash_screen__loading" to "Loading..."
         )
     }
 

@@ -11,15 +11,18 @@ import com.hybris.tlv.core.audio.createAudioPlayer
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.observeLocale
 import com.hybris.tlv.core.platform.isDebug
+import com.hybris.tlv.core.resource.JsonResource
 import com.hybris.tlv.core.telemetry.Logger
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.database.NoOpSqlDriver
 import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.data.http.NoOpHttpEngine
 import com.hybris.tlv.data.http.createHttpEngine
+import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.test.ExcludeFromTesting
 
 /**
@@ -53,6 +56,10 @@ internal object TLV {
         Telemetry.info(tag = TAG, message = "Features: $flags")
 
         scope.launch(context = Dispatcher.IO) {
+            Telemetry.info(tag = TAG, message = "Loading translations")
+            val translations: List<Translation> = loadFromJsonResource(json = JsonResource.Translations)
+            TranslationCache.set(translations = translations)
+
             Telemetry.info(tag = TAG, message = "Initializing dependencies")
             val dependency = createDependency() ?: return@launch
             this@TLV.dependency.update { dependency }

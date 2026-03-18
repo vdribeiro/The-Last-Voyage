@@ -57,7 +57,8 @@ internal class SyncGateway(
         )
         config.saveConfigs()
 
-        TranslationCache.set(translations = translationUseCases.getTranslations())
+        val translations = translationUseCases.getTranslations()
+        TranslationCache.set(translations = translations)
 
         Telemetry.info(tag = TAG, message = "Preferences\n${config.preferences}")
         Telemetry.info(tag = TAG, message = "Local Configs\n${config.localConfigs}")
