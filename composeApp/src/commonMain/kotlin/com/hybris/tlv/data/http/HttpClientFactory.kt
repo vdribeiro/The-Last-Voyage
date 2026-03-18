@@ -56,7 +56,7 @@ internal class HttpClientFactory(engine: HttpClientEngine) {
                 Telemetry.info(tag = TAG, message = message)
             }
         }
-        level = if (flags.devMode) LogLevel.ALL else LogLevel.INFO
+        level = if (flags.devMode) LogLevel.HEADERS else LogLevel.INFO
     }
 
     private fun HttpTimeoutConfig.configure() {
