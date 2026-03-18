@@ -36,9 +36,7 @@ internal fun LoadingScreen() {
         onFeedbackClick = if (showFeedbackButton) {
             { showFeedback = !showFeedback }
         } else null,
-        content = {
-            if (showFeedback) Console(logs = logs)
-        }
+        content = { if (showFeedback && !logs.isNullOrBlank()) Console(logs = logs) }
     )
 }
 
