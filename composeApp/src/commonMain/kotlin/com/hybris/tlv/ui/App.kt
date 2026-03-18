@@ -53,18 +53,18 @@ internal fun App(
 
     CompositionLocalProvider(values = providers) {
         AppTheme {
-//            if (dependency != null) {
-//                // Show App UI
-//                Navigation(
-//                    modifier = modifier,
-//                    navController = navController,
-//                    storeFactory = dependency.storeFactory
-//                )
-//                MusicPlayer(
-//                    navController = navController,
-//                    audioPlayer = dependency.audioPlayer,
-//                )
-//            } else {
+            if (dependency != null) {
+                // Show App UI
+                Navigation(
+                    modifier = modifier,
+                    navController = navController,
+                    storeFactory = dependency.storeFactory
+                )
+                MusicPlayer(
+                    navController = navController,
+                    audioPlayer = dependency.audioPlayer,
+                )
+            } else {
                 // Show loading screen
                 var logs: String? by remember { mutableStateOf(value = null) }
                 LaunchedEffect(key1 = Unit) {
@@ -77,7 +77,7 @@ internal fun App(
                     logs = logs,
                     sendFeedback = { Telemetry.feedback(message = it) }
                 )
-//            }
+            }
         }
     }
 }
