@@ -2,6 +2,8 @@ package com.hybris.tlv.ui.theme.component.container
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -9,8 +11,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.telemetry.Console
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.ui.Preview
@@ -50,6 +54,9 @@ internal fun LoadingScreen() {
         } else null,
         content = {
             Feedback(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
                 showThanks = showThanks,
                 feedback = feedback,
                 sendFeedback = {

@@ -2,13 +2,11 @@ package com.hybris.tlv.ui.theme.component.container
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.runtime.Composable
@@ -51,9 +49,7 @@ internal fun Feedback(
     val typography = LocalTypography.current
 
     Column(
-        modifier = modifier
-            .imePadding()
-            .verticalScroll(state = rememberScrollState()),
+        modifier = modifier.imePadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
     ) {
@@ -94,10 +90,8 @@ internal fun Feedback(
             )
         }
         logs?.let {
-            Console(
-                modifier = Modifier.weight(weight = 1f),
-                logs = logs
-            )
+            Spacer(modifier = Modifier.weight(1f))
+            Console(logs = logs)
         }
     }
 }
