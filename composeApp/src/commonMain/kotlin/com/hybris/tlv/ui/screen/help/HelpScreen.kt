@@ -159,6 +159,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 title = getTranslation(key = "main_menu_screen__host_definition"),
                 properties = hostProperty,
                 id = Property::id,
+                name = { getTranslation(key = it.id) },
                 description = { getTranslation(key = it.description) }
             )
 
