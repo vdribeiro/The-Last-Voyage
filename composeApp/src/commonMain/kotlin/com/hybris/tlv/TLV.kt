@@ -22,6 +22,7 @@ import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.TranslationGateway.Companion.loadAllTranslationsFromJsonResource
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.test.ExcludeFromTesting
 
@@ -57,7 +58,7 @@ internal object TLV {
 
         scope.launch(context = Dispatcher.IO) {
             Telemetry.info(tag = TAG, message = "Loading translations")
-            val translations: List<Translation> = loadFromJsonResource(json = JsonResource.Translations)
+            val translations: List<Translation> = loadAllTranslationsFromJsonResource()
             TranslationCache.set(translations = translations)
 
             Telemetry.info(tag = TAG, message = "Initializing dependencies")

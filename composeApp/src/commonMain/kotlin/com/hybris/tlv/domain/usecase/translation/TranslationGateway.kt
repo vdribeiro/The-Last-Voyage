@@ -39,7 +39,7 @@ internal class TranslationGateway(
     override suspend fun prepopulateTranslations(): Boolean = withContext(context = Dispatcher.IO) {
         if (translationDao.isTranslationEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating translations")
-            val translations: List<Translation> = loadFromJsonResource(json = JsonResource.Translations)
+            val translations: List<Translation> = loadAllTranslationsFromJsonResource()
             rewriteTranslations(translations = translations)
             true
         } else false
@@ -52,10 +52,17 @@ internal class TranslationGateway(
 
     override suspend fun getTranslations(languageIso: String): List<Translation> = withContext(context = Dispatcher.IO) {
         val translations = translationDao.getTranslations(languageIso = languageIso).awaitAsList().map { it.toTranslation() }
-        if (translations.isEmpty() && languageIso != DEFAULT_LANGUAGE) getTranslations(languageIso = DEFAULT_LANGUAGE) else loadFromJsonResource(json = JsonResource.Translations)
+        if (translations.isEmpty() && languageIso != DEFAULT_LANGUAGE) getTranslations(languageIso = DEFAULT_LANGUAGE) else loadAllTranslationsFromJsonResource()
     }
 
     companion object {
         private const val TAG = "Translation"
+
+        suspend fun loadAllTranslationsFromJsonResource(): List<Translation> =
+            loadFromJsonResource<Translation>(json = JsonResource.Translations) +
+                    loadFromJsonResource<Translation>(json = JsonResource.CatastrophesTranslations) +
+                    loadFromJsonResource<Translation>(json = JsonResource.EnginesTranslations) +
+                    loadFromJsonResource<Translation>(json = JsonResource.EventsTranslations) +
+                    loadFromJsonResource<Translation>(json = JsonResource.AchievementsTranslations)
     }
 }
