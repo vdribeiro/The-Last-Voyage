@@ -5,7 +5,7 @@ import io.ktor.client.HttpClient
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.core.resource.JsonResource
+import com.hybris.tlv.data.resource.JsonResource
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
