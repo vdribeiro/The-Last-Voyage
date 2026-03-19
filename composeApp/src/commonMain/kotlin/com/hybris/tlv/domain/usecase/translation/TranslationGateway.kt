@@ -5,11 +5,11 @@ import io.ktor.client.HttpClient
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.DEFAULT_LANGUAGE
-import com.hybris.tlv.data.resource.JsonResource
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
+import com.hybris.tlv.data.resource.JsonResource
 import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import database.AppDatabase
@@ -52,7 +52,7 @@ internal class TranslationGateway(
 
     override suspend fun getTranslations(languageIso: String): List<Translation> = withContext(context = Dispatcher.IO) {
         val translations = translationDao.getTranslations(languageIso = languageIso).awaitAsList().map { it.toTranslation() }
-        if (translations.isEmpty() && languageIso != DEFAULT_LANGUAGE) getTranslations(languageIso = DEFAULT_LANGUAGE) else loadFromJsonResource(json = JsonResource.Translations)
+        if (translations.isEmpty() && languageIso != DEFAULT_LANGUAGE) getTranslations(languageIso = DEFAULT_LANGUAGE) else translations
     }
 
     companion object {
