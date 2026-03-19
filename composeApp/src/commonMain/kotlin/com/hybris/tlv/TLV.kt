@@ -11,7 +11,7 @@ import com.hybris.tlv.core.audio.createAudioPlayer
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.observeLocale
 import com.hybris.tlv.core.platform.isDebug
-import com.hybris.tlv.core.resource.JsonResource
+import com.hybris.tlv.data.resource.JsonResource
 import com.hybris.tlv.core.telemetry.Logger
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.database.NoOpSqlDriver

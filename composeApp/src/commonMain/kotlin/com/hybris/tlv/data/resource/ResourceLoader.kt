@@ -1,4 +1,4 @@
-package com.hybris.tlv.core.resource
+package com.hybris.tlv.data.resource
 
 import kotlinx.coroutines.withContext
 import com.hybris.tlv.core.flow.Dispatcher

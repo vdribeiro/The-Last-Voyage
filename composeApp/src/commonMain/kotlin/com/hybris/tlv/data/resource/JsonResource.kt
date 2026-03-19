@@ -1,4 +1,4 @@
-package com.hybris.tlv.core.resource
+package com.hybris.tlv.data.resource
 
 internal sealed class JsonResource(val path: String) {
     data object Translations: JsonResource(path = "files/translations.json")

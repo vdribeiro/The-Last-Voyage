@@ -1,4 +1,4 @@
-package com.hybris.tlv.core.resource
+package com.hybris.tlv.data.resource
 
 import org.jetbrains.compose.resources.DrawableResource
 import androidx.compose.runtime.Stable

@@ -1,6 +1,6 @@
 package com.hybris.tlv.core.audio
 
-import com.hybris.tlv.core.resource.AudioResource
+import com.hybris.tlv.data.resource.AudioResource
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
 
