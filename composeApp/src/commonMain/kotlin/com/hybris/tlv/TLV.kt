@@ -21,6 +21,7 @@ import com.hybris.tlv.data.resource.loadAllTranslationsFromJsonResource
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.test.ExcludeFromTesting
 
@@ -64,10 +65,7 @@ internal object TLV {
             this@TLV.dependency.update { dependency }
 
             Telemetry.info(tag = TAG, message = "Registering locale listener")
-            observeLocale().collectLatest { languageIso ->
-                val translations = dependency.useCases.translation.getTranslations(languageIso = languageIso)
-                TranslationCache.set(translations = translations)
-            }
+            observeLocale(translation = dependency.useCases.translation)
         }
     }
 
@@ -102,5 +100,17 @@ internal object TLV {
         }.onFailure {
             Telemetry.error(tag = TAG, message = "Unable to create the Dependency Index", throwable = it)
         }.getOrNull()
+    }
+
+    /**
+     * Observe and register the locale listener.
+     */
+    private suspend fun observeLocale(translation: TranslationUseCases) {
+        observeLocale().collectLatest { languageIso ->
+            val translations = translation.getTranslations(languageIso = languageIso).ifEmpty {
+                loadAllTranslationsFromJsonResource()
+            }
+            TranslationCache.set(translations = translations)
+        }
     }
 }

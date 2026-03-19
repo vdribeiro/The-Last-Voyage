@@ -51,7 +51,7 @@ internal class TranslationGateway(
 
     override suspend fun getTranslations(languageIso: String): List<Translation> = withContext(context = Dispatcher.IO) {
         val translations = translationDao.getTranslations(languageIso = languageIso).awaitAsList().map { it.toTranslation() }
-        if (translations.isEmpty() && languageIso != DEFAULT_LANGUAGE) getTranslations(languageIso = DEFAULT_LANGUAGE) else loadAllTranslationsFromJsonResource()
+        if (translations.isEmpty() && languageIso != DEFAULT_LANGUAGE) getTranslations(languageIso = DEFAULT_LANGUAGE) else translations
     }
 
     companion object {
