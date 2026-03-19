@@ -13,7 +13,7 @@ import com.hybris.tlv.test.VisibleForTesting
 internal val LocalTranslationState = staticCompositionLocalOf { TranslationCache.cacheState.value }
 
 /**
- * Gets the provided value.
+ * Gets the translation cache.
  */
 @Composable
 internal fun getTranslationState(): Map<String, String> {
