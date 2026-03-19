@@ -66,7 +66,9 @@ internal object TLV {
 
             Telemetry.info(tag = TAG, message = "Registering locale listener")
             observeLocale().collectLatest { languageIso ->
-                val translations = dependency.useCases.translation.getTranslations(languageIso = languageIso)
+                val translations = dependency.useCases.translation.getTranslations(languageIso = languageIso).ifEmpty {
+                    loadFromJsonResource(json = JsonResource.Translations)
+                }
                 TranslationCache.set(translations = translations)
             }
         }
