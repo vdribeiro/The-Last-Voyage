@@ -1,8 +1,8 @@
 package com.hybris.tlv.test
 
-import com.hybris.tlv.data.resource.JsonResource
-import com.hybris.tlv.core.resource.loadAllTranslationsFromJsonResource
 import com.hybris.tlv.data.config.Configs
+import com.hybris.tlv.data.resource.JsonResource
+import com.hybris.tlv.data.resource.loadAllTranslationsFromJsonResource
 import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.domain.usecase.achievement.model.Achievement
 import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
