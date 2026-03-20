@@ -1,5 +1,6 @@
 package com.hybris.tlv.domain.usecase.translation
 
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import app.cash.sqldelight.async.coroutines.awaitAsList
@@ -24,52 +25,29 @@ internal class TranslationGateway(
     override suspend fun syncTranslations(): Boolean = withContext(context = Dispatcher.IO) {
         val translations = mutableListOf<Translation>()
         var syncResult = true
-        when (val result = httpClient.get<Translation>(path = URL.Translations)) {
-            is Result.Error -> {
-                Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
-                syncResult = false
-            }
 
-            is Result.Success -> {
-                translations.addAll(elements = result.list)
-                Telemetry.info(tag = TAG, message = "Successful translations sync")
-            }
-        }
-        when (val result = httpClient.get<Translation>(path = URL.CatastrophesTranslations)) {
-            is Result.Error -> {
-                Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
-                syncResult = false
-            }
+        listOf(
+            URL.Translations,
+            URL.CatastrophesTranslations,
+            URL.EnginesTranslations,
+            URL.EventsTranslations
+        ).associateWith { url ->
+            async { httpClient.get<Translation>(path = url) }
+        }.forEach { (url, deferred) ->
+            when (val result = deferred.await()) {
+                is Result.Error -> {
+                    Telemetry.error(tag = TAG, message = "Unable to get $url", throwable = result.error)
+                    syncResult = false
+                }
 
-            is Result.Success -> {
-                translations.addAll(elements = result.list)
-                Telemetry.info(tag = TAG, message = "Successful translations sync")
-            }
-        }
-        when (val result = httpClient.get<Translation>(path = URL.EnginesTranslations)) {
-            is Result.Error -> {
-                Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
-                syncResult = false
-            }
-
-            is Result.Success -> {
-                translations.addAll(elements = result.list)
-                Telemetry.info(tag = TAG, message = "Successful translations sync")
-            }
-        }
-        when (val result = httpClient.get<Translation>(path = URL.EventsTranslations)) {
-            is Result.Error -> {
-                Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
-                syncResult = false
-            }
-
-            is Result.Success -> {
-                translations.addAll(elements = result.list)
-                Telemetry.info(tag = TAG, message = "Successful translations sync")
+                is Result.Success -> {
+                    translations.addAll(elements = result.list)
+                    Telemetry.info(tag = TAG, message = "Successful $url sync")
+                }
             }
         }
 
-        rewriteTranslations(translations = translations)
+        if (syncResult) rewriteTranslations(translations = translations)
         return@withContext syncResult
     }
 
