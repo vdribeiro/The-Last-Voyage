@@ -4,7 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import com.hybris.tlv.data.resource.JsonResource
+import com.hybris.tlv.domain.usecase.translation.TranslationGateway.Companion.loadAllTranslationsFromJsonResource
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
 
@@ -25,6 +25,6 @@ internal class JsonTest: TestCase() {
 
     @Test
     fun loadResource() = runUnitTest {
-        assertEquals(expected = FakeData.translations.get(), actual = loadFromJsonResource(json = JsonResource.Translations))
+        assertEquals(expected = FakeData.translations.get(), actual = loadAllTranslationsFromJsonResource())
     }
 }
