@@ -10,7 +10,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.ship.model.Engine
-import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
@@ -23,7 +22,6 @@ import com.hybris.tlv.ui.theme.getTranslation
 @Composable
 internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
-    val shipState = storeState.shipState
     val startTranslation = getTranslation(key = "new_game_screen__start")
 
     Screen(
@@ -35,22 +33,13 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
                 buttons = persistentListOf(startTranslation),
                 id = { it },
                 text = { getTranslation(key = it) },
-                enabled = { shipState != null && shipState.remainingPoints >= 0 },
+                enabled = { storeState.remainingPoints >= 0 },
                 onClick = {
-                    if (shipState == null) return@ButtonsBar
-                    val shipPrototype = ShipPrototype(
-                        assignedPoints = shipState.assignedPoints,
-                        sensorRange = shipState.sensorRange.value,
-                        fuel = shipState.fuel.value,
-                        materials = shipState.materials.value,
-                        cryopods = shipState.cryopods.value,
-                    )
-                    store.send(action = NewGameAction.SelectShip(ship = shipPrototype))
+                    store.send(action = NewGameAction.SelectShip)
                 }
             )
         },
     ) {
-        if (shipState == null) return@Screen
         val sensorTranslation = getTranslation(key = "ship_sensor")
         val fuelTranslation = getTranslation(key = "ship_fuel")
         val materialsTranslation = getTranslation(key = "ship_materials")
@@ -59,20 +48,20 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(all = 16.dp),
-            remainingPoints = shipState.remainingPoints,
+            remainingPoints = storeState.remainingPoints,
             attributes = persistentListOf(
-                sensorTranslation to shipState.sensorRange,
-                fuelTranslation to shipState.fuel,
-                materialsTranslation to shipState.materials,
-                cryopodsTranslation to shipState.cryopods
+                sensorTranslation to storeState.sensorRange,
+                fuelTranslation to storeState.fuel,
+                materialsTranslation to storeState.materials,
+                cryopodsTranslation to storeState.cryopods
             ),
             attributeName = { it.first },
             attributeValue = { it.second.value },
-            attributeCanIncrement = { shipState.remainingPoints > 0 && it.second.value < it.second.max },
+            attributeCanIncrement = { storeState.remainingPoints > 0 && it.second.value < it.second.max },
             attributeCanDecrement = { it.second.value > it.second.min },
-            onAttributeIncrement = { it.second.increment() },
-            onAttributeDecrement = { it.second.decrement() },
-            selectedEngineId = shipState.engine.id,
+            onAttributeIncrement = { store.send(action = NewGameAction.Increment(attributePoint = it.second)) },
+            onAttributeDecrement = { store.send(action = NewGameAction.Decrement(attributePoint = it.second)) },
+            selectedEngineId = storeState.selectedEngine?.id,
             engines = storeState.engines,
             engineId = Engine::id,
             engineName = { getTranslation(key = it.id) },
@@ -99,8 +88,7 @@ private fun NewGameScreenLoadingPreview() = Preview {
     NewGameScreen(
         store = Store(
             initialState = NewGameState(
-                loading = true,
-                shipState = null,
+                loading = true
             )
         )
     )
@@ -149,20 +137,33 @@ private fun NewGameScreenShipPreview() = Preview {
         store = Store(
             initialState = NewGameState(
                 loading = false,
-                shipState = ShipState(
-                    totalPoints = 10,
-                    sensorRange = AttributePoint(max = 10, min = 1, interval = 1, initialValue = 3),
-                    materials = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),
-                    fuel = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),
-                    cryopods = AttributePoint(max = 1000, min = 0, interval = 100, initialValue = 100),
-                    engine = Engine(
-                        id = "Engine",
-                        description = "Engine description",
+                sensorRange = AttributePoint(type = Attribute.SENSOR_RANGE, max = 10, min = 1, interval = 1, value = 3),
+                materials = AttributePoint(type = Attribute.MATERIALS, max = 1000, min = 0, interval = 100, value = 100),
+                fuel = AttributePoint(type = Attribute.FUEL, max = 1000, min = 0, interval = 100, value = 100),
+                cryopods = AttributePoint(type = Attribute.CRYOPODS, max = 1000, min = 0, interval = 100, value = 100),
+                engines = persistentListOf(
+                    Engine(
+                        id = "Nuclear",
+                        description = "BadaBoom",
                         velocity = 10.0,
                         fuelConsumption = 1.0,
+                        cost = 10
+                    ),
+                    Engine(
+                        id = "Chemical",
+                        description = "BadaBing",
+                        velocity = 1.0,
+                        fuelConsumption = 10.0,
                         cost = 1
                     )
                 ),
+                selectedEngine = Engine(
+                    id = "Nuclear",
+                    description = "BadaBoom",
+                    velocity = 10.0,
+                    fuelConsumption = 1.0,
+                    cost = 1
+                )
             )
         )
     )
