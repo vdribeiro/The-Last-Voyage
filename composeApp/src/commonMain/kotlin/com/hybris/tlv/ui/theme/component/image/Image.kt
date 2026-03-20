@@ -12,8 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import coil3.compose.AsyncImage
 import com.hybris.tlv.core.platform.Platform
 import com.hybris.tlv.core.platform.platform
-import com.hybris.tlv.data.resource.ImageResource
 import com.hybris.tlv.core.telemetry.Telemetry
+import com.hybris.tlv.data.resource.ImageResource
 import com.hybris.tlv.ui.Preview
 import thelastvoyage.composeapp.generated.resources.Res
 
