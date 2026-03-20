@@ -640,42 +640,6 @@
     }
   },
   {
-    "id": "event__dust_grain_impact",
-    "description": "event__dust_grain_impact_desc",
-    "parentId": null,
-    "outcome": null
-  },
-  {
-    "id": "event__dust_grain_magnetic",
-    "description": "event__dust_grain_magnetic_outcome",
-    "parentId": "event__dust_grain_impact",
-    "outcome": {
-      "fuel": -20
-    }
-  },
-  {
-    "id": "event__dust_grain_shielding",
-    "description": "event__dust_grain_shielding_desc",
-    "parentId": "event__dust_grain_impact",
-    "outcome": null
-  },
-  {
-    "id": "event__dust_grain_shield_accept",
-    "description": "event__dust_grain_shield_accept_outcome",
-    "parentId": "event__dust_grain_shielding",
-    "outcome": {
-      "integrity": -20
-    }
-  },
-  {
-    "id": "event__dust_grain_shield_repair",
-    "description": "event__dust_grain_shield_repair_outcome",
-    "parentId": "event__dust_grain_shielding",
-    "outcome": {
-      "materials": -15
-    }
-  },
-  {
     "id": "event__hydrogen_boil_off",
     "description": "event__hydrogen_boil_off_description",
     "parentId": null,

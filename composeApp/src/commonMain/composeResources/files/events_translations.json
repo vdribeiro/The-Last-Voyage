@@ -842,7 +842,7 @@
   {
     "languageIso": "en",
     "key": "event__radiator_foul_scrape_description",
-    "value": "The drones successfully clear the dust. The process consumed spare parts and used RCS fuel to stabilize the ship while the drones were active."
+    "value": "The drones successfully clear the dust. The process consumed spare parts and used fuel to stabilize the ship while the drones were active."
   },
   {
     "languageIso": "en",
@@ -852,7 +852,7 @@
   {
     "languageIso": "en",
     "key": "event__radiator_foul_vent_description",
-    "value": "By venting heated coolant and replacing it with fresh reserves, you quickly drop the temperature. It is effective but costs a significant amount of fuel-mass."
+    "value": "By venting heated coolant and replacing it with fresh reserves, you quickly drop the temperature. It is effective but costs a significant amount of fuel."
   },
   {
     "languageIso": "en",
@@ -863,26 +863,6 @@
     "languageIso": "en",
     "key": "event__radiator_foul_ignore_description",
     "value": "The heat-sink saturated faster than predicted. A localized temperature spike in the cargo bay led to a failure in the cryopod life support."
-  },
-  {
-    "languageIso": "en",
-    "key": "event__dust_grain_impact_desc",
-    "value": "Long-range LIDAR detects a pocket of high-density silicates. At current velocity, impact is inevitable. How will you mitigate the kinetic energy?"
-  },
-  {
-    "languageIso": "en",
-    "key": "event__dust_grain_magnetic",
-    "value": "Project a magnetic deflection field."
-  },
-  {
-    "languageIso": "en",
-    "key": "event__dust_grain_shielding",
-    "value": "Rely on the physical Whipple Shields."
-  },
-  {
-    "languageIso": "en",
-    "key": "event__dust_grain_shielding_desc",
-    "value": "The shields are being hammered. Sensors show the primary layers are failing. Will you sacrifice the hull or use materials to reinforce them?"
   },
   {
     "languageIso": "en",
