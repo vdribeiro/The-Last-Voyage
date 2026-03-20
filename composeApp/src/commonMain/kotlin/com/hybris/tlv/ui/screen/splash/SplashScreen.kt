@@ -50,7 +50,6 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
         loadingProgress = storeState.progress,
         onBackClick = null,
         onHelpClick = null,
-        onMusicClick = null,
         onFeedbackClick = if (storeState.showFeedback) {
             { navController?.navigate(screen = Screen.Feedback(tag = null, message = null)) }
         } else null
