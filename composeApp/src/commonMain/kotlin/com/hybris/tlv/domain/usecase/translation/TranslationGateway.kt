@@ -22,18 +22,55 @@ internal class TranslationGateway(
     private val translationDao = database.translationQueries
 
     override suspend fun syncTranslations(): Boolean = withContext(context = Dispatcher.IO) {
+        val translations = mutableListOf<Translation>()
+        var syncResult = true
         when (val result = httpClient.get<Translation>(path = URL.Translations)) {
             is Result.Error -> {
                 Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
-                false
+                syncResult = false
             }
 
             is Result.Success -> {
-                rewriteTranslations(translations = result.list)
+                translations.addAll(elements = result.list)
                 Telemetry.info(tag = TAG, message = "Successful translations sync")
-                true
             }
         }
+        when (val result = httpClient.get<Translation>(path = URL.CatastrophesTranslations)) {
+            is Result.Error -> {
+                Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
+                syncResult = false
+            }
+
+            is Result.Success -> {
+                translations.addAll(elements = result.list)
+                Telemetry.info(tag = TAG, message = "Successful translations sync")
+            }
+        }
+        when (val result = httpClient.get<Translation>(path = URL.EnginesTranslations)) {
+            is Result.Error -> {
+                Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
+                syncResult = false
+            }
+
+            is Result.Success -> {
+                translations.addAll(elements = result.list)
+                Telemetry.info(tag = TAG, message = "Successful translations sync")
+            }
+        }
+        when (val result = httpClient.get<Translation>(path = URL.EventsTranslations)) {
+            is Result.Error -> {
+                Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
+                syncResult = false
+            }
+
+            is Result.Success -> {
+                translations.addAll(elements = result.list)
+                Telemetry.info(tag = TAG, message = "Successful translations sync")
+            }
+        }
+
+        rewriteTranslations(translations = translations)
+        return@withContext syncResult
     }
 
     override suspend fun prepopulateTranslations(): Boolean = withContext(context = Dispatcher.IO) {
