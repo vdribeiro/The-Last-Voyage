@@ -17,10 +17,10 @@ import com.hybris.tlv.data.database.NoOpSqlDriver
 import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.data.http.NoOpHttpEngine
 import com.hybris.tlv.data.http.createHttpEngine
-import com.hybris.tlv.data.resource.loadAllTranslationsFromJsonResource
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.domain.usecase.translation.TranslationGateway.Companion.loadAllTranslationsFromJsonResource
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.test.ExcludeFromTesting

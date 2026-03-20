@@ -9,7 +9,8 @@ import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
-import com.hybris.tlv.data.resource.loadAllTranslationsFromJsonResource
+import com.hybris.tlv.data.resource.JsonResource
+import com.hybris.tlv.data.serializer.loadFromJsonResource
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import database.AppDatabase
 
@@ -56,5 +57,12 @@ internal class TranslationGateway(
 
     companion object {
         private const val TAG = "Translation"
+
+        suspend fun loadAllTranslationsFromJsonResource(): List<Translation> =
+            loadFromJsonResource<Translation>(json = JsonResource.Translations) +
+                    loadFromJsonResource<Translation>(json = JsonResource.CatastrophesTranslations) +
+                    loadFromJsonResource<Translation>(json = JsonResource.EnginesTranslations) +
+                    loadFromJsonResource<Translation>(json = JsonResource.EventsTranslations) +
+                    loadFromJsonResource<Translation>(json = JsonResource.AchievementsTranslations)
     }
 }

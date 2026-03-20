@@ -4,7 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import com.hybris.tlv.data.resource.loadAllTranslationsFromJsonResource
+import com.hybris.tlv.domain.usecase.translation.TranslationGateway.Companion.loadAllTranslationsFromJsonResource
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
 
