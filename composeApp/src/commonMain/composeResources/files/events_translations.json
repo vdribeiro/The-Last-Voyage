@@ -866,8 +866,13 @@
   },
   {
     "languageIso": "en",
+    "key": "event__hydrogen_boil_off",
+    "value": "Fuel Boil Off."
+  },
+  {
+    "languageIso": "en",
     "key": "event__hydrogen_boil_off_description",
-    "value": "Liquid hydrogen fuel is slowly turning into gas due to minor insulation degradation. The pressure in the tanks is reaching critical levels."
+    "value": "Fuel is slowly turning into gas due to minor insulation degradation. The pressure in the tanks is reaching critical levels."
   },
   {
     "languageIso": "en",
@@ -888,6 +893,11 @@
     "languageIso": "en",
     "key": "event__hydrogen_boil_off_vent_description",
     "value": "The pressure dropped safely, but a significant portion of your propellant was lost to the void."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__kessler_syndrome",
+    "value": "Kessler Syndrome."
   },
   {
     "languageIso": "en",
@@ -916,8 +926,13 @@
   },
   {
     "languageIso": "en",
+    "key": "event__gcr_storm",
+    "value": "GCR Storm."
+  },
+  {
+    "languageIso": "en",
     "key": "event__gcr_storm_description",
-    "value": "A burst of Galactic Cosmic Rays—high-energy nuclei—is detected. Standard shields cannot block these particles."
+    "value": "A burst of Galactic Cosmic Rays is detected. Standard shields cannot block these particles."
   },
   {
     "languageIso": "en",
@@ -937,7 +952,12 @@
   {
     "languageIso": "en",
     "key": "event__gcr_storm_deep_freeze_description",
-    "value": "Metabolic protection was achieved, but the extreme thermal shock caused several older pods to fail."
+    "value": "Metabolic protection was achieved, but the extreme thermal shock caused some cryopods to fail."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__rogue_planet_gravity",
+    "value": "Rogue Planet Gravity."
   },
   {
     "languageIso": "en",
@@ -966,6 +986,11 @@
   },
   {
     "languageIso": "en",
+    "key": "event__vacuum_welding",
+    "value": "Vacuum Welding."
+  },
+  {
+    "languageIso": "en",
     "key": "event__vacuum_welding_description",
     "value": "In the vacuum of space, exposed metals on the exterior hull have begun to fuse together. The primary sensor array is seizing up."
   },
@@ -991,6 +1016,11 @@
   },
   {
     "languageIso": "en",
+    "key": "event__liquid_mirror_scour",
+    "value": "Liquid Mirror Scour."
+  },
+  {
+    "languageIso": "en",
     "key": "event__liquid_mirror_scour_description",
     "value": "Interstellar grit has scoured the reflective surfaces of your long-range telescopes, reducing your sensor range."
   },
@@ -1002,7 +1032,7 @@
   {
     "languageIso": "en",
     "key": "event__liquid_mirror_scour_recoat_description",
-    "value": "The optics are restored to peak efficiency, though a significant amount of specialized material was consumed."
+    "value": "The optics are restored to peak efficiency, though a significant amount of materials was consumed."
   },
   {
     "languageIso": "en",
@@ -1013,6 +1043,11 @@
     "languageIso": "en",
     "key": "event__liquid_mirror_scour_blind_description",
     "value": "You navigate safely, but the constant use of active radar has drained your fuel reserves."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__gyro_precession_drift",
+    "value": "Gyro Precession Drift."
   },
   {
     "languageIso": "en",
@@ -1041,8 +1076,13 @@
   },
   {
     "languageIso": "en",
+    "key": "event__supercritical_fluid_leak",
+    "value": "Supercritical Fluid Leak."
+  },
+  {
+    "languageIso": "en",
     "key": "event__supercritical_fluid_leak_description",
-    "value": "A leak in the supercritical $CO_2$ cooling loop is causing internal pressure to spike. If the loop fails, the engine will overheat."
+    "value": "A leak in the supercritical CO2 cooling loop is causing internal pressure to spike. If the loop fails, the engine will overheat."
   },
   {
     "languageIso": "en",
@@ -1063,6 +1103,11 @@
     "languageIso": "en",
     "key": "event__supercritical_fluid_leak_bypass_description",
     "value": "The engine remains cool, but the reroute is less efficient, causing increased fuel consumption and minor hull heating."
+  },
+  {
+    "languageIso": "en",
+    "key": "event__centrifugal_imbalance",
+    "value": "Centrifugal Imbalance."
   },
   {
     "languageIso": "en",
@@ -1091,6 +1136,11 @@
   },
   {
     "languageIso": "en",
+    "key": "event__oxidizer_leak",
+    "value": "Oxidizer Leak."
+  },
+  {
+    "languageIso": "en",
     "key": "event__oxidizer_leak_description",
     "value": "A chemical fire is detected in the material bay. The oxidizer is reacting with stored polymers. Fire cannot exist in a vacuum, but the chemicals are providing their own oxygen."
   },
@@ -1112,6 +1162,6 @@
   {
     "languageIso": "en",
     "key": "event__oxidizer_leak_smother_description",
-    "value": "The chemical reaction is neutralized, but the cleanup and lost resources have heavily depleted your material stores."
+    "value": "The chemical reaction is neutralized, but the cleanup has heavily depleted your material stores."
   }
 ]
