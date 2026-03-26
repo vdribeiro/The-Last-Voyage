@@ -3,7 +3,6 @@ package com.hybris.tlv.ui.screen.newgame
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
@@ -15,10 +14,9 @@ internal class NewGameStoreTest: TestCase() {
     fun init() = runUnitTest {
         dependency.get().useCases.ship.syncEngines()
         val store = storeFactory.get().getNewGameStore()
-        assertNull(actual = store.selectedShip)
         assertNull(actual = store.selectedFormula)
+        assertNull(actual = store.selectedShip)
         assertFalse(actual = store.state.loading)
-        assertNotNull(actual = store.state.shipState)
         assertEquals(expected = FakeData.engines.get().sortedBy { it.id }, actual = store.state.engines.sortedBy { it.id })
     }
 
@@ -36,11 +34,8 @@ internal class NewGameStoreTest: TestCase() {
         dependency.get().useCases.ship.syncEngines()
         val store = storeFactory.get().getNewGameStore()
         assertNull(actual = store.selectedShip)
-        store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
+        store.send(action = NewGameAction.SelectShip)
         assertEquals(expected = FakeData.shipPrototype, actual = store.selectedShip)
-        val engine = FakeData.engines.get().random()
-        store.send(action = NewGameAction.SelectEngine(engine = engine))
-        assertEquals(expected = engine, actual = store.state.shipState?.engine)
     }
 
     @Test
@@ -49,7 +44,7 @@ internal class NewGameStoreTest: TestCase() {
         val store = storeFactory.get().getNewGameStore()
         assertNavigation(list = emptyList())
         store.send(action = NewGameAction.SelectEngine(engine = FakeData.engines.get().random()))
-        store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
+        store.send(action = NewGameAction.SelectShip)
         assertNavigation(list = listOf(Screen.Catastrophe))
     }
 
@@ -58,7 +53,7 @@ internal class NewGameStoreTest: TestCase() {
         assertNavigation(list = emptyList())
         val store = storeFactory.get().getNewGameStore()
         store.send(action = NewGameAction.SelectEngine(engine = FakeData.engines.get().random()))
-        store.send(action = NewGameAction.SelectShip(ship = FakeData.shipPrototype))
+        store.send(action = NewGameAction.SelectShip)
         assertNavigation(list = listOf(Screen.Feedback(tag = null, message = null)))
     }
 

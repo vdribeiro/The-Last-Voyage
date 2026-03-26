@@ -41,14 +41,26 @@ internal object FakeData {
     val catastrophes: LazyData<List<Catastrophe>> = LazyData {
         loadFromJsonResource<Catastrophe>(json = JsonResource.Catastrophes)
     }
+    val catastrophesTranslations: LazyData<List<Translation>> = LazyData {
+        loadFromJsonResource<Translation>(json = JsonResource.CatastrophesTranslations)
+    }
     val engines: LazyData<List<Engine>> = LazyData {
         loadFromJsonResource<Engine>(json = JsonResource.Engines)
+    }
+    val enginesTranslations: LazyData<List<Translation>> = LazyData {
+        loadFromJsonResource<Translation>(json = JsonResource.EnginesTranslations)
     }
     val events: LazyData<List<Event>> = LazyData {
         loadFromJsonResource<Event>(json = JsonResource.Events)
     }
+    val eventsTranslations: LazyData<List<Translation>> = LazyData {
+        loadFromJsonResource<Translation>(json = JsonResource.EventsTranslations)
+    }
     val achievements: LazyData<List<Achievement>> = LazyData {
         loadFromJsonResource<Achievement>(json = JsonResource.Achievements)
+    }
+    val achievementsTranslations: LazyData<List<Translation>> = LazyData {
+        loadFromJsonResource<Translation>(json = JsonResource.AchievementsTranslations)
     }
     val credits: LazyData<List<Credit>> = LazyData {
         loadFromJsonResource<Credit>(json = JsonResource.Credits)
@@ -65,10 +77,10 @@ internal object FakeData {
     val shipPrototype: ShipPrototype by lazy {
         ShipPrototype(
             assignedPoints = 10,
-            sensorRange = 5,
-            fuel = 100,
-            materials = 90,
-            cryopods = 150,
+            sensorRange = 4,
+            fuel = 1000,
+            materials = 500,
+            cryopods = 500,
         )
     }
     val ship: LazyData<Ship> = LazyData {
@@ -77,11 +89,11 @@ internal object FakeData {
             engine = engines.get().random(),
             assignedPoints = 10,
             yearsTraveled = 100.0,
-            sensorRange = 5,
+            sensorRange = 4,
             integrity = 80,
-            fuel = 100,
-            materials = 90,
-            cryopods = 150,
+            fuel = 1000,
+            materials = 500,
+            cryopods = 500,
         )
     }
     val gameSessionPrototype: LazyData<GameSessionPrototype> = LazyData {
