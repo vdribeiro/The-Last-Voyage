@@ -42,8 +42,6 @@ internal class NewGameStore(
         }
         val selectedEngine = engines.find { it.cost == 5 } ?: engines.first()
 
-
-
         updateState {
             it.copy(
                 loading = false,
