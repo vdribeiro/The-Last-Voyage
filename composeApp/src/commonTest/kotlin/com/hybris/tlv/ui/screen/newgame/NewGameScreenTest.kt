@@ -23,10 +23,10 @@ internal class NewGameScreenTest: TestCase() {
 
         onNodeWithText(text = "new_game_screen__start").assertDoesNotExist()
 
-        onNodeWithText(text = "ship_sensor").assertDoesNotExist()
-        onNodeWithText(text = "ship_fuel").assertDoesNotExist()
-        onNodeWithText(text = "ship_materials").assertDoesNotExist()
-        onNodeWithText(text = "ship_cryopods").assertDoesNotExist()
+        onNodeWithText(text = "ship_sensor").assertIsDisplayed()
+        onNodeWithText(text = "ship_fuel").assertIsDisplayed()
+        onNodeWithText(text = "ship_materials").assertIsDisplayed()
+        onNodeWithText(text = "ship_cryopods").assertIsDisplayed()
         onNodeWithText(text = "new_game_screen__engine_select").assertDoesNotExist()
     }
 

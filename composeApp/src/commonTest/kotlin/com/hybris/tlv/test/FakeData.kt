@@ -76,7 +76,7 @@ internal object FakeData {
     }
     val shipPrototype: ShipPrototype by lazy {
         ShipPrototype(
-            assignedPoints = 10,
+            assignedPoints = 25,
             sensorRange = 4,
             fuel = 1000,
             materials = 500,
@@ -87,7 +87,7 @@ internal object FakeData {
         Ship(
             id = "1",
             engine = engines.get().random(),
-            assignedPoints = 10,
+            assignedPoints = 25,
             yearsTraveled = 100.0,
             sensorRange = 4,
             integrity = 80,

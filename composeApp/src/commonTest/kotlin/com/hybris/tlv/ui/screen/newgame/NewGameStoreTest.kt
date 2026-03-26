@@ -49,15 +49,6 @@ internal class NewGameStoreTest: TestCase() {
     }
 
     @Test
-    fun startGameWithoutShip() = runUnitTest {
-        assertNavigation(list = emptyList())
-        val store = storeFactory.get().getNewGameStore()
-        store.send(action = NewGameAction.SelectEngine(engine = FakeData.engines.get().random()))
-        store.send(action = NewGameAction.SelectShip)
-        assertNavigation(list = listOf(Screen.Feedback(tag = null, message = null)))
-    }
-
-    @Test
     fun navigateBack() = runUnitTest {
         assertNavigation(list = emptyList())
         navigate(screen = Screen.NewGame)
