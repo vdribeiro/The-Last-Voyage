@@ -5,6 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 
+/**
+ * The main app theme.
+ */
 @Composable
 internal fun AppTheme(content: @Composable () -> Unit) {
     val typography = getTypography()

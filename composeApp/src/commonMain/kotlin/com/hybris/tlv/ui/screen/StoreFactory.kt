@@ -21,6 +21,9 @@ import com.hybris.tlv.ui.screen.splash.SplashStore
 import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
 import com.hybris.tlv.ui.screen.tutorial.TutorialStore
 
+/**
+ * Factory for creating [Store] instances.
+ */
 internal class StoreFactory(
     private val config: ConfigManager,
     private val useCases: UseCases
