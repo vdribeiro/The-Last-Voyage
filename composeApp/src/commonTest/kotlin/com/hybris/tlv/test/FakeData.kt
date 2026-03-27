@@ -2,7 +2,7 @@ package com.hybris.tlv.test
 
 import com.hybris.tlv.data.config.Configs
 import com.hybris.tlv.data.resource.JsonResource
-import com.hybris.tlv.data.serializer.loadFromJsonResource
+import com.hybris.tlv.data.storage.loadFromJsonResource
 import com.hybris.tlv.domain.usecase.achievement.model.Achievement
 import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.domain.usecase.credit.model.Credit

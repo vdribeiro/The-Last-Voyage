@@ -1,12 +1,16 @@
 package com.hybris.tlv.ui.theme
 
+import org.jetbrains.compose.resources.Font
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.sp
+import thelastvoyage.composeapp.generated.resources.Inter_18pt_Regular
+import thelastvoyage.composeapp.generated.resources.Res
 
 private val bodyLarge = TextStyle(
     lineHeightStyle = LineHeightStyle(
@@ -193,3 +197,26 @@ private val typography = Typography(
 )
 
 internal val LocalTypography = staticCompositionLocalOf { typography }
+
+@Composable
+internal fun getTypography(): Typography {
+    val inter = FontFamily(Font(resource = Res.font.Inter_18pt_Regular))
+    return Typography(
+        displayLarge = displayLarge.copy(fontFamily = inter),
+        displayMedium = displayMedium.copy(fontFamily = inter),
+        displaySmall = displaySmall.copy(fontFamily = inter),
+        headlineLarge = headlineLarge.copy(fontFamily = inter),
+        headlineMedium = headlineMedium.copy(fontFamily = inter),
+        headlineSmall = headlineSmall.copy(fontFamily = inter),
+        titleLarge = titleLarge.copy(fontFamily = inter),
+        titleMedium = titleMedium.copy(fontFamily = inter),
+        titleSmall = titleSmall.copy(fontFamily = inter),
+        bodyLarge = bodyLarge.copy(fontFamily = inter),
+        bodyMedium = bodyMedium.copy(fontFamily = inter),
+        bodySmall = bodySmall.copy(fontFamily = inter),
+        labelLarge = labelLarge.copy(fontFamily = inter),
+        labelMedium = labelMedium.copy(fontFamily = inter),
+        labelSmall = labelSmall.copy(fontFamily = inter),
+    )
+}
+

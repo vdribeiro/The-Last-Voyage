@@ -9,7 +9,7 @@ import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.resource.JsonResource
-import com.hybris.tlv.data.serializer.loadFromJsonResource
+import com.hybris.tlv.data.storage.loadFromJsonResource
 import com.hybris.tlv.domain.usecase.credit.model.Credit
 import database.AppDatabase
 

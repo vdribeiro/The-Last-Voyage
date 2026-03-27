@@ -10,9 +10,9 @@ import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.resource.JsonResource
-import com.hybris.tlv.data.serializer.JsonFile
-import com.hybris.tlv.data.serializer.loadFromJsonResource
-import com.hybris.tlv.data.serializer.saveJsonFile
+import com.hybris.tlv.data.storage.FilePath
+import com.hybris.tlv.data.storage.loadFromJsonResource
+import com.hybris.tlv.data.storage.saveJsonFile
 import com.hybris.tlv.domain.usecase.space.formula.DerivedData
 import com.hybris.tlv.domain.usecase.space.model.ExoplanetJson
 import com.hybris.tlv.domain.usecase.space.model.JsonConstants.PLANET_DENSITY
@@ -85,8 +85,8 @@ internal class ArchiveGateway(
                 val planetsJson = derivedPlanets.map { it.copy() }
 
                 // Save to file
-                val hostsFile = saveJsonFile(json = JsonFile.ArchiveStellarHosts, content = stellarHostsJson)
-                val planetsFile = saveJsonFile(json = JsonFile.ArchivePlanets, content = planetsJson)
+                val hostsFile = saveJsonFile(json = FilePath.ArchiveStellarHosts, content = stellarHostsJson)
+                val planetsFile = saveJsonFile(json = FilePath.ArchivePlanets, content = planetsJson)
                 Telemetry.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
                 hostsFile && planetsFile
             }
