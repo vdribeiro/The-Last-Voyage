@@ -8,7 +8,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.sp
-import com.hybris.tlv.data.resource.FontResource
 
 private val bodyLarge = TextStyle(
     lineHeightStyle = LineHeightStyle(
@@ -198,7 +197,9 @@ internal val LocalTypography = staticCompositionLocalOf { typography }
 
 @Composable
 internal fun getTypography(): Typography {
-    val inter = FontResource.Inter.family
+    // TODO - typography
+//    val inter = FontResource.Inter.family
+    val inter = FontFamily.SansSerif
     return Typography(
         displayLarge = displayLarge.copy(fontFamily = inter),
         displayMedium = displayMedium.copy(fontFamily = inter),
@@ -217,4 +218,3 @@ internal fun getTypography(): Typography {
         labelSmall = labelSmall.copy(fontFamily = inter),
     )
 }
-
