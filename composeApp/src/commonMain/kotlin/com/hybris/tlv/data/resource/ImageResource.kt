@@ -61,7 +61,7 @@ import thelastvoyage.composeapp.generated.resources.unknown
 import thelastvoyage.composeapp.generated.resources.water_clouds_gas_giant
 
 /**
- * Resource class for images.
+ * Resource index for images in [commonMain/composeResources/drawable].
  */
 @Stable
 internal sealed class ImageResource(

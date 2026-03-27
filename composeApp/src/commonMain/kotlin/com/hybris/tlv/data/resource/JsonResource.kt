@@ -1,5 +1,8 @@
 package com.hybris.tlv.data.resource
 
+/**
+ * Resource index for JSONs in [commonMain/composeResources/files].
+ */
 internal sealed class JsonResource(val path: String) {
     data object Translations: JsonResource(path = "files/translations.json")
     data object Catastrophes: JsonResource(path = "files/catastrophes.json")
