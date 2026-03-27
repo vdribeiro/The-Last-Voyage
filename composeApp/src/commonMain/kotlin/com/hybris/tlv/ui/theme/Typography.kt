@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.theme
 
-import org.jetbrains.compose.resources.Font
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -9,8 +8,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.sp
-import thelastvoyage.composeapp.generated.resources.Inter_18pt_Regular
-import thelastvoyage.composeapp.generated.resources.Res
+import com.hybris.tlv.data.resource.FontResource
 
 private val bodyLarge = TextStyle(
     lineHeightStyle = LineHeightStyle(
@@ -200,7 +198,7 @@ internal val LocalTypography = staticCompositionLocalOf { typography }
 
 @Composable
 internal fun getTypography(): Typography {
-    val inter = FontFamily(Font(resource = Res.font.Inter_18pt_Regular))
+    val inter = FontResource.Inter.family
     return Typography(
         displayLarge = displayLarge.copy(fontFamily = inter),
         displayMedium = displayMedium.copy(fontFamily = inter),
