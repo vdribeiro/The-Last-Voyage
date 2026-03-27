@@ -2,7 +2,7 @@ package com.hybris.tlv.test
 
 import com.hybris.tlv.data.config.Configs
 import com.hybris.tlv.data.resource.JsonResource
-import com.hybris.tlv.data.storage.loadFromJsonResource
+import com.hybris.tlv.data.resource.loadResource
 import com.hybris.tlv.domain.usecase.achievement.model.Achievement
 import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.domain.usecase.credit.model.Credit
@@ -39,37 +39,37 @@ internal object FakeData {
         loadAllTranslationsFromJsonResource()
     }
     val catastrophes: LazyData<List<Catastrophe>> = LazyData {
-        loadFromJsonResource<Catastrophe>(json = JsonResource.Catastrophes)
+        loadResource<Catastrophe>(json = JsonResource.Catastrophes)
     }
     val catastrophesTranslations: LazyData<List<Translation>> = LazyData {
-        loadFromJsonResource<Translation>(json = JsonResource.CatastrophesTranslations)
+        loadResource<Translation>(json = JsonResource.CatastrophesTranslations)
     }
     val engines: LazyData<List<Engine>> = LazyData {
-        loadFromJsonResource<Engine>(json = JsonResource.Engines)
+        loadResource<Engine>(json = JsonResource.Engines)
     }
     val enginesTranslations: LazyData<List<Translation>> = LazyData {
-        loadFromJsonResource<Translation>(json = JsonResource.EnginesTranslations)
+        loadResource<Translation>(json = JsonResource.EnginesTranslations)
     }
     val events: LazyData<List<Event>> = LazyData {
-        loadFromJsonResource<Event>(json = JsonResource.Events)
+        loadResource<Event>(json = JsonResource.Events)
     }
     val eventsTranslations: LazyData<List<Translation>> = LazyData {
-        loadFromJsonResource<Translation>(json = JsonResource.EventsTranslations)
+        loadResource<Translation>(json = JsonResource.EventsTranslations)
     }
     val achievements: LazyData<List<Achievement>> = LazyData {
-        loadFromJsonResource<Achievement>(json = JsonResource.Achievements)
+        loadResource<Achievement>(json = JsonResource.Achievements)
     }
     val achievementsTranslations: LazyData<List<Translation>> = LazyData {
-        loadFromJsonResource<Translation>(json = JsonResource.AchievementsTranslations)
+        loadResource<Translation>(json = JsonResource.AchievementsTranslations)
     }
     val credits: LazyData<List<Credit>> = LazyData {
-        loadFromJsonResource<Credit>(json = JsonResource.Credits)
+        loadResource<Credit>(json = JsonResource.Credits)
     }
     val stellarHosts: LazyData<List<StellarHost>> = LazyData {
-        loadFromJsonResource<StellarHost>(json = JsonResource.StellarHosts)
+        loadResource<StellarHost>(json = JsonResource.StellarHosts)
     }
     val planets: LazyData<List<Planet>> = LazyData {
-        loadFromJsonResource<Planet>(json = JsonResource.Planets)
+        loadResource<Planet>(json = JsonResource.Planets)
     }
     val stellarHostsWithPlanets: LazyData<List<StellarHost>> = LazyData {
         stellarHosts.get().addPlanets(planets = planets.get())

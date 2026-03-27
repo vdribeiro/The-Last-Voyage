@@ -10,7 +10,7 @@ import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.resource.JsonResource
-import com.hybris.tlv.data.storage.loadFromJsonResource
+import com.hybris.tlv.data.resource.loadResource
 import com.hybris.tlv.domain.usecase.ship.model.Engine
 import com.hybris.tlv.domain.usecase.ship.model.Ship
 import database.AppDatabase
@@ -40,7 +40,7 @@ internal class ShipGateway(
     override suspend fun prepopulateEngines(): Boolean = withContext(context = Dispatcher.IO) {
         if (engineDao.isEngineEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating engines")
-            val engines: List<Engine> = loadFromJsonResource(json = JsonResource.Engines)
+            val engines: List<Engine> = loadResource(json = JsonResource.Engines)
             rewriteEngines(engines = engines)
             true
         } else false

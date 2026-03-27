@@ -10,8 +10,8 @@ import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.resource.JsonResource
+import com.hybris.tlv.data.resource.loadResource
 import com.hybris.tlv.data.storage.FilePath
-import com.hybris.tlv.data.storage.loadFromJsonResource
 import com.hybris.tlv.data.storage.saveJsonFile
 import com.hybris.tlv.domain.usecase.space.formula.DerivedData
 import com.hybris.tlv.domain.usecase.space.model.ExoplanetJson
@@ -67,11 +67,11 @@ internal class ArchiveGateway(
                 val k2PlanetsResult = k2PlanetsJob.await()
 
                 // Data enrichment
-                val stellarHosts = (loadFromJsonResource<StellarHost>(json = JsonResource.SolarHosts) +
+                val stellarHosts = (loadResource<StellarHost>(json = JsonResource.SolarHosts) +
                         stellarHostsResult.stellarHosts +
                         planetarySystemsCompositeResult.stellarHosts +
                         k2PlanetsResult.stellarHosts).mergeStellarHosts()
-                val planets = (loadFromJsonResource<Planet>(json = JsonResource.SolarPlanets) +
+                val planets = (loadResource<Planet>(json = JsonResource.SolarPlanets) +
                         stellarHostsResult.planets +
                         planetarySystemsCompositeResult.planets +
                         k2PlanetsResult.planets).mergePlanets()
@@ -85,8 +85,8 @@ internal class ArchiveGateway(
                 val planetsJson = derivedPlanets.map { it.copy() }
 
                 // Save to file
-                val hostsFile = saveJsonFile(json = FilePath.ArchiveStellarHosts, content = stellarHostsJson)
-                val planetsFile = saveJsonFile(json = FilePath.ArchivePlanets, content = planetsJson)
+                val hostsFile = saveJsonFile(path = FilePath.ArchiveStellarHosts, content = stellarHostsJson)
+                val planetsFile = saveJsonFile(path = FilePath.ArchivePlanets, content = planetsJson)
                 Telemetry.info(tag = TAG, message = "Hosts file saved: $hostsFile\nPlanets file saved: $planetsFile")
                 hostsFile && planetsFile
             }

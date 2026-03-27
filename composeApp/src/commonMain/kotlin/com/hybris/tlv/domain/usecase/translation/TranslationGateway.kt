@@ -11,7 +11,7 @@ import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.resource.JsonResource
-import com.hybris.tlv.data.storage.loadFromJsonResource
+import com.hybris.tlv.data.resource.loadResource
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import database.AppDatabase
 
@@ -74,10 +74,10 @@ internal class TranslationGateway(
         private const val TAG = "Translation"
 
         suspend fun loadAllTranslationsFromJsonResource(): List<Translation> =
-            loadFromJsonResource<Translation>(json = JsonResource.Translations) +
-                    loadFromJsonResource<Translation>(json = JsonResource.CatastrophesTranslations) +
-                    loadFromJsonResource<Translation>(json = JsonResource.EnginesTranslations) +
-                    loadFromJsonResource<Translation>(json = JsonResource.EventsTranslations) +
-                    loadFromJsonResource<Translation>(json = JsonResource.AchievementsTranslations)
+            loadResource<Translation>(json = JsonResource.Translations) +
+                    loadResource<Translation>(json = JsonResource.CatastrophesTranslations) +
+                    loadResource<Translation>(json = JsonResource.EnginesTranslations) +
+                    loadResource<Translation>(json = JsonResource.EventsTranslations) +
+                    loadResource<Translation>(json = JsonResource.AchievementsTranslations)
     }
 }

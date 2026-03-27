@@ -15,17 +15,17 @@ internal class ArchiveUseCasesTest: TestCase() {
 
     @Test
     fun getArchive() = runUnitTest {
-        deleteJsonFile(json = FilePath.ArchiveStellarHosts)
-        deleteJsonFile(json = FilePath.ArchivePlanets)
+        deleteJsonFile(path = FilePath.ArchiveStellarHosts)
+        deleteJsonFile(path = FilePath.ArchivePlanets)
 
-        assertNull(actual = loadJsonFile(json = FilePath.ArchiveStellarHosts))
-        assertNull(actual = loadJsonFile(json = FilePath.ArchivePlanets))
+        assertNull(actual = loadJsonFile(path = FilePath.ArchiveStellarHosts))
+        assertNull(actual = loadJsonFile(path = FilePath.ArchivePlanets))
 
         assertTrue(actual = dependency.get().useCases.archive.getArchive())
-        assertNotNull(actual = loadJsonFile<List<StellarHost>>(json = FilePath.ArchiveStellarHosts))
-        assertNotNull(actual = loadJsonFile<List<Planet>>(json = FilePath.ArchivePlanets))
+        assertNotNull(actual = loadJsonFile<List<StellarHost>>(path = FilePath.ArchiveStellarHosts))
+        assertNotNull(actual = loadJsonFile<List<Planet>>(path = FilePath.ArchivePlanets))
 
-        deleteJsonFile(json = FilePath.ArchiveStellarHosts)
-        deleteJsonFile(json = FilePath.ArchivePlanets)
+        deleteJsonFile(path = FilePath.ArchiveStellarHosts)
+        deleteJsonFile(path = FilePath.ArchivePlanets)
     }
 }

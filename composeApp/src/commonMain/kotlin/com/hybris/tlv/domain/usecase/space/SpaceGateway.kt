@@ -16,7 +16,7 @@ import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.resource.JsonResource
-import com.hybris.tlv.data.storage.loadFromJsonResource
+import com.hybris.tlv.data.resource.loadResource
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.space.model.TravelOutcome
@@ -48,7 +48,7 @@ internal class SpaceGateway(
     override suspend fun prepopulateStellarHosts(): Boolean = withContext(context = Dispatcher.IO) {
         if (stellarHostDao.isStellarHostEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating stellar hosts")
-            val stellarHosts: List<StellarHost> = loadFromJsonResource(json = JsonResource.StellarHosts)
+            val stellarHosts: List<StellarHost> = loadResource(json = JsonResource.StellarHosts)
             rewriteStellarHosts(stellarHosts = stellarHosts)
             true
         } else false
@@ -78,7 +78,7 @@ internal class SpaceGateway(
     override suspend fun prepopulatePlanets(): Boolean = withContext(context = Dispatcher.IO) {
         if (planetDao.isPlanetEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating planets")
-            val planets: List<Planet> = loadFromJsonResource(json = JsonResource.Planets)
+            val planets: List<Planet> = loadResource(json = JsonResource.Planets)
             rewritePlanets(planets = planets)
             true
         } else false

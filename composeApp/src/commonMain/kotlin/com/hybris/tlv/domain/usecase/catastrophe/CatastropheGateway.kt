@@ -10,7 +10,7 @@ import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.resource.JsonResource
-import com.hybris.tlv.data.storage.loadFromJsonResource
+import com.hybris.tlv.data.resource.loadResource
 import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
 import database.AppDatabase
 
@@ -39,7 +39,7 @@ internal class CatastropheGateway(
     override suspend fun prepopulateCatastrophes(): Boolean = withContext(context = Dispatcher.IO) {
         if (catastropheDao.isCatastropheEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating catastrophes")
-            val catastrophes: List<Catastrophe> = loadFromJsonResource(json = JsonResource.Catastrophes)
+            val catastrophes: List<Catastrophe> = loadResource(json = JsonResource.Catastrophes)
             rewriteCatastrophes(catastrophes = catastrophes)
             true
         } else false
