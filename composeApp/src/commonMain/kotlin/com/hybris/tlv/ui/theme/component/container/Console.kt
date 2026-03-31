@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.domain.usecase.translation.model.Translation
@@ -43,6 +44,7 @@ internal fun Console(
         SelectionContainer {
             Text(
                 modifier = Modifier
+                    .testTag("console_logs")
                     .fillMaxWidth()
                     .verticalScroll(state = scrollState),
                 text = logs,
