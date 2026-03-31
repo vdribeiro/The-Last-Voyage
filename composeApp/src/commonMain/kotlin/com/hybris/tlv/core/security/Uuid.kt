@@ -12,10 +12,7 @@ import com.hybris.tlv.core.telemetry.Telemetry
  * Get a universally unique identifier (UUID) using the best available algorithm to prevent collisions.
  */
 internal fun uuid(): String =
-    uuidV7() ?:
-    uuidV4() ?:
-    unsecureUuid() ?:
-    Uuid.NIL.toString()
+    uuidV7() ?: uuidV4() ?: unsecureUuid()
 
 /**
  * Generate UUID v7: A 48-bit timestamp followed by 74 bits of randomness.
@@ -41,7 +38,7 @@ internal fun uuidV4(): String? = runCatching {
  * Generate unsecure UUID: simulates v7 with the system clock and the pseudorandom number generator.
  * Returns null if it fails.
  */
-internal fun unsecureUuid(): String? = runCatching {
+internal fun unsecureUuid(): String {
     // 48 bits timestamp based on system clock
     val timestamp = Clock.System.now().toEpochMilliseconds() shl 16
     // 4 bits to add v7 identifier
@@ -57,8 +54,6 @@ internal fun unsecureUuid(): String? = runCatching {
         mostSignificantBits = timestamp or version7 or randomMsb,
         leastSignificantBits = variant10 or randomLsb
     ).toHexDashString()
-}.onFailure {
-    Telemetry.error(tag = TAG, message = "Unable to generate unsecure UUID", throwable = it)
-}.getOrNull()
+}
 
 private const val TAG = "UUID"
