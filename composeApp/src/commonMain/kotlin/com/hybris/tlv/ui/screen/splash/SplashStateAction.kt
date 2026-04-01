@@ -7,7 +7,8 @@ internal sealed interface SplashAction {
 internal data class SplashState(
     val loading: Boolean = true,
     val progress: Float = 0f,
-    val currentContent: Content = Content.SPLASH
+    val currentContent: Content = Content.SPLASH,
+    val showFeedback: Boolean = false
 )
 
 internal enum class Content {

@@ -1,5 +1,9 @@
 package com.hybris.tlv.domain.flag
 
+import com.hybris.tlv.core.audio.AudioPlayer
+import com.hybris.tlv.core.telemetry.Console
+import com.hybris.tlv.data.http.HttpClientFactory
+
 /**
  * Defines the application control flags.
  */
@@ -10,12 +14,16 @@ internal data class Flags(
      */
     val devMode: Boolean,
     /**
+     * Flag to enable or disable [Console] logging.
+     */
+    val console: Boolean,
+    /**
      * Flag to enable or disable a full data reset before syncing data.
      * This should be set to false for production builds.
      */
     val reset: Boolean,
     /**
-     * Flag to enable or disable HTTP client. When false, network calls will fail.
+     * Flag to enable or disable HTTP client created by the [HttpClientFactory]. When false, network calls will fail.
      * This should be set to true for production builds.
      */
     val http: Boolean,
@@ -25,7 +33,7 @@ internal data class Flags(
      */
     val archive: Boolean,
     /**
-     * Flag to enable or disable the audio player in the application.
+     * Flag to enable or disable the [AudioPlayer] in the application.
      * This should be set to true for production builds.
      */
     val music: Boolean,

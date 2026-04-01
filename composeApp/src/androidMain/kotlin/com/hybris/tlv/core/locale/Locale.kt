@@ -19,14 +19,18 @@ import com.hybris.tlv.core.telemetry.Telemetry
 
 internal actual fun getLanguage(): String = runCatching {
     applicationContext.resources.configuration.locales[0].toLanguageTag()
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it) }.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it)
+}.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
 
 internal actual fun getLocalDateTime(utc: String): String = runCatching {
     DateTimeFormatter
         .ofLocalizedDateTime(FormatStyle.SHORT)
         .withZone(TimeZone.currentSystemDefault().toJavaZoneId())
         .format(Instant.parse(input = utc).toJavaInstant())
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it) }.getOrDefault(defaultValue = utc)
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it)
+}.getOrDefault(defaultValue = utc)
 
 internal actual fun observeLocale(): Flow<String> = callbackFlow {
     runCatching {

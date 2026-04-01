@@ -34,7 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.core.platform.Platform
 import com.hybris.tlv.core.platform.open
 import com.hybris.tlv.core.platform.platform
-import com.hybris.tlv.core.resource.ImageResource
+import com.hybris.tlv.data.resource.ImageResource
 import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
@@ -159,6 +159,7 @@ internal fun HelpScreen(store: Store<HelpState, HelpAction>) {
                 title = getTranslation(key = "main_menu_screen__host_definition"),
                 properties = hostProperty,
                 id = Property::id,
+                name = { getTranslation(key = it.id) },
                 description = { getTranslation(key = it.description) }
             )
 

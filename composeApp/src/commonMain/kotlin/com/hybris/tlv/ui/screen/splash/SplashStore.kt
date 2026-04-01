@@ -18,15 +18,29 @@ internal class SplashStore(
 ) {
     @VisibleForTesting
     internal var setupJob: Job? = null
+    @VisibleForTesting
+    internal var watchDogJob: Job? = null
 
     init {
+        watchDogJob = launch(id = "watchDog") {
+            delay(timeMillis = 5000)
+            updateState { it.copy(showFeedback = true) }
+        }
         setupJob = setup()
     }
 
     private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 
-        val result = syncUseCases.sync(reset = reset) { progress -> updateState { it.copy(progress = progress) } }
+        val result = syncUseCases.sync(reset = reset) { progress ->
+            watchDogJob?.cancel()
+            updateState {
+                it.copy(
+                    progress = progress,
+                    showFeedback = false
+                )
+            }
+        }
         Telemetry.info(tag = TAG, message = "Sync result: $result")
         delay(timeMillis = 1000L) // prevent UI flickering for fast syncs and also allow user to see the sweet 100% for a short time
 

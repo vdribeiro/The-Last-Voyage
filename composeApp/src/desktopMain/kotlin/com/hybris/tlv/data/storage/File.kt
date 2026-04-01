@@ -24,7 +24,9 @@ internal actual val appDataPath: String by lazy {
             .takeIf { it.exists() }
             ?.absolutePath
             ?: throw IllegalStateException("App data directory does not exist")
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get app data path", throwable = it) }.getOrDefault(defaultValue = "")
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to get app data path", throwable = it)
+    }.getOrDefault(defaultValue = "")
 }
 
 internal actual suspend fun saveFile(path: String, content: String): Boolean = withContext(context = Dispatcher.IO) {
@@ -32,21 +34,27 @@ internal actual suspend fun saveFile(path: String, content: String): Boolean = w
         val file = File(appDataPath, path)
         file.writeText(text = content)
         true
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to save file $path", throwable = it) }.getOrDefault(defaultValue = false)
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to save file $path", throwable = it)
+    }.getOrDefault(defaultValue = false)
 }
 
 internal actual suspend fun loadFile(path: String): String? = withContext(context = Dispatcher.IO) {
     runCatching {
         val file = File(appDataPath, path)
         if (file.exists() && file.isFile) file.readText() else null
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to load file $path", throwable = it) }.getOrNull()
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to load file $path", throwable = it)
+    }.getOrNull()
 }
 
 internal actual suspend fun deleteFile(path: String): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {
         val file = File(appDataPath, path)
         if (file.exists()) file.delete() else true
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to delete file $path", throwable = it) }.getOrDefault(defaultValue = false)
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to delete file $path", throwable = it)
+    }.getOrDefault(defaultValue = false)
 }
 
 private const val TAG = "File"

@@ -26,18 +26,18 @@ internal object NoOpSqlDriver: SqlDriver {
     override fun removeListener(vararg queryKeys: String, listener: Query.Listener) {}
     override fun notifyListeners(vararg queryKeys: String) {}
     override fun close() {}
-}
 
-private object NoOpCursor: SqlCursor {
-    override fun next(): QueryResult<Boolean> = QueryResult.Value(value = false)
-    override fun getString(index: Int): String? = null
-    override fun getLong(index: Int): Long? = null
-    override fun getBytes(index: Int): ByteArray? = null
-    override fun getDouble(index: Int): Double? = null
-    override fun getBoolean(index: Int): Boolean? = null
-}
+    private object NoOpCursor: SqlCursor {
+        override fun next(): QueryResult<Boolean> = QueryResult.Value(value = false)
+        override fun getString(index: Int): String? = null
+        override fun getLong(index: Int): Long? = null
+        override fun getBytes(index: Int): ByteArray? = null
+        override fun getDouble(index: Int): Double? = null
+        override fun getBoolean(index: Int): Boolean? = null
+    }
 
-private object NoOpTransaction: Transacter.Transaction() {
-    override val enclosingTransaction: Transacter.Transaction? = null
-    override fun endTransaction(successful: Boolean): QueryResult<Unit> = QueryResult.Value(value = Unit)
+    private object NoOpTransaction: Transacter.Transaction() {
+        override val enclosingTransaction: Transacter.Transaction? = null
+        override fun endTransaction(successful: Boolean): QueryResult<Unit> = QueryResult.Value(value = Unit)
+    }
 }

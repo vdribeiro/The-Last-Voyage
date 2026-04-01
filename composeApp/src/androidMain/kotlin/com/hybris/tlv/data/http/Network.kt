@@ -11,6 +11,8 @@ internal actual fun isInternetAvailable(): Boolean = runCatching {
     val activeNetwork = connectivityManager.activeNetwork ?: return false
     val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
     capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to check internet connection", throwable = it) }.getOrDefault(defaultValue = false)
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to check internet connection", throwable = it)
+}.getOrDefault(defaultValue = false)
 
 private const val TAG = "Network"

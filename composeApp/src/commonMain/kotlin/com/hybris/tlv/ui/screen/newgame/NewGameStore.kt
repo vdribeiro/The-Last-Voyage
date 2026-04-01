@@ -9,14 +9,6 @@ import com.hybris.tlv.domain.flag.FeatureFlags.flags
 import com.hybris.tlv.domain.usecase.gamesession.GameSessionUseCases
 import com.hybris.tlv.domain.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.domain.usecase.ship.ShipUseCases
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_FUEL
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_MATERIALS
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_SENSOR_RANGE
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_CRYOPODS
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_FUEL
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_MATERIALS
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_SENSOR_RANGE
 import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.test.VisibleForTesting
@@ -31,10 +23,10 @@ internal class NewGameStore(
 ) {
     @VisibleForTesting
     @Volatile
-    internal var selectedShip: ShipPrototype? = null
+    internal var selectedFormula: Formula? = null
     @VisibleForTesting
     @Volatile
-    internal var selectedFormula: Formula? = null
+    internal var selectedShip: ShipPrototype? = null
 
     init {
         setup()
@@ -48,27 +40,34 @@ internal class NewGameStore(
             navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: no engines on setup()"))
             return@launch
         }
-        val shipState = ShipState(
-            totalPoints = 25,
-            sensorRange = AttributePoint(max = MAX_SENSOR_RANGE, min = MIN_SENSOR_RANGE, interval = 1, initialValue = 4),
-            fuel = AttributePoint(max = MAX_FUEL, min = MIN_FUEL, interval = 100, initialValue = 1000),
-            materials = AttributePoint(max = MAX_MATERIALS, min = MIN_MATERIALS, interval = 100, initialValue = 500),
-            cryopods = AttributePoint(max = MAX_CRYOPODS, min = MIN_CRYOPODS, interval = 100, initialValue = 500),
-            engine = engines.find { it.cost == 5 } ?: engines.first()
-        )
+        val selectedEngine = engines.find { it.cost == 5 } ?: engines.first()
 
         updateState {
             it.copy(
                 loading = false,
-                shipState = shipState,
                 engines = if (flags.engines) engines else persistentListOf(),
+                selectedEngine = selectedEngine
             )
         }
 
         Telemetry.info(tag = TAG, message = "Setup complete")
     }
 
-    private fun next(state: NewGameState) = launch(id = "start") {
+    private fun selectShip(state: NewGameState): Job = launch(id = "start") {
+        val assignedPoints = state.sensorRange.assignedPoints +
+                state.fuel.assignedPoints +
+                state.materials.assignedPoints +
+                state.cryopods.assignedPoints +
+                (state.selectedEngine?.cost ?: 0)
+
+        selectedShip = ShipPrototype(
+            assignedPoints = assignedPoints,
+            sensorRange = state.sensorRange.value,
+            fuel = state.fuel.value,
+            materials = state.materials.value,
+            cryopods = state.cryopods.value,
+        )
+
         Telemetry.info(tag = TAG, message = "Start game")
         val selectedShip = this@NewGameStore.selectedShip
         if (selectedShip == null) {
@@ -76,7 +75,7 @@ internal class NewGameStore(
             return@launch
         }
 
-        val selectedEngine = state.shipState?.engine
+        val selectedEngine = state.selectedEngine
         if (selectedEngine == null) {
             navigate(screen = Screen.Feedback(tag = TAG, message = "Invalid state: missing engine on startGame()"))
             return@launch
@@ -96,14 +95,37 @@ internal class NewGameStore(
         navigate(screen = Screen.Catastrophe)
     }
 
+    private fun increment(action: NewGameAction.Increment) {
+        val point = with(receiver = action.attributePoint) {
+            copy(value = (value + interval).coerceAtMost(maximumValue = max))
+        }
+        when (action.attributePoint.type) {
+            Attribute.SENSOR_RANGE -> updateState { it.copy(sensorRange = point, remainingPoints = it.remainingPoints - 1) }
+            Attribute.FUEL -> updateState { it.copy(fuel = point, remainingPoints = it.remainingPoints - 1) }
+            Attribute.MATERIALS -> updateState { it.copy(materials = point, remainingPoints = it.remainingPoints - 1) }
+            Attribute.CRYOPODS -> updateState { it.copy(cryopods = point, remainingPoints = it.remainingPoints - 1) }
+        }
+    }
+
+    private fun decrement(action: NewGameAction.Decrement) {
+        val point = with(receiver = action.attributePoint) {
+            copy(value = (value - interval).coerceAtLeast(minimumValue = min))
+        }
+        when (action.attributePoint.type) {
+            Attribute.SENSOR_RANGE -> updateState { it.copy(sensorRange = point, remainingPoints = it.remainingPoints + 1) }
+            Attribute.FUEL -> updateState { it.copy(fuel = point, remainingPoints = it.remainingPoints + 1) }
+            Attribute.MATERIALS -> updateState { it.copy(materials = point, remainingPoints = it.remainingPoints + 1) }
+            Attribute.CRYOPODS -> updateState { it.copy(cryopods = point, remainingPoints = it.remainingPoints + 1) }
+        }
+    }
+
     override fun reducer(state: NewGameState, action: NewGameAction) {
         when (action) {
             NewGameAction.Back -> navigate(screen = Screen.MainMenu)
-            is NewGameAction.SelectEngine -> updateState { it.copy(shipState = it.shipState?.copy(engine = action.engine)) }
-            is NewGameAction.SelectShip -> {
-                selectedShip = action.ship
-                next(state = state)
-            }
+            is NewGameAction.SelectEngine -> updateState { it.copy(selectedEngine = action.engine) }
+            is NewGameAction.SelectShip -> selectShip(state = state)
+            is NewGameAction.Increment -> increment(action = action)
+            is NewGameAction.Decrement -> decrement(action = action)
         }
     }
 

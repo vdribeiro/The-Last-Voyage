@@ -61,11 +61,14 @@ internal class GameOverStore(
 
     private fun nextContent(state: GameOverState) {
         when (state.currentContent) {
-            Content.MESSAGE -> updateState {
-                it.copy(
-                    currentContent = Content.SCORE,
-                    achievement = achievements.firstOrNull()
-                )
+            Content.MESSAGE -> {
+                val achievement = achievements.firstOrNull()
+                updateState {
+                    it.copy(
+                        currentContent = Content.SCORE,
+                        achievement = achievement
+                    )
+                }
             }
 
             Content.SCORE -> navigate(screen = Screen.MainMenu)

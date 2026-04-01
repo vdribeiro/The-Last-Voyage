@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.theme.component.topbar
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,6 +37,7 @@ internal fun TopBar(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
+        if (title == null && onBackClick == null && onHelpClick == null && onMusicClick == null && onFeedbackClick == null) Box(modifier = Modifier.padding(all = 24.dp))
         onBackClick?.let {
             Button(
                 modifier = Modifier.testTag(tag = "topbar_back"),

@@ -8,5 +8,6 @@ internal sealed interface FeedbackAction {
 internal data class FeedbackState(
     val isError: Boolean = false,
     val feedback: String = "",
-    val showThanks: Boolean = false
+    val showThanks: Boolean = false,
+    val logs: String? = null
 )

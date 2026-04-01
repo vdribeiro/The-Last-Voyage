@@ -51,7 +51,7 @@ internal class GameStoreTest: TestCase() {
         dependency.get().useCases.gameSession.updateGameSession(gameSession = gameSession.copy(ship = gameSession.ship.copy(integrity = 0)))
         val store = storeFactory.get().getGameStore(ship = null)
         assertEquals(expected = 1, actual = store.state.ship?.integrity)
-        assertEquals(expected = 89, actual = store.state.ship?.materials)
+        assertEquals(expected = 499, actual = store.state.ship?.materials)
     }
 
     @Test

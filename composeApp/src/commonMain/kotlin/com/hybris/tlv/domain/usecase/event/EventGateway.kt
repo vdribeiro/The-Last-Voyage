@@ -6,13 +6,13 @@ import io.ktor.client.HttpClient
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.core.resource.JsonResource
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.database.asFlow
 import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
-import com.hybris.tlv.data.serializer.loadFromJsonResource
+import com.hybris.tlv.data.resource.JsonResource
+import com.hybris.tlv.data.resource.loadResource
 import com.hybris.tlv.domain.usecase.event.model.Event
 import database.AppDatabase
 
@@ -41,7 +41,7 @@ internal class EventGateway(
     override suspend fun prepopulateEvents(): Boolean = withContext(context = Dispatcher.IO) {
         if (eventDao.isEventEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating events")
-            val events: List<Event> = loadFromJsonResource(json = JsonResource.Events)
+            val events: List<Event> = loadResource(json = JsonResource.Events)
             rewriteEvents(events = events)
             true
         } else false

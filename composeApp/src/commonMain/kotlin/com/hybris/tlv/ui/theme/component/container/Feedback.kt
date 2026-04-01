@@ -1,14 +1,12 @@
 package com.hybris.tlv.ui.theme.component.container
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.runtime.Composable
@@ -39,6 +37,7 @@ internal fun Feedback(
     showThanks: Boolean = false,
     feedback: String = "",
     sendFeedback: (String) -> Unit = {},
+    logs: String? = null
 ) {
     var feedbackText by remember { mutableStateOf(value = feedback) }
 
@@ -50,10 +49,9 @@ internal fun Feedback(
     val typography = LocalTypography.current
 
     Column(
-        modifier = modifier
-            .imePadding()
-            .verticalScroll(state = rememberScrollState()),
+        modifier = modifier.imePadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
     ) {
         Icon(
             modifier = Modifier
@@ -62,14 +60,10 @@ internal fun Feedback(
             contentDescription = "Feedback Icon",
         )
         Text(
-            modifier = Modifier
-                .padding(top = 16.dp, bottom = 16.dp),
             text = titleTranslation,
             style = typography.titleLarge
         )
         Text(
-            modifier = Modifier
-                .padding(bottom = 16.dp),
             text = descriptionTranslation,
             style = typography.bodyLarge,
             textAlign = TextAlign.Center,
@@ -83,18 +77,20 @@ internal fun Feedback(
             value = feedbackText,
             onValueChange = { feedbackText = it },
         )
-        Spacer(modifier = Modifier.height(height = 16.dp))
         Button(
             enabled = !showThanks && (isError || feedbackText.isNotBlank()),
-            text = buttonTranslation,
+            text = if (showThanks) thanksTranslation else buttonTranslation,
             onClick = { sendFeedback(feedbackText) },
         )
-        if (showThanks) {
-            // Thank you message
-            Spacer(modifier = Modifier.height(height = 16.dp))
-            Text(
-                text = thanksTranslation,
-                style = typography.headlineSmall
+        logs?.let {
+            Console(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(
+                        top = 16.dp,
+                        bottom = 16.dp
+                    ),
+                logs = logs
             )
         }
     }
@@ -151,11 +147,16 @@ private fun FeedbackErrorPreview() = Preview {
                 key = "error_screen__thanks",
                 value = "Thanks"
             ),
+            Translation(
+                key = "error_screen__console",
+                value = "Stacktrace"
+            ),
         )
     )
     Feedback(
         isError = true,
         showThanks = false,
         feedback = "This is awesome!",
+        logs = "This is a log"
     )
 }
