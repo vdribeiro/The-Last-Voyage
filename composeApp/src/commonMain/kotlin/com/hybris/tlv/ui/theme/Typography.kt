@@ -198,23 +198,22 @@ internal val LocalTypography = staticCompositionLocalOf { typography }
 @Composable
 internal fun getTypography(): Typography {
     // TODO - typography
-//    val inter = FontResource.Inter.family
-    val inter = FontFamily.SansSerif
+    val fontFamily = FontFamily.SansSerif
     return Typography(
-        displayLarge = displayLarge.copy(fontFamily = inter),
-        displayMedium = displayMedium.copy(fontFamily = inter),
-        displaySmall = displaySmall.copy(fontFamily = inter),
-        headlineLarge = headlineLarge.copy(fontFamily = inter),
-        headlineMedium = headlineMedium.copy(fontFamily = inter),
-        headlineSmall = headlineSmall.copy(fontFamily = inter),
-        titleLarge = titleLarge.copy(fontFamily = inter),
-        titleMedium = titleMedium.copy(fontFamily = inter),
-        titleSmall = titleSmall.copy(fontFamily = inter),
-        bodyLarge = bodyLarge.copy(fontFamily = inter),
-        bodyMedium = bodyMedium.copy(fontFamily = inter),
-        bodySmall = bodySmall.copy(fontFamily = inter),
-        labelLarge = labelLarge.copy(fontFamily = inter),
-        labelMedium = labelMedium.copy(fontFamily = inter),
-        labelSmall = labelSmall.copy(fontFamily = inter),
+        displayLarge = displayLarge.copy(fontFamily = fontFamily),
+        displayMedium = displayMedium.copy(fontFamily = fontFamily),
+        displaySmall = displaySmall.copy(fontFamily = fontFamily),
+        headlineLarge = headlineLarge.copy(fontFamily = fontFamily),
+        headlineMedium = headlineMedium.copy(fontFamily = fontFamily),
+        headlineSmall = headlineSmall.copy(fontFamily = fontFamily),
+        titleLarge = titleLarge.copy(fontFamily = fontFamily),
+        titleMedium = titleMedium.copy(fontFamily = fontFamily),
+        titleSmall = titleSmall.copy(fontFamily = fontFamily),
+        bodyLarge = bodyLarge.copy(fontFamily = fontFamily),
+        bodyMedium = bodyMedium.copy(fontFamily = fontFamily),
+        bodySmall = bodySmall.copy(fontFamily = fontFamily),
+        labelLarge = labelLarge.copy(fontFamily = fontFamily),
+        labelMedium = labelMedium.copy(fontFamily = fontFamily),
+        labelSmall = labelSmall.copy(fontFamily = fontFamily),
     )
 }
