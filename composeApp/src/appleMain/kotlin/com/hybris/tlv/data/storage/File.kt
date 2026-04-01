@@ -39,7 +39,9 @@ internal actual val appDataPath: String by lazy {
             }
             ?.takeIf { fileManager.fileExistsAtPath(path = it) }
             ?: throw IllegalStateException("App data directory does not exist")
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get app data path", throwable = it) }.getOrDefault(defaultValue = "")
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to get app data path", throwable = it)
+    }.getOrDefault(defaultValue = "")
 }
 
 @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
@@ -53,7 +55,9 @@ internal actual suspend fun saveFile(path: String, content: String): Boolean = w
             error = null
         )
         true
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to save file $path", throwable = it) }.getOrDefault(defaultValue = false)
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to save file $path", throwable = it)
+    }.getOrDefault(defaultValue = false)
 }
 
 @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
@@ -68,7 +72,9 @@ internal actual suspend fun loadFile(path: String): String? = withContext(contex
                 error = null
             )
         } else null
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to load file $path", throwable = it) }.getOrNull()
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to load file $path", throwable = it)
+    }.getOrNull()
 }
 
 @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
@@ -82,7 +88,9 @@ internal actual suspend fun deleteFile(path: String): Boolean = withContext(cont
                 error = null
             )
         } else true
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to delete file $path", throwable = it) }.getOrDefault(defaultValue = false)
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to delete file $path", throwable = it)
+    }.getOrDefault(defaultValue = false)
 }
 
 private const val TAG = "File"

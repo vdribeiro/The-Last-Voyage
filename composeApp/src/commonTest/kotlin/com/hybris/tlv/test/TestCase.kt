@@ -50,6 +50,7 @@ internal abstract class TestCase: PlatformTestCase() {
      */
     private val testFlags = Flags(
         devMode = true,
+        console = false,
         reset = true,
         http = true,
         archive = true,

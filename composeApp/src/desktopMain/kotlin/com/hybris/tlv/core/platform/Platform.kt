@@ -17,7 +17,9 @@ internal actual val platform: Platform by lazy {
             os.contains(other = "nix") || os.contains(other = "nux") || os.contains(other = "aix") -> Platform.Linux
             else -> Platform.Unknown
         }
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to get platform", throwable = it) }.getOrDefault(defaultValue = Platform.Unknown)
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to get platform", throwable = it)
+    }.getOrDefault(defaultValue = Platform.Unknown)
 }
 
 private const val TAG = "Platform"

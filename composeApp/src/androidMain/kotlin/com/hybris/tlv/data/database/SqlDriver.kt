@@ -9,6 +9,7 @@ import app.cash.sqldelight.db.SqlSchema
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.hybris.tlv.applicationContext
 import com.hybris.tlv.core.flow.Dispatcher
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ExcludeFromTesting
 
 @ExcludeFromTesting
@@ -24,8 +25,14 @@ internal actual suspend fun createSqlDriver(
         callback = object: AndroidSqliteDriver.Callback(schema = schema) {
             override fun onConfigure(db: SupportSQLiteDatabase) {
                 super.onConfigure(db = db)
-                db.enableWriteAheadLogging()
+                runCatching {
+                    db.enableWriteAheadLogging()
+                }.onFailure {
+                    Telemetry.error(tag = TAG, message = "Unable to enable WAL mode.", throwable = it)
+                }
             }
         }
     )
 }
+
+private const val TAG = "SqlDriver"

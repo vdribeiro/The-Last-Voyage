@@ -7,6 +7,6 @@ internal actual object PlatformLogger {
     }
 
     actual fun error(tag: String, message: String, throwable: Throwable?) {
-        println("ERROR [$tag]: $message${throwable?.let { "\n${it.printStackTrace()}" }.orEmpty()}")
+        println("ERROR [$tag]: $message${throwable?.let { "\n${it.stackTraceToString()}" }.orEmpty()}")
     }
 }

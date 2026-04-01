@@ -1,16 +1,17 @@
 package com.hybris.tlv.domain.usecase.translation
 
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import io.ktor.client.HttpClient
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.DEFAULT_LANGUAGE
-import com.hybris.tlv.core.resource.JsonResource
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
-import com.hybris.tlv.data.serializer.loadFromJsonResource
+import com.hybris.tlv.data.resource.JsonResource
+import com.hybris.tlv.data.resource.loadResource
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import database.AppDatabase
 
@@ -22,24 +23,38 @@ internal class TranslationGateway(
     private val translationDao = database.translationQueries
 
     override suspend fun syncTranslations(): Boolean = withContext(context = Dispatcher.IO) {
-        when (val result = httpClient.get<Translation>(path = URL.Translations)) {
-            is Result.Error -> {
-                Telemetry.error(tag = TAG, message = "Unable to get translations", throwable = result.error)
-                false
-            }
+        val translations = mutableListOf<Translation>()
+        var syncResult = true
 
-            is Result.Success -> {
-                rewriteTranslations(translations = result.list)
-                Telemetry.info(tag = TAG, message = "Successful translations sync")
-                true
+        listOf(
+            URL.Translations,
+            URL.CatastrophesTranslations,
+            URL.EnginesTranslations,
+            URL.EventsTranslations
+        ).associateWith { url ->
+            async { httpClient.get<Translation>(path = url) }
+        }.forEach { (url, deferred) ->
+            when (val result = deferred.await()) {
+                is Result.Error -> {
+                    Telemetry.error(tag = TAG, message = "Unable to get $url", throwable = result.error)
+                    syncResult = false
+                }
+
+                is Result.Success -> {
+                    translations.addAll(elements = result.list)
+                    Telemetry.info(tag = TAG, message = "Successful $url sync")
+                }
             }
         }
+
+        if (syncResult) rewriteTranslations(translations = translations)
+        return@withContext syncResult
     }
 
     override suspend fun prepopulateTranslations(): Boolean = withContext(context = Dispatcher.IO) {
         if (translationDao.isTranslationEmpty().awaitAsList().isEmpty()) {
             Telemetry.info(tag = TAG, message = "Prepopulating translations")
-            val translations: List<Translation> = loadFromJsonResource(json = JsonResource.Translations)
+            val translations: List<Translation> = loadAllTranslationsFromJsonResource()
             rewriteTranslations(translations = translations)
             true
         } else false
@@ -57,5 +72,12 @@ internal class TranslationGateway(
 
     companion object {
         private const val TAG = "Translation"
+
+        suspend fun loadAllTranslationsFromJsonResource(): List<Translation> =
+            loadResource<Translation>(json = JsonResource.Translations) +
+                    loadResource<Translation>(json = JsonResource.CatastrophesTranslations) +
+                    loadResource<Translation>(json = JsonResource.EnginesTranslations) +
+                    loadResource<Translation>(json = JsonResource.EventsTranslations) +
+                    loadResource<Translation>(json = JsonResource.AchievementsTranslations)
     }
 }

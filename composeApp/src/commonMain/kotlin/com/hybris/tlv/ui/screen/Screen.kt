@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.hybris.tlv.core.audio.AudioPlayer
+import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.audio.LocalAudioPlayer
 import com.hybris.tlv.ui.navigation.LocalNavController
 import com.hybris.tlv.ui.navigation.NavigationHandler
@@ -63,4 +65,10 @@ internal fun Screen(
         snackbarHost = snackbarHost,
         content = content
     )
+}
+
+@Preview
+@Composable
+private fun ScreenPreview() = Preview {
+    Screen()
 }

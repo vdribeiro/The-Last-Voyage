@@ -28,7 +28,9 @@ private val initializeJfx by lazy {
     runCatching {
         JFXPanel()
         true
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to start JavaFX", throwable = it) }.getOrDefault(defaultValue = false)
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to start JavaFX", throwable = it)
+    }.getOrDefault(defaultValue = false)
 }
 internal val LocalWindowState = staticCompositionLocalOf { WindowState() }
 

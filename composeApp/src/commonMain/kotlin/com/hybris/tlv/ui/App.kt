@@ -1,21 +1,32 @@
 package com.hybris.tlv.ui
 
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ProvidedValue
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
 import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
 import com.hybris.tlv.Dependency
+import com.hybris.tlv.core.audio.AudioPlayer
+import com.hybris.tlv.core.telemetry.Console
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.ui.audio.LocalAudioPlayer
 import com.hybris.tlv.ui.navigation.LocalNavController
 import com.hybris.tlv.ui.navigation.Navigation
+import com.hybris.tlv.ui.screen.LoadingScreen
+import com.hybris.tlv.ui.screen.StoreFactory
 import com.hybris.tlv.ui.theme.AppTheme
 import com.hybris.tlv.ui.theme.LocalTranslationState
-import com.hybris.tlv.ui.theme.component.container.LoadingScreen
 import com.hybris.tlv.ui.theme.getTranslationState
 import com.hybris.tlv.ui.audio.AudioPlayer as MusicPlayer
 
@@ -33,6 +44,7 @@ internal fun App(
     val translationMap = getTranslationState()
     val navigationEventDispatcherOwner = rememberNavigationEventDispatcherOwner()
     val providers = remember(
+        compositionValues,
         translationMap,
         navController,
         navigationEventDispatcherOwner,
@@ -43,25 +55,55 @@ internal fun App(
             add(element = LocalTranslationState provides translationMap)
             add(element = LocalNavController provides navController)
             add(element = LocalNavigationEventDispatcherOwner provides navigationEventDispatcherOwner)
-            if (dependency?.audioPlayer != null) add(element = LocalAudioPlayer provides dependency.audioPlayer)
+            if (dependency != null) {
+                add(element = LocalAudioPlayer provides dependency.audioPlayer)
+            }
         }.toTypedArray()
     }
 
     CompositionLocalProvider(values = providers) {
         AppTheme {
-            if (dependency != null) {
-                Navigation(
-                    modifier = modifier,
-                    navController = navController,
-                    storeFactory = dependency.storeFactory
-                )
-                MusicPlayer(
-                    navController = navController,
-                    audioPlayer = dependency.audioPlayer,
-                )
-            } else LoadingScreen()
+            if (dependency != null) App(
+                modifier = modifier,
+                navController = navController,
+                storeFactory = dependency.storeFactory,
+                audioPlayer = dependency.audioPlayer
+            ) else Loading()
         }
     }
+}
+
+@Composable
+private fun Loading() {
+    var logs: String? by remember { mutableStateOf(value = null) }
+    LaunchedEffect(key1 = Unit) {
+        while (isActive) {
+            logs = Console.getSnapshot().joinToString(separator = "\n").ifBlank { null }
+            delay(timeMillis = 500)
+        }
+    }
+    LoadingScreen(
+        logs = logs,
+        sendFeedback = { Telemetry.feedback(message = it) }
+    )
+}
+
+@Composable
+private fun App(
+    modifier: Modifier,
+    navController: NavHostController,
+    storeFactory: StoreFactory,
+    audioPlayer: AudioPlayer
+) {
+    Navigation(
+        modifier = modifier,
+        navController = navController,
+        storeFactory = storeFactory
+    )
+    MusicPlayer(
+        navController = navController,
+        audioPlayer = audioPlayer,
+    )
 }
 
 /**
@@ -81,4 +123,19 @@ internal fun Preview(content: @Composable () -> Unit) {
             content()
         }
     }
+}
+
+@Preview
+@Composable
+private fun AppLoadingPreview() = Preview {
+    App()
+}
+
+@Preview
+@Composable
+private fun AppPreview() = Preview {
+    App(
+        navController = rememberNavController(),
+        dependency = Dependency()
+    )
 }

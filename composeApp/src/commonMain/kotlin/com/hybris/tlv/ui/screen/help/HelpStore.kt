@@ -39,7 +39,8 @@ internal class HelpStore(
 
     private fun versionClick(action: HelpAction.VersionClick) {
         if (action.reset) versionClick = 0 else versionClick++
-        updateState { it.copy(showSnackbar = versionClick >= CLICKS_FOR_HINTS) }
+        val showSnackbar = versionClick >= CLICKS_FOR_HINTS
+        updateState { it.copy(showSnackbar = showSnackbar) }
     }
 
     private fun reset(): Job = launch(id = "reset") {

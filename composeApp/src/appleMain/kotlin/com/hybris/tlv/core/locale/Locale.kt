@@ -21,7 +21,9 @@ import com.hybris.tlv.ui.lifecycle.observe
 
 internal actual fun getLanguage(): String = runCatching {
     (NSLocale.preferredLanguages.first() as String).replace(oldValue = "_", newValue = "-")
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it) }.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it)
+}.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
 
 internal actual fun getLocalDateTime(utc: String): String = runCatching {
     val instant = Instant.parse(input = utc)
@@ -33,7 +35,9 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
     val secondsFromGmt = timeZone.offsetAt(instant = instant).totalSeconds
     formatter.timeZone = NSTimeZone.timeZoneForSecondsFromGMT(seconds = secondsFromGmt.toLong())
     return formatter.stringFromDate(date = instant.toNSDate())
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it) }.getOrDefault(defaultValue = utc)
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it)
+}.getOrDefault(defaultValue = utc)
 
 internal actual fun observeLocale(): Flow<String> = callbackFlow {
     runCatching {

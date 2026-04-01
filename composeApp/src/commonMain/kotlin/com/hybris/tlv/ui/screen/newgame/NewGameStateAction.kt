@@ -3,43 +3,47 @@ package com.hybris.tlv.ui.screen.newgame
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import com.hybris.tlv.domain.usecase.ship.model.Engine
-import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_FUEL
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_MATERIALS
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_SENSOR_RANGE
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_CRYOPODS
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_FUEL
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_MATERIALS
+import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_SENSOR_RANGE
 
 internal sealed interface NewGameAction {
     data object Back: NewGameAction
     data class SelectEngine(val engine: Engine): NewGameAction
-    data class SelectShip(val ship: ShipPrototype): NewGameAction
+    data object SelectShip: NewGameAction
+    data class Increment(val attributePoint: AttributePoint): NewGameAction
+    data class Decrement(val attributePoint: AttributePoint): NewGameAction
 }
 
 internal data class NewGameState(
     val loading: Boolean = true,
-    val shipState: ShipState? = null,
+    val sensorRange: AttributePoint = AttributePoint(type = Attribute.SENSOR_RANGE, max = MAX_SENSOR_RANGE, min = MIN_SENSOR_RANGE, interval = 1, value = 4),
+    val fuel: AttributePoint = AttributePoint(type = Attribute.FUEL, max = MAX_FUEL, min = MIN_FUEL, interval = 100, value = 1000),
+    val materials: AttributePoint = AttributePoint(type = Attribute.MATERIALS, max = MAX_MATERIALS, min = MIN_MATERIALS, interval = 100, value = 500),
+    val cryopods: AttributePoint = AttributePoint(type = Attribute.CRYOPODS, max = MAX_CRYOPODS, min = MIN_CRYOPODS, interval = 100, value = 500),
+    val remainingPoints: Int = 0,
     val engines: ImmutableList<Engine> = persistentListOf(),
+    val selectedEngine: Engine? = null,
 )
 
-internal data class ShipState(
-    val totalPoints: Int,
-    val sensorRange: AttributePoint,
-    val fuel: AttributePoint,
-    val materials: AttributePoint,
-    val cryopods: AttributePoint,
-    val engine: Engine
-) {
-    val assignedPoints: Int
-        get() = sensorRange.assignedPoints +
-                fuel.assignedPoints +
-                materials.assignedPoints +
-                cryopods.assignedPoints +
-                engine.cost
-    val remainingPoints: Int
-        get() = totalPoints - assignedPoints
+internal enum class Attribute {
+    SENSOR_RANGE,
+    FUEL,
+    MATERIALS,
+    CRYOPODS
 }
 
 internal data class AttributePoint(
+    val type: Attribute,
     val max: Int = 10,
     val min: Int = 0,
     val interval: Int = 1,
-    val initialValue: Int = 0
+    val value: Int = 0
 ) {
     init {
         if (max <= 0) throw IllegalArgumentException("max must be greater than 0")
@@ -49,17 +53,5 @@ internal data class AttributePoint(
         if ((max - min) % interval != 0) throw IllegalArgumentException("The min-max range must be a multiple of the interval.")
     }
 
-    var value: Int = initialValue.coerceIn(minimumValue = min, maximumValue = max)
-        private set(newValue) {
-            field = newValue.coerceIn(minimumValue = min, maximumValue = max)
-        }
     val assignedPoints: Int get() = (value - min) / interval
-
-    fun increment() {
-        if (value < max) value += interval
-    }
-
-    fun decrement() {
-        if (value > min) value -= interval
-    }
 }

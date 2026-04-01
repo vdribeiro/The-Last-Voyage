@@ -9,6 +9,6 @@ internal actual object PlatformLogger {
     }
 
     actual fun error(tag: String, message: String, throwable: Throwable?) {
-        NSLog(format = "ERROR [$tag]: $message${throwable?.let { "\n${it.printStackTrace()}" }.orEmpty()}")
+        NSLog(format = "ERROR [$tag]: $message${throwable?.let { "\n${it.stackTraceToString()}" }.orEmpty()}")
     }
 }

@@ -1,7 +1,7 @@
-package com.hybris.tlv.core.resource
+package com.hybris.tlv.data.resource
 
 /**
- * Resource class for audio.
+ * Resource index for audio in [commonMain/resources/tracks].
  */
 internal sealed class AudioResource(val path: String) {
     data object VilleSeppanen: AudioResource(path = "tracks/ville_seppanen-1_g.mp3")

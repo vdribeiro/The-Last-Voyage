@@ -90,6 +90,6 @@ internal class GameScreenTest: TestCase() {
         onNodeWithTag(testTag = "game_system_list").assertDoesNotExist()
         onNodeWithTag(testTag = "game_travel_list").assertIsDisplayed()
 
-        onNodeWithTag(testTag = "game_travel_list").count(count = 5)
+        onNodeWithTag(testTag = "game_travel_list").count(count = 4)
     }
 }

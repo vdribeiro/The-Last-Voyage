@@ -16,10 +16,10 @@ import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.Result
 import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
-import com.hybris.tlv.data.serializer.JsonFile
-import com.hybris.tlv.data.serializer.deleteJsonFile
-import com.hybris.tlv.data.serializer.loadJsonFile
-import com.hybris.tlv.data.serializer.saveJsonFile
+import com.hybris.tlv.data.storage.FilePath
+import com.hybris.tlv.data.storage.deleteJsonFile
+import com.hybris.tlv.data.storage.loadJsonFile
+import com.hybris.tlv.data.storage.saveJsonFile
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
 
 /**
@@ -51,8 +51,8 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     override suspend fun reset(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
             mutex.withLock {
-                deleteJsonFile(json = JsonFile.Configs)
-                deleteJsonFile(json = JsonFile.Preferences)
+                deleteJsonFile(path = FilePath.Configs)
+                deleteJsonFile(path = FilePath.Preferences)
             }
             val preferences = Preferences()
             val configs = Configs()
@@ -64,9 +64,9 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
 
     override suspend fun setup(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
-            val preferences = mutex.withLock { loadJsonFile(json = JsonFile.Preferences) ?: Preferences() }
+            val preferences = mutex.withLock { loadJsonFile(path = FilePath.Preferences) ?: Preferences() }
             setPreferences { preferences }
-            val localConfigs = mutex.withLock { loadJsonFile(json = JsonFile.Configs) ?: Configs() }
+            val localConfigs = mutex.withLock { loadJsonFile(path = FilePath.Configs) ?: Configs() }
             _localConfigs.update { localConfigs }
             fetchRemoteConfigs()
             saveConfigs()
@@ -100,7 +100,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     override suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
             _preferences.update(function = preferences)
-            mutex.withLock { saveJsonFile(json = JsonFile.Preferences, content = _preferences.value) }
+            mutex.withLock { saveJsonFile(path = FilePath.Preferences, content = _preferences.value) }
         }
     }
 
@@ -110,7 +110,7 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
 
     override suspend fun saveConfigs(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
-            mutex.withLock { saveJsonFile(json = JsonFile.Configs, content = _localConfigs.value) }
+            mutex.withLock { saveJsonFile(path = FilePath.Configs, content = _localConfigs.value) }
         }
     }
 

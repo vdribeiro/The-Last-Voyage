@@ -47,7 +47,9 @@ internal suspend fun AppDatabase.reset() = withContext(context = Dispatcher.IO) 
             achievementQueries.truncateAchievement()
             creditQueries.truncateCredit()
         }
-    }.onFailure { Telemetry.error(tag = TAG, message = "Unable to clear database", throwable = it) }.getOrDefault(defaultValue = Unit)
+    }.onFailure {
+        Telemetry.error(tag = TAG, message = "Unable to clear database", throwable = it)
+    }.getOrDefault(defaultValue = Unit)
 }
 
 private const val TAG = "Database"

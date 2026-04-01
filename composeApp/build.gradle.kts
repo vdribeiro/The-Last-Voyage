@@ -157,8 +157,12 @@ fun DependencyHandler.addJavaFx() = javafxDependencies.forEach {
 // Module paths have to run after, otherwise it breaks the configuration
 project.afterEvaluate {
     if (!isRelease) {
-        compose.desktop.application.jvmArgs += "--module-path=$javafxModulePath"
-        compose.desktop.application.jvmArgs += "--add-modules=$javafxModules"
+        compose.desktop.application.apply {
+            jvmArgs += listOf(
+                "--module-path=$javafxModulePath",
+                "--add-modules=$javafxModules"
+            )
+        }
     }
 }
 //endregion
@@ -476,11 +480,6 @@ kover {
             }
         }
     }
-}
-
-// Enable native access for tests
-tasks.withType<Test> {
-    jvmArgs("--enable-native-access=ALL-UNNAMED")
 }
 
 tasks.register<Sync>("deployWeb") {

@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component.container
+package com.hybris.tlv.ui.screen
 
 import kotlin.test.Test
 import androidx.compose.ui.test.ExperimentalTestApi

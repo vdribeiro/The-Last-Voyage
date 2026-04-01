@@ -9,6 +9,7 @@ import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.db.SqlSchema
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.hybris.tlv.core.flow.Dispatcher
+import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.storage.appDataPath
 import com.hybris.tlv.test.ExcludeFromTesting
 
@@ -22,11 +23,17 @@ internal actual suspend fun createSqlDriver(
         properties = Properties(),
         schema = schema.synchronous(),
     ).apply {
-        execute(
-            identifier = null,
-            sql = "PRAGMA journal_mode=WAL;",
-            parameters = 0,
-            binders = null
-        ).await()
+        runCatching {
+            execute(
+                identifier = null,
+                sql = "PRAGMA journal_mode=WAL;",
+                parameters = 0,
+                binders = null
+            ).await()
+        }.onFailure {
+            Telemetry.error(tag = TAG, message = "Unable to enable WAL mode.", throwable = it)
+        }
     }
 }
+
+private const val TAG = "SqlDriver"

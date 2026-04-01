@@ -50,7 +50,9 @@ internal inline fun <reified S: Screen> NavHostController.navigate(screen: S) = 
     currentBackStack.value.find { it.destination.hasRoute(route = screen::class) }?.destination?.route?.let { popBackStack(route = it, inclusive = true) }
     navigate(route = screen)
     Telemetry.info(tag = TAG, message = "Navigation stack: ${printBackStack()}")
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to navigate to screen $screen", throwable = it) }.getOrDefault(defaultValue = Unit)
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to navigate to screen $screen", throwable = it)
+}.getOrDefault(defaultValue = Unit)
 
 /**
  * Pop to the previous destination.
@@ -58,7 +60,9 @@ internal inline fun <reified S: Screen> NavHostController.navigate(screen: S) = 
 internal fun NavHostController.back(): Boolean = runCatching {
     Telemetry.info(tag = TAG, message = "Navigating back")
     popBackStack().also { Telemetry.info(tag = TAG, message = "Navigation stack: ${printBackStack()}") }
-}.onFailure { Telemetry.error(tag = TAG, message = "Unable to go back", throwable = it) }.getOrDefault(defaultValue = false)
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Unable to go back", throwable = it)
+}.getOrDefault(defaultValue = false)
 
 /**
  * Prints the current navigation back stack in a reader-friendly format.
@@ -73,7 +77,9 @@ private fun NavHostController.printBackStack(): String = runCatching {
         }
         .filter { it.isNotBlank() }
         .joinToString(separator = " -> ")
-}.onFailure { Telemetry.error(tag = TAG, message = "Error printing backstack", throwable = it) }.getOrDefault(defaultValue = "")
+}.onFailure {
+    Telemetry.error(tag = TAG, message = "Error printing backstack", throwable = it)
+}.getOrDefault(defaultValue = "")
 
 /**
  * Creates a map of destination arguments with a NavType for a serializable object of type [T].
