@@ -9,7 +9,7 @@ import kotlin.uuid.Uuid
 import com.hybris.tlv.core.telemetry.Telemetry
 
 /**
- * Get a universally unique identifier (UUID) using the best available algorithm to prevent collisions.
+ * Get a universally unique identifier (UUID) using the best available algorithm.
  */
 internal fun uuid(): String =
     uuidV7() ?: uuidV4() ?: unsecureUuid()
