@@ -121,6 +121,7 @@ private fun SplashScreenFullPreview() = Preview {
     SplashScreen(
         store = Store(
             initialState = SplashState(
+                loading = false,
                 progress = 1.0f
             )
         )
