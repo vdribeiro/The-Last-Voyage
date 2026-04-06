@@ -11,8 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hybris.tlv.core.audio.AudioPlayer
+import com.hybris.tlv.core.platform.Platform
+import com.hybris.tlv.core.platform.platform
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
+import com.hybris.tlv.ui.audio.LocalAudioPlayer
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
@@ -25,6 +29,8 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
     val currentContent = storeState.currentContent
 
+    val audioPlayer = LocalAudioPlayer.current
+
     val loadingTranslation = getTranslation(key = "splash_screen__loading")
 
     Screen(
@@ -32,7 +38,10 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
-            ) { store.send(action = SplashAction.Next) },
+            ) {
+                if (platform == Platform.Web) audioPlayer.action(AudioPlayer.Action.Resume)
+                store.send(action = SplashAction.Next)
+            },
         contentAlignment = Alignment.Center,
         loading = storeState.loading,
         loadingDelayMillis = 0L,
