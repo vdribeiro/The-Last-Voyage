@@ -13,9 +13,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.ui.Preview
-import com.hybris.tlv.ui.navigation.LocalNavController
-import com.hybris.tlv.ui.navigation.Screen
-import com.hybris.tlv.ui.navigation.navigate
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
@@ -27,8 +24,6 @@ import com.hybris.tlv.ui.theme.getTranslation
 internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     val storeState by store.stateFlow.collectAsStateWithLifecycle()
     val currentContent = storeState.currentContent
-
-    val navController = LocalNavController.current
 
     val loadingTranslation = getTranslation(key = "splash_screen__loading")
 
@@ -47,7 +42,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
         onBackClick = null,
         onHelpClick = null,
         onFeedbackClick = if (storeState.showFeedback) {
-            { navController?.navigate(screen = Screen.Feedback(tag = null, message = null)) }
+            { store.send(action = SplashAction.Feedback) }
         } else null
     ) {
         when (currentContent) {

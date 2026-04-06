@@ -2,6 +2,8 @@ package com.hybris.tlv.ui.screen.splash
 
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import com.hybris.tlv.core.platform.Platform
+import com.hybris.tlv.core.platform.platform
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.domain.usecase.sync.SyncUseCases
@@ -42,18 +44,24 @@ internal class SplashStore(
             }
         }
         Telemetry.info(tag = TAG, message = "Sync result: $result")
-        delay(timeMillis = 1000L) // prevent UI flickering for fast syncs and also allow user to see the sweet 100% for a short time
+        delay(timeMillis = 1000L) // prevent UI flickering for fast syncs and also allow user to see the sweet 100%
 
         Telemetry.info(tag = TAG, message = "Setup complete")
 
-        if (config.preferences.showIntro) {
-            config.setPreferences { it.copy(showIntro = false) }
-            updateState { it.copy(loading = false, currentContent = Content.INTRO) }
-        } else updateState { it.copy(loading = false) }
+        when {
+            config.preferences.showIntro -> {
+                config.setPreferences { it.copy(showIntro = false) }
+                updateState { it.copy(loading = false, currentContent = Content.INTRO) }
+            }
+
+            platform == Platform.Web -> updateState { it.copy(loading = false) }
+            else -> navigate(screen = Screen.MainMenu)
+        }
     }
 
     override fun reducer(state: SplashState, action: SplashAction) {
         when (action) {
+            SplashAction.Feedback -> navigate(screen = Screen.Feedback(tag = null, message = null))
             SplashAction.Next -> if (!state.loading) navigate(screen = Screen.MainMenu)
         }
     }

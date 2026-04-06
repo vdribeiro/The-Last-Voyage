@@ -1,6 +1,7 @@
 package com.hybris.tlv.ui.screen.splash
 
 internal sealed interface SplashAction {
+    data object Feedback: SplashAction
     data object Next: SplashAction
 }
 
