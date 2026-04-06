@@ -5,7 +5,9 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +32,10 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     val navController = LocalNavController.current
 
     val loadingTranslation = getTranslation(key = "splash_screen__loading")
+    val startTranslation = getTranslation(key = "splash_screen__start")
+
+    var isAnimationComplete by remember { mutableStateOf(value = false) }
+    val loadingText = if (isAnimationComplete) startTranslation else loadingTranslation
 
     Screen(
         modifier = Modifier
@@ -45,9 +51,10 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
         contentAlignment = Alignment.Center,
         loading = storeState.loading,
         loadingDelayMillis = 0L,
-        loadingText = loadingTranslation,
+        loadingText = loadingText,
         loadingBackground = true,
         loadingProgress = storeState.progress,
+        onLoadingFinished = { isAnimationComplete = true },
         onBackClick = null,
         onHelpClick = null,
         onFeedbackClick = if (storeState.showFeedback) {
@@ -110,8 +117,8 @@ private fun SplashScreenFullPreview() = Preview {
     InjectTranslations(
         translations = listOf(
             Translation(
-                key = "splash_screen__loading",
-                value = "Loading..."
+                key = "splash_screen__start",
+                value = "Start"
             ),
         )
     )

@@ -18,12 +18,14 @@ internal fun ProgressIndicator(
     modifier: Modifier = Modifier,
     progress: Float? = null,
     circular: Boolean = true,
+    onProgressFinished: ((Float) -> Unit)? = null,
 ) {
     when {
         progress != null -> {
             val animatedProgress by animateFloatAsState(
                 targetValue = progress,
                 animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+                finishedListener = onProgressFinished
             )
             if (circular) CircularProgressIndicator(
                 modifier = modifier,
