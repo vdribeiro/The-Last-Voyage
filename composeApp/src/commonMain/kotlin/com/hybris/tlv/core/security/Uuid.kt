@@ -36,7 +36,6 @@ internal fun uuidV4(): String? = runCatching {
 
 /**
  * Generate unsecure UUID: simulates v7 with the system clock and the pseudorandom number generator.
- * Returns null if it fails.
  */
 internal fun unsecureUuid(): String {
     // 48 bits timestamp based on system clock
