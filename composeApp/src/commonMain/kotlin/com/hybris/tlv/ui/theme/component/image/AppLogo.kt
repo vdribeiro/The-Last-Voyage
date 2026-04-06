@@ -27,7 +27,6 @@ internal fun AppLogo(
     progress: Float? = null,
     showProgress: Boolean = progress != null,
     text: String? = null,
-    onProgressFinished: ((Float) -> Unit)? = null,
 ) {
     val typography = LocalTypography.current
 
@@ -62,7 +61,6 @@ internal fun AppLogo(
             if (showProgress) ProgressIndicator(
                 modifier = Modifier.size(size = 160.dp),
                 progress = progress,
-                onProgressFinished = onProgressFinished
             )
         }
 

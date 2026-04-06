@@ -46,15 +46,15 @@ internal class SplashStore(
 
         Telemetry.info(tag = TAG, message = "Setup complete")
 
-        if (!config.preferences.showIntro) navigate(screen = Screen.MainMenu) else {
+        if (config.preferences.showIntro) {
             config.setPreferences { it.copy(showIntro = false) }
             updateState { it.copy(loading = false, currentContent = Content.INTRO) }
-        }
+        } else updateState { it.copy(loading = false) }
     }
 
     override fun reducer(state: SplashState, action: SplashAction) {
         when (action) {
-            SplashAction.Next -> navigate(screen = Screen.MainMenu)
+            SplashAction.Next -> if (!state.loading) navigate(screen = Screen.MainMenu)
         }
     }
 

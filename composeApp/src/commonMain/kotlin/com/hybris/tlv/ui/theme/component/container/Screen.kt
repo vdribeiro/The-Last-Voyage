@@ -38,7 +38,6 @@ internal fun Screen(
     loadingText: String = "",
     loadingBackground: Boolean = false,
     loadingProgress: Float? = null,
-    onLoadingFinished: ((Float) -> Unit)? = null,
     onBackClick: (() -> Unit)? = null,
     onHelpClick: (() -> Unit)? = null,
     onMusicClick: (() -> Unit)? = null,
@@ -98,7 +97,6 @@ internal fun Screen(
                     showProgress = true,
                     progress = loadingProgress,
                     text = loadingText,
-                    onProgressFinished = onLoadingFinished
                 )
 
                 false -> content()

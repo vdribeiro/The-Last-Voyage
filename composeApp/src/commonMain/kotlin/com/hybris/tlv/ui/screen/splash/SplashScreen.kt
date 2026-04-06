@@ -5,9 +5,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +19,7 @@ import com.hybris.tlv.ui.navigation.navigate
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
+import com.hybris.tlv.ui.theme.component.image.AppLogo
 import com.hybris.tlv.ui.theme.component.text.FadeInText
 import com.hybris.tlv.ui.theme.getTranslation
 
@@ -32,29 +31,19 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
     val navController = LocalNavController.current
 
     val loadingTranslation = getTranslation(key = "splash_screen__loading")
-    val startTranslation = getTranslation(key = "splash_screen__start")
-
-    var isAnimationComplete by remember { mutableStateOf(value = false) }
-    val loadingText = if (isAnimationComplete) startTranslation else loadingTranslation
 
     Screen(
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
-            ) {
-                when (currentContent) {
-                    Content.SPLASH -> {}
-                    Content.INTRO -> store.send(action = SplashAction.Next)
-                }
-            },
+            ) { store.send(action = SplashAction.Next) },
         contentAlignment = Alignment.Center,
         loading = storeState.loading,
         loadingDelayMillis = 0L,
-        loadingText = loadingText,
+        loadingText = loadingTranslation,
         loadingBackground = true,
         loadingProgress = storeState.progress,
-        onLoadingFinished = { isAnimationComplete = true },
         onBackClick = null,
         onHelpClick = null,
         onFeedbackClick = if (storeState.showFeedback) {
@@ -62,7 +51,14 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
         } else null
     ) {
         when (currentContent) {
-            Content.SPLASH -> {}
+            Content.SPLASH -> AppLogo(
+                modifier = Modifier.align(alignment = Alignment.Center),
+                showBackground = true,
+                showProgress = true,
+                progress = storeState.progress,
+                text = getTranslation(key = "splash_screen__start")
+            )
+
             Content.INTRO -> FadeInText(
                 modifier = Modifier.padding(all = 16.dp),
                 text = getTranslation(key = "splash_screen__intro")
