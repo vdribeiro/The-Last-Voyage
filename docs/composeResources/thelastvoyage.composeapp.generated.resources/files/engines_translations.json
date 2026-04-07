@@ -1,0 +1,482 @@
+[
+  {
+    "languageIso": "en",
+    "key": "engine__exotic",
+    "value": "Exotic Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__exotic_description",
+    "value": "A warp drive that can travel at light-speed by warping space-time."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__propellantless",
+    "value": "Propellantless Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__propellantless_description",
+    "value": "Thrust is generated without expelling a propellant, using the radiation pressure of sunlight."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear",
+    "value": "Nuclear Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_description",
+    "value": "Uses energy from nuclear reactions as the power source."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electromagnetic",
+    "value": "Electromagnetic Thrusters"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electromagnetic_description",
+    "value": "Uses magnetic fields to shape and accelerate plasma in a way that resembles a physical nozzle."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electrostatic",
+    "value": "Electrostatic Thrusters"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electrostatic_description",
+    "value": "Accelerates electrically charged particles (ions) with static electric fields."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electrodynamic",
+    "value": "Electrodynamic Thrusters"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electrodynamic_description",
+    "value": "Creates and accelerates plasma with a large electric current that then interacts with a magnetic field. The dynamics between the current and the field are what creates thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electrothermal",
+    "value": "Electrothermal Thrusters"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electrothermal_description",
+    "value": "Uses electricity to heat the propellant, which is then expelled through a nozzle."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__chemical",
+    "value": "Chemical Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__chemical_description",
+    "value": "Generates thrust by igniting chemical propellants and expelling the hot gas produced by the reaction. It converts chemical energy into kinetic energy."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__alcubierre_drive",
+    "value": "Alcubierre Drive"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__alcubierre_drive_description",
+    "value": "A warp drive that can travel faster than light by warping space-time."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__antimatter_catalyzed_nuclear_pulse_propulsion",
+    "value": "Antimatter-Catalyzed Nuclear Pulse Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__antimatter_catalyzed_nuclear_pulse_propulsion_description",
+    "value": "Uses small amounts of antimatter to catalyze nuclear reactions, creating powerful pulses."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__arcjet",
+    "value": "Arcjet"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__arcjet_description",
+    "value": "Heats a propellant with electrical energy, expelling it for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__bussard_ramjet",
+    "value": "Bussard Ramjet"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__bussard_ramjet_description",
+    "value": "An engine that scoops up interstellar hydrogen to fuel fusion reactions."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__colloid_thruster",
+    "value": "Colloid Thruster"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__colloid_thruster_description",
+    "value": "Generates thrust with charged micro-particles."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__em_drive",
+    "value": "EM Drive"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__em_drive_description",
+    "value": "An engine that generates thrust without expelling propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electric_sail",
+    "value": "Electric Sail"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__electric_sail_description",
+    "value": "Interacts with solar wind via charged wires, generating thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__field_emission_electric_propulsion",
+    "value": "Field-Emission Electric Propulsion (FEEP)"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__field_emission_electric_propulsion_description",
+    "value": "Uses electric fields to accelerate ions for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__fission_sail",
+    "value": "Fission Sail"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__fission_sail_description",
+    "value": "Heats a propellant with fission reactions."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__fission_fragment_rocket",
+    "value": "Fission-Fragment Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__fission_fragment_rocket_description",
+    "value": "Directly uses fission fragments for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__fusion_propulsion",
+    "value": "Fusion Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__fusion_propulsion_description",
+    "value": "Generates thrust with controlled fusion reactions."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__gas_core_reactor_rocket",
+    "value": "Gas-core Reactor Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__gas_core_reactor_rocket_description",
+    "value": "Uses a gaseous nuclear reactor core to heat a propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__hall_effect_thruster",
+    "value": "Hall-Effect Thruster"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__hall_effect_thruster_description",
+    "value": "A type of ion thruster that uses a magnetic field."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__hybrid_rocket",
+    "value": "Hybrid Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__hybrid_rocket_description",
+    "value": "Solid fuel and a liquid or gaseous oxidizer."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__ion_thruster",
+    "value": "Ion Thruster (Electrostatic)"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__ion_thruster_description",
+    "value": "Uses ions to generate thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__laser_propulsion",
+    "value": "Laser Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__laser_propulsion_description",
+    "value": "High-powered laser to heat a propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__liquid_fuel_rocket",
+    "value": "Liquid-fuel Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__liquid_fuel_rocket_description",
+    "value": "Liquid fuel and oxidizer."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magnetoplasma_sail_in_solar_wind",
+    "value": "Magnetoplasma Sail in Solar Wind"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magnetoplasma_sail_in_solar_wind_description",
+    "value": "Interacts with solar wind with a magnetic field."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magnetoplasmadynamic_thruster",
+    "value": "Magnetoplasmadynamic Thruster"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magnetoplasmadynamic_thruster_description",
+    "value": "Uses magnetic fields to accelerate plasma for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magsail_in_interstellar_medium",
+    "value": "Magsail in Interstellar Medium"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magsail_in_interstellar_medium_description",
+    "value": "Interacts with the interstellar medium via magnetic sail."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magsail_in_solar_wind",
+    "value": "Magsail in Solar Wind"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__magsail_in_solar_wind_description",
+    "value": "Interact with the solar wind via magnetic sail."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__monopropellant_rocket",
+    "value": "Monopropellant Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__monopropellant_rocket_description",
+    "value": "Single propellant that decomposes catalytically."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_electric_propulsion",
+    "value": "Nuclear Electric Propulsion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_electric_propulsion_description",
+    "value": "A nuclear reactor that powers an electric propulsion system."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_salt_water_rocket",
+    "value": "Nuclear Salt-Water Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_salt_water_rocket_description",
+    "value": "Uses a salt-water solution of a nuclear fuel to heat propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_thermal_rocket",
+    "value": "Nuclear Thermal Rocket (NTR)"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_thermal_rocket_description",
+    "value": "Uses a nuclear reactor to heat a propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_photonic_rocket",
+    "value": "Nuclear–Photonic Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__nuclear_photonic_rocket_description",
+    "value": "Uses a nuclear reaction to generate photons for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__photon_rocket",
+    "value": "Photon Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__photon_rocket_description",
+    "value": "A rocket that uses photons as propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__project_orion",
+    "value": "Project Orion"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__project_orion_description",
+    "value": "Uses small nuclear explosions to propel a spacecraft."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__propulsive_mass_driver",
+    "value": "Propulsive Mass Driver"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__propulsive_mass_driver_description",
+    "value": "Uses electromagnetic fields to launch mass for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__pulsed_plasma_thruster",
+    "value": "Pulsed Plasma Thruster (PPT)"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__pulsed_plasma_thruster_description",
+    "value": "Uses electrical pulses to ablate and expel plasma."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__pulsed_inductive_thruster",
+    "value": "Pulsed-Inductive Thruster (PIT)"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__pulsed_inductive_thruster_description",
+    "value": "Uses pulsed magnetic fields to accelerate plasma."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__radioisotope_rocket",
+    "value": "Radioisotope Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__radioisotope_rocket_description",
+    "value": "Uses the heat from radioisotope decay to heat a propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__resistojet",
+    "value": "Resistojet"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__resistojet_description",
+    "value": "Uses electrical resistance to heat a propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__solar_sail",
+    "value": "Solar Sails"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__solar_sail_description",
+    "value": "Uses the radiation pressure of sunlight for propulsion."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__solar_thermal_rocket",
+    "value": "Solar Thermal Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__solar_thermal_rocket_description",
+    "value": "Uses solar energy to heat a propellant."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__solid_rocket_motor",
+    "value": "Solid Rocket Motor"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__solid_rocket_motor_description",
+    "value": "Uses a solid fuel and oxidizer."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__steam_thruster",
+    "value": "Steam Thruster"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__steam_thruster_description",
+    "value": "Uses heated water to generate steam for thrust."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__tripropellant_rocket",
+    "value": "Tripropellant Rocket"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__tripropellant_rocket_description",
+    "value": "Uses three different propellants for enhanced performance."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__variable_specific_impulse_magnetoplasma_rocket",
+    "value": "Variable-Specific-Impulse Magnetoplasma Rocket (VASIMR)"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__variable_specific_impulse_magnetoplasma_rocket_description",
+    "value": "A plasma rocket with variable specific impulse."
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__wormhole_generator",
+    "value": "Wormhole Generator"
+  },
+  {
+    "languageIso": "en",
+    "key": "engine__wormhole_generator_description",
+    "value": "A device that creates shortcuts through spacetime."
+  }
+]
