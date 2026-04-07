@@ -43,5 +43,11 @@ hs_err_pid*
 replay_pid*
 # Local scripts
 /gists
+# Firebase files
+**/google-services.json
+**/GoogleService-Info.plist
+.firebase/
+.firebaserc
+hosting.*.cache
 # AI agents
 /CLAUDE.md
