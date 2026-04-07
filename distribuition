@@ -12,9 +12,9 @@
 # Git
     create and push tag
 # Compile
-    Android: ./gradlew clean bundleRelease
     Ios:     xcode archive
-    Mac:     ./gradlew clean notarizeDmg
+    Android: ./gradlew clean bundleRelease
+    Mac:     ./gradlew clean notarizeDmg --no-configuration-cache
     Windows: ./gradlew clean packageMsi
     Linux:   ./gradlew clean packageDeb
     Web:     ./gradlew clean deployWeb
