@@ -22,3 +22,5 @@
     cd composeApp/src/commonMain/composeResources/files
     gh gist edit [hash] *.json
 # Publish
+    Web:    ./gradlew wasmJsBrowserDistribution
+            firebase deploy --only hosting

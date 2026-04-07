@@ -18,6 +18,9 @@ import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.container.Feedback
 
+/**
+ * Default screen to show when the app is being setup.
+ */
 @Composable
 internal fun LoadingScreen(
     modifier: Modifier = Modifier,

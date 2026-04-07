@@ -2,6 +2,9 @@ package com.hybris.tlv.data.config
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Config values.
+ */
 @Serializable
 internal data class Configs(
     // Versioning

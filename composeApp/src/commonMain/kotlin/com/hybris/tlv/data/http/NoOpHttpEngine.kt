@@ -15,6 +15,9 @@ import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.InternalAPI
 import com.hybris.tlv.core.flow.Dispatcher
 
+/**
+ * A no-op implementation of [HttpClientEngine].
+ */
 internal object NoOpHttpEngine: HttpClientEngine {
     @InternalAPI
     override suspend fun execute(data: HttpRequestData): HttpResponseData =

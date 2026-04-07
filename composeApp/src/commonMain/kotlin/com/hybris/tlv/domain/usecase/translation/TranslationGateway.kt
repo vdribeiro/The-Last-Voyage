@@ -30,7 +30,8 @@ internal class TranslationGateway(
             URL.Translations,
             URL.CatastrophesTranslations,
             URL.EnginesTranslations,
-            URL.EventsTranslations
+            URL.EventsTranslations,
+            URL.AchievementsTranslations
         ).associateWith { url ->
             async { httpClient.get<Translation>(path = url) }
         }.forEach { (url, deferred) ->

@@ -3,6 +3,9 @@ package com.hybris.tlv.domain.flag
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.updateAndGet
 
+/**
+ * Manages feature flags.
+ */
 internal object FeatureFlags {
     private val _flags: MutableStateFlow<Flags> = MutableStateFlow(
         value = Flags(

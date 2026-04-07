@@ -1,5 +1,8 @@
 package com.hybris.tlv.data.http
 
+/**
+ * All [URL] paths.
+ */
 internal sealed class URL(val path: String) {
     data object ExoplanetArchive: URL(path = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync")
     data object Configs: URL(path = "https://gist.githubusercontent.com/vdribeiro/eb23013b329c47317622981187df3f23/raw/configs.json")

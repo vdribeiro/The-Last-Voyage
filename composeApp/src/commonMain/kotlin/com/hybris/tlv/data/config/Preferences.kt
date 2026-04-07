@@ -3,6 +3,9 @@ package com.hybris.tlv.data.config
 import kotlinx.serialization.Serializable
 import com.hybris.tlv.core.locale.distantPast
 
+/**
+ * User preferences.
+ */
 @Serializable
 internal data class Preferences(
     val syncTime: String = distantPast(),

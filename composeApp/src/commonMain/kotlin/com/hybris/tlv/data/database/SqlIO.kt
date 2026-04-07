@@ -9,6 +9,9 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.hybris.tlv.core.flow.Dispatcher
 
+/**
+ * Converts a [Query] to a [Flow] of [List] of [Domain]s.
+ */
 internal fun <Entity: Any, Domain> Query<Entity>.asFlow(transform: (Entity) -> Domain): Flow<List<Domain>> =
     asFlow()
         .mapToList(context = Dispatcher.IO)
