@@ -1,7 +1,9 @@
 package com.hybris.tlv.data.http
 
 /**
- * All [URL] paths.
+ * A type-safe representation of all remote endpoints used within the application, serving as a centralized registry for API paths.
+ *
+ * @property path The full string URL for the network request.
  */
 internal sealed class URL(val path: String) {
     data object ExoplanetArchive: URL(path = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync")

@@ -1,7 +1,11 @@
 package com.hybris.tlv.data.resource
 
 /**
- * Resource index for audio in [commonMain/resources/tracks].
+ * A type-safe index of audio assets located in the `commonMain/resources/tracks` directory.
+ * This sealed class acts as a central registry for background music and ambient tracks.
+ * By using [AudioResource], the application avoids hardcoding string paths, reducing the risk of errors.
+ *
+ * @property path The relative file path to the audio asset within the resources bundle.
  */
 internal sealed class AudioResource(val path: String) {
     data object VilleSeppanen: AudioResource(path = "tracks/ville_seppanen-1_g.mp3")
