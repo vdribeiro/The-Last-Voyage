@@ -19,7 +19,16 @@ import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.container.Feedback
 
 /**
- * Default screen to show when the app is being setup.
+ * The initial landing screen displayed during the application's bootstrap phase.
+ * This screen manages three distinct states to ensure a smooth user experience even during complex initialization:
+ * 1. **Loading State:** Displays a progress indicator while platform engines and dependencies are being wired in the background.
+ * 2. **Feedback Gating:** After a 5-second delay, a feedback button appears. This allows users to report issues if the app fails to transition to the Main Menu.
+ * 3. **Diagnostic Mode:** If the user toggles the feedback view, the screen reveals the [logs] collected during startup, facilitating easier debugging of platform-specific initialization errors.
+ *
+ * @param modifier Standard Compose [Modifier].
+ * @param loading Controls the visibility of the primary loading indicator.
+ * @param logs A string representation of the startup log snapshot.
+ * @param sendFeedback Lambda triggered when the user submits a feedback report.
  */
 @Composable
 internal fun LoadingScreen(
