@@ -7,9 +7,7 @@ import io.ktor.http.encodeURLQueryComponent
 import com.hybris.tlv.core.telemetry.Telemetry
 
 /**
- * A pre-configured [Json] instance tailored for maximum compatibility across various API and storage formats.
- *
- * This serializer is configured with a lenient policy:
+ * A [Json] instance configured with a lenient policy:
  * - **Lenient Parsing:** Accepts quoted boolean values and other relaxed JSON standards.
  * - **Forward Compatibility:** Ignores unknown keys in the JSON input to prevent crashes when API schemas evolve.
  * - **Persistence:** Explicitly encodes default values to ensure data integrity during storage.
