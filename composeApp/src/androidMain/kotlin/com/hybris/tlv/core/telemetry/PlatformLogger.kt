@@ -13,7 +13,12 @@ internal actual object PlatformLogger {
     }
 
     /**
-     * Log in chunks to work around the 4KB buffer limit of the Logcat.
+     * Helper to handle Logcat's 4KB buffer limit.
+     *
+     * If the [message] exceeds [CHUNK_SIZE], it is split into multiple parts and logged sequentially with an index prefix.
+     *
+     * @param message The raw string to be logged.
+     * @param log A lambda representing the specific [Log] level function to call.
      */
     private fun log(message: String, log: (String) -> Unit) {
         if (message.length <= CHUNK_SIZE) log(message)
@@ -21,8 +26,8 @@ internal actual object PlatformLogger {
     }
 
     /**
-     * Chunk size for log messages.
-     * It assumes an average of 2-bytes per character.
+     * The maximum number of characters per log entry.
+     * Based on Logcat's ~4KB limit, assuming 2 bytes per character to provide a safe buffer.
      */
     private const val CHUNK_SIZE = 2000
 }

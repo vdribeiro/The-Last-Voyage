@@ -42,8 +42,11 @@ internal open class AudioPlayer {
     }
 
     /**
-     * Performs the given audio player action.
-     * If the playlist is the same as the current playlist, then play does nothing.
+     * Executes a specific [Action] on the audio player.
+     * It handles the media lifecycle and includes a safety check for playlist redundancy:
+     * If [Action.Play] is requested with a playlist identical to the active one (determined by sorting file paths), the request is ignored to prevent unnecessary restarts.
+     *
+     * @param action The [Action] to be performed (Play, Pause, Resume, or Toggle).
      */
     fun action(action: Action) {
         runCatching {
@@ -78,7 +81,9 @@ internal open class AudioPlayer {
     }
 
     /**
-     * Returns whether the audio player is currently playing.
+     * Check the play status.
+     *
+     * @return  `true` if the audio player is currently playing, `false` otherwise.
      */
     protected open fun isPlaying(): Boolean = false
 

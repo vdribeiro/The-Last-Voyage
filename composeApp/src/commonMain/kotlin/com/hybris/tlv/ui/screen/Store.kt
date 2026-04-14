@@ -66,7 +66,11 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
         _stateFlow.updateAndGet(function = body)
 
     /**
-     * Converts a cold [Flow] into a hot [StateFlow] that is started in the [viewModelScope].
+     * Converts a cold [Flow] into a hot [StateFlow] scoped to the [viewModelScope].
+     *
+     * @param started Strategy that controls when sharing starts and stops. Defaults to [SharingStarted.WhileSubscribed] with a 5-second timeout to handle configuration changes.
+     * @param initialValue The initial value of the state flow.
+     * @return A [StateFlow] representing the stream of data.
      */
     protected fun <T> Flow<T>.toStateFlow(
         started: SharingStarted = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
@@ -78,8 +82,16 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     )
 
     /**
-     * Launches a [Job] returned by [block] given a unique identifier [id] and [replace] parameter.
-     * If [replace] is true and a job with [id] is already active, the existing job will be canceled and replaced by the new one, otherwise the new request is ignored and the existing job is returned.
+     * Manages the lifecycle of a [Job] associated with a unique [id].
+     * If a job with [id] does not exist, a new one is created and added to the [activeJobs] map.
+     * If a job with the same [id] is already active:
+     * - If [replace] is true, the existing job is canceled and a new one starts.
+     * - If [replace] is false, the existing job is preserved and the new request is ignored.
+     *
+     * @param id Job identifier.
+     * @param replace Whether to cancel an existing job with the same ID.
+     * @param block The suspending code to execute that produces a new [Job].
+     * @return The active [Job], either the newly created one or the existing one.
      */
     private fun launchJob(
         id: String,
@@ -97,8 +109,13 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     }
 
     /**
-     * Launches a suspending lambda [block] in the provided [context].
-     * If [replace] is true and a job with [id] is already active, the existing job will be canceled and replaced by the new one, otherwise the new request is ignored and the existing job is returned.
+     * Launches a coroutine in the [viewModelScope] tied to an [id].
+     *
+     * @param id Job identifier.
+     * @param replace If true, cancels the previous execution of this ID before starting. Defaults to true.
+     * @param context The [CoroutineContext] for execution. Defaults to [Dispatcher.Default].
+     * @param block The suspending code to execute.
+     * @return The [Job] representing this execution.
      */
     protected fun launch(
         id: String,
@@ -111,14 +128,16 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     ) { viewModelScope.launch(context = context, block = block) }
 
     /**
-     * Collects the upstream [Flow] in a lifecycle-aware manner, ensuring execution only occurs while the UI is actively observing the [stateFlow].
-     * If [replace] is true and a job with [id] is already active, the existing job will be canceled and replaced by the new one, otherwise the new request is ignored and the existing job is returned.
-     * This function also acts as a resource safeguard, bridging the gap between the [ViewModel] scope which can persist in the backstack and the UI lifecycle which pauses when hidden.
-     * The calling flow runs in the provided [context] and a [timeout] in milliseconds is used as a grace period to wait after the last subscriber disappears before cancelling the upstream flow.
-     * The reason for this is to keep the connection alive when the subscription count drops to zero temporarily (screen rotation, configuration changes, rapid navigation, etc...),
-     * preventing the flow from restarting unnecessarily.
-     * The suspending lambda [block] is executed on the [viewModelScope] whenever the upstream flow emits a value.
-     * Finally, a [Job] is retuned representing the active collection logic, scoped to the [viewModelScope].
+     * Collects the upstream [Flow] in a lifecycle-aware manner, tied to UI subscription.
+     * Execution starts when the UI begins observing the [stateFlow] and pauses after [timeout] milliseconds once the UI stops observing.
+     * This prevents unnecessary restarts during configuration changes (screen rotation, configuration changes, rapid navigation, etc...).
+     *
+     * @param id Job identifier.
+     * @param replace If true, replaces any existing observation with the same [id].
+     * @param context The [CoroutineContext] for execution. Defaults to [Dispatcher.Default].
+     * @param timeout Grace period in milliseconds to keep the flow active after the UI unbinds.
+     * @param block Lambda triggered for every emitted value [T].
+     * @return A [Job] managed by the [viewModelScope].
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     protected fun <T> Flow<T>.observe(
@@ -140,8 +159,9 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
                     emit(value = false)
                 }
             }
-            .flatMapLatest { isVisible -> if (isVisible) flowOn(context = context) else emptyFlow() }
+            .flatMapLatest { isVisible -> if (isVisible) this@observe else emptyFlow() }
             .onEach { data -> block(data) }
+            .flowOn(context = context)
             .launchIn(scope = viewModelScope)
     }
 
