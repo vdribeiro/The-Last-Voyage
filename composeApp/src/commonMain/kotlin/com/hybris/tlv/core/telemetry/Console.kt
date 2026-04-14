@@ -7,6 +7,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.hybris.tlv.core.telemetry.Console.CONSOLE_SIZE
+import com.hybris.tlv.core.telemetry.Console.dispatcher
+import com.hybris.tlv.core.telemetry.Console.log
 
 /**
  * A thread-safe, multiplatform in-memory log buffer.

@@ -1,6 +1,8 @@
 package com.hybris.tlv.core.telemetry
 
 import android.util.Log
+import com.hybris.tlv.core.telemetry.PlatformLogger.CHUNK_SIZE
+import com.hybris.tlv.core.telemetry.PlatformLogger.log
 
 internal actual object PlatformLogger {
 

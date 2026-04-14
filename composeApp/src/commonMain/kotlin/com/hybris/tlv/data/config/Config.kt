@@ -28,7 +28,7 @@ import com.hybris.tlv.domain.flag.FeatureFlags.flags
  *
  * @property httpClient The [HttpClient] instance used for remote API communication.
  */
-internal class Config(private val httpClient: HttpClient) : ConfigManager {
+internal class Config(private val httpClient: HttpClient): ConfigManager {
 
     /**
      * Synchronizes access to local storage files to prevent concurrent write corruption.

@@ -60,6 +60,7 @@ internal object SentryLogger {
             throwable == null -> Sentry.captureMessage(message = message) { scope ->
                 scope.setTag(key = "tag", value = tag)
             }
+
             else -> Sentry.captureException(throwable = throwable) { scope ->
                 scope.setTag(key = "tag", value = tag)
                 scope.setExtra(key = "message", value = message)
