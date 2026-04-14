@@ -23,10 +23,33 @@ import com.hybris.tlv.ui.theme.component.text.Text
 import com.hybris.tlv.ui.theme.component.topbar.TopBar
 
 /**
- * A scaffold-based screen that handles displaying a loading indicator or the primary content.
- * This composable is designed to prevent UI flickering during data loading by employing a two-part strategy:
+ * The foundational UI Scaffold that provides a standardized structure for all screens, ensuring consistent handling of system bars and loading states.
+ * It is designed to prevent UI flickering during data loading by employing a two-part strategy:
  * - An initial grace period [loadingDelayMillis] to avoid showing the loader for very fast operations.
  * - A minimum display time [loadingMinDisplayTimeMillis] to ensure that if the loader does appear, it remains on screen long enough to avoid the same problem.
+ *
+ * ### Layout Structure:
+ * - **TopBar:** Automatically handles [statusBarsPadding].
+ * - **Content:** A [Box] that toggles between the [AppLogo] (loader) and screen [content].
+ * - **BottomBar:** Automatically handles [navigationBarsPadding].
+ *
+ * @param modifier Standard [Modifier] applied to the [Scaffold].
+ * @param contentAlignment Alignment strategy for the center [Box] container.
+ * @param loading Boolean trigger to switch between [AppLogo] (loader) and [content].
+ * @param loadingDelayMillis The grace period in milliseconds to wait before showing the loader.
+ * @param loadingMinDisplayTimeMillis The minimum time in milliseconds the loader stays visible once shown.
+ * @param loadingText Textual information shown to the user during loading.
+ * @param loadingBackground Whether the loader should include its themed background.
+ * @param loadingProgress Progress (0.0 to 1.0) used for deterministic loading animations.
+ * @param onBackClick Callback for the TopBar back button.
+ * @param onHelpClick Callback for the TopBar help button.
+ * @param onMusicClick Callback for the TopBar music toggle.
+ * @param onFeedbackClick Callback for the TopBar feedback button.
+ * @param title Composable slot for the TopBar's central title area.
+ * @param topBar Supplemental content slot appended to the top section.
+ * @param bottomBar Supplemental content slot appended to the bottom section.
+ * @param snackbarHost Dedicated slot for a Snackbar.
+ * @param content The main screen content, displayed only when loading is complete.
  */
 @Composable
 internal fun Screen(

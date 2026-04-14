@@ -20,7 +20,30 @@ import com.hybris.tlv.ui.theme.modifier.onMouseClick
 import com.hybris.tlv.ui.theme.component.container.Screen as ScreenContainer
 
 /**
- * A composable that handles the navigation listener and displaying a loading indicator or the primary content.
+ * A feature-aware layout wrapper that integrates Navigation and Audio services with the UI scaffold.
+ * This composable acts as the primary entry point for screen implementations.
+ * It provides default navigation behaviors, while also handling hardware-specific interactions like the physical back button and mouse side-buttons.
+ *
+ * @param modifier Standard [Modifier] applied to the root container.
+ * @param navController The [NavHostController] used for screen transitions.
+ * @param audioPlayer The [AudioPlayer] instance for music control.
+ * @param contentAlignment The alignment of the main content within the screen's body.
+ * @param loading Whether the screen is currently in a loading state.
+ * @param loadingDelayMillis The grace period in milliseconds to wait before showing the loader.
+ * @param loadingMinDisplayTimeMillis The minimum time in milliseconds the loader stays visible once shown.
+ * @param loadingText Optional status text displayed beneath the loading animation.
+ * @param loadingBackground If true, applies a distinct background to the loading overlay.
+ * @param loadingProgress Optional deterministic progress (0.0 to 1.0) for the loading indicator.
+ * @param onBackClick Lambda for back navigation.
+ * @param onHelpClick Lambda for the help icon.
+ * @param onMusicClick Lambda for the music icon.
+ * @param onFeedbackClick Lambda for the feedback icon.
+ * @param title Optional center-aligned composable slot for the TopBar.
+ * @param topBar Optional slot for UI elements placed immediately below the TopBar.
+ * @param bottomBar Optional slot for UI elements pinned to the screen bottom (handles navigation padding).
+ * @param snackbarHost Container for displaying transient Snackbar notifications.
+ * @param content The primary UI content to display when not loading.
+ *
  * @see ScreenContainer
  */
 @Composable
