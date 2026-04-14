@@ -1,7 +1,10 @@
 package com.hybris.tlv.data.resource
 
 /**
- * Resource index for JSONs in [commonMain/composeResources/files].
+ * A type-safe index of bundled JSON assets.
+ * This registry provides a centralized way to reference local configuration, game data and fallback translations.
+ *
+ * @property path The relative file path to the JSON asset in `commonMain/composeResources/files`.
  */
 internal sealed class JsonResource(val path: String) {
     data object Translations: JsonResource(path = "files/translations.json")

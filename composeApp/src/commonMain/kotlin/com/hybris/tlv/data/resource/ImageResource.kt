@@ -61,7 +61,12 @@ import thelastvoyage.composeapp.generated.resources.unknown
 import thelastvoyage.composeapp.generated.resources.water_clouds_gas_giant
 
 /**
- * Resource index for images in [commonMain/composeResources/drawable].
+ * A type-safe registry for image assets.
+ * This sealed class maps logical resource objects to their physical paths and generated [DrawableResource] references.
+ * Using this registry ensures that UI components can reference images by strongly-typed objects rather than raw resource IDs or string paths, facilitating easier maintenance and refactoring.
+ *
+ * @property path The relative string path to the asset in `commonMain/composeResources/drawable`.
+ * @property drawable The generated [DrawableResource].
  */
 @Stable
 internal sealed class ImageResource(

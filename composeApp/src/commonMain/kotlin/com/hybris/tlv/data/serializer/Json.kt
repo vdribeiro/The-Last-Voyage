@@ -7,7 +7,13 @@ import io.ktor.http.encodeURLQueryComponent
 import com.hybris.tlv.core.telemetry.Telemetry
 
 /**
- * A lenient JSON serializer.
+ * A pre-configured [Json] instance tailored for maximum compatibility across various API and storage formats.
+ *
+ * This serializer is configured with a lenient policy:
+ * - **Lenient Parsing:** Accepts quoted boolean values and other relaxed JSON standards.
+ * - **Forward Compatibility:** Ignores unknown keys in the JSON input to prevent crashes when API schemas evolve.
+ * - **Persistence:** Explicitly encodes default values to ensure data integrity during storage.
+ * - **Formatting:** Permits trailing commas, facilitating easier manual editing of configuration files.
  */
 @OptIn(ExperimentalSerializationApi::class)
 internal val json = Json {
@@ -18,8 +24,12 @@ internal val json = Json {
 }
 
 /**
- * Safely encodes a given [value] of type [T] into a JSON string.
- * Returns null if encoding fails or the value is null.
+ * Attempts to transform an object of type [T] into a JSON [String].
+ *
+ * @param T The type of the object to encode.
+ * @param jsonSerializer The [Json] configuration to use. Defaults to the internal [json].
+ * @param value The object instance to be serialized.
+ * @return A JSON formatted string, or `null` if the value is null or serialization fails.
  */
 internal inline fun <reified T> encode(jsonSerializer: Json = json, value: T?): String? = runCatching {
     value?.let { jsonSerializer.encodeToString(value = value) }
@@ -28,9 +38,15 @@ internal inline fun <reified T> encode(jsonSerializer: Json = json, value: T?): 
 }.getOrNull()
 
 /**
- * Safely decodes a JSON string [value] into an object of type [T].
- * Returns null if decoding fails or the value is null.
- * If [value] is blank, it provides a default empty JSON object or array to prevent deserialization errors for empty or collection types.
+ * Attempts to transform a JSON [String] back into an object of type [T].
+ * This decoder includes a "safety net" for blank strings:
+ * - If the input is blank and [T] is a [Collection], it attempts to decode from `[{}]`.
+ * - For other types, it attempts to decode from `{}`.
+ *
+ * @param T The expected target type.
+ * @param jsonSerializer The [Json] configuration to use. Defaults to the internal [json].
+ * @param value The JSON string to be deserialized.
+ * @return An instance of [T], or `null` if decoding fails or the input is null.
  */
 internal inline fun <reified T> decode(jsonSerializer: Json = json, value: String?): T? = runCatching {
     value?.let {
@@ -46,8 +62,11 @@ internal inline fun <reified T> decode(jsonSerializer: Json = json, value: Strin
 }.getOrNull()
 
 /**
- * Safely encodes a given value of type [T] into a URL-safe JSON string.
- * Returns "null" if encoding fails or the value is null.
+ * Encodes a value into a JSON string and applies URL query component encoding.
+ * This is useful for passing complex objects or configurations via URL parameters.
+ *
+ * @param value The object instance to encode.
+ * @return A URL-safe string representation, or the literal string "null" on failure.
  */
 internal inline fun <reified T> encodeURL(value: T?): String = runCatching {
     encode(value = value)?.encodeURLQueryComponent()
@@ -56,8 +75,10 @@ internal inline fun <reified T> encodeURL(value: T?): String = runCatching {
 }.getOrNull() ?: "null"
 
 /**
- * Safely decodes a URL-safe JSON string into an object of type [T].
- * Returns null if decoding fails or the value is null or "null".
+ * Decodes a URL-encoded JSON string back into an object of type [T].
+ *
+ * @param value The URL-safe string retrieved from a query component.
+ * @return An instance of [T], or `null` if the string is literal "null" or decoding fails.
  */
 internal inline fun <reified T> decodeURL(value: String?): T? = runCatching {
     if (value == "null") return null
