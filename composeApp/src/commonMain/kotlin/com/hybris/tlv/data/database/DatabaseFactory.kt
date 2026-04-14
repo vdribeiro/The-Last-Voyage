@@ -12,8 +12,12 @@ import database.Planet
 import database.Ship
 
 /**
- * Factory for creating and configuring the [AppDatabase] instance with the necessary column adapters
- * for custom data types, given a [SqlDriver].
+ * Factory responsible for initializing the [AppDatabase] with standardized column adapters.
+ *
+ * The [SqlDriver] is supplied by the specific platform, while this factory ensures that custom types—such as
+ * Enums, Sets, and Primitive wrappers—are mapped correctly to SQL types across all targets.
+ *
+ * @param driver The platform-specific [SqlDriver] used to establish the database connection.
  */
 internal class DatabaseFactory(driver: SqlDriver) {
 
@@ -44,7 +48,7 @@ internal class DatabaseFactory(driver: SqlDriver) {
     )
 
     /**
-     * The configured [AppDatabase] instance.
+     * The fully configured [AppDatabase] instance.
      */
     val database: AppDatabase = AppDatabase(
         driver = driver,

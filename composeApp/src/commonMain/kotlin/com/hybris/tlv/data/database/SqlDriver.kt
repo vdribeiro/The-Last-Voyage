@@ -8,7 +8,12 @@ import com.hybris.tlv.test.ExcludeFromTesting
 import database.AppDatabase
 
 /**
- * Creates the database driver.
+ * Factory function to instantiate a platform-specific [SqlDriver].
+ * This function is marked as `suspend` to support asynchronous driver initialization, which is a requirement for async-enabled drivers.
+ *
+ * @param name The filename of the database. Defaults to [DATABASE_FILE].
+ * @param schema The SQLDelight [SqlSchema] used to create or migrate the database. Defaults to the auto-generated [AppDatabase.Schema].
+ * @return A [SqlDriver] ready to be consumed by [DatabaseFactory].
  */
 @ExcludeFromTesting
 internal expect suspend fun createSqlDriver(
