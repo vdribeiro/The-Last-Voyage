@@ -23,15 +23,16 @@ import com.hybris.tlv.data.storage.saveJsonFile
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
 
 /**
- * This class is responsible for:
- * - Fetching remote configs.
- * - Caching configs to minimize network requests.
- * - Caching preferences and configs to minimize disk access.
- * - Loading and saving preferences and configs from/to local storage.
- * - Providing access to preferences and configs as StateFlows.
+ * This class implements [ConfigManager] acting as the "Source of Truth" for settings, coordinating between local disk storage, in-memory caches and remote network updates.
+ * It ensures thread-safety across platforms using a [Mutex] for disk I/O and utilizes [MutableStateFlow] to provide reactive updates and atomic access.
+ *
+ * @property httpClient The [HttpClient] instance used for remote API communication.
  */
-internal class Config(private val httpClient: HttpClient): ConfigManager {
+internal class Config(private val httpClient: HttpClient) : ConfigManager {
 
+    /**
+     * Synchronizes access to local storage files to prevent concurrent write corruption.
+     */
     private val mutex = Mutex()
 
     private val _preferences: MutableStateFlow<Preferences> = MutableStateFlow(value = Preferences())
@@ -44,7 +45,9 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     override val remoteConfigs: Configs get() = _remoteConfigs.value
 
     /**
-     * Cache time to live to fetch remote configs.
+     * The interval required between network syncs.
+     * - Returns [ZERO] in dev mode to facilitate rapid testing.
+     * - Returns 1 hour in production to conserve battery and data.
      */
     private val cacheTTL: Duration get() = if (flags.devMode) ZERO else 1.hours
 

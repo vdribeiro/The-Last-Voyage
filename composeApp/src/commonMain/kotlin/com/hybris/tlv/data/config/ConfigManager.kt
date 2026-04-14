@@ -1,53 +1,68 @@
 package com.hybris.tlv.data.config
 
 /**
- * User preferences and remote configurations.
+ * Manages the state and persistence of user preferences and remote-driven configurations.
  */
 internal interface ConfigManager {
 
     /**
-     * Cached preferences.
+     * The current snapshot of user-specific settings.
      */
     val preferences: Preferences
 
     /**
-     * Cached local configs.
+     * The current snapshot of local configurations.
      */
     val localConfigs: Configs
 
     /**
-     * Cached remote configs.
+     * The current snapshot of remote configurations.
      */
     val remoteConfigs: Configs
 
     /**
-     * Delete configuration and preferences files and reset all caches.
+     * Wipes all persisted configuration and preference files from the device and resets in-memory caches to their defaults.
+     *
+     * @return The [ConfigManager] instance for chaining.
      */
     suspend fun reset(): ConfigManager
 
     /**
-     * Setup all caches.
-     * Loads preferences and local configs from disk to respective caches and calls [fetchRemoteConfigs].
+     * Bootstraps the manager by loading data from disk into memory and triggering an initial remote sync.
+     *
+     * @return The [ConfigManager] instance for chaining.
      */
     suspend fun setup(): ConfigManager
 
     /**
-     * Fetch remote configs. Updates both remote and local configs if successful.
+     * Attempts to fetch the latest configuration from the network.
+     * Successful fetches update both [remoteConfigs] and [localConfigs].
+     *
+     * @return The [ConfigManager] instance for chaining.
      */
     suspend fun fetchRemoteConfigs(): ConfigManager
 
     /**
-     * Update preferences cache and save to storage.
+     * Applies a transformation to the current preferences, updates the in-memory state, and persists the result to local storage.
+     *
+     * @param preferences A lambda that takes the current [Preferences] and returns the updated state.
+     * @return The [ConfigManager] instance for chaining.
      */
     suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager
 
     /**
-     * Update configs cache. To persist the changes, call [saveConfigs].
+     * Updates the in-memory [localConfigs] cache.
+     * This change is volatile and will be lost unless [saveConfigs] is called subsequently.
+     *
+     * @param configs A lambda that takes the current [Configs] and returns the updated state.
+     * @return The [ConfigManager] instance for chaining.
      */
     fun setConfigs(configs: (Configs) -> Configs): ConfigManager
 
     /**
-     * Save configs to storage.
+     * Persists the current in-memory [localConfigs] to the device's storage.
+     *
+     * @return The [ConfigManager] instance for chaining.
      */
     suspend fun saveConfigs(): ConfigManager
 }
