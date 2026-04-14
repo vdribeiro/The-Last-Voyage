@@ -24,16 +24,22 @@ import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.KotlinxSerializationConverter
 import io.ktor.serialization.kotlinx.json.json
 import com.hybris.tlv.core.telemetry.Telemetry
+import com.hybris.tlv.data.http.HttpClientFactory.Companion.CONNECT_TIMEOUT_MILLIS
+import com.hybris.tlv.data.http.HttpClientFactory.Companion.REQUEST_TIMEOUT_MILLIS
+import com.hybris.tlv.data.http.HttpClientFactory.Companion.SOCKET_TIMEOUT_MILLIS
 import com.hybris.tlv.data.serializer.json
 
 /**
- * A factory for creating and configuring the [HttpClient] instance with the necessary plugins,
- * given an optional [HttpClientEngine] to use for the client. If null, a default engine is used.
+ * A centralized factory for creating and configuring the [HttpClient].
+ * This factory ensures that all network requests follow a consistent set of rules for logging, timeouts, caching, and serialization.
+ *
+ * @property engine The underlying networking engine used to execute requests.
  */
 internal class HttpClientFactory(engine: HttpClientEngine) {
 
     /**
      * The configured [HttpClient] instance.
+     * This instance should be treated as a singleton and shared across the application to maximize the efficiency of connection pooling and caching.
      */
     val httpClient: HttpClient = HttpClient(engine = engine) { install() }
 
@@ -49,6 +55,9 @@ internal class HttpClientFactory(engine: HttpClientEngine) {
         defaultRequest { configure() }
     }
 
+    /**
+     * Configures the [Logging] plugin to route Ktor network logs to the [Telemetry] system.
+     */
     private fun LoggingConfig.configure() {
         logger = object: Logger {
             override fun log(message: String) {
@@ -58,27 +67,45 @@ internal class HttpClientFactory(engine: HttpClientEngine) {
         level = LogLevel.INFO
     }
 
+    /**
+     * Configures the [HttpTimeout] settings.
+     * Ensures that the client doesn't hang indefinitely on poor connections by enforcing strict [CONNECT_TIMEOUT_MILLIS], [SOCKET_TIMEOUT_MILLIS] and [REQUEST_TIMEOUT_MILLIS].
+     */
     private fun HttpTimeoutConfig.configure() {
         connectTimeoutMillis = CONNECT_TIMEOUT_MILLIS
         socketTimeoutMillis = SOCKET_TIMEOUT_MILLIS
         requestTimeoutMillis = REQUEST_TIMEOUT_MILLIS
     }
 
+    /**
+     * Configures the [HttpCache] with unlimited persistence for both public and private storage.
+     */
     private fun HttpCache.Config.configure() {
         publicStorage(storage = CacheStorage.Unlimited())
         privateStorage(storage = CacheStorage.Unlimited())
         isShared = false
     }
 
+    /**
+     * Configures [ContentNegotiation] using Kotlinx Serialization.
+     * Supports standard `application/json` and fallback `text/plain` responses for increased API compatibility across platforms.
+     */
     private fun ContentNegotiationConfig.configure() {
         json(json = json, contentType = ContentType.Application.Json)
         register(contentType = ContentType.Text.Plain, converter = KotlinxSerializationConverter(format = json))
     }
 
+    /**
+     * Enables [ContentEncoding] to support compressed Gzip responses, significantly reducing payload sizes.
+     */
     private fun ContentEncodingConfig.configure() {
         gzip()
     }
 
+    /**
+     * Injects default headers into every request.
+     * Enforces that all requests accept [ContentType.Application.Json].
+     */
     private fun DefaultRequest.DefaultRequestBuilder.configure() {
         header(key = HttpHeaders.Accept, value = ContentType.Application.Json)
     }

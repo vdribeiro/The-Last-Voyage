@@ -10,9 +10,19 @@ import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
 
 /**
- * Performs a GET request to the URL [path], given a map of query parameters [queryMap] to be appended to the URL, and decodes the response body as a stream of objects of type [T].
- * This function handles network availability checks, URL encoding, query parameters, and JSON decoding.
- * It returns a [Result] object, which is either [Result.Success] containing the decoded list of objects, or [Result.Error] containing the exception that occurred.
+ * Executes a type-safe GET request and decodes the response into a [Result].
+ * This function handles several concerns:
+ *
+ * - **Feature Gating:** Checks a feature flag to see if networking is globally disabled.
+ * - **Connectivity Check:** Verifies network availability via [isInternetAvailable].
+ * - **URL Preparation:** Encodes the [path] and appends [queryMap] parameters safely.
+ * - **Resource Management:** Executes on [Dispatcher.IO] to prevent blocking the calling thread.
+ * - **Error Handling:** Catches network, parsing, and server errors, wrapping them in a [Result.Error].
+ *
+ * @param T The model type to decode the JSON response into.
+ * @param path The [URL] endpoint for the request.
+ * @param queryMap An optional map of key-value pairs to be appended as URL query parameters.
+ * @return A [Result.Success] containing a [List] of [T] on success, or [Result.Error] on failure containing the exception that occurred.
  */
 internal suspend inline fun <reified T> HttpClient.get(
     path: URL,
