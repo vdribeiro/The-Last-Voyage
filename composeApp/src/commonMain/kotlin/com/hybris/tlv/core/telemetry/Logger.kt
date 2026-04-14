@@ -9,9 +9,9 @@ import com.hybris.tlv.platform.Property
  * It uses a combination of compile-time properties and runtime feature flags to gate data flow.
  *
  * ### Supported Sinks:
- * - **[PlatformLogger]**: Targeted for local development. Routes to native system logs.
- * - **[SentryLogger]**: Targeted for production. Routes to Sentry when a valid DSN is provided.
- * - **[Console]**: An in-memory buffer accessible for on-device debugging.
+ * - **[PlatformLogger]:** Targeted for local development. Routes to native system logs.
+ * - **[SentryLogger]:** Targeted for production. Routes to Sentry when a valid DSN is provided.
+ * - **[Console]:** An in-memory buffer accessible for on-device debugging.
  */
 internal class Logger: TelemetryEngine {
 

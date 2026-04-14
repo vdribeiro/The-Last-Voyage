@@ -11,9 +11,9 @@ import com.hybris.tlv.core.telemetry.Telemetry
 /**
  * Generates a universally unique identifier (UUID) using a tiered fallback strategy.
  * It attempts generation in the following order:
- * 1. **UUID v7** - [uuidV7]
- * 2. **UUID v4** - [uuidV4]
- * 3. **Unsecure UUID** - [unsecureUuid]
+ * 1. **UUID v7** [uuidV7]
+ * 2. **UUID v4** [uuidV4]
+ * 3. **Unsecure UUID** [unsecureUuid]
  *
  * @return A 36-character string representation of the UUID.
  */

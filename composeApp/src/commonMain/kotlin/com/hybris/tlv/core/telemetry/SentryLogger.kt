@@ -10,9 +10,9 @@ import io.sentry.kotlin.multiplatform.protocol.UserFeedback
 /**
  * Sentry logger.
  * This object manages the lifecycle and event reporting for Sentry. It maps common logging calls to Sentry features:
- * - **Info** calls become [Breadcrumb]s to provide context for future crashes.
- * - **Error** calls become Captured Messages or Exceptions.
- * - **Feedback** calls are linked to Sentry's User Feedback system.
+ * - **Info:** calls become [Breadcrumb]s to provide context for future crashes.
+ * - **Error:** calls become Captured Messages or Exceptions.
+ * - **Feedback:** calls are linked to Sentry's User Feedback system.
  */
 @ExcludeFromTesting
 internal object SentryLogger {
