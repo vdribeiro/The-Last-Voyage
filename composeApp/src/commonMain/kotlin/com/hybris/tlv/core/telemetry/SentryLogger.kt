@@ -9,12 +9,17 @@ import io.sentry.kotlin.multiplatform.protocol.UserFeedback
 
 /**
  * Sentry logger.
+ * This object manages the lifecycle and event reporting for Sentry. It maps common logging calls to Sentry features:
+ * - **Info** calls become [Breadcrumb]s to provide context for future crashes.
+ * - **Error** calls become Captured Messages or Exceptions.
+ * - **Feedback** calls are linked to Sentry's User Feedback system.
  */
 @ExcludeFromTesting
 internal object SentryLogger {
 
     /**
-     * Initialize Sentry.
+     * Initializes Sentry.
+     * Configures the DSN, sample rates, and dynamically generates a release name.
      */
     internal fun init() =
         Sentry.init { options ->
@@ -29,8 +34,11 @@ internal object SentryLogger {
         }
 
     /**
-     * Logs an informational message as a breadcrumb in Sentry.
-     * Breadcrumbs are used to record a trail of events that led up to an issue.
+     * Records a [Breadcrumb] in the current Sentry scope.
+     * Breadcrumbs are not sent immediately but are attached to subsequent error reports to help reconstruct the state of the application leading up to a failure.
+     *
+     * @param tag Mapped to the Sentry "category" field.
+     * @param message The informational text describing the event.
      */
     fun info(tag: String, message: String) =
         Sentry.addBreadcrumb(breadcrumb = Breadcrumb().apply {
@@ -40,13 +48,18 @@ internal object SentryLogger {
         })
 
     /**
-     * Logs an error message to Sentry.
-     * If a [throwable] is provided, it captures the exception along with the [tag] and [message],
-     * otherwise it captures the [message] with the [tag].
+     * Reports an issue to the Sentry server immediately.
+     * If a [throwable] is provided, it is captured as a "Crash" or "Issue" with a full stack trace. Otherwise, a simple "Message" is captured instead.
+     *
+     * @param tag Injected into the Sentry event as a searchable Tag.
+     * @param message The error description, added as "Extra" context if a throwable is present.
+     * @param throwable The exception to report, if any.
      */
     fun error(tag: String, message: String, throwable: Throwable? = null) =
         when {
-            throwable == null -> Sentry.captureMessage(message = message) { scope -> scope.setTag(key = "tag", value = tag) }
+            throwable == null -> Sentry.captureMessage(message = message) { scope ->
+                scope.setTag(key = "tag", value = tag)
+            }
             else -> Sentry.captureException(throwable = throwable) { scope ->
                 scope.setTag(key = "tag", value = tag)
                 scope.setExtra(key = "message", value = message)
@@ -54,7 +67,10 @@ internal object SentryLogger {
         }
 
     /**
-     * Logs a user feedback to Sentry.
+     * Submits a [UserFeedback] report to Sentry.
+     * This creates a relationship between a newly captured message and the feedback comments provided by the user.
+     *
+     * @param message The user's feedback or comments.
      */
     fun feedback(message: String) =
         Sentry.captureUserFeedback(userFeedback = UserFeedback(sentryId = Sentry.captureMessage(message = message)).apply {
