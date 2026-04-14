@@ -26,7 +26,16 @@ import com.hybris.tlv.domain.usecase.translation.model.Translation
 import com.hybris.tlv.test.ExcludeFromTesting
 
 /**
- * Central hub of The Last Voyage application, holding feature flags, dependencies and global listeners.
+ * Central hub of The Last Voyage application.
+ * This singleton is responsible for the "Cold Start" of the application logic. It performs the following critical startup tasks:
+ * 1. **Feature Flag Initialization:** Configures the initial state of [FeatureFlags].
+ * 2. **Telemetry Setup:** Injects the [Logger] engine into the global [Telemetry] hub.
+ * 3. **Dependency Injection:** Asynchronously instantiates the [Dependency] graph, including platform-specific drivers for Database and Networking.
+ * 4. **Localization:** Seeds the initial [TranslationCache] and registers a reactive listener to handle system-level locale changes.
+ *
+ * ### Lifecycle:
+ * The initialization begins immediately upon the first access to this object.
+ * All heavy operations are offloaded to a [SupervisorJob] on [Dispatcher.IO] to keep the app responsive during bootstrap.
  */
 @ExcludeFromTesting
 internal object TLV {
@@ -34,7 +43,7 @@ internal object TLV {
     private const val TAG = "TLV"
 
     /**
-     * Feature flags for production.
+     * Production-ready feature flags.
      */
     private val flags = Flags(
         devMode = isDebug,
@@ -46,7 +55,15 @@ internal object TLV {
         engines = false
     )
 
+    /**
+     * Global scope for application-wide background tasks.
+     */
     private val scope = CoroutineScope(context = SupervisorJob())
+
+    /**
+     * Reactive holder for the [Dependency] index.
+     * Modules should observe this flow to ensure they only interact with dependencies after the bootstrap is complete.
+     */
     val dependency = MutableStateFlow<Dependency?>(value = null)
 
     init {
@@ -70,7 +87,10 @@ internal object TLV {
     }
 
     /**
-     * Safely create the [Dependency] index.
+     * Orchestrates the creation of platform-dependent engines.
+     * Uses a resilient "Best Effort" pattern: if a platform driver fails to initialize (e.g., storage is corrupted), it falls back to a "No-Op" implementation to prevent a total application crash.
+     *
+     * @return A fully populated [Dependency] object, or null if the core index failed.
      */
     private suspend fun createDependency(): Dependency? {
         val sqlDriver = runCatching {
@@ -103,7 +123,9 @@ internal object TLV {
     }
 
     /**
-     * Observe and register the locale listener.
+     * Subscribes to system locale changes and refreshes the [TranslationCache].
+     *
+     * @param translation The use-case container used to fetch updated strings for the new locale.
      */
     private suspend fun observeLocale(translation: TranslationUseCases) {
         observeLocale().collectLatest { languageIso ->

@@ -29,41 +29,57 @@ import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.sendCommand
 
 /**
- * The central hub for a screen's [State]. It's the single source of truth for the UI.
- * It receives [Action]s from the UI and calls the appropriate Use Cases to handle the business logic for that action.
- * After it receives the result from the Use Case, it combines it with the current [State], and emits a new [State].
- * A key rule is that the UI only observes the Store's [State] and never modifies it directly.
+ * The central state coordinator for a screen, following the MVI (Model-View-Intent) pattern.
+ * The [Store] acts as the single source of truth for the UI. It interprets [Action]s (Intents) from the user, executes business logic via Use Cases,
+ * and produces a new [State] (Model) for the UI (View) to observe.
+ *
+ * ### Key Principles:
+ * 1. **Unidirectional Flow:** Actions flow in; State flows out.
+ * 2. **Reactive:** The UI observes the [stateFlow] and never modifies state directly.
+ * 3. **Lifecycle-Aware:** Managed coroutines automatically clean up when the screen is destroyed.
+ *
+ * @param State An immutable data class representing the UI's current information.
+ * @param Action A sealed class/interface representing all possible user interactions.
  */
 internal open class Store<State, Action>(initialState: State): ViewModel() {
 
     /**
-     * The current state of the screen.
+     * Backing property for the reactive UI state.
      */
     private val _stateFlow: MutableStateFlow<State> = MutableStateFlow(value = initialState)
+
+    /**
+     * A read-only [StateFlow] that the UI observes to render its elements.
+     */
     val stateFlow: StateFlow<State> = _stateFlow.asStateFlow()
+
+    /**
+     * Provides the current, non-reactive snapshot of the [State].
+     */
     val state: State get() = stateFlow.value
 
     /**
-     * Active jobs launched by the Store.
+     * Registry of active background [Job]s, keyed by a unique identifier to prevent leaks or redundant executions.
      */
     private val activeJobs = mutableMapOf<String, Job>()
 
     /**
-     * Sends an [Action] to the Store.
+     * Dispatches a user [Action] to the [reducer].
      */
     fun send(action: Action) = reducer(state = _stateFlow.value, action = action)
 
     /**
-     * Called when an [Action] is sent to the Store.
-     * It uses the current [state] and the [action] to produce a new [State].
+     * Core logic handler. Subclasses must override this to interpret [Action]s and call [updateState] or launch background tasks.
      */
     protected open fun reducer(state: State, action: Action) {}
 
     /**
-     * Updates the current [State].
+     * Atomically updates the UI [State].
+     *
+     * @param body A lambda that accepts the current state and returns the updated state.
+     * @return The updated [State] instance.
      */
-    protected fun updateState(body: (State) -> State): State =
-        _stateFlow.updateAndGet(function = body)
+    protected fun updateState(body: (State) -> State): State = _stateFlow.updateAndGet(function = body)
 
     /**
      * Converts a cold [Flow] into a hot [StateFlow] scoped to the [viewModelScope].
@@ -166,7 +182,7 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
     }
 
     /**
-     * Navigate back.
+     * Navigates back in the navigation stack.
      */
     protected fun navigateBack() {
         sendCommand(command = Navigate.Back)

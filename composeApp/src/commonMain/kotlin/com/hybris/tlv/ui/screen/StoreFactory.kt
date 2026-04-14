@@ -22,7 +22,16 @@ import com.hybris.tlv.ui.screen.stellarexplorer.StellarExplorerStore
 import com.hybris.tlv.ui.screen.tutorial.TutorialStore
 
 /**
- * Factory for creating [Store] instances.
+ * A centralized factory responsible for instantiating and injecting dependencies into [Store]s.
+ *
+ * This factory acts as the bridge between the domain layer ([UseCases]) and the UI layer.
+ * By encapsulating the creation of ViewModels, it ensures that:
+ * 1. **Constructor Injection:** Stores receive only the specific dependencies they need.
+ * 2. **Consistency:** All screens use the same shared [ConfigManager] and Use Case instances.
+ * 3. **Decoupling:** UI navigation logic doesn't need to know how to build complex business logic structures, it simply requests a Store from this factory.
+ *
+ * @property config The configuration manager used for user preferences and remote-driven configurations.
+ * @property useCases The container for all domain business logic, provided via Gateways.
  */
 internal class StoreFactory(
     private val config: ConfigManager,

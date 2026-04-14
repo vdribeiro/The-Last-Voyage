@@ -29,8 +29,15 @@ import com.hybris.tlv.ui.theme.getTranslationState
 import com.hybris.tlv.ui.audio.AudioPlayer as MusicPlayer
 
 /**
- * The main composable function that assembles the application UI.
- * Acts as the top-level container for the user-facing elements.
+ * The root Composable function that acts as the top-level container for the user-facing elements. It is responsible for:
+ * 1. **Dependency Injection (UI):** Injecting global dependencies into the Compose tree via [CompositionLocalProvider].
+ * 2. **State Gating:** Monitoring the [dependency] state to decide between showing the initial boot sequence ([Loading]) or the main application [Navigation].
+ * 3. **Theming:** Wrapping the entire UI in the [AppTheme].
+ *
+ * @param modifier Standard Compose [Modifier] for the root container.
+ * @param compositionValues Additional [ProvidedValue]s from platform-specific code.
+ * @param navController The navigation controller managing the app's backstack.
+ * @param dependency The fully initialized [Dependency] graph. When null, the app displays the loading screen.
  */
 @Composable
 internal fun App(
@@ -68,6 +75,10 @@ internal fun App(
     }
 }
 
+/**
+ * Renders the startup sequence when dependencies are being initialized.
+ * It periodically polls the [Console] to show diagnostic logs to the user, providing transparency during the "Cold Start" phase.
+ */
 @Composable
 private fun Loading() {
     var logs: String? by remember { mutableStateOf(value = null) }
@@ -83,6 +94,9 @@ private fun Loading() {
     )
 }
 
+/**
+ * Internal assembly for the main application content.
+ */
 @Composable
 private fun App(
     modifier: Modifier,
