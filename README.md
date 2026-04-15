@@ -28,6 +28,67 @@ You can **download** the game and track the development [here](https://mammoth-g
 - Monitoring: [Sentry](https://sentry.io/)
 - Code Coverage: [Kover](https://github.com/Kotlin/kotlinx-kover)
 
-## Documentation
+This is a **Kotlin Multiplatform** project following **Clean Architecture**. 
+Its design ensures that the business logic remains platform-agnostic with a strict Unidirectional Dependency Flow.
 
-For detailed build instructions and architecture details, please visit the [Project Wiki](https://github.com/vdribeiro/The-Last-Voyage/wiki).
+# Architecture
+
+## Package Responsibilities
+
+### core
+Business logic agnostic implementations.
+* **audio**: Audio Player implementation.
+* **flow**: Coroutine dispatchers.
+* **locale**: Localization and date/time formatting.
+* **platform**: OS-specific APIs.
+* **security**: Encryption, hashing, and UUID utilities.
+* **telemetry**: Logging and crash reporting.
+
+### data
+Responsible for data persistence and retrieval.
+* **config**: User preferences and configurations.
+* **database**: SQLDelight implementations and drivers.
+* **http**: Ktor client configuration and network logic.
+* **resource**: Resource index.
+* **serializer**: JSON parsing and serialization.
+* **storage**: File system access.
+
+### domain
+Business rules and entities.
+* **flag**: Feature flags.
+* **usecase**: Implementation of specific business workflows.
+
+### ui
+What the user interacts with.
+* **audio**: Audio player UI definition.
+* **cheats**: Easter eggs.
+* **lifecycle**: Platform-aware lifecycle observers.
+* **navigation**: Routing logic and navigation graph definitions.
+* **screen**: UI Composables and State management.
+* **theme**: Design system.
+
+### test
+Test utilities like annotations and fake data.
+
+## Testing Strategy
+The testing structure mirrors the source code to ensure 1:1 coverage.
+
+# Simple Forking
+
+Create a local.properties file in the root directory. 
+This is used for Sentry, Android signing, and Apple notarization.
+
+## Sentry
+- sentryDsn=YOUR_SENTRY_DSN
+
+## Android Signing
+- android.storeFile=path/to/keystore.jks 
+- android.keyAlias=alias 
+- android.keyPassword=password 
+- android.storePassword=password
+
+## Mac Notarization
+- mac.sign.identity=AppleID
+- mac.notarization.appleId=email@example.com 
+- mac.notarization.teamId=TEAMID 
+- mac.notarization.password=password
