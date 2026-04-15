@@ -20,6 +20,14 @@ You can **download** the game and track the development [here](https://mammoth-g
 - Linux
 - Web
 
+# Architecture
+
+This is a **Kotlin Multiplatform** project following **Clean Architecture**.
+Its design ensures that the business logic remains platform-agnostic with a strict Unidirectional Dependency Flow.
+
+It is a single `composeApp` module targeting Android, iOS, Desktop (JVM), and Web (WASM-JS).
+All shared code lives under `composeApp/src/commonMain/kotlin/com/hybris/tlv/`.
+
 ## Tech Stack
 
 - UI: [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform)
@@ -27,11 +35,6 @@ You can **download** the game and track the development [here](https://mammoth-g
 - Networking: [Ktor](https://ktor.io/)
 - Monitoring: [Sentry](https://sentry.io/)
 - Code Coverage: [Kover](https://github.com/Kotlin/kotlinx-kover)
-
-This is a **Kotlin Multiplatform** project following **Clean Architecture**. 
-Its design ensures that the business logic remains platform-agnostic with a strict Unidirectional Dependency Flow.
-
-# Architecture
 
 ## Package Responsibilities
 
