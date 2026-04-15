@@ -3,9 +3,9 @@
 package com.hybris.tlv.core.security
 
 import kotlin.random.Random
-import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
+import com.hybris.tlv.core.locale.epoch
 import com.hybris.tlv.core.telemetry.Telemetry
 
 /**
@@ -57,7 +57,7 @@ internal fun uuidV4(): String? = runCatching {
  */
 internal fun unsecureUuid(): String {
     // 48 bits timestamp based on system clock
-    val timestamp = Clock.System.now().toEpochMilliseconds() shl 16
+    val timestamp = epoch() shl 16
     // 4 bits to add v7 identifier
     val version7 = 0x7000L
     // 12 bits of randomness
