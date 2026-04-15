@@ -28,8 +28,6 @@ internal object Constants {
 
     // Earth's average density in g/cm^3
     const val EARTH_AVERAGE_DENSITY = 5.51
-    // Earth's radius in solar radius
-    const val EARTH_RADIUS_IN_SUNS = 109.2
     // Days in a year
     const val EARTH_ORBITAL_PERIOD_IN_DAYS = 365.25
     // Seconds in a day

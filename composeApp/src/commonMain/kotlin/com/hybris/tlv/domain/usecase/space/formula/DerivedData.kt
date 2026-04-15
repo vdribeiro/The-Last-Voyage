@@ -7,7 +7,6 @@ import com.hybris.tlv.domain.usecase.space.formula.Constants.EARTH_AVERAGE_DENSI
 import com.hybris.tlv.domain.usecase.space.formula.Constants.EARTH_BOND_ALBEDO
 import com.hybris.tlv.domain.usecase.space.formula.Constants.EARTH_DAY_IN_SECONDS
 import com.hybris.tlv.domain.usecase.space.formula.Constants.EARTH_ORBITAL_PERIOD_IN_DAYS
-import com.hybris.tlv.domain.usecase.space.formula.Constants.EARTH_RADIUS_IN_SUNS
 import com.hybris.tlv.domain.usecase.space.formula.Constants.GRAVITATIONAL_CONSTANT
 import com.hybris.tlv.domain.usecase.space.formula.Constants.SUN_EFFECTIVE_TEMPERATURE
 import com.hybris.tlv.domain.usecase.space.formula.Constants.SUN_EFFECTIVE_TEMPERATURE_1AU
@@ -250,7 +249,7 @@ internal object DerivedData {
         planetOccultationDepth: Double?
     ): Double? {
         if (stellarHostRadius == null || planetOccultationDepth == null) return null
-        return stellarHostRadius * sqrt(x = planetOccultationDepth) * EARTH_RADIUS_IN_SUNS
+        return stellarHostRadius * sqrt(x = planetOccultationDepth) * SUN_RADIUS_IN_EARTH_RADII
     }
 
     /**
