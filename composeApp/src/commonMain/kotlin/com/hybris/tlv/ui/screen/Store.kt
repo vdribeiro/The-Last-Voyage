@@ -195,6 +195,8 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
 
     /**
      * Navigate to a new [screen].
+     *
+     * @param screen The screen to navigate to.
      */
     protected fun navigate(screen: Screen) {
         sendCommand(command = Navigate.To(screen = screen))
