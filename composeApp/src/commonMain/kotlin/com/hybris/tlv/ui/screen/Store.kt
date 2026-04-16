@@ -30,8 +30,8 @@ import com.hybris.tlv.ui.navigation.sendCommand
 
 /**
  * The central state coordinator for a screen, following the MVI (Model-View-Intent) pattern.
- * The [Store] acts as the single source of truth for the UI. It interprets [Action]s (Intents) from the user, executes business logic via Use Cases,
- * and produces a new [State] (Model) for the UI (View) to observe.
+ * The [Store] acts as the single source of truth for the UI.
+ * It interprets [Action]s (Intents), executes business logic, and produces a new [State] (Model) for the UI (View) to observe.
  *
  * ### Key Principles:
  * 1. **Unidirectional Flow:** Actions flow in; State flows out.
@@ -65,11 +65,16 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
 
     /**
      * Dispatches a user [Action] to the [reducer].
+     *
+     * @param action The action to be processed.
      */
     fun send(action: Action) = reducer(state = _stateFlow.value, action = action)
 
     /**
      * Core logic handler. Subclasses must override this to interpret [Action]s and call [updateState] or launch background tasks.
+     *
+     * @param state The snapshot of the [State] at the moment the action was sent.
+     * @param action The specific [Action] to be processed and reacted to.
      */
     protected open fun reducer(state: State, action: Action) {}
 
