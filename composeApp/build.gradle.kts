@@ -16,6 +16,7 @@ plugins {
     alias(notation = libs.plugins.android.application)
     alias(notation = libs.plugins.compose.multiplatform)
     alias(notation = libs.plugins.compose.compiler)
+    alias(notation = libs.plugins.compose.hotreload)
     alias(notation = libs.plugins.sqldelight)
 }
 

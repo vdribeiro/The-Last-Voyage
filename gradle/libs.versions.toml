@@ -4,7 +4,7 @@
 kover = "0.9.8"
 kotlin = "2.3.20"
 kotlinx-coroutines = "1.10.2"
-kotlinx-serialization = "1.10.0"
+kotlinx-serialization = "1.11.0"
 kotlinx-datetime = "0.7.1"
 kotlinx-collections = "0.4.0"
 
@@ -13,10 +13,11 @@ ktor = "3.4.2"
 
 # SQLDelight
 sqldelight = "2.3.2"
-sqldelight-jdbc = "3.51.3.0"
+sqldelight-jdbc = "3.53.0.0"
 
 # UI & Lifecycle
 compose-multiplatform = "1.10.3"
+compose-hotreload = "1.0.0"
 compose-material3 = "1.9.0"
 compose-icons = "1.7.3"
 lifecycle = "2.10.0"
@@ -24,7 +25,7 @@ navigation = "2.9.2"
 coil = "3.4.0"
 
 # Android
-android-plugin = "9.1.0"
+android-plugin = "9.1.1"
 android-startup = "1.2.0"
 androidx-exoplayer = "1.10.0"
 android-test-core = "1.7.0"
@@ -46,10 +47,13 @@ sentry = "0.24.0"
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+compose-hotreload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hotreload" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 android-application = { id = "com.android.application", version.ref = "android-plugin" }
 android-library = { id = "com.android.library", version.ref = "android-plugin" }
 sentry = { id = "io.sentry.kotlin.multiplatform.gradle", version.ref = "sentry" }
@@ -57,6 +61,7 @@ sentry = { id = "io.sentry.kotlin.multiplatform.gradle", version.ref = "sentry" 
 [libraries]
 # Kotlin
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
@@ -75,6 +80,9 @@ ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-content = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-encoding = { module = "io.ktor:ktor-client-encoding", version.ref = "ktor" }
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
+ktor-server-test = { module = "io.ktor:ktor-server-test-host-jvm", version.ref = "ktor" }
 
 # SQLDelight
 sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqldelight" }
@@ -182,4 +190,10 @@ desktop = [
 web = [
     "ktor-wasm",
     "sqldelight-worker"
+]
+server = [
+    "kotlin-test-junit",
+    "ktor-server-core",
+    "ktor-server-netty",
+    "ktor-server-test",
 ]

@@ -7,5 +7,8 @@ plugins {
     alias(notation = libs.plugins.android.library) apply false
     alias(notation = libs.plugins.compose.multiplatform) apply false
     alias(notation = libs.plugins.compose.compiler) apply false
+    alias(notation = libs.plugins.compose.hotreload) apply false
     alias(notation = libs.plugins.sqldelight) apply false
+    alias(notation = libs.plugins.ktor) apply false
+    alias(notation = libs.plugins.kotlin.jvm) apply false
 }
