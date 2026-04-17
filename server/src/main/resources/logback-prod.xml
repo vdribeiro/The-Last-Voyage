@@ -1,0 +1,12 @@
+<configuration>
+    <appender name="Sentry" class="io.sentry.logback.SentryAppender">
+        <minimumEventLevel>WARN</minimumEventLevel>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="Sentry" />
+    </root>
+
+    <logger name="io.netty" level="WARN"/>
+    <logger name="io.ktor" level="WARN"/>
+</configuration>

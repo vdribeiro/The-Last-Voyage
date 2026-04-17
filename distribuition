@@ -18,6 +18,7 @@
     Windows: ./gradlew clean packageMsi
     Linux:   ./gradlew clean packageDeb
     Web:     ./gradlew clean deployWeb
+    Server:  java -Dlogback.configurationFile=logback-prod.xml -jar server-all.jar
 # Update Gists
     cd composeApp/src/commonMain/composeResources/files
     gh gist edit [hash] *.json

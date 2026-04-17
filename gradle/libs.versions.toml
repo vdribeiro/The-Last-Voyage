@@ -40,8 +40,12 @@ javafx = "21.0.9"
 sql-js = "1.6.2"
 webpack = "9.1.0"
 
+# Server
+logback = "1.5.6"
+
 # Crashlytics
-sentry = "0.24.0"
+sentry = "0.25.0"
+sentry-logback = "8.39.1"
 
 [plugins]
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
@@ -130,6 +134,10 @@ sql-worker = { module = "npm:@cashapp/sqldelight-sqljs-worker", version.ref = "s
 sql-js = { module = "npm:sql.js", version.ref = "sql-js" }
 webpack = { module = "npm:copy-webpack-plugin", version.ref = "webpack" }
 
+# Server
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+sentry-logback = { module = "io.sentry:sentry-logback", version.ref = "sentry-logback" }
+
 [bundles]
 common = [
     "kotlinx-coroutines-core",
@@ -192,6 +200,8 @@ web = [
     "sqldelight-worker"
 ]
 server = [
+    "logback",
+    "sentry-logback",
     "kotlin-test-junit",
     "ktor-server-core",
     "ktor-server-netty",
