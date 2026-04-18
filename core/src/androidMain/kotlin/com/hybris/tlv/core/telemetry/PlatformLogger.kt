@@ -4,7 +4,7 @@ import android.util.Log
 import com.hybris.tlv.core.telemetry.PlatformLogger.CHUNK_SIZE
 import com.hybris.tlv.core.telemetry.PlatformLogger.log
 
-internal actual object PlatformLogger {
+actual object PlatformLogger {
 
     actual fun info(tag: String, message: String) {
         log(message = message) { Log.i(tag, it) }

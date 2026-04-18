@@ -12,10 +12,10 @@ import com.hybris.tlv.core.flow.Dispatcher.Main
  * The [Default] dispatcher is used for CPU-intensive operations.
  * The [IO] dispatcher is used for I/O-related operations.
  */
-internal object Dispatcher {
+object Dispatcher {
     var Main: CoroutineDispatcher = Dispatchers.Main
     var Default: CoroutineDispatcher = Dispatchers.Default
     var IO: CoroutineDispatcher = io
 }
 
-internal expect val io: CoroutineDispatcher
+expect val io: CoroutineDispatcher

@@ -17,7 +17,7 @@ import com.hybris.tlv.core.telemetry.Telemetry
  *
  * @return A 36-character string representation of the UUID.
  */
-internal fun uuid(): String =
+fun uuid(): String =
     uuidV7() ?: uuidV4() ?: unsecureUuid()
 
 /**
@@ -26,7 +26,7 @@ internal fun uuid(): String =
  *
  * @return The hex-dash string representation, or `null` if the generation fails.
  */
-internal fun uuidV7(): String? = runCatching {
+fun uuidV7(): String? = runCatching {
     Uuid.generateV7().toHexDashString()
 }.onFailure {
     Telemetry.error(tag = TAG, message = "Unable to generate UUID v7", throwable = it)
@@ -38,7 +38,7 @@ internal fun uuidV7(): String? = runCatching {
  *
  * @return The hex-dash string representation, or `null` if the generation fails.
  */
-internal fun uuidV4(): String? = runCatching {
+fun uuidV4(): String? = runCatching {
     Uuid.generateV4().toHexDashString()
 }.onFailure {
     Telemetry.error(tag = TAG, message = "Unable to generate UUID v4", throwable = it)
@@ -55,7 +55,7 @@ internal fun uuidV4(): String? = runCatching {
  *
  * @return A manually constructed UUID string.
  */
-internal fun unsecureUuid(): String {
+fun unsecureUuid(): String {
     // 48 bits timestamp based on system clock
     val timestamp = epoch() shl 16
     // 4 bits to add v7 identifier

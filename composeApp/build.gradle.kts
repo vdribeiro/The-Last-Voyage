@@ -316,6 +316,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(dependencyNotation = projects.core)
     debugImplementation(dependencyNotation = libs.compose.tooling)
     debugImplementation(dependencyNotation = libs.androidx.test.manifest)
     addJavaFx()

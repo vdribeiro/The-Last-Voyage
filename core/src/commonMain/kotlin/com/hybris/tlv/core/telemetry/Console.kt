@@ -16,7 +16,7 @@ import com.hybris.tlv.core.telemetry.Console.log
  * This object maintains a circular-style buffer of the most recent [CONSOLE_SIZE] log entries.
  * It uses a single-threaded dispatcher to synchronize access to the [ArrayDeque], ensuring consistency across concurrent coroutine calls without platform-specific locks.
  */
-internal object Console {
+object Console {
     /**
      * The maximum number of log lines to retain in memory.
      */

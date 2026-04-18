@@ -12,14 +12,14 @@ import kotlin.time.Instant
  *
  * @return A string representation of the current [Instant].
  */
-internal fun now(): String = Clock.System.now().toString()
+fun now(): String = Clock.System.now().toString()
 
 /**
  * Returns the current number of milliseconds since the Unix epoch (1970-01-01T00:00:00Z).
  *
  * @return The current timestamp in milliseconds.
  */
-internal fun epoch(): Long = Clock.System.now().toEpochMilliseconds()
+fun epoch(): Long = Clock.System.now().toEpochMilliseconds()
 
 /**
  * Returns a string representation of a point in time far in the past.
@@ -27,7 +27,7 @@ internal fun epoch(): Long = Clock.System.now().toEpochMilliseconds()
  *
  * @return The [Instant.DISTANT_PAST] as an ISO-8601 string.
  */
-internal fun distantPast(): String = Instant.DISTANT_PAST.toString()
+fun distantPast(): String = Instant.DISTANT_PAST.toString()
 
 /**
  * Determines if a specific [duration] has elapsed between [dateTime] and the current time.
@@ -38,7 +38,7 @@ internal fun distantPast(): String = Instant.DISTANT_PAST.toString()
  * @param duration The [Duration] threshold to check against.
  * @return `true` if the elapsed time is strictly greater than [duration], `false` otherwise.
  */
-internal fun hasTimePassed(dateTime: String, duration: Duration): Boolean {
+fun hasTimePassed(dateTime: String, duration: Duration): Boolean {
     val parsedDateTime = runCatching { Instant.parse(input = dateTime) }.getOrDefault(defaultValue = Clock.System.now())
     val elapsedTime = Clock.System.now() - parsedDateTime
     return elapsedTime > duration

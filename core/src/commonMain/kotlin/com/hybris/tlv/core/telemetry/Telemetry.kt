@@ -7,7 +7,7 @@ import com.hybris.tlv.core.telemetry.Telemetry.engine
  */
 object Telemetry {
 
-    internal var engine: TelemetryEngine? = null
+    var engine: TelemetryEngine? = null
 
     /**
      * Send an informational message to the telemetry [engine].

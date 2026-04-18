@@ -3,7 +3,7 @@ package com.hybris.tlv.core.telemetry
 /**
  * Platform-specific logger.
  */
-internal expect object PlatformLogger {
+expect object PlatformLogger {
 
     /**
      * Logs an informational message.

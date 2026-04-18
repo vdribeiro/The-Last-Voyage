@@ -4,7 +4,7 @@ package com.hybris.tlv.core.telemetry
  * Defines the standard capabilities for capturing diagnostic data, including structured logging, exception tracking, and user-originated feedback.
  * Implementations are responsible for determining how this data is persisted or transmitted based on platform-specific capabilities.
  */
-internal interface TelemetryEngine {
+interface TelemetryEngine {
 
     /**
      * Records an informational event.

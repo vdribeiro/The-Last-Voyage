@@ -17,13 +17,13 @@ import android.content.IntentFilter
 import com.hybris.tlv.applicationContext
 import com.hybris.tlv.core.telemetry.Telemetry
 
-internal actual fun getLanguage(): String = runCatching {
+actual fun getLanguage(): String = runCatching {
     applicationContext.resources.configuration.locales[0].toLanguageTag()
 }.onFailure {
     Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it)
 }.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
 
-internal actual fun getLocalDateTime(utc: String): String = runCatching {
+actual fun getLocalDateTime(utc: String): String = runCatching {
     DateTimeFormatter
         .ofLocalizedDateTime(FormatStyle.SHORT)
         .withZone(TimeZone.currentSystemDefault().toJavaZoneId())
@@ -32,7 +32,7 @@ internal actual fun getLocalDateTime(utc: String): String = runCatching {
     Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it)
 }.getOrDefault(defaultValue = utc)
 
-internal actual fun observeLocale(): Flow<String> = callbackFlow {
+actual fun observeLocale(): Flow<String> = callbackFlow {
     runCatching {
         val receiver = object: BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
