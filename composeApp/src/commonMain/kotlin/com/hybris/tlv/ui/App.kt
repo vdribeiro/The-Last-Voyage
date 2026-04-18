@@ -65,12 +65,12 @@ internal fun App(
 
     CompositionLocalProvider(values = providers) {
         AppTheme {
-            if (dependency != null) App(
+            if (dependency == null) Loading() else App(
                 modifier = modifier,
                 navController = navController,
                 storeFactory = dependency.storeFactory,
                 audioPlayer = dependency.audioPlayer
-            ) else Loading()
+            )
         }
     }
 }
@@ -113,25 +113,6 @@ private fun App(
         navController = navController,
         audioPlayer = audioPlayer,
     )
-}
-
-/**
- * A wrapper composable for [androidx.compose.ui.tooling.preview.Preview]s.
- */
-@Composable
-internal fun Preview(content: @Composable () -> Unit) {
-    val translationMap = getTranslationState()
-    val providers = remember(key1 = translationMap) {
-        buildList {
-            add(element = LocalTranslationState provides translationMap)
-        }.toTypedArray()
-    }
-
-    CompositionLocalProvider(values = providers) {
-        AppTheme {
-            content()
-        }
-    }
 }
 
 @Preview
