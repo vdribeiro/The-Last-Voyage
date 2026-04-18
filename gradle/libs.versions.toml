@@ -60,10 +60,13 @@ sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 android-application = { id = "com.android.application", version.ref = "android-plugin" }
 android-library = { id = "com.android.library", version.ref = "android-plugin" }
+android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "android-plugin" }
+android-lint = { id = "com.android.lint", version.ref = "android-plugin" }
 sentry = { id = "io.sentry.kotlin.multiplatform.gradle", version.ref = "sentry" }
 
 [libraries]
 # Kotlin
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
