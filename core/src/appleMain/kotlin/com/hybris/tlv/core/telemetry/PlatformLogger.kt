@@ -1,0 +1,14 @@
+package com.hybris.tlv.core.telemetry
+
+import platform.Foundation.NSLog
+
+actual object PlatformLogger {
+
+    actual fun info(tag: String, message: String) {
+        NSLog(format = "INFO [$tag]: $message")
+    }
+
+    actual fun error(tag: String, message: String, throwable: Throwable?) {
+        NSLog(format = "ERROR [$tag]: $message${throwable?.let { "\n${it.stackTraceToString()}" }.orEmpty()}")
+    }
+}
