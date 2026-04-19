@@ -3,13 +3,11 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(notation = libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.library)
+    alias(notation = libs.plugins.android.library)
 }
 
 //region Properties
-val appId: String = "com.hybris.tlv.core"
-val appFramework = "TLV"
-val appVersion: String = "1.2.0"
+val appId: String = "com.hybris.tlv"
 
 val jdkVersion = 21
 val jvmVersion = JvmTarget.JVM_21
@@ -35,16 +33,7 @@ kotlin {
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
-    ).apply {
-        forEach { iosTarget ->
-            iosTarget.binaries.framework {
-                baseName = appFramework
-                isStatic = true
-                version = appVersion
-                freeCompilerArgs += "-Xbinary=bundleId=$appId"
-            }
-        }
-    }
+    )
 
     jvm(name = "desktop") {
         compilerOptions {
@@ -104,7 +93,7 @@ kotlin {
 }
 
 android {
-    namespace = appId
+    namespace = "$appId.core"
     compileSdk = androidSdkTarget.last
     defaultConfig {
         minSdk = androidSdkTarget.first
