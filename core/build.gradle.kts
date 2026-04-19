@@ -1,11 +1,9 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(notation = libs.plugins.kotlin.multiplatform)
-    alias(notation = libs.plugins.android.kotlin.multiplatform.library)
-    alias(notation = libs.plugins.android.lint)
+    alias(libs.plugins.android.library)
 }
 
 //region Properties
@@ -15,6 +13,7 @@ val appVersion: String = "1.2.0"
 
 val jdkVersion = 21
 val jvmVersion = JvmTarget.JVM_21
+val javaVersion = JavaVersion.VERSION_21
 
 val androidSdkTarget: IntRange = 26..36
 //endregion
@@ -26,10 +25,10 @@ kotlin {
         freeCompilerArgs.addAll("-Xexpect-actual-classes")
     }
 
-    android {
-        namespace = appId
-        minSdk = androidSdkTarget.first
-        compileSdk = androidSdkTarget.last
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(jvmVersion)
+        }
     }
 
     val iosTargets = listOf(
@@ -55,20 +54,7 @@ kotlin {
 
     @OptIn(ExperimentalWasmDsl::class)
     val webTarget = wasmJs {
-        outputModuleName = appFramework
-        browser {
-            commonWebpackConfig {
-                outputFileName = "tlv.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static(directory = "build/processedResources/wasmJs/main")
-                }
-                showProgress = true
-                cssSupport {
-                    enabled.set(true)
-                }
-            }
-        }
-        binaries.executable()
+        browser()
     }
 
     sourceSets {
@@ -114,5 +100,17 @@ kotlin {
             }
         }
         sourceSets.getByName("${webTarget.name}Main").dependsOn(other = webMain)
+    }
+}
+
+android {
+    namespace = appId
+    compileSdk = androidSdkTarget.last
+    defaultConfig {
+        minSdk = androidSdkTarget.first
+    }
+    compileOptions {
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
     }
 }
