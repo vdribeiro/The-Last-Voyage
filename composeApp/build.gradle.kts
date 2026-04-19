@@ -236,6 +236,7 @@ kotlin {
         val commonMain by getting {
             kotlin.srcDir(generatePropertiesTask.map { it.outputs.files })
             dependencies {
+                implementation(dependencyNotation = projects.core)
                 implementation(dependencyNotation = libs.bundles.common)
             }
         }
@@ -316,7 +317,6 @@ kotlin {
 }
 
 dependencies {
-    implementation(dependencyNotation = projects.core)
     debugImplementation(dependencyNotation = libs.compose.tooling)
     debugImplementation(dependencyNotation = libs.androidx.test.manifest)
     addJavaFx()
