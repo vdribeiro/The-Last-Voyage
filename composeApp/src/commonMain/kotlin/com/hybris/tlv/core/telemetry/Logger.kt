@@ -1,7 +1,7 @@
 package com.hybris.tlv.core.telemetry
 
+import com.hybris.tlv.Sentry
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
-import com.hybris.tlv.platform.Property
 
 /**
  * A composite [TelemetryEngine] that implements a fan-out pattern to multiple sinks.
@@ -25,7 +25,7 @@ internal class Logger: TelemetryEngine {
      * Determines if events should be synced to Sentry.
      * Requires production mode and a non-blank Sentry property.
      */
-    private val useSentry: Boolean get() = !flags.devMode && Property.sentry.isNotBlank()
+    private val useSentry: Boolean get() = !flags.devMode && Sentry.dsn.isNotBlank()
 
     /**
      * Determines if logs should be stored in the [Console] buffer.

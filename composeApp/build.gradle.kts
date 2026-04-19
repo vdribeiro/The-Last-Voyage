@@ -84,8 +84,8 @@ abstract class GenerateSentryValuesTask: DefaultTask() {
                  */
                 @ExcludeFromTesting
                 object $objectName {
-                    const val APP_ID: String = "$appId"
-                    val sentry: String = $sentryDsn
+                    private const val APP_ID: String = "$appId"
+                    val dsn: String = $sentryDsn
                 }
             """.trimIndent()
         )

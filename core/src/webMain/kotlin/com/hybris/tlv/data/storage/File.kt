@@ -2,12 +2,12 @@ package com.hybris.tlv.data.storage
 
 import kotlinx.browser.localStorage
 import kotlinx.coroutines.withContext
+import com.hybris.tlv.App
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.platform.Property
 
 actual val appDataPath: String by lazy {
-    Property.APP_NAME.lowercase().replace(regex = "\\s+".toRegex(), replacement = "") + "_storage"
+    App.NAME.lowercase().replace(regex = "\\s+".toRegex(), replacement = "") + "_storage"
 }
 
 actual suspend fun saveFile(path: String, content: String): Boolean = withContext(context = Dispatcher.IO) {

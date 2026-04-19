@@ -1,12 +1,12 @@
 package com.hybris.tlv.core.telemetry
 
 import com.hybris.tlv.App
-import com.hybris.tlv.platform.Property
 import com.hybris.tlv.test.ExcludeFromTesting
 import io.sentry.kotlin.multiplatform.Sentry
 import io.sentry.kotlin.multiplatform.SentryLevel
 import io.sentry.kotlin.multiplatform.protocol.Breadcrumb
 import io.sentry.kotlin.multiplatform.protocol.UserFeedback
+import com.hybris.tlv.Sentry as SentryValues
 
 /**
  * Sentry logger.
@@ -24,7 +24,7 @@ internal object SentryLogger {
      */
     internal fun init() =
         Sentry.init { options ->
-            options.dsn = Property.sentry
+            options.dsn = SentryValues.dsn
             options.sampleRate = 1.0
             options.tracesSampleRate = 0.5
             options.release = "${App.NAME.lowercase().replace(regex = "\\s+".toRegex(), replacement = "")}@${App.VERSION}"
