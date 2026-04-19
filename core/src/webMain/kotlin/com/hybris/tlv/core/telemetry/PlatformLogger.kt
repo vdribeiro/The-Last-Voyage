@@ -2,7 +2,7 @@
 
 package com.hybris.tlv.core.telemetry
 
-funactual object PlatformLogger {
+actual object PlatformLogger {
 
     actual fun info(tag: String, message: String) {
         val message = "INFO [$tag]: $message"

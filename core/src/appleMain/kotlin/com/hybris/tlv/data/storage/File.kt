@@ -17,7 +17,7 @@ import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 
 @OptIn(ExperimentalForeignApi::class)
-funactual val appDataPath: String by lazy {
+actual val appDataPath: String by lazy {
     runCatching {
         val fileManager = NSFileManager.defaultManager
         val paths = NSSearchPathForDirectoriesInDomains(
@@ -61,7 +61,7 @@ actual suspend fun saveFile(path: String, content: String): Boolean = withContex
 }
 
 @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
-funactual suspend fun loadFile(path: String): String? = withContext(context = Dispatcher.IO) {
+actual suspend fun loadFile(path: String): String? = withContext(context = Dispatcher.IO) {
     runCatching {
         val fullPath = NSString.create(string = appDataPath).stringByAppendingPathComponent(str = path)
         val fileManager = NSFileManager.defaultManager
@@ -78,7 +78,7 @@ funactual suspend fun loadFile(path: String): String? = withContext(context = Di
 }
 
 @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
-funactual suspend fun deleteFile(path: String): Boolean = withContext(context = Dispatcher.IO) {
+actual suspend fun deleteFile(path: String): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {
         val fullPath = NSString.create(string = appDataPath).stringByAppendingPathComponent(str = path)
         val fileManager = NSFileManager.defaultManager

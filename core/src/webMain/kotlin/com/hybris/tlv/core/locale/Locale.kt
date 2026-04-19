@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import com.hybris.tlv.core.telemetry.Telemetry
 import org.w3c.dom.events.Event
 
-funactual fun getLanguage(): String = runCatching {
+actual fun getLanguage(): String = runCatching {
     window.navigator.language
 }.onFailure {
     Telemetry.error(tag = TAG, message = "Unable to get language", throwable = it)
 }.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
 
-funactual fun getLocalDateTime(utc: String): String = runCatching {
+actual fun getLocalDateTime(utc: String): String = runCatching {
     formatDateJs(utc = utc)
 }.onFailure {
     Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it)
@@ -31,7 +31,7 @@ private fun formatDateJs(utc: String): String = js(
     """
 )
 
-funactual fun observeLocale(): Flow<String> = callbackFlow {
+actual fun observeLocale(): Flow<String> = callbackFlow {
     runCatching {
         val listener: ((Event) -> Unit) = { trySend(element = getLanguage()) }
         window.addEventListener(type = "languagechange", callback = listener)

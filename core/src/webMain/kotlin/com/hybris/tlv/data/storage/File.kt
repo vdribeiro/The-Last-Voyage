@@ -6,11 +6,11 @@ import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.platform.Property
 
-funactual val appDataPath: String by lazy {
+actual val appDataPath: String by lazy {
     Property.APP_NAME.lowercase().replace(regex = "\\s+".toRegex(), replacement = "") + "_storage"
 }
 
-funactual suspend fun saveFile(path: String, content: String): Boolean = withContext(context = Dispatcher.IO) {
+actual suspend fun saveFile(path: String, content: String): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {
         localStorage.setItem(key = "${appDataPath}_$path", value = content)
         true
@@ -19,7 +19,7 @@ funactual suspend fun saveFile(path: String, content: String): Boolean = withCon
     }.getOrDefault(defaultValue = false)
 }
 
-funactual suspend fun loadFile(path: String): String? = withContext(context = Dispatcher.IO) {
+actual suspend fun loadFile(path: String): String? = withContext(context = Dispatcher.IO) {
     runCatching {
         localStorage.getItem(key = "${appDataPath}_$path")
     }.onFailure {
@@ -27,7 +27,7 @@ funactual suspend fun loadFile(path: String): String? = withContext(context = Di
     }.getOrNull()
 }
 
-funactual suspend fun deleteFile(path: String): Boolean = withContext(context = Dispatcher.IO) {
+actual suspend fun deleteFile(path: String): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {
         localStorage.removeItem(key = "${appDataPath}_$path")
         true
