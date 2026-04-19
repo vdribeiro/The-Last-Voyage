@@ -49,8 +49,8 @@ Business logic agnostic implementations.
     * `DateTime`: Utilities for getting the current time in UTC/ISO8601, epoch and duration calculation.
     * `Language`: App default language and other language listings.
 * **platform**: OS-specific APIs.
-    * `Platform`: Debug build flag and a sealed interface (Android, iOS, Windows, Mac, Linux, Web, Unknown) that defines the possible platforms that the application can run on.
-    * `Uri`: Utility to safely open external URLs, swallowing malformed-URI errors via telemetry.
+    * `Platform`: A sealed interface that defines the possible platforms that the application can run on.
+    * `System`: A Debug build flag.
 * **security**: Encryption, hashing, and UUID utilities.
     * `Uuid`: UUID generation via the best available platform algorithm.
 * **telemetry**: Logging and crash reporting.
@@ -109,7 +109,7 @@ At root level we find the main composable function `App` that assembles the appl
 * **navigation**: Routing logic and navigation graph definitions.
     * `Screen`: Sealed interface that enumerates all destinations (Serializable for nav arguments).
     * `Navigation`: Composable that sets up the `NavHost` and defines all the possible navigation destinations within the app, linking each `Screen` to its corresponding composable content. Also provides the `LocalNavController`.
-    * `Routing`: Navigation extensions and a `Channel` to decouple command sending defined in `Navigate` from the `NavController`, with backstack deduplication and a custom `NavType` for passing complex objects.
+    * `Routing`: Navigation extensions, a utility to safely open external URLs, and a `Channel` to decouple command sending defined in `Navigate` from the `NavController`, with backstack deduplication and a custom `NavType` for passing complex objects.
 * **screen**: UI screens implementations. Each screen is a sub-package containing the screen composable and respective store for state management, all co-located.
     * `Store`: `ViewModel` with a `StateFlow<State>` as the single source of truth for the UI and reducer override to process actions from the UI.
     * `StoreFactory`: Factory for creating `Store` instances.

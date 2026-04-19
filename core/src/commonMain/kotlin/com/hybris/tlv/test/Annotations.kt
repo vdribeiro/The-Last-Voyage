@@ -10,7 +10,7 @@ package com.hybris.tlv.test
  */
 @Retention(value = AnnotationRetention.BINARY)
 @Target(AnnotationTarget.FILE, AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
-internal annotation class ExcludeFromTesting
+annotation class ExcludeFromTesting
 
 /**
  * Signals that a function or property's visibility has been expanded (e.g. from `private` to `internal`) solely to allow access for unit tests.
@@ -21,4 +21,4 @@ internal annotation class ExcludeFromTesting
  */
 @Retention(value = AnnotationRetention.BINARY)
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
-internal annotation class VisibleForTesting
+annotation class VisibleForTesting
