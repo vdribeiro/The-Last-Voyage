@@ -3,7 +3,7 @@ package com.hybris.tlv.data.storage
 /**
  * The platform-specific absolute path to the application's internal data directory.
  */
-internal expect val appDataPath: String
+expect val appDataPath: String
 
 /**
  * Persists a [String] to the device's local file system at the specified [path].
@@ -15,7 +15,7 @@ internal expect val appDataPath: String
  * @param content The string data to be persisted.
  * @return `true` if the write operation completed successfully `false` if an I/O error occurred or permissions were denied.
  */
-internal expect suspend fun saveFile(path: String, content: String): Boolean
+expect suspend fun saveFile(path: String, content: String): Boolean
 
 /**
  * Retrieves the content of a file from device storage as a [String].
@@ -23,7 +23,7 @@ internal expect suspend fun saveFile(path: String, content: String): Boolean
  * @param path The path to the file to be loaded.
  * @return The file content as a string, or `null` if the file does not exist or cannot be read.
  */
-internal expect suspend fun loadFile(path: String): String?
+expect suspend fun loadFile(path: String): String?
 
 /**
  * Permanently removes a file from the device storage.
@@ -31,4 +31,4 @@ internal expect suspend fun loadFile(path: String): String?
  * @param path The path to the file to be deleted.
  * @return `true` if the file was successfully deleted or was not found, `false` if the deletion failed due to a system error.
  */
-internal expect suspend fun deleteFile(path: String): Boolean
+expect suspend fun deleteFile(path: String): Boolean
