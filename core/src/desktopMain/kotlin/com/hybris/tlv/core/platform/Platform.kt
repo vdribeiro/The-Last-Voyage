@@ -2,13 +2,13 @@ package com.hybris.tlv.core.platform
 
 import com.hybris.tlv.core.telemetry.Telemetry
 
-internal actual val isDebug: Boolean by lazy {
+actual val isDebug: Boolean by lazy {
     runCatching {
         System.getProperty("debug") == "true"
     }.getOrDefault(defaultValue = false)
 }
 
-internal actual val platform: Platform by lazy {
+actual val platform: Platform by lazy {
     runCatching {
         val os = System.getProperty("os.name").lowercase()
         when {
