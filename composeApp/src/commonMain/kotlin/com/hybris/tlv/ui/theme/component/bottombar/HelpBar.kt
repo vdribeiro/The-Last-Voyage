@@ -16,8 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hybris.tlv.App
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.platform.Property
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -29,7 +29,7 @@ import com.hybris.tlv.ui.theme.getTranslation
 @Composable
 internal fun HelpBar(
     modifier: Modifier = Modifier,
-    version: String = Property.APP_VERSION,
+    version: String = App.VERSION,
     onVersionClick: (() -> Unit)? = null,
     onArchiveClick: (() -> Unit)? = null,
     syncingArchive: Boolean = false,

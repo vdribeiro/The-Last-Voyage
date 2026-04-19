@@ -1,6 +1,3 @@
-import java.util.Properties
-import kotlin.apply
-import kotlin.experimental.xor
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
@@ -9,16 +6,8 @@ plugins {
     alias(notation = libs.plugins.android.library)
 }
 
-//region Properties
-val localProperties: Properties = Properties().apply {
-    runCatching { rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use(block = this::load) }.getOrNull()
-}
-
-val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
-//endregion
-
-//region Generate Property.kt file
-abstract class GeneratePropertiesTask: DefaultTask() {
+//region Generate App.kt file
+abstract class GenerateAppValuesTask: DefaultTask() {
     @get:Input
     abstract val taskAppId: Property<String>
     @get:Input
@@ -27,8 +16,6 @@ abstract class GeneratePropertiesTask: DefaultTask() {
     abstract val taskAppVersion: Property<String>
     @get:Input
     abstract val taskAppVersionNumber: Property<Long>
-    @get:Input
-    abstract val taskSentryDsn: Property<String>
     @get:OutputDirectory
     abstract val taskOutputDir: DirectoryProperty
 
@@ -38,19 +25,13 @@ abstract class GeneratePropertiesTask: DefaultTask() {
         val appName: String = taskAppName.get()
         val appVersion: String = taskAppVersion.get()
         val appVersionNumber: Long = taskAppVersionNumber.get()
-        // Basic obfuscation of Sentry DSN
-        val sentryDsn = "byteArrayOf(${
-            taskSentryDsn.get().toByteArray().mapIndexed { index, byte -> byte.xor(other = appId[index % appId.length].code.toByte()) }.joinToString(separator = ", ") { it.toString() }
-        }).mapIndexed { index, byte -> byte.xor(other = APP_ID[index % APP_ID.length].code.toByte()) }.toByteArray().decodeToString()"
-        val packageDir = "$appId.platform"
-        val objectName = "Property"
-        val file = taskOutputDir.get().file("${packageDir.replace(oldChar = '.', newChar = '/')}/$objectName.kt").asFile
+        val objectName = "App"
+        val file = taskOutputDir.get().file("${appId.replace(oldChar = '.', newChar = '/')}/$objectName.kt").asFile
         file.parentFile.mkdirs()
         file.writeText(
             text = """
-                package $packageDir
+                package $appId
                 
-                import kotlin.experimental.xor
                 import com.hybris.tlv.test.ExcludeFromTesting
     
                 /**
@@ -58,24 +39,22 @@ abstract class GeneratePropertiesTask: DefaultTask() {
                  */
                 @ExcludeFromTesting
                 object $objectName {
-                    const val APP_ID: String = "$appId"
-                    const val APP_NAME: String = "$appName"
-                    const val APP_VERSION: String = "$appVersion"
-                    const val APP_VERSION_NUMBER: Long = $appVersionNumber
-                    val sentry: String = $sentryDsn
+                    const val ID: String = "$appId"
+                    const val NAME: String = "$appName"
+                    const val VERSION: String = "$appVersion"
+                    const val VERSION_NUMBER: Long = $appVersionNumber
                 }
             """.trimIndent()
         )
     }
 }
 
-val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "generateProperties") {
+val generateAppValues = tasks.register<GenerateAppValuesTask>(name = "generateAppValues") {
     taskAppId.set(appId)
     taskAppName.set(appName)
     taskAppVersion.set(appVersion)
     taskAppVersionNumber.set(appVersionNumber)
-    taskSentryDsn.set(sentryDsn)
-    taskOutputDir.set(layout.buildDirectory.dir("generated/source/property"))
+    taskOutputDir.set(layout.buildDirectory.dir("generated/source/gradle"))
 }
 //endregion
 
@@ -111,14 +90,14 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {
-            kotlin.srcDir(generatePropertiesTask.map { it.outputs.files })
+            kotlin.srcDir(generateAppValues.map { it.outputs.files })
             dependencies {
                 implementation(dependencyNotation = libs.kotlin.stdlib)
                 implementation(dependencyNotation = libs.bundles.common)
             }
         }
 
-        val commonTest by getting {
+        getByName("commonTest") {
             dependencies {
                 implementation(dependencyNotation = libs.bundles.common.test)
             }
@@ -127,6 +106,12 @@ kotlin {
         getByName("androidMain") {
             dependencies {
                 implementation(dependencyNotation = libs.bundles.android)
+            }
+        }
+
+        getByName("androidUnitTest") {
+            dependencies {
+                implementation(dependencyNotation = libs.bundles.android.test)
             }
         }
 

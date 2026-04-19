@@ -4,9 +4,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import com.hybris.tlv.App
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.platform.Property
 
 /**
  * Translations cache.
@@ -16,7 +16,7 @@ internal object TranslationCache {
 
     private val defaultTranslations by lazy {
         mapOf(
-            "app_name" to Property.APP_NAME,
+            "app_name" to App.NAME,
             "splash_screen__loading" to "Loading..."
         )
     }

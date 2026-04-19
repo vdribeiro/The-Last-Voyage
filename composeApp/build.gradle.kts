@@ -2,7 +2,6 @@ import java.util.Properties
 import kotlin.experimental.xor
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import org.gradle.internal.os.OperatingSystem
@@ -46,11 +45,58 @@ val appleLauncher: File get() = project.file("src/commonMain/composeResources/dr
 val windowsId = "580991aa-c884-4661-9876-5f36272fd26b"
 val windowsLauncher: File get() = project.file("src/commonMain/composeResources/drawable/ic_launcher_win.ico")
 
+val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
 val isRelease: Boolean
     get() = project.gradle.startParameter.taskNames.any {
         it.contains(other = "package", ignoreCase = true) || it.contains(other = "notarize", ignoreCase = true)
     }
 val launcher: File get() = project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png")
+//endregion
+
+//region Generate Sentry.kt file
+abstract class GenerateSentryValuesTask: DefaultTask() {
+    @get:Input
+    abstract val taskAppId: Property<String>
+    @get:Input
+    abstract val taskSentryDsn: Property<String>
+    @get:OutputDirectory
+    abstract val taskOutputDir: DirectoryProperty
+
+    @TaskAction
+    fun generate() {
+        val appId: String = taskAppId.get()
+        // Basic obfuscation of Sentry DSN
+        val sentryDsn = "byteArrayOf(${
+            taskSentryDsn.get().toByteArray().mapIndexed { index, byte -> byte.xor(other = appId[index % appId.length].code.toByte()) }.joinToString(separator = ", ") { it.toString() }
+        }).mapIndexed { index, byte -> byte.xor(other = APP_ID[index % APP_ID.length].code.toByte()) }.toByteArray().decodeToString()"
+        val objectName = "Sentry"
+        val file = taskOutputDir.get().file("${appId.replace(oldChar = '.', newChar = '/')}/$objectName.kt").asFile
+        file.parentFile.mkdirs()
+        file.writeText(
+            text = """
+                package $appId
+                
+                import kotlin.experimental.xor
+                import com.hybris.tlv.test.ExcludeFromTesting
+    
+                /**
+                 * Generated build-time values.
+                 */
+                @ExcludeFromTesting
+                object $objectName {
+                    const val APP_ID: String = "$appId"
+                    val sentry: String = $sentryDsn
+                }
+            """.trimIndent()
+        )
+    }
+}
+
+val generateSentryValues = tasks.register<GenerateSentryValuesTask>(name = "generateSentryValues") {
+    taskAppId.set(appId)
+    taskSentryDsn.set(sentryDsn)
+    taskOutputDir.set(layout.buildDirectory.dir("generated/source/gradle"))
+}
 //endregion
 
 //region JavaFX
@@ -163,6 +209,7 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {
+            kotlin.srcDir(generateSentryValues.map { it.outputs.files })
             dependencies {
                 implementation(dependencyNotation = projects.core)
                 implementation(dependencyNotation = libs.bundles.common)

@@ -1,10 +1,10 @@
 package com.hybris.tlv.ui.screen.mainmenu
 
 import kotlinx.coroutines.Job
+import com.hybris.tlv.App
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.domain.usecase.gamesession.GameSessionUseCases
-import com.hybris.tlv.platform.Property
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store
 
@@ -22,7 +22,7 @@ internal class MainMenuStore(
         Telemetry.info(tag = TAG, message = "Setup")
 
         val configs = config.localConfigs
-        val newVersionBanner = Property.APP_VERSION_NUMBER < configs.appVersion
+        val newVersionBanner = App.VERSION_NUMBER < configs.appVersion
         val developerCorner = configs.developerCorner
         val ongoingGameSession = gameSessionUseCases.isGameSessionOngoing()
         updateState {

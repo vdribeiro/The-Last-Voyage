@@ -2,11 +2,11 @@ package com.hybris.tlv.data.storage
 
 import java.io.File
 import kotlinx.coroutines.withContext
+import com.hybris.tlv.App
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.platform.Platform
 import com.hybris.tlv.core.platform.platform
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.platform.Property
 
 actual val appDataPath: String by lazy {
     runCatching {
@@ -16,7 +16,7 @@ actual val appDataPath: String by lazy {
             Platform.Linux -> System.getenv("XDG_DATA_HOME").takeIf { !it.isNullOrBlank() } ?: "${System.getProperty("user.home")}/.local/share"
             else -> "${System.getProperty("user.home")}/.local/share"
         }
-        val appDir = Property.APP_NAME
+        val appDir = App.NAME
             .lowercase()
             .replace(regex = "\\s+".toRegex(), replacement = "")
         File(baseDir, appDir)

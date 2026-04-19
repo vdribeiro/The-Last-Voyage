@@ -1,5 +1,6 @@
 package com.hybris.tlv.core.telemetry
 
+import com.hybris.tlv.App
 import com.hybris.tlv.platform.Property
 import com.hybris.tlv.test.ExcludeFromTesting
 import io.sentry.kotlin.multiplatform.Sentry
@@ -26,11 +27,7 @@ internal object SentryLogger {
             options.dsn = Property.sentry
             options.sampleRate = 1.0
             options.tracesSampleRate = 0.5
-            options.release = "${
-                Property.APP_NAME
-                    .lowercase()
-                    .replace(regex = "\\s+".toRegex(), replacement = "")
-            }@${Property.APP_VERSION}"
+            options.release = "${App.NAME.lowercase().replace(regex = "\\s+".toRegex(), replacement = "")}@${App.VERSION}"
         }
 
     /**

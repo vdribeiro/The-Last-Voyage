@@ -6,6 +6,7 @@ import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import com.hybris.tlv.App
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
@@ -20,7 +21,6 @@ import com.hybris.tlv.domain.usecase.sync.model.DataSource
 import com.hybris.tlv.domain.usecase.sync.model.SyncResult
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
-import com.hybris.tlv.platform.Property
 import database.AppDatabase
 
 internal class SyncGateway(
@@ -52,7 +52,7 @@ internal class SyncGateway(
         Telemetry.info(tag = TAG, message = "App version: remote version: $remoteVersion, local version: $localVersion")
         config.setConfigs { it.copy(appVersion = remoteVersion) }
         val result = syncAll(
-            latestVersion = Property.APP_VERSION_NUMBER == remoteVersion,
+            latestVersion = App.VERSION_NUMBER == remoteVersion,
             progress = progress
         )
         config.saveConfigs()
