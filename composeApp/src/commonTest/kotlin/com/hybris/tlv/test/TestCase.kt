@@ -22,7 +22,6 @@ import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.hybris.tlv.Dependency
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.core.telemetry.MockLogger
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.database.createMockSqlDriver
 import com.hybris.tlv.data.http.createMockHttpEngine

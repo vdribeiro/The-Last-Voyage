@@ -141,18 +141,12 @@ logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 sentry-logback = { module = "io.sentry:sentry-logback", version.ref = "sentry-logback" }
 
 [bundles]
+
 common-core = [
     "kotlin-stdlib",
     "kotlinx-coroutines-core",
     "kotlinx-serialization",
     "kotlinx-datetime",
-]
-android-core = [
-    "androidx-startup",
-]
-desktop-core = [
-    "kotlinx-coroutines-swing",
-    "logging",
 ]
 common = [
     "kotlinx-coroutines-core",
@@ -180,26 +174,37 @@ common = [
     "navigation",
     "coil-compose"
 ]
-common-test = [
+common-test-core = [
     "kotlin-test",
     "kotlinx-coroutines-test",
+]
+common-test = [
     "ktor-mock",
     "compose-test",
+]
+android-core = [
+    "androidx-startup",
 ]
 android = [
     "ktor-okhttp",
     "sqldelight-android",
     "androidx-exoplayer",
 ]
-android-test = [
+android-test-core = [
     "androidx-test-core",
     "roboelectric",
+]
+android-test = [
     "sqldelight-jvm",
     "sqldelight-jdbc",
 ]
 ios = [
     "ktor-darwin",
     "sqldelight-native",
+]
+desktop-core = [
+    "kotlinx-coroutines-swing",
+    "logging",
 ]
 desktop = [
     "ktor-cio",

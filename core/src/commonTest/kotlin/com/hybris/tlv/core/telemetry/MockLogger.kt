@@ -1,6 +1,6 @@
 package com.hybris.tlv.core.telemetry
 
-internal class MockLogger: TelemetryEngine {
+class MockLogger: TelemetryEngine {
 
     override fun info(tag: String, message: String) {
         println("INFO: $tag - $message")

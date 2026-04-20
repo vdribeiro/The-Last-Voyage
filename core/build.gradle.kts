@@ -93,9 +93,21 @@ kotlin {
             }
         }
 
+        getByName("commonTest") {
+            dependencies {
+                implementation(dependencyNotation = libs.bundles.common.test.core)
+            }
+        }
+
         getByName("androidMain") {
             dependencies {
                 implementation(dependencyNotation = libs.bundles.android.core)
+            }
+        }
+
+        getByName("androidUnitTest") {
+            dependencies {
+                implementation(dependencyNotation = libs.bundles.android.test.core)
             }
         }
 
