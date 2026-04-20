@@ -109,7 +109,7 @@ private inline fun <reified T> serializableType(): NavType<T> =
         }.getOrNull() ?: "null"
 
         override fun parseValue(value: String): T = runCatching {
-            if (value == "null") return null as T
+            if (value == "null") return@runCatching null
             decode<T>(value = value.decodeURLQueryComponent())
         }.onFailure {
             Telemetry.error(tag = TAG, message = "Unable to decode $value", throwable = it)

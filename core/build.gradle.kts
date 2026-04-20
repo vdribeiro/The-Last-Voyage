@@ -32,12 +32,9 @@ abstract class GenerateAppValuesTask: DefaultTask() {
             text = """
                 package $appId
                 
-                import com.hybris.tlv.test.ExcludeFromTesting
-    
                 /**
                  * Generated build-time values.
                  */
-                @ExcludeFromTesting
                 object $objectName {
                     const val ID: String = "$appId"
                     const val NAME: String = "$appName"

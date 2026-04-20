@@ -77,12 +77,10 @@ abstract class GenerateSentryValuesTask: DefaultTask() {
                 package $appId
                 
                 import kotlin.experimental.xor
-                import com.hybris.tlv.test.ExcludeFromTesting
     
                 /**
                  * Generated build-time values.
                  */
-                @ExcludeFromTesting
                 object $objectName {
                     private const val APP_ID: String = "$appId"
                     val dsn: String = $sentryDsn
