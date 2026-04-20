@@ -40,7 +40,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-//                implementation(dependencyNotation = libs.bundles.common.shared)
+                implementation(dependencyNotation = libs.bundles.common.shared)
             }
         }
 

@@ -4,7 +4,7 @@ import com.hybris.tlv.App
 import com.hybris.tlv.data.config.Configs
 import com.hybris.tlv.data.resource.JsonResource
 import com.hybris.tlv.data.resource.loadResource
-import com.hybris.tlv.domain.usecase.achievement.model.Achievement
+import com.hybris.tlv.domain.achievement.Achievement
 import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
 import com.hybris.tlv.domain.usecase.credit.model.Credit
 import com.hybris.tlv.domain.usecase.event.model.Event
