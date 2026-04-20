@@ -79,14 +79,10 @@ abstract class GenerateAppValuesTask: DefaultTask() {
             text = """
                 package $appId
                 
-                import com.hybris.tlv.test.ExcludeFromTesting
-    
                 /**
                  * Generated build-time values.
                  */
-                @ExcludeFromTesting
                 object $objectName {
-                    const val ID: String = "$appId"
                     const val NAME: String = "$appName"
                     const val VERSION: String = "$appVersion"
                     const val VERSION_NUMBER: Long = $appVersionNumber
@@ -129,12 +125,10 @@ abstract class GenerateSentryValuesTask: DefaultTask() {
                 package $appId
                 
                 import kotlin.experimental.xor
-                import com.hybris.tlv.test.ExcludeFromTesting
     
                 /**
                  * Generated build-time values.
                  */
-                @ExcludeFromTesting
                 object $objectName {
                     private const val APP_ID: String = "$appId"
                     val dsn: String = $sentryDsn
