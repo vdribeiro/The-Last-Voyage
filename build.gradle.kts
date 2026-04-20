@@ -1,5 +1,6 @@
 plugins {
     alias(notation = libs.plugins.kotlin.multiplatform) apply false
+    alias(notation = libs.plugins.kotlin.serialization) apply false
     alias(notation = libs.plugins.cocoapods) apply false
     alias(notation = libs.plugins.kover) apply false
     alias(notation = libs.plugins.sentry) apply false
