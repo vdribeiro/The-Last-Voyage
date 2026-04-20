@@ -14,11 +14,6 @@ internal sealed interface Platform {
 }
 
 /**
- * Indicates whether the application is running in a debug build.
- */
-internal expect val isDebug: Boolean
-
-/**
  * The current operating system [Platform].
  */
 internal expect val platform: Platform
