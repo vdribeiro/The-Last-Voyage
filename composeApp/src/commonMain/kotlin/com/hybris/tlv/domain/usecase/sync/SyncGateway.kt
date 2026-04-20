@@ -19,7 +19,7 @@ import com.hybris.tlv.domain.usecase.ship.ShipUseCases
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.sync.model.DataSource
 import com.hybris.tlv.domain.usecase.sync.model.SyncResult
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.data.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 import database.AppDatabase
 

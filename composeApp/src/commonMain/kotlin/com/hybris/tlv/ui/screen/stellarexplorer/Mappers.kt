@@ -6,8 +6,8 @@ import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
-import com.hybris.tlv.domain.usecase.translation.TranslationCache.getTranslation
+import com.hybris.tlv.data.translation.TranslationCache
+import com.hybris.tlv.data.translation.TranslationCache.getTranslation
 
 internal fun StellarExplorerState.toFilterExoplanetsCriteria(): FilterExoplanetsCriteria =
     FilterExoplanetsCriteria(

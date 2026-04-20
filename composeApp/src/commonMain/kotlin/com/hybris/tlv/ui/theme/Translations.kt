@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.core.locale.getLanguage
 import com.hybris.tlv.domain.translation.Translation
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.data.translation.TranslationCache
 import com.hybris.tlv.test.VisibleForTesting
 
 internal val LocalTranslationState = staticCompositionLocalOf { TranslationCache.cacheState.value }

@@ -1,4 +1,4 @@
-package com.hybris.tlv.domain.usecase.translation
+package com.hybris.tlv.data.translation
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

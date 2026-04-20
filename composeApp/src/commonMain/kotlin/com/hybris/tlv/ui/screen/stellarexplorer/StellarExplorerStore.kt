@@ -14,7 +14,7 @@ import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.space.formula.Habitability
 import com.hybris.tlv.domain.usecase.space.model.Formula
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.data.translation.TranslationCache
 import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.screen.Store
 

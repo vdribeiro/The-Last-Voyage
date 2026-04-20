@@ -19,7 +19,7 @@ import com.hybris.tlv.data.http.NoOpHttpEngine
 import com.hybris.tlv.data.http.createHttpEngine
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.data.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.TranslationGateway.Companion.loadAllTranslationsFromJsonResource
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 import com.hybris.tlv.domain.translation.Translation
