@@ -28,7 +28,7 @@ import com.hybris.tlv.data.database.createMockSqlDriver
 import com.hybris.tlv.data.http.createMockHttpEngine
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
-import com.hybris.tlv.domain.usecase.translation.TranslationCache
+import com.hybris.tlv.data.translation.TranslationCache
 import com.hybris.tlv.ui.lifecycle.lifecycleOwner
 import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.navigation.Screen

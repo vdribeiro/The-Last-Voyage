@@ -1,9 +1,9 @@
-package com.hybris.tlv.domain.usecase.space.model
+package com.hybris.tlv.domain.space
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class Score(
+data class Score(
     val habitabilityScore: Double,
     val confidenceScore: Double,
     val rocheScore: Double?,

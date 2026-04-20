@@ -45,8 +45,8 @@ import com.hybris.tlv.domain.usecase.space.model.JsonConstants.STELLAR_HOST_ROTA
 import com.hybris.tlv.domain.usecase.space.model.JsonConstants.STELLAR_HOST_SPECTRAL_TYPE
 import com.hybris.tlv.domain.usecase.space.model.JsonConstants.STELLAR_HOST_SYSTEM_NAME
 import com.hybris.tlv.domain.usecase.space.model.JsonConstants.STELLAR_HOST_TEMPERATURE
-import com.hybris.tlv.domain.usecase.space.model.Planet
-import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.space.Planet
+import com.hybris.tlv.domain.space.StellarHost
 import com.hybris.tlv.domain.usecase.space.model.StellarHostJson
 
 internal class ArchiveGateway(

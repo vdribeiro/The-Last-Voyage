@@ -14,7 +14,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.core.audio.AudioPlayer
 import com.hybris.tlv.core.platform.Platform
 import com.hybris.tlv.core.platform.platform
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.audio.LocalAudioPlayer
 import com.hybris.tlv.ui.screen.Screen
@@ -76,7 +76,7 @@ internal fun SplashScreen(store: Store<SplashState, SplashAction>) {
 private fun SplashScreenZeroPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "splash_screen__loading",
                 value = "Loading..."
             ),
@@ -96,7 +96,7 @@ private fun SplashScreenZeroPreview() = Preview {
 private fun SplashScreenHalfwayPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "splash_screen__loading",
                 value = "Loading..."
             ),
@@ -116,7 +116,7 @@ private fun SplashScreenHalfwayPreview() = Preview {
 private fun SplashScreenFullPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "splash_screen__start",
                 value = "Start"
             ),

@@ -1,4 +1,4 @@
-package com.hybris.tlv.domain.usecase.translation
+package com.hybris.tlv.data.translation
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import com.hybris.tlv.App
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.domain.translation.Translation
 
 /**
  * Translations cache.

@@ -1,9 +1,9 @@
-package com.hybris.tlv.domain.usecase.achievement.model
+package com.hybris.tlv.domain.achievement
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class Precondition(
+data class Precondition(
     val settledHostId: String? = null,
     val settledPlanetId: String? = null,
     val habitability: String? = null,

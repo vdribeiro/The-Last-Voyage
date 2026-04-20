@@ -1,4 +1,4 @@
-package com.hybris.tlv.domain.usecase.credit.model
+package com.hybris.tlv.domain.credit
 
 enum class CreditType {
     CREATOR,

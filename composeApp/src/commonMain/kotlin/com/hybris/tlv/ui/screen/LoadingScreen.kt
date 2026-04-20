@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.container.Feedback
@@ -94,23 +94,23 @@ private fun LoadingScreenPreview() = Preview {
 private fun LoadingScreenFeedbackPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__title_alt",
                 value = "Feedback"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__description_alt",
                 value = "Your insights are valuable, whether you have an idea or have found something that isn't working right."
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__button",
                 value = "Submit Feedback"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__thanks",
                 value = "You are awesome too!"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__console",
                 value = "Stacktrace"
             ),

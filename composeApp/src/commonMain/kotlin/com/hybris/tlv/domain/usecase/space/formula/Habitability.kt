@@ -40,10 +40,10 @@ import com.hybris.tlv.domain.usecase.space.formula.Constants.S_EFF_SUN_MG
 import com.hybris.tlv.domain.usecase.space.formula.Constants.S_EFF_SUN_RG
 import com.hybris.tlv.domain.usecase.space.formula.Constants.S_EFF_SUN_RV
 import com.hybris.tlv.domain.usecase.space.model.Formula
-import com.hybris.tlv.domain.usecase.space.model.Planet
-import com.hybris.tlv.domain.usecase.space.model.PlanetType
-import com.hybris.tlv.domain.usecase.space.model.Score
-import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.space.Planet
+import com.hybris.tlv.domain.space.PlanetType
+import com.hybris.tlv.domain.space.Score
+import com.hybris.tlv.domain.space.StellarHost
 import com.hybris.tlv.domain.usecase.space.sanitize
 
 internal object Habitability {

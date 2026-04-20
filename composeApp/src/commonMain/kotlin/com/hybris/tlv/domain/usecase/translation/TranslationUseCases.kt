@@ -2,7 +2,7 @@ package com.hybris.tlv.domain.usecase.translation
 
 import com.hybris.tlv.core.locale.DEFAULT_LANGUAGE
 import com.hybris.tlv.core.locale.getLanguage
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.domain.translation.Translation
 
 internal interface TranslationUseCases {
 

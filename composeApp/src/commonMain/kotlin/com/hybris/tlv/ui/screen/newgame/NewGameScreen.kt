@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.domain.usecase.ship.model.Engine
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.domain.ship.Engine
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
@@ -79,7 +79,7 @@ internal fun NewGameScreen(store: Store<NewGameState, NewGameAction>) {
 private fun NewGameScreenLoadingPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "new_game_screen__continue",
                 value = "Start"
             ),
@@ -99,35 +99,35 @@ private fun NewGameScreenLoadingPreview() = Preview {
 private fun NewGameScreenShipPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "new_game_screen__ship_points",
                 value = "Points"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_sensor",
                 value = "Sensor Range"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_fuel",
                 value = "Fuel"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_materials",
                 value = "Materials"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_cryopods",
                 value = "Cryopods"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "new_game_screen__engine_select",
                 value = "Engine"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "new_game_screen__engine_speed",
                 value = "Speed"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "new_game_screen__engine_fuel",
                 value = "Fuel"
             ),

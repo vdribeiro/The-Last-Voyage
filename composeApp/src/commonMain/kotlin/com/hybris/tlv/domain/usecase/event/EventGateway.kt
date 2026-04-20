@@ -13,7 +13,7 @@ import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.resource.JsonResource
 import com.hybris.tlv.data.resource.loadResource
-import com.hybris.tlv.domain.usecase.event.model.Event
+import com.hybris.tlv.domain.event.Event
 import database.AppDatabase
 
 internal class EventGateway(

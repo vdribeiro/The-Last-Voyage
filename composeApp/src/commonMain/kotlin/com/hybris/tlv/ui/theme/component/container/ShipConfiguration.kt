@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -120,27 +120,27 @@ internal fun <A, E> ShipConfiguration(
 private fun ShipConfigurationPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "new_game_screen__ship_points",
                 value = "Points"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_sensor",
                 value = "Sensor Range"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_cryopods",
                 value = "Cryopods"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "new_game_screen__engine_select",
                 value = "Engine"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "new_game_screen__engine_speed",
                 value = "Speed"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "new_game_screen__engine_fuel",
                 value = "Fuel"
             ),

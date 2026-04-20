@@ -1,6 +1,6 @@
 package com.hybris.tlv.domain.usecase.catastrophe
 
-import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
+import com.hybris.tlv.domain.catastrophe.Catastrophe
 
 internal interface CatastropheUseCases {
 

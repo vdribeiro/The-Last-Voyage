@@ -34,10 +34,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.core.platform.Platform
 import com.hybris.tlv.core.platform.platform
 import com.hybris.tlv.data.resource.ImageResource
-import com.hybris.tlv.domain.usecase.space.model.PlanetType
+import com.hybris.tlv.domain.space.PlanetType
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.navigation.open
 import com.hybris.tlv.ui.screen.Screen
@@ -831,47 +831,47 @@ private fun HelpScreenLoadingPreview() = Preview {
 private fun HelpScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__learn",
                 value = "Help"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__navigation",
                 value = "Navigation"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__host_definition",
                 value = "Star Definition"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__definition_example",
                 value = "Example"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__definition_properties",
                 value = "Properties"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__planet_definition",
                 value = "Planet Definition"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__host_types",
                 value = "Host Types"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__planet_types",
                 value = "Planet Types"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__habitability",
                 value = "Habitability Formula"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__mechanics",
                 value = "Tutorial"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__credits",
                 value = "Credits"
             ),

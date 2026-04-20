@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.App
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -104,15 +104,15 @@ internal fun HelpBar(
 private fun HelpBarPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "version",
                 value = "Version"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "sync_archive",
                 value = "Sync Archive"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "reset",
                 value = "Reset"
             )

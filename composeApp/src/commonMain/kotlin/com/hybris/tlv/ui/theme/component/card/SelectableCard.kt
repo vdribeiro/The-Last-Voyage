@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -81,11 +81,11 @@ internal fun SelectableCard(
 private fun SelectableCardPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "new_game_screen__engine_speed",
                 value = "Speed"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "new_game_screen__engine_fuel",
                 value = "Fuel"
             ),

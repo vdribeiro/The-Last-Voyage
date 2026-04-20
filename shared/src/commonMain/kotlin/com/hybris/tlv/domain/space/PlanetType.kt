@@ -1,6 +1,6 @@
-package com.hybris.tlv.domain.usecase.space.model
+package com.hybris.tlv.domain.space
 
-internal enum class PlanetType(val displayName: String) {
+enum class PlanetType(val displayName: String) {
     // Size/Mass Based
     SUB_EARTH(displayName = "planet_type_sub_earth"),
     SUPER_EARTH(displayName = "planet_type_super_earth"),

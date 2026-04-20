@@ -1,8 +1,8 @@
 package com.hybris.tlv.domain.usecase.space
 
 import kotlinx.coroutines.flow.Flow
-import com.hybris.tlv.domain.usecase.space.model.Planet
-import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.space.Planet
+import com.hybris.tlv.domain.space.StellarHost
 
 internal interface SpaceUseCases {
 

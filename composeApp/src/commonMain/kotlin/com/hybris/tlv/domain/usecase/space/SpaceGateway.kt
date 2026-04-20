@@ -17,9 +17,9 @@ import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.resource.JsonResource
 import com.hybris.tlv.data.resource.loadResource
-import com.hybris.tlv.domain.usecase.space.model.Planet
-import com.hybris.tlv.domain.usecase.space.model.StellarHost
-import com.hybris.tlv.domain.usecase.space.model.TravelOutcome
+import com.hybris.tlv.domain.space.Planet
+import com.hybris.tlv.domain.space.StellarHost
+import com.hybris.tlv.domain.event.TravelOutcome
 import database.AppDatabase
 
 internal class SpaceGateway(

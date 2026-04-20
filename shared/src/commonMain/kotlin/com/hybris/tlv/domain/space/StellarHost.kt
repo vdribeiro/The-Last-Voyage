@@ -1,10 +1,11 @@
-package com.hybris.tlv.domain.usecase.space.model
+package com.hybris.tlv.domain.space
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import com.hybris.tlv.domain.event.TravelOutcome
 
 @Serializable
-internal data class StellarHost(
+data class StellarHost(
     val id: String,
     val name: String,
     val systemName: String?,

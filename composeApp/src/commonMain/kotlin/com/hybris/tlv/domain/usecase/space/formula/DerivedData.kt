@@ -14,8 +14,8 @@ import com.hybris.tlv.domain.usecase.space.formula.Constants.SUN_MASS_IN_KG
 import com.hybris.tlv.domain.usecase.space.formula.Constants.SUN_RADIUS_IN_AU
 import com.hybris.tlv.domain.usecase.space.formula.Constants.SUN_RADIUS_IN_EARTH_RADII
 import com.hybris.tlv.domain.usecase.space.formula.Constants.SUN_RADIUS_IN_METERS
-import com.hybris.tlv.domain.usecase.space.model.Planet
-import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.space.Planet
+import com.hybris.tlv.domain.space.StellarHost
 import com.hybris.tlv.domain.usecase.space.sanitize
 
 internal object DerivedData {

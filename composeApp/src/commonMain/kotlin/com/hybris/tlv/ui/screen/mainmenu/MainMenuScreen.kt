@@ -10,7 +10,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.navigation.open
 import com.hybris.tlv.ui.screen.Screen
@@ -69,11 +69,11 @@ internal fun MainMenuScreen(store: Store<MainMenuState, MainMenuAction>) {
 private fun MainMenuScreenLoadingPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "website",
                 value = "Website"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__credits",
                 value = "Credits"
             ),
@@ -95,31 +95,31 @@ private fun MainMenuScreenLoadingPreview() = Preview {
 private fun MainMenuScreenAllPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "app_name",
                 value = "The Last Voyage"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__new_game",
                 value = "New Game"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__stellar_explorer",
                 value = "Stellar Explorer"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__scores",
                 value = "Scores"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__achievements",
                 value = "Achievements"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "website",
                 value = "Website"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__credits",
                 value = "Credits"
             ),
@@ -141,35 +141,35 @@ private fun MainMenuScreenAllPreview() = Preview {
 private fun MainMenuScreenContinuePreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "app_name",
                 value = "The Last Voyage"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__new_game",
                 value = "New Game"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__continue",
                 value = "Continue"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__stellar_explorer",
                 value = "Stellar Explorer"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__scores",
                 value = "Scores"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__achievements",
                 value = "Achievements"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "website",
                 value = "Website"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__credits",
                 value = "Credits"
             ),

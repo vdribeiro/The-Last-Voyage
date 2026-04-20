@@ -41,7 +41,7 @@ sql-js = "1.6.2"
 webpack = "9.1.0"
 
 # Server
-logback = "1.5.6"
+logback = "1.5.32"
 
 # Crashlytics
 sentry = "0.25.0"
@@ -65,6 +65,7 @@ sentry = { id = "io.sentry.kotlin.multiplatform.gradle", version.ref = "sentry" 
 [libraries]
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
@@ -140,9 +141,12 @@ logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 sentry-logback = { module = "io.sentry:sentry-logback", version.ref = "sentry-logback" }
 
 [bundles]
+common-shared = [
+    "kotlin-stdlib",
+    "kotlinx-serialization",
+]
 common = [
     "kotlinx-coroutines-core",
-    "kotlinx-serialization",
     "kotlinx-datetime",
     "kotlinx-collections-immutable",
     "ktor",
@@ -183,7 +187,6 @@ android-test = [
     "roboelectric",
     "sqldelight-jvm",
     "sqldelight-jdbc",
-    "logging",
 ]
 ios = [
     "ktor-darwin",

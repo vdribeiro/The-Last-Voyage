@@ -11,11 +11,11 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.domain.usecase.event.model.Event
-import com.hybris.tlv.domain.usecase.ship.model.Engine
-import com.hybris.tlv.domain.usecase.ship.model.Ship
-import com.hybris.tlv.domain.usecase.space.model.TravelOutcome
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.domain.event.Event
+import com.hybris.tlv.domain.ship.Engine
+import com.hybris.tlv.domain.ship.Ship
+import com.hybris.tlv.domain.event.TravelOutcome
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
@@ -68,10 +68,10 @@ internal fun EventScreen(store: Store<EventState, EventAction>) {
                 event.outcome?.let { outcome ->
                     buildList {
                         add(element = "\n")
-                        if (outcome.integrity != null) add(element = "${if (outcome.integrity > 0) "+" else ""}${outcome.integrity} $integrityTranslation")
-                        if (outcome.materials != null) add(element = "${if (outcome.materials > 0) "+" else ""}${outcome.materials} $materialsTranslation")
-                        if (outcome.fuel != null) add(element = "${if (outcome.fuel > 0.0) "+" else ""}${outcome.fuel} $fuelTranslation")
-                        if (outcome.cryopods != null) add(element = "${if (outcome.cryopods > 0) "+" else ""}${outcome.cryopods} $cryopodsTranslation")
+                        outcome.integrity?.let { add(element = "${if (it > 0) "+" else ""}$it $integrityTranslation") }
+                        outcome.materials?.let { add(element = "${if (it > 0) "+" else ""}$it $materialsTranslation") }
+                        outcome.fuel?.let { add(element = "${if (it > 0.0) "+" else ""}$it $fuelTranslation") }
+                        outcome.cryopods?.let { add(element = "${if (it > 0) "+" else ""}$it $cryopodsTranslation") }
                     }.joinToString(separator = "\n")
                 }.orEmpty()
             }
@@ -107,11 +107,11 @@ private fun EventScreenLoadingPreview() = Preview {
 private fun EventScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "ship_materials",
                 value = "Materials"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_fuel",
                 value = "Fuel"
             ),

@@ -7,8 +7,8 @@ import kotlin.test.assertTrue
 import com.hybris.tlv.data.storage.FilePath
 import com.hybris.tlv.data.storage.deleteJsonFile
 import com.hybris.tlv.data.storage.loadJsonFile
-import com.hybris.tlv.domain.usecase.space.model.Planet
-import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.space.Planet
+import com.hybris.tlv.domain.space.StellarHost
 import com.hybris.tlv.test.TestCase
 
 internal class ArchiveUseCasesTest: TestCase() {

@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -70,27 +70,27 @@ internal fun MainMenu(
 private fun MainMenuPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "app_name",
                 value = "TLV"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__new_game",
                 value = "New Game"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__continue",
                 value = "Continue"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__stellar_explorer",
                 value = "Explorer"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__scores",
                 value = "Scores"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__achievements",
                 value = "Achievements"
             ),

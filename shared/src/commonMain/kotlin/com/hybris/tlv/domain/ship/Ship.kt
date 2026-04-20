@@ -1,9 +1,9 @@
-package com.hybris.tlv.domain.usecase.ship.model
+package com.hybris.tlv.domain.ship
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class Ship(
+data class Ship(
     val id: String,
     val engine: Engine,
     val assignedPoints: Int,

@@ -1,4 +1,4 @@
-import com.hybris.tlv.domain.usecase.credit.model.CreditType;
+import com.hybris.tlv.domain.credit.CreditType;
 
 CREATE TABLE IF NOT EXISTS Credit (
     id TEXT NOT NULL PRIMARY KEY,

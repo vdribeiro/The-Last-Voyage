@@ -3,8 +3,8 @@ package com.hybris.tlv.domain.usecase.achievement
 import com.hybris.tlv.data.database.AchievementSchema
 import com.hybris.tlv.data.serializer.decode
 import com.hybris.tlv.data.serializer.encode
-import com.hybris.tlv.domain.usecase.achievement.model.Achievement
-import com.hybris.tlv.domain.usecase.achievement.model.Precondition
+import com.hybris.tlv.domain.achievement.Achievement
+import com.hybris.tlv.domain.achievement.Precondition
 
 internal fun Achievement.toAchievementSchema(): AchievementSchema =
     AchievementSchema(

@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.data.resource.ImageResource
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -76,7 +76,7 @@ internal fun <T> PropertyList(
 private fun PlanetDefinitionPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__planet_definition",
                 value = "Definition"
             ),

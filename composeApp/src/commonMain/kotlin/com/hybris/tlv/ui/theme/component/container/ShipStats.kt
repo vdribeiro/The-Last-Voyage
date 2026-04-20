@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.domain.usecase.space.roundTo
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.card.StatCard
@@ -75,35 +75,35 @@ internal fun ShipStats(
 private fun ShipStatsPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "ship_years_traveled",
                 value = "Years Travelled"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_speed",
                 value = "Speed"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_integrity",
                 value = "Integrity"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_sensor",
                 value = "Sensor Range"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_fuel",
                 value = "Fuel"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_materials",
                 value = "Materials"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_cryopods",
                 value = "Cryopods"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_fuel_consumption",
                 value = "Fuel Consumption"
             ),

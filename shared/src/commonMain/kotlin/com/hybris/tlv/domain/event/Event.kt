@@ -1,10 +1,9 @@
-package com.hybris.tlv.domain.usecase.event.model
+package com.hybris.tlv.domain.event
 
 import kotlinx.serialization.Serializable
-import com.hybris.tlv.domain.usecase.space.model.TravelOutcome
 
 @Serializable
-internal data class Event(
+data class Event(
     val id: String,
     val description: String,
     val parentId: String?,

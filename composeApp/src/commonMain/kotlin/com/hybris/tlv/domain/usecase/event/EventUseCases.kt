@@ -1,7 +1,7 @@
 package com.hybris.tlv.domain.usecase.event
 
 import kotlinx.coroutines.flow.Flow
-import com.hybris.tlv.domain.usecase.event.model.Event
+import com.hybris.tlv.domain.event.Event
 
 internal interface EventUseCases {
 

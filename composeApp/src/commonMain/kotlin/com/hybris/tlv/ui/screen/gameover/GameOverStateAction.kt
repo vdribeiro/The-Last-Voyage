@@ -1,6 +1,6 @@
 package com.hybris.tlv.ui.screen.gameover
 
-import com.hybris.tlv.domain.usecase.achievement.model.Achievement
+import com.hybris.tlv.domain.achievement.Achievement
 import com.hybris.tlv.domain.usecase.gamesession.model.GameOver
 import com.hybris.tlv.domain.usecase.gamesession.model.GameSession
 

@@ -9,9 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.domain.usecase.credit.model.Credit
-import com.hybris.tlv.domain.usecase.credit.model.CreditType
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.domain.credit.Credit
+import com.hybris.tlv.domain.credit.CreditType
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
@@ -60,19 +60,19 @@ private fun CreditScreenLoadingPreview() = Preview {
 private fun CreditScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "credit_screen__creators",
                 value = "Creators"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "credit_screen__sources",
                 value = "Sources"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "credit_screen__music",
                 value = "Music"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "credit_screen__supporters",
                 value = "Supporters"
             )

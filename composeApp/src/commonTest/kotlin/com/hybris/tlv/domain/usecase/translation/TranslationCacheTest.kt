@@ -2,6 +2,7 @@ package com.hybris.tlv.domain.usecase.translation
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import com.hybris.tlv.data.translation.TranslationCache
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
 

@@ -13,10 +13,10 @@ import com.hybris.tlv.domain.usecase.space.formula.Constants.PARSEC
 import com.hybris.tlv.domain.usecase.space.formula.Constants.SUN_SURFACE_GRAVITY
 import com.hybris.tlv.domain.usecase.space.model.CartesianPoint
 import com.hybris.tlv.domain.usecase.space.model.ExoplanetJson
-import com.hybris.tlv.domain.usecase.space.model.Planet
-import com.hybris.tlv.domain.usecase.space.model.PlanetStatus
-import com.hybris.tlv.domain.usecase.space.model.PlanetType
-import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.space.Planet
+import com.hybris.tlv.domain.space.PlanetStatus
+import com.hybris.tlv.domain.space.PlanetType
+import com.hybris.tlv.domain.space.StellarHost
 import com.hybris.tlv.domain.usecase.space.model.StellarHostJson
 
 internal fun StellarHost.toStellarHostJson(): StellarHostJson =
@@ -222,7 +222,9 @@ internal fun PlanetSchema.toPlanet(): Planet =
     )
 
 internal fun StellarHost.toCartesian(): CartesianPoint? {
-    if (ra == null || dec == null || distance == null) return null
+    val ra = ra ?: return null
+    val dec = dec ?: return null
+    val distance = distance ?: return null
     val raRad = ra * PI / 180.0
     val decRad = dec * PI / 180.0
     return CartesianPoint(

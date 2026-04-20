@@ -19,6 +19,6 @@ internal data class Configs(
     val creditsVersion: Long = 0,
 
     // Dynamic values
-    val developerCorner: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb",
-    val formula: String = "https://github.com/vdribeiro/The-Last-Voyage/tree/main/composeApp/src/commonMain/kotlin/com/hybris/tlv/usecase/space/formula",
+    val developerCorner: String = "https://tinyurl.com/yeykkt83",
+    val formula: String = "https://tinyurl.com/y53wvcm6",
 )

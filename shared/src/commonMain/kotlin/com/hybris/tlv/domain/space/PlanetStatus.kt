@@ -1,4 +1,4 @@
-package com.hybris.tlv.domain.usecase.space.model
+package com.hybris.tlv.domain.space
 
 enum class PlanetStatus(val displayName: String) {
     CONFIRMED(displayName = "planet_status_confirmed"),

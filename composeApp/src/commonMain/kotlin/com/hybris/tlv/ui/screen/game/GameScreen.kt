@@ -10,14 +10,14 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.domain.usecase.ship.model.Engine
-import com.hybris.tlv.domain.usecase.ship.model.Ship
-import com.hybris.tlv.domain.usecase.space.model.Planet
-import com.hybris.tlv.domain.usecase.space.model.PlanetStatus
-import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.ship.Engine
+import com.hybris.tlv.domain.ship.Ship
+import com.hybris.tlv.domain.space.Planet
+import com.hybris.tlv.domain.space.PlanetStatus
+import com.hybris.tlv.domain.space.StellarHost
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
@@ -131,15 +131,15 @@ internal fun GameScreen(store: Store<GameState, GameAction>) {
 private fun GameScreenLoadingPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__ship",
                 value = "Ship"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__system",
                 value = "System"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__travel",
                 value = "Travel"
             ),
@@ -163,43 +163,43 @@ private fun GameScreenLoadingPreview() = Preview {
 private fun GameScreenShipPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__ship",
                 value = "Ship"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__system",
                 value = "System"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__travel",
                 value = "Travel"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_years_traveled",
                 value = "Years Travelled"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_speed",
                 value = "Speed"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_integrity",
                 value = "Integrity"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_sensor",
                 value = "Sensor Range"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_fuel",
                 value = "Fuel"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_materials",
                 value = "Materials"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_cryopods",
                 value = "Cryopods"
             ),
@@ -239,51 +239,51 @@ private fun GameScreenShipPreview() = Preview {
 private fun GameScreenSystemPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__ship",
                 value = "Ship"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__system",
                 value = "System"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__travel",
                 value = "Travel"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "planet_radius",
                 value = "Radius"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "planet_mass",
                 value = "Mass"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "planet_density",
                 value = "Density"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "planet_temperature",
                 value = "Temperature"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_type",
                 value = "Host"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_temperature",
                 value = "Temperature"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_radius",
                 value = "Radius"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_mass",
                 value = "Mass"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_age",
                 value = "Age"
             )
@@ -361,27 +361,27 @@ private fun GameScreenSystemPreview() = Preview {
 private fun GameScreenTravelPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__ship",
                 value = "Ship"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__system",
                 value = "System"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__travel",
                 value = "Travel"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_planet_count",
                 value = "Planet Count"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_type",
                 value = "Host"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_distance",
                 value = "Distance"
             )

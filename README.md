@@ -10,7 +10,7 @@ I hope you enjoy the journey!
 
 ## Website
 
-You can **download** the game and track the development [here](https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb).
+You can **download** the game and track the development [here](https://tinyurl.com/yeykkt83).
 
 ## Supported Platforms
 - Android

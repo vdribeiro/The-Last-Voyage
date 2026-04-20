@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.data.resource.ImageResource
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.component.card.StellarHostCard
@@ -56,15 +56,15 @@ internal fun <T> TravelList(
 private fun TravelListPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_planet_count",
                 value = "Planet Count"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_type",
                 value = "Host"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_distance",
                 value = "Distance"
             )

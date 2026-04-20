@@ -9,9 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.domain.usecase.achievement.model.Achievement
-import com.hybris.tlv.domain.usecase.achievement.model.Precondition
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.domain.achievement.Achievement
+import com.hybris.tlv.domain.achievement.Precondition
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
@@ -57,7 +57,7 @@ private fun AchievementScreenLoadingPreview() = Preview {
 private fun AchievementScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "achievements_screen__title",
                 value = "Achievements"
             ),
