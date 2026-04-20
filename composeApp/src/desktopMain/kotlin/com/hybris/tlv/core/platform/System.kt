@@ -1,4 +1,4 @@
-package com.hybris.tlv.core.system
+package com.hybris.tlv.core.platform
 
 internal actual val isDebug: Boolean by lazy {
     runCatching {
