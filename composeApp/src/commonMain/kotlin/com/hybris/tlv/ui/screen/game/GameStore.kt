@@ -16,7 +16,7 @@ import com.hybris.tlv.domain.ship.Ship.Companion.MAX_MATERIALS
 import com.hybris.tlv.domain.usecase.space.SUN
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.space.formula.Habitability
-import com.hybris.tlv.domain.usecase.space.model.Planet
+import com.hybris.tlv.domain.space.Planet
 import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.screen.Store

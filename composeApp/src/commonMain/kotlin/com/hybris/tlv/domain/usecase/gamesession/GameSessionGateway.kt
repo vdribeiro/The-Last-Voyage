@@ -9,8 +9,8 @@ import com.hybris.tlv.domain.event.Event
 import com.hybris.tlv.domain.usecase.gamesession.model.GameOver
 import com.hybris.tlv.domain.usecase.gamesession.model.GameSession
 import com.hybris.tlv.domain.usecase.gamesession.model.GameSessionPrototype
-import com.hybris.tlv.domain.usecase.space.model.Planet
-import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.space.Planet
+import com.hybris.tlv.domain.space.StellarHost
 import database.AppDatabase
 
 internal class GameSessionGateway(

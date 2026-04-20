@@ -4,7 +4,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.foundation.lazy.LazyListState
 import com.hybris.tlv.data.resource.ImageResource
-import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.space.StellarHost
 
 internal sealed interface StellarExplorerAction {
     data object Back: StellarExplorerAction

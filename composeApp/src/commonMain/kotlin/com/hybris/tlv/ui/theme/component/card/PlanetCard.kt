@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.data.resource.ImageResource
-import com.hybris.tlv.domain.usecase.space.model.PlanetType
+import com.hybris.tlv.domain.space.PlanetType
 import com.hybris.tlv.domain.usecase.space.roundTo
 import com.hybris.tlv.domain.usecase.space.toImage
 import com.hybris.tlv.ui.theme.PreviewTranslation

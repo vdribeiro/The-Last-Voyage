@@ -1,4 +1,4 @@
-package com.hybris.tlv.domain.usecase.space.model
+package com.hybris.tlv.domain.space
 
 enum class PlanetType(val displayName: String) {
     // Size/Mass Based

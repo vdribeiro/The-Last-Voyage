@@ -34,7 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.core.platform.Platform
 import com.hybris.tlv.core.platform.platform
 import com.hybris.tlv.data.resource.ImageResource
-import com.hybris.tlv.domain.usecase.space.model.PlanetType
+import com.hybris.tlv.domain.space.PlanetType
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
 import com.hybris.tlv.ui.theme.PreviewTranslation

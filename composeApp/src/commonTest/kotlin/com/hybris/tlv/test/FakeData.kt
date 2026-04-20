@@ -14,8 +14,8 @@ import com.hybris.tlv.domain.ship.Ship
 import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.domain.usecase.space.addPlanets
 import com.hybris.tlv.domain.usecase.space.model.Formula
-import com.hybris.tlv.domain.usecase.space.model.Planet
-import com.hybris.tlv.domain.usecase.space.model.StellarHost
+import com.hybris.tlv.domain.space.Planet
+import com.hybris.tlv.domain.space.StellarHost
 import com.hybris.tlv.domain.usecase.translation.TranslationGateway.Companion.loadAllTranslationsFromJsonResource
 import com.hybris.tlv.domain.translation.Translation
 
