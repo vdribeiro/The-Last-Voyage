@@ -1,6 +1,6 @@
 package com.hybris.tlv.domain.usecase.gamesession.model
 
-import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.domain.ship.Ship
 import com.hybris.tlv.domain.usecase.space.model.Formula
 
 internal data class GameSession(

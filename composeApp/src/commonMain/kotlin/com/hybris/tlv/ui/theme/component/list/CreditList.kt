@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.domain.translation.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.navigation.open
 import com.hybris.tlv.ui.theme.InjectTranslations

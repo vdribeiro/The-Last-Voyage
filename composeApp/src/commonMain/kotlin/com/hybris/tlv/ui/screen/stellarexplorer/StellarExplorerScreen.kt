@@ -19,7 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.PlanetStatus
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.domain.translation.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store

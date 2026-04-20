@@ -1,7 +1,7 @@
 package com.hybris.tlv.ui.navigation
 
 import kotlinx.serialization.Serializable
-import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.domain.ship.Ship
 
 /**
  * All possible screens in the application.

@@ -2,15 +2,15 @@ package com.hybris.tlv.ui.screen.newgame
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import com.hybris.tlv.domain.usecase.ship.model.Engine
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_CRYOPODS
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_FUEL
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_MATERIALS
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MAX_SENSOR_RANGE
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_CRYOPODS
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_FUEL
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_MATERIALS
-import com.hybris.tlv.domain.usecase.ship.model.Ship.Companion.MIN_SENSOR_RANGE
+import com.hybris.tlv.domain.ship.Engine
+import com.hybris.tlv.domain.ship.Ship.Companion.MAX_CRYOPODS
+import com.hybris.tlv.domain.ship.Ship.Companion.MAX_FUEL
+import com.hybris.tlv.domain.ship.Ship.Companion.MAX_MATERIALS
+import com.hybris.tlv.domain.ship.Ship.Companion.MAX_SENSOR_RANGE
+import com.hybris.tlv.domain.ship.Ship.Companion.MIN_CRYOPODS
+import com.hybris.tlv.domain.ship.Ship.Companion.MIN_FUEL
+import com.hybris.tlv.domain.ship.Ship.Companion.MIN_MATERIALS
+import com.hybris.tlv.domain.ship.Ship.Companion.MIN_SENSOR_RANGE
 
 internal sealed interface NewGameAction {
     data object Back: NewGameAction

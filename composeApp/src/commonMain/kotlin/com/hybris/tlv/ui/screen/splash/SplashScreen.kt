@@ -14,7 +14,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.core.audio.AudioPlayer
 import com.hybris.tlv.core.platform.Platform
 import com.hybris.tlv.core.platform.platform
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.domain.translation.Translation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.audio.LocalAudioPlayer
 import com.hybris.tlv.ui.screen.Screen

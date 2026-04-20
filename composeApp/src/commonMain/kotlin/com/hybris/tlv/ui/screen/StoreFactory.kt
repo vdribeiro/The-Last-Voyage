@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.screen
 
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.domain.usecase.UseCases
-import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.domain.ship.Ship
 import com.hybris.tlv.ui.screen.achievement.AchievementStore
 import com.hybris.tlv.ui.screen.catastrophe.CatastropheStore
 import com.hybris.tlv.ui.screen.catastropheexplorer.CatastropheExplorerStore

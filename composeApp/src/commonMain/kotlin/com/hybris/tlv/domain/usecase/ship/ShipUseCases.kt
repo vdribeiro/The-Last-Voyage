@@ -1,7 +1,7 @@
 package com.hybris.tlv.domain.usecase.ship
 
-import com.hybris.tlv.domain.usecase.ship.model.Engine
-import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.domain.ship.Engine
+import com.hybris.tlv.domain.ship.Ship
 
 internal interface ShipUseCases {
 

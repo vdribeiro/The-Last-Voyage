@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.screen.game
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.domain.ship.Ship
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 

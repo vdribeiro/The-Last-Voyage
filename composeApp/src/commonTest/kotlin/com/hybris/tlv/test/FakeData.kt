@@ -9,15 +9,15 @@ import com.hybris.tlv.domain.catastrophe.Catastrophe
 import com.hybris.tlv.domain.credit.Credit
 import com.hybris.tlv.domain.event.Event
 import com.hybris.tlv.domain.usecase.gamesession.model.GameSessionPrototype
-import com.hybris.tlv.domain.usecase.ship.model.Engine
-import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.domain.ship.Engine
+import com.hybris.tlv.domain.ship.Ship
 import com.hybris.tlv.domain.usecase.ship.model.ShipPrototype
 import com.hybris.tlv.domain.usecase.space.addPlanets
 import com.hybris.tlv.domain.usecase.space.model.Formula
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.translation.TranslationGateway.Companion.loadAllTranslationsFromJsonResource
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.domain.translation.Translation
 
 internal object FakeData {
     val configs: Configs by lazy {

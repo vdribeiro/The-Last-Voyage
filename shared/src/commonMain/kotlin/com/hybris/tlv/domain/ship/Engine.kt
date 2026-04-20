@@ -1,4 +1,4 @@
-package com.hybris.tlv.domain.usecase.ship.model
+package com.hybris.tlv.domain.ship
 
 import kotlinx.serialization.Serializable
 

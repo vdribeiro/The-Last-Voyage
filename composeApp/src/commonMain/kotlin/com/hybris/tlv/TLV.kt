@@ -22,7 +22,7 @@ import com.hybris.tlv.domain.flag.Flags
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.TranslationGateway.Companion.loadAllTranslationsFromJsonResource
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.domain.translation.Translation
 import com.hybris.tlv.test.ExcludeFromTesting
 
 /**

@@ -3,7 +3,7 @@ package com.hybris.tlv.ui.screen.event
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import com.hybris.tlv.domain.event.Event
-import com.hybris.tlv.domain.usecase.ship.model.Ship
+import com.hybris.tlv.domain.ship.Ship
 
 internal sealed interface EventAction {
     data class Select(val event: Event): EventAction

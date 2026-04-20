@@ -1,7 +1,7 @@
 package com.hybris.tlv.domain.usecase.ship
 
 import com.hybris.tlv.data.database.EngineSchema
-import com.hybris.tlv.domain.usecase.ship.model.Engine
+import com.hybris.tlv.domain.ship.Engine
 
 internal fun Engine.toEngineSchema(): EngineSchema =
     EngineSchema(

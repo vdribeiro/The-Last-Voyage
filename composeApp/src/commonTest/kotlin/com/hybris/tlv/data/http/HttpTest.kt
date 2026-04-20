@@ -2,7 +2,7 @@ package com.hybris.tlv.data.http
 
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import com.hybris.tlv.domain.usecase.translation.model.Translation
+import com.hybris.tlv.domain.translation.Translation
 import com.hybris.tlv.test.TestCase
 
 internal class HttpTest: TestCase() {
