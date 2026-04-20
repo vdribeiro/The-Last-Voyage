@@ -5,9 +5,9 @@ import com.hybris.tlv.data.config.Configs
 import com.hybris.tlv.data.resource.JsonResource
 import com.hybris.tlv.data.resource.loadResource
 import com.hybris.tlv.domain.achievement.Achievement
-import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
-import com.hybris.tlv.domain.usecase.credit.model.Credit
-import com.hybris.tlv.domain.usecase.event.model.Event
+import com.hybris.tlv.domain.catastrophe.Catastrophe
+import com.hybris.tlv.domain.credit.Credit
+import com.hybris.tlv.domain.event.Event
 import com.hybris.tlv.domain.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.domain.usecase.ship.model.Engine
 import com.hybris.tlv.domain.usecase.ship.model.Ship

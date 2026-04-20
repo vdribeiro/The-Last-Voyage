@@ -11,7 +11,7 @@ import com.hybris.tlv.data.http.URL
 import com.hybris.tlv.data.http.get
 import com.hybris.tlv.data.resource.JsonResource
 import com.hybris.tlv.data.resource.loadResource
-import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
+import com.hybris.tlv.domain.catastrophe.Catastrophe
 import database.AppDatabase
 
 internal class CatastropheGateway(

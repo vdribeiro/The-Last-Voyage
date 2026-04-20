@@ -3,8 +3,8 @@ package com.hybris.tlv.domain.usecase.event
 import com.hybris.tlv.data.database.EventSchema
 import com.hybris.tlv.data.serializer.decode
 import com.hybris.tlv.data.serializer.encode
-import com.hybris.tlv.domain.usecase.event.model.Event
-import com.hybris.tlv.domain.usecase.space.model.TravelOutcome
+import com.hybris.tlv.domain.event.Event
+import com.hybris.tlv.domain.event.TravelOutcome
 
 internal fun Event.toEventSchema(): EventSchema =
     EventSchema(

@@ -3,7 +3,7 @@ package com.hybris.tlv.domain.usecase.ship.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class Ship(
+data class Ship(
     val id: String,
     val engine: Engine,
     val assignedPoints: Int,

@@ -1,7 +1,7 @@
 package com.hybris.tlv.ui.screen.eventexplorer
 
 import kotlinx.collections.immutable.toPersistentList
-import com.hybris.tlv.domain.usecase.event.model.Event
+import com.hybris.tlv.domain.event.Event
 import com.hybris.tlv.domain.usecase.translation.TranslationCache
 
 internal fun EventExplorerState.toFilterEventsCriteria(): FilterEventsCriteria =

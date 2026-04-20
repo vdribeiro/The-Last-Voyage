@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
 @Serializable
-internal data class Planet(
+data class Planet(
     val id: String,
     val name: String,
     val stellarHostId: String,

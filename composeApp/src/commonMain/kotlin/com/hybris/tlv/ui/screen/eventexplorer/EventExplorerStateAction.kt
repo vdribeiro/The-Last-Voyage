@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.screen.eventexplorer
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import com.hybris.tlv.domain.usecase.event.model.Event
+import com.hybris.tlv.domain.event.Event
 
 internal sealed interface EventExplorerAction {
     data class Search(val search: String): EventExplorerAction

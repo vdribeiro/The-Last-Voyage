@@ -4,7 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import com.hybris.tlv.domain.usecase.credit.model.CreditType
+import com.hybris.tlv.domain.credit.CreditType
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
 

@@ -1,9 +1,9 @@
-package com.hybris.tlv.domain.usecase.space.model
+package com.hybris.tlv.domain.event
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class TravelOutcome(
+data class TravelOutcome(
     val integrity: Int? = null,
     val materials: Int? = null,
     val fuel: Int? = null,

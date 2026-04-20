@@ -1,7 +1,7 @@
 package com.hybris.tlv.domain.usecase.catastrophe
 
 import com.hybris.tlv.data.database.CatastropheSchema
-import com.hybris.tlv.domain.usecase.catastrophe.model.Catastrophe
+import com.hybris.tlv.domain.catastrophe.Catastrophe
 
 internal fun Catastrophe.toCatastropheSchema(): CatastropheSchema =
     CatastropheSchema(

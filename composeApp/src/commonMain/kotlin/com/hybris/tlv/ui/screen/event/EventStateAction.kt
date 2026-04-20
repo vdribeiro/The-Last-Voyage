@@ -2,7 +2,7 @@ package com.hybris.tlv.ui.screen.event
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import com.hybris.tlv.domain.usecase.event.model.Event
+import com.hybris.tlv.domain.event.Event
 import com.hybris.tlv.domain.usecase.ship.model.Ship
 
 internal sealed interface EventAction {

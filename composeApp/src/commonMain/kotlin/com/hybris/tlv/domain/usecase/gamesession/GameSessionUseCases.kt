@@ -1,6 +1,6 @@
 package com.hybris.tlv.domain.usecase.gamesession
 
-import com.hybris.tlv.domain.usecase.event.model.Event
+import com.hybris.tlv.domain.event.Event
 import com.hybris.tlv.domain.usecase.gamesession.model.GameOver
 import com.hybris.tlv.domain.usecase.gamesession.model.GameSession
 import com.hybris.tlv.domain.usecase.gamesession.model.GameSessionPrototype
