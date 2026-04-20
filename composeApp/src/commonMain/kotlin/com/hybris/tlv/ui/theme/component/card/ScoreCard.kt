@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hybris.tlv.core.locale.getLocalDateTime
 import com.hybris.tlv.domain.usecase.space.roundTo
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalColorScheme
@@ -128,15 +128,15 @@ internal fun ScoreCard(
 private fun ScoreCardPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "ship_sensor",
                 value = "Sensor Range"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_integrity",
                 value = "Integrity"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_materials",
                 value = "Materials"
             ),

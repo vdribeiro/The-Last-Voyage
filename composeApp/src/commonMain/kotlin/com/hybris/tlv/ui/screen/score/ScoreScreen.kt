@@ -14,7 +14,7 @@ import com.hybris.tlv.domain.usecase.gamesession.model.GameSession
 import com.hybris.tlv.domain.ship.Engine
 import com.hybris.tlv.domain.ship.Ship
 import com.hybris.tlv.domain.usecase.space.model.Formula
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
@@ -67,7 +67,7 @@ private fun ScoreScreenLoadingPreview() = Preview {
 private fun ScoreScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "score_screen__title",
                 value = "Score"
             )

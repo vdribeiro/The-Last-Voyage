@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -104,51 +104,51 @@ internal fun LearnMenu(
 private fun LearnMenuPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__learn",
                 value = "Learn"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__navigation",
                 value = "Navigation"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__control_panel",
                 value = "Control Panel"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__host_definition",
                 value = "Host Definition"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__planet_definition",
                 value = "Planet Definition"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__host_types",
                 value = "Host Types"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__planet_types",
                 value = "Planet Types"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__habitability",
                 value = "Habitability"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__score",
                 value = "Score Formula"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__mechanics",
                 value = "Tutorial"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "catastrophe_screen__title",
                 value = "Catastrophes"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "event_screen__title",
                 value = "Events"
             ),

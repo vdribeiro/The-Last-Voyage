@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.hybris.tlv.data.resource.ImageResource
 import com.hybris.tlv.domain.usecase.space.roundTo
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalShapes
@@ -147,19 +147,19 @@ internal fun StellarHostCard(
 private fun StellarHostCardPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_system_name",
                 value = "System Name"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_planet_count",
                 value = "Planet Count"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_type",
                 value = "Host"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "stellar_host_temperature",
                 value = "Temperature"
             )

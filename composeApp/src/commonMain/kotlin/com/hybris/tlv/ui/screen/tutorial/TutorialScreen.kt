@@ -19,7 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.space.model.PlanetType
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
@@ -243,15 +243,15 @@ internal fun TutorialScreen(store: Store<TutorialState, TutorialAction>) {
 private fun TutorialScreenGoalPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__mechanics",
                 value = "Tutorial"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "tutorial_screen__mechanics_goal_title",
                 value = "Goal"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "tutorial_screen__mechanics_goal_description",
                 value = "Win the game!"
             ),
@@ -271,11 +271,11 @@ private fun TutorialScreenGoalPreview() = Preview {
 private fun TutorialScreenShipPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "tutorial_screen__mechanics_attributes_title",
                 value = "Ship"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "tutorial_screen__mechanics_attributes_description",
                 value = "Your ship is awesome!"
             ),
@@ -295,11 +295,11 @@ private fun TutorialScreenShipPreview() = Preview {
 private fun TutorialScreenSystemPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "tutorial_screen__mechanics_system_title",
                 value = "System"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "tutorial_screen__mechanics_system_description",
                 value = "There are so many!"
             ),
@@ -319,11 +319,11 @@ private fun TutorialScreenSystemPreview() = Preview {
 private fun TutorialScreenTravelPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "tutorial_screen__mechanics_travel_title",
                 value = "Travel"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "tutorial_screen__mechanics_travel_description",
                 value = "Warp speed, Captain."
             ),
@@ -343,11 +343,11 @@ private fun TutorialScreenTravelPreview() = Preview {
 private fun TutorialScreenGameOverPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "tutorial_screen__mechanics_game_over_title",
                 value = "Game Over"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "tutorial_screen__mechanics_game_over_description",
                 value = "Game over man! Game over!"
             ),

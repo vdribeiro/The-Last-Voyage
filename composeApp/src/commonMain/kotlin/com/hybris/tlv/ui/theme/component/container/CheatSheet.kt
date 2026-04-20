@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -86,27 +86,27 @@ internal fun CheatSheet(
 private fun CheatSheetPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "cheats_screen__title",
                 value = "Cheats"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "cheats_screen__integrity",
                 value = "Integrity"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "cheats_screen__sensor_range",
                 value = "Sensor Range"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "cheats_screen__fuel",
                 value = "Fuel"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "cheats_screen__materials",
                 value = "Materials"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "cheats_screen__cryopods",
                 value = "Cryopods"
             ),

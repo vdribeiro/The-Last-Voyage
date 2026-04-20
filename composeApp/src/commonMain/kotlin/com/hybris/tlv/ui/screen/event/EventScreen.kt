@@ -15,7 +15,7 @@ import com.hybris.tlv.domain.event.Event
 import com.hybris.tlv.domain.ship.Engine
 import com.hybris.tlv.domain.ship.Ship
 import com.hybris.tlv.domain.event.TravelOutcome
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
@@ -107,11 +107,11 @@ private fun EventScreenLoadingPreview() = Preview {
 private fun EventScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "ship_materials",
                 value = "Materials"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_fuel",
                 value = "Fuel"
             ),

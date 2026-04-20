@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.navigation.open
 import com.hybris.tlv.ui.theme.InjectTranslations
@@ -64,11 +64,11 @@ internal fun MainBar(
 private fun MainBarPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "website",
                 value = "Website with large description"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "main_menu_screen__credits",
                 value = "Credits"
             )

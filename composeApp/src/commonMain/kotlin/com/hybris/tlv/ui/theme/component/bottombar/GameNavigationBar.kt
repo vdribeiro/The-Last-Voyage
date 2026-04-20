@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.getTranslation
@@ -78,15 +78,15 @@ private data class GameNavigationItem(
 private fun GameNavigationBarPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__travel",
                 value = "Travel"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__system",
                 value = "System"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "game_screen__ship",
                 value = "Ship"
             ),

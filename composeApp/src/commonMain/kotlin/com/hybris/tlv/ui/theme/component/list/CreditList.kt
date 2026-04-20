@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.navigation.open
 import com.hybris.tlv.ui.theme.InjectTranslations
@@ -160,19 +160,19 @@ internal fun <T> CreditList(
 private fun CreditListPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "credit_screen__creators",
                 value = "Creators"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "credit_screen__sources",
                 value = "Sources"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "credit_screen__music",
                 value = "Music"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "credit_screen__supporters",
                 value = "Supporters"
             )

@@ -18,7 +18,7 @@ import com.hybris.tlv.domain.usecase.gamesession.model.GameSession
 import com.hybris.tlv.domain.ship.Engine
 import com.hybris.tlv.domain.ship.Ship
 import com.hybris.tlv.domain.usecase.space.model.Formula
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
@@ -126,16 +126,16 @@ private fun GameOverScreenLoadingPreview() = Preview {
 private fun GameOverScreenMessagePreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "game_over_screen__game_over",
                 value = "Game Over"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "game_over_screen__default_game_over",
                 value = "The game is over, but do not worry, you can always play again and try different outcomes. " +
                         "Just make sure you take care of yourself."
             ),
-            Translation(
+            PreviewTranslation(
                 key = "game_over_screen__score",
                 value = "Score"
             ),
@@ -158,51 +158,51 @@ private fun GameOverScreenMessagePreview() = Preview {
 private fun GameOverScreenScorePreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "game_over_screen__game_over",
                 value = "Game Over"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "game_over_screen__end",
                 value = "End"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "settled_planet",
                 value = "Planet"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "final_habitability",
                 value = "Habitability"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "engine",
                 value = "Engine"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "points",
                 value = "Points"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_years_traveled",
                 value = "Years"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_sensor",
                 value = "Sensor Range"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_integrity",
                 value = "Integrity"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_materials",
                 value = "Materials"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_fuel",
                 value = "Fuel"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "ship_cryopods",
                 value = "Cryopods"
             ),

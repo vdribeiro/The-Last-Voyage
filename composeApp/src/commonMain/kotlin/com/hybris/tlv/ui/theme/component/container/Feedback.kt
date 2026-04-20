@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalTypography
@@ -101,19 +101,19 @@ internal fun Feedback(
 private fun FeedbackPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__title_alt",
                 value = "Feedback"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__description_alt",
                 value = "Description"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__button",
                 value = "Send"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__thanks",
                 value = "Thanks"
             ),
@@ -131,23 +131,23 @@ private fun FeedbackPreview() = Preview {
 private fun FeedbackErrorPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__title",
                 value = "Error"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__description",
                 value = "Description"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__button",
                 value = "Send"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__thanks",
                 value = "Thanks"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__console",
                 value = "Stacktrace"
             ),

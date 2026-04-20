@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
@@ -42,15 +42,15 @@ internal fun FeedbackScreen(store: Store<FeedbackState, FeedbackAction>) {
 private fun FeedbackScreenPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__title_alt",
                 value = "Feedback"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__description_alt",
                 value = "Your insights are valuable, whether you have an idea or have found something that isn't working right."
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__button",
                 value = "Submit Feedback"
             ),
@@ -72,19 +72,19 @@ private fun FeedbackScreenPreview() = Preview {
 private fun FeedbackScreenThanksPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__title_alt",
                 value = "Feedback"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__description_alt",
                 value = "Your insights are valuable, whether you have an idea or have found something that isn't working right."
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__button",
                 value = "Submit Feedback"
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__thanks",
                 value = "You are awesome too!"
             ),
@@ -106,15 +106,15 @@ private fun FeedbackScreenThanksPreview() = Preview {
 private fun FeedbackScreenErrorPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__title",
                 value = "Oops! Something went wrong."
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__description",
                 value = "It seems we've run into an uncharted anomaly. Our engineering crew is already on it, but a description from you would be invaluable."
             ),
-            Translation(
+            PreviewTranslation(
                 key = "error_screen__button",
                 value = "Submit Feedback"
             ),

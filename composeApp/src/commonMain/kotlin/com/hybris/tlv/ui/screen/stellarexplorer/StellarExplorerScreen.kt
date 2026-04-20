@@ -19,7 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.PlanetStatus
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
-import com.hybris.tlv.domain.translation.Translation
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
@@ -163,7 +163,7 @@ internal fun StellarExplorerScreen(store: Store<StellarExplorerState, StellarExp
 private fun StellarExplorerScreenLoadingPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "stellar_explorer_screen__host_list",
                 value = "Stellar Hosts"
             ),
@@ -195,7 +195,7 @@ private fun StellarExplorerScreenLoadingPreview() = Preview {
 private fun StellarExplorerScreenHostListPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "stellar_explorer_screen__host_list",
                 value = "Stellar Hosts"
             ),
@@ -265,7 +265,7 @@ private fun StellarExplorerScreenHostListPreview() = Preview {
 private fun StellarExplorerScreenHostDetailPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "stellar_explorer_screen__host_list",
                 value = "Stellar Hosts"
             ),
@@ -351,7 +351,7 @@ private fun StellarExplorerScreenHostDetailPreview() = Preview {
 private fun StellarExplorerScreenPlanetListPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "stellar_explorer_screen__planet_list",
                 value = "Planets"
             ),
@@ -417,7 +417,7 @@ private fun StellarExplorerScreenPlanetListPreview() = Preview {
 private fun StellarExplorerScreenPlanetDetailPreview() = Preview {
     InjectTranslations(
         translations = listOf(
-            Translation(
+            PreviewTranslation(
                 key = "stellar_explorer_screen__planet_list",
                 value = "Planets"
             ),
