@@ -6,6 +6,8 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.flow.receiveAsFlow
+import io.ktor.http.decodeURLQueryComponent
+import io.ktor.http.encodeURLQueryComponent
 import androidx.compose.ui.platform.UriHandler
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
@@ -15,9 +17,7 @@ import androidx.savedstate.read
 import androidx.savedstate.write
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.serializer.decode
-import com.hybris.tlv.data.serializer.decodeURL
 import com.hybris.tlv.data.serializer.encode
-import com.hybris.tlv.data.serializer.encodeURL
 
 /**
  * Channel for sending and receiving [Navigate] commands.
@@ -88,6 +88,11 @@ private fun NavHostController.printBackStack(): String = runCatching {
 internal inline fun <reified T> typeMapOf(): Map<KType, NavType<T?>> =
     mapOf(pair = typeOf<T?>() to serializableType<T?>())
 
+/**
+ * The type that can be used in a NavArgument.
+ * Values are encoded into a JSON string with URL query component encoding, or the literal string "null" on failure.
+ * On decoding back to an instance of [T], `null` is returned if the string is literal "null" or decoding fails.
+ */
 private inline fun <reified T> serializableType(): NavType<T> =
     object: NavType<T>(isNullableAllowed = true) {
         override fun put(bundle: SavedState, key: String, value: T) {
@@ -97,11 +102,18 @@ private inline fun <reified T> serializableType(): NavType<T> =
         override fun get(bundle: SavedState, key: String): T? =
             bundle.read { getStringOrNull(key = key)?.let { decode(value = it) } }
 
-        override fun serializeAsValue(value: T): String =
-            encodeURL(value = value)
+        override fun serializeAsValue(value: T): String = runCatching {
+            encode(value = value)?.encodeURLQueryComponent()
+        }.onFailure {
+            Telemetry.error(tag = TAG, message = "Unable to encode $value", throwable = it)
+        }.getOrNull() ?: "null"
 
-        override fun parseValue(value: String): T =
-            decodeURL<T>(value = value) as T
+        override fun parseValue(value: String): T = runCatching {
+            if (value == "null") return null as T
+            decode<T>(value = value.decodeURLQueryComponent())
+        }.onFailure {
+            Telemetry.error(tag = TAG, message = "Unable to decode $value", throwable = it)
+        }.getOrNull() as T
     }
 
 /**

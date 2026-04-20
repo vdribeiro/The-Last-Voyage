@@ -92,34 +92,18 @@ kotlin {
         val commonMain by getting {
             kotlin.srcDir(generateAppValues.map { it.outputs.files })
             dependencies {
-                implementation(dependencyNotation = libs.kotlin.stdlib)
-                implementation(dependencyNotation = libs.bundles.common)
-            }
-        }
-
-        getByName("commonTest") {
-            dependencies {
-                implementation(dependencyNotation = libs.bundles.common.test)
+                implementation(dependencyNotation = libs.bundles.common.core)
             }
         }
 
         getByName("androidMain") {
             dependencies {
-                implementation(dependencyNotation = libs.bundles.android)
-            }
-        }
-
-        getByName("androidUnitTest") {
-            dependencies {
-                implementation(dependencyNotation = libs.bundles.android.test)
+                implementation(dependencyNotation = libs.bundles.android.core)
             }
         }
 
         val appleMain by creating {
             dependsOn(other = commonMain)
-            dependencies {
-                implementation(dependencyNotation = libs.bundles.ios)
-            }
         }
         iosTargets.forEach { iosTarget ->
             sourceSets.getByName("${iosTarget.name}Main").dependsOn(other = appleMain)
@@ -127,15 +111,12 @@ kotlin {
 
         getByName("desktopMain") {
             dependencies {
-                implementation(dependencyNotation = libs.bundles.desktop)
+                implementation(dependencyNotation = libs.bundles.desktop.core)
             }
         }
 
         val webMain by creating {
             dependsOn(commonMain)
-            dependencies {
-                implementation(dependencyNotation = libs.bundles.web)
-            }
         }
         sourceSets.getByName("${webTarget.name}Main").dependsOn(other = webMain)
     }

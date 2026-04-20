@@ -9,6 +9,5 @@ internal class JsonTest: TestCase() {
     @Test
     fun encodeDecode() = runUnitTest {
         assertEquals(expected = FakeData.configs, actual = decode(value = encode(value = FakeData.configs)))
-        assertEquals(expected = FakeData.configs, actual = decodeURL(value = encodeURL(value = FakeData.configs)))
     }
 }
