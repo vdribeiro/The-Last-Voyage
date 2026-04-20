@@ -258,6 +258,7 @@ kotlin {
             kotlin.srcDir(generateAppValues.map { it.outputs.files })
             kotlin.srcDir(generateSentryValues.map { it.outputs.files })
             dependencies {
+                implementation(dependencyNotation = projects.shared)
                 implementation(dependencyNotation = libs.bundles.common)
             }
         }

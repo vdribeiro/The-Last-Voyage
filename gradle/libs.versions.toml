@@ -65,6 +65,7 @@ sentry = { id = "io.sentry.kotlin.multiplatform.gradle", version.ref = "sentry" 
 [libraries]
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
@@ -183,7 +184,6 @@ android-test = [
     "roboelectric",
     "sqldelight-jvm",
     "sqldelight-jdbc",
-    "logging",
 ]
 ios = [
     "ktor-darwin",
