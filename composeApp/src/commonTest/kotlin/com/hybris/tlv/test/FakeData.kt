@@ -1,5 +1,6 @@
 package com.hybris.tlv.test
 
+import com.hybris.tlv.App
 import com.hybris.tlv.data.config.Configs
 import com.hybris.tlv.data.resource.JsonResource
 import com.hybris.tlv.data.resource.loadResource
@@ -17,12 +18,11 @@ import com.hybris.tlv.domain.usecase.space.model.Planet
 import com.hybris.tlv.domain.usecase.space.model.StellarHost
 import com.hybris.tlv.domain.usecase.translation.TranslationGateway.Companion.loadAllTranslationsFromJsonResource
 import com.hybris.tlv.domain.usecase.translation.model.Translation
-import com.hybris.tlv.platform.Property
 
 internal object FakeData {
     val configs: Configs by lazy {
         Configs(
-            appVersion = Property.APP_VERSION_NUMBER,
+            appVersion = App.VERSION_NUMBER,
             translationsVersion = Long.MAX_VALUE,
             catastrophesVersion = Long.MAX_VALUE,
             enginesVersion = Long.MAX_VALUE,

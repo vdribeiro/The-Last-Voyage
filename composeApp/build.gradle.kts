@@ -2,12 +2,12 @@ import java.util.Properties
 import kotlin.experimental.xor
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import org.gradle.internal.os.OperatingSystem
 
 plugins {
+    id(id = "shared")
     alias(notation = libs.plugins.kotlin.multiplatform)
     alias(notation = libs.plugins.kotlin.serialization)
     alias(notation = libs.plugins.cocoapods)
@@ -24,27 +24,18 @@ plugins {
 val localProperties: Properties = Properties().apply {
     runCatching { rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use(block = this::load) }.getOrNull()
 }
-val appId: String = "com.hybris.tlv"
-val appName: String = "The Last Voyage"
+
 val appDescription: String = "An Educational Space Adventure"
 val appFramework = "TLV"
 val appVendor: String = "Hybris"
 val appFolder = "/${appName.replace(oldValue = " ", newValue = "-")}/"
 val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb"
-val appVersion: String = "1.2.0"
-val appVersionNumber: Long = 18
 
-val jdkVersion = 21
-val jvmVersion = JvmTarget.JVM_21
-val javaVersion = JavaVersion.VERSION_21
-
-val androidSdkTarget: IntRange = 26..36
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
 val androidKeyPassword: String = localProperties.getProperty("android.keyPassword", "")
 val androidStoreFile: File? = runCatching { rootProject.file(localProperties.getProperty("android.storeFile", "")) }.getOrNull()
 val androidStorePassword: String = localProperties.getProperty("android.storePassword", "")
 
-val iosTarget: String = "16.0"
 val appleIdentity: String = localProperties.getProperty("mac.sign.identity", "")
 val appleTeamId: String = localProperties.getProperty("mac.notarization.teamId", "")
 val appleId: String = localProperties.getProperty("mac.notarization.appleId", "")
@@ -62,8 +53,8 @@ val isRelease: Boolean
 val launcher: File get() = project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png")
 //endregion
 
-//region Generate Property.kt file
-abstract class GeneratePropertiesTask: DefaultTask() {
+//region Generate App.kt file
+abstract class GenerateAppValuesTask: DefaultTask() {
     @get:Input
     abstract val taskAppId: Property<String>
     @get:Input
@@ -72,8 +63,6 @@ abstract class GeneratePropertiesTask: DefaultTask() {
     abstract val taskAppVersion: Property<String>
     @get:Input
     abstract val taskAppVersionNumber: Property<Long>
-    @get:Input
-    abstract val taskSentryDsn: Property<String>
     @get:OutputDirectory
     abstract val taskOutputDir: DirectoryProperty
 
@@ -83,17 +72,61 @@ abstract class GeneratePropertiesTask: DefaultTask() {
         val appName: String = taskAppName.get()
         val appVersion: String = taskAppVersion.get()
         val appVersionNumber: Long = taskAppVersionNumber.get()
+        val objectName = "App"
+        val file = taskOutputDir.get().file("${appId.replace(oldChar = '.', newChar = '/')}/$objectName.kt").asFile
+        file.parentFile.mkdirs()
+        file.writeText(
+            text = """
+                package $appId
+                
+                import com.hybris.tlv.test.ExcludeFromTesting
+    
+                /**
+                 * Generated build-time values.
+                 */
+                @ExcludeFromTesting
+                object $objectName {
+                    const val ID: String = "$appId"
+                    const val NAME: String = "$appName"
+                    const val VERSION: String = "$appVersion"
+                    const val VERSION_NUMBER: Long = $appVersionNumber
+                }
+            """.trimIndent()
+        )
+    }
+}
+
+val generateAppValues = tasks.register<GenerateAppValuesTask>(name = "generateAppValues") {
+    taskAppId.set(appId)
+    taskAppName.set(appName)
+    taskAppVersion.set(appVersion)
+    taskAppVersionNumber.set(appVersionNumber)
+    taskOutputDir.set(layout.buildDirectory.dir("generated/source/gradle"))
+}
+//endregion
+
+//region Generate Sentry.kt file
+abstract class GenerateSentryValuesTask: DefaultTask() {
+    @get:Input
+    abstract val taskAppId: Property<String>
+    @get:Input
+    abstract val taskSentryDsn: Property<String>
+    @get:OutputDirectory
+    abstract val taskOutputDir: DirectoryProperty
+
+    @TaskAction
+    fun generate() {
+        val appId: String = taskAppId.get()
         // Basic obfuscation of Sentry DSN
         val sentryDsn = "byteArrayOf(${
             taskSentryDsn.get().toByteArray().mapIndexed { index, byte -> byte.xor(other = appId[index % appId.length].code.toByte()) }.joinToString(separator = ", ") { it.toString() }
         }).mapIndexed { index, byte -> byte.xor(other = APP_ID[index % APP_ID.length].code.toByte()) }.toByteArray().decodeToString()"
-        val packageDir = "$appId.platform"
-        val objectName = "Property"
-        val file = taskOutputDir.get().file("${packageDir.replace(oldChar = '.', newChar = '/')}/$objectName.kt").asFile
+        val objectName = "Sentry"
+        val file = taskOutputDir.get().file("${appId.replace(oldChar = '.', newChar = '/')}/$objectName.kt").asFile
         file.parentFile.mkdirs()
         file.writeText(
             text = """
-                package $packageDir
+                package $appId
                 
                 import kotlin.experimental.xor
                 import com.hybris.tlv.test.ExcludeFromTesting
@@ -103,24 +136,18 @@ abstract class GeneratePropertiesTask: DefaultTask() {
                  */
                 @ExcludeFromTesting
                 object $objectName {
-                    const val APP_ID: String = "$appId"
-                    const val APP_NAME: String = "$appName"
-                    const val APP_VERSION: String = "$appVersion"
-                    const val APP_VERSION_NUMBER: Long = $appVersionNumber
-                    val sentry: String = $sentryDsn
+                    private const val APP_ID: String = "$appId"
+                    val dsn: String = $sentryDsn
                 }
             """.trimIndent()
         )
     }
 }
 
-val generatePropertiesTask = tasks.register<GeneratePropertiesTask>(name = "generateProperties") {
+val generateSentryValues = tasks.register<GenerateSentryValuesTask>(name = "generateSentryValues") {
     taskAppId.set(appId)
-    taskAppName.set(appName)
-    taskAppVersion.set(appVersion)
-    taskAppVersionNumber.set(appVersionNumber)
     taskSentryDsn.set(sentryDsn)
-    taskOutputDir.set(layout.buildDirectory.dir("generated/source/property"))
+    taskOutputDir.set(layout.buildDirectory.dir("generated/source/gradle"))
 }
 //endregion
 
@@ -234,7 +261,8 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {
-            kotlin.srcDir(generatePropertiesTask.map { it.outputs.files })
+            kotlin.srcDir(generateAppValues.map { it.outputs.files })
+            kotlin.srcDir(generateSentryValues.map { it.outputs.files })
             dependencies {
                 implementation(dependencyNotation = libs.bundles.common)
             }
