@@ -29,7 +29,7 @@ val appDescription: String = "An Educational Space Adventure"
 val appFramework = "TLV"
 val appVendor: String = "Hybris"
 val appFolder = "/${appName.replace(oldValue = " ", newValue = "-")}/"
-val appHomepage: String = "https://mammoth-gallium-e97.notion.site/The-Last-Voyage-2420fa355a5080da91ffd9262f430feb"
+val appHomepage: String = "https://tinyurl.com/yeykkt83"
 
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
 val androidKeyPassword: String = localProperties.getProperty("android.keyPassword", "")
