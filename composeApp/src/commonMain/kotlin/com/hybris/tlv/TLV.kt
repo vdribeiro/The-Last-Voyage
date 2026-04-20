@@ -10,7 +10,7 @@ import com.hybris.tlv.core.audio.AudioPlayer
 import com.hybris.tlv.core.audio.createAudioPlayer
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.locale.observeLocale
-import com.hybris.tlv.core.system.isDebug
+import com.hybris.tlv.core.platform.isDebug
 import com.hybris.tlv.core.telemetry.Logger
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.database.NoOpSqlDriver
