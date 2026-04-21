@@ -10,6 +10,7 @@ import com.hybris.tlv.core.platform.platform
  * @property path The full string URL for the network request.
  */
 internal sealed class URL(val path: String) {
+    // TODO - switch to new server
     private val devBaseUrl: String = when (platform) {
         Platform.Android -> "http://10.0.2.2:8080/data"
         else -> "http://localhost:8080/data"
