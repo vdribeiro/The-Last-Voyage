@@ -5,6 +5,11 @@ import org.gradle.api.JavaVersion
 
 val appId: String = "com.hybris.tlv"
 val appName: String = "The Last Voyage"
+val appDescription: String = "An Educational Space Adventure"
+val appFramework = "TLV"
+val appVendor: String = "Hybris"
+val appFolder = "/${appName.replace(oldValue = " ", newValue = "-")}/"
+val appHomepage: String = "https://tinyurl.com/yeykkt83"
 val appVersion: String = "1.2.0"
 val appVersionNumber: Long = 18
 

@@ -25,12 +25,6 @@ val localProperties: Properties = Properties().apply {
     runCatching { rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use(block = this::load) }.getOrNull()
 }
 
-val appDescription: String = "An Educational Space Adventure"
-val appFramework = "TLV"
-val appVendor: String = "Hybris"
-val appFolder = "/${appName.replace(oldValue = " ", newValue = "-")}/"
-val appHomepage: String = "https://tinyurl.com/yeykkt83"
-
 val androidKeyAlias: String = localProperties.getProperty("android.keyAlias", "")
 val androidKeyPassword: String = localProperties.getProperty("android.keyPassword", "")
 val androidStoreFile: File? = runCatching { rootProject.file(localProperties.getProperty("android.storeFile", "")) }.getOrNull()
@@ -46,10 +40,7 @@ val windowsId = "580991aa-c884-4661-9876-5f36272fd26b"
 val windowsLauncher: File get() = project.file("src/commonMain/composeResources/drawable/ic_launcher_win.ico")
 
 val sentryDsn: String = localProperties.getProperty("sentryDsn", "")
-val isRelease: Boolean
-    get() = project.gradle.startParameter.taskNames.any {
-        it.contains(other = "package", ignoreCase = true) || it.contains(other = "notarize", ignoreCase = true)
-    }
+val isRelease: Boolean get() = project.gradle.startParameter.taskNames.any { it.contains(other = "package", ignoreCase = true) || it.contains(other = "notarize", ignoreCase = true) }
 val launcher: File get() = project.file("src/commonMain/composeResources/drawable/ic_launcher_round.png")
 //endregion
 
