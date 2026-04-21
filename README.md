@@ -71,7 +71,7 @@ Responsible for data persistence and retrieval.
 * **http**: Ktor client configuration and network logic.
     * `HttpClientFactory`: Configures Ktor with telemetry logging, timeouts, HTTP caching, encoding and JSON content negotiation.
     * `Network`: Network status helpers.
-    * `Http`: Wraps GET requests in a `Result<Success|Error>` type, checking network availability first.
+    * `Http`: Extensions to execute a type-safe requests and decode the response into a `Result<Success|Error>`.
     * `URL`: Sealed class of all remote endpoints.
     * `HttpEngine`: Creates the http engine.
     * `NoOpHttpEngine`: A no-op implementation of `HttpClientEngine`. Returns 204 for every request.

@@ -7,14 +7,10 @@ import io.ktor.client.request.get
 import io.ktor.http.encodeURLPath
 import io.ktor.http.isSuccess
 import com.hybris.tlv.core.flow.Dispatcher
-import com.hybris.tlv.domain.flag.FeatureFlags.flags
 
 /**
  * Executes a type-safe GET request and decodes the response into a [Result].
- * This function handles several concerns:
  *
- * - **Feature Gating:** Checks a feature flag to see if networking is globally disabled.
- * - **Connectivity Check:** Verifies network availability via [isInternetAvailable].
  * - **URL Preparation:** Encodes the [path] and appends [queryMap] parameters safely.
  * - **Resource Management:** Executes on [Dispatcher.IO] to prevent blocking the calling thread.
  * - **Error Handling:** Catches network, parsing, and server errors, wrapping them in a [Result.Error].
@@ -29,9 +25,6 @@ internal suspend inline fun <reified T> HttpClient.get(
     queryMap: Map<String, String> = emptyMap(),
 ): Result<T> = withContext(context = Dispatcher.IO) {
     runCatching {
-        if (!flags.http) throw Throwable(message = "Network disabled")
-        if (!isInternetAvailable()) throw Throwable(message = "No internet connection available")
-
         val response = get(urlString = path.path.encodeURLPath()) {
             queryMap.forEach { url.parameters.append(name = it.key, value = it.value) }
         }

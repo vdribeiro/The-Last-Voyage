@@ -7,6 +7,7 @@ import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.HttpTimeoutConfig
+import io.ktor.client.plugins.api.createClientPlugin
 import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.cache.storage.CacheStorage
 import io.ktor.client.plugins.compression.ContentEncoding
@@ -28,6 +29,7 @@ import com.hybris.tlv.data.http.HttpClientFactory.Companion.CONNECT_TIMEOUT_MILL
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.REQUEST_TIMEOUT_MILLIS
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.SOCKET_TIMEOUT_MILLIS
 import com.hybris.tlv.data.serializer.json
+import com.hybris.tlv.domain.flag.FeatureFlags.flags
 
 /**
  * A centralized factory for creating and configuring the [HttpClient].
@@ -47,12 +49,25 @@ internal class HttpClientFactory(engine: HttpClientEngine) {
      * Installs and configures the necessary plugins for the [HttpClient].
      */
     private fun <T: HttpClientEngineConfig> HttpClientConfig<T>.install() {
+        install(plugin = NetworkValidator)
         install(plugin = Logging) { configure() }
         install(plugin = HttpTimeout) { configure() }
         install(plugin = HttpCache) { configure() }
         install(plugin = ContentNegotiation) { configure() }
         install(plugin = ContentEncoding) { configure() }
         defaultRequest { configure() }
+    }
+
+    /**
+     * - **Feature Gating:** Checks a feature flag to see if networking is globally disabled.
+     * - **Connectivity Check:** Verifies network availability via [isInternetAvailable].
+     */
+    @Suppress("PrivatePropertyName")
+    private val NetworkValidator = createClientPlugin(name = "NetworkValidator") {
+        onRequest { _, _ ->
+            if (!flags.http) throw Throwable(message = "Network disabled")
+            if (!isInternetAvailable()) throw Throwable(message = "No internet connection available")
+        }
     }
 
     /**
