@@ -3,6 +3,7 @@ package com.hybris.tlv
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
+import io.ktor.server.http.content.staticResources
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.calllogging.CallLogging
 import io.ktor.server.request.path
@@ -14,7 +15,7 @@ import org.slf4j.event.Level
 fun main() {
     embeddedServer(
         factory = Netty,
-        port = 8080,
+        port = System.getenv("PORT")?.toInt() ?: 8080,
         host = "0.0.0.0",
         module = Application::module
     ).start(wait = true)
@@ -27,8 +28,7 @@ fun Application.module() {
     }
 
     routing {
-        get(path = "/") {
-            call.respondText(text = "Ktor Server")
-        }
+        get(path = "/") { call.respondText(text = "Server running") }
+        staticResources(remotePath = "/data", basePackage = "static")
     }
 }

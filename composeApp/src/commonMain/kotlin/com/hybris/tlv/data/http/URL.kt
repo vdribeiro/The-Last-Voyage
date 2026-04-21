@@ -1,11 +1,21 @@
 package com.hybris.tlv.data.http
 
+import com.hybris.tlv.core.platform.Platform
+import com.hybris.tlv.core.platform.isDebug
+import com.hybris.tlv.core.platform.platform
+
 /**
  * A type-safe representation of all remote endpoints used within the application, serving as a centralized registry for API paths.
  *
  * @property path The full string URL for the network request.
  */
-sealed class URL(val path: String) {
+internal sealed class URL(val path: String) {
+    private val devBaseUrl: String = when (platform) {
+        Platform.Android -> "http://10.0.2.2:8080/data"
+        else -> "http://localhost:8080/data"
+    }
+    private val baseUrl: String = if (!isDebug) "https://the-last-voyage.web.app/data" else devBaseUrl
+
     data object ExoplanetArchive: URL(path = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync")
     data object Configs: URL(path = "https://gist.githubusercontent.com/vdribeiro/eb23013b329c47317622981187df3f23/raw/configs.json")
     data object Translations: URL(path = "https://gist.githubusercontent.com/vdribeiro/90daf9ebde2b8e37ce893e49e8d7f7c7/raw/translations.json")

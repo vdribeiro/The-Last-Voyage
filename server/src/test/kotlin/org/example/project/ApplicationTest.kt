@@ -18,6 +18,6 @@ class ApplicationTest {
         }
         val response = client.get(urlString = "/")
         assertEquals(expected = HttpStatusCode.OK, actual = response.status)
-        assertEquals(expected = "Ktor Server", actual = response.bodyAsText())
+        assertEquals(expected = "Server running", actual = response.bodyAsText())
     }
 }
