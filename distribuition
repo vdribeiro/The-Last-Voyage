@@ -27,6 +27,6 @@
             gcloud run deploy tlv-server \
                 --source . \
                 --allow-unauthenticated \
-                --set-env-vars="SENTRY_DSN=https://[replace-from-local-properties]"
+                --set-env-vars="SENTRY_DSN=[sentryDsn]"
     Web:    ./gradlew wasmJsBrowserDistribution
             firebase deploy --only hosting
