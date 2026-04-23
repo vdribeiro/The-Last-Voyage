@@ -7,4 +7,4 @@ COPY build/libs/*-all.jar /app/tlv-server.jar
 # Fallback port
 EXPOSE 8080
 # Run the server
-ENTRYPOINT ["java", "-jar", "/app/tlv-server.jar"]
+ENTRYPOINT ["java", "-Dlogback.configurationFile=logback-prod.xml", "-jar", "/app/tlv-server.jar"]

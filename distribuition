@@ -18,10 +18,15 @@
     Windows: ./gradlew clean packageMsi
     Linux:   ./gradlew clean packageDeb
     Web:     ./gradlew clean deployWeb
-    Server:  java -Dlogback.configurationFile=logback-prod.xml -jar server-all.jar
+    Server:  ./gradlew :server:compileKotlin
 # Update Gists
     cd composeApp/src/commonMain/composeResources/files
     gh gist edit [hash] *.json
 # Publish
+    Server:
+            gcloud run deploy tlv-server \
+                --source . \
+                --allow-unauthenticated \
+                --set-env-vars="SENTRY_DSN=https://[replace-from-local-properties]"
     Web:    ./gradlew wasmJsBrowserDistribution
             firebase deploy --only hosting
