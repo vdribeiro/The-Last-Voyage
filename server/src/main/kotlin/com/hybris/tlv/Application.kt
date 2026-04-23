@@ -30,7 +30,6 @@ fun Application.module() {
     routing {
         get(path = "/") { call.respondText(text = "Server running") }
 
-        // TODO - Add json files  to the resource folder
         staticResources(remotePath = "/data", basePackage = "static")
     }
 }
