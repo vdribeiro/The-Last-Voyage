@@ -40,18 +40,6 @@ import com.hybris.tlv.domain.flag.FeatureFlags.flags
 internal class HttpClientFactory(engine: HttpClientEngine) {
 
     /**
-     * - **Feature Gating:** Checks a feature flag to see if networking is globally disabled.
-     * - **Connectivity Check:** Verifies network availability via [isInternetAvailable].
-     */
-    @Suppress("PrivatePropertyName")
-    private val NetworkValidator = createClientPlugin(name = "NetworkValidator") {
-        onRequest { _, _ ->
-            if (!flags.http) throw Throwable(message = "Network disabled")
-            if (!isInternetAvailable()) throw Throwable(message = "No internet connection available")
-        }
-    }
-
-    /**
      * The configured [HttpClient] instance.
      * This instance should be treated as a singleton and shared across the application to maximize the efficiency of connection pooling and caching.
      */
@@ -61,13 +49,25 @@ internal class HttpClientFactory(engine: HttpClientEngine) {
      * Installs and configures the necessary plugins for the [HttpClient].
      */
     private fun <T: HttpClientEngineConfig> HttpClientConfig<T>.install() {
-        install(plugin = NetworkValidator)
+        install(plugin = getNetworkValidator())
         install(plugin = Logging) { configure() }
         install(plugin = HttpTimeout) { configure() }
         install(plugin = HttpCache) { configure() }
         install(plugin = ContentNegotiation) { configure() }
         install(plugin = ContentEncoding) { configure() }
         defaultRequest { configure() }
+    }
+
+    /**
+     * Create a plugin with the following capabilities for outgoing requests:
+     * - **Feature Gating:** Checks a feature flag to see if networking is globally disabled.
+     * - **Connectivity Check:** Verifies network availability via [isInternetAvailable].
+     */
+    private fun getNetworkValidator() = createClientPlugin(name = "NetworkValidator") {
+        onRequest { _, _ ->
+            if (!flags.http) throw Throwable(message = "Network disabled")
+            if (!isInternetAvailable()) throw Throwable(message = "No internet connection available")
+        }
     }
 
     /**
