@@ -24,10 +24,13 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.KotlinxSerializationConverter
 import io.ktor.serialization.kotlinx.json.json
+import com.hybris.tlv.core.platform.isDebug
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.CONNECT_TIMEOUT_MILLIS
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.REQUEST_TIMEOUT_MILLIS
 import com.hybris.tlv.data.http.HttpClientFactory.Companion.SOCKET_TIMEOUT_MILLIS
+import com.hybris.tlv.data.http.URL.Companion.BASE_URL
+import com.hybris.tlv.data.http.URL.Companion.devBaseUrl
 import com.hybris.tlv.data.serializer.json
 import com.hybris.tlv.domain.flag.FeatureFlags.flags
 
@@ -118,10 +121,14 @@ internal class HttpClientFactory(engine: HttpClientEngine) {
     }
 
     /**
+     * Handles Base URL redirection if in development mode.
      * Injects default headers into every request.
      * Enforces that all requests accept [ContentType.Application.Json].
      */
     private fun DefaultRequest.DefaultRequestBuilder.configure() {
+        if (isDebug) {
+            if (url.host == BASE_URL) url(urlString = devBaseUrl)
+        }
         header(key = HttpHeaders.Accept, value = ContentType.Application.Json)
     }
 
