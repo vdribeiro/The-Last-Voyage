@@ -49,7 +49,7 @@ internal class HttpClientFactory(engine: HttpClientEngine) {
      * Installs and configures the necessary plugins for the [HttpClient].
      */
     private fun <T: HttpClientEngineConfig> HttpClientConfig<T>.install() {
-        install(plugin = NetworkValidator)
+//        install(plugin = NetworkValidator)
         install(plugin = Logging) { configure() }
         install(plugin = HttpTimeout) { configure() }
         install(plugin = HttpCache) { configure() }
