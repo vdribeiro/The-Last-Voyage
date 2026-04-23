@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Server + Desktop" type="CompoundRunConfigurationType">
+    <toRun name="desktopApp" type="GradleRunConfiguration" />
+    <toRun name="ApplicationKt" type="JetRunConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>
