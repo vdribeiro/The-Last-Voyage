@@ -10,6 +10,13 @@
       {
         "source": "**",
         "destination": "/index.html"
+      },
+      {
+        "source": "/api/**",
+        "run": {
+          "serviceId": "tlv-server",
+          "region": "europe-west1"
+        }
       }
     ],
     "headers": [
@@ -23,4 +30,3 @@
     ]
   }
 }
-
