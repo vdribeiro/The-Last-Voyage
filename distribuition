@@ -18,15 +18,17 @@
     Windows: ./gradlew clean packageMsi
     Linux:   ./gradlew clean packageDeb
     Web:     ./gradlew clean deployWeb
-    Server:  ./gradlew :server:compileKotlin
+    Server:  ../gradlew :server:buildFatJar
 # Update Gists
     cd composeApp/src/commonMain/composeResources/files
     gh gist edit [hash] *.json
 # Publish
     Server:
+            cd server
             gcloud run deploy tlv-server \
                 --source . \
+                --region=europe-west1 \
                 --allow-unauthenticated \
-                --set-env-vars="SENTRY_DSN=[sentryDsn]"
+                --set-env-vars="SENTRY_DSN=dsn"
     Web:    ./gradlew wasmJsBrowserDistribution
             firebase deploy --only hosting
