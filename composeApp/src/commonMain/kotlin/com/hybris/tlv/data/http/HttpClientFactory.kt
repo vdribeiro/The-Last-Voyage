@@ -40,25 +40,6 @@ import com.hybris.tlv.domain.flag.FeatureFlags.flags
 internal class HttpClientFactory(engine: HttpClientEngine) {
 
     /**
-     * The configured [HttpClient] instance.
-     * This instance should be treated as a singleton and shared across the application to maximize the efficiency of connection pooling and caching.
-     */
-    val httpClient: HttpClient = HttpClient(engine = engine) { install() }
-
-    /**
-     * Installs and configures the necessary plugins for the [HttpClient].
-     */
-    private fun <T: HttpClientEngineConfig> HttpClientConfig<T>.install() {
-//        install(plugin = NetworkValidator)
-        install(plugin = Logging) { configure() }
-        install(plugin = HttpTimeout) { configure() }
-        install(plugin = HttpCache) { configure() }
-        install(plugin = ContentNegotiation) { configure() }
-        install(plugin = ContentEncoding) { configure() }
-        defaultRequest { configure() }
-    }
-
-    /**
      * - **Feature Gating:** Checks a feature flag to see if networking is globally disabled.
      * - **Connectivity Check:** Verifies network availability via [isInternetAvailable].
      */
@@ -68,6 +49,25 @@ internal class HttpClientFactory(engine: HttpClientEngine) {
             if (!flags.http) throw Throwable(message = "Network disabled")
             if (!isInternetAvailable()) throw Throwable(message = "No internet connection available")
         }
+    }
+
+    /**
+     * The configured [HttpClient] instance.
+     * This instance should be treated as a singleton and shared across the application to maximize the efficiency of connection pooling and caching.
+     */
+    val httpClient: HttpClient = HttpClient(engine = engine) { install() }
+
+    /**
+     * Installs and configures the necessary plugins for the [HttpClient].
+     */
+    private fun <T: HttpClientEngineConfig> HttpClientConfig<T>.install() {
+        install(plugin = NetworkValidator)
+        install(plugin = Logging) { configure() }
+        install(plugin = HttpTimeout) { configure() }
+        install(plugin = HttpCache) { configure() }
+        install(plugin = ContentNegotiation) { configure() }
+        install(plugin = ContentEncoding) { configure() }
+        defaultRequest { configure() }
     }
 
     /**
