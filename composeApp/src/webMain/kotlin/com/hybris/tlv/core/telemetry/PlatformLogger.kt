@@ -15,6 +15,8 @@ internal actual object PlatformLogger {
     }
 }
 
-private fun info(message: String): Unit = js(code = "console.info(message)")
+@JsFun(code = "(message) => console.info(message)")
+private external fun info(message: String)
 
-private fun error(message: String): Unit = js(code = "console.error(message)")
+@JsFun(code = "(message) => console.error(message)")
+private external fun error(message: String)

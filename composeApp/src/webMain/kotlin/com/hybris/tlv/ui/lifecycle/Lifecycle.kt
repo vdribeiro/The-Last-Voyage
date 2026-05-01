@@ -38,4 +38,5 @@ internal actual fun Register(
     }
 }
 
-private fun isHidden(): Boolean = js(code = "document.hidden")
+@JsFun(code = "() => document.hidden")
+private external fun isHidden(): Boolean

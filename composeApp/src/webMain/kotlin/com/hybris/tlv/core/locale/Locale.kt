@@ -17,19 +17,24 @@ internal actual fun getLanguage(): String = runCatching {
 }.getOrDefault(defaultValue = DEFAULT_LANGUAGE)
 
 internal actual fun getLocalDateTime(utc: String): String = runCatching {
-    formatDateJs(utc = utc)
+    formatDateJs(utc = utc).also { if (it == "ERROR") throw IllegalArgumentException() }
 }.onFailure {
     Telemetry.error(tag = TAG, message = "Unable to get local date time", throwable = it)
 }.getOrDefault(defaultValue = utc)
 
-private fun formatDateJs(utc: String): String = js(
+@JsFun(
     code = """
-        new Date(utc).toLocaleString(undefined, {
-            dateStyle: 'short',
-            timeStyle: 'short'
-        })
+        (utc) => {
+            const date = new Date(utc);
+            if (isNaN(date.getTime())) return "INVALID";
+            return date.toLocaleString(undefined, {
+                dateStyle: 'short',
+                timeStyle: 'short'
+            });
+        }
     """
 )
+private external fun formatDateJs(utc: String): String
 
 internal actual fun observeLocale(): Flow<String> = callbackFlow {
     runCatching {
