@@ -58,8 +58,8 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
                 deleteJsonFile(path = FilePath.Preferences)
             }
             val preferences = Preferences()
-            val configs = Configs()
             _preferences.update { preferences }
+            val configs = Configs()
             _localConfigs.update { configs }
             _remoteConfigs.update { configs }
         }
@@ -68,41 +68,42 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
     override suspend fun setup(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
             val preferences = mutex.withLock { loadJsonFile(path = FilePath.Preferences) ?: Preferences() }
-            setPreferences { preferences }
+            _preferences.update { preferences }
             val localConfigs = mutex.withLock { loadJsonFile(path = FilePath.Configs) ?: Configs() }
             _localConfigs.update { localConfigs }
-            fetchRemoteConfigs()
+            val remoteConfigs = getRemoteConfigs()
+            if (remoteConfigs != null) _remoteConfigs.update { remoteConfigs }
+            savePreferences()
             saveConfigs()
         }
     }
 
-    override suspend fun fetchRemoteConfigs(): ConfigManager = apply {
-        withContext(context = Dispatcher.IO) {
-            if (!hasTimePassed(dateTime = _preferences.value.syncTime, duration = cacheTTL)) return@withContext
-            setPreferences { it.copy(syncTime = now()) }
+    private suspend fun getRemoteConfigs(): Configs? = withContext(context = Dispatcher.IO) {
+        if (!hasTimePassed(dateTime = preferences.syncTime, duration = cacheTTL)) return@withContext null
+        setPreferences { it.copy(syncTime = now()) }
 
-            when (val result = httpClient.get<Configs>(path = URL.Configs)) {
-                is Result.Error -> Telemetry.error(tag = TAG, message = "Unable to get remote configs", throwable = result.error)
-                is Result.Success -> {
-                    val configs = result.list.firstOrNull()
-                    if (configs != null) {
-                        Telemetry.info(tag = TAG, message = "Fetched remote configs")
-                        _remoteConfigs.update { configs }
-                        _localConfigs.update {
-                            it.copy(
-                                developerCorner = configs.developerCorner,
-                                formula = configs.formula,
-                            )
-                        }
-                    } else Telemetry.error(tag = TAG, message = "No remote configs set")
-                }
+        when (val result = httpClient.get<Configs>(path = URL.Configs)) {
+            is Result.Error -> {
+                Telemetry.error(tag = TAG, message = "Unable to get remote configs", throwable = result.error)
+                null
+            }
+
+            is Result.Success -> {
+                val configs = result.list.firstOrNull()
+                if (configs != null) {
+                    Telemetry.info(tag = TAG, message = "Fetched remote configs")
+                } else Telemetry.error(tag = TAG, message = "No remote configs set")
+                configs
             }
         }
     }
 
     override suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager = apply {
+        _preferences.update(function = preferences)
+    }
+
+    override suspend fun savePreferences(): ConfigManager = apply {
         withContext(context = Dispatcher.IO) {
-            _preferences.update(function = preferences)
             mutex.withLock { saveJsonFile(path = FilePath.Preferences, content = _preferences.value) }
         }
     }

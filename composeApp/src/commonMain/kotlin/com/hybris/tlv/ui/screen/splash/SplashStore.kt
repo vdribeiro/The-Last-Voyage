@@ -50,7 +50,7 @@ internal class SplashStore(
 
         when {
             config.preferences.showIntro -> {
-                config.setPreferences { it.copy(showIntro = false) }
+                config.setPreferences { it.copy(showIntro = false) }.savePreferences()
                 updateState { it.copy(loading = false, currentContent = Content.INTRO) }
             }
 

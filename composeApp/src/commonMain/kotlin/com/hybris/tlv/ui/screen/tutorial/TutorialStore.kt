@@ -23,7 +23,7 @@ internal class TutorialStore(
     }
 
     private fun finish(): Job = launch(id = "finish") {
-        config.setPreferences { it.copy(showTutorial = false) }
+        config.setPreferences { it.copy(showTutorial = false) }.savePreferences()
         when {
             newGame -> navigate(screen = Screen.NewGame)
             else -> navigateBack()

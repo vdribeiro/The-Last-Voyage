@@ -11,6 +11,7 @@ import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
 import com.hybris.tlv.data.database.reset
+import com.hybris.tlv.data.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.achievement.AchievementUseCases
 import com.hybris.tlv.domain.usecase.catastrophe.CatastropheUseCases
 import com.hybris.tlv.domain.usecase.credit.CreditUseCases
@@ -19,7 +20,6 @@ import com.hybris.tlv.domain.usecase.ship.ShipUseCases
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.sync.model.DataSource
 import com.hybris.tlv.domain.usecase.sync.model.SyncResult
-import com.hybris.tlv.data.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
 import database.AppDatabase
 
@@ -46,6 +46,12 @@ internal class SyncGateway(
     ): SyncResult = withContext(context = Dispatcher.IO) {
         if (reset) reset()
         config.setup()
+        config.setConfigs {
+            it.copy(
+                developerCorner = config.remoteConfigs.developerCorner,
+                formula = config.remoteConfigs.formula,
+            )
+        }
 
         val remoteVersion = config.remoteConfigs.appVersion
         val localVersion = config.localConfigs.appVersion

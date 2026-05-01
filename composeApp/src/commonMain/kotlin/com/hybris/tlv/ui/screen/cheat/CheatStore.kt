@@ -40,7 +40,7 @@ internal class CheatStore(
                     cheatMaterials = state.materials,
                     cheatCryopods = state.cryopods
                 )
-            }
+            }.savePreferences()
             Telemetry.info(tag = TAG, message = "Cheats: $state")
         }
 

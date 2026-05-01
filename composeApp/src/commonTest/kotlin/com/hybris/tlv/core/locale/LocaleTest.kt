@@ -21,7 +21,7 @@ internal class LocaleTest: TestCase() {
 
     @Test
     fun getLocalDateTimeInvalid() {
-        val invalid = "not-a-utc"
+        val invalid = "invalidUtc"
         assertEquals(expected = invalid, actual = getLocalDateTime(utc = invalid))
     }
 }

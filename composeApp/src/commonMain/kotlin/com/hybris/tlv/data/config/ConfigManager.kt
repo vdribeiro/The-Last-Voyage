@@ -35,20 +35,20 @@ internal interface ConfigManager {
     suspend fun setup(): ConfigManager
 
     /**
-     * Attempts to fetch the latest configuration from the network.
-     * Successful fetches update both [remoteConfigs] and [localConfigs].
-     *
-     * @return The [ConfigManager] instance for chaining.
-     */
-    suspend fun fetchRemoteConfigs(): ConfigManager
-
-    /**
-     * Applies a transformation to the current preferences, updates the in-memory state, and persists the result to local storage.
+     * Updates the in-memory [preferences] cache.
+     * This change is volatile and will be lost unless [savePreferences] is called subsequently.
      *
      * @param preferences A lambda that takes the current [Preferences] and returns the updated state.
      * @return The [ConfigManager] instance for chaining.
      */
     suspend fun setPreferences(preferences: (Preferences) -> Preferences): ConfigManager
+
+    /**
+     * Persists the current in-memory [preferences] to the device's storage.
+     *
+     * @return The [ConfigManager] instance for chaining.
+     */
+    suspend fun savePreferences(): ConfigManager
 
     /**
      * Updates the in-memory [localConfigs] cache.
