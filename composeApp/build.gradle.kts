@@ -474,7 +474,7 @@ kover {
                 annotatedBy(
                     "kotlinx.serialization.Serializable",
                     "androidx.compose.ui.tooling.preview.Preview",
-                    "com.hybris.tlv.test.ExcludeFromTesting",
+                    "$appId.test.ExcludeFromTesting",
                 )
                 packages("*.generated.*")
                 classes(

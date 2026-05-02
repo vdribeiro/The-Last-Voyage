@@ -9,6 +9,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.core.locale.getLanguage
 import com.hybris.tlv.domain.translation.Translation
 import com.hybris.tlv.data.translation.TranslationCache
+import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.test.VisibleForTesting
 
 internal val LocalTranslationState = staticCompositionLocalOf { TranslationCache.cacheState.value }
@@ -31,6 +32,7 @@ internal fun getTranslation(key: String, vararg args: String): String {
     return remember(key1 = cacheState, key2 = key, key3 = args) { TranslationCache.get(key = key, args = args) }
 }
 
+@ExcludeFromTesting
 internal data class PreviewTranslation(
     val key: String,
     val value: String
