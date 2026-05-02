@@ -127,7 +127,7 @@ The testing structure mirrors the source code to ensure 1:1 coverage.
 
 ## Dependency Management
 Manual, no framework. At root level, we find the `Dependency` class that wires everything together.
-`TLV` is the singleton entry point that initializes `Dependency` and telemetry, and holds feature flags and global listeners.
+`Application` is the singleton entry point that initializes `Dependency` and telemetry, and holds feature flags and global listeners.
 
 ## UI
 At the **ui** package root, we find `App`: the main composable that assembles the application UI and acts as the top-level container for the user-facing elements. Uses the composition locals: `LocalTranslationState`, `LocalNavController`, `LocalAudioPlayer`.

@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
 import androidx.navigation.compose.rememberNavController
-import com.hybris.tlv.TLV.dependency
+import com.hybris.tlv.Application.dependency
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.App
 import com.hybris.tlv.ui.cheats.enableGestureCheats

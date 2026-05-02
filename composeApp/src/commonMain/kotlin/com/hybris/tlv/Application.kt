@@ -17,16 +17,16 @@ import com.hybris.tlv.data.database.NoOpSqlDriver
 import com.hybris.tlv.data.database.createSqlDriver
 import com.hybris.tlv.data.http.NoOpHttpEngine
 import com.hybris.tlv.data.http.createHttpEngine
+import com.hybris.tlv.data.translation.TranslationCache
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
-import com.hybris.tlv.data.translation.TranslationCache
+import com.hybris.tlv.domain.translation.Translation
 import com.hybris.tlv.domain.usecase.translation.TranslationGateway.Companion.loadAllTranslationsFromJsonResource
 import com.hybris.tlv.domain.usecase.translation.TranslationUseCases
-import com.hybris.tlv.domain.translation.Translation
 import com.hybris.tlv.test.ExcludeFromTesting
 
 /**
- * Central hub of The Last Voyage application.
+ * Central hub of the application.
  * This singleton is responsible for the "Cold Start" of the application logic. It performs the following critical startup tasks:
  * 1. **Feature Flag Initialization:** Configures the initial state of [FeatureFlags].
  * 2. **Telemetry Setup:** Injects the [Logger] engine into the global [Telemetry] hub.
@@ -38,9 +38,9 @@ import com.hybris.tlv.test.ExcludeFromTesting
  * All heavy operations are offloaded to a [SupervisorJob] on [Dispatcher.IO] to keep the app responsive during bootstrap.
  */
 @ExcludeFromTesting
-internal object TLV {
+internal object Application {
 
-    private const val TAG = "TLV"
+    private const val TAG = "Application"
 
     /**
      * Production-ready feature flags.
@@ -79,7 +79,7 @@ internal object TLV {
 
             Telemetry.info(tag = TAG, message = "Initializing dependencies")
             val dependency = createDependency() ?: return@launch
-            this@TLV.dependency.update { dependency }
+            this@Application.dependency.update { dependency }
 
             Telemetry.info(tag = TAG, message = "Registering locale listener")
             observeLocale(translation = dependency.useCases.translation)

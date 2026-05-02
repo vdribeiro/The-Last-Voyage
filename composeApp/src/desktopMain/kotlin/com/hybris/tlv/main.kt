@@ -12,7 +12,7 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import androidx.navigation.compose.rememberNavController
-import com.hybris.tlv.TLV.dependency
+import com.hybris.tlv.Application.dependency
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.test.ExcludeFromTesting
 import com.hybris.tlv.ui.App
