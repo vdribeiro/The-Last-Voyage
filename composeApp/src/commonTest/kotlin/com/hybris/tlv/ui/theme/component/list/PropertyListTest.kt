@@ -1,4 +1,4 @@
-package com.hybris.tlv.ui.theme.component.container
+package com.hybris.tlv.ui.theme.component.list
 
 import kotlin.test.Test
 import kotlinx.collections.immutable.persistentListOf
@@ -12,7 +12,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import com.hybris.tlv.test.TestCase
-import com.hybris.tlv.ui.theme.component.list.PropertyList
 import com.hybris.tlv.ui.theme.component.text.Text
 
 @OptIn(ExperimentalTestApi::class)
@@ -69,7 +68,7 @@ internal class PropertyListTest: TestCase() {
 
         setUI {
             PropertyList(
-                modifier = Modifier.testTag(tag = "property_list_column"),
+                modifier = Modifier.Companion.testTag(tag = "property_list_column"),
                 properties = items,
                 id = { it },
                 name = { it }
