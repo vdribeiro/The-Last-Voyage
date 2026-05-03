@@ -73,14 +73,12 @@ internal class Config(private val httpClient: HttpClient): ConfigManager {
             _localConfigs.update { localConfigs }
             val remoteConfigs = getRemoteConfigs()
             if (remoteConfigs != null) _remoteConfigs.update { remoteConfigs }
-            savePreferences()
-            saveConfigs()
         }
     }
 
     private suspend fun getRemoteConfigs(): Configs? = withContext(context = Dispatcher.IO) {
         if (!hasTimePassed(dateTime = preferences.syncTime, duration = cacheTTL)) return@withContext null
-        setPreferences { it.copy(syncTime = now()) }
+        setPreferences { it.copy(syncTime = now()) }.savePreferences()
 
         when (val result = httpClient.get<Configs>(path = URL.Configs)) {
             is Result.Error -> {
