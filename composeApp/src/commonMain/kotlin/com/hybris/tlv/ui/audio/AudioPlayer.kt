@@ -23,7 +23,7 @@ internal fun AudioPlayer(
     val destination = navBackStackEntry?.destination
     LaunchedEffect(key1 = destination) {
         getTracks(destination = destination)?.let { playlist ->
-            audioPlayer.action(action = AudioPlayer.Action.Play(playlist = playlist, loop = true))
+            audioPlayer.action(action = AudioPlayer.Action.Play(playlist = playlist, loop = true, shuffle = true))
         }
     }
 

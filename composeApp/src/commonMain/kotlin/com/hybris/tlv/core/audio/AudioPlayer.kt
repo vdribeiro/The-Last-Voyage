@@ -24,9 +24,11 @@ internal open class AudioPlayer {
      */
     sealed interface Action {
         /**
-         * Starts playback of a new [playlist]. If [loop] is true, then the playlist is repeated.
+         * Starts playback of a new [playlist].
+         * If [loop] is true, then the playlist is repeated.
+         * If [shuffle] is true, then the playlist order is shuffled.
          */
-        data class Play(val playlist: List<AudioResource>, val loop: Boolean): Action
+        data class Play(val playlist: List<AudioResource>, val loop: Boolean, val shuffle: Boolean): Action
         /**
          * Pauses the current playback.
          */
@@ -44,7 +46,7 @@ internal open class AudioPlayer {
     /**
      * Executes a specific [Action] on the audio player.
      * It handles the media lifecycle and includes a safety check for playlist redundancy:
-     * If [Action.Play] is requested with a playlist identical to the active one (determined by sorting file paths), the request is ignored to prevent unnecessary restarts.
+     * If [Action.Play] is requested with a playlist identical to the active one, the request is ignored to prevent unnecessary restarts.
      *
      * @param action The [Action] to be performed (Play, Pause, Resume, or Toggle).
      */
@@ -58,9 +60,11 @@ internal open class AudioPlayer {
             when (action) {
                 is Action.Play -> {
                     // Check if the given playlist is the same as the current playlist
-                    if (playlist == action.playlist) return@runCatching
+                    val sortedPlaylist = action.playlist.sortedBy { it.path }
+                    if (playlist.sortedBy { it.path } == sortedPlaylist) return@runCatching
                     // Play
-                    playlist = action.playlist
+                    playlist = action.playlist.let { if (action.shuffle) it.shuffled() else it }
+
                     stop()
                     play(loop = action.loop)
                     // After setting up the playlist, check if the audio player is enabled
