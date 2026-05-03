@@ -44,7 +44,7 @@ internal fun getTracks(destination: NavDestination?): List<AudioResource>? = run
         )
 
         else -> null
-    }?.shuffled()
+    }
 }.onFailure {
     Telemetry.error(tag = TAG, message = "Unable to get tracks", throwable = it)
 }.getOrNull()
