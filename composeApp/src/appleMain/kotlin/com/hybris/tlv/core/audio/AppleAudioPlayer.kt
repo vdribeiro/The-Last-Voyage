@@ -17,37 +17,39 @@ internal class AppleAudioPlayer: AudioPlayer() {
     private val player: AVPlayer = AVPlayer()
     private var currentIndex = -1
     private var endOfSongObserver: NSObjectProtocol? = null
-    private var paused: Boolean = false
 
     override fun isPlaying(): Boolean = player.rate != 0.0f
 
-    override fun play() {
-        val nextIndex = (currentIndex + 1) % playlist.size
-        val trackPath = playlist.getOrNull(index = nextIndex)?.path ?: throw Throwable("Unable to get track at index $nextIndex")
-        val resourceName = trackPath.substringBeforeLast(delimiter = '.')
-        val resourceExtension = trackPath.substringAfterLast(delimiter = '.')
+    override fun play(loop: Boolean) {
+        val nextIndex = currentIndex + 1
+        if (!loop && nextIndex >= playlist.size) {
+            stop()
+            return
+        }
+        currentIndex = nextIndex % playlist.size
+
+        val trackPath = playlist.getOrNull(index = currentIndex)?.path ?: throw Throwable("Unable to get track at index $currentIndex")
         val resourceUrl = NSBundle.mainBundle.URLForResource(
-            name = resourceName,
-            withExtension = resourceExtension,
-        ) ?: throw Throwable("Unable to get resource $resourceName.$resourceExtension")
+            name = trackPath.substringBeforeLast(delimiter = '.'),
+            withExtension = trackPath.substringAfterLast(delimiter = '.'),
+        ) ?: throw Throwable("Unable to get resource $trackPath")
         val playerItem = AVPlayerItem(uRL = resourceUrl)
+
+        endOfSongObserver?.let { NSNotificationCenter.defaultCenter.removeObserver(observer = it) }
         endOfSongObserver = NSNotificationCenter.defaultCenter.observe(
             name = AVPlayerItemDidPlayToEndTimeNotification,
             key = playerItem,
-        ) { play() }
+        ) { this@AppleAudioPlayer.play(loop = loop) }
         player.replaceCurrentItemWithPlayerItem(item = playerItem)
-        if (!paused) player.play()
-        currentIndex = nextIndex
+        resume()
     }
 
     override fun resume() {
-        player.play()
-        paused = false
+        if (enabled) player.play()
     }
 
     override fun pause() {
         player.pause()
-        paused = true
     }
 
     override fun stop() {

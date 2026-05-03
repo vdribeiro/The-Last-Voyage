@@ -7,29 +7,36 @@ internal class DesktopAudioPlayer: AudioPlayer() {
 
     private var player: MediaPlayer? = null
     private var currentIndex = -1
-    private var paused: Boolean = false
 
     override fun isPlaying(): Boolean = player?.status == MediaPlayer.Status.PLAYING
 
-    override fun play() {
-        val nextIndex = (currentIndex + 1) % playlist.size
-        val trackPath = playlist.getOrNull(index = nextIndex)?.path ?: throw Throwable("Unable to get track at index $nextIndex")
-        val resourceUrl = Thread.currentThread().contextClassLoader.getResource(trackPath) ?: throw Throwable("Unable to get resource for $trackPath")
-        player = MediaPlayer(Media(resourceUrl.toString())).apply {
-            setOnEndOfMedia { this@DesktopAudioPlayer.play() }
-            if (!paused) play()
+    override fun play(loop: Boolean) {
+        val nextIndex = currentIndex + 1
+        if (!loop && nextIndex >= playlist.size) {
+            stop()
+            return
         }
-        currentIndex = nextIndex
+        currentIndex = nextIndex % playlist.size
+
+        val trackPath = playlist.getOrNull(index = currentIndex)?.path ?: throw Throwable("Unable to get track at index $currentIndex")
+        val resourceUrl = Thread.currentThread().contextClassLoader.getResource(trackPath) ?: throw Throwable("Unable to get resource for $trackPath")
+
+        player?.apply {
+            stop()
+            dispose()
+        }
+        player = MediaPlayer(Media(resourceUrl.toString())).apply {
+            setOnEndOfMedia { this@DesktopAudioPlayer.play(loop = loop) }
+            if (enabled) play()
+        }
     }
 
     override fun resume() {
-        player?.play()
-        paused = false
+        if (enabled) player?.play()
     }
 
     override fun pause() {
         player?.pause()
-        paused = true
     }
 
     override fun stop() {

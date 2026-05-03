@@ -9,30 +9,26 @@ import com.hybris.tlv.applicationContext
 internal class AndroidAudioPlayer: AudioPlayer() {
 
     private val player: ExoPlayer = ExoPlayer.Builder(applicationContext).build()
-    private var paused: Boolean = false
 
     override fun isPlaying(): Boolean = player.isPlaying
 
-    override fun play() {
+    override fun play(loop: Boolean) {
         val mediaItems = playlist.map { MediaItem.fromUri("asset:///${it.path}".toUri()) }
         player.apply {
+            stop()
             setMediaItems(mediaItems)
-            shuffleModeEnabled = true
-            repeatMode = Player.REPEAT_MODE_ALL
-            playWhenReady = true
+            repeatMode = if (loop) Player.REPEAT_MODE_ALL else Player.REPEAT_MODE_OFF
             prepare()
         }
-        if (!paused) player.play()
+        resume()
     }
 
     override fun resume() {
-        player.play()
-        paused = false
+        if (enabled) player.play()
     }
 
     override fun pause() {
         player.pause()
-        paused = true
     }
 
     override fun stop() {

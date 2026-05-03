@@ -9,33 +9,40 @@ internal class WebAudioPlayer: AudioPlayer() {
 
     private val player: HTMLAudioElement = (document.createElement(localName = "audio") as HTMLAudioElement).apply { preload = "auto" }
     private var currentIndex = -1
-    private var paused: Boolean = false
 
-    override fun isPlaying(): Boolean = !player.paused
+    override fun isPlaying(): Boolean = !player.paused && !player.ended
 
-    override fun play() {
-        val nextIndex = (currentIndex + 1) % playlist.size
-        val trackPath = playlist.getOrNull(index = nextIndex)?.path ?: throw Throwable("Unable to get track at index $nextIndex")
+    override fun play(loop: Boolean) {
+        val nextIndex = currentIndex + 1
+        if (!loop && nextIndex >= playlist.size) {
+            stop()
+            return
+        }
+        currentIndex = nextIndex % playlist.size
+
+        val trackPath = playlist.getOrNull(index = currentIndex)?.path ?: throw Throwable("Unable to get track at index $currentIndex")
+
         player.apply {
             src = trackPath
-            onended = { play() }
-            if (!paused) play()
+            onended = { this@WebAudioPlayer.play(loop = loop) }
+            if (enabled) play()
         }
-        currentIndex = nextIndex
     }
 
     override fun resume() {
-        player.play()
-        paused = false
+        if (enabled) player.play()
     }
 
     override fun pause() {
         player.pause()
-        paused = true
     }
 
     override fun stop() {
         player.pause()
+        player.currentTime = 0.0
+        player.removeAttribute(qualifiedName = "src")
+        player.load()
+        currentIndex = -1
     }
 }
 

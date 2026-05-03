@@ -24,9 +24,9 @@ internal open class AudioPlayer {
      */
     sealed interface Action {
         /**
-         * Starts playback of a new playlist.
+         * Starts playback of a new [playlist]. If [loop] is true, then the playlist is repeated.
          */
-        data class Play(val playlist: List<AudioResource>): Action
+        data class Play(val playlist: List<AudioResource>, val loop: Boolean): Action
         /**
          * Pauses the current playback.
          */
@@ -57,13 +57,12 @@ internal open class AudioPlayer {
 
             when (action) {
                 is Action.Play -> {
-                    // Check if the playlist is not the same as the current playlist
-                    val sortedPlaylist = action.playlist.sortedBy { it.path }
-                    if (playlist.sortedBy { it.path } == sortedPlaylist) return@runCatching
+                    // Check if the given playlist is the same as the current playlist
+                    if (playlist == action.playlist) return@runCatching
                     // Play
-                    playlist = sortedPlaylist.shuffled()
+                    playlist = action.playlist
                     stop()
-                    play()
+                    play(loop = action.loop)
                     // After setting up the playlist, check if the audio player is enabled
                     if (!enabled) pause()
                 }
@@ -83,14 +82,16 @@ internal open class AudioPlayer {
     /**
      * Check the play status.
      *
-     * @return  `true` if the audio player is currently playing, `false` otherwise.
+     * @return `true` if the audio player is currently playing, `false` otherwise.
      */
     protected open fun isPlaying(): Boolean = false
 
     /**
-     * Starts playing the current playlist.
+     * Starts playing the current [playlist].
+     *
+     * @param loop if the playlist repeats when it ends.
      */
-    protected open fun play() {}
+    protected open fun play(loop: Boolean) {}
 
     /**
      * Resumes playback.
