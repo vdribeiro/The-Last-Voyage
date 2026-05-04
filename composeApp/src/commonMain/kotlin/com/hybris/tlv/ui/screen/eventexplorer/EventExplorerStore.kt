@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.eventexplorer
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -21,7 +20,6 @@ internal class EventExplorerStore(
         setup()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 

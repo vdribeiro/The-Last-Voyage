@@ -1,7 +1,6 @@
 package com.hybris.tlv.data.http
 
 import kotlinx.cinterop.CValuesRef
-import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.MemScope
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
@@ -23,7 +22,6 @@ import platform.posix.sockaddr_in
 import platform.posix.sockaddr_in6
 import com.hybris.tlv.core.telemetry.Telemetry
 
-@OptIn(ExperimentalForeignApi::class)
 internal actual fun isInternetAvailable(): Boolean = runCatching {
     memScoped {
         checkAddress(address = alloc<sockaddr_in>().apply {
@@ -38,7 +36,6 @@ internal actual fun isInternetAvailable(): Boolean = runCatching {
     Telemetry.error(tag = TAG, message = "Unable to check internet connection", throwable = it)
 }.getOrDefault(defaultValue = false)
 
-@OptIn(ExperimentalForeignApi::class)
 private fun MemScope.checkAddress(address: CValuesRef<sockaddr>): Boolean =
     SCNetworkReachabilityCreateWithAddress(
         allocator = null,
@@ -52,7 +49,6 @@ private fun MemScope.checkAddress(address: CValuesRef<sockaddr>): Boolean =
         isReachable && !needsConnection
     } ?: false
 
-@OptIn(ExperimentalForeignApi::class)
 private inline fun <T: CFTypeRef?, R> T.use(block: (T) -> R): R {
     try {
         return block(this)

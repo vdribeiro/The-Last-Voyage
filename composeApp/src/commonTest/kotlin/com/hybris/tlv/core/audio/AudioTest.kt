@@ -11,7 +11,7 @@ internal class AudioTest: TestCase() {
     }
 
     private fun pressAllActions(audioPlayer: AudioPlayer) {
-        audioPlayer.action(action = AudioPlayer.Action.Play(playlist = emptyList()))
+        audioPlayer.action(action = AudioPlayer.Action.Play(playlist = emptyList(), loop = true, shuffle = true))
         audioPlayer.action(action = AudioPlayer.Action.Pause)
         audioPlayer.action(action = AudioPlayer.Action.Resume)
         audioPlayer.action(action = AudioPlayer.Action.Toggle)

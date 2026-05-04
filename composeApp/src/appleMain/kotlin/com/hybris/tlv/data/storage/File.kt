@@ -1,7 +1,5 @@
 package com.hybris.tlv.data.storage
 
-import kotlinx.cinterop.BetaInteropApi
-import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.withContext
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
@@ -16,7 +14,6 @@ import platform.Foundation.writeToFile
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
 
-@OptIn(ExperimentalForeignApi::class)
 internal actual val appDataPath: String by lazy {
     runCatching {
         val fileManager = NSFileManager.defaultManager
@@ -44,7 +41,6 @@ internal actual val appDataPath: String by lazy {
     }.getOrDefault(defaultValue = "")
 }
 
-@OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 internal actual suspend fun saveFile(path: String, content: String): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {
         val file = NSString.create(string = appDataPath).stringByAppendingPathComponent(str = path)
@@ -60,7 +56,6 @@ internal actual suspend fun saveFile(path: String, content: String): Boolean = w
     }.getOrDefault(defaultValue = false)
 }
 
-@OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 internal actual suspend fun loadFile(path: String): String? = withContext(context = Dispatcher.IO) {
     runCatching {
         val fullPath = NSString.create(string = appDataPath).stringByAppendingPathComponent(str = path)
@@ -77,7 +72,6 @@ internal actual suspend fun loadFile(path: String): String? = withContext(contex
     }.getOrNull()
 }
 
-@OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 internal actual suspend fun deleteFile(path: String): Boolean = withContext(context = Dispatcher.IO) {
     runCatching {
         val fullPath = NSString.create(string = appDataPath).stringByAppendingPathComponent(str = path)

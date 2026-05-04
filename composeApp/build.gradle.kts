@@ -196,7 +196,17 @@ kotlin {
     jvmToolchain(jdkVersion = jdkVersion)
 
     compilerOptions {
-        freeCompilerArgs.addAll("-Xexpect-actual-classes")
+        freeCompilerArgs.addAll(
+            "-Xexpect-actual-classes",
+            "-opt-in=kotlin.uuid.ExperimentalUuidApi",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-opt-in=kotlin.experimental.ExperimentalNativeApi",
+            "-opt-in=kotlinx.cinterop.ExperimentalForeignApi",
+            "-opt-in=kotlinx.cinterop.BetaInteropApi",
+            "-opt-in=kotlin.time.ExperimentalTime",
+            "-opt-in=androidx.compose.ui.test.ExperimentalTestApi",
+            "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
+        )
     }
 
     androidTarget {

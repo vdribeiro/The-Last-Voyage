@@ -3,7 +3,6 @@ package com.hybris.tlv.ui.screen.cheat
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -11,7 +10,6 @@ import androidx.compose.ui.test.performClick
 import com.hybris.tlv.test.TestCase
 import com.hybris.tlv.test.count
 
-@OptIn(ExperimentalTestApi::class)
 internal class CheatScreenTest: TestCase() {
 
     @Test

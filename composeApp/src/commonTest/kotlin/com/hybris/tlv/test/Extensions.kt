@@ -3,7 +3,6 @@ package com.hybris.tlv.test
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.ComposeUiTest
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assert
@@ -15,7 +14,6 @@ import androidx.compose.ui.test.printToLog
 /**
  * Print the complete hierarchy.
  */
-@OptIn(ExperimentalTestApi::class)
 internal fun ComposeUiTest.printEverything(tag: String = "Full Tree") {
     onRoot(useUnmergedTree = true).printToLog(tag = tag)
 }

@@ -1,7 +1,6 @@
 package com.hybris.tlv.data.storage
 
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.data.serializer.decode
@@ -11,7 +10,6 @@ import com.hybris.tlv.data.serializer.encode
  * A JSON configuration optimized for human readability within local storage.
  * This serializer is configured with a lenient policy and `prettyPrint` enabled. This ensures that local cache files are easily inspectable on the device file system.
  */
-@OptIn(ExperimentalSerializationApi::class)
 private val prettyJson = Json {
     isLenient = true
     ignoreUnknownKeys = true

@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.screen
 
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -160,7 +159,6 @@ internal open class Store<State, Action>(initialState: State): ViewModel() {
      * @param block Lambda triggered for every emitted value [T].
      * @return A [Job] managed by the [viewModelScope].
      */
-    @OptIn(ExperimentalCoroutinesApi::class)
     protected fun <T> Flow<T>.observe(
         id: String,
         replace: Boolean = true,

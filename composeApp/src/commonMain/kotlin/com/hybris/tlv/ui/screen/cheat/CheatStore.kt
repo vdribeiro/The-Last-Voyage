@@ -1,6 +1,5 @@
 package com.hybris.tlv.ui.screen.cheat
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.config.ConfigManager
@@ -15,7 +14,6 @@ internal class CheatStore(
         setup()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 

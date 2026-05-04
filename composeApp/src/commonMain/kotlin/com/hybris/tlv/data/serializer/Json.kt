@@ -1,6 +1,5 @@
 package com.hybris.tlv.data.serializer
 
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import io.ktor.http.decodeURLQueryComponent
 import io.ktor.http.encodeURLQueryComponent
@@ -13,7 +12,6 @@ import com.hybris.tlv.core.telemetry.Telemetry
  * - **Persistence:** Explicitly encodes default values to ensure data integrity during storage.
  * - **Formatting:** Permits trailing commas, facilitating easier manual editing of configuration files.
  */
-@OptIn(ExperimentalSerializationApi::class)
 internal val json = Json {
     isLenient = true
     ignoreUnknownKeys = true

@@ -3,7 +3,6 @@ package com.hybris.tlv.test
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestDispatcher
@@ -17,7 +16,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.test.ComposeUiTest
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.hybris.tlv.Dependency
@@ -26,9 +24,9 @@ import com.hybris.tlv.core.telemetry.MockLogger
 import com.hybris.tlv.core.telemetry.Telemetry
 import com.hybris.tlv.data.database.createMockSqlDriver
 import com.hybris.tlv.data.http.createMockHttpEngine
+import com.hybris.tlv.data.translation.TranslationCache
 import com.hybris.tlv.domain.flag.FeatureFlags
 import com.hybris.tlv.domain.flag.Flags
-import com.hybris.tlv.data.translation.TranslationCache
 import com.hybris.tlv.ui.lifecycle.lifecycleOwner
 import com.hybris.tlv.ui.navigation.MockNavigation
 import com.hybris.tlv.ui.navigation.Screen
@@ -40,7 +38,6 @@ import com.hybris.tlv.ui.theme.AppTheme
  * It provides a hermetic testing environment for Unit tests [runUnitTest] and UI tests [runUITest]
  * and handles the dependencies, coroutine scopes, and navigation simulation.
  */
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalTestApi::class)
 internal abstract class TestCase: PlatformTestCase() {
 
     /**

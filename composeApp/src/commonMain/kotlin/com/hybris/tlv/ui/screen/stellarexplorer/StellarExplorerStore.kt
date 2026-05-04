@@ -2,7 +2,6 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlin.concurrent.Volatile
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -11,10 +10,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import com.hybris.tlv.core.flow.Dispatcher
 import com.hybris.tlv.core.telemetry.Telemetry
+import com.hybris.tlv.data.translation.TranslationCache
 import com.hybris.tlv.domain.usecase.space.SpaceUseCases
 import com.hybris.tlv.domain.usecase.space.formula.Habitability
 import com.hybris.tlv.domain.usecase.space.model.Formula
-import com.hybris.tlv.data.translation.TranslationCache
 import com.hybris.tlv.test.VisibleForTesting
 import com.hybris.tlv.ui.screen.Store
 
@@ -35,7 +34,6 @@ internal class StellarExplorerStore(
         setup()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private fun setup(): Job = launch(id = "setup") {
         Telemetry.info(tag = TAG, message = "Setup")
 

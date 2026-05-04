@@ -5,7 +5,6 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.navigation.NavHostController
@@ -84,7 +83,6 @@ internal fun Navigation(
 /**
  * Composable for managing system back events like when a physical back button is pressed or a back gesture is completed.
  */
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun NavigationHandler(onBack: (() -> Unit)?) {
     BackHandler { onBack?.invoke() }

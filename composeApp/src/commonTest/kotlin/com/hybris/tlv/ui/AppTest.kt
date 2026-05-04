@@ -8,7 +8,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.onNodeWithTag
@@ -33,7 +32,6 @@ import com.hybris.tlv.ui.navigation.Screen
 import com.hybris.tlv.ui.navigation.sendCommand
 import com.hybris.tlv.ui.theme.modifier.Gesture
 
-@OptIn(ExperimentalTestApi::class)
 internal class AppTest: TestCase() {
 
     @Test

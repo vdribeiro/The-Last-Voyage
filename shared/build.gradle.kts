@@ -10,10 +10,6 @@ plugins {
 kotlin {
     jvmToolchain(jdkVersion = jdkVersion)
 
-    compilerOptions {
-        freeCompilerArgs.addAll("-Xexpect-actual-classes")
-    }
-
     androidTarget {
         compilerOptions {
             jvmTarget.set(jvmVersion)
