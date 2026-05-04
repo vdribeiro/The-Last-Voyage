@@ -79,10 +79,14 @@ internal object Application {
 
             Telemetry.info(tag = TAG, message = "Initializing dependencies")
             val dependency = createDependency() ?: return@launch
-            this@Application.dependency.update { dependency }
 
-            Telemetry.info(tag = TAG, message = "Registering locale listener")
-            observeLocale(translation = dependency.useCases.translation)
+            launch(context = Dispatcher.Default) {
+                Telemetry.info(tag = TAG, message = "Registering locale listener")
+                observeLocale(translation = dependency.useCases.translation)
+            }
+
+            Telemetry.info(tag = TAG, message = "Setting dependencies")
+            this@Application.dependency.update { dependency }
         }
     }
 
