@@ -199,11 +199,12 @@ kotlin {
         freeCompilerArgs.addAll(
             "-Xexpect-actual-classes",
             "-opt-in=kotlin.uuid.ExperimentalUuidApi",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-opt-in=kotlin.time.ExperimentalTime",
             "-opt-in=kotlin.experimental.ExperimentalNativeApi",
+            "-opt-in=kotlin.js.ExperimentalWasmJsInterop",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
             "-opt-in=kotlinx.cinterop.ExperimentalForeignApi",
             "-opt-in=kotlinx.cinterop.BetaInteropApi",
-            "-opt-in=kotlin.time.ExperimentalTime",
             "-opt-in=androidx.compose.ui.test.ExperimentalTestApi",
             "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
         )

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalWasmJsInterop::class)
-
 package com.hybris.tlv.data.database
 
 import kotlinx.coroutines.withContext

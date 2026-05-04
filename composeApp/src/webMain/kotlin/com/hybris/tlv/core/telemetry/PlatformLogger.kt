@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalWasmJsInterop::class)
-
 package com.hybris.tlv.core.telemetry
 
 internal actual object PlatformLogger {

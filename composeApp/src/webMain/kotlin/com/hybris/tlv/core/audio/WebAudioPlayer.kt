@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalWasmJsInterop::class)
-
 package com.hybris.tlv.core.audio
 
 import kotlinx.browser.document

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalWasmJsInterop::class)
-
 package com.hybris.tlv.core.locale
 
 import kotlinx.browser.window

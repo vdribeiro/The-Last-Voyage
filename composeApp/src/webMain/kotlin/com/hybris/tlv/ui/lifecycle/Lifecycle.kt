@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalWasmJsInterop::class)
-
 package com.hybris.tlv.ui.lifecycle
 
 import kotlinx.browser.document
