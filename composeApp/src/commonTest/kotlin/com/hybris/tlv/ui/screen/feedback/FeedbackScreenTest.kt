@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.feedback
 
 import kotlin.test.Test
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
@@ -12,7 +11,6 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import com.hybris.tlv.test.TestCase
 
-@OptIn(ExperimentalTestApi::class)
 internal class FeedbackScreenTest: TestCase() {
 
     @Test

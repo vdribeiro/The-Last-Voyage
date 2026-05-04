@@ -1,7 +1,6 @@
 package com.hybris.tlv.ui.screen.event
 
 import kotlin.test.Test
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onChildAt
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -10,7 +9,6 @@ import androidx.compose.ui.test.performClick
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
 
-@OptIn(ExperimentalTestApi::class)
 internal class EventScreenTest: TestCase() {
 
     @Test

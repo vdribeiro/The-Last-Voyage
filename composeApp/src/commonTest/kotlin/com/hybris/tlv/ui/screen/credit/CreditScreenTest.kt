@@ -4,7 +4,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -15,7 +14,6 @@ import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
 import com.hybris.tlv.test.count
 
-@OptIn(ExperimentalTestApi::class)
 internal class CreditScreenTest: TestCase() {
 
     @Test

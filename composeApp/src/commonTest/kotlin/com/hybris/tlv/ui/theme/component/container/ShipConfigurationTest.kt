@@ -3,13 +3,11 @@ package com.hybris.tlv.ui.theme.component.container
 import kotlin.test.Test
 import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.hybris.tlv.test.TestCase
 
-@OptIn(ExperimentalTestApi::class)
 internal class ShipConfigurationTest: TestCase() {
 
     @Test

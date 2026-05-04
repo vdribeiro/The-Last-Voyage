@@ -6,7 +6,6 @@ import kotlin.test.assertFalse
 import kotlinx.collections.immutable.persistentListOf
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Public
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
@@ -15,7 +14,6 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import com.hybris.tlv.test.TestCase
 
-@OptIn(ExperimentalTestApi::class)
 internal class ControlPanelTest: TestCase() {
 
     @Test

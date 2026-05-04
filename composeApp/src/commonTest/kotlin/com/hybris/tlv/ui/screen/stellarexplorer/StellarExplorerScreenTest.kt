@@ -1,14 +1,12 @@
 package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlin.test.Test
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import com.hybris.tlv.test.FakeData
 import com.hybris.tlv.test.TestCase
 import com.hybris.tlv.test.count
 
-@OptIn(ExperimentalTestApi::class)
 internal class StellarExplorerScreenTest: TestCase() {
 
     @Test
