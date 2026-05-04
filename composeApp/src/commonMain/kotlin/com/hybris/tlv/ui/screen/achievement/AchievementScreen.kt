@@ -11,11 +11,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.achievement.Achievement
 import com.hybris.tlv.domain.achievement.Precondition
-import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.theme.component.list.AchievementList
 import com.hybris.tlv.ui.theme.getTranslation
 

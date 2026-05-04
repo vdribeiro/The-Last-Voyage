@@ -13,6 +13,8 @@ import com.hybris.tlv.data.resource.JsonResource
 import com.hybris.tlv.data.resource.loadResource
 import com.hybris.tlv.data.storage.FilePath
 import com.hybris.tlv.data.storage.saveJsonFile
+import com.hybris.tlv.domain.space.Planet
+import com.hybris.tlv.domain.space.StellarHost
 import com.hybris.tlv.domain.usecase.space.formula.DerivedData
 import com.hybris.tlv.domain.usecase.space.model.ExoplanetJson
 import com.hybris.tlv.domain.usecase.space.model.JsonConstants.PLANET_DENSITY
@@ -45,8 +47,6 @@ import com.hybris.tlv.domain.usecase.space.model.JsonConstants.STELLAR_HOST_ROTA
 import com.hybris.tlv.domain.usecase.space.model.JsonConstants.STELLAR_HOST_SPECTRAL_TYPE
 import com.hybris.tlv.domain.usecase.space.model.JsonConstants.STELLAR_HOST_SYSTEM_NAME
 import com.hybris.tlv.domain.usecase.space.model.JsonConstants.STELLAR_HOST_TEMPERATURE
-import com.hybris.tlv.domain.space.Planet
-import com.hybris.tlv.domain.space.StellarHost
 import com.hybris.tlv.domain.usecase.space.model.StellarHostJson
 
 internal class ArchiveGateway(

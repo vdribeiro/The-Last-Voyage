@@ -83,6 +83,7 @@ internal fun Navigation(
 /**
  * Composable for managing system back events like when a physical back button is pressed or a back gesture is completed.
  */
+@Suppress("DEPRECATION")
 @Composable
 internal fun NavigationHandler(onBack: (() -> Unit)?) {
     BackHandler { onBack?.invoke() }

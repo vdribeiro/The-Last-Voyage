@@ -3,8 +3,8 @@ package com.hybris.tlv.ui.screen.credit
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import com.hybris.tlv.core.telemetry.Telemetry
-import com.hybris.tlv.domain.usecase.credit.CreditUseCases
 import com.hybris.tlv.domain.credit.CreditType
+import com.hybris.tlv.domain.usecase.credit.CreditUseCases
 import com.hybris.tlv.ui.screen.Store
 
 internal class CreditStore(

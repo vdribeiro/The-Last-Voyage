@@ -3,6 +3,10 @@ package com.hybris.tlv.domain.usecase.space.formula
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
+import com.hybris.tlv.domain.space.Planet
+import com.hybris.tlv.domain.space.PlanetType
+import com.hybris.tlv.domain.space.Score
+import com.hybris.tlv.domain.space.StellarHost
 import com.hybris.tlv.domain.usecase.space.formula.Constants.A_EM
 import com.hybris.tlv.domain.usecase.space.formula.Constants.A_MG
 import com.hybris.tlv.domain.usecase.space.formula.Constants.A_RG
@@ -40,10 +44,6 @@ import com.hybris.tlv.domain.usecase.space.formula.Constants.S_EFF_SUN_MG
 import com.hybris.tlv.domain.usecase.space.formula.Constants.S_EFF_SUN_RG
 import com.hybris.tlv.domain.usecase.space.formula.Constants.S_EFF_SUN_RV
 import com.hybris.tlv.domain.usecase.space.model.Formula
-import com.hybris.tlv.domain.space.Planet
-import com.hybris.tlv.domain.space.PlanetType
-import com.hybris.tlv.domain.space.Score
-import com.hybris.tlv.domain.space.StellarHost
 import com.hybris.tlv.domain.usecase.space.sanitize
 
 internal object Habitability {

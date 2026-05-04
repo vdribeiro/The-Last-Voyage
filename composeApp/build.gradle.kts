@@ -202,6 +202,7 @@ kotlin {
             "-opt-in=kotlin.time.ExperimentalTime",
             "-opt-in=kotlin.experimental.ExperimentalNativeApi",
             "-opt-in=kotlin.js.ExperimentalWasmJsInterop",
+            "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
             "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
             "-opt-in=kotlinx.cinterop.ExperimentalForeignApi",
             "-opt-in=kotlinx.cinterop.BetaInteropApi",

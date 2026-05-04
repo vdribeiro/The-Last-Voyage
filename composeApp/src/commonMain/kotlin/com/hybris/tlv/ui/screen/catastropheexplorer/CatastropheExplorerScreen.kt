@@ -10,11 +10,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.catastrophe.Catastrophe
-import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.theme.component.list.CatastropheList
 import com.hybris.tlv.ui.theme.getTranslation
 

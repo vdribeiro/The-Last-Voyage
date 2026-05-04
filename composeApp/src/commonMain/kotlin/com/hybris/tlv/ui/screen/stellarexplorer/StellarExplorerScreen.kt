@@ -19,11 +19,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hybris.tlv.domain.space.Planet
 import com.hybris.tlv.domain.space.PlanetStatus
 import com.hybris.tlv.domain.space.StellarHost
-import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.theme.component.list.ExoplanetList
 import com.hybris.tlv.ui.theme.component.topbar.ControlPanel
 import com.hybris.tlv.ui.theme.getTranslation

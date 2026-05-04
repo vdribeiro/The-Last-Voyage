@@ -5,10 +5,10 @@ import com.hybris.tlv.core.security.uuid
 import com.hybris.tlv.data.database.FormulaSchema
 import com.hybris.tlv.data.database.GameSessionSchema
 import com.hybris.tlv.data.database.ShipSchema
-import com.hybris.tlv.domain.usecase.gamesession.model.GameSession
-import com.hybris.tlv.domain.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.domain.ship.Engine
 import com.hybris.tlv.domain.ship.Ship
+import com.hybris.tlv.domain.usecase.gamesession.model.GameSession
+import com.hybris.tlv.domain.usecase.gamesession.model.GameSessionPrototype
 import com.hybris.tlv.domain.usecase.space.model.Formula
 
 internal fun GameSessionPrototype.toGameSession(): GameSession {

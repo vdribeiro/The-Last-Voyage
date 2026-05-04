@@ -20,11 +20,11 @@ import com.hybris.tlv.data.resource.ImageResource
 import com.hybris.tlv.domain.space.PlanetType
 import com.hybris.tlv.domain.usecase.space.roundTo
 import com.hybris.tlv.domain.usecase.space.toImage
-import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.theme.InjectTranslations
 import com.hybris.tlv.ui.theme.LocalShapes
 import com.hybris.tlv.ui.theme.LocalTypography
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.theme.component.image.Image
 import com.hybris.tlv.ui.theme.component.text.InfoRow
 import com.hybris.tlv.ui.theme.component.text.Text

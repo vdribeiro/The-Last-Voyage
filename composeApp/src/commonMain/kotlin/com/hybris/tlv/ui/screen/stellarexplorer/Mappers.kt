@@ -2,12 +2,12 @@ package com.hybris.tlv.ui.screen.stellarexplorer
 
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import com.hybris.tlv.data.translation.TranslationCache
+import com.hybris.tlv.data.translation.TranslationCache.getTranslation
 import com.hybris.tlv.domain.space.Planet
 import com.hybris.tlv.domain.space.StellarHost
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
-import com.hybris.tlv.data.translation.TranslationCache
-import com.hybris.tlv.data.translation.TranslationCache.getTranslation
 
 internal fun StellarExplorerState.toFilterExoplanetsCriteria(): FilterExoplanetsCriteria =
     FilterExoplanetsCriteria(

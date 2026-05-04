@@ -17,11 +17,11 @@ import com.hybris.tlv.domain.space.PlanetStatus
 import com.hybris.tlv.domain.space.StellarHost
 import com.hybris.tlv.domain.usecase.space.spectralTypeToImage
 import com.hybris.tlv.domain.usecase.space.toImage
-import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.Preview
 import com.hybris.tlv.ui.screen.Screen
 import com.hybris.tlv.ui.screen.Store
 import com.hybris.tlv.ui.theme.InjectTranslations
+import com.hybris.tlv.ui.theme.PreviewTranslation
 import com.hybris.tlv.ui.theme.component.bottombar.GameNavigationBar
 import com.hybris.tlv.ui.theme.component.container.ShipStats
 import com.hybris.tlv.ui.theme.component.list.SystemList
