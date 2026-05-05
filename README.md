@@ -110,7 +110,7 @@ Business rules and entities. Models are defined at root level in their respectiv
 
 ### ui
 What the user interacts with.
-At root level we find the main composable function `App` that assembles the application UI and acts as the top-level container for the user-facing elements.
+At root level we find the main composable function `App` that assembles the application UI and acts as the top-level container for the user-facing elements, and `Preview` which is a wrapper composable for Previews.
 * **audio**: Audio player UI definition.
     * `AudioPlayer`: Composable to manage app audio. Pauses on app background, resumes on foreground, and provides the `LocalAudioPlayer`.
     * `Tracks`: Determines the correct playlist per screen (menu tracks, gameplay tracks, or silence).
