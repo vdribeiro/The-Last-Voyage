@@ -36,65 +36,77 @@ All shared code lives under `composeApp/src/commonMain/kotlin/com/hybris/tlv/`.
 - Monitoring: [Sentry](https://sentry.io/)
 - Code Coverage: [Kover](https://github.com/Kotlin/kotlinx-kover)
 
+## Platform Source Sets
+
+| Source Set    | Platform        |
+|---------------|-----------------|
+| `androidMain` | Android API 26+ |
+| `appleMain`   | iOS 16+ / macOS |
+| `desktopMain` | JVM 21          |
+| `webMain`     | WASM-JS         |
+| `server`      | JVM 21          |
+
 ## Package Responsibilities
 
 ### core
 Business logic agnostic implementations.
 * **audio**: Audio Player implementation.
-    * `AudioPlayer`: Abstraction with a sealed `Action` interface (Play, Pause, Resume, Toggle). Manages playlist deduplication and shuffling and delegates platform-specific playback to subclasses.
+  * `AudioPlayer`: Abstraction with a sealed `Action` interface (Play, Pause, Resume, Toggle). Manages playlist deduplication and shuffling and delegates platform-specific playback to subclasses.
 * **flow**: Coroutine dispatchers.
-    * `Dispatcher`: Provides Main, Default and IO coroutine dispatchers as mutable properties so tests can substitute their own implementations.
+  * `Dispatcher`: Provides `Main`, `Default` and `IO` coroutine dispatchers as mutable properties so tests can substitute their own implementations.
 * **locale**: Localization and date/time formatting.
-    * `Locale`: Methods to get the current system language (`Language`), locale-aware datetime formatting, and a `Flow` that emits on locale changes.
-    * `DateTime`: Utilities for getting the current time in UTC/ISO8601, epoch and duration calculation.
-    * `Language`: App default language and other language listings.
+  * `Locale`: Methods to get the current system language (`Language`), locale-aware datetime formatting, and a `Flow` that emits on locale changes.
+  * `DateTime`: Utilities for getting the current time in UTC/ISO8601, epoch and duration calculation.
+  * `Language`: App default language and other language listings.
 * **platform**: OS-specific APIs.
-    * `Platform`: A sealed interface that defines the possible platforms that the application can run on.
-    * `System`: A Debug build flag.
+  * `Platform`: A sealed interface that defines the possible platforms that the application can run on.
+  * `System`: A Debug build flag.
 * **security**: Encryption, hashing, and UUID utilities.
-    * `Uuid`: UUID generation via the best available platform algorithm.
+  * `Uuid`: UUID generation via the best available platform algorithm.
 * **telemetry**: Logging and crash reporting.
-    * `Telemetry`: Facade delegates to a pluggable `TelemetryEngine`.
-    * `Logger` is the composite implementation: uses `PlatformLogger` in dev mode and `SentryLogger` in production.
-    * `Console` is an in-memory circular buffer for the in-app console feature.
+  * `Telemetry`: Facade delegates to a pluggable `TelemetryEngine`.
+  * `Logger` is the composite implementation: uses `PlatformLogger` in dev mode and `SentryLogger` in production.
+  * `Console` is an in-memory circular buffer for the in-app console feature.
 
 ### data
 Responsible for data persistence and retrieval.
 * **config**: User preferences and configurations.
-    * `Config`: Implements the `ConfigManager` interface, responsible for fetching remote configs with a 1-hour cache TTL (zero in dev mode) and persisting, caching and exposing `Configs` and `Preferences`. Uses a Mutex-protected file I/O to prevent race conditions.
+  * `Config`: Implements the `ConfigManager` interface, responsible for fetching remote configs with a 1-hour cache TTL (zero in dev mode) and persisting, caching and exposing `Configs` and `Preferences`. Uses a Mutex-protected file I/O to prevent race conditions.
 * **database**: SQLDelight implementations and drivers.
-    * `DatabaseFactory`: Creates `AppDatabase` with column adapters for custom types (Set, Enum, Int) like `SetColumnAdapter`.
-    * `Database`: Database extension helpers.
-    * `SqlIO`: Converts SQLDelight queries to `Flow`.
-    * `SqlDriver`: Creates the database driver.
-    * `NoOpSqlDriver`: A no-op implementation of `SqlDriver`.
+  * `DatabaseFactory`: Creates `AppDatabase`.
+  * `Database`: Database extension helpers.
+  * `SqlIO`: Sql extension helpers.
+  * `SqlDriver`: Creates the database driver.
+  * `NoOpSqlDriver`: A no-op implementation of `SqlDriver`.
 * **http**: Ktor client configuration and network logic.
-    * `HttpClientFactory`: Configures Ktor with telemetry logging, timeouts, HTTP caching, encoding and JSON content negotiation.
-    * `Network`: Network status helpers.
-    * `Http`: Extensions to execute a type-safe requests and decode the response into a `Result<Success|Error>`.
-    * `URL`: Sealed class of all remote endpoints.
-    * `HttpEngine`: Creates the http engine.
-    * `NoOpHttpEngine`: A no-op implementation of `HttpClientEngine`. Returns 204 for every request.
+  * `HttpClientFactory`: Configures Ktor with telemetry logging, timeouts, HTTP caching, encoding and JSON content negotiation.
+  * `Network`: Network status helpers.
+  * `Http`: Extensions to execute type-safe requests and decode the response into a `Result<Success|Error>`.
+  * `URL`: Sealed class of all remote endpoints.
+  * `HttpEngine`: Creates the http engine.
+  * `NoOpHttpEngine`: A no-op implementation of `HttpClientEngine`. Returns 204 for every request.
 * **resource**: Resource index.
-    * `AudioResource`: Resource index for audio in `commonMain/resources/tracks`.
-    * `FontResource`: Resource index for fonts in `commonMain/composeResources/font`.
-    * `ImageResource`: Resource index for images in `commonMain/composeResources/drawable`.
-    * `JsonResource`: Resource index for JSONs in `commonMain/composeResources/files`, which are translations and game data.
-    * `ResourceLoader`: Loads resources via the Compose Resources API.
+  * `AudioResource`: Resource index for audio in `commonMain/resources/tracks`.
+  * `FontResource`: Resource index for fonts in `commonMain/composeResources/font`.
+  * `ImageResource`: Resource index for images in `commonMain/composeResources/drawable`.
+  * `JsonResource`: Resource index for JSONs in `commonMain/composeResources/files`, which are translations and game data.
+  * `ResourceLoader`: Loads resources via the Compose Resources API.
 * **serializer**: JSON parsing and serialization.
-    * `Json`: Helpers for encoding/decoding and URL-safe serialization.
+  * `Json`: Helpers for encoding/decoding and URL-safe serialization.
 * **storage**: File system access.
-    * `File`: Declarations for getting the app data directory and suspending save/load/delete file operations.
-    * `FilePath`: All local storage file paths.
-    * `JsonFile`: Handles JSON files persistence.
+  * `File`: Declarations for getting the app data directory and suspending save/load/delete file operations.
+  * `FilePath`: All local storage file paths.
+  * `JsonFile`: Handles JSON files persistence.
+* **translation**: Translation related tools.
+  * `TranslationCache`: A cache dedicated to translations since most of the fetching is done on `Main`, thus eliminating the performance bottleneck of I/O.
 
 ### domain
-Business rules and entities.
+Business rules and entities. Models are defined at root level in their respective package.
 * **flag**: Feature flags.
-    * `Flags`: Data class with boolean controls for feature flags.
-    * `FeatureFlags`: Exposes flags as a mutable `StateFlow` for runtime toggling.
-* **usecase**: Implementation of specific business workflows. Each feature is a sub-package containing the use case interface, its gateway implementation, domain models, and mappers, all co-located.
-    * `Gateways`: Aggregates all gateways under a single `UseCases` interface, injecting `ConfigManager`, `AppDatabase`, and `HttpClient`.
+  * `Flags`: Data class with boolean controls for feature flags.
+  * `FeatureFlags`: Exposes flags as a mutable `StateFlow` for runtime toggling.
+* **usecase**: Implementation of specific business workflows. Each feature is a sub-package containing the use case interface, its gateway implementation, additional models, and mappers, all co-located.
+  * `Gateways`: Aggregates all gateways under a single `UseCases` interface, injecting `ConfigManager`, `AppDatabase`, and `HttpClient`.
 
 ### ui
 What the user interacts with.
@@ -133,15 +145,6 @@ Manual, no framework. At root level, we find the `Dependency` class that wires e
 At the **ui** package root, we find `App`: the main composable that assembles the application UI and acts as the top-level container for the user-facing elements. Uses the composition locals: `LocalTranslationState`, `LocalNavController`, `LocalAudioPlayer`.
 Compose screens use a custom **MVI Store pattern**. Each screen has a Store (`{Screen}Store`) and a Screen composable (`{Screen}Screen`). Jobs inside a Store can be launched with an ID to cancel/replace prior work.
 The UI state uses `kotlinx.collections.immutable` (`ImmutableList`, `ImmutableSet`) to prevent accidental mutations.
-
-## Platform Source Sets
-
-| Source Set    | Platform            |
-|---------------|---------------------|
-| `androidMain` | Android API 26+     |
-| `appleMain`   | iOS 16+ / macOS     |
-| `desktopMain` | JVM (Linux/Win/Mac) |
-| `webMain`     | WASM-JS             |
 
 # Simple Forking
 
